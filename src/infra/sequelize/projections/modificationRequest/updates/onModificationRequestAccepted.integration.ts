@@ -1,7 +1,10 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
-import { ModificationRequestAccepted } from '@modules/modificationRequest'
+import {
+  ModificationRequestAcceptanceParams,
+  ModificationRequestAccepted,
+} from '@modules/modificationRequest'
 import { UniqueEntityID } from '@core/domain'
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
@@ -28,16 +31,18 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
   })
 
   it('should update status to accepté and insert acceptance params', async () => {
-    const fakeAcceptanceParams = {
-      param1: 'value1',
-    }
+    const params = {
+      type: 'recours',
+      newNotificationDate: new Date('2022-06-20'),
+    } as ModificationRequestAcceptanceParams
+
     await onModificationRequestAccepted(models)(
       new ModificationRequestAccepted({
         payload: {
           modificationRequestId,
           acceptedBy: userId,
           responseFileId,
-          params: fakeAcceptanceParams,
+          params,
         },
       })
     )
@@ -47,6 +52,9 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
     )
     expect(updatedModificationRequest.status).toEqual('acceptée')
     expect(updatedModificationRequest.responseFileId).toEqual(responseFileId)
-    expect(updatedModificationRequest.acceptanceParams).toEqual(fakeAcceptanceParams)
+    expect(updatedModificationRequest.acceptanceParams.type).toEqual('recours')
+    expect(updatedModificationRequest.acceptanceParams.newNotificationDate).toEqual(
+      new Date('2022-06-20').toISOString()
+    )
   })
 })
