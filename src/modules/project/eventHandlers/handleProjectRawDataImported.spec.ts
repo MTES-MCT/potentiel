@@ -5,6 +5,11 @@ import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtu
 import { ProjectRawDataImported, ProjectRawDataImportedPayload } from '../events'
 import { Project } from '../Project'
 import { handleProjectRawDataImported } from './handleProjectRawDataImported'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { ProjectAppelOffre } from '@entities'
+
+const appelOffre = { id: 'appelOffreId' } as ProjectAppelOffre
+const getProjectAppelOffre: GetProjectAppelOffre = () => appelOffre
 
 const fakeProjectData = {
   appelOffreId: 'appelOffreId',
@@ -51,6 +56,7 @@ describe('handleProjectRawDataImported', () => {
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
+        getProjectAppelOffre,
         findProjectByIdentifiers,
         projectRepo,
       })(
@@ -64,7 +70,11 @@ describe('handleProjectRawDataImported', () => {
     })
 
     it('should call Project.import with the new data', () => {
-      expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeProjectData, importId })
+      expect(fakeProject.import).toHaveBeenCalledWith({
+        appelOffre,
+        data: fakeProjectData,
+        importId,
+      })
     })
   })
 
@@ -77,6 +87,7 @@ describe('handleProjectRawDataImported', () => {
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
+        getProjectAppelOffre,
         findProjectByIdentifiers,
         projectRepo,
       })(
@@ -90,7 +101,11 @@ describe('handleProjectRawDataImported', () => {
     })
 
     it('should call Project.import with the data', () => {
-      expect(fakeProject.import).toHaveBeenCalledWith({ data: fakeProjectData, importId })
+      expect(fakeProject.import).toHaveBeenCalledWith({
+        appelOffre,
+        data: fakeProjectData,
+        importId,
+      })
     })
   })
 })
