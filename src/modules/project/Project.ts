@@ -81,6 +81,7 @@ export interface Project extends EventStoreAggregate {
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
   abandonLegacy: (abandonnedOn: number) => Result<null, never>
   import: (args: {
+    appelOffre: ProjectAppelOffre
     data: ProjectImportedPayload['data']
     importId: string
   }) => Result<null, IllegalProjectStateError | EntityNotFoundError>
@@ -337,9 +338,9 @@ export const makeProject = (args: {
         })
       )
 
-      _updateDCRDate()
-      _updateCompletionDate()
-      !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate()
+      _updateDCRDate(appelOffre)
+      _updateCompletionDate(appelOffre)
+      !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate(appelOffre)
 
       return ok(null)
     },
@@ -377,11 +378,8 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    import: function ({ data, importId }) {
+    import: function ({ appelOffre, data, importId }) {
       const { appelOffreId, periodeId, familleId, numeroCRE } = data
-      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-      if (!appelOffre) return err(new EntityNotFoundError())
-      props.appelOffre = appelOffre
 
       const id = projectId.toString()
 
@@ -418,9 +416,9 @@ export const makeProject = (args: {
             setBy: '',
           })
 
-          _updateDCRDate()
-          _updateGFDate()
-          _updateCompletionDate()
+          _updateDCRDate(appelOffre)
+          _updateGFDate(appelOffre)
+          _updateCompletionDate(appelOffre)
         }
       } else {
         const changes = _computeDelta(data)
@@ -464,9 +462,9 @@ export const makeProject = (args: {
           if (changes.classe) {
             if (data.classe === 'Classé') {
               // éliminé -> classé
-              _updateDCRDate()
-              _updateGFDate()
-              _updateCompletionDate()
+              _updateDCRDate(appelOffre)
+              _updateGFDate(appelOffre)
+              _updateCompletionDate(appelOffre)
             } else if (data.classe === 'Eliminé') {
               // classé -> eliminé
               _cancelGFDate()
@@ -487,9 +485,9 @@ export const makeProject = (args: {
             if (props.isClasse) {
               if (hasNotificationDateChanged) {
                 // remains classé
-                _updateDCRDate()
-                _updateGFDate()
-                _updateCompletionDate()
+                _updateDCRDate(appelOffre)
+                _updateGFDate(appelOffre)
+                _updateCompletionDate(appelOffre)
               }
             }
             // remains éliminé
@@ -524,7 +522,12 @@ export const makeProject = (args: {
       })
     },
     setCompletionDueDate: function (newCompletionDueOn) {
-      _updateCompletionDate({ completionDueOn: newCompletionDueOn })
+      const { appelOffre } = props
+
+      appelOffre &&
+        _updateCompletionDate(appelOffre, {
+          completionDueOn: newCompletionDueOn,
+        })
 
       return ok(null)
     },
@@ -533,12 +536,14 @@ export const makeProject = (args: {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
       }
 
-      const newCompletionDueOn = moment(props.completionDueOn)
+      const { completionDueOn, notifiedOn, appelOffre } = props
+
+      const newCompletionDueOn = moment(completionDueOn)
         .add(delayInMonths, 'months')
         .toDate()
         .getTime()
 
-      if (newCompletionDueOn <= props.notifiedOn) {
+      if (newCompletionDueOn <= notifiedOn) {
         return err(
           new IllegalProjectStateError({
             completionDueOn:
@@ -547,7 +552,8 @@ export const makeProject = (args: {
         )
       }
 
-      _updateCompletionDate({ setBy: user.id, completionDueOn: newCompletionDueOn })
+      appelOffre &&
+        _updateCompletionDate(appelOffre, { setBy: user.id, completionDueOn: newCompletionDueOn })
 
       return ok(null)
     },
@@ -570,9 +576,12 @@ export const makeProject = (args: {
         setBy: user?.id || '',
       })
 
-      _updateDCRDate()
-      _updateGFDate()
-      _updateCompletionDate()
+      const { appelOffre } = props
+      if (appelOffre) {
+        _updateDCRDate(appelOffre)
+        _updateGFDate(appelOffre)
+        _updateCompletionDate(appelOffre)
+      }
 
       return ok(null)
     },
@@ -1244,23 +1253,20 @@ export const makeProject = (args: {
     return pendingEvents.some((event) => event.type === type)
   }
 
-  function _updateDCRDate() {
+  function _updateDCRDate(appelOffre: ProjectAppelOffre) {
     if (props.isClasse) {
       _removePendingEventsOfType(ProjectDCRDueDateSet.type)
       const notifiedOnDate = new Date(props.notifiedOn)
-      const delaiDcr = props.appelOffre?.periode.delaiDcrEnMois.valeur
-      if (delaiDcr) {
-        _publishEvent(
-          new ProjectDCRDueDateSet({
-            payload: {
-              projectId: props.projectId.toString(),
-              dcrDueOn: notifiedOnDate.setMonth(notifiedOnDate.getMonth() + delaiDcr),
-            },
-          })
-        )
-      } else {
-        return err(new ProjectDcrDelayIsMissingError())
-      }
+      const delaiDcr = appelOffre.periode.delaiDcrEnMois.valeur
+
+      _publishEvent(
+        new ProjectDCRDueDateSet({
+          payload: {
+            projectId: props.projectId.toString(),
+            dcrDueOn: notifiedOnDate.setMonth(notifiedOnDate.getMonth() + delaiDcr),
+          },
+        })
+      )
     }
   }
 
@@ -1274,12 +1280,13 @@ export const makeProject = (args: {
     )
   }
 
-  function _updateCompletionDate(forceValue?: { setBy?: string; completionDueOn: number }) {
+  function _updateCompletionDate(
+    appelOffre: ProjectAppelOffre,
+    forceValue?: { setBy?: string; completionDueOn: number }
+  ) {
     if (!props.isClasse) return
 
     if (props.hasCompletionDueDateMoved && !forceValue) return
-
-    if (!props.appelOffre) return
 
     if (!props.notifiedOn) return
 
@@ -1292,10 +1299,7 @@ export const makeProject = (args: {
           completionDueOn:
             completionDueOn ||
             moment(props.notifiedOn)
-              .add(
-                getDelaiDeRealisation(props.appelOffre, props.data?.technologie ?? 'N/A'),
-                'months'
-              )
+              .add(getDelaiDeRealisation(appelOffre, props.data?.technologie ?? 'N/A'), 'months')
               .subtract(1, 'day')
               .toDate()
               .getTime(),
@@ -1315,9 +1319,9 @@ export const makeProject = (args: {
     )
   }
 
-  function _updateGFDate() {
-    const { appelOffre, isClasse } = props
-    if (isClasse && appelOffre?.isSoumisAuxGFs) {
+  function _updateGFDate(appelOffre: ProjectAppelOffre) {
+    const { isClasse } = props
+    if (isClasse && appelOffre.isSoumisAuxGFs) {
       _removePendingEventsOfType(ProjectGFDueDateSet.type)
       _publishEvent(
         new ProjectGFDueDateSet({
@@ -1331,7 +1335,7 @@ export const makeProject = (args: {
   }
 
   function _cancelGFDate() {
-    const { appelOffre, isClasse } = props
+    const { appelOffre } = props
     if (appelOffre?.isSoumisAuxGFs) {
       _publishEvent(
         new ProjectGFDueDateCancelled({
