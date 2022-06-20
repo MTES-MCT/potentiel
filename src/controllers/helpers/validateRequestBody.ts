@@ -1,10 +1,10 @@
 import { err, ok, Result } from '@core/utils'
 import { BaseSchema, InferType, ValidationError } from 'yup'
 
-export const validateRequestBody = (
+export const validateRequestBody = <Schema extends BaseSchema>(
   body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationError | Error> => {
+  schema: Schema
+): Result<InferType<Schema>, RequestValidationError | Error> => {
   try {
     return ok(schema.validateSync(body, { abortEarly: false }))
   } catch (error) {
