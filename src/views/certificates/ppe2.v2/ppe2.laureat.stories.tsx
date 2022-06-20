@@ -13,7 +13,7 @@ import {
   solPPE2,
 } from '@dataAccess/inMemory/appelsOffres'
 
-export default { title: 'Attestations PDF' }
+export default { title: 'Attestations PDF/PPE2/v2' }
 
 Font.register({
   family: 'Arimo',
