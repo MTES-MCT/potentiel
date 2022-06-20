@@ -179,7 +179,6 @@ export interface Project extends EventStoreAggregate {
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
   readonly shouldCertificateBeGenerated: boolean
-  readonly appelOffre?: ProjectAppelOffre
   readonly isClasse?: boolean
   readonly isLegacy?: boolean
   readonly puissanceInitiale: number
@@ -956,9 +955,6 @@ export const makeProject = (args: {
         (!props.lastCertificateUpdate ||
           (!!props.lastUpdatedOn && props.lastCertificateUpdate < props.lastUpdatedOn))
       )
-    },
-    get appelOffre() {
-      return props.appelOffre
     },
     get lastUpdatedOn() {
       return props.lastUpdatedOn
