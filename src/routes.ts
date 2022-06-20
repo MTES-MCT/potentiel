@@ -193,6 +193,8 @@ class routes {
 
   static DEMANDE_ACTION = '/soumettre-demande'
 
+  static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai'
+
   static CONFIRMER_DEMANDE_ACTION = '/confirmer-demande'
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'

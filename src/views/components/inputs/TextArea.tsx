@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
 
-type InputProps = React.HTMLAttributes<HTMLInputElement> & {
-  type?: 'text' | 'email' | 'date' | 'file'
+type TextAreaProps = React.HTMLAttributes<HTMLTextAreaElement> & {
   value?: string
   name?: string
   placeholder?: string
@@ -13,13 +12,13 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   disabled?: true
 }
 
-export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
+export const TextArea = ({ className = '', error = '', onChange, ...props }: TextAreaProps) => {
   const [valueHasChanged, valueChanged] = useState(false)
   const isOnError = error !== '' && !valueHasChanged
 
   return (
     <>
-      <input
+      <textarea
         {...props}
         className={`${className} bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid ${
           isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
