@@ -46,6 +46,7 @@ eventStore.subscribe(
   LegacyModificationImported.type,
   handleLegacyModificationImported({
     projectRepo,
+    getProjectAppelOffre,
   })
 )
 

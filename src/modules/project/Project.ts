@@ -97,7 +97,10 @@ export interface Project extends EventStoreAggregate {
     user: User,
     delayInMonths: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
-  setCompletionDueDate: (completionDueOn: number) => Result<null, never>
+  setCompletionDueDate: (args: {
+    appelOffre: ProjectAppelOffre
+    completionDueOn: number
+  }) => Result<null, never>
   updateCertificate: (
     user: User,
     certificateFileId: string
@@ -195,6 +198,9 @@ export interface Project extends EventStoreAggregate {
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
   readonly newRulesOptIn: boolean
+  readonly appelOffreId: string
+  readonly periodeId: string
+  readonly familleId?: string
 }
 
 export interface ProjectDataProps {
@@ -520,13 +526,12 @@ export const makeProject = (args: {
         return ok(null)
       })
     },
-    setCompletionDueDate: function (newCompletionDueOn) {
-      const { appelOffre } = props
-
-      appelOffre &&
+    setCompletionDueDate: function ({ appelOffre, completionDueOn }) {
+      if (appelOffre) {
         _updateCompletionDate(appelOffre, {
-          completionDueOn: newCompletionDueOn,
+          completionDueOn,
         })
+      }
 
       return ok(null)
     },
@@ -1006,6 +1011,15 @@ export const makeProject = (args: {
     },
     get newRulesOptIn() {
       return props.newRulesOptIn
+    },
+    get appelOffreId() {
+      return props.appelOffreId
+    },
+    get periodeId() {
+      return props.periodeId
+    },
+    get familleId() {
+      return props.familleId
     },
   })
 

@@ -28,7 +28,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   setNotificationDate: jest.fn((user: User, notifiedOn: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
-  setCompletionDueDate: jest.fn((completionDueOn: number) => ok<null, never>(null)),
+  setCompletionDueDate: jest.fn(() => ok<null, never>(null)),
   moveCompletionDueDate: jest.fn((user: User, delayInMonths: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
@@ -112,6 +112,8 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   lastUpdatedOn: new Date(0),
   lastCertificateUpdate: undefined,
   newRulesOptIn: false,
+  appelOffreId: 'fake-appel-offre-id',
+  periodeId: '1',
   data,
   id: new UniqueEntityID('project1'),
 })
