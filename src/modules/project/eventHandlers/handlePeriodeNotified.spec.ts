@@ -1,5 +1,7 @@
 import { DomainError, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
+import { ProjectAppelOffre } from '@entities'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { InfraNotAvailableError } from '../../shared'
 import { PeriodeNotified } from '../events'
@@ -27,6 +29,14 @@ describe('handlePeriodeNotified', () => {
   }
 
   const fakeGenerateCertificate = jest.fn((projectId: string) => okAsync<null, DomainError>(null))
+  const fakeGetProjectAppelOffre: GetProjectAppelOffre = ({ appelOffreId, periodeId, familleId }) =>
+    ({
+      id: appelOffreId,
+      periode: {
+        id: periodeId,
+      },
+      ...(familleId && { famille: { id: familleId } }),
+    } as ProjectAppelOffre)
 
   const fakeProject = { ...makeFakeProject(), id: new UniqueEntityID('project1') }
 
@@ -37,6 +47,7 @@ describe('handlePeriodeNotified', () => {
       getUnnotifiedProjectsForPeriode,
       projectRepo,
       generateCertificate: fakeGenerateCertificate,
+      getProjectAppelOffre: fakeGetProjectAppelOffre,
     })(
       new PeriodeNotified({
         payload: { ...fakePayload, requestedBy: 'user1' },
@@ -46,7 +57,14 @@ describe('handlePeriodeNotified', () => {
   })
 
   it('should call Project.notify() on each unnotified project', () => {
-    expect(fakeProject.notify).toHaveBeenCalledWith(1)
+    expect(fakeProject.notify).toHaveBeenCalledWith({
+      appelOffre: {
+        id: fakePayload.appelOffreId,
+        periode: { id: fakePayload.periodeId },
+        famille: { id: fakePayload.familleId },
+      },
+      notifiedOn: 1,
+    })
   })
 
   it('should call generateCertificate() on each unnotified project', () => {

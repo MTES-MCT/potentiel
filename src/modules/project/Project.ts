@@ -75,9 +75,10 @@ import {
 import { toProjectDataForCertificate } from './mappers'
 
 export interface Project extends EventStoreAggregate {
-  notify: (
+  notify: (args: {
+    appelOffre: ProjectAppelOffre
     notifiedOn: number
-  ) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
+  }) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
   abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
   abandonLegacy: (abandonnedOn: number) => Result<null, never>
   import: (args: {
@@ -317,13 +318,13 @@ export const makeProject = (args: {
 
   // public methods
   return ok({
-    notify: function (notifiedOn) {
-      const { appelOffre, data, projectId } = props
+    notify: function ({ appelOffre, notifiedOn }) {
+      const { data, projectId } = props
 
-      if (!appelOffre) {
-        const errorMessage = `Appel d'offre inaccessible dans project.notify pour le project ${projectId}`
-        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
-      }
+      // if (!appelOffre) {
+      //   const errorMessage = `Appel d'offre inaccessible dans project.notify pour le project ${projectId}`
+      //   return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
+      // }
 
       if (props.notifiedOn) {
         return err(new ProjectAlreadyNotifiedError())

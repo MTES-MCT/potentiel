@@ -23,6 +23,7 @@ eventStore.subscribe(
     projectRepo,
     generateCertificate,
     getUnnotifiedProjectsForPeriode,
+    getProjectAppelOffre,
   })
 )
 

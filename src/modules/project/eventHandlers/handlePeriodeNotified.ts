@@ -1,42 +1,61 @@
 import { TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { logger, okAsync } from '@core/utils'
+import { logger, okAsync, err } from '@core/utils'
 import { PeriodeNotified } from '../events/PeriodeNotified'
 import { GenerateCertificate } from '../useCases/generateCertificate'
 import { Project } from '../Project'
 import { GetUnnotifiedProjectsForPeriode } from '../queries'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 
-export const handlePeriodeNotified = (deps: {
-  getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode
-  projectRepo: TransactionalRepository<Project>
-  generateCertificate: GenerateCertificate
-}) => async (event: PeriodeNotified) => {
-  const { projectRepo, generateCertificate, getUnnotifiedProjectsForPeriode } = deps
+export const handlePeriodeNotified =
+  (deps: {
+    getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode
+    projectRepo: TransactionalRepository<Project>
+    generateCertificate: GenerateCertificate
+    getProjectAppelOffre: GetProjectAppelOffre
+  }) =>
+  async (event: PeriodeNotified) => {
+    const {
+      projectRepo,
+      generateCertificate,
+      getUnnotifiedProjectsForPeriode,
+      getProjectAppelOffre,
+    } = deps
 
-  const { periodeId, appelOffreId, notifiedOn } = event.payload
+    const { periodeId, appelOffreId, notifiedOn } = event.payload
+    const appelOffre = getProjectAppelOffre(event.payload)
 
-  const unnotifiedProjectIdsResult = await getUnnotifiedProjectsForPeriode(appelOffreId, periodeId)
+    if (!appelOffre) {
+      return err(new Error(`L'appel offre ${appelOffreId} n'existe pas`))
+    }
 
-  if (unnotifiedProjectIdsResult.isErr()) {
-    return
+    const unnotifiedProjectIdsResult = await getUnnotifiedProjectsForPeriode(
+      appelOffreId,
+      periodeId
+    )
+
+    if (unnotifiedProjectIdsResult.isErr()) {
+      return
+    }
+
+    const unnotifiedProjectIds = unnotifiedProjectIdsResult.value
+
+    for (const unnotifiedProjectId of unnotifiedProjectIds) {
+      await projectRepo
+        .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
+          return project
+            .notify({ appelOffre, notifiedOn })
+            .map((): boolean => project.shouldCertificateBeGenerated)
+        })
+        .andThen((shouldCertificateBeGenerated) => {
+          return shouldCertificateBeGenerated
+            ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
+            : okAsync<null, never>(null)
+        })
+        .match(
+          () => {},
+          (e: Error) => {
+            logger.error(e)
+          }
+        )
+    }
   }
-
-  const unnotifiedProjectIds = unnotifiedProjectIdsResult.value
-
-  for (const unnotifiedProjectId of unnotifiedProjectIds) {
-    await projectRepo
-      .transaction(new UniqueEntityID(unnotifiedProjectId.projectId), (project) => {
-        return project.notify(notifiedOn).map((): boolean => project.shouldCertificateBeGenerated)
-      })
-      .andThen((shouldCertificateBeGenerated) => {
-        return shouldCertificateBeGenerated
-          ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
-          : okAsync<null, never>(null)
-      })
-      .match(
-        () => {},
-        (e: Error) => {
-          logger.error(e)
-        }
-      )
-  }
-}
