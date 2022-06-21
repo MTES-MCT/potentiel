@@ -61,7 +61,7 @@ export const DemandeDelai = ({
       {!(project.dcrNumeroDossier || project.numeroGestionnaire) ? (
         <div>
           <label htmlFor="numeroGestionnaire">Identifiant gestionnaire de réseau</label>
-          <div>
+          <div className="italic">
             Cette indication permettra un traitement plus rapide de votre demande.{' '}
             <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
               Où trouver mon numéro ?
