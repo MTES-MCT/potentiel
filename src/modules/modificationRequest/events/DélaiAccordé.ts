@@ -4,16 +4,9 @@ export type DélaiAccordéPayload = {
   demandeDélaiId: string
   dateAchèvementDemandée: Date
   dateAchèvementAccordée: Date
-  responseFileId?: string
-} & (
-  | { acceptedBy: { userId: string; role: 'dreal' | 'admin' | 'dgec' } }
-  | { isLegacy: true }
-  | {
-      signaledBy: { userId: string; role: 'dreal' | 'dgec' | 'admin' }
-      decidedOn: Date
-      notes?: Date
-    }
-)
+  fichierRéponseId?: string
+  accordéPar: string
+}
 
 export class DélaiAccordé extends BaseDomainEvent<DélaiAccordéPayload> implements DomainEvent {
   public static type: 'DélaiAccordé' = 'DélaiAccordé'

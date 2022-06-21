@@ -2,12 +2,13 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type DélaiDemandéPayload = {
   demandeDélaiId: string
-  projectId: string
+  projetId: string
   autorité: 'dgec' | 'dreal'
-  fileId?: string
+  fichierId?: string
   justification?: string
   dateAchèvementDemandée: Date
-} & ({ requestedBy?: { role: 'porteur-projet'; userId: string } } | { isLegacy?: true })
+  porteurId: string
+}
 
 export class DélaiDemandé extends BaseDomainEvent<DélaiDemandéPayload> implements DomainEvent {
   public static type: 'DélaiDemandé' = 'DélaiDemandé'
