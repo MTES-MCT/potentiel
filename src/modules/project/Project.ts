@@ -472,7 +472,7 @@ export const makeProject = (args: {
               _updateCompletionDate(appelOffre)
             } else if (data.classe === 'Eliminé') {
               // classé -> eliminé
-              _cancelGFDate()
+              _cancelGFDate(appelOffre)
               _cancelDCRDate()
               _cancelCompletionDate()
             }
@@ -527,11 +527,9 @@ export const makeProject = (args: {
       })
     },
     setCompletionDueDate: function ({ appelOffre, completionDueOn }) {
-      if (appelOffre) {
-        _updateCompletionDate(appelOffre, {
-          completionDueOn,
-        })
-      }
+      _updateCompletionDate(appelOffre, {
+        completionDueOn,
+      })
 
       return ok(null)
     },
@@ -1344,9 +1342,8 @@ export const makeProject = (args: {
     }
   }
 
-  function _cancelGFDate() {
-    const { appelOffre } = props
-    if (appelOffre?.isSoumisAuxGFs) {
+  function _cancelGFDate(appelOffre: ProjectAppelOffre) {
+    if (appelOffre.isSoumisAuxGFs) {
       _publishEvent(
         new ProjectGFDueDateCancelled({
           payload: {
