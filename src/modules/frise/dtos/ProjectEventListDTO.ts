@@ -81,7 +81,7 @@ type ProjectCertificateBase = {
   nomProjet: string
 } & (
   | { variant: 'admin' | 'dgec'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé'; email: undefined }
+  | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal'; email: undefined }
 )
 
 export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {

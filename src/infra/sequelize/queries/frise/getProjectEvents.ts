@@ -73,7 +73,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectCertificateRegenerated':
                 case 'ProjectCertificateUpdated':
                 case 'ProjectClaimed':
-                  if (userIsNot(['ademe', 'dreal'])(user)) {
+                  if (userIsNot(['ademe'])(user)) {
                     events.push({
                       type,
                       potentielIdentifier,
