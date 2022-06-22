@@ -86,23 +86,6 @@ describe('extractDesignationItemProps', () => {
           })
         }
       })
-      describe('when user is dreal', () => {
-        it('should return an undefined certificate', () => {
-          const projectEventList = [
-            {
-              type: 'ProjectNotified',
-              variant: 'dreal',
-              date: 12,
-              isLegacy: true,
-            } as ProjectNotifiedDTO,
-          ]
-
-          const result = extractDesignationItemProps(projectEventList, projectId)
-          expect(result).toMatchObject({
-            certificate: undefined,
-          })
-        })
-      })
     })
 
     describe('when there is a ProjectCertificateGenerated event', () => {

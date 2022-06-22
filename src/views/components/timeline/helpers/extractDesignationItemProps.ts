@@ -28,15 +28,6 @@ export const extractDesignationItemProps = (
   if (!projectNotifiedEvent) return null
   const { variant: role, date } = projectNotifiedEvent
 
-  if (role === 'dreal') {
-    return {
-      type: 'designation',
-      date,
-      certificate: undefined,
-      role,
-    }
-  }
-
   const certificateEvent = events
     .filter(isCertificateDTO)
     .filter((e) => format(e.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))

@@ -153,7 +153,7 @@ describe('frise.getProjectEvents', () => {
     })
   })
 
-  for (const role of USER_ROLES.filter((role) => role !== 'ademe' && role !== 'dreal')) {
+  for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should return ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated and ProjectClaimed events', async () => {
@@ -242,7 +242,7 @@ describe('frise.getProjectEvents', () => {
     })
   }
 
-  for (const role of USER_ROLES.filter((role) => role === 'ademe' || role === 'dreal')) {
+  for (const role of USER_ROLES.filter((role) => role === 'ademe')) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User
       it('should NOT return ProjectCertificateGenerated, ProjectCertificateRegenerated, ProjectCertificateUpdated and ProjectClaimed events', async () => {
