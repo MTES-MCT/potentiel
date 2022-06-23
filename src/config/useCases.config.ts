@@ -15,6 +15,7 @@ import {
   makeRequestProducteurModification,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
+  makeDemanderDélai,
 } from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
@@ -64,7 +65,6 @@ import {
   projectRepo,
   projectClaimRepo,
 } from './repos.config'
-import { getAppelOffre } from '@dataAccess/inMemory'
 import { makeImportEdfData } from '@modules/edf'
 import { makeParseEdfCsv } from '../infra/parseEdfCsv'
 import { makeImportEnedisData } from '../modules/enedis'
@@ -286,4 +286,13 @@ export const importEnedisData = makeImportEnedisData({
   publish: eventStore.publish.bind(eventStore),
   parseCsvFile: makeParseEdfCsv({ fileRepo }),
   getSearchIndex: getEnedisSearchIndex,
+})
+
+export const demanderDélai = makeDemanderDélai({
+  fileRepo,
+  appelOffreRepo: oldAppelOffreRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  getProjectAppelOffreId,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })
