@@ -67,37 +67,41 @@ interface DelaiDetailsProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
 const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
-  const { project, status, delayInMonths, dateAchèvementDemandée } = modificationRequest
+  const {
+    project: { completionDueOn },
+    status,
+    delayInMonths,
+    dateAchèvementDemandée,
+  } = modificationRequest
+
+  const dateDemandée = dateAchèvementDemandée
+    ? new Date(dateAchèvementDemandée)
+    : moment(completionDueOn).add(delayInMonths, 'month').toDate()
 
   return status === 'envoyée' || status === 'en instruction' ? (
     <div style={{ marginTop: 5 }}>
-      La date de mise en service théorique est au <b>{formatDate(project.completionDueOn)}</b>
+      La date de mise en service théorique est au{' '}
+      <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
       .
       <br />
+      Le porteur demande un délai pour une nouvelle date d'achèvement le{' '}
+      <span className="font-bold">{format(dateDemandée, 'dd/MM/yyyy')}</span>.
+    </div>
+  ) : (
+    <div className="mt-1">
       {delayInMonths && (
         <>
-          Le porteur demande un délai de <b>{modificationRequest.delayInMonths} mois</b>, ce qui
-          reporterait la mise en service au{' '}
-          <b>
-            {formatDate(
-              +moment(project.completionDueOn).add(modificationRequest.delayInMonths, 'month')
-            )}
-          </b>
+          Le porteur a demandé un délai de <span className="font-bold">{delayInMonths} mois</span>.
         </>
       )}
       {dateAchèvementDemandée && (
         <>
-          Le porteur demande un délai pour une nouvelle date d'achèvement le{' '}
+          Le porteur a demandé un délai pour une nouvelle date d'achèvement le{' '}
           <span className="font-bold">
             {format(new Date(dateAchèvementDemandée), 'dd/MM/yyyy')}
           </span>
         </>
       )}
-      .
-    </div>
-  ) : (
-    <div style={{ marginTop: 5 }}>
-      Le porteur a demandé un délai de <b>{modificationRequest.delayInMonths} mois</b>.{' '}
     </div>
   )
 }
