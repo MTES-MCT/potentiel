@@ -4,9 +4,9 @@ import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 import {
   errorResponse,
-  RequestValidationError,
+  RequestValidationErrorArray,
   unauthorizedResponse,
-  validateRequestBody,
+  validateRequestBodyForErrorArray,
 } from '../helpers'
 import * as yup from 'yup'
 import { iso8601DateToDateYupTransformation } from '../helpers'
@@ -15,15 +15,16 @@ import fs from 'fs'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
+import omit from 'lodash/omit'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   dateAchèvementDemandée: yup
     .date()
-    .required('Ce champ est obligatoire')
+    .required(`Vous devez renseigner la date d'achèvement souhaitée.`)
     .nullable()
     .transform(iso8601DateToDateYupTransformation)
-    .typeError(`La date saisie n'est pas valide`),
+    .typeError(`La date d'achèvement souhaitée saisie n'est pas valide`),
   justification: yup.string().optional(),
   numeroGestionnaire: yup.string().optional(),
 })
@@ -33,7 +34,7 @@ v1Router.post(
   upload.single('file'),
   ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
         const { projectId, dateAchèvementDemandée, justification, numeroGestionnaire } = body
         const { user } = request
@@ -65,11 +66,11 @@ v1Router.post(
           )
         },
         (error) => {
-          if (error instanceof RequestValidationError) {
+          if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
               addQueryParams(routes.DEMANDE_DELAIS(request.body.projectId), {
-                ...request.body,
-                ...error.errors,
+                ...omit(request.body, 'projectId'),
+                error: `${error.message} ${error.errors.join(' ')}`,
               })
             )
           }

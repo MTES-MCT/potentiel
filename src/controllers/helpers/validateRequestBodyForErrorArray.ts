@@ -3,7 +3,7 @@ import { BaseSchema, InferType, ValidationError } from 'yup'
 
 export class RequestValidationErrorArray extends Error {
   constructor(public errors: Array<string>) {
-    super("L'attestation de constitution des garanties financières n'a pas pu être envoyée.")
+    super("Votre demande n'a pas pu être traitée.")
   }
 }
 

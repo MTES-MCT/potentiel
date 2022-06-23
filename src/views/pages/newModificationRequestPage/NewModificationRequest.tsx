@@ -17,7 +17,7 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
-import { ProjectInfo } from '@views/components'
+import { ProjectInfo, SuccessErrorBox } from '@views/components'
 
 type NewModificationRequestProps = {
   request: Request
@@ -60,19 +60,7 @@ export const NewModificationRequest = PageLayout(
             <div className="form__group">
               <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              {error && (
-                <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div
-                  className="notification success"
-                  {...dataId('modificationRequest-successMessage')}
-                >
-                  {success}
-                </div>
-              )}
+              <SuccessErrorBox success={success} error={error} />
               {!isEolien && (
                 <div>
                   <label className="required">
