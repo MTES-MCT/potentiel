@@ -40,6 +40,7 @@ export type ProjectEventDTO =
   | DemandeDelaiSignaledDTO
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
+  | DemandeDélaiDTO
 
 type File = {
   id: string
@@ -377,6 +378,14 @@ export type DemandeRecoursSignaledDTO = {
   status: 'acceptée' | 'rejetée'
   attachment?: File
   notes?: string
+}
+
+export type DemandeDélaiDTO = {
+  type: 'DemandeDélai'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  status: 'demande-envoyée'
+  dateAchèvementDemandée: number
 }
 
 export type ProjectEventListDTO = {

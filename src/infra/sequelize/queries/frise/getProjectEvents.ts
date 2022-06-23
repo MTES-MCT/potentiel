@@ -338,6 +338,19 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+
+                case 'DemandeDélai':
+                  if (userIsNot('ademe')(user)) {
+                    const { statut, dateAchèvementDemandée } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      status: statut,
+                      dateAchèvementDemandée,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)
