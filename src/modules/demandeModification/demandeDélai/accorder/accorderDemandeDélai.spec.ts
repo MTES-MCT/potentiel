@@ -1,5 +1,5 @@
 import { okAsync } from '@core/utils'
-import { DomainEvent } from '@core/domain'
+import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { InfraNotAvailableError } from '@modules/shared'
 import { fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
@@ -11,6 +11,13 @@ import { User } from '@entities'
 import { ImpossibleDAccorderDemandeDélai } from './ImpossibleDAccorderDemandeDélai'
 
 describe(`Accorder une demande de délai`, () => {
+  const demandeDélaiId = new UniqueEntityID('id-demande')
+  const demandeDélai: DemandeDélai = {
+    id: demandeDélaiId,
+    pendingEvents: [],
+    statut: 'envoyée',
+  }
+
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
@@ -32,13 +39,13 @@ describe(`Accorder une demande de délai`, () => {
         publishToEventStore.mockClear()
 
         const accorderDemandéDélai = construireAccorderDemandeDélai({
-          demandeDélaiRepo: fakeTransactionalRepo(),
+          demandeDélaiRepo: fakeTransactionalRepo(demandeDélai),
           publishToEventStore,
         })
 
         const res = await accorderDemandéDélai({
           user,
-          demandeDélaiId: 'demande-id',
+          demandeDélaiId: demandeDélaiId.toString(),
           dateAchèvementAccordée: new Date(),
         })
 
@@ -65,17 +72,21 @@ describe(`Accorder une demande de délai`, () => {
         publishToEventStore.mockClear()
 
         const accorderDemandéDélai = construireAccorderDemandeDélai({
-          demandeDélaiRepo: fakeTransactionalRepo({ statut } as DemandeDélai),
+          demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
           publishToEventStore,
         })
 
         const res = await accorderDemandéDélai({
           user,
-          demandeDélaiId: 'demande-id',
+          demandeDélaiId: demandeDélai.id.toString(),
           dateAchèvementAccordée: new Date(),
         })
 
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(ImpossibleDAccorderDemandeDélai)
+        const erreurActuelle = res._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(ImpossibleDAccorderDemandeDélai)
+        if (erreurActuelle instanceof ImpossibleDAccorderDemandeDélai) {
+          expect(erreurActuelle.demandeDélai).toMatchObject({ ...demandeDélai, statut })
+        }
         expect(publishToEventStore).not.toHaveBeenCalled()
       })
     }
@@ -86,13 +97,16 @@ describe(`Accorder une demande de délai`, () => {
       publishToEventStore.mockClear()
 
       const accorderDemandéDélai = construireAccorderDemandeDélai({
-        demandeDélaiRepo: fakeTransactionalRepo({ statut: 'envoyée' } as DemandeDélai),
+        demandeDélaiRepo: fakeTransactionalRepo({
+          ...demandeDélai,
+          statut: 'envoyée',
+        } as DemandeDélai),
         publishToEventStore,
       })
 
       const res = await accorderDemandéDélai({
         user,
-        demandeDélaiId: 'demande-id',
+        demandeDélaiId: demandeDélaiId.toString(),
         dateAchèvementAccordée: new Date('2022-06-27'),
       })
 
@@ -103,7 +117,7 @@ describe(`Accorder une demande de délai`, () => {
           payload: expect.objectContaining({
             dateAchèvementAccordée: new Date('2022-06-27'),
             accordéPar: user.id,
-            demandeDélaiId: 'demande-id',
+            demandeDélaiId: demandeDélaiId.toString(),
           }),
         })
       )

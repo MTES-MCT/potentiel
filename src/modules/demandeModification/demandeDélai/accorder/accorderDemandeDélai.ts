@@ -26,14 +26,14 @@ export const construireAccorderDemandeDélai =
     dateAchèvementAccordée,
   }: AccorderDemandeDélaiCommande): ResultAsync<
     null,
-    InfraNotAvailableError | UnauthorizedError
+    InfraNotAvailableError | UnauthorizedError | ImpossibleDAccorderDemandeDélai
   > => {
     if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 
-    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), ({ statut }) =>
-      statut === 'envoyée'
+    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) =>
+      demandeDélai.statut === 'envoyée'
         ? publishToEventStore(
             new DélaiAccordé({
               payload: {
@@ -43,6 +43,6 @@ export const construireAccorderDemandeDélai =
               },
             })
           )
-        : errAsync(new ImpossibleDAccorderDemandeDélai())
+        : errAsync(new ImpossibleDAccorderDemandeDélai(demandeDélai))
     )
   }
