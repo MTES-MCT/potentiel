@@ -15,7 +15,6 @@ import {
   makeRequestProducteurModification,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
-  makeDemanderDélai,
 } from '@modules/modificationRequest'
 import {
   makeCorrectProjectData,
@@ -36,6 +35,7 @@ import {
   makeAddGFExpirationDate,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
+import { makeDemanderDélai } from 'src/modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
