@@ -321,11 +321,6 @@ export const makeProject = (args: {
     notify: function ({ appelOffre, notifiedOn }) {
       const { data, projectId } = props
 
-      // if (!appelOffre) {
-      //   const errorMessage = `Appel d'offre inaccessible dans project.notify pour le project ${projectId}`
-      //   return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
-      // }
-
       if (props.notifiedOn) {
         return err(new ProjectAlreadyNotifiedError())
       }
