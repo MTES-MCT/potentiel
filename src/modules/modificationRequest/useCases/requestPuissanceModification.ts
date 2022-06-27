@@ -105,10 +105,6 @@ export const makeRequestPuissanceModification =
               | ProjectCannotBeUpdatedIfUnnotifiedError
               | PuissanceJustificationOrCourrierMissingError
             > => {
-              if (!project.appelOffre) {
-                return errAsync(new UnauthorizedError())
-              }
-
               const exceedsRatios = exceedsRatiosChangementPuissance({
                 nouvellePuissance: newPuissance,
                 project: { ...project, technologie: project.data?.technologie ?? 'N/A' },

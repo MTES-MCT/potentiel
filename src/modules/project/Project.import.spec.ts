@@ -18,7 +18,7 @@ import {
   ProjectReimported,
 } from './events'
 import { makeProject } from './Project'
-import type { BuildProjectIdentifier } from './queries'
+import { BuildProjectIdentifier } from './queries'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { findEventOfType } from '../../helpers/findEventOfType'
 
@@ -36,6 +36,7 @@ const fakeProject = makeFakeProject({
   },
 })
 const { periodeId, appelOffreId, familleId, numeroCRE } = fakeProject
+const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })!!
 
 const fakePotentielIdentifier = 'fakePotentielIdentifier'
 const importId = new UniqueEntityID().toString()
@@ -54,7 +55,7 @@ describe('Project.import({ data, importId })', () => {
     )
 
     it('should trigger ProjectImported', () => {
-      project.import({ data: fakeProject, importId })
+      project.import({ appelOffre, data: fakeProject, importId })
 
       expect(project.pendingEvents).toHaveLength(1)
 
@@ -90,7 +91,11 @@ describe('Project.import({ data, importId })', () => {
             buildProjectIdentifier,
           })
         )
-        project.import({ data: { ...fakeProject, classe: 'Classé', notifiedOn: 1234 }, importId })
+        project.import({
+          appelOffre,
+          data: { ...fakeProject, classe: 'Classé', notifiedOn: 1234 },
+          importId,
+        })
 
         expect(project.pendingEvents).toHaveLength(5)
 
@@ -136,7 +141,11 @@ describe('Project.import({ data, importId })', () => {
             buildProjectIdentifier,
           })
         )
-        project.import({ data: { ...fakeProject, classe: 'Eliminé', notifiedOn: 1234 }, importId })
+        project.import({
+          appelOffre,
+          data: { ...fakeProject, classe: 'Eliminé', notifiedOn: 1234 },
+          importId,
+        })
 
         it('should trigger a ProjectNotificationDateSet', () => {
           expect(project.pendingEvents).toHaveLength(2)
@@ -175,7 +184,7 @@ describe('Project.import({ data, importId })', () => {
       )
 
       it('should not emit', () => {
-        project.import({ data: fakeProject, importId })
+        project.import({ appelOffre, data: fakeProject, importId })
 
         expect(project.pendingEvents).toHaveLength(0)
       })
@@ -204,6 +213,7 @@ describe('Project.import({ data, importId })', () => {
       )
       it('should emit ProjectReimported with the changes in the payload', () => {
         project.import({
+          appelOffre,
           data: {
             ...fakeProject,
             prixReference: 3,
@@ -250,6 +260,7 @@ describe('Project.import({ data, importId })', () => {
         )
         it('should emit ProjectReimported with the changes in the payload', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               details: { param1: 'value1', param2: 'value2 changed', param3: 'value3' },
@@ -301,6 +312,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should ignore the actionnaire change', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               actionnaire: 'other',
@@ -343,6 +355,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should ignore the producteur change', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               nomCandidat: 'other',
@@ -385,6 +398,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should ignore the puissance change', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               puissance: 789,
@@ -439,6 +453,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should ignore the change on the fournisseur that had been updated', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               details: {
@@ -498,6 +513,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should ignore the changes on the fields that were corrected', () => {
           project.import({
+            appelOffre,
             data: {
               ...fakeProject,
               nomCandidat: '678',
@@ -546,7 +562,7 @@ describe('Project.import({ data, importId })', () => {
         )
 
         beforeAll(() => {
-          project.import({ data: { ...data, classe: 'Classé' }, importId })
+          project.import({ appelOffre, data: { ...data, classe: 'Classé' }, importId })
         })
 
         it('should emit GF/DCR/CompletionDueDateSet', () => {
@@ -596,6 +612,7 @@ describe('Project.import({ data, importId })', () => {
 
           it('should emit GF/DCR/CompletionDueDateSet', () => {
             project.import({
+              appelOffre,
               data: { ...data, classe: 'Classé', notifiedOn: new Date('2020-01-02').getTime() },
               importId,
             })
@@ -636,6 +653,7 @@ describe('Project.import({ data, importId })', () => {
 
           it('should not emit', () => {
             project.import({
+              appelOffre,
               data: { ...data, classe: 'Classé' },
               importId,
             })
@@ -672,6 +690,7 @@ describe('Project.import({ data, importId })', () => {
 
         it('should not emit', () => {
           project.import({
+            appelOffre,
             data: { ...data, classe: 'Eliminé' },
             importId,
           })
@@ -707,6 +726,7 @@ describe('Project.import({ data, importId })', () => {
 
         beforeAll(() => {
           project.import({
+            appelOffre,
             data: { ...data, classe: 'Eliminé' },
             importId,
           })
@@ -757,6 +777,7 @@ describe('Project.import({ data, importId })', () => {
           )
           it('should not emit', () => {
             project.import({
+              appelOffre,
               data: { ...data, notifiedOn: new Date('2020-01-01').getTime() },
               importId,
             })
@@ -791,6 +812,7 @@ describe('Project.import({ data, importId })', () => {
           )
           it('should emit ProjectNotificationDateSet', () => {
             project.import({
+              appelOffre,
               data: { ...data, notifiedOn: new Date('2020-01-02').getTime() },
               importId,
             })
@@ -830,6 +852,7 @@ describe('Project.import({ data, importId })', () => {
         )
         it('should emit ProjectNotificationDateSet', () => {
           project.import({
+            appelOffre,
             data: { ...data, notifiedOn: new Date('2020-01-02').getTime() },
             importId,
           })
@@ -872,7 +895,7 @@ describe('Project.import({ data, importId })', () => {
         )
 
         it('should not emit', () => {
-          project.import({ data: fakeProject, importId })
+          project.import({ appelOffre, data: fakeProject, importId })
 
           expect(project.pendingEvents).toHaveLength(0)
         })

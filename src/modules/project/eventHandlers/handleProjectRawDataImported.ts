@@ -1,4 +1,6 @@
 import { TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { err } from '@core/utils'
 import { FindProjectByIdentifiers } from '..'
 import { ProjectRawDataImported } from '../events'
 import { Project } from '../Project'
@@ -6,13 +8,15 @@ import { Project } from '../Project'
 export const handleProjectRawDataImported =
   (deps: {
     findProjectByIdentifiers: FindProjectByIdentifiers
+    getProjectAppelOffre: GetProjectAppelOffre
     projectRepo: TransactionalRepository<Project>
   }) =>
   async (event: ProjectRawDataImported) => {
-    const { findProjectByIdentifiers, projectRepo } = deps
+    const { findProjectByIdentifiers, projectRepo, getProjectAppelOffre } = deps
 
     const { data, importId } = event.payload
     const { appelOffreId, periodeId, familleId, numeroCRE } = data
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
     // PAD: There is a concurrency risk here:
     // findProjectByIdentifiers might return null AFTER a ProjectImported has been emitted for the same project (because of eventual consistency)
@@ -26,10 +30,14 @@ export const handleProjectRawDataImported =
       familleId,
       numeroCRE,
     }).andThen((projectIdOrNull) => {
+      if (!appelOffre) {
+        return err(new Error(`L'appel offre ${appelOffreId} n'existe pas`))
+      }
+
       return projectRepo.transaction(
         new UniqueEntityID(projectIdOrNull || undefined),
         (project) => {
-          return project.import({ data, importId })
+          return project.import({ appelOffre, data, importId })
         },
         { acceptNew: true }
       )

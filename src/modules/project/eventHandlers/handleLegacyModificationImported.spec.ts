@@ -1,8 +1,12 @@
 import { UniqueEntityID } from '@core/domain'
+import { ProjectAppelOffre } from '@entities'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { LegacyModificationImported } from '../../modificationRequest/events'
 import { Project } from '../Project'
 import { handleLegacyModificationImported } from './handleLegacyModificationImported'
+
+const appelOffre = { id: 'fake-appel-offre-id' } as ProjectAppelOffre
+const getProjectAppelOffre = () => appelOffre
 
 describe('handleLegacyModificationImported', () => {
   const projectId = new UniqueEntityID().toString()
@@ -17,6 +21,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -50,6 +55,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -80,6 +86,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -101,7 +108,10 @@ describe('handleLegacyModificationImported', () => {
     })
 
     it('should call Project.setCompletionDueDate()', () => {
-      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledWith(123456)
+      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledWith({
+        appelOffre,
+        completionDueOn: 123456,
+      })
     })
   })
 
@@ -116,6 +126,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -146,9 +157,10 @@ describe('handleLegacyModificationImported', () => {
 
     it('should call Project.abandonLegacy() on the latter of the modifications of type abandon', () => {
       expect(fakeProject.setCompletionDueDate).toHaveBeenCalledTimes(1)
-      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledWith(
-        latterModificationDateAchevement
-      )
+      expect(fakeProject.setCompletionDueDate).toHaveBeenCalledWith({
+        appelOffre,
+        completionDueOn: latterModificationDateAchevement,
+      })
     })
   })
 
@@ -159,6 +171,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -189,6 +202,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {
@@ -221,6 +235,7 @@ describe('handleLegacyModificationImported', () => {
     beforeAll(async () => {
       await handleLegacyModificationImported({
         projectRepo,
+        getProjectAppelOffre,
       })(
         new LegacyModificationImported({
           payload: {

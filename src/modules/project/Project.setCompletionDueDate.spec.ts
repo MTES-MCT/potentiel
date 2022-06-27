@@ -13,6 +13,7 @@ const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé'
 const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })!
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -60,7 +61,7 @@ describe('Project.setCompletionDueDate()', () => {
     )
 
     const newCompletionDueOn = 12345
-    const res = project.setCompletionDueDate(newCompletionDueOn)
+    const res = project.setCompletionDueDate({ appelOffre, completionDueOn: newCompletionDueOn })
 
     expect(res.isOk()).toBe(true)
     if (res.isErr()) return

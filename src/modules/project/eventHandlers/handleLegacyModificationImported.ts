@@ -1,11 +1,18 @@
 import { Project } from '..'
 import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { LegacyModificationImported } from '../../modificationRequest'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { ProjectionEnEchec } from '@modules/shared'
+import { err } from '@core/utils'
+
+type HandleLegacyModificationImportedDependencies = {
+  projectRepo: TransactionalRepository<Project>
+  getProjectAppelOffre: GetProjectAppelOffre
+}
 
 export const handleLegacyModificationImported =
-  (deps: { projectRepo: TransactionalRepository<Project> }) =>
+  ({ projectRepo, getProjectAppelOffre }: HandleLegacyModificationImportedDependencies) =>
   async (event: LegacyModificationImported) => {
-    const { projectRepo } = deps
     const { projectId, modifications } = event.payload
 
     const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn)
@@ -18,7 +25,21 @@ export const handleLegacyModificationImported =
           if (delayApplied) continue
           if (modification.status === 'acceptée') {
             await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-              return project.setCompletionDueDate(modification.nouvelleDateLimiteAchevement)
+              const { appelOffreId, periodeId, familleId } = project
+              const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+              if (!appelOffre) {
+                return err(
+                  new ProjectionEnEchec(
+                    `Impossible d'appliquer la demande de modification de délai`,
+                    { nomProjection: 'handleLegacyModificationImported', evenement: event }
+                  )
+                )
+              }
+
+              return project.setCompletionDueDate({
+                appelOffre,
+                completionDueOn: modification.nouvelleDateLimiteAchevement,
+              })
             })
             delayApplied = true
           }

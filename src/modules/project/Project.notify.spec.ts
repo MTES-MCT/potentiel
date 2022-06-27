@@ -51,7 +51,8 @@ describe('Project.notify()', () => {
       })
     )
 
-    const res = project.notify(notifiedOn)
+    const appelOffre = getProjectAppelOffre(project)!
+    const res = project.notify({ appelOffre, notifiedOn })
 
     expect(res.isOk()).toBe(true)
     if (res.isErr()) return
@@ -87,8 +88,10 @@ describe('Project.notify()', () => {
       })
     )
 
+    const appelOffre = getProjectAppelOffre(project)!
+
     beforeAll(() => {
-      const res = project.notify(notifiedOn)
+      const res = project.notify({ appelOffre, notifiedOn })
 
       if (res.isErr()) console.error(res.error)
       expect(res.isOk()).toBe(true)
@@ -141,8 +144,9 @@ describe('Project.notify()', () => {
       })
     )
 
+    const appelOffre = getProjectAppelOffre(project)!
     beforeAll(() => {
-      const res = project.notify(notifiedOn)
+      const res = project.notify({ appelOffre, notifiedOn })
 
       if (res.isErr()) console.error(res.error)
       expect(res.isOk()).toBe(true)
@@ -181,8 +185,9 @@ describe('Project.notify()', () => {
       })
     )
 
+    const appelOffre = getProjectAppelOffre(project)!
     beforeAll(() => {
-      const res = project.notify(notifiedOn)
+      const res = project.notify({ appelOffre, notifiedOn })
 
       if (res.isErr()) console.error(res.error)
       expect(res.isOk()).toBe(true)
@@ -211,7 +216,8 @@ describe('Project.notify()', () => {
         })
       )
 
-      const res = project.notify(notifiedOn)
+      const appelOffre = getProjectAppelOffre(project)!
+      const res = project.notify({ appelOffre, notifiedOn })
 
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
@@ -239,8 +245,9 @@ describe('Project.notify()', () => {
       })
     )
 
+    const appelOffre = getProjectAppelOffre(project)!
     beforeAll(() => {
-      const res = project.notify(notifiedOn)
+      const res = project.notify({ appelOffre, notifiedOn })
 
       if (res.isErr()) console.error(res.error)
       expect(res.isOk()).toBe(true)
