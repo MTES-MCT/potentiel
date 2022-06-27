@@ -3,7 +3,7 @@ import { err, ok, Result } from '@core/utils'
 import { DélaiDemandé } from '../../modificationRequest'
 import { EntityNotFoundError } from '../../shared'
 
-type DemandeDélaiStatut = 'envoyée' | 'annulée' | 'accordée' | 'refusée'
+export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée'
 
 type DemandeDélaiArgs = {
   id: UniqueEntityID
@@ -11,7 +11,7 @@ type DemandeDélaiArgs = {
 }
 
 export type DemandeDélai = EventStoreAggregate & {
-  statut: DemandeDélaiStatut | undefined
+  statut: StatutDemandeDélai | undefined
 }
 
 export const makeDemandeDélai = (
