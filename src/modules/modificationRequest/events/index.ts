@@ -1,5 +1,5 @@
 export * from './ConfirmationRequested'
-export * from '../../demandeModification/demandeDélai/accepter/DélaiAccordé'
+export * from '../../demandeModification/demandeDélai/accorder/DélaiAccordé'
 export * from './DélaiAnnulé'
 export * from './DélaiDemandé'
 export * from './DélaiEnInstruction'
