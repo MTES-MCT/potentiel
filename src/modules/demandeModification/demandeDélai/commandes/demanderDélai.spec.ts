@@ -5,10 +5,10 @@ import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import makeFakeUser from '../../../__tests__/fixtures/user'
+import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeDemanderDélai } from './demanderDelai'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
-import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+import { fakeRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates'
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
