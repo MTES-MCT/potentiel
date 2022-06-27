@@ -3,7 +3,7 @@ import { err, ok, Result } from '@core/utils'
 import { DélaiDemandé } from '../../modificationRequest'
 import { EntityNotFoundError } from '../../shared'
 
-export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée'
+export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
 
 type DemandeDélaiArgs = {
   id: UniqueEntityID

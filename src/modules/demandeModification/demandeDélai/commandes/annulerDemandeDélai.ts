@@ -1,9 +1,9 @@
 import { User } from '@entities'
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { DemandeDélai } from '../DemandeDélai'
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { DélaiAnnulé } from '@modules/modificationRequest'
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
+import { DélaiAnnulé, StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 type annulerDemandeDélaiDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -21,7 +21,7 @@ export const makeAnnulerDemandeDélai =
   (deps: annulerDemandeDélaiDeps) =>
   (
     args: annulerDemandeDélaiArgs
-  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError> => {
     const { shouldUserAccessProject, demandeDélaiRepo, publishToEventStore } = deps
     const { projectId, user, demandeDélaiId } = args
 
@@ -31,12 +31,14 @@ export const makeAnnulerDemandeDélai =
           return errAsync(new UnauthorizedError())
         }
 
-        demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-          return publishToEventStore(
-            new DélaiAnnulé({ payload: { demandeDélaiId, annuléPar: user.id } })
-          )
+        return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), ({ statut }) => {
+          if (statut === 'envoyée' || statut === 'en-instruction') {
+            return publishToEventStore(
+              new DélaiAnnulé({ payload: { demandeDélaiId, annuléPar: user.id } })
+            )
+          }
+          return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
         })
-        return okAsync(null)
       }
     )
   }
