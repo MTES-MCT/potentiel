@@ -198,6 +198,7 @@ class routes {
   static CONFIRMER_DEMANDE_ACTION = '/confirmer-demande'
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
+  static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

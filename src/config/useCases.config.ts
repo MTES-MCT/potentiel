@@ -35,7 +35,7 @@ import {
   makeAddGFExpirationDate,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
-import { makeDemanderDélai } from 'src/modules/demandeModification'
+import { makeAnnulerDemandeDélai, makeDemanderDélai } from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
@@ -64,6 +64,7 @@ import {
   userRepo,
   projectRepo,
   projectClaimRepo,
+  demandeDélaiRepo,
 } from './repos.config'
 import { makeImportEdfData } from '@modules/edf'
 import { makeParseEdfCsv } from '../infra/parseEdfCsv'
@@ -295,4 +296,10 @@ export const demanderDélai = makeDemanderDélai({
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+})
+
+export const annulerDemandeDélai = makeAnnulerDemandeDélai({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
 })
