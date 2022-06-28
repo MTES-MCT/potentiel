@@ -8,30 +8,25 @@ import { DélaiAccordé } from './DélaiAccordé'
 import { ImpossibleDAccorderDemandeDélai } from './ImpossibleDAccorderDemandeDélai'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
-type AccorderDemandeDélaiDeps = {
-  demandeDélaiRepo: TransactionalRepository<DemandeDélai>
-  publishToEventStore: EventStore['publish']
-  fileRepo: Repository<FileObject>
-}
-
-type AccorderDemandeDélaiCommande = {
+type AccorderDemandeDélai = (commande: {
   user: User
   demandeDélaiId: string
   dateAchèvementAccordée: Date
   fichierRéponse: { contents: FileContents; filename: string }
-}
+}) => ResultAsync<
+  null,
+  InfraNotAvailableError | UnauthorizedError | ImpossibleDAccorderDemandeDélai
+>
 
-export const construireAccorderDemandeDélai =
-  ({ demandeDélaiRepo, publishToEventStore, fileRepo }: AccorderDemandeDélaiDeps) =>
-  ({
-    user,
-    demandeDélaiId,
-    dateAchèvementAccordée,
-    fichierRéponse,
-  }: AccorderDemandeDélaiCommande): ResultAsync<
-    null,
-    InfraNotAvailableError | UnauthorizedError | ImpossibleDAccorderDemandeDélai
-  > => {
+type ConstruireAccorderDemandeDélai = (dépendances: {
+  demandeDélaiRepo: TransactionalRepository<DemandeDélai>
+  publishToEventStore: EventStore['publish']
+  fileRepo: Repository<FileObject>
+}) => AccorderDemandeDélai
+
+export const construireAccorderDemandeDélai: ConstruireAccorderDemandeDélai =
+  ({ demandeDélaiRepo, publishToEventStore, fileRepo }) =>
+  ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
       return errAsync(new UnauthorizedError())
     }
