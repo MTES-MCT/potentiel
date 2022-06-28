@@ -12,6 +12,7 @@ type DemandeDélaiArgs = {
 
 export type DemandeDélai = EventStoreAggregate & {
   statut: StatutDemandeDélai | undefined
+  projet: { id: UniqueEntityID } | undefined
 }
 
 export const makeDemandeDélai = (
@@ -20,6 +21,7 @@ export const makeDemandeDélai = (
   const { events = [], id } = args
 
   const agregatParDefaut: DemandeDélai = {
+    projet: undefined,
     statut: undefined,
     id,
     pendingEvents: [],
@@ -28,7 +30,11 @@ export const makeDemandeDélai = (
   const agregat: DemandeDélai = events.reduce((agregat, event) => {
     switch (event.type) {
       case DélaiDemandé.type:
-        return { ...agregat, statut: 'envoyée' }
+        return {
+          ...agregat,
+          statut: 'envoyée',
+          projet: { id: new UniqueEntityID(event.payload.projetId) },
+        }
       case DélaiAnnulé.type:
         return { ...agregat, statut: 'annulée' }
       default:
