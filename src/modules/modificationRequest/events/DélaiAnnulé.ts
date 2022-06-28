@@ -3,6 +3,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 export type DélaiAnnuléPayload = {
   demandeDélaiId: string
   annuléPar: string
+  projetId: string
 }
 
 export class DélaiAnnulé extends BaseDomainEvent<DélaiAnnuléPayload> implements DomainEvent {

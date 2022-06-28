@@ -113,6 +113,7 @@ describe(`Commande annuler demande délai`, () => {
           expect(firstEvent.payload).toMatchObject({
             demandeDélaiId,
             annuléPar: user.id,
+            projetId: projectId,
           })
         })
       }

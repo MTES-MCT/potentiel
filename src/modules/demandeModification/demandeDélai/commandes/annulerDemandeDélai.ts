@@ -34,7 +34,9 @@ export const makeAnnulerDemandeDélai =
         return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), ({ statut }) => {
           if (statut === 'envoyée' || statut === 'en-instruction') {
             return publishToEventStore(
-              new DélaiAnnulé({ payload: { demandeDélaiId, annuléPar: user.id } })
+              new DélaiAnnulé({
+                payload: { demandeDélaiId, annuléPar: user.id, projetId: projectId },
+              })
             )
           }
           return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
