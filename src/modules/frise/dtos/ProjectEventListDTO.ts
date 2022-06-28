@@ -384,7 +384,7 @@ export type DemandeDélaiDTO = {
   type: 'DemandeDélai'
   variant: Exclude<UserRole, 'ademe'>
   date: number
-  status: 'demande-envoyée'
+  status: 'envoyée'
   dateAchèvementDemandée: number
 }
 

@@ -36,7 +36,7 @@ describe(`getProjectEvents`, () => {
               valueDate: date,
               eventPublishedAt: date,
               payload: {
-                statut: 'demande-envoyée',
+                statut: 'envoyée',
                 autorité: 'dreal',
                 dateAchèvementDemandée: dateDemandée,
                 demandeur: porteurId,
@@ -51,7 +51,7 @@ describe(`getProjectEvents`, () => {
                   type: 'DemandeDélai',
                   variant: user.role,
                   date,
-                  status: 'demande-envoyée',
+                  status: 'envoyée',
                   dateAchèvementDemandée: dateDemandée,
                 },
               ],
@@ -70,7 +70,7 @@ describe(`getProjectEvents`, () => {
           valueDate: date,
           eventPublishedAt: date,
           payload: {
-            statut: 'demande-envoyée',
+            statut: 'envoyée',
             autorité: 'dreal',
             dateAchèvementDemandée: dateDemandée,
             demandeur: porteurId,

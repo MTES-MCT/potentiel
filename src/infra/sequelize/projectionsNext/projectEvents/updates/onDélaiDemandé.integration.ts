@@ -6,7 +6,7 @@ import onDélaiDemandé from './onDélaiDemandé'
 describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
   describe(`Lorsque'un événement DélaiDemandé est émis,`, () => {
     it(`une nouvelle entrée de type "DemandeDélai",
-      avec un type "demande-envoyée" en payload,
+      avec un type "envoyée" en payload,
       devrait être enregistrée dans la projection.`, async () => {
       const demandeDélaiId = new UniqueEntityID().toString()
       const projetId = new UniqueEntityID().toString()
@@ -35,7 +35,7 @@ describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
         id: demandeDélaiId,
         type: 'DemandeDélai',
         payload: {
-          statut: 'demande-envoyée',
+          statut: 'envoyée',
         },
       })
     })

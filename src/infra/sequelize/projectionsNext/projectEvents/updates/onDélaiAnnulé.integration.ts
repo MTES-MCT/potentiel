@@ -53,7 +53,7 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
           valueDate: date.getTime(),
           eventPublishedAt: date.getTime(),
           payload: {
-            statut: 'demande-envoyée',
+            statut: 'envoyée',
             autorité: 'dreal',
             dateAchèvementDemandée: date.getTime(),
             demandeur: new UniqueEntityID().toString(),

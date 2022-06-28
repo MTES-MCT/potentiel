@@ -14,7 +14,7 @@ export default ProjectEvent.projector.on(
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
-          statut: 'demande-envoyée',
+          statut: 'envoyée',
           autorité,
           dateAchèvementDemandée,
           demandeur: porteurId,
