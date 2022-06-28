@@ -8,21 +8,18 @@ interface CancelButtonProps {
   id: string
   projectId: string
   hasDelayInMonths: boolean
+  route: string
 }
 export const AnnulerDemandeDélaiBouton = ({
   isAdmin,
   status,
   id,
-  hasDelayInMonths,
   projectId,
+  route,
 }: CancelButtonProps) => {
   return (
     (!isAdmin && ['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
-      <form
-        action={hasDelayInMonths ? ROUTES.ANNULER_DEMANDE_ACTION : ROUTES.ANNULER_DEMANDE_DELAI}
-        method="post"
-        style={{ margin: 0 }}
-      >
+      <form action={route} method="post" style={{ margin: 0 }}>
         <input type="hidden" name="modificationRequestId" value={id} />
         <input type="hidden" name="projectId" value={projectId} />
 
