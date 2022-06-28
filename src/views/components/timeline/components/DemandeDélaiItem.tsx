@@ -24,7 +24,7 @@ const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProp
       <>
         <ItemTitle title="Délai supplémentaire demandé" />
         <p className="p-0 m-0">
-          Date limite d'attestation d'achèvement souhaitée : {formatDate(dateAchèvementDemandée)}
+          Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
         </p>
       </>
     </ContentArea>
