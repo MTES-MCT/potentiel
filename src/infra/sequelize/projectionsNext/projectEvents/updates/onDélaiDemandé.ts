@@ -1,4 +1,4 @@
-import { DélaiDemandé } from '@modules/modificationRequest'
+import { DélaiDemandé } from '@modules/demandeModification'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(

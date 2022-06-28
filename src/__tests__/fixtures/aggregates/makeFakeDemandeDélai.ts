@@ -1,5 +1,5 @@
 import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { StatutDemandeDélai } from 'src/modules/demandeModification'
+import { StatutDemandeDélai } from '@modules/demandeModification'
 
 export const makeFakeDemandeDélai = (id?: string, statut?: StatutDemandeDélai) => ({
   pendingEvents: [] as DomainEvent[],

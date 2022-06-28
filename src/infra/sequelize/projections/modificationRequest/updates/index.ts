@@ -8,8 +8,6 @@ import {
   ModificationRequestConfirmed,
   ModificationReceived,
   LegacyModificationImported,
-  DélaiDemandé,
-  DélaiAnnulé,
 } from '@modules/modificationRequest'
 import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
@@ -24,6 +22,7 @@ import { onLegacyModificationImported } from './onLegacyModificationImported'
 import { EventBus } from '@core/domain'
 import { onDélaiDemandé } from './onDélaiDemandé'
 import { onDélaiAnnulé } from './onDélaiAnnulé'
+import { DélaiAnnulé, DélaiDemandé } from '@modules/demandeModification'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))

@@ -3,7 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 import { formatDate } from '../../../../../helpers/formatDate'
-import { Input, TextArea } from 'src/views/components'
+import { Input, TextArea } from '../../../../../views/components'
 
 type DemandeDelaiProps = {
   project: Project

@@ -6,7 +6,7 @@ import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
 import { construireAccorderDemandeDélai } from './accorderDemandeDélai'
-import { UserRole } from 'src/modules/users'
+import { UserRole } from '@modules/users'
 import { DemandeDélai, StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
 import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'

@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { DélaiDemandé } from '@modules/modificationRequest'
+import { DélaiDemandé } from '@modules/demandeModification'
 
 export const onDélaiDemandé =
   (models) =>

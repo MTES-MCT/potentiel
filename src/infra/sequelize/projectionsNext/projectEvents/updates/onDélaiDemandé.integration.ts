@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { DélaiDemandé, DélaiDemandéPayload } from '@modules/modificationRequest'
+import { DélaiDemandé, DélaiDemandéPayload } from '@modules/demandeModification'
 import { ProjectEvent } from '../projectEvent.model'
 import onDélaiDemandé from './onDélaiDemandé'
 

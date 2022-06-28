@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { DélaiDemandé } from '@modules/modificationRequest'
+import { DélaiDemandé } from '@modules/demandeModification'
 import { NumeroGestionnaireSubmitted, ProjectNewRulesOptedIn, Project } from '@modules/project'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'

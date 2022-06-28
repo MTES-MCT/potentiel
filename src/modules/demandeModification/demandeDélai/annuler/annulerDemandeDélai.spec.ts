@@ -11,7 +11,8 @@ import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
-import { DélaiAnnulé, StatusPreventsCancellingError } from '@modules/modificationRequest'
+import { DélaiAnnulé } from '@modules/demandeModification'
+import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 describe(`Commande annuler demande délai`, () => {
   const projectId = new UniqueEntityID().toString()

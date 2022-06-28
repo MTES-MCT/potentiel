@@ -1,4 +1,4 @@
-import { DélaiAnnulé } from '@modules/modificationRequest'
+import { DélaiAnnulé } from '@modules/demandeModification'
 import { modificationRequestProjector } from '../modificationRequest.model'
 
 export const onDélaiAnnulé = modificationRequestProjector.on(DélaiAnnulé).update({

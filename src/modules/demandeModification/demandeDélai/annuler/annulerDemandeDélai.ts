@@ -3,7 +3,8 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { DemandeDélai } from '../DemandeDélai'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { DélaiAnnulé, StatusPreventsCancellingError } from '@modules/modificationRequest'
+import { StatusPreventsCancellingError } from '@modules/modificationRequest'
+import { DélaiAnnulé } from '@modules/demandeModification'
 
 type annulerDemandeDélaiDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>

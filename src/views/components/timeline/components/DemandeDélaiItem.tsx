@@ -1,7 +1,7 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ItemDate, ItemTitle, ContentArea, CurrentIcon, CancelledStepIcon } from '.'
-import { DemandeDélaiDTO } from 'src/modules/frise/dtos'
+import { DemandeDélaiDTO } from '@modules/frise/dtos'
 
 type DemandeDélaiItemProps = DemandeDélaiDTO
 

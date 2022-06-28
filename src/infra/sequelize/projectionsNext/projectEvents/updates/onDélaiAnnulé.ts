@@ -1,4 +1,4 @@
-import { DélaiAnnulé } from '@modules/modificationRequest'
+import { DélaiAnnulé } from '@modules/demandeModification'
 import { logger } from '@core/utils'
 import { ProjectEvent } from '../projectEvent.model'
 

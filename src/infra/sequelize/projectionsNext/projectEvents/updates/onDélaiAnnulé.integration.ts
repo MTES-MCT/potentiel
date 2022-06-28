@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { DélaiAnnulé, DélaiAnnuléPayload } from '@modules/modificationRequest'
+import { DélaiAnnulé, DélaiAnnuléPayload } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onDélaiAnnulé from './onDélaiAnnulé'
