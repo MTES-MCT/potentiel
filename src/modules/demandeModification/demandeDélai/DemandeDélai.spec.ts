@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { DélaiDemandé, DélaiDemandéPayload } from '@modules/modificationRequest'
+import { DélaiDemandé, DélaiDemandéPayload } from '@modules/demandeModification'
 import { makeDemandeDélai } from './DemandeDélai'
 
 describe(`Charger l'agrégat pour une demande de délai`, () => {

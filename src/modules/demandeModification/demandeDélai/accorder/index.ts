@@ -1,3 +1,3 @@
+export * from './AccorderDemandeDélaiError';
 export * from './DélaiAccordé';
-export * from './ImpossibleDAccorderDemandeDélai';
 export * from './accorderDemandeDélai';
