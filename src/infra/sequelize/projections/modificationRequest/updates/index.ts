@@ -9,6 +9,7 @@ import {
   ModificationReceived,
   LegacyModificationImported,
   DélaiDemandé,
+  DélaiAnnulé,
 } from '@modules/modificationRequest'
 import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
@@ -22,6 +23,7 @@ import { onModificationReceived } from './onModificationReceived'
 import { onLegacyModificationImported } from './onLegacyModificationImported'
 import { EventBus } from '@core/domain'
 import { onDélaiDemandé } from './onDélaiDemandé'
+import { onDélaiAnnulé } from './onDélaiAnnulé'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -42,7 +44,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(LegacyModificationImported.type, onLegacyModificationImported(models))
 
   eventBus.subscribe(DélaiDemandé.type, onDélaiDemandé(models))
-
+  eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé(models))
   logger.info('Initialized ModificationRequest projections')
 }
 
