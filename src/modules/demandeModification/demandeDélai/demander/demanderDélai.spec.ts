@@ -38,194 +38,179 @@ describe('Commande demanderDélai', () => {
     contents: Readable.from('test-content'),
   }
 
-  // Scenario 1
-  describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {
-    const shouldUserAccessProject = jest.fn(async () => false)
-    it(`Lorsque le porteur fait une demande de délai,
+  const publishToEventStore = jest.fn((event: DomainEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  )
+
+  const projectRepo = fakeRepo({
+    ...fakeProject,
+    newRulesOptIn: true,
+  } as Project)
+
+  beforeEach(() => {
+    publishToEventStore.mockClear()
+  })
+
+  describe(`Demande de délai impossible si le porteur n'a pas les droits sur le projet`, () => {
+    describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {
+      const shouldUserAccessProject = jest.fn(async () => false)
+      it(`Lorsque le porteur fait une demande de délai,
       alors, une erreur est retournée`, async () => {
-      const publishToEventStore = jest.fn((event: DomainEvent) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
+        const demandeDelai = makeDemanderDélai({
+          fileRepo,
+          appelOffreRepo,
+          publishToEventStore,
+          shouldUserAccessProject,
+          getProjectAppelOffreId,
+          projectRepo,
+        })
 
-      const projectRepo = fakeRepo({
-        ...fakeProject,
-        newRulesOptIn: true,
-      } as Project)
+        const requestResult = await demandeDelai({
+          justification: 'justification',
+          dateAchèvementDemandée: new Date('2022-01-01'),
+          file: fakeFileContents,
+          user,
+          projectId: fakeProject.id.toString(),
+        })
 
-      const demandeDelai = makeDemanderDélai({
-        fileRepo,
-        appelOffreRepo,
-        publishToEventStore,
-        shouldUserAccessProject,
-        getProjectAppelOffreId,
-        projectRepo,
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId: fakeProject.id.toString(),
+        })
+
+        expect(fileRepo.save).not.toHaveBeenCalled()
+        expect(requestResult.isErr()).toEqual(true)
+        if (requestResult.isOk()) return
+        expect(requestResult.error).toBeInstanceOf(UnauthorizedError)
       })
-
-      const requestResult = await demandeDelai({
-        justification: 'justification',
-        dateAchèvementDemandée: new Date('2022-01-01'),
-        file: fakeFileContents,
-        user,
-        projectId: fakeProject.id.toString(),
-      })
-
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user,
-        projectId: fakeProject.id.toString(),
-      })
-
-      expect(fileRepo.save).not.toHaveBeenCalled()
-      expect(requestResult.isErr()).toEqual(true)
-      if (requestResult.isOk()) return
-      expect(requestResult.error).toBeInstanceOf(UnauthorizedError)
     })
   })
-  // Scenario 2
-  describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
-    const shouldUserAccessProject = jest.fn(async () => true)
-    describe(`Lorsque le porteur fait une demande de délai`, () => {
-      it(`Alors un événement DélaiDemandé devrait être émis`, async () => {
-        const publishToEventStore = jest.fn((event: DomainEvent) =>
-          okAsync<null, InfraNotAvailableError>(null)
-        )
 
-        const projectRepo = fakeRepo({
-          ...fakeProject,
-          newRulesOptIn: true,
-        } as Project)
+  describe(`Demande de délai possible si le porteur a les droits sur le projet`, () => {
+    describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+      describe(`Enregistrer la demande de délai`, () => {
+        describe(`Lorsque le porteur fait une demande de délai`, () => {
+          it(`Alors un événement DélaiDemandé devrait être émis`, async () => {
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              appelOffreRepo,
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
 
-        const demandeDelai = makeDemanderDélai({
-          fileRepo: fileRepo as Repository<FileObject>,
-          appelOffreRepo,
-          publishToEventStore,
-          shouldUserAccessProject,
-          getProjectAppelOffreId,
-          projectRepo,
-        })
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
+              projectId: fakeProject.id.toString(),
+            })
 
-        await demandeDelai({
-          justification: 'justification',
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          user,
-          projectId: fakeProject.id.toString(),
-        })
-
-        const firstEvent = publishToEventStore.mock.calls[0][0]
-        expect(firstEvent).toBeInstanceOf(DélaiDemandé)
-        expect(firstEvent.payload).toMatchObject({
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          projetId: fakeProject.id.toString(),
+            const firstEvent = publishToEventStore.mock.calls[0][0]
+            expect(firstEvent).toBeInstanceOf(DélaiDemandé)
+            expect(firstEvent.payload).toMatchObject({
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              projetId: fakeProject.id.toString(),
+            })
+          })
         })
       })
-    })
-    describe(`Lorsque le porteur fait une demande de délai avec fichier joint`, () => {
-      it(`Alors le fichier doit être enregistré`, async () => {
-        const publishToEventStore = jest.fn((event: DomainEvent) =>
-          okAsync<null, InfraNotAvailableError>(null)
-        )
-        const projectRepo = fakeRepo({
-          ...fakeProject,
-          newRulesOptIn: true,
-        } as Project)
+      describe(`Enregistrer le fichier joint à la demande`, () => {
+        describe(`Lorsque le porteur fait une demande de délai avec fichier joint`, () => {
+          it(`Alors le fichier doit être enregistré`, async () => {
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              appelOffreRepo,
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
 
-        const demandeDelai = makeDemanderDélai({
-          fileRepo: fileRepo as Repository<FileObject>,
-          appelOffreRepo,
-          publishToEventStore,
-          shouldUserAccessProject,
-          getProjectAppelOffreId,
-          projectRepo,
-        })
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
+              projectId: fakeProject.id.toString(),
+              file: fakeFileContents,
+            })
 
-        await demandeDelai({
-          justification: 'justification',
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          user,
-          projectId: fakeProject.id.toString(),
-          file: fakeFileContents,
-        })
-
-        expect(fileRepo.save).toHaveBeenCalled()
-        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-        const fakeFile = fileRepo.save.mock.calls[0][0]
-        expect(fakeFile).toBeDefined()
-      })
-    })
-    describe(`Lorsque le porteur fait une demande de délai avec numéro de gestionnaire`, () => {
-      it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
-        const publishToEventStore = jest.fn((event: DomainEvent) =>
-          okAsync<null, InfraNotAvailableError>(null)
-        )
-
-        const projectRepo = fakeRepo({
-          ...fakeProject,
-          newRulesOptIn: true,
-        } as Project)
-
-        const demandeDelai = makeDemanderDélai({
-          fileRepo: fileRepo as Repository<FileObject>,
-          appelOffreRepo,
-          publishToEventStore,
-          shouldUserAccessProject,
-          getProjectAppelOffreId,
-          projectRepo,
-        })
-        await demandeDelai({
-          justification: 'justification',
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          user,
-          projectId: fakeProject.id.toString(),
-          numeroGestionnaire: 'IdGestionnaire',
-        })
-
-        const secondEvent = publishToEventStore.mock.calls[1][0]
-        expect(secondEvent).toBeInstanceOf(NumeroGestionnaireSubmitted)
-        expect(secondEvent.payload).toMatchObject({
-          numeroGestionnaire: 'IdGestionnaire',
-          submittedBy: user.id,
-          projectId: fakeProject.id.toString(),
+            expect(fileRepo.save).toHaveBeenCalled()
+            expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+            const fakeFile = fileRepo.save.mock.calls[0][0]
+            expect(fakeFile).toBeDefined()
+          })
         })
       })
-    })
-    describe(`Lorsque le porteur fait une demande de délai
+      describe(`Enregistrer le numéro de gestionnaire`, () => {
+        describe(`Lorsque le porteur saisit numéro de gestionnaire`, () => {
+          it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              appelOffreRepo,
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
+              projectId: fakeProject.id.toString(),
+              numeroGestionnaire: 'IdGestionnaire',
+            })
+
+            const secondEvent = publishToEventStore.mock.calls[1][0]
+            expect(secondEvent).toBeInstanceOf(NumeroGestionnaireSubmitted)
+            expect(secondEvent.payload).toMatchObject({
+              numeroGestionnaire: 'IdGestionnaire',
+              submittedBy: user.id,
+              projectId: fakeProject.id.toString(),
+            })
+          })
+        })
+      })
+      describe(`Enregistrer la souscription au nouveau cahier des charges`, () => {
+        describe(`Lorsque le porteur fait une demande de délai
             et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
-      it(`Alors un événement ProjectNewRulesOptedIn devrait être émis en premier`, async () => {
-        const publishToEventStore = jest.fn((event: DomainEvent) =>
-          okAsync<null, InfraNotAvailableError>(null)
-        )
+          it(`Alors un événement ProjectNewRulesOptedIn devrait être émis en premier`, async () => {
+            const projectRepo = fakeRepo({
+              ...fakeProject,
+              newRulesOptIn: false,
+            } as Project)
 
-        const projectRepo = fakeRepo({
-          ...fakeProject,
-          newRulesOptIn: false,
-        } as Project)
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              appelOffreRepo,
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
+              projectId: fakeProject.id.toString(),
+            })
 
-        const demandeDelai = makeDemanderDélai({
-          fileRepo: fileRepo as Repository<FileObject>,
-          appelOffreRepo,
-          publishToEventStore,
-          shouldUserAccessProject,
-          getProjectAppelOffreId,
-          projectRepo,
-        })
-        await demandeDelai({
-          justification: 'justification',
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          user,
-          projectId: fakeProject.id.toString(),
-        })
+            const firstEvent = publishToEventStore.mock.calls[0][0]
+            expect(firstEvent).toBeInstanceOf(ProjectNewRulesOptedIn)
+            expect(firstEvent.payload).toMatchObject({
+              projectId: fakeProject.id.toString(),
+              optedInBy: user.id,
+            })
 
-        const firstEvent = publishToEventStore.mock.calls[0][0]
-        expect(firstEvent).toBeInstanceOf(ProjectNewRulesOptedIn)
-        expect(firstEvent.payload).toMatchObject({
-          projectId: fakeProject.id.toString(),
-          optedInBy: user.id,
-        })
-
-        const secondEvent = publishToEventStore.mock.calls[1][0]
-        expect(secondEvent).toBeInstanceOf(DélaiDemandé)
-        expect(secondEvent.payload).toMatchObject({
-          dateAchèvementDemandée: new Date('2022-01-01'),
-          projetId: fakeProject.id.toString(),
+            const secondEvent = publishToEventStore.mock.calls[1][0]
+            expect(secondEvent).toBeInstanceOf(DélaiDemandé)
+            expect(secondEvent.payload).toMatchObject({
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              projetId: fakeProject.id.toString(),
+            })
+          })
         })
       })
     })
