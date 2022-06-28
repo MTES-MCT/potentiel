@@ -384,9 +384,7 @@ export type DemandeDélaiDTO = {
   type: 'DemandeDélai'
   variant: Exclude<UserRole, 'ademe'>
   date: number
-  status: 'envoyée'
-  dateAchèvementDemandée: number
-}
+} & ({ statut: 'envoyée'; dateAchèvementDemandée: number } | { statut: 'annulée' })
 
 export type ProjectEventListDTO = {
   project: {

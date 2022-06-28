@@ -1,15 +1,20 @@
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { ItemDate, ItemTitle, ContentArea, CurrentIcon } from '.'
+import { ItemDate, ItemTitle, ContentArea, CurrentIcon, CancelledStepIcon } from '.'
 import { DemandeDélaiDTO } from 'src/modules/frise/dtos'
 
 type DemandeDélaiItemProps = DemandeDélaiDTO
 
 export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
-  return <DemandeEnvoyée {...props} />
+  switch (props.statut) {
+    case 'envoyée':
+      return <DemandeEnvoyée {...props} />
+    case 'annulée':
+      return <DemandeAnnulée {...props} />
+  }
 }
 
-type DemandeEnvoyéeProps = DemandeDélaiItemProps
+type DemandeEnvoyéeProps = DemandeDélaiItemProps & { statut: 'envoyée' }
 
 const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProps) => (
   <>
@@ -21,6 +26,20 @@ const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProp
         <p className="p-0 m-0">
           Date limite d'attestation d'achèvement souhaitée : {formatDate(dateAchèvementDemandée)}
         </p>
+      </>
+    </ContentArea>
+  </>
+)
+
+type DemandeAnnuléeProps = DemandeDélaiItemProps & { statut: 'annulée' }
+
+const DemandeAnnulée = ({ date }: DemandeAnnuléeProps) => (
+  <>
+    <CancelledStepIcon />
+    <ContentArea>
+      <ItemDate date={date} />
+      <>
+        <ItemTitle title="Demande de délai supplémentaire annulée" />
       </>
     </ContentArea>
   </>

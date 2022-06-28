@@ -346,7 +346,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       variant: user.role,
                       date: valueDate,
-                      status: statut,
+                      statut,
                       dateAchèvementDemandée,
                     })
                   }
