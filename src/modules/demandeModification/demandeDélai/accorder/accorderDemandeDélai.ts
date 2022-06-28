@@ -5,7 +5,7 @@ import { errAsync, ResultAsync } from '@core/utils'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 import { DélaiAccordé } from './DélaiAccordé'
-import { ImpossibleDAccorderDemandeDélai } from './ImpossibleDAccorderDemandeDélai'
+import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
 type AccorderDemandeDélai = (commande: {
@@ -13,26 +13,23 @@ type AccorderDemandeDélai = (commande: {
   demandeDélaiId: string
   dateAchèvementAccordée: Date
   fichierRéponse: { contents: FileContents; filename: string }
-}) => ResultAsync<
-  null,
-  InfraNotAvailableError | UnauthorizedError | ImpossibleDAccorderDemandeDélai
->
+}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | AccorderDemandeDélaiError>
 
-type ConstruireAccorderDemandeDélai = (dépendances: {
+type MakeAccorderDemandeDélai = (dépendances: {
   demandeDélaiRepo: TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
   fileRepo: Repository<FileObject>
 }) => AccorderDemandeDélai
 
-export const construireAccorderDemandeDélai: ConstruireAccorderDemandeDélai =
+export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
   ({ demandeDélaiRepo, publishToEventStore, fileRepo }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 
-    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-      return makeAndSaveFile({
+    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) =>
+      makeAndSaveFile({
         file: {
           designation: 'modification-request-response',
           forProject: demandeDélai.projet?.id,
@@ -42,7 +39,7 @@ export const construireAccorderDemandeDélai: ConstruireAccorderDemandeDélai =
         },
         fileRepo,
       }).andThen((fichierRéponseId) =>
-        demandeDélai.statut === 'envoyée'
+        demandeDélai.statut === 'envoyée' || demandeDélai.statut === 'en-instruction'
           ? publishToEventStore(
               new DélaiAccordé({
                 payload: {
@@ -53,7 +50,12 @@ export const construireAccorderDemandeDélai: ConstruireAccorderDemandeDélai =
                 },
               })
             )
-          : errAsync(new ImpossibleDAccorderDemandeDélai(demandeDélai))
+          : errAsync(
+              new AccorderDemandeDélaiError(
+                demandeDélai,
+                'Seul une demande envoyée ou en instruction peut être accordée'
+              )
+            )
       )
-    })
+    )
   }
