@@ -4,7 +4,7 @@ import { DemandeDélai } from '../DemandeDélai'
 import { errAsync, ResultAsync } from '@core/utils'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
-import { DélaiAccordé } from './DélaiAccordé'
+import { DélaiAccordé } from '../events/DélaiAccordé'
 import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 

@@ -1,3 +1,3 @@
-export * from './AccorderDemandeDélaiError';
-export * from './DélaiAccordé';
-export * from './accorderDemandeDélai';
+export * from './AccorderDemandeDélaiError'
+export * from '../events/DélaiAccordé'
+export * from './accorderDemandeDélai'

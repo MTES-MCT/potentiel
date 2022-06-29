@@ -1,2 +1,2 @@
-export * from './DélaiAnnulé'
+export * from '../events/DélaiAnnulé'
 export * from './annulerDemandeDélai'

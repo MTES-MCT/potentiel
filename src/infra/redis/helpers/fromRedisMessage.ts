@@ -10,6 +10,7 @@ import * as FileEvents from '@modules/file/events'
 import * as EDFEvents from '@modules/edf/events'
 import * as EnedisEvents from '@modules/enedis/events'
 import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNotification/events'
+import * as DemandeModificationEvents from '@modules/demandeModification/demandeDélai/events'
 import { RedisMessage } from './RedisMessage'
 
 interface EventProps {
@@ -37,6 +38,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...FileEvents,
   ...EDFEvents,
   ...EnedisEvents,
+  ...DemandeModificationEvents,
 }
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {

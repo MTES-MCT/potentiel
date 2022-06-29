@@ -6,7 +6,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 
 import { DemandeDélai } from '../DemandeDélai'
-import { DélaiRefusé } from './DélaiRefusé'
+import { DélaiRefusé } from '../events/DélaiRefusé'
 import { RefuserDemandeDélaiError } from './RefuserDemandeDélaiError'
 
 type RefuserDemandeDélai = (commande: {
