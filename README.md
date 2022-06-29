@@ -65,8 +65,6 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm" target="_blank">NPM</a> v7 ou plus
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
-_N.B_ : Afin que le projet se lance bien, il est important de bien vérifier que <a href="https://docs.docker.com/compose/install/" target="_blank">Docker compose</a> est installé. Vous pouvez lancer la commande suivante `docker-compose --version`.
-
 ### Installation
 
 1.  Dupliquer le fichier `.env.template` et le renommer en `.env` (les valeurs par défaut doivent suffire pour le travail local)
