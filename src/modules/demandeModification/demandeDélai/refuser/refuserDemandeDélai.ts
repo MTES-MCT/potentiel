@@ -32,18 +32,21 @@ export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
       const { statut } = demandeDélai
 
       if (statut !== 'envoyée' && statut !== 'en-instruction') {
-        return errAsync(new RefuserDemandeDélaiError(demandeDélai))
+        return errAsync(
+          new RefuserDemandeDélaiError(
+            demandeDélai,
+            'Seul une demande envoyée ou en instruction peut être refusée'
+          )
+        )
       }
 
-      return okAsync(null)
+      return publishToEventStore(
+        new DélaiRefusé({
+          payload: {
+            demandeDélaiId,
+            refuséPar: user.id,
+          },
+        })
+      )
     })
-
-    return publishToEventStore(
-      new DélaiRefusé({
-        payload: {
-          demandeDélaiId,
-          refuséPar: user.id,
-        },
-      })
-    )
   }

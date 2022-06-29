@@ -101,13 +101,13 @@ describe(`Refuser une demande de délai`, () => {
 
   describe(`Possible de refuser un délai si Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
-      const rolesPouvantRefuser: UserRole[] = ['admin', 'dgec', 'dreal']
+      const user = { role: 'admin', id: 'user-id' } as User
 
-      for (const role of rolesPouvantRefuser) {
-        const user = { role, id: 'user-id' } as User
+      const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en-instruction']
 
+      for (const statut of statutsPouvantÊtreAccordé) {
         it(`
-      Lorsqu'il refuse une demande de délai
+      Lorsqu'il refuse une demande de délai avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'DélaiRefusé' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
@@ -115,6 +115,7 @@ describe(`Refuser une demande de délai`, () => {
           const refuserDemandéDélai = makeRefuserDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({
               ...demandeDélai,
+              statut,
               projet: { id: new UniqueEntityID('le-projet-de-la-demande') },
             } as DemandeDélai),
             publishToEventStore,
