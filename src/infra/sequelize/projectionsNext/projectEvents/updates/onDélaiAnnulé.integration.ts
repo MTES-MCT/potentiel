@@ -11,16 +11,14 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
   describe(`Etant donné un événement DélaiAnnulé émis`, () => {
     // Scenario 1
     describe(`Lorsqu'il n'y a pas d'événement demandeDélai du même id dans ProjectEvent`, () => {
-      it(`Alors, un nouvel événement de type demandeDélai devrait être ajouté dans la projection`, async () => {
+      it(`Alors, aucun événement ne devrait être ajouté à ProjectEvent`, async () => {
         const demandeDélaiId = new UniqueEntityID().toString()
-        const projetId = new UniqueEntityID().toString()
 
         await onDélaiAnnulé(
           new DélaiAnnulé({
             payload: {
               demandeDélaiId,
               annuléPar: new UniqueEntityID().toString(),
-              projetId,
             } as DélaiAnnuléPayload,
             original: {
               version: 1,
@@ -30,16 +28,12 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
         )
 
         const DemandeDélai = await ProjectEvent.findOne({
-          where: { id: demandeDélaiId, projectId: projetId },
+          where: { id: demandeDélaiId },
         })
-        expect(DemandeDélai).not.toBeNull()
-        expect(DemandeDélai).toMatchObject({
-          type: 'DemandeDélai',
-          payload: { statut: 'annulée' },
-        })
+        expect(DemandeDélai).toBeNull()
       })
     })
-    // Scenario 2
+    //Scenario 2
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "annulée"`, async () => {
         const demandeDélaiId = new UniqueEntityID().toString()
@@ -65,7 +59,6 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
             payload: {
               demandeDélaiId,
               annuléPar: new UniqueEntityID().toString(),
-              projetId,
             } as DélaiAnnuléPayload,
             original: {
               version: 1,
@@ -75,7 +68,7 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
         )
 
         const DemandeDélai = await ProjectEvent.findOne({
-          where: { id: demandeDélaiId, projectId: projetId },
+          where: { id: demandeDélaiId },
         })
         expect(DemandeDélai).not.toBeNull()
         expect(DemandeDélai).toMatchObject({

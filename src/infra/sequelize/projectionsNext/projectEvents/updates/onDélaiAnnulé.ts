@@ -5,27 +5,13 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   DélaiAnnulé,
   async ({ payload, occurredAt }, transaction) => {
-    const { demandeDélaiId, annuléPar, projetId } = payload
+    const { demandeDélaiId, annuléPar } = payload
 
     const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId } })
 
     if (!instance) {
       logger.error(
         `Error : onDélaiAnnulé n'a pas pu retrouver la demandeDélaiId ${demandeDélaiId} pour la mettre à jour.`
-      )
-      await ProjectEvent.create(
-        {
-          id: demandeDélaiId,
-          projectId: projetId,
-          type: 'DemandeDélai',
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-          payload: {
-            statut: 'annulée',
-            annuléPar,
-          },
-        },
-        { transaction }
       )
       return
     }
