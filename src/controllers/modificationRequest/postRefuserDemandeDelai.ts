@@ -54,7 +54,7 @@ v1Router.post(
         ({ modificationRequestId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre demande de délai a bien été envoyée.',
+              success: 'Votre demande de délai a bien été rejetée.',
               redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
               redirectTitle: 'Retourner sur la page de la demande',
             })
