@@ -35,7 +35,11 @@ import {
   makeAddGFExpirationDate,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
-import { makeAnnulerDemandeDélai, makeDemanderDélai } from '@modules/demandeModification'
+import {
+  makeAnnulerDemandeDélai,
+  makeDemanderDélai,
+  makeRefuserDemandeDélai,
+} from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
@@ -300,6 +304,12 @@ export const demanderDélai = makeDemanderDélai({
 
 export const annulerDemandeDélai = makeAnnulerDemandeDélai({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const refuserDemandeDélai = makeRefuserDemandeDélai({
+  fileRepo,
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })
