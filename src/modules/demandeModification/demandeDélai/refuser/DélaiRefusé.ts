@@ -2,7 +2,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type DélaiRefuséPayload = {
   demandeDélaiId: string
-  fichierRéponseId?: string
+  fichierRéponseId: string
   refuséPar: string
 }
 

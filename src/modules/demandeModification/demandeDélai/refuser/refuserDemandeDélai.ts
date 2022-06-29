@@ -1,7 +1,7 @@
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, ResultAsync } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject } from '@modules/file'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 
@@ -22,8 +22,8 @@ type MakeRefuserDemandeDélai = (dépendances: {
 }) => RefuserDemandeDélai
 
 export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
-  ({ publishToEventStore, demandeDélaiRepo }) =>
-  ({ user, demandeDélaiId }) => {
+  ({ publishToEventStore, demandeDélaiRepo, fileRepo }) =>
+  ({ user, demandeDélaiId, fichierRéponse: { filename, contents } }) => {
     if (userIsNot(['admin', 'dgec', 'dreal'])(user)) {
       return errAsync(new UnauthorizedError())
     }
@@ -40,13 +40,25 @@ export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
         )
       }
 
-      return publishToEventStore(
-        new DélaiRefusé({
-          payload: {
-            demandeDélaiId,
-            refuséPar: user.id,
-          },
-        })
-      )
+      return makeAndSaveFile({
+        file: {
+          designation: 'modification-request-response',
+          forProject: demandeDélai.projet?.id,
+          createdBy: new UniqueEntityID(user.id),
+          filename,
+          contents,
+        },
+        fileRepo,
+      }).andThen((fichierRéponseId) => {
+        return publishToEventStore(
+          new DélaiRefusé({
+            payload: {
+              demandeDélaiId,
+              refuséPar: user.id,
+              fichierRéponseId,
+            },
+          })
+        )
+      })
     })
   }

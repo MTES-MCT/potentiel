@@ -71,10 +71,11 @@ describe(`Refuser une demande de délai`, () => {
       Lorsqu'il refuse une demande avec comme statut '${statut}'
       Alors une erreur RefuserDemandeDélaiError devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
+          const fileRepo = fakeRepo()
           const refuserDemandéDélai = makeRefuserDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
             publishToEventStore,
-            fileRepo: fakeRepo(),
+            fileRepo,
           })
 
           const res = await refuserDemandéDélai({
@@ -94,6 +95,7 @@ describe(`Refuser une demande de délai`, () => {
             )
           }
           expect(publishToEventStore).not.toHaveBeenCalled()
+          expect(fileRepo.save).not.toHaveBeenCalled()
         })
       }
     })
@@ -112,11 +114,13 @@ describe(`Refuser une demande de délai`, () => {
       Et l'évenement 'DélaiRefusé' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
 
+          const projetId = new UniqueEntityID('le-projet-de-la-demande')
+
           const refuserDemandéDélai = makeRefuserDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({
               ...demandeDélai,
               statut,
-              projet: { id: new UniqueEntityID('le-projet-de-la-demande') },
+              projet: { id: projetId },
             } as DemandeDélai),
             publishToEventStore,
             fileRepo,
@@ -135,28 +139,19 @@ describe(`Refuser une demande de délai`, () => {
               payload: expect.objectContaining({
                 demandeDélaiId: demandeDélaiId.toString(),
                 refuséPar: user.id,
+                fichierRéponseId: expect.any(String),
               }),
             })
           )
-          // expect(fileRepo.save).toHaveBeenCalledWith(
-          //   expect.objectContaining({
-          //     designation: 'modification-request-response',
-          //     forProject: { value: 'le-projet-de-la-demande' },
-          //     filename: fichierRéponse.filename,
-          //     path: 'projects/le-projet-de-la-demande/fichier-réponse',
-          //   })
-          // )
-          // expect(publishToEventStore).toHaveBeenCalledWith(
-          //   expect.objectContaining({
-          //     type: 'DélaiAccordé',
-          //     payload: expect.objectContaining({
-          //       dateAchèvementAccordée: new Date('2022-06-27'),
-          //       accordéPar: user.id,
-          //       demandeDélaiId: demandeDélaiId.toString(),
-          //       fichierRéponseId: expect.any(String),
-          //     }),
-          //   })
-          // )
+
+          expect(fileRepo.save).toHaveBeenCalledWith(
+            expect.objectContaining({
+              designation: 'modification-request-response',
+              forProject: projetId,
+              filename: fichierRéponse.filename,
+              path: `projects/${projetId.toString()}/${fichierRéponse.filename}`,
+            })
+          )
         })
       }
     })
