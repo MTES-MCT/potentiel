@@ -1,6 +1,8 @@
 import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain'
-import { err, ok, Result } from '@core/utils'
-import { DélaiAnnulé, DélaiDemandé } from '../../demandeModification'
+import { ok, Result } from '@core/utils'
+import { DélaiAccordé } from './accorder'
+import { DélaiAnnulé } from './annuler'
+import { DélaiDemandé } from './demander'
 import { EntityNotFoundError } from '../../shared'
 
 export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
@@ -35,6 +37,8 @@ export const makeDemandeDélai = (
           statut: 'envoyée',
           projet: { id: new UniqueEntityID(event.payload.projetId) },
         }
+      case DélaiAccordé.type:
+        return { ...agregat, statut: 'accordée' }
       case DélaiAnnulé.type:
         return { ...agregat, statut: 'annulée' }
       default:
