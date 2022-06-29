@@ -20,7 +20,11 @@ export const AdminResponseForm = ({
 
   return (
     <form
-      action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
+      action={
+        type === 'delai' && modificationRequest.dateAchèvementDemandée
+          ? ROUTES.ADMIN_REFUSER_DEMANDE_DELAI
+          : ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
+      }
       method="post"
       encType="multipart/form-data"
       style={{ margin: 0 }}
