@@ -3,10 +3,9 @@ import { DélaiDemandé, DélaiDemandéPayload } from './demander'
 import { DélaiAccordé, DélaiAccordéPayload } from './accorder'
 import { makeDemandeDélai } from './DemandeDélai'
 
-describe(`Charger l'agrégat pour une demande de délai`, () => {
+describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
   it(`
-        Etant donné un délai demandé
-        Quand on charge la demande de délai
+        Quand on fabrique la demande de délai avec un évenement 'DélaiDemandé'
         Alors la demande a un statut 'envoyée'
         Et l'identifiant du projet est récupéré`, () => {
     const demandeDélai = makeDemandeDélai({
@@ -31,8 +30,7 @@ describe(`Charger l'agrégat pour une demande de délai`, () => {
   })
 
   it(`
-        Etant donné un délai accordé
-        Quand on charge la demande de délai
+        Quand on fabrique la demande de délai avec un évenement 'DélaiAccordé'
         Alors la demande a un statut 'accordée'`, () => {
     const demandeDélai = makeDemandeDélai({
       id: new UniqueEntityID('la-demande'),
