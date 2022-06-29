@@ -1,12 +1,12 @@
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync, ResultAsync } from '@core/utils'
+import { errAsync, ResultAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject } from '@modules/file'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 
 import { DemandeDélai } from '../DemandeDélai'
-import { DélaiRefusé, DélaiRefuséPayload } from './DélaiRefusé'
+import { DélaiRefusé } from './DélaiRefusé'
 import { RefuserDemandeDélaiError } from './RefuserDemandeDélaiError'
 
 type RefuserDemandeDélai = (commande: {

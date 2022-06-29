@@ -6,26 +6,21 @@ import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 import { DélaiAnnulé } from '@modules/demandeModification'
 
-type annulerDemandeDélaiDeps = {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  demandeDélaiRepo: TransactionalRepository<DemandeDélai>
-  publishToEventStore: EventStore['publish']
-}
-
-type annulerDemandeDélaiArgs = {
+type AnnulerDemandeDélai = (commande: {
   projectId: string
   user: User
   demandeDélaiId: string
-}
+}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
 
-export const makeAnnulerDemandeDélai =
-  (deps: annulerDemandeDélaiDeps) =>
-  (
-    args: annulerDemandeDélaiArgs
-  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError> => {
-    const { shouldUserAccessProject, demandeDélaiRepo, publishToEventStore } = deps
-    const { projectId, user, demandeDélaiId } = args
+type MakeAnnulerDemandeDélai = (dépendances: {
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  demandeDélaiRepo: TransactionalRepository<DemandeDélai>
+  publishToEventStore: EventStore['publish']
+}) => AnnulerDemandeDélai
 
+export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
+  ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
+  ({ projectId, user, demandeDélaiId }) => {
     return wrapInfra(shouldUserAccessProject({ projectId, user })).andThen(
       (userHasRightsToProject) => {
         if (!userHasRightsToProject) {
@@ -36,7 +31,7 @@ export const makeAnnulerDemandeDélai =
           if (statut === 'envoyée' || statut === 'en-instruction') {
             return publishToEventStore(
               new DélaiAnnulé({
-                payload: { demandeDélaiId, annuléPar: user.id, projetId: projectId },
+                payload: { demandeDélaiId, annuléPar: user.id },
               })
             )
           }

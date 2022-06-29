@@ -112,13 +112,15 @@ describe(`Commande annuler demande délai`, () => {
 
             await annulerDemandéDélai({ projectId, user, demandeDélaiId })
 
-            const firstEvent = publishToEventStore.mock.calls[0][0]
-            expect(firstEvent).toBeInstanceOf(DélaiAnnulé)
-            expect(firstEvent.payload).toMatchObject({
-              demandeDélaiId,
-              annuléPar: user.id,
-              projetId: projectId,
-            })
+            expect(publishToEventStore).toHaveBeenCalledWith(
+              expect.objectContaining({
+                type: 'DélaiAnnulé',
+                payload: expect.objectContaining({
+                  demandeDélaiId,
+                  annuléPar: user.id,
+                }),
+              })
+            )
           })
         }
       })

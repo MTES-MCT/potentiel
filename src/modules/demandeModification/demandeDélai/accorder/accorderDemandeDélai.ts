@@ -39,8 +39,14 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
         },
         fileRepo,
       }).andThen((fichierRéponseId) =>
-        demandeDélai.statut === 'envoyée' || demandeDélai.statut === 'en-instruction'
-          ? publishToEventStore(
+        demandeDélai.statut !== 'envoyée' && demandeDélai.statut !== 'en-instruction'
+          ? errAsync(
+              new AccorderDemandeDélaiError(
+                demandeDélai,
+                'Seul une demande envoyée ou en instruction peut être accordée'
+              )
+            )
+          : publishToEventStore(
               new DélaiAccordé({
                 payload: {
                   accordéPar: user.id,
@@ -49,12 +55,6 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
                   fichierRéponseId,
                 },
               })
-            )
-          : errAsync(
-              new AccorderDemandeDélaiError(
-                demandeDélai,
-                'Seul une demande envoyée ou en instruction peut être accordée'
-              )
             )
       )
     )
