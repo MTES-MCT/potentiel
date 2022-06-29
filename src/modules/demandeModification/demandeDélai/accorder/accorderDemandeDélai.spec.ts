@@ -79,10 +79,12 @@ describe(`Accorder une demande de délai`, () => {
       Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
       Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
+          const fileRepo = fakeRepo()
+
           const accorderDemandéDélai = construireAccorderDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
             publishToEventStore,
-            fileRepo: fakeRepo(),
+            fileRepo,
           })
 
           const res = await accorderDemandéDélai({
@@ -103,6 +105,7 @@ describe(`Accorder une demande de délai`, () => {
             )
           }
           expect(publishToEventStore).not.toHaveBeenCalled()
+          expect(fileRepo.save).not.toHaveBeenCalled()
         })
       }
     })

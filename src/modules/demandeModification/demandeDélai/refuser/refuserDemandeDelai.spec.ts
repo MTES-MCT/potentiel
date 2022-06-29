@@ -30,7 +30,7 @@ describe(`Refuser une demande de délai`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible de refuser  un délai si non Admin/DGEC/DREAL`, () => {
+  describe(`Impossible de refuser un délai si non Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
       const rolesNePouvantPasRefuser: UserRole[] = ['acheteur-obligé', 'ademe', 'porteur-projet']
 

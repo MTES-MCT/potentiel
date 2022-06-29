@@ -28,8 +28,19 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
       return errAsync(new UnauthorizedError())
     }
 
-    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) =>
-      makeAndSaveFile({
+    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
+      const { statut } = demandeDélai
+
+      if (statut !== 'envoyée' && statut !== 'en-instruction') {
+        return errAsync(
+          new AccorderDemandeDélaiError(
+            demandeDélai,
+            'Seul une demande envoyée ou en instruction peut être accordée'
+          )
+        )
+      }
+
+      return makeAndSaveFile({
         file: {
           designation: 'modification-request-response',
           forProject: demandeDélai.projet?.id,
@@ -39,23 +50,16 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
         },
         fileRepo,
       }).andThen((fichierRéponseId) =>
-        demandeDélai.statut !== 'envoyée' && demandeDélai.statut !== 'en-instruction'
-          ? errAsync(
-              new AccorderDemandeDélaiError(
-                demandeDélai,
-                'Seul une demande envoyée ou en instruction peut être accordée'
-              )
-            )
-          : publishToEventStore(
-              new DélaiAccordé({
-                payload: {
-                  accordéPar: user.id,
-                  dateAchèvementAccordée,
-                  demandeDélaiId,
-                  fichierRéponseId,
-                },
-              })
-            )
+        publishToEventStore(
+          new DélaiAccordé({
+            payload: {
+              accordéPar: user.id,
+              dateAchèvementAccordée,
+              demandeDélaiId,
+              fichierRéponseId,
+            },
+          })
+        )
       )
-    )
+    })
   }
