@@ -11,7 +11,7 @@ v1Router.post(
   routes.ANNULER_DEMANDE_DELAI,
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
-    const { modificationRequestId, projectId } = request.body
+    const { modificationRequestId } = request.body
     const user = request.user
 
     if (!validateUniqueId(modificationRequestId)) {
@@ -19,7 +19,6 @@ v1Router.post(
     }
 
     return annulerDemandeDélai({
-      projectId,
       user,
       demandeDélaiId: modificationRequestId,
     }).match(

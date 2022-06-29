@@ -7,7 +7,6 @@ import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 import { DélaiAnnulé } from '@modules/demandeModification'
 
 type AnnulerDemandeDélai = (commande: {
-  projectId: string
   user: User
   demandeDélaiId: string
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
@@ -20,14 +19,15 @@ type MakeAnnulerDemandeDélai = (dépendances: {
 
 export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
   ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
-  ({ projectId, user, demandeDélaiId }) => {
-    return wrapInfra(shouldUserAccessProject({ projectId, user })).andThen(
-      (userHasRightsToProject) => {
-        if (!userHasRightsToProject) {
-          return errAsync(new UnauthorizedError())
-        }
-
-        return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), ({ statut }) => {
+  ({ user, demandeDélaiId }) => {
+    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
+      const { statut, projet } = demandeDélai
+      if (!projet) return errAsync(new InfraNotAvailableError())
+      return wrapInfra(shouldUserAccessProject({ projectId: projet.id.toString(), user })).andThen(
+        (userHasRightsToProject) => {
+          if (!userHasRightsToProject) {
+            return errAsync(new UnauthorizedError())
+          }
           if (statut === 'envoyée' || statut === 'en-instruction') {
             return publishToEventStore(
               new DélaiAnnulé({
@@ -36,7 +36,7 @@ export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
             )
           }
           return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
-        })
-      }
-    )
+        }
+      )
+    })
   }

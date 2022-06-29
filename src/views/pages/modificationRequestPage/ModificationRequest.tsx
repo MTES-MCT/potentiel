@@ -18,6 +18,7 @@ import {
   AnnulerDemandeDélaiBouton,
 } from './components'
 import { hydrateOnClient } from '../../helpers'
+import ROUTES from '../../../routes'
 
 moment.locale('fr')
 
@@ -30,7 +31,7 @@ export const ModificationRequest = PageLayout(
   ({ request, modificationRequest }: ModificationRequestProps) => {
     const { user } = request
     const { error, success } = request.query as any
-    const { type, id, status, project } = modificationRequest
+    const { type, id, status } = modificationRequest
 
     const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -88,12 +89,10 @@ export const ModificationRequest = PageLayout(
               status={status}
               id={id}
               isAdmin={isAdmin}
-              projectId={project.id}
-              hasDelayInMonths={!!modificationRequest.delayInMonths}
               route={
                 modificationRequest.delayInMonths
-                  ? 'ROUTES.ANNULER_DEMANDE_ACTION'
-                  : 'ROUTES.ANNULER_DEMANDE_DELAI'
+                  ? ROUTES.ANNULER_DEMANDE_ACTION
+                  : ROUTES.ANNULER_DEMANDE_DELAI
               }
             />
           ) : (

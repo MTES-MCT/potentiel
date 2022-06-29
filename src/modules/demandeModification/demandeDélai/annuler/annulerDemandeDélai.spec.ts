@@ -11,7 +11,6 @@ import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
-import { DélaiAnnulé } from '@modules/demandeModification'
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 describe(`Commande annuler demande délai`, () => {
@@ -30,7 +29,9 @@ describe(`Commande annuler demande délai`, () => {
       const shouldUserAccessProject = jest.fn(async () => false)
       it(`Lorsqu'il annule une demande de délai,
     alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const fakeDemandeDélai = makeFakeDemandeDélai()
+        const fakeDemandeDélai = makeFakeDemandeDélai({
+          projectId,
+        }) as DemandeDélai
 
         const demandeDélaiRepo = fakeTransactionalRepo(fakeDemandeDélai as DemandeDélai)
 
@@ -41,7 +42,6 @@ describe(`Commande annuler demande délai`, () => {
         })
 
         const res = await annulerDemandéDélai({
-          projectId,
           user,
           demandeDélaiId: new UniqueEntityID().toString(),
         })
@@ -69,7 +69,7 @@ describe(`Commande annuler demande délai`, () => {
             const demandeDélaiId = new UniqueEntityID().toString()
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai(demandeDélaiId, statut) as DemandeDélai
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projectId }) as DemandeDélai
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
@@ -79,7 +79,6 @@ describe(`Commande annuler demande délai`, () => {
             })
 
             const res = await annulerDemandéDélai({
-              projectId,
               user,
               demandeDélaiId,
             })
@@ -101,7 +100,7 @@ describe(`Commande annuler demande délai`, () => {
             const demandeDélaiId = new UniqueEntityID().toString()
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai(demandeDélaiId, statut) as DemandeDélai
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projectId }) as DemandeDélai
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
@@ -110,7 +109,7 @@ describe(`Commande annuler demande délai`, () => {
               publishToEventStore,
             })
 
-            await annulerDemandéDélai({ projectId, user, demandeDélaiId })
+            await annulerDemandéDélai({ user, demandeDélaiId })
 
             expect(publishToEventStore).toHaveBeenCalledWith(
               expect.objectContaining({
