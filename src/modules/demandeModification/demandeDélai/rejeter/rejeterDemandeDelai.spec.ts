@@ -8,18 +8,16 @@ import { InfraNotAvailableError } from '@modules/shared'
 
 import { DemandeDélai, StatutDemandeDélai } from '../DemandeDélai'
 import { makeRejeterDemandeDélai } from './rejeterDemandeDélai'
-import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
+import {
+  fakeRepo,
+  fakeTransactionalRepo,
+  makeFakeDemandeDélai,
+} from '../../../../__tests__/fixtures/aggregates'
 import { UnauthorizedError } from '../../../shared'
 import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError'
 
 describe(`Rejeter une demande de délai`, () => {
-  const demandeDélaiId = new UniqueEntityID('id-demande')
-  const demandeDélai: DemandeDélai = {
-    id: demandeDélaiId,
-    pendingEvents: [],
-    statut: undefined,
-    projetId: undefined,
-  }
+  const demandeDélaiId = 'id-demande'
   const fichierRéponse = {
     contents: Readable.from('test-content'),
     filename: 'fichier-réponse',
@@ -42,14 +40,14 @@ describe(`Rejeter une demande de délai`, () => {
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo(demandeDélai),
+            demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
             publishToEventStore,
             fileRepo: fakeRepo(),
           })
 
           const res = await rejeterDemandéDélai({
             user,
-            demandeDélaiId: demandeDélaiId.toString(),
+            demandeDélaiId,
             fichierRéponse,
           })
 
@@ -73,14 +71,16 @@ describe(`Rejeter une demande de délai`, () => {
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut }),
+            demandeDélaiRepo: fakeTransactionalRepo(
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
+            ),
             publishToEventStore,
             fileRepo,
           })
 
           const res = await rejeterDemandéDélai({
             user,
-            demandeDélaiId: demandeDélai.id.toString(),
+            demandeDélaiId,
             fichierRéponse,
           })
 
@@ -89,7 +89,10 @@ describe(`Rejeter une demande de délai`, () => {
           if (erreurActuelle instanceof RejeterDemandeDélaiError) {
             expect(erreurActuelle).toMatchObject(
               expect.objectContaining({
-                demandeDélai: { ...demandeDélai, statut },
+                demandeDélai: expect.objectContaining({
+                  id: new UniqueEntityID(demandeDélaiId),
+                  statut,
+                }),
                 raison: expect.any(String),
               })
             )
@@ -114,21 +117,23 @@ describe(`Rejeter une demande de délai`, () => {
       Et l'évenement 'DélaiRejeté' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
 
-          const projetId = new UniqueEntityID('le-projet-de-la-demande')
+          const projetId = 'le-projet-de-la-demande'
 
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({
-              ...demandeDélai,
-              statut,
-              projet: { id: projetId },
-            }),
+            demandeDélaiRepo: fakeTransactionalRepo(
+              makeFakeDemandeDélai({
+                id: demandeDélaiId,
+                statut,
+                projetId,
+              })
+            ),
             publishToEventStore,
             fileRepo,
           })
 
           const rejet = await rejeterDemandéDélai({
             user,
-            demandeDélaiId: demandeDélaiId.toString(),
+            demandeDélaiId,
             fichierRéponse,
           })
 
@@ -137,8 +142,8 @@ describe(`Rejeter une demande de délai`, () => {
             expect.objectContaining({
               type: 'DélaiRejeté',
               payload: expect.objectContaining({
-                demandeDélaiId: demandeDélaiId.toString(),
-                rejetéPar: user.id,
+                demandeDélaiId,
+                refuséPar: user.id,
                 fichierRéponseId: expect.any(String),
               }),
             })
@@ -147,7 +152,7 @@ describe(`Rejeter une demande de délai`, () => {
           expect(fileRepo.save).toHaveBeenCalledWith(
             expect.objectContaining({
               designation: 'modification-request-response',
-              forProject: projetId,
+              forProject: new UniqueEntityID(projetId),
               filename: fichierRéponse.filename,
               path: `projects/${projetId.toString()}/${fichierRéponse.filename}`,
             })

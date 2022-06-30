@@ -14,7 +14,7 @@ import { UnauthorizedError } from '../../../shared'
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 describe(`Commande annuler demande délai`, () => {
-  const projectId = new UniqueEntityID().toString()
+  const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
@@ -30,7 +30,7 @@ describe(`Commande annuler demande délai`, () => {
       it(`Lorsqu'il annule une demande de délai,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
         const fakeDemandeDélai = makeFakeDemandeDélai({
-          projectId,
+          projetId,
         })
 
         const demandeDélaiRepo = fakeTransactionalRepo(fakeDemandeDélai)
@@ -43,7 +43,7 @@ describe(`Commande annuler demande délai`, () => {
 
         const res = await annulerDemandéDélai({
           user,
-          demandeDélaiId: new UniqueEntityID().toString(),
+          demandeDélaiId: 'la-demande-a-annuler',
         })
 
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -66,10 +66,10 @@ describe(`Commande annuler demande délai`, () => {
         for (const statut of statutsIncompatiblesAvecAnnulation) {
           it(`Lorsque le porteur annule une demande de délai en statut ${statut},
               Alors une erreur StatusPreventsCancellingError devrait être émise`, async () => {
-            const demandeDélaiId = new UniqueEntityID().toString()
+            const demandeDélaiId = 'la-demande-a-annuler'
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projectId })
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId })
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
@@ -97,10 +97,10 @@ describe(`Commande annuler demande délai`, () => {
         for (const statut of statutsCompatiblesAvecAnnulation) {
           it(`Lorsque le porteur annule une demande de délai en statut ${statut},
               Alors une événement "DélaiAnnulé" devrait être émis`, async () => {
-            const demandeDélaiId = new UniqueEntityID().toString()
+            const demandeDélaiId = 'la-demande-a-annuler'
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projectId })
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId })
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({

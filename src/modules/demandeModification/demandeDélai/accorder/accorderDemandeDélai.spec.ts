@@ -2,22 +2,20 @@ import { Readable } from 'stream'
 import { okAsync } from '@core/utils'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { InfraNotAvailableError } from '@modules/shared'
-import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
+import {
+  fakeRepo,
+  fakeTransactionalRepo,
+  makeFakeDemandeDélai,
+} from '../../../../__tests__/fixtures/aggregates'
 import { UnauthorizedError } from '../../../shared'
 import { construireAccorderDemandeDélai } from './accorderDemandeDélai'
 import { UserRole } from '@modules/users'
-import { DemandeDélai, StatutDemandeDélai } from '../DemandeDélai'
+import { StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
 import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
 
 describe(`Accorder une demande de délai`, () => {
-  const demandeDélaiId = new UniqueEntityID('id-demande')
-  const demandeDélai: DemandeDélai = {
-    id: demandeDélaiId,
-    pendingEvents: [],
-    statut: undefined,
-    projetId: undefined,
-  }
+  const demandeDélaiId = 'id-demande'
   const fichierRéponse = {
     contents: Readable.from('test-content'),
     filename: 'fichier-réponse',
@@ -45,14 +43,14 @@ describe(`Accorder une demande de délai`, () => {
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
           const accorderDemandéDélai = construireAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo(demandeDélai),
+            demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
             publishToEventStore,
             fileRepo: fakeRepo(),
           })
 
           const res = await accorderDemandéDélai({
             user,
-            demandeDélaiId: demandeDélaiId.toString(),
+            demandeDélaiId,
             dateAchèvementAccordée: new Date(),
             fichierRéponse,
           })
@@ -82,14 +80,16 @@ describe(`Accorder une demande de délai`, () => {
           const fileRepo = fakeRepo()
 
           const accorderDemandéDélai = construireAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut }),
+            demandeDélaiRepo: fakeTransactionalRepo(
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
+            ),
             publishToEventStore,
             fileRepo,
           })
 
           const res = await accorderDemandéDélai({
             user,
-            demandeDélaiId: demandeDélai.id.toString(),
+            demandeDélaiId,
             dateAchèvementAccordée: new Date(),
             fichierRéponse,
           })
@@ -99,7 +99,10 @@ describe(`Accorder une demande de délai`, () => {
           if (erreurActuelle instanceof AccorderDemandeDélaiError) {
             expect(erreurActuelle).toMatchObject(
               expect.objectContaining({
-                demandeDélai: { ...demandeDélai, statut },
+                demandeDélai: expect.objectContaining({
+                  id: new UniqueEntityID(demandeDélaiId),
+                  statut,
+                }),
                 raison: expect.any(String),
               })
             )
@@ -125,18 +128,20 @@ describe(`Accorder une demande de délai`, () => {
           const fileRepo = fakeRepo()
 
           const accorderDemandéDélai = construireAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({
-              ...demandeDélai,
-              statut,
-              projetId: 'le-projet-de-la-demande',
-            }),
+            demandeDélaiRepo: fakeTransactionalRepo(
+              makeFakeDemandeDélai({
+                id: demandeDélaiId,
+                statut,
+                projetId: 'le-projet-de-la-demande',
+              })
+            ),
             publishToEventStore,
             fileRepo,
           })
 
           const res = await accorderDemandéDélai({
             user,
-            demandeDélaiId: demandeDélaiId.toString(),
+            demandeDélaiId,
             dateAchèvementAccordée: new Date('2022-06-27'),
             fichierRéponse,
           })
@@ -156,7 +161,7 @@ describe(`Accorder une demande de délai`, () => {
               payload: expect.objectContaining({
                 dateAchèvementAccordée: new Date('2022-06-27'),
                 accordéPar: user.id,
-                demandeDélaiId: demandeDélaiId.toString(),
+                demandeDélaiId,
                 fichierRéponseId: expect.any(String),
               }),
             })
