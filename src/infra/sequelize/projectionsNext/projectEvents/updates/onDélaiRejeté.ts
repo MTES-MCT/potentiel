@@ -20,10 +20,10 @@ export default ProjectEvent.projector.on(
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
       payload: {
-        // @ts-ignore
-        ...instance.payload,
         statut: 'rejetée',
         refuséPar,
+        // @ts-ignore
+        dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
       },
     })
 

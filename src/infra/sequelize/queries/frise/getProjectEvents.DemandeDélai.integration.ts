@@ -20,6 +20,7 @@ describe(`getProjectEvents`, () => {
   describe(`Lorsqu'il y a des événements de type "DemandeDélai" dans la projection ProjectEvents`, () => {
     const demandeDélaiId = new UniqueEntityID().toString()
     const autreDemandeDélaiId = new UniqueEntityID().toString()
+    const autreDemandeDélaiId2 = new UniqueEntityID().toString()
     const date = new Date().getTime()
     const dateDemandée = new Date().getTime()
     const porteurId = new UniqueEntityID().toString()
@@ -56,6 +57,19 @@ describe(`getProjectEvents`, () => {
               },
             })
 
+            await ProjectEvent.create({
+              id: autreDemandeDélaiId2,
+              projectId: projetId,
+              type: 'DemandeDélai',
+              valueDate: date,
+              eventPublishedAt: date,
+              payload: {
+                statut: 'rejetée',
+                annuléPar: porteurId,
+                dateAchèvementDemandée: dateDemandée,
+              },
+            })
+
             const result = await getProjectEvents({ projectId: projetId, user })
 
             expect(result._unsafeUnwrap()).toMatchObject({
@@ -72,6 +86,12 @@ describe(`getProjectEvents`, () => {
                   variant: user.role,
                   date,
                   statut: 'annulée',
+                },
+                {
+                  type: 'DemandeDélai',
+                  variant: user.role,
+                  dateAchèvementDemandée: dateDemandée,
+                  statut: 'rejetée',
                 },
               ],
             })

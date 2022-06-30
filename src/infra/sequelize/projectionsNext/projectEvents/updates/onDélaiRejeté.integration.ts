@@ -35,7 +35,7 @@ describe('Projecteur de ProjectEvent onDélaiRefusé', () => {
     })
     //Scenario 2
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
-      it(`Alors cet événement devrait être mis à jour avec le statut "annulée"`, async () => {
+      it(`Alors cet événement devrait être mis à jour avec le statut "rejetée"`, async () => {
         const demandeDélaiId = new UniqueEntityID().toString()
         const projetId = new UniqueEntityID().toString()
         const date = new Date()
