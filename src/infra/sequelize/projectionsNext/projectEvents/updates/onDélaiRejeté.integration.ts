@@ -73,7 +73,7 @@ describe('Projecteur de ProjectEvent onDélaiRejeté', () => {
         })
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
-          payload: { statut: 'rejetée', dateAchèvementDemandée },
+          payload: { statut: 'rejetée', dateAchèvementDemandée, demandeDélaiId },
         })
       })
     })

@@ -24,6 +24,7 @@ export default ProjectEvent.projector.on(
         rejetéPar,
         // @ts-ignore
         dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
+        demandeDélaiId,
       },
     })
 

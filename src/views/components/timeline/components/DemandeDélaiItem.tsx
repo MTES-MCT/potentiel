@@ -25,7 +25,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
 
 type DemandeEnvoyéeProps = DemandeDélaiItemProps & { statut: 'envoyée' }
 
-const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProps) => (
+const DemandeEnvoyée = ({ date, dateAchèvementDemandée, demandeUrl }: DemandeEnvoyéeProps) => (
   <>
     <CurrentIcon />
     <ContentArea>
@@ -34,6 +34,8 @@ const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProp
         <ItemTitle title="Délai supplémentaire demandé" />
         <p className="p-0 m-0">
           Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
+          <br />
+          <a href={demandeUrl}>Voir la demande</a>
         </p>
       </>
     </ContentArea>
@@ -42,13 +44,15 @@ const DemandeEnvoyée = ({ date, dateAchèvementDemandée }: DemandeEnvoyéeProp
 
 type DemandeAnnuléeProps = DemandeDélaiItemProps & { statut: 'annulée' }
 
-const DemandeAnnulée = ({ date }: DemandeAnnuléeProps) => (
+const DemandeAnnulée = ({ date, demandeUrl }: DemandeAnnuléeProps) => (
   <>
     <CancelledStepIcon />
     <ContentArea>
       <ItemDate date={date} />
       <>
         <ItemTitle title="Demande de délai supplémentaire annulée" />
+        <br />
+        <a href={demandeUrl}>Voir la demande</a>
       </>
     </ContentArea>
   </>
@@ -56,7 +60,7 @@ const DemandeAnnulée = ({ date }: DemandeAnnuléeProps) => (
 
 type DemandeRejetéeProps = DemandeDélaiItemProps & { statut: 'rejetée' }
 
-const DemandeRejetée = ({ date, dateAchèvementDemandée }: DemandeRejetéeProps) => (
+const DemandeRejetée = ({ date, dateAchèvementDemandée, demandeUrl }: DemandeRejetéeProps) => (
   <>
     <UnvalidatedStepIcon />
     <ContentArea>
@@ -65,6 +69,8 @@ const DemandeRejetée = ({ date, dateAchèvementDemandée }: DemandeRejetéeProp
         <ItemTitle title="Demande de délai supplémentaire rejetée" />
         <p className="p-0 m-0">
           Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
+          <br />
+          <a href={demandeUrl}>Voir la demande</a>
         </p>
       </>
     </ContentArea>

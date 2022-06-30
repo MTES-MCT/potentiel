@@ -36,6 +36,7 @@ describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
         type: 'DemandeDélai',
         payload: {
           statut: 'envoyée',
+          demandeDélaiId,
         },
       })
     })

@@ -73,7 +73,7 @@ describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {
         expect(DemandeDélai).not.toBeNull()
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
-          payload: { statut: 'annulée' },
+          payload: { statut: 'annulée', demandeDélaiId },
         })
       })
     })
