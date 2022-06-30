@@ -16,7 +16,7 @@ describe(`Accorder une demande de délai`, () => {
     id: demandeDélaiId,
     pendingEvents: [],
     statut: undefined,
-    projet: undefined,
+    projetId: undefined,
   }
   const fichierRéponse = {
     contents: Readable.from('test-content'),
@@ -82,7 +82,7 @@ describe(`Accorder une demande de délai`, () => {
           const fileRepo = fakeRepo()
 
           const accorderDemandéDélai = construireAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
+            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut }),
             publishToEventStore,
             fileRepo,
           })
@@ -128,8 +128,8 @@ describe(`Accorder une demande de délai`, () => {
             demandeDélaiRepo: fakeTransactionalRepo({
               ...demandeDélai,
               statut,
-              projet: { id: new UniqueEntityID('le-projet-de-la-demande') },
-            } as DemandeDélai),
+              projetId: 'le-projet-de-la-demande',
+            }),
             publishToEventStore,
             fileRepo,
           })

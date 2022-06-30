@@ -22,9 +22,7 @@ describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
     expect(demandeDélai.isOk()).toBe(true)
     demandeDélai.isOk() &&
       expect(demandeDélai.value).toMatchObject({
-        projet: {
-          id: { value: 'le-projet-de-la-demande' },
-        },
+        projetId: 'le-projet-de-la-demande',
         statut: 'envoyée',
       })
   })

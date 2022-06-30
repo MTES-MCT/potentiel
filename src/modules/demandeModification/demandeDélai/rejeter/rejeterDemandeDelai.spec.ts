@@ -18,7 +18,7 @@ describe(`Rejeter une demande de délai`, () => {
     id: demandeDélaiId,
     pendingEvents: [],
     statut: undefined,
-    projet: undefined,
+    projetId: undefined,
   }
   const fichierRéponse = {
     contents: Readable.from('test-content'),
@@ -73,7 +73,7 @@ describe(`Rejeter une demande de délai`, () => {
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
+            demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut }),
             publishToEventStore,
             fileRepo,
           })
@@ -121,7 +121,7 @@ describe(`Rejeter une demande de délai`, () => {
               ...demandeDélai,
               statut,
               projet: { id: projetId },
-            } as DemandeDélai),
+            }),
             publishToEventStore,
             fileRepo,
           })

@@ -21,9 +21,12 @@ export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
   ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
   ({ user, demandeDélaiId }) => {
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-      const { statut, projet } = demandeDélai
-      if (!projet) return errAsync(new InfraNotAvailableError())
-      return wrapInfra(shouldUserAccessProject({ projectId: projet.id.toString(), user })).andThen(
+      const { statut, projetId } = demandeDélai
+      if (!projetId) {
+        return errAsync(new InfraNotAvailableError())
+      }
+
+      return wrapInfra(shouldUserAccessProject({ projectId: projetId, user })).andThen(
         (userHasRightsToProject) => {
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())

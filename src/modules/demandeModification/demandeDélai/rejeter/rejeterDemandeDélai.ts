@@ -43,7 +43,7 @@ export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
       return makeAndSaveFile({
         file: {
           designation: 'modification-request-response',
-          forProject: demandeDélai.projet?.id,
+          forProject: new UniqueEntityID(demandeDélai.projetId),
           createdBy: new UniqueEntityID(user.id),
           filename,
           contents,
