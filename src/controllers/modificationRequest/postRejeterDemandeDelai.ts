@@ -1,7 +1,7 @@
 import fs from 'fs'
 import * as yup from 'yup'
 
-import { ensureRole, refuserDemandeDélai } from '@config'
+import { ensureRole, rejeterDemandeDélai } from '@config'
 import { logger, errAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 
@@ -22,7 +22,7 @@ const requestBodySchema = yup.object({
 })
 
 v1Router.post(
-  routes.ADMIN_REFUSER_DEMANDE_DELAI,
+  routes.ADMIN_REJETER_DEMANDE_DELAI,
   ensureRole(['admin', 'dgec', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
@@ -44,7 +44,7 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        return refuserDemandeDélai({
+        return rejeterDemandeDélai({
           user,
           demandeDélaiId: modificationRequestId,
           fichierRéponse: file,

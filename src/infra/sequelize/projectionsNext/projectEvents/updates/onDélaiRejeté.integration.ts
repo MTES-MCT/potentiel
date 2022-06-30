@@ -1,25 +1,25 @@
 import { UniqueEntityID } from '@core/domain'
-import { DélaiRefusé, DélaiRefuséPayload } from '@modules/demandeModification'
+import { DélaiRejeté, DélaiRejetéPayload } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
-import onDélaiRefusé from './onDélaiRejeté'
+import onDélaiRejeté from './onDélaiRejeté'
 
-describe('Projecteur de ProjectEvent onDélaiRefusé', () => {
+describe('Projecteur de ProjectEvent onDélaiRejeté', () => {
   beforeEach(async () => {
     resetDatabase()
   })
-  describe(`Etant donné un événement DélaiRefusé émis`, () => {
+  describe(`Etant donné un événement DélaiRejeté émis`, () => {
     // Scenario 1
     describe(`Lorsqu'il n'y a pas d'événement demandeDélai du même id dans ProjectEvent`, () => {
       it(`Alors, aucun événement ne devrait être ajouté à ProjectEvent`, async () => {
         const demandeDélaiId = new UniqueEntityID().toString()
 
-        await onDélaiRefusé(
-          new DélaiRefusé({
+        await onDélaiRejeté(
+          new DélaiRejeté({
             payload: {
               demandeDélaiId,
-              refuséPar: new UniqueEntityID().toString(),
-            } as DélaiRefuséPayload,
+              rejetéPar: new UniqueEntityID().toString(),
+            } as DélaiRejetéPayload,
             original: {
               version: 1,
               occurredAt: new Date('2022-06-28'),
@@ -55,12 +55,12 @@ describe('Projecteur de ProjectEvent onDélaiRefusé', () => {
           },
         })
 
-        await onDélaiRefusé(
-          new DélaiRefusé({
+        await onDélaiRejeté(
+          new DélaiRejeté({
             payload: {
               demandeDélaiId,
-              refuséPar: new UniqueEntityID().toString(),
-            } as DélaiRefuséPayload,
+              rejetéPar: new UniqueEntityID().toString(),
+            } as DélaiRejetéPayload,
             original: {
               version: 1,
               occurredAt: new Date('2022-06-28'),

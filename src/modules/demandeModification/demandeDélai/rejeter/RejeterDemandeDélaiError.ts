@@ -1,7 +1,7 @@
 import { DemandeDélai } from '../DemandeDélai'
 
-export class RefuserDemandeDélaiError extends Error {
+export class RejeterDemandeDélaiError extends Error {
   constructor(public demandeDélai: DemandeDélai, public raison: string) {
-    super(`Impossible de refuser la demande de délai`)
+    super(`Impossible de rejeter la demande de délai`)
   }
 }

@@ -6,22 +6,22 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 
 import { DemandeDélai } from '../DemandeDélai'
-import { DélaiRefusé } from '../events/DélaiRefusé'
-import { RefuserDemandeDélaiError } from './RefuserDemandeDélaiError'
+import { DélaiRejeté } from '../events/DélaiRejeté'
+import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError'
 
-type RefuserDemandeDélai = (commande: {
+type RejeterDemandeDélai = (commande: {
   user: User
   demandeDélaiId: string
   fichierRéponse: { contents: FileContents; filename: string }
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError>
 
-type MakeRefuserDemandeDélai = (dépendances: {
+type MakeRejeterDemandeDélai = (dépendances: {
   demandeDélaiRepo: TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
   fileRepo: Repository<FileObject>
-}) => RefuserDemandeDélai
+}) => RejeterDemandeDélai
 
-export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
+export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
   ({ publishToEventStore, demandeDélaiRepo, fileRepo }) =>
   ({ user, demandeDélaiId, fichierRéponse: { filename, contents } }) => {
     if (userIsNot(['admin', 'dgec', 'dreal'])(user)) {
@@ -33,9 +33,9 @@ export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
 
       if (statut !== 'envoyée' && statut !== 'en-instruction') {
         return errAsync(
-          new RefuserDemandeDélaiError(
+          new RejeterDemandeDélaiError(
             demandeDélai,
-            'Seul une demande envoyée ou en instruction peut être refusée'
+            'Seul une demande envoyée ou en instruction peut être rejetée.'
           )
         )
       }
@@ -51,10 +51,10 @@ export const makeRefuserDemandeDélai: MakeRefuserDemandeDélai =
         fileRepo,
       }).andThen((fichierRéponseId) => {
         return publishToEventStore(
-          new DélaiRefusé({
+          new DélaiRejeté({
             payload: {
               demandeDélaiId,
-              refuséPar: user.id,
+              rejetéPar: user.id,
               fichierRéponseId,
             },
           })

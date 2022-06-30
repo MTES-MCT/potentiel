@@ -38,7 +38,7 @@ import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '
 import {
   makeAnnulerDemandeDélai,
   makeDemanderDélai,
-  makeRefuserDemandeDélai,
+  makeRejeterDemandeDélai,
 } from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
@@ -308,7 +308,7 @@ export const annulerDemandeDélai = makeAnnulerDemandeDélai({
   publishToEventStore: eventStore.publish.bind(eventStore),
 })
 
-export const refuserDemandeDélai = makeRefuserDemandeDélai({
+export const rejeterDemandeDélai = makeRejeterDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),

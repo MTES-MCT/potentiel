@@ -59,7 +59,7 @@ export const SignalerDemandeAbandon = PageLayout(
                 </div>
                 <div className="flex flex-row">
                   <input type="radio" id="status-rejected" value="rejetée" name="status" required />
-                  <label htmlFor="status-rejected">Demande refusée</label>
+                  <label htmlFor="status-rejected">Demande rejetée</label>
                 </div>
               </div>
             </div>

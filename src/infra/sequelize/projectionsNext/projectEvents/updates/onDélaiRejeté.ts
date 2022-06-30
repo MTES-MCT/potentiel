@@ -1,17 +1,17 @@
-import { DélaiRefusé } from '@modules/demandeModification'
+import { DélaiRejeté } from '@modules/demandeModification'
 import { logger } from '@core/utils'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
-  DélaiRefusé,
+  DélaiRejeté,
   async ({ payload, occurredAt }, transaction) => {
-    const { demandeDélaiId, refuséPar } = payload
+    const { demandeDélaiId, rejetéPar } = payload
 
     const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId } })
 
     if (!instance) {
       logger.error(
-        `Error : onDélaiRefusé n'a pas pu retrouver la demandeDélaiId ${demandeDélaiId} pour la mettre à jour.`
+        `Error : onDélaiRejeté n'a pas pu retrouver la demandeDélaiId ${demandeDélaiId} pour la mettre à jour.`
       )
       return
     }
@@ -21,7 +21,7 @@ export default ProjectEvent.projector.on(
       eventPublishedAt: occurredAt.getTime(),
       payload: {
         statut: 'rejetée',
-        refuséPar,
+        rejetéPar,
         // @ts-ignore
         dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
       },
@@ -32,7 +32,7 @@ export default ProjectEvent.projector.on(
     } catch (e) {
       logger.error(e)
       logger.info(
-        `Error: onDélaiRefusé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeDélaiId}.`
+        `Error: onDélaiRejeté n'a pas pu enregistrer la mise à jour de la demande ref ${demandeDélaiId}.`
       )
     }
   }

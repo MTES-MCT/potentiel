@@ -7,12 +7,12 @@ import { UserRole } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 
 import { DemandeDélai, StatutDemandeDélai } from '../DemandeDélai'
-import { makeRefuserDemandeDélai } from './refuserDemandeDélai'
+import { makeRejeterDemandeDélai } from './rejeterDemandeDélai'
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
 import { UnauthorizedError } from '../../../shared'
-import { RefuserDemandeDélaiError } from './RefuserDemandeDélaiError'
+import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError'
 
-describe(`Refuser une demande de délai`, () => {
+describe(`Rejeter une demande de délai`, () => {
   const demandeDélaiId = new UniqueEntityID('id-demande')
   const demandeDélai: DemandeDélai = {
     id: demandeDélaiId,
@@ -30,7 +30,7 @@ describe(`Refuser une demande de délai`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible de refuser un délai si non Admin/DGEC/DREAL`, () => {
+  describe(`Impossible de rejeter un délai si non Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
       const rolesNePouvantPasRefuser: UserRole[] = ['acheteur-obligé', 'ademe', 'porteur-projet']
 
@@ -38,16 +38,16 @@ describe(`Refuser une demande de délai`, () => {
         const user = { role } as User
 
         it(`
-        Lorsqu'il refuse une demande de délai
+        Lorsqu'il rejette une demande de délai
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const refuserDemandéDélai = makeRefuserDemandeDélai({
+          const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(demandeDélai),
             publishToEventStore,
             fileRepo: fakeRepo(),
           })
 
-          const res = await refuserDemandéDélai({
+          const res = await rejeterDemandéDélai({
             user,
             demandeDélaiId: demandeDélaiId.toString(),
             fichierRéponse,
@@ -60,7 +60,7 @@ describe(`Refuser une demande de délai`, () => {
     })
   })
 
-  describe(`Impossible de refuser une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
+  describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
 
@@ -68,25 +68,25 @@ describe(`Refuser une demande de délai`, () => {
 
       for (const statut of statutsNePouvantPasÊtreRefusé) {
         it(`
-      Lorsqu'il refuse une demande avec comme statut '${statut}'
+      Lorsqu'il rejette une demande avec comme statut '${statut}'
       Alors une erreur RefuserDemandeDélaiError devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-          const refuserDemandéDélai = makeRefuserDemandeDélai({
+          const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({ ...demandeDélai, statut } as DemandeDélai),
             publishToEventStore,
             fileRepo,
           })
 
-          const res = await refuserDemandéDélai({
+          const res = await rejeterDemandéDélai({
             user,
             demandeDélaiId: demandeDélai.id.toString(),
             fichierRéponse,
           })
 
           const erreurActuelle = res._unsafeUnwrapErr()
-          expect(erreurActuelle).toBeInstanceOf(RefuserDemandeDélaiError)
-          if (erreurActuelle instanceof RefuserDemandeDélaiError) {
+          expect(erreurActuelle).toBeInstanceOf(RejeterDemandeDélaiError)
+          if (erreurActuelle instanceof RejeterDemandeDélaiError) {
             expect(erreurActuelle).toMatchObject(
               expect.objectContaining({
                 demandeDélai: { ...demandeDélai, statut },
@@ -101,7 +101,7 @@ describe(`Refuser une demande de délai`, () => {
     })
   })
 
-  describe(`Possible de refuser un délai si Admin/DGEC/DREAL`, () => {
+  describe(`Possible de rejeter un délai si Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
 
@@ -109,14 +109,14 @@ describe(`Refuser une demande de délai`, () => {
 
       for (const statut of statutsPouvantÊtreAccordé) {
         it(`
-      Lorsqu'il refuse une demande de délai avec comme statut '${statut}'
+      Lorsqu'il rejette une demande de délai avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
-      Et l'évenement 'DélaiRefusé' devrait être publié dans le store`, async () => {
+      Et l'évenement 'DélaiRejeté' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
 
           const projetId = new UniqueEntityID('le-projet-de-la-demande')
 
-          const refuserDemandéDélai = makeRefuserDemandeDélai({
+          const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo({
               ...demandeDélai,
               statut,
@@ -126,19 +126,19 @@ describe(`Refuser une demande de délai`, () => {
             fileRepo,
           })
 
-          const refus = await refuserDemandéDélai({
+          const rejet = await rejeterDemandéDélai({
             user,
             demandeDélaiId: demandeDélaiId.toString(),
             fichierRéponse,
           })
 
-          expect(refus.isOk()).toBe(true)
+          expect(rejet.isOk()).toBe(true)
           expect(publishToEventStore).toHaveBeenCalledWith(
             expect.objectContaining({
-              type: 'DélaiRefusé',
+              type: 'DélaiRejeté',
               payload: expect.objectContaining({
                 demandeDélaiId: demandeDélaiId.toString(),
-                refuséPar: user.id,
+                rejetéPar: user.id,
                 fichierRéponseId: expect.any(String),
               }),
             })
