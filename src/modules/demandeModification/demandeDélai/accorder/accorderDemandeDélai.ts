@@ -31,10 +31,6 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
       const { statut, projetId } = demandeDélai
 
-      if (!projetId) {
-        return errAsync(new InfraNotAvailableError())
-      }
-
       if (statut !== 'envoyée' && statut !== 'en-instruction') {
         return errAsync(
           new AccorderDemandeDélaiError(
@@ -42,6 +38,10 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
             'Seul une demande envoyée ou en instruction peut être accordée'
           )
         )
+      }
+
+      if (!projetId) {
+        return errAsync(new InfraNotAvailableError())
       }
 
       return makeAndSaveFile({

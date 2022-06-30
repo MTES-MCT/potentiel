@@ -143,7 +143,7 @@ describe(`Rejeter une demande de délai`, () => {
               type: 'DélaiRejeté',
               payload: expect.objectContaining({
                 demandeDélaiId,
-                refuséPar: user.id,
+                rejetéPar: user.id,
                 fichierRéponseId: expect.any(String),
               }),
             })
