@@ -19,7 +19,13 @@ export default ProjectEvent.projector.on(
     Object.assign(instance, {
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: { statut: 'annulée', annuléPar, demandeDélaiId },
+      payload: {
+        statut: 'annulée',
+        annuléPar,
+        demandeDélaiId,
+        // @ts-ignore
+        dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
+      },
     })
 
     try {
