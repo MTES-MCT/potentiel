@@ -8,7 +8,7 @@ import {
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates'
 import { UnauthorizedError } from '../../../shared'
-import { construireAccorderDemandeDélai } from './accorderDemandeDélai'
+import { makeAccorderDemandeDélai } from './accorderDemandeDélai'
 import { UserRole } from '@modules/users'
 import { StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
@@ -42,7 +42,7 @@ describe(`Accorder une demande de délai`, () => {
         Lorsqu'il accorde une demande de délai
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const accorderDemandéDélai = construireAccorderDemandeDélai({
+          const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
             publishToEventStore,
             fileRepo: fakeRepo(),
@@ -79,7 +79,7 @@ describe(`Accorder une demande de délai`, () => {
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
 
-          const accorderDemandéDélai = construireAccorderDemandeDélai({
+          const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(
               makeFakeDemandeDélai({ id: demandeDélaiId, statut })
             ),
@@ -127,7 +127,7 @@ describe(`Accorder une demande de délai`, () => {
       Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
 
-          const accorderDemandéDélai = construireAccorderDemandeDélai({
+          const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(
               makeFakeDemandeDélai({
                 id: demandeDélaiId,

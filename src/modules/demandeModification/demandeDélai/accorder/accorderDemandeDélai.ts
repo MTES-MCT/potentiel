@@ -21,7 +21,7 @@ type MakeAccorderDemandeDélai = (dépendances: {
   fileRepo: Repository<FileObject>
 }) => AccorderDemandeDélai
 
-export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
+export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
   ({ demandeDélaiRepo, publishToEventStore, fileRepo }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {

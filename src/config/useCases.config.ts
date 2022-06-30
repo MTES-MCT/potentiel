@@ -39,6 +39,7 @@ import {
   makeAnnulerDemandeDélai,
   makeDemanderDélai,
   makeRejeterDemandeDélai,
+  makeAccorderDemandeDélai,
 } from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
@@ -309,6 +310,12 @@ export const annulerDemandeDélai = makeAnnulerDemandeDélai({
 })
 
 export const rejeterDemandeDélai = makeRejeterDemandeDélai({
+  fileRepo,
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const accorderDemandeDélai = makeAccorderDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),

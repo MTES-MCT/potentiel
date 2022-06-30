@@ -1,13 +1,14 @@
 import fs from 'fs'
 import * as yup from 'yup'
 
-import { ensureRole, rejeterDemandeDélai } from '@config'
+import { accorderDemandeDélai, ensureRole, rejeterDemandeDélai } from '@config'
 import { logger, errAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 
 import asyncHandler from '../helpers/asyncHandler'
 import {
   errorResponse,
+  iso8601DateToDateYupTransformation,
   RequestValidationErrorArray,
   unauthorizedResponse,
   validateRequestBodyForErrorArray,
@@ -19,6 +20,15 @@ import { v1Router } from '../v1Router'
 
 const requestBodySchema = yup.object({
   modificationRequestId: yup.string().uuid().required(),
+  dateAchèvementDemandée: yup.date().when('submitAccept', {
+    is: (submitAccept) => typeof submitAccept === 'string',
+    then: yup
+      .date()
+      .required('Ce champ est obligatoire')
+      .nullable()
+      .transform(iso8601DateToDateYupTransformation)
+      .typeError(`La date saisie n'est pas valide`),
+  }),
 })
 
 v1Router.post(
@@ -28,7 +38,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { modificationRequestId } = body
+        const { modificationRequestId, dateAchèvementDemandée, submitAccept } = body
         const { user } = request
 
         if (!request.file) {
@@ -44,11 +54,18 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        return rejeterDemandeDélai({
-          user,
-          demandeDélaiId: modificationRequestId,
-          fichierRéponse: file,
-        }).map(() => ({ modificationRequestId }))
+        return typeof submitAccept === 'string'
+          ? accorderDemandeDélai({
+              user,
+              demandeDélaiId: modificationRequestId,
+              dateAchèvementAccordée: dateAchèvementDemandée,
+              fichierRéponse: file,
+            }).map(() => ({ modificationRequestId }))
+          : rejeterDemandeDélai({
+              user,
+              demandeDélaiId: modificationRequestId,
+              fichierRéponse: file,
+            }).map(() => ({ modificationRequestId }))
       })
       .match(
         ({ modificationRequestId }) => {
