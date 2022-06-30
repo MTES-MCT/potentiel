@@ -29,7 +29,11 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
     }
 
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-      const { statut } = demandeDélai
+      const { statut, projetId } = demandeDélai
+
+      if (!projetId) {
+        return errAsync(new InfraNotAvailableError())
+      }
 
       if (statut !== 'envoyée' && statut !== 'en-instruction') {
         return errAsync(
@@ -54,6 +58,7 @@ export const construireAccorderDemandeDélai: MakeAccorderDemandeDélai =
           new DélaiAccordé({
             payload: {
               accordéPar: user.id,
+              projetId,
               dateAchèvementAccordée,
               demandeDélaiId,
               fichierRéponseId,

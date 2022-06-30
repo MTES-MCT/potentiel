@@ -160,6 +160,7 @@ describe(`Accorder une demande de délai`, () => {
               type: 'DélaiAccordé',
               payload: expect.objectContaining({
                 dateAchèvementAccordée: new Date('2022-06-27'),
+                projetId: 'le-projet-de-la-demande',
                 accordéPar: user.id,
                 demandeDélaiId,
                 fichierRéponseId: expect.any(String),

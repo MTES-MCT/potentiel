@@ -2,6 +2,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type DélaiAccordéPayload = {
   demandeDélaiId: string
+  projetId: string
   dateAchèvementAccordée: Date
   fichierRéponseId?: string
   accordéPar: string
