@@ -4,6 +4,7 @@ import {
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
+  makeOnDélaiAccordé,
   PeriodeNotified,
   ProjectCertificateObsolete,
   ProjectRawDataImported,
@@ -14,8 +15,11 @@ import {
   getUnnotifiedProjectsForPeriode,
   getProjectAppelOffre,
 } from '../queries.config'
+import { subscribeToRedis } from '../eventBus.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
+import { DélaiAccordé } from '@modules/demandeModification'
+import { DomainEvent } from '@core/domain'
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -50,6 +54,23 @@ eventStore.subscribe(
     getProjectAppelOffre,
   })
 )
+
+const onDélaiAccordéHandler = makeOnDélaiAccordé({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+})
+
+const onDélaiAccordé = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiAccordé)) {
+    return Promise.resolve()
+  }
+
+  return await onDélaiAccordéHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
+}
+subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

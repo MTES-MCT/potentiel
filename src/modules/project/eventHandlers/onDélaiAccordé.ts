@@ -14,7 +14,7 @@ type MakeOnDélaiAccordé = (dépendances: {
 export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
   ({ projectRepo, publishToEventStore }) =>
   ({ payload: { projetId: projectId, accordéPar, dateAchèvementAccordée } }) =>
-    projectRepo.transaction(new UniqueEntityID(projectId), () =>
+    projectRepo.transaction(new UniqueEntityID(projectId), (project) =>
       publishToEventStore(
         new ProjectCompletionDueDateSet({
           payload: {
