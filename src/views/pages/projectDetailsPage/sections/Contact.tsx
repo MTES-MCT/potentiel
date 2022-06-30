@@ -1,5 +1,5 @@
 import React from 'react'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { Request } from 'express'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Section } from '../components'

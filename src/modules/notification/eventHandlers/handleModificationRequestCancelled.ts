@@ -1,7 +1,7 @@
 import { NotificationService } from '..'
 import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { UserRepo } from '@dataAccess'
-import routes from '../../../routes'
+import routes from '@routes'
 import {
   GetModificationRequestInfoForStatusNotification,
   GetModificationRequestRecipient,
@@ -9,32 +9,33 @@ import {
 } from '../../modificationRequest'
 import { InfraNotAvailableError } from '../../shared'
 
-export const handleModificationRequestCancelled = (deps: {
-  sendNotification: NotificationService['sendNotification']
-  findUsersForDreal: UserRepo['findUsersForDreal']
-  getModificationRequestRecipient: GetModificationRequestRecipient
-  getModificationRequestInfo: GetModificationRequestInfoForStatusNotification
-  dgecEmail: string
-}) => async (event: ModificationRequestCancelled) => {
-  const {
-    sendNotification,
-    findUsersForDreal,
-    getModificationRequestInfo,
-    getModificationRequestRecipient,
-    dgecEmail,
-  } = deps
+export const handleModificationRequestCancelled =
+  (deps: {
+    sendNotification: NotificationService['sendNotification']
+    findUsersForDreal: UserRepo['findUsersForDreal']
+    getModificationRequestRecipient: GetModificationRequestRecipient
+    getModificationRequestInfo: GetModificationRequestInfoForStatusNotification
+    dgecEmail: string
+  }) =>
+  async (event: ModificationRequestCancelled) => {
+    const {
+      sendNotification,
+      findUsersForDreal,
+      getModificationRequestInfo,
+      getModificationRequestRecipient,
+      dgecEmail,
+    } = deps
 
-  const { modificationRequestId } = event.payload
+    const { modificationRequestId } = event.payload
 
-  const res = await getModificationRequestInfo(modificationRequestId)
-    .andThen((modificationRequest) => {
-      return getModificationRequestRecipient(modificationRequestId).map((recipient) => ({
-        recipient,
-        modificationRequest,
-      }))
-    })
-    .andThen(
-      ({ recipient, modificationRequest }): ResultAsync<null, InfraNotAvailableError> => {
+    const res = await getModificationRequestInfo(modificationRequestId)
+      .andThen((modificationRequest) => {
+        return getModificationRequestRecipient(modificationRequestId).map((recipient) => ({
+          recipient,
+          modificationRequest,
+        }))
+      })
+      .andThen(({ recipient, modificationRequest }): ResultAsync<null, InfraNotAvailableError> => {
         const { nomProjet, departementProjet, regionProjet, type } = modificationRequest
 
         function _sendNotificationToAdmin(email, name) {
@@ -79,10 +80,9 @@ export const handleModificationRequestCancelled = (deps: {
         }
 
         return okAsync(null)
-      }
-    )
+      })
 
-  if (res.isErr()) {
-    logger.error(res.error)
+    if (res.isErr()) {
+      logger.error(res.error)
+    }
   }
-}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { PaperClipIcon } from '@heroicons/react/outline'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { DateInput } from '../../../components'
 
 interface AttachFileProps {

@@ -2,7 +2,7 @@ import { RequiredActionAlias } from '@keycloak/keycloak-admin-client/lib/defs/re
 import { authorizedTestEmails, isProdEnv } from '@config'
 import { logger, ResultAsync } from '@core/utils'
 import { OtherError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { makeKeycloakClient } from './keycloakClient'
 
 const {

@@ -1,5 +1,5 @@
 import { ProjectAppelOffre } from '@entities/appelOffre'
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 
 const porteurProjetActions = (project: {
   id: string

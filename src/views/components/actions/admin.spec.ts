@@ -1,6 +1,6 @@
 import { adminActions } from '.'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 
 describe('adminActions', () => {
   describe('when project is notified and has a certificate file', () => {

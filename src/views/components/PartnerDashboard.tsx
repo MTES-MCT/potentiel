@@ -1,6 +1,6 @@
 import React from 'react'
 import { UserRole } from '@modules/users'
-import ROUTES from '../../routes'
+import ROUTES from '@routes'
 
 interface PartnerDashboardProps {
   children: React.ReactNode

@@ -4,7 +4,7 @@ import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
 import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 import { User } from '@entities'
-import routes from '../../../../routes'
+import routes from '@routes'
 import { Container, LinkButton } from '../../../components'
 
 type InscriptionConnexionProps = {

@@ -1,4 +1,4 @@
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 
 const drealActions = (project: {
   id: string

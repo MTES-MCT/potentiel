@@ -3,7 +3,7 @@ import { addGFExpirationDate, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import {
   errorResponse,
   unauthorizedResponse,

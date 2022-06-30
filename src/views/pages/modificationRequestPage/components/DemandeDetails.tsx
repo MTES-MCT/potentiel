@@ -3,7 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { DownloadIcon } from '../../../components'
 
 interface DemandeDetailsProps {

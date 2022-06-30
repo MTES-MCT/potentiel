@@ -3,7 +3,7 @@ import { authorizedTestEmails, isProdEnv } from '@config'
 import { logger, ResultAsync } from '@core/utils'
 import { CreateUserCredentials } from '@modules/authN'
 import { OtherError, UnauthorizedError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { makeKeycloakClient } from './keycloakClient'
 
 const ONE_MONTH = 3600 * 24 * 30

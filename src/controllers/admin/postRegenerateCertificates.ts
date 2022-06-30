@@ -3,7 +3,7 @@ import moment from 'moment-timezone'
 import { regenerateCertificatesForPeriode } from '@config/useCases.config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '../../routes'
+import routes from '@routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 

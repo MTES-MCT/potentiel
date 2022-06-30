@@ -1,6 +1,6 @@
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
-import routes from '../../routes'
+import routes from '@routes'
 import { Pagination } from '../../types'
 import { listUnnotifiedProjects } from '@useCases'
 import { AdminNotifyCandidatesPage } from '@views/legacy-pages'

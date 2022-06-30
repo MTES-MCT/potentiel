@@ -5,7 +5,7 @@ import { submitStep } from '@config/useCases.config'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import { UnauthorizedError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import {
   errorResponse,
   unauthorizedResponse,

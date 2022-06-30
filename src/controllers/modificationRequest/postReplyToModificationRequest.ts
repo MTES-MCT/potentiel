@@ -19,7 +19,7 @@ import {
   EntityNotFoundError,
   UnauthorizedError,
 } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { upload } from '../upload'

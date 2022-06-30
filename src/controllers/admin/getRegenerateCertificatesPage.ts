@@ -1,5 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler'
-import routes from '../../routes'
+import routes from '@routes'
 import { AdminRegenerateCertificatesPage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'

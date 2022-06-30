@@ -1,7 +1,7 @@
 import { appelOffreRepo } from '@dataAccess'
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
-import routes from '../../routes'
+import routes from '@routes'
 import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
 import { ensureRole } from '@config'
@@ -9,14 +9,8 @@ import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
-  const {
-    appelOffreId,
-    periodeId,
-    familleId,
-    recherche,
-    garantiesFinancieres,
-    pageSize,
-  } = request.query as any
+  const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
+    request.query as any
   const { user } = request
 
   const defaultPagination: Pagination = {

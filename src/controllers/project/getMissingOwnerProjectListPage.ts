@@ -1,6 +1,6 @@
 import { appelOffreRepo } from '@dataAccess'
 import { makePagination } from '../../helpers/paginate'
-import routes from '../../routes'
+import routes from '@routes'
 import { Pagination } from '../../types'
 import { listMissingOwnerProjects } from '@useCases'
 import { ListMissingOwnerProjectsPage } from '@views/legacy-pages'

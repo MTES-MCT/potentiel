@@ -2,7 +2,7 @@ import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
 import { or } from '@core/utils'
 import { makeDocumentUrl } from '.'
 import { UserRole } from '@modules/users'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 
 export type ModificationRequestItemProps = {
   type: 'demande-de-modification'

@@ -26,5 +26,6 @@ module.exports = {
     '^@config/(.*)$': '<rootDir>/src/config/$1.ts',
     '^@dataAccess$': '<rootDir>/src/dataAccess/index.ts',
     '^@dataAccess/(.*)$': '<rootDir>/src/dataAccess/$1/index.ts',
+    '^@routes$': '<rootDir>/src/routes.ts',
   },
 }

@@ -8,7 +8,7 @@ import {
   ProjectInfo,
   RoleBasedDashboard,
 } from '../../components'
-import routes from '../../../routes'
+import routes from '@routes'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { formatDate } from '../../../helpers/formatDate'

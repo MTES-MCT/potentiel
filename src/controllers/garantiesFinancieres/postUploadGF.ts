@@ -5,7 +5,7 @@ import { uploadGF } from '@config/useCases.config'
 import { logger, Result, ok, err } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import {
   errorResponse,
   unauthorizedResponse,

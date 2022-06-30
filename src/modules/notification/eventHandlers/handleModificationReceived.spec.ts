@@ -1,7 +1,7 @@
 import { handleModificationReceived, NotificationArgs } from '..'
 import { UniqueEntityID } from '@core/domain'
 import { makeProject } from '@entities'
-import routes from '../../../routes'
+import routes from '@routes'
 import { None, Some } from '../../../types'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'

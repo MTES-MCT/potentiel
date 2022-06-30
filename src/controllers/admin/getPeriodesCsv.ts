@@ -2,7 +2,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { parseAsync } from 'json2csv'
 import { getPeriodeList } from '@config/queries.config'
 import { logger } from '@core/utils'
-import routes from '../../routes'
+import routes from '@routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
