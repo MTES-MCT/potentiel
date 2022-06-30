@@ -20,7 +20,7 @@ export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
           payload: {
             projectId,
             setBy: accordéPar,
-            completionDueOn: dateAchèvementAccordée.getTime(),
+            completionDueOn: new Date(dateAchèvementAccordée).getTime(),
           },
         })
       )

@@ -349,6 +349,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       statut,
                       dateAchèvementDemandée,
+                      ...(statut === 'accordée' && {
+                        dateAchèvementAccordée: payload.dateAchèvementAccordée,
+                      }),
                       demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     })
                   }

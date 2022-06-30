@@ -386,8 +386,13 @@ export type DemandeDélaiDTO = {
   date: number
   demandeUrl: any
   dateAchèvementDemandée: number
-  statut: 'envoyée' | 'annulée' | 'rejetée'
-}
+} & (
+  | { statut: 'envoyée' | 'annulée' | 'rejetée' }
+  | {
+      statut: 'accordée'
+      dateAchèvementAccordée: number
+    }
+)
 
 export type ProjectEventListDTO = {
   project: {
