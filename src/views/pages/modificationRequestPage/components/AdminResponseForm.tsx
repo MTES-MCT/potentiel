@@ -22,7 +22,7 @@ export const AdminResponseForm = ({
     <form
       action={
         type === 'delai' && modificationRequest.dateAchèvementDemandée
-          ? ROUTES.ADMIN_REJETER_DEMANDE_DELAI
+          ? ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
           : ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
       }
       method="post"

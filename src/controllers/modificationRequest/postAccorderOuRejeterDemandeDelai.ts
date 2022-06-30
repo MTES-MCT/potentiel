@@ -2,7 +2,7 @@ import fs from 'fs'
 import * as yup from 'yup'
 
 import { accorderDemandeDélai, ensureRole, rejeterDemandeDélai } from '@config'
-import { logger, errAsync } from '@core/utils'
+import { logger, errAsync, err } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 
 import asyncHandler from '../helpers/asyncHandler'
@@ -19,6 +19,8 @@ import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
 const requestBodySchema = yup.object({
+  submitAccept: yup.string().nullable(),
+  submitRefuse: yup.string().nullable(),
   modificationRequestId: yup.string().uuid().required(),
   dateAchèvementDemandée: yup.date().when('submitAccept', {
     is: (submitAccept) => typeof submitAccept === 'string',
@@ -32,13 +34,13 @@ const requestBodySchema = yup.object({
 })
 
 v1Router.post(
-  routes.ADMIN_REJETER_DEMANDE_DELAI,
+  routes.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI,
   ensureRole(['admin', 'dgec', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { modificationRequestId, dateAchèvementDemandée, submitAccept } = body
+        const { modificationRequestId, dateAchèvementDemandée, submitAccept, submitRefuse } = body
         const { user } = request
 
         if (!request.file) {
@@ -54,18 +56,27 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        return typeof submitAccept === 'string'
-          ? accorderDemandeDélai({
-              user,
-              demandeDélaiId: modificationRequestId,
-              dateAchèvementAccordée: dateAchèvementDemandée,
-              fichierRéponse: file,
-            }).map(() => ({ modificationRequestId }))
-          : rejeterDemandeDélai({
-              user,
-              demandeDélaiId: modificationRequestId,
-              fichierRéponse: file,
-            }).map(() => ({ modificationRequestId }))
+        const estAccordé = typeof submitAccept === 'string'
+        const estRejeté = typeof submitRefuse === 'string'
+
+        if (estRejeté) {
+          return rejeterDemandeDélai({
+            user,
+            demandeDélaiId: modificationRequestId,
+            fichierRéponse: file,
+          }).map(() => ({ modificationRequestId }))
+        }
+
+        if (estAccordé && dateAchèvementDemandée) {
+          return accorderDemandeDélai({
+            user,
+            demandeDélaiId: modificationRequestId,
+            dateAchèvementAccordée: dateAchèvementDemandée,
+            fichierRéponse: file,
+          }).map(() => ({ modificationRequestId }))
+        }
+
+        return errAsync(new Error('Réponse incorrecte'))
       })
       .match(
         ({ modificationRequestId }) => {

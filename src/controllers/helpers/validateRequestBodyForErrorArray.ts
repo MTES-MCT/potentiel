@@ -7,10 +7,10 @@ export class RequestValidationErrorArray extends Error {
   }
 }
 
-export const validateRequestBodyForErrorArray = (
+export const validateRequestBodyForErrorArray = <Schema extends BaseSchema>(
   body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationErrorArray | Error> => {
+  schema: Schema
+): Result<InferType<Schema>, RequestValidationErrorArray | Error> => {
   try {
     return ok(schema.validateSync(body, { abortEarly: false }))
   } catch (error) {
