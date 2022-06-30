@@ -38,18 +38,19 @@ describe('Projecteur de ProjectEvent onDélaiRefusé', () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "rejetée"`, async () => {
         const demandeDélaiId = new UniqueEntityID().toString()
         const projetId = new UniqueEntityID().toString()
-        const date = new Date()
+        const dateAchèvementDemandée = new Date().getTime()
+        const occurredAt = new Date().getTime()
 
         await ProjectEvent.create({
           id: demandeDélaiId,
           projectId: projetId,
           type: 'DemandeDélai',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
+          valueDate: occurredAt,
+          eventPublishedAt: occurredAt,
           payload: {
             statut: 'envoyée',
             autorité: 'dreal',
-            dateAchèvementDemandée: date.getTime(),
+            dateAchèvementDemandée,
             demandeur: new UniqueEntityID().toString(),
           },
         })
@@ -70,10 +71,9 @@ describe('Projecteur de ProjectEvent onDélaiRefusé', () => {
         const DemandeDélai = await ProjectEvent.findOne({
           where: { id: demandeDélaiId },
         })
-        expect(DemandeDélai).not.toBeNull()
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
-          payload: { statut: 'rejetée', dateAchèvementDemandée: date.getTime() },
+          payload: { statut: 'rejetée', dateAchèvementDemandée },
         })
       })
     })
