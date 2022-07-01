@@ -34,7 +34,7 @@ export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
           if (statut === 'envoyée' || statut === 'en-instruction') {
             return publishToEventStore(
               new DélaiAnnulé({
-                payload: { demandeDélaiId, annuléPar: user.id },
+                payload: { demandeDélaiId, projetId, annuléPar: user.id },
               })
             )
           }

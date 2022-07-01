@@ -2,6 +2,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type DélaiAnnuléPayload = {
   demandeDélaiId: string
+  projetId: string
   annuléPar: string
 }
 

@@ -14,7 +14,6 @@ import { UnauthorizedError } from '../../../shared'
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 describe(`Commande annuler demande délai`, () => {
-  const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
@@ -29,11 +28,7 @@ describe(`Commande annuler demande délai`, () => {
       const shouldUserAccessProject = jest.fn(async () => false)
       it(`Lorsqu'il annule une demande de délai,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const fakeDemandeDélai = makeFakeDemandeDélai({
-          projetId,
-        })
-
-        const demandeDélaiRepo = fakeTransactionalRepo(fakeDemandeDélai)
+        const demandeDélaiRepo = fakeTransactionalRepo(makeFakeDemandeDélai())
 
         const annulerDemandéDélai = makeAnnulerDemandeDélai({
           shouldUserAccessProject,
@@ -69,7 +64,7 @@ describe(`Commande annuler demande délai`, () => {
             const demandeDélaiId = 'la-demande-a-annuler'
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId })
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
@@ -100,7 +95,7 @@ describe(`Commande annuler demande délai`, () => {
             const demandeDélaiId = 'la-demande-a-annuler'
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId })
+              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId: 'identifiant-projet' })
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
@@ -117,6 +112,7 @@ describe(`Commande annuler demande délai`, () => {
                 payload: expect.objectContaining({
                   demandeDélaiId,
                   annuléPar: user.id,
+                  projetId: 'identifiant-projet',
                 }),
               })
             )
