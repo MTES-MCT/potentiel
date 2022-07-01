@@ -29,7 +29,7 @@ export default function makeFakeProject(overrides?) {
     engagementFournitureDePuissanceAlaPointe: false,
     newRulesOptIn: false,
     technologie: 'N/A',
-    completionDueOn: null,
+    completionDueOn: 0,
   }
 
   const project = {

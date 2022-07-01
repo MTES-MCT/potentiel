@@ -114,4 +114,5 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   periodeId: '1',
   data,
   id: new UniqueEntityID('project1'),
+  completionDueOn: 0,
 })
