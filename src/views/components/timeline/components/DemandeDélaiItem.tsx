@@ -36,9 +36,18 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
         <>
           <ItemTitle title={titre} />
           <p className="p-0 m-0">
-            Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
-            {statut === 'accordée' && (
-              <>Date limite d'achèvement accordée : {formatDate(props.dateAchèvementAccordée)}</>
+            {statut !== 'accordée' ? (
+              <>Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}</>
+            ) : (
+              <>
+                {dateAchèvementDemandée !== props.dateAchèvementAccordée && (
+                  <>
+                    Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
+                    <br />
+                  </>
+                )}
+                Date limite d'achèvement accordée : {formatDate(props.dateAchèvementAccordée)}
+              </>
             )}
             <br />
             <a href={demandeUrl}>Voir la demande</a>

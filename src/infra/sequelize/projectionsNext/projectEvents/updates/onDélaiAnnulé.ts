@@ -7,7 +7,7 @@ export default ProjectEvent.projector.on(
   async ({ payload, occurredAt }, transaction) => {
     const { demandeDélaiId, annuléPar } = payload
 
-    const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId } })
+    const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
 
     if (!instance) {
       logger.error(
