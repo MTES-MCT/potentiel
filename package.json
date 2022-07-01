@@ -20,7 +20,7 @@
     "migrate": "rm -rf dist/migrations && ttsc --build tsconfig.migrations.json && npx sequelize-cli db:migrate --migrations-path=dist/migrations/src/infra/sequelize/migrations",
     "seed": "npx sequelize-cli db:seed:all",
     "test-db": "export NODE_ENV=test && npm run launch-test-db && sleep 2 && npm run migrate",
-    "dev-db": "docker-compose down --remove-orphans && docker-compose up -d",
+    "dev-db": "docker compose down --remove-orphans && docker compose up -d",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
     "build-storybook": "build-storybook",
     "storybook-build": "build-storybook-c .storybook -o docs",

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-L’Etat français met en œuvre une politique volontariste de soutien au développement des énergies renouvelables (EnR) électriques. L’objectif est d’atteindre une part de 40% de ces énergies sur le total de l’électricité produite à l’horizon 2030. Chaque année, environ 1500 projets d’EnR électrique sont d’ores et déjà désignés lauréats d’un appel d’offre pour la production d’électricité renouvelable.
+L’Etat français met en œuvre une politique volontariste de soutien au développement des énergies renouvelables (EnR) électriques. L’objectif est d’atteindre une part de 40% de ces énergies sur le total de l’électricité produite à l’horizon 2030. Chaque année, environ 1500 projets d’EnR électrique sont d’ores et déjà désignés lauréats d’un appel d’offres pour la production d’électricité renouvelable.
 
 Potentiel permet de faciliter la gestion de ces projets, de gagner en traçabilité et en efficacité en fluidifiant les échanges entre porteurs de projets et administration (centrale et déconcentrée) et, à terme entre les divers opérateurs (acheteurs, gestionnaires de réseau, organismes de contrôle).
 
@@ -26,16 +26,24 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ## Sommaire
 
+- [Suivi des Projets d'Energies Renouvelables](#suivi-des-projets-denergies-renouvelables)
+  - [Introduction](#introduction)
+  - [Autre ressources](#autre-ressources)
+  - [Sommaire](#sommaire)
 - [Développement en local](#développement-en-local)
   - [Mise en place initiale](#mise-en-place-initiale)
     - [Pré-requis](#pré-requis)
     - [Installation](#installation)
   - [Lancement de l'application locale](#lancement-de-lapplication-locale)
+    - [Import initial de projets dans la base de données locale](#import-initial-de-projets-dans-la-base-de-données-locale)
+      - [Importer les projets](#importer-les-projets)
+      - [Voir les projets sur l'interface](#voir-les-projets-sur-linterface)
     - [Accès à la base de données locale](#accès-à-la-base-de-données-locale)
     - [Produire un dump de la base de données locale](#produire-un-dump-de-la-base-de-données-locale)
     - [Restaurer un dump de la base de données locale](#restaurer-un-dump-de-la-base-de-données-locale)
     - [Avoir un aperçu des pages ou composants visuels avec Storybook](#avoir-un-aperçu-des-pages-ou-composants-visuels-avec-storybook)
   - [Lancer les tests automatisés](#lancer-les-tests-automatisés)
+  - [Keycloak](#keycloak)
 - [Déploiement](#déploiement)
   - [Production](#production)
   - [Staging / dev / démo](#staging--dev--démo)
@@ -53,9 +61,9 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ### Pré-requis
 
-- Node v14 ou plus
-- npm v7 ou plus
-- docker
+- <a href="https://nodejs.org/en/" target="_blank">Node</a> v14 ou plus
+- <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm" target="_blank">NPM</a> v7 ou plus
+- <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
 ### Installation
 
@@ -105,6 +113,18 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - admin@test.test
 - dreal@test.test
 - porteur@test.test
+
+### Import initial de projets dans la base de données locale
+
+#### Importer les projets
+
+Afin de pouvoir ajouter des projets à la base de données fraichement créée, il va falloir importer ces projets depuis l'interface Potentiel.
+
+Une fois connecté en tant qu'administrateur (admin@test.test), aller sur la page <a href="http://localhost:3000/admin/importer-candidats.html" target="_blank">"Importer des candidats"</a> et ajouter <a href="https://raw.githubusercontent.com/MTES-MCT/potentiel/master/docs/exempleCandidatsPPE2.csv">ce fichier</a>.
+
+#### Voir les projets sur l'interface
+
+Une fois l'import fait, il faut notifier les candidats afin que leurs projets puissent apparaîtrent sur l'interface. Pour celà, il faut se rendre sur la page <a href="http://localhost:3000/admin/notifier-candidats.html" target="_blank">"Notifier des candidats"</a> et cliquer sur le bouton "Envoyer la notification". Pour qu'un projet apparaisse sur l'interface, il faut que celui-ci ait un statut **Classé**. Vous pouvez répéter la notification plusieurs fois pour avoir une base suffisante de projets.
 
 ### Accès à la base de données locale
 
