@@ -351,7 +351,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       dateAchèvementDemandée,
                       ...(statut === 'accordée' && {
                         dateAchèvementAccordée: payload.dateAchèvementAccordée,
-                        ancienneDateLimiteAchevement: payload.ancienneDateThéoriqueAchèvement,
+                        ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
                       }),
                       demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     })
