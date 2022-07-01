@@ -17,13 +17,8 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
   const { date, demandeUrl, dateAchèvementDemandée, statut } = props
 
   const titre =
-    statut === 'envoyée'
-      ? 'Délai supplémentaire demandé'
-      : statut === 'annulée'
-      ? 'Demande délai supplémentaire annulée'
-      : statut === 'rejetée'
-      ? 'Demande délai supplémentaire rejetée'
-      : 'Demande délai supplémentaire accordée'
+    statut === 'envoyée' ? 'Délai supplémentaire demandé' : `Demande délai supplémentaire ${statut}`
+
   return (
     <>
       {statut === 'envoyée' && <CurrentIcon />}
@@ -39,15 +34,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
             {statut !== 'accordée' ? (
               <>Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}</>
             ) : (
-              <>
-                {dateAchèvementDemandée !== props.dateAchèvementAccordée && (
-                  <>
-                    Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}
-                    <br />
-                  </>
-                )}
-                Date limite d'achèvement accordée : {formatDate(props.dateAchèvementAccordée)}
-              </>
+              <>Date limite d'achèvement accordée : {formatDate(props.dateAchèvementAccordée)}</>
             )}
             <br />
             <a href={demandeUrl}>Voir la demande</a>
