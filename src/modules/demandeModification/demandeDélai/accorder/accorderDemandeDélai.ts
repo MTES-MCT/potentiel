@@ -7,6 +7,7 @@ import { userIsNot } from '@modules/users'
 import { DélaiAccordé } from '../events/DélaiAccordé'
 import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
+import { Project } from '@modules/project'
 
 type AccorderDemandeDélai = (commande: {
   user: User
@@ -19,10 +20,11 @@ type MakeAccorderDemandeDélai = (dépendances: {
   demandeDélaiRepo: TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
   fileRepo: Repository<FileObject>
+  projectRepo: Repository<Project>
 }) => AccorderDemandeDélai
 
 export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
-  ({ demandeDélaiRepo, publishToEventStore, fileRepo }) =>
+  ({ demandeDélaiRepo, publishToEventStore, fileRepo, projectRepo }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
       return errAsync(new UnauthorizedError())
@@ -53,18 +55,25 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
           contents: fichierRéponse.contents,
         },
         fileRepo,
-      }).andThen((fichierRéponseId) =>
-        publishToEventStore(
-          new DélaiAccordé({
-            payload: {
-              accordéPar: user.id,
-              projetId,
-              dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
-              demandeDélaiId,
-              fichierRéponseId,
-            },
-          })
+      })
+        .andThen((fichierRéponseId) => {
+          return projectRepo
+            .load(new UniqueEntityID(demandeDélai.projetId))
+            .map((project) => ({ project, fichierRéponseId }))
+        })
+        .andThen(({ project, fichierRéponseId }) =>
+          publishToEventStore(
+            new DélaiAccordé({
+              payload: {
+                accordéPar: user.id,
+                projetId,
+                dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+                demandeDélaiId,
+                fichierRéponseId,
+                ancienneDateThéoriqueAchèvement: new Date(project.completionDueOn).toISOString(),
+              },
+            })
+          )
         )
-      )
     })
   }

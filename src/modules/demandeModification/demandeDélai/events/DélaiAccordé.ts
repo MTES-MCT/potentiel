@@ -6,6 +6,7 @@ export type DélaiAccordéPayload = {
   dateAchèvementAccordée: string
   fichierRéponseId?: string
   accordéPar: string
+  ancienneDateThéoriqueAchèvement: string
 }
 
 export class DélaiAccordé extends BaseDomainEvent<DélaiAccordéPayload> implements DomainEvent {

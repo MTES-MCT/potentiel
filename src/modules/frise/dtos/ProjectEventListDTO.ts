@@ -390,7 +390,8 @@ export type DemandeDélaiDTO = {
   | { statut: 'envoyée' | 'annulée' | 'rejetée' }
   | {
       statut: 'accordée'
-      dateAchèvementAccordée: number
+      dateAchèvementAccordée: string
+      ancienneDateThéoriqueAchèvement: string
     }
 )
 

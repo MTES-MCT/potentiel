@@ -13,6 +13,7 @@ import { UserRole } from '@modules/users'
 import { StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
 import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 describe(`Accorder une demande de délai`, () => {
   const demandeDélaiId = 'id-demande'
@@ -46,6 +47,7 @@ describe(`Accorder une demande de délai`, () => {
             demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
             publishToEventStore,
             fileRepo: fakeRepo(),
+            projectRepo: fakeRepo(),
           })
 
           const res = await accorderDemandéDélai({
@@ -85,6 +87,7 @@ describe(`Accorder une demande de délai`, () => {
             ),
             publishToEventStore,
             fileRepo,
+            projectRepo: fakeRepo(),
           })
 
           const res = await accorderDemandéDélai({
@@ -125,7 +128,11 @@ describe(`Accorder une demande de délai`, () => {
       Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
+          const ancienneDateThéoriqueAchèvement = new Date()
           const fileRepo = fakeRepo()
+          const projectRepo = fakeRepo(
+            makeFakeProject({ completionDueOn: ancienneDateThéoriqueAchèvement.getTime() })
+          )
 
           const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(
@@ -137,6 +144,7 @@ describe(`Accorder une demande de délai`, () => {
             ),
             publishToEventStore,
             fileRepo,
+            projectRepo,
           })
 
           const res = await accorderDemandéDélai({
@@ -159,6 +167,7 @@ describe(`Accorder une demande de délai`, () => {
             expect.objectContaining({
               type: 'DélaiAccordé',
               payload: expect.objectContaining({
+                ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
                 dateAchèvementAccordée: new Date('2022-06-27').toISOString(),
                 projetId: 'le-projet-de-la-demande',
                 accordéPar: user.id,

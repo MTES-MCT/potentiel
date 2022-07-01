@@ -5,7 +5,12 @@ import { ProjectionEnEchec } from '@modules/shared'
 
 export default ProjectEvent.projector.on(DélaiAccordé, async (evenement, transaction) => {
   const {
-    payload: { demandeDélaiId, accordéPar, dateAchèvementAccordée },
+    payload: {
+      demandeDélaiId,
+      accordéPar,
+      dateAchèvementAccordée,
+      ancienneDateThéoriqueAchèvement,
+    },
     occurredAt,
   } = evenement
 
@@ -32,6 +37,7 @@ export default ProjectEvent.projector.on(DélaiAccordé, async (evenement, trans
           statut: 'accordée',
           accordéPar,
           dateAchèvementAccordée,
+          ancienneDateThéoriqueAchèvement,
         },
       },
       { where: { id: demandeDélaiId }, transaction }

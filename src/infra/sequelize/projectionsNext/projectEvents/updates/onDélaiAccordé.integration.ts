@@ -21,6 +21,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
               projetId: 'le-projet-de-la-demande',
               accordéPar: 'admin',
               dateAchèvementAccordée: new Date('2022-06-30').toISOString(),
+              ancienneDateThéoriqueAchèvement: new Date('2022-06-30').toISOString(),
             },
             original: {
               version: 1,
@@ -42,6 +43,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
         const projetId = new UniqueEntityID().toString()
         const dateAchèvementDemandée = new Date().getTime()
         const dateAchèvementAccordée = new Date('2022-06-30')
+        const ancienneDateThéoriqueAchèvement = new Date('2022-06-30')
         const occurredAt = new Date().getTime()
 
         await ProjectEvent.create({
@@ -65,6 +67,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
               projetId: 'le-projet-de-la-demande',
               accordéPar: 'admin',
               dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+              ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
             },
             original: {
               version: 1,
@@ -83,6 +86,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
             statut: 'accordée',
             dateAchèvementDemandée,
             dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+            ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
           },
         })
       })

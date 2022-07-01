@@ -34,7 +34,13 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
             {statut !== 'accordée' ? (
               <>Date limite d'achèvement demandée : {formatDate(dateAchèvementDemandée)}</>
             ) : (
-              <>Date limite d'achèvement accordée : {formatDate(props.dateAchèvementAccordée)}</>
+              <>
+                Ancienne date limite d'achèvement :{' '}
+                {formatDate(new Date(props.ancienneDateThéoriqueAchèvement))}
+                <br />
+                Nouvelle date limite d'achèvement :{' '}
+                {formatDate(new Date(props.dateAchèvementAccordée))}
+              </>
             )}
             <br />
             <a href={demandeUrl}>Voir la demande</a>

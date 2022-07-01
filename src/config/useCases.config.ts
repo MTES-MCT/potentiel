@@ -319,4 +319,5 @@ export const accorderDemandeDélai = makeAccorderDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+  projectRepo,
 })
