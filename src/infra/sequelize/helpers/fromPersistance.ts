@@ -10,6 +10,7 @@ import * as UserEvents from '@modules/users/events'
 import * as EDFEvents from '@modules/edf/events'
 import * as EnedisEvents from '@modules/enedis/events'
 import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNotification/events'
+import * as DemandeModificationEvents from '@modules/demandeModification/demandeDélai/events'
 
 interface EventProps {
   payload: any
@@ -35,6 +36,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...LegacyCandidateNotificationEvents,
   ...EDFEvents,
   ...EnedisEvents,
+  ...DemandeModificationEvents,
 }
 
 export const fromPersistance = (eventRaw: any): DomainEvent | null => {

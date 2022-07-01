@@ -17,7 +17,7 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
-import { ProjectInfo } from '@views/components'
+import { ProjectInfo, SuccessErrorBox } from '@views/components'
 
 type NewModificationRequestProps = {
   request: Request
@@ -27,8 +27,15 @@ type NewModificationRequestProps = {
 
 export const NewModificationRequest = PageLayout(
   ({ request, project, cahiersChargesURLs }: NewModificationRequestProps) => {
-    const { action, error, success, puissance, actionnaire, justification, delayInMonths } =
-      (request.query as any) || {}
+    const {
+      action,
+      error,
+      success,
+      puissance,
+      actionnaire,
+      justification,
+      dateAchèvementDemandée,
+    } = (request.query as any) || {}
 
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
@@ -43,25 +50,17 @@ export const NewModificationRequest = PageLayout(
             </h3>
           </div>
 
-          <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+          <form
+            action={action === 'delai' ? ROUTES.DEMANDE_DELAI_ACTION : ROUTES.DEMANDE_ACTION}
+            method="post"
+            encType="multipart/form-data"
+          >
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
             <div className="form__group">
               <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              {error && (
-                <div className="notification error" {...dataId('modificationRequest-errorMessage')}>
-                  {error}
-                </div>
-              )}
-              {success && (
-                <div
-                  className="notification success"
-                  {...dataId('modificationRequest-successMessage')}
-                >
-                  {success}
-                </div>
-              )}
+              <SuccessErrorBox success={success} error={error} />
               {!isEolien && (
                 <div>
                   <label className="required">
@@ -101,7 +100,7 @@ export const NewModificationRequest = PageLayout(
                   {action === 'abandon' && <DemandeAbandon {...{ justification }} />}
                   {action === 'recours' && <DemandeRecours {...{ justification }} />}
                   {action === 'delai' && (
-                    <DemandeDelai {...{ project, delayInMonths, justification }} />
+                    <DemandeDelai {...{ project, dateAchèvementDemandée, justification }} />
                   )}
 
                   <button

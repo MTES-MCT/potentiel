@@ -97,6 +97,10 @@ export const MakeModificationRequestModel = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
+      dateAchèvementDemandée: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
       confirmationRequestedBy: {
         type: DataTypes.UUID,
         allowNull: true,

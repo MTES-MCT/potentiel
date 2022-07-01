@@ -20,7 +20,11 @@ export const AdminResponseForm = ({
 
   return (
     <form
-      action={ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST}
+      action={
+        type === 'delai' && modificationRequest.dateAchèvementDemandée
+          ? ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
+          : ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
+      }
       method="post"
       encType="multipart/form-data"
       style={{ margin: 0 }}
@@ -63,11 +67,11 @@ export const AdminResponseForm = ({
       <button
         className="button warning flex-1"
         type="submit"
-        data-confirm={`Etes-vous sur de vouloir refuser la demande ${ModificationRequestTitleByType[type]} ?`}
+        data-confirm={`Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
         name="submitRefuse"
         {...dataId('submit-button-alt')}
       >
-        Refuser la demande {ModificationRequestTitleByType[type]}
+        Rejeter la demande {ModificationRequestTitleByType[type]}
       </button>
     </form>
   )

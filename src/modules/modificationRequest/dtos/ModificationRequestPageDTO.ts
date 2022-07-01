@@ -58,4 +58,13 @@ type Variant =
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
   | { type: 'abandon' }
-  | { type: 'delai'; delayInMonths: number; acceptanceParams?: { delayInMonths: number } }
+  | ({
+      type: 'delai'
+      acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string }
+    } & (
+      | { delayInMonths: number; dateAchèvementDemandée?: undefined }
+      | {
+          delayInMonths?: undefined
+          dateAchèvementDemandée: string
+        }
+    ))

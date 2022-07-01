@@ -15,8 +15,10 @@ import {
   ActionnaireForm,
   PuissanceForm,
   ProducteurForm,
+  AnnulerDemandeDélaiBouton,
 } from './components'
 import { hydrateOnClient } from '../../helpers'
+import ROUTES from '../../../routes'
 
 moment.locale('fr')
 
@@ -62,31 +64,40 @@ export const ModificationRequest = PageLayout(
                 <h4>Répondre</h4>
 
                 <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-                  {modificationRequest.type === 'delai' && (
-                    <DelaiForm modificationRequest={modificationRequest} />
-                  )}
+                  {type === 'delai' && <DelaiForm modificationRequest={modificationRequest} />}
 
-                  {modificationRequest.type === 'recours' && <RecoursForm />}
+                  {type === 'recours' && <RecoursForm />}
 
-                  {modificationRequest.type === 'abandon' && (
-                    <AbandonForm modificationRequest={modificationRequest} />
-                  )}
+                  {type === 'abandon' && <AbandonForm modificationRequest={modificationRequest} />}
 
-                  {modificationRequest.type === 'puissance' && (
+                  {type === 'puissance' && (
                     <PuissanceForm modificationRequest={modificationRequest} />
                   )}
 
-                  {modificationRequest.type === 'actionnaire' && (
+                  {type === 'actionnaire' && (
                     <ActionnaireForm modificationRequest={modificationRequest} />
                   )}
-                  {modificationRequest.type === 'producteur' && (
+                  {type === 'producteur' && (
                     <ProducteurForm modificationRequest={modificationRequest} />
                   )}
                 </AdminResponseForm>
               </div>
             )}
 
-          <CancelButton status={status} id={id} isAdmin={isAdmin} />
+          {type === 'delai' ? (
+            <AnnulerDemandeDélaiBouton
+              status={status}
+              id={id}
+              isAdmin={isAdmin}
+              route={
+                modificationRequest.delayInMonths
+                  ? ROUTES.ANNULER_DEMANDE_ACTION
+                  : ROUTES.ANNULER_DEMANDE_DELAI
+              }
+            />
+          ) : (
+            <CancelButton status={status} id={id} isAdmin={isAdmin} />
+          )}
         </div>
       </RoleBasedDashboard>
     )

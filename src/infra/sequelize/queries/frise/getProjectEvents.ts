@@ -4,6 +4,7 @@ import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
 import { getProjectAppelOffre } from '@config/queries.config'
+import routes from '../../../../routes'
 
 const { Project } = models
 
@@ -335,6 +336,24 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       status,
                       ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
                       attachment,
+                    })
+                  }
+                  break
+
+                case 'DemandeDélai':
+                  if (userIsNot('ademe')(user)) {
+                    const { statut, dateAchèvementDemandée, demandeDélaiId } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      statut,
+                      dateAchèvementDemandée,
+                      ...(statut === 'accordée' && {
+                        dateAchèvementAccordée: payload.dateAchèvementAccordée,
+                        ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
+                      }),
+                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     })
                   }
                   break

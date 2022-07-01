@@ -35,6 +35,12 @@ import {
   makeAddGFExpirationDate,
 } from '@modules/project'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
+import {
+  makeAnnulerDemandeDélai,
+  makeDemanderDélai,
+  makeRejeterDemandeDélai,
+  makeAccorderDemandeDélai,
+} from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
@@ -63,8 +69,8 @@ import {
   userRepo,
   projectRepo,
   projectClaimRepo,
+  demandeDélaiRepo,
 } from './repos.config'
-import { getAppelOffre } from '@dataAccess/inMemory'
 import { makeImportEdfData } from '@modules/edf'
 import { makeParseEdfCsv } from '../infra/parseEdfCsv'
 import { makeImportEnedisData } from '../modules/enedis'
@@ -286,4 +292,32 @@ export const importEnedisData = makeImportEnedisData({
   publish: eventStore.publish.bind(eventStore),
   parseCsvFile: makeParseEdfCsv({ fileRepo }),
   getSearchIndex: getEnedisSearchIndex,
+})
+
+export const demanderDélai = makeDemanderDélai({
+  fileRepo,
+  appelOffreRepo: oldAppelOffreRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  getProjectAppelOffreId,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+})
+
+export const annulerDemandeDélai = makeAnnulerDemandeDélai({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const rejeterDemandeDélai = makeRejeterDemandeDélai({
+  fileRepo,
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const accorderDemandeDélai = makeAccorderDemandeDélai({
+  fileRepo,
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  projectRepo,
 })

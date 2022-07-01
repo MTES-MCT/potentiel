@@ -77,7 +77,7 @@ export const SignalerDemandeDelai = PageLayout(
                     onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                     required
                   />
-                  <label htmlFor="status-rejected">Demande refusée</label>
+                  <label htmlFor="status-rejected">Demande rejetée</label>
                 </div>
                 <div className="flex flex-row">
                   <input

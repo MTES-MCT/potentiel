@@ -3,14 +3,14 @@ import { BaseSchema, InferType, ValidationError } from 'yup'
 
 export class RequestValidationErrorArray extends Error {
   constructor(public errors: Array<string>) {
-    super("L'attestation de constitution des garanties financières n'a pas pu être envoyée.")
+    super("Votre demande n'a pas pu être traitée.")
   }
 }
 
-export const validateRequestBodyForErrorArray = (
+export const validateRequestBodyForErrorArray = <Schema extends BaseSchema>(
   body: Request['body'],
-  schema: BaseSchema
-): Result<InferType<typeof schema>, RequestValidationErrorArray | Error> => {
+  schema: Schema
+): Result<InferType<Schema>, RequestValidationErrorArray | Error> => {
   try {
     return ok(schema.validateSync(body, { abortEarly: false }))
   } catch (error) {

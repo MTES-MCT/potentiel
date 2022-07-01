@@ -10,6 +10,7 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   pattern?: string
   error?: string
   max?: string
+  disabled?: true
 }
 
 export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {

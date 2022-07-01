@@ -131,6 +131,7 @@ class routes {
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
+  static ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI = '/admin/accorder-ou-rejeter-demande-delai'
 
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
   static ADMIN_INVITATION_LIST = '/admin/invitations.html'
@@ -193,9 +194,12 @@ class routes {
 
   static DEMANDE_ACTION = '/soumettre-demande'
 
+  static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai'
+
   static CONFIRMER_DEMANDE_ACTION = '/confirmer-demande'
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
+  static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

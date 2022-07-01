@@ -202,6 +202,7 @@ export interface Project extends EventStoreAggregate {
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
+  readonly completionDueOn: number
 }
 
 export interface ProjectDataProps {
@@ -1014,6 +1015,9 @@ export const makeProject = (args: {
     },
     get familleId() {
       return props.familleId
+    },
+    get completionDueOn() {
+      return props.completionDueOn
     },
   })
 
