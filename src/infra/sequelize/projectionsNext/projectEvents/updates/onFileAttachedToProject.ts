@@ -7,7 +7,7 @@ export default ProjectEvent.projector.on(
   FileAttachedToProject,
   async ({ payload: { projectId, date, attachedBy, ...payload }, occurredAt, id }, transaction) => {
     const { User, UserDreal } = models
-    const user = await User.findOne({ where: { id: attachedBy } })
+    const user = await User.findOne({ where: { id: attachedBy }, transaction })
 
     const attachedByUser: any = { id: attachedBy }
     if (user) {
@@ -18,7 +18,7 @@ export default ProjectEvent.projector.on(
       }
 
       if (user.role === 'dreal') {
-        const region = await UserDreal.findOne({ where: { userId: attachedBy } })
+        const region = await UserDreal.findOne({ where: { userId: attachedBy }, transaction })
         if (region) {
           attachedByUser.administration = `DREAL ${region.dreal}`
         }

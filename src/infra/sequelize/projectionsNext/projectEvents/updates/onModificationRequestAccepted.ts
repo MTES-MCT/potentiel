@@ -16,6 +16,7 @@ export default ProjectEvent.projector.on(
     if (responseFileId) {
       const rawFilename = await File.findByPk(responseFileId, {
         attributes: ['filename'],
+        transaction,
       })
       const filename = rawFilename?.filename
       file = filename && { id: responseFileId, name: filename }
@@ -23,6 +24,7 @@ export default ProjectEvent.projector.on(
 
     const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],
+      transaction,
     })
 
     if (projectId) {

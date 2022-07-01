@@ -11,6 +11,7 @@ export default ProjectEvent.projector.on(
     const rawFilename = await File.findOne({
       attributes: ['filename'],
       where: { id: fileId },
+      transaction,
     })
     if (!rawFilename) {
       logger.error(

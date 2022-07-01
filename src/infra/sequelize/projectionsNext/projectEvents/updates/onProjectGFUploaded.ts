@@ -14,6 +14,7 @@ export default ProjectEvent.projector.on(
     const rawFilename = await File.findOne({
       attributes: ['filename'],
       where: { id: fileId },
+      transaction,
     })
 
     if (!rawFilename) {
@@ -28,6 +29,7 @@ export default ProjectEvent.projector.on(
     const rawUser = await User.findOne({
       attributes: ['role'],
       where: { id: submittedBy },
+      transaction,
     })
 
     if (!rawUser) {

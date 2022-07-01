@@ -9,6 +9,7 @@ export default ProjectEvent.projector.on(
     const events = await ProjectEvent.findAll({
       where: { type: { [Op.or]: ['ProjectGFSubmitted', 'ProjectGFUploaded'] }, projectId },
       order: [['eventPublishedAt', 'ASC']],
+      transaction,
     })
 
     const instance = events.pop()
