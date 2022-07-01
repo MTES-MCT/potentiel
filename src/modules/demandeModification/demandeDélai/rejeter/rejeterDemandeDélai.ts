@@ -29,7 +29,7 @@ export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
     }
 
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-      const { statut } = demandeDélai
+      const { statut, projetId } = demandeDélai
 
       if (statut !== 'envoyée' && statut !== 'en-instruction') {
         return errAsync(
@@ -40,10 +40,14 @@ export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
         )
       }
 
+      if (!projetId) {
+        return errAsync(new InfraNotAvailableError())
+      }
+
       return makeAndSaveFile({
         file: {
           designation: 'modification-request-response',
-          forProject: new UniqueEntityID(demandeDélai.projetId),
+          forProject: new UniqueEntityID(projetId),
           createdBy: new UniqueEntityID(user.id),
           filename,
           contents,
@@ -56,6 +60,7 @@ export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
               demandeDélaiId,
               rejetéPar: user.id,
               fichierRéponseId,
+              projetId,
             },
           })
         )

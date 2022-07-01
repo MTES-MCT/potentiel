@@ -145,6 +145,7 @@ describe(`Rejeter une demande de délai`, () => {
                 demandeDélaiId,
                 rejetéPar: user.id,
                 fichierRéponseId: expect.any(String),
+                projetId,
               }),
             })
           )
