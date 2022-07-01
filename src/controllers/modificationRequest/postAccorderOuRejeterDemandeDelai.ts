@@ -64,25 +64,26 @@ v1Router.post(
             user,
             demandeDélaiId: modificationRequestId,
             fichierRéponse: file,
-          }).map(() => ({ modificationRequestId }))
+          }).map(() => ({ modificationRequestId, estAccordé: false }))
         }
 
         if (estAccordé && dateAchèvementDemandée) {
-          return accorderDemandeDélai({
+          const résultat = accorderDemandeDélai({
             user,
             demandeDélaiId: modificationRequestId,
             dateAchèvementAccordée: dateAchèvementDemandée,
             fichierRéponse: file,
-          }).map(() => ({ modificationRequestId }))
+          }).map(() => ({ modificationRequestId, estAccordé }))
+          return résultat
         }
 
         return errAsync(new Error('Réponse incorrecte'))
       })
       .match(
-        ({ modificationRequestId }) => {
+        ({ modificationRequestId, estAccordé }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre demande de délai a bien été rejetée.',
+              success: `La demande de délai a bien été ${estAccordé ? 'accordée' : 'rejetée'}.`,
               redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
               redirectTitle: 'Retourner sur la page de la demande',
             })
@@ -106,7 +107,7 @@ v1Router.post(
             request,
             response,
             customMessage:
-              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+              'Il y a eu une erreur lors de la soumission de votre réponse. Merci de recommencer.',
           })
         }
       )
