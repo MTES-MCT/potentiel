@@ -15,7 +15,9 @@ export const onDélaiAccordé =
           respondedBy: accordéPar,
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
-          dateAchèvementAccordée,
+          acceptanceParams: {
+            dateAchèvementAccordée,
+          },
         },
         {
           where: {

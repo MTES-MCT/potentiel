@@ -60,8 +60,11 @@ type Variant =
   | { type: 'abandon' }
   | ({
       type: 'delai'
-      acceptanceParams?: { delayInMonths: number }
+      acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string }
     } & (
       | { delayInMonths: number; dateAchèvementDemandée?: undefined }
-      | { delayInMonths?: undefined; dateAchèvementDemandée: string }
+      | {
+          delayInMonths?: undefined
+          dateAchèvementDemandée: string
+        }
     ))
