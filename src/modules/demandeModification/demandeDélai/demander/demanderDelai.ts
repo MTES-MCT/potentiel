@@ -25,7 +25,7 @@ type MakeDemandeDélaiArgs = {
     filename: string
   }
   projectId: string
-  justification: string
+  justification?: string
   dateAchèvementDemandée: Date
   numeroGestionnaire?: string
 }
@@ -92,7 +92,7 @@ export const makeDemanderDélai = (deps: MakeDemandeDélaiDeps) => (args: MakeDe
             projetId: projectId,
             ...(fileId && { fichierId: fileId }),
             justification,
-            dateAchèvementDemandée,
+            dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
             autorité: appelOffre?.type === 'eolien' ? 'dgec' : 'dreal',
             porteurId: user.id,
           },
