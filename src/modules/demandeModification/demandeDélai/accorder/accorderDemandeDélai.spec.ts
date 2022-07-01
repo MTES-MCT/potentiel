@@ -43,8 +43,9 @@ describe(`Accorder une demande de délai`, () => {
         Lorsqu'il accorde une demande de délai
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
+          const demandeDélai = makeFakeDemandeDélai({ projetId: 'le-projet' })
           const accorderDemandéDélai = makeAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
+            demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
             publishToEventStore,
             fileRepo: fakeRepo(),
             projectRepo: fakeRepo(),
@@ -80,14 +81,18 @@ describe(`Accorder une demande de délai`, () => {
       Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
+          const projectRepo = fakeRepo(makeFakeProject())
 
+          const demandeDélai = makeFakeDemandeDélai({
+            id: demandeDélaiId,
+            statut,
+            projetId: 'le-projet',
+          })
           const accorderDemandéDélai = makeAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
-            ),
+            demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
             publishToEventStore,
             fileRepo,
-            projectRepo: fakeRepo(),
+            projectRepo,
           })
 
           const res = await accorderDemandéDélai({
@@ -134,14 +139,13 @@ describe(`Accorder une demande de délai`, () => {
             makeFakeProject({ completionDueOn: ancienneDateThéoriqueAchèvement.getTime() })
           )
 
+          const demandeDélai = makeFakeDemandeDélai({
+            id: demandeDélaiId,
+            statut,
+            projetId: 'le-projet-de-la-demande',
+          })
           const accorderDemandéDélai = makeAccorderDemandeDélai({
-            demandeDélaiRepo: fakeTransactionalRepo(
-              makeFakeDemandeDélai({
-                id: demandeDélaiId,
-                statut,
-                projetId: 'le-projet-de-la-demande',
-              })
-            ),
+            demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
             publishToEventStore,
             fileRepo,
             projectRepo,

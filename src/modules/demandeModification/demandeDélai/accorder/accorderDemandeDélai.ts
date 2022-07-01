@@ -17,7 +17,7 @@ type AccorderDemandeDélai = (commande: {
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | AccorderDemandeDélaiError>
 
 type MakeAccorderDemandeDélai = (dépendances: {
-  demandeDélaiRepo: TransactionalRepository<DemandeDélai>
+  demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
   fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
@@ -30,50 +30,58 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
       return errAsync(new UnauthorizedError())
     }
 
-    return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
-      const { statut, projetId } = demandeDélai
-
-      if (statut !== 'envoyée' && statut !== 'en-instruction') {
-        return errAsync(
-          new AccorderDemandeDélaiError(
-            demandeDélai,
-            'Seul une demande envoyée ou en instruction peut être accordée'
-          )
-        )
-      }
+    return demandeDélaiRepo.load(new UniqueEntityID(demandeDélaiId)).andThen((demandeDélai) => {
+      const { projetId } = demandeDélai
 
       if (!projetId) {
         return errAsync(new InfraNotAvailableError())
       }
 
-      return makeAndSaveFile({
-        file: {
-          designation: 'modification-request-response',
-          forProject: new UniqueEntityID(demandeDélai.projetId),
-          createdBy: new UniqueEntityID(user.id),
-          filename: fichierRéponse.filename,
-          contents: fichierRéponse.contents,
-        },
-        fileRepo,
-      })
-        .andThen((fichierRéponseId) => {
-          return projectRepo
-            .load(new UniqueEntityID(demandeDélai.projetId))
-            .map((project) => ({ project, fichierRéponseId }))
-        })
-        .andThen(({ project, fichierRéponseId }) =>
-          publishToEventStore(
-            new DélaiAccordé({
-              payload: {
-                accordéPar: user.id,
-                projetId,
-                dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
-                demandeDélaiId,
-                fichierRéponseId,
-                ancienneDateThéoriqueAchèvement: new Date(project.completionDueOn).toISOString(),
-              },
-            })
+      return projectRepo
+        .load(new UniqueEntityID(demandeDélai.projetId))
+        .map((project) => ({ project }))
+        .andThen(({ project }) => {
+          return demandeDélaiRepo.transaction(
+            new UniqueEntityID(demandeDélaiId),
+            (demandeDélai) => {
+              const { statut } = demandeDélai
+
+              if (statut !== 'envoyée' && statut !== 'en-instruction') {
+                return errAsync(
+                  new AccorderDemandeDélaiError(
+                    demandeDélai,
+                    'Seul une demande envoyée ou en instruction peut être accordée'
+                  )
+                )
+              }
+
+              return makeAndSaveFile({
+                file: {
+                  designation: 'modification-request-response',
+                  forProject: new UniqueEntityID(demandeDélai.projetId),
+                  createdBy: new UniqueEntityID(user.id),
+                  filename: fichierRéponse.filename,
+                  contents: fichierRéponse.contents,
+                },
+                fileRepo,
+              }).andThen((fichierRéponseId) => {
+                return publishToEventStore(
+                  new DélaiAccordé({
+                    payload: {
+                      accordéPar: user.id,
+                      projetId,
+                      dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+                      demandeDélaiId,
+                      fichierRéponseId,
+                      ancienneDateThéoriqueAchèvement: new Date(
+                        project.completionDueOn
+                      ).toISOString(),
+                    },
+                  })
+                )
+              })
+            }
           )
-        )
+        })
     })
   }

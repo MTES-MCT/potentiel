@@ -35,7 +35,13 @@ export const userRepo = makeEventStoreTransactionalRepo({
   eventStore,
   makeAggregate: makeUser,
 })
-export const demandeDélaiRepo = makeEventStoreTransactionalRepo({
-  eventStore,
-  makeAggregate: makeDemandeDélai,
-})
+export const demandeDélaiRepo = {
+  ...makeEventStoreTransactionalRepo({
+    eventStore,
+    makeAggregate: makeDemandeDélai,
+  }),
+  ...makeEventStoreRepo({
+    eventStore,
+    makeAggregate: makeDemandeDélai,
+  }),
+}
