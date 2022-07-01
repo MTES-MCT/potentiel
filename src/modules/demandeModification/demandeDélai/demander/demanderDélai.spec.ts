@@ -111,7 +111,7 @@ describe('Commande demanderDélai', () => {
             const firstEvent = publishToEventStore.mock.calls[0][0]
             expect(firstEvent).toBeInstanceOf(DélaiDemandé)
             expect(firstEvent.payload).toMatchObject({
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
               projetId: fakeProject.id.toString(),
             })
           })
@@ -207,7 +207,7 @@ describe('Commande demanderDélai', () => {
             const secondEvent = publishToEventStore.mock.calls[1][0]
             expect(secondEvent).toBeInstanceOf(DélaiDemandé)
             expect(secondEvent.payload).toMatchObject({
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
               projetId: fakeProject.id.toString(),
             })
           })
