@@ -59,7 +59,7 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
             payload: {
               accordéPar: user.id,
               projetId,
-              dateAchèvementAccordée,
+              dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
               demandeDélaiId,
               fichierRéponseId,
             },

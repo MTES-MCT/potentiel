@@ -20,7 +20,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
               demandeDélaiId,
               projetId: 'le-projet-de-la-demande',
               accordéPar: 'admin',
-              dateAchèvementAccordée: new Date('2022-06-30'),
+              dateAchèvementAccordée: new Date('2022-06-30').toISOString(),
             },
             original: {
               version: 1,
@@ -64,7 +64,7 @@ describe('Projecteur de ProjectEvent onDélaiAccordé', () => {
               demandeDélaiId,
               projetId: 'le-projet-de-la-demande',
               accordéPar: 'admin',
-              dateAchèvementAccordée,
+              dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
             },
             original: {
               version: 1,
