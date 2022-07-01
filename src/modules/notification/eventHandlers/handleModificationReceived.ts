@@ -1,7 +1,7 @@
 import { NotificationProps, NotificationService } from '..'
 import { logger } from '@core/utils'
 import { ProjectRepo, UserRepo } from '@dataAccess'
-import routes from '../../../routes'
+import routes from '@routes'
 import { ModificationReceived } from '../../modificationRequest'
 
 export const handleModificationReceived =

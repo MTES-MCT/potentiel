@@ -1,5 +1,5 @@
 import React from 'react'
-import ROUTES from '../../routes'
+import ROUTES from '@routes'
 
 interface UserDashboardProps {
   children: React.ReactNode

@@ -2,7 +2,7 @@ import { AppelOffre } from '@entities'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
-import routes from '../../routes'
+import routes from '@routes'
 
 type ProjectInfoProps = {
   project: {

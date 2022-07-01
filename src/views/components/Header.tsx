@@ -1,5 +1,5 @@
 import React from 'react'
-import routes from '../../routes'
+import routes from '@routes'
 import { Request } from 'express'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
 import { RiCloseLine } from '@react-icons/all-files/ri/RiCloseLine'

@@ -3,7 +3,7 @@ import { ensureRole, signalerDemandeRecours } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { UnauthorizedError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,

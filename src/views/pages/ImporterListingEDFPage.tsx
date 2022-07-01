@@ -1,7 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import ROUTES from '../../routes'
+import ROUTES from '@routes'
 import { SuccessErrorBox } from '../components'
 import { PageLayout } from '../components/PageLayout'
 import PartnerDashboard from '../components/PartnerDashboard'

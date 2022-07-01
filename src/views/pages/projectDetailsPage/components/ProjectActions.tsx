@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { Menu, Transition } from '@headlessui/react'
 import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
 import { ProjectDataForProjectPage } from '@modules/project'

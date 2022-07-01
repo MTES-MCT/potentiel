@@ -1,5 +1,5 @@
 import asyncHandler from './helpers/asyncHandler'
-import routes from '../routes'
+import routes from '@routes'
 import { SuccessPage } from '@views/legacy-pages'
 import { v1Router } from './v1Router'
 

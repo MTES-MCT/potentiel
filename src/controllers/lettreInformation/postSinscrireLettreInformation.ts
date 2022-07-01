@@ -1,5 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler'
-import routes from '../../routes'
+import routes from '@routes'
 import { v1Router } from '../v1Router'
 import { logger, ResultAsync } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'

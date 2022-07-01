@@ -1,5 +1,5 @@
 import { Project } from '@entities'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { isCertificateDTO, is, ProjectCertificateDTO, ProjectEventDTO } from '@modules/frise'
 import { UserRole } from '@modules/users'
 import { format } from 'date-fns'

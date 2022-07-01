@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { Button, Input } from '../..'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'

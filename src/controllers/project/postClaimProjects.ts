@@ -1,4 +1,4 @@
-import routes from '../../routes'
+import routes from '@routes'
 import { v1Router } from '../v1Router'
 import { claimProject, ensureRole } from '@config'
 import asyncHandler from '../helpers/asyncHandler'

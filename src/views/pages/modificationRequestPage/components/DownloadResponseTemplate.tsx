@@ -2,7 +2,7 @@ import React from 'react'
 import { Project } from '@entities'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { DownloadIcon } from '../../../components'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 
 interface DownloadResponseTemplateProps {
   modificationRequest: ModificationRequestPageDTO

@@ -15,7 +15,7 @@ import {
   ResponseTemplateDownloaded,
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { shouldUserAccessProject } from '@useCases'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'

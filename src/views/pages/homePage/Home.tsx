@@ -1,7 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
-import routes from '../../../routes'
+import routes from '@routes'
 import { Header, Footer } from '../../components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components'

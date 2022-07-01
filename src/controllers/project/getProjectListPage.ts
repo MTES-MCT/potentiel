@@ -1,7 +1,7 @@
 import { appelOffreRepo } from '@dataAccess'
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
-import routes from '../../routes'
+import routes from '@routes'
 import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
 import { ListProjectsPage } from '@views/legacy-pages'

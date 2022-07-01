@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { Button } from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'

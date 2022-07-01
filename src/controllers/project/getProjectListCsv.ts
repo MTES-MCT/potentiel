@@ -1,7 +1,7 @@
 import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
 import { makePagination } from '../../helpers/paginate'
-import routes from '../../routes'
+import routes from '@routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'

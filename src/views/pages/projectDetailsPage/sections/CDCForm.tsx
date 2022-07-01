@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 import { CDCChoiceForm } from '../../../components'
 import { Section } from '../components/Section'
 

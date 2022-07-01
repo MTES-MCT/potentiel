@@ -1,6 +1,6 @@
 import { userRepo } from '@dataAccess'
 import asyncHandler from '../../helpers/asyncHandler'
-import routes from '../../../routes'
+import routes from '@routes'
 import { ensureRole, getPartnersList } from '@config'
 import { v1Router } from '../../v1Router'
 import { PartnersListPage } from '@views'

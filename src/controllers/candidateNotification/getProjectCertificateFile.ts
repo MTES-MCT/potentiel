@@ -5,7 +5,7 @@ import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
 import { ProjectCertificateDownloaded } from '@modules/project'
 import { InfraNotAvailableError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { notFoundResponse, unauthorizedResponse, errorResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 

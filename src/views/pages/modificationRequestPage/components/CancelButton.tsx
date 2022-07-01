@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 
 interface CancelButtonProps {
   isAdmin: boolean

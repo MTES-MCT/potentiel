@@ -1,6 +1,6 @@
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '../../routes'
+import routes from '@routes'
 import { removeGF } from '@config/useCases.config'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'

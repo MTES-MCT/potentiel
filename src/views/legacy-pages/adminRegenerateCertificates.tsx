@@ -2,7 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
-import ROUTES from '../../routes'
+import ROUTES from '@routes'
 import AdminDashboard from '../components/AdminDashboard'
 
 type AdminRegenerateCertificatesProps = {

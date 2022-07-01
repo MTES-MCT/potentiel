@@ -1,6 +1,6 @@
 import { porteurProjetActions } from '.'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {

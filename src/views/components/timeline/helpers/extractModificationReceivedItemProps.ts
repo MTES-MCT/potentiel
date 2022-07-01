@@ -1,6 +1,6 @@
 import { is, ProjectEventDTO } from '@modules/frise'
 import { Fournisseur } from '@modules/project'
-import ROUTES from '../../../../routes'
+import ROUTES from '@routes'
 
 export type ModificationReceivedItemProps = {
   type: 'modification-information'

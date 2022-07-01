@@ -7,7 +7,7 @@ import {
   EntityNotFoundError,
   UnauthorizedError,
 } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { validateUniqueId } from '../../helpers/validateUniqueId'

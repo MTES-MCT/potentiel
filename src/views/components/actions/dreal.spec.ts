@@ -1,5 +1,5 @@
 import { drealActions } from '.'
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 
 describe('drealActions', () => {

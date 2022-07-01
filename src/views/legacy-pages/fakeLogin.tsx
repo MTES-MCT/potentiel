@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import routes from '../../routes'
+import routes from '@routes'
 
 interface Props {
   request: Request

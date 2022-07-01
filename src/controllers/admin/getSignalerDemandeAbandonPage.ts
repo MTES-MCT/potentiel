@@ -4,7 +4,7 @@ import { getProjectDataForSignalerDemandeAbandonPage } from '@config/queries.con
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '@modules/shared'
-import routes from '../../routes'
+import routes from '@routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { SignalerDemandeAbandonPage } from '@views'

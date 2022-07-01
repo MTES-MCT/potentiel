@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Project } from '@entities'
-import ROUTES from '../../../routes'
+import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
 import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'

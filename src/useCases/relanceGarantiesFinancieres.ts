@@ -5,7 +5,7 @@ import { ProjectRepo } from '@dataAccess'
 import { applyProjectUpdate, isNotifiedPeriode } from '@entities'
 import { NotificationService } from '@modules/notification'
 import { ProjectGFReminded } from '@modules/project'
-import routes from '../routes'
+import routes from '@routes'
 import { Ok, ResultAsync } from '../types'
 
 interface MakeUseCaseProps {
