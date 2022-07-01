@@ -28,7 +28,9 @@ describe(`Commande annuler demande délai`, () => {
       const shouldUserAccessProject = jest.fn(async () => false)
       it(`Lorsqu'il annule une demande de délai,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const demandeDélaiRepo = fakeTransactionalRepo(makeFakeDemandeDélai())
+        const demandeDélaiRepo = fakeTransactionalRepo(
+          makeFakeDemandeDélai({ projetId: 'le-projet-de-la-demande' })
+        )
 
         const annulerDemandéDélai = makeAnnulerDemandeDélai({
           shouldUserAccessProject,
@@ -64,7 +66,11 @@ describe(`Commande annuler demande délai`, () => {
             const demandeDélaiId = 'la-demande-a-annuler'
 
             const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
+              makeFakeDemandeDélai({
+                id: demandeDélaiId,
+                statut,
+                projetId: 'le-projet-de-la-demande',
+              })
             )
 
             const annulerDemandéDélai = makeAnnulerDemandeDélai({
