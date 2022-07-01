@@ -10,6 +10,7 @@ export default ProjectEvent.projector.on(
     const { File } = models
     const rawFilename = await File.findByPk(responseFileId, {
       attributes: ['filename'],
+      transaction,
     })
 
     const filename: string | undefined = rawFilename?.filename

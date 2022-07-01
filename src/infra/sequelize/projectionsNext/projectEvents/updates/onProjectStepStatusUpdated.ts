@@ -11,6 +11,7 @@ export default ProjectEvent.projector.on(
     const projectStep = await ProjectStep.findOne({
       attributes: ['projectId', 'type'],
       where: { id: projectStepId },
+      transaction,
     })
 
     if (!ProjectStep) {

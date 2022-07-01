@@ -10,6 +10,7 @@ export default ProjectEvent.projector.on(
 
     const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],
+      transaction,
     })
 
     if (projectId) {
