@@ -21,7 +21,7 @@ export const DemandeDelai = ({
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <label>Date théorique de mise en service</label>
+        <label>Date théorique d'achèvement</label>
         <Input
           type="text"
           disabled
@@ -32,7 +32,7 @@ export const DemandeDelai = ({
       </div>
       <div>
         <label htmlFor="dateAchèvementDemandée">
-          Saisissez la date limite de mise en service souhaitée
+          Saisissez la date limite d'achèvement souhaitée
         </label>
         <Input
           type="date"

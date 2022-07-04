@@ -80,11 +80,11 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
 
   return status === 'envoyée' || status === 'en instruction' ? (
     <div style={{ marginTop: 5 }}>
-      La date de mise en service théorique est au{' '}
+      La date d'achèvement théorique est au{' '}
       <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
       .
       <br />
-      Le porteur demande un délai pour une nouvelle date d'achèvement le{' '}
+      Le porteur demande un délai pour une nouvelle date limite d'achèvement le{' '}
       <span className="font-bold">{format(dateDemandée, 'dd/MM/yyyy')}</span>.
     </div>
   ) : (

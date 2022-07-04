@@ -18,7 +18,7 @@ export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
     <div className="mt-4 mb-4">
       {dateAchèvementDemandée && (
         <>
-          <label htmlFor="dateAchèvementDemandée">Date d'achèvement demandée</label>
+          <label htmlFor="dateAchèvementDemandée">Date limite d'achèvement demandée</label>
           <Input
             type="date"
             name="dateAchèvementDemandée"
@@ -43,7 +43,7 @@ export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
             style={{ width: 75 }}
           />
           <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
-            {`Date de mise en service projetée: ${formatDate(
+            {`Date d'achèvement projetée: ${formatDate(
               +moment(project.completionDueOn).add(delayInMonths, 'month')
             )}`}
           </span>
