@@ -22,7 +22,7 @@ const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),
   submitRefuse: yup.string().nullable(),
   modificationRequestId: yup.string().uuid().required(),
-  dateAchèvementDemandée: yup.date().when('submitAccept', {
+  dateAchèvementAccordée: yup.date().when('submitAccept', {
     is: (submitAccept) => typeof submitAccept === 'string',
     then: yup
       .date()
@@ -40,7 +40,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { modificationRequestId, dateAchèvementDemandée, submitAccept, submitRefuse } = body
+        const { modificationRequestId, dateAchèvementAccordée, submitAccept, submitRefuse } = body
         const { user } = request
 
         if (!request.file) {
@@ -67,11 +67,11 @@ v1Router.post(
           }).map(() => ({ modificationRequestId, estAccordé: false }))
         }
 
-        if (estAccordé && dateAchèvementDemandée) {
+        if (estAccordé && dateAchèvementAccordée) {
           const résultat = accorderDemandeDélai({
             user,
             demandeDélaiId: modificationRequestId,
-            dateAchèvementAccordée: dateAchèvementDemandée,
+            dateAchèvementAccordée,
             fichierRéponse: file,
           }).map(() => ({ modificationRequestId, estAccordé }))
           return résultat

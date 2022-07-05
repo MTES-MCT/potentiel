@@ -5,10 +5,10 @@ import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { Input } from '../../../components'
 import { format } from 'date-fns'
-interface DelaiFormProps {
+interface AdminRéponseDélaiForm {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
-export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
+export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseDélaiForm) => {
   const { project, delayInMonths, dateAchèvementDemandée } = modificationRequest
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
@@ -18,11 +18,11 @@ export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
     <div className="mt-4 mb-4">
       {dateAchèvementDemandée && (
         <>
-          <label htmlFor="dateAchèvementDemandée">Date d'achèvement demandée</label>
+          <label htmlFor="dateAchèvementAccordée">Date limite d'achèvement accordée</label>
           <Input
             type="date"
-            name="dateAchèvementDemandée"
-            id="dateAchèvementDemandée"
+            name="dateAchèvementAccordée"
+            id="dateAchèvementAccordée"
             {...(dateAchèvementDemandée && {
               defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
             })}
@@ -43,7 +43,7 @@ export const DelaiForm = ({ modificationRequest }: DelaiFormProps) => {
             style={{ width: 75 }}
           />
           <span style={{ marginLeft: 10 }} {...dataId('delayEstimateBox')}>
-            {`Date de mise en service projetée: ${formatDate(
+            {`Date d'achèvement projetée: ${formatDate(
               +moment(project.completionDueOn).add(delayInMonths, 'month')
             )}`}
           </span>

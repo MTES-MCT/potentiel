@@ -6,7 +6,7 @@ export const MeSItem = () => {
     <>
       <NextUpIcon />
       <ContentArea>
-        <ItemTitle title="Mise en service" />
+        <ItemTitle title="Achèvement" />
         <span aria-disabled className="disabled-action">
           Indiquer la date (fonctionnalité bientôt disponible sur Potentiel)
         </span>

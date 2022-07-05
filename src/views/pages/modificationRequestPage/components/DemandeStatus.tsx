@@ -67,8 +67,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
       return (
         <div>
           L‘administration vous accorde un délai{' '}
-          <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date de mise en service
-          théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
+          <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
         </div>
       )
     }
