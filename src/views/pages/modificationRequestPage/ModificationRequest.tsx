@@ -6,7 +6,7 @@ import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox } fro
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
 import {
   AdminResponseForm,
-  DelaiForm,
+  AdminRéponseDélaiForm,
   DemandeDetails,
   DemandeStatus,
   RecoursForm,
@@ -64,7 +64,7 @@ export const ModificationRequest = PageLayout(
                 <h4>Répondre</h4>
 
                 <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-                  {type === 'delai' && <DelaiForm modificationRequest={modificationRequest} />}
+                  {type === 'delai' && <AdminRéponseDélaiForm modificationRequest={modificationRequest} />}
 
                   {type === 'recours' && <RecoursForm />}
 
