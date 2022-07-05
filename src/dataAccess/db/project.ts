@@ -333,14 +333,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   })
 
   ProjectModel.hasOne(ProjectStep, {
-    as: 'dcr',
-    foreignKey: 'projectId',
-    scope: {
-      [Op.and]: where(col('dcr.type'), Op.eq, 'dcr'),
-    },
-  })
-
-  ProjectModel.hasOne(ProjectStep, {
     as: 'ptf',
     foreignKey: 'projectId',
     scope: {
@@ -403,11 +395,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           },
           {
             model: ProjectStep,
-            as: 'dcr',
-            include: [{ model: FileModel, as: 'file' }],
-          },
-          {
-            model: ProjectStep,
             as: 'ptf',
             include: [{ model: FileModel, as: 'file' }],
           },
@@ -458,11 +445,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           { model: FileModel, as: 'file' },
           { model: UserModel, as: 'user' },
         ],
-      },
-      {
-        model: ProjectStep,
-        as: 'dcr',
-        include: [{ model: FileModel, as: 'file' }],
       },
       {
         model: ProjectStep,

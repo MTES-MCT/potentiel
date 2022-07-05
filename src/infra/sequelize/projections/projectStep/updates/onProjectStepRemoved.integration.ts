@@ -47,37 +47,6 @@ describe('projectStep.onProjectStepRemoved', () => {
     })
   })
 
-  describe('when event is ProjectDCRRemoved', () => {
-    beforeAll(async () => {
-      await resetDatabase()
-
-      await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'dcr',
-        stepDate: new Date(123),
-        fileId: new UniqueEntityID().toString(),
-        submittedBy: new UniqueEntityID().toString(),
-        submittedOn: new Date(1234),
-        status: 'à traiter',
-      })
-
-      expect(await ProjectStep.count({ where: { projectId, type: 'dcr' } })).toEqual(1)
-    })
-
-    it('should remove the project dcr step', async () => {
-      const event = new ProjectDCRRemoved({
-        payload: {
-          projectId,
-          removedBy: new UniqueEntityID().toString(),
-        },
-      })
-      await onProjectStepRemoved(models)(event)
-
-      expect(await ProjectStep.count({ where: { projectId, type: 'dcr' } })).toEqual(0)
-    })
-  })
-
   describe('when event is ProjectGFRemoved', () => {
     beforeAll(async () => {
       await resetDatabase()

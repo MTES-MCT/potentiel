@@ -55,43 +55,6 @@ describe('projectStep.onProjectStepSubmitted', () => {
     })
   })
 
-  describe('when event is ProjectDCRSubmitted', () => {
-    it('should create a new dcr step with a "à traiter" status', async () => {
-      const event = new ProjectDCRSubmitted({
-        payload: {
-          projectId,
-          dcrDate: new Date(123),
-          fileId,
-          numeroDossier: 'numeroDossier',
-          submittedBy: userId,
-        },
-        original: {
-          version: 1,
-          occurredAt: new Date(456),
-        },
-      })
-      await onProjectStepSubmitted(models)(event)
-
-      const projection = await ProjectStep.findOne({ where: { projectId } })
-
-      expect(projection).toBeTruthy()
-      if (!projection) return
-
-      expect(projection.get()).toMatchObject({
-        type: 'dcr',
-        projectId,
-        stepDate: new Date(123),
-        fileId,
-        submittedBy: userId,
-        submittedOn: new Date(456),
-        details: {
-          numeroDossier: 'numeroDossier',
-        },
-        status: 'à traiter',
-      })
-    })
-  })
-
   describe('when event is ProjectGFSubmitted', () => {
     it('should create a new garantie-financiere step with a "à traiter" status', async () => {
       const event = new ProjectGFSubmitted({

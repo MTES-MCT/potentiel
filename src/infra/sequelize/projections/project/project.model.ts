@@ -217,14 +217,6 @@ export const MakeProjectModel = (sequelize) => {
     })
 
     Project.hasOne(ProjectStep, {
-      as: 'dcr',
-      foreignKey: 'projectId',
-      scope: {
-        [Op.and]: where(col('dcr.type'), Op.eq, 'dcr'),
-      },
-    })
-
-    Project.hasOne(ProjectStep, {
       as: 'ptf',
       foreignKey: 'projectId',
       scope: {

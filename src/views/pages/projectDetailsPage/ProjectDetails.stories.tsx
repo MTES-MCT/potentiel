@@ -206,7 +206,6 @@ export const forPorteurProjet = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        dcr: { dueOn: new Date(Date.now() + 2 * MONTHS) },
         garantiesFinancieres: { dueOn: new Date(Date.now() + 2 * MONTHS) },
       } as ProjectDataForProjectPage
     }
@@ -240,7 +239,6 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        dcr: { dueOn: new Date(Date.now() + 2 * MONTHS) },
         garantiesFinancieres: {
           dueOn: new Date(Date.now() + 2 * MONTHS),
           submittedOn: new Date(),
