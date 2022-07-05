@@ -8,7 +8,10 @@ import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeDemanderDélai } from './demanderDelai'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
-import { fakeRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates'
+import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
+
+import { DemanderDélaiDateAchèvementAntérieureError } from "./DemanderDélaiDateAchèvementAntérieureError";
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -84,6 +87,43 @@ describe('Commande demanderDélai', () => {
         expect(requestResult.error).toBeInstanceOf(UnauthorizedError)
       })
     })
+  })
+
+  describe(`Demande de délai impossible si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
+    const shouldUserAccessProject = jest.fn(async () => true);
+
+    describe(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => { 
+      it(`Alors une erreur est retournée`, async () => {
+
+          const projectRepo = fakeRepo(
+            makeFakeProject({ completionDueOn: new Date("2022-01-01").getTime() })
+          )
+
+
+        const demandeDelai = makeDemanderDélai({
+          fileRepo,
+          appelOffreRepo,
+          publishToEventStore,
+          shouldUserAccessProject,
+          getProjectAppelOffreId,
+          projectRepo
+        })
+
+        const resultat = await demandeDelai({
+          justification: 'justification',
+          dateAchèvementDemandée: new Date("2021-01-01"),
+          file: fakeFileContents,
+          user,
+          projectId: fakeProject.id.toString(),    
+        })
+
+        expect(resultat.isErr()).toEqual(true)
+        const erreurActuelle = resultat._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(DemanderDélaiDateAchèvementAntérieureError)
+      })
+
+    });
+
   })
 
   describe(`Demande de délai possible si le porteur a les droits sur le projet`, () => {

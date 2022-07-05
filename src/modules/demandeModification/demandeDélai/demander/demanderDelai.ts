@@ -1,6 +1,6 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { logger, wrapInfra } from '@core/utils'
+import { logger, wrapInfra, ResultAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'
@@ -9,16 +9,10 @@ import { AppelOffreRepo } from '@dataAccess'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { NumeroGestionnaireSubmitted, Project, ProjectNewRulesOptedIn } from '@modules/project'
 
-type MakeDemandeDélaiDeps = {
-  fileRepo: Repository<FileObject>
-  appelOffreRepo: AppelOffreRepo
-  publishToEventStore: EventStore['publish']
-  getProjectAppelOffreId: GetProjectAppelOffreId
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: Repository<Project>
-}
+import { DemanderDélaiDateAchèvementAntérieureError } from './DemanderDélaiDateAchèvementAntérieureError'
 
-type MakeDemandeDélaiArgs = {
+
+type DemanderDélai = (commande: {
   user: User
   file?: {
     contents: FileContents
@@ -28,35 +22,42 @@ type MakeDemandeDélaiArgs = {
   justification?: string
   dateAchèvementDemandée: Date
   numeroGestionnaire?: string
-}
+}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | DemanderDélaiDateAchèvementAntérieureError>
 
-export const makeDemanderDélai = (deps: MakeDemandeDélaiDeps) => (args: MakeDemandeDélaiArgs) => {
-  const { user, projectId, file, justification, dateAchèvementDemandée, numeroGestionnaire } = args
-  const {
-    fileRepo,
-    appelOffreRepo,
-    publishToEventStore,
-    shouldUserAccessProject,
-    getProjectAppelOffreId,
-    projectRepo,
-  } = deps
+type MakeDemanderDélai = (dépendances: {
+  fileRepo: Repository<FileObject>
+  appelOffreRepo: AppelOffreRepo
+  publishToEventStore: EventStore['publish']
+  getProjectAppelOffreId: GetProjectAppelOffreId
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  projectRepo: Repository<Project>
+}) => DemanderDélai
 
-  return wrapInfra(
-    shouldUserAccessProject({
-      user,
-      projectId,
-    })
-  )
+export const makeDemanderDélai: MakeDemanderDélai =
+  ({ fileRepo, appelOffreRepo, publishToEventStore, shouldUserAccessProject, getProjectAppelOffreId, projectRepo }) =>
+  ({ user, projectId, file, justification, dateAchèvementDemandée, numeroGestionnaire }) => {
+    return wrapInfra(
+      shouldUserAccessProject({
+        user,
+        projectId,
+      })
+    )
     .andThen((userHasRightsToProject) => {
       if (!userHasRightsToProject) {
         return errAsync(new UnauthorizedError())
       }
       return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
+
+        if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
+          return errAsync(new DemanderDélaiDateAchèvementAntérieureError())
+        }
+        
         if (project.newRulesOptIn === false) {
           return publishToEventStore(
             new ProjectNewRulesOptedIn({ payload: { projectId, optedInBy: user.id } })
           )
         }
+
         return okAsync(null)
       })
     })
