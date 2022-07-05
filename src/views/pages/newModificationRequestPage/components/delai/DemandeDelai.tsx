@@ -13,6 +13,10 @@ type DemandeDelaiProps = {
 
 moment.locale('fr')
 
+function Astérisque() {
+  return <span className="text-red-500">*</span>
+}
+
 export const DemandeDelai = ({
   project,
   dateAchèvementDemandée,
@@ -32,14 +36,16 @@ export const DemandeDelai = ({
       </div>
       <div>
         <label htmlFor="dateAchèvementDemandée">
-          Saisissez la date limite d'achèvement souhaitée
+          Saisissez la date limite d'achèvement souhaitée <Astérisque />
         </label>
         <Input
           type="date"
           name="dateAchèvementDemandée"
           id="dateAchèvementDemandée"
+          min={formatDate(project.completionDueOn, 'YYYY-MM-DD')}
           defaultValue={dateAchèvementDemandée}
           required
+          aria-aria-required="true"
         />
       </div>
       <div>
