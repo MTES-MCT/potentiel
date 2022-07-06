@@ -123,45 +123,56 @@ describe(`Accorder une demande de délai`, () => {
     })
   })
 
-  describe(`Impossible d'accorder une demande si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
+  describe(`Impossible d'accorder une demande si la date limite d'achèvement souhaitée est antérieure ou égale à la date théorique d'achèvement`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
       const fileRepo = fakeRepo()
+      const projectRepo = fakeRepo(
+        makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
+      )
 
-      describe(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
-        it(`Alors une erreur est retournée`, async () => {
-          const projectRepo = fakeRepo(
-            makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
-          )
+      const demandeDélai = makeFakeDemandeDélai({
+        id: demandeDélaiId,
+        statut: 'envoyée',
+        projetId: 'le-projet',
+      })
 
-          const demandeDélai = makeFakeDemandeDélai({
-            id: demandeDélaiId,
-            statut: 'envoyée',
-            projetId: 'le-projet',
-          })
+      const accorderDemandéDélai = makeAccorderDemandeDélai({
+        demandeDélaiRepo: {
+          ...fakeTransactionalRepo(demandeDélai),
+          ...fakeRepo(demandeDélai),
+        },
+        publishToEventStore,
+        fileRepo,
+        projectRepo,
+      })
 
-          const accorderDemandéDélai = makeAccorderDemandeDélai({
-            demandeDélaiRepo: {
-              ...fakeTransactionalRepo(demandeDélai),
-              ...fakeRepo(demandeDélai),
-            },
-            publishToEventStore,
-            fileRepo,
-            projectRepo,
-          })
-
-          const resultat = await accorderDemandéDélai({
-            user,
-            demandeDélaiId,
-            dateAchèvementAccordée: new Date('2021-01-01'),
-            fichierRéponse,
-          })
-
-          const erreurActuelle = resultat._unsafeUnwrapErr()
-          expect(erreurActuelle).toBeInstanceOf(AccorderDateAchèvementAntérieureDateThéoriqueError)
-          expect(publishToEventStore).not.toHaveBeenCalled()
-          expect(fileRepo.save).not.toHaveBeenCalled()
+      it(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+        const resultat = await accorderDemandéDélai({
+          user,
+          demandeDélaiId,
+          dateAchèvementAccordée: new Date('2021-01-01'),
+          fichierRéponse,
         })
+
+        const erreurActuelle = resultat._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(AccorderDateAchèvementAntérieureDateThéoriqueError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(fileRepo.save).not.toHaveBeenCalled()
+      })
+
+      it(`Lorsque la date limite d'achèvement souhaitée est égale à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+        const resultat = await accorderDemandéDélai({
+          user,
+          demandeDélaiId,
+          dateAchèvementAccordée: new Date('2022-01-01'),
+          fichierRéponse,
+        })
+
+        const erreurActuelle = resultat._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(AccorderDateAchèvementAntérieureDateThéoriqueError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(fileRepo.save).not.toHaveBeenCalled()
       })
     })
   })
