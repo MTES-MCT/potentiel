@@ -5,8 +5,7 @@ import fs from 'fs'
 import { demanderDélai, ensureRole } from '@config'
 import routes from '@routes'
 import { logger } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
-import { DemanderDélaiDateAchèvementAntérieureError } from '@modules/demandeModification/demandeDélai/demander'
+import { UnauthorizedError, DateAchèvementAntérieureDateThéoriqueError } from '@modules/shared'
 
 import { v1Router } from '../v1Router'
 import {
@@ -14,7 +13,7 @@ import {
   RequestValidationErrorArray,
   unauthorizedResponse,
   validateRequestBodyForErrorArray,
-  iso8601DateToDateYupTransformation
+  iso8601DateToDateYupTransformation,
 } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
@@ -82,7 +81,7 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof DemanderDélaiDateAchèvementAntérieureError) { 
+          if (error instanceof DateAchèvementAntérieureDateThéoriqueError) {
             return errorResponse({
               request,
               response,

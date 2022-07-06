@@ -4,14 +4,17 @@ import { NumeroGestionnaireSubmitted, ProjectNewRulesOptedIn, Project } from '@m
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
+import {
+  EntityNotFoundError,
+  InfraNotAvailableError,
+  UnauthorizedError,
+  DateAchèvementAntérieureDateThéoriqueError,
+} from '@modules/shared'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeDemanderDélai } from './demanderDelai'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-
-import { DemanderDélaiDateAchèvementAntérieureError } from "./DemanderDélaiDateAchèvementAntérieureError";
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -90,15 +93,13 @@ describe('Commande demanderDélai', () => {
   })
 
   describe(`Demande de délai impossible si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
-    const shouldUserAccessProject = jest.fn(async () => true);
+    const shouldUserAccessProject = jest.fn(async () => true)
 
-    describe(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => { 
+    describe(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
       it(`Alors une erreur est retournée`, async () => {
-
-          const projectRepo = fakeRepo(
-            makeFakeProject({ completionDueOn: new Date("2022-01-01").getTime() })
-          )
-
+        const projectRepo = fakeRepo(
+          makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
+        )
 
         const demandeDelai = makeDemanderDélai({
           fileRepo,
@@ -106,24 +107,22 @@ describe('Commande demanderDélai', () => {
           publishToEventStore,
           shouldUserAccessProject,
           getProjectAppelOffreId,
-          projectRepo
+          projectRepo,
         })
 
         const resultat = await demandeDelai({
           justification: 'justification',
-          dateAchèvementDemandée: new Date("2021-01-01"),
+          dateAchèvementDemandée: new Date('2021-01-01'),
           file: fakeFileContents,
           user,
-          projectId: fakeProject.id.toString(),    
+          projectId: fakeProject.id.toString(),
         })
 
         expect(resultat.isErr()).toEqual(true)
         const erreurActuelle = resultat._unsafeUnwrapErr()
-        expect(erreurActuelle).toBeInstanceOf(DemanderDélaiDateAchèvementAntérieureError)
+        expect(erreurActuelle).toBeInstanceOf(DateAchèvementAntérieureDateThéoriqueError)
       })
-
-    });
-
+    })
   })
 
   describe(`Demande de délai possible si le porteur a les droits sur le projet`, () => {
