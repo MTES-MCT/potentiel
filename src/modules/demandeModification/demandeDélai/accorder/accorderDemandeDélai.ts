@@ -47,7 +47,12 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
         .map((project) => ({ project }))
         .andThen(({ project }) => {
           if (dateAchèvementAccordée.getTime() <= project.completionDueOn) {
-            return errAsync(new AccorderDateAchèvementAntérieureDateThéoriqueError())
+            return errAsync(
+              new AccorderDateAchèvementAntérieureDateThéoriqueError(
+                dateAchèvementAccordée,
+                new Date(project.completionDueOn)
+              )
+            )
           }
 
           return demandeDélaiRepo.transaction(

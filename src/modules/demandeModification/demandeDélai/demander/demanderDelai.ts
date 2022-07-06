@@ -57,7 +57,12 @@ export const makeDemanderDélai: MakeDemanderDélai =
         }
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
-            return errAsync(new DemanderDateAchèvementAntérieureDateThéoriqueError())
+            return errAsync(
+              new DemanderDateAchèvementAntérieureDateThéoriqueError(
+                dateAchèvementDemandée,
+                new Date(project.completionDueOn)
+              )
+            )
           }
 
           if (project.newRulesOptIn === false) {
