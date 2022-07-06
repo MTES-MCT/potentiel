@@ -28,10 +28,13 @@
       "@useCases": ["src/useCases/index.ts"],
       "@views": ["src/views/index.ts"],
       "@views/*": ["src/views/*/index.ts"],
+      "@components": [
+        "src/views/components/index.ts"
+      ],
       "@dataAccess": ["src/dataAccess/index.ts"],
       "@dataAccess/*": ["src/dataAccess/*/index.ts"],
       "@config": ["src/config/index.ts"],
-      "@config/*": ["src/config/*.ts"]
+      "@config/*": ["src/config/*.ts"],
     },
     "plugins": [
       {
