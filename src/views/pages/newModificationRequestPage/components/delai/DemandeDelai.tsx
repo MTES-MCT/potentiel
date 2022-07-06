@@ -3,7 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 import { formatDate } from '../../../../../helpers/formatDate'
-import { Input, TextArea } from '../../../../../views/components'
+import { Input, TextArea, Astérisque } from '@components'
 
 type DemandeDelaiProps = {
   project: Project
@@ -12,10 +12,6 @@ type DemandeDelaiProps = {
 }
 
 moment.locale('fr')
-
-function Astérisque() {
-  return <span className="text-red-500">*</span>
-}
 
 export const DemandeDelai = ({
   project,

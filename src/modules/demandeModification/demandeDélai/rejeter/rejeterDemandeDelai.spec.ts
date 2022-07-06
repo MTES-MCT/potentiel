@@ -6,7 +6,7 @@ import { User } from '@entities'
 import { UserRole } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 
-import { DemandeDélai, StatutDemandeDélai } from '../DemandeDélai'
+import { StatutDemandeDélai } from '../DemandeDélai'
 import { makeRejeterDemandeDélai } from './rejeterDemandeDélai'
 import {
   fakeRepo,

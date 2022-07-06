@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
-import { DélaiDemandé, DélaiDemandéPayload } from './demander'
-import { DélaiAccordé, DélaiAccordéPayload } from './accorder'
+
+import { DélaiAccordé, DélaiAccordéPayload, DélaiDemandé, DélaiDemandéPayload } from './events'
 import { makeDemandeDélai } from './DemandeDélai'
 
 describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
