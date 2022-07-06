@@ -220,54 +220,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     })
   })
 
-  describe('when dcr has been submitted', () => {
-    const dcrFileId = new UniqueEntityID().toString()
-
-    it('should include dcr info', async () => {
-      await resetDatabase()
-
-      await Project.create(
-        makeFakeProject({
-          ...projectInfo,
-          dcrSubmittedOn: 345,
-          dcrDueOn: 34,
-          dcrDate: 45,
-          dcrFileId: dcrFileId,
-          dcrNumeroDossier: 'numeroDossier',
-        })
-      )
-      await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'dcr',
-        submittedOn: new Date(345),
-        submittedBy: new UniqueEntityID().toString(),
-        stepDate: new Date(45),
-        details: {
-          numeroDossier: 'numeroDossier',
-        },
-        fileId: dcrFileId,
-      })
-      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
-      await File.create(makeFakeFile({ id: dcrFileId, filename: 'filename' }))
-
-      const res = await getProjectDataForProjectPage({ projectId, user })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        dcr: {
-          submittedOn: new Date(345),
-          dueOn: new Date(34),
-          dcrDate: new Date(45),
-          file: {
-            id: dcrFileId,
-            filename: 'filename',
-          },
-          numeroDossier: 'numeroDossier',
-        },
-      })
-    })
-  })
-
   describe('when ptf has been submitted', () => {
     const ptfFileId = new UniqueEntityID().toString()
 

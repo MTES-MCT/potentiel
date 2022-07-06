@@ -73,7 +73,6 @@ type IsClasse = {
   isAbandoned: false
   completionDueOn: Date
 } & GarantieFinanciere &
-  DCR &
   PTF
 
 type IsElimine = {
@@ -85,22 +84,6 @@ type IsElimine = {
 type IsAbandoned = {
   isAbandoned: true
   isClasse: false
-}
-
-type DCR = { dcr: { dueOn: Date } & (DCRSubmitted | DCRPending) }
-
-type DCRSubmitted = {
-  submittedOn: Date
-  dcrDate: Date
-  file: {
-    id: string
-    filename: string
-  }
-  numeroDossier: string
-}
-
-type DCRPending = {
-  submittedOn: undefined
 }
 
 type PTF = PTFSubmitted | PTFPending

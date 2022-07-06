@@ -41,18 +41,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         },
         {
           model: ProjectStep,
-          as: 'dcr',
-          required: false,
-          include: [
-            {
-              model: File,
-              as: 'file',
-              attributes: ['id', 'filename'],
-            },
-          ],
-        },
-        {
-          model: ProjectStep,
           as: 'ptf',
           required: false,
           include: [
@@ -106,7 +94,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           dcrDueOn,
           users,
           gf,
-          dcr,
           ptf,
           completionDueOn,
           updatedAt,
@@ -179,10 +166,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           result.garantiesFinancieres = { dueOn: new Date(garantiesFinancieresDueOn) }
         }
 
-        if (dcrDueOn) {
-          result.dcr = { dueOn: new Date(dcrDueOn) }
-        }
-
         if (gf) {
           const { submittedOn, status, file, stepDate } = gf
 
@@ -205,21 +188,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }
         }
 
-        if (dcr) {
-          const {
-            submittedOn,
-            file,
-            stepDate,
-            details: { numeroDossier },
-          } = dcr
-          result.dcr = {
-            ...result.dcr,
-            submittedOn,
-            file: file?.get(),
-            dcrDate: stepDate,
-            numeroDossier,
-          }
-        }
         return ok(result)
       }
     )
