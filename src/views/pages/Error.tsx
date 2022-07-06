@@ -15,7 +15,7 @@ export const Error = PageLayout(function (props: Props) {
       <section className="section section-grey pt-10">
         <div className="container">
           <h2>{props.errorTitle}</h2>
-          {props.errorMessage}
+          <p>{props.errorMessage}</p>
         </div>
       </section>
     </main>

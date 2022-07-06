@@ -45,7 +45,7 @@ export const DemandeDelai = ({
           min={formatDate(project.completionDueOn, 'YYYY-MM-DD')}
           defaultValue={dateAchèvementDemandée}
           required
-          aria-aria-required="true"
+          aria-required="true"
         />
       </div>
       <div>
