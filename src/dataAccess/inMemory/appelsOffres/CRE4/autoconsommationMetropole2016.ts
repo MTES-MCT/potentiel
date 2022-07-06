@@ -6,7 +6,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
   type: 'autoconso',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir d’énergies renouvelables en autoconsommation',
-  shortTitle: 'CRE4 - Autoconsommation métropole',
+  shortTitle: 'CRE4 - Autoconsommation métropole 2016',
   launchDate: 'juillet 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,

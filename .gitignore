@@ -131,3 +131,6 @@ src/public/css/dsfr.css
 
 # Generated js files
 src/public/js
+
+# Storybook
+storybook-static/
