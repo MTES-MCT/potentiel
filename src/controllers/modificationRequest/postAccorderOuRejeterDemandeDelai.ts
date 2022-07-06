@@ -4,6 +4,7 @@ import * as yup from 'yup'
 import { accorderDemandeDélai, ensureRole, rejeterDemandeDélai } from '@config'
 import { logger, errAsync, err } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
+import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/accorder'
 
 import asyncHandler from '../helpers/asyncHandler'
 import {
@@ -100,6 +101,15 @@ v1Router.post(
                 error: `${error.message} ${error.errors.join(' ')}`,
               })
             )
+          }
+
+          if (error instanceof AccorderDateAchèvementAntérieureDateThéoriqueError) {
+            return errorResponse({
+              request,
+              response,
+              customStatus: 400,
+              customMessage: error.message,
+            })
           }
 
           logger.error(error)

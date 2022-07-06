@@ -6,12 +6,10 @@ import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'
 import { GetProjectAppelOffreId } from '@modules/modificationRequest'
 import { AppelOffreRepo } from '@dataAccess'
-import {
-  InfraNotAvailableError,
-  UnauthorizedError,
-  DateAchèvementAntérieureDateThéoriqueError,
-} from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { NumeroGestionnaireSubmitted, Project, ProjectNewRulesOptedIn } from '@modules/project'
+
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 type DemanderDélai = (commande: {
   user: User
@@ -25,7 +23,7 @@ type DemanderDélai = (commande: {
   numeroGestionnaire?: string
 }) => ResultAsync<
   null,
-  InfraNotAvailableError | UnauthorizedError | DateAchèvementAntérieureDateThéoriqueError
+  InfraNotAvailableError | UnauthorizedError | DemanderDateAchèvementAntérieureDateThéoriqueError
 >
 
 type MakeDemanderDélai = (dépendances: {
@@ -59,7 +57,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
         }
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
-            return errAsync(new DateAchèvementAntérieureDateThéoriqueError())
+            return errAsync(new DemanderDateAchèvementAntérieureDateThéoriqueError())
           }
 
           if (project.newRulesOptIn === false) {

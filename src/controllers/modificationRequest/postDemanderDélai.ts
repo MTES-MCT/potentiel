@@ -5,7 +5,8 @@ import fs from 'fs'
 import { demanderDélai, ensureRole } from '@config'
 import routes from '@routes'
 import { logger } from '@core/utils'
-import { UnauthorizedError, DateAchèvementAntérieureDateThéoriqueError } from '@modules/shared'
+import { UnauthorizedError } from '@modules/shared'
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander'
 
 import { v1Router } from '../v1Router'
 import {
@@ -81,7 +82,7 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof DateAchèvementAntérieureDateThéoriqueError) {
+          if (error instanceof DemanderDateAchèvementAntérieureDateThéoriqueError) {
             return errorResponse({
               request,
               response,

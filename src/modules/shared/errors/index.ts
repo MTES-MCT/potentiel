@@ -1,5 +1,4 @@
 export * from './AggregateHasBeenUpdatedSinceError';
-export * from './DateAchèvementAntérieureDateThéoriqueError';
 export * from './EmailAlreadyUsedError';
 export * from './EntityAlreadyExistsError';
 export * from './EntityNotFound';

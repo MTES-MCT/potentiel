@@ -4,17 +4,22 @@ import { DemandeDélai } from '../DemandeDélai'
 import { errAsync, ResultAsync } from '@core/utils'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
-import { DélaiAccordé } from '../events/DélaiAccordé'
-import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { Project } from '@modules/project'
+
+import { DélaiAccordé } from '../events/DélaiAccordé'
+
+import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 type AccorderDemandeDélai = (commande: {
   user: User
   demandeDélaiId: string
   dateAchèvementAccordée: Date
   fichierRéponse: { contents: FileContents; filename: string }
-}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | AccorderDemandeDélaiError>
+}) => ResultAsync<
+  null,
+  InfraNotAvailableError | UnauthorizedError | AccorderDateAchèvementAntérieureDateThéoriqueError
+>
 
 type MakeAccorderDemandeDélai = (dépendances: {
   demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>
@@ -41,6 +46,10 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
         .load(new UniqueEntityID(demandeDélai.projetId))
         .map((project) => ({ project }))
         .andThen(({ project }) => {
+          if (dateAchèvementAccordée.getTime() <= project.completionDueOn) {
+            return errAsync(new AccorderDateAchèvementAntérieureDateThéoriqueError())
+          }
+
           return demandeDélaiRepo.transaction(
             new UniqueEntityID(demandeDélaiId),
             (demandeDélai) => {

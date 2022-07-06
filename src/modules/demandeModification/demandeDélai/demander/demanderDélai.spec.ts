@@ -4,17 +4,14 @@ import { NumeroGestionnaireSubmitted, ProjectNewRulesOptedIn, Project } from '@m
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
-import {
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-  DateAchèvementAntérieureDateThéoriqueError,
-} from '@modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeDemanderDélai } from './demanderDelai'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
+
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -120,7 +117,7 @@ describe('Commande demanderDélai', () => {
 
         expect(resultat.isErr()).toEqual(true)
         const erreurActuelle = resultat._unsafeUnwrapErr()
-        expect(erreurActuelle).toBeInstanceOf(DateAchèvementAntérieureDateThéoriqueError)
+        expect(erreurActuelle).toBeInstanceOf(DemanderDateAchèvementAntérieureDateThéoriqueError)
       })
     })
   })
