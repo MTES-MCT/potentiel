@@ -1,9 +1,11 @@
-import { Project } from '@entities'
 import moment from 'moment'
 import React from 'react'
-import { dataId } from '../../../../../helpers/testId'
-import { formatDate } from '../../../../../helpers/formatDate'
+import format from 'date-fns/format'
+
+import { Project } from '@entities'
 import { Input, TextArea, Astérisque } from '@components'
+
+import { dataId } from '../../../../../helpers/testId'
 
 type DemandeDelaiProps = {
   project: Project
@@ -25,7 +27,7 @@ export const DemandeDelai = ({
         <Input
           type="text"
           disabled
-          defaultValue={formatDate(project.completionDueOn)}
+          defaultValue={format(project.completionDueOn, 'dd / MM / yyyy')}
           style={{ backgroundColor: '#CECECE' }}
           {...dataId('modificationRequest-presentServiceDateField')}
         />
@@ -38,7 +40,7 @@ export const DemandeDelai = ({
           type="date"
           name="dateAchèvementDemandée"
           id="dateAchèvementDemandée"
-          min={formatDate(project.completionDueOn, 'YYYY-MM-DD')}
+          min={format(project.completionDueOn, 'yyyy-MM-dd')}
           defaultValue={dateAchèvementDemandée}
           required
           aria-required="true"

@@ -1,6 +1,7 @@
+import React from 'react'
+import format from 'date-fns/format'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { Input, Astérisque } from '@components'
-import { format } from 'date-fns'
 interface AdminReponseModificationDelaiFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
@@ -28,9 +29,9 @@ export const AdminReponseModificationDelaiForm = ({
         name="dateAchèvementAccordée"
         id="dateAchèvementAccordée"
         {...(dateAchèvementDemandée && {
-          defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
+          defaultValue: format(dateDemandée as Date, 'yyyy-MM-dd'),
         })}
-        min={formatDate(project.completionDueOn, 'YYYY-MM-DD')}
+        min={format(project.completionDueOn, 'yyyy-MM-dd')}
         required
         aria-required="true"
       />

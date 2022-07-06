@@ -14,7 +14,15 @@ export const AdminReponseModificationDelaiForm = ({
   const { project, delayInMonths, dateAchèvementDemandée } = modificationRequest
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
-    : moment(project.completionDueOn).add(delayInMonths, 'month').toDate()
+    : delayInMonths
+    ? new Date(
+        new Date(project.completionDueOn).setMonth(
+          new Date(project.completionDueOn).getMonth() + delayInMonths
+        )
+      )
+    : null
+
+  // : moment(project.completionDueOn).add(delayInMonths, 'month').toDate()
 
   return (
     <div className="mt-4 mb-4">
@@ -28,7 +36,7 @@ export const AdminReponseModificationDelaiForm = ({
             name="dateAchèvementAccordée"
             id="dateAchèvementAccordée"
             {...(dateAchèvementDemandée && {
-              defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
+              defaultValue: format(dateDemandée as Date, 'yyyy-MM-dd'),
             })}
             min={formatDate(project.completionDueOn, 'YYYY-MM-DD')}
             required
