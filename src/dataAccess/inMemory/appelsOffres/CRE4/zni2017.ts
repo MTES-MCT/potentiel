@@ -6,7 +6,7 @@ export const zni2017: AppelOffre = {
   type: 'zni',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
-  shortTitle: 'CRE4 - ZNI',
+  shortTitle: 'CRE4 - ZNI 2017',
   launchDate: 'mai 2015',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 36,
