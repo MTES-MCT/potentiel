@@ -1,2 +1,2 @@
-export * from './handleProjectImported';
-export * from './handleUserCreated';
+export * from './handleProjectImported'
+export * from './handleUserCreated'

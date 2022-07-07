@@ -1,2 +1,2 @@
-export * from './formatNumber';
-export * from './getNoteThreshold';
+export * from './formatNumber'
+export * from './getNoteThreshold'

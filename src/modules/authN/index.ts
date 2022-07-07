@@ -1,2 +1,2 @@
-export * from './eventHandlers';
-export * from './queries';
+export * from './eventHandlers'
+export * from './queries'

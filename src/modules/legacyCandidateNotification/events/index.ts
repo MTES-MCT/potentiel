@@ -1,1 +1,1 @@
-export * from './LegacyCandidateNotified';
+export * from './LegacyCandidateNotified'

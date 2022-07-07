@@ -1,1 +1,1 @@
-export * from './UserWithEmailExistsAlreadyError';
+export * from './UserWithEmailExistsAlreadyError'

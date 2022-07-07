@@ -1,13 +1,13 @@
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { format } from 'date-fns'
 import React from 'react'
-import { Input } from '../../../components'
-
-type AdminRéponseDélaiFormProps = {
+import format from 'date-fns/format'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
+import { Input, Astérisque } from '@components'
+interface AdminReponseModificationDelaiFormProps {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
-
-export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseDélaiFormProps) => {
+export const AdminReponseModificationDelaiForm = ({
+  modificationRequest,
+}: AdminReponseModificationDelaiFormProps) => {
   const { project, delayInMonths, dateAchèvementDemandée } = modificationRequest
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
@@ -21,15 +21,19 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
 
   return (
     <div className="mt-4 mb-4">
-      <label htmlFor="dateAchèvementAccordée">Date limite d'achèvement accordée</label>
+      <label htmlFor="dateAchèvementAccordée">
+        Date limite d'achèvement accordée <Astérisque />
+      </label>
       <Input
         type="date"
         name="dateAchèvementAccordée"
         id="dateAchèvementAccordée"
-        {...(dateDemandée && {
-          defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
+        {...(dateAchèvementDemandée && {
+          defaultValue: format(dateDemandée as Date, 'yyyy-MM-dd'),
         })}
+        min={format(project.completionDueOn, 'yyyy-MM-dd')}
         required
+        aria-required="true"
       />
     </div>
   )

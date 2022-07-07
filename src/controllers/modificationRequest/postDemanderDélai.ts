@@ -1,21 +1,24 @@
+import omit from 'lodash/omit'
+import * as yup from 'yup'
+import fs from 'fs'
+
 import { demanderDélai, ensureRole } from '@config'
-import routes from '../../routes'
-import asyncHandler from '../helpers/asyncHandler'
+import routes from '@routes'
+import { logger } from '@core/utils'
+import { UnauthorizedError } from '@modules/shared'
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander'
+
 import { v1Router } from '../v1Router'
 import {
   errorResponse,
   RequestValidationErrorArray,
   unauthorizedResponse,
   validateRequestBodyForErrorArray,
+  iso8601DateToDateYupTransformation,
 } from '../helpers'
-import * as yup from 'yup'
-import { iso8601DateToDateYupTransformation } from '../helpers'
-import { upload } from '../upload'
-import fs from 'fs'
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { logger } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
-import omit from 'lodash/omit'
+import { upload } from '../upload'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -77,6 +80,15 @@ v1Router.post(
 
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (error instanceof DemanderDateAchèvementAntérieureDateThéoriqueError) {
+            return errorResponse({
+              request,
+              response,
+              customStatus: 400,
+              customMessage: error.message,
+            })
           }
 
           logger.error(error)

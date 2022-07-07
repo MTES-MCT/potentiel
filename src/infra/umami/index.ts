@@ -1,1 +1,1 @@
-export * from './getTrackerScript';
+export * from './getTrackerScript'

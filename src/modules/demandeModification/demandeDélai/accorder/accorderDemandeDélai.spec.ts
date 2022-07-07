@@ -1,19 +1,20 @@
 import { Readable } from 'stream'
 import { okAsync } from '@core/utils'
 import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import {
   fakeRepo,
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates'
-import { UnauthorizedError } from '../../../shared'
 import { makeAccorderDemandeDélai } from './accorderDemandeDélai'
 import { UserRole } from '@modules/users'
 import { StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
-import { AccorderDemandeDélaiError } from './AccorderDemandeDélaiError'
+
 import makeFakeProject from '../../../../__tests__/fixtures/project'
+
+import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 describe(`Accorder une demande de délai`, () => {
   const demandeDélaiId = 'id-demande'
@@ -122,6 +123,60 @@ describe(`Accorder une demande de délai`, () => {
     })
   })
 
+  describe(`Impossible d'accorder une demande si la date limite d'achèvement souhaitée est antérieure ou égale à la date théorique d'achèvement`, () => {
+    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+      const user = { role: 'admin' } as User
+      const fileRepo = fakeRepo()
+      const projectRepo = fakeRepo(
+        makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
+      )
+
+      const demandeDélai = makeFakeDemandeDélai({
+        id: demandeDélaiId,
+        statut: 'envoyée',
+        projetId: 'le-projet',
+      })
+
+      const accorderDemandéDélai = makeAccorderDemandeDélai({
+        demandeDélaiRepo: {
+          ...fakeTransactionalRepo(demandeDélai),
+          ...fakeRepo(demandeDélai),
+        },
+        publishToEventStore,
+        fileRepo,
+        projectRepo,
+      })
+
+      it(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+        const resultat = await accorderDemandéDélai({
+          user,
+          demandeDélaiId,
+          dateAchèvementAccordée: new Date('2021-01-01'),
+          fichierRéponse,
+        })
+
+        const erreurActuelle = resultat._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(AccorderDateAchèvementAntérieureDateThéoriqueError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(fileRepo.save).not.toHaveBeenCalled()
+      })
+
+      it(`Lorsque la date limite d'achèvement souhaitée est égale à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+        const resultat = await accorderDemandéDélai({
+          user,
+          demandeDélaiId,
+          dateAchèvementAccordée: new Date('2022-01-01'),
+          fichierRéponse,
+        })
+
+        const erreurActuelle = resultat._unsafeUnwrapErr()
+        expect(erreurActuelle).toBeInstanceOf(AccorderDateAchèvementAntérieureDateThéoriqueError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(fileRepo.save).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe(`Accorder un délai`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
@@ -133,7 +188,7 @@ describe(`Accorder une demande de délai`, () => {
       Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
-          const ancienneDateThéoriqueAchèvement = new Date()
+          const ancienneDateThéoriqueAchèvement = new Date('2022-06-27')
           const fileRepo = fakeRepo()
           const projectRepo = fakeRepo(
             makeFakeProject({ completionDueOn: ancienneDateThéoriqueAchèvement.getTime() })
@@ -144,6 +199,7 @@ describe(`Accorder une demande de délai`, () => {
             statut,
             projetId: 'le-projet-de-la-demande',
           })
+
           const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
             publishToEventStore,
@@ -151,14 +207,14 @@ describe(`Accorder une demande de délai`, () => {
             projectRepo,
           })
 
-          const res = await accorderDemandéDélai({
+          const resultat = await accorderDemandéDélai({
             user,
             demandeDélaiId,
-            dateAchèvementAccordée: new Date('2022-06-27'),
+            dateAchèvementAccordée: new Date('2023-06-27'),
             fichierRéponse,
           })
 
-          expect(res.isOk()).toBe(true)
+          expect(resultat.isOk()).toBe(true)
           expect(fileRepo.save).toHaveBeenCalledWith(
             expect.objectContaining({
               designation: 'modification-request-response',
@@ -172,7 +228,7 @@ describe(`Accorder une demande de délai`, () => {
               type: 'DélaiAccordé',
               payload: expect.objectContaining({
                 ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
-                dateAchèvementAccordée: new Date('2022-06-27').toISOString(),
+                dateAchèvementAccordée: new Date('2023-06-27').toISOString(),
                 projetId: 'le-projet-de-la-demande',
                 accordéPar: user.id,
                 demandeDélaiId,

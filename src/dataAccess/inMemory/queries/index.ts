@@ -1,1 +1,1 @@
-export * from './getAppelOffre';
+export * from './getAppelOffre'

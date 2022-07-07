@@ -8,7 +8,10 @@ import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeDemanderDélai } from './demanderDelai'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
-import { fakeRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates'
+import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
+
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -83,6 +86,53 @@ describe('Commande demanderDélai', () => {
         if (requestResult.isOk()) return
         expect(requestResult.error).toBeInstanceOf(UnauthorizedError)
       })
+    })
+  })
+
+  describe(`Demande de délai impossible si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
+    const shouldUserAccessProject = jest.fn(async () => true)
+    const projectRepo = fakeRepo(
+      makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
+    )
+    const demandeDelai = makeDemanderDélai({
+      fileRepo,
+      appelOffreRepo,
+      publishToEventStore,
+      shouldUserAccessProject,
+      getProjectAppelOffreId,
+      projectRepo,
+    })
+
+    it(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+      const resultat = await demandeDelai({
+        justification: 'justification',
+        dateAchèvementDemandée: new Date('2021-01-01'),
+        file: fakeFileContents,
+        user,
+        projectId: fakeProject.id.toString(),
+      })
+
+      expect(resultat.isErr()).toEqual(true)
+      const erreurActuelle = resultat._unsafeUnwrapErr()
+      expect(erreurActuelle).toBeInstanceOf(DemanderDateAchèvementAntérieureDateThéoriqueError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
+    })
+
+    it(`Lorsque la date limite d'achèvement souhaitée est égale à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
+      const resultat = await demandeDelai({
+        justification: 'justification',
+        dateAchèvementDemandée: new Date('2022-01-01'),
+        file: fakeFileContents,
+        user,
+        projectId: fakeProject.id.toString(),
+      })
+
+      expect(resultat.isErr()).toEqual(true)
+      const erreurActuelle = resultat._unsafeUnwrapErr()
+      expect(erreurActuelle).toBeInstanceOf(DemanderDateAchèvementAntérieureDateThéoriqueError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+      expect(fileRepo.save).not.toHaveBeenCalled()
     })
   })
 

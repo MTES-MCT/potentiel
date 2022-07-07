@@ -1,1 +1,1 @@
-export * from './handleProjectImported';
+export * from './handleProjectImported'

@@ -1,5 +1,5 @@
 import { okAsync } from '@core/utils'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { DomainEvent } from '@core/domain'
 import { InfraNotAvailableError } from '@modules/shared'
 import {
   fakeTransactionalRepo,

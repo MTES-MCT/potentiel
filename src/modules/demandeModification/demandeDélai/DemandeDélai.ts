@@ -1,8 +1,7 @@
 import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { DélaiAccordé } from './accorder'
-import { DélaiAnnulé } from './annuler'
-import { DélaiDemandé } from './demander'
+import { DélaiAccordé, DélaiAnnulé, DélaiDemandé } from './events'
+
 import { EntityNotFoundError } from '../../shared'
 
 export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'

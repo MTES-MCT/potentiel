@@ -1,1 +1,1 @@
-export * from './ChangementFournisseur';
+export * from './ChangementFournisseur'

@@ -1,1 +1,1 @@
-export * from './makeCandidateNotificationId';
+export * from './makeCandidateNotificationId'

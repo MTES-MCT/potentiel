@@ -1,1 +1,1 @@
-export * from './getProjectEvents';
+export * from './getProjectEvents'

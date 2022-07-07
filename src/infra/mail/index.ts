@@ -1,2 +1,2 @@
-export * from './fakeEmailService';
-export * from './mailjet';
+export * from './fakeEmailService'
+export * from './mailjet'

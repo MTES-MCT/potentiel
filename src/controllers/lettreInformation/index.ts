@@ -1,2 +1,2 @@
-export * from './getPageAbonnementLettreInformation';
-export * from './postSinscrireLettreInformation';
+export * from './getPageAbonnementLettreInformation'
+export * from './postSinscrireLettreInformation'

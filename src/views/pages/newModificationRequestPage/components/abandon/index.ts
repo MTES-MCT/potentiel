@@ -1,1 +1,1 @@
-export * from './DemandeAbandon';
+export * from './DemandeAbandon'

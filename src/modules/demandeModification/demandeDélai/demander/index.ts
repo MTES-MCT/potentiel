@@ -1,2 +1,2 @@
-export * from '../events/DélaiDemandé'
+export * from './DemanderDateAchèvementAntérieureDateThéoriqueError'
 export * from './demanderDelai'
