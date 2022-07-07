@@ -1,17 +1,18 @@
-import { Op, QueryInterface, Sequelize } from 'sequelize'
-
-import { ModificationRequested } from '@modules/modificationRequest'
 import { DélaiDemandé } from '@modules/demandeModification'
-
-import { models } from '../models'
+import { ModificationRequested } from '@modules/modificationRequest'
+import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
+import { models } from '../models'
+import { ProjectEvent } from '../projectionsNext'
+import onDélaiDemandé from '../projectionsNext/projectEvents/updates/onDélaiDemandé'
 
 export default {
   up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
-    const { ModificationRequest, Project, EventStore } = models
 
     try {
+      const { ModificationRequest, Project, EventStore } = models
+
       const demandesDélaiAMigrer: Array<{ id: string; project: { completionDueOn: number } }> =
         await ModificationRequest.findAll(
           {
@@ -26,6 +27,7 @@ export default {
             where: {
               type: 'delai',
               status: ['envoyée', 'en instruction'],
+              delayInMonths: { [Op.ne]: null },
             },
             attributes: ['id'],
           },
@@ -34,22 +36,25 @@ export default {
 
       console.log(`${demandesDélaiAMigrer.length} demandes de délai envoyées à migrer`)
 
-      const nouveauxÉvénements = await Promise.all(
-        demandesDélaiAMigrer.map(async (demandeDélaiAMigrer) => {
-          const événement: ModificationRequested | undefined = await EventStore.findOne(
-            {
-              where: {
-                aggregateId: { [Op.overlap]: [demandeDélaiAMigrer.id] },
-                type: 'ModificationRequested',
+      const nouveauxÉvénements = (
+        await Promise.all(
+          demandesDélaiAMigrer.map(async (demandeDélaiAMigrer) => {
+            const modificationRequestedEvent:
+              | (ModificationRequested & { payload: { type: 'delai' } })
+              | undefined = await EventStore.findOne(
+              {
+                where: {
+                  aggregateId: { [Op.overlap]: [demandeDélaiAMigrer.id] },
+                  type: 'ModificationRequested',
+                  'payload.type': { [Op.eq]: 'delai' },
+                },
               },
-            },
-            { transaction }
-          )
+              { transaction }
+            )
 
-          if (événement) {
-            const { payload, occurredAt } = événement
+            if (modificationRequestedEvent) {
+              const { payload, occurredAt } = modificationRequestedEvent
 
-            if (payload.type === 'delai') {
               const dateThéoriqueDAchèvement = new Date(demandeDélaiAMigrer.project.completionDueOn)
               const dateAchèvementDemandée = new Date(
                 dateThéoriqueDAchèvement.setMonth(
@@ -73,18 +78,28 @@ export default {
                 },
               })
             }
-          }
-        })
-      )
+          })
+        )
+      ).filter((e): e is DélaiDemandé => e?.type === 'DélaiDemandé')
 
       console.log(`${nouveauxÉvénements.length} nouveaux événements DélaiDemandé vont être ajoutés`)
 
-      await EventStore.bulkCreate(
-        nouveauxÉvénements
-          .filter((e): e is DélaiDemandé => e?.type === 'DélaiDemandé')
-          .map(toPersistance),
-        { transaction }
+      await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })
+
+      await Promise.all(
+        nouveauxÉvénements.map((délaiDemandé) => onDélaiDemandé(délaiDemandé, transaction))
       )
+
+      const modificationRequestIds = nouveauxÉvénements.map((dd) => dd.payload.demandeDélaiId)
+      await ProjectEvent.destroy({
+        where: {
+          type: 'ModificationRequested',
+          'payload.modificationRequestId': {
+            [Op.in]: modificationRequestIds,
+          },
+        },
+        transaction,
+      })
 
       await transaction.commit()
     } catch (error) {
