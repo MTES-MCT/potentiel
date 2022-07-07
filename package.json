@@ -111,6 +111,7 @@
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
     "postcss-prefix-selector": "^1.15.0",
+    "prompts": "^2.4.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "runtypes": "^6.5.1",
@@ -129,6 +130,7 @@
     "uuid": "^8.3.2",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
+    "yargs": "^17.5.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
