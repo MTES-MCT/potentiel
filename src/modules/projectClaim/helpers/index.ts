@@ -1,1 +1,1 @@
-export * from './makeClaimProjectAggregateId';
+export * from './makeClaimProjectAggregateId'

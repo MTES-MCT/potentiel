@@ -1,1 +1,1 @@
-export * from './onDrealUserInvited';
+export * from './onDrealUserInvited'

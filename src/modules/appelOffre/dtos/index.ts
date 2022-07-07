@@ -1,2 +1,2 @@
-export * from './AppelOffreDTO';
-export * from './PeriodeDTO';
+export * from './AppelOffreDTO'
+export * from './PeriodeDTO'

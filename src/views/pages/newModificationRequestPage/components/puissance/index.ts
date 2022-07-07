@@ -1,1 +1,1 @@
-export * from './ChangementPuissance';
+export * from './ChangementPuissance'

@@ -1,2 +1,2 @@
-export * from './getDrealPage';
-export * from './postInviteDrealUser';
+export * from './getDrealPage'
+export * from './postInviteDrealUser'

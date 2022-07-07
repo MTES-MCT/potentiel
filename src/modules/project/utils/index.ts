@@ -1,3 +1,3 @@
-export * from './makeCertificateFilename';
-export * from './parseProjectLine';
-export * from './parseProjectModifications';
+export * from './makeCertificateFilename'
+export * from './parseProjectLine'
+export * from './parseProjectModifications'

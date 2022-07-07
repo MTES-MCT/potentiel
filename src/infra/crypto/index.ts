@@ -1,1 +1,1 @@
-export * from './buildProjectIdentifier';
+export * from './buildProjectIdentifier'

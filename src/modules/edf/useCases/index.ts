@@ -1,1 +1,1 @@
-export * from './importEdfData';
+export * from './importEdfData'

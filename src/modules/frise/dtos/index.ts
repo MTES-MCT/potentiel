@@ -1,1 +1,1 @@
-export * from './ProjectEventListDTO';
+export * from './ProjectEventListDTO'

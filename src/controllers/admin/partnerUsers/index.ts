@@ -1,2 +1,2 @@
-export * from './getPartnersListPage';
-export * from './postInvitePartnerUser';
+export * from './getPartnersListPage'
+export * from './postInvitePartnerUser'

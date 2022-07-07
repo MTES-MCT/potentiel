@@ -1,1 +1,1 @@
-export * from './Astérisque';
+export * from './Astérisque'

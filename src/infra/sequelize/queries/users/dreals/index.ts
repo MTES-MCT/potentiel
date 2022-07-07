@@ -1,1 +1,1 @@
-export * from './getDreals';
+export * from './getDreals'

@@ -1,1 +1,1 @@
-export * from './getPendingCandidateInvitations';
+export * from './getPendingCandidateInvitations'

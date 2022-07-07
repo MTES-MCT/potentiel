@@ -1,1 +1,1 @@
-export * from './describeProjector';
+export * from './describeProjector'

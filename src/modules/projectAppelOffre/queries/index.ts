@@ -1,1 +1,1 @@
-export * from './getProjectAppelOffre';
+export * from './getProjectAppelOffre'

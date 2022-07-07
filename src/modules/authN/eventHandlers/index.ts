@@ -1,1 +1,1 @@
-export * from './handleUserCreated';
+export * from './handleUserCreated'

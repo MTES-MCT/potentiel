@@ -1,1 +1,1 @@
-export * from './inMemoryEventBus';
+export * from './inMemoryEventBus'
