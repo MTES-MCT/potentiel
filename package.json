@@ -160,6 +160,7 @@
     "lint-staged": "^12.4.1",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "^2.6.2",
+    "prettier-plugin-organize-imports": "^3.0.0",
     "pretty-format": "^27.5.1",
     "start-server-and-test": "^1.14.0",
     "ts-jest": "^27.1.4",

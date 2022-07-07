@@ -1,24 +1,24 @@
+import { ModificationRequestPageDTO } from '@modules/modificationRequest'
+import ROUTES from '@routes'
 import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox } from '../../components'
 import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
+import { hydrateOnClient } from '../../helpers'
 import {
+  AbandonForm,
+  ActionnaireForm,
   AdminResponseForm,
   AdminRéponseDélaiForm,
+  AnnulerDemandeDélaiBouton,
+  CancelButton,
   DemandeDetails,
   DemandeStatus,
-  RecoursForm,
-  AbandonForm,
-  CancelButton,
-  ActionnaireForm,
-  PuissanceForm,
   ProducteurForm,
-  AnnulerDemandeDélaiBouton,
+  PuissanceForm,
+  RecoursForm,
 } from './components'
-import { hydrateOnClient } from '../../helpers'
-import ROUTES from '../../../routes'
 
 moment.locale('fr')
 
@@ -64,7 +64,9 @@ export const ModificationRequest = PageLayout(
                 <h4>Répondre</h4>
 
                 <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-                  {type === 'delai' && <AdminRéponseDélaiForm modificationRequest={modificationRequest} />}
+                  {type === 'delai' && (
+                    <AdminRéponseDélaiForm modificationRequest={modificationRequest} />
+                  )}
 
                   {type === 'recours' && <RecoursForm />}
 
