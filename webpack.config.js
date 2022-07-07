@@ -6,21 +6,39 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 const pageDir = path.join(__dirname, 'src', 'views', 'pages')
 
-const pageEntries = fs
-  .readdirSync(pageDir)
-  .filter((name) => name.endsWith('Page.tsx') || name.endsWith('Page'))
+const pages = []
+
+function getPageEntries(dir) {
+  return fs.readdirSync(dir).forEach((file) => {
+    const absoluteFilePath = path.join(dir, file)
+
+    if (fs.statSync(absoluteFilePath).isDirectory()) {
+      return getPageEntries(absoluteFilePath)
+    }
+
+    if (file.endsWith('Page.tsx') || file.endsWith('Page')) {
+      pages.push(file)
+    }
+
+    return null
+  })
+}
+
+getPageEntries(pageDir)
+
+const pageEntries = pages
   .map((name) => {
     if (name.endsWith('.tsx')) {
       return { name: path.basename(name, 'Page.tsx'), path: path.join(pageDir, name) }
-    } else {
-      return {
-        name: path.basename(name, 'Page'),
-        path: path.join(
-          pageDir,
-          name,
-          _.startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'
-        ),
-      }
+    }
+
+    return {
+      name: path.basename(name, 'Page'),
+      path: path.join(
+        pageDir,
+        name,
+        _.startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'
+      ),
     }
   })
   .reduce(
