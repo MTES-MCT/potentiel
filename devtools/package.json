@@ -12,7 +12,7 @@
     "change-case": "^4.1.2",
     "lodash": "^4.17.21",
     "prompts": "^2.4.1",
-    "yargs": "^17.0.1"
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "ts-morph": "^14.0.0"
