@@ -1,41 +1,40 @@
-import asyncHandler from '../helpers/asyncHandler'
-import fs from 'fs'
-import pick from 'lodash/pick'
-import omit from 'lodash/omit'
 import {
+  ensureRole,
+  oldProjectRepo,
   requestActionnaireModification,
   requestFournisseurModification,
   requestProducteurModification,
   requestPuissanceModification,
   updateNewRulesOptIn,
 } from '@config'
-import { oldProjectRepo } from '@config'
 import { logger } from '@core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
-import { pathExists } from '../../helpers/pathExists'
 import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
 import { Fournisseur, FournisseurKind } from '@modules/project'
-import routes from '@routes'
-import { requestModification, shouldUserAccessProject } from '@useCases'
-import { ensureRole } from '@config'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
-import toNumber from '../../helpers/toNumber'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
 } from '@modules/shared'
-import e from 'express'
+import routes from '@routes'
+import { requestModification, shouldUserAccessProject } from '@useCases'
+import fs from 'fs'
+import omit from 'lodash/omit'
+import pick from 'lodash/pick'
+import { addQueryParams } from '../../helpers/addQueryParams'
+import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
+import { pathExists } from '../../helpers/pathExists'
+import toNumber from '../../helpers/toNumber'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import asyncHandler from '../helpers/asyncHandler'
+import { upload } from '../upload'
+import { v1Router } from '../v1Router'
 
 const returnRoute = (type, projectId) => {
   let returnRoute: string
   switch (type) {
     case 'delai':
-      returnRoute = routes.DEMANDE_DELAIS(projectId)
+      returnRoute = routes.DEMANDER_DELAI(projectId)
       break
     case 'fournisseur':
       returnRoute = routes.CHANGER_FOURNISSEUR(projectId)

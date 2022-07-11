@@ -1,17 +1,10 @@
-import React, { useState } from 'react'
-import { Request } from 'express'
-import {
-  Button,
-  Input,
-  LinkButton,
-  PageLayout,
-  ProjectInfo,
-  RoleBasedDashboard,
-} from '../../components'
-import routes from '@routes'
+import { Button, Input, LinkButton, PageLayout, ProjectInfo, RoleBasedDashboard } from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import routes from '@routes'
+import { Request } from 'express'
+import React, { useState } from 'react'
 import { formatDate } from '../../../helpers/formatDate'
+import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type SignalerDemandeDelaiProps = {
   request: Request

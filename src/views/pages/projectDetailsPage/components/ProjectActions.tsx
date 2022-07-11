@@ -128,7 +128,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           >
             <Menu.Item key={`action_demande_delai`}>
               <a
-                href={ROUTES.DEMANDE_DELAIS(project.id)}
+                href={ROUTES.DEMANDER_DELAI(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div

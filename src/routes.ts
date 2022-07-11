@@ -1,7 +1,7 @@
-import type { Project } from './entities'
+import { makeCertificateFilename } from '@modules/project'
 import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
-import { makeCertificateFilename } from '@modules/project'
+import type { Project } from './entities'
 
 const withParams =
   <T extends Record<string, any>>(url: string) =>
@@ -178,7 +178,12 @@ class routes {
   static DEMANDE_GENERIQUE = '/demande-modification.html'
   static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours')
 
-  static DEMANDE_DELAIS = withProjectId('/demande-modification.html?action=delai')
+  static DEMANDER_DELAI = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/demander-delai.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
 
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 

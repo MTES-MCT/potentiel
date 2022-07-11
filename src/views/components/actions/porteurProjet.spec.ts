@@ -1,6 +1,6 @@
+import ROUTES from '@routes'
 import { porteurProjetActions } from '.'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import ROUTES from '@routes'
 
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {
@@ -52,7 +52,7 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Demander un délai',
-            link: ROUTES.DEMANDE_DELAIS(fakeProject.id),
+            link: ROUTES.DEMANDER_DELAI(fakeProject.id),
           },
           {
             title: 'Changer de producteur',
@@ -113,7 +113,7 @@ describe('porteurProjetActions', () => {
             },
             {
               title: 'Demander un délai',
-              link: ROUTES.DEMANDE_DELAIS(fakeProject.id),
+              link: ROUTES.DEMANDER_DELAI(fakeProject.id),
             },
             {
               title: 'Changer de fournisseur',
