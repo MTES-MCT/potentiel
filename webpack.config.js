@@ -1,25 +1,17 @@
+const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
-const fs = require('fs')
-const _ = require('lodash')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-const pageDir = path.join(__dirname, 'src', 'views', 'pages')
-
-const pageEntries = fs
-  .readdirSync(pageDir)
-  .filter((name) => name.endsWith('Page.tsx') || name.endsWith('Page'))
-  .map((name) => {
-    if (name.endsWith('.tsx')) {
-      return { name: path.basename(name, 'Page.tsx'), path: path.join(pageDir, name) }
+const pageEntries = glob
+  .sync('./src/views/**/*@(Page|Page.tsx)')
+  .map((filePath) => {
+    if (filePath.endsWith('.tsx')) {
+      return { name: path.basename(filePath, 'Page.tsx'), path: filePath }
     } else {
       return {
-        name: path.basename(name, 'Page'),
-        path: path.join(
-          pageDir,
-          name,
-          _.startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'
-        ),
+        name: path.basename(filePath, 'Page'),
+        path: path.join(filePath, 'index.ts'),
       }
     }
   })
