@@ -1,44 +1,18 @@
+const glob = require('glob')
 const path = require('path')
 const webpack = require('webpack')
-const fs = require('fs')
-const _ = require('lodash')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-const pageDir = path.join(__dirname, 'src', 'views', 'pages')
-
-const pages = []
-
-function getPageEntries(dir) {
-  return fs.readdirSync(dir).forEach((file) => {
-    const absoluteFilePath = path.join(dir, file)
-
-    if (fs.statSync(absoluteFilePath).isDirectory()) {
-      return getPageEntries(absoluteFilePath)
-    }
-
-    if (file.endsWith('Page.tsx') || file.endsWith('Page')) {
-      pages.push(file)
-    }
-
-    return null
-  })
-}
-
-getPageEntries(pageDir)
-
-const pageEntries = pages
-  .map((name) => {
-    if (name.endsWith('.tsx')) {
-      return { name: path.basename(name, 'Page.tsx'), path: path.join(pageDir, name) }
-    }
-
-    return {
-      name: path.basename(name, 'Page'),
-      path: path.join(
-        pageDir,
-        name,
-        _.startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'
-      ),
+const pageEntries = glob
+  .sync('./src/views/**/*@(Page|Page.tsx)')
+  .map((filePath) => {
+    if (filePath.endsWith('.tsx')) {
+      return { name: path.basename(filePath, 'Page.tsx'), path: filePath }
+    } else {
+      return {
+        name: path.basename(filePath, 'Page'),
+        path: path.join(filePath, 'index.ts'),
+      }
     }
   })
   .reduce(
