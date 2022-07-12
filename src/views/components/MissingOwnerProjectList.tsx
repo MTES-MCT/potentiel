@@ -1,11 +1,11 @@
-import React from 'react'
+import { PaginationPanel } from '@components'
 import { logger } from '@core/utils'
 import { Project, User } from '@entities'
-import { dataId } from '../../helpers/testId'
 import routes from '@routes'
+import React from 'react'
+import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
-import { Pagination } from '@components'
 
 type Columns =
   | 'Projet'
@@ -270,7 +270,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
       </form>
 
       {!Array.isArray(projects) && (
-        <Pagination
+        <PaginationPanel
           pagination={projects.pagination}
           pageCount={projects.pageCount}
           itemTitle="Projets"

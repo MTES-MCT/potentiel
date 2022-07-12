@@ -1,11 +1,11 @@
+import { AdminDashboard, PaginationPanel } from '@components'
+import { FailedNotificationDTO } from '@modules/notification'
+import ROUTES from '@routes'
+import { Request } from 'express'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
-import { FailedNotificationDTO } from '@modules/notification'
-import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { Request } from 'express'
-import { AdminDashboard, Pagination } from "@components"
 interface NotificationListProps {
   request: Request
   notifications: PaginatedList<FailedNotificationDTO>
@@ -119,7 +119,7 @@ export default function NotificationList({ request, notifications }: Notificatio
               </tbody>
             </table>
             {!Array.isArray(notifications) ? (
-              <Pagination
+              <PaginationPanel
                 pagination={notifications.pagination}
                 pageCount={notifications.pageCount}
                 itemTitle="Notifications"

@@ -1,11 +1,11 @@
+import { AdminDashboard, PaginationPanel } from '@components'
+import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
+import ROUTES from '@routes'
 import { Request } from 'express'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
-import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
-import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { AdminDashboard, Pagination } from "@components"
 interface InvitationListProps {
   request: Request
   invitations: PaginatedList<PendingCandidateInvitationDTO>
@@ -109,7 +109,7 @@ export default function InvitationList({ request, invitations }: InvitationListP
               </tbody>
             </table>
             {!Array.isArray(invitations) ? (
-              <Pagination
+              <PaginationPanel
                 pagination={invitations.pagination}
                 pageCount={invitations.pageCount}
                 itemTitle="Invitations"

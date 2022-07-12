@@ -7,7 +7,7 @@ interface UserDashboardProps {
 }
 
 /* Pure component */
-export default function UserDashboard({ children, currentPage }: UserDashboardProps) {
+export function UserDashboard({ children, currentPage }: UserDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>
