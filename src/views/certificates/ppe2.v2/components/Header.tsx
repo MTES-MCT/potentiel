@@ -1,7 +1,7 @@
+import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { Image, Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
 
 type HeaderProps = {
   project: ProjectDataForCertificate
@@ -55,8 +55,6 @@ export const Header = ({ project }: HeaderProps) => {
           </Text>
 
           <View style={{ fontSize: 10 }}>
-            <Text style={{ fontWeight: 'bold' }}>La ministre de la Transition énergétique</Text>
-            <Text>à</Text>
             <Text>{project.nomRepresentantLegal}</Text>
             <Text>{project.nomCandidat}</Text>
             <Text>{project.email}</Text>
