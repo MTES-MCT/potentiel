@@ -57,8 +57,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
     })
   })
   describe(`Notifier les DREALs`, () => {
-    it(`  Quand un délai est demandé à l'autorité DREAL
-          Alors tous les agents de la DREAL de la région du projet devraient être notifiés`, async () => {
+    it(`  Quand un délai est demandé sous autorité des DREALs
+          Alors tous les agents de la DREAL des régions du projet devraient être notifiés`, async () => {
       const sendNotification = jest.fn()
       const getInfoForModificationRequested = () =>
         okAsync({
