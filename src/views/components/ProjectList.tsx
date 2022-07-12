@@ -1,15 +1,13 @@
-import React from 'react'
+import { DownloadIcon, PaginationPanel, ProjectActions } from '@components'
 import { logger } from '@core/utils'
 import { Project } from '@entities'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
+import React from 'react'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
-import { DownloadIcon } from './DownloadIcon'
-import Pagination from './Pagination'
-import ProjectActions from './ProjectActions'
 
 type Columns =
   | 'Projet'
@@ -263,7 +261,7 @@ interface Props {
   role: UserRole
 }
 
-const ProjectList = ({ projects, displayColumns, role }: Props) => {
+export const ProjectList = ({ projects, displayColumns, role }: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -342,7 +340,7 @@ const ProjectList = ({ projects, displayColumns, role }: Props) => {
         </tbody>
       </table>
       {!Array.isArray(projects) ? (
-        <Pagination
+        <PaginationPanel
           pagination={projects.pagination}
           pageCount={projects.pageCount}
           itemTitle="Projets"
@@ -353,5 +351,3 @@ const ProjectList = ({ projects, displayColumns, role }: Props) => {
     </>
   )
 }
-
-export default ProjectList

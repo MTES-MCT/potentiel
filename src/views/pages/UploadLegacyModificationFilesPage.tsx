@@ -2,9 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { ErrorBox } from '../components'
-import AdminDashboard from '../components/AdminDashboard'
-import { PageLayout } from '../components/PageLayout'
+import { AdminDashboard, PageLayout, ErrorBox } from "@components"
 
 export type UploadLegacyModificationFileResult =
   | {

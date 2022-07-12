@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ModificationRequestActionTitles = ({action}) => {
+export const ModificationRequestActionTitles = ({action}) => {
     const titlePerAction = {
         delai: 'Je demande un délai supplémentaire',
         actionnaire: "Je signale un changement d'actionnaire",
@@ -14,5 +14,3 @@ const ModificationRequestActionTitles = ({action}) => {
         <span>{titlePerAction[action]}</span>
     )
 }
-
-export default ModificationRequestActionTitles

@@ -5,11 +5,9 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { RoleBasedDashboard } from '../components'
-import { DownloadIcon } from '../components/DownloadIcon'
-import ProjectList from '../components/ProjectList'
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
-import { LinkButton } from '../components/buttons'
+
+import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from "@components"
 
 type ListProjectsProps = {
   request: Request

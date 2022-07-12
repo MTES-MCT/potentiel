@@ -4,8 +4,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { RoleBasedDashboard } from '../components'
-import MissingOwnerProjectList from '../components/MissingOwnerProjectList'
+import { RoleBasedDashboard, MissingOwnerProjectList } from '@components'
 
 interface ListMissingOwnerProjectsProps {
   request: Request

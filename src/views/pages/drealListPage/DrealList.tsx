@@ -3,8 +3,7 @@ import React from 'react'
 import { DREAL, REGIONS } from '../../../entities/dreal'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import AdminDashboard from '../../components/AdminDashboard'
-import { Button, Input, PageLayout, Select } from '../../components'
+import { AdminDashboard, Button, Input, PageLayout, Select } from "@components"
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type DrealListProps = {

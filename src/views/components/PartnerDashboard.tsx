@@ -26,7 +26,7 @@ const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }
   ) : null
 
 /* Pure component */
-export default function PartnerDashboard({ children, currentPage, role }: PartnerDashboardProps) {
+export function PartnerDashboard({ children, currentPage, role }: PartnerDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>

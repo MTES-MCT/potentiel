@@ -1,13 +1,12 @@
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
+import { ModificationRequestActionTitles, PaginationPanel } from '@components'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
+import React from 'react'
+import { formatDate } from '../../helpers/formatDate'
+import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
-import ModificationRequestActionTitles from './ModificationRequestActionTitles'
-import Pagination from './Pagination'
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
@@ -17,7 +16,7 @@ interface Props {
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
 }
 
-const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
   if (!modificationRequests?.itemCount) {
     return (
       <table className="table">
@@ -199,7 +198,7 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
           })}
         </tbody>
       </table>
-      <Pagination
+      <PaginationPanel
         pagination={modificationRequests.pagination}
         pageCount={modificationRequests.pageCount}
         itemTitle="Demandes"
@@ -207,5 +206,3 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
     </>
   )
 }
-
-export default RequestList

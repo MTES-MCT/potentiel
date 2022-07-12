@@ -2,12 +2,10 @@ import React, { useState } from 'react'
 import { Project } from '@entities'
 import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
-import UserDashboard from '../../components/UserDashboard'
 import { Request } from 'express'
-import { PageLayout } from '../../components/PageLayout'
+
+import { PageLayout, ModificationRequestActionTitles, CDCChoiceForm, UserDashboard, ProjectInfo, SuccessErrorBox } from "@components"
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
-import { CDCChoiceForm } from '../../components/CDCChoiceForm'
 import {
   DemandeAbandon,
   ChangementActionnaire,
@@ -17,7 +15,6 @@ import {
   DemandeRecours,
   DemandeDelai,
 } from './components'
-import { ProjectInfo, SuccessErrorBox } from '@views/components'
 
 type NewModificationRequestProps = {
   request: Request

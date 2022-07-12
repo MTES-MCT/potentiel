@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { Request } from 'express'
-import AdminDashboard from '../components/AdminDashboard'
+import { AdminDashboard } from "@components"
 
 type ImportProjectsProps = {
   request: Request

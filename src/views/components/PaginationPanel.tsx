@@ -9,7 +9,11 @@ interface PaginationProps {
   itemTitle: string
 }
 
-export default function PaginationPanel({ pageCount, pagination: { pageSize, page }, itemTitle }: PaginationProps) {
+export function PaginationPanel({
+  pageCount,
+  pagination: { pageSize, page },
+  itemTitle,
+}: PaginationProps) {
   const pageNumbers = [0, 1]
   if (pageCount <= 5) {
     pageNumbers.push(2, 3, 4)

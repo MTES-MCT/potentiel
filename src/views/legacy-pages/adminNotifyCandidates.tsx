@@ -6,10 +6,8 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
-import AdminDashboard from '../components/AdminDashboard'
-import ProjectList from '../components/ProjectList'
+import { AdminDashboard, DownloadIcon, ProjectList } from '@components'
 import querystring from 'querystring'
-import { DownloadIcon } from '../components'
 
 type AdminNotifyCandidatesProps = {
   request: Request
