@@ -1,13 +1,14 @@
 import { ensureRole } from '@config'
-import asyncHandler from '../helpers/asyncHandler'
 import { getProjectDataForSignalerDemandeDelaiPage } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '@modules/shared'
 import routes from '@routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import { v1Router } from '../v1Router'
 import { SignalerDemandeDelaiPage } from '@views'
+import getValidationError from '../../helpers/getValidationError'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import asyncHandler from '../helpers/asyncHandler'
+import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(),
@@ -33,21 +34,13 @@ v1Router.get(
       })
     }
 
-    const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
-      (errors, [key, value]) => ({
-        ...errors,
-        ...(key.startsWith('error-') && { [key.replace('error-', '')]: value }),
-      }),
-      [] as Array<{ [fieldName: string]: string }>
-    )
-
     await getProjectDataForSignalerDemandeDelaiPage({ projectId }).match(
       (project) => {
         return response.send(
           SignalerDemandeDelaiPage({
             request,
             project,
-            validationErrors,
+            validationErrors: getValidationError(query),
           })
         )
       },
