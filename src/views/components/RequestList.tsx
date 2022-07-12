@@ -16,7 +16,7 @@ interface Props {
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null
 }
 
-const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
   if (!modificationRequests?.itemCount) {
     return (
       <table className="table">
@@ -206,5 +206,3 @@ const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
     </>
   )
 }
-
-export default RequestList
