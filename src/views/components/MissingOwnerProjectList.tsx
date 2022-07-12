@@ -144,7 +144,7 @@ interface Props {
   user: User
 }
 
-const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
+export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
   const { role, email } = user
 
   let items: Array<Project>
@@ -279,5 +279,3 @@ const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
     </>
   )
 }
-
-export default MissingOwnerProjectList
