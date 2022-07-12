@@ -262,7 +262,7 @@ interface Props {
   role: UserRole
 }
 
-const ProjectList = ({ projects, displayColumns, role }: Props) => {
+export const ProjectList = ({ projects, displayColumns, role }: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -352,5 +352,3 @@ const ProjectList = ({ projects, displayColumns, role }: Props) => {
     </>
   )
 }
-
-export default ProjectList
