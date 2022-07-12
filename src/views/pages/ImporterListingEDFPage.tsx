@@ -3,8 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { SuccessErrorBox } from '../components'
-import { PageLayout } from '../components/PageLayout'
-import PartnerDashboard from '../components/PartnerDashboard'
+import { PageLayout, PartnerDashboard } from '@components'
 
 type ImporterListingEDFProps = {
   request: Request

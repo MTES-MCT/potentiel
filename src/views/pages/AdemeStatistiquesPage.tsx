@@ -1,7 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import PartnerDashboard from '../components/PartnerDashboard'
-import { PageLayout } from '../components/PageLayout'
+import { PageLayout, PartnerDashboard } from '@components'
 
 type AdemeStatistiquesProps = {
   request: Request

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { UserRole } from '@modules/users'
-import { AdminDashboard } from '@components'
-import PartnerDashboard from './PartnerDashboard'
+import { AdminDashboard, PartnerDashboard } from '@components'
 import UserDashboard from './UserDashboard'
 
 type RoleBasedDashboardProps = {
