@@ -1,1 +1,1 @@
-export * from './DemanderDélaiPage';
+export * from './demandeDelaiPage';

@@ -3,7 +3,7 @@ import {
   AbonnementLettreInformation,
   AdemeStatistiques,
   AdminStatistiques,
-  DemanderDélai,
+  DemanderDelai,
   DrealList,
   Error,
   GarantiesFinancieres,
@@ -83,14 +83,13 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     pageName: 'modificationRequest', // This must match the Component name
   })
 
-export const DemanderDélaiPage = (props: Parameters<typeof DemanderDélai>[0]) => {
+export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) => 
   makeHtml({
-    Component: DemanderDélai,
+    Component: DemanderDelai,
     props,
     hydrate: true,
-    pageName: 'demanderDélai',
+    pageName: 'demanderDelai',
   })
-}
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
   makeHtml({

@@ -1,4 +1,4 @@
-export * from './DemandeModification';
+export * from './demandeModification';
 export * from './drealListPage';
 export * from './garantiesFinancieresPage';
 export * from './homePage';
