@@ -83,7 +83,7 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     pageName: 'modificationRequest', // This must match the Component name
   })
 
-export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) => 
+export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
   makeHtml({
     Component: DemanderDelai,
     props,
