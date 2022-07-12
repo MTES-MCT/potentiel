@@ -1,4 +1,4 @@
-import { Image, Text, View } from '@react-pdf/renderer'
+import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 
 export const Signature = () => (
@@ -14,16 +14,8 @@ export const Signature = () => (
     wrap={false}
   >
     <Text style={{ fontWeight: 'bold' }}>
-      L’adjoint au sous-directeur du système électrique et des énergies renouvelables
+      Le sous-directeur du système électrique et des énergies renouvelables
     </Text>
-    <Image
-      style={{
-        width: 130,
-        height: 105,
-        marginHorizontal: 'auto',
-      }}
-      src={process.env.BASE_URL + '/images/signature.png'}
-    />
-    <Text style={{ marginTop: -30 }}>Ghislain FERRAN</Text>
+    <Text style={{ marginTop: 30 }}>Nicolas CLAUSSET</Text>
   </View>
 )
