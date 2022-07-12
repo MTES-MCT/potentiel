@@ -1,14 +1,32 @@
+import { DomainEvent } from '@core/domain'
+import { UserInvitedToProject } from '@modules/authZ'
+import { DélaiAccordé, DélaiAnnulé, DélaiDemandé, DélaiRejeté } from '@modules/demandeModification'
+import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
-  handleProjectCertificateUpdatedOrRegenerated,
-  handleModificationRequestStatusChanged,
-  handleModificationRequested,
-  handleProjectGFSubmitted,
-  handleModificationRequestConfirmed,
-  handleModificationRequestCancelled,
-  handleModificationReceived,
-  handleNewRulesOptedIn,
-  handleUserInvitedToProject,
+  ConfirmationRequested,
+  ModificationReceived,
+  ModificationRequestAccepted,
+  ModificationRequestCancelled,
+  ModificationRequestConfirmed,
+  ModificationRequested,
+  ModificationRequestInstructionStarted,
+  ModificationRequestRejected,
+} from '@modules/modificationRequest'
+import {
   handleLegacyCandidateNotified,
+  handleModificationReceived,
+  handleModificationRequestCancelled,
+  handleModificationRequestConfirmed,
+  handleModificationRequested,
+  handleModificationRequestStatusChanged,
+  handleNewRulesOptedIn,
+  handleProjectCertificateUpdatedOrRegenerated,
+  handleProjectGFSubmitted,
+  handleUserInvitedToProject,
+  makeOnDélaiAccordé,
+  makeOnDélaiAnnulé,
+  makeOnDélaiDemandé,
+  makeOnDélaiRejeté,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -16,27 +34,16 @@ import {
   ProjectGFSubmitted,
   ProjectNewRulesOptedIn,
 } from '@modules/project'
-import { projectRepo, oldProjectRepo, oldUserRepo } from '../repos.config'
+import { sendNotification } from '../emails.config'
+import { subscribeToRedis } from '../eventBus.config'
+import { eventStore } from '../eventStore.config'
 import {
-  getModificationRequestInfoForStatusNotification,
-  getModificationRequestInfoForConfirmedNotification,
   getInfoForModificationRequested,
+  getModificationRequestInfoForConfirmedNotification,
+  getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
 } from '../queries.config'
-import { eventStore } from '../eventStore.config'
-import { sendNotification } from '../emails.config'
-import {
-  ModificationRequested,
-  ModificationRequestAccepted,
-  ModificationRequestInstructionStarted,
-  ModificationRequestRejected,
-  ConfirmationRequested,
-  ModificationRequestConfirmed,
-  ModificationRequestCancelled,
-  ModificationReceived,
-} from '@modules/modificationRequest'
-import { UserInvitedToProject } from '@modules/authZ'
-import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
+import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config'
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
@@ -138,6 +145,63 @@ eventStore.subscribe(
     sendNotification,
   })
 )
+
+const onDélaiDemandéHandler = makeOnDélaiDemandé({
+  sendNotification,
+  getInfoForModificationRequested,
+  findUsersForDreal: oldUserRepo.findUsersForDreal,
+  findProjectById: oldProjectRepo.findById,
+})
+const onDélaiDemandé = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiDemandé)) {
+    return Promise.resolve()
+  }
+
+  return await onDélaiDemandéHandler(event)
+}
+subscribeToRedis(onDélaiDemandé, 'Notification.onDélaiDemandé')
+
+const onDélaiAccordéHandler = makeOnDélaiAccordé({
+  sendNotification,
+  getModificationRequestInfoForStatusNotification,
+})
+const onDélaiAccordé = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiAccordé)) {
+    return Promise.resolve()
+  }
+
+  return await onDélaiAccordéHandler(event)
+}
+subscribeToRedis(onDélaiAccordé, 'Notification.onDélaiAccordé')
+
+const onDélaiRejetéHandler = makeOnDélaiRejeté({
+  sendNotification,
+  getModificationRequestInfoForStatusNotification,
+})
+const onDélaiRejeté = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiRejeté)) {
+    return Promise.resolve()
+  }
+
+  return await onDélaiRejetéHandler(event)
+}
+subscribeToRedis(onDélaiRejeté, 'Notification.onDélaiRejeté')
+
+const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
+  sendNotification,
+  getModificationRequestRecipient,
+  getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
+  findUsersForDreal: oldUserRepo.findUsersForDreal,
+  dgecEmail: process.env.DGEC_EMAIL,
+})
+const onDélaiAnnulé = async (event: DomainEvent) => {
+  if (!(event instanceof DélaiAnnulé)) {
+    return Promise.resolve()
+  }
+
+  return await onDélaiAnnuléHandler(event)
+}
+subscribeToRedis(onDélaiAnnulé, 'Notification.onDélaiAnnulé')
 
 console.log('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true

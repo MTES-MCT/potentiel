@@ -5,7 +5,7 @@ import routes from '@routes'
 import { NotificationService } from '../..'
 import { GetInfoForModificationRequested } from '../../queries'
 
-export const onDélaiDemandé =
+export const makeOnDélaiDemandé =
   (deps: {
     sendNotification: NotificationService['sendNotification']
     getInfoForModificationRequested: GetInfoForModificationRequested

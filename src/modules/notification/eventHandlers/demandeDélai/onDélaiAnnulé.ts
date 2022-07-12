@@ -9,7 +9,7 @@ import {
 } from '../../../modificationRequest'
 import { InfraNotAvailableError } from '../../../shared'
 
-export const onDélaiAnnulé =
+export const makeOnDélaiAnnulé =
   (deps: {
     sendNotification: NotificationService['sendNotification']
     findUsersForDreal: UserRepo['findUsersForDreal']

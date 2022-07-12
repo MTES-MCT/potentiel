@@ -4,7 +4,7 @@ import routes from '@routes'
 import { NotificationService } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
-export const onDélaiRejeté =
+export const makeOnDélaiRejeté =
   (deps: {
     sendNotification: NotificationService['sendNotification']
     getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
