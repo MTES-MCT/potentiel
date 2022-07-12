@@ -27,7 +27,7 @@ interface Props {
   role: UserRole
 }
 
-const ProjectActions = ({ project, role }: Props) => {
+export const ProjectActions = ({ project, role }: Props) => {
   if (!project || !role) {
     return <div />
   }
@@ -65,5 +65,3 @@ const ProjectActions = ({ project, role }: Props) => {
     </div>
   )
 }
-
-export default ProjectActions
