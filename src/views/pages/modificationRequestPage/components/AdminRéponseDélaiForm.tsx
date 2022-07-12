@@ -1,13 +1,13 @@
-import React from 'react'
-import format from 'date-fns/format'
+import { Astérisque, Input } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { Input, Astérisque } from '@components'
-interface AdminReponseModificationDelaiFormProps {
+import format from 'date-fns/format'
+import React from 'react'
+
+type AdminRéponseDélaiFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
 }
-export const AdminReponseModificationDelaiForm = ({
-  modificationRequest,
-}: AdminReponseModificationDelaiFormProps) => {
+
+export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseDélaiFormProps) => {
   const { project, delayInMonths, dateAchèvementDemandée } = modificationRequest
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
@@ -28,8 +28,8 @@ export const AdminReponseModificationDelaiForm = ({
         type="date"
         name="dateAchèvementAccordée"
         id="dateAchèvementAccordée"
-        {...(dateAchèvementDemandée && {
-          defaultValue: format(dateDemandée as Date, 'yyyy-MM-dd'),
+        {...(dateDemandée && {
+          defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
         })}
         min={format(project.completionDueOn, 'yyyy-MM-dd')}
         required

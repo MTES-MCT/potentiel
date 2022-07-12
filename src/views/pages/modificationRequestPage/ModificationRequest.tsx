@@ -10,7 +10,7 @@ import {
   AbandonForm,
   ActionnaireForm,
   AdminResponseForm,
-  AdminReponseModificationDelaiForm,
+  AdminRéponseDélaiForm,
   AnnulerDemandeDélaiBouton,
   CancelButton,
   DemandeDetails,
@@ -65,7 +65,7 @@ export const ModificationRequest = PageLayout(
 
                 <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
                   {type === 'delai' && (
-                    <AdminReponseModificationDelaiForm modificationRequest={modificationRequest} />
+                    <AdminRéponseDélaiForm modificationRequest={modificationRequest} />
                   )}
 
                   {type === 'recours' && <RecoursForm />}
