@@ -13,15 +13,17 @@ export const Signature = () => (
     }}
     wrap={false}
   >
-    <Text style={{ fontWeight: 'bold' }}>La ministre de la Transition énergétique</Text>
-    {/* <Image
+    <Text style={{ fontWeight: 'bold' }}>
+      L’adjoint au sous-directeur du système électrique et des énergies renouvelables
+    </Text>
+    <Image
       style={{
         width: 130,
         height: 105,
         marginHorizontal: 'auto',
       }}
       src={process.env.BASE_URL + '/images/signature.png'}
-    /> */}
-    <Text style={{ marginTop: 30 }}>Agnès Pannier-Runacher</Text>
+    />
+    <Text style={{ marginTop: -30 }}>Ghislain FERRAN</Text>
   </View>
 )
