@@ -6,7 +6,7 @@ import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
-import ModificationRequestActionTitles from './ModificationRequestActionTitles'
+import { ModificationRequestActionTitles } from '@components'
 import Pagination from './Pagination'
 
 interface Props {

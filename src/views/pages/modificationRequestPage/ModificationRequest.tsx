@@ -3,8 +3,7 @@ import ROUTES from '@routes'
 import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
-import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox } from '../../components'
-import ModificationRequestActionTitles from '../../components/ModificationRequestActionTitles'
+import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox, ModificationRequestActionTitles } from '@omponents'
 import { hydrateOnClient } from '../../helpers'
 import {
   AbandonForm,
