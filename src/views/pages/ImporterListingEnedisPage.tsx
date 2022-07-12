@@ -3,9 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { SuccessErrorBox } from '../components'
-import AdminDashboard from '../components/AdminDashboard'
-import { PageLayout } from '../components/PageLayout'
-import PartnerDashboard from '../components/PartnerDashboard'
+import { AdminDashboard, PageLayout } from "@components"
 
 type ImporterListingEnedisProps = {
   request: Request

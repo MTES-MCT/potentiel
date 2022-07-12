@@ -1,6 +1,5 @@
 import React from 'react'
 import ROUTES from '@routes'
-import { User } from '@entities'
 import { UserRole } from '@modules/users'
 
 interface SeparatorItemProps {
@@ -58,7 +57,7 @@ const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }
   ) : null
 
 /* Pure component */
-export default function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
+export function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>

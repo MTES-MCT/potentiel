@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { UserRole } from '@modules/users'
-import AdminDashboard from './AdminDashboard'
+import { AdminDashboard } from '@components'
 import PartnerDashboard from './PartnerDashboard'
 import UserDashboard from './UserDashboard'
 

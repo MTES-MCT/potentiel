@@ -3,7 +3,7 @@ import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import AdminDashboard from '../components/AdminDashboard'
+import { AdminDashboard } from '@components'
 
 type AdminRegenerateCertificatesProps = {
   request: Request

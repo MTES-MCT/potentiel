@@ -5,7 +5,7 @@ import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { Request } from 'express'
-import AdminDashboard from '../components/AdminDashboard'
+import { AdminDashboard } from "@components"
 import Pagination from '../components/Pagination'
 interface NotificationListProps {
   request: Request
