@@ -5,8 +5,7 @@ import { dataId } from '../../helpers/testId'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { AdminDashboard } from "@components"
-import Pagination from '../components/Pagination'
+import { AdminDashboard, Pagination } from "@components"
 interface InvitationListProps {
   request: Request
   invitations: PaginatedList<PendingCandidateInvitationDTO>

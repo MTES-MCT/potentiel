@@ -8,7 +8,7 @@ import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
 import { DownloadIcon } from './DownloadIcon'
-import Pagination from './Pagination'
+import { Pagination } from '@components'
 import ProjectActions from './ProjectActions'
 
 type Columns =

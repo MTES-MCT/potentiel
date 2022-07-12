@@ -5,7 +5,7 @@ import { dataId } from '../../helpers/testId'
 import routes from '@routes'
 import { PaginatedList } from '../../types'
 import { ACTION_BY_ROLE } from './actions'
-import Pagination from './Pagination'
+import { Pagination } from '@components'
 
 type Columns =
   | 'Projet'
