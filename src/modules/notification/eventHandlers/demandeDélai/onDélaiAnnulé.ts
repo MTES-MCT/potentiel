@@ -57,6 +57,64 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
       }
     )
 
+    const res = await getModificationRequestInfoForStatusNotification(demandeDélaiId)
+      .andThen((modificationRequest) => {
+        return getModificationRequestRecipient(demandeDélaiId).map((recipient) => ({
+          recipient,
+          modificationRequest,
+        }))
+      })
+      .andThen(({ recipient, modificationRequest }): ResultAsync<null, InfraNotAvailableError> => {
+        const { nomProjet, departementProjet, regionProjet, type } = modificationRequest
+
+        if (recipient === 'dgec') {
+          return wrapInfra(_sendNotificationToAdmin(dgecEmail, 'DGEC'))
+        }
+
+        if (recipient === 'dreal') {
+          const regions = regionProjet.split(' / ')
+          return wrapInfra(
+            Promise.all(
+              regions.map(async (region) => {
+                // Notifiy existing dreal users
+                const drealUsers = await findUsersForDreal(region)
+                await Promise.all(
+                  drealUsers.map((drealUser) =>
+                    _sendNotificationToAdmin(drealUser.email, drealUser.fullName)
+                  )
+                )
+              })
+            )
+          ).map(() => null)
+        }
+
+        return okAsync(null)
+
+        function _sendNotificationToAdmin(email, name) {
+          return sendNotification({
+            type: 'modification-request-cancelled',
+            message: {
+              email,
+              name,
+              subject: `Annulation d'une demande de type ${type} dans le département ${departementProjet}`,
+            },
+            context: {
+              modificationRequestId: demandeDélaiId,
+            },
+            variables: {
+              nom_projet: nomProjet,
+              type_demande: type,
+              departement_projet: departementProjet,
+              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+            },
+          })
+        }
+      })
+
+    if (res.isErr()) {
+      logger.error(res.error)
+    }
+
     function _sendUpdateNotification(args: {
       email: string
       fullName: string
@@ -96,63 +154,5 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
       })
-    }
-
-    const res = await getModificationRequestInfoForStatusNotification(demandeDélaiId)
-      .andThen((modificationRequest) => {
-        return getModificationRequestRecipient(demandeDélaiId).map((recipient) => ({
-          recipient,
-          modificationRequest,
-        }))
-      })
-      .andThen(({ recipient, modificationRequest }): ResultAsync<null, InfraNotAvailableError> => {
-        const { nomProjet, departementProjet, regionProjet, type } = modificationRequest
-
-        function _sendNotificationToAdmin(email, name) {
-          return sendNotification({
-            type: 'modification-request-cancelled',
-            message: {
-              email,
-              name,
-              subject: `Annulation d'une demande de type ${type} dans le département ${departementProjet}`,
-            },
-            context: {
-              modificationRequestId: demandeDélaiId,
-            },
-            variables: {
-              nom_projet: nomProjet,
-              type_demande: type,
-              departement_projet: departementProjet,
-              modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
-            },
-          })
-        }
-
-        if (recipient === 'dgec') {
-          return wrapInfra(_sendNotificationToAdmin(dgecEmail, 'DGEC'))
-        }
-
-        if (recipient === 'dreal') {
-          const regions = regionProjet.split(' / ')
-          return wrapInfra(
-            Promise.all(
-              regions.map(async (region) => {
-                // Notifiy existing dreal users
-                const drealUsers = await findUsersForDreal(region)
-                await Promise.all(
-                  drealUsers.map((drealUser) =>
-                    _sendNotificationToAdmin(drealUser.email, drealUser.fullName)
-                  )
-                )
-              })
-            )
-          ).map(() => null)
-        }
-
-        return okAsync(null)
-      })
-
-    if (res.isErr()) {
-      logger.error(res.error)
     }
   }
