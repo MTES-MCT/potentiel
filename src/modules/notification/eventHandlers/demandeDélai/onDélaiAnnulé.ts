@@ -9,23 +9,25 @@ import {
   GetModificationRequestRecipient,
 } from '../../../modificationRequest'
 
-export const makeOnDélaiAnnulé =
-  (deps: {
-    sendNotification: NotificationService['sendNotification']
-    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-    getModificationRequestRecipient: GetModificationRequestRecipient
-    dgecEmail: string
-    findUsersForDreal: UserRepo['findUsersForDreal']
+type OnDélaiAnnulé = (evenement: DélaiAnnulé) => Promise<void>
+
+type MakeOnDélaiAnnulé = (dépendances: {
+  sendNotification: NotificationService['sendNotification']
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
+  getModificationRequestRecipient: GetModificationRequestRecipient
+  dgecEmail: string
+  findUsersForDreal: UserRepo['findUsersForDreal']
+}) => OnDélaiAnnulé
+
+export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
+  ({
+    sendNotification,
+    getModificationRequestInfoForStatusNotification,
+    getModificationRequestRecipient,
+    dgecEmail,
+    findUsersForDreal,
   }) =>
   async (event: DélaiAnnulé) => {
-    const {
-      sendNotification,
-      getModificationRequestInfoForStatusNotification,
-      getModificationRequestRecipient,
-      dgecEmail,
-      findUsersForDreal,
-    } = deps
-
     const { demandeDélaiId } = event.payload
 
     await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(

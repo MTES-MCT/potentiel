@@ -4,15 +4,19 @@ import routes from '@routes'
 import { NotificationService } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
-export const makeOnDélaiAccordé =
-  (deps: {
-    sendNotification: NotificationService['sendNotification']
-    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-  }) =>
+type OnDélaiAccordé = (evenement: DélaiAccordé) => Promise<void>
+
+type MakeOnDélaiAccordé = (dépendances: {
+  sendNotification: NotificationService['sendNotification']
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
+}) => OnDélaiAccordé
+
+export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
+  ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
   async ({ payload }: DélaiAccordé) => {
     const { demandeDélaiId } = payload
 
-    await deps.getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
+    await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
@@ -59,7 +63,7 @@ export const makeOnDélaiAccordé =
         status,
         hasDocument,
       } = args
-      return deps.sendNotification({
+      return sendNotification({
         type: 'modification-request-status-update',
         message: {
           email,
