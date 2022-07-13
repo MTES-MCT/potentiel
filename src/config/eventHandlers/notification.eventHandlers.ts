@@ -190,7 +190,7 @@ subscribeToRedis(onDélaiRejeté, 'Notification.onDélaiRejeté')
 const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
   sendNotification,
   getModificationRequestRecipient,
-  getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
+  getModificationRequestInfoForStatusNotification,
   findUsersForDreal: oldUserRepo.findUsersForDreal,
   dgecEmail: process.env.DGEC_EMAIL,
 })
