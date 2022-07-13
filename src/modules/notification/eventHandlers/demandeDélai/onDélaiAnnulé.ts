@@ -1,34 +1,102 @@
 import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { UserRepo } from '@dataAccess'
 import { DélaiAnnulé } from '@modules/demandeModification'
+import { InfraNotAvailableError } from '@modules/shared'
 import routes from '@routes'
 import { NotificationService } from '../..'
 import {
   GetModificationRequestInfoForStatusNotification,
   GetModificationRequestRecipient,
 } from '../../../modificationRequest'
-import { InfraNotAvailableError } from '../../../shared'
 
 export const makeOnDélaiAnnulé =
   (deps: {
     sendNotification: NotificationService['sendNotification']
-    findUsersForDreal: UserRepo['findUsersForDreal']
+    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
     getModificationRequestRecipient: GetModificationRequestRecipient
-    getModificationRequestInfo: GetModificationRequestInfoForStatusNotification
     dgecEmail: string
+    findUsersForDreal: UserRepo['findUsersForDreal']
   }) =>
   async (event: DélaiAnnulé) => {
     const {
       sendNotification,
-      findUsersForDreal,
-      getModificationRequestInfo,
+      getModificationRequestInfoForStatusNotification,
       getModificationRequestRecipient,
       dgecEmail,
+      findUsersForDreal,
     } = deps
 
     const { demandeDélaiId } = event.payload
 
-    const res = await getModificationRequestInfo(demandeDélaiId)
+    await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
+      async ({ porteursProjet, nomProjet, type }) => {
+        if (!porteursProjet || !porteursProjet.length) {
+          // no registered user for this projet, no one to warn
+          return
+        }
+
+        await Promise.all(
+          porteursProjet.map(({ email, fullName, id }) =>
+            _sendUpdateNotification({
+              email,
+              fullName,
+              porteurId: id,
+              typeDemande: type,
+              nomProjet,
+              modificationRequestId: demandeDélaiId,
+              status: 'annulée',
+              hasDocument: false,
+            })
+          )
+        )
+      },
+      (e: Error) => {
+        logger.error(e)
+      }
+    )
+
+    function _sendUpdateNotification(args: {
+      email: string
+      fullName: string
+      typeDemande: string
+      nomProjet: string
+      modificationRequestId: string
+      porteurId: string
+      status: string
+      hasDocument: boolean
+    }) {
+      const {
+        email,
+        fullName,
+        typeDemande,
+        nomProjet,
+        modificationRequestId,
+        porteurId,
+        status,
+        hasDocument,
+      } = args
+      return sendNotification({
+        type: 'modification-request-status-update',
+        message: {
+          email,
+          name: fullName,
+          subject: `Votre demande de ${typeDemande} pour le projet ${nomProjet}`,
+        },
+        context: {
+          modificationRequestId,
+          userId: porteurId,
+        },
+        variables: {
+          nom_projet: nomProjet,
+          type_demande: typeDemande,
+          status,
+          modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+          document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
+        },
+      })
+    }
+
+    const res = await getModificationRequestInfoForStatusNotification(demandeDélaiId)
       .andThen((modificationRequest) => {
         return getModificationRequestRecipient(demandeDélaiId).map((recipient) => ({
           recipient,
