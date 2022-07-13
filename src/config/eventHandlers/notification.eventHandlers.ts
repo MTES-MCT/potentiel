@@ -152,41 +152,14 @@ const onDélaiDemandéHandler = makeOnDélaiDemandé({
   findUsersForDreal: oldUserRepo.findUsersForDreal,
   findProjectById: oldProjectRepo.findById,
 })
-const onDélaiDemandé = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiDemandé)) {
-    return Promise.resolve()
-  }
-
-  return await onDélaiDemandéHandler(event)
-}
-subscribeToRedis(onDélaiDemandé, 'Notification.onDélaiDemandé')
-
 const onDélaiAccordéHandler = makeOnDélaiAccordé({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
-const onDélaiAccordé = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiAccordé)) {
-    return Promise.resolve()
-  }
-
-  return await onDélaiAccordéHandler(event)
-}
-subscribeToRedis(onDélaiAccordé, 'Notification.onDélaiAccordé')
-
 const onDélaiRejetéHandler = makeOnDélaiRejeté({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
-const onDélaiRejeté = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiRejeté)) {
-    return Promise.resolve()
-  }
-
-  return await onDélaiRejetéHandler(event)
-}
-subscribeToRedis(onDélaiRejeté, 'Notification.onDélaiRejeté')
-
 const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
   sendNotification,
   getModificationRequestRecipient,
@@ -194,14 +167,24 @@ const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
   findUsersForDreal: oldUserRepo.findUsersForDreal,
   dgecEmail: process.env.DGEC_EMAIL,
 })
-const onDélaiAnnulé = async (event: DomainEvent) => {
-  if (!(event instanceof DélaiAnnulé)) {
-    return Promise.resolve()
+
+const onDemandeDélaiEvénements = async (event: DomainEvent) => {
+  if (event instanceof DélaiDemandé) {
+    return await onDélaiDemandéHandler(event)
+  }
+  if (event instanceof DélaiAccordé) {
+    return await onDélaiAccordéHandler(event)
+  }
+  if (event instanceof DélaiRejeté) {
+    return await onDélaiRejetéHandler(event)
+  }
+  if (event instanceof DélaiAnnulé) {
+    return await onDélaiAnnuléHandler(event)
   }
 
-  return await onDélaiAnnuléHandler(event)
+  return Promise.resolve()
 }
-subscribeToRedis(onDélaiAnnulé, 'Notification.onDélaiAnnulé')
+subscribeToRedis(onDemandeDélaiEvénements, 'Notification')
 
 console.log('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true

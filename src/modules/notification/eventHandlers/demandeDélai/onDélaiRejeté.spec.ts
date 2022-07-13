@@ -3,7 +3,7 @@ import { DélaiRejeté } from '@modules/demandeModification'
 import { makeOnDélaiRejeté } from './onDélaiRejeté'
 
 describe(`Notifier lorsqu'un délai est rejeté`, () => {
-  describe(`Notifier les porteur ayant accès au projet`, () => {
+  describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est rejeté
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
       const sendNotification = jest.fn()

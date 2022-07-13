@@ -4,7 +4,7 @@ import { DélaiAnnulé } from '@modules/demandeModification'
 import { makeOnDélaiAnnulé } from './onDélaiAnnulé'
 
 describe(`Notifier lorsqu'un délai est annulé`, () => {
-  describe(`Notifier les porteur ayant accès au projet`, () => {
+  describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est annulé
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
       const sendNotification = jest.fn(async () => null)
