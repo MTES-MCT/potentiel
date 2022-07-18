@@ -19,6 +19,10 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
       )
     : null
 
+  const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
+    new Date(project.completionDueOn).getDate() + 1
+  )
+
   return (
     <div className="mt-4 mb-4">
       <label htmlFor="dateAchèvementAccordée">
@@ -31,7 +35,7 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
         {...(dateDemandée && {
           defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
         })}
-        min={format(project.completionDueOn, 'yyyy-MM-dd')}
+        min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
         required
         aria-required="true"
       />
