@@ -185,6 +185,8 @@ class routes {
     } else return route
   }
 
+  static DEMANDE_DELAIS = withProjectId('/demande-modification.html?action=delai')
+
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')

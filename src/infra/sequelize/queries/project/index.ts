@@ -1,6 +1,7 @@
 export * from './findProjectByIdentifiers'
 export * from './getLegacyModificationByFilename'
 export * from './getNonLegacyProjectsByContactEmail'
+export * from './getProjectDataForDemanderDelaiPage'
 export * from './getProjectDataForProjectClaim'
 export * from './getProjectDataForProjectPage'
 export * from './getProjectDataForSignalerDemandeAbandonPage'
