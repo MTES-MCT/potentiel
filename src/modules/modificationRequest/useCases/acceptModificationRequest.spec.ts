@@ -10,16 +10,61 @@ import { FileObject } from '../../file'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { Readable } from 'stream'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { makeUser } from '@entities'
+import { makeUser, User } from '@entities'
 import { UnwrapForTest } from '../../../types'
 import { Project } from '../../project/Project'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
 import { PuissanceVariationWithDecisionJusticeError } from '../errors'
 
+import { UserRole } from '@modules/users'
+
 describe('acceptModificationRequest use-case', () => {
   const fakeFileContents = Readable.from('test-content')
   const fakeFileName = 'myfilename.pdf'
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+  describe(`Impossible d'accepter une demande de modification de type 'abandon' si non Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur autre que Admin, DGEC`, () => {
+      const rolesNePouvantPasAccepterDemandeModificationTypeAbandon: UserRole[] = [
+        'acheteur-obligé',
+        'dreal',
+        'ademe',
+        'porteur-projet',
+      ]
+
+      const fakeModificationRequest = {
+        ...makeFakeModificationRequest(),
+        type: 'abandon',
+      }
+
+      const fakeProject = {
+        ...makeFakeProject(),
+        id: fakeModificationRequest.projectId,
+      }
+      const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+      const projectRepo = fakeRepo(fakeProject as Project)
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+
+      const acceptModificationRequest = makeAcceptModificationRequest({
+        modificationRequestRepo,
+        projectRepo,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+
+      for (const role of rolesNePouvantPasAccepterDemandeModificationTypeAbandon) {
+        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+        it(`
+        Lorsqu'un utilisateur de type ${role} accepte une demande de modification de type 'abandon'
+        Alors une erreur de type 'UnauthorizedError' devrait être retournée
+        Et 'modificationRequestRepo', 'projectRepo' ainsi que 'fileRepo' ne devraient êtrr 
+        Et aucun évènement ne devrait être publié dans le store`, async () => {})
+      }
+    })
+  })
 
   describe('when user is admin', () => {
     const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
