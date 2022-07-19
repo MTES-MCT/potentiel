@@ -1,38 +1,27 @@
 import { ResultAsync } from '@core/utils'
-import { ProjectAppelOffre, Technologie } from '@entities'
+import { AppelOffre } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 
-export type ProjectDataForDemanderDelaiPage = {
+export type getProjectDataForDemanderDelaiPageDTO = {
   id: string
-  numeroCRE: string
   nomProjet: string
   nomCandidat: string
   communeProjet: string
-  departementProjet: string
   regionProjet: string
-  puissance: number
-  puissanceInitiale: number
-  unitePuissance: string
-  notifiedOn: number
-  completionDueOn: number
-  appelOffreId: string
+  departementProjet: string
   periodeId: string
   familleId: string | undefined
-  numeroGestionnaire: string | undefined
-  actionnaire: string
-  potentielIdentifier: string
-  technologie: Technologie
-  appelOffre?: ProjectAppelOffre
+  notifiedOn: number
+  appelOffreId: string
+  numeroGestionnaire?: string
+  puissance?: number
+  appelOffre?: AppelOffre
+  unitePuissance?: string
   newRulesOptIn: boolean
-  acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string } & (
-    | { delayInMonths: number; dateAchèvementDemandée?: undefined }
-    | {
-        delayInMonths?: undefined
-        dateAchèvementDemandée: string
-      }
-  )
+  completionDueOn: number | Date
+  dcrNumeroDossier?: string
 }
 
 export type GetProjectDataForDemanderDelaiPage = (
   projectId: string
-) => ResultAsync<ProjectDataForDemanderDelaiPage, EntityNotFoundError | InfraNotAvailableError>
+) => ResultAsync<getProjectDataForDemanderDelaiPageDTO, EntityNotFoundError>

@@ -1,8 +1,9 @@
 import { ensureRole } from '@config'
-import { getProjectDataForDemanderDelaiPage } from '@config/queries.config'
+import { getProjectDataForDemanderDelaiPage, getCahiersChargesURLs } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { EntityNotFoundError } from '@modules/shared'
 
+import { logger } from '@core/utils'
 import routes from '@routes'
 import getValidationError from '../../helpers/getValidationError'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
@@ -30,6 +31,7 @@ v1Router.get(
       user,
       projectId,
     })
+
     if (!userHasRightsToProject) {
       return unauthorizedResponse({
         request,
@@ -37,22 +39,35 @@ v1Router.get(
         customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
       })
     }
+
     await getProjectDataForDemanderDelaiPage(projectId).match(
-      (project) => {
-        return response.send(
-          DemanderDelaiPage({
-            request,
-            project,
-            validationErrors: getValidationError(query),
-          })
+      async (project) => {
+        const { appelOffreId, periodeId } = project
+
+        await getCahiersChargesURLs(appelOffreId, periodeId).match(
+          (cahiersChargesURLs) => {
+            return response.send(
+              DemanderDelaiPage({
+                request,
+                project,
+                validationErrors: getValidationError(query),
+                cahiersChargesURLs,
+              })
+            )
+          },
+          (e) => {
+            if (e instanceof EntityNotFoundError) {
+              return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+            }
+
+            return errorResponse({ request, response })
+          }
         )
       },
+      //@ts-ignore
       (e) => {
-        if (e instanceof EntityNotFoundError) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
-        }
-
-        return errorResponse({ request, response })
+        logger.error(e)
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
       }
     )
   })
