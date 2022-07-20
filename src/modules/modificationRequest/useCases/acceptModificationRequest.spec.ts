@@ -55,13 +55,26 @@ describe('acceptModificationRequest use-case', () => {
       })
 
       for (const role of rolesNePouvantPasAccepterDemandeModificationTypeAbandon) {
-        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role })))
 
         it(`
-        Lorsqu'un utilisateur de type ${role} accepte une demande de modification de type 'abandon'
+        Lorsqu'un utilisateur de type "${role}" accepte une demande de modification de type 'abandon'
         Alors une erreur de type 'UnauthorizedError' devrait être retournée
-        Et 'modificationRequestRepo', 'projectRepo' ainsi que 'fileRepo' ne devraient êtrr 
-        Et aucun évènement ne devrait être publié dans le store`, async () => {})
+        Et 'modificationRequestRepo', 'projectRepo' ainsi que 'fileRepo' ne devraient être appelées
+        Et aucun évènement ne devrait être publié dans le store`, async () => {
+          const res = await acceptModificationRequest({
+            modificationRequestId: fakeModificationRequest.id,
+            versionDate: fakeModificationRequest.lastUpdatedOn,
+            responseFile: { contents: fakeFileContents, filename: fakeFileName },
+            submittedBy: fakeUser,
+          })
+
+          expect(res.isErr()).toBe(true)
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+          expect(projectRepo.load).not.toHaveBeenCalled()
+          expect(fileRepo.load).not.toHaveBeenCalled()
+          expect(fileRepo.save).not.toHaveBeenCalled()
+        })
       }
     })
   })
