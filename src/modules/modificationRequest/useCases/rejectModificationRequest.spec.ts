@@ -3,12 +3,18 @@ import { Repository } from '@core/domain'
 import { logger, okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../types'
-import { fakeRepo, makeFakeModificationRequest } from '../../../__tests__/fixtures/aggregates'
+import {
+  fakeRepo,
+  makeFakeModificationRequest,
+  makeFakeProject,
+} from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '../../shared'
 import { ModificationRequest } from '../ModificationRequest'
 import { makeRejectModificationRequest } from './rejectModificationRequest'
+
+import { UserRole } from '@modules/users'
 
 describe('rejectModificationRequest use-case', () => {
   const fakeModificationRequest = {
@@ -27,6 +33,52 @@ describe('rejectModificationRequest use-case', () => {
   const rejectModificationRequest = makeRejectModificationRequest({
     modificationRequestRepo,
     fileRepo: fileRepo as Repository<FileObject>,
+  })
+
+  describe(`Impossible d'accepter une demande de modification de type 'abandon' si non Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur autre que Admin, DGEC`, () => {
+      const rolesNePouvantPasRefuserDemandeModificationTypeAbandon: UserRole[] = [
+        'acheteur-obligé',
+        'dreal',
+        'ademe',
+        'porteur-projet',
+      ]
+
+      const fakeModificationRequest = {
+        ...makeFakeModificationRequest(),
+        type: 'abandon',
+      }
+      const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+
+      const rejectModificationRequest = makeRejectModificationRequest({
+        modificationRequestRepo,
+        fileRepo: fileRepo as Repository<FileObject>,
+      })
+
+      for (const role of rolesNePouvantPasRefuserDemandeModificationTypeAbandon) {
+        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role })))
+
+        it(`
+        Lorsqu'un utilisateur de type "${role}" rejete une demande de modification de type 'abandon'
+        Alors une erreur de type 'UnauthorizedError' devrait être retournée
+        'modificationRequestRepo' ne devrait pas sauvegardé la modification de type 'abandon'
+        'fileRepo' ne devraient etre appelé ni sauvegardé le fichier de justification
+        `, async () => {
+          const res = await rejectModificationRequest({
+            modificationRequestId: fakeModificationRequest.id,
+            versionDate: fakeModificationRequest.lastUpdatedOn,
+            responseFile: { contents: fakeFileContents, filename: fakeFileName },
+            rejectedBy: fakeUser,
+          })
+
+          expect(res.isErr()).toBe(true)
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+          expect(fileRepo.load).not.toHaveBeenCalled()
+          expect(fileRepo.save).not.toHaveBeenCalled()
+          expect(modificationRequestRepo.save).not.toHaveBeenCalled()
+        })
+      }
+    })
   })
 
   describe('when user is admin', () => {
