@@ -33,7 +33,7 @@ v1Router.get(
       return unauthorizedResponse({
         request,
         response,
-        customMessage: `Votre compte ne vous permet pas d'à accéder à ce projet.`,
+        customMessage: `Votre compte ne vous permet pas d'accéder à ce projet.`,
       })
     }
 

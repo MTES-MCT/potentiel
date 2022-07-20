@@ -3,7 +3,14 @@ import ROUTES from '@routes'
 import { Request } from 'express'
 import moment from 'moment'
 import React from 'react'
-import { ErrorBox, PageLayout, ProjectInfo, RoleBasedDashboard, SuccessBox, ModificationRequestActionTitles } from '@components'
+import {
+  ErrorBox,
+  PageLayout,
+  ProjectInfo,
+  RoleBasedDashboard,
+  SuccessBox,
+  ModificationRequestActionTitles,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   AbandonForm,
@@ -28,14 +35,28 @@ type ModificationRequestProps = {
 
 export const ModificationRequest = PageLayout(
   ({ request, modificationRequest }: ModificationRequestProps) => {
-    const { user } = request
+    const {
+      user: { role },
+    } = request
     const { error, success } = request.query as any
-    const { type, id, status } = modificationRequest
+    const { type, id, status, respondedOn = null, cancelledOn = null } = modificationRequest
 
-    const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
+    const isAdmin = ['admin', 'dgec', 'dreal'].includes(role)
+
+    function showAdminReponseForm(): boolean {
+      if (type === 'abandon' && role === 'dreal') {
+        return false
+      }
+
+      if (!isAdmin || respondedOn || cancelledOn || status === 'information validée') {
+        return false
+      }
+
+      return true
+    }
 
     return (
-      <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
+      <RoleBasedDashboard role={role} currentPage={'list-requests'}>
         <div className="panel">
           <div className="panel__header" style={{ position: 'relative' }}>
             <h3>
@@ -52,38 +73,35 @@ export const ModificationRequest = PageLayout(
           <SuccessBox success={success} />
 
           <div className="panel__header">
-            <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+            <DemandeStatus role={role} modificationRequest={modificationRequest} />
           </div>
 
-          {isAdmin &&
-            !modificationRequest.respondedOn &&
-            !modificationRequest.cancelledOn &&
-            modificationRequest.status !== 'information validée' && (
-              <div className="panel__header">
-                <h4>Répondre</h4>
+          {showAdminReponseForm() && (
+            <div className="panel__header">
+              <h4>Répondre</h4>
 
-                <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-                  {type === 'delai' && (
-                    <AdminRéponseDélaiForm modificationRequest={modificationRequest} />
-                  )}
+              <AdminResponseForm role={role} modificationRequest={modificationRequest}>
+                {type === 'delai' && (
+                  <AdminRéponseDélaiForm modificationRequest={modificationRequest} />
+                )}
 
-                  {type === 'recours' && <RecoursForm />}
+                {type === 'recours' && <RecoursForm />}
 
-                  {type === 'abandon' && <AbandonForm modificationRequest={modificationRequest} />}
+                {type === 'abandon' && <AbandonForm modificationRequest={modificationRequest} />}
 
-                  {type === 'puissance' && (
-                    <PuissanceForm modificationRequest={modificationRequest} />
-                  )}
+                {type === 'puissance' && (
+                  <PuissanceForm modificationRequest={modificationRequest} />
+                )}
 
-                  {type === 'actionnaire' && (
-                    <ActionnaireForm modificationRequest={modificationRequest} />
-                  )}
-                  {type === 'producteur' && (
-                    <ProducteurForm modificationRequest={modificationRequest} />
-                  )}
-                </AdminResponseForm>
-              </div>
-            )}
+                {type === 'actionnaire' && (
+                  <ActionnaireForm modificationRequest={modificationRequest} />
+                )}
+                {type === 'producteur' && (
+                  <ProducteurForm modificationRequest={modificationRequest} />
+                )}
+              </AdminResponseForm>
+            </div>
+          )}
 
           {type === 'delai' ? (
             <AnnulerDemandeDélaiBouton
