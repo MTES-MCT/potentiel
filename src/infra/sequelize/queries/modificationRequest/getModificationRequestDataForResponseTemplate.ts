@@ -88,7 +88,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           type,
           project,
           requestedOn,
-          delayInMonths,
+          delayInMonths = null,
           justification,
           actionnaire,
           status,
@@ -185,7 +185,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 'DD/MM/YYYY'
               ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
-              dureeDelaiDemandeEnMois: delayInMonths.toString(),
+              dureeDelaiDemandeEnMois: delayInMonths ? delayInMonths.toString() : null,
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'abandon':
