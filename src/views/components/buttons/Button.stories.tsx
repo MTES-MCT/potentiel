@@ -7,6 +7,7 @@ export default {
   argTypes: {
     primary: { control: 'boolean' },
     children: { control: 'text' },
+    disabled: { control: 'boolean' },
     type: { control: 'select', options: ['button', 'submit', 'reset'] },
   },
 }
@@ -17,4 +18,5 @@ export const Default = Template.bind({})
 Default.args = {
   primary: true,
   children: <p>buttonStory</p>,
+  onClick: () => console.log('button clicked'),
 }

@@ -4,6 +4,7 @@ type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
   type?: 'button' | 'submit' | 'reset'
   primary?: true
   disabled?: boolean
+  onClick?: () => void
 }
 
 export const Button = ({
@@ -21,14 +22,14 @@ export const Button = ({
     } 
     ${
       disabled &&
-      'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none'
+      'disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none pointer-events-none'
     } 
     ${className}
   `
 
   return (
-    <button className={buttonClassNames} {...props}>
-      {children || 'Button'}
+    <button className={buttonClassNames} disabled={disabled} {...props}>
+      {children || 'Bouton'}
     </button>
   )
 }
