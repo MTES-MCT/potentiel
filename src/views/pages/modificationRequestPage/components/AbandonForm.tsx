@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from '@components'
 import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 interface AbandonFormProps {
@@ -7,14 +8,15 @@ interface AbandonFormProps {
 export const AbandonForm = ({ modificationRequest }: AbandonFormProps) => (
   <>
     {!['en attente de confirmation', 'demande confirmée'].includes(modificationRequest.status) && (
-      <button
-        className="button"
+      <Button
+        primary
         type="submit"
         name="submitConfirm"
         {...dataId('ask-confirmation-button')}
+        className="mt-2"
       >
         Demander une confirmation au porteur de projet
-      </button>
+      </Button>
     )}
   </>
 )

@@ -6,7 +6,7 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
-import { AdminDashboard, DownloadIcon, ProjectList } from '@components'
+import { AdminDashboard, DownloadIcon, ProjectList, Button } from '@components'
 import querystring from 'querystring'
 
 type AdminNotifyCandidatesProps = {
@@ -145,7 +145,12 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
           <div className="form__group">
-            <select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
+            <select
+              name="appelOffreId"
+              id="appelOffreId"
+              {...dataId('appelOffreIdSelector')}
+              className="mr-1"
+            >
               {existingAppelsOffres.map((appelOffre) => (
                 <option
                   key={'appel_' + appelOffre.id}
@@ -197,15 +202,16 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                 {...dataId('modificationRequest-notificationDateField')}
                 style={{ width: 'auto' }}
               />
-              <button
-                className="button"
+              <Button
                 type="submit"
                 name="submit"
                 id="submit"
+                primary
+                className="mt-4"
                 {...dataId('submit-button')}
               >
                 Envoyer la notifications aux {projectsInPeriodCount} candidats de cette période
-              </button>
+              </Button>
             </div>
           ) : (
             ''

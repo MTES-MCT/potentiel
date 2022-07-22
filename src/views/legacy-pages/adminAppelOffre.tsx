@@ -3,7 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
 import ROUTES from '@routes'
-import { AdminDashboard } from '@components'
+import { AdminDashboard, Button } from '@components'
 
 type AdminAppelOffreProps = {
   request: Request
@@ -50,9 +50,9 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
               <label htmlFor="appelsOffresFile">Fichier des appels d'offre</label>
               <input type="file" name="appelsOffresFile" id="appelsOffresFile" />
             </div>
-            <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
+            <Button type="submit" primary className="mt-4" {...dataId('submit-button')}>
               Envoyer
-            </button>
+            </Button>
           </form>
         </div>
 
@@ -70,9 +70,9 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
             <label htmlFor="periodesFile">Fichier des périodes</label>
             <input type="file" name="periodesFile" id="periodesFile" />
           </div>
-          <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
+          <Button type="submit" primary className="mt-4" {...dataId('submit-button')}>
             Envoyer
-          </button>
+          </Button>
         </form>
       </div>
     </AdminDashboard>

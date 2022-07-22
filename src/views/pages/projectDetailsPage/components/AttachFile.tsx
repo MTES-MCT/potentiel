@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { PaperClipIcon } from '@heroicons/react/outline'
 import ROUTES from '@routes'
-import { DateInput } from '../../../components'
+import { DateInput, Button } from '@components'
 
 interface AttachFileProps {
   projectId: string
@@ -13,17 +13,13 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
   return (
     <div>
       {!isFormVisible && (
-        <button
-          className="button-outline primary inline-block pl-1 grow whitespace-nowrap text-center lg:max-w-fit self-start"
-          style={{
-            marginTop: 0,
-            marginRight: 0,
-          }}
+        <Button
+          className="inline-block pl-1 grow whitespace-nowrap text-center lg:max-w-fit self-start m-0"
           onClick={() => setFormVisible(true)}
         >
-          <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
+          <PaperClipIcon className="h-5 w-5 align-middle mx-2" />
           Attacher un fichier
-        </button>
+        </Button>
       )}
       {isFormVisible && (
         <form
@@ -55,9 +51,9 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <div className="text-sm mt-4">
             Les fichiers attachés sont visibles de l'administration et du porteur de projet.
           </div>
-          <button className="button" type="submit" name="submit" disabled={false}>
+          <Button primary className="mt-2 mr-2" type="submit" name="submit">
             Envoyer
-          </button>
+          </Button>
           <a
             onClick={() => {
               setFormVisible(false)

@@ -2,6 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
+import { Button } from '@components'
 
 interface Props {
   request: Request
@@ -24,15 +25,16 @@ export default function FakeLoginPage({ request }: Props) {
             <div className="form__group">
               <label htmlFor="email">Courrier électronique</label>
               <input type="email" name="email" id="email" {...dataId('email-field')} />
-              <button
-                className="button"
+              <Button
                 type="submit"
+                primary
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}
+                className="mt-2"
               >
-                Je m‘identifie
-              </button>
+                Je m'identifie
+              </Button>
             </div>
           </form>
         </div>

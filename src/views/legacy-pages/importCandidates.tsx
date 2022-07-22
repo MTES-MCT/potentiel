@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { Request } from 'express'
-import { AdminDashboard } from "@components"
+import { AdminDashboard, Button } from '@components'
 
 type ImportProjectsProps = {
   request: Request
@@ -52,15 +52,16 @@ export default function ImportProjects({
           <div className="form__group">
             <label htmlFor="candidats">Fichier csv des candidats</label>
             <input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
-            <button
-              className="button"
+            <Button
               type="submit"
               name="submit"
               id="submit"
               {...dataId('submit-button')}
+              primary
+              className="mt-2"
             >
               Envoyer
-            </button>
+            </Button>
           </div>
         </form>
       </div>
