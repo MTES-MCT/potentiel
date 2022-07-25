@@ -1,35 +1,28 @@
-import { ensureRole, getCahiersChargesURLs } from '@config'
-import { logger } from '@core/utils'
+import { ensureRole } from '@config'
+import { getCahiersChargesURLs } from '@config/queries.config'
+import { shouldUserAccessProject } from '@config/useCases.config'
 import { projectRepo } from '@dataAccess'
-import { NewModificationRequestPage } from '@views'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
+
+import { logger } from '@core/utils'
 import routes from '@routes'
-import { errorResponse, notFoundResponse } from '../helpers'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
-const ACTIONS = [
-  'delai',
-  'actionnaire',
-  'puissance',
-  'producteur',
-  'abandon',
-  'recours',
-  'fournisseur',
-]
+import { DemanderDelaiPage } from '@views'
 
 v1Router.get(
-  routes.DEMANDE_GENERIQUE,
-  ensureRole('porteur-projet'),
+  routes.DEMANDER_DELAI(),
+  ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
-    const { action, projectId } = request.query as any
+    const {
+      user,
+      params: { projectId },
+    } = request
 
     if (!validateUniqueId(projectId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
-    }
-
-    if (!ACTIONS.includes(action)) {
-      return errorResponse({ request, response, customMessage: 'Le type de demande est erronné.' })
     }
 
     const project = await projectRepo.findById(projectId)
@@ -38,12 +31,24 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
+    const userHasRightsToProject = await shouldUserAccessProject.check({
+      user,
+      projectId,
+    })
+
+    if (!userHasRightsToProject) {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
+      })
+    }
     const { appelOffreId, periodeId } = project
 
     return await getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
-          NewModificationRequestPage({
+          DemanderDelaiPage({
             request,
             project,
             cahiersChargesURLs,

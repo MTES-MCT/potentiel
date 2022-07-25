@@ -21,7 +21,6 @@ import {
   ChangementProducteur,
   ChangementPuissance,
   DemandeRecours,
-  DemandeDelai,
 } from './components'
 
 type NewModificationRequestProps = {
@@ -32,15 +31,8 @@ type NewModificationRequestProps = {
 
 export const NewModificationRequest = PageLayout(
   ({ request, project, cahiersChargesURLs }: NewModificationRequestProps) => {
-    const {
-      action,
-      error,
-      success,
-      puissance,
-      actionnaire,
-      justification,
-      dateAchèvementDemandée,
-    } = (request.query as any) || {}
+    const { action, error, success, puissance, actionnaire, justification } =
+      (request.query as any) || {}
 
     const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
@@ -55,11 +47,7 @@ export const NewModificationRequest = PageLayout(
             </h3>
           </div>
 
-          <form
-            action={action === 'delai' ? ROUTES.DEMANDE_DELAI_ACTION : ROUTES.DEMANDE_ACTION}
-            method="post"
-            encType="multipart/form-data"
-          >
+          <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
             <div className="form__group">
@@ -104,18 +92,13 @@ export const NewModificationRequest = PageLayout(
                   )}
                   {action === 'abandon' && <DemandeAbandon {...{ justification }} />}
                   {action === 'recours' && <DemandeRecours {...{ justification }} />}
-                  {action === 'delai' && (
-                    <DemandeDelai {...{ project, dateAchèvementDemandée, justification }} />
-                  )}
 
                   <Button
                     primary
                     className="mt-3 mr-1"
                     type="submit"
-                    name="submit"
                     id="submit"
                     {...dataId('submit-button')}
-                    disabled={(isEolien && action === 'producteur') || isSubmitButtonDisabled}
                   >
                     Envoyer
                   </Button>

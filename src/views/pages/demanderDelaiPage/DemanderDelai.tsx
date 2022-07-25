@@ -1,15 +1,18 @@
 import {
   CDCChoiceForm,
-  ModificationRequestActionTitles,
   PageLayout,
-  RoleBasedDashboard,
   ProjectInfo,
   SuccessErrorBox,
   TextArea,
   Astérisque,
   Input,
+  UserDashboard,
+  FormulaireChampsObligatoireMessage,
+  Button,
+  LinkButton,
 } from '@components'
 import routes from '@routes'
+import { Project } from '@entities'
 
 import { Request } from 'express'
 import React, { useState } from 'react'
@@ -18,44 +21,38 @@ import format from 'date-fns/format'
 import { dataId } from '../../../helpers/testId'
 import { hydrateOnClient } from '../../helpers'
 
-import { getProjectDataForDemanderDelaiPageDTO } from '@modules/demandeModification'
-
 type DemanderDelaiProps = {
   request: Request
-  project: getProjectDataForDemanderDelaiPageDTO
+  project: Project
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
 export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   const {
-    request: { query, user },
+    request: { query },
     project,
     cahiersChargesURLs,
   } = props
 
-  const { action, error, success, puissance, actionnaire, justification, dateAchèvementDemandée } =
-    (query as any) || {}
+  const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
   const isEolien = project.appelOffre?.type === 'eolien'
   const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
-  const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
-  console.log('is eolien', isEolien)
-  console.log('displayForm', displayForm)
-
   return (
-    <RoleBasedDashboard role={user.role} currentPage="list-garanties-financieres">
+    <UserDashboard currentPage="list-requests">
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>
-            <ModificationRequestActionTitles action={'delai'} />
+            <span>Je demande un délai supplémentaire</span>
           </h3>
         </div>
 
         <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
+          <FormulaireChampsObligatoireMessage className="text-right" />
           <input type="hidden" name="projectId" value={project.id} />
           <input type="hidden" name="type" value={'delai'} />
           <div className="form__group">
@@ -149,29 +146,24 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                   </div>
                 </div>
 
-                <button
-                  className="button"
+                <Button
                   type="submit"
-                  name="submit"
                   id="submit"
+                  primary
                   {...dataId('submit-button')}
-                  disabled={(isEolien && action === 'producteur') || isSubmitButtonDisabled}
+                  className="mt-4 mr-2"
                 >
                   Envoyer
-                </button>
-                <a
-                  className="button-outline primary"
-                  {...dataId('cancel-button')}
-                  href={routes.USER_LIST_PROJECTS}
-                >
+                </Button>
+                <LinkButton {...dataId('cancel-button')} href={routes.USER_LIST_PROJECTS}>
                   Annuler
-                </a>
+                </LinkButton>
               </div>
             )}
           </div>
         </form>
       </div>
-    </RoleBasedDashboard>
+    </UserDashboard>
   )
 })
 
