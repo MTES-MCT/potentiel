@@ -7,7 +7,7 @@ import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
 
-import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from "@components"
+import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from '@components'
 
 type ListProjectsProps = {
   request: Request

@@ -1,6 +1,9 @@
 import React from 'react'
-import ROUTES from '@routes'
 import { Request } from 'express'
+
+import ROUTES from '@routes'
+import { Button } from '@components'
+
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Section } from '../components'
 import { userIs } from '@modules/users'
@@ -79,15 +82,16 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
         Courrier électronique de la personne habilitée à suivre ce projet
       </label>
       <input type="email" name="email" id="email" {...dataId('email-field')} />
-      <button
-        className="button"
+      <Button
+        primary
+        className="mt-2 mr-3"
         type="submit"
         name="submit"
         id="submit"
         {...dataId('submit-button')}
       >
         Accorder les droits sur ce projet
-      </button>
+      </Button>
       <a href="#" {...dataId('invitation-form-hide-button')}>
         Annuler
       </a>

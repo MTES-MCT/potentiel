@@ -6,6 +6,7 @@ import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '@routes'
 import { Section } from '../components'
+import { Button } from '@components'
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage
@@ -303,9 +304,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </label>
           <textarea name="reason" defaultValue={query.reason} />
         </div>
-        <button className="button" type="submit" name="submit" {...dataId('submit-button')}>
+        <Button primary className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
           Modifier
-        </button>
+        </Button>
       </form>
     </Section>
   )

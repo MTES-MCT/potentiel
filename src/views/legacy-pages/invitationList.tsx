@@ -1,4 +1,4 @@
-import { AdminDashboard, PaginationPanel } from '@components'
+import { AdminDashboard, PaginationPanel, Button } from '@components'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -93,14 +93,9 @@ export default function InvitationList({ request, invitations }: InvitationListP
                           style={{}}
                         >
                           <input type="hidden" name="email" value={invitation.email} />
-                          <button
-                            className="button-outline primary"
-                            type="submit"
-                            name="submit"
-                            style={{ border: 0 }}
-                          >
+                          <Button type="submit" name="submit" className="border-none">
                             relancer
-                          </button>
+                          </Button>
                         </form>
                       </td>
                     </tr>

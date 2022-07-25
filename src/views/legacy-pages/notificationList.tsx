@@ -1,4 +1,4 @@
-import { AdminDashboard, PaginationPanel } from '@components'
+import { AdminDashboard, PaginationPanel, Button } from '@components'
 import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -28,19 +28,17 @@ export default function NotificationList({ request, notifications }: Notificatio
             method="POST"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
-            {notifications.itemCount ? (
-              <button
-                className="button"
+            {notifications.itemCount && (
+              <Button
+                className="mt-3"
                 type="submit"
                 name="submit"
                 id="submit"
-                style={{ marginTop: 10 }}
+                primary
                 {...dataId('submit-button')}
               >
-                Relancer les notifications en erreur
-              </button>
-            ) : (
-              ''
+                Réessayer toutes les notifications en erreur
+              </Button>
             )}
           </form>
           {success ? (

@@ -3,7 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { SuccessErrorBox } from '../components'
-import { PageLayout, PartnerDashboard } from '@components'
+import { PageLayout, PartnerDashboard, Button } from '@components'
 
 type ImporterListingEDFProps = {
   request: Request
@@ -26,15 +26,15 @@ export const ImporterListingEDF = PageLayout(({ request }: ImporterListingEDFPro
           <SuccessErrorBox error={error as string} success={success as string} />
           <div>Sélectionner le fichier à importer.</div>
           <input type="file" name="file" />
-          <button
-            className="button"
+          <Button
+            className="mt-2"
             type="submit"
             name="submit"
             id="submit"
             {...dataId('submit-button')}
           >
             Envoyer
-          </button>
+          </Button>
         </form>
       </div>
     </PartnerDashboard>

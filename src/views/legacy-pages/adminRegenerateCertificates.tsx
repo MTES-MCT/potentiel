@@ -3,7 +3,7 @@ import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { AdminDashboard } from '@components'
+import { AdminDashboard, Button } from '@components'
 
 type AdminRegenerateCertificatesProps = {
   request: Request
@@ -126,15 +126,16 @@ export default function AdminRegenerateCertificates({ request }: AdminRegenerate
             <textarea name="reason" defaultValue={reason} />
           </div>
 
-          <button
-            className="button"
+          <Button
+            className="mt-2"
             type="submit"
             name="submit"
             {...dataId('submit-button')}
             data-confirm={`Etes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?`}
+            primary
           >
             Regénérer les attestations des projets de cette période
-          </button>
+          </Button>
           <p>
             Un email sera envoyé aux porteurs de projets pour leur signaler la mise à jour de leur
             attestation.{' '}

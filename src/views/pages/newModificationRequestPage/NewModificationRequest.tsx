@@ -4,7 +4,15 @@ import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
-import { PageLayout, ModificationRequestActionTitles, CDCChoiceForm, UserDashboard, ProjectInfo, SuccessErrorBox } from "@components"
+import {
+  PageLayout,
+  ModificationRequestActionTitles,
+  CDCChoiceForm,
+  UserDashboard,
+  ProjectInfo,
+  SuccessErrorBox,
+  Button,
+} from '@components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import {
   DemandeAbandon,
@@ -100,8 +108,9 @@ export const NewModificationRequest = PageLayout(
                     <DemandeDelai {...{ project, dateAchèvementDemandée, justification }} />
                   )}
 
-                  <button
-                    className="button"
+                  <Button
+                    primary
+                    className="mt-3 mr-1"
                     type="submit"
                     name="submit"
                     id="submit"
@@ -109,7 +118,7 @@ export const NewModificationRequest = PageLayout(
                     disabled={(isEolien && action === 'producteur') || isSubmitButtonDisabled}
                   >
                     Envoyer
-                  </button>
+                  </Button>
                   <a
                     className="button-outline primary"
                     {...dataId('cancel-button')}
