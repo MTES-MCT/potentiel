@@ -73,7 +73,7 @@ const porteurProjetActions = (project: {
       },
       {
         title: 'Demander un délai',
-        link: ROUTES.DEMANDE_DELAIS(project.id),
+        link: ROUTES.DEMANDER_DELAI(project.id),
       },
       ...(!isEolien
         ? [

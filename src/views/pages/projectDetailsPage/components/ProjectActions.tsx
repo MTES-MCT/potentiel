@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react'
-import ROUTES from '@routes'
+import { LinkButton } from '@components'
+import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
 import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { LinkButton } from '../../../components/buttons'
 import { userIs } from '@modules/users'
-import { User } from '@entities'
+import routes from '@routes'
+import React, { Fragment } from 'react'
 
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage
@@ -40,7 +40,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
       <Menu.Items className="absolute w-full z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0">
         <Menu.Item key={`signaler_demande_delai`}>
           <a
-            href={ROUTES.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
+            href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
             <div
@@ -54,7 +54,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         </Menu.Item>
         <Menu.Item key={`signaler_demande_abandon`}>
           <a
-            href={ROUTES.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
+            href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
             <div
@@ -69,7 +69,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         {getProjectStatus(project) === 'éliminé' && (
           <Menu.Item key={`signaler_demande_recours`}>
             <a
-              href={ROUTES.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
+              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
               className="no-underline bg-none hover:bg-none"
             >
               <div
@@ -102,7 +102,7 @@ type PorteurProjetActionsProps = {
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
   <div className="flex flex-col xl:flex-row gap-2">
     {!project.isClasse && (
-      <LinkButton href={ROUTES.DEPOSER_RECOURS(project.id)}>
+      <LinkButton href={routes.DEPOSER_RECOURS(project.id)}>
         Faire une demande de recours
       </LinkButton>
     )}
@@ -128,7 +128,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           >
             <Menu.Item key={`action_demande_delai`}>
               <a
-                href={ROUTES.DEMANDE_DELAIS(project.id)}
+                href={routes.DEMANDER_DELAI(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -143,7 +143,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             {project.appelOffre.type !== 'eolien' && (
               <Menu.Item key={`action_changer_producteur`}>
                 <a
-                  href={ROUTES.CHANGER_PRODUCTEUR(project.id)}
+                  href={routes.CHANGER_PRODUCTEUR(project.id)}
                   className="no-underline bg-none hover:bg-none"
                 >
                   <div
@@ -158,7 +158,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             )}
             <Menu.Item key={`action_changer_fournisseur`}>
               <a
-                href={ROUTES.CHANGER_FOURNISSEUR(project.id)}
+                href={routes.CHANGER_FOURNISSEUR(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -172,7 +172,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             </Menu.Item>
             <Menu.Item key={`action_changer_actionnaire`}>
               <a
-                href={ROUTES.CHANGER_ACTIONNAIRE(project.id)}
+                href={routes.CHANGER_ACTIONNAIRE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -186,7 +186,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             </Menu.Item>
             <Menu.Item key={`action_changer_puissance`}>
               <a
-                href={ROUTES.CHANGER_PUISSANCE(project.id)}
+                href={routes.CHANGER_PUISSANCE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -200,7 +200,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             </Menu.Item>
             <Menu.Item key={`action_demande_abandon`}>
               <a
-                href={ROUTES.DEMANDER_ABANDON(project.id)}
+                href={routes.DEMANDER_ABANDON(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -219,7 +219,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
 
     {project.notifiedOn && project.certificateFile && (
       <LinkButton
-        href={ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+        href={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           nomProjet: project.nomProjet,
@@ -245,7 +245,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
 
     {project.notifiedOn && project.certificateFile ? (
       <LinkButton
-        href={ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
+        href={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           email: project.email,
@@ -261,7 +261,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
     ) : (
       !project.isLegacy && (
         <LinkButton
-          href={ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project)}
+          href={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
           download
           primary
           className="m-auto"

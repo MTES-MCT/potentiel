@@ -1,24 +1,24 @@
+import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
-import fs from 'fs'
 
 import { demanderDélai, ensureRole } from '@config'
-import routes from '@routes'
 import { logger } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander'
+import { UnauthorizedError } from '@modules/shared'
+import routes from '@routes'
 
-import { v1Router } from '../v1Router'
+import { addQueryParams } from '../../helpers/addQueryParams'
 import {
   errorResponse,
+  iso8601DateToDateYupTransformation,
   RequestValidationErrorArray,
   unauthorizedResponse,
   validateRequestBodyForErrorArray,
-  iso8601DateToDateYupTransformation,
 } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
-import { addQueryParams } from '../../helpers/addQueryParams'
 import { upload } from '../upload'
+import { v1Router } from '../v1Router'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -71,7 +71,7 @@ v1Router.post(
         (error) => {
           if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
-              addQueryParams(routes.DEMANDE_DELAIS(request.body.projectId), {
+              addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
                 ...omit(request.body, 'projectId'),
                 error: `${error.message} ${error.errors.join(' ')}`,
               })

@@ -1,3 +1,4 @@
+export * from './demanderDelaiPage'
 export * from './drealListPage'
 export * from './garantiesFinancieresPage'
 export * from './homePage'

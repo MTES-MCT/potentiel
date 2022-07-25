@@ -1,25 +1,26 @@
 import { makeHtml } from './index.html'
 import {
-  Statistiques,
-  ProjectDetails,
-  GarantiesFinancieres,
-  NewModificationRequest,
-  Error,
-  ModificationRequest,
-  ModificationRequestList,
-  AdminStatistiques,
-  Home,
+  AbonnementLettreInformation,
   AdemeStatistiques,
-  UploadLegacyModificationFiles,
-  SignalerDemandeDelai,
-  SignalerDemandeAbandon,
-  SignalerDemandeRecours,
-  Signup,
+  AdminStatistiques,
+  DemanderDelai,
   DrealList,
-  PartnersList,
+  Error,
+  GarantiesFinancieres,
+  Home,
   ImporterListingEDF,
   ImporterListingEnedis,
-  AbonnementLettreInformation,
+  ModificationRequest,
+  ModificationRequestList,
+  NewModificationRequest,
+  PartnersList,
+  ProjectDetails,
+  SignalerDemandeAbandon,
+  SignalerDemandeDelai,
+  SignalerDemandeRecours,
+  Signup,
+  Statistiques,
+  UploadLegacyModificationFiles,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -80,6 +81,14 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     props,
     hydrate: true,
     pageName: 'modificationRequest', // This must match the Component name
+  })
+
+export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
+  makeHtml({
+    Component: DemanderDelai,
+    props,
+    hydrate: true,
+    pageName: 'demanderDelai',
   })
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
