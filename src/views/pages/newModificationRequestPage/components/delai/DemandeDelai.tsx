@@ -20,6 +20,10 @@ export const DemandeDelai = ({
   dateAchèvementDemandée,
   justification,
 }: DemandeDelaiProps) => {
+  const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
+    new Date(project.completionDueOn).getDate() + 1
+  )
+
   return (
     <div className="flex flex-col gap-5">
       <div>
@@ -40,7 +44,7 @@ export const DemandeDelai = ({
           type="date"
           name="dateAchèvementDemandée"
           id="dateAchèvementDemandée"
-          min={format(project.completionDueOn, 'yyyy-MM-dd')}
+          min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
           defaultValue={dateAchèvementDemandée}
           required
           aria-required="true"
