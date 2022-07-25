@@ -21,9 +21,20 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
     }
 
-    const projectId = await _getProjectId(modificationRequestId, models)
+    const { projectId, type } = await getProjectIdAndModificationRequestType(
+      modificationRequestId,
+      models
+    )
     if (!projectId) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+    }
+
+    if (type === 'abandon' && user.role === 'dreal') {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
+      })
     }
 
     const userHasRightsToProject = await shouldUserAccessProject.check({
@@ -56,15 +67,18 @@ v1Router.get(
   })
 )
 
-async function _getProjectId(modificationRequestId, models) {
+async function getProjectIdAndModificationRequestType(modificationRequestId, models) {
   const { ModificationRequest } = models
 
-  const rawModificationRequest = await ModificationRequest.findOne({
+  const { projectId, type } = await ModificationRequest.findOne({
     where: {
       id: modificationRequestId,
     },
-    attributes: ['projectId'],
+    attributes: ['projectId', 'type'],
   })
 
-  return rawModificationRequest.projectId
+  return {
+    projectId,
+    type,
+  }
 }

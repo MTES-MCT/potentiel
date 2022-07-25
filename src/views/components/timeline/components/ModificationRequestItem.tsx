@@ -57,7 +57,7 @@ const Submitted = (props: SubmittedProps) => {
             </div>
           )}
         </div>
-        <Details {...props} />
+        <Details roleRequiresAction={roleRequiresAction} {...props} />
       </ContentArea>
     </>
   )
@@ -165,13 +165,17 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
 }
 
 const Details = (
-  props: { status: ModificationRequestItemProps['status']; detailsUrl: string } & (
+  props: {
+    status: ModificationRequestItemProps['status']
+    roleRequiresAction?: boolean | undefined
+    detailsUrl: string
+  } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
-  const { status, modificationType, detailsUrl } = props
+  const { status, modificationType, detailsUrl, roleRequiresAction } = props
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
@@ -204,7 +208,7 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      <a href={detailsUrl}>Voir la demande</a>
+      {roleRequiresAction && <a href={detailsUrl}>Voir la demande</a>}
     </>
   )
 }
