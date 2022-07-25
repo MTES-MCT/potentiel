@@ -1,13 +1,13 @@
-import { Request } from 'express'
-import React from 'react'
+import { AdminDashboard, Button, DownloadIcon, ProjectList } from '@components'
 import { AppelOffre, Periode, Project } from '@entities'
+import ROUTES from '@routes'
+import { Request } from 'express'
+import querystring from 'querystring'
+import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
-import { AdminDashboard, DownloadIcon, ProjectList, Button } from '@components'
-import querystring from 'querystring'
 
 type AdminNotifyCandidatesProps = {
   request: Request
@@ -210,7 +210,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                 className="mt-4"
                 {...dataId('submit-button')}
               >
-                Envoyer la notifications aux {projectsInPeriodCount} candidats de cette période
+                Envoyer la notification aux {projectsInPeriodCount} candidats de cette période
               </Button>
             </div>
           ) : (
