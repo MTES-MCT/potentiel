@@ -12,17 +12,10 @@ type ProjectActionsProps = {
   user: User
 }
 
-export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
-  <div className="whitespace-nowrap">
-    {userIs(['admin', 'dgec'])(user) && <AdminActions {...{ project }} />}
-    {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
-    {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
-  </div>
-)
-
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage
 }
+
 const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
   <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
     <Menu.Button className="inline-flex w-full items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
@@ -271,5 +264,13 @@ const AdminActions = ({ project }: AdminActionsProps) => (
         </LinkButton>
       )
     )}
+  </div>
+)
+
+export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
+  <div className="whitespace-nowrap">
+    {userIs(['admin', 'dgec'])(user) && <AdminActions {...{ project }} />}
+    {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
+    {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
 )
