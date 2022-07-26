@@ -315,7 +315,13 @@ function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
 function _makePreviousDelaiFromPreviousRequest(previousRequest) {
   if (!previousRequest) return { demandePrecedente: '' }
 
-  const { requestedOn, delayInMonths, acceptanceParams, respondedOn, isLegacy } = previousRequest
+  const {
+    requestedOn,
+    delayInMonths = null,
+    acceptanceParams,
+    respondedOn,
+    isLegacy,
+  } = previousRequest
 
   if (isLegacy) {
     const legacyDelay = monthDiff(
@@ -330,16 +336,17 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       autreDelaiDemandePrecedenteAccorde: '',
       delaiDemandePrecedenteAccordeEnMois: legacyDelay.toString(),
     }
-  } else {
-    return {
-      demandePrecedente: 'yes',
-      dateDepotDemandePrecedente: formatDate(requestedOn),
-      dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
-      dateReponseDemandePrecedente: formatDate(respondedOn),
-      autreDelaiDemandePrecedenteAccorde:
-        delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
-      delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
-    }
+  }
+  return {
+    demandePrecedente: 'yes',
+    dateDepotDemandePrecedente: formatDate(requestedOn),
+    dureeDelaiDemandePrecedenteEnMois: delayInMonths ? delayInMonths.toString() : null,
+    dateReponseDemandePrecedente: formatDate(respondedOn),
+    autreDelaiDemandePrecedenteAccorde:
+      delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
+    delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths
+      ? acceptanceParams.delayInMonths.toString()
+      : null,
   }
 }
 
