@@ -326,6 +326,7 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
     acceptanceParams,
     respondedOn,
     isLegacy,
+    dateAchèvementDemandée,
   } = previousRequest
 
   if (isLegacy) {
@@ -342,17 +343,33 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       delaiDemandePrecedenteAccordeEnMois: legacyDelay.toString(),
     }
   }
-  return {
+  const common = {
     demandePrecedente: 'yes',
     dateDepotDemandePrecedente: formatDate(requestedOn),
-    dureeDelaiDemandePrecedenteEnMois: delayInMonths ? delayInMonths.toString() : null,
     dateReponseDemandePrecedente: formatDate(respondedOn),
-    autreDelaiDemandePrecedenteAccorde:
-      delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
-    delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths
-      ? acceptanceParams.delayInMonths.toString()
-      : null,
   }
+
+  if (dateAchèvementDemandée) {
+    return {
+      ...common,
+      dateDemandePrecedenteDemandée: formatDate(dateAchèvementDemandée),
+      dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+      autreDelaiDemandePrecedenteAccorde:
+        dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
+    }
+  }
+
+  if (delayInMonths) {
+    return {
+      ...common,
+      dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
+      delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
+      autreDelaiDemandePrecedenteAccorde:
+        delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
+    }
+  }
+
+  return { demandePrecedente: '' }
 }
 
 function monthDiff(dateFrom, dateTo) {

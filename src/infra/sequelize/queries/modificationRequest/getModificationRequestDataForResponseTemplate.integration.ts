@@ -479,6 +479,76 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
         })
       })
     })
+    describe(`Lorsqu'une  autre demande de type délai - en date - a déjà été acceptée pour ce projet`, () => {
+      beforeAll(async () => {
+        // Create the tables and remove all data
+        await resetDatabase()
+
+        await Project.create(project)
+
+        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+
+        await Periode.create(periodeData)
+
+        await ModificationRequest.create({
+          id: modificationRequestId,
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 123,
+          respondedOn: 321,
+          respondedBy: userId2,
+          status: 'envoyée',
+          justification: 'justification',
+          versionDate,
+          dateAchèvementDemandée: new Date('2022-01-01').getTime(),
+        })
+
+        // Add a previous request that is accepted
+        await ModificationRequest.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 789,
+          respondedOn: 897,
+          respondedBy: userId2,
+          status: 'acceptée',
+          justification: 'justification',
+          versionDate,
+          dateAchèvementDemandée: new Date('2021-10-01').getTime(),
+          acceptanceParams: {
+            dateAchèvementAccordée: new Date('2021-01-01').getTime(),
+          },
+        })
+      })
+
+      it(`On doit retourner les informations de la demande de délai précédente`, async () => {
+        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+          modificationRequestId.toString(),
+          fakeAdminUser,
+          dgecEmail
+        )
+
+        expect(modificationRequestResult.isOk()).toBe(true)
+        if (modificationRequestResult.isErr()) return
+
+        const modificationRequestDTO = modificationRequestResult.value
+
+        expect(modificationRequestDTO).toMatchObject({
+          demandePrecedente: 'yes',
+          dateDepotDemandePrecedente: formatDate(789),
+          dateDemandePrecedenteDemandée: formatDate(new Date('2021-10-01').getTime()),
+          dateReponseDemandePrecedente: formatDate(897),
+          autreDelaiDemandePrecedenteAccorde: 'yes',
+          dateDemandePrecedenteAccordée: formatDate(new Date('2021-01-01').getTime()),
+        })
+      })
+    })
   })
 
   describe('when type is recours', () => {

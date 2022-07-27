@@ -47,14 +47,15 @@ type DelaiVariant = {
   dateNotification: string
 } & (
   | { demandePrecedente: '' }
-  | {
+  | ({
       demandePrecedente: 'yes'
       dateDepotDemandePrecedente: string
-      dureeDelaiDemandePrecedenteEnMois: string
       dateReponseDemandePrecedente: string
       autreDelaiDemandePrecedenteAccorde: 'yes' | ''
-      delaiDemandePrecedenteAccordeEnMois: string
-    }
+    } & (
+      | { delaiDemandePrecedenteAccordeEnMois: string; dureeDelaiDemandePrecedenteEnMois: string }
+      | { dateDemandePrecedenteAccordée: string; dateDemandePrecedenteDemandée: string }
+    ))
 )
 
 type RecoursVariant = {
