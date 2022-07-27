@@ -179,13 +179,17 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: periode.paragrapheAchevement,
               contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
-                +moment(notifiedOn)
-                  .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
-                  .subtract(1, 'day'),
+                Number(
+                  moment(notifiedOn)
+                    .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
+                    .subtract(1, 'day')
+                ),
                 'DD/MM/YYYY'
               ),
+              dateAchèvementDemandée: formatDate(
+                Number(moment(completionDueOn).add(delayInMonths, 'months'))
+              ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
-              dureeDelaiDemandeEnMois: delayInMonths ? delayInMonths.toString() : null,
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'abandon':

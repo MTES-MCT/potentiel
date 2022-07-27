@@ -253,6 +253,7 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         if (modificationRequestResult.isErr()) return
 
         const modificationRequestDTO = modificationRequestResult.value
+        const dateLimiteAchevementActuelle = 8910
 
         expect(modificationRequestDTO).toMatchObject({
           type: 'delai',
@@ -262,11 +263,13 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
           dateLimiteAchevementInitiale: formatDate(
-            +moment(321).add(24, 'months').subtract(1, 'day')
+            Number(moment(321).add(24, 'months').subtract(1, 'day'))
           ),
-          dateLimiteAchevementActuelle: formatDate(8910),
+          dateLimiteAchevementActuelle: formatDate(dateLimiteAchevementActuelle),
+          dateAchèvementDemandée: formatDate(
+            Number(moment(dateLimiteAchevementActuelle).add(2, 'months'))
+          ),
           dateNotification: formatDate(321),
-          dureeDelaiDemandeEnMois: '2',
         })
       })
     })

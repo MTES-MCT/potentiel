@@ -43,8 +43,8 @@ type DelaiVariant = {
   contenuParagrapheAchevement: string
   dateLimiteAchevementInitiale: string
   dateLimiteAchevementActuelle: string
+  dateAchèvementDemandée: string
   dateNotification: string
-  dureeDelaiDemandeEnMois: string
 } & (
   | { demandePrecedente: '' }
   | {
