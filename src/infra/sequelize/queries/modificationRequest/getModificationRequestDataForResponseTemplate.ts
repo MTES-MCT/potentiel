@@ -354,6 +354,7 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       ...common,
       dateDemandePrecedenteDemandée: formatDate(dateAchèvementDemandée),
       dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+      demandeEnDate: 'yes',
       autreDelaiDemandePrecedenteAccorde:
         dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
     }
@@ -362,6 +363,7 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
   if (delayInMonths) {
     return {
       ...common,
+      demandeEnMois: 'yes',
       dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
       delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
       autreDelaiDemandePrecedenteAccorde:

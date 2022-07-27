@@ -213,6 +213,79 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
   })
 
   describe('Etant donné une demande de type délai faite en mois', () => {
+    describe(`Lorsqu'une autre demande de délai acceptée a été importée dans Potentiel`, () => {
+      beforeAll(async () => {
+        // Create the tables and remove all data
+        await resetDatabase()
+
+        await Project.create(project)
+
+        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+
+        await Periode.create(periodeData)
+
+        await ModificationRequest.create({
+          id: modificationRequestId,
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 123,
+          respondedOn: 321,
+          respondedBy: userId2,
+          status: 'envoyée',
+          justification: 'justification',
+          versionDate,
+          delayInMonths: 2,
+        })
+
+        // Add a previous request that is accepted
+        await ModificationRequest.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 789,
+          respondedOn: 897,
+          respondedBy: userId2,
+          status: 'acceptée',
+          justification: 'justification',
+          versionDate,
+          delayInMonths: null,
+          isLegacy: true,
+          acceptanceParams: {
+            ancienneDateLimiteAchevement: new Date('2020-01-01').getTime(),
+            nouvelleDateLimiteAchevement: new Date('2020-04-01').getTime(),
+          },
+        })
+      })
+
+      it(`On doit retourner les informations de cette précédente demande de délai`, async () => {
+        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+          modificationRequestId.toString(),
+          fakeAdminUser,
+          dgecEmail
+        )
+
+        expect(modificationRequestResult.isOk()).toBe(true)
+        if (modificationRequestResult.isErr()) return
+
+        const modificationRequestDTO = modificationRequestResult.value
+
+        expect(modificationRequestDTO).toMatchObject({
+          demandePrecedente: 'yes',
+          dateDepotDemandePrecedente: formatDate(789),
+          dureeDelaiDemandePrecedenteEnMois: '3',
+          dateReponseDemandePrecedente: formatDate(897),
+          autreDelaiDemandePrecedenteAccorde: '',
+          delaiDemandePrecedenteAccordeEnMois: '3',
+        })
+      })
+    })
+
     describe(`Lorsque la demande de délai est la première de ce type délai`, () => {
       beforeAll(async () => {
         // Create the tables and remove all data
@@ -337,83 +410,11 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
 
         expect(modificationRequestDTO).toMatchObject({
           demandePrecedente: 'yes',
+          demandeEnMois: 'yes',
           dateDepotDemandePrecedente: formatDate(789),
           dureeDelaiDemandePrecedenteEnMois: '4',
           dateReponseDemandePrecedente: formatDate(897),
           autreDelaiDemandePrecedenteAccorde: 'yes', // asked for 4, given 3
-          delaiDemandePrecedenteAccordeEnMois: '3',
-        })
-      })
-    })
-
-    describe(`Lorsqu'une autre demande de délai acceptée a été importée dans Potentiel`, () => {
-      beforeAll(async () => {
-        // Create the tables and remove all data
-        await resetDatabase()
-
-        await Project.create(project)
-
-        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
-
-        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
-
-        await Periode.create(periodeData)
-
-        await ModificationRequest.create({
-          id: modificationRequestId,
-          projectId,
-          userId,
-          fileId,
-          type: 'delai',
-          requestedOn: 123,
-          respondedOn: 321,
-          respondedBy: userId2,
-          status: 'envoyée',
-          justification: 'justification',
-          versionDate,
-          delayInMonths: 2,
-        })
-
-        // Add a previous request that is accepted
-        await ModificationRequest.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          userId,
-          fileId,
-          type: 'delai',
-          requestedOn: 789,
-          respondedOn: 897,
-          respondedBy: userId2,
-          status: 'acceptée',
-          justification: 'justification',
-          versionDate,
-          delayInMonths: null,
-          isLegacy: true,
-          acceptanceParams: {
-            ancienneDateLimiteAchevement: new Date('2020-01-01').getTime(),
-            nouvelleDateLimiteAchevement: new Date('2020-04-01').getTime(),
-          },
-        })
-      })
-
-      it(`On doit retourner les informations de cette précédente demande de délai`, async () => {
-        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-          modificationRequestId.toString(),
-          fakeAdminUser,
-          dgecEmail
-        )
-
-        expect(modificationRequestResult.isOk()).toBe(true)
-        if (modificationRequestResult.isErr()) return
-
-        const modificationRequestDTO = modificationRequestResult.value
-
-        expect(modificationRequestDTO).toMatchObject({
-          demandePrecedente: 'yes',
-          dateDepotDemandePrecedente: formatDate(789),
-          dureeDelaiDemandePrecedenteEnMois: '3',
-          dateReponseDemandePrecedente: formatDate(897),
-          autreDelaiDemandePrecedenteAccorde: '',
           delaiDemandePrecedenteAccordeEnMois: '3',
         })
       })
@@ -541,6 +542,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
 
         expect(modificationRequestDTO).toMatchObject({
           demandePrecedente: 'yes',
+          demandeEnDate: 'yes',
           dateDepotDemandePrecedente: formatDate(789),
           dateDemandePrecedenteDemandée: formatDate(new Date('2021-10-01').getTime()),
           dateReponseDemandePrecedente: formatDate(897),

@@ -53,8 +53,16 @@ type DelaiVariant = {
       dateReponseDemandePrecedente: string
       autreDelaiDemandePrecedenteAccorde: 'yes' | ''
     } & (
-      | { delaiDemandePrecedenteAccordeEnMois: string; dureeDelaiDemandePrecedenteEnMois: string }
-      | { dateDemandePrecedenteAccordée: string; dateDemandePrecedenteDemandée: string }
+      | {
+          demandeEnMois: 'yes'
+          delaiDemandePrecedenteAccordeEnMois: string
+          dureeDelaiDemandePrecedenteEnMois: string
+        }
+      | {
+          demandeEnDate: 'yes'
+          dateDemandePrecedenteAccordée: string
+          dateDemandePrecedenteDemandée: string
+        }
     ))
 )
 
