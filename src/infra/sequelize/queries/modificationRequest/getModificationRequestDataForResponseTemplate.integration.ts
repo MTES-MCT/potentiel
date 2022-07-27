@@ -1,6 +1,6 @@
-import moment from 'moment'
 import { UniqueEntityID } from '@core/domain'
 import { makeUser } from '@entities'
+import moment from 'moment'
 import { formatDate } from '../../../../helpers/formatDate'
 import makeFakeFile from '../../../../__tests__/fixtures/file'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
@@ -212,8 +212,8 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
     })
   })
 
-  describe('when type is delai', () => {
-    describe('when first delai request for this project', () => {
+  describe('Etant donné une demande de type délai faite en mois', () => {
+    describe(`Lorsque la demande de délai est la première de ce type délai`, () => {
       beforeAll(async () => {
         // Create the tables and remove all data
         await resetDatabase()
@@ -242,7 +242,8 @@ describe('Sequelize getModificationRequestDataForResponseTemplate', () => {
         })
       })
 
-      it('should return delai specific modification request info fields', async () => {
+      it(`getModificationRequestDateForResponseTemplate doit retourner une liste spécifique de données
+        et notamment calculer la nouvelle date d'achèvement demandée à partir du délai en mois`, async () => {
         const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
           modificationRequestId.toString(),
           fakeAdminUser,
@@ -274,7 +275,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
       })
     })
 
-    describe('when another delai request has been granted for this project', () => {
+    describe(`Lorsqu'une  autre demande de type délai - en mois - a déjà été acceptée pour ce projet`, () => {
       beforeAll(async () => {
         // Create the tables and remove all data
         await resetDatabase()
@@ -322,7 +323,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
         })
       })
 
-      it('should return previous delai informations', async () => {
+      it(`On doit retourner les informations de la demande de délai précédente`, async () => {
         const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
           modificationRequestId.toString(),
           fakeAdminUser,
@@ -345,7 +346,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
       })
     })
 
-    describe('when another accepted delai request has been imported for this project', () => {
+    describe(`Lorsqu'une autre demande de délai acceptée a été importée dans Potentiel`, () => {
       beforeAll(async () => {
         // Create the tables and remove all data
         await resetDatabase()
@@ -395,7 +396,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
         })
       })
 
-      it('should return previous delai informations', async () => {
+      it(`On doit retourner les informations de cette précédente demande de délai`, async () => {
         const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
           modificationRequestId.toString(),
           fakeAdminUser,
@@ -414,6 +415,67 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
           dateReponseDemandePrecedente: formatDate(897),
           autreDelaiDemandePrecedenteAccorde: '',
           delaiDemandePrecedenteAccordeEnMois: '3',
+        })
+      })
+    })
+  })
+
+  describe(`Etant donnné une demande de type de délai avec une nouvelle date d'achèvement`, () => {
+    describe(`Lorsqu'il s'agit de la première demande de délai pour ce projet`, () => {
+      beforeAll(async () => {
+        // Create the tables and remove all data
+        await resetDatabase()
+
+        await Project.create(project)
+
+        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+
+        await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
+
+        await Periode.create(periodeData)
+
+        await ModificationRequest.create({
+          id: modificationRequestId,
+          projectId,
+          userId,
+          fileId,
+          type: 'delai',
+          requestedOn: 123,
+          respondedOn: 321,
+          respondedBy: userId2,
+          status: 'envoyée',
+          justification: 'justification',
+          versionDate,
+          dateAchèvementDemandée: new Date('2022-01-01').getTime(),
+        })
+      })
+
+      it(`on doit retourner une liste spécifique de données`, async () => {
+        const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
+          modificationRequestId.toString(),
+          fakeAdminUser,
+          dgecEmail
+        )
+
+        expect(modificationRequestResult.isOk()).toBe(true)
+        if (modificationRequestResult.isErr()) return
+
+        const modificationRequestDTO = modificationRequestResult.value
+        const dateLimiteAchevementActuelle = 8910
+
+        expect(modificationRequestDTO).toMatchObject({
+          type: 'delai',
+          referenceParagrapheAchevement: '6.4',
+          contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- 24 mois à compter de la Date de désignation.
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
+          dateLimiteAchevementInitiale: formatDate(
+            Number(moment(321).add(24, 'months').subtract(1, 'day'))
+          ),
+          dateLimiteAchevementActuelle: formatDate(dateLimiteAchevementActuelle),
+          dateAchèvementDemandée: formatDate(new Date('2022-01-01').getTime()),
+          dateNotification: formatDate(321),
         })
       })
     })

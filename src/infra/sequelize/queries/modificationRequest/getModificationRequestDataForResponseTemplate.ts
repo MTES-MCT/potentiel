@@ -1,18 +1,18 @@
-import moment from 'moment'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getProjectAppelOffre } from '@config/queries.config'
 import { DREAL } from '@entities'
-import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
 } from '@modules/modificationRequest'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
+import moment from 'moment'
+import { formatDate } from '../../../../helpers/formatDate'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -95,6 +95,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           confirmationRequestedOn,
           confirmedOn,
           producteur,
+          dateAchèvementDemandée = null,
         } = modificationRequest
 
         const { appelOffreId, periodeId, familleId, technologie } = project
@@ -186,9 +187,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 ),
                 'DD/MM/YYYY'
               ),
-              dateAchèvementDemandée: formatDate(
-                Number(moment(completionDueOn).add(delayInMonths, 'months'))
-              ),
+              dateAchèvementDemandée: dateAchèvementDemandée
+                ? formatDate(dateAchèvementDemandée)
+                : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO)
