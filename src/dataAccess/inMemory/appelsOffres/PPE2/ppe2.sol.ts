@@ -56,6 +56,24 @@ const solPPE2: AppelOffre = {
         },
       },
     },
+    {
+      id: '2',
+      title: 'deuxième',
+      paragrapheAchevement: '6.3',
+      certificateTemplate: 'ppe2.v1',
+      reference: '2022/S 061-160516',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 35.25,
+          puissanceMax: 5,
+        },
+        autres: {
+          noteThreshold: 46.74,
+        },
+      },
+    },
   ],
   familles: [],
 }
