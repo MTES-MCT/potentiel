@@ -365,9 +365,17 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       ...common,
       demandeEnMois: 'yes',
       dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
-      delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
-      autreDelaiDemandePrecedenteAccorde:
-        delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
+      ...(acceptanceParams.delayInMonths && {
+        delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
+        autreDelaiDemandePrecedenteAccorde:
+          delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
+      }),
+      ...(acceptanceParams.dateAchèvementAccordée && {
+        demandeEnMoisAccordéeEnDate: 'yes',
+        dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+        autreDelaiDemandePrecedenteAccorde:
+          dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
+      }),
     }
   }
 
