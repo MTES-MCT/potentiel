@@ -43,18 +43,27 @@ type DelaiVariant = {
   contenuParagrapheAchevement: string
   dateLimiteAchevementInitiale: string
   dateLimiteAchevementActuelle: string
+  dateAchèvementDemandée: string
   dateNotification: string
-  dureeDelaiDemandeEnMois: string
 } & (
   | { demandePrecedente: '' }
-  | {
+  | ({
       demandePrecedente: 'yes'
       dateDepotDemandePrecedente: string
-      dureeDelaiDemandePrecedenteEnMois: string
       dateReponseDemandePrecedente: string
       autreDelaiDemandePrecedenteAccorde: 'yes' | ''
-      delaiDemandePrecedenteAccordeEnMois: string
-    }
+    } & (
+      | {
+          demandeEnMois: 'yes'
+          delaiDemandePrecedenteAccordeEnMois: string
+          dureeDelaiDemandePrecedenteEnMois: string
+        }
+      | {
+          demandeEnDate: 'yes'
+          dateDemandePrecedenteAccordée: string
+          dateDemandePrecedenteDemandée: string
+        }
+    ))
 )
 
 type RecoursVariant = {

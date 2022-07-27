@@ -1,18 +1,18 @@
-import moment from 'moment'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getProjectAppelOffre } from '@config/queries.config'
 import { DREAL } from '@entities'
-import { formatDate } from '../../../../helpers/formatDate'
 import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
 } from '@modules/modificationRequest'
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
+import moment from 'moment'
+import { formatDate } from '../../../../helpers/formatDate'
 import models from '../../models'
 import { getPeriode } from '../appelOffre'
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -88,13 +88,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           type,
           project,
           requestedOn,
-          delayInMonths,
+          delayInMonths = null,
           justification,
           actionnaire,
           status,
           confirmationRequestedOn,
           confirmedOn,
           producteur,
+          dateAchèvementDemandée = null,
         } = modificationRequest
 
         const { appelOffreId, periodeId, familleId, technologie } = project
@@ -179,13 +180,17 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: periode.paragrapheAchevement,
               contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
-                +moment(notifiedOn)
-                  .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
-                  .subtract(1, 'day'),
+                Number(
+                  moment(notifiedOn)
+                    .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
+                    .subtract(1, 'day')
+                ),
                 'DD/MM/YYYY'
               ),
+              dateAchèvementDemandée: dateAchèvementDemandée
+                ? formatDate(dateAchèvementDemandée)
+                : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
-              dureeDelaiDemandeEnMois: delayInMonths.toString(),
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'abandon':
@@ -315,7 +320,14 @@ function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
 function _makePreviousDelaiFromPreviousRequest(previousRequest) {
   if (!previousRequest) return { demandePrecedente: '' }
 
-  const { requestedOn, delayInMonths, acceptanceParams, respondedOn, isLegacy } = previousRequest
+  const {
+    requestedOn,
+    delayInMonths = null,
+    acceptanceParams,
+    respondedOn,
+    isLegacy,
+    dateAchèvementDemandée,
+  } = previousRequest
 
   if (isLegacy) {
     const legacyDelay = monthDiff(
@@ -330,17 +342,44 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       autreDelaiDemandePrecedenteAccorde: '',
       delaiDemandePrecedenteAccordeEnMois: legacyDelay.toString(),
     }
-  } else {
+  }
+  const common = {
+    demandePrecedente: 'yes',
+    dateDepotDemandePrecedente: formatDate(requestedOn),
+    dateReponseDemandePrecedente: formatDate(respondedOn),
+  }
+
+  if (dateAchèvementDemandée) {
     return {
-      demandePrecedente: 'yes',
-      dateDepotDemandePrecedente: formatDate(requestedOn),
-      dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
-      dateReponseDemandePrecedente: formatDate(respondedOn),
+      ...common,
+      dateDemandePrecedenteDemandée: formatDate(dateAchèvementDemandée),
+      dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+      demandeEnDate: 'yes',
       autreDelaiDemandePrecedenteAccorde:
-        delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
-      delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
+        dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
     }
   }
+
+  if (delayInMonths) {
+    return {
+      ...common,
+      demandeEnMois: 'yes',
+      dureeDelaiDemandePrecedenteEnMois: delayInMonths.toString(),
+      ...(acceptanceParams.delayInMonths && {
+        delaiDemandePrecedenteAccordeEnMois: acceptanceParams.delayInMonths.toString(),
+        autreDelaiDemandePrecedenteAccorde:
+          delayInMonths !== acceptanceParams.delayInMonths ? 'yes' : '',
+      }),
+      ...(acceptanceParams.dateAchèvementAccordée && {
+        demandeEnMoisAccordéeEnDate: 'yes',
+        dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+        autreDelaiDemandePrecedenteAccorde:
+          dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
+      }),
+    }
+  }
+
+  return { demandePrecedente: '' }
 }
 
 function monthDiff(dateFrom, dateTo) {
