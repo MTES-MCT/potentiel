@@ -15,7 +15,7 @@ export type ModificationRequestItemProps = {
     | 'annulée'
     | 'en attente de confirmation'
     | 'demande confirmée'
-  authority: 'dreal' | 'dgec'
+  authority: 'dreal' | 'dgec' | undefined
   role: UserRole
   responseUrl?: string | undefined
   detailsUrl: string

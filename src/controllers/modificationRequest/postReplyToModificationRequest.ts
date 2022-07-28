@@ -7,6 +7,7 @@ import {
   updateModificationRequestStatus,
 } from '@config'
 import { logger } from '@core/utils'
+import { getModificationRequestAuthority } from '@infra/sequelize/queries'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
@@ -35,22 +36,33 @@ v1Router.post(
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
-      modificationRequestId,
-      type,
-      versionDate,
-      submitAccept,
-      submitConfirm,
-      statusUpdateOnly,
-      newNotificationDate,
-      delayInMonths,
-      puissance,
-      isDecisionJustice,
-      actionnaire,
-      producteur,
-    } = request.body
+      user: { role },
+      body: {
+        modificationRequestId,
+        type,
+        versionDate,
+        submitAccept,
+        submitConfirm,
+        statusUpdateOnly,
+        newNotificationDate,
+        delayInMonths,
+        puissance,
+        isDecisionJustice,
+        actionnaire,
+        producteur,
+      },
+    } = request
 
     if (!validateUniqueId(modificationRequestId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+    }
+
+    if (role === 'dreal') {
+      const authority = await getModificationRequestAuthority(modificationRequestId)
+
+      if (authority && authority !== role) {
+        return unauthorizedResponse({ request, response })
+      }
     }
 
     // There are two submit buttons on the form, named submitAccept and submitReject

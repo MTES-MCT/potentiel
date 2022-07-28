@@ -2,13 +2,15 @@ import { ensureRole, getModificationRequestDetails } from '@config'
 import { logger } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
 import { ModificationRequestPage } from '@views'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '@routes'
+import { shouldUserAccessProject } from '@config/useCases.config'
+import { getModificationRequestAuthority } from '@infra/sequelize/queries'
+
+import models from '../../infra/sequelize/models'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
-import { shouldUserAccessProject } from '@config/useCases.config'
-import models from '../../infra/sequelize/models'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
@@ -36,6 +38,14 @@ v1Router.get(
         response,
         customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
       })
+    }
+
+    if (user.role === 'dreal') {
+      const authority = await getModificationRequestAuthority(modificationRequestId)
+
+      if (authority && authority !== user.role) {
+        return unauthorizedResponse({ request, response })
+      }
     }
 
     const modificationRequestResult = await getModificationRequestDetails(modificationRequestId)
