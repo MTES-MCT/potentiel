@@ -580,7 +580,7 @@ export const makeProject = (args: {
       const { appelOffre } = props
       if (appelOffre) {
         _updateDCRDate(appelOffre)
-        _updateGFDate(appelOffre)
+        !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate(appelOffre)
         _updateCompletionDate(appelOffre)
       }
 
