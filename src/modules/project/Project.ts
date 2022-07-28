@@ -181,7 +181,6 @@ export interface Project extends EventStoreAggregate {
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
-  removeUnexpectedGFDueDateforPPE2Project: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly isClasse?: boolean
   readonly isLegacy?: boolean
@@ -253,7 +252,6 @@ export interface ProjectProps {
   appelOffreId: string
   periodeId: string
   familleId: string
-  hasProducteurChange: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -294,7 +292,6 @@ export const makeProject = (args: {
     appelOffreId: '',
     periodeId: '',
     familleId: '',
-    hasProducteurChange: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -946,18 +943,6 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    removeUnexpectedGFDueDateforPPE2Project: function () {
-      if (!props.hasProducteurChange) {
-        _publishEvent(
-          new ProjectGFDueDateCancelled({
-            payload: {
-              projectId: props.projectId.toString(),
-            },
-          })
-        )
-      }
-      return ok(null)
-    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1163,7 +1148,6 @@ export const makeProject = (args: {
           nomCandidat: event.payload.newProducteur,
         } as ProjectProps['data']
         props.fieldsUpdatedAfterImport.add('nomCandidat')
-        props.hasProducteurChange = true
         break
       case ProjectPuissanceUpdated.type:
         props.data = {
