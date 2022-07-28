@@ -165,13 +165,18 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
 }
 
 const Details = (
-  props: { status: ModificationRequestItemProps['status']; detailsUrl: string } & (
+  props: {
+    status: ModificationRequestItemProps['status']
+    authority: ModificationRequestItemProps['authority']
+    role: ModificationRequestItemProps['role']
+    detailsUrl: string
+  } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'abandon' | 'recours' }
   )
 ) => {
-  const { status, modificationType, detailsUrl } = props
+  const { status, modificationType, detailsUrl, authority = undefined, role } = props
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
@@ -191,6 +196,14 @@ const Details = (
     'en instruction': `en instruction`,
   }
 
+  function showDemandeButton() {
+    if (!authority || role !== 'dreal') {
+      return true
+    }
+
+    return role === authority
+  }
+
   return (
     <>
       <ItemTitle title={`${libelleTypeDemande[modificationType]} ${libelleStatus[status]}`} />
@@ -204,7 +217,7 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      <a href={detailsUrl}>Voir la demande</a>
+      {showDemandeButton() && <a href={detailsUrl}>Voir la demande</a>}
     </>
   )
 }
