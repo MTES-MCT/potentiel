@@ -20,7 +20,6 @@ import {
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
-  ProjectDcrDelayIsMissingError,
 } from '../shared'
 import { ProjectDataForCertificate } from './dtos'
 import {
@@ -29,13 +28,19 @@ import {
   GFCertificateHasAlreadyBeenSentError,
   IllegalProjectStateError,
   NoGFCertificateToDeleteError,
+  NoGFCertificateToUpdateError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
-  NoGFCertificateToUpdateError,
 } from './errors'
 import {
+  AppelOffreProjetModifié,
   CovidDelayGranted,
+  DateEchéanceGFAjoutée,
+  DemandeAbandonSignaled,
+  DemandeDelaiSignaled,
+  DemandeRecoursSignaled,
+  IdentifiantPotentielPPE2Batiment2Corrigé,
   LegacyProjectSourced,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
@@ -65,12 +70,6 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
-  DemandeDelaiSignaled,
-  DemandeAbandonSignaled,
-  DemandeRecoursSignaled,
-  AppelOffreProjetModifié,
-  DateEchéanceGFAjoutée,
-  IdentifiantPotentielPPE2Batiment2Corrigé,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -182,6 +181,7 @@ export interface Project extends EventStoreAggregate {
     expirationDate: Date
     submittedBy: User
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
+  removeUnexpectedGFDueDateforPPE2Project: () => Result<null, null>
   readonly shouldCertificateBeGenerated: boolean
   readonly isClasse?: boolean
   readonly isLegacy?: boolean
@@ -253,6 +253,7 @@ export interface ProjectProps {
   appelOffreId: string
   periodeId: string
   familleId: string
+  hasProducteurChange: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -293,6 +294,7 @@ export const makeProject = (args: {
     appelOffreId: '',
     periodeId: '',
     familleId: '',
+    hasProducteurChange: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -944,6 +946,18 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    removeUnexpectedGFDueDateforPPE2Project: function () {
+      if (!props.hasProducteurChange) {
+        _publishEvent(
+          new ProjectGFDueDateCancelled({
+            payload: {
+              projectId: props.projectId.toString(),
+            },
+          })
+        )
+      }
+      return ok(null)
+    },
     get pendingEvents() {
       return pendingEvents
     },
@@ -1149,6 +1163,7 @@ export const makeProject = (args: {
           nomCandidat: event.payload.newProducteur,
         } as ProjectProps['data']
         props.fieldsUpdatedAfterImport.add('nomCandidat')
+        props.hasProducteurChange = true
         break
       case ProjectPuissanceUpdated.type:
         props.data = {
