@@ -1,5 +1,5 @@
-import { DélaiAnnulé } from '@modules/demandeModification'
 import { logger } from '@core/utils'
+import { DélaiAnnulé } from '@modules/demandeModification'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
@@ -20,11 +20,10 @@ export default ProjectEvent.projector.on(
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
       payload: {
+        // @ts-ignore
+        ...instance.payload,
         statut: 'annulée',
         annuléPar,
-        demandeDélaiId,
-        // @ts-ignore
-        dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
       },
     })
 
