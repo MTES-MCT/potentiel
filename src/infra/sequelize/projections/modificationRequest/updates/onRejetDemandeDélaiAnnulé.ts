@@ -13,6 +13,7 @@ export const onRejetDemandeDélaiAnnulé =
           status: 'envoyée',
           respondedBy: null,
           respondedOn: null,
+          responseFileId: null,
         },
         {
           where: {
