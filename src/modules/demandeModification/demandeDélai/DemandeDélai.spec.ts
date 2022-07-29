@@ -1,7 +1,15 @@
 import { UniqueEntityID } from '@core/domain'
+import { ModificationRequested, ModificationRequestedPayload } from '@modules/modificationRequest'
 
-import { DélaiAccordé, DélaiAccordéPayload, DélaiDemandé, DélaiDemandéPayload } from './events'
 import { makeDemandeDélai } from './DemandeDélai'
+import {
+  DélaiAccordé,
+  DélaiAccordéPayload,
+  DélaiDemandé,
+  DélaiDemandéPayload,
+  DélaiRejeté,
+  DélaiRejetéPayload,
+} from './events'
 
 describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
   it(`
@@ -46,5 +54,35 @@ describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
       expect(demandeDélai.value).toMatchObject({
         statut: 'accordée',
       })
+  })
+})
+
+describe(`Fabriquer l'agrégat d'une demande de délai utilisant l'ancien et le nouveau format de demande`, () => {
+  describe(`Etant donné une demande de délai dont l'acceptation correspond à un événement générique ModificationRequested
+    et donc le rejet corresond à un événement spécifique DélaiRejeté`, () => {
+    it(`On doit obtenir un agrégat prenant en compte les informations des deux types d'événements`, () => {
+      const demandeDélai = makeDemandeDélai({
+        id: new UniqueEntityID('la-demande'),
+        events: [
+          new ModificationRequested({
+            payload: {
+              type: 'delai',
+              modificationRequestId: 'la-demande',
+            } as ModificationRequestedPayload,
+          }),
+          new DélaiRejeté({
+            payload: {
+              demandeDélaiId: 'la-demande',
+            } as DélaiRejetéPayload,
+          }),
+        ],
+      })
+
+      expect(demandeDélai.isOk()).toBe(true)
+      demandeDélai.isOk() &&
+        expect(demandeDélai.value).toMatchObject({
+          statut: 'refusée',
+        })
+    })
   })
 })
