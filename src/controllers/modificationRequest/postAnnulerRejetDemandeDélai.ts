@@ -34,7 +34,7 @@ v1Router.get(
       () => {
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'La rejet de la demande de délai a bien été annulé.',
+            success: 'Le rejet de la demande de délai a bien été annulé.',
             redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
             redirectTitle: 'Retourner à la demande',
           })
