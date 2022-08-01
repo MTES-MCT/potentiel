@@ -7,33 +7,60 @@ export default ProjectEvent.projector.on(
   async ({ payload, occurredAt }, transaction) => {
     const { demandeDélaiId } = payload
 
-    const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
+    // recherche d'un événement de type DemandeDélai associé à la demande
+    const demandeDélaiInstance = await ProjectEvent.findOne({
+      where: { id: demandeDélaiId, type: 'DemandeDélai' },
+      transaction,
+    })
 
-    if (!instance) {
-      logger.error(
-        `Error : onRejetDemandeDélaiAnnulé n'a pas pu retrouver la demandeDélaiId ${demandeDélaiId} pour la mettre à jour.`
-      )
+    if (demandeDélaiInstance) {
+      Object.assign(demandeDélaiInstance, {
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
+        payload: {
+          // @ts-ignore
+          ...demandeDélaiInstance.payload,
+          statut: 'envoyée',
+          rejetéPar: null,
+        },
+      })
+
+      try {
+        await demandeDélaiInstance.save({ transaction })
+      } catch (e) {
+        logger.error(e)
+        logger.info(
+          `Error: onRejetDemandeDélaiAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeDélaiId}.`
+        )
+      }
       return
     }
 
-    Object.assign(instance, {
-      valueDate: occurredAt.getTime(),
-      eventPublishedAt: occurredAt.getTime(),
-      payload: {
-        // @ts-ignore
-        ...instance.payload,
-        statut: 'envoyée',
-        rejetéPar: null,
+    // Si pas d'événement de type DemandeDélai
+    // Recherche d'un événement de type ModificationRequest associé à la demande
+    const modificationRequestInstance = await ProjectEvent.findOne({
+      where: {
+        type: 'ModificationRequestRejected',
+        payload: { modificationRequestId: demandeDélaiId },
       },
+      transaction,
     })
 
+    if (!modificationRequestInstance) {
+      logger.error(
+        `onRejetDemandeDélaiAnnulé n'a pas pu retrouver la demande de modification id : ${demandeDélaiId}`
+      )
+    }
+
     try {
-      await instance.save({ transaction })
+      await modificationRequestInstance?.destroy({ transaction })
     } catch (e) {
       logger.error(e)
       logger.info(
-        `Error: onRejetDemandeDélaiAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeDélaiId}.`
+        `Error: onRejetDemandeDélaiAnnulé n'a pas supprimer l'événement de type
+        "ModificationRequestRejected" pour la demande id ${demandeDélaiId}.`
       )
     }
+    return
   }
 )
