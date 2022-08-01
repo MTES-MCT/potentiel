@@ -26,6 +26,7 @@ import {
   AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
+  DCRCertificatDejaEnvoyéError,
   IllegalProjectStateError,
   NoGFCertificateToDeleteError,
   NoGFCertificateToUpdateError,
@@ -53,6 +54,7 @@ import {
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
+  ProjectDCRSubmitted,
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
@@ -128,12 +130,20 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string
     reason?: string
   }) => Result<null, IllegalInitialStateForAggregateError>
+  submitDemandeComplèteRaccordement: (
+    projectId: string,
+    dcrDate: Date,
+    fileId: string,
+    numeroDossier: string,
+    submittedBy: string
+  ) => Result<null, DCRCertificatDejaEnvoyéError>
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
     submittedBy: User,
     expirationDate: Date
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+  // submit
   uploadGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
@@ -248,6 +258,7 @@ export interface ProjectProps {
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
+  hasCurrentDcr: boolean
   GFExpirationDate: Date | undefined
   appelOffreId: string
   periodeId: string
@@ -287,6 +298,7 @@ export const makeProject = (args: {
     newRulesOptIn: false,
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
+    hasCurrentDcr: false,
     GFExpirationDate: undefined,
     potentielIdentifier: '',
     appelOffreId: '',
@@ -740,6 +752,25 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    submitDemandeComplèteRaccordement: function (
+      projectId,
+      dcrDate,
+      fileId,
+      numeroDossier,
+      submittedBy
+    ) {
+      if (props.hasCurrentDcr) {
+        return err(new DCRCertificatDejaEnvoyéError())
+      }
+
+      _publishEvent(
+        new ProjectDCRSubmitted({
+          payload: { projectId, dcrDate, fileId, numeroDossier, submittedBy },
+        })
+      )
+
+      return ok(null)
+    },
     submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
@@ -1179,6 +1210,9 @@ export const makeProject = (args: {
         if (event.payload.expirationDate) {
           props.GFExpirationDate = event.payload.expirationDate
         }
+        break
+      case ProjectDCRSubmitted.type:
+        props.hasCurrentDcr = true
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:
