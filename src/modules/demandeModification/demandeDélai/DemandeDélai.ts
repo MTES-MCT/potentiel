@@ -1,6 +1,13 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { DélaiAccordé, DélaiAnnulé, DélaiDemandé, DélaiEnInstruction, DélaiRejeté } from './events'
+import {
+  DélaiAccordé,
+  DélaiAnnulé,
+  DélaiDemandé,
+  DélaiEnInstruction,
+  DélaiRejeté,
+  RejetDemandeDélaiAnnulé,
+} from './events'
 
 import {
   ModificationRequestAccepted,
@@ -55,8 +62,11 @@ export const makeDemandeDélai = (
         return { ...agregat, statut: 'refusée' }
       case DélaiEnInstruction.type:
       case ModificationRequestInstructionStarted.type:
+      case RejetDemandeDélaiAnnulé.type:
         return { ...agregat, statut: 'en-instruction' }
 
+      case RejetDemandeDélaiAnnulé.type:
+        return { ...agregat, statut: 'envoyée' }
       default:
         return agregat
     }
