@@ -69,14 +69,13 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
 
     //Scenario 2
     describe(`Lorsqu'il y a un événement de type "ModificationRequestRejected" 
+      et un événement de type "ModificationRequestInstructionStarted"
       avec le même modificationRequestId`, () => {
-      it(`Alors cet événement devrait être supprimé`, async () => {
+      it(`Alors ces événements devraient être supprimés`, async () => {
         const modificationRequestId = new UniqueEntityID().toString()
         const projectId = new UniqueEntityID().toString()
-        const dateAchèvementDemandée = new Date().getTime()
         const occurredAt = new Date().getTime()
 
-        const demandeur = new UniqueEntityID().toString()
         const annuléPar = new UniqueEntityID().toString()
 
         await ProjectEvent.create({
@@ -90,6 +89,17 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
             modificationRequestId,
             authority: 'dreal',
             delayInMonths: 3,
+          },
+        })
+
+        await ProjectEvent.create({
+          id: new UniqueEntityID().toString(),
+          projectId,
+          type: 'ModificationRequestInstructionStarted',
+          valueDate: occurredAt,
+          eventPublishedAt: occurredAt,
+          payload: {
+            modificationRequestId,
           },
         })
 
@@ -121,8 +131,15 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
         const modificationRequestRejected = await ProjectEvent.findOne({
           where: { type: 'ModificationRequestRejected', payload: { modificationRequestId } },
         })
+        const modificationRequestInstruction = await ProjectEvent.findOne({
+          where: {
+            type: 'ModificationRequestInstructionStarted',
+            payload: { modificationRequestId },
+          },
+        })
 
         expect(modificationRequestRejected).toBeNull()
+        expect(modificationRequestInstruction).toBeNull()
       })
     })
   })

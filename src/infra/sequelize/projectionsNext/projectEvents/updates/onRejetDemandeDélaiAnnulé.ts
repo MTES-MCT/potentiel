@@ -38,22 +38,14 @@ export default ProjectEvent.projector.on(
 
     // Si pas d'événement de type DemandeDélai
     // Recherche d'un événement de type ModificationRequest associé à la demande
-    const modificationRequestInstance = await ProjectEvent.findOne({
-      where: {
-        type: 'ModificationRequestRejected',
-        payload: { modificationRequestId: demandeDélaiId },
-      },
-      transaction,
-    })
-
-    if (!modificationRequestInstance) {
-      logger.error(
-        `onRejetDemandeDélaiAnnulé n'a pas pu retrouver la demande de modification id : ${demandeDélaiId}`
-      )
-    }
-
     try {
-      await modificationRequestInstance?.destroy({ transaction })
+      await ProjectEvent.destroy({
+        where: {
+          type: 'ModificationRequestRejected',
+          payload: { modificationRequestId: demandeDélaiId },
+        },
+        transaction,
+      })
     } catch (e) {
       logger.error(e)
       logger.info(
@@ -61,6 +53,23 @@ export default ProjectEvent.projector.on(
         "ModificationRequestRejected" pour la demande id ${demandeDélaiId}.`
       )
     }
+
+    try {
+      await ProjectEvent.destroy({
+        where: {
+          type: 'ModificationRequestInstructionStarted',
+          payload: { modificationRequestId: demandeDélaiId },
+        },
+        transaction,
+      })
+    } catch (e) {
+      logger.error(e)
+      logger.info(
+        `Error: onRejetDemandeDélaiAnnulé n'a pas supprimer l'événement de type
+        "ModificationRequestInstructionStarted" pour la demande id ${demandeDélaiId}.`
+      )
+    }
+
     return
   }
 )
