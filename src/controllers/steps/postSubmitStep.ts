@@ -1,7 +1,7 @@
 import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
 import { ensureRole } from '@config'
-import { submitStep } from '@config/useCases.config'
+import { submitStep, submitDCR } from '@config/useCases.config'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import { UnauthorizedError } from '@modules/shared'
@@ -57,6 +57,14 @@ v1Router.post(
         const file = {
           contents: fs.createReadStream(request.file!.path),
           filename: `${Date.now()}-${request.file!.originalname}`,
+        }
+
+        if (type === 'dcr') {
+          return submitDCR({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
+            () => ({
+              projectId,
+            })
+          )
         }
 
         return submitStep({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
