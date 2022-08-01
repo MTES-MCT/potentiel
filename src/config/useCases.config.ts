@@ -27,7 +27,7 @@ import {
   makeSignalerDemandeAbandon,
   makeSubmitGF,
   makeSubmitDCR,
-  makeSubmitStep,
+  makeSubmitPTF,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
   makeUploadGF,
@@ -126,13 +126,13 @@ export const revokeUserRightsToProject = makeRevokeRightsToProject({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
-export const submitStep = makeSubmitStep({
+export const submitDCR = makeSubmitDCR({
   eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
-export const submitDCR = makeSubmitDCR({
+export const submitPTF = makeSubmitPTF({
   eventBus: eventStore,
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),

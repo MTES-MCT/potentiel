@@ -1,7 +1,7 @@
 import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
 import { ensureRole } from '@config'
-import { submitStep, submitDCR } from '@config/useCases.config'
+import { submitDCR, submitPTF } from '@config/useCases.config'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
 import { UnauthorizedError } from '@modules/shared'
@@ -67,7 +67,7 @@ v1Router.post(
           )
         }
 
-        return submitStep({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
+        return submitPTF({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
           () => ({
             projectId,
           })
