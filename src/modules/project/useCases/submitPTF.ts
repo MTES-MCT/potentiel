@@ -3,19 +3,18 @@ import { errAsync, logger, ResultAsync, wrapInfra, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted } from '../events'
+import { ProjectPTFSubmitted } from '../events'
 
-interface SubmitDCRDeps {
+interface SubmitPTFDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   eventBus: EventBus
 }
 
-type SubmitDCRArgs = {
-  type: 'dcr'
+type SubmitPTFArgs = {
+  type: 'ptf'
   projectId: string
   stepDate: Date
-  numeroDossier?: string
   file: {
     contents: FileContents
     filename: string
@@ -23,16 +22,15 @@ type SubmitDCRArgs = {
   submittedBy: User
 }
 
-export const makeSubmitDCR =
-  ({ shouldUserAccessProject, fileRepo, eventBus }: SubmitDCRDeps) =>
+export const makeSubmitPTF =
+  ({ shouldUserAccessProject, fileRepo, eventBus }: SubmitPTFDeps) =>
   ({
     type,
     projectId,
-    stepDate,
-    numeroDossier,
     file,
+    stepDate,
     submittedBy,
-  }: SubmitDCRArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  }: SubmitPTFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { filename, contents } = file
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy }))
@@ -60,13 +58,12 @@ export const makeSubmitDCR =
       .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
         return okAsync(fileId).andThen((fileId) =>
           eventBus.publish(
-            new ProjectDCRSubmitted({
+            new ProjectPTFSubmitted({
               payload: {
                 projectId,
-                dcrDate: stepDate,
+                ptfDate: stepDate,
                 fileId,
                 submittedBy: submittedBy.id,
-                numeroDossier: numeroDossier || '',
               },
             })
           )

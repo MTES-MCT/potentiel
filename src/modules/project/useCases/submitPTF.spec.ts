@@ -7,8 +7,8 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted } from '../events'
-import { makeSubmitDCR } from './submitDCR'
+import { ProjectPTFSubmitted } from '../events'
+import { makeSubmitPTF } from './submitPTF'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -31,21 +31,21 @@ const fileRepo = {
 
 const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
-describe('submitDCR use-case', () => {
+describe('submitPTF use-case', () => {
   describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
     it('Alors une erreur de type UnauthorizedError doit être retournée', async () => {
       fakePublish.mockClear()
 
       const shouldUserAccessProject = jest.fn(async () => false)
 
-      const submitDCR = makeSubmitDCR({
+      const submitPTF = makeSubmitPTF({
         eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
       })
 
-      const res = await submitDCR({
-        type: 'dcr',
+      const res = await submitPTF({
+        type: 'ptf',
         file: fakeFileContents,
         stepDate: new Date(123),
         projectId,
@@ -53,33 +53,35 @@ describe('submitDCR use-case', () => {
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
       expect(fakePublish).not.toHaveBeenCalled()
     })
   })
 
   describe(`Lorsque l'utilisateur a les droits d'accès au projet`, () => {
+    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+
     const fileRepo = {
       save: jest.fn((file: FileObject) => okAsync(null)),
       load: jest.fn(),
     }
 
-    const dcrDate = new Date(123)
+    const ptfDate = new Date(123)
 
     beforeAll(async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
       fakePublish.mockClear()
 
-      const submitDCR = makeSubmitDCR({
+      const submitPTF = makeSubmitPTF({
         eventBus: fakeEventBus,
         fileRepo: fileRepo as Repository<FileObject>,
         shouldUserAccessProject,
       })
 
-      const res = await submitDCR({
-        type: 'dcr',
+      const res = await submitPTF({
+        type: 'ptf',
         file: fakeFileContents,
-        stepDate: dcrDate,
-        numeroDossier: 'dossier123',
+        stepDate: ptfDate,
         projectId,
         submittedBy: user,
       })
@@ -97,11 +99,11 @@ describe('submitDCR use-case', () => {
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    it(`L'évènement ProjectDCRSubmitted doit être publié`, async () => {
+    it(`L'évènement ProjectPTFSubmitted doit être publié`, async () => {
       expect(fakePublish).toHaveBeenCalled()
       const targetEvent = fakePublish.mock.calls
         .map((call) => call[0])
-        .find((event) => event.type === ProjectDCRSubmitted.type) as ProjectDCRSubmitted
+        .find((event) => event.type === ProjectPTFSubmitted.type) as ProjectPTFSubmitted
 
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
@@ -110,8 +112,7 @@ describe('submitDCR use-case', () => {
 
       const fakeFile = fileRepo.save.mock.calls[0][0]
 
-      expect(targetEvent.payload.dcrDate).toEqual(dcrDate)
-      expect(targetEvent.payload.numeroDossier).toEqual('dossier123')
+      expect(targetEvent.payload.ptfDate).toEqual(ptfDate)
       expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
       expect(targetEvent.payload.submittedBy).toEqual(user.id)
     })
