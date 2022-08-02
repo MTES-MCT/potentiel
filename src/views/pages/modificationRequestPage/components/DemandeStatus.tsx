@@ -18,6 +18,7 @@ interface DemandeStatusProps {
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
   const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status, type } =
     modificationRequest
+
   return (
     <div
       className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
@@ -31,10 +32,10 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-      {type === 'delai' && status === 'rejetée' && (
+      {type === 'delai' && ['acceptée', 'rejetée'].includes(status) && (
         <a
           className="ml-2"
-          data-confirm={`Etes-vous sur de vouloir annuler votre réponse à cette demande ?`}
+          data-confirm={`Cette action peut entraîner des modifications sur le projet. Êtes-vous sûr vouloir annuler la réponse à cette demande ?`}
           href={ROUTES.ADMIN_ANNULER_REJET_DEMANDE_DELAI({
             modificationRequestId: modificationRequest.id,
           })}
