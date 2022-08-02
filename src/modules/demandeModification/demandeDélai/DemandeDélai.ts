@@ -17,6 +17,7 @@ import {
   ModificationRequestRejected,
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../shared'
+import { AccordDemandeDélaiAnnulé } from './events/AccordDemandeDélaiAnnulé'
 
 export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
 
@@ -66,6 +67,7 @@ export const makeDemandeDélai = (
         return { ...agregat, statut: 'en-instruction' }
 
       case RejetDemandeDélaiAnnulé.type:
+      case AccordDemandeDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
       default:
         return agregat
