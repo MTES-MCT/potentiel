@@ -29,7 +29,7 @@ export const makeOnRejetDemandeDélaiAnnulé: MakeOnRejetDemandeDélaiAnnulé =
               typeDemande: type,
               nomProjet,
               modificationRequestId: demandeDélaiId,
-              status: 'est repassée en statut "envoyée"',
+              status: 'repassée en statut "envoyée"',
               hasDocument: false,
             })
           )
