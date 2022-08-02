@@ -13,9 +13,7 @@ type MakeOnRejetDemandeDélaiAnnulé = (dépendances: {
 
 export const makeOnRejetDemandeDélaiAnnulé: MakeOnRejetDemandeDélaiAnnulé =
   ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
-  async ({ payload }: RejetDemandeDélaiAnnulé) => {
-    const { demandeDélaiId } = payload
-
+  async ({ payload: { demandeDélaiId } }: RejetDemandeDélaiAnnulé) => {
     await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
