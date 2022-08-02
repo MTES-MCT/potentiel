@@ -22,7 +22,6 @@ export const makeOnRejetDemandeDélaiAnnulé: MakeOnRejetDemandeDélaiAnnulé =
           // no registered user for this projet, no one to warn
           return
         }
-
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
             _sendUpdateNotification({
@@ -32,7 +31,7 @@ export const makeOnRejetDemandeDélaiAnnulé: MakeOnRejetDemandeDélaiAnnulé =
               typeDemande: type,
               nomProjet,
               modificationRequestId: demandeDélaiId,
-              status: 'envoyée',
+              status: 'est repassée en statut "envoyée"',
               hasDocument: false,
             })
           )
