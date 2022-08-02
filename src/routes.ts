@@ -133,7 +133,7 @@ class routes {
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI = '/admin/accorder-ou-rejeter-demande-delai'
 
-  static ADMIN_ANNULER_REJET_DEMANDE_DELAI = withParams<{
+  static ADMIN_ANNULER_REPONSE_DEMANDE_DELAI = withParams<{
     modificationRequestId: string
   }>('/admin/annuler-rejet-demande-de-delai')
 

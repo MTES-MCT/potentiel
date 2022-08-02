@@ -10,7 +10,7 @@ import {
 } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
-import { makeAnnulerRejetDemandeDélai } from './annulerRejetDemandeDélai'
+import { makeAnnulerRéponseDemandeDélai } from './annulerRéponseDemandeDélai'
 
 describe(`Commande annuler le rejet d'une demande de délai`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
@@ -31,13 +31,13 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           makeFakeDemandeDélai({ projetId: 'id-du-projet' })
         )
 
-        const annulerRejetDemandéDélai = makeAnnulerRejetDemandeDélai({
+        const annulerRéponseDemandéDélai = makeAnnulerRéponseDemandeDélai({
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
         })
 
-        const res = await annulerRejetDemandéDélai({
+        const res = await annulerRéponseDemandéDélai({
           user,
           demandeDélaiId: 'id-de-la-demande',
         })
@@ -60,13 +60,13 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           makeFakeDemandeDélai({ projetId: 'id-du-projet', statut: 'envoyée' })
         )
 
-        const annulerRejetDemandéDélai = makeAnnulerRejetDemandeDélai({
+        const annulerRéponseDemandéDélai = makeAnnulerRéponseDemandeDélai({
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
         })
 
-        const res = await annulerRejetDemandéDélai({
+        const res = await annulerRéponseDemandéDélai({
           user,
           demandeDélaiId: 'id-de-la-demande',
         })
@@ -89,13 +89,13 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           makeFakeDemandeDélai({ projetId: 'id-du-projet', statut: 'refusée', id: 'id-demande' })
         )
 
-        const annulerRejetDemandéDélai = makeAnnulerRejetDemandeDélai({
+        const annulerRéponseDemandéDélai = makeAnnulerRéponseDemandeDélai({
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
         })
 
-        await annulerRejetDemandéDélai({
+        await annulerRéponseDemandéDélai({
           user,
           demandeDélaiId: 'id-demande',
         })

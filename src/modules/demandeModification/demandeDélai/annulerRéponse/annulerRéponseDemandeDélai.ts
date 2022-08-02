@@ -6,18 +6,18 @@ import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '
 import { DemandeDélai } from '../DemandeDélai'
 import { RejetDemandeDélaiAnnulé } from '../events/RejetDemandeDélaiAnnulé'
 
-type AnnulerRejetDemandeDélai = (commande: {
+type AnnulerRéponseDemandeDélai = (commande: {
   user: User
   demandeDélaiId: string
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
 
-type MakeAnnulerRejetDemandeDélai = (dépendances: {
+type MakeAnnulerRéponseDemandeDélai = (dépendances: {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   demandeDélaiRepo: TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
-}) => AnnulerRejetDemandeDélai
+}) => AnnulerRéponseDemandeDélai
 
-export const makeAnnulerRejetDemandeDélai: MakeAnnulerRejetDemandeDélai =
+export const makeAnnulerRéponseDemandeDélai: MakeAnnulerRéponseDemandeDélai =
   ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
   ({ user, demandeDélaiId }) => {
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {

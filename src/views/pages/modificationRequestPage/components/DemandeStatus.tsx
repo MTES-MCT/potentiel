@@ -32,11 +32,11 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-      {type === 'delai' && ['acceptée', 'rejetée'].includes(status) && (
+      {type === 'delai' && (status === 'acceptée' || status === 'rejetée') && (
         <a
           className="ml-2"
           data-confirm={`Cette action peut entraîner des modifications sur le projet. Êtes-vous sûr vouloir annuler la réponse à cette demande ?`}
-          href={ROUTES.ADMIN_ANNULER_REJET_DEMANDE_DELAI({
+          href={ROUTES.ADMIN_ANNULER_REPONSE_DEMANDE_DELAI({
             modificationRequestId: modificationRequest.id,
           })}
         >
