@@ -27,6 +27,7 @@ import {
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
   DCRCertificatDéjàEnvoyéError,
+  PTFCertificatDéjàEnvoyéError,
   IllegalProjectStateError,
   NoGFCertificateToDeleteError,
   NoGFCertificateToUpdateError,
@@ -58,6 +59,8 @@ import {
   ProjectDCRRemoved,
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
+  ProjectPTFSubmitted,
+  ProjectPTFRemoved,
   ProjectFournisseursUpdated,
   ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
@@ -138,13 +141,18 @@ export interface Project extends EventStoreAggregate {
     submittedBy: string
     numeroDossier: string
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>
+  submitPropositionTechniqueFinancière: (args: {
+    projectId: string
+    fileId: string
+    ptfDate: Date
+    submittedBy: string
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
     submittedBy: User,
     expirationDate: Date
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
-  // submit
   uploadGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
@@ -259,6 +267,7 @@ export interface ProjectProps {
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
+  hasCurrentPtf: boolean
   hasCurrentDcr: boolean
   GFExpirationDate: Date | undefined
   appelOffreId: string
@@ -299,6 +308,7 @@ export const makeProject = (args: {
     newRulesOptIn: false,
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
+    hasCurrentPtf: false,
     hasCurrentDcr: false,
     GFExpirationDate: undefined,
     potentielIdentifier: '',
@@ -776,6 +786,23 @@ export const makeProject = (args: {
 
       return ok(null)
     },
+    submitPropositionTechniqueFinancière: function ({ projectId, fileId, ptfDate, submittedBy }) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      if (props.hasCurrentPtf) {
+        return err(new PTFCertificatDéjàEnvoyéError())
+      }
+
+      _publishEvent(
+        new ProjectPTFSubmitted({
+          payload: { projectId, ptfDate, fileId, submittedBy },
+        })
+      )
+
+      return ok(null)
+    },
     submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
@@ -1221,6 +1248,12 @@ export const makeProject = (args: {
         break
       case ProjectDCRRemoved.type:
         props.hasCurrentDcr = false
+        break
+      case ProjectPTFSubmitted.type:
+        props.hasCurrentPtf = true
+        break
+      case ProjectPTFRemoved.type:
+        props.hasCurrentPtf = false
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:

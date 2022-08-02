@@ -70,37 +70,15 @@ export const makeSubmitPTF =
             ): ResultAsync<
               null,
               ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError
-            > => null
-            // project
-            //   .submitPropositionTechniqueFinancière({
-            //     projectId,
-            //     dcrDate: stepDate,
-            //     fileId,
-            //     numeroDossier,
-            //     submittedBy: submittedBy.id.toString(),
-            //   })
-            //   .asyncMap(async () => null)
+            > =>
+              project
+                .submitPropositionTechniqueFinancière({
+                  projectId,
+                  ptfDate: stepDate,
+                  fileId,
+                  submittedBy: submittedBy.id.toString(),
+                })
+                .asyncMap(async () => null)
           )
       )
-    // .andThen(
-    //   (
-    //     fileId: string
-    //   ): ResultAsync<
-    //     null,
-    //     InfraNotAvailableError | UnauthorizedError | PTFCertificatDéjàEnvoyéError
-    //   > => {
-    //     return okAsync(fileId).andThen((fileId) =>
-    //       eventBus.publish(
-    //         new ProjectPTFSubmitted({
-    //           payload: {
-    //             projectId,
-    //             ptfDate: stepDate,
-    //             fileId,
-    //             submittedBy: submittedBy.id,
-    //           },
-    //         })
-    //       )
-    //     )
-    //   }
-    // )
   }

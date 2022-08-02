@@ -7,7 +7,11 @@ import { submitDCR, submitPTF } from '@config/useCases.config'
 import routes from '@routes'
 import { UnauthorizedError } from '@modules/shared'
 import { logger, ok, err } from '@core/utils'
-import { CertificateFileIsMissingError, DCRCertificatDéjàEnvoyéError } from '@modules/project'
+import {
+  CertificateFileIsMissingError,
+  DCRCertificatDéjàEnvoyéError,
+  PTFCertificatDéjàEnvoyéError,
+} from '@modules/project'
 
 import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
@@ -118,9 +122,20 @@ v1Router.post(
             )
           }
 
+          if (error instanceof PTFCertificatDéjàEnvoyéError) {
+            return response.redirect(
+              addQueryParams(routes.PROJECT_DETAILS(projectId), {
+                error:
+                  "Il semblerait qu'il y ait déjà une proposition technique et financière en cours de validité sur ce projet.",
+              })
+            )
+          }
+
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
           }
+
+          logger.error(error)
 
           return errorResponse({
             request,

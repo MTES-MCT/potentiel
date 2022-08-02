@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
+import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { FileObject } from '@modules/file'
@@ -8,11 +8,10 @@ import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { UnauthorizedError } from '../../shared'
-import { ProjectPTFSubmitted } from '../events'
 import { makeSubmitPTF } from './submitPTF'
+import { Project } from '..'
 
 const projectId = new UniqueEntityID().toString()
-const userId = new UniqueEntityID().toString()
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -92,8 +91,8 @@ describe('submitPTF use-case', () => {
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    describe(`Lorsqu'un fichier de type PTF a déjà été souis au projet`, () => {
-      it(`Alors on doit appeler la méthdoe "submitPropositionTechniqueFinancière"`, async () => {
+    describe(`Lorsqu'un fichier de type PTF a déjà été soumis au projet`, () => {
+      it(`Alors on doit appeler la méthode "submitPropositionTechniqueFinancière"`, async () => {
         const res = await submitPTF({
           type: 'ptf',
           file: fakeFileContents,
