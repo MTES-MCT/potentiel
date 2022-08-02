@@ -26,7 +26,7 @@ import {
   AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
   GFCertificateHasAlreadyBeenSentError,
-  DCRCertificatDejaEnvoyéError,
+  DCRCertificatDéjàEnvoyéError,
   IllegalProjectStateError,
   NoGFCertificateToDeleteError,
   NoGFCertificateToUpdateError,
@@ -137,7 +137,7 @@ export interface Project extends EventStoreAggregate {
     fileId: string
     submittedBy: string
     numeroDossier: string
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDejaEnvoyéError>
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
@@ -765,7 +765,7 @@ export const makeProject = (args: {
       }
 
       if (props.hasCurrentDcr) {
-        return err(new DCRCertificatDejaEnvoyéError())
+        return err(new DCRCertificatDéjàEnvoyéError())
       }
 
       _publishEvent(

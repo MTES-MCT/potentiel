@@ -5,12 +5,8 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import { ProjectImported, ProjectNotified, ProjectDCRSubmitted } from './events'
 import { makeProject } from './Project'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectCannotBeUpdatedIfUnnotifiedError, DCRCertificatDejaEnvoyéError } from './errors'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { makeUser } from '@entities'
+import { ProjectCannotBeUpdatedIfUnnotifiedError, DCRCertificatDéjàEnvoyéError } from './errors'
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 const projectId = new UniqueEntityID()
 
@@ -21,7 +17,7 @@ const { familleId, numeroCRE, potentielIdentifier } = fakeProject
 
 describe('Project.submitDemandeComplèteRaccordement()', () => {
   describe(`Quand le projet n'a pas été notifié`, () => {
-    it('should return a ProjectCannotBeUpdatedIfUnnotifiedError', () => {
+    it('Alors une erreur de type ProjectCannotBeUpdatedIfUnnotifiedError doit être retournée', () => {
       const project = UnwrapForTest(
         makeProject({
           projectId,
@@ -63,7 +59,7 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
 
   describe('Quand le projet a été notifié', () => {
     describe(`Lorsqu'une DCR a déjà été soumise`, () => {
-      it(`Alors une erreur de type DCRCertificatDejaEnvoyéError doit être retournée`, () => {})
+      it(`Alors une erreur de type DCRCertificatDéjàEnvoyéError doit être retournée`, () => {})
 
       const fakeHistory: DomainEvent[] = [
         new ProjectImported({
@@ -130,7 +126,7 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
       })
       expect(res.isErr()).toBe(true)
       if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(DCRCertificatDejaEnvoyéError)
+      expect(res.error).toBeInstanceOf(DCRCertificatDéjàEnvoyéError)
     })
 
     describe(`Lorsqu'aucune DCR n'a déjà été soumise`, () => {

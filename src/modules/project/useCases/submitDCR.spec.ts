@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
+import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { FileObject } from '@modules/file'
@@ -7,7 +7,6 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted } from '../events'
 import { makeSubmitDCR } from './submitDCR'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
@@ -33,6 +32,8 @@ const fileRepo = {
 
 const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', id: userId })))
 
+const numeroDossier = 'dossier123'
+
 describe('submitDCR use-case', () => {
   describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
     it('Alors une erreur de type UnauthorizedError doit être retournée', async () => {
@@ -52,6 +53,7 @@ describe('submitDCR use-case', () => {
         stepDate: new Date(123),
         projectId,
         submittedBy: user,
+        numeroDossier,
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -82,7 +84,7 @@ describe('submitDCR use-case', () => {
         type: 'dcr',
         file: fakeFileContents,
         stepDate: dcrDate,
-        numeroDossier: 'dossier123',
+        numeroDossier,
         projectId,
         submittedBy: user,
       })
@@ -106,7 +108,7 @@ describe('submitDCR use-case', () => {
           type: 'dcr',
           file: fakeFileContents,
           stepDate: dcrDate,
-          numeroDossier: 'dossier123',
+          numeroDossier,
           projectId,
           submittedBy: user,
         })
@@ -119,8 +121,8 @@ describe('submitDCR use-case', () => {
           projectId,
           dcrDate,
           fileId: fakeFile.id.toString(),
-          numeroDossier: 'dossier123',
-          submittedBy: user.id,
+          numeroDossier,
+          submittedBy: user.id.toString(),
         })
       })
     })

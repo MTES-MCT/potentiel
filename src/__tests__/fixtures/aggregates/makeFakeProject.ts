@@ -11,7 +11,7 @@ import {
   ProjectDataCorrectedPayload,
   ProjectDataProps,
   GFCertificateHasAlreadyBeenSentError,
-  DCRCertificatDejaEnvoyéError,
+  DCRCertificatDéjàEnvoyéError,
   NoGFCertificateToDeleteError,
 } from '@modules/project'
 import { ProjectNotQualifiedForCovidDelay } from '@modules/shared'
@@ -61,8 +61,8 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       dcrDate: Date
       fileId: string
       numeroDossier: string
-      submittedBy: User
-    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDejaEnvoyéError>(null)
+      submittedBy: string
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>(null)
   ),
   removeGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
