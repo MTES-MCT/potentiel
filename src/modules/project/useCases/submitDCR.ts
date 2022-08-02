@@ -3,7 +3,7 @@ import { errAsync, logger, ResultAsync, wrapInfra, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { DCRCertificatDejaEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import { DCRCertificatDéjàEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { Project } from '../Project'
 interface SubmitDCRDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -62,7 +62,7 @@ export const makeSubmitDCR =
           fileId: string
         ): ResultAsync<
           null,
-          InfraNotAvailableError | UnauthorizedError | DCRCertificatDejaEnvoyéError
+          InfraNotAvailableError | UnauthorizedError | DCRCertificatDéjàEnvoyéError
         > => {
           return projectRepo.transaction(
             new UniqueEntityID(projectId),
@@ -70,7 +70,7 @@ export const makeSubmitDCR =
               project: Project
             ): ResultAsync<
               null,
-              ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDejaEnvoyéError
+              ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError
             > => {
               return project
                 .submitDemandeComplèteRaccordement({

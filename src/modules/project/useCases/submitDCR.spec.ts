@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { DomainEvent, EventBus, Repository, UniqueEntityID } from '@core/domain'
+import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { FileObject } from '@modules/file'
@@ -7,7 +7,6 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../types'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted } from '../events'
 import { makeSubmitDCR } from './submitDCR'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
@@ -120,7 +119,7 @@ describe('submitDCR use-case', () => {
           dcrDate,
           fileId: fakeFile.id.toString(),
           numeroDossier: 'dossier123',
-          submittedBy: user.id,
+          submittedBy: user.id.toString(),
         })
       })
     })
