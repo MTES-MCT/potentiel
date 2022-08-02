@@ -55,6 +55,7 @@ import {
   ProjectDataCorrected,
   ProjectDataCorrectedPayload,
   ProjectDCRSubmitted,
+  ProjectDCRRemoved,
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
   ProjectFournisseursUpdated,
@@ -130,13 +131,13 @@ export interface Project extends EventStoreAggregate {
     certificateFileId: string
     reason?: string
   }) => Result<null, IllegalInitialStateForAggregateError>
-  submitDemandeComplèteRaccordement: (
-    projectId: string,
-    dcrDate: Date,
-    fileId: string,
-    numeroDossier: string,
+  submitDemandeComplèteRaccordement: (args: {
+    projectId: string
+    dcrDate: Date
+    fileId: string
     submittedBy: string
-  ) => Result<null, DCRCertificatDejaEnvoyéError>
+    numeroDossier: string
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDejaEnvoyéError>
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
@@ -752,20 +753,24 @@ export const makeProject = (args: {
 
       return ok(null)
     },
-    submitDemandeComplèteRaccordement: function (
+    submitDemandeComplèteRaccordement: function ({
       projectId,
       dcrDate,
       fileId,
       numeroDossier,
-      submittedBy
-    ) {
+      submittedBy,
+    }) {
+      if (!_isNotified()) {
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
       if (props.hasCurrentDcr) {
         return err(new DCRCertificatDejaEnvoyéError())
       }
 
       _publishEvent(
         new ProjectDCRSubmitted({
-          payload: { projectId, dcrDate, fileId, numeroDossier, submittedBy },
+          payload: { projectId, dcrDate, fileId, submittedBy, numeroDossier },
         })
       )
 
@@ -1213,6 +1218,9 @@ export const makeProject = (args: {
         break
       case ProjectDCRSubmitted.type:
         props.hasCurrentDcr = true
+        break
+      case ProjectDCRRemoved.type:
+        props.hasCurrentDcr = false
         break
       case ProjectGFRemoved.type:
       case ProjectGFInvalidated.type:

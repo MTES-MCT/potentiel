@@ -128,8 +128,8 @@ export const revokeUserRightsToProject = makeRevokeRightsToProject({
 })
 
 export const submitDCR = makeSubmitDCR({
-  eventBus: eventStore,
   fileRepo,
+  projectRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 

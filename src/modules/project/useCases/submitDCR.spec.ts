@@ -9,27 +9,29 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../shared'
 import { ProjectDCRSubmitted } from '../events'
 import { makeSubmitDCR } from './submitDCR'
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+import { Project } from '../Project'
 
 const projectId = new UniqueEntityID().toString()
+const userId = new UniqueEntityID().toString()
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
   contents: Readable.from('test-content'),
 }
 
+const fakeProject = makeFakeProject()
+
+const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+
 const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 
-const fakeEventBus: EventBus = {
-  publish: fakePublish,
-  subscribe: jest.fn(),
-}
-
 const fileRepo = {
-  save: jest.fn(),
+  save: jest.fn((file: FileObject) => okAsync(null)),
   load: jest.fn(),
 }
 
-const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', id: userId })))
 
 describe('submitDCR use-case', () => {
   describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
@@ -39,9 +41,9 @@ describe('submitDCR use-case', () => {
       const shouldUserAccessProject = jest.fn(async () => false)
 
       const submitDCR = makeSubmitDCR({
-        eventBus: fakeEventBus,
         fileRepo,
         shouldUserAccessProject,
+        projectRepo,
       })
 
       const res = await submitDCR({
@@ -58,22 +60,23 @@ describe('submitDCR use-case', () => {
   })
 
   describe(`Lorsque l'utilisateur a les droits d'accès au projet`, () => {
+    const dcrDate = new Date(123)
+
     const fileRepo = {
       save: jest.fn((file: FileObject) => okAsync(null)),
       load: jest.fn(),
     }
 
-    const dcrDate = new Date(123)
+    const shouldUserAccessProject = jest.fn(async () => true)
+
+    const submitDCR = makeSubmitDCR({
+      fileRepo: fileRepo as Repository<FileObject>,
+      projectRepo,
+      shouldUserAccessProject,
+    })
 
     beforeAll(async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
       fakePublish.mockClear()
-
-      const submitDCR = makeSubmitDCR({
-        eventBus: fakeEventBus,
-        fileRepo: fileRepo as Repository<FileObject>,
-        shouldUserAccessProject,
-      })
 
       const res = await submitDCR({
         type: 'dcr',
@@ -97,23 +100,29 @@ describe('submitDCR use-case', () => {
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    it(`L'évènement ProjectDCRSubmitted doit être publié`, async () => {
-      expect(fakePublish).toHaveBeenCalled()
-      const targetEvent = fakePublish.mock.calls
-        .map((call) => call[0])
-        .find((event) => event.type === ProjectDCRSubmitted.type) as ProjectDCRSubmitted
+    describe(`Lorsqu'un fichier de type DCR a déjà été soumis au projet`, () => {
+      it('Alors on doit appeler la méthode "submitDemandeComplèteRaccordement"', async () => {
+        const res = await submitDCR({
+          type: 'dcr',
+          file: fakeFileContents,
+          stepDate: dcrDate,
+          numeroDossier: 'dossier123',
+          projectId,
+          submittedBy: user,
+        })
 
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        expect(res.isOk()).toBe(true)
+        expect(fileRepo.save).toHaveBeenCalled()
 
-      expect(targetEvent.payload.projectId).toEqual(projectId)
-
-      const fakeFile = fileRepo.save.mock.calls[0][0]
-
-      expect(targetEvent.payload.dcrDate).toEqual(dcrDate)
-      expect(targetEvent.payload.numeroDossier).toEqual('dossier123')
-      expect(targetEvent.payload.fileId).toEqual(fakeFile.id.toString())
-      expect(targetEvent.payload.submittedBy).toEqual(user.id)
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        expect(fakeProject.submitDemandeComplèteRaccordement).toHaveBeenCalledWith({
+          projectId,
+          dcrDate,
+          fileId: fakeFile.id.toString(),
+          numeroDossier: 'dossier123',
+          submittedBy: user.id,
+        })
+      })
     })
   })
 })

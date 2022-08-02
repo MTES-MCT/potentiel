@@ -60,11 +60,16 @@ v1Router.post(
         }
 
         if (type === 'dcr') {
-          return submitDCR({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
-            () => ({
-              projectId,
-            })
-          )
+          return submitDCR({
+            type,
+            projectId,
+            stepDate,
+            file,
+            submittedBy,
+            numeroDossier,
+          }).map(() => ({
+            projectId,
+          }))
         }
 
         return submitPTF({ type, projectId, stepDate, file, submittedBy }).map(() => ({

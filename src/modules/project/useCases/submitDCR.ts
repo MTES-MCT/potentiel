@@ -1,21 +1,21 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
+import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, ResultAsync, wrapInfra, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectDCRSubmitted } from '../events'
-
+import { DCRCertificatDejaEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import { Project } from '../Project'
 interface SubmitDCRDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
-  eventBus: EventBus
+  projectRepo: TransactionalRepository<Project>
 }
 
 type SubmitDCRArgs = {
   type: 'dcr'
   projectId: string
   stepDate: Date
-  numeroDossier?: string
+  numeroDossier: string
   file: {
     contents: FileContents
     filename: string
@@ -24,7 +24,7 @@ type SubmitDCRArgs = {
 }
 
 export const makeSubmitDCR =
-  ({ shouldUserAccessProject, fileRepo, eventBus }: SubmitDCRDeps) =>
+  ({ shouldUserAccessProject, fileRepo, projectRepo }: SubmitDCRDeps) =>
   ({
     type,
     projectId,
@@ -57,19 +57,32 @@ export const makeSubmitDCR =
           return res
         }
       )
-      .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-        return okAsync(fileId).andThen((fileId) =>
-          eventBus.publish(
-            new ProjectDCRSubmitted({
-              payload: {
-                projectId,
-                dcrDate: stepDate,
-                fileId,
-                submittedBy: submittedBy.id,
-                numeroDossier: numeroDossier || '',
-              },
-            })
+      .andThen(
+        (
+          fileId: string
+        ): ResultAsync<
+          null,
+          InfraNotAvailableError | UnauthorizedError | DCRCertificatDejaEnvoyéError
+        > => {
+          return projectRepo.transaction(
+            new UniqueEntityID(projectId),
+            (
+              project: Project
+            ): ResultAsync<
+              null,
+              ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDejaEnvoyéError
+            > => {
+              return project
+                .submitDemandeComplèteRaccordement({
+                  projectId,
+                  dcrDate: stepDate,
+                  fileId,
+                  numeroDossier,
+                  submittedBy: submittedBy.id.toString(),
+                })
+                .asyncMap(async () => null)
+            }
           )
-        )
-      })
+        }
+      )
   }
