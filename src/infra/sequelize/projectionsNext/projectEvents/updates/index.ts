@@ -1,3 +1,4 @@
+export * from './onAccordDemandeDélaiAnnulé'
 export * from './onConfirmationRequested'
 export * from './onCovidDelayGranted'
 export * from './onDateEchéanceGFAjoutée'
