@@ -61,7 +61,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
       dcrDate: Date
       fileId: string
       numeroDossier: string
-      submittedBy: User
+      submittedBy: string
     }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>(null)
   ),
   removeGarantiesFinancieres: jest.fn((removedBy: User) =>

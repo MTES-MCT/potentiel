@@ -63,16 +63,16 @@ export const makeSubmitDCR =
         ): ResultAsync<
           null,
           InfraNotAvailableError | UnauthorizedError | DCRCertificatDéjàEnvoyéError
-        > =>
-          projectRepo.transaction(
+        > => {
+          return projectRepo.transaction(
             new UniqueEntityID(projectId),
             (
               project: Project
             ): ResultAsync<
               null,
               ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError
-            > =>
-              project
+            > => {
+              return project
                 .submitDemandeComplèteRaccordement({
                   projectId,
                   dcrDate: stepDate,
@@ -81,6 +81,8 @@ export const makeSubmitDCR =
                   submittedBy: submittedBy.id.toString(),
                 })
                 .asyncMap(async () => null)
+            }
           )
+        }
       )
   }

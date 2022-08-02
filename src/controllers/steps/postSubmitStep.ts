@@ -109,11 +109,6 @@ v1Router.post(
             )
           }
 
-          addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
-            error:
-              "Il semblerait qu'il y ait déjà une garantie financière en cours de validité sur ce projet.",
-          })
-
           if (error instanceof DCRCertificatDéjàEnvoyéError) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(projectId), {
