@@ -34,6 +34,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       {type === 'delai' && status === 'rejetée' && (
         <a
           className="ml-2"
+          data-confirm={`Etes-vous sur de vouloir annuler votre réponse à cette demande ?`}
           href={ROUTES.ADMIN_ANNULER_REJET_DEMANDE_DELAI({
             modificationRequestId: modificationRequest.id,
           })}
