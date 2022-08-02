@@ -41,6 +41,8 @@ describe('Projecteur de ProjectEvent onDélaiRejeté', () => {
         const dateAchèvementDemandée = new Date().getTime()
         const occurredAt = new Date().getTime()
 
+        const demandeur = new UniqueEntityID().toString()
+
         await ProjectEvent.create({
           id: demandeDélaiId,
           projectId: projetId,
@@ -51,15 +53,17 @@ describe('Projecteur de ProjectEvent onDélaiRejeté', () => {
             statut: 'envoyée',
             autorité: 'dreal',
             dateAchèvementDemandée,
-            demandeur: new UniqueEntityID().toString(),
+            demandeur,
           },
         })
+
+        const rejetéPar = new UniqueEntityID().toString()
 
         await onDélaiRejeté(
           new DélaiRejeté({
             payload: {
               demandeDélaiId,
-              rejetéPar: new UniqueEntityID().toString(),
+              rejetéPar,
             } as DélaiRejetéPayload,
             original: {
               version: 1,
@@ -73,7 +77,13 @@ describe('Projecteur de ProjectEvent onDélaiRejeté', () => {
         })
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
-          payload: { statut: 'rejetée', dateAchèvementDemandée, demandeDélaiId },
+          payload: {
+            statut: 'rejetée',
+            autorité: 'dreal',
+            dateAchèvementDemandée,
+            demandeur,
+            rejetéPar,
+          },
         })
       })
     })

@@ -1,9 +1,9 @@
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
-import { dataId } from '../../../../helpers/testId'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
+import React from 'react'
+import { formatDate } from '../../../../helpers/formatDate'
+import { dataId } from '../../../../helpers/testId'
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
@@ -16,7 +16,7 @@ interface DemandeStatusProps {
 }
 
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
-  const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status } =
+  const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status, type } =
     modificationRequest
   return (
     <div
@@ -31,6 +31,17 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
+      {type === 'delai' && status === 'rejetée' && (
+        <a
+          className="ml-2"
+          data-confirm={`Etes-vous sur de vouloir annuler votre réponse à cette demande ?`}
+          href={ROUTES.ADMIN_ANNULER_REJET_DEMANDE_DELAI({
+            modificationRequestId: modificationRequest.id,
+          })}
+        >
+          Annuler
+        </a>
+      )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && status !== 'demande confirmée' && (
@@ -67,7 +78,8 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
       return (
         <div>
           L‘administration vous accorde un délai{' '}
-          <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
+          <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement
+          théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
         </div>
       )
     }

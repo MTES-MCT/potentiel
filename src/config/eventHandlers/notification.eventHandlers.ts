@@ -1,6 +1,12 @@
 import { DomainEvent } from '@core/domain'
 import { UserInvitedToProject } from '@modules/authZ'
-import { DélaiAccordé, DélaiAnnulé, DélaiDemandé, DélaiRejeté } from '@modules/demandeModification'
+import {
+  DélaiAccordé,
+  DélaiAnnulé,
+  DélaiDemandé,
+  DélaiRejeté,
+  RejetDemandeDélaiAnnulé,
+} from '@modules/demandeModification'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
   ConfirmationRequested,
@@ -27,6 +33,7 @@ import {
   makeOnDélaiAnnulé,
   makeOnDélaiDemandé,
   makeOnDélaiRejeté,
+  makeOnRejetDemandeDélaiAnnulé,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -160,6 +167,10 @@ const onDélaiRejetéHandler = makeOnDélaiRejeté({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
+const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDemandeDélaiAnnulé({
+  sendNotification,
+  getModificationRequestInfoForStatusNotification,
+})
 const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
   sendNotification,
   getModificationRequestRecipient,
@@ -177,6 +188,9 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   }
   if (event instanceof DélaiRejeté) {
     return await onDélaiRejetéHandler(event)
+  }
+  if (event instanceof RejetDemandeDélaiAnnulé) {
+    return await OnRejetDemandeDélaiAnnuléHandler(event)
   }
   if (event instanceof DélaiAnnulé) {
     return await onDélaiAnnuléHandler(event)
