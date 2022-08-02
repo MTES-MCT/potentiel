@@ -53,7 +53,7 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
             email: 'porteur1@test.test',
           }),
           variables: expect.objectContaining({
-            status: 'envoyée',
+            status: 'repassée en statut "envoyée"',
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
@@ -67,7 +67,7 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
             email: 'porteur2@test.test',
           }),
           variables: expect.objectContaining({
-            status: 'envoyée',
+            status: 'repassée en statut "envoyée"',
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
