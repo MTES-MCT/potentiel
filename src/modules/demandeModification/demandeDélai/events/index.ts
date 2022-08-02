@@ -1,3 +1,4 @@
+export * from './AccordDemandeDélaiAnnulé'
 export * from './DélaiAccordé'
 export * from './DélaiAnnulé'
 export * from './DélaiDemandé'

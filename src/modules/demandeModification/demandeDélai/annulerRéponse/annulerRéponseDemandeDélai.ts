@@ -4,7 +4,7 @@ import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { DemandeDélai } from '../DemandeDélai'
-import { RejetDemandeDélaiAnnulé } from '../events/RejetDemandeDélaiAnnulé'
+import { AccordDemandeDélaiAnnulé, RejetDemandeDélaiAnnulé } from '../events'
 
 type AnnulerRéponseDemandeDélai = (commande: {
   user: User
@@ -34,6 +34,13 @@ export const makeAnnulerRéponseDemandeDélai: MakeAnnulerRéponseDemandeDélai 
           if (statut === 'refusée') {
             return publishToEventStore(
               new RejetDemandeDélaiAnnulé({
+                payload: { demandeDélaiId, projetId, annuléPar: user.id },
+              })
+            )
+          }
+          if (statut === 'accordée') {
+            return publishToEventStore(
+              new AccordDemandeDélaiAnnulé({
                 payload: { demandeDélaiId, projetId, annuléPar: user.id },
               })
             )
