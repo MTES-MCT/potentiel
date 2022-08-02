@@ -1,5 +1,6 @@
 export * from './AttachmentRequiredForDemandeRecoursAcceptedError'
 export * from './CertificateFileIsMissingError'
+export * from './DCRCertificatDéjàEnvoyéError'
 export * from './EliminatedProjectCannotBeAbandonnedError'
 export * from './GFCertificateHasAlreadyBeenSent'
 export * from './IllegalProjectDataError'

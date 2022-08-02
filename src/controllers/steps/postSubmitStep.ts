@@ -1,11 +1,18 @@
-import asyncHandler from '../helpers/asyncHandler'
 import fs from 'fs'
+import { format } from 'date-fns'
+import * as yup from 'yup'
+
 import { ensureRole } from '@config'
 import { submitDCR, submitPTF } from '@config/useCases.config'
+import routes from '@routes'
+import { UnauthorizedError } from '@modules/shared'
+import { logger, ok, err } from '@core/utils'
+import { CertificateFileIsMissingError, DCRCertificatDéjàEnvoyéError } from '@modules/project'
+
+import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { pathExists } from '../../helpers/pathExists'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
+
 import {
   errorResponse,
   unauthorizedResponse,
@@ -15,10 +22,6 @@ import {
 } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { format } from 'date-fns'
-import * as yup from 'yup'
-import { logger, ok, err } from '@core/utils'
-import { CertificateFileIsMissingError } from '@modules/project'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -60,11 +63,16 @@ v1Router.post(
         }
 
         if (type === 'dcr') {
-          return submitDCR({ type, projectId, stepDate, file, submittedBy, numeroDossier }).map(
-            () => ({
-              projectId,
-            })
-          )
+          return submitDCR({
+            type,
+            projectId,
+            stepDate,
+            file,
+            submittedBy,
+            numeroDossier: numeroDossier as string,
+          }).map(() => ({
+            projectId,
+          }))
         }
 
         return submitPTF({ type, projectId, stepDate, file, submittedBy }).map(() => ({
@@ -82,9 +90,11 @@ v1Router.post(
           )
         },
         (error) => {
+          const { projectId } = request.body
+
           if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+              addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 ...request.body,
                 error: `${error.message} ${error.errors.join(' ')}`,
               })
@@ -93,8 +103,17 @@ v1Router.post(
 
           if (error instanceof CertificateFileIsMissingError) {
             return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+              addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 error: "Le dépôt n'a pas pu être envoyée. Vous devez joindre un fichier.",
+              })
+            )
+          }
+
+          if (error instanceof DCRCertificatDéjàEnvoyéError) {
+            return response.redirect(
+              addQueryParams(routes.PROJECT_DETAILS(projectId), {
+                error:
+                  "Il semblerait qu'il y ait déjà une demande complète de raccordement en cours de validité sur ce projet.",
               })
             )
           }
@@ -102,8 +121,6 @@ v1Router.post(
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
           }
-
-          logger.error(error)
 
           return errorResponse({
             request,
