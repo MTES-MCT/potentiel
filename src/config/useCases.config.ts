@@ -134,8 +134,8 @@ export const submitDCR = makeSubmitDCR({
 })
 
 export const submitPTF = makeSubmitPTF({
-  eventBus: eventStore,
   fileRepo,
+  projectRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 

@@ -1,14 +1,15 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
+import { TransactionalRepository, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, ResultAsync, wrapInfra, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectPTFSubmitted } from '../events'
+import { PTFCertificatDéjàEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import { Project } from '../Project'
 
 interface SubmitPTFDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
-  eventBus: EventBus
+  projectRepo: TransactionalRepository<Project>
 }
 
 type SubmitPTFArgs = {
@@ -23,7 +24,7 @@ type SubmitPTFArgs = {
 }
 
 export const makeSubmitPTF =
-  ({ shouldUserAccessProject, fileRepo, eventBus }: SubmitPTFDeps) =>
+  ({ shouldUserAccessProject, fileRepo, projectRepo }: SubmitPTFDeps) =>
   ({
     type,
     projectId,
@@ -55,18 +56,29 @@ export const makeSubmitPTF =
           return res
         }
       )
-      .andThen((fileId: string): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-        return okAsync(fileId).andThen((fileId) =>
-          eventBus.publish(
-            new ProjectPTFSubmitted({
-              payload: {
-                projectId,
-                ptfDate: stepDate,
-                fileId,
-                submittedBy: submittedBy.id,
-              },
-            })
+      .andThen(
+        (
+          fileId: string
+        ): ResultAsync<
+          null,
+          InfraNotAvailableError | UnauthorizedError | PTFCertificatDéjàEnvoyéError
+        > =>
+          projectRepo.transaction(
+            new UniqueEntityID(projectId),
+            (
+              project: Project
+            ): ResultAsync<
+              null,
+              ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError
+            > =>
+              project
+                .submitPropositionTechniqueFinancière({
+                  projectId,
+                  ptfDate: stepDate,
+                  fileId,
+                  submittedBy: submittedBy.id.toString(),
+                })
+                .asyncMap(async () => null)
           )
-        )
-      })
+      )
   }

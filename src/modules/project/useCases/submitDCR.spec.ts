@@ -63,12 +63,6 @@ describe('submitDCR use-case', () => {
 
   describe(`Lorsque l'utilisateur a les droits d'accès au projet`, () => {
     const dcrDate = new Date(123)
-
-    const fileRepo = {
-      save: jest.fn((file: FileObject) => okAsync(null)),
-      load: jest.fn(),
-    }
-
     const shouldUserAccessProject = jest.fn(async () => true)
 
     const submitDCR = makeSubmitDCR({
