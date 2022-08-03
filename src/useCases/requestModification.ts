@@ -25,13 +25,6 @@ interface RequestCommon {
   projectId: Project['id']
 }
 
-interface DelayRequest {
-  type: 'delai'
-  justification: string
-  delayInMonths: number
-  numeroGestionnaire?: string
-}
-
 interface AbandonRequest {
   type: 'abandon'
   justification: string
@@ -42,7 +35,7 @@ interface RecoursRequest {
   justification: string
 }
 
-type CallUseCaseProps = RequestCommon & (DelayRequest | AbandonRequest | RecoursRequest)
+type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest)
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
@@ -103,8 +96,7 @@ export default function makeRequestModification({
       appelOffre = await appelOffreRepo.findById(appelOffreIdRes.value)
     }
 
-    const authority: 'dgec' | 'dreal' =
-      type === 'delai' && appelOffre?.type !== 'eolien' ? 'dreal' : 'dgec'
+    const authority = 'dgec'
 
     const res = await eventBus
       .publish(
@@ -116,8 +108,6 @@ export default function makeRequestModification({
             requestedBy: user.id,
             fileId,
             justification,
-            puissance,
-            delayInMonths,
             authority,
           },
         })
