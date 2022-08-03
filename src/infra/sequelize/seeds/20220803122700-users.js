@@ -41,6 +41,12 @@ module.exports = {
           email: 'ademe@test.test',
           role: 'ademe',
         },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa996',
+          fullName: 'Acheteur obligé Test',
+          email: 'ao@test.test',
+          role: 'acheteur-obligé',
+        },
       ]
 
       await queryInterface.bulkInsert(
