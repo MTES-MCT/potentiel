@@ -88,7 +88,7 @@ export default function makeRequestModification({
       fileId = fileIdResult.value.toString()
     }
 
-    const { justification, puissance, delayInMonths, numeroGestionnaire } = props as any
+    const { justification, numeroGestionnaire } = props as any
 
     let appelOffre: AppelOffre | undefined
     const appelOffreIdRes = await getProjectAppelOffreId(projectId)
