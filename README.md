@@ -113,6 +113,8 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 - admin@test.test
 - dreal@test.test
 - porteur@test.test
+- ao@test.test
+- adem@test.test
 
 ### Import initial de projets dans la base de données locale
 
