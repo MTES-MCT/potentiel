@@ -134,3 +134,6 @@ src/public/js
 
 # Storybook
 storybook-static/
+
+# Mac
+.DS_Store
