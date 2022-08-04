@@ -1,10 +1,11 @@
 import { logger } from '@core/utils'
 import { RejetDemandeDélaiAnnulé } from '@modules/demandeModification'
+import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   RejetDemandeDélaiAnnulé,
-  async ({ payload, occurredAt }, transaction) => {
+  async ({ payload }, transaction) => {
     const { demandeDélaiId } = payload
 
     // recherche d'un événement de type DemandeDélai associé à la demande
@@ -14,9 +15,25 @@ export default ProjectEvent.projector.on(
     })
 
     if (demandeDélaiInstance) {
+      const { ModificationRequest } = models
+
+      const rawRequestedOn = await ModificationRequest.findOne({
+        attributes: ['requestedOn'],
+        where: { id: demandeDélaiId },
+        transaction,
+      })
+
+      if (!rawRequestedOn) {
+        logger.error(
+          new Error(
+            `Erreur: impossible de trouver la modificationRequest (id = ${demandeDélaiId}) depuis onRejetDemandeDélaiAnnulé)`
+          )
+        )
+      }
+
       Object.assign(demandeDélaiInstance, {
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
+        valueDate: rawRequestedOn.requestedOn,
+        eventPublishedAt: rawRequestedOn.requestedOn,
         payload: {
           // @ts-ignore
           ...demandeDélaiInstance.payload,

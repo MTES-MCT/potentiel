@@ -4,6 +4,7 @@ import {
   RejetDemandeDélaiAnnuléPayload,
 } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
+import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 import onRejetDemandeDélaiAnnulé from './onRejetDemandeDélaiAnnulé'
 
@@ -15,14 +16,23 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
     //Scenario 1
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "envoyée"`, async () => {
+        const { ModificationRequest } = models
         const demandeDélaiId = new UniqueEntityID().toString()
         const projetId = new UniqueEntityID().toString()
         const dateAchèvementDemandée = new Date().getTime()
         const occurredAt = new Date().getTime()
-
         const demandeur = new UniqueEntityID().toString()
         const rejetéPar = new UniqueEntityID().toString()
         const annuléPar = new UniqueEntityID().toString()
+        const requestedOn = new Date('2021-01-01').getTime()
+
+        await ModificationRequest.create({
+          id: demandeDélaiId,
+          projectId: projetId,
+          type: 'delai',
+          requestedOn,
+          status: 'acceptée',
+        })
 
         await ProjectEvent.create({
           id: demandeDélaiId,
@@ -57,6 +67,8 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
         })
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
+          valueDate: requestedOn,
+          eventPublishedAt: requestedOn,
           payload: {
             statut: 'envoyée',
             autorité: 'dreal',

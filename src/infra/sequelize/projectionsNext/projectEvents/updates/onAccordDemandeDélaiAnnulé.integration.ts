@@ -4,6 +4,7 @@ import {
   AccordDemandeDélaiAnnuléPayload,
 } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
+import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 import onAccordDemandeDélaiAnnulé from './onAccordDemandeDélaiAnnulé'
 
@@ -15,6 +16,7 @@ describe('Projecteur de ProjectEvent onAccordDemandeDélaiAnnulé', () => {
     //Scenario 1
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "envoyée"`, async () => {
+        const { ModificationRequest } = models
         const demandeDélaiId = new UniqueEntityID().toString()
         const projetId = new UniqueEntityID().toString()
         const dateAchèvementDemandée = new Date().getTime()
@@ -23,6 +25,16 @@ describe('Projecteur de ProjectEvent onAccordDemandeDélaiAnnulé', () => {
         const demandeur = new UniqueEntityID().toString()
         const accordéPar = new UniqueEntityID().toString()
         const annuléPar = new UniqueEntityID().toString()
+
+        const requestedOn = new Date('2021-01-01').getTime()
+
+        await ModificationRequest.create({
+          id: demandeDélaiId,
+          projectId: projetId,
+          type: 'delai',
+          requestedOn,
+          status: 'acceptée',
+        })
 
         await ProjectEvent.create({
           id: demandeDélaiId,
@@ -57,6 +69,8 @@ describe('Projecteur de ProjectEvent onAccordDemandeDélaiAnnulé', () => {
         })
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
+          eventPublishedAt: requestedOn,
+          valueDate: requestedOn,
           payload: {
             statut: 'envoyée',
             autorité: 'dreal',
@@ -76,7 +90,6 @@ describe('Projecteur de ProjectEvent onAccordDemandeDélaiAnnulé', () => {
         const modificationRequestId = new UniqueEntityID().toString()
         const projectId = new UniqueEntityID().toString()
         const occurredAt = new Date().getTime()
-
         const annuléPar = new UniqueEntityID().toString()
 
         await ProjectEvent.create({
