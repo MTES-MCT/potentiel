@@ -32,7 +32,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-      {type === 'delai' && (status === 'acceptée' || status === 'rejetée') && (
+      {type === 'delai' && ['acceptée', 'rejetée'].includes(status) && (
         <a
           className="ml-2"
           data-confirm={`Cette action peut entraîner des modifications sur le projet. Êtes-vous sûr vouloir annuler la réponse à cette demande ?`}
