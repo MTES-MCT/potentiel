@@ -1,5 +1,5 @@
-import { DélaiRejeté } from '@modules/demandeModification'
 import { logger } from '@core/utils'
+import { DélaiRejeté } from '@modules/demandeModification'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
@@ -20,11 +20,10 @@ export default ProjectEvent.projector.on(
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
       payload: {
+        // @ts-ignore
+        ...instance.payload,
         statut: 'rejetée',
         rejetéPar,
-        // @ts-ignore
-        dateAchèvementDemandée: instance.payload.dateAchèvementDemandée,
-        demandeDélaiId,
       },
     })
 

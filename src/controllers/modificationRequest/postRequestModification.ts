@@ -33,9 +33,6 @@ import { v1Router } from '../v1Router'
 const returnRoute = (type, projectId) => {
   let returnRoute: string
   switch (type) {
-    case 'delai':
-      returnRoute = routes.DEMANDER_DELAI(projectId)
-      break
     case 'fournisseur':
       returnRoute = routes.CHANGER_FOURNISSEUR(projectId)
       break
@@ -88,7 +85,6 @@ v1Router.post(
       'puissance',
       'justification',
       'projectId',
-      'delayInMonths',
       'numeroGestionnaire',
       'Nom du fabricant \\n(Modules ou films)',
       'Nom du fabricant (Cellules)',
@@ -126,18 +122,6 @@ v1Router.post(
     }
 
     data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined
-
-    if (data.type === 'delai' && !isStrictlyPositiveNumber(data.delayInMonths)) {
-      if (!data.delayInMonths || isNaN(data.delayInMonths) || data.delayInMonths <= 0) {
-        const { projectId, type } = data
-        return response.redirect(
-          addQueryParams(returnRoute(type, projectId), {
-            error: 'Erreur: le nombre de mois de délai doit être strictement supérieur à 0',
-          })
-        )
-      }
-    }
-    data.delayInMonths = data.delayInMonths && Number(data.delayInMonths)
 
     let file
 

@@ -1,18 +1,15 @@
 import { okAsync } from 'neverthrow'
 import { EventBus, Repository, UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { AppelOffre, Project, User } from '@entities'
+import { Project, User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { GetProjectAppelOffreId, ModificationRequested } from '@modules/modificationRequest'
+import { ModificationRequested } from '@modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { ErrorResult, Ok, ResultAsync } from '../types'
-import { AppelOffreRepo } from '@dataAccess'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
-  appelOffreRepo: AppelOffreRepo
   eventBus: EventBus
-  getProjectAppelOffreId: GetProjectAppelOffreId
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
@@ -25,13 +22,6 @@ interface RequestCommon {
   projectId: Project['id']
 }
 
-interface DelayRequest {
-  type: 'delai'
-  justification: string
-  delayInMonths: number
-  numeroGestionnaire?: string
-}
-
 interface AbandonRequest {
   type: 'abandon'
   justification: string
@@ -42,7 +32,7 @@ interface RecoursRequest {
   justification: string
 }
 
-type CallUseCaseProps = RequestCommon & (DelayRequest | AbandonRequest | RecoursRequest)
+type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest)
 
 export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
 export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
@@ -51,10 +41,8 @@ export const SYSTEM_ERROR =
 
 export default function makeRequestModification({
   fileRepo,
-  appelOffreRepo,
   eventBus,
   shouldUserAccessProject,
-  getProjectAppelOffreId,
 }: MakeUseCaseProps) {
   return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
     const { user, projectId, file, type } = props
@@ -95,16 +83,7 @@ export default function makeRequestModification({
       fileId = fileIdResult.value.toString()
     }
 
-    const { justification, puissance, delayInMonths, numeroGestionnaire } = props as any
-
-    let appelOffre: AppelOffre | undefined
-    const appelOffreIdRes = await getProjectAppelOffreId(projectId)
-    if (appelOffreIdRes.isOk()) {
-      appelOffre = await appelOffreRepo.findById(appelOffreIdRes.value)
-    }
-
-    const authority: 'dgec' | 'dreal' =
-      type === 'delai' && appelOffre?.type !== 'eolien' ? 'dreal' : 'dgec'
+    const { justification, numeroGestionnaire } = props as any
 
     const res = await eventBus
       .publish(
@@ -116,9 +95,7 @@ export default function makeRequestModification({
             requestedBy: user.id,
             fileId,
             justification,
-            puissance,
-            delayInMonths,
-            authority,
+            authority: 'dgec',
           },
         })
       )

@@ -1,15 +1,15 @@
+import { DemandeDélaiDTO } from '@modules/frise/dtos'
 import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
 import {
-  ItemDate,
-  ItemTitle,
+  CancelledStepIcon,
   ContentArea,
   CurrentIcon,
-  CancelledStepIcon,
-  UnvalidatedStepIcon,
+  ItemDate,
+  ItemTitle,
   PastIcon,
+  UnvalidatedStepIcon,
 } from '.'
-import { DemandeDélaiDTO } from '@modules/frise/dtos'
+import { formatDate } from '../../../../helpers/formatDate'
 
 type DemandeDélaiItemProps = DemandeDélaiDTO
 
@@ -43,7 +43,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
               </>
             )}
             <br />
-            <a href={demandeUrl}>Voir la demande</a>
+            {demandeUrl && <a href={demandeUrl}>Voir la demande</a>}
           </p>
         </>
       </ContentArea>

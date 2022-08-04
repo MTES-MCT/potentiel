@@ -42,4 +42,4 @@ Il suffit d'exécuter la commande git suivante
 
 - Enfin restaurer le dump téléchargé sur le container dans le répertoire /tmp/upload.
 
-`pg_restore --clean --if-exists --no-owner --no-privileges --no-comments --dbname $DATABASE_URL /tmp/upload/potentiel.dump`
+`pg_restore --clean --if-exists --no-owner --no-privileges --no-comments --dbname $DATABASE_URL /tmp/uploads/potentiel.dump`

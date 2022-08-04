@@ -1,6 +1,6 @@
 {
   "name": "potentiel.beta.gouv.fr",
-  "version": "2.147.2",
+  "version": "2.148.5",
   "sideEffects": false,
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
@@ -162,7 +162,6 @@
     "lint-staged": "^12.5.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "^2.7.1",
-    "prettier-plugin-organize-imports": "^3.0.0",
     "pretty-format": "^27.5.1",
     "start-server-and-test": "^1.14.0",
     "ts-jest": "^27.1.5",

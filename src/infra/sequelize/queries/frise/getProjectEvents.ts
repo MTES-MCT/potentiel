@@ -1,10 +1,10 @@
-import { userIs, userIsNot } from '@modules/users'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
+import { userIs, userIsNot } from '@modules/users'
+import routes from '../../../../routes'
 import { models } from '../../models'
 import { ProjectEvent } from '../../projectionsNext'
-import { getProjectAppelOffre } from '@config/queries.config'
-import routes from '../../../../routes'
 
 const { Project } = models
 
@@ -342,7 +342,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
                 case 'DemandeDélai':
                   if (userIsNot('ademe')(user)) {
-                    const { statut, dateAchèvementDemandée, demandeDélaiId } = payload
+                    const { statut, dateAchèvementDemandée, demandeDélaiId, authority } = payload
                     events.push({
                       type,
                       variant: user.role,
@@ -353,7 +353,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         dateAchèvementAccordée: payload.dateAchèvementAccordée,
                         ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
                       }),
-                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                      ...((userIs(['porteur-projet', 'admin', 'dgec'])(user) ||
+                        (userIs('dreal') && authority === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                      }),
                     })
                   }
                   break

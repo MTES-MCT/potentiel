@@ -1,5 +1,13 @@
 import { makeImportAppelOffreData, makeImportPeriodeData } from '@modules/appelOffre'
 import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ'
+import {
+  makeAccorderDemandeDélai,
+  makeAnnulerDemandeDélai,
+  makeAnnulerRejetDemandeDélai,
+  makeDemanderDélai,
+  makeRejeterDemandeDélai,
+} from '@modules/demandeModification'
+import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
 import {
   exceedsPuissanceMaxDuVolumeReserve,
@@ -17,63 +25,57 @@ import {
   makeUpdateModificationRequestStatus,
 } from '@modules/modificationRequest'
 import {
+  makeAddGFExpirationDate,
   makeCorrectProjectData,
   makeGenerateCertificate,
   makeImportProjects,
   makeRegenerateCertificatesForPeriode,
   makeRemoveGF,
   makeRemoveStep,
-  makeSignalerDemandeDelai,
   makeSignalerDemandeAbandon,
+  makeSignalerDemandeDelai,
+  makeSignalerDemandeRecours,
   makeSubmitGF,
-  makeSubmitStep,
+  makeSubmitDCR,
+  makeSubmitPTF,
   makeUpdateNewRulesOptIn,
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
-  makeSignalerDemandeRecours,
-  makeAddGFExpirationDate,
 } from '@modules/project'
+import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
-import {
-  makeAnnulerDemandeDélai,
-  makeDemanderDélai,
-  makeRejeterDemandeDélai,
-  makeAccorderDemandeDélai,
-} from '@modules/demandeModification'
 import { buildCertificate } from '@views/certificates'
+import { makeParseEdfCsv } from '../infra/parseEdfCsv'
+import { makeImportEnedisData } from '../modules/enedis'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
   getAppelOffreList,
-  getFileProject,
-  getProjectAppelOffreId,
-  getProjectIdsForPeriode,
-  getUserByEmail,
-  hasProjectGarantieFinanciere,
-  getProjectDataForProjectClaim,
-  isProjectParticipatif,
-  getPuissanceProjet,
-  getLegacyModificationByFilename,
   getEDFSearchIndex,
   getEnedisSearchIndex,
+  getFileProject,
+  getLegacyModificationByFilename,
+  getProjectAppelOffreId,
+  getProjectDataForProjectClaim,
+  getProjectIdsForPeriode,
+  getPuissanceProjet,
+  getUserByEmail,
+  hasProjectGarantieFinanciere,
+  isProjectParticipatif,
 } from './queries.config'
-import { makeClaimProject } from '@modules/projectClaim'
 import {
   appelOffreRepo,
+  demandeDélaiRepo,
   fileRepo,
   modificationRequestRepo,
   oldAppelOffreRepo,
   oldProjectRepo,
   oldUserRepo,
-  userRepo,
-  projectRepo,
   projectClaimRepo,
-  demandeDélaiRepo,
+  projectRepo,
+  userRepo,
 } from './repos.config'
-import { makeImportEdfData } from '@modules/edf'
-import { makeParseEdfCsv } from '../infra/parseEdfCsv'
-import { makeImportEnedisData } from '../modules/enedis'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -125,9 +127,15 @@ export const revokeUserRightsToProject = makeRevokeRightsToProject({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
-export const submitStep = makeSubmitStep({
-  eventBus: eventStore,
+export const submitDCR = makeSubmitDCR({
   fileRepo,
+  projectRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const submitPTF = makeSubmitPTF({
+  fileRepo,
+  projectRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
@@ -320,4 +328,10 @@ export const accorderDemandeDélai = makeAccorderDemandeDélai({
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
   projectRepo,
+})
+
+export const annulerRejetDemandeDélai = makeAnnulerRejetDemandeDélai({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
 })

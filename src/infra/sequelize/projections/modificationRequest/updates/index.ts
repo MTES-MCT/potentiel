@@ -1,30 +1,37 @@
+import { EventBus } from '@core/domain'
+import { logger } from '@core/utils'
 import {
-  ModificationRequested,
+  DélaiAccordé,
+  DélaiAnnulé,
+  DélaiDemandé,
+  DélaiRejeté,
+  RejetDemandeDélaiAnnulé,
+} from '@modules/demandeModification'
+import {
+  ConfirmationRequested,
+  LegacyModificationImported,
+  ModificationReceived,
   ModificationRequestAccepted,
+  ModificationRequestConfirmed,
+  ModificationRequested,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
   ModificationRequestStatusUpdated,
-  ConfirmationRequested,
-  ModificationRequestConfirmed,
-  ModificationReceived,
-  LegacyModificationImported,
 } from '@modules/modificationRequest'
-import { onModificationRequested } from './onModificationRequested'
+import { onConfirmationRequested } from './onConfirmationRequested'
+import { onDélaiAccordé } from './onDélaiAccordé'
+import { onDélaiAnnulé } from './onDélaiAnnulé'
+import { onDélaiDemandé } from './onDélaiDemandé'
+import { onDélaiRejeté } from './onDélaiRejeté'
+import { onLegacyModificationImported } from './onLegacyModificationImported'
+import { onModificationReceived } from './onModificationReceived'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
+import { onModificationRequestConfirmed } from './onModificationRequestConfirmed'
+import { onModificationRequested } from './onModificationRequested'
+import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
-import { onConfirmationRequested } from './onConfirmationRequested'
-import { onModificationRequestConfirmed } from './onModificationRequestConfirmed'
-import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
-import { logger } from '@core/utils'
-import { onModificationReceived } from './onModificationReceived'
-import { onLegacyModificationImported } from './onLegacyModificationImported'
-import { EventBus } from '@core/domain'
-import { onDélaiDemandé } from './onDélaiDemandé'
-import { onDélaiAnnulé } from './onDélaiAnnulé'
-import { onDélaiRejeté } from './onDélaiRejeté'
-import { DélaiAccordé, DélaiAnnulé, DélaiDemandé, DélaiRejeté } from '@modules/demandeModification'
-import { onDélaiAccordé } from './onDélaiAccordé'
+import { onRejetDemandeDélaiAnnulé } from './onRejetDemandeDélaiAnnulé'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -48,6 +55,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé(models))
   eventBus.subscribe(DélaiRejeté.type, onDélaiRejeté(models))
   eventBus.subscribe(DélaiAccordé.type, onDélaiAccordé(models))
+  eventBus.subscribe(RejetDemandeDélaiAnnulé.type, onRejetDemandeDélaiAnnulé(models))
   logger.info('Initialized ModificationRequest projections')
 }
 
