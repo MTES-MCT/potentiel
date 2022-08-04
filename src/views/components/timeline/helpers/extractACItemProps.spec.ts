@@ -73,7 +73,7 @@ describe('extractACItemProps', () => {
         const result = extractACItemProps(events, project)
         expect(result).toMatchObject({
           type: 'attestation-de-conformite',
-          date: 3,
+          date: 1,
           covidDelay: true,
         })
       })
