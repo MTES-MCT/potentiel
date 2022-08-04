@@ -1,10 +1,10 @@
 import { logger } from '@core/utils'
-import { RejetDemandeDélaiAnnulé } from '@modules/demandeModification'
+import { AccordDemandeDélaiAnnulé } from '@modules/demandeModification'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
-  RejetDemandeDélaiAnnulé,
+  AccordDemandeDélaiAnnulé,
   async ({ payload }, transaction) => {
     const { demandeDélaiId } = payload
 
@@ -26,7 +26,7 @@ export default ProjectEvent.projector.on(
       if (!rawRequestedOn) {
         logger.error(
           new Error(
-            `Erreur: impossible de trouver la modificationRequest (id = ${demandeDélaiId}) depuis onRejetDemandeDélaiAnnulé)`
+            `Erreur: impossible de trouver la modificationRequest (id = ${demandeDélaiId}) depuis onAccordDemandeDélaiAnnulé)`
           )
         )
       }
@@ -38,7 +38,7 @@ export default ProjectEvent.projector.on(
           // @ts-ignore
           ...demandeDélaiInstance.payload,
           statut: 'envoyée',
-          rejetéPar: null,
+          accordéPar: null,
         },
       })
 
@@ -58,7 +58,7 @@ export default ProjectEvent.projector.on(
     try {
       await ProjectEvent.destroy({
         where: {
-          type: 'ModificationRequestRejected',
+          type: 'ModificationRequestAccepted',
           payload: { modificationRequestId: demandeDélaiId },
         },
         transaction,
@@ -67,7 +67,7 @@ export default ProjectEvent.projector.on(
       logger.error(e)
       logger.info(
         `Error: onRejetDemandeDélaiAnnulé n'a pas supprimer l'événement de type
-        "ModificationRequestRejected" pour la demande id ${demandeDélaiId}.`
+        "ModificationRequestAccepted" pour la demande id ${demandeDélaiId}.`
       )
     }
 

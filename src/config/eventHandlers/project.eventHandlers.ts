@@ -1,25 +1,26 @@
+import { DomainEvent } from '@core/domain'
+import { AccordDemandeDélaiAnnulé, DélaiAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
   handleLegacyModificationImported,
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
+  makeOnAccordDemandeDélaiAnnulé,
   makeOnDélaiAccordé,
   PeriodeNotified,
   ProjectCertificateObsolete,
   ProjectRawDataImported,
 } from '@modules/project'
+import { subscribeToRedis } from '../eventBus.config'
 import { eventStore } from '../eventStore.config'
 import {
   findProjectByIdentifiers,
-  getUnnotifiedProjectsForPeriode,
   getProjectAppelOffre,
+  getUnnotifiedProjectsForPeriode,
 } from '../queries.config'
-import { subscribeToRedis } from '../eventBus.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
-import { DélaiAccordé } from '@modules/demandeModification'
-import { DomainEvent } from '@core/domain'
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -71,6 +72,23 @@ const onDélaiAccordé = async (event: DomainEvent) => {
   )
 }
 subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé')
+
+const onAccordDemandeDélaiAnnuléHandler = makeOnAccordDemandeDélaiAnnulé({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+})
+
+const onAccordDemandeDélaiAnnulé = async (event: DomainEvent) => {
+  if (!(event instanceof AccordDemandeDélaiAnnulé)) {
+    return Promise.resolve()
+  }
+
+  return await onAccordDemandeDélaiAnnuléHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
+}
+subscribeToRedis(onAccordDemandeDélaiAnnulé, 'Project.onAccordDemandeDélaiAnnulé')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

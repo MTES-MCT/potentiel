@@ -47,8 +47,6 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        console.log('user id', user.id)
-
         return demanderDélai({
           user,
           projectId,

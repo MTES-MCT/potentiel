@@ -1,4 +1,4 @@
-import { annulerRejetDemandeDélai, ensureRole } from '@config'
+import { annulerRéponseDemandeDélai, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { getModificationRequestAuthority } from '@infra/sequelize/queries'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
@@ -9,7 +9,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
 v1Router.get(
-  routes.ADMIN_ANNULER_REJET_DEMANDE_DELAI(),
+  routes.ADMIN_ANNULER_REPONSE_DEMANDE_DELAI(),
   ensureRole(['admin', 'dgec', 'dreal']),
   asyncHandler(async (request, response) => {
     const { modificationRequestId } = request.query as any
@@ -27,14 +27,14 @@ v1Router.get(
       }
     }
 
-    return annulerRejetDemandeDélai({
+    return annulerRéponseDemandeDélai({
       user,
       demandeDélaiId: modificationRequestId,
     }).match(
       () => {
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
-            success: 'Le rejet de la demande de délai a bien été annulé.',
+            success: 'La réponse à la demande de délai a bien été annulée.',
             redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
             redirectTitle: 'Retourner à la demande',
           })
