@@ -4,6 +4,7 @@ export type AccordDemandeDélaiAnnuléPayload = {
   demandeDélaiId: string
   projetId: string
   annuléPar: string
+  nouvelleDateAchèvement: string
 }
 
 export class AccordDemandeDélaiAnnulé

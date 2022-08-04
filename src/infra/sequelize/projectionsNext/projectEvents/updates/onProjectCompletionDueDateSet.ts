@@ -1,5 +1,5 @@
-import { ProjectCompletionDueDateSet } from '@modules/project'
 import { UniqueEntityID } from '@core/domain'
+import { ProjectCompletionDueDateSet } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(

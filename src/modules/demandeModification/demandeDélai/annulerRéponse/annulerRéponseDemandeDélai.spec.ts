@@ -5,17 +5,21 @@ import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modifica
 import { InfraNotAvailableError } from '@modules/shared'
 import { UnwrapForTest } from '../../../../types'
 import {
+  fakeRepo,
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
 import { makeAnnulerRéponseDemandeDélai } from './annulerRéponseDemandeDélai'
 
-describe(`Commande annuler le rejet d'une demande de délai`, () => {
+describe(`Annuler une réponse - cas génériques`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
+
+  const projectRepo = fakeRepo(makeFakeProject())
 
   beforeEach(() => {
     publishToEventStore.mockClear()
@@ -35,6 +39,7 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
+          projectRepo,
         })
 
         const res = await annulerRéponseDemandéDélai({
@@ -48,7 +53,7 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
     })
   })
 
-  describe(`Annulation impossible si le statut de la demande n'est pas "refusée"`, () => {
+  describe(`Annulation impossible si le statut de la demande n'est pas "refusée" ou "accordée"`, () => {
     describe(`Etant donné un utilisateur admin ayant les droits sur le projet
       et une demande de délai en statut 'envoyée'`, () => {
       it(`Lorsque l'utilisateur exécute la commande, 
@@ -64,6 +69,7 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
+          projectRepo,
         })
 
         const res = await annulerRéponseDemandéDélai({
@@ -75,6 +81,18 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
         expect(publishToEventStore).not.toHaveBeenCalled()
       })
     })
+  })
+})
+
+describe(`Annuler le rejet d'une demande de délai`, () => {
+  const publishToEventStore = jest.fn((event: DomainEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  )
+
+  const projectRepo = fakeRepo(makeFakeProject())
+
+  beforeEach(() => {
+    publishToEventStore.mockClear()
   })
 
   describe(`Annulation de la demande possible`, () => {
@@ -93,6 +111,7 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
           shouldUserAccessProject,
           demandeDélaiRepo,
           publishToEventStore,
+          projectRepo,
         })
 
         await annulerRéponseDemandéDélai({
@@ -107,6 +126,111 @@ describe(`Commande annuler le rejet d'une demande de délai`, () => {
               demandeDélaiId: 'id-demande',
               annuléPar: 'user-id',
               projetId: 'id-du-projet',
+            }),
+          })
+        )
+      })
+    })
+  })
+})
+
+describe(`Annuler l'accord suite à une demande de délai`, () => {
+  const publishToEventStore = jest.fn((event: DomainEvent) =>
+    okAsync<null, InfraNotAvailableError>(null)
+  )
+
+  const projectRepo = fakeRepo(makeFakeProject())
+
+  beforeEach(() => {
+    publishToEventStore.mockClear()
+  })
+
+  describe(`Annulation de la demande possible`, () => {
+    describe(`Etant donné un utilisateur admin ayant les droits sur le projet
+      et une demande de délai en statut "accordée" de type DemandeDélai`, () => {
+      it(`Lorsque l'utilisateur annule le l'accord suite à la demande de délai,
+        alors un événement AccordDemandeDélaiAnnulé devrait être émis avec la nouvelle date d'achèvement`, async () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec', id: 'user-id' })))
+        const shouldUserAccessProject = jest.fn(async () => true)
+
+        const ancienneDateThéoriqueAchèvement = new Date('2024-01-01').toISOString()
+
+        const demandeDélaiRepo = fakeTransactionalRepo(
+          makeFakeDemandeDélai({
+            projetId: 'id-du-projet',
+            statut: 'accordée',
+            id: 'id-demande',
+            ancienneDateThéoriqueAchèvement,
+          })
+        )
+
+        const annulerRéponseDemandéDélai = makeAnnulerRéponseDemandeDélai({
+          shouldUserAccessProject,
+          demandeDélaiRepo,
+          publishToEventStore,
+          projectRepo,
+        })
+
+        await annulerRéponseDemandéDélai({
+          user,
+          demandeDélaiId: 'id-demande',
+        })
+
+        expect(publishToEventStore).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'AccordDemandeDélaiAnnulé',
+            payload: expect.objectContaining({
+              demandeDélaiId: 'id-demande',
+              annuléPar: 'user-id',
+              projetId: 'id-du-projet',
+              nouvelleDateAchèvement: ancienneDateThéoriqueAchèvement,
+            }),
+          })
+        )
+      })
+    })
+
+    describe(`Etant donné un utilisateur admin ayant les droits sur le projet
+      et une demande de délai en statut "accordée" de type ModificationRequestAccepted`, () => {
+      it(`Lorsque l'utilisateur annule le l'accord suite à la demande de délai,
+        alors un événement AccordDemandeDélaiAnnulé devrait être émis avec la nouvelle date d'achèvement`, async () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec', id: 'user-id' })))
+        const shouldUserAccessProject = jest.fn(async () => true)
+
+        const completionDueOn = new Date('2022-02-01').getTime()
+        const projectRepo = fakeRepo(makeFakeProject({ completionDueOn }))
+
+        const délaiEnMoisAccordé = 1
+
+        const demandeDélaiRepo = fakeTransactionalRepo(
+          makeFakeDemandeDélai({
+            projetId: 'id-du-projet',
+            statut: 'accordée',
+            id: 'id-demande',
+            délaiEnMoisAccordé,
+          })
+        )
+
+        const annulerRéponseDemandéDélai = makeAnnulerRéponseDemandeDélai({
+          shouldUserAccessProject,
+          demandeDélaiRepo,
+          publishToEventStore,
+          projectRepo,
+        })
+
+        await annulerRéponseDemandéDélai({
+          user,
+          demandeDélaiId: 'id-demande',
+        })
+
+        expect(publishToEventStore).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'AccordDemandeDélaiAnnulé',
+            payload: expect.objectContaining({
+              demandeDélaiId: 'id-demande',
+              annuléPar: 'user-id',
+              projetId: 'id-du-projet',
+              nouvelleDateAchèvement: '2022-01-01T00:00:00.000Z', // completionDueOn - délaiAccordéEnMois
             }),
           })
         )

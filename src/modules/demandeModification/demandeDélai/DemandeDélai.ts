@@ -29,6 +29,9 @@ type DemandeDélaiArgs = {
 export type DemandeDélai = EventStoreAggregate & {
   statut: StatutDemandeDélai | undefined
   projetId: string | undefined
+  ancienneDateThéoriqueAchèvement: string | undefined
+  dateAchèvementAccordée: string | undefined
+  délaiEnMoisAccordé: number | undefined
 }
 
 export const makeDemandeDélai = (
@@ -41,6 +44,9 @@ export const makeDemandeDélai = (
     statut: undefined,
     id,
     pendingEvents: [],
+    ancienneDateThéoriqueAchèvement: undefined,
+    dateAchèvementAccordée: undefined,
+    délaiEnMoisAccordé: undefined,
   }
 
   const agregat: DemandeDélai = events.reduce((agregat, event) => {
@@ -53,8 +59,19 @@ export const makeDemandeDélai = (
           projetId: event.payload.projetId || event.payload.projectId,
         }
       case DélaiAccordé.type:
+        const { ancienneDateThéoriqueAchèvement, dateAchèvementAccordée } = event.payload
+        return {
+          ...agregat,
+          statut: 'accordée',
+          ancienneDateThéoriqueAchèvement,
+          dateAchèvementAccordée,
+        }
       case ModificationRequestAccepted.type:
-        return { ...agregat, statut: 'accordée' }
+        return {
+          ...agregat,
+          statut: 'accordée',
+          délaiEnMoisAccordé: event.payload.acceptanceParams.delayOnMonths,
+        }
       case DélaiAnnulé.type:
       case ModificationRequestCancelled.type:
         return { ...agregat, statut: 'annulée' }

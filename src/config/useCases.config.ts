@@ -334,4 +334,5 @@ export const annulerRéponseDemandeDélai = makeAnnulerRéponseDemandeDélai({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+  projectRepo,
 })
