@@ -242,7 +242,7 @@ Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.
 
 Cet environnement est réservé à chaque développeur travaillant sur le projet. 
 Il permet de faire les développements sur un environnement sans risque d'altérer la donnée.
-La base de donnée de cet environnement est falsifié, afin d'éviter l'accès à des vrais données projets en cas de perte / vol de l'ordinateur. À noter qu'en tant qu' e présenter des vrais données projets.
+La base de donnée de cet environnement est falsifié, afin d'éviter l'accès à des vrais données projets en cas de perte / vol de l'ordinateur.
 Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. cf 
 Pour installer et utiliser cet environnement, il faut suivre cette [documentation](#développement-en-local).
 
