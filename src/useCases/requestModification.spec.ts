@@ -2,10 +2,9 @@ import { Readable } from 'stream'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
 import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
-import { appelOffreRepo } from '@dataAccess/inMemory'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
@@ -13,10 +12,6 @@ const fakeFileContents = {
 }
 
 describe('requestModification use-case', () => {
-  const getProjectAppelOffreId = jest.fn((projectId) =>
-    okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
-  )
-
   describe('given user has no rights on this project', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
 
@@ -32,10 +27,8 @@ describe('requestModification use-case', () => {
 
     const requestModification = makeRequestModification({
       fileRepo,
-      appelOffreRepo,
       eventBus,
       shouldUserAccessProject,
-      getProjectAppelOffreId,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
@@ -74,10 +67,8 @@ describe('requestModification use-case', () => {
 
     const requestModification = makeRequestModification({
       fileRepo,
-      appelOffreRepo,
       eventBus,
       shouldUserAccessProject,
-      getProjectAppelOffreId,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
@@ -114,10 +105,8 @@ describe('requestModification use-case', () => {
 
       const requestModification = makeRequestModification({
         fileRepo: fileRepo as Repository<FileObject>,
-        appelOffreRepo,
         eventBus,
         shouldUserAccessProject,
-        getProjectAppelOffreId,
       })
 
       beforeAll(async () => {

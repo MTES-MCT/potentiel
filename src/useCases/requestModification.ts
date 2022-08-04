@@ -1,18 +1,15 @@
 import { okAsync } from 'neverthrow'
 import { EventBus, Repository, UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { AppelOffre, Project, User } from '@entities'
+import { Project, User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { GetProjectAppelOffreId, ModificationRequested } from '@modules/modificationRequest'
+import { ModificationRequested } from '@modules/modificationRequest'
 import { NumeroGestionnaireSubmitted } from '@modules/project'
 import { ErrorResult, Ok, ResultAsync } from '../types'
-import { AppelOffreRepo } from '@dataAccess'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
-  appelOffreRepo: AppelOffreRepo
   eventBus: EventBus
-  getProjectAppelOffreId: GetProjectAppelOffreId
   shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
 }
 
@@ -44,10 +41,8 @@ export const SYSTEM_ERROR =
 
 export default function makeRequestModification({
   fileRepo,
-  appelOffreRepo,
   eventBus,
   shouldUserAccessProject,
-  getProjectAppelOffreId,
 }: MakeUseCaseProps) {
   return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
     const { user, projectId, file, type } = props
@@ -90,14 +85,6 @@ export default function makeRequestModification({
 
     const { justification, numeroGestionnaire } = props as any
 
-    let appelOffre: AppelOffre | undefined
-    const appelOffreIdRes = await getProjectAppelOffreId(projectId)
-    if (appelOffreIdRes.isOk()) {
-      appelOffre = await appelOffreRepo.findById(appelOffreIdRes.value)
-    }
-
-    const authority = 'dgec'
-
     const res = await eventBus
       .publish(
         new ModificationRequested({
@@ -108,7 +95,7 @@ export default function makeRequestModification({
             requestedBy: user.id,
             fileId,
             justification,
-            authority,
+            authority: 'dgec',
           },
         })
       )
