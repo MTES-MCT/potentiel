@@ -129,8 +129,8 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                   >
                     {modificationRequest.type === 'recours' ||
                     modificationRequest.type === 'abandon' ||
-                    modificationRequest.type === 'delai' ||
-                    modificationRequest.type === 'fournisseur'
+                    modificationRequest.type === 'fournisseur' ||
+                    modificationRequest.type === 'delai'
                       ? modificationRequest?.justification
                       : null}
                   </div>
