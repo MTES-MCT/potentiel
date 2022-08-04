@@ -110,11 +110,13 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
    ```
 
 4. Se rendre sur [localhost:3000](http://localhost:3000)
-5. Se connecter un des comptes suivants (mot de passe: test):
+5. Se connecter à l'un des comptes suivants (pas de mot de passe nécessaire):
 
 - admin@test.test
 - dreal@test.test
 - porteur@test.test
+- ademe@test.test
+- ao@test.test
 
 ### Import initial de projets dans la base de données locale
 
@@ -236,19 +238,19 @@ Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.
 
 # Environnements et Déploiement
 
-## Les environnements 
+## Les environnements
 
-### Local 
+### Local
 
-Cet environnement est réservé à chaque développeur travaillant sur le projet. 
+Cet environnement est réservé à chaque développeur travaillant sur le projet.
 Il permet de faire les développements sur un environnement sans risque d'altérer la donnée.
 La base de donnée de cet environnement est falsifié, afin d'éviter l'accès à des vrais données projets en cas de perte / vol de l'ordinateur.
-Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. cf 
+Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. cf
 Pour installer et utiliser cet environnement, il faut suivre cette [documentation](#développement-en-local).
 
-### [Demo](https://demo.potentiel.incubateur.net/) 
+### [Demo](https://demo.potentiel.incubateur.net/)
 
-Cet environnement est dédié à la démonstration de l'outil, que ce soit à des fins commerciales ou démonstratives. 
+Cet environnement est dédié à la démonstration de l'outil, que ce soit à des fins commerciales ou démonstratives.
 La base de donnée de cet environnement est falsifié, afin d'éviter de présenter des vrais données projets.
 Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. Les comptes tests permettent un accès rapide en tant qu'un certain type d'utilisateur, ils sont disponible [ici](#lancement-de-lapplication-locale)
 
@@ -259,12 +261,10 @@ Afin de pouvoir se connecter sur cet environnement, il est nécessaire que vous 
 
 ### [Production](https://potentiel.beta.gouv.fr/)
 
-Cet environnement est celui utilisé par nos utilisateurs. 
+Cet environnement est celui utilisé par nos utilisateurs.
 Afin de pouvoir se connecter sur cet environnement, il est nécessaire que vous ayez un compte. Pour obtenir celà, il faudra passer par la console de Keycloak (cf [documentation](#keycloak)).
 
-
 ## Déploiement
-
 
 Les différents environnements sur lesquels l'application est hébergée sont en cours de migration de [Clever Cloud](https://www.clever-cloud.com) vers [Scalingo](https://scalingo.com/fr). Tout deux sont des [PaaS](https://fr.wikipedia.org/wiki/Platform_as_a_service)
 
