@@ -386,6 +386,7 @@ export type DemandeDélaiDTO = {
   date: number
   demandeUrl: any
   dateAchèvementDemandée: number
+  actionAttendue?: 'à traiter'
 } & (
   | { statut: 'envoyée' | 'annulée' | 'rejetée' }
   | {

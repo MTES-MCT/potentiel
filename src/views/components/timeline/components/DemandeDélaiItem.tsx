@@ -4,6 +4,7 @@ import {
   CancelledStepIcon,
   ContentArea,
   CurrentIcon,
+  InfoItem,
   ItemDate,
   ItemTitle,
   PastIcon,
@@ -14,11 +15,10 @@ import { formatDate } from '../../../../helpers/formatDate'
 type DemandeDélaiItemProps = DemandeDélaiDTO
 
 export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
-  const { date, demandeUrl, dateAchèvementDemandée, statut } = props
+  const { date, demandeUrl, dateAchèvementDemandée, statut, actionAttendue } = props
 
   const titre =
     statut === 'envoyée' ? 'Délai supplémentaire demandé' : `Demande délai supplémentaire ${statut}`
-
   return (
     <>
       {statut === 'envoyée' && <CurrentIcon />}
@@ -27,7 +27,16 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
       {statut === 'accordée' && <PastIcon />}
 
       <ContentArea>
-        <ItemDate date={date} />
+        <div className="flex">
+          <div className="align-center">
+            <ItemDate date={date} />
+          </div>
+          {actionAttendue && (
+            <div className="align-center mb-1">
+              <InfoItem message={actionAttendue} />
+            </div>
+          )}
+        </div>
         <>
           <ItemTitle title={titre} />
           <p className="p-0 m-0">

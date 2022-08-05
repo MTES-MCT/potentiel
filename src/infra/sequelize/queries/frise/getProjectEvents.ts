@@ -342,7 +342,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
                 case 'DemandeDélai':
                   if (userIsNot('ademe')(user)) {
-                    const { statut, dateAchèvementDemandée, demandeDélaiId, authority } = payload
+                    const { statut, dateAchèvementDemandée, demandeDélaiId, autorité } = payload
                     events.push({
                       type,
                       variant: user.role,
@@ -354,9 +354,12 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
                       }),
                       ...((userIs(['porteur-projet', 'admin', 'dgec'])(user) ||
-                        (userIs('dreal') && authority === 'dreal')) && {
+                        (userIs('dreal') && autorité === 'dreal')) && {
                         demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                       }),
+                      ...((autorité === user.role ||
+                        (autorité === 'dgec' && user.role === 'admin')) &&
+                        statut === 'envoyée' && { actionAttendue: 'à traiter' }),
                     })
                   }
                   break
