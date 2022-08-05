@@ -1,17 +1,17 @@
 import { ensureRole, eventStore, loadFileForUser } from '@config'
 import { UniqueEntityID } from '@core/domain'
-import asyncHandler from '../helpers/asyncHandler'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
 import { ProjectCertificateDownloaded } from '@modules/project'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '@routes'
-import { notFoundResponse, unauthorizedResponse, errorResponse } from '../helpers'
+import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
-  ensureRole(['admin', 'dgec', 'porteur-projet', 'acheteur-obligé']),
+  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé']),
   asyncHandler(async (request, response) => {
     const { projectId, fileId } = request.params
     const { user } = request
