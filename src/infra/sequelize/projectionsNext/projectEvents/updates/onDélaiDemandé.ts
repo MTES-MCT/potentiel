@@ -18,7 +18,6 @@ export default ProjectEvent.projector.on(
           autorité,
           dateAchèvementDemandée,
           demandeur: porteurId,
-          demandeDélaiId,
         },
       },
       { transaction }
