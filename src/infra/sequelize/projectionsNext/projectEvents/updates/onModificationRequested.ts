@@ -5,9 +5,37 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   ModificationRequested,
   async ({ payload, occurredAt }, transaction) => {
-    const { projectId, type, modificationRequestId, authority } = payload
+    const { projectId, type, modificationRequestId, authority, requestedBy } = payload
 
     if (!['delai', 'abandon', 'recours', 'puissance'].includes(type)) {
+      return
+    }
+
+    if (type === 'delai') {
+      const demandeExistante = await ProjectEvent.findOne({
+        where: { id: modificationRequestId },
+        transaction,
+      })
+
+      if (!demandeExistante) {
+        await ProjectEvent.create(
+          {
+            id: modificationRequestId,
+            projectId,
+            type: 'DemandeDélai',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            payload: {
+              statut: 'envoyée',
+              autorité: authority,
+              délaiEnMoisDemandé: payload.delayInMonths,
+              demandeur: requestedBy,
+            },
+          },
+          { transaction }
+        )
+      }
+
       return
     }
 
@@ -22,7 +50,6 @@ export default ProjectEvent.projector.on(
           modificationType: type,
           modificationRequestId,
           authority,
-          ...(type === 'delai' && { delayInMonths: payload.delayInMonths }),
           ...(type === 'puissance' && { puissance: payload.puissance }),
         },
       },
