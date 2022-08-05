@@ -4,35 +4,37 @@ import { makeDocumentUrl } from '.'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
 
-export type ModificationRequestItemProps = {
-  type: 'demande-de-modification'
-  date: number
-  status:
-    | 'envoyée'
-    | 'en instruction'
-    | 'acceptée'
-    | 'rejetée'
-    | 'annulée'
-    | 'en attente de confirmation'
-    | 'demande confirmée'
-  authority: 'dreal' | 'dgec' | undefined
-  role: UserRole
-  responseUrl?: string | undefined
-  detailsUrl: string
-} & (
-  | {
-      modificationType: 'delai'
-      delayInMonths: number
-    }
-  | {
-      modificationType: 'puissance'
-      puissance: number
-      unitePuissance: string
-    }
-  | {
-      modificationType: 'recours' | 'abandon'
-    }
-)
+export type ModificationRequestItemProps =
+  | undefined
+  | ({
+      type: 'demande-de-modification'
+      date: number
+      status:
+        | 'envoyée'
+        | 'en instruction'
+        | 'acceptée'
+        | 'rejetée'
+        | 'annulée'
+        | 'en attente de confirmation'
+        | 'demande confirmée'
+      authority: 'dreal' | 'dgec' | undefined
+      role: UserRole
+      responseUrl?: string | undefined
+      detailsUrl: string
+    } & (
+      | {
+          modificationType: 'delai'
+          delayInMonths: number
+        }
+      | {
+          modificationType: 'puissance'
+          puissance: number
+          unitePuissance: string
+        }
+      | {
+          modificationType: 'recours' | 'abandon'
+        }
+    ))
 
 export const extractModificationRequestsItemProps = (
   events: ProjectEventDTO[]
@@ -45,9 +47,9 @@ export const extractModificationRequestsItemProps = (
   const modificationRequestGroups =
     getEventsGroupedByModificationRequestId(modificationRequestEvents)
 
-  const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups)
+  const propsArray = Object.entries(modificationRequestGroups)
     .filter(([, events]) => events.find(is('ModificationRequested')))
-    .map(([, events]): ModificationRequestItemProps => {
+    .map(([, events]): ModificationRequestItemProps | undefined => {
       const latestEvent = getLatestEvent(events)
       const requestEvent = getRequestEvent(events)
 
@@ -59,21 +61,24 @@ export const extractModificationRequestsItemProps = (
 
       switch (modificationType) {
         case 'delai':
-          return {
-            type: 'demande-de-modification',
-            date,
-            authority,
-            modificationType,
-            status,
-            role,
-            responseUrl,
-            delayInMonths:
-              latestEvent.type === 'ModificationRequestAccepted' && latestEvent.delayInMonthsGranted
-                ? latestEvent.delayInMonthsGranted
-                : requestEvent.delayInMonths,
-            detailsUrl,
+          if (!['envoyée', 'en instruction'].includes(status)) {
+            return {
+              type: 'demande-de-modification',
+              date,
+              authority,
+              modificationType,
+              status,
+              role,
+              responseUrl,
+              delayInMonths:
+                latestEvent.type === 'ModificationRequestAccepted' &&
+                latestEvent.delayInMonthsGranted
+                  ? latestEvent.delayInMonthsGranted
+                  : requestEvent.delayInMonths,
+              detailsUrl,
+            }
           }
-
+          break
         case 'puissance':
           return {
             type: 'demande-de-modification',
@@ -100,6 +105,9 @@ export const extractModificationRequestsItemProps = (
             detailsUrl,
           }
       }
+    })
+    .filter((item) => {
+      return item !== undefined
     })
 
   return propsArray

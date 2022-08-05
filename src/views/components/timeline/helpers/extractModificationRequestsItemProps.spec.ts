@@ -294,9 +294,8 @@ describe('extractModificationRequestItemProps', () => {
           type: 'ModificationRequested',
           date: new Date('2022-02-09').getTime(),
           variant: 'porteur-projet',
-          modificationType: 'delai',
+          modificationType: 'recours',
           modificationRequestId: modificationRequestId,
-          delayInMonths: 9,
           authority: 'dgec',
         },
         {
@@ -313,9 +312,8 @@ describe('extractModificationRequestItemProps', () => {
         {
           type: 'demande-de-modification',
           date: new Date('2022-02-10').getTime(),
-          delayInMonths: 9,
           status: 'en instruction',
-          modificationType: 'delai',
+          modificationType: 'recours',
           authority: 'dgec',
           role: 'porteur-projet',
           detailsUrl: expect.anything(),
@@ -436,6 +434,53 @@ describe('extractModificationRequestItemProps', () => {
           detailsUrl: expect.anything(),
         },
       ])
+    })
+  })
+
+  describe(`Ne pas retourner de props pour les demandes de délai en statut "envoyée" et "en instruction"
+    (car ces demandes ont été dupliquées en événements de type spécifique 'DemandeDélai')`, () => {
+    describe(`Etant donné une demande de délai de type ModificationRequest "envoyée"`, () => {
+      it(`Le helper ne devrait pas retourner de props pour cet événement`, () => {
+        const projectEventList: ProjectEventDTO[] = [
+          {
+            type: 'ModificationRequested',
+            date: new Date('2022-02-09').getTime(),
+            variant: 'porteur-projet',
+            modificationType: 'delai',
+            modificationRequestId: 'identifiant-demande-délai',
+            delayInMonths: 9,
+            authority: 'dgec',
+          },
+        ]
+
+        const result = extractModificationRequestsItemProps(projectEventList)
+        expect(result).toEqual([])
+      })
+    })
+
+    describe(`Etant donné une demande de délai de type ModificationRequest "en instruction"`, () => {
+      it(`Le helper ne devrait pas retourner de props pour cette demande`, () => {
+        const projectEventList: ProjectEventDTO[] = [
+          {
+            type: 'ModificationRequested',
+            date: new Date('2022-02-09').getTime(),
+            variant: 'porteur-projet',
+            modificationType: 'delai',
+            modificationRequestId: 'identifiant-demande-délai',
+            delayInMonths: 9,
+            authority: 'dgec',
+          },
+          {
+            type: 'ModificationRequestInstructionStarted',
+            date: new Date('2022-02-10').getTime(),
+            variant: 'porteur-projet',
+            modificationRequestId: 'identifiant-demande-délai',
+          },
+        ]
+
+        const result = extractModificationRequestsItemProps(projectEventList)
+        expect(result).toHaveLength(0)
+      })
     })
   })
 })
