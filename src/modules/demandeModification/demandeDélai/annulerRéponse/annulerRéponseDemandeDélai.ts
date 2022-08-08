@@ -42,43 +42,60 @@ export const makeAnnulerRéponseDemandeDélai: MakeAnnulerRéponseDemandeDélai 
             )
           }
           if (statut === 'accordée') {
-            if (demandeDélai.délaiEnMoisAccordé) {
-              return projectRepo
-                .load(new UniqueEntityID(projetId))
-                .andThen(({ completionDueOn }) => {
-                  const nouvelleDateAchèvement = moment(completionDueOn)
-                    .subtract(demandeDélai.délaiEnMoisAccordé, 'month')
-                    .toDate()
-                    .toISOString()
+            projectRepo.load(new UniqueEntityID(projetId)).andThen(({ completionDueOn }) => {
+              if (demandeDélai.délaiEnMoisAccordé) {
+                const nouvelleDateAchèvement = moment(completionDueOn)
+                  .subtract(demandeDélai.délaiEnMoisAccordé, 'month')
+                  .toDate()
+                  .toISOString()
 
-                  return publishToEventStore(
-                    new AccordDemandeDélaiAnnulé({
-                      payload: {
-                        demandeDélaiId,
-                        projetId,
-                        annuléPar: user.id,
-                        nouvelleDateAchèvement,
-                      },
-                    })
-                  )
-                })
-            }
-            if (demandeDélai.ancienneDateThéoriqueAchèvement) {
-              return publishToEventStore(
-                new AccordDemandeDélaiAnnulé({
-                  payload: {
-                    demandeDélaiId,
-                    projetId,
-                    annuléPar: user.id,
-                    nouvelleDateAchèvement: demandeDélai.ancienneDateThéoriqueAchèvement,
-                  },
-                })
-              )
-            }
-            return errAsync(new InfraNotAvailableError())
+                return publishToEventStore(
+                  new AccordDemandeDélaiAnnulé({
+                    payload: {
+                      demandeDélaiId,
+                      projetId,
+                      annuléPar: user.id,
+                      nouvelleDateAchèvement,
+                    },
+                  })
+                )
+              }
+              if (
+                demandeDélai.ancienneDateThéoriqueAchèvement &&
+                demandeDélai.dateAchèvementAccordée
+              ) {
+                const { ancienneDateThéoriqueAchèvement, dateAchèvementAccordée } = demandeDélai
+                const délaiAccordéEnJours = getDays(
+                  ancienneDateThéoriqueAchèvement,
+                  dateAchèvementAccordée
+                )
+
+                const nouvelleDateAchèvement = moment(completionDueOn)
+                  .subtract(délaiAccordéEnJours, 'days')
+                  .toDate()
+                  .toISOString()
+
+                return publishToEventStore(
+                  new AccordDemandeDélaiAnnulé({
+                    payload: {
+                      demandeDélaiId,
+                      projetId,
+                      annuléPar: user.id,
+                      nouvelleDateAchèvement,
+                    },
+                  })
+                )
+              }
+              return errAsync(new InfraNotAvailableError())
+            })
           }
           return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(statut || 'inconnu'))
         }
       )
     })
   }
+
+function getDays(ancienneDate: string, nouvelleDate: string) {
+  const diffInMs = new Date(nouvelleDate).getTime() - new Date(ancienneDate).getTime()
+  return diffInMs / (1000 * 60 * 60 * 24)
+}
