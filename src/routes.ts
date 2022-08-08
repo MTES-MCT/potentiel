@@ -167,6 +167,10 @@ class routes {
   }
   static ADMIN_SIGNALER_DEMANDE_RECOURS_POST = '/admin/signalerDemandeRecours'
 
+  static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = withParams<{
+    modificationRequestId: string
+  }>('/admin/passer-demande-delai-en-instruction')
+
   static SUCCESS_OR_ERROR_PAGE = withParams<{
     success?: string
     error?: string
@@ -188,8 +192,6 @@ class routes {
       return route.replace(':projectId', projectId)
     } else return route
   }
-
-  static DEMANDE_DELAIS = withProjectId('/demande-modification.html?action=delai')
 
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 
