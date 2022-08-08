@@ -44,14 +44,16 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
     - [Avoir un aperçu des pages ou composants visuels avec Storybook](#avoir-un-aperçu-des-pages-ou-composants-visuels-avec-storybook)
   - [Lancer les tests automatisés](#lancer-les-tests-automatisés)
   - [Keycloak](#keycloak)
-- [Déploiement](#déploiement)
-  - [Production](#production)
-  - [Staging / dev / démo](#staging--dev--démo)
-    - [Installation des clever-tools](#installation-des-clever-tools)
+- [Environnements et Déploiement](#environnements-et-déploiement)
+  - [Les environnements](#les-environnements)
+    - [Local](#local)
+    - [Demo](#demo)
+    - [Staging](#staging)
+    - [Production](#production)
+  - [Déploiement](#déploiement)
+    - [Déployer sur Production](#déployer-sur-production)
+  - [Déployer sur Staging / Démo](#déployer-sur-staging--démo)
     - [Déploiement](#déploiement-1)
-  - [Accès à la base de données distantes](#accès-à-la-base-de-données-distantes)
-  - [Créer un dump de base de données](#créer-un-dump-de-base-de-données)
-  - [Restaurer un dump de base de données](#restaurer-un-dump-de-base-de-données)
 
 # Développement en local
 
@@ -108,13 +110,13 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
    ```
 
 4. Se rendre sur [localhost:3000](http://localhost:3000)
-5. Se connecter un des comptes suivants (mot de passe: test):
+5. Se connecter à l'un des comptes suivants (pas de mot de passe nécessaire):
 
 - admin@test.test
 - dreal@test.test
 - porteur@test.test
+- ademe@test.test
 - ao@test.test
-- adem@test.test
 
 ### Import initial de projets dans la base de données locale
 
@@ -234,22 +236,47 @@ Dans les autres environnements (ex: `development`), l'authentification est gér�
 
 Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md).
 
-# Déploiement
+# Environnements et Déploiement
 
-L'application est actuellement déployée chez [Clever Cloud](https://www.clever-cloud.com), qui est un [PaaS](https://fr.wikipedia.org/wiki/Platform_as_a_service).
+## Les environnements
 
-## Production
+### Local
 
-Pour la production, le déploiement se fait de manière automatisée à chaque push de la branche `master`, grace à l'execution d'une [Github Action](.github/workflows/deploy.prod.yml). Il s'agit d'une branche protégée. Il faut donc obligatoirement passer par une PR pour y contribuer.
+Cet environnement est réservé à chaque développeur travaillant sur le projet.
+Il permet de faire les développements sur un environnement sans risque d'altérer la donnée.
+La base de donnée de cet environnement est falsifié, afin d'éviter l'accès à des vrais données projets en cas de perte / vol de l'ordinateur.
+Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. cf
+Pour installer et utiliser cet environnement, il faut suivre cette [documentation](#développement-en-local).
 
-## Staging / dev / démo
+### [Demo](https://demo.potentiel.incubateur.net/)
 
-Une migration pour passer sur Scalingo est en cours. Pour l'instant seule l'instance `staging` est disponible.
-[Voici la démarche à suivre pour faire un déploiement manuel](docs/DEPLOY.md)
+Cet environnement est dédié à la démonstration de l'outil, que ce soit à des fins commerciales ou démonstratives.
+La base de donnée de cet environnement est falsifié, afin d'éviter de présenter des vrais données projets.
+Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. Les comptes tests permettent un accès rapide en tant qu'un certain type d'utilisateur, ils sont disponible [ici](#lancement-de-lapplication-locale)
 
-Pour les environnements de `staging` (recette), de `demo` ou de `dev`, le déploiement est manuel et se fait via l'outil de cli `clever-tools`.
+### [Staging](https://staging.potentiel.incubateur.net/)
 
-### Installation des clever-tools
+Cet environnement est une copie de la production. Il sert essentiellement à faire des tests. La base de donnée de cet environnement est une copie de celle de production.
+Afin de pouvoir se connecter sur cet environnement, il est nécessaire que vous ayez un compte. Pour obtenir celà, il faudra passer par la console de Keycloak (cf [documentation](#keycloak)).
+
+### [Production](https://potentiel.beta.gouv.fr/)
+
+Cet environnement est celui utilisé par nos utilisateurs.
+Afin de pouvoir se connecter sur cet environnement, il est nécessaire que vous ayez un compte. Pour obtenir celà, il faudra passer par la console de Keycloak (cf [documentation](#keycloak)).
+
+## Déploiement
+
+Les différents environnements sur lesquels l'application est hébergée sont en cours de migration de [Clever Cloud](https://www.clever-cloud.com) vers [Scalingo](https://scalingo.com/fr). Tout deux sont des [PaaS](https://fr.wikipedia.org/wiki/Platform_as_a_service)
+
+### Déployer sur Production
+
+L'environnement de production est encore hébergé sur Clever Cloud. Le déploiement se fait de manière autoamtisée à chaque push de la branche `master`, grace à l'execution d'une [Github Action](.github/workflows/deploy.prod.yml). Il s'agit d'une branche protégée. Il faut donc obligatoirement passer par une PR pour y contribuer.
+
+## Déployer sur Staging / Démo
+
+Ces deux environnements sont hébergés sur Scalingo. [Voici la démarche à suivre pour faire un déploiement manuel](docs/DEPLOY.md)
+
+<!--nstallation des clever-tools
 
 ```
 npm install -g clever-tools
@@ -278,7 +305,7 @@ clever deploy -a staging
 
 # S'il y a un message d'erreur par rapport à la branche (non fast-forward)
 clever deploy -a staging --force
-```
+ ``` -->
 
 ## Accès à la base de données distantes
 

@@ -24,6 +24,12 @@ Il suffit d'exécuter la commande git suivante
 
 `git push staging [ma-branche-en-cours-de-dev]:master`
 
+## Pousser une branche en cours de développement sur demo
+
+Il suffit d'exécuter la commande git suivante
+
+`git push demo [ma-branche-en-cours-de-dev]:master`
+
 # Restaurer un dump de la base de donnée
 
 - Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
