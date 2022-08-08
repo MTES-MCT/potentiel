@@ -21,7 +21,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
 
   return (
     <>
-      {statut === 'envoyée' && <CurrentIcon />}
+      {['envoyée', 'en-instruction'].includes(statut) && <CurrentIcon />}
       {statut === 'annulée' && <CancelledStepIcon />}
       {statut === 'rejetée' && <UnvalidatedStepIcon />}
       {statut === 'accordée' && <PastIcon />}
