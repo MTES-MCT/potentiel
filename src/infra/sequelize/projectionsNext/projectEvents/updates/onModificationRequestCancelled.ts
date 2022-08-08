@@ -1,58 +1,24 @@
 import { UniqueEntityID } from '@core/domain'
 import { ModificationRequestCancelled } from '@modules/modificationRequest'
-import { logger } from '@core/utils'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
+import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default ProjectEvent.projector.on(
   ModificationRequestCancelled,
-  async (événement, transaction) => {
+  async (evenement, transaction) => {
     const {
-      payload: { cancelledBy, modificationRequestId },
+      payload: { modificationRequestId, cancelledBy },
       occurredAt,
-    } = événement
+    } = evenement
 
-    const { ModificationRequest } = models
-
-    const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
-      attributes: ['projectId', 'type'],
+    const demandeDélai = await ProjectEvent.findOne({
+      where: { id: modificationRequestId, type: 'DemandeDélai' },
       transaction,
     })
 
-    if (!modificationRequest) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement ModificationRequestCancelled : modificationRequest non trouvée`,
-          {
-            evenement: événement,
-            nomProjection: 'ProjectEvent.onModificationRequestCancelled',
-          }
-        )
-      )
-      return
-    }
-
-    // demandes de délai
-    if (modificationRequest.type === 'delai') {
-      const demandeDélai = await ProjectEvent.findOne({
-        where: { id: modificationRequestId },
-        transaction,
-      })
-
-      if (!demandeDélai) {
-        logger.error(
-          new ProjectionEnEchec(
-            `Erreur lors du traitement de l'événement ModificationRequestCancelled : demande non trouvée`,
-            {
-              evenement: événement,
-              nomProjection: 'ProjectEvent.onModificationRequestCancelled',
-            }
-          )
-        )
-        return
-      }
-
+    if (demandeDélai) {
       try {
         await ProjectEvent.update(
           {
@@ -65,34 +31,42 @@ export default ProjectEvent.projector.on(
               annuléPar: cancelledBy,
             },
           },
-          { where: { id: modificationRequestId }, transaction }
+          { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
         )
+        return
       } catch (e) {
         logger.error(
           new ProjectionEnEchec(
-            `Erreur lors du traitement de l'événement ModificationRequestCancelled à la mise à jour de l'événement de type DemandeDélai`,
+            `Erreur lors du traitement de l'événement ModificationRequestCancelled`,
             {
-              evenement: événement,
+              evenement,
               nomProjection: 'ProjectEvent.onModificationRequestCancelled',
             },
             e
           )
         )
       }
-      return
-    }
+    } else {
+      const { ModificationRequest } = models
 
-    // autres demandes
-    await ProjectEvent.create(
-      {
-        projectId: modificationRequest.projectId,
-        type: 'ModificationRequestCancelled',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
-        payload: { modificationRequestId },
-      },
-      { transaction }
-    )
+      const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
+        attributes: ['projectId'],
+        transaction,
+      })
+
+      if (projectId) {
+        await ProjectEvent.create(
+          {
+            projectId,
+            type: 'ModificationRequestCancelled',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            id: new UniqueEntityID().toString(),
+            payload: { modificationRequestId },
+          },
+          { transaction }
+        )
+      }
+    }
   }
 )

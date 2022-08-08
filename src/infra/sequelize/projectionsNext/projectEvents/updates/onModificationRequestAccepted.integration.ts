@@ -46,7 +46,7 @@ describe('Handler onModificationRequestAccepted', () => {
         expect(projectEvent).toMatchObject({
           type: 'ModificationRequestAccepted',
           projectId,
-          payload: { modificationRequestId, file: {} },
+          payload: { modificationRequestId },
         })
       })
     })
@@ -94,8 +94,6 @@ describe('Handler onModificationRequestAccepted', () => {
       })
       describe(`S'il y a déjà un événement de type DemandeDélai correspondant au même id dans ProjectEvent`, () => {
         it(`Alors le statut de l'événement devrait être mis à jour`, async () => {
-          await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
-
           await ProjectEvent.create({
             id: modificationRequestId,
             projectId,
@@ -119,7 +117,6 @@ describe('Handler onModificationRequestAccepted', () => {
             projectId,
             payload: {
               statut: 'accordée',
-              file: { name: 'filename', id: fileId },
               délaiEnMoisAccordé: 5, // délai accordé différent du délai demandé
             },
           })
