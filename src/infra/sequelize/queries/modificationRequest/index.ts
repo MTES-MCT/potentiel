@@ -7,6 +7,7 @@ export * from './getModificationRequestListForAdmin';
 export * from './getModificationRequestListForPorteur';
 export * from './getModificationRequestRecipient';
 export * from './getModificationRequestStatus';
+export * from './getModificationRequestType';
 export * from './getProjectAppelOffreId';
 export * from './getPuissanceProjet';
 export * from './hasProjectGarantieFinanciere';
