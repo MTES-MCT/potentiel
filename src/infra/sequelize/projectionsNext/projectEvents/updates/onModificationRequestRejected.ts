@@ -12,36 +12,13 @@ export default ProjectEvent.projector.on(
       payload: { modificationRequestId, responseFileId, rejectedBy },
       occurredAt,
     } = evenement
-    const { ModificationRequest } = models
-    const { File } = models
-    const rawFilename = await File.findByPk(responseFileId, {
-      attributes: ['filename'],
+
+    const demandeDélai = await ProjectEvent.findOne({
+      where: { id: modificationRequestId, type: 'DemandeDélai' },
       transaction,
     })
 
-    const filename: string | undefined = rawFilename?.filename
-    const file = filename && { id: responseFileId, name: filename }
-
-    const { projectId, type } = await ModificationRequest.findByPk(modificationRequestId, {
-      attributes: ['projectId', 'type'],
-    })
-
-    if (type === 'delai') {
-      const projectEvent = await ProjectEvent.findOne({
-        where: { id: modificationRequestId },
-        transaction,
-      })
-
-      if (!projectEvent) {
-        logger.error(
-          new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
-            evenement,
-            nomProjection: 'ProjectEvent.onModificationRequestRejected',
-          })
-        )
-        return
-      }
-
+    if (demandeDélai) {
       try {
         await ProjectEvent.update(
           {
@@ -49,13 +26,14 @@ export default ProjectEvent.projector.on(
             eventPublishedAt: occurredAt.getTime(),
             payload: {
               //@ts-ignore
-              ...projectEvent.payload,
+              ...demandeDélai.payload,
               statut: 'rejetée',
               rejetéPar: rejectedBy,
             },
           },
-          { where: { id: modificationRequestId }, transaction }
+          { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
         )
+        return
       } catch (e) {
         logger.error(
           new ProjectionEnEchec(
@@ -69,7 +47,22 @@ export default ProjectEvent.projector.on(
         )
       }
     } else {
+      const { ModificationRequest } = models
+
+      const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
+        attributes: ['projectId'],
+      })
+
       if (projectId) {
+        const { File } = models
+        const rawFilename = await File.findByPk(responseFileId, {
+          attributes: ['filename'],
+          transaction,
+        })
+
+        const filename: string | undefined = rawFilename?.filename
+        const file = filename && { id: responseFileId, name: filename }
+
         await ProjectEvent.create(
           {
             projectId,
