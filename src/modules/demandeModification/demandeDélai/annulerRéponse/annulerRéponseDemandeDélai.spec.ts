@@ -134,6 +134,11 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
           const shouldUserAccessProject = jest.fn(async () => true)
 
           const ancienneDateThéoriqueAchèvement = new Date('2024-01-01').toISOString()
+          const dateAchèvementAccordée = new Date('2024-01-10').toISOString() // 9 jours de délai
+
+          const projectRepo = fakeRepo(
+            makeFakeProject({ completionDueOn: new Date('2025-01-19').getTime() })
+          )
 
           const demandeDélaiRepo = fakeTransactionalRepo(
             makeFakeDemandeDélai({
@@ -141,6 +146,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
               statut: 'accordée',
               id: 'id-demande',
               ancienneDateThéoriqueAchèvement,
+              dateAchèvementAccordée,
             })
           )
 
@@ -163,7 +169,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
                 demandeDélaiId: 'id-demande',
                 annuléPar: 'user-id',
                 projetId: 'id-du-projet',
-                nouvelleDateAchèvement: ancienneDateThéoriqueAchèvement,
+                nouvelleDateAchèvement: new Date('2025-01-10').toISOString(), // completionDueOn - 9 jours
               }),
             })
           )
