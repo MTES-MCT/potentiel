@@ -19,13 +19,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       <div>
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>
-      {justification && (
-        <div className="italic mt-2">
-          {'"'}
-          {justification}
-          {'"'}
-        </div>
-      )}
+      {justification && <div className="italic mt-2">{`"${justification}"`}</div>}
       <DetailsByType modificationRequest={modificationRequest} />
       {attachmentFile && (
         <div className="mt-4">
