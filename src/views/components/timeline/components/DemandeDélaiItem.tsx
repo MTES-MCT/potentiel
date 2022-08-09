@@ -17,7 +17,11 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
   const { date, demandeUrl, statut } = props
 
   const titre =
-    statut === 'envoyée' ? 'Délai supplémentaire demandé' : `Demande délai supplémentaire ${statut}`
+    statut === 'envoyée'
+      ? 'Délai supplémentaire demandé'
+      : statut === 'en-instruction'
+      ? 'Demande de délai supplémentaire en instruction'
+      : `Demande de délai supplémentaire ${statut}`
 
   return (
     <>
