@@ -5,7 +5,10 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { UserRole } from '@modules/users'
 
 import { User } from '@entities'
+
 import { makePasserDemandeDélaiEnInstruction } from './PasserEnInstruction'
+import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError'
+import { StatutDemandeDélai } from '../DemandeDélai'
 
 import {
   fakeRepo,
@@ -30,11 +33,9 @@ describe(`Passer une demande de délai en instruction`, () => {
         'porteur-projet',
       ]
 
-      const shouldUserAccessProject = jest.fn(async () => false)
       const demandeDélai = makeFakeDemandeDélai({ projetId })
 
       const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
-        shouldUserAccessProject,
         publishToEventStore,
         demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
       })
@@ -51,6 +52,46 @@ describe(`Passer une demande de délai en instruction`, () => {
             demandeDélaiId,
           })
           expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+          expect(publishToEventStore).not.toHaveBeenCalled()
+        })
+      }
+    })
+  })
+
+  describe(`Impossible de passer en instruction une demande avec un statut autre que 'envoyée'`, () => {
+    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+      const user = { role: 'admin' } as User
+
+      const statutsNePouvantPasPasserLaDemandeEnInstruction: StatutDemandeDélai[] = [
+        'accordée',
+        'refusée',
+        'annulée',
+        'en-instruction',
+      ]
+
+      for (const statut of statutsNePouvantPasPasserLaDemandeEnInstruction) {
+        const demandeDélai = makeFakeDemandeDélai({ projetId, statut })
+
+        it(`
+      Lorsque l'utilisateur passe une demande de délai avec comme statut '${statut}'
+      Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
+      Et aucun évènement ne devrait être publié dans le store`, async () => {
+          const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
+            publishToEventStore,
+            demandeDélaiRepo: {
+              ...fakeTransactionalRepo(demandeDélai),
+              ...fakeRepo(demandeDélai),
+            },
+          })
+
+          const res = await passerDemandeDélaiEnInstruction({
+            user,
+            demandeDélaiId,
+          })
+
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(
+            PasserEnInstructionDemandeDélaiStatutIncompatibleError
+          )
           expect(publishToEventStore).not.toHaveBeenCalled()
         })
       }

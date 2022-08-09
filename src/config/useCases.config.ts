@@ -339,7 +339,6 @@ export const annulerRéponseDemandeDélai = makeAnnulerRéponseDemandeDélai({
 })
 
 export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })

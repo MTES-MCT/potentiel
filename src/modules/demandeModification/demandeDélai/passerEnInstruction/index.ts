@@ -1,1 +1,2 @@
-export * from './PasserEnInstruction'
+export * from './PasserEnInstruction';
+export * from './PasserEnInstructionDemandeDélaiStatutIncompatibleError';
