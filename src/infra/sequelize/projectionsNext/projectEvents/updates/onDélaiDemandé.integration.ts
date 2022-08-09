@@ -4,7 +4,7 @@ import { ProjectEvent } from '../projectEvent.model'
 import onDélaiDemandé from './onDélaiDemandé'
 
 describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
-  describe(``, () => {
+  describe(`Création de la demande de délai dans la frise`, () => {
     it(`Lorsqu'on émet un événement DélaiDemandé
         Alors une nouvelle entrée de type "DemandeDélai" avec un statut "envoyée" devrait être enregistrée.`, async () => {
       const demandeDélaiId = new UniqueEntityID().toString()
@@ -38,7 +38,9 @@ describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
         },
       })
     })
-    it(`Étant donné une demande de déali déjà existante avec un délai en mois
+  })
+  describe(`Mise à jour de la demande de délai dans la frise`, () => {
+    it(`Étant donné une demande de délai déjà existante avec un délai en mois
         Lorsqu'on émet un événement DélaiDemandé pour cette même demande
         Alors une nouvelle entrée de type "DemandeDélai" avec une date d'achèvement demandée devrait être enregistrée.`, async () => {
       const demandeDélaiId = new UniqueEntityID().toString()
