@@ -5,6 +5,7 @@ import {
   CancelledStepIcon,
   ContentArea,
   CurrentIcon,
+  InfoItem,
   ItemDate,
   ItemTitle,
   PastIcon,
@@ -14,7 +15,7 @@ import {
 type DemandeDélaiItemProps = DemandeDélaiDTO
 
 export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
-  const { date, demandeUrl, statut } = props
+  const { date, demandeUrl, statut, actionRequise } = props
 
   const titre =
     statut === 'envoyée'
@@ -31,7 +32,16 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
       {statut === 'accordée' && <PastIcon />}
 
       <ContentArea>
-        <ItemDate date={date} />
+        <div className="flex">
+          <div className="align-center">
+            <ItemDate date={date} />
+          </div>
+          {actionRequise && (
+            <div className="align-center mb-1">
+              <InfoItem message={actionRequise} />
+            </div>
+          )}
+        </div>
         <>
           <ItemTitle title={titre} />
           <p className="p-0 m-0">

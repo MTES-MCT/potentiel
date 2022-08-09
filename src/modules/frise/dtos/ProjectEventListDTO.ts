@@ -385,6 +385,7 @@ export type DemandeDélaiDTO = {
   variant: Exclude<UserRole, 'ademe'>
   date: number
   demandeUrl?: string
+  actionRequise?: 'à traiter' | 'réponse à envoyer'
 } & (
   | { dateAchèvementDemandée: string; délaiEnMoisDemandé?: undefined }
   | { dateAchèvementDemandée?: undefined; délaiEnMoisDemandé: number }
