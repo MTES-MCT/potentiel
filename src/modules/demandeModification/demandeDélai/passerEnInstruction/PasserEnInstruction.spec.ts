@@ -97,4 +97,39 @@ describe(`Passer une demande de délai en instruction`, () => {
       }
     })
   })
+
+  describe(`Passer une demande de délai en instruction`, () => {
+    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+      const user = { role: 'admin' } as User
+
+      it(`
+      Lorsqu'il passe une demande de délai en instruction
+      Alors l'évenement 'ModificationRequestInstructionStarted' devrait être publié dans le store`, async () => {
+        const demandeDélai = makeFakeDemandeDélai({ projetId })
+
+        const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
+          publishToEventStore,
+          demandeDélaiRepo: {
+            ...fakeTransactionalRepo(demandeDélai),
+            ...fakeRepo(demandeDélai),
+          },
+        })
+
+        const res = await passerDemandeDélaiEnInstruction({
+          user,
+          demandeDélaiId,
+        })
+
+        expect(res.isOk()).toBe(true)
+        expect(publishToEventStore).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'ModificationRequestInstructionStarted',
+            payload: expect.objectContaining({
+              modificationRequestId: demandeDélaiId,
+            }),
+          })
+        )
+      })
+    })
+  })
 })

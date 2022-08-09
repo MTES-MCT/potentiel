@@ -4,6 +4,7 @@ import { ResultAsync, errAsync } from '@core/utils'
 
 import { userIsNot } from '@modules/users'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest/events'
 
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError'
 import { DemandeDélai } from '../DemandeDélai'
@@ -31,13 +32,20 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
       return errAsync(new UnauthorizedError())
     }
 
-    return demandeDélaiRepo.load(new UniqueEntityID(demandeDélaiId)).andThen((demandeDélai) => {
-      const { statut } = demandeDélai
+    return demandeDélaiRepo.transaction(
+      new UniqueEntityID(demandeDélaiId),
+      ({ statut = undefined }) => {
+        if (!statut || statut !== 'envoyée') {
+          return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError())
+        }
 
-      if (!statut || statut !== 'envoyée') {
-        return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError(statut))
+        return publishToEventStore(
+          new ModificationRequestInstructionStarted({
+            payload: {
+              modificationRequestId: demandeDélaiId,
+            },
+          })
+        )
       }
-
-      return null
-    })
+    )
   }
