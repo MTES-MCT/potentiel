@@ -2,6 +2,7 @@ import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
 import { ModificationRequestAccepted } from '@modules/modificationRequest'
 import { ProjectionEnEchec } from '@modules/shared'
+import { Transaction } from 'sequelize'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 
@@ -56,14 +57,7 @@ export default ProjectEvent.projector.on(
       })
 
       if (projectId) {
-        const { File } = models
-        const rawFilename = await File.findByPk(responseFileId, {
-          attributes: ['filename'],
-          transaction,
-        })
-
-        const filename: string | undefined = rawFilename?.filename
-        const file = filename && { id: responseFileId, name: filename }
+        const file = responseFileId && getFile(responseFileId, transaction)
 
         await ProjectEvent.create(
           {
@@ -80,3 +74,16 @@ export default ProjectEvent.projector.on(
     }
   }
 )
+
+const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
+  const { File } = models
+  const rawFilename = await File.findByPk(responseFileId, {
+    attributes: ['filename'],
+    transaction,
+  })
+
+  const filename: string | undefined = rawFilename?.filename
+  const file = filename && { id: responseFileId, name: filename }
+
+  return file
+}
