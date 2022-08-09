@@ -6,6 +6,7 @@ import {
   makeAnnulerRéponseDemandeDélai,
   makeDemanderDélai,
   makeRejeterDemandeDélai,
+  makePasserDemandeDélaiEnInstruction,
 } from '@modules/demandeModification'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
@@ -335,4 +336,10 @@ export const annulerRéponseDemandeDélai = makeAnnulerRéponseDemandeDélai({
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
   projectRepo,
+})
+
+export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeDélaiRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
 })
