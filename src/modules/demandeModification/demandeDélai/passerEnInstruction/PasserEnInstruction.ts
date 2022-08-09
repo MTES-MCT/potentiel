@@ -1,8 +1,7 @@
 import { User } from '@entities'
 import { EventStore, TransactionalRepository, Repository, UniqueEntityID } from '@core/domain'
-import { ResultAsync, errAsync } from '@core/utils'
+import { ResultAsync, errAsync, wrapInfra } from '@core/utils'
 
-import { userIsNot } from '@modules/users'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest/events'
 
@@ -21,30 +20,41 @@ type PasserDemandeDélaiEnInstruction = (commande: {
 >
 
 type MakePasserDemandeDélaiEnInstruction = (dépendances: {
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
 }) => PasserDemandeDélaiEnInstruction
 
 export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInstruction =
-  ({ demandeDélaiRepo, publishToEventStore }) =>
+  ({ demandeDélaiRepo, publishToEventStore, shouldUserAccessProject }) =>
   ({ user, demandeDélaiId }) => {
-    if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
-      return errAsync(new UnauthorizedError())
-    }
-
     return demandeDélaiRepo.transaction(
       new UniqueEntityID(demandeDélaiId),
-      ({ statut = undefined }) => {
+      ({ statut = undefined, projetId = undefined }) => {
+        if (!projetId) {
+          return errAsync(new InfraNotAvailableError())
+        }
+
         if (!statut || statut !== 'envoyée') {
           return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError())
         }
 
-        return publishToEventStore(
-          new ModificationRequestInstructionStarted({
-            payload: {
-              modificationRequestId: demandeDélaiId,
-            },
-          })
+        return wrapInfra(shouldUserAccessProject({ projectId: projetId, user })).andThen(
+          (
+            userHasRightsToProject
+          ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+            if (!userHasRightsToProject) {
+              return errAsync(new UnauthorizedError())
+            }
+
+            return publishToEventStore(
+              new ModificationRequestInstructionStarted({
+                payload: {
+                  modificationRequestId: demandeDélaiId,
+                },
+              })
+            )
+          }
         )
       }
     )

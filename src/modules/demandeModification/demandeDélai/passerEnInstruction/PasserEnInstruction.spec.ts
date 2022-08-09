@@ -6,7 +6,7 @@ import { UserRole } from '@modules/users'
 
 import { User } from '@entities'
 
-import { makePasserDemandeDélaiEnInstruction } from './PasserEnInstruction'
+import { makePasserDemandeDélaiEnInstruction } from './passerEnInstruction'
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError'
 import { StatutDemandeDélai } from '../DemandeDélai'
 
@@ -24,39 +24,6 @@ describe(`Passer une demande de délai en instruction`, () => {
   const projetId = 'projet-id'
 
   beforeEach(() => publishToEventStore.mockClear())
-
-  describe(`Impossible si utilisateur non Admin/dgec/dreal`, () => {
-    describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
-      const rolesNePouvantPasPasserUneDemandeDélaiEnInstruction: UserRole[] = [
-        'acheteur-obligé',
-        'ademe',
-        'porteur-projet',
-      ]
-
-      const demandeDélai = makeFakeDemandeDélai({ projetId })
-
-      const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
-        publishToEventStore,
-        demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
-      })
-
-      for (const role of rolesNePouvantPasPasserUneDemandeDélaiEnInstruction) {
-        const user = { role } as User
-
-        it(`
-        Lorsque l'utilisateur ${role} passe une demande de délai en instruction
-        Alors une erreur UnauthorizedError devrait être retournée
-        Et aucun évènement ne devrait être publié dans le store`, async () => {
-          const res = await passerDemandeDélaiEnInstruction({
-            user,
-            demandeDélaiId,
-          })
-          expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-          expect(publishToEventStore).not.toHaveBeenCalled()
-        })
-      }
-    })
-  })
 
   describe(`Impossible de passer en instruction une demande avec un statut autre que 'envoyée'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
