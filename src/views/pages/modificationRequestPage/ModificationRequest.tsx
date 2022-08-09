@@ -49,7 +49,8 @@ export const ModificationRequest = PageLayout(
       !modificationRequest.cancelledOn &&
       status !== 'information validée'
 
-    const showPasserEnInstructionButton = showFormulaireAdministrateur && type === 'delai'
+    const showPasserEnInstructionButton =
+      showFormulaireAdministrateur && type === 'delai' && status === 'envoyée'
 
     return (
       <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
@@ -71,13 +72,24 @@ export const ModificationRequest = PageLayout(
           <div className="panel__header">
             <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
             {showPasserEnInstructionButton && (
-              <a
-                href={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
+              <form
+                method="post"
+                action={ROUTES.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION({
                   modificationRequestId: modificationRequest.id,
                 })}
+                className="m-0"
               >
-                Commencer l'instruction de la demande
-              </a>
+                <Button
+                  type="submit"
+                  onClick={(e) => {
+                    if (!confirm('Confirmer la validation de la demande ?')) {
+                      e.preventDefault()
+                    }
+                  }}
+                >
+                  Passer en instruction
+                </Button>
+              </form>
             )}
           </div>
 

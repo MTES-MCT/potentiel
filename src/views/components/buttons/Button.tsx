@@ -5,7 +5,6 @@ type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
   primary?: true
   disabled?: boolean
   name?: string
-  onClick?: () => void
 }
 
 export const Button = ({
