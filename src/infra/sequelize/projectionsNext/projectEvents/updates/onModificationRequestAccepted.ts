@@ -57,7 +57,7 @@ export default ProjectEvent.projector.on(
       })
 
       if (projectId) {
-        const file = responseFileId && getFile(responseFileId, transaction)
+        const file = responseFileId && (await getFile(responseFileId, transaction))
 
         await ProjectEvent.create(
           {
