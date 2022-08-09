@@ -6,9 +6,7 @@
   },
   "extends": [
     "plugin:react/recommended",
-    "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/react"
+    "prettier"
   ],
   // Prevent ESLint from yelling at chai assertions (e.g : expect(undefined).to.be.undefined)
   "overrides": [
