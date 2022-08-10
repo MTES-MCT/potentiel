@@ -1,11 +1,11 @@
 import React from 'react'
 
-type FormulaireChampsObligatoireLégendeProps = React.HTMLAttributes<HTMLDivElement> & {
-  className?: string
-}
+type FormulaireChampsObligatoireLégendeProps = React.HTMLAttributes<HTMLDivElement>
 
-export const FormulaireChampsObligatoireLégende = ({
-  className = '',
-}: FormulaireChampsObligatoireLégendeProps) => (
-  <div className={`text-red-500 ${className}`}>* champs obligatoires</div>
+export const FormulaireChampsObligatoireLégende = (
+  props: FormulaireChampsObligatoireLégendeProps
+) => (
+  <div {...props} className={`text-red-500 ${props.className || ''}`}>
+    * champs obligatoires
+  </div>
 )

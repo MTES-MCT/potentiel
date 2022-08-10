@@ -17,7 +17,7 @@ type ComponentProps = GFItemProps & {
 export const GFItem = (props: ComponentProps) => {
   const { status, project } = props
 
-  switch ('due') {
+  switch (status) {
     case 'pending-validation':
       return <Submitted {...{ ...props, status, project }} />
 
