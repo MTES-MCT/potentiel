@@ -83,7 +83,11 @@ export const ModificationRequest = PageLayout(
                   name="modificationRequestId"
                   value={modificationRequest.id}
                   onClick={(e) => {
-                    if (!confirm('Confirmer la validation de la demande ?')) {
+                    if (
+                      !confirm(
+                        'Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
+                      )
+                    ) {
                       e.preventDefault()
                     }
                   }}

@@ -5,7 +5,7 @@ import { ProjectEvent } from '../projectEvent.model'
 export default ProjectEvent.projector.on(
   DélaiEnInstruction,
   async ({ payload, occurredAt }, transaction) => {
-    const { demandeDélaiId, modifiéPar, projetId } = payload
+    const { demandeDélaiId, modifiéPar } = payload
 
     const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
 
