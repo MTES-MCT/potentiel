@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '@routes'
-import { Button, Input } from '../..'
+import { Button, FormulaireChampsObligatoireLégende, Input, Label } from '../..'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
 import { format } from 'date-fns'
@@ -90,12 +90,15 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           action={ROUTES.DEPOSER_ETAPE_ACTION}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
+          <FormulaireChampsObligatoireLégende className="text-right" />
           <input type="hidden" name="type" id="type" value="ptf" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de la signature</label>
+            <Label htmlFor="stepDate" required>
+              Date de la signature
+            </Label>
             <Input
               type="date"
               id="stepDate"
@@ -105,7 +108,9 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Document*</label>
+            <Label htmlFor="file" required>
+              Document
+            </Label>
             <Input type="file" name="file" id="file" required />
             <span className="italic">
               * Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
