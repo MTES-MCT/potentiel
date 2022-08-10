@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
+import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.'
 import ROUTES from '@routes'
 import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
-import { GFItemProps } from '../helpers/extractGFItemProps'
+import { GFItemProps } from '../helpers'
 import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
-import { Input } from '../../inputs'
-import { Button } from '../../buttons'
+import { Button, FormulaireChampsObligatoireLégende, Input, Label } from '@components'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
 }
+
 export const GFItem = (props: ComponentProps) => {
   const { status, project } = props
 
-  switch (status) {
+  switch ('due') {
     case 'pending-validation':
       return <Submitted {...{ ...props, status, project }} />
 
@@ -162,10 +162,13 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
+          <FormulaireChampsObligatoireLégende className="ml-auto" />
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de constitution</label>
+            <Label required htmlFor="stepDate">
+              Date de constitution
+            </Label>
             <Input
               type="date"
               name="stepDate"
@@ -175,11 +178,15 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
+            <Label required htmlFor="expirationDate">
+              Date d'échéance de la garantie
+            </Label>
             <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
-            <label htmlFor="file">Attestation</label>
+            <Label required htmlFor="file">
+              Attestation
+            </Label>
             <Input type="file" name="file" id="file" required />
           </div>
           <p className="m-0 mt-3 italic">
@@ -287,10 +294,13 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
+          <FormulaireChampsObligatoireLégende className="ml-auto" />
           <input type="hidden" name="type" id="type" value="garanties-financieres" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de constitution</label>
+            <Label required htmlFor="stepDate">
+              Date de constitution
+            </Label>
             <Input
               type="date"
               name="stepDate"
@@ -300,11 +310,15 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
             />
           </div>
           <div>
-            <label htmlFor="expirationDate">Date d'échéance de la garantie*</label>
+            <Label required htmlFor="expirationDate">
+              Date d'échéance de la garantie
+            </Label>
             <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
-            <label htmlFor="file">Attestation{isPorteur && <span>**</span>}</label>
+            <Label required htmlFor="file">
+              Attestation{isPorteur && <span>**</span>}
+            </Label>
             <Input type="file" name="file" id="file" required />
             <p className="m-0 mt-3 italic">
               *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
@@ -390,9 +404,12 @@ const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormPro
       method="POST"
       className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
     >
+      <FormulaireChampsObligatoireLégende className="ml-auto" />
       <input name="projectId" value={projectId} readOnly hidden />
-      <label htmlFor="expirationDate">Date d'échéance des garanties financières*</label>
-      <Input type="date" name="expirationDate" id="expirationDate" />
+      <Label htmlFor="expirationDate" required>
+        Date d'échéance des garanties financières
+      </Label>
+      <Input required type="date" name="expirationDate" id="expirationDate" />
       <p className="italic">
         *A noter : la garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
         d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
