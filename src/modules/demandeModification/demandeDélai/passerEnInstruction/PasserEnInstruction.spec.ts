@@ -106,7 +106,7 @@ describe(`Passer une demande de délai en instruction`, () => {
 
       it(`
       Lorsqu'il passe une demande de délai en instruction
-      Alors l'évenement 'ModificationRequestInstructionStarted' devrait être publié dans le store`, async () => {
+      Alors l'évenement 'DélaiEnInstruction' devrait être publié dans le store`, async () => {
         const demandeDélai = makeFakeDemandeDélai({ projetId, statut: 'envoyée' })
 
         const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
@@ -126,9 +126,9 @@ describe(`Passer une demande de délai en instruction`, () => {
         expect(res.isOk()).toBe(true)
         expect(publishToEventStore).toHaveBeenCalledWith(
           expect.objectContaining({
-            type: 'ModificationRequestInstructionStarted',
+            type: 'DélaiEnInstruction',
             payload: expect.objectContaining({
-              modificationRequestId: demandeDélaiId,
+              demandeDélaiId,
             }),
           })
         )

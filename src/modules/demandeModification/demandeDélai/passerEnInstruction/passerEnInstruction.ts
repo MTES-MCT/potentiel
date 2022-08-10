@@ -3,7 +3,7 @@ import { EventStore, TransactionalRepository, Repository, UniqueEntityID } from 
 import { ResultAsync, errAsync, wrapInfra } from '@core/utils'
 
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest/events'
+import { DélaiEnInstruction } from '@modules/demandeModification/demandeDélai/events'
 
 import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError'
 import { DemandeDélai } from '../DemandeDélai'
@@ -47,9 +47,9 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
             }
 
             return publishToEventStore(
-              new ModificationRequestInstructionStarted({
+              new DélaiEnInstruction({
                 payload: {
-                  modificationRequestId: demandeDélaiId,
+                  demandeDélaiId,
                 },
               })
             )
