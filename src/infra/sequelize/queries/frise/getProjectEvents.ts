@@ -38,7 +38,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         events: await rawEvents
           .map((item) => item.get())
           .reduce<Promise<ProjectEventDTO[]>>(
-            async (eventsPromise, { type, valueDate, payload }) => {
+            async (eventsPromise, { type, valueDate, payload, id }) => {
               const events: ProjectEventDTO[] = await eventsPromise
               switch (type) {
                 case 'ProjectImported':
@@ -342,7 +342,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
                 case 'DemandeDélai':
                   if (userIsNot('ademe')(user)) {
-                    const { statut, dateAchèvementDemandée, demandeDélaiId, authority } = payload
+                    const { statut, dateAchèvementDemandée, autorité } = payload
                     events.push({
                       type,
                       variant: user.role,
@@ -354,9 +354,17 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
                       }),
                       ...((userIs(['porteur-projet', 'admin', 'dgec'])(user) ||
-                        (userIs('dreal') && authority === 'dreal')) && {
-                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                        (userIs('dreal') && autorité === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                       }),
+                      ...(statut === 'envoyée' &&
+                        (user === autorité || (userIs('admin') && autorité === 'dgec')) && {
+                          actionRequise: 'à traiter',
+                        }),
+                      ...(statut === 'en-instruction' &&
+                        (user === autorité || (userIs('admin') && autorité === 'dgec')) && {
+                          actionRequise: 'réponse à envoyer',
+                        }),
                     })
                   }
                   break

@@ -384,16 +384,29 @@ export type DemandeDélaiDTO = {
   type: 'DemandeDélai'
   variant: Exclude<UserRole, 'ademe'>
   date: number
-  demandeUrl: any
-  dateAchèvementDemandée: number
+  demandeUrl?: string
+  actionRequise?: 'à traiter' | 'réponse à envoyer'
 } & (
-  | { statut: 'envoyée' | 'annulée' | 'rejetée' }
-  | {
-      statut: 'accordée'
-      dateAchèvementAccordée: string
-      ancienneDateThéoriqueAchèvement: string
-    }
-)
+  | { dateAchèvementDemandée: string; délaiEnMoisDemandé?: undefined }
+  | { dateAchèvementDemandée?: undefined; délaiEnMoisDemandé: number }
+) &
+  (
+    | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
+    | ({
+        statut: 'accordée'
+      } & (
+        | {
+            délaiEnMoisAccordé?: undefined
+            dateAchèvementAccordée: string
+            ancienneDateThéoriqueAchèvement: string
+          }
+        | {
+            délaiEnMoisAccordé: number
+            dateAchèvementAccordée?: undefined
+            ancienneDateThéoriqueAchèvement?: undefined
+          }
+      ))
+  )
 
 export type ProjectEventListDTO = {
   project: {

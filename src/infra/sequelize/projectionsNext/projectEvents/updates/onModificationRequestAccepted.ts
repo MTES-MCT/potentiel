@@ -1,49 +1,89 @@
 import { UniqueEntityID } from '@core/domain'
+import { logger } from '@core/utils'
 import { ModificationRequestAccepted } from '@modules/modificationRequest'
+import { ProjectionEnEchec } from '@modules/shared'
+import { Transaction } from 'sequelize'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 
 export default ProjectEvent.projector.on(
   ModificationRequestAccepted,
-  async (
-    { payload: { modificationRequestId, responseFileId, params }, occurredAt },
-    transaction
-  ) => {
-    const { ModificationRequest } = models
-    const { File } = models
-    let file: {} | undefined = {}
+  async (evenement, transaction) => {
+    const {
+      payload: { modificationRequestId, responseFileId, acceptedBy, params },
+      occurredAt,
+    } = evenement
 
-    if (responseFileId) {
-      const rawFilename = await File.findByPk(responseFileId, {
-        attributes: ['filename'],
-        transaction,
-      })
-      const filename = rawFilename?.filename
-      file = filename && { id: responseFileId, name: filename }
-    }
-
-    const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
-      attributes: ['projectId'],
+    const demandeDélai = await ProjectEvent.findOne({
+      where: { id: modificationRequestId, type: 'DemandeDélai' },
       transaction,
     })
 
-    if (projectId) {
-      await ProjectEvent.create(
-        {
-          projectId,
-          type: 'ModificationRequestAccepted',
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-          id: new UniqueEntityID().toString(),
-          payload: {
-            modificationRequestId,
-            file,
-            ...(params &&
-              params.type === 'delai' && { delayInMonthsGranted: params.delayInMonths }),
+    if (demandeDélai && params?.type === 'delai') {
+      try {
+        await ProjectEvent.update(
+          {
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            payload: {
+              //@ts-ignore
+              ...demandeDélai.payload,
+              statut: 'accordée',
+              accordéPar: acceptedBy,
+              délaiEnMoisAccordé: params.delayInMonths,
+            },
           },
-        },
-        { transaction }
-      )
+          { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
+        )
+        return
+      } catch (e) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement ModificationRequestAccepted`,
+            {
+              evenement,
+              nomProjection: 'ProjectEvent.onModificationRequestAccepted',
+            },
+            e
+          )
+        )
+      }
+    } else {
+      const { ModificationRequest } = models
+
+      const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
+        attributes: ['projectId'],
+        transaction,
+      })
+
+      if (projectId) {
+        const file = responseFileId && (await getFile(responseFileId, transaction))
+
+        await ProjectEvent.create(
+          {
+            projectId,
+            type: 'ModificationRequestAccepted',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            id: new UniqueEntityID().toString(),
+            payload: { modificationRequestId, file },
+          },
+          { transaction }
+        )
+      }
     }
   }
 )
+
+const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
+  const { File } = models
+  const rawFilename = await File.findByPk(responseFileId, {
+    attributes: ['filename'],
+    transaction,
+  })
+
+  const filename: string | undefined = rawFilename?.filename
+  const file = filename && { id: responseFileId, name: filename }
+
+  return file
+}

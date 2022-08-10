@@ -6,22 +6,40 @@ export default ProjectEvent.projector.on(
   async ({ payload, occurredAt }, transaction) => {
     const { demandeDélaiId, projetId, autorité, dateAchèvementDemandée, porteurId } = payload
 
-    await ProjectEvent.create(
-      {
-        id: demandeDélaiId,
-        projectId: projetId,
-        type: 'DemandeDélai',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        payload: {
-          statut: 'envoyée',
-          autorité,
-          dateAchèvementDemandée,
-          demandeur: porteurId,
-          demandeDélaiId,
+    const demandeDélai = await ProjectEvent.findOne({
+      where: { id: demandeDélaiId, type: 'DemandeDélai' },
+      transaction,
+    })
+
+    if (demandeDélai) {
+      await ProjectEvent.update(
+        {
+          payload: {
+            statut: 'envoyée',
+            autorité,
+            dateAchèvementDemandée,
+            demandeur: porteurId,
+          },
         },
-      },
-      { transaction }
-    )
+        { where: { id: demandeDélaiId }, transaction }
+      )
+    } else {
+      await ProjectEvent.create(
+        {
+          id: demandeDélaiId,
+          projectId: projetId,
+          type: 'DemandeDélai',
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload: {
+            statut: 'envoyée',
+            autorité,
+            dateAchèvementDemandée,
+            demandeur: porteurId,
+          },
+        },
+        { transaction }
+      )
+    }
   }
 )
