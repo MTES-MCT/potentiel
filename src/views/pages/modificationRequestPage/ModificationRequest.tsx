@@ -8,7 +8,6 @@ import {
   Button,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import routes from '@routes'
 import ROUTES from '@routes'
 import { Request } from 'express'
 import moment from 'moment'
@@ -81,6 +80,8 @@ export const ModificationRequest = PageLayout(
               >
                 <Button
                   type="submit"
+                  name="modificationRequestId"
+                  value={modificationRequest.id}
                   onClick={(e) => {
                     if (!confirm('Confirmer la validation de la demande ?')) {
                       e.preventDefault()

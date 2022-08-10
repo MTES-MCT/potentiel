@@ -1,7 +1,7 @@
 import { makeCertificateFilename } from '@modules/project'
 import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
-import type { Project, ModificationRequest } from './entities'
+import type { Project } from './entities'
 
 const withParams =
   <T extends Record<string, any>>(url: string) =>
@@ -167,12 +167,10 @@ class routes {
   }
   static ADMIN_SIGNALER_DEMANDE_RECOURS_POST = '/admin/signalerDemandeRecours'
 
-  static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = (
-    modificationRequestId?: ModificationRequest['id']
-  ) => {
+  static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/passer-demande-delai-en-instruction'
-    if (modificationRequestId) {
-      return route.replace(':modificationRequestId', modificationRequestId)
+    if (args) {
+      return route.replace(':modificationRequestId', args.modificationRequestId)
     } else return route
   }
 

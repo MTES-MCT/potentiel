@@ -34,7 +34,6 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
         if (!projetId) {
           return errAsync(new InfraNotAvailableError())
         }
-
         if (!statut || statut !== 'envoyée') {
           return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError())
         }
