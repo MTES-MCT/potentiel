@@ -2,7 +2,6 @@ import { okAsync } from '@core/utils'
 import { DomainEvent } from '@core/domain'
 
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { UserRole } from '@modules/users'
 
 import { User } from '@entities'
 
@@ -129,6 +128,8 @@ describe(`Passer une demande de délai en instruction`, () => {
             type: 'DélaiEnInstruction',
             payload: expect.objectContaining({
               demandeDélaiId,
+              modifiéPar: user.id,
+              projetId,
             }),
           })
         )

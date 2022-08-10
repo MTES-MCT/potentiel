@@ -2,6 +2,8 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type DélaiEnInstructionPayload = {
   demandeDélaiId: string
+  modifiéPar: string
+  projetId: string
 }
 
 export class DélaiEnInstruction

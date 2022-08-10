@@ -50,6 +50,8 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
               new DélaiEnInstruction({
                 payload: {
                   demandeDélaiId,
+                  modifiéPar: user.id,
+                  projetId,
                 },
               })
             )
