@@ -8,7 +8,7 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/modificationRequest'
-import { Astérisque } from '@components'
+import { Astérisque, Label } from '@components'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -90,18 +90,16 @@ export const ChangementPuissance = ({
       )}
 
       <div className="mt-4">
-        <label className="mt-4" htmlFor="justification">
-          <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>{' '}
-          <Astérisque />
+        <Label htmlFor="justification" className="mt-4">
+          <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
           <br />
           Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
           conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
-        </label>
+        </Label>
         <textarea
           name="justification"
           id="justification"
           defaultValue={justification || ''}
-          required={true}
           {...dataId('modificationRequest-justificationField')}
         />
         <label htmlFor="candidats" className="mt-4">

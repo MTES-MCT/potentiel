@@ -1,4 +1,4 @@
-import { Astérisque } from '@components'
+import { Label } from '@components'
 import { Project } from '@entities'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
@@ -164,7 +164,6 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
         {...dataId('modificationRequest-Nom du fabricant \n(Autres technologies)Field')}
       />
     </div>
-
     {project.evaluationCarbone > 0 && (
       <div>
         <h3 style={{ marginTop: 15 }}>Evaluation carbone</h3>
@@ -184,7 +183,6 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
         />
       </div>
     )}
-
     <div
       className="notification warning hidden"
       style={{ display: 'none' }}
@@ -201,22 +199,19 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
       Le format saisi n’est pas conforme (si l'évaluation carbone est un nombre décimal, pensez à
       utiliser un point au lieu de la virgule).
     </div>
-
     <label htmlFor="candidats" className="mt-6">
       Pièce-jointe
     </label>
     <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
-    <label className="mt-4" htmlFor="justification">
-      <strong>Veuillez nous indiquer les raisons qui motivent cette modification</strong>{' '}
-      <Astérisque />
+    <Label htmlFor="justification" className="mt-4">
+      <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
       <br />
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
-    </label>
+    </Label>
     <textarea
       name="justification"
       id="justification"
-      required={true}
       defaultValue={justification || ''}
       {...dataId('modificationRequest-justificationField')}
     />

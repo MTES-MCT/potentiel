@@ -10,6 +10,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Button,
   LinkButton,
+  Label,
 } from '@components'
 import routes from '@routes'
 import { Project } from '@entities'
@@ -61,12 +62,12 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
             <SuccessErrorBox success={success} error={error} />
             {!isEolien && (
               <div>
-                <label>
+                <Label required>
                   <strong>
-                    Veuillez saisir les modalités d'instruction à appliquer à ce changement{' '}
+                    Veuillez saisir les modalités d'instruction à appliquer à ce changement
                   </strong>
-                  <Astérisque />
-                </label>
+                </Label>
+
                 <CDCChoiceForm
                   newRulesOptIn={project.newRulesOptIn}
                   cahiersChargesURLs={cahiersChargesURLs}

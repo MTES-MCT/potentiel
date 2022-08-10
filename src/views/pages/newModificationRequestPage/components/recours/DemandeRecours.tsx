@@ -1,18 +1,20 @@
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 
+import { Label } from '@components'
+
 type DemandeRecoursProps = {
   justification: string
 }
 
 export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
   <>
-    <label className="required" htmlFor="justification">
+    <Label htmlFor="justification" className="mt-4">
       <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
       <br />
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
-    </label>
+    </Label>
     <textarea
       name="justification"
       id="justification"

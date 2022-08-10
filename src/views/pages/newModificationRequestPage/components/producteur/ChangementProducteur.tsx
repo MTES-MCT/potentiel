@@ -1,4 +1,4 @@
-import { Astérisque } from '@components'
+import { Label, Astérisque } from '@components'
 import { Project } from '@entities'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
@@ -45,13 +45,12 @@ export const ChangementProducteur = ({ project, justification }: ChangementProdu
         Statuts mis à jour
       </label>
       <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
-      <label className="mt-4" htmlFor="justification">
-        <strong>Veuillez nous indiquer les raisons qui motivent cette modification</strong>{' '}
-        <Astérisque />
+      <Label htmlFor="justification" className="mt-4">
+        <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
         <br />
         Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit
         à ce besoin de modification (contexte, facteurs extérieurs, etc)
-      </label>
+      </Label>
       <textarea
         name="justification"
         id="justification"
