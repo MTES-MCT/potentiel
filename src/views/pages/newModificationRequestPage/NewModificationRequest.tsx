@@ -12,6 +12,8 @@ import {
   ProjectInfo,
   SuccessErrorBox,
   Button,
+  Astérisque,
+  FormulaireChampsObligatoireLégende,
 } from '@components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 import {
@@ -50,16 +52,18 @@ export const NewModificationRequest = PageLayout(
           <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <div className="form__group">
-              <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
+              <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
               <SuccessErrorBox success={success} error={error} />
               {!isEolien && (
                 <div>
-                  <label className="required">
+                  <label>
                     <strong>
-                      Veuillez saisir les modalités d'instruction à appliquer à ce changement
+                      Veuillez saisir les modalités d'instruction à appliquer à ce changement{' '}
                     </strong>
+                    <Astérisque />
                   </label>
                   <CDCChoiceForm
                     newRulesOptIn={project.newRulesOptIn}

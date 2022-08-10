@@ -1,3 +1,4 @@
+import { Astérisque } from '@components'
 import { Project } from '@entities'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
@@ -185,7 +186,7 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
     )}
 
     <div
-      className="notification warning"
+      className="notification warning hidden"
       style={{ display: 'none' }}
       {...dataId('modificationRequest-evaluationCarbone-error-message-out-of-bounds')}
     >
@@ -193,7 +194,7 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
       d'attestation de conformité.
     </div>
     <div
-      className="notification error"
+      className="notification error hidden"
       style={{ display: 'none' }}
       {...dataId('modificationRequest-evaluationCarbone-error-message-wrong-format')}
     >
@@ -201,12 +202,13 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
       utiliser un point au lieu de la virgule).
     </div>
 
-    <label htmlFor="candidats" style={{ marginTop: 15 }}>
+    <label htmlFor="candidats" className="mt-6">
       Pièce-jointe
     </label>
     <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
-    <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
-      <strong>Veuillez nous indiquer les raisons qui motivent cette modification</strong>
+    <label className="mt-4" htmlFor="justification">
+      <strong>Veuillez nous indiquer les raisons qui motivent cette modification</strong>{' '}
+      <Astérisque />
       <br />
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
@@ -214,6 +216,7 @@ export const ChangementFournisseur = ({ project, justification }: ChangementFour
     <textarea
       name="justification"
       id="justification"
+      required={true}
       defaultValue={justification || ''}
       {...dataId('modificationRequest-justificationField')}
     />

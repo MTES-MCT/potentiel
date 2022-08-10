@@ -8,6 +8,7 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/modificationRequest'
+import { Astérisque } from '@components'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -60,8 +61,8 @@ export const ChangementPuissance = ({
           <input type="text" disabled value={project.puissance} />
         </>
       )}
-      <label className="required" style={{ marginTop: 10 }} htmlFor="puissance">
-        Nouvelle puissance (en {appelOffre?.unitePuissance})
+      <label className="mt-4" htmlFor="puissance">
+        Nouvelle puissance (en {appelOffre?.unitePuissance}) <Astérisque />
       </label>
       <input
         type="text"
@@ -88,9 +89,10 @@ export const ChangementPuissance = ({
         </div>
       )}
 
-      <div style={{ marginTop: 10 }}>
-        <label style={{ marginTop: 10 }} className="required" htmlFor="justification">
-          <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+      <div className="mt-4">
+        <label className="mt-4" htmlFor="justification">
+          <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>{' '}
+          <Astérisque />
           <br />
           Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
           conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
@@ -99,10 +101,12 @@ export const ChangementPuissance = ({
           name="justification"
           id="justification"
           defaultValue={justification || ''}
+          required={true}
           {...dataId('modificationRequest-justificationField')}
         />
-        <label htmlFor="candidats" style={{ marginTop: 10 }}>
-          Courrier explicatif ou décision administrative.
+        <label htmlFor="candidats" className="mt-4">
+          Courrier explicatif ou décision administrative.{' '}
+          {fileRequiredforPuissanceModification && <Astérisque />}
         </label>
         <input
           type="file"

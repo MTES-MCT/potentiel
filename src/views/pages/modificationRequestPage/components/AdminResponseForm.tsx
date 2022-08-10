@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireMessage } from '@components'
+import { FormulaireChampsObligatoireLégende } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -30,7 +30,7 @@ export const AdminResponseForm = ({
       encType="multipart/form-data"
       style={{ margin: 0 }}
     >
-      {type !== 'puissance' && <FormulaireChampsObligatoireMessage className="text-left mb-3" />}
+      {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
 
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
