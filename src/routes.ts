@@ -167,6 +167,13 @@ class routes {
   }
   static ADMIN_SIGNALER_DEMANDE_RECOURS_POST = '/admin/signalerDemandeRecours'
 
+  static ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION = (args?: { modificationRequestId: string }) => {
+    const route = '/admin/demande/:modificationRequestId/passer-demande-delai-en-instruction'
+    if (args) {
+      return route.replace(':modificationRequestId', args.modificationRequestId)
+    } else return route
+  }
+
   static SUCCESS_OR_ERROR_PAGE = withParams<{
     success?: string
     error?: string
@@ -188,8 +195,6 @@ class routes {
       return route.replace(':projectId', projectId)
     } else return route
   }
-
-  static DEMANDE_DELAIS = withProjectId('/demande-modification.html?action=delai')
 
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 

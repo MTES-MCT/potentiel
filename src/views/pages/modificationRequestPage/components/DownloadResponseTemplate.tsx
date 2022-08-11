@@ -10,7 +10,7 @@ interface DownloadResponseTemplateProps {
 export const DownloadResponseTemplate = ({
   modificationRequest: { id, project },
 }: DownloadResponseTemplateProps) => (
-  <div style={{ marginBottom: 5 }}>
+  <div className="mb-4">
     <DownloadIcon />
     <a href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download={true}>
       Télécharger un modèle de réponse

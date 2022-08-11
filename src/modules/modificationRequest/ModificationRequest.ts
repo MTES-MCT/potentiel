@@ -37,7 +37,7 @@ export interface ModificationRequest extends EventStoreAggregate {
   updateStatus(args: { updatedBy: User; newStatus: ModificationRequestStatus })
   readonly projectId: UniqueEntityID
   readonly status: ModificationRequestStatus
-  readonly type: ModifictionRequestType
+  readonly type: ModificationRequestType
 }
 
 export type ModificationRequestStatus =
@@ -55,7 +55,7 @@ export type ModificationRequestAcceptanceParams =
   | { type: 'actionnaire'; newActionnaire: string }
   | { type: 'producteur'; newProducteur: string }
 
-export type ModifictionRequestType =
+export type ModificationRequestType =
   | 'actionnaire'
   | 'fournisseur'
   | 'producteur'
@@ -69,7 +69,7 @@ interface ModificationRequestProps {
   projectId: UniqueEntityID
   hasError: boolean
   status: ModificationRequestStatus
-  type: ModifictionRequestType
+  type: ModificationRequestType
 }
 
 export const makeModificationRequest = (args: {
@@ -94,7 +94,7 @@ export const makeModificationRequest = (args: {
     hasError: false,
     projectId: new UniqueEntityID(foundingEvent.payload.projectId),
     status: 'envoyée',
-    type: foundingEvent.payload.type as ModifictionRequestType,
+    type: foundingEvent.payload.type as ModificationRequestType,
   }
 
   for (const event of history) {

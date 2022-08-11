@@ -57,7 +57,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
           <input type="hidden" name="projectId" value={project.id} />
           <input type="hidden" name="type" value={'delai'} />
           <div className="form__group">
-            <div style={{ marginBottom: 5 }}>Concernant le projet:</div>
+            <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} className="mb-3" />
             <SuccessErrorBox success={success} error={error} />
             {!isEolien && (

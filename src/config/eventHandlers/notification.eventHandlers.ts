@@ -5,6 +5,7 @@ import {
   DélaiAccordé,
   DélaiAnnulé,
   DélaiDemandé,
+  DélaiEnInstruction,
   DélaiRejeté,
   RejetDemandeDélaiAnnulé,
 } from '@modules/demandeModification'
@@ -36,6 +37,7 @@ import {
   makeOnDélaiDemandé,
   makeOnDélaiRejeté,
   makeOnRejetDemandeDélaiAnnulé,
+  makeOnDélaiEnInstruction,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -184,6 +186,10 @@ const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
   findUsersForDreal: oldUserRepo.findUsersForDreal,
   dgecEmail: process.env.DGEC_EMAIL,
 })
+const onDélaiEnInstructionHandler = makeOnDélaiEnInstruction({
+  sendNotification,
+  getModificationRequestInfoForStatusNotification,
+})
 
 const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiDemandé) {
@@ -203,6 +209,9 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   }
   if (event instanceof DélaiAnnulé) {
     return await onDélaiAnnuléHandler(event)
+  }
+  if (event instanceof DélaiEnInstruction) {
+    return await onDélaiEnInstructionHandler(event)
   }
 
   return Promise.resolve()

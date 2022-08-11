@@ -43,7 +43,7 @@ v1Router.get(
       dgecEmail
     ).match(
       async (data) => {
-        if (data.status === 'envoyée') {
+        if (data.status === 'envoyée' && data.type !== 'delai') {
           await eventStore.publish(
             new ResponseTemplateDownloaded({
               payload: {

@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireLégende } from '@components'
+import { FormulaireChampsObligatoireLégende, Button } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -28,7 +28,7 @@ export const AdminResponseForm = ({
       }
       method="post"
       encType="multipart/form-data"
-      style={{ margin: 0 }}
+      className="m-0"
     >
       {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
 
@@ -57,16 +57,16 @@ export const AdminResponseForm = ({
       <UploadResponseFile modificationRequest={modificationRequest} />
 
       {children}
-
-      <button
-        className="button flex-1"
+      <Button
         type="submit"
+        primary
         name="submitAccept"
         data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
         {...dataId('submit-button')}
+        className="mt-4"
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
-      </button>
+      </Button>
       <button
         className="button warning flex-1"
         type="submit"
