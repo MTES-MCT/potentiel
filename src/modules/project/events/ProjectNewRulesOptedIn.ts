@@ -7,7 +7,8 @@ export interface ProjectNewRulesOptedInPayload {
 
 export class ProjectNewRulesOptedIn
   extends BaseDomainEvent<ProjectNewRulesOptedInPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectNewRulesOptedIn' = 'ProjectNewRulesOptedIn'
   public type = ProjectNewRulesOptedIn.type
   currentVersion = 1

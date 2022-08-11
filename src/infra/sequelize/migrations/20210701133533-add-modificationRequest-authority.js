@@ -2,16 +2,14 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
     const transaction = await queryInterface.sequelize.transaction()
     try {
-
       await queryInterface.addColumn('modificationRequests', 'authority', {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,
-        transaction
+        transaction,
       })
-      
+
       await queryInterface.sequelize.query(
         `UPDATE "modificationRequests" SET "authority"='dreal' WHERE "type"!='abandon' AND "type"!='recours';`,
         {
@@ -28,7 +26,6 @@ module.exports = {
         }
       )
 
-
       const modificationEvents = await queryInterface.sequelize.query(
         `SELECT id, payload FROM "eventStores" WHERE "type"='ModificationRequested' OR "type"='ModificationReceived';`,
         {
@@ -37,12 +34,11 @@ module.exports = {
         }
       )
 
-      for(const modificationEvent of modificationEvents){
-        const {payload, id} = modificationEvent
-        if(payload.type === 'abandon' || payload.type === 'recours'){
+      for (const modificationEvent of modificationEvents) {
+        const { payload, id } = modificationEvent
+        if (payload.type === 'abandon' || payload.type === 'recours') {
           payload.authority = 'dgec'
-        }
-        else{
+        } else {
           payload.authority = 'dreal'
         }
         await queryInterface.sequelize.query(

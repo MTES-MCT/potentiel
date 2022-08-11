@@ -8,7 +8,8 @@ export interface ProjectClaimFailedPayload {
 
 export class ProjectClaimFailed
   extends BaseDomainEvent<ProjectClaimFailedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectClaimFailed' = 'ProjectClaimFailed'
   public type = ProjectClaimFailed.type
   currentVersion = 1

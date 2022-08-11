@@ -7,7 +7,8 @@ export interface ConfirmationRequestedPayload {
 }
 export class ConfirmationRequested
   extends BaseDomainEvent<ConfirmationRequestedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ConfirmationRequested' = 'ConfirmationRequested'
   public type = ConfirmationRequested.type
   currentVersion = 1

@@ -11,7 +11,8 @@ export interface UserInvitedToProjectPayload {
 }
 export class UserInvitedToProject
   extends BaseDomainEvent<UserInvitedToProjectPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'UserInvitedToProject' = 'UserInvitedToProject'
   public type = UserInvitedToProject.type
   currentVersion = 1

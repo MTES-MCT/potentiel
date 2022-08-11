@@ -7,7 +7,8 @@ export interface ModificationRequestStatusUpdatedPayload {
 }
 export class ModificationRequestStatusUpdated
   extends BaseDomainEvent<ModificationRequestStatusUpdatedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ModificationRequestStatusUpdated' = 'ModificationRequestStatusUpdated'
   public type = ModificationRequestStatusUpdated.type
   currentVersion = 1

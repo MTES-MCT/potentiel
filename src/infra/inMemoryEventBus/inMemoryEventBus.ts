@@ -10,13 +10,13 @@ type MakeInMemoryPublishDeps = {
 type MakeInMemorySubscribeDeps = {
   eventEmitter: EventEmitter
 }
-export const makeInMemoryPublish = ({
-  eventEmitter,
-}: MakeInMemoryPublishDeps): EventBus['publish'] => (event: DomainEvent) => {
-  logger.info(`[${event.type}] ${event.aggregateId}`)
-  eventEmitter.emit(event.type, event)
-  return okAsync(null)
-}
+export const makeInMemoryPublish =
+  ({ eventEmitter }: MakeInMemoryPublishDeps): EventBus['publish'] =>
+  (event: DomainEvent) => {
+    logger.info(`[${event.type}] ${event.aggregateId}`)
+    eventEmitter.emit(event.type, event)
+    return okAsync(null)
+  }
 
 export const makeInMemorySubscribe = ({
   eventEmitter,

@@ -7,7 +7,8 @@ export interface NumeroGestionnaireSubmittedPayload {
 }
 export class NumeroGestionnaireSubmitted
   extends BaseDomainEvent<NumeroGestionnaireSubmittedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'NumeroGestionnaireSubmitted' = 'NumeroGestionnaireSubmitted'
   public type = NumeroGestionnaireSubmitted.type
   currentVersion = 1

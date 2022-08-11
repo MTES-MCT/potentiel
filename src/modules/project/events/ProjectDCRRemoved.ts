@@ -6,7 +6,8 @@ export interface ProjectDCRRemovedPayload {
 }
 export class ProjectDCRRemoved
   extends BaseDomainEvent<ProjectDCRRemovedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectDCRRemoved' = 'ProjectDCRRemoved'
   public type = ProjectDCRRemoved.type
   currentVersion = 1

@@ -14,17 +14,17 @@ interface RelanceInvitationArgs {
   relanceBy: User
 }
 
-export const makeRelanceInvitation = (deps: RelanceInvitationDeps) => (
-  args: RelanceInvitationArgs
-): ResultAsync<null, UnauthorizedError | InfraNotAvailableError> => {
-  const { resendInvitationEmail, eventBus } = deps
-  const { email, relanceBy } = args
+export const makeRelanceInvitation =
+  (deps: RelanceInvitationDeps) =>
+  (args: RelanceInvitationArgs): ResultAsync<null, UnauthorizedError | InfraNotAvailableError> => {
+    const { resendInvitationEmail, eventBus } = deps
+    const { email, relanceBy } = args
 
-  return resendInvitationEmail(email).andThen(() =>
-    eventBus.publish(
-      new InvitationRelanceSent({
-        payload: { email, relanceBy: relanceBy.id },
-      })
+    return resendInvitationEmail(email).andThen(() =>
+      eventBus.publish(
+        new InvitationRelanceSent({
+          payload: { email, relanceBy: relanceBy.id },
+        })
+      )
     )
-  )
-}
+  }

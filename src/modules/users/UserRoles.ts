@@ -12,17 +12,17 @@ export const USER_ROLES = [
 
 export type UserRole = typeof USER_ROLES[number]
 
-export const userIs = <PossibleRoles extends UserRole[] | UserRole>(roles: PossibleRoles) => (
-  user: User
-): user is UserWithRole<PossibleRoles> => {
-  return Array.isArray(roles) ? roles.includes(user.role) : user.role === roles
-}
+export const userIs =
+  <PossibleRoles extends UserRole[] | UserRole>(roles: PossibleRoles) =>
+  (user: User): user is UserWithRole<PossibleRoles> => {
+    return Array.isArray(roles) ? roles.includes(user.role) : user.role === roles
+  }
 
-export const userIsNot = <ExcludedRoles extends UserRole[] | UserRole>(roles: ExcludedRoles) => (
-  user: User
-): user is UserWithoutRole<ExcludedRoles> => {
-  return !userIs(roles)(user)
-}
+export const userIsNot =
+  <ExcludedRoles extends UserRole[] | UserRole>(roles: ExcludedRoles) =>
+  (user: User): user is UserWithoutRole<ExcludedRoles> => {
+    return !userIs(roles)(user)
+  }
 
 type UserWithRole<PossibleRoles extends UserRole[] | UserRole> = Omit<User, 'role'> & {
   role: ForceArrayType<PossibleRoles>[number]

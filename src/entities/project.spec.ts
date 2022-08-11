@@ -67,13 +67,13 @@ describe('Project entity', () => {
 
     it('should update project and add a history event with before and after containing previous and latest values for change in value inside object type value', () => {
       const updatedProject = applyProjectUpdate({
-        project: ({
+        project: {
           details: {
             oldField: 'oldValue',
             untouchedField: 'untouchedValue',
             removedField: 'removedValue',
           },
-        } as unknown) as Project,
+        } as unknown as Project,
         update: {
           details: {
             oldField: 'newValue',

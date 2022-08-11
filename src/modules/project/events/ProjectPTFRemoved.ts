@@ -6,7 +6,8 @@ export interface ProjectPTFRemovedPayload {
 }
 export class ProjectPTFRemoved
   extends BaseDomainEvent<ProjectPTFRemovedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectPTFRemoved' = 'ProjectPTFRemoved'
   public type = ProjectPTFRemoved.type
   currentVersion = 1

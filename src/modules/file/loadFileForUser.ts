@@ -20,39 +20,38 @@ interface LoadFileForUserDeps {
   fileRepo: Repository<FileObject>
 }
 
-export const makeLoadFileForUser = (deps: LoadFileForUserDeps): LoadFileForUser => ({
-  fileId,
-  user,
-}) => {
-  return deps
-    .getFileProject(fileId)
-    .andThen(
-      (
-        projectId
-      ): ResultAsync<
-        boolean,
-        FileAccessDeniedError | InfraNotAvailableError | FileNotFoundError
-      > => {
-        if (!projectId) {
-          if (['admin', 'dgec'].includes(user.role)) {
-            return okAsync(true)
+export const makeLoadFileForUser =
+  (deps: LoadFileForUserDeps): LoadFileForUser =>
+  ({ fileId, user }) => {
+    return deps
+      .getFileProject(fileId)
+      .andThen(
+        (
+          projectId
+        ): ResultAsync<
+          boolean,
+          FileAccessDeniedError | InfraNotAvailableError | FileNotFoundError
+        > => {
+          if (!projectId) {
+            if (['admin', 'dgec'].includes(user.role)) {
+              return okAsync(true)
+            }
+
+            return errAsync(new FileAccessDeniedError())
           }
 
-          return errAsync(new FileAccessDeniedError())
+          return wrapInfra(
+            deps.shouldUserAccessProject.check({ projectId: projectId.toString(), user })
+          )
+        }
+      )
+      .andThen((userHasRightsToProject) => {
+        if (userHasRightsToProject) {
+          return deps.fileRepo
+            .load(fileId)
+            .mapErr((e) => (e instanceof EntityNotFoundError ? new FileNotFoundError() : e))
         }
 
-        return wrapInfra(
-          deps.shouldUserAccessProject.check({ projectId: projectId.toString(), user })
-        )
-      }
-    )
-    .andThen((userHasRightsToProject) => {
-      if (userHasRightsToProject) {
-        return deps.fileRepo
-          .load(fileId)
-          .mapErr((e) => (e instanceof EntityNotFoundError ? new FileNotFoundError() : e))
-      }
-
-      return errAsync(new FileAccessDeniedError())
-    })
-}
+        return errAsync(new FileAccessDeniedError())
+      })
+  }

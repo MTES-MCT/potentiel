@@ -12,7 +12,8 @@ export interface ProjectNotifiedPayload {
 }
 export class ProjectNotified
   extends BaseDomainEvent<ProjectNotifiedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectNotified' = 'ProjectNotified'
   public type = ProjectNotified.type
   currentVersion = 1

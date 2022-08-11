@@ -14,21 +14,23 @@ interface CancelModificationRequestArgs {
   cancelledBy: User
 }
 
-export const makeCancelModificationRequest = (deps: CancelModificationRequestDeps) => (
-  args: CancelModificationRequestArgs
-): ResultAsync<null, InfraNotAvailableError | EntityNotFoundError | UnauthorizedError> => {
-  const { modificationRequestRepo, shouldUserAccessProject } = deps
-  const { modificationRequestId, cancelledBy } = args
+export const makeCancelModificationRequest =
+  (deps: CancelModificationRequestDeps) =>
+  (
+    args: CancelModificationRequestArgs
+  ): ResultAsync<null, InfraNotAvailableError | EntityNotFoundError | UnauthorizedError> => {
+    const { modificationRequestRepo, shouldUserAccessProject } = deps
+    const { modificationRequestId, cancelledBy } = args
 
-  return modificationRequestRepo.transaction(modificationRequestId, (modificationRequest) => {
-    return wrapInfra(
-      shouldUserAccessProject({
-        user: cancelledBy,
-        projectId: modificationRequest.projectId.toString(),
+    return modificationRequestRepo.transaction(modificationRequestId, (modificationRequest) => {
+      return wrapInfra(
+        shouldUserAccessProject({
+          user: cancelledBy,
+          projectId: modificationRequest.projectId.toString(),
+        })
+      ).andThen((isUserAuthorized) => {
+        if (!isUserAuthorized) return err(new UnauthorizedError())
+        return modificationRequest.cancel(cancelledBy)
       })
-    ).andThen((isUserAuthorized) => {
-      if (!isUserAuthorized) return err(new UnauthorizedError())
-      return modificationRequest.cancel(cancelledBy)
     })
-  })
-}
+  }

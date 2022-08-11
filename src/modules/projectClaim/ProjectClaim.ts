@@ -109,13 +109,8 @@ export const makeProjectClaim = (args: {
   }): ReturnType<ProjectClaim['claim']> {
     const MAX_ALLOWED_ATTEMPTS = 3
 
-    const {
-      projectEmail,
-      claimerEmail,
-      userInputs,
-      projectData,
-      attestationDesignationFileId,
-    } = args
+    const { projectEmail, claimerEmail, userInputs, projectData, attestationDesignationFileId } =
+      args
 
     const { projectId, claimedBy } = JSON.parse(id.toString())
 

@@ -16,23 +16,25 @@ interface RevokeRightsToProjectArgs {
   revokedBy: User
 }
 
-export const makeRevokeRightsToProject = (deps: RevokeRightsToProjectDeps) => ({
-  projectId,
-  userId,
-  revokedBy,
-}: RevokeRightsToProjectArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-  return wrapInfra(deps.shouldUserAccessProject({ projectId, user: revokedBy })).andThen(
-    (userHasRightsToProject) =>
-      userHasRightsToProject
-        ? deps.eventBus.publish(
-            new UserRightsToProjectRevoked({
-              payload: {
-                projectId,
-                userId,
-                revokedBy: revokedBy.id,
-              },
-            })
-          )
-        : errAsync(new UnauthorizedError())
-  )
-}
+export const makeRevokeRightsToProject =
+  (deps: RevokeRightsToProjectDeps) =>
+  ({
+    projectId,
+    userId,
+    revokedBy,
+  }: RevokeRightsToProjectArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+    return wrapInfra(deps.shouldUserAccessProject({ projectId, user: revokedBy })).andThen(
+      (userHasRightsToProject) =>
+        userHasRightsToProject
+          ? deps.eventBus.publish(
+              new UserRightsToProjectRevoked({
+                payload: {
+                  projectId,
+                  userId,
+                  revokedBy: revokedBy.id,
+                },
+              })
+            )
+          : errAsync(new UnauthorizedError())
+    )
+  }

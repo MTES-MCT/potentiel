@@ -19,12 +19,12 @@ const fakePayload = {
 describe('handleCandidateNotifiedForPeriode', () => {
   describe('if user exists', () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
-    const getPeriodeTitle = (jest.fn((appelOffreId, periodeId) =>
+    const getPeriodeTitle = jest.fn((appelOffreId, periodeId) =>
       okAsync({
         periodeTitle: 'periode1title',
         appelOffreTitle: 'appelOffre1title',
       })
-    ) as unknown) as GetPeriodeTitle
+    ) as unknown as GetPeriodeTitle
 
     const userWithEmail: User = makeFakeUser({ id: new UniqueEntityID().toString() })
     const getUserByEmail = jest.fn((email: string) =>

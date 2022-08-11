@@ -18,64 +18,66 @@ interface ImportAppelOffreDataArgs {
   importedBy: User
 }
 
-export const makeImportAppelOffreData = (deps: ImportAppelOffreDataDeps) => ({
-  dataLines,
-  importedBy,
-}: ImportAppelOffreDataArgs): ResultAsync<
-  null,
-  (InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError)[]
-> => {
-  return deps
-    .getAppelOffreList()
-    .mapErr((e): (InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError)[] => [e])
-    .andThen((appelOffreList) => {
-      const removals = appelOffreList
-        .filter(
-          ({ appelOffreId }) =>
-            !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId)
-        )
-        .map(({ appelOffreId }) => {
+export const makeImportAppelOffreData =
+  (deps: ImportAppelOffreDataDeps) =>
+  ({
+    dataLines,
+    importedBy,
+  }: ImportAppelOffreDataArgs): ResultAsync<
+    null,
+    (InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError)[]
+  > => {
+    return deps
+      .getAppelOffreList()
+      .mapErr((e): (InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError)[] => [e])
+      .andThen((appelOffreList) => {
+        const removals = appelOffreList
+          .filter(
+            ({ appelOffreId }) =>
+              !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId)
+          )
+          .map(({ appelOffreId }) => {
+            return deps.appelOffreRepo
+              .load(new UniqueEntityID(appelOffreId))
+              .andThen((appelOffre) =>
+                appelOffre.remove({ removedBy: importedBy }).map(() => appelOffre)
+              )
+              .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
+          })
+
+        const updates: ResultAsync<
+          null,
+          InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError
+        >[] = dataLines.map((dataLine, index) => {
+          const { "Appel d'offres": appelOffreId, ...data } = dataLine
+
+          if (!appelOffreId) {
+            return errAsync(new MissingAppelOffreIdError(index + 1))
+          }
+
           return deps.appelOffreRepo
             .load(new UniqueEntityID(appelOffreId))
             .andThen((appelOffre) =>
-              appelOffre.remove({ removedBy: importedBy }).map(() => appelOffre)
+              appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
             )
             .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
+            .orElse((e) => {
+              if (e instanceof EntityNotFoundError) {
+                return deps.eventBus.publish(
+                  new AppelOffreCreated({
+                    payload: {
+                      appelOffreId,
+                      data,
+                      createdBy: importedBy.id,
+                    },
+                  })
+                )
+              }
+
+              return errAsync(e)
+            })
         })
 
-      const updates: ResultAsync<
-        null,
-        InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError
-      >[] = dataLines.map((dataLine, index) => {
-        const { "Appel d'offres": appelOffreId, ...data } = dataLine
-
-        if (!appelOffreId) {
-          return errAsync(new MissingAppelOffreIdError(index + 1))
-        }
-
-        return deps.appelOffreRepo
-          .load(new UniqueEntityID(appelOffreId))
-          .andThen((appelOffre) =>
-            appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
-          )
-          .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
-          .orElse((e) => {
-            if (e instanceof EntityNotFoundError) {
-              return deps.eventBus.publish(
-                new AppelOffreCreated({
-                  payload: {
-                    appelOffreId,
-                    data,
-                    createdBy: importedBy.id,
-                  },
-                })
-              )
-            }
-
-            return errAsync(e)
-          })
+        return combineWithAllErrors([...removals, ...updates]).map(() => null)
       })
-
-      return combineWithAllErrors([...removals, ...updates]).map(() => null)
-    })
-}
+  }

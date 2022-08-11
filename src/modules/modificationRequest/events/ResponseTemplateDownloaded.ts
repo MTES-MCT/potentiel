@@ -6,7 +6,8 @@ export interface ResponseTemplateDownloadedPayload {
 }
 export class ResponseTemplateDownloaded
   extends BaseDomainEvent<ResponseTemplateDownloadedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ResponseTemplateDownloaded' = 'ResponseTemplateDownloaded'
   public type = ResponseTemplateDownloaded.type
   currentVersion = 1

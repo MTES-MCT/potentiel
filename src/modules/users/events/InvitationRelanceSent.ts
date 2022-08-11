@@ -6,7 +6,8 @@ export interface InvitationRelanceSentPayload {
 }
 export class InvitationRelanceSent
   extends BaseDomainEvent<InvitationRelanceSentPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'InvitationRelanceSent' = 'InvitationRelanceSent'
   public type = InvitationRelanceSent.type
   currentVersion = 1

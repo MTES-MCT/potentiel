@@ -5,7 +5,8 @@ export interface ProjectGFRemindedPayload {
 }
 export class ProjectGFReminded
   extends BaseDomainEvent<ProjectGFRemindedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectGFReminded' = 'ProjectGFReminded'
   public type = ProjectGFReminded.type
   currentVersion = 1

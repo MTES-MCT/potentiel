@@ -69,95 +69,99 @@ export type CorrectProjectData = (
   args: CorrectProjectDataArgs
 ) => ResultAsync<null, CorrectProjectDataError>
 
-export const makeCorrectProjectData = (deps: CorrectProjectDataDeps): CorrectProjectData => ({
-  projectId,
-  certificateFile,
-  projectVersionDate,
-  newNotifiedOn,
-  user,
-  correctedData,
-  shouldGrantClasse,
-  reason,
-  attestation,
-}) => {
-  if (!['admin', 'dgec'].includes(user.role)) {
-    return errAsync(new UnauthorizedError())
-  }
+export const makeCorrectProjectData =
+  (deps: CorrectProjectDataDeps): CorrectProjectData =>
+  ({
+    projectId,
+    certificateFile,
+    projectVersionDate,
+    newNotifiedOn,
+    user,
+    correctedData,
+    shouldGrantClasse,
+    reason,
+    attestation,
+  }) => {
+    if (!['admin', 'dgec'].includes(user.role)) {
+      return errAsync(new UnauthorizedError())
+    }
 
-  return _uploadFileIfExists().andThen((certificateFileId) => {
-    const projectTransaction = deps.projectRepo.transaction(
-      new UniqueEntityID(projectId),
-      (
-        project: Project
-      ): Result<
-        boolean,
-        | ProjectHasBeenUpdatedSinceError
-        | ProjectCannotBeUpdatedIfUnnotifiedError
-        | IllegalProjectDataError
-      > => {
-        if (project.lastUpdatedOn && project.lastUpdatedOn > projectVersionDate) {
-          return err(new ProjectHasBeenUpdatedSinceError())
+    return _uploadFileIfExists().andThen((certificateFileId) => {
+      const projectTransaction = deps.projectRepo.transaction(
+        new UniqueEntityID(projectId),
+        (
+          project: Project
+        ): Result<
+          boolean,
+          | ProjectHasBeenUpdatedSinceError
+          | ProjectCannotBeUpdatedIfUnnotifiedError
+          | IllegalProjectDataError
+        > => {
+          if (project.lastUpdatedOn && project.lastUpdatedOn > projectVersionDate) {
+            return err(new ProjectHasBeenUpdatedSinceError())
+          }
+
+          if (newNotifiedOn && project.isLegacy) {
+            return err(new UnauthorizedError())
+          }
+
+          return _addCertificateToProjectIfExists(certificateFileId, project)
+            .andThen(() => _grantClasseIfNecessary(project))
+            .andThen(() => project.correctData(user, correctedData))
+            .andThen(() =>
+              newNotifiedOn
+                ? project.setNotificationDate(user, newNotifiedOn)
+                : ok<null, never>(null)
+            )
+            .map((): boolean => project.shouldCertificateBeGenerated)
         }
+      )
 
-        if (newNotifiedOn && project.isLegacy) {
-          return err(new UnauthorizedError())
-        }
-
-        return _addCertificateToProjectIfExists(certificateFileId, project)
-          .andThen(() => _grantClasseIfNecessary(project))
-          .andThen(() => project.correctData(user, correctedData))
-          .andThen(() =>
-            newNotifiedOn ? project.setNotificationDate(user, newNotifiedOn) : ok<null, never>(null)
-          )
-          .map((): boolean => project.shouldCertificateBeGenerated)
-      }
-    )
-
-    return projectTransaction.andThen((shouldCertificateBeGenerated) => {
-      return shouldCertificateBeGenerated && attestation === 'regenerate'
-        ? deps.generateCertificate(projectId, reason).map(() => null)
-        : okAsync<null, CorrectProjectDataError>(null)
+      return projectTransaction.andThen((shouldCertificateBeGenerated) => {
+        return shouldCertificateBeGenerated && attestation === 'regenerate'
+          ? deps.generateCertificate(projectId, reason).map(() => null)
+          : okAsync<null, CorrectProjectDataError>(null)
+      })
     })
-  })
 
-  function _grantClasseIfNecessary(project: Project): Result<null, never> {
-    return shouldGrantClasse ? project.grantClasse(user) : ok(null)
-  }
-  function _addCertificateToProjectIfExists(
-    certificateFileId: string | null,
-    project: Project
-  ): Result<null, ProjectCannotBeUpdatedIfUnnotifiedError> {
-    return certificateFileId ? project.updateCertificate(user, certificateFileId) : ok(null)
-  }
-
-  function _uploadFileIfExists(): ResultAsync<
-    string | null,
-    IllegalFileDataError | InfraNotAvailableError
-  > {
-    if (!certificateFile && attestation === 'custom') {
-      return errAsync(new CertificateFileIsMissingError())
+    function _grantClasseIfNecessary(project: Project): Result<null, never> {
+      return shouldGrantClasse ? project.grantClasse(user) : ok(null)
+    }
+    function _addCertificateToProjectIfExists(
+      certificateFileId: string | null,
+      project: Project
+    ): Result<null, ProjectCannotBeUpdatedIfUnnotifiedError> {
+      return certificateFileId ? project.updateCertificate(user, certificateFileId) : ok(null)
     }
 
-    if (!certificateFile || attestation !== 'custom') {
-      return okAsync(null)
+    function _uploadFileIfExists(): ResultAsync<
+      string | null,
+      IllegalFileDataError | InfraNotAvailableError
+    > {
+      if (!certificateFile && attestation === 'custom') {
+        return errAsync(new CertificateFileIsMissingError())
+      }
+
+      if (!certificateFile || attestation !== 'custom') {
+        return okAsync(null)
+      }
+
+      const { filename, contents } = certificateFile
+
+      return makeFileObject({
+        designation: 'attestation-designation',
+        forProject: new UniqueEntityID(projectId),
+        createdBy: new UniqueEntityID(user.id),
+        filename,
+        contents,
+      }).asyncAndThen((file) =>
+        deps.fileRepo
+          .save(file)
+          .map(() => file.id.toString())
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
+          })
+      )
     }
-
-    const { filename, contents } = certificateFile
-
-    return makeFileObject({
-      designation: 'attestation-designation',
-      forProject: new UniqueEntityID(projectId),
-      createdBy: new UniqueEntityID(user.id),
-      filename,
-      contents,
-    }).asyncAndThen((file) =>
-      deps.fileRepo
-        .save(file)
-        .map(() => file.id.toString())
-        .mapErr((e: Error) => {
-          logger.error(e)
-          return new InfraNotAvailableError()
-        })
-    )
   }
-}

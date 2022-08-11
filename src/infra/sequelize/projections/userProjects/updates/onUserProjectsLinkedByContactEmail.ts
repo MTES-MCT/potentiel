@@ -1,15 +1,14 @@
 import { logger } from '@core/utils'
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ'
 
-export const onUserProjectsLinkedByContactEmail = (models) => async (
-  event: UserProjectsLinkedByContactEmail
-) => {
-  const { UserProjects } = models
-  const { userId, projectIds } = event.payload
+export const onUserProjectsLinkedByContactEmail =
+  (models) => async (event: UserProjectsLinkedByContactEmail) => {
+    const { UserProjects } = models
+    const { userId, projectIds } = event.payload
 
-  try {
-    await UserProjects.bulkCreate(projectIds.map((projectId) => ({ userId, projectId })))
-  } catch (e) {
-    logger.error(e)
+    try {
+      await UserProjects.bulkCreate(projectIds.map((projectId) => ({ userId, projectId })))
+    } catch (e) {
+      logger.error(e)
+    }
   }
-}

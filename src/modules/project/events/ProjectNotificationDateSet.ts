@@ -7,7 +7,8 @@ export interface ProjectNotificationDateSetPayload {
 }
 export class ProjectNotificationDateSet
   extends BaseDomainEvent<ProjectNotificationDateSetPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectNotificationDateSet' = 'ProjectNotificationDateSet'
 
   public type = ProjectNotificationDateSet.type

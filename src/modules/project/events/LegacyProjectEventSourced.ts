@@ -15,7 +15,8 @@ export interface LegacyProjectEventSourcedPayload {
 }
 export class LegacyProjectEventSourced
   extends BaseDomainEvent<LegacyProjectEventSourcedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyProjectEventSourced' = 'LegacyProjectEventSourced'
   public type = LegacyProjectEventSourced.type
   currentVersion = 1

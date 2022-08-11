@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.addColumn('projects', 'newRulesOptIn', {
       type: Sequelize.DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     })
   },
 

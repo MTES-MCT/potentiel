@@ -2,7 +2,6 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { Pagination } from '../../types'
 
-
 interface PaginationProps {
   pageCount: number
   pagination: Pagination
@@ -97,5 +96,3 @@ export function PaginationPanel({
     </nav>
   )
 }
-
-

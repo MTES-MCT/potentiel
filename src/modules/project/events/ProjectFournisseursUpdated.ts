@@ -10,7 +10,8 @@ export interface ProjectFournisseursUpdatedPayload {
 
 export class ProjectFournisseursUpdated
   extends BaseDomainEvent<ProjectFournisseursUpdatedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectFournisseursUpdated' = 'ProjectFournisseursUpdated'
   public type = ProjectFournisseursUpdated.type
   currentVersion = 1

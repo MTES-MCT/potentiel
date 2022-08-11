@@ -7,7 +7,8 @@ export interface ModificationRequestRejectedPayload {
 }
 export class ModificationRequestRejected
   extends BaseDomainEvent<ModificationRequestRejectedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ModificationRequestRejected' = 'ModificationRequestRejected'
   public type = ModificationRequestRejected.type
   currentVersion = 1

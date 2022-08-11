@@ -11,32 +11,31 @@ interface HandleProjectImportedDeps {
   isPeriodeLegacy: IsPeriodeLegacy
 }
 
-export const handleProjectImported = (deps: HandleProjectImportedDeps) => async (
-  event: ProjectImported | ProjectReimported
-) => {
-  const { projectId, data, appelOffreId, periodeId } = event.payload
-  const { email } = data
+export const handleProjectImported =
+  (deps: HandleProjectImportedDeps) => async (event: ProjectImported | ProjectReimported) => {
+    const { projectId, data, appelOffreId, periodeId } = event.payload
+    const { email } = data
 
-  try {
-    const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId })
+    try {
+      const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId })
 
-    if (isLegacy || !email?.length) return
+      if (isLegacy || !email?.length) return
 
-    await deps.getUserByEmail(email).andThen((userOrNull) => {
-      if (!!userOrNull) {
-        return deps.eventBus.publish(
-          new UserRightsToProjectGranted({
-            payload: {
-              userId: userOrNull.id,
-              projectId,
-              grantedBy: '',
-            },
-          })
-        )
-      }
-      return okAsync(null)
-    })
-  } catch (error) {
-    logger.error(error)
+      await deps.getUserByEmail(email).andThen((userOrNull) => {
+        if (!!userOrNull) {
+          return deps.eventBus.publish(
+            new UserRightsToProjectGranted({
+              payload: {
+                userId: userOrNull.id,
+                projectId,
+                grantedBy: '',
+              },
+            })
+          )
+        }
+        return okAsync(null)
+      })
+    } catch (error) {
+      logger.error(error)
+    }
   }
-}
