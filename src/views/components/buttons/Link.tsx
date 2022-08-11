@@ -1,5 +1,11 @@
 import React from 'react'
-import { DocumentDownloadIcon, ExternalLinkIcon } from '@heroicons/react/outline'
+import {
+  DocumentDownloadIcon,
+  ExternalLinkIcon,
+  MailIcon,
+  PhoneIcon,
+} from '@heroicons/react/outline'
+import { isLinkMailTo, isLinkPhoneCall } from './helpers'
 
 type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   disabled?: boolean
@@ -17,6 +23,8 @@ export const Link = ({ disabled, children, type = 'none', ...props }: LinkProps)
       {children}
       {props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />}
       {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
+      {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
+      {isLinkPhoneCall(props.href) && <PhoneIcon className="w-5 h-5 ml-1" />}
     </a>
   )
 }
