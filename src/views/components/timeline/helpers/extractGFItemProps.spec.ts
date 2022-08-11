@@ -150,21 +150,25 @@ describe('extractGFitemProps', () => {
             type: 'ProjectNotified',
             variant: 'admin',
             date: new Date('2022-01-09').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectNotifiedDTO,
           {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-01-01').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
           {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-01-02').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
           {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-01-12').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
         ]
         const result = extractGFItemProps(events, new Date('2022-01-08').getTime(), project)
@@ -173,6 +177,7 @@ describe('extractGFitemProps', () => {
           type: 'garanties-financieres',
           status: 'due',
           role: 'porteur-projet',
+          nomProjet: 'nom-du-projet',
         })
       })
       describe('when the due date has passed', () => {
@@ -182,11 +187,13 @@ describe('extractGFitemProps', () => {
               type: 'ProjectGFDueDateSet',
               variant: 'porteur-projet',
               date: new Date('2022-01-09').getTime(),
+              nomProjet: 'nom-du-projet',
             } as ProjectGFDueDateSetDTO,
           ]
           const result = extractGFItemProps(events, new Date('2022-01-10').getTime(), project)
           expect(result).toMatchObject({
             status: 'past-due',
+            nomProjet: 'nom-du-projet',
           })
         })
       })
@@ -275,6 +282,7 @@ describe('extractGFitemProps', () => {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-02-10').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
           {
             type: 'ProjectGFSubmitted',
@@ -285,6 +293,7 @@ describe('extractGFitemProps', () => {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-03-10').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
           {
             type: 'ProjectGFRemoved',
@@ -298,6 +307,7 @@ describe('extractGFitemProps', () => {
           type: 'garanties-financieres',
           status: 'due',
           role: 'porteur-projet',
+          nomProjet: 'nom-du-projet',
         })
       })
     })
@@ -308,6 +318,7 @@ describe('extractGFitemProps', () => {
             type: 'ProjectGFDueDateSet',
             variant: 'porteur-projet',
             date: new Date('2022-02-10').getTime(),
+            nomProjet: 'nom-du-projet',
           } as ProjectGFDueDateSetDTO,
           {
             type: 'ProjectGFSubmitted',

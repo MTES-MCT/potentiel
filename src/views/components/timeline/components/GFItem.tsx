@@ -39,7 +39,7 @@ export const GFItem = (props: ComponentProps) => {
 /* CRE4 */
 
 type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
-const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
+const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
   const isDreal = role === 'dreal'
@@ -66,6 +66,16 @@ const NotSubmitted = ({ date, status, role, project }: NotSubmittedProps) => {
           </div>
           {isPorteurProjet && <SubmitForm projectId={project.id} />}
           {isDreal && <UploadForm projectId={project.id} role={role} />}
+          {isDreal && status === 'past-due' && (
+            <p className="m-0">
+              <a
+                href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
+                download
+              >
+                Télécharger le modèle de mise en demeure
+              </a>
+            </p>
+          )}
         </div>
       </ContentArea>
     </>

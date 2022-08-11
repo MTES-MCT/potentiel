@@ -127,7 +127,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
-                case 'ProjectGFDueDateSet':
                 case 'ProjectDCRDueDateSet':
                 case 'ProjectCompletionDueDateSet':
                   if (userIsNot('ademe')(user)) {
@@ -135,6 +134,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
+                    })
+                  }
+                  break
+                case 'ProjectGFDueDateSet':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      nomProjet,
                     })
                   }
                   break
