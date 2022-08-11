@@ -18,7 +18,7 @@ type Columns =
   | 'Garanties Financières'
   | 'Classé'
 
-type ColumnRenderer = (props: { project: Project }) => React.ReactNode
+type ColumnRenderer = (props: { project: Project; GFPastDue?: boolean }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Projet: function ProjetColumn({ project }) {
@@ -115,7 +115,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
       </td>
     )
   } as ColumnRenderer,
-  'Garanties Financières': function GarantieFinanciereColumn({ project }) {
+  'Garanties Financières': function GarantieFinanciereColumn({ project, GFPastDue }) {
     return (
       <td valign="top">
         {project.garantiesFinancieresSubmittedOn !== 0 && (
@@ -156,6 +156,17 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
               )}
             </>
           </div>
+        )}
+        {GFPastDue && (
+          <a
+            href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+              id: project.id,
+              nomProjet: project.nomProjet,
+            })}
+            download
+          >
+            Télécharger le modèle de mise de demeure
+          </a>
         )}
       </td>
     )
@@ -259,9 +270,10 @@ interface Props {
   projects: PaginatedList<Project> | Array<Project>
   displayColumns: Array<string>
   role: UserRole
+  GFPastDue?: boolean
 }
 
-export const ProjectList = ({ projects, displayColumns, role }: Props) => {
+export const ProjectList = ({ projects, displayColumns, role, GFPastDue }: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -317,7 +329,13 @@ export const ProjectList = ({ projects, displayColumns, role }: Props) => {
                     logger.error(`Column ${column} could not be found`)
                     return <td></td>
                   }
-                  return <Column key={'project_' + project.id + '_' + column} project={project} />
+                  return (
+                    <Column
+                      key={'project_' + project.id + '_' + column}
+                      project={project}
+                      GFPastDue={GFPastDue}
+                    />
+                  )
                 })}
                 {ACTION_BY_ROLE[role] ? (
                   <td {...dataId('item-actions-container')}>
