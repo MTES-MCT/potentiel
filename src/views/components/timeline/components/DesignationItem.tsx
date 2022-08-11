@@ -3,14 +3,19 @@ import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
 
-export const DesignationItem = ({ certificate, role, date }: DesignationItemProps) => (
+export const DesignationItem = ({
+  certificate,
+  role,
+  date,
+  projectStatus,
+}: DesignationItemProps) => (
   <>
     <PastIcon />
     <ContentArea>
       <ItemDate date={date} />
       <ItemTitle title="Notification des résultats" />
       {certificate ? (
-        <Certificate {...{ certificate, role }} />
+        <Certificate {...{ certificate, role, projectStatus }} />
       ) : (
         role === 'porteur-projet' && <span>Votre attestation sera disponible sous 24h</span>
       )}
@@ -20,37 +25,29 @@ export const DesignationItem = ({ certificate, role, date }: DesignationItemProp
 
 type CertificateProps = {
   certificate: Exclude<DesignationItemProps['certificate'], undefined>
+  projectStatus: DesignationItemProps['projectStatus']
 }
 
-const Certificate = ({ certificate }: CertificateProps) => {
+const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
   const { status } = certificate
 
-  switch (status) {
-    case 'not-applicable':
-      return <span>Attestation non disponible pour cette période</span>
-    case 'generated':
-      return <Generated {...certificate} />
-    case 'uploaded':
-      return <Uploaded {...certificate} />
+  if (status === 'not-applicable') {
+    return <p>Attestation non disponible pour cette période</p>
   }
-}
 
-type GeneratedProps = {
-  url: string
-  date: number
-}
-const Generated = ({ url, date }: GeneratedProps) => (
-  <a href={url} download>
-    Télécharger l'attestation de désignation (éditée le {formatDate(date)})
-  </a>
-)
+  const { url, date } = certificate
 
-type UploadedProps = {
-  url: string
-  date: number
+  const urlTitle =
+    projectStatus === 'Eliminé'
+      ? status === 'generated'
+        ? `avis de rejet (édité`
+        : `avis de rejet (transmis`
+      : status === 'generated'
+      ? `attestation de désignation (éditée`
+      : `attestation de désignation (transmise`
+  return (
+    <a href={url} download>
+      {`Télécharger l'${urlTitle} le ${formatDate(date)})`}
+    </a>
+  )
 }
-const Uploaded = ({ url, date }: UploadedProps) => (
-  <a href={url} download>
-    Télécharger l'attestation de désignation (transmise le {formatDate(date)})
-  </a>
-)

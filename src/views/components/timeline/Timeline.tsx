@@ -97,7 +97,7 @@ export const Timeline = ({
   })
 
   const itemProps: ItemProps[] = [
-    extractDesignationItemProps(events, projectId),
+    extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
     GFItemProps?.date ? GFItemProps : null,
     extractDCRItemProps(events, now, { status }),
