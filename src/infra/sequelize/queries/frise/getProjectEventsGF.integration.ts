@@ -13,7 +13,11 @@ describe('getProjectEvents for GF events', () => {
 
   const { Project } = models
   const projectId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+  const fakeProject = makeFakeProject({
+    id: projectId,
+    potentielIdentifier: 'pot-id',
+    nomProjet: 'nom-du-projet',
+  })
 
   beforeEach(async () => {
     await resetDatabase()
@@ -40,6 +44,7 @@ describe('getProjectEvents for GF events', () => {
               type: 'ProjectGFDueDateSet',
               date: GFDueDateTimestamp,
               variant: role,
+              nomProjet: 'nom-du-projet',
             },
           ],
         })

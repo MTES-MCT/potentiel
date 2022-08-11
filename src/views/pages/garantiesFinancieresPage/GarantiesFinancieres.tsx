@@ -200,6 +200,7 @@ export const GarantiesFinancieres = PageLayout(
                 ]}
                 projects={projects}
                 role={request.user?.role}
+                GFPastDue={garantiesFinancieres === 'pastDue'}
               />
             </>
           ) : (

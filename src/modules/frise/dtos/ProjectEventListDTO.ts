@@ -136,6 +136,7 @@ export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+  nomProjet: string
 }
 
 export type ProjectGFRemovedDTO = {

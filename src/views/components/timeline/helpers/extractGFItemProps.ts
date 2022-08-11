@@ -10,6 +10,7 @@ export type GFItemProps = {
   | {
       status: 'due' | 'past-due'
       date: number
+      nomProjet: string
     }
   | {
       status: 'pending-validation' | 'validated'
@@ -109,12 +110,15 @@ export const extractGFItemProps = (
     }
   }
 
-  return project.status !== 'Abandonné'
-    ? {
-        ...props,
-        status: date < now ? 'past-due' : 'due',
-      }
-    : null
+  if (type === 'ProjectGFDueDateSet' && project.status !== 'Abandonné') {
+    return {
+      ...props,
+      status: date < now ? 'past-due' : 'due',
+      nomProjet: eventToHandle.nomProjet,
+    }
+  }
+
+  return null
 }
 
 const isProjectGF = or(
