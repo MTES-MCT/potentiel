@@ -8,7 +8,7 @@ import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
-import { Button, FormulaireChampsObligatoireLégende, Input, Label } from '@components'
+import { Button, FormulaireChampsObligatoireLégende, Input, Label, Astérisque } from '@components'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -180,6 +180,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
           <div>
             <Label required htmlFor="expirationDate">
               Date d'échéance de la garantie
+              <Astérisque className="text-black" />
             </Label>
             <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
@@ -190,9 +191,9 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             <Input type="file" name="file" id="file" required />
           </div>
           <p className="m-0 mt-3 italic">
-            *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
-            d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
-            couverture temporelle.
+            <Astérisque className="text-black" /> La garantie doit avoir une durée couvrant le
+            projet jusqu’à 6 mois après la date d’Achèvement de l’installation ou être renouvelée
+            régulièrement afin d’assurer une telle couverture temporelle.
           </p>
           <div className="flex gap-4 flex-col md:flex-row">
             <Button type="submit" primary>
@@ -312,22 +313,32 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           <div>
             <Label required htmlFor="expirationDate">
               Date d'échéance de la garantie
+              <Astérisque className="text-black" />
             </Label>
             <Input type="date" name="expirationDate" id="expirationDate" required />
           </div>
           <div>
             <Label required htmlFor="file">
-              Attestation{isPorteur && <span>**</span>}
+              Attestation
+              {isPorteur && (
+                <span>
+                  <Astérisque className="text-black" />
+                  <Astérisque className="text-black" />
+                </span>
+              )}
             </Label>
             <Input type="file" name="file" id="file" required />
             <p className="m-0 mt-3 italic">
-              *La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+              <Astérisque className="text-black" />
+              La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
               d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
               telle couverture temporelle.
             </p>
             {isPorteur && (
               <p className="m-0 mt-3 italic">
-                **Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+                <Astérisque className="text-black" />
+                <Astérisque className="text-black" />
+                Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
                 d'une nouvelle validation.
               </p>
             )}
@@ -408,12 +419,13 @@ const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormPro
       <input name="projectId" value={projectId} readOnly hidden />
       <Label htmlFor="expirationDate" required>
         Date d'échéance des garanties financières
+        <Astérisque className="text-black" />
       </Label>
       <Input required type="date" name="expirationDate" id="expirationDate" />
       <p className="italic">
-        *A noter : la garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
-        d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
-        couverture temporelle.
+        <Astérisque className="text-black" /> À noter : la garantie doit avoir une durée couvrant le
+        projet jusqu’à 6 mois après la date d’Achèvement de l’installation ou être renouvelée
+        régulièrement afin d’assurer une telle couverture temporelle.
       </p>
       <div className="flex gap-4 flex-col md:flex-row">
         <Button type="submit" primary>

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { ExclamationIcon } from '@heroicons/react/outline'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '@routes'
-import { Button, FormulaireChampsObligatoireLégende, Input, Label } from '../..'
+import { Button, FormulaireChampsObligatoireLégende, Input, Label, Astérisque } from '@components'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
 import { format } from 'date-fns'
@@ -108,12 +109,13 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             />
           </div>
           <div className="mt-2">
-            <Label htmlFor="file" required>
-              Document
+            <Label htmlFor="file" required className="flex items-center">
+              Document <ExclamationIcon className="h-4 w-4 mx-1" />
             </Label>
             <Input type="file" name="file" id="file" required />
-            <span className="italic">
-              * Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
+            <span className="italic flex items-start">
+              <ExclamationIcon className="h-4 w-4 mt-1 mr-1" />
+              Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
             </span>
           </div>
           <div className="flex gap-4 flex-col md:flex-row mt-4">
