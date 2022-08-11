@@ -15,7 +15,7 @@ const Template = (args) => <Link {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: <>LinkButton</>,
+  children: `Ceci est un exemple de lien`,
   disabled: false,
   type: 'none',
 }

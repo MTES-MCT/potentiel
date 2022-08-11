@@ -15,8 +15,13 @@ export default {
 const Template = (args) => <Button {...args} />
 
 export const Default = Template.bind({})
+
 Default.args = {
   primary: true,
-  children: <>buttonStory</>,
+  disabled: false,
+  type: 'button',
+  children: `Ceci est un exemple de bouton`,
+  name: 'nom du bouton',
+  value: 'valeur du bouton',
   onClick: () => console.log('button clicked'),
 }

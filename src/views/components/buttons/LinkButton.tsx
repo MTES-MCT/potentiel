@@ -1,21 +1,43 @@
 import React from 'react'
+import { DocumentDownloadIcon } from '@heroicons/react/outline'
 
-type LinkButtonProps = React.HTMLAttributes<HTMLAnchorElement> & {
-  href: string
+type LinkButtonProps = React.LinkHTMLAttributes<HTMLAnchorElement> & {
   primary?: true
-  download?: true
+  disabled?: boolean
+  type?: 'download' | 'none'
 }
 
-export const LinkButton = ({ className = '', children, primary, ...props }: LinkButtonProps) => (
-  <a
-    className={`no-underline inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+export const LinkButton = ({
+  disabled,
+  primary,
+  children,
+  type = 'none',
+  ...props
+}: LinkButtonProps) => {
+  console.log('D', disabled)
+
+  const classes = `inline-flex items-center px-6 py-2 border border-solid text-base no-underline font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
+    ${
       primary
-        ? 'border-transparent text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active'
-        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base'
-    } ${className}`}
-    style={{ color: primary ? 'white' : '#000091', textDecoration: 'none' }}
-    {...props}
-  >
-    {children}
-  </a>
-)
+        ? 'border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white hover:text-white focus:text-white'
+        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base hover:text-blue-france-sun-base focus:text-blue-france-sun-base'
+    }
+    ${
+      !disabled
+        ? ''
+        : primary
+        ? 'border-transparent bg-neutral-200 text-neutral-500 shadow-none pointer-events-none'
+        : 'border-neutral-200 text-neutral-500 shadow-none pointer-events-none'
+    } 
+    ${props.className || ''}
+  `
+
+  console.log('classes', classes)
+
+  return (
+    <a className={classes} {...props}>
+      {children}
+      {type === 'download' && <DocumentDownloadIcon className="w-5 h-5 ml-1" />}
+    </a>
+  )
+}
