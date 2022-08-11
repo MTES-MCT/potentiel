@@ -1,42 +1,53 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 import { sequelizeInstance } from '../../../../sequelize.config'
-import { withSequelizeProjector } from '../../helpers'
+import { makeSequelizeProjector } from '../../helpers'
 
-export const ProjectEvent = withSequelizeProjector(() => {
-  const model = sequelizeInstance.define(
-    'project_events',
-    {
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-      },
-      projectId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      payload: {
-        type: DataTypes.JSON,
-      },
-      valueDate: {
-        type: DataTypes.BIGINT,
-        allowNull: true,
-      },
-      eventPublishedAt: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
+class ProjectEventTable extends Model<
+  InferAttributes<ProjectEventTable>,
+  InferCreationAttributes<ProjectEventTable>
+> {
+  declare id: string
+  declare projectId: string
+  declare type: string
+  declare payload: { [key: string]: unknown }
+  declare valueDate: number | null
+  declare eventPublishedAt: number
+}
+
+ProjectEventTable.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
     },
-    {
-      timestamps: true,
-      freezeTableName: true,
-    }
-  )
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    payload: {
+      type: DataTypes.JSON,
+    },
+    valueDate: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    eventPublishedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: sequelizeInstance,
+    tableName: 'project_events',
+    timestamps: true,
+    freezeTableName: true,
+  }
+)
 
-  model.associate = (models) => {}
+const ProjectEventProjector = makeSequelizeProjector(ProjectEventTable)
 
-  return model
-})
+export { ProjectEventTable, ProjectEventProjector }

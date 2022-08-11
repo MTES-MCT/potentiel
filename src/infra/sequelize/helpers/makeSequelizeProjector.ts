@@ -1,17 +1,12 @@
-import { Model, ModelCtor, QueryTypes, Transaction } from 'sequelize'
+import { Model, ModelStatic, QueryTypes, Transaction } from 'sequelize'
 import { fromPersistance } from '.'
 import { DomainEvent } from '@core/domain'
 import { sequelizeInstance } from '../../../sequelize.config'
 import { EventHandler, Projector } from './Projection'
 import * as readline from 'readline'
 
-export type SequelizeModel = ModelCtor<Model<any, any>> & {
-  associate?: (models: Record<string, SequelizeModel>) => void
-  projector: Projector
-}
-
-export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
-  model: ProjectionModel
+export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
+  model: TModel
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
 
