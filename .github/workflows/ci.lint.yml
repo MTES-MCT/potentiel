@@ -1,8 +1,6 @@
 name: Check code linting and formatting on PR
 
-on:
-  pull_request:
-    types: [opened, reopened]
+on: [ pull_request ]
 
 jobs:
   test:
