@@ -1,4 +1,5 @@
 import React from 'react'
+import { Label } from '@components'
 import { dataId } from '../../../../../helpers/testId'
 
 type DemandeAbandonProps = {
@@ -7,12 +8,12 @@ type DemandeAbandonProps = {
 
 export const DemandeAbandon = ({ justification }: DemandeAbandonProps) => (
   <>
-    <label className="required" htmlFor="justification">
+    <Label htmlFor="justification">
       <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
       <br />
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
-    </label>
+    </Label>
     <textarea
       name="justification"
       id="justification"

@@ -7,9 +7,10 @@ import {
   Astérisque,
   Input,
   UserDashboard,
-  FormulaireChampsObligatoireMessage,
+  FormulaireChampsObligatoireLégende,
   Button,
   LinkButton,
+  Label,
 } from '@components'
 import routes from '@routes'
 import { Project } from '@entities'
@@ -52,7 +53,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
         </div>
 
         <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
-          <FormulaireChampsObligatoireMessage className="text-right" />
+          <FormulaireChampsObligatoireLégende className="text-right" />
           <input type="hidden" name="projectId" value={project.id} />
           <input type="hidden" name="type" value={'delai'} />
           <div className="form__group">
@@ -61,11 +62,12 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
             <SuccessErrorBox success={success} error={error} />
             {!isEolien && (
               <div>
-                <label className="required">
+                <Label required>
                   <strong>
                     Veuillez saisir les modalités d'instruction à appliquer à ce changement
                   </strong>
-                </label>
+                </Label>
+
                 <CDCChoiceForm
                   newRulesOptIn={project.newRulesOptIn}
                   cahiersChargesURLs={cahiersChargesURLs}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '@routes'
-import { Button } from '../../'
+import { Button, FormulaireChampsObligatoireLégende, Label } from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
@@ -120,12 +120,15 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           action={ROUTES.DEPOSER_ETAPE_ACTION}
           method="post"
           encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5"
+          className="m-0 mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
         >
+          <FormulaireChampsObligatoireLégende className="text-right" />
           <input type="hidden" name="type" id="type" value="dcr" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="stepDate">Date de l'accusé de réception</label>
+            <Label htmlFor="stepDate" required>
+              Date de l'accusé de réception
+            </Label>
             <Input
               type="date"
               id="stepDate"
@@ -135,13 +138,15 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
             />
           </div>
           <div className="mt-2">
-            <label htmlFor="numero-dossier">
+            <Label htmlFor="numero-dossier" required>
               Identifiant gestionnaire de réseau (ex : GEFAR-P)
-            </label>
+            </Label>
             <Input type="text" name="numeroDossier" id="numero-dossier" required />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Accusé de réception</label>
+            <Label htmlFor="file" required>
+              Accusé de réception
+            </Label>
             <Input type="file" name="file" id="file" required />
           </div>
           <div className="flex gap-4 flex-col md:flex-row mt-4">

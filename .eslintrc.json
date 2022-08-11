@@ -42,7 +42,8 @@
     "jest/valid-expect": "error",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "no-console": "warn"
+    "no-console": "warn",
+    "react/prop-types": "off"
   },
   "settings": {
     "react": {

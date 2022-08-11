@@ -20,7 +20,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>
       {justification && (
-        <div style={{ fontStyle: 'italic', marginTop: 5 }}>
+        <div className="italic mt-2">
           {'"'}
           {justification}
           {'"'}
@@ -28,7 +28,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       )}
       <DetailsByType modificationRequest={modificationRequest} />
       {attachmentFile && (
-        <div style={{ marginTop: 10 }}>
+        <div className="mt-4">
           <DownloadIcon />
           <a
             href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
@@ -79,9 +79,8 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
     : moment(completionDueOn).add(delayInMonths, 'month').toDate()
 
   return status === 'envoyée' || status === 'en instruction' ? (
-    <div style={{ marginTop: 5 }}>
-      La date d'achèvement théorique est au{' '}
-      <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
+    <div className="mt-2">
+      La date d'achèvement théorique est au <b>{format(new Date(completionDueOn), 'dd/MM/yyyy')}</b>
       .
       <br />
       Le porteur demande un délai pour une nouvelle date limite d'achèvement le{' '}
@@ -117,7 +116,7 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
     puissance !== (puissanceAuMomentDuDepot || puissanceInitiale)
 
   return (
-    <div style={{ marginTop: 5 }}>
+    <div className="mt-2">
       <div>
         Puissance à la notification : {puissanceInitiale} {unitePuissance}
       </div>
@@ -150,7 +149,7 @@ interface ActionnaireDetailsProps {
 }
 const ActionnaireDetails = ({ modificationRequest }: ActionnaireDetailsProps) => {
   return (
-    <div style={{ marginTop: 5 }}>
+    <div className="mt-2">
       <span>Nouvel actionnaire : {modificationRequest.actionnaire}</span>
     </div>
   )
@@ -161,7 +160,7 @@ interface ProducteurDetailsProps {
 }
 const ProducteurDetails = ({ modificationRequest }: ProducteurDetailsProps) => {
   return (
-    <div style={{ marginTop: 5 }}>
+    <div className="mt-2">
       <span>Nouveau producteur : {modificationRequest.producteur}</span>
     </div>
   )
@@ -172,7 +171,7 @@ interface FournisseurDetailsProps {
 }
 const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) => {
   return (
-    <div style={{ marginTop: 5 }}>
+    <div className="mt-2">
       {modificationRequest.fournisseurs?.length > 0 && (
         <>
           <span>Nouveau(x) fournisseur(s) : </span>
