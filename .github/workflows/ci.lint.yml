@@ -1,4 +1,4 @@
-name: Check code linting and formatting on PR
+name: Run prettier and eslint on PR
 
 on: [ pull_request ]
 
