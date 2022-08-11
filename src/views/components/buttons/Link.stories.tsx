@@ -7,7 +7,9 @@ export default {
   argTypes: {
     children: { control: 'text', defaultValue: 'linkStory' },
     disabled: { control: 'boolean' },
-    type: { control: 'select', options: ['download', 'target', 'none'] },
+    download: { control: 'boolean' },
+    target: { control: 'select', options: ['_blank', '_self', '_parent', '_top'] },
+    href: { control: 'text' },
   },
 }
 
@@ -17,5 +19,7 @@ export const Default = Template.bind({})
 Default.args = {
   children: `Ceci est un exemple de lien`,
   disabled: false,
-  type: 'none',
+  download: false,
+  target: '_self',
+  href: '#',
 }

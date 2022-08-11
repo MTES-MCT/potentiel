@@ -8,7 +8,9 @@ export default {
     primary: { control: 'boolean' },
     children: { control: 'text' },
     disabled: { control: 'boolean' },
-    type: { control: 'select', options: ['download', 'none'] },
+    download: { control: 'boolean' },
+    target: { control: 'select', options: ['_blank', '_self', '_parent', '_top'] },
+    href: { control: 'text' },
   },
 }
 
@@ -19,5 +21,7 @@ Default.args = {
   primary: true,
   children: `Ceci est un exemple de lien avec un design de bouton`,
   disabled: false,
-  type: 'none',
+  download: false,
+  target: '_self',
+  href: '#',
 }

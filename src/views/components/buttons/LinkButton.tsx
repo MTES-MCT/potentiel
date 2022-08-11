@@ -1,21 +1,12 @@
 import React from 'react'
-import { DocumentDownloadIcon } from '@heroicons/react/outline'
+import { DocumentDownloadIcon, ExternalLinkIcon } from '@heroicons/react/outline'
 
-type LinkButtonProps = React.LinkHTMLAttributes<HTMLAnchorElement> & {
+type LinkButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
   primary?: true
   disabled?: boolean
-  type?: 'download' | 'none'
 }
 
-export const LinkButton = ({
-  disabled,
-  primary,
-  children,
-  type = 'none',
-  ...props
-}: LinkButtonProps) => {
-  console.log('D', disabled)
-
+export const LinkButton = ({ disabled, primary, children, ...props }: LinkButtonProps) => {
   const classes = `inline-flex items-center px-6 py-2 border border-solid text-base no-underline font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
     ${
       primary
@@ -32,12 +23,11 @@ export const LinkButton = ({
     ${props.className || ''}
   `
 
-  console.log('classes', classes)
-
   return (
     <a className={classes} {...props}>
       {children}
-      {type === 'download' && <DocumentDownloadIcon className="w-5 h-5 ml-1" />}
+      {props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />}
+      {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
     </a>
   )
 }
