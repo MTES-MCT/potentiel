@@ -31,7 +31,7 @@ export const makeRegenerateCertificatesForPeriode =
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { appelOffreId, periodeId, familleId, newNotifiedOn, user, reason } = args
 
-    if (!user || !['admin', 'dgec'].includes(user.role)) {
+    if (!user || !['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
     }
 

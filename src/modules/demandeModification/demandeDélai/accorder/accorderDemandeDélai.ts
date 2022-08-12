@@ -31,7 +31,7 @@ type MakeAccorderDemandeDélai = (dépendances: {
 export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
   ({ demandeDélaiRepo, publishToEventStore, fileRepo, projectRepo }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
-    if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
+    if (userIsNot(['admin', 'dreal', 'dgec-validateur'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 

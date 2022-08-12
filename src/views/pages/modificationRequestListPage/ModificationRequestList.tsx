@@ -206,7 +206,7 @@ export const ModificationRequestList = PageLayout(
                 </a>
               ) : null}
 
-              {userIs(['admin', 'dgec'])(request.user) && (
+              {userIs(['admin', 'dgec-validateur'])(request.user) && (
                 <div className="flex flex-row mt-5">
                   <input
                     id="showOnlyDGEC"

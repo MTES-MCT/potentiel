@@ -24,7 +24,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 
 v1Router.get(
   routes.TELECHARGER_MODELE_REPONSE(),
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId, modificationRequestId } = request.params
 

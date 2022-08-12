@@ -3,11 +3,11 @@ import { User } from '../../entities'
 
 export const USER_ROLES = [
   'admin',
-  'dgec',
   'porteur-projet',
   'dreal',
   'acheteur-obligé',
   'ademe',
+  'dgec-validateur',
 ] as const
 
 export type UserRole = typeof USER_ROLES[number]

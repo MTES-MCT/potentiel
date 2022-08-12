@@ -9,7 +9,7 @@ import {
 } from '../dtos'
 
 type GetModificationRequestListForAdminFilter = {
-  user: User & { role: 'dreal' | 'dgec' | 'admin' }
+  user: User & { role: 'dreal' | 'dgec-validateur' | 'admin' }
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   familleId?: Famille['id']

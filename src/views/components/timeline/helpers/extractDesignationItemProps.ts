@@ -65,7 +65,7 @@ const makeCertificateLink = (
   projectId: Project['id']
 ) => {
   const { certificateFileId, nomProjet, potentielIdentifier, variant } = latestCertificateEvent
-  if (variant === 'admin' || variant === 'dgec') {
+  if (variant === 'admin' || variant === 'dgec-validateur') {
     return ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
       id: projectId,
       certificateFileId,

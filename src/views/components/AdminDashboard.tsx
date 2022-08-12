@@ -153,7 +153,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
                 route={ROUTES.IMPORTER_LISTING_ENEDIS}
                 itemPage={'import-enedis'}
                 title="Importer des données Enedis"
-                visibleForRoles={['admin', 'dgec']}
+                visibleForRoles={['admin', 'dgec-validateur']}
                 role={role}
                 currentPage={currentPage}
               />

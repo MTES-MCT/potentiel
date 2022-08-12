@@ -14,7 +14,7 @@ import { validateUniqueId } from '../../helpers/validateUniqueId'
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { modificationRequestId } = request.params
     const { user } = request

@@ -40,7 +40,7 @@ export const ModificationRequest = PageLayout(
     const { error, success } = request.query as any
     const { type, id, status } = modificationRequest
 
-    const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
+    const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
 
     const showFormulaireAdministrateur =
       isAdmin &&

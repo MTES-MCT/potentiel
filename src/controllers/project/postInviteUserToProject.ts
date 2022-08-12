@@ -11,7 +11,7 @@ import { logger } from '@core/utils'
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { email, projectId } = request.body
     const { user } = request

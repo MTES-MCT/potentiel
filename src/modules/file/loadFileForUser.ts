@@ -33,7 +33,7 @@ export const makeLoadFileForUser =
           FileAccessDeniedError | InfraNotAvailableError | FileNotFoundError
         > => {
           if (!projectId) {
-            if (['admin', 'dgec'].includes(user.role)) {
+            if (['admin', 'dgec-validateur'].includes(user.role)) {
               return okAsync(true)
             }
 

@@ -25,6 +25,6 @@ export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesPro
         now,
       }}
     />
-    {userIs(['admin', 'dgec', 'dreal'])(user) && <AttachFile projectId={project.id} />}
+    {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />}
   </div>
 )

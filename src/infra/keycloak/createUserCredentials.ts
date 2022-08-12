@@ -35,7 +35,7 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
     if (id) {
       const roles = await keycloakAdminClient.users.listRealmRoleMappings({ id })
 
-      if (!roles.map((r) => r.name).includes(role) && ['admin', 'dgec'].includes(role)) {
+      if (!roles.map((r) => r.name).includes(role) && ['admin', 'dgec-validateur'].includes(role)) {
         throw new UnauthorizedError()
       }
     }

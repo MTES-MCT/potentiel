@@ -21,7 +21,10 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
   const { user } = request
 
   // Set default filter on classés for admins
-  if (['admin', 'dgec', 'dreal'].includes(user.role) && typeof classement === 'undefined') {
+  if (
+    ['admin', 'dgec-validateur', 'dreal'].includes(user.role) &&
+    typeof classement === 'undefined'
+  ) {
     classement = 'classés'
     request.query.classement = 'classés'
   }

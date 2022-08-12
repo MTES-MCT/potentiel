@@ -677,6 +677,6 @@ function _selectFieldsForRole(userRole: string): { label: string; value: string 
 
 v1Router.get(
   routes.DOWNLOAD_PROJECTS_CSV,
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListCsv
 )

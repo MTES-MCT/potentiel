@@ -56,7 +56,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
       et une demande de délai en statut 'envoyée'`, () => {
         it(`Lorsque l'utilisateur exécute la commande, 
       alors une erreur StatutRéponseIncompatibleAvecAnnulationError devrait être retournée`, async () => {
-          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec' })))
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
           const shouldUserAccessProject = jest.fn(async () => true)
 
           const demandeDélaiRepo = fakeTransactionalRepo(
@@ -90,7 +90,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
       et une demande de délai en statut "refusée"`, () => {
         it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
         alors un événement RejetDemandeDélaiAnnulé devrait être émis`, async () => {
-          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec', id: 'user-id' })))
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
           const shouldUserAccessProject = jest.fn(async () => true)
 
           const demandeDélaiRepo = fakeTransactionalRepo(
@@ -130,7 +130,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
       et une demande de délai en statut "accordée" de type DemandeDélai`, () => {
         it(`Lorsque l'utilisateur annule le l'accord suite à la demande de délai,
         alors un événement AccordDemandeDélaiAnnulé devrait être émis avec la nouvelle date d'achèvement`, async () => {
-          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec', id: 'user-id' })))
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
           const shouldUserAccessProject = jest.fn(async () => true)
 
           const ancienneDateThéoriqueAchèvement = new Date('2024-01-01').toISOString()
@@ -180,7 +180,7 @@ describe(`Commande annulerRéponseDemandeDélai`, () => {
       et une demande de délai en statut "accordée" de type ModificationRequestAccepted`, () => {
         it(`Lorsque l'utilisateur annule le l'accord suite à la demande de délai,
         alors un événement AccordDemandeDélaiAnnulé devrait être émis avec la nouvelle date d'achèvement`, async () => {
-          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dgec', id: 'user-id' })))
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
           const shouldUserAccessProject = jest.fn(async () => true)
 
           const completionDueOn = new Date('2022-02-01').getTime()

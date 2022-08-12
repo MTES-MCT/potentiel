@@ -72,7 +72,11 @@ describe('getProjectEvents for GF events', () => {
   })
 
   for (const role of USER_ROLES.filter(
-    (role) => role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+    (role) =>
+      role === 'porteur-projet' ||
+      role === 'admin' ||
+      role === 'dgec-validateur' ||
+      role === 'dreal'
   )) {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
@@ -154,7 +158,11 @@ describe('getProjectEvents for GF events', () => {
   }
 
   for (const role of USER_ROLES.filter(
-    (role) => role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+    (role) =>
+      role === 'porteur-projet' ||
+      role === 'admin' ||
+      role === 'dgec-validateur' ||
+      role === 'dreal'
   )) {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {
@@ -209,7 +217,11 @@ describe('getProjectEvents for GF events', () => {
   }
 
   for (const role of USER_ROLES.filter(
-    (role) => role !== 'porteur-projet' && role !== 'admin' && role !== 'dgec' && role !== 'dreal'
+    (role) =>
+      role !== 'porteur-projet' &&
+      role !== 'admin' &&
+      role !== 'dgec-validateur' &&
+      role !== 'dreal'
   )) {
     const fakeUser = { role } as User
     describe(`when user is ${role}`, () => {

@@ -11,7 +11,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.IMPORT_PROJECTS_ACTION,
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   upload.single('candidats'),
   asyncHandler(async (request, response) => {
     if (!request.file || !request.file.path) {

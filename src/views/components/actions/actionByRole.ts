@@ -5,7 +5,7 @@ import { porteurProjetActions } from './porteurProjet'
 
 export const ACTION_BY_ROLE: Record<UserRole, (project: any) => any[]> = {
   admin: adminActions,
-  dgec: adminActions,
+  'dgec-validateur': adminActions,
   'porteur-projet': porteurProjetActions,
   dreal: drealActions,
   'acheteur-obligé': () => [],

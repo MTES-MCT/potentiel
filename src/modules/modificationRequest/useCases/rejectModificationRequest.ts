@@ -36,7 +36,7 @@ export const makeRejectModificationRequest =
     const { fileRepo, modificationRequestRepo } = deps
     const { modificationRequestId, versionDate, responseFile, rejectedBy } = args
 
-    if (!['admin', 'dgec', 'dreal'].includes(rejectedBy.role)) {
+    if (!['admin', 'dgec-validateur', 'dreal'].includes(rejectedBy.role)) {
       return errAsync(new UnauthorizedError())
     }
 

@@ -14,7 +14,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.ADMIN_PASSER_DEMANDE_DELAI_EN_INSTRUCTION(),
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { modificationRequestId } = request.body as any
     const { user } = request

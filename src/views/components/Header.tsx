@@ -88,7 +88,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     {user ? (
       <>
         <li className="flex items-center">
-          {['admin', 'dgec'].includes(user.role) ? (
+          {['admin', 'dgec-validateur'].includes(user.role) ? (
             <a
               className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
               href={user.accountUrl}

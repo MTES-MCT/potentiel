@@ -10,7 +10,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.RETIRER_FICHIER_DU_PROJET_ACTION,
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { attachmentId, projectId } = request.body
 

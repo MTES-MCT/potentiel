@@ -65,7 +65,7 @@ export type ProjectNotifiedDTO = {
 
 export type ProjectImportedDTO = {
   type: 'ProjectImported'
-  variant: 'dgec' | 'admin'
+  variant: 'dgec-validateur' | 'admin'
   date: number
 }
 
@@ -81,7 +81,7 @@ type ProjectCertificateBase = {
   certificateFileId: string
   nomProjet: string
 } & (
-  | { variant: 'admin' | 'dgec'; email: string }
+  | { variant: 'admin' | 'dgec-validateur'; email: string }
   | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal'; email: undefined }
 )
 
@@ -118,7 +118,7 @@ export const isCertificateDTO = or(
 export type ProjectGFSubmittedDTO = {
   type: 'ProjectGFSubmitted'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: File
   expirationDate?: number
 }
@@ -126,7 +126,7 @@ export type ProjectGFSubmittedDTO = {
 export type ProjectGFUploadedDTO = {
   type: 'ProjectGFUploaded'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: { id: string; name: string }
   expirationDate?: number
   uploadedByRole: 'porteur-projet' | 'dreal'
@@ -142,31 +142,31 @@ export type ProjectGFDueDateSetDTO = {
 export type ProjectGFRemovedDTO = {
   type: 'ProjectGFRemoved'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 }
 
 export type ProjectGFWithdrawnDTO = {
   type: 'ProjectGFWithdrawn'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 }
 
 export type ProjectGFValidatedDTO = {
   type: 'ProjectGFValidated'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 }
 
 export type ProjectGFInvalidatedDTO = {
   type: 'ProjectGFInvalidated'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 }
 
 export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: File
   numeroDossier: string
 }
@@ -174,7 +174,7 @@ export type ProjectDCRSubmittedDTO = {
 export type ProjectDCRRemovedDTO = {
   type: 'ProjectDCRRemoved'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   removedBy: string
 }
 
@@ -187,14 +187,14 @@ export type ProjectDCRDueDateSetDTO = {
 export type ProjectPTFSubmittedDTO = {
   type: 'ProjectPTFSubmitted'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: File
 }
 
 export type ProjectPTFRemovedDTO = {
   type: 'ProjectPTFRemoved'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   removedBy: string
 }
 

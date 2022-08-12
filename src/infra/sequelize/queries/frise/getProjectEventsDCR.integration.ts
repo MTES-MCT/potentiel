@@ -74,7 +74,10 @@ describe('getProjectEvents for DCR events', () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>
-          role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+          role === 'porteur-projet' ||
+          role === 'admin' ||
+          role === 'dgec-validateur' ||
+          role === 'dreal'
       )) {
         const fakeUser = { role } as User
         describe(`when user is ${role}`, () => {
@@ -139,7 +142,10 @@ describe('getProjectEvents for DCR events', () => {
     describe(`when the user is NOT ademe or acheteur-obligé`, () => {
       for (const role of USER_ROLES.filter(
         (role) =>
-          role === 'porteur-projet' || role === 'admin' || role === 'dgec' || role === 'dreal'
+          role === 'porteur-projet' ||
+          role === 'admin' ||
+          role === 'dgec-validateur' ||
+          role === 'dreal'
       )) {
         const fakeUser = { role } as User
         describe(`when user is ${role}`, () => {

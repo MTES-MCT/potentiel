@@ -12,7 +12,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(),
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
     const { user, query } = request

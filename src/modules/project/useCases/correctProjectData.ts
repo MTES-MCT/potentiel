@@ -82,7 +82,7 @@ export const makeCorrectProjectData =
     reason,
     attestation,
   }) => {
-    if (!['admin', 'dgec'].includes(user.role)) {
+    if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
     }
 

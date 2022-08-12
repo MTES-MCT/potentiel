@@ -28,7 +28,7 @@ describe('onFileAttachedToProject', () => {
   beforeAll(async () => {
     await resetDatabase()
 
-    await User.create(makeFakeUser({ id: attachedBy, role: 'dgec', fullName: 'John Doe' }))
+    await User.create(makeFakeUser({ id: attachedBy, role: 'admin', fullName: 'John Doe' }))
     await onFileAttachedToProject(event)
   })
 

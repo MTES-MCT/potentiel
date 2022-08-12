@@ -12,7 +12,7 @@ import { userIs } from '@modules/users'
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { user, cookies, query } = request
 
@@ -52,7 +52,8 @@ v1Router.get(
       recherche,
       modificationRequestStatus,
       modificationRequestType,
-      ...(userIs(['admin', 'dgec'])(user) && showOnlyDGEC !== 'on' && { forceNoAuthority: true }),
+      ...(userIs(['admin', 'dgec-validateur'])(user) &&
+        showOnlyDGEC !== 'on' && { forceNoAuthority: true }),
     }).match(
       (modificationRequests) =>
         response.send(

@@ -8,11 +8,11 @@ const userSchema = Record({
   email: String.withConstraint(isEmail.validate),
   role: Union(
     Literal('admin'),
-    Literal('dgec'),
     Literal('porteur-projet'),
     Literal('dreal'),
     Literal('acheteur-obligé'),
-    Literal('ademe')
+    Literal('ademe'),
+    Literal('dgec-validateur')
   ),
 })
 

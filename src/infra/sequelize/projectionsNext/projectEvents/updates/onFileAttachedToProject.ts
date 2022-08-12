@@ -13,7 +13,7 @@ export default ProjectEvent.projector.on(
     if (user) {
       attachedByUser.name = user.fullName
 
-      if (user.role === 'dgec' || user.role === 'admin') {
+      if (user.role === 'dgec-validateur' || user.role === 'admin') {
         attachedByUser.administration = 'DGEC'
       }
 

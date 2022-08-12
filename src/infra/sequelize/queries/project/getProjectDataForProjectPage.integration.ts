@@ -352,8 +352,8 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       expect(res.isOk()).toBe(true)
     })
 
-    it('should return DTO for dgec', async () => {
-      const user = makeFakeUser({ role: 'dgec' })
+    it('should return DTO for dgec-validateur', async () => {
+      const user = makeFakeUser({ role: 'dgec-validateur' })
 
       const res = await getProjectDataForProjectPage({ projectId, user })
       expect(res.isOk()).toBe(true)

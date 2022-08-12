@@ -17,7 +17,7 @@ const FORMAT_DATE = 'DD/MM/YYYY'
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
   upload.single('file'),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     if (request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
       return response.redirect(

@@ -65,7 +65,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   oldCompletionDueOn: new Date('2024-09-31').getTime(),
                   newCompletionDueOn: new Date('2025-01-31').getTime(),
                   attachment: { id: 'file-id', name: 'file-name' },
-                  ...(['admin', 'dgec', 'dreal'].includes(role) && { notes: 'notes' }),
+                  ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
                 },
                 {
                   type: 'DemandeDelaiSignaled',
@@ -74,7 +74,7 @@ describe('getProjectEvents for DemandeDelaiSignaled events', () => {
                   signaledBy: 'user-id',
                   status: 'rejetée',
                   attachment: { id: 'file-id', name: 'file-name' },
-                  ...(['admin', 'dgec', 'dreal'].includes(role) && { notes: 'notes' }),
+                  ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
                 },
               ]),
             })
