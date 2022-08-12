@@ -1,6 +1,6 @@
 import { DélaiAccordé } from '@modules/demandeModification'
 import { ResultAsync } from '@core/utils'
-import { InfraNotAvailableError } from 'src/modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { Project, ProjectCompletionDueDateSet } from '@modules/project'
 
