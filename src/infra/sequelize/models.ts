@@ -17,7 +17,6 @@ import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
-import { HasSubscribe, isProjector } from './helpers/Projection'
 
 //
 // Legacy projections
@@ -59,20 +58,3 @@ Object.values(models).forEach((model) => {
 })
 
 export default { ...models, ...projectionsNextModels }
-
-//
-// Next-gen projections
-//
-
-// Give the projections an access to the event stream
-export const initProjectionsNext = (eventStream: HasSubscribe) => {
-  const initializedProjections: string[] = []
-
-  for (const model of Object.values(projectionsNextModels)) {
-    if (isProjector(model)) {
-      model.initEventStream(eventStream)
-      initializedProjections.push(model.name)
-    }
-  }
-  return initializedProjections
-}

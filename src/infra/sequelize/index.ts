@@ -9,7 +9,7 @@ import {
 import { initUserProjectClaimsProjections } from './projections/userProjectClaims/updates'
 import { EventStore } from '@core/domain'
 
-export { initProjectors, initProjectionsNext } from './models'
+export { initProjectors } from './models'
 export {
   persistEventsToStore,
   loadAggregateEventsFromStore,
@@ -26,3 +26,4 @@ export const initProjections = (eventStore: EventStore) => {
 }
 
 export { HasSubscribe } from './helpers/Projection'
+export * from './projectionsNext'
