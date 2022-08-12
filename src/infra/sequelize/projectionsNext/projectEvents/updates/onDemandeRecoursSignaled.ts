@@ -1,7 +1,7 @@
 import { DemandeRecoursSignaled } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   DemandeRecoursSignaled,
   async ({ payload, id, occurredAt }, transaction) => {
     const { projectId, decidedOn, signaledBy, status, notes, attachments } = payload

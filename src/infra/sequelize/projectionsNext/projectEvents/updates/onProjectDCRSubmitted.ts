@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectDCRSubmitted } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import models from '../../../models'
 import { logger } from '@core/utils'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectDCRSubmitted,
   async ({ payload: { projectId, fileId, dcrDate, numeroDossier }, occurredAt }, transaction) => {
     const { File } = models

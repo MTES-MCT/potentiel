@@ -1,30 +1,34 @@
 import { sequelizeInstance } from '../../../sequelize.config'
-import { resetDatabase, withSequelizeProjector } from '../helpers'
-import { DataTypes, Transaction } from 'sequelize'
+import { makeSequelizeProjector, resetDatabase } from '../helpers'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize'
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { models } from '../models'
 import { toPersistance } from './toPersistance'
 import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project'
 
-const FakeProjection = withSequelizeProjector(() => {
-  const model = sequelizeInstance.define(
-    'fake_projection',
-    {
-      id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-      },
+class FakeProjection extends Model<
+  InferAttributes<FakeProjection>,
+  InferCreationAttributes<FakeProjection>
+> {
+  declare id: string
+}
+
+FakeProjection.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
     },
-    {
-      timestamps: true,
-      freezeTableName: true,
-    }
-  )
+  },
+  {
+    sequelize: sequelizeInstance,
+    tableName: 'fake_projection',
+    timestamps: true,
+    freezeTableName: true,
+  }
+)
 
-  model.associate = (models) => {}
-
-  return model
-})
+const FakeProjectionProjector = makeSequelizeProjector(FakeProjection)
 
 interface OtherEventPayload {
   param1: string
@@ -71,9 +75,9 @@ describe('rebuild', () => {
 
     expect(await FakeProjection.count()).toBe(1)
 
-    FakeProjection.projector.on(ProjectNotified, fakeDummyEventHandler)
+    FakeProjectionProjector.on(ProjectNotified, fakeDummyEventHandler)
 
-    await FakeProjection.projector.rebuild(transaction)
+    await FakeProjectionProjector.rebuild(transaction)
     await transaction.commit()
   })
 
@@ -113,7 +117,7 @@ describe('rebuild', () => {
 
       const transaction = await sequelizeInstance.transaction()
 
-      await FakeProjection.projector.rebuild(transaction)
+      await FakeProjectionProjector.rebuild(transaction)
 
       await transaction.rollback()
     })

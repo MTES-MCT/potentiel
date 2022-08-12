@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ModificationRequested } from '@modules/modificationRequest'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ModificationRequested,
   async ({ payload, occurredAt }, transaction) => {
     const { projectId, type, modificationRequestId, authority, requestedBy } = payload

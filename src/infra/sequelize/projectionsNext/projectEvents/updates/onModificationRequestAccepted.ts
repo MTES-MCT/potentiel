@@ -4,9 +4,9 @@ import { ModificationRequestAccepted } from '@modules/modificationRequest'
 import { ProjectionEnEchec } from '@modules/shared'
 import { Transaction } from 'sequelize'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ModificationRequestAccepted,
   async (evenement, transaction) => {
     const {

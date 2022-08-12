@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectPTFRemoved } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectPTFRemoved,
   async ({ payload: { projectId }, occurredAt }, transaction) => {
     await ProjectEvent.create(

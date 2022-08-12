@@ -1,5 +1,6 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
-import { makeSequelizeProjector, SequelizeModel } from './makeSequelizeProjector'
+import { InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { makeSequelizeProjector } from './makeSequelizeProjector'
 
 interface DummyEventPayload {}
 
@@ -26,16 +27,16 @@ class OtherDummyEvent extends BaseDomainEvent<OtherDummyEventPayload> implements
 }
 
 describe('makeSequelizeProjector', () => {
-  const fakeModel = {
-    name: 'modelName',
-  } as SequelizeModel
+  class FakeModel extends Model<InferAttributes<FakeModel>, InferCreationAttributes<FakeModel>> {
+    declare name: 'modelName'
+  }
 
   describe('on(Event, handler)', () => {
     describe('when called for the same event type', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: DummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(fakeModel)
+      const projector = makeSequelizeProjector(FakeModel)
       projector.on(DummyEvent, handler)
 
       it('should throw an error', () => {
@@ -47,7 +48,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(fakeModel)
+      const projector = makeSequelizeProjector(FakeModel)
       projector.on(DummyEvent, handler)
       projector.on(OtherDummyEvent, handler2)
 
@@ -76,7 +77,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(fakeModel)
+      const projector = makeSequelizeProjector(FakeModel)
       const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {})
 
       projector.initEventStream({

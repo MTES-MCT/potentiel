@@ -1,7 +1,7 @@
 import { FileDetachedFromProject } from '../../../../../modules/file'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   FileDetachedFromProject,
   async ({ payload: { attachmentId } }, transaction) => {
     await ProjectEvent.destroy({

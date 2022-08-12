@@ -2,19 +2,19 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequ
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
-class ProjectEventTable extends Model<
-  InferAttributes<ProjectEventTable>,
-  InferCreationAttributes<ProjectEventTable>
+class ProjectEvent extends Model<
+  InferAttributes<ProjectEvent>,
+  InferCreationAttributes<ProjectEvent>
 > {
   declare id: string
   declare projectId: string
   declare type: string
-  declare payload: { [key: string]: unknown }
+  declare payload?: { [key: string]: unknown }
   declare valueDate: number | null
   declare eventPublishedAt: number
 }
 
-ProjectEventTable.init(
+ProjectEvent.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -48,6 +48,6 @@ ProjectEventTable.init(
   }
 )
 
-const ProjectEventProjector = makeSequelizeProjector(ProjectEventTable)
+const ProjectEventProjector = makeSequelizeProjector(ProjectEvent)
 
-export { ProjectEventTable, ProjectEventProjector }
+export { ProjectEvent, ProjectEventProjector }

@@ -1,8 +1,8 @@
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import { UniqueEntityID } from '../../../../../core/domain'
 import { ProjectNotificationDateSet } from '../../../../../modules/project'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectNotificationDateSet,
   async ({ payload: { projectId, notifiedOn }, occurredAt }, transaction) => {
     await ProjectEvent.create(

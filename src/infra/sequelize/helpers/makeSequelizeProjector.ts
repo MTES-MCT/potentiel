@@ -21,6 +21,7 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   }
 
   return {
+    name: model.name,
     on: (eventClass, handler) => {
       const type = eventClass.type
 

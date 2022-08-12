@@ -30,6 +30,7 @@ describe('userRepo sequelizeInstance', () => {
       const userDreals = await UserDrealModel.findAll({ where: { userId } })
 
       expect(userDreals).toHaveLength(1)
+      //@ts-ignore
       expect(userDreals[0].dreal).toEqual('Corse')
     })
   })
@@ -123,6 +124,7 @@ describe('userRepo sequelizeInstance', () => {
         const userInstance = await UserModel.findByPk(userId)
         const projectInstance = await ProjectModel.findByPk(targetProjetId)
 
+        //@ts-ignore
         expect(await userInstance.hasProject(projectInstance)).toEqual(true)
       })
     })

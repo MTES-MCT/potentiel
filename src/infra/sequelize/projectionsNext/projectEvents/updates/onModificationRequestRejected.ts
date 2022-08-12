@@ -3,9 +3,9 @@ import { logger } from '@core/utils'
 import { ModificationRequestRejected } from '@modules/modificationRequest'
 import { ProjectionEnEchec } from '@modules/shared'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ModificationRequestRejected,
   async (evenement, transaction) => {
     const {

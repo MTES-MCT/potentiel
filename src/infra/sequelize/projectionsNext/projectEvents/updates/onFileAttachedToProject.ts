@@ -1,9 +1,9 @@
 import { Payload } from 'aws-sdk/clients/iotdata'
 import { FileAttachedToProject } from '../../../../../modules/file'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   FileAttachedToProject,
   async ({ payload: { projectId, date, attachedBy, ...payload }, occurredAt, id }, transaction) => {
     const { User, UserDreal } = models

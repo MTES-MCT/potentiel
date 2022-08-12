@@ -43,7 +43,8 @@ describe(`Notifier lors de l'annulation de l'accord pour une demande de délai`,
             demandeDélaiId: 'la-demande',
             projetId: 'le-projet',
             annuléPar: 'la-dreal',
-          } as AccordDemandeDélaiAnnuléPayload,
+            nouvelleDateAchèvement: new Date().toISOString(),
+          },
         })
       )
 

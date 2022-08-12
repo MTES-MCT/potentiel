@@ -1,8 +1,8 @@
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import { UniqueEntityID } from '@core/domain'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   LegacyModificationImported,
   async ({ payload: { projectId, modifications }, occurredAt }, transaction) => {
     await ProjectEvent.destroy({
