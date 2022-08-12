@@ -27,16 +27,14 @@ class OtherDummyEvent extends BaseDomainEvent<OtherDummyEventPayload> implements
 }
 
 describe('makeSequelizeProjector', () => {
-  class FakeModel extends Model<InferAttributes<FakeModel>, InferCreationAttributes<FakeModel>> {
-    declare name: 'modelName'
-  }
+  class FakeModel extends Model<InferAttributes<FakeModel>, InferCreationAttributes<FakeModel>> {}
 
   describe('on(Event, handler)', () => {
     describe('when called for the same event type', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: DummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(FakeModel)
+      const projector = makeSequelizeProjector(FakeModel, 'fakeModel')
       projector.on(DummyEvent, handler)
 
       it('should throw an error', () => {
@@ -48,7 +46,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(FakeModel)
+      const projector = makeSequelizeProjector(FakeModel, 'fakeModel')
       projector.on(DummyEvent, handler)
       projector.on(OtherDummyEvent, handler2)
 
@@ -60,7 +58,7 @@ describe('makeSequelizeProjector', () => {
 
       it('should register a single handler on the eventStream, with the model as consumerName', () => {
         expect(eventStreamSubscribe).toHaveBeenCalledTimes(1)
-        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'modelName')
+        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel')
       })
 
       it('should call the handlers for the specific type when the event arises', () => {
@@ -77,7 +75,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve())
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve())
 
-      const projector = makeSequelizeProjector(FakeModel)
+      const projector = makeSequelizeProjector(FakeModel, 'fakeModel')
       const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {})
 
       projector.initEventStream({
@@ -89,7 +87,7 @@ describe('makeSequelizeProjector', () => {
 
       it('should register a single handler on the eventStream, with the model as consumerName', () => {
         expect(eventStreamSubscribe).toHaveBeenCalledTimes(1)
-        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'modelName')
+        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel')
       })
 
       it('should call the handlers for the specific type when the event arises', () => {

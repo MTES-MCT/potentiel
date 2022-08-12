@@ -6,7 +6,8 @@ import { EventHandler, Projector } from './Projection'
 import * as readline from 'readline'
 
 export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
-  model: TModel
+  model: TModel,
+  modelName: string
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
 
@@ -21,12 +22,12 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   }
 
   return {
-    name: model.name,
+    name: modelName,
     on: (eventClass, handler) => {
       const type = eventClass.type
 
       if (handlersByType[type]) {
-        throw new Error(`The event ${type} already has an handler for the projection ${model.name}`)
+        throw new Error(`The event ${type} already has an handler for the projection ${modelName}`)
       }
 
       handlersByType[type] = handler
@@ -35,7 +36,7 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
     initEventStream: (eventStream) => {
       eventStream.subscribe(async (event) => {
         await handleEvent(event)
-      }, model.name)
+      }, modelName)
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction })

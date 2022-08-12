@@ -14,6 +14,8 @@ class ProjectEvent extends Model<
   declare eventPublishedAt: number
 }
 
+const nomProjection = 'project_events'
+
 ProjectEvent.init(
   {
     id: {
@@ -42,12 +44,12 @@ ProjectEvent.init(
   },
   {
     sequelize: sequelizeInstance,
-    tableName: 'project_events',
+    tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
   }
 )
 
-const ProjectEventProjector = makeSequelizeProjector(ProjectEvent)
+const ProjectEventProjector = makeSequelizeProjector(ProjectEvent, nomProjection)
 
 export { ProjectEvent, ProjectEventProjector }
