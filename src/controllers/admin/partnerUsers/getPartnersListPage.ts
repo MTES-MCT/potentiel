@@ -7,7 +7,7 @@ import { PartnersListPage } from '@views'
 
 v1Router.get(
   routes.ADMIN_PARTNER_USERS,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { query } = request
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(

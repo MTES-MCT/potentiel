@@ -11,7 +11,7 @@ const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_REGENERATE_CERTIFICATES_ACTION,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const {
       user,

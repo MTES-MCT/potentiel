@@ -65,7 +65,7 @@ export const makeAppelOffre = (args: {
 
   return ok({
     update({ data, updatedBy }) {
-      if (updatedBy.role !== 'admin') {
+      if (updatedBy.role !== 'admin' && updatedBy.role !== 'dgec-validateur') {
         return err(new UnauthorizedError())
       }
 
@@ -98,7 +98,7 @@ export const makeAppelOffre = (args: {
       return ok(null)
     },
     updatePeriode({ periodeId, data, updatedBy }) {
-      if (updatedBy.role !== 'admin') {
+      if (updatedBy.role !== 'admin' && updatedBy.role !== 'dgec-validateur') {
         return err(new UnauthorizedError())
       }
 

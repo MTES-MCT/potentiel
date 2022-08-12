@@ -14,7 +14,7 @@ if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
 
 v1Router.get(
   routes.ADMIN_STATISTIQUES,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
       response.status(500).send('Service indisponible')

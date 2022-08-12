@@ -8,7 +8,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.EXPORT_AO_CSV,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     await getAppelOffreList().match(
       async (appelOffreList) => {

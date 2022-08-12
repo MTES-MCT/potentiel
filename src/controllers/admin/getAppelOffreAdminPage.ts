@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.ADMIN_AO_PERIODE,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     return response.send(AdminAppelOffrePage({ request }))
   })

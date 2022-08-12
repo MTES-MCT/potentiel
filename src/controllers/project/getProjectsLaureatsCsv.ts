@@ -99,6 +99,6 @@ function _sortProjectsByRegionsAndDepartements(projects: Project[]) {
 
 v1Router.get(
   routes.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV,
-  ensureRole('admin'),
+  ensureRole(['admin', 'dgec-validateur']),
   getProjectsLaureatsCsv
 )

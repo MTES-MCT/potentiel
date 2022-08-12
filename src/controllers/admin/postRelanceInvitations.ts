@@ -7,7 +7,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.ADMIN_INVITATION_RELANCE_ACTION,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { email } = request.body
 

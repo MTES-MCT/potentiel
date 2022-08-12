@@ -10,7 +10,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.UPLOAD_LEGACY_MODIFICATION_FILES,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     return response.send(UploadLegacyModificationFilesPage({ request }))
   })
@@ -18,7 +18,7 @@ v1Router.get(
 
 v1Router.post(
   routes.UPLOAD_LEGACY_MODIFICATION_FILES,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   upload.multiple(),
   asyncHandler(async (request, response) => {
     if (!request.files || !request.files.length) {
