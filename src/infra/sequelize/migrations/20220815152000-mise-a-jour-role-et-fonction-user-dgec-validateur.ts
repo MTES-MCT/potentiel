@@ -2,6 +2,7 @@
 
 import { QueryInterface, Sequelize } from 'sequelize'
 import { FonctionUtilisateurModifiée, RôleUtilisateurModifié } from '@modules/users'
+import { logger } from '@core/utils'
 import { toPersistance } from '../helpers'
 import models from '../models'
 
@@ -24,17 +25,26 @@ module.exports = {
       )
 
       // Ajout des événements dans l'EventStore
-      const email = await User.findOne(
+      const utilisateurCible = await User.findOne(
         { where: { id: userId }, attributes: ['email'] },
         { transaction }
       )
+
+      if (!utilisateurCible) {
+        logger.error(`L'utilisateur cible avec l'id ${userId} n'a pas été trouvé`)
+        return
+      }
+
+      const {
+        dataValues: { email },
+      } = utilisateurCible
 
       await EventStore.create(
         toPersistance(
           new RôleUtilisateurModifié({
             payload: {
               userId,
-              email: email.email,
+              email,
               role: 'dgec-validateur',
             },
           })
@@ -47,7 +57,7 @@ module.exports = {
           new FonctionUtilisateurModifiée({
             payload: {
               userId,
-              email: email.email,
+              email,
               fonction:
                 'Adjoint au sous-directeur du système électrique et des énergies renouvelables',
             },
