@@ -9,11 +9,9 @@ interface SeparatorItemProps {
 const SeparatorItem = ({ visibleForRoles, role }: SeparatorItemProps) =>
   role && visibleForRoles.includes(role) ? (
     <div
+      className="h-0.5 w-full my-1.5 mx-0"
       style={{
-        height: 3,
-        width: '100%',
         backgroundColor: 'var(--lighter-grey)',
-        margin: '5px 0px',
       }}
     />
   ) : null
@@ -60,9 +58,9 @@ const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }
 export function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
   return (
     <>
-      <section className="section section-color" style={{ padding: '1em 0' }}>
+      <section className="section py-4 px-0 section-color">
         <div className="container">
-          <h2 className="section__title" style={{ marginBottom: 0 }}>
+          <h2 className="section__title mb-0">
             Portail Administrateur {role === 'dreal' ? 'DREAL' : 'DGEC'}
           </h2>
         </div>
@@ -72,7 +70,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
           <ul>
             {typeof currentPage === 'undefined' && (
               <li>
-                <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
+                <a className="active cursor-default" style={{ fontSize: '2px' }} />
               </li>
             )}
 

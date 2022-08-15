@@ -70,7 +70,7 @@ const Logo = () => (
 )
 
 const Title = () => (
-  <a className="ml-2 lg:ml-8 no-underline" style={{ color: 'black' }} href={routes.HOME}>
+  <a className="ml-2 lg:ml-8 text-black no-underline" href={routes.HOME}>
     <div className="font-bold lg:text-xl">Potentiel</div>
     <div className="hidden lg:block text-base">
       Facilite le parcours des producteurs
@@ -90,9 +90,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <li className="flex items-center">
           {['admin', 'dgec'].includes(user.role) ? (
             <a
-              className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+              className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
-              style={{ color: `#000091` }}
             >
               <RiUserLine />
               <span
@@ -119,9 +118,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
         <li className="flex items-center">
           <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGOUT_ACTION}
-            style={{ color: `#000091` }}
           >
             <RiLogoutBoxLine />
             <span className="hidden lg:block pt-0.5 mx-1">Me déconnecter</span>
@@ -132,9 +130,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       <>
         <li className="flex items-center">
           <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.SIGNUP}
-            style={{ color: `#000091` }}
           >
             <RiAccountCircleLine />
             <span className="hidden lg:block pt-0.5 mx-1">M'inscrire</span>
@@ -142,9 +139,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
         <li className="flex items-center">
           <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
-            style={{ color: `#000091` }}
           >
             <RiLockLine />
             <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
@@ -154,8 +150,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     )}
     <li className="flex items-center">
       <a
-        className="no-underline flex flex-row items-center px-2 md:px-3"
-        style={{ color: `#000091` }}
+        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
         target="_blank"
         rel="noopener"
         href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
