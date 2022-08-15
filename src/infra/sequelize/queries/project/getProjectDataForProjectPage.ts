@@ -5,6 +5,10 @@ import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@module
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
+function isProjetPPE2({ appelOffreId }: { appelOffreId?: string }) {
+  return appelOffreId?.toLowerCase().startsWith('ppe2') ?? false
+}
+
 const { Project, File, User, UserProjects, ProjectStep } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   return wrapInfra(
@@ -111,6 +115,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           id,
           potentielIdentifier,
           appelOffreId,
+          isPPE2: isProjetPPE2({ appelOffreId }),
           periodeId,
           familleId,
           appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),

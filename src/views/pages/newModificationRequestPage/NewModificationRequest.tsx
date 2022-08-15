@@ -36,7 +36,7 @@ export const NewModificationRequest = PageLayout(
     const { action, error, success, puissance, actionnaire, justification } =
       (request.query as any) || {}
 
-    const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
+    const [displayForm, setDisplayForm] = useState(project.newRulesOptIn || project.isPPE2)
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
     const isEolien = project.appelOffre?.type === 'eolien'
 
@@ -59,7 +59,7 @@ export const NewModificationRequest = PageLayout(
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
               <SuccessErrorBox success={success} error={error} />
-              {!isEolien && (
+              {!isEolien && !project.isPPE2 && (
                 <div>
                   <Label required>
                     <strong>

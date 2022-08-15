@@ -39,6 +39,10 @@ const deserialize = (item) => ({
   actionnariat: item.actionnariat || '',
 })
 
+function isProjetPPE2({ appelOffreId }: { appelOffreId?: string }) {
+  return appelOffreId?.toLowerCase().startsWith('ppe2') ?? false
+}
+
 type MakeProjectRepoDeps = {
   sequelizeInstance: any
   getProjectAppelOffre: GetProjectAppelOffre
@@ -375,6 +379,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
     return {
       ...project,
+      isPPE2: isProjetPPE2({ appelOffreId: projectAppelOffre?.id }),
       ...(projectAppelOffre && {
         appelOffre: projectAppelOffre,
         famille: projectAppelOffre.famille,

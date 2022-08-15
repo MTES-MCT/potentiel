@@ -25,6 +25,7 @@ import { logger } from '@core/utils'
 const baseProjectSchema = SchemaRecord({
   id: String,
   appelOffreId: String,
+  isPPE2: Boolean,
   periodeId: String,
   numeroCRE: String,
   familleId: String,
@@ -152,6 +153,7 @@ type ProjectEvent = {
 
 type Project = BaseProject & {
   history?: Array<ProjectEvent>
+  isPPE2: boolean
 }
 
 interface ApplyProjectUpdateProps {

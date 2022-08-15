@@ -30,7 +30,6 @@ export const ProjectDetails = PageLayout(
   ({ request, project, cahiersChargesURLs, projectEventList, now }: ProjectDetailsProps) => {
     const { user } = request
     const { error, success } = (request.query as any) || {}
-
     return (
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <ProjectHeader {...{ project, user, cahiersChargesURLs }} />
@@ -53,6 +52,7 @@ export const ProjectDetails = PageLayout(
 
           {userIs('porteur-projet')(user) &&
             project.isClasse &&
+            !project.isPPE2 &&
             project.appelOffre.type !== 'eolien' && (
               <CDCForm {...{ project, cahiersChargesURLs }} />
             )}

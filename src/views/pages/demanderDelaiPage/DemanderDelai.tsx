@@ -39,7 +39,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
   const isEolien = project.appelOffre?.type === 'eolien'
-  const [displayForm, setDisplayForm] = useState(project.newRulesOptIn)
+  const [displayForm, setDisplayForm] = useState(project.newRulesOptIn || project.isPPE2)
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
@@ -60,7 +60,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} className="mb-3" />
             <SuccessErrorBox success={success} error={error} />
-            {!isEolien && (
+            {!isEolien && !project.isPPE2 && (
               <div>
                 <Label required>
                   <strong>
