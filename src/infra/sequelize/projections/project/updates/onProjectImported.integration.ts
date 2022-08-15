@@ -9,6 +9,7 @@ describe('project.onProjectImported', () => {
   const projectId = new UniqueEntityID().toString()
 
   const fakeProject = makeFakeProject({ id: projectId, notifiedOn: 0 })
+  delete fakeProject.isPPE2
   delete fakeProject.potentielIdentifier
 
   const { appelOffreId, periodeId, numeroCRE, familleId } = fakeProject
