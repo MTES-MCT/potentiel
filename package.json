@@ -13,8 +13,8 @@
     "generate:doc": "ts-node ./devtools/generateEventsDoc",
     "install": "ts-node ./scripts/postInstall.ts",
     "lint": "eslint ./src --ext .ts,.tsx",
-    "prettier:check": "prettier --check ./src",
-    "prettier:write": "prettier --write ./src",
+    "prettier:check": "prettier '**/*.{ts,tsx,css}' --check",
+    "prettier:write": "prettier '**/*.{ts,tsx,css}' --write",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
@@ -154,11 +154,6 @@
     "dotenv-cli": "^5.1.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.5.3",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.30.1",
     "husky": "^7.0.4",
     "jest": "^27.5.1",
     "jest-diff": "^27.5.1",
@@ -176,8 +171,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": "eslint --cache --fix",
-    "*.{js,ts,css,md}": "prettier --write --ignore-unknown"
+    "*.{js,ts,css}": "prettier --write --ignore-unknown",
+    "*.{js,ts}": "eslint --fix"
   },
   "config": {
     "commitizen": {
