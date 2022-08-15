@@ -1,4 +1,3 @@
-import { userRepo } from '@dataAccess'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole, getDreals } from '@config'

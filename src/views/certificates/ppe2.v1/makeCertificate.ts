@@ -41,9 +41,15 @@ const makeCertificate = (
     )
   }
 
+  const validateur = {
+    nom: 'test',
+    prénom: 'test',
+    fonction: 'test',
+  }
+
   const certificateProps: CertificateProps = project.isClasse
-    ? { project, type: 'laureat', ...makeLaureat(project) }
-    : { project, type: 'elimine', content: Elimine({ project }) }
+    ? { project, validateur, type: 'laureat', ...makeLaureat(project) }
+    : { project, validateur, type: 'elimine', content: Elimine({ project }) }
 
   const certificate = Certificate(certificateProps)
   const ticket = queue.push(() => ReactPDF.renderToStream(certificate))

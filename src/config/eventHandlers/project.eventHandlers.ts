@@ -12,6 +12,7 @@ import {
   ProjectCertificateObsolete,
   ProjectRawDataImported,
 } from '@modules/project'
+import { userRepo } from '@dataAccess/db'
 import { subscribeToRedis } from '../eventBus.config'
 import { eventStore } from '../eventStore.config'
 import {
@@ -29,6 +30,7 @@ eventStore.subscribe(
     generateCertificate,
     getUnnotifiedProjectsForPeriode,
     getProjectAppelOffre,
+    userRepo,
   })
 )
 

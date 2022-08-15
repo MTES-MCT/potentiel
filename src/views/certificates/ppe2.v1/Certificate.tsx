@@ -11,6 +11,11 @@ import { Footnote, FootnoteProps } from './components/Footnote'
 export type CertificateProps = {
   project: ProjectDataForCertificate
   content: React.ReactNode
+  validateur: {
+    nom: string
+    prénom: string
+    fonction: string
+  }
 } & (
   | {
       type: 'laureat'
@@ -52,7 +57,7 @@ export const Certificate = (props: CertificateProps) => {
                 distinguées.
               </Text>
 
-              <Signature />
+              <Signature validateur={props.validateur} />
             </View>
           </View>
 

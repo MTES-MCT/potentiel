@@ -16,7 +16,6 @@ v1Router.post(
   ensureRole(['dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId, notificationDate } = request.body
-
     if (
       !notificationDate ||
       moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
