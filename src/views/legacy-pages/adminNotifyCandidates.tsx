@@ -24,7 +24,6 @@ type AdminNotifyCandidatesProps = {
 /* Pure component */
 export default function AdminNotifyCandidates({ request, results }: AdminNotifyCandidatesProps) {
   const { error, success, recherche, classement } = (request.query as any) || {}
-
   if (!results) {
     // All projects have been notified
     return (
@@ -69,27 +68,17 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
       <div className="panel">
         <div className="panel__header">
           <h3>Projets à notifier</h3>
-          <form
-            action={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
-          >
-            <div className="form__group" style={{ marginTop: 20 }}>
+          <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
+            <div className="form__group mt-5">
               <input
                 type="text"
                 name="recherche"
                 {...dataId('recherche-field')}
-                style={{ paddingRight: 40 }}
+                className="pr-10"
                 defaultValue={recherche || ''}
               />
               <button
-                className="overlay-button"
-                style={{
-                  right: 10,
-                  top: 10,
-                  width: 30,
-                  height: 30,
-                }}
+                className="overlay-button top-2.5 right-2.5 w-8 h-8"
                 type="submit"
                 {...dataId('submit-button')}
               >
@@ -119,8 +108,8 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                 </svg>
               </legend>
               <div className="filter-panel">
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés</div>
+                <div className="mt-4">
+                  <div className="ml-0.5">Classés/Eliminés</div>
                   <select
                     name="classement"
                     className={classement ? 'active' : ''}
@@ -139,11 +128,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
             </div>
           </form>
         </div>
-        <form
-          action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION}
-          method="post"
-          style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
-        >
+        <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION} method="post" className="ml-0 mb-4">
           <div className="form__group">
             <select
               name="appelOffreId"
@@ -174,7 +159,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
             </select>
 
             {selectedAppelOffreId && selectedPeriodeId && (
-              <div style={{ marginTop: '15px' }}>
+              <div className="mt-4">
                 <a
                   href={`
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
@@ -200,18 +185,20 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                 id="notificationDate"
                 defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
                 {...dataId('modificationRequest-notificationDateField')}
-                style={{ width: 'auto' }}
+                className="w-auto"
               />
-              <Button
-                type="submit"
-                name="submit"
-                id="submit"
-                primary
-                className="mt-4"
-                {...dataId('submit-button')}
-              >
-                Envoyer la notification aux {projectsInPeriodCount} candidats de cette période
-              </Button>
+              {request.user?.role === 'dgec-validateur' && (
+                <Button
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                  primary
+                  className="mt-4"
+                  {...dataId('submit-button')}
+                >
+                  Envoyer la notification aux {projectsInPeriodCount} candidats de cette période
+                </Button>
+              )}
             </div>
           ) : (
             ''

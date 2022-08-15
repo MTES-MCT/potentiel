@@ -13,7 +13,7 @@ const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_NOTIFY_CANDIDATES_ACTION,
-  ensureRole(['admin', 'dgec-validateur']),
+  ensureRole(['dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId, notificationDate } = request.body
 

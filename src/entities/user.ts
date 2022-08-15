@@ -1,6 +1,6 @@
 import isEmail from 'isemail'
 import buildMakeEntity from '../helpers/buildMakeEntity'
-import { Boolean, Literal, Record, Static, String, Union } from '../types/schemaTypes'
+import { Literal, Record, Static, String, Union } from '../types/schemaTypes'
 
 const userSchema = Record({
   id: String,
