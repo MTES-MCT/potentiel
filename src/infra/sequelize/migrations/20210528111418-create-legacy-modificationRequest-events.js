@@ -1,5 +1,5 @@
-'use strict';
-const uuid = require('uuid');
+'use strict'
+const uuid = require('uuid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,55 +13,56 @@ module.exports = {
         }
       )
 
-      modificationRequests.length && await queryInterface.bulkInsert(
-        'eventStores',
-        modificationRequests.map(({
-            type,
-            id,
-            projectId,
-            fileId,
-            userId,
-            justification,
-            actionnaire,
-            producteur,
-            fournisseur,
-            puissance,
-            evaluationCarbone,
-            delayInMonths,
-            requestedOn
-        }) => ({
-          id: uuid.v4(),
-          type: 'ModificationRequested',
-          payload: JSON.stringify({
-            type,
-            modificationRequestId: id,
-            projectId,
-            requestedBy: userId,
-            fileId,
-            justification,
-            actionnaire,
-            producteur,
-            fournisseur,
-            puissance,
-            evaluationCarbone,
-            delayInMonths
-          }),
-          version: 1,
-          aggregateId: [id],
-          occurredAt: new Date(requestedOn),
-          createdAt: new Date(requestedOn),
-          updatedAt: new Date(requestedOn),
-        }))
-        ,
-        { transaction }
-      )
+      modificationRequests.length &&
+        (await queryInterface.bulkInsert(
+          'eventStores',
+          modificationRequests.map(
+            ({
+              type,
+              id,
+              projectId,
+              fileId,
+              userId,
+              justification,
+              actionnaire,
+              producteur,
+              fournisseur,
+              puissance,
+              evaluationCarbone,
+              delayInMonths,
+              requestedOn,
+            }) => ({
+              id: uuid.v4(),
+              type: 'ModificationRequested',
+              payload: JSON.stringify({
+                type,
+                modificationRequestId: id,
+                projectId,
+                requestedBy: userId,
+                fileId,
+                justification,
+                actionnaire,
+                producteur,
+                fournisseur,
+                puissance,
+                evaluationCarbone,
+                delayInMonths,
+              }),
+              version: 1,
+              aggregateId: [id],
+              occurredAt: new Date(requestedOn),
+              createdAt: new Date(requestedOn),
+              updatedAt: new Date(requestedOn),
+            })
+          ),
+          { transaction }
+        ))
 
       await transaction.commit()
     } catch (err) {
       await transaction.rollback()
       throw err
     }
-
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -71,5 +72,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-  }
-};
+  },
+}

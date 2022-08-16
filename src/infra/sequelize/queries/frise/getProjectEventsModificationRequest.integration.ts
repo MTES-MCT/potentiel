@@ -116,7 +116,7 @@ describe('getProjectEvents for ModificationRequested events', () => {
                   modificationRequestId,
                   authority: 'dgec',
                   puissance: 100,
-                  unitePuissance: 'MWc'
+                  unitePuissance: 'MWc',
                 },
               ],
             })

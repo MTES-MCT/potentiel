@@ -14,7 +14,8 @@ export interface LegacyUserCreatedPayload {
 }
 export class LegacyUserCreated
   extends BaseDomainEvent<LegacyUserCreatedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyUserCreated' = 'LegacyUserCreated'
   public type = LegacyUserCreated.type
   currentVersion = 1

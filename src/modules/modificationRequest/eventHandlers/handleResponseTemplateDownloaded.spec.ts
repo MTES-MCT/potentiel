@@ -15,9 +15,9 @@ const downloadedBy = new UniqueEntityID().toString()
 
 describe('handleResponseTemplateDownloaded', () => {
   describe('when status is envoyée', () => {
-    const getModificationRequestStatus = (jest.fn((modificationRequestId) =>
+    const getModificationRequestStatus = jest.fn((modificationRequestId) =>
       okAsync('envoyée')
-    ) as unknown) as GetModificationRequestStatus
+    ) as unknown as GetModificationRequestStatus
 
     beforeAll(async () => {
       eventBus.publish.mockClear()
@@ -48,9 +48,9 @@ describe('handleResponseTemplateDownloaded', () => {
   })
 
   describe('when status is not envoyée', () => {
-    const getModificationRequestStatus = (jest.fn((modificationRequestId) =>
+    const getModificationRequestStatus = jest.fn((modificationRequestId) =>
       okAsync('otherstatus')
-    ) as unknown) as GetModificationRequestStatus
+    ) as unknown as GetModificationRequestStatus
 
     beforeAll(async () => {
       eventBus.publish.mockClear()

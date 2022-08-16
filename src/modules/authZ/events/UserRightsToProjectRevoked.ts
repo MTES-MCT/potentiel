@@ -11,7 +11,8 @@ export interface UserRightsToProjectRevokedPayload {
 }
 export class UserRightsToProjectRevoked
   extends BaseDomainEvent<UserRightsToProjectRevokedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'UserRightsToProjectRevoked' = 'UserRightsToProjectRevoked'
   public type = UserRightsToProjectRevoked.type
   currentVersion = 1

@@ -7,7 +7,8 @@ export interface ProjectCompletionDueDateSetPayload {
 }
 export class ProjectCompletionDueDateSet
   extends BaseDomainEvent<ProjectCompletionDueDateSetPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectCompletionDueDateSet' = 'ProjectCompletionDueDateSet'
   public type = ProjectCompletionDueDateSet.type
   currentVersion = 1

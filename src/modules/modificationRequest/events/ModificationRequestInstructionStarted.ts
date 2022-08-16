@@ -5,7 +5,8 @@ export interface ModificationRequestInstructionStartedPayload {
 }
 export class ModificationRequestInstructionStarted
   extends BaseDomainEvent<ModificationRequestInstructionStartedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ModificationRequestInstructionStarted' =
     'ModificationRequestInstructionStarted'
 

@@ -10,7 +10,8 @@ export interface InvitationToProjectCancelledPayload {
 }
 export class InvitationToProjectCancelled
   extends BaseDomainEvent<InvitationToProjectCancelledPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'InvitationToProjectCancelled' = 'InvitationToProjectCancelled'
   public type = InvitationToProjectCancelled.type
   currentVersion = 1

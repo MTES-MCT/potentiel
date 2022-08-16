@@ -8,7 +8,8 @@ export interface ProjectPTFSubmittedPayload {
 }
 export class ProjectPTFSubmitted
   extends BaseDomainEvent<ProjectPTFSubmittedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectPTFSubmitted' = 'ProjectPTFSubmitted'
   public type = ProjectPTFSubmitted.type
   currentVersion = 1

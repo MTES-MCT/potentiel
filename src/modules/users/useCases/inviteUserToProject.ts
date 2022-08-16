@@ -19,40 +19,38 @@ interface InviteUserToProjectArgs {
   projectIds: string[]
 }
 
-export const makeInviteUserToProject = (deps: InviteUserToProjectDeps) => (
-  args: InviteUserToProjectArgs
-): ResultAsync<null, UnauthorizedError | InfraNotAvailableError> => {
-  const { shouldUserAccessProject, getUserByEmail, createUser, eventBus } = deps
-  const { email, projectIds, invitedBy } = args
+export const makeInviteUserToProject =
+  (deps: InviteUserToProjectDeps) =>
+  (
+    args: InviteUserToProjectArgs
+  ): ResultAsync<null, UnauthorizedError | InfraNotAvailableError> => {
+    const { shouldUserAccessProject, getUserByEmail, createUser, eventBus } = deps
+    const { email, projectIds, invitedBy } = args
 
-  return wrapInfra(
-    Promise.all(
-      projectIds.map((projectId) => shouldUserAccessProject({ user: invitedBy, projectId }))
+    return wrapInfra(
+      Promise.all(
+        projectIds.map((projectId) => shouldUserAccessProject({ user: invitedBy, projectId }))
+      )
     )
-  )
-    .andThen(
-      (hasRightsForProject): Result<null, UnauthorizedError> => {
+      .andThen((hasRightsForProject): Result<null, UnauthorizedError> => {
         if (hasRightsForProject.some((right) => !right)) {
           return err(new UnauthorizedError())
         }
 
         return ok(null)
-      }
-    )
-    .andThen(() => getUserByEmail(email))
-    .andThen(
-      (userOrNull): ResultAsync<string, InfraNotAvailableError> => {
+      })
+      .andThen(() => getUserByEmail(email))
+      .andThen((userOrNull): ResultAsync<string, InfraNotAvailableError> => {
         if (userOrNull === null) {
           return createUser({ role: 'porteur-projet', email }).map(({ id }) => id)
         }
 
         return okAsync(userOrNull.id)
-      }
-    )
-    .andThen((userId) =>
-      eventBus.publish(
-        new UserInvitedToProject({ payload: { userId, projectIds, invitedBy: invitedBy.id } })
+      })
+      .andThen((userId) =>
+        eventBus.publish(
+          new UserInvitedToProject({ payload: { userId, projectIds, invitedBy: invitedBy.id } })
+        )
       )
-    )
-    .map(() => null)
-}
+      .map(() => null)
+  }

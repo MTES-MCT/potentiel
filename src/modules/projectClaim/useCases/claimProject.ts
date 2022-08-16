@@ -31,18 +31,16 @@ export const makeClaimProject = (deps: ClaimProjectDeps) => async (args: ClaimPr
   const { projectId, prix, numeroCRE, claimedBy, attestationDesignationProofFile } = args
   const { projectClaimRepo, getProjectDataForProjectClaim, fileRepo, eventBus } = deps
 
-  const fileObject: Result<
-    FileObject | null,
-    IllegalFileDataError
-  > = attestationDesignationProofFile
-    ? makeFileObject({
-        designation: 'attestation-designation-proof',
-        forProject: new UniqueEntityID(projectId),
-        createdBy: new UniqueEntityID(claimedBy.id),
-        filename: attestationDesignationProofFile.filename,
-        contents: attestationDesignationProofFile.contents,
-      })
-    : ok(null)
+  const fileObject: Result<FileObject | null, IllegalFileDataError> =
+    attestationDesignationProofFile
+      ? makeFileObject({
+          designation: 'attestation-designation-proof',
+          forProject: new UniqueEntityID(projectId),
+          createdBy: new UniqueEntityID(claimedBy.id),
+          filename: attestationDesignationProofFile.filename,
+          contents: attestationDesignationProofFile.contents,
+        })
+      : ok(null)
 
   const projectClaimAggregateId = new UniqueEntityID(
     makeClaimProjectAggregateId({ projectId, claimedBy: claimedBy.id })

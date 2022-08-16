@@ -6,7 +6,8 @@ export interface ProjectGFDueDateSetPayload {
 }
 export class ProjectGFDueDateSet
   extends BaseDomainEvent<ProjectGFDueDateSetPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectGFDueDateSet' = 'ProjectGFDueDateSet'
   public type = ProjectGFDueDateSet.type
   currentVersion = 1

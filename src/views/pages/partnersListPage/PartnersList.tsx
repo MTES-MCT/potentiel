@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { AdminDashboard } from "@components"
+import { AdminDashboard } from '@components'
 import { Button, Input, PageLayout, SuccessErrorBox } from '../../components'
 import { hydrateOnClient } from '../../../views/helpers'
 

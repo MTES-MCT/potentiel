@@ -9,7 +9,8 @@ export interface ProjectDCRSubmittedPayload {
 }
 export class ProjectDCRSubmitted
   extends BaseDomainEvent<ProjectDCRSubmittedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectDCRSubmitted' = 'ProjectDCRSubmitted'
   public type = ProjectDCRSubmitted.type
   currentVersion = 1

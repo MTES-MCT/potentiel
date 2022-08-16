@@ -3,19 +3,11 @@ name: Build on PR
 on:
   pull_request:
     paths-ignore:
-      - 'src/**/*.spec.ts'
-      - 'src/**/*.integration.ts'
-      - 'src/__tests_/**'
       - 'README.md'
       - '.github/**'
       - '.vscode/**'
-      - 'legacy-features/**'
-      - 'scripts/**'
-      - 'devtools/**'
       - 'docs/**'
       - '.env.template'
-      - '.eslint**'
-      - '.prettier**'
       - 'LICENSE'
 
 jobs:

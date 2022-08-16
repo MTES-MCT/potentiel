@@ -7,7 +7,8 @@ export interface LegacyCandidateNotifiedPayload {
 }
 export class LegacyCandidateNotified
   extends BaseDomainEvent<LegacyCandidateNotifiedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyCandidateNotified' = 'LegacyCandidateNotified'
 
   public type = LegacyCandidateNotified.type

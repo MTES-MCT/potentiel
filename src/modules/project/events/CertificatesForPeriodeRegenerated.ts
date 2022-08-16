@@ -11,7 +11,8 @@ export interface CertificatesForPeriodeRegeneratedPayload {
 }
 export class CertificatesForPeriodeRegenerated
   extends BaseDomainEvent<CertificatesForPeriodeRegeneratedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'CertificatesForPeriodeRegenerated' = 'CertificatesForPeriodeRegenerated'
   public type = CertificatesForPeriodeRegenerated.type
   currentVersion = 1

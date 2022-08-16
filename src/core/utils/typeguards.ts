@@ -32,9 +32,8 @@ type ExtractOutputTypesOfUnion<T extends readonly TypeGuard<unknown, unknown>[]>
 
 // Take an array of TypeGuards and return the input type
 // it takes the input type of the first (since they are all the same)
-type ExtractInputTypeOfUnion<
-  T extends readonly TypeGuard<unknown, unknown>[]
-> = T[0] extends TypeGuard<infer U, any> ? U : never
+type ExtractInputTypeOfUnion<T extends readonly TypeGuard<unknown, unknown>[]> =
+  T[0] extends TypeGuard<infer U, any> ? U : never
 
 // Build a full TypeGuard type with the two previous
 // enforces the constraint that the output extends the input

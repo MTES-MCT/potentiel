@@ -12,7 +12,8 @@ export interface LegacyModificationRawDataImportedPayload {
 
 export class LegacyModificationRawDataImported
   extends BaseDomainEvent<LegacyModificationRawDataImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyModificationRawDataImported' = 'LegacyModificationRawDataImported'
   public type = LegacyModificationRawDataImported.type
   currentVersion = 1

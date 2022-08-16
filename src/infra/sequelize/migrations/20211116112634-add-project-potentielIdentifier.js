@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 const crypto = require('crypto')
 
 const makeProjectIdentifier = (project) => {
@@ -22,7 +22,6 @@ module.exports = {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
-      
       await queryInterface.addColumn('projects', 'potentielIdentifier', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
@@ -30,18 +29,15 @@ module.exports = {
         transaction,
       })
 
-      const projects = await queryInterface.sequelize.query(
-        'SELECT * FROM "projects"', 
-        {
-          type: queryInterface.sequelize.QueryTypes.SELECT,
-          transaction,
-        }
-      )
+      const projects = await queryInterface.sequelize.query('SELECT * FROM "projects"', {
+        type: queryInterface.sequelize.QueryTypes.SELECT,
+        transaction,
+      })
 
-      for(const project of projects) {
+      for (const project of projects) {
         const potentielIdentifier = makeProjectIdentifier(project)
         await queryInterface.sequelize.query(
-          'UPDATE "projects" SET "potentielIdentifier" = ? WHERE "id" = ?', 
+          'UPDATE "projects" SET "potentielIdentifier" = ? WHERE "id" = ?',
           {
             type: queryInterface.sequelize.UPDATE,
             replacements: [potentielIdentifier, project.id],
@@ -52,7 +48,6 @@ module.exports = {
 
       console.log(`Updated potentielIdentifier for ${projects.length} projects`)
       await transaction.commit()
-
     } catch (err) {
       await transaction.rollback()
       throw err
@@ -61,5 +56,5 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.removeColumn('projects', 'potentielIdentifier')
-  }
-};
+  },
+}

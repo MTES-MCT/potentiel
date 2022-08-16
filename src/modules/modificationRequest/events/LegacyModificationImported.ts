@@ -9,7 +9,8 @@ export type LegacyModificationImportedPayload = {
 
 export class LegacyModificationImported
   extends BaseDomainEvent<LegacyModificationImportedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'LegacyModificationImported' = 'LegacyModificationImported'
   public type = LegacyModificationImported.type
   currentVersion = 1

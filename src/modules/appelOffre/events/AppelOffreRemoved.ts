@@ -6,7 +6,8 @@ export interface AppelOffreRemovedPayload {
 }
 export class AppelOffreRemoved
   extends BaseDomainEvent<AppelOffreRemovedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'AppelOffreRemoved' = 'AppelOffreRemoved'
   public type = AppelOffreRemoved.type
   currentVersion = 1

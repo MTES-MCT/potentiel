@@ -7,29 +7,29 @@ import {
 import { CandidateNotification } from '../CandidateNotification'
 import { makeCandidateNotificationId } from '../helpers'
 
-export const handleProjectCertificateGeneratedOrFailed = (deps: {
-  candidateNotificationRepo: TransactionalRepository<CandidateNotification>
-}) => async (event: ProjectCertificateGenerated | ProjectCertificateGenerationFailed) => {
-  const {
-    payload: { periodeId, appelOffreId, candidateEmail },
-  } = event
+export const handleProjectCertificateGeneratedOrFailed =
+  (deps: { candidateNotificationRepo: TransactionalRepository<CandidateNotification> }) =>
+  async (event: ProjectCertificateGenerated | ProjectCertificateGenerationFailed) => {
+    const {
+      payload: { periodeId, appelOffreId, candidateEmail },
+    } = event
 
-  const candidateNotificationId = new UniqueEntityID(
-    makeCandidateNotificationId({
-      appelOffreId,
-      periodeId,
-      candidateEmail,
-    })
-  )
+    const candidateNotificationId = new UniqueEntityID(
+      makeCandidateNotificationId({
+        appelOffreId,
+        periodeId,
+        candidateEmail,
+      })
+    )
 
-  const res = await deps.candidateNotificationRepo.transaction(
-    candidateNotificationId,
-    (candidateNotification) => {
-      candidateNotification.notifyCandidateIfReady()
-      return okAsync(null)
+    const res = await deps.candidateNotificationRepo.transaction(
+      candidateNotificationId,
+      (candidateNotification) => {
+        candidateNotification.notifyCandidateIfReady()
+        return okAsync(null)
+      }
+    )
+    if (res.isErr()) {
+      logger.error(res.error as Error)
     }
-  )
-  if (res.isErr()) {
-    logger.error(res.error as Error)
   }
-}

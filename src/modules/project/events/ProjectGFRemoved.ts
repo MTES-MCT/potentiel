@@ -6,7 +6,8 @@ export interface ProjectGFRemovedPayload {
 }
 export class ProjectGFRemoved
   extends BaseDomainEvent<ProjectGFRemovedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectGFRemoved' = 'ProjectGFRemoved'
   public type = ProjectGFRemoved.type
   currentVersion = 1

@@ -6,7 +6,8 @@ export interface ProjectCertificateUpdateFailedPayload {
 }
 export class ProjectCertificateUpdateFailed
   extends BaseDomainEvent<ProjectCertificateUpdateFailedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectCertificateUpdateFailed' = 'ProjectCertificateUpdateFailed'
 
   public type = ProjectCertificateUpdateFailed.type

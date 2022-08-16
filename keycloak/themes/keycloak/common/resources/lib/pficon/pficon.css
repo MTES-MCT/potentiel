@@ -4,18 +4,21 @@
  */
 
 @font-face {
-  font-family: "pficon-tmp";
-  src: url("./pficon.woff2") format("woff2"), url("./pficon.woff") format("woff"); }
+  font-family: 'pficon-tmp';
+  src: url('./pficon.woff2') format('woff2'), url('./pficon.woff') format('woff');
+}
 
 .pf-icon-openshift:before {
-  font-family: "pficon-tmp";
+  font-family: 'pficon-tmp';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
   text-decoration: none;
-  text-transform: none; }
+  text-transform: none;
+}
 
 .pf-icon-openshift:before {
-  content: ""; }
+  content: '';
+}

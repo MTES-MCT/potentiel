@@ -1,11 +1,9 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "jest/globals": true
+    "es2021": true
   },
   "extends": [
-    "plugin:react/recommended",
     "prettier"
   ],
   // Prevent ESLint from yelling at chai assertions (e.g : expect(undefined).to.be.undefined)
@@ -31,23 +29,5 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint", "jest"],
-  "rules": {
-    "camelcase": "off",
-    "no-useless-constructor": "off",
-    "standard/no-callback-literal": "off",
-    "no-unused-vars": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-disabled-tests": "warn",
-    "jest/valid-expect": "error",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "no-console": "warn",
-    "react/prop-types": "off"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+  "rules": {}
 }

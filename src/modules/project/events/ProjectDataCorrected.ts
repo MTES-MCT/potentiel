@@ -24,7 +24,8 @@ export interface ProjectDataCorrectedPayload {
 }
 export class ProjectDataCorrected
   extends BaseDomainEvent<ProjectDataCorrectedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectDataCorrected' = 'ProjectDataCorrected'
   public type = ProjectDataCorrected.type
   currentVersion = 1

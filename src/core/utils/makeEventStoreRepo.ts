@@ -29,22 +29,24 @@ export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
     if (!aggregate.pendingEvents.length) return okAsync(null)
 
     return deps.eventStore.transaction(aggregate.id, (events) => {
-      return deps.makeAggregate({ events, id: aggregate.id }).asyncAndThen(
-        (
-          newestAggregate: T
-        ): ResultAsync<readonly DomainEvent[], AggregateHasBeenUpdatedSinceError> => {
-          const aggregateHasBeenUpdated =
-            newestAggregate.lastUpdatedOn &&
-            aggregate.lastUpdatedOn &&
-            newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
-          if (aggregateHasBeenUpdated) {
-            // Return error if aggregate has a newer version
-            return errAsync(new AggregateHasBeenUpdatedSinceError())
-          }
+      return deps
+        .makeAggregate({ events, id: aggregate.id })
+        .asyncAndThen(
+          (
+            newestAggregate: T
+          ): ResultAsync<readonly DomainEvent[], AggregateHasBeenUpdatedSinceError> => {
+            const aggregateHasBeenUpdated =
+              newestAggregate.lastUpdatedOn &&
+              aggregate.lastUpdatedOn &&
+              newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
+            if (aggregateHasBeenUpdated) {
+              // Return error if aggregate has a newer version
+              return errAsync(new AggregateHasBeenUpdatedSinceError())
+            }
 
-          return okAsync(aggregate.pendingEvents)
-        }
-      )
+            return okAsync(aggregate.pendingEvents)
+          }
+        )
     })
   },
 })

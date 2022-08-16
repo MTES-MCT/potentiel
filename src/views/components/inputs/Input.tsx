@@ -14,8 +14,7 @@ type InputProps = React.HTMLAttributes<HTMLInputElement> & {
   disabled?: true
 }
 
-export const 
-Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
+export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
   const [valueHasChanged, valueChanged] = useState(false)
   const isOnError = error !== '' && !valueHasChanged
 

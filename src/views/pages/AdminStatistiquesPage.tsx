@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { AdminDashboard, PageLayout } from "@components"
+import { AdminDashboard, PageLayout } from '@components'
 
 type AdminStatistiquesProps = {
   request: Request

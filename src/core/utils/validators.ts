@@ -1,12 +1,12 @@
 import { DomainError } from '../domain'
 import { err, ok, Result } from './Result'
 
-const validateOrThrow = <T>(validationFn: (obj: any) => boolean, errorMsg: string) => (
-  obj: any
-): obj is T => {
-  if (!validationFn(obj)) throw new Error(errorMsg)
-  return true
-}
+const validateOrThrow =
+  <T>(validationFn: (obj: any) => boolean, errorMsg: string) =>
+  (obj: any): obj is T => {
+    if (!validationFn(obj)) throw new Error(errorMsg)
+    return true
+  }
 
 const _isNumber = (nbr: any) => {
   return typeof nbr === 'number' && !isNaN(nbr) && isFinite(nbr)
@@ -31,21 +31,21 @@ interface PropertyValidator {
   (object: Record<string, any>): Record<string, string>
 }
 
-export const makePropertyValidator = (
-  validatorMap: Record<string, (obj: any) => void>
-): PropertyValidator => (object) =>
-  Object.entries(object).reduce((errorInProperty, [objectKey, objectValue]) => {
-    if (objectKey in validatorMap) {
-      // this property is has a validator
-      try {
-        validatorMap[objectKey](objectValue)
-      } catch (e) {
-        errorInProperty[objectKey] = e.message
+export const makePropertyValidator =
+  (validatorMap: Record<string, (obj: any) => void>): PropertyValidator =>
+  (object) =>
+    Object.entries(object).reduce((errorInProperty, [objectKey, objectValue]) => {
+      if (objectKey in validatorMap) {
+        // this property is has a validator
+        try {
+          validatorMap[objectKey](objectValue)
+        } catch (e) {
+          errorInProperty[objectKey] = e.message
+        }
       }
-    }
 
-    return errorInProperty
-  }, {})
+      return errorInProperty
+    }, {})
 
 interface HasErrorFieldsContructor {
   new (errorsInFields: Record<string, string>): any

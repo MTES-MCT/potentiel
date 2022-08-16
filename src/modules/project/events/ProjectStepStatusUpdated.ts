@@ -8,7 +8,8 @@ export interface ProjectStepStatusUpdatedPayload {
 
 export class ProjectStepStatusUpdated
   extends BaseDomainEvent<ProjectStepStatusUpdatedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectStepStatusUpdated' = 'ProjectStepStatusUpdated'
   public type = ProjectStepStatusUpdated.type
   currentVersion = 1

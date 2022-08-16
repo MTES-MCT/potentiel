@@ -6,7 +6,8 @@ export interface ProjectAbandonedPayload {
 }
 export class ProjectAbandoned
   extends BaseDomainEvent<ProjectAbandonedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectAbandoned' = 'ProjectAbandoned'
   public type = ProjectAbandoned.type
   currentVersion = 1

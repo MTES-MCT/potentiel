@@ -27,79 +27,85 @@ interface RequestProducteurModificationArgs {
   file?: { contents: FileContents; filename: string }
 }
 
-export const makeRequestProducteurModification = (deps: RequestProducteurModificationDeps) => (
-  args: RequestProducteurModificationArgs
-): ResultAsync<
-  null,
-  | AggregateHasBeenUpdatedSinceError
-  | InfraNotAvailableError
-  | EntityNotFoundError
-  | UnauthorizedError
-> => {
-  const { projectId, requestedBy, newProducteur, justification, file } = args
-  const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
+export const makeRequestProducteurModification =
+  (deps: RequestProducteurModificationDeps) =>
+  (
+    args: RequestProducteurModificationArgs
+  ): ResultAsync<
+    null,
+    | AggregateHasBeenUpdatedSinceError
+    | InfraNotAvailableError
+    | EntityNotFoundError
+    | UnauthorizedError
+  > => {
+    const { projectId, requestedBy, newProducteur, justification, file } = args
+    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
 
-  return wrapInfra(shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy }))
-    .andThen(
-      (
-        userHasRightsToProject
-      ): ResultAsync<
-        any,
-        AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
-      > => {
-        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-        if (!file) return okAsync(null)
+    return wrapInfra(
+      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
+    )
+      .andThen(
+        (
+          userHasRightsToProject
+        ): ResultAsync<
+          any,
+          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
+        > => {
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+          if (!file) return okAsync(null)
 
-        return makeAndSaveFile({
-          file: {
-            designation: 'modification-request',
-            forProject: projectId,
-            createdBy: new UniqueEntityID(requestedBy.id),
-            filename: file.filename,
-            contents: file.contents,
-          },
-          fileRepo,
-        })
-          .map((responseFileId) => responseFileId)
-          .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
-      }
-    )
-    .andThen(
-      (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
-        return projectRepo.transaction(
-          projectId,
-          (
-            project: Project
-          ): ResultAsync<
-            string,
-            AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
-          > => {
-            return project.updateProducteur(requestedBy, newProducteur).asyncMap(async () => fileId)
-          }
-        )
-      }
-    )
-    .andThen(
-      (
-        fileId: string
-      ): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-        return eventBus.publish(
-          new ModificationReceived({
-            payload: {
-              modificationRequestId: new UniqueEntityID().toString(),
-              projectId: projectId.toString(),
-              requestedBy: requestedBy.id,
-              type: 'producteur',
-              producteur: newProducteur,
-              justification,
-              fileId,
-              authority: 'dreal',
+          return makeAndSaveFile({
+            file: {
+              designation: 'modification-request',
+              forProject: projectId,
+              createdBy: new UniqueEntityID(requestedBy.id),
+              filename: file.filename,
+              contents: file.contents,
             },
+            fileRepo,
           })
-        )
-      }
-    )
-}
+            .map((responseFileId) => responseFileId)
+            .mapErr((e: Error) => {
+              logger.error(e)
+              return new InfraNotAvailableError()
+            })
+        }
+      )
+      .andThen(
+        (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
+          return projectRepo.transaction(
+            projectId,
+            (
+              project: Project
+            ): ResultAsync<
+              string,
+              AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
+            > => {
+              return project
+                .updateProducteur(requestedBy, newProducteur)
+                .asyncMap(async () => fileId)
+            }
+          )
+        }
+      )
+      .andThen(
+        (
+          fileId: string
+        ): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
+          return eventBus.publish(
+            new ModificationReceived({
+              payload: {
+                modificationRequestId: new UniqueEntityID().toString(),
+                projectId: projectId.toString(),
+                requestedBy: requestedBy.id,
+                type: 'producteur',
+                producteur: newProducteur,
+                justification,
+                fileId,
+                authority: 'dreal',
+              },
+            })
+          )
+        }
+      )
+  }

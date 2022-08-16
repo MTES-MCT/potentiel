@@ -7,7 +7,8 @@ export interface DrealUserInvitedPayload {
 }
 export class DrealUserInvited
   extends BaseDomainEvent<DrealUserInvitedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'DrealUserInvited' = 'DrealUserInvited'
   public type = DrealUserInvited.type
   currentVersion = 1

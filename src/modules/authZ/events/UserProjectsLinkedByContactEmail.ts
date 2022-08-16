@@ -6,7 +6,8 @@ export interface UserProjectsLinkedByContactEmailPayload {
 }
 export class UserProjectsLinkedByContactEmail
   extends BaseDomainEvent<UserProjectsLinkedByContactEmailPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'UserProjectsLinkedByContactEmail' = 'UserProjectsLinkedByContactEmail'
   public type = UserProjectsLinkedByContactEmail.type
   currentVersion = 1

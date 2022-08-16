@@ -8,8 +8,8 @@ export const makeBuildProjectIdentifier: (string) => BuildProjectIdentifier = (
     const hmac = createHmac('sha256', potentielIdentifierSecret)
     hmac.update(appelOffreId + periodeId + familleId + numeroCRE)
 
-    return `${appelOffreId}-P${periodeId}${
-      familleId ? `-F${familleId}` : ''
-    }-${numeroCRE}-${hmac.digest('hex').substring(0, 3)}`
+    return `${appelOffreId}-P${periodeId}${familleId ? `-F${familleId}` : ''}-${numeroCRE}-${hmac
+      .digest('hex')
+      .substring(0, 3)}`
   }
 }

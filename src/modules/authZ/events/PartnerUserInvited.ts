@@ -7,7 +7,8 @@ export interface PartnerUserInvitedPayload {
 }
 export class PartnerUserInvited
   extends BaseDomainEvent<PartnerUserInvitedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'PartnerUserInvited' = 'PartnerUserInvited'
   public type = PartnerUserInvited.type
   currentVersion = 1

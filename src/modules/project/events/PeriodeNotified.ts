@@ -9,7 +9,8 @@ export interface PeriodeNotifiedPayload {
 }
 export class PeriodeNotified
   extends BaseDomainEvent<PeriodeNotifiedPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'PeriodeNotified' = 'PeriodeNotified'
   public type = PeriodeNotified.type
   currentVersion = 1

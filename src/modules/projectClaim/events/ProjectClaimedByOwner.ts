@@ -8,7 +8,8 @@ export interface ProjectClaimedByOwnerPayload {
 }
 export class ProjectClaimedByOwner
   extends BaseDomainEvent<ProjectClaimedByOwnerPayload>
-  implements DomainEvent {
+  implements DomainEvent
+{
   public static type: 'ProjectClaimedByOwner' = 'ProjectClaimedByOwner'
   public type = ProjectClaimedByOwner.type
   currentVersion = 1
