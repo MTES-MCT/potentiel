@@ -38,8 +38,9 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
 
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
-  const doisChoisirCahierDesCharges = project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn;
-  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn);
+  const doisChoisirCahierDesCharges =
+    project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
+  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
