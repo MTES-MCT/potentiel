@@ -26,5 +26,3 @@ jobs:
       - run: npm ci
         env:
           DO_NOT_EXECUTE_MIGRATE: '1'
-      - run: npm run lint
-      - run: npm run prettier:check

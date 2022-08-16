@@ -1,3 +1,3 @@
-export * from './Astérisque';
-export * from './FormulaireChampsObligatoireLégende';
-export * from './Label';
+export * from './Astérisque'
+export * from './FormulaireChampsObligatoireLégende'
+export * from './Label'
