@@ -39,10 +39,6 @@ const deserialize = (item) => ({
   actionnariat: item.actionnariat || '',
 })
 
-function isProjetPPE2({ appelOffreId }: { appelOffreId?: string }) {
-  return appelOffreId?.toLowerCase().startsWith('ppe2') ?? false
-}
-
 type MakeProjectRepoDeps = {
   sequelizeInstance: any
   getProjectAppelOffre: GetProjectAppelOffre
