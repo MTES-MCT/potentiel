@@ -2,7 +2,11 @@ import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
 import { Signataire } from '../..'
 
-export const Signature = ({ signataire }: { signataire: Signataire }) => (
+type SignatureProps = {
+  signataire: Signataire
+}
+
+export const Signature = ({ signataire }: SignatureProps) => (
   <View
     style={{
       width: 200,

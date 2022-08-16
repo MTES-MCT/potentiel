@@ -73,6 +73,7 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
     } as ProjectAppelOffre,
   }
   const { content, footnotes } = makeLaureat(project)
+
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />

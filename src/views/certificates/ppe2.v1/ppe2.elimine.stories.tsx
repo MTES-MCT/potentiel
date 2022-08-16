@@ -6,6 +6,8 @@ import { Certificate } from './Certificate'
 import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres'
 import { Elimine } from './components/elimine/Elimine'
 
+import { Signataire } from '..'
+
 export default { title: 'Attestations PDF/PPE2/v1' }
 
 Font.register({
@@ -54,6 +56,11 @@ const fakeProject: ProjectDataForCertificate = {
   technologie: 'N/A',
 }
 
+const signataire = {
+  fullName: 'Nom du signataire',
+  fonction: 'fonction du signataire',
+} as Signataire
+
 export const EliminePPE2AuDessusDePcible = () => {
   const project: ProjectDataForCertificate = {
     ...fakeProject,
@@ -67,6 +74,7 @@ export const EliminePPE2AuDessusDePcible = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
@@ -86,6 +94,7 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
@@ -121,6 +130,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
@@ -156,6 +166,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
@@ -175,6 +186,7 @@ export const EliminePPE2AutreMotif = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
@@ -195,6 +207,7 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
+          signataire,
         }}
       />
     </PDFViewer>
