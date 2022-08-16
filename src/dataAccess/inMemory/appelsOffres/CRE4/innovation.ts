@@ -35,6 +35,7 @@ const innovation: AppelOffre = {
       max: 1,
     },
   },
+  choisirNouveauCahierDesCharges: true,
   periodes: [
     {
       id: '1',

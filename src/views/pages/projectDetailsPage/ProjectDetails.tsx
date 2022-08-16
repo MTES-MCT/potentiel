@@ -52,8 +52,7 @@ export const ProjectDetails = PageLayout(
 
           {userIs('porteur-projet')(user) &&
             project.isClasse &&
-            !project.isPPE2 &&
-            project.appelOffre.type !== 'eolien' && (
+            project.appelOffre.choisirNouveauCahierDesCharges && (
               <CDCForm {...{ project, cahiersChargesURLs }} />
             )}
 

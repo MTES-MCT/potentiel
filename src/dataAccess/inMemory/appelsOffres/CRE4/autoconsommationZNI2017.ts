@@ -35,6 +35,7 @@ export const autoconsommationZNI2017: AppelOffre = {
       max: 1,
     },
   },
+  choisirNouveauCahierDesCharges: true,
   periodes: [
     {
       id: '1',

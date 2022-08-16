@@ -37,6 +37,7 @@ const sol: AppelOffre = {
       max: 1.1,
     },
   },
+  choisirNouveauCahierDesCharges: true,
   periodes: [
     {
       id: '1',

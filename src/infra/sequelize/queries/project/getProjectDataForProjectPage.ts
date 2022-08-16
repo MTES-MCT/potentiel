@@ -115,7 +115,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           id,
           potentielIdentifier,
           appelOffreId,
-          isPPE2: isProjetPPE2({ appelOffreId }),
           periodeId,
           familleId,
           appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),

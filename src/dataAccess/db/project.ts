@@ -379,7 +379,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
     return {
       ...project,
-      isPPE2: isProjetPPE2({ appelOffreId: projectAppelOffre?.id }),
       ...(projectAppelOffre && {
         appelOffre: projectAppelOffre,
         famille: projectAppelOffre.famille,

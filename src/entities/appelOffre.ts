@@ -65,6 +65,7 @@ export type AppelOffre = {
   dossierSuiviPar: string
   soumisAuxGarantiesFinancieres?: boolean
   garantiesFinancieresDeposeesALaCandidature?: boolean
+  choisirNouveauCahierDesCharges?: true
   renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]

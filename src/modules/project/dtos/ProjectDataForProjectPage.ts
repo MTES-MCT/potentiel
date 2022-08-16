@@ -7,7 +7,6 @@ export type ProjectDataForProjectPage = {
   appelOffre: ProjectAppelOffre
 
   appelOffreId: string
-  isPPE2: boolean,
   periodeId: string
   familleId: string
   numeroCRE: string

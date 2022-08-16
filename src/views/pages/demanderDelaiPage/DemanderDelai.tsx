@@ -38,11 +38,12 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
 
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
-  const isEolien = project.appelOffre?.type === 'eolien'
-  const [displayForm, setDisplayForm] = useState(project.newRulesOptIn || project.isPPE2)
+  const doisChoisirCahierDesCharges = project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn;
+  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn);
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
+
   return (
     <UserDashboard currentPage="list-requests">
       <div className="panel">
@@ -60,7 +61,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} className="mb-3" />
             <SuccessErrorBox success={success} error={error} />
-            {!isEolien && !project.isPPE2 && (
+            {doisChoisirCahierDesCharges && (
               <div>
                 <Label required>
                   <strong>
@@ -71,12 +72,12 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                 <CDCChoiceForm
                   newRulesOptIn={project.newRulesOptIn}
                   cahiersChargesURLs={cahiersChargesURLs}
-                  onChoiceChange={(isNewRule: boolean) => setDisplayForm(!isNewRule)}
+                  onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(!isNewRule)}
                 />
               </div>
             )}
 
-            {(isEolien || displayForm) && (
+            {(newRulesOptInSelectionné || !doisChoisirCahierDesCharges) && (
               <div {...dataId('modificationRequest-demandesInputs')}>
                 <div className="flex flex-col gap-5">
                   <div>

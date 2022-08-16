@@ -35,6 +35,7 @@ const autoconsommationZNI: AppelOffre = {
       max: 1,
     },
   },
+  choisirNouveauCahierDesCharges: true,
   periodes: [
     {
       id: '1',

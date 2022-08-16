@@ -359,36 +359,4 @@ describe('Sequelize getProjectDataForProjectPage', () => {
       expect(res.isOk()).toBe(true)
     })
   })
-
-  describe(`quand le projet n'est pas de type PPE2`, () => {
-    it('alors la fonction retourne un booléen isPPE2 égal à false', async () => {
-      await resetDatabase()
-
-      await Project.create(
-          makeFakeProject({ ...projectInfo, appelOffreId: 'CRE4 - Sol' })
-      )
-
-      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
-
-      expect(res).toMatchObject({
-        isPPE2: false,
-      })
-    })
-  })
-
-  describe(`quand le projet est de type PPE2`, () => {
-    it('alors la fonction retourne un booléen isPPE2 égal à true', async () => {
-      await resetDatabase()
-
-      await Project.create(
-          makeFakeProject({ ...projectInfo, appelOffreId:'PPE2 - Sol' })
-      )
-
-      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
-
-      expect(res).toMatchObject({
-        isPPE2: true,
-      })
-    })
-  })
 })
