@@ -1,4 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { Payload } from './Payload'
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
@@ -6,12 +7,12 @@ class ProjectEvent extends Model<
   InferAttributes<ProjectEvent>,
   InferCreationAttributes<ProjectEvent>
 > {
-  declare id: string
-  declare projectId: string
-  declare type: string
-  declare payload?: { [key: string]: unknown }
-  declare valueDate: number | null
-  declare eventPublishedAt: number
+  id: string
+  projectId: string
+  type: string
+  payload: Payload | null
+  valueDate: number
+  eventPublishedAt: number
 }
 
 const nomProjection = 'project_events'
