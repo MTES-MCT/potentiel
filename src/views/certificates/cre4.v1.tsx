@@ -464,22 +464,14 @@ const Certificate = ({ project, objet, body, footnotes, signataire }: Certificat
                 position: 'relative',
               }}
             >
-              <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
-                {signataire.fonction}
-              </Text>
-              <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
+              <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
                 {signataire.fullName}
               </Text>
-              <Image
-                style={{
-                  position: 'absolute',
-                  width: 130,
-                  height: 105,
-                  top: 25,
-                  left: 70,
-                }}
-                src={process.env.BASE_URL + '/images/signature.png'}
-              />
+              <Text
+                style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}
+              >
+                {signataire.fonction}
+              </Text>
             </View>
           </View>
 

@@ -20,14 +20,14 @@ export const buildCertificate = (args: {
     ? { fullName: validateur.fullName, fonction: validateur.fonction }
     : {
         fullName: 'Ghislain Ferran',
-        fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables,`,
+        fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
       }
 
   const signatairePPE2v2: Signataire = validateur
     ? { fullName: validateur.fullName, fonction: validateur.fonction }
     : {
         fullName: 'Nicolas CLAUSSET',
-        fonction: `Le sous-directeur du système électrique et des énergies renouvelables,`,
+        fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
       }
 
   switch (template) {

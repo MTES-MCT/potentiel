@@ -18,7 +18,9 @@ export const Signature = ({ signataire }: SignatureProps) => (
     }}
     wrap={false}
   >
-    <Text style={{ fontWeight: 'bold' }}>{signataire.fonction}</Text>
-    <Text style={{ marginTop: -30 }}>{signataire.fullName}</Text>
+    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{signataire.fullName}</Text>
+    <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
+      {signataire.fonction}
+    </Text>
   </View>
 )

@@ -452,19 +452,7 @@ const Certificate = ({
             <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
               L'adjoint au sous-directeur du système électrique et des énergies renouvelables,
             </Text>
-            <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
-              Ghislain Ferran
-            </Text>
-            <Image
-              style={{
-                position: 'absolute',
-                width: 130,
-                height: 105,
-                top: 25,
-                left: 70,
-              }}
-              src={process.env.BASE_URL + '/images/signature.png'}
-            />
+            <Text style={{ fontSize: 10, textAlign: 'center' }}>Ghislain FerranTEST</Text>
           </View>
 
           {footnotes ? (
