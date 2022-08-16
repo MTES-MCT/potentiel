@@ -12,6 +12,7 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
+import { AppelOffre } from '@entities'
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -19,15 +20,13 @@ describe('Commande demanderDélai', () => {
   const getProjectAppelOffreId = jest.fn((projectId) =>
     okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
   )
-  const appelOffreRepo = {
-    findById: async () => [
-      {
-        id: 'appelOffreId',
-        periodes: [{ id: 'periodeId', type: 'notified' }],
-        familles: [{ id: 'familleId' }],
-      },
-    ],
-  } as unknown as AppelOffreRepo
+  const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+    ({
+      id: 'appelOffreId',
+      choisirNouveauCahierDesCharges: true,
+      periodes: [{ id: 'periodeId', type: 'notified' }],
+      familles: [{ id: 'familleId' }],
+    } as AppelOffre)
 
   const fakeProject = makeFakeProject()
 
@@ -61,7 +60,7 @@ describe('Commande demanderDélai', () => {
       alors, une erreur est retournée`, async () => {
         const demandeDelai = makeDemanderDélai({
           fileRepo,
-          appelOffreRepo,
+          findAppelOffreById,
           publishToEventStore,
           shouldUserAccessProject,
           getProjectAppelOffreId,
@@ -96,7 +95,7 @@ describe('Commande demanderDélai', () => {
     )
     const demandeDelai = makeDemanderDélai({
       fileRepo,
-      appelOffreRepo,
+      findAppelOffreById,
       publishToEventStore,
       shouldUserAccessProject,
       getProjectAppelOffreId,
@@ -144,7 +143,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors un événement DélaiDemandé devrait être émis`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -172,7 +171,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors le fichier doit être enregistré`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -199,7 +198,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -223,6 +222,45 @@ describe('Commande demanderDélai', () => {
           })
         })
       })
+      describe(`Pas de souscription au nouveau cahier des charges si l'AO ne le requiert pas`, () => {
+        describe(`Étant donné un projet avec un AO ne requérant pas de choix du nouveau CDC
+                  Lorsque le porteur fait une demande de délai
+                  et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
+          it(`Alors aucun un événement ProjectNewRulesOptedIn ne devrait être émis`, async () => {
+            const projectRepo = fakeRepo({
+              ...fakeProject,
+              newRulesOptIn: false,
+            } as Project)
+
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              findAppelOffreById: async () => {
+                return {
+                  id: 'appelOffreId',
+                  periodes: [{ id: 'periodeId', type: 'notified' }],
+                  familles: [{ id: 'familleId' }],
+                } as AppelOffre
+              },
+
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
+
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
+              projectId: fakeProject.id.toString(),
+            })
+
+            expect(publishToEventStore).not.toHaveBeenCalledWith(
+              expect.objectContaining({ type: 'ProjectNewRulesOptedIn' })
+            )
+          })
+        })
+      })
       describe(`Enregistrer la souscription au nouveau cahier des charges`, () => {
         describe(`Lorsque le porteur fait une demande de délai
             et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
@@ -234,7 +272,7 @@ describe('Commande demanderDélai', () => {
 
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,

@@ -28,7 +28,7 @@ type DemanderDélai = (commande: {
 
 type MakeDemanderDélai = (dépendances: {
   fileRepo: Repository<FileObject>
-  appelOffreRepo: AppelOffreRepo
+  findAppelOffreById: AppelOffreRepo['findById']
   publishToEventStore: EventStore['publish']
   getProjectAppelOffreId: GetProjectAppelOffreId
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -38,7 +38,7 @@ type MakeDemanderDélai = (dépendances: {
 export const makeDemanderDélai: MakeDemanderDélai =
   ({
     fileRepo,
-    appelOffreRepo,
+    findAppelOffreById,
     publishToEventStore,
     shouldUserAccessProject,
     getProjectAppelOffreId,
@@ -55,6 +55,12 @@ export const makeDemanderDélai: MakeDemanderDélai =
         if (!userHasRightsToProject) {
           return errAsync(new UnauthorizedError())
         }
+
+        return getProjectAppelOffreId(projectId).andThen((appelOffreId) => {
+          return wrapInfra(findAppelOffreById(appelOffreId))
+        })
+      })
+      .andThen((appelOffre) => {
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
             return errAsync(
@@ -65,17 +71,20 @@ export const makeDemanderDélai: MakeDemanderDélai =
             )
           }
 
-          if (project.newRulesOptIn === false) {
+          const doitSouscrireAuNouveauCDC =
+            !project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges
+
+          if (doitSouscrireAuNouveauCDC) {
             return publishToEventStore(
               new ProjectNewRulesOptedIn({ payload: { projectId, optedInBy: user.id } })
             )
           }
 
-          return okAsync(null)
+          return okAsync(appelOffre)
         })
       })
-      .andThen(() => {
-        if (!file) return okAsync(null)
+      .andThen((appelOffre) => {
+        if (!file) return okAsync({ appelOffre, fileId: null })
 
         return makeFileObject({
           designation: 'modification-request',
@@ -84,20 +93,14 @@ export const makeDemanderDélai: MakeDemanderDélai =
           filename: file.filename,
           contents: file.contents,
         })
-          .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+          .asyncAndThen((file) =>
+            fileRepo.save(file).map(() => ({ appelOffre, fileId: file.id.toString() }))
+          )
           .mapErr((e: Error) => {
             logger.error(e)
             return new InfraNotAvailableError()
           })
       })
-      .andThen((fileId) =>
-        getProjectAppelOffreId(projectId).andThen((appelOffreId) => {
-          return wrapInfra(appelOffreRepo.findById(appelOffreId)).map((appelOffre) => ({
-            appelOffre,
-            fileId,
-          }))
-        })
-      )
       .andThen(({ appelOffre, fileId }) => {
         return publishToEventStore(
           new DélaiDemandé({

@@ -187,7 +187,7 @@ v1Router.post(
     }
 
     const project = await oldProjectRepo.findById(data.projectId)
-    if (!project?.newRulesOptIn) {
+    if (!project?.newRulesOptIn && project?.appelOffre?.choisirNouveauCahierDesCharges) {
       const res = await updateNewRulesOptIn({
         projectId: data.projectId,
         optedInBy: request.user,
