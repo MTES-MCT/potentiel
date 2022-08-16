@@ -8,6 +8,7 @@ import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
 import { formatNumber, getNoteThreshold } from './helpers'
+import { Signataire } from '.'
 
 dotenv.config()
 
@@ -334,8 +335,9 @@ interface CertificateProps {
   objet: string
   body: JSX.Element
   footnotes?: JSX.Element
+  signataire: Signataire
 }
-const Certificate = ({ project, objet, body, footnotes }: CertificateProps) => {
+const Certificate = ({ project, objet, body, footnotes, signataire }: CertificateProps) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
@@ -448,10 +450,10 @@ const Certificate = ({ project, objet, body, footnotes }: CertificateProps) => {
               }}
             >
               <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
-                L’adjoint au sous-directeur du système électrique et des énergies renouvelables,
+                {signataire.fonction}
               </Text>
               <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
-                Ghislain Ferran
+                {signataire.fullName}
               </Text>
               <Image
                 style={{
@@ -503,7 +505,8 @@ const Certificate = ({ project, objet, body, footnotes }: CertificateProps) => {
 const queue = new Queue()
 
 const makeCertificate = (
-  project: ProjectDataForCertificate
+  project: ProjectDataForCertificate,
+  signataire: Signataire
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
@@ -524,7 +527,7 @@ const makeCertificate = (
 
   /* global NodeJS */
   const ticket: Promise<NodeJS.ReadableStream> = queue.push(() =>
-    ReactPDF.renderToStream(<Certificate {...content} />)
+    ReactPDF.renderToStream(<Certificate {...content} signataire={signataire} />)
   )
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))

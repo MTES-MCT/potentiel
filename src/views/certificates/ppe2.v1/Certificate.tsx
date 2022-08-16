@@ -7,15 +7,12 @@ import { Introduction } from './components/Introduction'
 import { Signature } from './components/Signature'
 import { PageFooter } from './components/PageFooter'
 import { Footnote, FootnoteProps } from './components/Footnote'
+import { Signataire } from '..'
 
 export type CertificateProps = {
   project: ProjectDataForCertificate
   content: React.ReactNode
-  validateur: {
-    nom: string
-    prénom: string
-    fonction: string
-  }
+  signataire: Signataire
 } & (
   | {
       type: 'laureat'
@@ -27,7 +24,7 @@ export type CertificateProps = {
 )
 
 export const Certificate = (props: CertificateProps) => {
-  const { type, project, content } = props
+  const { type, project, content, signataire } = props
   const footnotes = type === 'laureat' && props.footnotes
 
   return (
@@ -57,7 +54,7 @@ export const Certificate = (props: CertificateProps) => {
                 distinguées.
               </Text>
 
-              <Signature validateur={props.validateur} />
+              <Signature signataire={signataire} />
             </View>
           </View>
 

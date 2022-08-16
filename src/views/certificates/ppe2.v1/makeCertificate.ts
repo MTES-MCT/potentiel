@@ -7,6 +7,7 @@ import { OtherError } from '@modules/shared'
 import { Certificate, CertificateProps } from './Certificate'
 import { makeLaureat } from './components/Laureat'
 import { Elimine } from './components/elimine'
+import { Signataire } from '..'
 
 dotenv.config()
 
@@ -30,7 +31,8 @@ Font.register({
 const queue = new Queue()
 
 const makeCertificate = (
-  project: ProjectDataForCertificate
+  project: ProjectDataForCertificate,
+  signataire: Signataire
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
@@ -41,15 +43,9 @@ const makeCertificate = (
     )
   }
 
-  const validateur = {
-    nom: 'test',
-    prénom: 'test',
-    fonction: 'test',
-  }
-
   const certificateProps: CertificateProps = project.isClasse
-    ? { project, validateur, type: 'laureat', ...makeLaureat(project) }
-    : { project, validateur, type: 'elimine', content: Elimine({ project }) }
+    ? { project, type: 'laureat', ...makeLaureat(project), signataire }
+    : { project, type: 'elimine', content: Elimine({ project }), signataire }
 
   const certificate = Certificate(certificateProps)
   const ticket = queue.push(() => ReactPDF.renderToStream(certificate))

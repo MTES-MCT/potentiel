@@ -1,7 +1,8 @@
 import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
+import { Signataire } from '../..'
 
-export const Signature = () => (
+export const Signature = ({ signataire }: { signataire: Signataire }) => (
   <View
     style={{
       width: 200,
@@ -13,9 +14,7 @@ export const Signature = () => (
     }}
     wrap={false}
   >
-    <Text style={{ fontWeight: 'bold' }}>
-      Le sous-directeur du système électrique et des énergies renouvelables
-    </Text>
-    <Text style={{ marginTop: 30 }}>Nicolas CLAUSSET</Text>
+    <Text style={{ fontWeight: 'bold' }}>{signataire.fonction}</Text>
+    <Text style={{ marginTop: 30 }}>{signataire.fullName}</Text>
   </View>
 )

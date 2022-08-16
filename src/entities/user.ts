@@ -6,6 +6,7 @@ const userSchema = Record({
   id: String,
   fullName: String,
   email: String.withConstraint(isEmail.validate),
+  fonction: String,
   role: Union(
     Literal('admin'),
     Literal('porteur-projet'),
