@@ -23,7 +23,7 @@ export const handlePeriodeNotified =
       getProjectAppelOffre,
     } = deps
 
-    const { periodeId, appelOffreId, notifiedOn } = event.payload
+    const { periodeId, appelOffreId, notifiedOn, requestedBy } = event.payload
     const appelOffre = getProjectAppelOffre(event.payload)
 
     if (!appelOffre) {
@@ -50,7 +50,10 @@ export const handlePeriodeNotified =
         })
         .andThen((shouldCertificateBeGenerated) => {
           return shouldCertificateBeGenerated
-            ? generateCertificate(unnotifiedProjectId.projectId).map(() => null)
+            ? generateCertificate({
+                projectId: unnotifiedProjectId.projectId,
+                validateurId: requestedBy,
+              }).map(() => null)
             : okAsync<null, never>(null)
         })
         .match(

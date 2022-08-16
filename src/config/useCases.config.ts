@@ -62,6 +62,7 @@ import {
   getProjectIdsForPeriode,
   getPuissanceProjet,
   getUserByEmail,
+  getUserById,
   hasProjectGarantieFinanciere,
   isProjectParticipatif,
 } from './queries.config'
@@ -87,6 +88,7 @@ export const generateCertificate = makeGenerateCertificate({
   fileRepo,
   projectRepo,
   buildCertificate,
+  getUserById,
 })
 
 export const correctProjectData = makeCorrectProjectData({

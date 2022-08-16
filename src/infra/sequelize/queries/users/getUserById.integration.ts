@@ -23,6 +23,13 @@ describe('Requête Sequelize getUserById', () => {
     ])
   })
 
+  describe(`Lorsque l'identifiant de l'utilisateur est null`, () => {
+    it(`Alors la requête doit retourner 'null'`, async () => {
+      const res = await getUserById(null)
+      expect(res._unsafeUnwrap()).toBeNull()
+    })
+  })
+
   describe(`Lorsque l'utilisateur n'existe pas`, () => {
     it(`Alors la requête retourne 'null'`, async () => {
       const res = await getUserById(new UniqueEntityID().toString())

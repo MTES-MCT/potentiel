@@ -10,11 +10,14 @@ import {
 } from '../../shared/errors'
 import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors'
 import { Project } from '../Project'
+import { User } from '@entities'
 
-export type GenerateCertificate = (
-  projectId: string,
+import { GetUserById } from '@infra/sequelize/queries/users'
+export type GenerateCertificate = (args: {
+  projectId: string
   reason?: string
-) => ResultAsync<
+  validateurId?: string
+}) => ResultAsync<
   null,
   | EntityNotFoundError
   | InfraNotAvailableError
@@ -28,9 +31,11 @@ export type GenerateCertificate = (
 interface GenerateCertificateDeps {
   fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
+  getUserById: GetUserById
   buildCertificate: ({
     template: CertificateTemplate,
     data: ProjectDataForCertificate,
+    validateur: User,
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError
@@ -43,18 +48,27 @@ interface GenerateCertificateDeps {
   >
 }
 export const makeGenerateCertificate =
-  (deps: GenerateCertificateDeps): GenerateCertificate =>
-  (projectId, reason) => {
-    return deps.projectRepo
+  ({
+    getUserById,
+    projectRepo,
+    buildCertificate,
+    fileRepo,
+  }: GenerateCertificateDeps): GenerateCertificate =>
+  ({ projectId, reason, validateurId = null }) => {
+    return projectRepo
       .load(new UniqueEntityID(projectId))
-      .andThen(_buildCertificateForProject)
+      .andThen((project) => {
+        return getUserById(validateurId).andThen((validateur) =>
+          _buildCertificateForProject(project, validateur)
+        )
+      })
       .andThen(_saveCertificateToStorage)
       .andThen(_addCertificateFileIdToProject)
-      .andThen((project) => deps.projectRepo.save(project))
+      .andThen((project) => projectRepo.save(project))
 
-    function _buildCertificateForProject(project: Project) {
+    function _buildCertificateForProject(project: Project, validateur?: User | null) {
       return project.certificateData
-        .asyncAndThen((certificateData) => deps.buildCertificate(certificateData))
+        .asyncAndThen((certificateData) => buildCertificate({ ...certificateData, validateur }))
         .map((fileStream) => ({ fileStream, project }))
     }
 
@@ -71,7 +85,7 @@ export const makeGenerateCertificate =
       })
         .mapErr((e) => new OtherError(e.message))
         .asyncAndThen((file: FileObject) => {
-          return deps.fileRepo.save(file).map(() => file.id.toString())
+          return fileRepo.save(file).map(() => file.id.toString())
         })
         .map((certificateFileId) => ({ certificateFileId, project }))
     }

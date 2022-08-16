@@ -62,7 +62,7 @@ export const makeRegenerateCertificatesForPeriode =
     async function _regenerateCertificatesForProjects(projectIds: string[]) {
       for (const projectId of projectIds) {
         await _updateNotificationDateIfNecessary(projectId).andThen(() =>
-          deps.generateCertificate(projectId, reason).mapErr((e) => {
+          deps.generateCertificate({ projectId, reason }).mapErr((e) => {
             logger.info(`regenerateCertificatesForPeriode failed for projectId ${projectId}`)
             logger.error(e)
           })
