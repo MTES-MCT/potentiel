@@ -47,17 +47,25 @@ module.exports = {
           email: 'ao@test.test',
           role: 'acheteur-obligé',
         },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa997',
+          fullName: 'DGEC validateur Test',
+          email: 'dgec-validateur@test.test',
+          fonction: 'Intitulé de la fonction du DGEC validateur test',
+          role: 'dgec-validateur',
+        },
       ]
 
       await queryInterface.bulkInsert(
         'users',
-        users.map(({ id, fullName, email, role }) => ({
+        users.map(({ id, fullName, email, role, fonction }) => ({
           id,
           fullName,
           email,
           role,
           createdAt: new Date(),
           updatedAt: new Date(),
+          fonction,
         })),
         {}
       )
