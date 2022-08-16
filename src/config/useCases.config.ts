@@ -305,7 +305,7 @@ export const importEnedisData = makeImportEnedisData({
 
 export const demanderDélai = makeDemanderDélai({
   fileRepo,
-  appelOffreRepo: oldAppelOffreRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
   publishToEventStore: eventStore.publish.bind(eventStore),
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
