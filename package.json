@@ -171,8 +171,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,css}": "prettier --write --ignore-unknown",
-    "*.{js,ts}": "eslint --fix"
+    "*.{js,ts,css,jsx,tsx}": "prettier --write --ignore-unknown",
+    "*.{js,ts,jsx,tsx}": "eslint --fix"
   },
   "config": {
     "commitizen": {

@@ -12,27 +12,26 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
+import { AppelOffre } from '@entities'
 
 describe('Commande demanderDélai', () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
 
-  const getProjectAppelOffreId = jest.fn((projectId) =>
+  const getProjectAppelOffreId = jest.fn(() =>
     okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
   )
-  const appelOffreRepo = {
-    findById: async () => [
-      {
-        id: 'appelOffreId',
-        periodes: [{ id: 'periodeId', type: 'notified' }],
-        familles: [{ id: 'familleId' }],
-      },
-    ],
-  } as unknown as AppelOffreRepo
+  const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+    ({
+      id: 'appelOffreId',
+      choisirNouveauCahierDesCharges: true,
+      periodes: [{ id: 'periodeId', type: 'notified' }],
+      familles: [{ id: 'familleId' }],
+    } as AppelOffre)
 
   const fakeProject = makeFakeProject()
 
   const fileRepo = {
-    save: jest.fn((file: FileObject) => okAsync(null)),
+    save: jest.fn(() => okAsync(null)),
     load: jest.fn(),
   }
 
@@ -41,9 +40,7 @@ describe('Commande demanderDélai', () => {
     contents: Readable.from('test-content'),
   }
 
-  const publishToEventStore = jest.fn((event: DomainEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  )
+  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
   const projectRepo = fakeRepo({
     ...fakeProject,
@@ -61,7 +58,7 @@ describe('Commande demanderDélai', () => {
       alors, une erreur est retournée`, async () => {
         const demandeDelai = makeDemanderDélai({
           fileRepo,
-          appelOffreRepo,
+          findAppelOffreById,
           publishToEventStore,
           shouldUserAccessProject,
           getProjectAppelOffreId,
@@ -96,7 +93,7 @@ describe('Commande demanderDélai', () => {
     )
     const demandeDelai = makeDemanderDélai({
       fileRepo,
-      appelOffreRepo,
+      findAppelOffreById,
       publishToEventStore,
       shouldUserAccessProject,
       getProjectAppelOffreId,
@@ -144,7 +141,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors un événement DélaiDemandé devrait être émis`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -158,12 +155,16 @@ describe('Commande demanderDélai', () => {
               projectId: fakeProject.id.toString(),
             })
 
-            const firstEvent = publishToEventStore.mock.calls[0][0]
-            expect(firstEvent).toBeInstanceOf(DélaiDemandé)
-            expect(firstEvent.payload).toMatchObject({
-              dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
-              projetId: fakeProject.id.toString(),
-            })
+            expect(publishToEventStore).toHaveBeenNthCalledWith(
+              1,
+              expect.objectContaining({
+                type: 'DélaiDemandé',
+                payload: expect.objectContaining({
+                  dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
+                  projetId: fakeProject.id.toString(),
+                }),
+              })
+            )
           })
         })
       })
@@ -172,7 +173,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors le fichier doit être enregistré`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -187,10 +188,9 @@ describe('Commande demanderDélai', () => {
               file: fakeFileContents,
             })
 
-            expect(fileRepo.save).toHaveBeenCalled()
-            expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-            const fakeFile = fileRepo.save.mock.calls[0][0]
-            expect(fakeFile).toBeDefined()
+            expect(fileRepo.save).toHaveBeenCalledWith(
+              expect.objectContaining({ contents: fakeFileContents.contents })
+            )
           })
         })
       })
@@ -199,7 +199,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -213,13 +213,56 @@ describe('Commande demanderDélai', () => {
               numeroGestionnaire: 'IdGestionnaire',
             })
 
-            const secondEvent = publishToEventStore.mock.calls[1][0]
-            expect(secondEvent).toBeInstanceOf(NumeroGestionnaireSubmitted)
-            expect(secondEvent.payload).toMatchObject({
-              numeroGestionnaire: 'IdGestionnaire',
-              submittedBy: user.id,
+            expect(publishToEventStore).toHaveBeenNthCalledWith(
+              2,
+              expect.objectContaining({
+                type: 'NumeroGestionnaireSubmitted',
+                payload: expect.objectContaining({
+                  numeroGestionnaire: 'IdGestionnaire',
+                  submittedBy: user.id,
+                  projectId: fakeProject.id.toString(),
+                }),
+              })
+            )
+          })
+        })
+      })
+      describe(`Pas de souscription au nouveau cahier des charges si l'AO ne le requiert pas`, () => {
+        describe(`Étant donné un projet avec un AO ne requérant pas de choix du nouveau CDC
+                  Lorsque le porteur fait une demande de délai
+                  et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
+          it(`Alors aucun un événement ProjectNewRulesOptedIn ne devrait être émis`, async () => {
+            const projectRepo = fakeRepo({
+              ...fakeProject,
+              newRulesOptIn: false,
+            } as Project)
+
+            const demandeDelai = makeDemanderDélai({
+              fileRepo: fileRepo as Repository<FileObject>,
+              findAppelOffreById: async () => {
+                return {
+                  id: 'appelOffreId',
+                  periodes: [{ id: 'periodeId', type: 'notified' }],
+                  familles: [{ id: 'familleId' }],
+                } as AppelOffre
+              },
+
+              publishToEventStore,
+              shouldUserAccessProject,
+              getProjectAppelOffreId,
+              projectRepo,
+            })
+
+            await demandeDelai({
+              justification: 'justification',
+              dateAchèvementDemandée: new Date('2022-01-01'),
+              user,
               projectId: fakeProject.id.toString(),
             })
+
+            expect(publishToEventStore).not.toHaveBeenCalledWith(
+              expect.objectContaining({ type: 'ProjectNewRulesOptedIn' })
+            )
           })
         })
       })
@@ -234,7 +277,7 @@ describe('Commande demanderDélai', () => {
 
             const demandeDelai = makeDemanderDélai({
               fileRepo: fileRepo as Repository<FileObject>,
-              appelOffreRepo,
+              findAppelOffreById,
               publishToEventStore,
               shouldUserAccessProject,
               getProjectAppelOffreId,
@@ -247,19 +290,24 @@ describe('Commande demanderDélai', () => {
               projectId: fakeProject.id.toString(),
             })
 
-            const firstEvent = publishToEventStore.mock.calls[0][0]
-            expect(firstEvent).toBeInstanceOf(ProjectNewRulesOptedIn)
-            expect(firstEvent.payload).toMatchObject({
-              projectId: fakeProject.id.toString(),
-              optedInBy: user.id,
-            })
+            expect(publishToEventStore).toHaveBeenNthCalledWith(
+              1,
+              expect.objectContaining({
+                type: 'ProjectNewRulesOptedIn',
+                payload: { projectId: fakeProject.id.toString(), optedInBy: user.id },
+              })
+            )
 
-            const secondEvent = publishToEventStore.mock.calls[1][0]
-            expect(secondEvent).toBeInstanceOf(DélaiDemandé)
-            expect(secondEvent.payload).toMatchObject({
-              dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
-              projetId: fakeProject.id.toString(),
-            })
+            expect(publishToEventStore).toHaveBeenNthCalledWith(
+              2,
+              expect.objectContaining({
+                type: 'DélaiDemandé',
+                payload: expect.objectContaining({
+                  dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
+                  projetId: fakeProject.id.toString(),
+                }),
+              })
+            )
           })
         })
       })
