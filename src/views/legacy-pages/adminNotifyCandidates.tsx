@@ -30,7 +30,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
       <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
         <div className="panel">
           <div className="panel__header">
-            <h3>Projets à notifier</h3>
+            <h3>Notifier les candidats</h3>
           </div>
           {success ? (
             <div className="notification success" {...dataId('success-message')}>
@@ -67,7 +67,15 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
     <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets à notifier</h3>
+          <h3>Notifier les candidats</h3>
+          {request.user.role !== 'dgec-validateur' && (
+            <p>
+              Seules les personnes ayant délégation de signature sont habilitées à notifier un appel
+              d'offres. <br />
+              Il est néanmoins possible de consulter les attestations qui seront envoyées aux
+              porteurs de projets.
+            </p>
+          )}
           <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
             <div className="form__group mt-5">
               <input

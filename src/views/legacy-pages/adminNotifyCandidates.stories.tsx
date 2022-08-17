@@ -61,3 +61,5 @@ export const withProjects = () => (
     }}
   />
 )
+
+export const withoutProjects = () => <AdminNotifyCandidates request={makeFakeRequest()} />
