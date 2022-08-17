@@ -137,3 +137,6 @@ storybook-static/
 
 # Mac
 .DS_Store
+
+# Jetbrain
+.idea
