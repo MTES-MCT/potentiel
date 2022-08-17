@@ -8,7 +8,7 @@ export default {
     primary: { control: 'boolean' },
     children: { control: 'text' },
     disabled: { control: 'boolean' },
-    type: { control: 'select', options: ['button', 'submit', 'reset'] },
+    type: { control: { type: 'radio' }, options: ['button', 'submit', 'reset'] },
   },
 }
 
@@ -17,7 +17,7 @@ const Template = (args) => <Button {...args} />
 export const Default = Template.bind({})
 
 Default.args = {
-  primary: true,
+  primary: false,
   disabled: false,
   type: 'button',
   children: `Ceci est un exemple de bouton`,

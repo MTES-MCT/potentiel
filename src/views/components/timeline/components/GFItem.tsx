@@ -8,7 +8,14 @@ import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
-import { Button, FormulaireChampsObligatoireLégende, Input, Label, Astérisque } from '@components'
+import {
+  Button,
+  FormulaireChampsObligatoireLégende,
+  Input,
+  Label,
+  Astérisque,
+  Link,
+} from '@components'
 
 type ComponentProps = GFItemProps & {
   project: { id: string; status: ProjectStatus }
@@ -68,12 +75,10 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
           {isDreal && <UploadForm projectId={project.id} role={role} />}
           {isDreal && status === 'past-due' && (
             <p className="m-0">
-              <a
+              <Link
                 href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
                 download
-              >
-                Télécharger le modèle de mise en demeure
-              </a>
+              />
             </p>
           )}
         </div>
@@ -107,9 +112,9 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
         />
         <div className="flex">
           {url ? (
-            <a href={url} download>
+            <Link href={url} download>
               Télécharger l'attestation de garanties financières
-            </a>
+            </Link>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
@@ -142,9 +147,9 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
         <div>
           {url ? (
             <>
-              <a href={url} download>
+              <Link href={url} download>
                 Télécharger l'attestation de garanties financières
-              </a>
+              </Link>
               <span>&nbsp;(validée)</span>
             </>
           ) : (
@@ -271,9 +276,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         />
         <div className="flex">
           {url ? (
-            <a href={url} download>
+            <Link href={url} download>
               Télécharger l'attestation de garanties financières
-            </a>
+            </Link>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}

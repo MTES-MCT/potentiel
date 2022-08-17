@@ -7,11 +7,16 @@ import {
 } from '@heroicons/react/outline'
 import { isLinkMailTo, isLinkPhoneCall } from './helpers'
 
-type LinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+interface LinkProps extends React.ComponentProps<'a'> {
   disabled?: boolean
 }
 
-export const Link = ({ disabled, children, type = 'none', ...props }: LinkProps) => {
+export const Link: React.FunctionComponent<LinkProps> = ({
+  disabled,
+  children,
+  type = 'none',
+  ...props
+}) => {
   const classes = `
   inline-flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2
     ${disabled && 'disabled:text-slate-500 text-gray-400 pointer-events-none'}

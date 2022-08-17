@@ -4,15 +4,22 @@ import {
   ExternalLinkIcon,
   MailIcon,
   PhoneIcon,
+  DocumentReportIcon,
 } from '@heroicons/react/outline'
 import { isLinkMailTo, isLinkPhoneCall } from './helpers'
 
-type LinkButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
-  primary?: true
+interface LinkButtonProps extends React.ComponentProps<'a'> {
+  primary?: boolean
   disabled?: boolean
+  excel?: boolean
 }
 
-export const LinkButton = ({ disabled, primary, children, ...props }: LinkButtonProps) => {
+export const LinkButton: React.FunctionComponent<LinkButtonProps> = ({
+  disabled,
+  primary,
+  children,
+  ...props
+}) => {
   const classes = `inline-flex items-center px-6 py-2 border border-solid no-underline font-medium shadow-sm focus:no-underline active:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2
     ${
       primary
@@ -32,7 +39,8 @@ export const LinkButton = ({ disabled, primary, children, ...props }: LinkButton
   return (
     <a className={classes} {...props}>
       {children}
-      {props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />}
+      {(props.excel && <DocumentReportIcon className="w-5 h-5 ml-1" />) ||
+        (props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />)}
       {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
       {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
       {isLinkPhoneCall(props.href) && <PhoneIcon className="w-5 h-5 ml-1" />}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
+interface ButtonProps extends React.ComponentProps<'button'> {
   type?: 'button' | 'submit' | 'reset'
   primary?: true
   disabled?: boolean
@@ -8,7 +8,13 @@ type ButtonProps = React.HTMLAttributes<HTMLButtonElement> & {
   value?: string
 }
 
-export const Button = ({ children, disabled = false, primary, ...props }: ButtonProps) => {
+export const Button: React.FunctionComponent<ButtonProps> = ({
+  children,
+  disabled = false,
+  primary,
+  className,
+  ...props
+}) => {
   const buttonClassNames = `inline-flex items-center px-6 py-2 border border-solid text-base text-decoration-none font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
     ${
       primary
@@ -22,7 +28,7 @@ export const Button = ({ children, disabled = false, primary, ...props }: Button
         ? 'border-transparent bg-neutral-200 text-neutral-500 shadow-none pointer-events-none'
         : 'border-neutral-200 text-neutral-500 shadow-none pointer-events-none'
     } 
-    ${props.className || ''}
+    ${className || ''}
   `
 
   return (
