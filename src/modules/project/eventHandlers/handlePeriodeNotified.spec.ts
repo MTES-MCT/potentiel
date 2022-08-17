@@ -2,7 +2,12 @@ import { DomainError, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { ProjectAppelOffre } from '@entities'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+import { User } from 'src/modules/users'
+import {
+  fakeTransactionalRepo,
+  makeFakeProject,
+  makeFakeUser,
+} from '../../../__tests__/fixtures/aggregates'
 import { InfraNotAvailableError } from '../../shared'
 import { PeriodeNotified } from '../events'
 import { Project } from '../Project'
@@ -28,7 +33,7 @@ describe('handlePeriodeNotified', () => {
     notifiedOn: 1,
   }
 
-  const fakeGenerateCertificate = jest.fn((projectId: string) => okAsync<null, DomainError>(null))
+  const fakeGenerateCertificate = jest.fn(() => okAsync<null, DomainError>(null))
   const fakeGetProjectAppelOffre: GetProjectAppelOffre = ({ appelOffreId, periodeId, familleId }) =>
     ({
       id: appelOffreId,
@@ -68,6 +73,9 @@ describe('handlePeriodeNotified', () => {
   })
 
   it('should call generateCertificate() on each unnotified project', () => {
-    expect(fakeGenerateCertificate).toHaveBeenCalledWith('project1')
+    expect(fakeGenerateCertificate).toHaveBeenCalledWith({
+      projectId: 'project1',
+      validateurId: 'user1',
+    })
   })
 })

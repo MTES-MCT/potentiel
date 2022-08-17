@@ -30,7 +30,7 @@ describe('regenerateCertificatesForPeriode', () => {
             ? okAsync([projectId1, projectId2])
             : errAsync(new InfraNotAvailableError())
       )
-      const generateCertificate = jest.fn((projectId: string, reason: string) =>
+      const generateCertificate = jest.fn(() =>
         errAsync<null, DomainError>(new InfraNotAvailableError())
       )
       const projectRepo = {
@@ -59,8 +59,14 @@ describe('regenerateCertificatesForPeriode', () => {
         expect(res.isOk()).toBe(true)
 
         expect(generateCertificate).toHaveBeenCalledTimes(2)
-        expect(generateCertificate).toHaveBeenCalledWith(projectId1, 'reason')
-        expect(generateCertificate).toHaveBeenCalledWith(projectId2, 'reason')
+        expect(generateCertificate).toHaveBeenCalledWith({
+          projectId: projectId1,
+          reason: 'reason',
+        })
+        expect(generateCertificate).toHaveBeenCalledWith({
+          projectId: projectId2,
+          reason: 'reason',
+        })
 
         expect(projectRepo.transaction).not.toHaveBeenCalled()
       })
@@ -86,7 +92,7 @@ describe('regenerateCertificatesForPeriode', () => {
           familleId
         }): ResultAsync<string[], InfraNotAvailableError> => okAsync([])
       )
-      const generateCertificate = jest.fn((projectId: string, reason: string) =>
+      const generateCertificate = jest.fn(() =>
         errAsync<null, DomainError>(new InfraNotAvailableError())
       )
       const projectRepo = {
@@ -128,7 +134,7 @@ describe('regenerateCertificatesForPeriode', () => {
             ? okAsync([projectId])
             : errAsync(new InfraNotAvailableError())
       )
-      const generateCertificate = jest.fn((projectId: string, reason: string) =>
+      const generateCertificate = jest.fn(() =>
         errAsync<null, DomainError>(new InfraNotAvailableError())
       )
 

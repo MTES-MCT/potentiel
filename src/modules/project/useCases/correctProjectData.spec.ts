@@ -13,7 +13,7 @@ import { makeCorrectProjectData } from './correctProjectData'
 
 const projectId = 'project1'
 
-const fakeGenerateCertificate = jest.fn((projectId: string) => okAsync<null, DomainError>(null))
+const fakeGenerateCertificate = jest.fn(() => okAsync<null, DomainError>(null))
 
 describe('correctProjectData', () => {
   describe('when user is not admin', () => {

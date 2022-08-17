@@ -5,7 +5,7 @@ import { handleProjectCertificateObsolete } from './handleProjectCertificateObso
 
 describe('handleProjectCertificateObsolete', () => {
   const projectId = new UniqueEntityID().toString()
-  const fakeGenerateCertificate = jest.fn((projectId: string) => okAsync<null, DomainError>(null))
+  const fakeGenerateCertificate = jest.fn(() => okAsync<null, DomainError>(null))
 
   beforeAll(async () => {
     await handleProjectCertificateObsolete({
@@ -20,6 +20,6 @@ describe('handleProjectCertificateObsolete', () => {
   })
 
   it('should generate a new certificate', () => {
-    expect(fakeGenerateCertificate).toHaveBeenCalledWith(projectId)
+    expect(fakeGenerateCertificate).toHaveBeenCalledWith({ projectId })
   })
 })

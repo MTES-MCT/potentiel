@@ -5,7 +5,6 @@ import { GenerateCertificate } from '../useCases/generateCertificate'
 import { Project } from '../Project'
 import { GetUnnotifiedProjectsForPeriode } from '../queries'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { UserRepo } from '@dataAccess'
 
 export const handlePeriodeNotified =
   (deps: {
@@ -13,7 +12,6 @@ export const handlePeriodeNotified =
     projectRepo: TransactionalRepository<Project>
     generateCertificate: GenerateCertificate
     getProjectAppelOffre: GetProjectAppelOffre
-    userRepo: UserRepo
   }) =>
   async (event: PeriodeNotified) => {
     const {
