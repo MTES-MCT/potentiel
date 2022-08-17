@@ -13,7 +13,7 @@ import {
   solPPE2,
 } from '@dataAccess/inMemory/appelsOffres'
 
-import { Signataire } from '..'
+import { Validateur } from '..'
 
 export default { title: 'Attestations PDF/PPE2/v1' }
 
@@ -59,10 +59,10 @@ const fakeProject: ProjectDataForCertificate = {
   technologie: 'pv',
 }
 
-const signataire = {
+const validateur = {
   fullName: 'Nom du signataire',
   fonction: 'fonction du signataire',
-} as Signataire
+} as Validateur
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
   const project: ProjectDataForCertificate = {
@@ -76,7 +76,7 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }
@@ -93,7 +93,7 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }
@@ -109,7 +109,7 @@ export const LaureatPPE2Eolien = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }
@@ -125,7 +125,7 @@ export const LaureatPPE2Innovation = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }
@@ -141,7 +141,7 @@ export const LaureatPPE2Neutre = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }
@@ -157,7 +157,7 @@ export const LaureatPPE2Sol = () => {
   const { content, footnotes } = makeLaureat(project)
   return (
     <PDFViewer width="100%" height="900px">
-      <Certificate {...{ project, type: 'laureat', content, footnotes, signataire }} />
+      <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
   )
 }

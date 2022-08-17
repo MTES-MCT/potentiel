@@ -1,12 +1,12 @@
 import { Image, Text, View } from '@react-pdf/renderer'
 import React from 'react'
-import { Signataire } from '../..'
+import { Validateur } from '../..'
 
 type SignatureProps = {
-  signataire: Signataire
+  validateur: Validateur
 }
 
-export const Signature = ({ signataire }: SignatureProps) => (
+export const Signature = ({ validateur }: SignatureProps) => (
   <View
     style={{
       width: 200,
@@ -18,9 +18,9 @@ export const Signature = ({ signataire }: SignatureProps) => (
     }}
     wrap={false}
   >
-    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{signataire.fullName}</Text>
+    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{validateur.fullName}</Text>
     <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
-      {signataire.fonction}
+      {validateur.fonction}
     </Text>
   </View>
 )

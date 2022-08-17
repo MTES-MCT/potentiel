@@ -8,7 +8,7 @@ import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
 import { formatNumber, getNoteThreshold } from './helpers'
-import { Signataire } from '.'
+import { Validateur } from '.'
 
 dotenv.config()
 
@@ -335,9 +335,9 @@ interface CertificateProps {
   objet: string
   body: JSX.Element
   footnotes?: JSX.Element
-  signataire: Signataire
+  validateur: Validateur
 }
-const Certificate = ({ project, objet, body, footnotes, signataire }: CertificateProps) => {
+const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
@@ -450,12 +450,12 @@ const Certificate = ({ project, objet, body, footnotes, signataire }: Certificat
               }}
             >
               <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
-                {signataire.fullName}
+                {validateur.fullName}
               </Text>
               <Text
                 style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}
               >
-                {signataire.fonction}
+                {validateur.fonction}
               </Text>
             </View>
           </View>
@@ -498,7 +498,7 @@ const queue = new Queue()
 
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  signataire: Signataire
+  validateur: Validateur
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
@@ -519,7 +519,7 @@ const makeCertificate = (
 
   /* global NodeJS */
   const ticket: Promise<NodeJS.ReadableStream> = queue.push(() =>
-    ReactPDF.renderToStream(<Certificate {...content} signataire={signataire} />)
+    ReactPDF.renderToStream(<Certificate {...content} validateur={validateur} />)
   )
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))

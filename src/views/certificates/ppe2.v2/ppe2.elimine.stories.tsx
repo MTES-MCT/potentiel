@@ -6,7 +6,7 @@ import { Certificate } from './Certificate'
 import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres'
 import { Elimine } from './components/elimine/Elimine'
 
-import { Signataire } from '..'
+import { Validateur } from '..'
 
 export default { title: 'Attestations PDF/PPE2/v2' }
 
@@ -56,10 +56,10 @@ const fakeProject: ProjectDataForCertificate = {
   technologie: 'N/A',
 }
 
-const signataire = {
+const validateur = {
   fullName: 'Nom du signataire',
   fonction: 'fonction du signataire',
-} as Signataire
+} as Validateur
 
 export const EliminePPE2AuDessusDePcible = () => {
   const project: ProjectDataForCertificate = {
@@ -74,7 +74,7 @@ export const EliminePPE2AuDessusDePcible = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>
@@ -94,7 +94,7 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>
@@ -130,7 +130,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>
@@ -166,7 +166,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>
@@ -186,7 +186,7 @@ export const EliminePPE2AutreMotif = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>
@@ -207,7 +207,7 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
           project,
           type: 'elimine',
           content: Elimine({ project }),
-          signataire,
+          validateur,
         }}
       />
     </PDFViewer>

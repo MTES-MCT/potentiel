@@ -10,6 +10,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { ProjectDataForCertificate } from '../dtos'
 import { Project } from '../Project'
 import { makeGenerateCertificate } from './generateCertificate'
+import { Validateur } from '@views/certificates'
 
 const projectId = 'project1'
 
@@ -28,8 +29,11 @@ const validateurId = new UniqueEntityID().toString()
 describe('useCase generateCertificate', () => {
   /* global NodeJS */
   const buildCertificate = jest.fn(
-    (args: { template: CertificateTemplate; data: ProjectDataForCertificate; validateur: User }) =>
-      okAsync<NodeJS.ReadableStream, OtherError>(Readable.from('test') as NodeJS.ReadableStream)
+    (args: {
+      template: CertificateTemplate
+      data: ProjectDataForCertificate
+      validateur: Validateur
+    }) => okAsync<NodeJS.ReadableStream, OtherError>(Readable.from('test') as NodeJS.ReadableStream)
   )
 
   const fileRepo = {
@@ -37,7 +41,7 @@ describe('useCase generateCertificate', () => {
     load: jest.fn(),
   }
 
-  const user = makeFakeUser({ id: validateurId })
+  const user = makeFakeUser({ id: validateurId, fonction: 'directeur' })
   const getUserById = jest.fn((id: string) => okAsync<User | null, InfraNotAvailableError>(user))
 
   const generateCertificate = makeGenerateCertificate({
@@ -60,7 +64,7 @@ describe('useCase generateCertificate', () => {
     expect(buildCertificate).toHaveBeenCalledWith({
       template: 'v0',
       data: fakeProjectData,
-      validateur: user,
+      validateur: { fullName: user.fullName, fonction: user.fonction },
     })
   })
 

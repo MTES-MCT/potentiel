@@ -35,7 +35,7 @@ interface GenerateCertificateDeps {
   buildCertificate: ({
     template: CertificateTemplate,
     data: ProjectDataForCertificate,
-    validateur: User,
+    validateur: Validateur,
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError
@@ -68,7 +68,15 @@ export const makeGenerateCertificate =
 
     function _buildCertificateForProject(project: Project, validateur?: User | null) {
       return project.certificateData
-        .asyncAndThen((certificateData) => buildCertificate({ ...certificateData, validateur }))
+        .asyncAndThen((certificateData) =>
+          buildCertificate({
+            ...certificateData,
+            validateur: validateur && {
+              fullName: validateur.fullName,
+              fonction: validateur.fonction,
+            },
+          })
+        )
         .map((fileStream) => ({ fileStream, project }))
     }
 

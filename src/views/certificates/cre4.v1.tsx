@@ -2,13 +2,13 @@
 import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
 import dotenv from 'dotenv'
 import React from 'react'
-import { errAsync, logger, Queue, ResultAsync } from '@core/utils'
+import { errAsync, Queue, ResultAsync } from '@core/utils'
 import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
 import { formatNumber, getNoteThreshold } from './helpers'
-import { Signataire } from '.'
+import { Validateur } from '.'
 
 dotenv.config()
 
@@ -347,9 +347,9 @@ interface CertificateProps {
   objet: string
   body: JSX.Element
   footnotes?: JSX.Element
-  signataire: Signataire
+  validateur: Validateur
 }
-const Certificate = ({ project, objet, body, footnotes, signataire }: CertificateProps) => {
+const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
@@ -465,12 +465,12 @@ const Certificate = ({ project, objet, body, footnotes, signataire }: Certificat
               }}
             >
               <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
-                {signataire.fullName}
+                {validateur.fullName}
               </Text>
               <Text
                 style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}
               >
-                {signataire.fonction}
+                {validateur.fonction}
               </Text>
             </View>
           </View>
@@ -511,7 +511,7 @@ const queue = new Queue()
 /* global NodeJS */
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  signataire: Signataire
+  validateur: Validateur
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
@@ -531,7 +531,7 @@ const makeCertificate = (
   }
 
   const ticket = queue.push(() =>
-    ReactPDF.renderToStream(<Certificate {...content} signataire={signataire} />)
+    ReactPDF.renderToStream(<Certificate {...content} validateur={validateur} />)
   )
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
