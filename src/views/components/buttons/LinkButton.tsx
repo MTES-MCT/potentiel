@@ -13,10 +13,10 @@ type LinkButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
 }
 
 export const LinkButton = ({ disabled, primary, children, ...props }: LinkButtonProps) => {
-  const classes = `inline-flex items-center px-6 py-2 border border-solid text-base no-underline font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2
+  const classes = `inline-flex items-center px-6 py-2 border border-solid no-underline font-medium shadow-sm focus:no-underline active:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2
     ${
       primary
-        ? 'border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white hover:text-white focus:text-white'
+        ? 'border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white hover:text-white focus:text-white active:text-white visited:text-white'
         : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base hover:text-blue-france-sun-base focus:text-blue-france-sun-base'
     }
     ${
