@@ -16,11 +16,10 @@ type updateNewRulesOptInArgs = {
 
 export const makeUpdateNewRulesOptIn =
   (deps: updateNewRulesOptIn) =>
-  (
-    args: updateNewRulesOptInArgs
-  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { projectId, optedInBy } = args
-
+  ({
+    projectId,
+    optedInBy,
+  }: updateNewRulesOptInArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     return wrapInfra(deps.shouldUserAccessProject({ projectId, user: optedInBy })).andThen(
       (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
         if (!userHasRightsToProject) return errAsync(new UnauthorizedError())

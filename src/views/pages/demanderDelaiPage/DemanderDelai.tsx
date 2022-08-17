@@ -73,7 +73,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                 <CDCChoiceForm
                   newRulesOptIn={project.newRulesOptIn}
                   cahiersChargesURLs={cahiersChargesURLs}
-                  onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(!isNewRule)}
+                  onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
                 />
               </div>
             )}

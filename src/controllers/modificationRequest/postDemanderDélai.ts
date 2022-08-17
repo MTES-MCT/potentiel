@@ -19,9 +19,11 @@ import {
 import asyncHandler from '../helpers/asyncHandler'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import { NouveauCahierDesChargesNonChoisiError } from '../../modules/demandeModification/demandeDélai/demander/NouveauCahierDesChargesNonChoisiError'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
+  newRulesOptIn: yup.boolean().optional(),
   dateAchèvementDemandée: yup
     .date()
     .required(`Vous devez renseigner la date d'achèvement souhaitée.`)
@@ -36,10 +38,16 @@ v1Router.post(
   routes.DEMANDE_DELAI_ACTION,
   upload.single('file'),
   ensureRole('porteur-projet'),
-  asyncHandler(async (request, response) => {
+  asyncHandler((request, response) =>
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, dateAchèvementDemandée, justification, numeroGestionnaire } = body
+        const {
+          projectId,
+          newRulesOptIn,
+          dateAchèvementDemandée,
+          justification,
+          numeroGestionnaire,
+        } = body
         const { user } = request
 
         const file = request.file && {
@@ -50,6 +58,7 @@ v1Router.post(
         return demanderDélai({
           user,
           projectId,
+          ...(newRulesOptIn && { newRulesOptIn: true }),
           file,
           justification,
           numeroGestionnaire,
@@ -80,7 +89,10 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof DemanderDateAchèvementAntérieureDateThéoriqueError) {
+          if (
+            error instanceof DemanderDateAchèvementAntérieureDateThéoriqueError ||
+            error instanceof NouveauCahierDesChargesNonChoisiError
+          ) {
             return errorResponse({
               request,
               response,
@@ -98,5 +110,5 @@ v1Router.post(
           })
         }
       )
-  })
+  )
 )

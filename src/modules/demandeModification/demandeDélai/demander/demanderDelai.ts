@@ -1,6 +1,6 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { logger, wrapInfra, ResultAsync } from '@core/utils'
+import { logger, wrapInfra, ResultAsync, err } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'
@@ -10,6 +10,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { NumeroGestionnaireSubmitted, Project, ProjectNewRulesOptedIn } from '@modules/project'
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
+import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError'
 
 type DemanderDélai = (commande: {
   user: User
@@ -18,6 +19,7 @@ type DemanderDélai = (commande: {
     filename: string
   }
   projectId: string
+  newRulesOptIn?: true
   justification?: string
   dateAchèvementDemandée: Date
   numeroGestionnaire?: string
@@ -44,7 +46,15 @@ export const makeDemanderDélai: MakeDemanderDélai =
     getProjectAppelOffreId,
     projectRepo,
   }) =>
-  ({ user, projectId, file, justification, dateAchèvementDemandée, numeroGestionnaire }) => {
+  ({
+    user,
+    projectId,
+    newRulesOptIn,
+    file,
+    justification,
+    dateAchèvementDemandée,
+    numeroGestionnaire,
+  }) => {
     return wrapInfra(
       shouldUserAccessProject({
         user,
@@ -73,6 +83,10 @@ export const makeDemanderDélai: MakeDemanderDélai =
 
           const doitSouscrireAuNouveauCDC =
             !project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges
+
+          if (doitSouscrireAuNouveauCDC && !newRulesOptIn) {
+            return errAsync(new NouveauCahierDesChargesNonChoisiError())
+          }
 
           if (doitSouscrireAuNouveauCDC) {
             return publishToEventStore(

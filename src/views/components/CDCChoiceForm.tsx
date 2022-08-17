@@ -12,9 +12,7 @@ export const CDCChoiceForm = ({
   cahiersChargesURLs,
   onChoiceChange,
 }: CDCFormProps) => {
-  const handleCDCChange = (event: any) => {
-    onChoiceChange(event.target.value !== 'Nouvelles règles')
-  }
+  const handleCDCChange = (event: any) => onChoiceChange(event.target.value === 'true')
 
   return (
     <div>
@@ -40,7 +38,7 @@ export const CDCChoiceForm = ({
               <input
                 type="radio"
                 name="newRulesOptIn"
-                value="Anciennes règles"
+                value="false"
                 id="Anciennes règles"
                 {...dataId('modificationRequest-oldRules')}
                 disabled={newRulesOptIn}
@@ -78,7 +76,7 @@ export const CDCChoiceForm = ({
             <input
               type="radio"
               name="newRulesOptIn"
-              value="Nouvelles règles"
+              value="true"
               id="Nouvelles règles"
               defaultChecked={newRulesOptIn}
               {...dataId('modificationRequest-newRules')}
