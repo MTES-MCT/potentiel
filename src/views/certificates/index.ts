@@ -12,18 +12,28 @@ export type Signataire = { fullName: string; fonction: string }
 export const buildCertificate = (args: {
   template: CertificateTemplate
   data: ProjectDataForCertificate
-  validateur: User | null
+  validateur?: User | null
+  prévisualisation?: true
 }): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
-  const { template, data, validateur } = args
+  const { template, data, validateur, prévisualisation } = args
 
-  const signataire: Signataire = validateur
+  const prévisualisationSignataire: Signataire = {
+    fullName: '[Nom du signataire]',
+    fonction: '[Intitulé de la fonction du signataire]',
+  }
+
+  const signataire: Signataire = prévisualisation
+    ? prévisualisationSignataire
+    : validateur
     ? { fullName: validateur.fullName, fonction: validateur.fonction }
     : {
         fullName: 'Ghislain Ferran',
         fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
       }
 
-  const signatairePPE2v2: Signataire = validateur
+  const signatairePPE2v2: Signataire = prévisualisation
+    ? prévisualisationSignataire
+    : validateur
     ? { fullName: validateur.fullName, fonction: validateur.fonction }
     : {
         fullName: 'Nicolas CLAUSSET',

@@ -54,6 +54,7 @@ v1Router.get(
         buildCertificate({
           template: certificateTemplate,
           data,
+          prévisualisation: true,
         })
       )
       .match(
