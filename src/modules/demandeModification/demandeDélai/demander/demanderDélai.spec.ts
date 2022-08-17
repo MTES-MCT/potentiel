@@ -1,7 +1,7 @@
 import { Readable } from 'stream'
 import { DélaiDemandé } from '@modules/demandeModification'
 import { NumeroGestionnaireSubmitted, ProjectNewRulesOptedIn, Project } from '@modules/project'
-import { DomainEvent, Repository } from '@core/domain'
+import { Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
@@ -266,9 +266,10 @@ describe('Commande demanderDélai', () => {
           })
         })
       })
+
       describe(`Enregistrer la souscription au nouveau cahier des charges`, () => {
         describe(`Lorsque le porteur fait une demande de délai
-            et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
+            et qu'il n'avait pas encore souscrit au nouveau cahier des charges`, () => {
           it(`Alors un événement ProjectNewRulesOptedIn devrait être émis en premier`, async () => {
             const projectRepo = fakeRepo({
               ...fakeProject,
@@ -288,6 +289,7 @@ describe('Commande demanderDélai', () => {
               dateAchèvementDemandée: new Date('2022-01-01'),
               user,
               projectId: fakeProject.id.toString(),
+              newRulesOptIn: true,
             })
 
             expect(publishToEventStore).toHaveBeenNthCalledWith(
