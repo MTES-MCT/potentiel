@@ -7,6 +7,8 @@ interface DropdownProps extends React.ComponentProps<'div'> {
   text: string
   design: 'link' | 'button'
   disabled?: boolean
+  isOpen?: boolean
+  changeOpenState: (isOpen: boolean) => void
 }
 
 export const Dropdown: React.FunctionComponent<DropdownProps> = ({
@@ -15,13 +17,15 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   className,
   design,
   disabled,
+  isOpen = false,
+  changeOpenState,
   ...props
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  // const [show = isOpen, changeShowState] = useState(false)
 
   const button =
     design === 'link' ? (
-      <Link onClick={() => setIsOpen(!isOpen)} disabled={disabled}>
+      <Link onClick={() => changeOpenState(!isOpen)} disabled={disabled}>
         {text}{' '}
         {isOpen ? (
           <ChevronUpIcon className="w-5 h-5 ml-1" />
@@ -30,7 +34,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         )}
       </Link>
     ) : (
-      <Button onClick={() => setIsOpen(!isOpen)} disabled={disabled}>
+      <Button onClick={() => changeOpenState(!isOpen)} disabled={disabled}>
         {text}{' '}
         {disabled ? (
           <ChevronDownIcon className="w-5 h-5 ml-1" />

@@ -6,6 +6,7 @@ import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
 import { Input } from '../../inputs'
+import { Dropdown } from '@components'
 import { format } from 'date-fns'
 
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
@@ -110,53 +111,54 @@ type UploadFormProps = {
 }
 
 const UploadForm = ({ projectId }: UploadFormProps) => {
-  const [isFormVisible, showForm] = useState(false)
-
+  const [displayForm, showForm] = useState(false)
   return (
-    <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'accusé de réception</a>
-      {isFormVisible && (
-        <form
-          action={ROUTES.DEPOSER_ETAPE_ACTION}
-          method="post"
-          encType="multipart/form-data"
-          className="m-0 mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-        >
-          <FormulaireChampsObligatoireLégende className="text-right" />
-          <input type="hidden" name="type" id="type" value="dcr" />
-          <input type="hidden" name="projectId" value={projectId} />
-          <div>
-            <Label htmlFor="stepDate" required>
-              Date de l'accusé de réception
-            </Label>
-            <Input
-              type="date"
-              id="stepDate"
-              name="stepDate"
-              max={format(new Date(), 'yyyy-MM-dd')}
-              required
-            />
-          </div>
-          <div className="mt-2">
-            <Label htmlFor="numero-dossier" required>
-              Identifiant gestionnaire de réseau (ex : GEFAR-P)
-            </Label>
-            <Input type="text" name="numeroDossier" id="numero-dossier" required />
-          </div>
-          <div className="mt-2">
-            <Label htmlFor="file" required>
-              Accusé de réception
-            </Label>
-            <Input type="file" name="file" id="file" required />
-          </div>
-          <div className="flex gap-4 flex-col md:flex-row mt-4">
-            <Button type="submit" primary>
-              Envoyer
-            </Button>
-            <Button onClick={() => showForm(false)}>Annuler</Button>
-          </div>
-        </form>
-      )}
-    </>
+    <Dropdown
+      design="link"
+      text="Transmettre l'accusé de réception"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+    >
+      <form
+        action={ROUTES.DEPOSER_ETAPE_ACTION}
+        method="post"
+        encType="multipart/form-data"
+        className="m-0 mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <FormulaireChampsObligatoireLégende className="text-right" />
+        <input type="hidden" name="type" id="type" value="dcr" />
+        <input type="hidden" name="projectId" value={projectId} />
+        <div>
+          <Label htmlFor="stepDate" required>
+            Date de l'accusé de réception
+          </Label>
+          <Input
+            type="date"
+            id="stepDate"
+            name="stepDate"
+            max={format(new Date(), 'yyyy-MM-dd')}
+            required
+          />
+        </div>
+        <div className="mt-2">
+          <Label htmlFor="numero-dossier" required>
+            Identifiant gestionnaire de réseau (ex : GEFAR-P)
+          </Label>
+          <Input type="text" name="numeroDossier" id="numero-dossier" required />
+        </div>
+        <div className="mt-2">
+          <Label htmlFor="file" required>
+            Accusé de réception
+          </Label>
+          <Input type="file" name="file" id="file" required />
+        </div>
+        <div className="flex gap-4 flex-col md:flex-row mt-4">
+          <Button type="submit" primary>
+            Envoyer
+          </Button>
+          <Button onClick={() => showForm(false)}>Annuler</Button>
+        </div>
+      </form>
+    </Dropdown>
   )
 }

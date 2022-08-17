@@ -218,11 +218,10 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
           nomProjet: project.nomProjet,
           potentielIdentifier: project.potentielIdentifier,
         })}
+        primary
         download
-        primary={true}
         className="m-auto"
       >
-        <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Télécharger mon attestation
       </LinkButton>
     )}
@@ -248,7 +247,6 @@ const AdminActions = ({ project }: AdminActionsProps) => (
         primary
         className="m-auto"
       >
-        <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
         Voir attestation
       </LinkButton>
     ) : (
@@ -259,7 +257,6 @@ const AdminActions = ({ project }: AdminActionsProps) => (
           primary
           className="m-auto"
         >
-          <PaperClipIcon className="h-5 w-5 align-middle mr-2" />
           Aperçu attestation
         </LinkButton>
       )

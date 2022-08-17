@@ -9,6 +9,8 @@ export default {
     disabled: { control: 'boolean' },
     text: { control: 'text' },
     design: { control: { type: 'radio' }, options: ['link', 'button'] },
+    isOpen: { control: 'boolean' },
+    changeOpenState: { control: 'action' },
   },
 }
 
@@ -16,6 +18,7 @@ const Template = (args) => <Dropdown {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  isOpen: false,
   disabled: false,
   design: 'link',
   children: `contenu à afficher dans le dropdown`,

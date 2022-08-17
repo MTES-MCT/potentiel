@@ -18,6 +18,7 @@ export const LinkButton: React.FunctionComponent<LinkButtonProps> = ({
   disabled,
   primary,
   children,
+  className = '',
   ...props
 }) => {
   const classes = `inline-flex items-center px-6 py-2 border border-solid no-underline font-medium shadow-sm focus:no-underline active:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2
@@ -33,7 +34,7 @@ export const LinkButton: React.FunctionComponent<LinkButtonProps> = ({
         ? 'border-transparent bg-neutral-200 text-neutral-500 shadow-none pointer-events-none'
         : 'border-neutral-200 text-neutral-500 shadow-none pointer-events-none'
     } 
-    ${props.className || ''}
+    ${className}
   `
 
   return (

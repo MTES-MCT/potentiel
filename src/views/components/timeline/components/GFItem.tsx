@@ -15,6 +15,7 @@ import {
   Label,
   Astérisque,
   Link,
+  Dropdown,
 } from '@components'
 
 type ComponentProps = GFItemProps & {
@@ -297,76 +298,77 @@ type UploadFormProps = {
   role: 'porteur-projet' | 'dreal'
 }
 const UploadForm = ({ projectId, role }: UploadFormProps) => {
-  const [isFormVisible, showForm] = useState(false)
   const isPorteur = role === 'porteur-projet'
-
+  const [displayForm, showForm] = useState(false)
   return (
-    <>
-      <a onClick={() => showForm(!isFormVisible)}>Enregistrer l'attestation dans Potentiel</a>
-      {isFormVisible && (
-        <form
-          action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
-          method="post"
-          encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-        >
-          <FormulaireChampsObligatoireLégende className="ml-auto" />
-          <input type="hidden" name="type" id="type" value="garanties-financieres" />
-          <input type="hidden" name="projectId" value={projectId} />
-          <div>
-            <Label required htmlFor="stepDate">
-              Date de constitution
-            </Label>
-            <Input
-              type="date"
-              name="stepDate"
-              id="stepDate"
-              required
-              max={format(new Date(), 'yyyy-MM-dd')}
-            />
-          </div>
-          <div>
-            <Label required htmlFor="expirationDate">
-              Date d'échéance de la garantie
-              <Astérisque className="text-black" />
-            </Label>
-            <Input type="date" name="expirationDate" id="expirationDate" required />
-          </div>
-          <div>
-            <Label required htmlFor="file">
-              Attestation
-              {isPorteur && (
-                <span>
-                  <Astérisque className="text-black" />
-                  <Astérisque className="text-black" />
-                </span>
-              )}
-            </Label>
-            <Input type="file" name="file" id="file" required />
+    <Dropdown
+      design="link"
+      text="Enregistrer l'attestation dans Potentiel"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+    >
+      <form
+        action={ROUTES.UPLOAD_GARANTIES_FINANCIERES({ projectId })}
+        method="post"
+        encType="multipart/form-data"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <input type="hidden" name="type" id="type" value="garanties-financieres" />
+        <input type="hidden" name="projectId" value={projectId} />
+        <div>
+          <Label required htmlFor="stepDate">
+            Date de constitution
+          </Label>
+          <Input
+            type="date"
+            name="stepDate"
+            id="stepDate"
+            required
+            max={format(new Date(), 'yyyy-MM-dd')}
+          />
+        </div>
+        <div>
+          <Label required htmlFor="expirationDate">
+            Date d'échéance de la garantie
+            <Astérisque className="text-black" />
+          </Label>
+          <Input type="date" name="expirationDate" id="expirationDate" required />
+        </div>
+        <div>
+          <Label required htmlFor="file">
+            Attestation
+            {isPorteur && (
+              <span>
+                <Astérisque className="text-black" />
+                <Astérisque className="text-black" />
+              </span>
+            )}
+          </Label>
+          <Input type="file" name="file" id="file" required />
+          <p className="m-0 mt-3 italic">
+            <Astérisque className="text-black" />
+            La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
+            d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
+            couverture temporelle.
+          </p>
+          {isPorteur && (
             <p className="m-0 mt-3 italic">
               <Astérisque className="text-black" />
-              La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
-              d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une
-              telle couverture temporelle.
+              <Astérisque className="text-black" />
+              Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
+              d'une nouvelle validation.
             </p>
-            {isPorteur && (
-              <p className="m-0 mt-3 italic">
-                <Astérisque className="text-black" />
-                <Astérisque className="text-black" />
-                Il s'agit de l'attestation soumise à la candidature. Cet envoi ne fera pas l'objet
-                d'une nouvelle validation.
-              </p>
-            )}
-          </div>
-          <div className="flex gap-4 flex-col md:flex-row">
-            <Button type="submit" primary>
-              Enregistrer
-            </Button>
-            <Button onClick={() => showForm(false)}>Annuler</Button>
-          </div>
-        </form>
-      )}
-    </>
+          )}
+        </div>
+        <div className="flex gap-4 flex-col md:flex-row">
+          <Button type="submit" primary>
+            Enregistrer
+          </Button>
+          <Button onClick={() => showForm(false)}>Annuler</Button>
+        </div>
+      </form>
+    </Dropdown>
   )
 }
 

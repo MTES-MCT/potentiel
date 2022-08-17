@@ -15,12 +15,13 @@ export const Link: React.FunctionComponent<LinkProps> = ({
   disabled,
   children,
   type = 'none',
+  className = '',
   ...props
 }) => {
   const classes = `
   inline-flex items-center text-base focus:outline-none focus:ring-2 focus:ring-offset-2
     ${disabled && 'disabled:text-slate-500 text-gray-400 pointer-events-none'}
-    ${props.className || ''}
+    ${className}
   `
 
   return (
