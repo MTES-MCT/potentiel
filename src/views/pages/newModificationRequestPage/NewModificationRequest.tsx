@@ -36,7 +36,7 @@ export const NewModificationRequest = PageLayout(
     const { action, error, success, puissance, actionnaire, justification } =
       (request.query as any) || {}
 
-    const doisChoisirCahierDesCharges =
+    const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
     const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
 
@@ -61,7 +61,7 @@ export const NewModificationRequest = PageLayout(
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
               <SuccessErrorBox success={success} error={error} />
-              {doisChoisirCahierDesCharges && (
+              {doitChoisirCahierDesCharges && (
                 <div>
                   <Label required>
                     <strong>
@@ -76,7 +76,7 @@ export const NewModificationRequest = PageLayout(
                 </div>
               )}
 
-              {(newRulesOptInSelectionné || !doisChoisirCahierDesCharges) && (
+              {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   {action === 'puissance' && (
                     <ChangementPuissance

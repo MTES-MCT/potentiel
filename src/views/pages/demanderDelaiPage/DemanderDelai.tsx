@@ -38,7 +38,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
 
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
-  const doisChoisirCahierDesCharges =
+  const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
   const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
@@ -62,7 +62,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
             <div className="mb-1">Concernant le projet:</div>
             <ProjectInfo project={project} className="mb-3" />
             <SuccessErrorBox success={success} error={error} />
-            {doisChoisirCahierDesCharges && (
+            {doitChoisirCahierDesCharges && (
               <div>
                 <Label required>
                   <strong>
@@ -78,7 +78,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
               </div>
             )}
 
-            {(newRulesOptInSelectionné || !doisChoisirCahierDesCharges) && (
+            {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
               <div {...dataId('modificationRequest-demandesInputs')}>
                 <div className="flex flex-col gap-5">
                   <div>
