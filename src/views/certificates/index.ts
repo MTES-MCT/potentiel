@@ -7,7 +7,7 @@ import { makeCertificate as makeCre4V1Certificate } from './cre4.v1'
 import { makeCertificate as makePpe2V1Certificate } from './ppe2.v1'
 import { makeCertificate as makePpe2V2Certificate } from './ppe2.v2'
 
-export type Signataire = { fullName: string; fonction: string | undefined }
+export type Signataire = { fullName: string; fonction?: string }
 
 export const buildCertificate = (args: {
   template: CertificateTemplate
@@ -24,18 +24,14 @@ export const buildCertificate = (args: {
 
   const signataire: Signataire = prévisualisation
     ? prévisualisationSignataire
-    : validateur
-    ? { fullName: validateur.fullName, fonction: validateur.fonction }
-    : {
+    : validateur ?? {
         fullName: 'Ghislain Ferran',
         fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
       }
 
   const signatairePPE2v2: Signataire = prévisualisation
     ? prévisualisationSignataire
-    : validateur
-    ? { fullName: validateur.fullName, fonction: validateur.fonction }
-    : {
+    : validateur ?? {
         fullName: 'Nicolas CLAUSSET',
         fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
       }
