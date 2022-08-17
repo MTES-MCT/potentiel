@@ -70,6 +70,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       reference: '2022 S 038 098159',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
     // A partir de la période 3 le délai DCR passe à trois mois
   ],
   familles: [],

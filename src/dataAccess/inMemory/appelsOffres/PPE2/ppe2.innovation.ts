@@ -45,6 +45,7 @@ const innovationPPE2: AppelOffre = {
       reference: '2021 S 203-530267',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [
     {
