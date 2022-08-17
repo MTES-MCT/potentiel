@@ -20,8 +20,8 @@ export default ProjectEventProjector.on(
             oldCompletionDueOn: payload.oldCompletionDueOn,
             newCompletionDueOn: payload.newCompletionDueOn,
           }),
-          notes,
-          attachment: attachments.length > 0 ? attachments[0] : undefined,
+          ...(notes && { notes }),
+          ...(attachments.length > 0 && { attachment: attachments[0] }),
         },
       },
       { transaction }

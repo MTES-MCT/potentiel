@@ -27,7 +27,7 @@ export default ProjectEventProjector.on(
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file, numeroDossier },
+        payload: { ...(file && { file }), numeroDossier },
       },
       { transaction }
     )

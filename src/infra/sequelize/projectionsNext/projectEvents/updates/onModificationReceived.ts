@@ -47,7 +47,7 @@ export default ProjectEventProjector.on(
             ...common,
             payload: {
               modificationType: type,
-              fournisseurs: payload.fournisseurs,
+              fournisseurs: payload.fournisseurs || [],
               modificationRequestId,
             },
           },

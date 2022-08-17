@@ -127,9 +127,9 @@ export type ProjectGFUploadedDTO = {
   type: 'ProjectGFUploaded'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: { id: string; name: string }
+  file?: File
   expirationDate?: number
-  uploadedByRole: 'porteur-projet' | 'dreal'
+  uploadedByRole?: 'porteur-projet' | 'dreal'
 }
 
 export type ProjectGFDueDateSetDTO = {
@@ -175,7 +175,6 @@ export type ProjectDCRRemovedDTO = {
   type: 'ProjectDCRRemoved'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  removedBy: string
 }
 
 export type ProjectDCRDueDateSetDTO = {
@@ -195,7 +194,6 @@ export type ProjectPTFRemovedDTO = {
   type: 'ProjectPTFRemoved'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  removedBy: string
 }
 
 export type ProjectCompletionDueDateSetDTO = {

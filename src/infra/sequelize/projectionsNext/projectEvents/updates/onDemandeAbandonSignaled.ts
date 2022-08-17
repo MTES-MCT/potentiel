@@ -16,8 +16,8 @@ export default ProjectEventProjector.on(
         payload: {
           signaledBy,
           status,
-          notes,
-          attachment: attachments.length > 0 ? attachments[0] : undefined,
+          ...(notes && { notes }),
+          ...(attachments.length > 0 && { attachment: attachments[0] }),
         },
       },
       { transaction }

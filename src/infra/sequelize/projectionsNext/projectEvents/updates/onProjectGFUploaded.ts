@@ -51,9 +51,9 @@ export default ProjectEventProjector.on(
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
         payload: {
-          file,
-          expirationDate: expirationDate && expirationDate.getTime(),
-          uploadedByRole: rawUser && rawUser.role,
+          ...(file && { file }),
+          ...(expirationDate && { expirationDate: expirationDate.getTime() }),
+          ...(rawUser && { uploadedByRole: rawUser.role }),
         },
       },
       { transaction }

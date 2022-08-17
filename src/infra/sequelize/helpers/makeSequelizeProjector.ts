@@ -9,7 +9,6 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   model: TModel,
   modelName: string
 ): Projector => {
-  console.log(`Building projector for ${modelName} projection`)
   const handlersByType: Record<string, EventHandler<any>> = {}
 
   const handleEvent = async <Event extends DomainEvent>(

@@ -9,7 +9,12 @@ export default ProjectEventProjector.on(
     const { User, UserDreal } = models
     const user = await User.findOne({ where: { id: attachedBy }, transaction })
 
-    const attachedByUser: any = { id: attachedBy }
+    const attachedByUser: {
+      id: string
+      name?: string
+      administration?: string
+    } = { id: attachedBy }
+
     if (user) {
       attachedByUser.name = user.fullName
 

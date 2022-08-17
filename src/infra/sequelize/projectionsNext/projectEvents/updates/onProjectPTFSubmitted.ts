@@ -31,7 +31,7 @@ export default ProjectEventProjector.on(
         valueDate: ptfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file },
+        payload: { ...(file && { file }) },
       },
       { transaction }
     )

@@ -1,3 +1,3 @@
-export * from './isProjectCertificatePayload'
-export * from './isProjectClaimedPayload'
-export * from './isProjectImportedEvent'
+export * from './ProjectClaimedEvent';
+export * from './ProjectImportedEvent';
+export * from './isKnownProjectEvent';

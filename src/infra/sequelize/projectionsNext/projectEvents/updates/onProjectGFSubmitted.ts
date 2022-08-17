@@ -32,7 +32,10 @@ export default ProjectEventProjector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file, ...(expirationDate && { expirationDate: expirationDate.getTime() }) },
+        payload: {
+          ...(file && { file }),
+          ...(expirationDate && { expirationDate: expirationDate.getTime() }),
+        },
       },
       { transaction }
     )
