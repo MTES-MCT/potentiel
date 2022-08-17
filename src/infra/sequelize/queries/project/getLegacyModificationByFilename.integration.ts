@@ -27,6 +27,7 @@ describe('getLegacyModificationByFilename', () => {
           type: 'LegacyModificationImported',
           payload: { filename },
           eventPublishedAt: 1,
+          valueDate: 1,
         },
         {
           id: new UniqueEntityID().toString(),
@@ -34,6 +35,7 @@ describe('getLegacyModificationByFilename', () => {
           type: 'LegacyModificationImported',
           payload: { filename },
           eventPublishedAt: 1,
+          valueDate: 1,
         },
         {
           id: new UniqueEntityID().toString(),
@@ -41,6 +43,7 @@ describe('getLegacyModificationByFilename', () => {
           type: 'LegacyModificationImported',
           payload: { filename: 'other.pdf' },
           eventPublishedAt: 1,
+          valueDate: 1,
         },
       ])
 
@@ -62,6 +65,7 @@ describe('getLegacyModificationByFilename', () => {
           type: 'LegacyModificationImported',
           payload: { filename },
           eventPublishedAt: 1,
+          valueDate: 1,
         },
         {
           id: new UniqueEntityID().toString(),
@@ -69,6 +73,7 @@ describe('getLegacyModificationByFilename', () => {
           type: 'LegacyModificationImported',
           payload: { filename },
           eventPublishedAt: 1,
+          valueDate: 1,
         },
       ])
 

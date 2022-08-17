@@ -38,6 +38,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         },
         events: await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
           async (eventsPromise, projectEvent) => {
+            console.log(JSON.stringify(projectEvent))
             const { type, valueDate, payload } = projectEvent
             const events: ProjectEventDTO[] = await eventsPromise
 

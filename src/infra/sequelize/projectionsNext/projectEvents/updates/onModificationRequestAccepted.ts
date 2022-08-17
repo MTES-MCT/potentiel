@@ -66,7 +66,7 @@ export default ProjectEventProjector.on(
             valueDate: occurredAt.getTime(),
             eventPublishedAt: occurredAt.getTime(),
             id: new UniqueEntityID().toString(),
-            payload: { modificationRequestId, file },
+            payload: { modificationRequestId, ...(file && { file }) },
           },
           { transaction }
         )
