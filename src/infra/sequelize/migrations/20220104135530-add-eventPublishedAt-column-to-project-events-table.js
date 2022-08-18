@@ -1,6 +1,6 @@
 'use strict'
 
-const { ProjectEvent } = require('../projectionsNext')
+const { ProjectEventProjector } = require('../projectionsNext')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -12,7 +12,7 @@ module.exports = {
         transaction,
       })
 
-      await ProjectEvent.projector.rebuild(transaction)
+      await ProjectEventProjector.rebuild(transaction)
 
       await transaction.commit()
     } catch (error) {

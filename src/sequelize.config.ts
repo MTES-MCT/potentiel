@@ -68,4 +68,6 @@ sequelizeInstance.authenticate().catch((error) => {
 })
 
 module.exports = databaseOptions
+module.exports.sequelizeInstance = sequelizeInstance
+
 export { sequelizeInstance }
