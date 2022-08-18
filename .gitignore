@@ -140,3 +140,6 @@ storybook-static/
 
 # Jetbrain
 .idea
+
+# LibreOffice
+.~lock.*
