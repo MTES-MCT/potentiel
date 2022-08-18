@@ -82,7 +82,7 @@ export const makeCorrectProjectData =
     reason,
     attestation,
   }) => {
-    if (!['admin', 'dgec'].includes(user.role)) {
+    if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
     }
 
@@ -119,7 +119,7 @@ export const makeCorrectProjectData =
 
       return projectTransaction.andThen((shouldCertificateBeGenerated) => {
         return shouldCertificateBeGenerated && attestation === 'regenerate'
-          ? deps.generateCertificate(projectId, reason).map(() => null)
+          ? deps.generateCertificate({ projectId, reason }).map(() => null)
           : okAsync<null, CorrectProjectDataError>(null)
       })
     })

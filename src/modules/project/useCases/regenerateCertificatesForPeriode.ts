@@ -31,7 +31,7 @@ export const makeRegenerateCertificatesForPeriode =
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { appelOffreId, periodeId, familleId, newNotifiedOn, user, reason } = args
 
-    if (!user || !['admin', 'dgec'].includes(user.role)) {
+    if (!user || !['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
     }
 
@@ -62,7 +62,7 @@ export const makeRegenerateCertificatesForPeriode =
     async function _regenerateCertificatesForProjects(projectIds: string[]) {
       for (const projectId of projectIds) {
         await _updateNotificationDateIfNecessary(projectId).andThen(() =>
-          deps.generateCertificate(projectId, reason).mapErr((e) => {
+          deps.generateCertificate({ projectId, reason }).mapErr((e) => {
             logger.info(`regenerateCertificatesForPeriode failed for projectId ${projectId}`)
             logger.error(e)
           })

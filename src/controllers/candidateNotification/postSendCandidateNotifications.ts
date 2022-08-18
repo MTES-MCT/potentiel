@@ -13,10 +13,9 @@ const FORMAT_DATE = 'DD/MM/YYYY'
 
 v1Router.post(
   routes.ADMIN_NOTIFY_CANDIDATES_ACTION,
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId, notificationDate } = request.body
-
     if (
       !notificationDate ||
       moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate

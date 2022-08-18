@@ -18,7 +18,7 @@ const FORMAT_DATE = 'DD/MM/YYYY'
 v1Router.post(
   routes.ATTACHER_FICHIER_AU_PROJET_ACTION,
   upload.multiple(),
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId, stepDate, title, description } = request.body
 

@@ -50,6 +50,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       reference: '2021 S 176-457521',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [
     // seulement sur les installations hydrauliques

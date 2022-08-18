@@ -74,6 +74,7 @@ const batimentPPE2: AppelOffre = {
         },
       },
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [],
 }

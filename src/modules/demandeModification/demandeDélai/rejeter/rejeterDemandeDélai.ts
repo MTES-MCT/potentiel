@@ -24,7 +24,7 @@ type MakeRejeterDemandeDélai = (dépendances: {
 export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
   ({ publishToEventStore, demandeDélaiRepo, fileRepo }) =>
   ({ user, demandeDélaiId, fichierRéponse: { filename, contents } }) => {
-    if (userIsNot(['admin', 'dgec', 'dreal'])(user)) {
+    if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 

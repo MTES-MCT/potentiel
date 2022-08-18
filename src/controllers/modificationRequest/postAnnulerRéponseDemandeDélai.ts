@@ -10,7 +10,7 @@
 
 // v1Router.get(
 //   routes.ADMIN_ANNULER_REPONSE_DEMANDE_DELAI(),
-//   ensureRole(['admin', 'dgec', 'dreal']),
+//   ensureRole(['admin', 'dgec-validateur', 'dreal']),
 //   asyncHandler(async (request, response) => {
 //     const { modificationRequestId } = request.query as any
 //     const { user } = request

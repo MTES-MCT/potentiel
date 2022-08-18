@@ -40,6 +40,10 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       type: DataTypes.UUID,
       allowNull: true,
     },
+    fonction: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
 
   const UserDrealModel = sequelizeInstance.define('userDreal', {

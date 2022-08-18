@@ -14,7 +14,7 @@ import { isNotifiedPeriode } from '@entities'
 
 v1Router.get(
   routes.PREVIEW_CANDIDATE_CERTIFICATE(),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params
 
@@ -54,6 +54,10 @@ v1Router.get(
         buildCertificate({
           template: certificateTemplate,
           data,
+          validateur: {
+            fullName: '[Nom du signataire]',
+            fonction: '[Intitulé de la fonction du signataire]',
+          },
         })
       )
       .match(

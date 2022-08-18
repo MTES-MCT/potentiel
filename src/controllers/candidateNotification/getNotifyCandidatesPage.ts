@@ -9,7 +9,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any
 

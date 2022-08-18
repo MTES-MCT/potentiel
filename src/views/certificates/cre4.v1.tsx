@@ -2,12 +2,13 @@
 import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
 import dotenv from 'dotenv'
 import React from 'react'
-import { errAsync, logger, Queue, ResultAsync } from '@core/utils'
+import { errAsync, Queue, ResultAsync } from '@core/utils'
 import { formatDate } from '../../helpers/formatDate'
 import { ProjectDataForCertificate } from '@modules/project/dtos'
 import { IllegalProjectStateError } from '@modules/project/errors'
 import { OtherError } from '@modules/shared'
 import { formatNumber, getNoteThreshold } from './helpers'
+import { Validateur } from '.'
 
 dotenv.config()
 
@@ -346,8 +347,9 @@ interface CertificateProps {
   objet: string
   body: JSX.Element
   footnotes?: JSX.Element
+  validateur: Validateur
 }
-const Certificate = ({ project, objet, body, footnotes }: CertificateProps) => {
+const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
 
@@ -462,22 +464,14 @@ const Certificate = ({ project, objet, body, footnotes }: CertificateProps) => {
                 position: 'relative',
               }}
             >
-              <Text style={{ fontSize: 10, fontWeight: 'bold', textAlign: 'center' }}>
-                L’adjoint au sous-directeur du système électrique et des énergies renouvelables,
+              <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>
+                {validateur.fullName}
               </Text>
-              <Text style={{ fontSize: 10, textAlign: 'center', marginTop: 65 }}>
-                Ghislain Ferran
+              <Text
+                style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}
+              >
+                {validateur.fonction}
               </Text>
-              <Image
-                style={{
-                  position: 'absolute',
-                  width: 130,
-                  height: 105,
-                  top: 25,
-                  left: 70,
-                }}
-                src={process.env.BASE_URL + '/images/signature.png'}
-              />
             </View>
           </View>
 
@@ -516,7 +510,8 @@ const queue = new Queue()
 
 /* global NodeJS */
 const makeCertificate = (
-  project: ProjectDataForCertificate
+  project: ProjectDataForCertificate,
+  validateur: Validateur
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
   const { appelOffre } = project
   const { periode } = appelOffre || {}
@@ -535,7 +530,9 @@ const makeCertificate = (
     content = Elimine(project)
   }
 
-  const ticket = queue.push(() => ReactPDF.renderToStream(<Certificate {...content} />))
+  const ticket = queue.push(() =>
+    ReactPDF.renderToStream(<Certificate {...content} validateur={validateur} />)
+  )
 
   return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
 }

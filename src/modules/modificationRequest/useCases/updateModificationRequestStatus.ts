@@ -34,7 +34,7 @@ export const makeUpdateModificationRequestStatus =
     const { modificationRequestRepo } = deps
     const { modificationRequestId, versionDate, newStatus, submittedBy } = args
 
-    if (!['admin', 'dgec'].includes(submittedBy.role)) {
+    if (!['admin', 'dgec-validateur'].includes(submittedBy.role)) {
       return errAsync(new UnauthorizedError())
     }
 

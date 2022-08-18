@@ -1,7 +1,12 @@
 import { Image, Text, View } from '@react-pdf/renderer'
 import React from 'react'
+import { Validateur } from '../..'
 
-export const Signature = () => (
+type SignatureProps = {
+  validateur: Validateur
+}
+
+export const Signature = ({ validateur }: SignatureProps) => (
   <View
     style={{
       width: 200,
@@ -13,17 +18,9 @@ export const Signature = () => (
     }}
     wrap={false}
   >
-    <Text style={{ fontWeight: 'bold' }}>
-      L’adjoint au sous-directeur du système électrique et des énergies renouvelables
+    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{validateur.fullName}</Text>
+    <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
+      {validateur.fonction}
     </Text>
-    <Image
-      style={{
-        width: 130,
-        height: 105,
-        marginHorizontal: 'auto',
-      }}
-      src={process.env.BASE_URL + '/images/signature.png'}
-    />
-    <Text style={{ marginTop: -30 }}>Ghislain FERRAN</Text>
   </View>
 )

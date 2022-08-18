@@ -61,7 +61,7 @@ describe('getProjectEvents for DemandeAbandonSignaled events', () => {
                   signaledBy: 'user-id',
                   status: 'acceptée',
                   attachment: { id: 'file-id', name: 'file-name' },
-                  ...(['admin', 'dgec', 'dreal'].includes(role) && { notes: 'notes' }),
+                  ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
                 },
                 {
                   type: 'DemandeAbandonSignaled',
@@ -70,7 +70,7 @@ describe('getProjectEvents for DemandeAbandonSignaled events', () => {
                   signaledBy: 'user-id',
                   status: 'rejetée',
                   attachment: { id: 'file-id', name: 'file-name' },
-                  ...(['admin', 'dgec', 'dreal'].includes(role) && { notes: 'notes' }),
+                  ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
                 },
               ]),
             })

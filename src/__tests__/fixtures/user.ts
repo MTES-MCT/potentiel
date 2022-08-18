@@ -3,6 +3,7 @@ export default function makeFakeUser(overrides?) {
     fullName: 'Pierre Durand',
     role: 'admin',
     email: 'fake@email.com',
+    fonction: undefined,
   }
 
   return {

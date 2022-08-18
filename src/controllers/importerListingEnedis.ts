@@ -13,7 +13,7 @@ import { v1Router } from './v1Router'
 
 v1Router.get(
   routes.IMPORTER_LISTING_ENEDIS,
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     return response.send(ImporterListingEnedisPage({ request }))
   })
@@ -21,7 +21,7 @@ v1Router.get(
 
 v1Router.post(
   routes.IMPORTER_LISTING_ENEDIS,
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     if (!request.file) {

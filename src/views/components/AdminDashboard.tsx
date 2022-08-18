@@ -78,7 +78,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_LIST_PROJECTS}
               itemPage={'list-projects'}
               title="Projets"
-              visibleForRoles={['admin', 'dreal']}
+              visibleForRoles={['admin', 'dreal', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -86,7 +86,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_LIST_REQUESTS}
               itemPage={'list-requests'}
               title="Demandes"
-              visibleForRoles={['admin', 'dreal']}
+              visibleForRoles={['admin', 'dreal', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -99,13 +99,13 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               currentPage={currentPage}
             />
 
-            <SeparatorItem visibleForRoles={['admin']} role={role} />
+            <SeparatorItem visibleForRoles={['admin', 'dgec-validateur']} role={role} />
 
             <MenuItem
               route={ROUTES.IMPORT_PROJECTS}
               itemPage={'import-projects'}
               title="Importer des candidats"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -114,7 +114,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
               itemPage={'notify-candidates'}
               title="Notifier des candidats"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -122,7 +122,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_INVITATION_LIST}
               itemPage={'list-invitations'}
               title="Invitations candidats en attente"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -130,11 +130,11 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_NOTIFICATION_LIST}
               itemPage={'list-notifications'}
               title="Emails en erreur"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
-            <SeparatorItem visibleForRoles={['admin']} role={role} />
+            <SeparatorItem visibleForRoles={['admin', 'dgec-validateur']} role={role} />
 
             <MenuItem
               route={ROUTES.UPLOAD_LEGACY_MODIFICATION_FILES}
@@ -145,24 +145,26 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               currentPage={currentPage}
             />
 
-            <SeparatorItem visibleForRoles={['admin']} role={role} />
+            <SeparatorItem visibleForRoles={['admin', 'dgec-validateur']} role={role} />
             {/* {!!process.env.ENABLE_ENEDIS_IMPORT && (
+              <>
               <MenuItem
                 route={ROUTES.IMPORTER_LISTING_ENEDIS}
                 itemPage={'import-enedis'}
                 title="Importer des données Enedis"
-                visibleForRoles={['admin', 'dgec']}
+                visibleForRoles={['admin', 'dgec-validateur']}
                 role={role}
                 currentPage={currentPage}
               />
+              <SeparatorItem visibleForRoles={['admin', 'dgec-validateur']} role={role} />
+              </>
             )} */}
-            <SeparatorItem visibleForRoles={['admin']} role={role} />
 
             <MenuItem
               route={ROUTES.ADMIN_DREAL_LIST}
               itemPage={'list-dreal'}
               title="Gérer les DREAL"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -171,7 +173,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_REGENERATE_CERTIFICATES}
               itemPage={'regenerate-certificates'}
               title="Regénérer des attestations"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -180,7 +182,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_AO_PERIODE}
               itemPage={'admin-ao'}
               title="Gérer les appels d'offre"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -189,17 +191,17 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_PARTNER_USERS}
               itemPage={'admin-users'}
               title="Gérer les utilisateurs partenaires"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
-            <SeparatorItem visibleForRoles={['admin']} role={role} />
+            <SeparatorItem visibleForRoles={['admin', 'dgec-validateur']} role={role} />
 
             <MenuItem
               route={ROUTES.ADMIN_STATISTIQUES}
               itemPage={'admin-statistiques'}
               title="Tableau de bord"
-              visibleForRoles={['admin']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />

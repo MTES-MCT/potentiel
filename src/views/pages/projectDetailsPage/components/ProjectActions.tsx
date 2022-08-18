@@ -266,7 +266,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
   <div className="whitespace-nowrap">
-    {userIs(['admin', 'dgec'])(user) && <AdminActions {...{ project }} />}
+    {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>

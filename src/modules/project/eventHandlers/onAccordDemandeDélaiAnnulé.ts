@@ -2,7 +2,7 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { ResultAsync } from '@core/utils'
 import { AccordDemandeDélaiAnnulé } from '@modules/demandeModification'
 import { Project, ProjectCompletionDueDateSet } from '@modules/project'
-import { InfraNotAvailableError } from 'src/modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 
 type OnAccordDemandeDélaiAnnulé = (
   event: AccordDemandeDélaiAnnulé

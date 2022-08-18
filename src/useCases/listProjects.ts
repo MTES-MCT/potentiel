@@ -128,7 +128,7 @@ export default function makeListProjects({
         }
         break
       case 'admin':
-      case 'dgec':
+      case 'dgec-validateur':
       case 'acheteur-obligé':
       case 'ademe':
         result.projects =

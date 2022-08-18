@@ -11,7 +11,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 
 v1Router.get(
   routes.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION(),
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet']),
   asyncHandler(async (request, response) => {
     const { userId, projectId } = request.query as any
     const { user } = request

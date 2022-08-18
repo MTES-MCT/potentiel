@@ -132,7 +132,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       // @ts-ignore
       const queryString = QueryString.stringify(req.query)
 
-      if (['admin', 'dgec', 'dreal'].includes(user.role)) {
+      if (['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
         res.redirect(routes.ADMIN_DASHBOARD + '?' + queryString)
         return
       }

@@ -31,6 +31,10 @@ export const MakeUserModel = (sequelize) => {
         type: DataTypes.UUID,
         allowNull: true,
       },
+      fonction: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,

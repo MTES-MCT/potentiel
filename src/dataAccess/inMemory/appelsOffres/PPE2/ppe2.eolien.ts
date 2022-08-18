@@ -48,6 +48,7 @@ const eolienPPE2: AppelOffre = {
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
     // période 2 : ne pas mettre de valeur pour dossierSuiviPar
   ],
   familles: [],

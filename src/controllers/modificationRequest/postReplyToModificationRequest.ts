@@ -33,7 +33,7 @@ v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
 
   upload.single('file'),
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
       user: { role },

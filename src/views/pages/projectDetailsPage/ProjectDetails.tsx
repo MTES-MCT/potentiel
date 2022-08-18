@@ -56,15 +56,15 @@ export const ProjectDetails = PageLayout(
               <CDCForm {...{ project, cahiersChargesURLs }} />
             )}
 
-          {userIs(['admin', 'dgec'])(user) && project.notifiedOn && (
+          {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
             <EditProjectData project={project} request={request} />
           )}
 
-          {['admin', 'dgec'].includes(user.role) && !!project.contratEDF && (
+          {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEDF && (
             <ContratEDF contrat={project.contratEDF} />
           )}
 
-          {['admin', 'dgec'].includes(user.role) && !!project.contratEnedis && (
+          {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEnedis && (
             <ContratEnedis contrat={project.contratEnedis} />
           )}
         </main>

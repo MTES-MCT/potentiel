@@ -20,7 +20,7 @@ describe('frise.getProjectEvents', () => {
     await Project.create(fakeProject)
   })
 
-  for (const role of USER_ROLES.filter((role) => role === 'dgec' || role === 'admin')) {
+  for (const role of USER_ROLES.filter((role) => role === 'dgec-validateur' || role === 'admin')) {
     describe(`when the user is ${role}`, () => {
       it('should return the ProjectImported event', async () => {
         const fakeUser = { role } as User
@@ -47,7 +47,7 @@ describe('frise.getProjectEvents', () => {
     })
   }
 
-  for (const role of USER_ROLES.filter((role) => role !== 'dgec' && role !== 'admin')) {
+  for (const role of USER_ROLES.filter((role) => role !== 'dgec-validateur' && role !== 'admin')) {
     describe(`when the user is ${role}`, () => {
       it('should NOT return the ProjectImported event', async () => {
         const fakeUser = { role } as User
@@ -203,7 +203,7 @@ describe('frise.getProjectEvents', () => {
             {
               type: 'ProjectCertificateGenerated',
               potentielIdentifier: fakeProject.potentielIdentifier,
-              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              email: ['admin', 'dgec-validateur'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
               date: eventTimestamp,
               variant: role,
@@ -212,7 +212,7 @@ describe('frise.getProjectEvents', () => {
             {
               type: 'ProjectCertificateRegenerated',
               potentielIdentifier: fakeProject.potentielIdentifier,
-              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              email: ['admin', 'dgec-validateur'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
               date: eventTimestamp,
               variant: role,
@@ -221,7 +221,7 @@ describe('frise.getProjectEvents', () => {
             {
               type: 'ProjectCertificateUpdated',
               potentielIdentifier: fakeProject.potentielIdentifier,
-              email: ['admin', 'dgec'].includes(role) ? fakeProject.email : undefined,
+              email: ['admin', 'dgec-validateur'].includes(role) ? fakeProject.email : undefined,
               nomProjet: fakeProject.nomProjet,
               date: eventTimestamp,
               variant: role,
@@ -295,7 +295,11 @@ describe('frise.getProjectEvents', () => {
   }
 
   for (const role of USER_ROLES.filter(
-    (role) => role === 'admin' || role === 'dgec' || role === 'dreal' || role === 'porteur-projet'
+    (role) =>
+      role === 'admin' ||
+      role === 'dgec-validateur' ||
+      role === 'dreal' ||
+      role === 'porteur-projet'
   )) {
     describe(`when the user is ${role}`, () => {
       const fakeUser = { role } as User

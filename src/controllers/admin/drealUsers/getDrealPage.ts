@@ -1,4 +1,3 @@
-import { userRepo } from '@dataAccess'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole, getDreals } from '@config'
@@ -7,7 +6,7 @@ import { DrealListPage } from '@views'
 
 v1Router.get(
   routes.ADMIN_DREAL_LIST,
-  ensureRole('admin'),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { query } = request
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(

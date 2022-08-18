@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.IMPORT_PROJECTS,
-  ensureRole(['admin', 'dgec']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     return response.send(
       ImportCandidatesPage({

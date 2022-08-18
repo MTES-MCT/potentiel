@@ -23,11 +23,14 @@ export const Contact = ({ project, user }: ContactProps) => (
       <div>{project.email}</div>
     </div>
 
-    {project.notifiedOn && userIs(['admin', 'dgec', 'porteur-projet', 'dreal'])(user) && (
-      <ListComptesAvecAcces {...{ user, project }} />
-    )}
+    {project.notifiedOn &&
+      userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
+        <ListComptesAvecAcces {...{ user, project }} />
+      )}
 
-    {userIs(['admin', 'dgec', 'porteur-projet'])(user) && <InvitationForm {...{ project }} />}
+    {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(user) && (
+      <InvitationForm {...{ project }} />
+    )}
   </Section>
 )
 

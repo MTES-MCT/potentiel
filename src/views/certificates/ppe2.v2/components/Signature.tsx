@@ -1,7 +1,12 @@
 import { Text, View } from '@react-pdf/renderer'
 import React from 'react'
+import { Validateur } from '../..'
 
-export const Signature = () => (
+type SignatureProps = {
+  validateur: Validateur
+}
+
+export const Signature = ({ validateur }: SignatureProps) => (
   <View
     style={{
       width: 200,
@@ -13,9 +18,9 @@ export const Signature = () => (
     }}
     wrap={false}
   >
-    <Text style={{ fontWeight: 'bold' }}>
-      Le sous-directeur du système électrique et des énergies renouvelables
+    <Text style={{ fontSize: 10, marginTop: 30, textAlign: 'center' }}>{validateur.fullName}</Text>
+    <Text style={{ fontSize: 10, fontWeight: 'bold', marginTop: 10, textAlign: 'center' }}>
+      {validateur.fonction}
     </Text>
-    <Text style={{ marginTop: 30 }}>Nicolas CLAUSSET</Text>
   </View>
 )

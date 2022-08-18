@@ -14,7 +14,7 @@ export class BaseShouldUserAccessProject implements ShouldUserAccessProject {
   constructor(private userRepo: UserRepo, private findProjectById: ProjectRepo['findById']) {}
 
   async check({ projectId, user }: CheckProps): Promise<boolean> {
-    if (['admin', 'dgec', 'acheteur-obligé', 'ademe'].includes(user.role)) return true
+    if (['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe'].includes(user.role)) return true
 
     if (user.role === 'dreal') {
       const userDreals = await this.userRepo.findDrealsForUser(user.id)

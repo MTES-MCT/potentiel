@@ -15,7 +15,7 @@ const defaultPagination: Pagination = {
 
 v1Router.get(
   routes.ADMIN_NOTIFICATION_LIST,
-  ensureRole(['admin']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const pagination = makePagination(request.query, defaultPagination)
 

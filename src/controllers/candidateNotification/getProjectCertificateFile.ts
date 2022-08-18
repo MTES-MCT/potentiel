@@ -11,7 +11,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé']),
   asyncHandler(async (request, response) => {
     const { projectId, fileId } = request.params
     const { user } = request

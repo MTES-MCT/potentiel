@@ -22,7 +22,10 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   const { user } = request
 
   // Set default filter on classés for admins
-  if (['admin', 'dgec', 'dreal'].includes(user.role) && typeof classement === 'undefined') {
+  if (
+    ['admin', 'dgec-validateur', 'dreal'].includes(user.role) &&
+    typeof classement === 'undefined'
+  ) {
     classement = 'classés'
     request.query.classement = 'classés'
   }
@@ -75,10 +78,14 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   )
 })
 
-v1Router.get(routes.ADMIN_DASHBOARD, ensureRole(['admin', 'dgec', 'dreal']), getProjectListPage)
+v1Router.get(
+  routes.ADMIN_DASHBOARD,
+  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  getProjectListPage
+)
 
 v1Router.get(
   routes.USER_DASHBOARD,
-  ensureRole(['admin', 'dgec', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListPage
 )

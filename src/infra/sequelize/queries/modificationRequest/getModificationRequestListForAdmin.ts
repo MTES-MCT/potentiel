@@ -69,7 +69,8 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             [Op.or]: [false, null],
           },
           ...(userIs('dreal')(user) && { authority: 'dreal' }),
-          ...(userIs(['admin', 'dgec'])(user) && !forceNoAuthority && { authority: 'dgec' }),
+          ...(userIs(['admin', 'dgec-validateur'])(user) &&
+            !forceNoAuthority && { authority: 'dgec' }),
           ...(modificationRequestType && { type: modificationRequestType }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },

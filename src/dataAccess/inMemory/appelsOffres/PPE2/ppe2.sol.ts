@@ -74,6 +74,7 @@ const solPPE2: AppelOffre = {
         },
       },
     },
+    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [],
 }

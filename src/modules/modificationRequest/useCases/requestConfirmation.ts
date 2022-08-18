@@ -37,7 +37,7 @@ export const makeRequestConfirmation =
     const { modificationRequestId, versionDate, responseFile, confirmationRequestedBy } = args
     const { contents, filename } = responseFile
 
-    if (!['admin', 'dgec'].includes(confirmationRequestedBy.role)) {
+    if (!['admin', 'dgec-validateur'].includes(confirmationRequestedBy.role)) {
       return errAsync(new UnauthorizedError())
     }
 

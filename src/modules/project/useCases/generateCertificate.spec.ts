@@ -1,13 +1,16 @@
 import { Readable } from 'stream'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { ok, okAsync } from '@core/utils'
-import { CertificateTemplate } from '@entities'
+import { CertificateTemplate, User } from '@entities'
 import { fakeRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { FileObject } from '../../file'
-import { OtherError } from '../../shared'
+import { OtherError, InfraNotAvailableError } from '../../shared'
+
+import makeFakeUser from '../../../__tests__/fixtures/user'
 import { ProjectDataForCertificate } from '../dtos'
 import { Project } from '../Project'
 import { makeGenerateCertificate } from './generateCertificate'
+import { Validateur } from '@views/certificates'
 
 const projectId = 'project1'
 
@@ -21,11 +24,16 @@ const fakeProject = {
 
 const projectRepo = fakeRepo(fakeProject as Project)
 
-describe('generateCertificate', () => {
+const validateurId = new UniqueEntityID().toString()
+
+describe('useCase generateCertificate', () => {
   /* global NodeJS */
   const buildCertificate = jest.fn(
-    (args: { template: CertificateTemplate; data: ProjectDataForCertificate }) =>
-      okAsync<NodeJS.ReadableStream, OtherError>(Readable.from('test') as NodeJS.ReadableStream)
+    (args: {
+      template: CertificateTemplate
+      data: ProjectDataForCertificate
+      validateur: Validateur
+    }) => okAsync<NodeJS.ReadableStream, OtherError>(Readable.from('test') as NodeJS.ReadableStream)
   )
 
   const fileRepo = {
@@ -33,34 +41,42 @@ describe('generateCertificate', () => {
     load: jest.fn(),
   }
 
+  const user = makeFakeUser({ id: validateurId, fonction: 'directeur' })
+  const getUserById = jest.fn((id: string) => okAsync<User | null, InfraNotAvailableError>(user))
+
   const generateCertificate = makeGenerateCertificate({
     fileRepo: fileRepo as Repository<FileObject>,
     projectRepo,
     buildCertificate,
+    getUserById,
   })
 
   beforeAll(async () => {
-    const res = await generateCertificate(projectId)
+    const res = await generateCertificate({ projectId, validateurId })
     expect(res.isOk()).toBe(true)
   })
 
-  it('should load the project', () => {
+  it('Le projet devrait être chargé', () => {
     expect(projectRepo.load).toHaveBeenCalledWith(new UniqueEntityID(projectId))
   })
 
-  it('should generate a pdf using the template defined by the project periode', async () => {
-    expect(buildCertificate).toHaveBeenCalledWith({ template: 'v0', data: fakeProjectData })
+  it('Un pdf utilisant le template défini par la période du projet devrait être généré', async () => {
+    expect(buildCertificate).toHaveBeenCalledWith({
+      template: 'v0',
+      data: fakeProjectData,
+      validateur: { fullName: user.fullName, fonction: user.fonction },
+    })
   })
 
-  it('should save the pdf file using the file service', () => {
+  it(`Le pdf devrait être enregistré à l'aide du file service`, () => {
     expect(fileRepo.save).toHaveBeenCalled()
   })
 
-  it('should call project.addGeneratedCertificate()', () => {
+  it('La méthode project.addGeneratedCertificate() devrait être appelée', () => {
     expect(fakeProject.addGeneratedCertificate).toHaveBeenCalled()
   })
 
-  it('should save the project', () => {
+  it('Le projet devrait être sauvegardé', () => {
     expect(projectRepo.save).toHaveBeenCalledWith(fakeProject)
   })
 })

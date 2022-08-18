@@ -41,7 +41,10 @@ type SubmittedProps = ComponentProps & {
 
 const Submitted = (props: SubmittedProps) => {
   const { date, authority, role, status, projectStatus } = props
-  const roleRequiresAction = (role === 'admin' && authority === 'dgec') || role === authority
+  const roleRequiresAction =
+    (role === 'admin' && authority === 'dgec') ||
+    role === authority ||
+    (role === 'dgec-validateur' && authority === 'dgec')
   const isAbandoned = projectStatus === 'Abandonné'
   return (
     <>

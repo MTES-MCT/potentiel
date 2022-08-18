@@ -40,7 +40,9 @@ export default function ListProjects({
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
-    (request.user && ['admin', 'dreal'].includes(request.user?.role) && classement !== 'classés')
+    (request.user &&
+      ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
+      classement !== 'classés')
 
   const hasFilters =
     appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement
@@ -61,7 +63,7 @@ export default function ListProjects({
           <h3>Projets</h3>
           <form
             action={
-              ['admin', 'dgec', 'dreal'].includes(request.user?.role)
+              ['admin', 'dgec-validateur', 'dreal'].includes(request.user?.role)
                 ? ROUTES.ADMIN_LIST_PROJECTS
                 : ROUTES.USER_LIST_PROJECTS
             }
@@ -213,22 +215,24 @@ export default function ListProjects({
                   </select>
                 </div>
 
-                {request.user.role === 'admin' && appelOffreId && periodeId && (
-                  <div style={{ marginTop: 15 }}>
-                    <a
-                      href={`${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify(
-                        {
+                {['admin', 'dgec-validateur'].includes(request.user.role) &&
+                  appelOffreId &&
+                  periodeId && (
+                    <div style={{ marginTop: 15 }}>
+                      <a
+                        href={`${
+                          ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV
+                        }?${querystring.stringify({
                           ...request.query,
                           beforeNotification: false,
-                        }
-                      )}`}
-                      download
-                    >
-                      Liste des lauréats
-                      <DownloadIcon color="red" />
-                    </a>
-                  </div>
-                )}
+                        })}`}
+                        download
+                      >
+                        Liste des lauréats
+                        <DownloadIcon color="red" />
+                      </a>
+                    </div>
+                  )}
               </div>
             </div>
             {hasFilters ? (
@@ -237,7 +241,7 @@ export default function ListProjects({
               </a>
             ) : null}
           </form>
-          {['admin', 'dgec', 'porteur-projet'].includes(request.user?.role) && (
+          {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
             <div>
               <div
                 {...dataId('projectList-invitation-form-visibility-toggle')}

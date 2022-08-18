@@ -27,7 +27,7 @@ const requestBodySchema = yup.object({
 
 v1Router.post(
   routes.ADMIN_INVITE_DREAL_USER_ACTION,
-  ensureRole('admin'),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {

@@ -28,7 +28,9 @@ export default function ListMissingOwnerProjects({
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
-    (request.user && ['admin', 'dreal'].includes(request.user?.role) && classement !== 'classés')
+    (request.user &&
+      ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
+      classement !== 'classés')
 
   const hasFilters = appelOffreId || periodeId || familleId || hasNonDefaultClassement
 
