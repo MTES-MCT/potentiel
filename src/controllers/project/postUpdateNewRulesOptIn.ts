@@ -24,7 +24,7 @@ v1Router.post(
         projectId: yup.string().uuid().required(),
       })
     )
-      .andThen(({projectId}) => ok({ projectId, optedInBy: request.user }))
+      .andThen(({ projectId }) => ok({ projectId, optedInBy: request.user }))
       .asyncAndThen(({ projectId, optedInBy }) =>
         updateNewRulesOptIn({
           projectId,

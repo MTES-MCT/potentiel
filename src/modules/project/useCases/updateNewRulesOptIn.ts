@@ -23,18 +23,16 @@ export const makeUpdateNewRulesOptIn =
     return wrapInfra(shouldUserAccessProject({ projectId, user: optedInBy }))
       .andThen((userHasRightsToProject) =>
         projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
           if (project.newRulesOptIn) return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
-          return okAsync(userHasRightsToProject)
+          return okAsync(null)
         })
       )
-      .andThen(
-        (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          return eventBus.publish(
-            new ProjectNewRulesOptedIn({
-              payload: { projectId, optedInBy: optedInBy.id },
-            })
-          )
-        }
+      .andThen(() =>
+        eventBus.publish(
+          new ProjectNewRulesOptedIn({
+            payload: { projectId, optedInBy: optedInBy.id },
+          })
+        )
       )
   }

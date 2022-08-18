@@ -84,7 +84,7 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
     it('doit retourner une erreur NouveauCahierDesChargesDéjàSouscrit', async () => {
       fakePublish.mockClear()
 
-      const shouldUserAccessProject = jest.fn(async () => false)
+      const shouldUserAccessProject = jest.fn(async () => true)
 
       const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
         eventBus: fakeEventBus,
