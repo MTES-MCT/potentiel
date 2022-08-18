@@ -5,7 +5,10 @@ import { makeUser } from '@entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeUpdateNewRulesOptIn } from './updateNewRulesOptIn'
-import { ProjectNewRulesOptedIn } from '..'
+import { Project, ProjectNewRulesOptedIn } from '..'
+import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
+import makeFakeProject from '../../../__tests__/fixtures/project'
+import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 
 describe('ProjectSteps.updateNewRulesOptIn()', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
@@ -17,6 +20,8 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
     subscribe: jest.fn(),
   }
 
+  const projectRepo = fakeRepo({ ...makeFakeProject(), newRulesOptIn: false } as Project)
+
   describe('When user is not authorized to access the project', () => {
     it('should return an UnauthorizedError', async () => {
       fakePublish.mockClear()
@@ -26,6 +31,7 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
       const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
         eventBus: fakeEventBus,
         shouldUserAccessProject,
+        projectRepo,
       })
 
       const res = await updateNewRulesOptIn({
@@ -44,6 +50,7 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
     const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
       eventBus: fakeEventBus,
       shouldUserAccessProject,
+      projectRepo,
     })
 
     it('should emit ProjectNewRulesOptedIn', async () => {
@@ -70,6 +77,28 @@ describe('ProjectSteps.updateNewRulesOptIn()', () => {
       if (!targetEvent) return
 
       expect(targetEvent.payload.projectId).toEqual(projectId)
+    })
+  })
+
+  describe(`Lorsque le projet est déjà souscrit au nouveau CDC`, () => {
+    it('doit retourner une erreur NouveauCahierDesChargesDéjàSouscrit', async () => {
+      fakePublish.mockClear()
+
+      const shouldUserAccessProject = jest.fn(async () => false)
+
+      const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
+        eventBus: fakeEventBus,
+        shouldUserAccessProject,
+        projectRepo: fakeRepo({ ...makeFakeProject(), newRulesOptIn: true } as Project),
+      })
+
+      const res = await updateNewRulesOptIn({
+        projectId,
+        optedInBy: user,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(NouveauCahierDesChargesDéjàSouscrit)
+      expect(fakePublish).not.toHaveBeenCalled()
     })
   })
 })
