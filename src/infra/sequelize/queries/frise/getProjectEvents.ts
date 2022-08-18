@@ -1,5 +1,6 @@
 import { getProjectAppelOffre } from '@config/queries.config'
 import { or, ResultAsync, wrapInfra } from '@core/utils'
+import project from '@entities/project'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from 'src/modules/shared'
@@ -172,6 +173,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ProjectGFDueDateSet':
+                if (userIsNot('ademe')(user)) {
+                  events.push({
+                    type,
+                    date: valueDate,
+                    variant: user.role,
+                    nomProjet,
+                  })
+                }
+                break
               case 'ProjectDCRDueDateSet':
               case 'ProjectCompletionDueDateSet':
                 if (userIsNot('ademe')(user)) {
