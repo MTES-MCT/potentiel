@@ -12,7 +12,7 @@ import {
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { ok } from '@core/utils'
-import { NouveauCahierDesChargesNonChoisiError } from '../../modules/project/errors/NouveauCahierDesChargesDéjàSouscrit'
+import { NouveauCahierDesChargesDéjàSouscrit } from '../../modules/project/errors/NouveauCahierDesChargesDéjàSouscrit'
 
 v1Router.post(
   routes.CHANGER_CDC,
@@ -48,7 +48,7 @@ v1Router.post(
 
           if (
             error instanceof RequestValidationError ||
-            error instanceof NouveauCahierDesChargesNonChoisiError
+            error instanceof NouveauCahierDesChargesDéjàSouscrit
           ) {
             return errorResponse({
               request,
