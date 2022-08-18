@@ -1,54 +1,66 @@
 import { ensureRole, updateNewRulesOptIn } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  RequestValidationError,
+  unauthorizedResponse,
+  validateRequestBody,
+} from '../helpers'
 import { v1Router } from '../v1Router'
+import * as yup from 'yup'
+import { ok } from '@core/utils'
+import { NouveauCahierDesChargesDéjàSouscrit } from '../../modules/project/errors/NouveauCahierDesChargesDéjàSouscrit'
 
 v1Router.post(
   routes.CHANGER_CDC,
   ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
-    const {
-      body: { projectId },
-      user: optedInBy,
-    } = request
-
-    if (!validateUniqueId(projectId)) {
-      return errorResponse({
-        request,
-        response,
-        customMessage:
-          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+    await validateRequestBody(
+      request.body,
+      yup.object({
+        projectId: yup.string().uuid().required(),
       })
-    }
-
-    const result = updateNewRulesOptIn({
-      projectId,
-      optedInBy,
-    })
-
-    await result.match(
-      () => {
-        response.redirect(
-          routes.SUCCESS_OR_ERROR_PAGE({
-            success:
-              "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
-            redirectUrl: routes.PROJECT_DETAILS(projectId),
-            redirectTitle: 'Retourner à la page projet',
-          })
-        )
-      },
-      (error) => {
-        if (error instanceof UnauthorizedError) {
-          return unauthorizedResponse({ request, response })
-        }
-
-        logger.error(error)
-        return errorResponse({ request, response })
-      }
     )
+      .andThen(({ projectId }) => ok({ projectId, optedInBy: request.user }))
+      .asyncAndThen(({ projectId, optedInBy }) =>
+        updateNewRulesOptIn({
+          projectId,
+          optedInBy,
+        }).map(() => ({ projectId, optedInBy }))
+      )
+      .match(
+        ({ projectId }) =>
+          response.redirect(
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success:
+                "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
+              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectTitle: 'Retourner à la page projet',
+            })
+          ),
+        (error) => {
+          if (error instanceof UnauthorizedError) {
+            return unauthorizedResponse({ request, response })
+          }
+
+          if (
+            error instanceof RequestValidationError ||
+            error instanceof NouveauCahierDesChargesDéjàSouscrit
+          ) {
+            return errorResponse({
+              request,
+              response,
+              customMessage:
+                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+            })
+          }
+
+          logger.error(error)
+          return errorResponse({ request, response })
+        }
+      )
   })
 )

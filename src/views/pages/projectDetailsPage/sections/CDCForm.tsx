@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
 import ROUTES from '@routes'
-import { CDCChoiceForm } from '../../../components'
-import { Section } from '../components/Section'
+import { CDCChoiceForm } from '@components'
+import { Section } from '../components'
 
 type CDCFormProps = {
   project: ProjectDataForProjectPage
@@ -18,7 +18,7 @@ export const CDCForm = ({ project, cahiersChargesURLs }: CDCFormProps) => {
         <CDCChoiceForm
           newRulesOptIn={project.newRulesOptIn}
           cahiersChargesURLs={cahiersChargesURLs}
-          onChoiceChange={(isNewRule) => setDisplaySubmitButton(isNewRule)}
+          onChoiceChange={(isNewRule) => setDisplaySubmitButton(!isNewRule)}
         />
         <input type="hidden" name="projectId" value={project.id} />
         {!project.newRulesOptIn && (
