@@ -100,6 +100,10 @@ export type ModificationRequestEvents = ProjectEvent &
               nouvelleDateLimiteAchevement: number
             }
           | {
+              modificationType: 'producteur'
+              producteurPrecedent: string
+            }
+          | {
               modificationType: 'recours'
               motifElimination: string
             }

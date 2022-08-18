@@ -30,18 +30,17 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectImported',
           valueDate: eventTimestamp,
           eventPublishedAt: eventTimestamp,
+          payload: {
+            notifiedOn: 1,
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
 
-        expect(res._unsafeUnwrap()).toMatchObject({
-          events: [
-            {
-              type: 'ProjectImported',
-              date: eventTimestamp,
-              variant: role,
-            },
-          ],
+        expect(res._unsafeUnwrap().events[0]).toEqual({
+          type: 'ProjectImported',
+          date: eventTimestamp,
+          variant: role,
         })
       })
     })
@@ -57,12 +56,15 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectImported',
           valueDate: eventTimestamp,
           eventPublishedAt: eventTimestamp,
+          payload: {
+            notifiedOn: 1,
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
 
-        expect(res._unsafeUnwrap()).toMatchObject({
-          events: [],
+        expect(res._unsafeUnwrap().events).not.toContain({
+          type: 'ProjectImported',
         })
       })
     })
@@ -314,6 +316,7 @@ describe('frise.getProjectEvents', () => {
             title: 'title',
             description: 'description',
             files: [{ id: 'fileId', name: 'fileName' }],
+            attachedBy: { id: 'user' },
           },
         })
 

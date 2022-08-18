@@ -38,7 +38,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         },
         events: await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
           async (eventsPromise, projectEvent) => {
-            console.log(JSON.stringify(projectEvent))
             const { type, valueDate, payload } = projectEvent
             const events: ProjectEventDTO[] = await eventsPromise
 
@@ -46,7 +45,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               case 'ProjectImported':
                 if (userIs(['admin', 'dgec'])(user)) {
                   events.push({
-                    type: projectEvent.type,
+                    type,
                     date: valueDate,
                     variant: user.role,
                   })
@@ -54,7 +53,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type: 'ProjectNotified',
-                    date: projectEvent.payload.notifiedOn,
+                    date: payload.notifiedOn,
                     variant: user.role,
                     isLegacy: true,
                   })
@@ -315,13 +314,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 if (userIsNot('ademe')(user)) {
                   const modificationType = payload.modificationType
                   const status = payload.status
-                  const common = {
-                    type,
-                    date: valueDate,
-                    variant: user.role,
-                    status,
-                    filename: payload.filename,
-                  }
 
                   switch (modificationType) {
                     case 'abandon':
@@ -370,6 +362,17 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
                         })
                       }
+                      break
+                    case 'producteur':
+                      events.push({
+                        type,
+                        date: valueDate,
+                        variant: user.role,
+                        status,
+                        filename: payload.filename,
+                        modificationType,
+                        producteurPrecedent: payload.producteurPrecedent,
+                      })
                       break
                     case 'recours':
                       events.push({
