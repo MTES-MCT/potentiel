@@ -9,33 +9,15 @@ import { makeCertificate as makePpe2V2Certificate } from './ppe2.v2'
 
 export type Validateur = { fullName: string; fonction?: string }
 
-export const buildCertificate = (args: {
+export const buildCertificate = ({
+  template,
+  data,
+  validateur,
+}: {
   template: CertificateTemplate
   data: ProjectDataForCertificate
-  validateur?: Validateur
-  prévisualisation?: true
+  validateur: Validateur
 }): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
-  const { template, data, prévisualisation } = args
-
-  const prévisualisationSignataire: Validateur = {
-    fullName: '[Nom du signataire]',
-    fonction: '[Intitulé de la fonction du signataire]',
-  }
-
-  const validateur: Validateur = prévisualisation
-    ? prévisualisationSignataire
-    : args.validateur ?? {
-        fullName: 'Ghislain FERRAN',
-        fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
-      }
-
-  const validateurPPE2v2: Validateur = prévisualisation
-    ? prévisualisationSignataire
-    : args.validateur ?? {
-        fullName: 'Nicolas CLAUSSET',
-        fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
-      }
-
   switch (template) {
     case 'cre4.v0':
       return makeCre4V0Certificate(data, validateur)
@@ -44,6 +26,6 @@ export const buildCertificate = (args: {
     case 'ppe2.v1':
       return makePpe2V1Certificate(data, validateur)
     case 'ppe2.v2':
-      return makePpe2V2Certificate(data, validateurPPE2v2)
+      return makePpe2V2Certificate(data, validateur)
   }
 }

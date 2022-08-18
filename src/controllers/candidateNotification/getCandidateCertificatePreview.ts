@@ -54,7 +54,10 @@ v1Router.get(
         buildCertificate({
           template: certificateTemplate,
           data,
-          prévisualisation: true,
+          validateur: {
+            fullName: '[Nom du signataire]',
+            fonction: '[Intitulé de la fonction du signataire]',
+          },
         })
       )
       .match(

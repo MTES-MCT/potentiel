@@ -13,6 +13,7 @@ import { Project } from '../Project'
 import { User } from '@entities'
 
 import { GetUserById } from '@infra/sequelize/queries/users'
+import { Validateur } from 'src/views/certificates'
 export type GenerateCertificate = (args: {
   projectId: string
   reason?: string
@@ -68,15 +69,27 @@ export const makeGenerateCertificate =
 
     function _buildCertificateForProject(project: Project, validateur?: User | null) {
       return project.certificateData
-        .asyncAndThen((certificateData) =>
-          buildCertificate({
+        .asyncAndThen((certificateData) => {
+          const validateurParDéfaut: Validateur =
+            certificateData.template === 'ppe2.v2'
+              ? {
+                  fullName: 'Nicolas CLAUSSET',
+                  fonction: `Le sous-directeur du système électrique et des énergies renouvelables`,
+                }
+              : {
+                  fullName: 'Ghislain FERRAN',
+                  fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
+                }
+          return buildCertificate({
             ...certificateData,
-            validateur: validateur && {
-              fullName: validateur.fullName,
-              fonction: validateur.fonction,
-            },
+            validateur: validateur
+              ? {
+                  fullName: validateur.fullName,
+                  fonction: validateur.fonction,
+                }
+              : validateurParDéfaut,
           })
-        )
+        })
         .map((fileStream) => ({ fileStream, project }))
     }
 
