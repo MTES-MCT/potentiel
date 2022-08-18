@@ -70,9 +70,9 @@ const Logo = () => (
 )
 
 const Title = () => (
-  <a className="ml-2 lg:ml-8 text-black no-underline" href={routes.HOME}>
-    <div className="font-bold lg:text-xl">Potentiel</div>
-    <div className="hidden lg:block text-base">
+  <a className="ml-2 lg:ml-8 no-underline" href={routes.HOME}>
+    <div className="font-bold lg:text-xl text-black">Potentiel</div>
+    <div className="hidden lg:block text-base text-black">
       Facilite le parcours des producteurs
       <br />
       d'énergies renouvelables électriques
@@ -118,11 +118,13 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
         <li className="flex items-center">
           <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGOUT_ACTION}
           >
-            <RiLogoutBoxLine />
-            <span className="hidden lg:block pt-0.5 mx-1">Me déconnecter</span>
+            <RiLogoutBoxLine className="text-blue-france-sun-base" />
+            <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
+              Me déconnecter
+            </span>
           </a>
         </li>
       </>
@@ -130,11 +132,13 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       <>
         <li className="flex items-center">
           <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
+            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.SIGNUP}
           >
-            <RiAccountCircleLine />
-            <span className="hidden lg:block pt-0.5 mx-1">M'inscrire</span>
+            <RiAccountCircleLine className="text-blue-france-sun-base" />
+            <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
+              M'inscrire
+            </span>
           </a>
         </li>
         <li className="flex items-center">
@@ -142,8 +146,10 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
-            <RiLockLine />
-            <span className="hidden lg:block pt-0.5 mx-1">M'identifier</span>
+            <RiLockLine className="text-blue-france-sun-base" />
+            <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
+              M'identifier
+            </span>
           </a>
         </li>
       </>
@@ -155,9 +161,9 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         rel="noopener"
         href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
       >
-        <RiQuestionLine className="lg:hidden" />
-        <span className="hidden lg:block pt-0.5 mx-1">Aide</span>
-        <RiExternalLinkLine className="hidden lg:block" />
+        <RiQuestionLine className="lg:hidden text-blue-france-sun-base" />
+        <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">Aide</span>
+        <RiExternalLinkLine className="hidden lg:block text-blue-france-sun-base" />
       </a>
     </li>
   </ul>
