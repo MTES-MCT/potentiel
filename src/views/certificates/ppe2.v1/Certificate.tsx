@@ -24,7 +24,7 @@ export type CertificateProps = {
 )
 
 export const Certificate = (props: CertificateProps) => {
-  const { type, project, content, validateur: validateur } = props
+  const { type, project, content, validateur } = props
   const footnotes = type === 'laureat' && props.footnotes
 
   return (
