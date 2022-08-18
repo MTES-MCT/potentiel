@@ -21,13 +21,13 @@ export const makeUpdateNewRulesOptIn =
   ({ shouldUserAccessProject, eventBus, projectRepo }: UpdateNewRulesOptIn) =>
   ({ projectId, optedInBy }: UpdateNewRulesOptInArgs) => {
     return wrapInfra(shouldUserAccessProject({ projectId, user: optedInBy }))
-      .andThen((userHasRightsToProject) =>
-        projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+      .andThen((userHasRightsToProject) => {
+        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+        return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
           if (project.newRulesOptIn) return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
           return okAsync(null)
         })
-      )
+      })
       .andThen(() =>
         eventBus.publish(
           new ProjectNewRulesOptedIn({
