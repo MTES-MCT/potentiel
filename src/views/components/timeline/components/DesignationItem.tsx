@@ -2,6 +2,7 @@ import React from 'react'
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
+import { Link } from '@components'
 
 export const DesignationItem = ({
   certificate,
@@ -46,8 +47,8 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
       ? `attestation de désignation (éditée`
       : `attestation de désignation (transmise`
   return (
-    <a href={url} download>
+    <Link href={url} download>
       {`Télécharger l'${urlTitle} le ${formatDate(date)})`}
-    </a>
+    </Link>
   )
 }

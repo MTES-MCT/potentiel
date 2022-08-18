@@ -2,7 +2,14 @@ import React, { useState } from 'react'
 import { ExclamationIcon } from '@heroicons/react/outline'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '@routes'
-import { Button, FormulaireChampsObligatoireLégende, Input, Label, Astérisque } from '@components'
+import {
+  Button,
+  FormulaireChampsObligatoireLégende,
+  Input,
+  Label,
+  Astérisque,
+  Dropdown,
+} from '@components'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
 import { format } from 'date-fns'
@@ -81,52 +88,54 @@ type UploadFormProps = {
   projectId: string
 }
 const UploadForm = ({ projectId }: UploadFormProps) => {
-  const [isFormVisible, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false)
 
   return (
-    <>
-      <a onClick={() => showForm(!isFormVisible)}>Indiquer la date de la signature</a>
-      {isFormVisible && (
-        <form
-          action={ROUTES.DEPOSER_ETAPE_ACTION}
-          method="post"
-          encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-        >
-          <FormulaireChampsObligatoireLégende className="text-right" />
-          <input type="hidden" name="type" id="type" value="ptf" />
-          <input type="hidden" name="projectId" value={projectId} />
-          <div>
-            <Label htmlFor="stepDate" required>
-              Date de la signature
-            </Label>
-            <Input
-              type="date"
-              id="stepDate"
-              name="stepDate"
-              max={format(new Date(), 'yyyy-MM-dd')}
-              required
-            />
-          </div>
-          <div className="mt-2">
-            <Label htmlFor="file" required className="flex items-center">
-              Document <ExclamationIcon className="h-4 w-4 mx-1" />
-            </Label>
-            <Input type="file" name="file" id="file" required />
-            <span className="italic flex items-start">
-              <ExclamationIcon className="h-4 w-4 mt-1 mr-1" />
-              Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
-            </span>
-          </div>
-          <div className="flex gap-4 flex-col md:flex-row mt-4">
-            <Button type="submit" primary>
-              Envoyer
-            </Button>
-            <Button onClick={() => showForm(false)}>Annuler</Button>
-          </div>
-        </form>
-      )}
-    </>
+    <Dropdown
+      design="link"
+      text="Indiquer la date de la signature"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+    >
+      <form
+        action={ROUTES.DEPOSER_ETAPE_ACTION}
+        method="post"
+        encType="multipart/form-data"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <FormulaireChampsObligatoireLégende className="text-right" />
+        <input type="hidden" name="type" id="type" value="ptf" />
+        <input type="hidden" name="projectId" value={projectId} />
+        <div>
+          <Label htmlFor="stepDate" required>
+            Date de la signature
+          </Label>
+          <Input
+            type="date"
+            id="stepDate"
+            name="stepDate"
+            max={format(new Date(), 'yyyy-MM-dd')}
+            required
+          />
+        </div>
+        <div className="mt-2">
+          <Label htmlFor="file" required className="flex items-center">
+            Document <ExclamationIcon className="h-4 w-4 mx-1" />
+          </Label>
+          <Input type="file" name="file" id="file" required />
+          <span className="italic flex items-start">
+            <ExclamationIcon className="h-4 w-4 mt-1 mr-1" />
+            Le dépôt est informatif, il ne remplace pas la transmission à votre gestionnaire
+          </span>
+        </div>
+        <div className="flex gap-4 flex-col md:flex-row mt-4">
+          <Button type="submit" primary>
+            Envoyer
+          </Button>
+          <Button onClick={() => showForm(false)}>Annuler</Button>
+        </div>
+      </form>
+    </Dropdown>
   )
 }
 const isPorteurProjet = (role: UserRole) => role === 'porteur-projet'

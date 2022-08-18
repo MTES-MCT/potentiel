@@ -5,7 +5,6 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { RiFileExcel2Line } from '@react-icons/all-files/ri/RiFileExcel2Line'
 
 import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from '@components'
 
@@ -319,9 +318,9 @@ export default function ListProjects({
                     request.query as any
                   )}`}
                   download
+                  excel
                 >
                   Télécharger un export
-                  <RiFileExcel2Line className="ml-2 h-4 w-4" />
                 </LinkButton>
               )}
             </div>
