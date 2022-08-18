@@ -2,7 +2,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className="only-dsfr" style={{ marginTop: 'auto' }}>
+    <div className="only-dsfr mt-auto">
       <footer className="fr-footer" role="contentinfo" id="footer">
         <div className="fr-container">
           <div className="fr-footer__body">

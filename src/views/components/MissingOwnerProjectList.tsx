@@ -24,13 +24,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     return (
       <td valign="top" className="missingOwnerProjectList-projet-column">
         <div {...dataId('missingOwnerProjectList-item-nomProjet')}>{project.nomProjet}</div>
-        <div
-          style={{
-            fontStyle: 'italic',
-            lineHeight: 'normal',
-            fontSize: 12,
-          }}
-        >
+        <div className="italic text-xs">
           <div>{project.departementProjet}</div>
           <div>{project.nomCandidat}</div>
           <div>
@@ -44,13 +38,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     return (
       <td valign="top" className="projectList-candidat-column">
         <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
-        <div
-          style={{
-            fontStyle: 'italic',
-            lineHeight: 'normal',
-            fontSize: 12,
-          }}
-        >
+        <div className="italic text-xs">
           <span {...dataId('projectList-item-nomRepresentantLegal')}>
             {project.nomRepresentantLegal}
           </span>{' '}
@@ -63,15 +51,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     return (
       <td valign="top" className="projectList-puissance-column">
         <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
-        <span
-          style={{
-            fontStyle: 'italic',
-            lineHeight: 'normal',
-            fontSize: 12,
-          }}
-        >
-          {project.appelOffre?.unitePuissance}
-        </span>
+        <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
       </td>
     )
   } as ColumnRenderer,
@@ -100,7 +80,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           type="text"
           name={`numeroCRE|${project.id}`}
           placeholder="N° CRE"
-          style={{ minWidth: 110 }}
+          className="min-w-[110px]"
         />
       </td>
     )
@@ -115,7 +95,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           step="any"
           name={`prix|${project.id}`}
           placeholder="0.00"
-          style={{ minWidth: 110 }}
+          className="min-w-[110px]"
         />{' '}
         €/MWh
       </td>
@@ -130,7 +110,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           <input
             type="file"
             name={`attestation-designation|${project.id}`}
-            style={{ minWidth: 110 }}
+            className="min-w-[110px]"
           />
         </span>
       </td>
@@ -171,7 +151,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
       <form
         action={routes.USER_CLAIM_PROJECTS}
         encType="multipart/form-data"
-        style={{ maxWidth: '100%' }}
+        className="max-w-full"
         method="post"
       >
         <table className="table missingOwnerProjectList">
@@ -228,24 +208,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           </tbody>
         </table>
 
-        <select
-          name="projectIds"
-          multiple
-          {...dataId('claimed-project-list')}
-          style={{ display: 'none' }}
-        ></select>
+        <select name="projectIds" multiple {...dataId('claimed-project-list')} className="hidden" />
 
-        <div
-          style={{
-            marginTop: 30,
-            marginBottom: 20,
-          }}
-        >
-          <label
-            className="notification"
-            style={{ verticalAlign: 'middle', display: 'inline-block' }}
-            htmlFor="swornStatement"
-          >
+        <div className="my-8">
+          <label className="notification align-middle inline-block" htmlFor="swornStatement">
             <input
               type="checkbox"
               name="swornStatement"

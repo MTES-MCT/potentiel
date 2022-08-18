@@ -4,13 +4,7 @@ export const DownloadIcon = ({ color = 'currentColor' }) => {
   return (
     <svg
       fill="none"
-      style={{
-        width: 30,
-        height: 30,
-        verticalAlign: 'middle',
-        marginBottom: 5,
-        marginRight: 5,
-      }}
+      className="w-8 h-8 align-middle mb-1.5 mr1.5"
       stroke={color}
       opacity={0.5}
       viewBox="0 0 24 24"

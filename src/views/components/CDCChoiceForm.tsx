@@ -27,7 +27,7 @@ export const CDCChoiceForm = ({
           page d'aide &nbsp;
           <img
             src="/images/icons/external/external-link-alt-solid.svg"
-            style={{ width: 12, height: 12 }}
+            className="w-3 h-3"
             alt="Ouvrir dans un nouvel onglet"
           ></img>
         </a>
@@ -47,7 +47,7 @@ export const CDCChoiceForm = ({
                 defaultChecked={!newRulesOptIn}
                 onChange={handleCDCChange}
               />
-              <label htmlFor="Anciennes règles" style={{ flex: 1 }}>
+              <label htmlFor="Anciennes règles" className="flex-1">
                 <strong>
                   Instruction selon les dispositions du cahier des charges en vigueur au moment de
                   la candidature &nbsp;
@@ -87,7 +87,7 @@ export const CDCChoiceForm = ({
             />
           )}
 
-          <label htmlFor="Nouvelles règles" style={{ flex: 1 }}>
+          <label htmlFor="Nouvelles règles" className="flex-1">
             <strong>
               Instruction selon le cahier des charges modifié rétroactivement et publié le
               30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre 2019&nbsp;
