@@ -16,6 +16,7 @@ describe('onProjectGFDueDateCancelled', () => {
       type: ProjectGFDueDateSet.type,
       eventPublishedAt: occurredAt.getTime(),
       id: eventId,
+      valueDate: occurredAt.getTime(),
     })
   })
 

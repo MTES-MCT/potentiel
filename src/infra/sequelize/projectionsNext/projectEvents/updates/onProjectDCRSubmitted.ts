@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectDCRSubmitted } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import models from '../../../models'
 import { logger } from '@core/utils'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectDCRSubmitted,
   async ({ payload: { projectId, fileId, dcrDate, numeroDossier }, occurredAt }, transaction) => {
     const { File } = models
@@ -27,7 +27,7 @@ export default ProjectEvent.projector.on(
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file, numeroDossier },
+        payload: { ...(file && { file }), numeroDossier },
       },
       { transaction }
     )

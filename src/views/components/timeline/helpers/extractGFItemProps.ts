@@ -23,7 +23,7 @@ export type GFItemProps = {
       url: string | undefined
       date: number
       expirationDate: number | undefined
-      uploadedByRole: 'porteur-projet' | 'dreal'
+      uploadedByRole?: 'porteur-projet' | 'dreal'
     }
   | {
       status: 'submitted-with-application'

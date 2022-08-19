@@ -1,7 +1,7 @@
 import { DemandeDelaiSignaled } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   DemandeDelaiSignaled,
   async ({ payload, id, occurredAt }, transaction) => {
     const { projectId, decidedOn, signaledBy, status, notes, attachments } = payload
@@ -20,8 +20,8 @@ export default ProjectEvent.projector.on(
             oldCompletionDueOn: payload.oldCompletionDueOn,
             newCompletionDueOn: payload.newCompletionDueOn,
           }),
-          notes,
-          attachment: attachments.length > 0 ? attachments[0] : undefined,
+          ...(notes && { notes }),
+          ...(attachments.length > 0 && { attachment: attachments[0] }),
         },
       },
       { transaction }

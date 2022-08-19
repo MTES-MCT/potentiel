@@ -16,6 +16,7 @@ describe('onProjectDCRDueDateCancelled', () => {
       type: ProjectDCRDueDateSet.type,
       eventPublishedAt: occurredAt.getTime(),
       id: eventId,
+      valueDate: occurredAt.getTime(),
     })
   })
 

@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectClaimed } from '@modules/projectClaim'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectClaimed,
   async (
     { payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt },

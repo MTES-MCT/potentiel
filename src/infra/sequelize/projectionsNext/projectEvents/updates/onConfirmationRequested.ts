@@ -1,9 +1,9 @@
 import { UniqueEntityID } from '@core/domain'
 import { ConfirmationRequested } from '@modules/modificationRequest'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ConfirmationRequested,
   async ({ payload: { modificationRequestId, responseFileId }, occurredAt }, transaction) => {
     const { ModificationRequest } = models
@@ -28,7 +28,7 @@ export default ProjectEvent.projector.on(
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
           id: new UniqueEntityID().toString(),
-          payload: { modificationRequestId, file },
+          payload: { modificationRequestId, ...(file && { file }) },
         },
         { transaction }
       )

@@ -1,18 +1,20 @@
-require('dotenv').config()
-require('pg').defaults.parseInt8 = true
-const { parse } = require('pg-connection-string')
+import dotenv from 'dotenv'
+import pg from 'pg'
+import { parse } from 'pg-connection-string'
+import { Options, Sequelize } from 'sequelize'
 
-const Sequelize = require('sequelize')
+dotenv.config()
+pg.defaults.parseInt8 = true
 
-const getOptionsFromUrl = (url) => {
+const getOptionsFromUrl = (url): Options => {
   const { host, port, database, user: username, password } = parse(url)
 
   return {
-    host,
+    host: host ?? undefined,
     username,
     password,
-    database,
-    port,
+    database: database ?? undefined,
+    port: port ? +port : undefined,
   }
 }
 
@@ -27,7 +29,7 @@ const {
   DATABASE_URL,
 } = process.env
 
-let databaseOptions = {
+let databaseOptions: Options = {
   dialect: 'postgres',
   ...(DATABASE_URL
     ? getOptionsFromUrl(DATABASE_URL)
@@ -36,7 +38,7 @@ let databaseOptions = {
         username: POSTGRESQL_ADDON_USER,
         password: POSTGRESQL_ADDON_PASSWORD,
         database: POSTGRESQL_ADDON_DB,
-        port: POSTGRESQL_ADDON_PORT,
+        port: POSTGRESQL_ADDON_PORT ? +POSTGRESQL_ADDON_PORT : undefined,
       }),
   pool: {
     max: Number(POSTGRESQL_POOL_MAX),
@@ -67,3 +69,5 @@ sequelizeInstance.authenticate().catch((error) => {
 
 module.exports = databaseOptions
 module.exports.sequelizeInstance = sequelizeInstance
+
+export { sequelizeInstance }

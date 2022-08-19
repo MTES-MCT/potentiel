@@ -1,11 +1,11 @@
-import { ProjectEvent } from '../projectionsNext'
+import { ProjectEventProjector } from '../projectionsNext'
 
 export default {
   up: async (queryInterface, Sequelize) => {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
-      await ProjectEvent.projector.rebuild(transaction)
+      await ProjectEventProjector.rebuild(transaction)
 
       await transaction.commit()
     } catch (error) {

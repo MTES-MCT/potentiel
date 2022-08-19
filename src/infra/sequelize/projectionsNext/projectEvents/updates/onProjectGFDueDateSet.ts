@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFDueDateSet } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectGFDueDateSet,
   async ({ payload: { projectId, garantiesFinancieresDueOn }, occurredAt }, transaction) => {
     await ProjectEvent.create(

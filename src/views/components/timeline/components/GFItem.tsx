@@ -374,7 +374,7 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
 
 type WithdrawDocumentProps = {
   projectId: string
-  uploadedByRole: 'porteur-projet' | 'dreal'
+  uploadedByRole?: 'porteur-projet' | 'dreal'
 }
 const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">

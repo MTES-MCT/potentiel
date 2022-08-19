@@ -1,8 +1,5 @@
 import { okAsync } from '@core/utils'
-import {
-  AccordDemandeDélaiAnnulé,
-  AccordDemandeDélaiAnnuléPayload,
-} from '@modules/demandeModification'
+import { AccordDemandeDélaiAnnulé } from '@modules/demandeModification'
 import { makeOnAccordDemandeDélaiAnnulé } from './onAccordDemandeDélaiAnnulé'
 
 describe(`Notifier lors de l'annulation de l'accord pour une demande de délai`, () => {
@@ -43,7 +40,8 @@ describe(`Notifier lors de l'annulation de l'accord pour une demande de délai`,
             demandeDélaiId: 'la-demande',
             projetId: 'le-projet',
             annuléPar: 'la-dreal',
-          } as AccordDemandeDélaiAnnuléPayload,
+            nouvelleDateAchèvement: new Date().toISOString(),
+          },
         })
       )
 

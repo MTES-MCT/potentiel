@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ModificationReceived } from '@modules/modificationRequest'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ModificationReceived,
   async ({ payload, occurredAt }, transaction) => {
     const { projectId, type, modificationRequestId } = payload
@@ -47,7 +47,7 @@ export default ProjectEvent.projector.on(
             ...common,
             payload: {
               modificationType: type,
-              fournisseurs: payload.fournisseurs,
+              fournisseurs: payload.fournisseurs || [],
               modificationRequestId,
             },
           },

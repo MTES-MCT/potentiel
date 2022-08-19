@@ -1,8 +1,8 @@
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import { ProjectGFWithdrawn } from '@modules/project'
 import { UniqueEntityID } from '@core/domain'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectGFWithdrawn,
   async ({ payload: { projectId }, occurredAt }, transaction) => {
     await ProjectEvent.create(

@@ -30,18 +30,17 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectImported',
           valueDate: eventTimestamp,
           eventPublishedAt: eventTimestamp,
+          payload: {
+            notifiedOn: 1,
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
 
-        expect(res._unsafeUnwrap()).toMatchObject({
-          events: [
-            {
-              type: 'ProjectImported',
-              date: eventTimestamp,
-              variant: role,
-            },
-          ],
+        expect(res._unsafeUnwrap().events[0]).toEqual({
+          type: 'ProjectImported',
+          date: eventTimestamp,
+          variant: role,
         })
       })
     })
@@ -49,7 +48,7 @@ describe('frise.getProjectEvents', () => {
 
   for (const role of USER_ROLES.filter((role) => role !== 'dgec-validateur' && role !== 'admin')) {
     describe(`when the user is ${role}`, () => {
-      it('should NOT return the ProjectImported event', async () => {
+      it('should NOT return the ProjectImported or ProjectNotified event', async () => {
         const fakeUser = { role } as User
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -57,6 +56,9 @@ describe('frise.getProjectEvents', () => {
           type: 'ProjectImported',
           valueDate: eventTimestamp,
           eventPublishedAt: eventTimestamp,
+          payload: {
+            notifiedOn: 0,
+          },
         })
 
         const res = await getProjectEvents({ projectId, user: fakeUser })
@@ -314,6 +316,7 @@ describe('frise.getProjectEvents', () => {
             title: 'title',
             description: 'description',
             files: [{ id: 'fileId', name: 'fileName' }],
+            attachedBy: { id: 'user' },
           },
         })
 

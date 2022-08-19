@@ -1,15 +1,20 @@
 import { Payload } from 'aws-sdk/clients/iotdata'
 import { FileAttachedToProject } from '../../../../../modules/file'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   FileAttachedToProject,
   async ({ payload: { projectId, date, attachedBy, ...payload }, occurredAt, id }, transaction) => {
     const { User, UserDreal } = models
     const user = await User.findOne({ where: { id: attachedBy }, transaction })
 
-    const attachedByUser: any = { id: attachedBy }
+    const attachedByUser: {
+      id: string
+      name?: string
+      administration?: string
+    } = { id: attachedBy }
+
     if (user) {
       attachedByUser.name = user.fullName
 

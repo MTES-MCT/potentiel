@@ -1,9 +1,9 @@
 import { DateEchéanceGFAjoutée } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import { Op } from 'sequelize'
 import { logger } from '@core/utils'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   DateEchéanceGFAjoutée,
   async ({ payload: { expirationDate, projectId } }, transaction) => {
     const events = await ProjectEvent.findAll({
@@ -20,12 +20,22 @@ export default ProjectEvent.projector.on(
       )
       return
     }
-    const file = instance.get().payload.file
-
-    Object.assign(instance, { payload: { file, expirationDate: expirationDate.getTime() } })
 
     try {
-      await instance.save({ transaction })
+      await ProjectEvent.update(
+        {
+          payload: {
+            ...instance.payload,
+            expirationDate: expirationDate.getTime(),
+          },
+        },
+        {
+          where: {
+            id: instance.id,
+          },
+          transaction,
+        }
+      )
     } catch (e) {
       logger.error(e)
       logger.info('Error: onProjectGFInvalidated projection failed to update project step')

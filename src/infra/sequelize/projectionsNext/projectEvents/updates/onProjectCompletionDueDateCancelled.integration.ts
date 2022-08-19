@@ -16,6 +16,7 @@ describe('onProjectCompletionDueDateCancelled', () => {
       type: ProjectCompletionDueDateSet.type,
       eventPublishedAt: occurredAt.getTime(),
       id: eventId,
+      valueDate: occurredAt.getTime(),
     })
   })
 

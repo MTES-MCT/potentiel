@@ -1,8 +1,8 @@
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import { UniqueEntityID } from '@core/domain'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   LegacyModificationImported,
   async ({ payload: { projectId, modifications }, occurredAt }, transaction) => {
     await ProjectEvent.destroy({
@@ -25,7 +25,11 @@ export default ProjectEvent.projector.on(
           await ProjectEvent.create(
             {
               ...common,
-              payload: { modificationType: 'abandon', status, filename },
+              payload: {
+                modificationType: 'abandon',
+                status,
+                ...(filename && { filename }),
+              },
             },
             { transaction }
           )
@@ -37,7 +41,7 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'recours',
                 status,
-                filename,
+                ...(filename && { filename }),
                 motifElimination: modification.motifElimination,
               },
             },
@@ -54,7 +58,7 @@ export default ProjectEvent.projector.on(
                   status,
                   ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
                   nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
-                  filename,
+                  ...(filename && { filename }),
                 },
               },
               { transaction }
@@ -66,7 +70,7 @@ export default ProjectEvent.projector.on(
                 payload: {
                   modificationType: 'delai',
                   status,
-                  filename,
+                  ...(filename && { filename }),
                 },
               },
               { transaction }
@@ -80,7 +84,7 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'actionnaire',
                 actionnairePrecedent: modification.actionnairePrecedent,
-                filename,
+                ...(filename && { filename }),
                 status,
               },
             },
@@ -94,7 +98,7 @@ export default ProjectEvent.projector.on(
               payload: {
                 modificationType: 'producteur',
                 producteurPrecedent: modification.producteurPrecedent,
-                filename,
+                ...(filename && { filename }),
                 status,
               },
             },
@@ -109,7 +113,7 @@ export default ProjectEvent.projector.on(
                 modificationType: 'autre',
                 column: modification.column,
                 value: modification.value,
-                filename,
+                ...(filename && { filename }),
                 status,
               },
             },

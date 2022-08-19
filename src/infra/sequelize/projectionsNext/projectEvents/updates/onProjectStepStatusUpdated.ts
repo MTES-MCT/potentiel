@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectStepStatusUpdated } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import { models } from '../../../models'
 import { logger } from '@core/utils'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectStepStatusUpdated,
   async ({ payload: { newStatus, projectStepId }, occurredAt }, transaction) => {
     const { ProjectStep } = models

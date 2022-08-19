@@ -6,6 +6,8 @@ export interface EventHandler<Event> {
 }
 
 export interface Projector {
+  name: string
+
   initEventStream: (eventStream: HasSubscribe) => void
 
   on: <Event extends DomainEvent>(
@@ -18,3 +20,9 @@ export interface Projector {
 export interface HasSubscribe {
   subscribe: (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void
 }
+
+export const isProjector = (instance: any): instance is Projector =>
+  instance.hasOwnProperty('name') &&
+  instance.hasOwnProperty('iniEventStream') &&
+  instance.hasOwnProperty('on') &&
+  instance.hasOwnProperty('rebuild')

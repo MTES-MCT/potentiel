@@ -1,42 +1,56 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { Payload } from './Payload'
 import { sequelizeInstance } from '../../../../sequelize.config'
-import { withSequelizeProjector } from '../../helpers'
+import { makeSequelizeProjector } from '../../helpers'
 
-export const ProjectEvent = withSequelizeProjector(() => {
-  const model = sequelizeInstance.define(
-    'project_events',
-    {
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-      },
-      projectId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      payload: {
-        type: DataTypes.JSON,
-      },
-      valueDate: {
-        type: DataTypes.BIGINT,
-        allowNull: true,
-      },
-      eventPublishedAt: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-      },
+class ProjectEvent extends Model<
+  InferAttributes<ProjectEvent>,
+  InferCreationAttributes<ProjectEvent>
+> {
+  id: string
+  projectId: string
+  type: string
+  payload: Payload | null
+  valueDate: number
+  eventPublishedAt: number
+}
+
+const nomProjection = 'project_events'
+
+ProjectEvent.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
     },
-    {
-      timestamps: true,
-      freezeTableName: true,
-    }
-  )
+    projectId: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    payload: {
+      type: DataTypes.JSON,
+    },
+    valueDate: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+    },
+    eventPublishedAt: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: sequelizeInstance,
+    tableName: nomProjection,
+    timestamps: true,
+    freezeTableName: true,
+  }
+)
 
-  model.associate = (models) => {}
+const ProjectEventProjector = makeSequelizeProjector(ProjectEvent, nomProjection)
 
-  return model
-})
+export { ProjectEvent, ProjectEventProjector }

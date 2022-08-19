@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFSubmitted } from '@modules/project'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import models from '../../../models'
 import { logger } from '@core/utils'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ProjectGFSubmitted,
   async ({ payload: { projectId, fileId, gfDate, expirationDate }, occurredAt }, transaction) => {
     const { File } = models
@@ -32,7 +32,10 @@ export default ProjectEvent.projector.on(
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
-        payload: { file, ...(expirationDate && { expirationDate: expirationDate.getTime() }) },
+        payload: {
+          ...(file && { file }),
+          ...(expirationDate && { expirationDate: expirationDate.getTime() }),
+        },
       },
       { transaction }
     )

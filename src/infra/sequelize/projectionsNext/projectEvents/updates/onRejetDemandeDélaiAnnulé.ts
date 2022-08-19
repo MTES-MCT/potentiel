@@ -1,9 +1,9 @@
 import { logger } from '@core/utils'
 import { RejetDemandeDélaiAnnulé } from '@modules/demandeModification'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   RejetDemandeDélaiAnnulé,
   async ({ payload }, transaction) => {
     const { demandeDélaiId } = payload

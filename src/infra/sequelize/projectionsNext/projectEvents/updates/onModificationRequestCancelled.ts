@@ -1,11 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
 import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
-export default ProjectEvent.projector.on(
+export default ProjectEventProjector.on(
   ModificationRequestCancelled,
   async (evenement, transaction) => {
     const {

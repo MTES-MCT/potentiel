@@ -1,17 +1,13 @@
-import { Model, ModelCtor, QueryTypes, Transaction } from 'sequelize'
+import { Model, ModelStatic, QueryTypes, Transaction } from 'sequelize'
 import { fromPersistance } from '.'
 import { DomainEvent } from '@core/domain'
 import { sequelizeInstance } from '../../../sequelize.config'
 import { EventHandler, Projector } from './Projection'
 import * as readline from 'readline'
 
-export type SequelizeModel = ModelCtor<Model<any, any>> & {
-  associate?: (models: Record<string, SequelizeModel>) => void
-  projector: Projector
-}
-
-export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
-  model: ProjectionModel
+export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
+  model: TModel,
+  modelName: string
 ): Projector => {
   const handlersByType: Record<string, EventHandler<any>> = {}
 
@@ -26,11 +22,12 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
   }
 
   return {
+    name: modelName,
     on: (eventClass, handler) => {
       const type = eventClass.type
 
       if (handlersByType[type]) {
-        throw new Error(`The event ${type} already has an handler for the projection ${model.name}`)
+        throw new Error(`The event ${type} already has an handler for the projection ${modelName}`)
       }
 
       handlersByType[type] = handler
@@ -39,7 +36,7 @@ export const makeSequelizeProjector = <ProjectionModel extends SequelizeModel>(
     initEventStream: (eventStream) => {
       eventStream.subscribe(async (event) => {
         await handleEvent(event)
-      }, model.name)
+      }, modelName)
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction })
