@@ -1,6 +1,5 @@
 import { getProjectAppelOffre } from '@config/queries.config'
-import { or, ResultAsync, wrapInfra } from '@core/utils'
-import project from '@entities/project'
+import { ResultAsync, wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from 'src/modules/shared'
