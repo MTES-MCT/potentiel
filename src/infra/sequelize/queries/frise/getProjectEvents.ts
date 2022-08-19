@@ -51,7 +51,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     variant: user.role,
                   })
                 }
-                if (userIsNot('ademe')(user)) {
+                if (userIsNot('ademe')(user) && payload.notifiedOn > 0) {
                   events.push({
                     type: 'ProjectNotified',
                     date: payload.notifiedOn,
