@@ -44,7 +44,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
             switch (type) {
               case 'ProjectImported':
-                if (userIs(['admin', 'dgec'])(user)) {
+                if (userIs(['admin', 'dgec-validateur'])(user)) {
                   events.push({
                     type,
                     date: valueDate,
@@ -76,7 +76,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   events.push({
                     type,
                     potentielIdentifier,
-                    email: userIs(['admin', 'dgec'])(user) ? email : undefined,
+                    email: userIs(['admin', 'dgec-validateur'])(user) ? email : undefined,
                     nomProjet,
                     date: valueDate,
                     variant: user.role,
@@ -92,7 +92,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   events.push({
                     type,
                     potentielIdentifier,
-                    email: userIs(['admin', 'dgec'])(user) ? email : undefined,
+                    email: userIs(['admin', 'dgec-validateur'])(user) ? email : undefined,
                     nomProjet,
                     date: valueDate,
                     variant: user.role,
@@ -101,7 +101,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ProjectGFSubmitted':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { file } = payload
                   if (type === 'ProjectGFSubmitted') {
                     events.push({
@@ -115,7 +115,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ProjectDCRSubmitted':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { file } = payload
                   if (type === 'ProjectDCRSubmitted') {
                     events.push({
@@ -129,7 +129,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ProjectPTFSubmitted':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { file } = payload
                   if (type === 'ProjectPTFSubmitted') {
                     events.push({
@@ -142,7 +142,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ProjectGFUploaded':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { file, uploadedByRole } = payload
                   if (type === 'ProjectGFUploaded') {
                     events.push({
@@ -164,7 +164,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               case 'ProjectDCRRemoved':
               case 'ProjectPTFRemoved':
               case 'ProjectGFWithdrawn':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   events.push({
                     type,
                     date: valueDate,
@@ -399,7 +399,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'FileAttachedToProject':
-                if (userIs(['porteur-projet', 'admin', 'dgec', 'dreal'])(user)) {
+                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { title, description, files, attachedBy, attachmentId } = payload
                   events.push({
                     type: 'FileAttachedToProject',
@@ -449,7 +449,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           newCompletionDueOn,
                         }
                       : { status }),
-                    ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
+                    ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
                     attachment,
                   })
                 }
@@ -465,7 +465,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     date: valueDate,
                     signaledBy,
                     status,
-                    ...(userIs(['admin', 'dgec', 'dreal'])(user) && { notes }),
+                    ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
                     attachment,
                   })
                 }
@@ -486,7 +486,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
                         }
                       : { statut }),
-                    ...((userIs(['porteur-projet', 'admin', 'dgec'])(user) ||
+                    ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
                       (userIs('dreal') && authority === 'dreal')) && {
                       demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                     }),
