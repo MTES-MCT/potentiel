@@ -2,6 +2,7 @@ import { Result, Ok, ErrorResult } from '../types'
 import { Runtype } from '../types/schemaTypes'
 import { Optional } from 'utility-types'
 import pick from 'lodash/pick'
+import omitBy from 'lodash/omitBy'
 
 interface HasId {
   id: string
@@ -20,11 +21,6 @@ const buildMakeEntity = <T extends HasId>(
   return (obj: Optional<T, 'id'>): Result<T, Error> => {
     // Extract fields that are not in the type
     const onlyTypeFields = extractTypeFields(obj)
-    Object.keys(onlyTypeFields).forEach((key) => {
-      if (onlyTypeFields[key] === null || onlyTypeFields[key] === undefined) {
-        delete onlyTypeFields[key]
-      }
-    })
 
     // Add an id if there is none
     if (!onlyTypeFields.id) {
