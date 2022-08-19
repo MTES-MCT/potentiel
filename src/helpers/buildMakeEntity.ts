@@ -20,6 +20,11 @@ const buildMakeEntity = <T extends HasId>(
   return (obj: Optional<T, 'id'>): Result<T, Error> => {
     // Extract fields that are not in the type
     const onlyTypeFields = extractTypeFields(obj)
+    Object.keys(onlyTypeFields).forEach((key) => {
+      if (onlyTypeFields[key] === null || onlyTypeFields[key] === undefined) {
+        delete onlyTypeFields[key]
+      }
+    })
 
     // Add an id if there is none
     if (!onlyTypeFields.id) {
