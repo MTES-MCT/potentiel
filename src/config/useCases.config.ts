@@ -79,6 +79,7 @@ import {
   projectRepo,
   userRepo,
 } from './repos.config'
+import { makeDemanderAbandon } from '../modules/demandeModification/demandeAbandon/demander/demanderAbandon'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -350,4 +351,13 @@ export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruc
 export const annulerRejetRecours = makeAnnulerRejetRecours({
   modificationRequestRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const demanderAbandon = makeDemanderAbandon({
+  fileRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  getProjectAppelOffreId,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })

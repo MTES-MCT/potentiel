@@ -227,6 +227,8 @@ class routes {
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
 
+  static DEMANDE_ABANDON_ACTION = '/soumettre-demande-abandon'
+
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'
     if (fileId && filename) {
