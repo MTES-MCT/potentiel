@@ -2,7 +2,6 @@ import { Result, Ok, ErrorResult } from '../types'
 import { Runtype } from '../types/schemaTypes'
 import { Optional } from 'utility-types'
 import pick from 'lodash/pick'
-import omitBy from 'lodash/omitBy'
 
 interface HasId {
   id: string
