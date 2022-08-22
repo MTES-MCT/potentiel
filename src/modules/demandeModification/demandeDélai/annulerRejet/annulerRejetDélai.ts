@@ -20,6 +20,9 @@ type MakeAnnulerRejetDélai = (dépendances: {
 export const makeAnnulerRejetDélai: MakeAnnulerRejetDélai =
   ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
   ({ user, demandeDélaiId }) => {
+    if (!['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
+      return errAsync(new UnauthorizedError())
+    }
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
       const { statut, projetId } = demandeDélai
       if (!projetId) {
