@@ -16,6 +16,27 @@ export const onDélaiDemandé =
     try {
       const ModificationRequestModel = models.ModificationRequest
 
+      const demandeDélai = await ModificationRequestModel.findOne({
+        where: { id: demandeDélaiId, type: 'delai' },
+      })
+
+      if (demandeDélai) {
+        await ModificationRequestModel.update(
+          {
+            payload: {
+              status: 'envoyée',
+              authority: autorité,
+              dateAchèvementDemandée,
+              userId: porteurId,
+            },
+          },
+          {
+            where: { id: demandeDélaiId },
+          }
+        )
+        return
+      }
+
       await ModificationRequestModel.create({
         id: demandeDélaiId,
         projectId: projetId,

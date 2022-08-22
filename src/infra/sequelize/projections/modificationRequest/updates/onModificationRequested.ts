@@ -15,6 +15,11 @@ export const onModificationRequested =
       requestedBy,
       authority,
     } = payload
+
+    if (type === 'delai') {
+      return
+    }
+
     try {
       await ModificationRequestModel.create({
         id: modificationRequestId,
@@ -29,7 +34,6 @@ export const onModificationRequested =
         puissance: type === 'puissance' ? payload.puissance : undefined,
         puissanceAuMomentDuDepot:
           type === 'puissance' ? payload.puissanceAuMomentDuDepot : undefined,
-        delayInMonths: type === 'delai' ? payload.delayInMonths : undefined,
         actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
         authority,
       })
