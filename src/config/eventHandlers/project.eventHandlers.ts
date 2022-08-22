@@ -1,12 +1,11 @@
 import { DomainEvent } from '@core/domain'
-import { AccordDemandeDélaiAnnulé, DélaiAccordé } from '@modules/demandeModification'
+import { DélaiAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
   handleLegacyModificationImported,
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
-  makeOnAccordDemandeDélaiAnnulé,
   makeOnDélaiAccordé,
   PeriodeNotified,
   ProjectCertificateObsolete,
@@ -72,23 +71,6 @@ const onDélaiAccordé = async (event: DomainEvent) => {
   )
 }
 subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé')
-
-const onAccordDemandeDélaiAnnuléHandler = makeOnAccordDemandeDélaiAnnulé({
-  projectRepo,
-  publishToEventStore: eventStore.publish,
-})
-
-const onAccordDemandeDélaiAnnulé = async (event: DomainEvent) => {
-  if (!(event instanceof AccordDemandeDélaiAnnulé)) {
-    return Promise.resolve()
-  }
-
-  return await onAccordDemandeDélaiAnnuléHandler(event).match(
-    () => Promise.resolve(),
-    (e) => Promise.reject(e)
-  )
-}
-subscribeToRedis(onAccordDemandeDélaiAnnulé, 'Project.onAccordDemandeDélaiAnnulé')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

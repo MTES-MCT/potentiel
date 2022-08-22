@@ -1,3 +1,4 @@
+import { Button } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -32,17 +33,32 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-      {/* {type === 'delai' && ['acceptée', 'rejetée'].includes(status) && (
-        <a
-          className="ml-2"
-          data-confirm={`Cette action peut entraîner des modifications sur le projet. Êtes-vous sûr vouloir annuler la réponse à cette demande ?`}
-          href={ROUTES.ADMIN_ANNULER_REPONSE_DEMANDE_DELAI({
+      {type === 'delai' && ['rejetée'].includes(status) && (
+        <form
+          method="post"
+          action={ROUTES.ADMIN_ANNULER_DELAI_REJETE({
             modificationRequestId: modificationRequest.id,
           })}
+          className="m-0 mt-4"
         >
-          Annuler
-        </a>
-      )} */}
+          <Button
+            type="submit"
+            value={modificationRequest.id}
+            name="modificationRequestId"
+            onClick={(e) => {
+              if (
+                !confirm(
+                  'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
+                )
+              ) {
+                e.preventDefault()
+              }
+            }}
+          >
+            Annuler le rejet de la demande
+          </Button>
+        </form>
+      )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && status !== 'demande confirmée' && (

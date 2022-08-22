@@ -1,4 +1,3 @@
-export * from './onAccordDemandeDélaiAnnulé'
 export * from './onDélaiAccordé'
 export * from './onDélaiAnnulé'
 export * from './onDélaiDemandé'
