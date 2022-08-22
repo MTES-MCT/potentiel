@@ -19,7 +19,8 @@ interface DemandeStatusProps {
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
   const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status, type } =
     modificationRequest
-
+  const afficherBoutonAnnulerRejet =
+    ['admin', 'dgec-validateur', 'dreal'].includes(role) && type === 'delai' && status === 'rejetée'
   return (
     <div
       className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
@@ -33,7 +34,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
       {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-      {type === 'delai' && ['rejetée'].includes(status) && (
+      {afficherBoutonAnnulerRejet && (
         <form
           method="post"
           action={ROUTES.ADMIN_ANNULER_DELAI_REJETE({
