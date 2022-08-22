@@ -12,7 +12,7 @@ import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
 import { makeAnnulerRejetDélai } from './annulerRejetDélai'
 
-describe(`Commande annulerRéponseDemandeDélai`, () => {
+describe(`Commande annulerRejetDélai`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
