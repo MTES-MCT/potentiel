@@ -1,20 +1,19 @@
-import React from 'react'
+import React, { ComponentProps, FC } from 'react'
 import {
   DocumentDownloadIcon,
   ExternalLinkIcon,
   MailIcon,
-  PhoneIcon,
   DocumentReportIcon,
 } from '@heroicons/react/outline'
-import { isLinkMailTo, isLinkPhoneCall } from './helpers'
+import { isLinkMailTo } from './helpers'
 
-interface LinkButtonProps extends React.ComponentProps<'a'> {
+type LinkButtonProps = ComponentProps<'a'> & {
   primary?: boolean
   disabled?: boolean
   excel?: boolean
 }
 
-export const LinkButton: React.FunctionComponent<LinkButtonProps> = ({
+export const LinkButton: FC<LinkButtonProps> = ({
   disabled,
   primary,
   children,
@@ -44,7 +43,6 @@ export const LinkButton: React.FunctionComponent<LinkButtonProps> = ({
         (props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />)}
       {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
       {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
-      {isLinkPhoneCall(props.href) && <PhoneIcon className="w-5 h-5 ml-1" />}
     </a>
   )
 }

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { ComponentProps, FC } from 'react'
 
-interface ButtonProps extends React.ComponentProps<'button'> {
+type ButtonProps = ComponentProps<'button'> & {
   type?: 'button' | 'submit' | 'reset'
   primary?: true
   disabled?: boolean
@@ -8,7 +8,7 @@ interface ButtonProps extends React.ComponentProps<'button'> {
   value?: string
 }
 
-export const Button: React.FunctionComponent<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   children,
   disabled = false,
   primary,
