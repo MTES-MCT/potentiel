@@ -1,6 +1,6 @@
 import { okAsync } from '@core/utils'
-import { RejetDemandeDélaiAnnulé } from '@modules/demandeModification'
-import { makeOnRejetDemandeDélaiAnnulé } from './onRejetDemandeDélaiAnnulé'
+import { RejetDélaiAnnulé } from '@modules/demandeModification'
+import { makeOnRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
@@ -29,13 +29,13 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
           type: 'delai',
         })
 
-      const onRejetDemandeDélaiAnnulé = makeOnRejetDemandeDélaiAnnulé({
+      const onRejetDemandeDélaiAnnulé = makeOnRejetDélaiAnnulé({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
       })
 
       await onRejetDemandeDélaiAnnulé(
-        new RejetDemandeDélaiAnnulé({
+        new RejetDélaiAnnulé({
           payload: {
             demandeDélaiId: 'la-demande',
             projetId: 'le-projet',

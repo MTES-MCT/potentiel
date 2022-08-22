@@ -3,7 +3,7 @@ import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules
 import {
   makeAccorderDemandeDélai,
   makeAnnulerDemandeDélai,
-  makeAnnulerRéponseDemandeDélai as makeAnnulerRejetDemandeDélai,
+  makeAnnulerRejetDélai as makeAnnulerRejetDélai,
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
@@ -334,7 +334,7 @@ export const accorderDemandeDélai = makeAccorderDemandeDélai({
   projectRepo,
 })
 
-export const annulerRejetDemandeDélai = makeAnnulerRejetDemandeDélai({
+export const annulerRejetDélai = makeAnnulerRejetDélai({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),

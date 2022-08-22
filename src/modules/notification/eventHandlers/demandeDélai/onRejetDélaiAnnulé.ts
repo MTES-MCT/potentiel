@@ -1,19 +1,19 @@
 import { logger } from '@core/utils'
-import { RejetDemandeDélaiAnnulé } from '@modules/demandeModification'
+import { RejetDélaiAnnulé } from '@modules/demandeModification'
 import routes from '@routes'
 import { NotificationService } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
-type OnRejetDemandeDélaiAnnulé = (evenement: RejetDemandeDélaiAnnulé) => Promise<void>
+type OnRejetDélaiAnnulé = (evenement: RejetDélaiAnnulé) => Promise<void>
 
-type MakeOnRejetDemandeDélaiAnnulé = (dépendances: {
+type MakeOnRejetDélaiAnnulé = (dépendances: {
   sendNotification: NotificationService['sendNotification']
   getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-}) => OnRejetDemandeDélaiAnnulé
+}) => OnRejetDélaiAnnulé
 
-export const makeOnRejetDemandeDélaiAnnulé: MakeOnRejetDemandeDélaiAnnulé =
+export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
   ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
-  async ({ payload: { demandeDélaiId } }: RejetDemandeDélaiAnnulé) => {
+  async ({ payload: { demandeDélaiId } }: RejetDélaiAnnulé) => {
     await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {

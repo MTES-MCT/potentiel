@@ -1,4 +1,4 @@
-import { annulerRejetDemandeDélai, ensureRole } from '@config'
+import { annulerRejetDélai, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { getModificationRequestAuthority } from '@infra/sequelize/queries'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
@@ -27,7 +27,7 @@ v1Router.post(
       }
     }
 
-    return annulerRejetDemandeDélai({
+    return annulerRejetDélai({
       user,
       demandeDélaiId: modificationRequestId,
     }).match(

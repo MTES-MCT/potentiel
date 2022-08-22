@@ -6,7 +6,7 @@ import {
   DélaiDemandé,
   DélaiEnInstruction,
   DélaiRejeté,
-  RejetDemandeDélaiAnnulé,
+  RejetDélaiAnnulé,
 } from '@modules/demandeModification'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
@@ -34,7 +34,7 @@ import {
   makeOnDélaiAnnulé,
   makeOnDélaiDemandé,
   makeOnDélaiRejeté,
-  makeOnRejetDemandeDélaiAnnulé,
+  makeOnRejetDélaiAnnulé,
   makeOnDélaiEnInstruction,
 } from '@modules/notification'
 import {
@@ -169,7 +169,7 @@ const onDélaiRejetéHandler = makeOnDélaiRejeté({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
-const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDemandeDélaiAnnulé({
+const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDélaiAnnulé({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
@@ -195,7 +195,7 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiRejeté) {
     return await onDélaiRejetéHandler(event)
   }
-  if (event instanceof RejetDemandeDélaiAnnulé) {
+  if (event instanceof RejetDélaiAnnulé) {
     return await OnRejetDemandeDélaiAnnuléHandler(event)
   }
   if (event instanceof DélaiAnnulé) {

@@ -4,20 +4,20 @@ import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { DemandeDélai } from '../DemandeDélai'
-import { RejetDemandeDélaiAnnulé } from '../events'
+import { RejetDélaiAnnulé } from '../events'
 
-type AnnulerRéponseDemandeDélai = (commande: {
+type AnnulerRejetDélai = (commande: {
   user: User
   demandeDélaiId: string
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
 
-type MakeAnnulerRéponseDemandeDélai = (dépendances: {
+type MakeAnnulerRejetDélai = (dépendances: {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   demandeDélaiRepo: TransactionalRepository<DemandeDélai>
   publishToEventStore: EventStore['publish']
-}) => AnnulerRéponseDemandeDélai
+}) => AnnulerRejetDélai
 
-export const makeAnnulerRéponseDemandeDélai: MakeAnnulerRéponseDemandeDélai =
+export const makeAnnulerRejetDélai: MakeAnnulerRejetDélai =
   ({ shouldUserAccessProject, demandeDélaiRepo, publishToEventStore }) =>
   ({ user, demandeDélaiId }) => {
     return demandeDélaiRepo.transaction(new UniqueEntityID(demandeDélaiId), (demandeDélai) => {
@@ -33,7 +33,7 @@ export const makeAnnulerRéponseDemandeDélai: MakeAnnulerRéponseDemandeDélai 
           }
           if (statut === 'refusée') {
             return publishToEventStore(
-              new RejetDemandeDélaiAnnulé({
+              new RejetDélaiAnnulé({
                 payload: { demandeDélaiId, projetId, annuléPar: user.id },
               })
             )

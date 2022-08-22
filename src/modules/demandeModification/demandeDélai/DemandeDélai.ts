@@ -6,7 +6,7 @@ import {
   DélaiDemandé,
   DélaiEnInstruction,
   DélaiRejeté,
-  RejetDemandeDélaiAnnulé,
+  RejetDélaiAnnulé,
 } from './events'
 
 import {
@@ -79,10 +79,10 @@ export const makeDemandeDélai = (
         return { ...agregat, statut: 'refusée' }
       case DélaiEnInstruction.type:
       case ModificationRequestInstructionStarted.type:
-      case RejetDemandeDélaiAnnulé.type:
+      case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'en-instruction' }
 
-      case RejetDemandeDélaiAnnulé.type:
+      case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
       default:
         return agregat

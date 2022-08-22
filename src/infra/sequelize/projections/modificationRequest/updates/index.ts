@@ -6,7 +6,7 @@ import {
   DélaiDemandé,
   DélaiEnInstruction,
   DélaiRejeté,
-  RejetDemandeDélaiAnnulé,
+  RejetDélaiAnnulé,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -33,7 +33,7 @@ import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
-import { onRejetDemandeDélaiAnnulé } from './onRejetDemandeDélaiAnnulé'
+import { onRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -57,7 +57,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé(models))
   eventBus.subscribe(DélaiRejeté.type, onDélaiRejeté(models))
   eventBus.subscribe(DélaiAccordé.type, onDélaiAccordé(models))
-  eventBus.subscribe(RejetDemandeDélaiAnnulé.type, onRejetDemandeDélaiAnnulé(models))
+  eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé(models))
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
   logger.info('Initialized ModificationRequest projections')
 }
