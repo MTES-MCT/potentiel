@@ -1,2 +1,2 @@
-export * from './annulerRejet';
-export * from './events';
+export * from './annulerRejet'
+export * from './events'

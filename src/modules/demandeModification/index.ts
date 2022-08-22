@@ -1,2 +1,2 @@
-export * from './demandeDélai';
-export * from './demandeRecours';
+export * from './demandeDélai'
+export * from './demandeRecours'
