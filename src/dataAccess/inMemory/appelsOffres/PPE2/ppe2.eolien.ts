@@ -54,7 +54,7 @@ const eolienPPE2: AppelOffre = {
       certificateTemplate: 'ppe2.v2',
       paragrapheAchevement: '6.3',
       noteThreshold: 0.692142857142864,
-      reference: '2021/S 146-386083',
+      reference: '2022/S 035-088651',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
   ],
