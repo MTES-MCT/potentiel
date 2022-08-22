@@ -109,42 +109,42 @@ describe(`Commande annulerRejetRecours`, () => {
     })
   })
 
-  // describe(`Annuler le rejet d'une demande de délai`, () => {
-  //   describe(`Annulation de la demande possible`, () => {
-  //     describe(`Etant donné un utilisateur admin ayant les droits sur le projet
-  //     et une demande de délai en statut "refusée"`, () => {
-  //       it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
-  //       alors un événement RejetDélaiAnnulé devrait être émis`, async () => {
-  //         const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
-  //         const shouldUserAccessProject = jest.fn(async () => true)
+  describe(`Annuler le rejet d'une demande de recours`, () => {
+    describe(`Annulation de la demande possible`, () => {
+      describe(`Etant donné un utilisateur admin, dreal ou dgec-validateur ayant les droits sur le projet
+      et une demande de délai en statut "refusée"`, () => {
+        it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
+        alors un événement RejetRecoursAnnulé devrait être émis`, async () => {
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
+          const shouldUserAccessProject = jest.fn(async () => true)
+          const projectId = 'id-du-projet'
+          const demandeRecoursId = 'id-de-la-demande'
+          const modificationRequestRepo = fakeTransactionalRepo(
+            makeFakeDemandeRecours({ status: 'rejetée', projectId }) as ModificationRequest
+          )
+          const annulerRejetRecours = makeAnnulerRejetRecours({
+            shouldUserAccessProject,
+            modificationRequestRepo,
+            publishToEventStore,
+          })
 
-  //         const demandeDélaiRepo = fakeTransactionalRepo(
-  //           makeFakeDemandeDélai({ projetId: 'id-du-projet', statut: 'refusée', id: 'id-demande' })
-  //         )
+          await annulerRejetRecours({
+            user,
+            demandeRecoursId,
+          })
 
-  //         const annulerRejetDélai = makeAnnulerRejetDélai({
-  //           shouldUserAccessProject,
-  //           demandeDélaiRepo,
-  //           publishToEventStore,
-  //         })
-
-  //         await annulerRejetDélai({
-  //           user,
-  //           demandeDélaiId: 'id-demande',
-  //         })
-
-  //         expect(publishToEventStore).toHaveBeenCalledWith(
-  //           expect.objectContaining({
-  //             type: 'RejetDélaiAnnulé',
-  //             payload: expect.objectContaining({
-  //               demandeDélaiId: 'id-demande',
-  //               annuléPar: 'user-id',
-  //               projetId: 'id-du-projet',
-  //             }),
-  //           })
-  //         )
-  //       })
-  //     })
-  //   })
-  // })
+          expect(publishToEventStore).toHaveBeenCalledWith(
+            expect.objectContaining({
+              type: 'RejetRecoursAnnulé',
+              payload: expect.objectContaining({
+                demandeRecoursId,
+                annuléPar: 'user-id',
+                projetId: projectId,
+              }),
+            })
+          )
+        })
+      })
+    })
+  })
 })

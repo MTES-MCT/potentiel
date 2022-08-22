@@ -4,7 +4,7 @@ import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { ModificationRequest } from '@modules/modificationRequest'
-import { RejetDélaiAnnulé } from '../events'
+import { RejetRecoursAnnulé } from '../events'
 
 type AnnulerRejetRecours = (commande: {
   user: User
@@ -40,7 +40,7 @@ export const makeAnnulerRejetRecours: MakeAnnulerRejetRecours =
           if (status === 'rejetée') {
             return publishToEventStore(
               new RejetRecoursAnnulé({
-                payload: { demandeRecoursId, projetId: projectId, annuléPar: user.id },
+                payload: { demandeRecoursId, projetId: projectId.toString(), annuléPar: user.id },
               })
             )
           }
