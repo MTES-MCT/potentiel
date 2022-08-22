@@ -81,7 +81,6 @@ export const makeDemandeDélai = (
       case DélaiEnInstruction.type:
       case ModificationRequestInstructionStarted.type:
         return { ...agregat, statut: 'en-instruction' }
-
       case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
       default:
