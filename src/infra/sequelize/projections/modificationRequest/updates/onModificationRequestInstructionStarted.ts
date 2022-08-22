@@ -14,6 +14,10 @@ export const onModificationRequestInstructionStarted =
       return
     }
 
+    if (instance.type === 'delai') {
+      return
+    }
+
     instance.status = 'en instruction'
 
     try {
