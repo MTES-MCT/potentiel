@@ -20,6 +20,9 @@ type MakeAnnulerRejetRecours = (dépendances: {
 export const makeAnnulerRejetRecours: MakeAnnulerRejetRecours =
   ({ shouldUserAccessProject, publishToEventStore, modificationRequestRepo }) =>
   ({ user, demandeRecoursId }) => {
+    if (!['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
+      return errAsync(new UnauthorizedError())
+    }
     return modificationRequestRepo.transaction(
       new UniqueEntityID(demandeRecoursId),
       (demandeDélai) => {

@@ -7,21 +7,53 @@ import { ModificationRequest } from '@modules/modificationRequest'
 import { UnwrapForTest } from '../../../../types'
 import {
   fakeTransactionalRepo,
-  makeFakeDemandeDélai,
-  makeFakeDemandeRecours,
   makeFakeModificationRequest,
 } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '../../../shared'
 import { makeAnnulerRejetRecours } from './annulerRejetRecours'
+import { USER_ROLES } from '@modules/users'
 
 describe(`Commande annulerRejetRecours`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
+  const modificationRequestRepo = fakeTransactionalRepo(
+    makeFakeModificationRequest() as ModificationRequest
+  )
   beforeEach(() => {
     publishToEventStore.mockClear()
   })
+
+  describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin', 'dgec-validateur' ou 'dreal`, () => {
+    const rolesNePouvantPasAnnulerUnRejetDeRecours = USER_ROLES.filter(
+      (role) => !['admin', 'dgec-validateur', 'dreal'].includes(role)
+    )
+
+    for (const role of rolesNePouvantPasAnnulerUnRejetDeRecours) {
+      describe(`Etant donné un utilisateur ayant le rôle ${role}`, () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
+        const shouldUserAccessProject = jest.fn(async () => true)
+        it(`Lorsqu'il annule le rejet d'une demande de recours,
+          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+          const annulerRejetRecours = makeAnnulerRejetRecours({
+            shouldUserAccessProject,
+            modificationRequestRepo,
+            publishToEventStore,
+          })
+
+          const res = await annulerRejetRecours({
+            user,
+            demandeRecoursId: 'id-de-la-demande',
+          })
+
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+          expect(publishToEventStore).not.toHaveBeenCalled()
+        })
+      })
+    }
+  })
+
   describe(`Annulation impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
     describe(`Etant donné un utilisateur dreal n'ayant pas les droits sur le projet`, () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
@@ -29,10 +61,6 @@ describe(`Commande annulerRejetRecours`, () => {
 
       it(`Lorsqu'il annule le rejet d'un recours,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const modificationRequestRepo = fakeTransactionalRepo(
-          makeFakeModificationRequest() as ModificationRequest
-        )
-
         const annulerRejetRecours = makeAnnulerRejetRecours({
           shouldUserAccessProject,
           modificationRequestRepo,
