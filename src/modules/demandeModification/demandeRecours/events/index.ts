@@ -1,1 +1,1 @@
-export * from './RejetRecoursAnnulé';
+export * from './RejetRecoursAnnulé'
