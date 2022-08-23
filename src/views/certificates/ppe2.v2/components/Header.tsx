@@ -21,7 +21,7 @@ export const Header = ({ project }: HeaderProps) => {
         >
           <Image
             style={{ width: 135, height: 91, marginBottom: 40 }}
-            src={require('./logo-ministere-de-la-transition-energetique.png')}
+            src={`${process.env.BASE_URL}/images/logo-ministere-de-la-transition-energetique.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
