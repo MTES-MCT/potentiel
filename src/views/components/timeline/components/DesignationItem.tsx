@@ -2,7 +2,7 @@ import React from 'react'
 import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
 import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
 import { formatDate } from '../../../../helpers/formatDate'
-import { Link } from '@components'
+import { DownloadLink } from '@components'
 
 export const DesignationItem = ({
   certificate,
@@ -33,7 +33,7 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
   const { status } = certificate
 
   if (status === 'not-applicable') {
-    return <p>Attestation non disponible pour cette période</p>
+    return <span>Attestation non disponible pour cette période</span>
   }
 
   const { url, date } = certificate
@@ -47,8 +47,6 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
       ? `attestation de désignation (éditée`
       : `attestation de désignation (transmise`
   return (
-    <Link href={url} download>
-      {`Télécharger l'${urlTitle} le ${formatDate(date)})`}
-    </Link>
+    <DownloadLink href={url}>{`Télécharger l'${urlTitle} le ${formatDate(date)})`}</DownloadLink>
   )
 }

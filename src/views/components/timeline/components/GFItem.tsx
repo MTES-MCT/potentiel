@@ -14,7 +14,7 @@ import {
   Input,
   Label,
   Astérisque,
-  Link,
+  DownloadLink,
   Dropdown,
 } from '@components'
 
@@ -76,10 +76,11 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
           {isDreal && <UploadForm projectId={project.id} role={role} />}
           {isDreal && status === 'past-due' && (
             <p className="m-0">
-              <Link
+              <DownloadLink
                 href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
-                download
-              />
+              >
+                Télécharger le modèle de mise en demeure
+              </DownloadLink>
             </p>
           )}
         </div>
@@ -113,9 +114,9 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
         />
         <div className="flex">
           {url ? (
-            <Link href={url} download>
+            <DownloadLink href={url}>
               Télécharger l'attestation de garanties financières
-            </Link>
+            </DownloadLink>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
@@ -148,9 +149,9 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
         <div>
           {url ? (
             <>
-              <Link href={url} download>
+              <DownloadLink href={url}>
                 Télécharger l'attestation de garanties financières
-              </Link>
+              </DownloadLink>
               <span>&nbsp;(validée)</span>
             </>
           ) : (
@@ -277,9 +278,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         />
         <div className="flex">
           {url ? (
-            <Link href={url} download>
+            <DownloadLink href={url}>
               Télécharger l'attestation de garanties financières
-            </Link>
+            </DownloadLink>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
