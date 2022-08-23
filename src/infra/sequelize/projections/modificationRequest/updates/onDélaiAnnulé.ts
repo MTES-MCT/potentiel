@@ -13,6 +13,7 @@ export const onDélaiAnnulé =
           status: 'annulée',
           cancelledBy: annuléPar,
           cancelledOn: occurredAt.getTime(),
+          versionDate: occurredAt,
         },
         {
           where: {
