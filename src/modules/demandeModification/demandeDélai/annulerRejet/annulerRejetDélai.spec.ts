@@ -3,6 +3,7 @@ import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { InfraNotAvailableError } from '@modules/shared'
+import { USER_ROLES } from '@modules/users'
 import { UnwrapForTest } from '../../../../types'
 import {
   fakeTransactionalRepo,
@@ -21,7 +22,10 @@ describe(`Commande annulerRejetDélai`, () => {
   })
 
   describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin', 'dgec-validateur' ou 'dreal`, () => {
-    for (const role of ['ademe', 'porteur-projet', 'acheteur-obligé']) {
+    const rôlesNePouvantPasAnnulerLeRejetDuDélai = USER_ROLES.filter(
+      (role) => !['admin', 'dgec-validateur', 'dreal'].includes(role)
+    )
+    for (const role of rôlesNePouvantPasAnnulerLeRejetDuDélai) {
       describe(`Etant donné un utilisateur ayant le rôle ${role}`, () => {
         const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
         const shouldUserAccessProject = jest.fn(async () => true)
