@@ -1,6 +1,5 @@
 import { annulerRejetRecours, ensureRole } from '@config'
 import { logger } from '@core/utils'
-import { getModificationRequestAuthority } from '@infra/sequelize/queries'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '../../routes'
@@ -10,7 +9,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.post(
   routes.ADMIN_ANNULER_RECOURS_REJETE(),
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const {
       body: { modificationRequestId },
@@ -18,14 +17,6 @@ v1Router.post(
     } = request
     if (!validateUniqueId(modificationRequestId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
-    }
-
-    if (user.role === 'dreal') {
-      const authority = await getModificationRequestAuthority(modificationRequestId)
-
-      if (authority && authority !== user.role) {
-        return unauthorizedResponse({ request, response })
-      }
     }
 
     return annulerRejetRecours({

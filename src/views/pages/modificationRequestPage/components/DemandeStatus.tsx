@@ -36,10 +36,19 @@ function getAdminAnulerRejetDemandeRoute({ type, id }) {
 }
 
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
-  const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status, type } =
-    modificationRequest
+  const {
+    respondedOn,
+    respondedBy,
+    cancelledOn,
+    cancelledBy,
+    responseFile,
+    status,
+    type,
+    authority = null,
+  } = modificationRequest
   const afficherBoutonAnnulerRejet =
-    ['admin', 'dgec-validateur', 'dreal'].includes(role) &&
+    (['admin', 'dgec-validateur'].includes(role) ||
+      (role === 'dreal' && authority && authority === role)) &&
     ['delai', 'recours'].includes(type) &&
     status === 'rejetée'
 

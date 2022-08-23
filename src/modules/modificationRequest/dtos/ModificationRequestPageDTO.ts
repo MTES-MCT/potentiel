@@ -26,6 +26,7 @@ export type ModificationRequestPageDTO = {
 
   cancelledBy?: string
   cancelledOn?: number
+  authority?: string
 
   project: {
     id: string

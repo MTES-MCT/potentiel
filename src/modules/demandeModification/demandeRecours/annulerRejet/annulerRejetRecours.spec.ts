@@ -22,9 +22,9 @@ describe(`Commande annulerRejetRecours`, () => {
     publishToEventStore.mockClear()
   })
 
-  describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin', 'dgec-validateur' ou 'dreal`, () => {
+  describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin' ou 'dgec-validateur'`, () => {
     const rolesNePouvantPasAnnulerUnRejetDeRecours = USER_ROLES.filter(
-      (role) => !['admin', 'dgec-validateur', 'dreal'].includes(role)
+      (role) => !['admin', 'dgec-validateur'].includes(role)
     )
 
     for (const role of rolesNePouvantPasAnnulerUnRejetDeRecours) {
@@ -56,8 +56,8 @@ describe(`Commande annulerRejetRecours`, () => {
   })
 
   describe(`Annulation impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
-    describe(`Etant donné un utilisateur dreal n'ayant pas les droits sur le projet`, () => {
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+    describe(`Etant donné un utilisateur admin n'ayant pas les droits sur le projet`, () => {
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
       const shouldUserAccessProject = jest.fn(async () => false)
       const modificationRequestRepo = fakeTransactionalRepo(
         makeFakeDemandeRecours() as ModificationRequest
@@ -111,7 +111,7 @@ describe(`Commande annulerRejetRecours`, () => {
 
   describe(`Annuler le rejet d'une demande de recours`, () => {
     describe(`Annulation de la demande possible`, () => {
-      describe(`Etant donné un utilisateur admin, dreal ou dgec-validateur ayant les droits sur le projet
+      describe(`Etant donné un utilisateur admin ou dgec-validateur ayant les droits sur le projet
       et une demande de délai en statut "refusée"`, () => {
         it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
         alors un événement RejetRecoursAnnulé devrait être émis`, async () => {

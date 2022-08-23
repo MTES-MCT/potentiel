@@ -89,6 +89,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       acceptanceParams,
       cancelledOn,
       dateAchèvementDemandée,
+      authority,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
@@ -115,6 +116,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       fournisseurs,
       evaluationCarbone,
       producteur,
+      authority,
       project: {
         ...project.get(),
         notifiedOn: new Date(notifiedOn).getTime(),
