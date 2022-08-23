@@ -22,9 +22,10 @@ export const AdminResponseForm = ({
   return (
     <form
       action={
-        type === 'delai'
-          ? ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
-          : ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
+        {
+          delai: ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI,
+          abandon: ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_ABANDON,
+        }[type] ?? ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
       }
       method="post"
       encType="multipart/form-data"

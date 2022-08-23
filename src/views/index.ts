@@ -22,6 +22,8 @@ import {
   Statistiques,
   UploadLegacyModificationFiles,
 } from './pages'
+import { DemanderAbandon } from './pages/demanderAbandonPage'
+import { DemandeAbandon } from './pages/DemandeAbandonPage'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
@@ -89,6 +91,22 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     props,
     hydrate: true,
     pageName: 'demanderDelai',
+  })
+
+export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]) =>
+  makeHtml({
+    Component: DemanderAbandon,
+    props,
+    hydrate: true,
+    pageName: 'demanderAbandon',
+  })
+
+export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) =>
+  makeHtml({
+    Component: DemandeAbandon,
+    props,
+    hydrate: true,
+    pageName: 'demandeAbandon', // This must match the Component name
   })
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>

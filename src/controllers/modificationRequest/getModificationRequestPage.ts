@@ -1,7 +1,7 @@
 import { ensureRole, getModificationRequestDetails } from '@config'
 import { logger } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
-import { ModificationRequestPage } from '@views'
+import { DemandeAbandonPage, ModificationRequestPage } from '@views'
 import routes from '@routes'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { getModificationRequestAuthority } from '@infra/sequelize/queries'
@@ -52,6 +52,9 @@ v1Router.get(
 
     return modificationRequestResult.match(
       (modificationRequest) => {
+        if (modificationRequest.type === 'abandon') {
+          return response.send(DemandeAbandonPage({ request, modificationRequest }))
+        }
         return response.send(ModificationRequestPage({ request, modificationRequest }))
       },
       (e) => {

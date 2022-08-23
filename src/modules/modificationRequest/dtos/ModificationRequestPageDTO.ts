@@ -69,3 +69,5 @@ type Variant =
           dateAchèvementDemandée: string
         }
     ))
+
+export type DemandeAbandonPageDTO = ModificationRequestPageDTO & { type: 'abandon' }

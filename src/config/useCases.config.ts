@@ -69,6 +69,7 @@ import {
 } from './queries.config'
 import {
   appelOffreRepo,
+  demandeAbandonRepo,
   demandeDélaiRepo,
   fileRepo,
   modificationRequestRepo,
@@ -80,6 +81,9 @@ import {
   userRepo,
 } from './repos.config'
 import { makeDemanderAbandon } from '../modules/demandeModification/demandeAbandon/demander/demanderAbandon'
+import { makeAnnulerDemandeAbandon } from '../modules/demandeModification/demandeAbandon/annuler'
+import { makeAccorderDemandeAbandon } from '../modules/demandeModification/demandeAbandon/accorder/accorderDemandeAbandon'
+import { makeRejeterDemandeAbandon } from '../modules/demandeModification/demandeAbandon/rejeter'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -359,5 +363,23 @@ export const demanderAbandon = makeDemanderAbandon({
   publishToEventStore: eventStore.publish.bind(eventStore),
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
+  fileRepo,
   projectRepo,
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
+  fileRepo,
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
 })

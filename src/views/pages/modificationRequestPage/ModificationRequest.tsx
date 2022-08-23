@@ -14,7 +14,6 @@ import moment from 'moment'
 import React from 'react'
 import { hydrateOnClient } from '../../helpers'
 import {
-  AbandonForm,
   ActionnaireForm,
   AdminResponseForm,
   AdminRéponseDélaiForm,
@@ -63,7 +62,7 @@ export const ModificationRequest = PageLayout(
           <DemandeDetails modificationRequest={modificationRequest} />
 
           <p className="m-0">Concernant le projet :</p>
-          <ProjectInfo project={modificationRequest.project} className="mb-3"></ProjectInfo>
+          <ProjectInfo project={modificationRequest.project} className="mb-3" />
 
           <ErrorBox error={error} />
           <SuccessBox success={success} />
@@ -108,8 +107,6 @@ export const ModificationRequest = PageLayout(
                 )}
 
                 {type === 'recours' && <RecoursForm />}
-
-                {type === 'abandon' && <AbandonForm modificationRequest={modificationRequest} />}
 
                 {type === 'puissance' && (
                   <PuissanceForm modificationRequest={modificationRequest} />
