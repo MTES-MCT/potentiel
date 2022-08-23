@@ -92,7 +92,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && (
-        <div>
+        <div className="mt-4">
           <a
             href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
             download={true}

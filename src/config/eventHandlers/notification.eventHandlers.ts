@@ -192,7 +192,7 @@ const onRejetRecoursAnnuléHandler = makeOnRejetRecoursAnnulé({
   getModificationRequestInfoForStatusNotification,
 })
 
-const onDemandeDélaiEvénements = async (event: DomainEvent) => {
+const onDemandesÉvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiDemandé) {
     return await onDélaiDemandéHandler(event)
   }
@@ -211,19 +211,14 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiEnInstruction) {
     return await onDélaiEnInstructionHandler(event)
   }
-
-  return Promise.resolve()
-}
-
-const onDemandeRecoursEvènements = async (event: DomainEvent) => {
   if (event instanceof RejetRecoursAnnulé) {
     return await onRejetRecoursAnnuléHandler(event)
   }
+
   return Promise.resolve()
 }
 
-subscribeToRedis(onDemandeDélaiEvénements, 'Notification')
-subscribeToRedis(onDemandeRecoursEvènements, 'Notification')
+subscribeToRedis(onDemandesÉvénements, 'Notification')
 
 console.log('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true
