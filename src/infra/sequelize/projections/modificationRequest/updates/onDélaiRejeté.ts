@@ -4,7 +4,7 @@ import { DélaiRejeté } from '@modules/demandeModification'
 export const onDélaiRejeté =
   (models) =>
   async ({ payload, occurredAt }: DélaiRejeté) => {
-    const { demandeDélaiId, rejetéPar } = payload
+    const { demandeDélaiId, rejetéPar, fichierRéponseId } = payload
     try {
       const ModificationRequestModel = models.ModificationRequest
 
@@ -13,6 +13,8 @@ export const onDélaiRejeté =
           status: 'rejetée',
           respondedBy: rejetéPar,
           respondedOn: occurredAt.getTime(),
+          versionDate: occurredAt,
+          responseFileId: fichierRéponseId,
         },
         {
           where: {

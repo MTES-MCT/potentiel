@@ -3,7 +3,7 @@ import { RejetDélaiAnnulé } from '@modules/demandeModification'
 
 export const onRejetDélaiAnnulé =
   (models) =>
-  async ({ payload }: RejetDélaiAnnulé) => {
+  async ({ payload, occurredAt }: RejetDélaiAnnulé) => {
     const { demandeDélaiId } = payload
     try {
       const ModificationRequestModel = models.ModificationRequest
@@ -14,6 +14,7 @@ export const onRejetDélaiAnnulé =
           respondedBy: null,
           respondedOn: null,
           responseFileId: null,
+          versionDate: occurredAt,
         },
         {
           where: {
