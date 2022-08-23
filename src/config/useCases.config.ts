@@ -3,7 +3,7 @@ import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules
 import {
   makeAccorderDemandeDélai,
   makeAnnulerDemandeDélai,
-  makeAnnulerRejetDélai as makeAnnulerRejetDélai,
+  makeAnnulerRejetDélai,
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
