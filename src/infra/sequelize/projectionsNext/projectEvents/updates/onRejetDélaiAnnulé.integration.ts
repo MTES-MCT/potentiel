@@ -1,18 +1,15 @@
 import { UniqueEntityID } from '@core/domain'
-import {
-  RejetDemandeDélaiAnnulé,
-  RejetDemandeDélaiAnnuléPayload,
-} from '@modules/demandeModification'
+import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
-import onRejetDemandeDélaiAnnulé from './onRejetDemandeDélaiAnnulé'
+import onRejetDélaiAnnulé from './onRejetDélaiAnnulé'
 
-describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
+describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
   beforeEach(async () => {
     resetDatabase()
   })
-  describe(`Etant donné un événement RejetDemandeDélaiAnnulé émis`, () => {
+  describe(`Etant donné un événement RejetDélaiAnnulé émis`, () => {
     //Scenario 1
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "envoyée"`, async () => {
@@ -49,12 +46,12 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
           },
         })
 
-        await onRejetDemandeDélaiAnnulé(
-          new RejetDemandeDélaiAnnulé({
+        await onRejetDélaiAnnulé(
+          new RejetDélaiAnnulé({
             payload: {
               demandeDélaiId,
               annuléPar,
-            } as RejetDemandeDélaiAnnuléPayload,
+            } as RejetDélaiAnnuléPayload,
             original: {
               version: 1,
               occurredAt: new Date('2022-06-30'),
@@ -127,12 +124,12 @@ describe('Projecteur de ProjectEvent onRejetDemandeDélaiAnnulé', () => {
           },
         })
 
-        await onRejetDemandeDélaiAnnulé(
-          new RejetDemandeDélaiAnnulé({
+        await onRejetDélaiAnnulé(
+          new RejetDélaiAnnulé({
             payload: {
               demandeDélaiId: modificationRequestId,
               annuléPar,
-            } as RejetDemandeDélaiAnnuléPayload,
+            } as RejetDélaiAnnuléPayload,
             original: {
               version: 1,
               occurredAt: new Date('2022-06-30'),

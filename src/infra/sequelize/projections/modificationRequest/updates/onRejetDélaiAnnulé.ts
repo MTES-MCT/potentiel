@@ -1,9 +1,9 @@
 import { logger } from '@core/utils'
-import { AccordDemandeDélaiAnnulé } from '@modules/demandeModification'
+import { RejetDélaiAnnulé } from '@modules/demandeModification'
 
-export const onAccordDemandeDélaiAnnulé =
+export const onRejetDélaiAnnulé =
   (models) =>
-  async ({ payload }: AccordDemandeDélaiAnnulé) => {
+  async ({ payload }: RejetDélaiAnnulé) => {
     const { demandeDélaiId } = payload
     try {
       const ModificationRequestModel = models.ModificationRequest

@@ -1,13 +1,12 @@
 import { DomainEvent } from '@core/domain'
 import { UserInvitedToProject } from '@modules/authZ'
 import {
-  AccordDemandeDélaiAnnulé,
   DélaiAccordé,
   DélaiAnnulé,
   DélaiDemandé,
   DélaiEnInstruction,
   DélaiRejeté,
-  RejetDemandeDélaiAnnulé,
+  RejetDélaiAnnulé,
 } from '@modules/demandeModification'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
@@ -31,12 +30,11 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
-  makeOnAccordDemandeDélaiAnnulé,
   makeOnDélaiAccordé,
   makeOnDélaiAnnulé,
   makeOnDélaiDemandé,
   makeOnDélaiRejeté,
-  makeOnRejetDemandeDélaiAnnulé,
+  makeOnRejetDélaiAnnulé,
   makeOnDélaiEnInstruction,
 } from '@modules/notification'
 import {
@@ -171,11 +169,7 @@ const onDélaiRejetéHandler = makeOnDélaiRejeté({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
-const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDemandeDélaiAnnulé({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-const OnAccordDemandeDélaiAnnuléHandler = makeOnAccordDemandeDélaiAnnulé({
+const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDélaiAnnulé({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
 })
@@ -201,11 +195,8 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiRejeté) {
     return await onDélaiRejetéHandler(event)
   }
-  if (event instanceof RejetDemandeDélaiAnnulé) {
+  if (event instanceof RejetDélaiAnnulé) {
     return await OnRejetDemandeDélaiAnnuléHandler(event)
-  }
-  if (event instanceof AccordDemandeDélaiAnnulé) {
-    return await OnAccordDemandeDélaiAnnuléHandler(event)
   }
   if (event instanceof DélaiAnnulé) {
     return await onDélaiAnnuléHandler(event)

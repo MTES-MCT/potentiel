@@ -1,13 +1,12 @@
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
 import {
-  AccordDemandeDélaiAnnulé,
   DélaiAccordé,
   DélaiAnnulé,
   DélaiDemandé,
   DélaiEnInstruction,
   DélaiRejeté,
-  RejetDemandeDélaiAnnulé,
+  RejetDélaiAnnulé,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -20,7 +19,6 @@ import {
   ModificationRequestRejected,
   ModificationRequestStatusUpdated,
 } from '@modules/modificationRequest'
-import { onAccordDemandeDélaiAnnulé } from './onAccordDemandeDélaiAnnulé'
 import { onConfirmationRequested } from './onConfirmationRequested'
 import { onDélaiAccordé } from './onDélaiAccordé'
 import { onDélaiAnnulé } from './onDélaiAnnulé'
@@ -35,7 +33,7 @@ import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
-import { onRejetDemandeDélaiAnnulé } from './onRejetDemandeDélaiAnnulé'
+import { onRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -59,8 +57,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiAnnulé.type, onDélaiAnnulé(models))
   eventBus.subscribe(DélaiRejeté.type, onDélaiRejeté(models))
   eventBus.subscribe(DélaiAccordé.type, onDélaiAccordé(models))
-  eventBus.subscribe(RejetDemandeDélaiAnnulé.type, onRejetDemandeDélaiAnnulé(models))
-  eventBus.subscribe(AccordDemandeDélaiAnnulé.type, onAccordDemandeDélaiAnnulé(models))
+  eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé(models))
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
   logger.info('Initialized ModificationRequest projections')
 }

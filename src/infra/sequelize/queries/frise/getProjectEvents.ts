@@ -38,7 +38,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         },
         events: await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
           async (eventsPromise, projectEvent) => {
-            const { type, valueDate, payload } = projectEvent
+            const { type, valueDate, payload, id } = projectEvent
             const events: ProjectEventDTO[] = await eventsPromise
 
             switch (type) {
@@ -472,7 +472,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
               case 'DemandeDélai':
                 if (userIsNot('ademe')(user)) {
-                  const { statut, dateAchèvementDemandée, demandeDélaiId, authority } = payload
+                  const { statut, dateAchèvementDemandée, autorité } = payload
                   events.push({
                     type,
                     variant: user.role,
@@ -486,8 +486,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         }
                       : { statut }),
                     ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
-                      (userIs('dreal') && authority === 'dreal')) && {
-                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
+                      (userIs('dreal') && autorité === 'dreal')) && {
+                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                     }),
                   })
                 }
