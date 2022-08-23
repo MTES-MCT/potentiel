@@ -1,7 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
 import { RejetRecoursAnnulé, RejetRecoursAnnuléPayload } from '@modules/demandeModification'
 import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
 import onRejetRecoursAnnulé from './onRejetRecoursAnnulé'
 
