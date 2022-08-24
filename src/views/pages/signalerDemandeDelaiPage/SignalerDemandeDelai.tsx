@@ -133,9 +133,7 @@ export const SignalerDemandeDelai = PageLayout(
             <p className="italic text-sm">*Champs obligatoires</p>
 
             <div className="m-auto flex gap-4">
-              <Button type="submit" primary>
-                Enregistrer
-              </Button>
+              <Button type="submit">Enregistrer</Button>
               <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Annuler</LinkButton>
             </div>
           </form>

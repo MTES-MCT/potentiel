@@ -10,6 +10,7 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
 import {
   Button,
+  SecondaryButton,
   FormulaireChampsObligatoireLégende,
   Input,
   Label,
@@ -213,10 +214,8 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             régulièrement afin d’assurer une telle couverture temporelle.
           </p>
           <div className="flex gap-4 flex-col md:flex-row">
-            <Button type="submit" primary>
-              Enregistrer
-            </Button>
-            <Button onClick={() => showForm(false)}>Annuler</Button>
+            <Button type="submit">Enregistrer</Button>
+            <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
           </div>
         </form>
       )}
@@ -363,10 +362,8 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           )}
         </div>
         <div className="flex gap-4 flex-col md:flex-row">
-          <Button type="submit" primary>
-            Enregistrer
-          </Button>
-          <Button onClick={() => showForm(false)}>Annuler</Button>
+          <Button type="submit">Enregistrer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>
     </Dropdown>
@@ -446,10 +443,8 @@ const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormPro
         régulièrement afin d’assurer une telle couverture temporelle.
       </p>
       <div className="flex gap-4 flex-col md:flex-row">
-        <Button type="submit" primary>
-          Enregistrer
-        </Button>
-        <Button onClick={() => onCancel()}>Annuler</Button>
+        <Button type="submit">Enregistrer</Button>
+        <SecondaryButton onClick={() => onCancel()}>Annuler</SecondaryButton>
       </div>
     </form>
   )

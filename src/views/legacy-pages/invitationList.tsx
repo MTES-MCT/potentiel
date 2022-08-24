@@ -1,4 +1,4 @@
-import { AdminDashboard, PaginationPanel, Button } from '@components'
+import { AdminDashboard, PaginationPanel, SecondaryButton } from '@components'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -6,6 +6,7 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
+
 interface InvitationListProps {
   request: Request
   invitations: PaginatedList<PendingCandidateInvitationDTO>
@@ -93,9 +94,9 @@ export default function InvitationList({ request, invitations }: InvitationListP
                           style={{}}
                         >
                           <input type="hidden" name="email" value={invitation.email} />
-                          <Button type="submit" name="submit" className="border-none">
+                          <SecondaryButton type="submit" name="submit" className="border-none">
                             relancer
-                          </Button>
+                          </SecondaryButton>
                         </form>
                       </td>
                     </tr>

@@ -1,4 +1,4 @@
-import { DownloadLinkButton, LinkButton } from '@components'
+import { DownloadLinkButton, LinkButton, SecondaryLinkButton } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
 import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
@@ -95,9 +95,9 @@ type PorteurProjetActionsProps = {
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
   <div className="flex flex-col xl:flex-row gap-2">
     {!project.isClasse && (
-      <LinkButton href={routes.DEPOSER_RECOURS(project.id)}>
+      <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
         Faire une demande de recours
-      </LinkButton>
+      </SecondaryLinkButton>
     )}
 
     {project.isClasse && (

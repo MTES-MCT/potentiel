@@ -9,7 +9,6 @@ export const AbandonForm = ({ modificationRequest }: AbandonFormProps) => (
   <>
     {!['en attente de confirmation', 'demande confirmée'].includes(modificationRequest.status) && (
       <Button
-        primary
         type="submit"
         name="submitConfirm"
         {...dataId('ask-confirmation-button')}

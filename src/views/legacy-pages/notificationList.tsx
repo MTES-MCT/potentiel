@@ -34,7 +34,6 @@ export default function NotificationList({ request, notifications }: Notificatio
                 type="submit"
                 name="submit"
                 id="submit"
-                primary
                 {...dataId('submit-button')}
               >
                 Réessayer toutes les notifications en erreur

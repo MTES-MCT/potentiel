@@ -59,7 +59,6 @@ export const AdminResponseForm = ({
       {children}
       <Button
         type="submit"
-        primary
         name="submitAccept"
         data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
         {...dataId('submit-button')}

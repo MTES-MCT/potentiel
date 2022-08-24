@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '@routes'
-import { Button, FormulaireChampsObligatoireLégende, Label } from '../../'
+import { Button, FormulaireChampsObligatoireLégende, Label, SecondaryButton } from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
@@ -153,10 +153,8 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           <Input type="file" name="file" id="file" required />
         </div>
         <div className="flex gap-4 flex-col md:flex-row mt-4">
-          <Button type="submit" primary>
-            Envoyer
-          </Button>
-          <Button onClick={() => showForm(false)}>Annuler</Button>
+          <Button type="submit">Envoyer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>
     </Dropdown>

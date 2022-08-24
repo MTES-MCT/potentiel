@@ -11,6 +11,7 @@ import {
   Button,
   LinkButton,
   Label,
+  SecondaryLinkButton,
 } from '@components'
 import routes from '@routes'
 import { Project } from '@entities'
@@ -153,15 +154,14 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                 <Button
                   type="submit"
                   id="submit"
-                  primary
                   {...dataId('submit-button')}
                   className="mt-4 mr-2"
                 >
                   Envoyer
                 </Button>
-                <LinkButton {...dataId('cancel-button')} href={routes.USER_LIST_PROJECTS}>
+                <SecondaryLinkButton {...dataId('cancel-button')} href={routes.USER_LIST_PROJECTS}>
                   Annuler
-                </LinkButton>
+                </SecondaryLinkButton>
               </div>
             )}
           </div>

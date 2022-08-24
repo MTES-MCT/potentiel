@@ -11,7 +11,7 @@ export const DownloadLinkButton: FC<DownloadLinkButtonProps> = ({
   className,
   fileUrl,
 }) => (
-  <LinkButton className={className} download primary href={fileUrl}>
+  <LinkButton className={className} download href={fileUrl}>
     <FileDownloadIcon className="mr-2" />
     {children}
   </LinkButton>

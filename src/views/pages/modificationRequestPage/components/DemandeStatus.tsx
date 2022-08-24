@@ -1,4 +1,4 @@
-import { Button } from '@components'
+import { SecondaryButton } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -42,7 +42,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           })}
           className="m-0 mt-4"
         >
-          <Button
+          <SecondaryButton
             type="submit"
             value={modificationRequest.id}
             name="modificationRequestId"
@@ -57,7 +57,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
             }}
           >
             Annuler le rejet de la demande
-          </Button>
+          </SecondaryButton>
         </form>
       )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}

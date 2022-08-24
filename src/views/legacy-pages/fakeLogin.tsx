@@ -27,7 +27,6 @@ export default function FakeLoginPage({ request }: Props) {
               <input type="email" name="email" id="email" {...dataId('email-field')} />
               <Button
                 type="submit"
-                primary
                 name="submit"
                 id="submit"
                 {...dataId('submit-button')}

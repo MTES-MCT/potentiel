@@ -200,7 +200,6 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
                   type="submit"
                   name="submit"
                   id="submit"
-                  primary
                   className="mt-4"
                   {...dataId('submit-button')}
                 >

@@ -1,16 +1,16 @@
 import React from 'react'
-import { LinkButton } from './LinkButton'
+import { SecondaryLinkButton } from './SecondaryLinkButton'
 
 export default {
-  title: 'Components/Atoms/LinkButton',
-  component: LinkButton,
+  title: 'Components/Atoms/SecondaryLinkButton',
+  component: SecondaryLinkButton,
   argTypes: {
     children: { control: 'text' },
     href: { control: 'text' },
   },
 }
 
-const Template = (args) => <LinkButton {...args} />
+const Template = (args) => <SecondaryLinkButton {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

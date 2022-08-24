@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { AdminDashboard, PageLayout, ErrorBox, Button } from '@components'
+import { AdminDashboard, PageLayout, ErrorBox, SecondaryButton } from '@components'
 
 export type UploadLegacyModificationFileResult =
   | {
@@ -69,7 +69,7 @@ export const UploadLegacyModificationFiles = PageLayout(
             <div className="text-sm mt-2">
               Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
             </div>
-            <Button
+            <SecondaryButton
               className="mt-2"
               type="submit"
               name="submit"
@@ -77,7 +77,7 @@ export const UploadLegacyModificationFiles = PageLayout(
               {...dataId('submit-button')}
             >
               Envoyer
-            </Button>
+            </SecondaryButton>
           </form>
         </div>
       </AdminDashboard>

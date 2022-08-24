@@ -3,7 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { SuccessErrorBox } from '../components'
-import { AdminDashboard, PageLayout, Button } from '@components'
+import { AdminDashboard, PageLayout, SecondaryButton } from '@components'
 
 type ImporterListingEnedisProps = {
   request: Request
@@ -26,7 +26,7 @@ export const ImporterListingEnedis = PageLayout(({ request }: ImporterListingEne
           <SuccessErrorBox error={error as string} success={success as string} />
           <div>Sélectionner le fichier à importer.</div>
           <input type="file" name="file" />
-          <Button
+          <SecondaryButton
             className="mt-2"
             type="submit"
             name="submit"
@@ -34,7 +34,7 @@ export const ImporterListingEnedis = PageLayout(({ request }: ImporterListingEne
             {...dataId('submit-button')}
           >
             Envoyer
-          </Button>
+          </SecondaryButton>
         </form>
       </div>
     </AdminDashboard>

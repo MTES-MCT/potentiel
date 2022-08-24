@@ -57,7 +57,6 @@ export default function ImportProjects({
               name="submit"
               id="submit"
               {...dataId('submit-button')}
-              primary
               className="mt-2"
             >
               Envoyer
