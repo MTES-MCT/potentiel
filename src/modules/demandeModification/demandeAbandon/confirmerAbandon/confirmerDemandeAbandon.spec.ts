@@ -20,7 +20,7 @@ describe(`Confirmer une demande d'abandon`, () => {
       )
 
       for (const role of rolesNePouvantConfirmerUneDemandeAbandon) {
-        const user = { role } as User
+        const confirméPar = { role } as User
 
         it(`
         Lorsque l'utilisateur est ${role} et qu'il confirme une demande d'abandon.
@@ -37,7 +37,7 @@ describe(`Confirmer une demande d'abandon`, () => {
           })
 
           const res = await confirmerDemandeAbandon({
-            user,
+            confirméPar,
             demandeAbandonId,
           })
 
@@ -50,7 +50,7 @@ describe(`Confirmer une demande d'abandon`, () => {
 
   describe(`Impossible de confirmer une demande d'abandon si un user n'a pas les droits sur le projet`, () => {
     describe(`Etant donné un porteur de projet qui n'a pas les droits sur le projet`, () => {
-      const user = { role: 'porteur-projet' } as User
+      const confirméPar = { role: 'porteur-projet' } as User
       it(`
         Lorsque qu'il confirme une demande d'abandon.
         Alors une erreur UnauthorizedError devrait être retournée
@@ -62,7 +62,7 @@ describe(`Confirmer une demande d'abandon`, () => {
           aAccèsAuProjet: async () => false,
         })
 
-        const res = await confirmerDemandeAbandon({ user, demandeAbandonId })
+        const res = await confirmerDemandeAbandon({ confirméPar, demandeAbandonId })
         expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
         expect(publishToEventStore).not.toHaveBeenCalled()
       })
@@ -71,7 +71,7 @@ describe(`Confirmer une demande d'abandon`, () => {
 
   describe(`Impossible de confirmer avec un statut autre que 'en attente de confirmation'`, () => {
     describe(`Etant donné un utilisateur porteur-projet`, () => {
-      const user = { role: 'porteur-projet' } as User
+      const confirméPar = { role: 'porteur-projet' } as User
       it(`
             Lorsqu'il confirme une demande d'abandon avec comme statut 'envoyée'
             Alors une erreur ConfirmerDemandeAbandonError devrait être retournée
@@ -88,7 +88,7 @@ describe(`Confirmer une demande d'abandon`, () => {
           aAccèsAuProjet: async () => true,
         })
 
-        const res = await confirmerDemandeAbandon({ user, demandeAbandonId })
+        const res = await confirmerDemandeAbandon({ confirméPar, demandeAbandonId })
         const erreurActuelle = res._unsafeUnwrapErr()
         expect(erreurActuelle).toBeInstanceOf(ConfirmerDemandeAbandonError)
         expect(publishToEventStore).not.toHaveBeenCalled()
@@ -98,7 +98,7 @@ describe(`Confirmer une demande d'abandon`, () => {
 
   describe(`Possible de confirmer un abandon`, () => {
     describe(`Etant donné un utilisateur qui a les droits sur le projet`, () => {
-      const user = { role: 'porteur-projet' } as User
+      const confirméPar = { role: 'porteur-projet' } as User
 
       it(`
            Lorsqu'il accorde confirme une demande d'abandon en attente de confirmation
@@ -115,7 +115,7 @@ describe(`Confirmer une demande d'abandon`, () => {
           aAccèsAuProjet: async () => true,
         })
 
-        const resultat = await confirmerDemandeAbandon({ user, demandeAbandonId })
+        const resultat = await confirmerDemandeAbandon({ confirméPar, demandeAbandonId })
 
         expect(resultat.isOk()).toBe(true)
         expect(publishToEventStore).toHaveBeenCalledWith(
@@ -123,7 +123,7 @@ describe(`Confirmer une demande d'abandon`, () => {
             type: 'AbandonConfirmé',
             payload: expect.objectContaining({
               projetId: 'le-projet-de-la-demande',
-              confirméPar: user.id,
+              confirméPar: confirméPar.id,
               demandeAbandonId,
             }),
           })
