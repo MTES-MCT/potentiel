@@ -10,6 +10,10 @@ Vous pouvez aussi lire la [documentation officielle de Keycloak](https://www.key
 
 Une instance Keycloak est utilisée par Potentiel pour la gestion de l'authentification (login à partir d'email et mot de passe) et d'une partie de la gestion des autorisations (le rôle de chaque utilisateur).
 
+Il existe deux environnements pour keycloak : 
+- Une version "legacy" est situé dans ce repo; cet environnement est utilisé à des fins de tests en local uniquement
+- Une version de production utilisé pour les environnements **staging** et **production** est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak)
+
 Les autorisation plus fines (comme par exemple, les projets affectés à un utilisateur) sont gérés par le serveur d'application Potentiel lui-même (cf le domaine [`AuthZ`](../src/modules/authZ)).
 
 Il ne concerne que les environnements `staging` et `production`. Dans les autres environnements, c'est un faux qui est utilisé pour simplifier (cf configuration dans [authN.config.ts](../src/config/authN.config.ts)).
