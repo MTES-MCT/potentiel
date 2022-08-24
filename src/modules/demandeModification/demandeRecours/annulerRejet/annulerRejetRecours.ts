@@ -12,13 +12,12 @@ type AnnulerRejetRecours = (commande: {
 }) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
 
 type MakeAnnulerRejetRecours = (dépendances: {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   modificationRequestRepo: TransactionalRepository<ModificationRequest>
   publishToEventStore: EventStore['publish']
 }) => AnnulerRejetRecours
 
 export const makeAnnulerRejetRecours: MakeAnnulerRejetRecours =
-  ({ shouldUserAccessProject, publishToEventStore, modificationRequestRepo }) =>
+  ({ publishToEventStore, modificationRequestRepo }) =>
   ({ user, demandeRecoursId }) => {
     if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
@@ -31,21 +30,19 @@ export const makeAnnulerRejetRecours: MakeAnnulerRejetRecours =
           return errAsync(new InfraNotAvailableError())
         }
 
-        return wrapInfra(
-          shouldUserAccessProject({ projectId: projectId.toString(), user })
-        ).andThen((userHasRightsToProject) => {
-          if (!userHasRightsToProject) {
-            return errAsync(new UnauthorizedError())
-          }
-          if (status === 'rejetée') {
-            return publishToEventStore(
-              new RejetRecoursAnnulé({
-                payload: { demandeRecoursId, projetId: projectId.toString(), annuléPar: user.id },
-              })
-            )
-          }
+        if (status !== 'rejetée') {
           return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
-        })
+        }
+
+        return publishToEventStore(
+          new RejetRecoursAnnulé({
+            payload: {
+              demandeRecoursId,
+              projetId: projectId.toString(),
+              annuléPar: user.id,
+            },
+          })
+        )
       }
     )
   }

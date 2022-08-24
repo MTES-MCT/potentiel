@@ -30,7 +30,6 @@ describe(`Commande annulerRejetRecours`, () => {
     for (const role of rolesNePouvantPasAnnulerUnRejetDeRecours) {
       describe(`Etant donné un utilisateur ayant le rôle ${role}`, () => {
         const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
-        const shouldUserAccessProject = jest.fn(async () => true)
         const modificationRequestRepo = fakeTransactionalRepo(
           makeFakeDemandeRecours() as ModificationRequest
         )
@@ -38,7 +37,6 @@ describe(`Commande annulerRejetRecours`, () => {
         it(`Lorsqu'il annule le rejet d'une demande de recours,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
           const annulerRejetRecours = makeAnnulerRejetRecours({
-            shouldUserAccessProject,
             modificationRequestRepo,
             publishToEventStore,
           })
@@ -55,45 +53,16 @@ describe(`Commande annulerRejetRecours`, () => {
     }
   })
 
-  describe(`Annulation impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
-    describe(`Etant donné un utilisateur admin n'ayant pas les droits sur le projet`, () => {
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-      const shouldUserAccessProject = jest.fn(async () => false)
-      const modificationRequestRepo = fakeTransactionalRepo(
-        makeFakeDemandeRecours() as ModificationRequest
-      )
-
-      it(`Lorsqu'il annule le rejet d'un recours,
-          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const annulerRejetRecours = makeAnnulerRejetRecours({
-          shouldUserAccessProject,
-          modificationRequestRepo,
-          publishToEventStore,
-        })
-
-        const res = await annulerRejetRecours({
-          user,
-          demandeRecoursId: 'id-de-la-demande',
-        })
-
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-        expect(publishToEventStore).not.toHaveBeenCalled()
-      })
-    })
-  })
-
   describe(`Annulation impossible si le statut de la demande n'est pas "refusée"`, () => {
     describe(`Etant donné un utilisateur admin ayant les droits sur le projet
       et une demande de délai en statut 'envoyée'`, () => {
       it(`Lorsque l'utilisateur exécute la commande,
       alors une erreur StatutRéponseIncompatibleAvecAnnulationError devrait être retournée`, async () => {
         const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-        const shouldUserAccessProject = jest.fn(async () => true)
         const modificationRequestRepo = fakeTransactionalRepo(
           makeFakeDemandeRecours({ status: 'envoyée' }) as ModificationRequest
         )
         const annulerRejetRecours = makeAnnulerRejetRecours({
-          shouldUserAccessProject,
           modificationRequestRepo,
           publishToEventStore,
         })
@@ -116,14 +85,12 @@ describe(`Commande annulerRejetRecours`, () => {
         it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
         alors un événement RejetRecoursAnnulé devrait être émis`, async () => {
           const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
-          const shouldUserAccessProject = jest.fn(async () => true)
           const projectId = 'id-du-projet'
           const demandeRecoursId = 'id-de-la-demande'
           const modificationRequestRepo = fakeTransactionalRepo(
             makeFakeDemandeRecours({ status: 'rejetée', projectId }) as ModificationRequest
           )
           const annulerRejetRecours = makeAnnulerRejetRecours({
-            shouldUserAccessProject,
             modificationRequestRepo,
             publishToEventStore,
           })
