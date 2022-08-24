@@ -1,7 +1,7 @@
 import { DownloadLinkButton, LinkButton, SecondaryLinkButton } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
-import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
+import { InboxInIcon } from '@heroicons/react/solid'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { userIs } from '@modules/users'
 import routes from '@routes'

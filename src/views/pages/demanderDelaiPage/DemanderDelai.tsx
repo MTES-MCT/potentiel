@@ -9,7 +9,6 @@ import {
   UserDashboard,
   FormulaireChampsObligatoireLégende,
   Button,
-  LinkButton,
   Label,
   SecondaryLinkButton,
 } from '@components'

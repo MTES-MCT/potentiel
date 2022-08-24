@@ -5,7 +5,7 @@ import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLi
 import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 import { User } from '@entities'
 import routes from '@routes'
-import { LinkButton, SecondaryButton, Container, SecondaryLinkButton } from '@components'
+import { LinkButton, Container, SecondaryLinkButton } from '@components'
 
 type InscriptionConnexionProps = {
   user: User
