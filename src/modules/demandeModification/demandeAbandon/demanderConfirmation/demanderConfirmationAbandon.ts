@@ -24,7 +24,7 @@ type MakeDemanderConfirmationAbandonProps = {
 export const makeDemanderConfirmationAbandon =
   ({ demandeAbandonRepo, publishToEventStore, fileRepo }: MakeDemanderConfirmationAbandonProps) =>
   ({ user, demandeAbandonId, fichierRéponse }: DemanderConfirmationAbandonProps) => {
-    if (userIsNot(['admin', 'dreal', 'dgec'])(user)) {
+    if (userIsNot(['admin', 'dgec-validateur'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 

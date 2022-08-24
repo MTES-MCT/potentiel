@@ -21,8 +21,8 @@ describe(`Demander une confirmation d'abandon`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible de demander une confirmation d'abandon si non Admin/DGEC/DREAL`, () => {
-    describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
+  describe(`Impossible de demander une confirmation d'abandon si non Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur autre que Admin ou DGEC`, () => {
       const rolesNePouvantPasAccorderUneDemandeAbandon: UserRole[] = [
         'acheteur-obligé',
         'ademe',
@@ -60,7 +60,7 @@ describe(`Demander une confirmation d'abandon`, () => {
   })
 
   describe(`Impossible de demander une confirmation avec un statut 'en attente de confirmation' ou 'demande confirmée'`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
       for (const statut of ['en attente de confirmation', 'demande confirmée']) {
         it(`
@@ -100,7 +100,7 @@ describe(`Demander une confirmation d'abandon`, () => {
 
   describe(`Possible de demander une confirmation d'abandon avec le statut 
             'envoyée' ou 'en-instruction' et le role admin`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
       for (const statut of ['envoyée', 'en-instruction']) {

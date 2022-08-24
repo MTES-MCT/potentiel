@@ -375,7 +375,6 @@ export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
 
 export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
   fileRepo,
-  projectRepo,
   demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })

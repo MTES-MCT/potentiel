@@ -20,8 +20,8 @@ describe(`Rejeter une demande d'abandon`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible de rejeter un abandon si non Admin/DGEC/DREAL`, () => {
-    describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
+  describe(`Impossible de rejeter un abandon si non Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur autre que Admin, DGEC`, () => {
       const rolesNePouvantPasRefuser: UserRole[] = ['acheteur-obligé', 'ademe', 'porteur-projet']
 
       for (const role of rolesNePouvantPasRefuser) {
@@ -51,7 +51,7 @@ describe(`Rejeter une demande d'abandon`, () => {
   })
 
   describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
       const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = [
@@ -89,8 +89,8 @@ describe(`Rejeter une demande d'abandon`, () => {
     })
   })
 
-  describe(`Possible de rejeter un abandon si Admin/DGEC/DREAL`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+  describe(`Possible de rejeter un abandon si Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
 
       const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']

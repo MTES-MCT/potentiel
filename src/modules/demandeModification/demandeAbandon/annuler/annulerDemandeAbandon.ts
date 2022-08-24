@@ -35,14 +35,14 @@ export const makeAnnulerDemandeAbandon =
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())
           }
-          if (statut === 'envoyée' || statut === 'en-instruction') {
-            return publishToEventStore(
-              new AbandonAnnulé({
-                payload: { demandeAbandonId, projetId, annuléPar: user.id },
-              })
-            )
+          if (statut !== 'envoyée' && statut !== 'en-instruction') {
+            return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
           }
-          return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
+          return publishToEventStore(
+            new AbandonAnnulé({
+              payload: { demandeAbandonId, projetId, annuléPar: user.id },
+            })
+          )
         }
       )
     })

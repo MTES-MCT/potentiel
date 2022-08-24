@@ -28,7 +28,7 @@ export const makeRejeterDemandeAbandon =
     demandeAbandonId,
     fichierRéponse: { filename, contents },
   }: RejeterDemandeAbandonProps) => {
-    if (userIsNot(['admin', 'dgec', 'dreal'])(user)) {
+    if (userIsNot(['admin', 'dgec-validateur'])(user)) {
       return errAsync(new UnauthorizedError())
     }
 

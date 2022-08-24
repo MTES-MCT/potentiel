@@ -5,7 +5,6 @@ import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/
 import { UserRole } from '@modules/users'
 import { User } from '@entities'
 
-import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { makeAccorderDemandeAbandon } from './accorderDemandeAbandon'
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
 import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError'
@@ -22,8 +21,8 @@ describe(`Accorder une demande d'abandon`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible d'accorder un abandon si non Admin/DGEC/DREAL`, () => {
-    describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
+  describe(`Impossible d'accorder un abandon si non Admin/DGEC`, () => {
+    describe(`Etant donné un utilisateur autre que Admin ou DGEC`, () => {
       const rolesNePouvantPasAccorderUneDemandeAbandon: UserRole[] = [
         'acheteur-obligé',
         'ademe',
@@ -45,7 +44,6 @@ describe(`Accorder une demande d'abandon`, () => {
             },
             publishToEventStore,
             fileRepo: fakeRepo(),
-            projectRepo: fakeRepo(),
           })
 
           const res = await accorderDemandeAbandon({
@@ -62,7 +60,7 @@ describe(`Accorder une demande d'abandon`, () => {
   })
 
   describe(`Impossible d'accorder une demande avec un statut autre que 'envoyée'`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
       const statutsNePouvantPasÊtreAccordé: StatutDemandeAbandon[] = [
@@ -77,7 +75,6 @@ describe(`Accorder une demande d'abandon`, () => {
       Alors une erreur AccorderDemandeAbandonError devrait être retournée
       Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-          const projectRepo = fakeRepo(makeFakeProject())
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,
@@ -91,7 +88,6 @@ describe(`Accorder une demande d'abandon`, () => {
             },
             publishToEventStore,
             fileRepo,
-            projectRepo,
           })
 
           const res = await accorderDemandeAbandon({
@@ -110,7 +106,7 @@ describe(`Accorder une demande d'abandon`, () => {
   })
 
   describe(`Accorder un abandon`, () => {
-    describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
+    describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
       const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
 
@@ -120,7 +116,6 @@ describe(`Accorder une demande d'abandon`, () => {
       Alors le courrier de réponse devrait être sauvegardé 
       Et l'évenement 'AbandonAccordé' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-          const projectRepo = fakeRepo(makeFakeProject())
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,
@@ -135,7 +130,6 @@ describe(`Accorder une demande d'abandon`, () => {
             },
             publishToEventStore,
             fileRepo,
-            projectRepo,
           })
 
           const resultat = await accorderDemandeAbandon({

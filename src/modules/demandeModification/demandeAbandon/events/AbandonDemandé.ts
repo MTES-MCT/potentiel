@@ -3,7 +3,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 export type AbandonDemandéPayload = {
   demandeAbandonId: string
   projetId: string
-  autorité: 'dgec' | 'dreal'
+  autorité: 'dgec'
   fichierId?: string
   justification?: string
   porteurId: string

@@ -70,7 +70,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
               projetId: projectId,
               ...(fileId && { fichierId: fileId }),
               justification,
-              autorité: appelOffre?.type === 'eolien' ? 'dgec' : 'dreal',
+              autorité: 'dgec',
               porteurId: user.id,
             },
           })
