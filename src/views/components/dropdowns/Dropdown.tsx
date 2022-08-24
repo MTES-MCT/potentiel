@@ -34,11 +34,9 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         )}
       </Link>
     ) : (
-      <Button onClick={() => changeOpenState(!isOpen)} disabled={disabled}>
+      <Button onClick={() => changeOpenState(!isOpen)}>
         {text}{' '}
-        {disabled ? (
-          <ChevronDownIcon className="w-5 h-5 ml-1" />
-        ) : isOpen ? (
+        {isOpen ? (
           <ChevronUpIcon className="w-5 h-5 ml-1" />
         ) : (
           <ChevronDownIcon className="w-5 h-5 ml-1" />
