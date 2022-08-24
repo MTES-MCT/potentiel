@@ -84,6 +84,8 @@ import { makeDemanderAbandon } from '../modules/demandeModification/demandeAband
 import { makeAnnulerDemandeAbandon } from '../modules/demandeModification/demandeAbandon/annuler'
 import { makeAccorderDemandeAbandon } from '../modules/demandeModification/demandeAbandon/accorder/accorderDemandeAbandon'
 import { makeRejeterDemandeAbandon } from '../modules/demandeModification/demandeAbandon/rejeter'
+import { makeDemanderConfirmationAbandon } from '../modules/demandeModification/demandeAbandon/demanderConfirmation/demanderConfirmationAbandon'
+import { makeConfirmerDemandeAbandon } from '../modules/demandeModification/demandeAbandon/confirmerAbandon/confirmerDemandeAbandon'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -375,6 +377,18 @@ export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
   fileRepo,
   projectRepo,
   demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
+  fileRepo,
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const confirmerDemandeAbandon = makeConfirmerDemandeAbandon({
+  demandeAbandonRepo,
+  aAccèsAuProjet: oldUserRepo.hasProject,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })
 

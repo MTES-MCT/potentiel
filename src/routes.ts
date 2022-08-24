@@ -132,7 +132,7 @@ class routes {
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI = '/admin/accorder-ou-rejeter-demande-delai'
-  static ADMIN_ACCORDER_OU_REJETER_DEMANDE_ABANDON = '/admin/accorder-ou-rejeter-demande-abandon'
+  static ADMIN_REPONDRE_DEMANDE_ABANDON = '/admin/repondre-demande-abandon'
 
   static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-delai'
@@ -228,7 +228,7 @@ class routes {
 
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai'
 
-  static CONFIRMER_DEMANDE_ACTION = '/confirmer-demande'
+  static CONFIRMER_DEMANDE_ABANDON = '/confirmer-demande-abandon'
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'

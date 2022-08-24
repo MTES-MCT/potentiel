@@ -23,7 +23,7 @@ import {
   UploadLegacyModificationFiles,
 } from './pages'
 import { DemanderAbandon } from './pages/demanderAbandonPage'
-import { DemandeAbandon } from './pages/DemandeAbandonPage'
+import { DemandeAbandon } from './pages/demandeAbandonPage'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({

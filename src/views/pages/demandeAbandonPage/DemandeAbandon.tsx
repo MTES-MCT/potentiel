@@ -7,17 +7,19 @@ import {
   RoleBasedDashboard,
   SuccessBox,
 } from '@components'
-import {
-  AdminResponseForm,
-  DemandeDetails,
-  DemandeStatus,
-} from '../modificationRequestPage/components'
+import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components'
 import ROUTES from '@routes'
 import React from 'react'
 import { Request } from 'express'
 import { DemandeAbandonPageDTO } from '@modules/modificationRequest'
 import moment from 'moment'
 import { dataId } from '../../../helpers/testId'
+import {
+  ModificationRequestColorByStatus,
+  ModificationRequestStatusTitle,
+  ModificationRequestTitleColorByStatus,
+} from '../../helpers'
+import { formatDate } from '../../../helpers/formatDate'
 
 type DemandeAbandonProps = {
   request: Request
@@ -30,7 +32,17 @@ export const DemandeAbandon = PageLayout(
   ({ request, modificationRequest }: DemandeAbandonProps) => {
     const { user } = request
     const { error, success } = request.query as any
-    const { type, id, status } = modificationRequest
+    const {
+      type,
+      id,
+      status,
+      respondedOn,
+      respondedBy,
+      cancelledOn,
+      cancelledBy,
+      responseFile,
+      versionDate,
+    } = modificationRequest
 
     const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -54,7 +66,33 @@ export const DemandeAbandon = PageLayout(
           <ErrorBox error={error} />
           <SuccessBox success={success} />
           <div className="panel__header">
-            <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
+            <div
+              className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
+              style={{ color: ModificationRequestTitleColorByStatus[status] }}
+            >
+              <span style={{ fontWeight: 'bold' }}>{ModificationRequestStatusTitle[status]}</span>{' '}
+              {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
+              {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
+              {responseFile && status !== 'demande confirmée' && (
+                <div>
+                  <a
+                    href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
+                    download={true}
+                    {...dataId('requestList-item-download-link')}
+                  >
+                    Télécharger le courrier de réponse
+                  </a>
+                </div>
+              )}
+              <div>
+                <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
+                  <input type="hidden" name="demandeAbandonId" value={id} />
+                  <Button primary type="submit" className="mt-4">
+                    Je confirme ma demande
+                  </Button>
+                </form>
+              </div>
+            </div>
           </div>
           {showFormulaireAdministrateur && (
             <div className="panel__header">

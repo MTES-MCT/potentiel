@@ -1,7 +1,12 @@
 import fs from 'fs'
 import * as yup from 'yup'
 
-import { accorderDemandeAbandon, ensureRole, rejeterDemandeAbandon } from '@config'
+import {
+  accorderDemandeAbandon,
+  demanderConfirmationAbandon,
+  ensureRole,
+  rejeterDemandeAbandon,
+} from '@config'
 import { errAsync, logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 
@@ -20,17 +25,24 @@ import { v1Router } from '../../v1Router'
 const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),
   submitRefuse: yup.string().nullable(),
+  submitConfirm: yup.string().nullable(),
   modificationRequestId: yup.string().uuid().required(),
 })
 
+const SUCCESS_MESSAGES = {
+  accorder: 'La demande de délai a bien été accordée',
+  rejeter: 'La demande de délai a bien été rejetée',
+  demanderConfirmation: 'La demande de confirmation a bien été prise en compte',
+}
+
 v1Router.post(
-  routes.ADMIN_ACCORDER_OU_REJETER_DEMANDE_ABANDON,
+  routes.ADMIN_REPONDRE_DEMANDE_ABANDON,
   ensureRole(['admin', 'dgec', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { modificationRequestId, submitAccept } = body
+        const { modificationRequestId, submitAccept, submitConfirm } = body
         const { user } = request
 
         if (!request.file) {
@@ -47,26 +59,35 @@ v1Router.post(
         }
 
         const estAccordé = typeof submitAccept === 'string'
+        const demanderConfirmation = typeof submitConfirm === 'string'
 
         if (estAccordé) {
           return accorderDemandeAbandon({
             user,
             demandeAbandonId: modificationRequestId,
             fichierRéponse: file,
-          }).map(() => ({ modificationRequestId, estAccordé: true }))
-        } else {
-          return rejeterDemandeAbandon({
+          }).map(() => ({ modificationRequestId, action: 'accorder' }))
+        }
+
+        if (demanderConfirmation) {
+          return demanderConfirmationAbandon({
             user,
             demandeAbandonId: modificationRequestId,
             fichierRéponse: file,
-          }).map(() => ({ modificationRequestId, estAccordé: false }))
+          }).map(() => ({ modificationRequestId, action: 'demanderConfirmation' }))
         }
+
+        return rejeterDemandeAbandon({
+          user,
+          demandeAbandonId: modificationRequestId,
+          fichierRéponse: file,
+        }).map(() => ({ modificationRequestId, action: 'rejeter' }))
       })
       .match(
-        ({ modificationRequestId, estAccordé }) => {
+        ({ modificationRequestId, action }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: `La demande de délai a bien été ${estAccordé ? 'accordée' : 'rejetée'}.`,
+              success: SUCCESS_MESSAGES[action],
               redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
               redirectTitle: 'Retourner sur la page de la demande',
             })

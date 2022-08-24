@@ -5,13 +5,12 @@ import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/
 import { UserRole } from '@modules/users'
 import { User } from '@entities'
 
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { makeAccorderDemandeAbandon } from './accorderDemandeAbandon'
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
-import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError'
+import { makeDemanderConfirmationAbandon } from './demanderConfirmationAbandon'
 import { StatutDemandeAbandon } from '../DemandeAbandon'
+import { DemanderConfirmationAbandonError } from './DemanderConfirmationAbandonError'
 
-describe(`Accorder une demande d'abandon`, () => {
+describe(`Demander une confirmation d'abandon`, () => {
   const demandeAbandonId = 'id-demande'
   const fichierRéponse = {
     contents: Readable.from('test-content'),
@@ -22,7 +21,7 @@ describe(`Accorder une demande d'abandon`, () => {
 
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Impossible d'accorder un abandon si non Admin/DGEC/DREAL`, () => {
+  describe(`Impossible de demander une confirmation d'abandon si non Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur autre que Admin, DGEC ou DREAL`, () => {
       const rolesNePouvantPasAccorderUneDemandeAbandon: UserRole[] = [
         'acheteur-obligé',
@@ -34,21 +33,20 @@ describe(`Accorder une demande d'abandon`, () => {
         const user = { role } as User
 
         it(`
-        Lorsqu'il accorde une demande d'abandon
+        Lorsqu'il demande une confirmation d'abandon
         Alors une erreur UnauthorizedError devrait être retournée
         Et aucun évènement ne devrait être publié dans le store`, async () => {
           const demandeAbandon = makeFakeDemandeAbandon({ projetId: 'le-projet' })
-          const accorderDemandeAbandon = makeAccorderDemandeAbandon({
+          const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
             demandeAbandonRepo: {
               ...fakeTransactionalRepo(demandeAbandon),
               ...fakeRepo(demandeAbandon),
             },
             publishToEventStore,
             fileRepo: fakeRepo(),
-            projectRepo: fakeRepo(),
           })
 
-          const res = await accorderDemandeAbandon({
+          const res = await demanderConfirmationAbandon({
             user,
             demandeAbandonId,
             fichierRéponse,
@@ -61,47 +59,38 @@ describe(`Accorder une demande d'abandon`, () => {
     })
   })
 
-  describe(`Impossible d'accorder une demande avec un statut autre que 'envoyée'`, () => {
+  describe(`Impossible de demander une confirmation avec un statut 'en attente de confirmation' ou 'demande confirmée'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
-
-      const statutsNePouvantPasÊtreAccordé: StatutDemandeAbandon[] = [
-        'accordée',
-        'refusée',
-        'annulée',
-      ]
-
-      for (const statut of statutsNePouvantPasÊtreAccordé) {
+      for (const statut of ['en attente de confirmation', 'demande confirmée']) {
         it(`
-      Lorsqu'il accorde une demande d'abandon avec comme statut '${statut}'
-      Alors une erreur AccorderDemandeAbandonError devrait être retournée
-      Et aucun évènement ne devrait être publié dans le store`, async () => {
+            Lorsqu'il accorde une demande d'abandon avec comme statut '${statut}'
+            Alors une erreur AccorderDemandeAbandonError devrait être retournée
+            Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-          const projectRepo = fakeRepo(makeFakeProject())
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,
-            statut,
+            statut: statut as StatutDemandeAbandon,
             projetId: 'le-projet',
           })
-          const accorderDemandeAbandon = makeAccorderDemandeAbandon({
+          const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
             demandeAbandonRepo: {
               ...fakeTransactionalRepo(demandeAbandon),
               ...fakeRepo(demandeAbandon),
             },
             publishToEventStore,
             fileRepo,
-            projectRepo,
           })
 
-          const res = await accorderDemandeAbandon({
+          const res = await demanderConfirmationAbandon({
             user,
             demandeAbandonId,
             fichierRéponse,
           })
 
           const erreurActuelle = res._unsafeUnwrapErr()
-          expect(erreurActuelle).toBeInstanceOf(AccorderDemandeAbandonError)
+          expect(erreurActuelle).toBeInstanceOf(DemanderConfirmationAbandonError)
           expect(publishToEventStore).not.toHaveBeenCalled()
           expect(fileRepo.save).not.toHaveBeenCalled()
         })
@@ -109,36 +98,34 @@ describe(`Accorder une demande d'abandon`, () => {
     })
   })
 
-  describe(`Accorder un abandon`, () => {
+  describe(`Possible de demander une confirmation d'abandon avec le statut 
+            'envoyée' ou 'en-instruction' et le role admin`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
-      const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
 
-      for (const statut of statutsPouvantÊtreAccordé) {
+      for (const statut of ['envoyée', 'en-instruction']) {
         it(`
-      Lorsqu'il accorde une demande d'abandon avec comme statut '${statut}'
-      Alors le courrier de réponse devrait être sauvegardé 
-      Et l'évenement 'AbandonAccordé' devrait être publié dans le store`, async () => {
+            Lorsqu'il accorde une demande de confirmation d'abandon avec comme statut '${statut}'
+            Alors le courrier de réponse devrait être sauvegardé
+            Et l'évenement 'ConfirmationAbandonDemandée' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-          const projectRepo = fakeRepo(makeFakeProject())
 
           const demandeAbandon = makeFakeDemandeAbandon({
             id: demandeAbandonId,
-            statut,
+            statut: statut as StatutDemandeAbandon,
             projetId: 'le-projet-de-la-demande',
           })
 
-          const accorderDemandeAbandon = makeAccorderDemandeAbandon({
+          const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
             demandeAbandonRepo: {
               ...fakeTransactionalRepo(demandeAbandon),
               ...fakeRepo(demandeAbandon),
             },
             publishToEventStore,
             fileRepo,
-            projectRepo,
           })
 
-          const resultat = await accorderDemandeAbandon({
+          const resultat = await demanderConfirmationAbandon({
             user,
             demandeAbandonId,
             fichierRéponse,
@@ -155,10 +142,10 @@ describe(`Accorder une demande d'abandon`, () => {
           )
           expect(publishToEventStore).toHaveBeenCalledWith(
             expect.objectContaining({
-              type: 'AbandonAccordé',
+              type: 'ConfirmationAbandonDemandée',
               payload: expect.objectContaining({
                 projetId: 'le-projet-de-la-demande',
-                accordéPar: user.id,
+                demandéePar: user.id,
                 demandeAbandonId,
                 fichierRéponseId: expect.any(String),
               }),

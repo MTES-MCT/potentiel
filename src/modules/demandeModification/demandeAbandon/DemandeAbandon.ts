@@ -1,9 +1,23 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
 import { EntityNotFoundError } from '../../shared'
-import { AbandonDemandé, AbandonAnnulé } from './events'
+import {
+  AbandonDemandé,
+  AbandonAnnulé,
+  AbandonConfirmé,
+  AbandonAccordé,
+  AbandonRejeté,
+  ConfirmationAbandonDemandée,
+} from './events'
 
-export type StatutDemandeAbandon = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
+export type StatutDemandeAbandon =
+  | 'envoyée'
+  | 'annulée'
+  | 'accordée'
+  | 'refusée'
+  | 'en-instruction'
+  | 'en attente de confirmation'
+  | 'demande confirmée'
 
 type DemandeAbandonArgs = {
   id: UniqueEntityID
@@ -37,6 +51,14 @@ export const makeDemandeAbandon = (
         }
       case AbandonAnnulé.type:
         return { ...agregat, statut: 'annulée' }
+      case AbandonConfirmé.type:
+        return { ...agregat, statut: 'demande confirmée' }
+      case AbandonAccordé.type:
+        return { ...agregat, statut: 'accordée' }
+      case AbandonRejeté.type:
+        return { ...agregat, statut: 'refusée' }
+      case ConfirmationAbandonDemandée.type:
+        return { ...agregat, statut: 'en attente de confirmation' }
       default:
         return agregat
     }

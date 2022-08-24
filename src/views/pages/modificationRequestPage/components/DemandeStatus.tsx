@@ -102,7 +102,6 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           </a>
         </div>
       )}
-      <Confirmation role={role} modificationRequest={modificationRequest} />
     </div>
   )
 }
@@ -141,29 +140,6 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
     }
 
     return null
-  }
-
-  return null
-}
-
-interface ConfirmationProps {
-  modificationRequest: ModificationRequestPageDTO
-  role: UserRole
-}
-const Confirmation = ({ modificationRequest, role }: ConfirmationProps) => {
-  const { versionDate, id, status } = modificationRequest
-  if (status === 'en attente de confirmation' && role === 'porteur-projet') {
-    return (
-      <div>
-        <form action={ROUTES.CONFIRMER_DEMANDE_ACTION} method="post" style={{ margin: 0 }}>
-          <input type="hidden" name="modificationRequestId" value={id} />
-          <input type="hidden" name="versionDate" value={versionDate} />
-          <button className="button" type="submit" {...dataId('submit-button')}>
-            Je confirme ma demande
-          </button>
-        </form>
-      </div>
-    )
   }
 
   return null
