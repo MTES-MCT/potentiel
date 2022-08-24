@@ -8,41 +8,28 @@ import {
 import { isLinkMailTo } from './helpers'
 
 type LinkButtonProps = ComponentProps<'a'> & {
-  primary?: boolean
-  disabled?: boolean
+  primary?: true
   excel?: boolean
 }
 
 export const LinkButton: FC<LinkButtonProps> = ({
-  disabled,
   primary,
   children,
   className = '',
   ...props
-}) => {
-  const classes = `inline-flex items-center px-6 py-2 border border-solid no-underline font-medium shadow-sm focus:no-underline active:no-underline focus:outline-none focus:ring-2 focus:ring-offset-2
-    ${
+}) => (
+  <a
+    className={`no-underline inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 ${
       primary
-        ? 'border-transparent bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active text-white hover:text-white focus:text-white active:text-white visited:text-white'
-        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base hover:text-blue-france-sun-base focus:text-blue-france-sun-base'
-    }
-    ${
-      !disabled
-        ? ''
-        : primary
-        ? 'border-transparent bg-neutral-200 text-neutral-500 shadow-none pointer-events-none'
-        : 'border-neutral-200 text-neutral-500 shadow-none pointer-events-none'
-    } 
-    ${className}
-  `
-
-  return (
-    <a className={classes} {...props}>
-      {children}
-      {(props.excel && <DocumentReportIcon className="w-5 h-5 ml-1" />) ||
-        (props.download && <DocumentDownloadIcon className="w-5 h-5 ml-1" />)}
-      {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
-      {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
-    </a>
-  )
-}
+        ? 'border-transparent text-white bg-blue-france-sun-base hover:bg-blue-france-sun-hover focus:bg-blue-france-sun-active'
+        : 'border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base'
+    } ${className}`}
+    style={{ color: primary ? 'white' : '#000091', textDecoration: 'none' }}
+    {...props}
+  >
+    {children}
+    {props.excel && <DocumentReportIcon className="w-5 h-5 ml-1" />}
+    {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
+    {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
+  </a>
+)

@@ -44,7 +44,7 @@ const Bienvenue = ({ user }: BienvenueProps) => (
       <LinkButton
         className="inline-flex items-center lg:text-lg"
         href={routes.REDIRECT_BASED_ON_ROLE}
-        primary={true}
+        primary
       >
         <RiDashboardLine className="mr-4" />
         Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
@@ -142,7 +142,7 @@ const LoginBox = () => {
         </p>
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
-      <LinkButton href={routes.LOGIN} primary={true} className="inline-flex items-center mx-auto">
+      <LinkButton href={routes.LOGIN} primary className="inline-flex items-center mx-auto">
         <RiLockLine className="mr-4" />
         M'identifier
       </LinkButton>

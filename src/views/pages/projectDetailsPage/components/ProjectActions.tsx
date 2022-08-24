@@ -1,4 +1,4 @@
-import { LinkButton } from '@components'
+import { DownloadLinkButton, LinkButton } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
 import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
@@ -211,19 +211,17 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
     )}
 
     {project.notifiedOn && project.certificateFile && (
-      <LinkButton
+      <DownloadLinkButton
         href={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           nomProjet: project.nomProjet,
           potentielIdentifier: project.potentielIdentifier,
         })}
-        primary
-        download
         className="m-auto"
       >
         Télécharger mon attestation
-      </LinkButton>
+      </DownloadLinkButton>
     )}
   </div>
 )
@@ -236,29 +234,22 @@ const AdminActions = ({ project }: AdminActionsProps) => (
     <EnregistrerUneModification {...{ project }} />
 
     {project.notifiedOn && project.certificateFile ? (
-      <LinkButton
+      <DownloadLinkButton
         href={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           email: project.email,
           potentielIdentifier: project.potentielIdentifier,
         })}
-        download
-        primary
         className="m-auto"
       >
         Voir attestation
-      </LinkButton>
+      </DownloadLinkButton>
     ) : (
       !project.isLegacy && (
-        <LinkButton
-          href={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
-          download
-          primary
-          className="m-auto"
-        >
+        <DownloadLinkButton href={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)} className="m-auto">
           Aperçu attestation
-        </LinkButton>
+        </DownloadLinkButton>
       )
     )}
   </div>
