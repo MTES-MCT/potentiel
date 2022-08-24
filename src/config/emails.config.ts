@@ -4,6 +4,7 @@ import { makeNotificationService, SendEmail } from '@modules/notification'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { notificationRepo } from './repos.config'
 import { getFailedNotificationsForRetry } from './queries.config'
+import { makeNotifierPorteurChangementStatutDemande } from 'src/modules/notification'
 
 let sendEmail: SendEmail = fakeSendEmail
 
@@ -49,4 +50,8 @@ export const { sendNotification, retryFailedNotifications } = makeNotificationSe
   emailSenderName: process.env.SEND_EMAILS_FROM_NAME,
   notificationRepo,
   getFailedNotificationsForRetry,
+})
+
+export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
+  sendNotification,
 })
