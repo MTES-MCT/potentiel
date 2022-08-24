@@ -212,7 +212,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
 
     {project.notifiedOn && project.certificateFile && (
       <DownloadLinkButton
-        href={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           nomProjet: project.nomProjet,
@@ -235,7 +235,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
 
     {project.notifiedOn && project.certificateFile ? (
       <DownloadLinkButton
-        href={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
+        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           email: project.email,
@@ -247,7 +247,10 @@ const AdminActions = ({ project }: AdminActionsProps) => (
       </DownloadLinkButton>
     ) : (
       !project.isLegacy && (
-        <DownloadLinkButton href={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)} className="m-auto">
+        <DownloadLinkButton
+          fileUrl={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
+          className="m-auto"
+        >
           Aperçu attestation
         </DownloadLinkButton>
       )

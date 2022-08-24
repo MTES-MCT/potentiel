@@ -36,7 +36,7 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
     return <span>Attestation non disponible pour cette période</span>
   }
 
-  const { url, date } = certificate
+  const { url: fileUrl, date } = certificate
 
   const urlTitle =
     projectStatus === 'Eliminé'
@@ -47,6 +47,8 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
       ? `attestation de désignation (éditée`
       : `attestation de désignation (transmise`
   return (
-    <DownloadLink href={url}>{`Télécharger l'${urlTitle} le ${formatDate(date)})`}</DownloadLink>
+    <DownloadLink {...{ fileUrl }}>{`Télécharger l'${urlTitle} le ${formatDate(
+      date
+    )})`}</DownloadLink>
   )
 }

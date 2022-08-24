@@ -1,11 +1,5 @@
 import React, { ComponentProps, FC } from 'react'
-import {
-  DocumentDownloadIcon,
-  ExternalLinkIcon,
-  MailIcon,
-  DocumentReportIcon,
-} from '@heroicons/react/outline'
-import { isLinkMailTo } from './helpers'
+import { ExternalLinkIcon, DocumentReportIcon } from '@heroicons/react/outline'
 
 type LinkButtonProps = ComponentProps<'a'> & {
   primary?: true
@@ -30,6 +24,5 @@ export const LinkButton: FC<LinkButtonProps> = ({
     {children}
     {props.excel && <DocumentReportIcon className="w-5 h-5 ml-1" />}
     {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
-    {isLinkMailTo(props.href) && <MailIcon className="w-5 h-5 ml-1" />}
   </a>
 )

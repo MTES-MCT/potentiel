@@ -1,10 +1,13 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { FC } from 'react'
 import { Link, FileDownloadIcon } from '../atoms'
 
-type DownloadLinkProps = ComponentProps<'a'>
+type DownloadLinkProps = {
+  className?: string
+  fileUrl: string
+}
 
-export const DownloadLink: FC<DownloadLinkProps> = ({ children, ...props }) => (
-  <Link {...props} download>
+export const DownloadLink: FC<DownloadLinkProps> = ({ children, className, fileUrl }) => (
+  <Link className={className} href={fileUrl} download>
     {children}
     <FileDownloadIcon className="text-lg ml-1" />
   </Link>

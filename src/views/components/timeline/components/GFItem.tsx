@@ -77,7 +77,7 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
           {isDreal && status === 'past-due' && (
             <p className="m-0">
               <DownloadLink
-                href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
+                fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
               >
                 Télécharger le modèle de mise en demeure
               </DownloadLink>
@@ -114,7 +114,7 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
         />
         <div className="flex">
           {url ? (
-            <DownloadLink href={url}>
+            <DownloadLink fileUrl={url}>
               Télécharger l'attestation de garanties financières
             </DownloadLink>
           ) : (
@@ -149,7 +149,7 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
         <div>
           {url ? (
             <>
-              <DownloadLink href={url}>
+              <DownloadLink fileUrl={url}>
                 Télécharger l'attestation de garanties financières
               </DownloadLink>
               <span>&nbsp;(validée)</span>
@@ -278,7 +278,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         />
         <div className="flex">
           {url ? (
-            <DownloadLink href={url}>
+            <DownloadLink fileUrl={url}>
               Télécharger l'attestation de garanties financières
             </DownloadLink>
           ) : (
