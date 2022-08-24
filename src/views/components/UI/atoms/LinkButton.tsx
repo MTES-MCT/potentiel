@@ -1,9 +1,7 @@
 import React, { ComponentProps, FC } from 'react'
-import { ExternalLinkIcon, DocumentReportIcon } from '@heroicons/react/outline'
 
 type LinkButtonProps = ComponentProps<'a'> & {
   primary?: true
-  excel?: boolean
 }
 
 export const LinkButton: FC<LinkButtonProps> = ({
@@ -22,7 +20,5 @@ export const LinkButton: FC<LinkButtonProps> = ({
     {...props}
   >
     {children}
-    {props.excel && <DocumentReportIcon className="w-5 h-5 ml-1" />}
-    {props.target && props.target === '_blank' && <ExternalLinkIcon className="w-5 h-5 ml-1" />}
   </a>
 )

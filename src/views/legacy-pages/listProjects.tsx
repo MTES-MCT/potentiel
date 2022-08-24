@@ -6,7 +6,13 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 
-import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from '@components'
+import {
+  LinkButton,
+  ProjectList,
+  DownloadIcon,
+  RoleBasedDashboard,
+  ExcelFileIcon,
+} from '@components'
 
 type ListProjectsProps = {
   request: Request
@@ -322,8 +328,8 @@ export default function ListProjects({
                     request.query as any
                   )}`}
                   download
-                  excel
                 >
+                  <ExcelFileIcon className="mr-2" />
                   Télécharger un export
                 </LinkButton>
               )}
