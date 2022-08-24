@@ -1,4 +1,4 @@
-import { DownloadLinkButton, LinkButton, SecondaryLinkButton } from '@components'
+import { DownloadLinkButton, SecondaryLinkButton } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
 import { InboxInIcon } from '@heroicons/react/solid'
