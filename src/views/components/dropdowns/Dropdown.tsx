@@ -31,9 +31,9 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       >
         {text}{' '}
         {isOpen ? (
-          <ChevronUpIcon className="w-5 h-5 ml-1" />
+          <ChevronUpIcon className="w-5 h-5 ml-1 -mb-1" />
         ) : (
-          <ChevronDownIcon className="w-5 h-5 ml-1" />
+          <ChevronDownIcon className="w-5 h-5 ml-1 -mb-1" />
         )}
       </Link>
     ) : (
