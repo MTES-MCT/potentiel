@@ -5,7 +5,6 @@ type LinkButtonProps = ComponentProps<'a'>
 export const SecondaryLinkButton: FC<LinkButtonProps> = ({
   children,
   className = '',
-  style,
   ...props
 }) => (
   <a
