@@ -12,5 +12,5 @@ export const makeFakeDemandeAbandon = (override?: {
   pendingEvents: [],
   id: new UniqueEntityID(override?.id) || new UniqueEntityID(),
   statut: override?.statut || 'envoyée',
-  projetId: override?.projetId,
+  projetId: override?.projetId ?? 'projet-id',
 })

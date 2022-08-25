@@ -32,17 +32,8 @@ export const DemandeAbandon = PageLayout(
   ({ request, modificationRequest }: DemandeAbandonProps) => {
     const { user } = request
     const { error, success } = request.query as any
-    const {
-      type,
-      id,
-      status,
-      respondedOn,
-      respondedBy,
-      cancelledOn,
-      cancelledBy,
-      responseFile,
-      versionDate,
-    } = modificationRequest
+    const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
+      modificationRequest
 
     const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
 
@@ -84,14 +75,16 @@ export const DemandeAbandon = PageLayout(
                   </a>
                 </div>
               )}
-              <div>
-                <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
-                  <input type="hidden" name="demandeAbandonId" value={id} />
-                  <Button primary type="submit" className="mt-4">
-                    Je confirme ma demande
-                  </Button>
-                </form>
-              </div>
+              {status === 'en attente de confirmation' && user.role === 'porteur-projet' && (
+                <div>
+                  <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
+                    <input type="hidden" name="demandeAbandonId" value={id} />
+                    <Button primary type="submit" className="mt-4">
+                      Je confirme ma demande
+                    </Button>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
           {showFormulaireAdministrateur && (
@@ -115,7 +108,7 @@ export const DemandeAbandon = PageLayout(
             </div>
           )}
           {!isAdmin &&
-            ['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
+            ['envoyée', 'en-instruction', 'en attente de confirmation'].includes(status) && (
               <form
                 action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION}
                 method="post"
