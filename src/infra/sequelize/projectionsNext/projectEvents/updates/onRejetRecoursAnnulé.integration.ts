@@ -8,11 +8,10 @@ describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {
   beforeEach(async () => {
     resetDatabase()
   })
-  describe(`Etant donné un événement RejetRecoursAnnulé émis`, () => {
-    describe(`Lorsqu'il y a un événement de type "ModificationRequestRejected" 
-      et un événement de type "ModificationRequestInstructionStarted"
-      avec le même modificationRequestId`, () => {
-      it(`Alors ces événements devraient être supprimés`, async () => {
+  describe(`Étant donné des événements de type "ModificationRequestRejected" et "ModificationRequestInstructionStarted" pour une demande de recours`, () => {
+    describe(`Lorsqu'on émet un événement RejetRecoursAnnulé avec la même demande`, () => {
+      it(`Alors on ne devrait plus avoir les événements de type "ModificationRequestRejected" et "ModificationRequestInstructionStarted" 
+      dans les événements du projet concerné`, async () => {
         const modificationRequestId = new UniqueEntityID().toString()
         const projectId = new UniqueEntityID().toString()
         const occurredAt = new Date().getTime()
