@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 
 import { Link, Button } from '@components'
@@ -14,7 +14,7 @@ interface DropdownProps extends React.ComponentProps<'div'> {
 export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   text,
   children,
-  className,
+  className = '',
   design,
   disabled,
   isOpen = false,
@@ -25,7 +25,10 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
 
   const button =
     design === 'link' ? (
-      <Link onClick={() => changeOpenState(!isOpen)}>
+      <Link
+        className="inline-flex justify-start items-center"
+        onClick={() => changeOpenState(!isOpen)}
+      >
         {text}{' '}
         {isOpen ? (
           <ChevronUpIcon className="w-5 h-5 ml-1" />
@@ -34,7 +37,10 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
         )}
       </Link>
     ) : (
-      <Button onClick={() => changeOpenState(!isOpen)}>
+      <Button
+        className="inline-flex justify-start items-center"
+        onClick={() => changeOpenState(!isOpen)}
+      >
         {text}{' '}
         {isOpen ? (
           <ChevronUpIcon className="w-5 h-5 ml-1" />
@@ -44,7 +50,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       </Button>
     )
   return (
-    <div className={`flex flex-col w-fit ${className || ''}`} {...props}>
+    <div className={`flex flex-col w-fit${className}`} {...props}>
       {button}
       <div className={isOpen && !disabled ? 'block' : 'hidden'}>{children}</div>
     </div>

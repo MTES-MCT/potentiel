@@ -14,6 +14,6 @@ const Template = (args) => <LinkButton {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: `Ceci est un exemple de lien avec un design de bouton`,
+  children: `Exemple de lien avec un design de bouton`,
   href: '#',
 }

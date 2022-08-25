@@ -1,4 +1,11 @@
-import { Button, Input, LinkButton, PageLayout, ProjectInfo, RoleBasedDashboard } from '@components'
+import {
+  Button,
+  Input,
+  SecondaryLinkButton,
+  PageLayout,
+  ProjectInfo,
+  RoleBasedDashboard,
+} from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
 import { Request } from 'express'
@@ -134,7 +141,9 @@ export const SignalerDemandeDelai = PageLayout(
 
             <div className="m-auto flex gap-4">
               <Button type="submit">Enregistrer</Button>
-              <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Annuler</LinkButton>
+              <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
+                Annuler
+              </SecondaryLinkButton>
             </div>
           </form>
         </main>

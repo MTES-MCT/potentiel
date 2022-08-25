@@ -14,6 +14,6 @@ const Template = (args) => <Link {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: `Ceci est un exemple de lien`,
+  children: `Exemple de lien`,
   href: '#',
 }

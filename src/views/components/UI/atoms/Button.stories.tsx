@@ -14,5 +14,5 @@ const Template = (args) => <Button {...args} />
 export const Default = Template.bind({})
 
 Default.args = {
-  children: `Ceci est un exemple de bouton`,
+  children: `Exemple de bouton`,
 }

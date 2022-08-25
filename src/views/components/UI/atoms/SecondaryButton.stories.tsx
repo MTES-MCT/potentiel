@@ -14,6 +14,6 @@ const Template = (args) => <SecondaryButton {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: `Ceci est un exemple de bouton secondaire`,
+  children: `Exemple de bouton secondaire`,
   href: '#',
 }

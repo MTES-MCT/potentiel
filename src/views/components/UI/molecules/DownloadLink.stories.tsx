@@ -14,6 +14,6 @@ const Template = (args) => <DownloadLink {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: `Ceci est un exemple de lien de téléchargement`,
+  children: `Exemple de lien de téléchargement`,
   fileUrl: '#',
 }
