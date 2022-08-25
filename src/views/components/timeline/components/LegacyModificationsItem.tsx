@@ -67,7 +67,7 @@ const Recours = (props: RecoursProps) => {
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Recours ${titleStatus}`} />
-      {motifElimination !== '' && <p>Motif de l'élimination : {motifElimination}</p>}
+      {motifElimination !== '' && <span>Motif de l'élimination : {motifElimination}</span>}
     </LegacyModificationContainer>
   )
 }
