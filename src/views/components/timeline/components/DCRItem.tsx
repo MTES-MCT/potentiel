@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
 import ROUTES from '@routes'
-import { Button, FormulaireChampsObligatoireLégende, Label, SecondaryButton } from '../../'
+import {
+  Button,
+  FormulaireChampsObligatoireLégende,
+  Label,
+  SecondaryButton,
+  DownloadLink,
+  Link,
+} from '../../'
 import { WarningItem } from '../components/WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
@@ -36,9 +43,7 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
         <ItemTitle title="Demande complète de raccordement" />
         <div>
           {url ? (
-            <a href={url} download>
-              Télécharger l'accusé de réception
-            </a>
+            <DownloadLink fileUrl={url}>Télécharger l'accusé de réception</DownloadLink>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
@@ -94,7 +99,7 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
 type CancelDepositProps = { projectId: string }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
-    <a
+    <Link
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
       onClick={(event) =>
         confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer le document joint ?`) ||
@@ -102,7 +107,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
       }
     >
       Annuler le dépôt
-    </a>
+    </Link>
   )
 }
 

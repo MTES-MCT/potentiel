@@ -17,6 +17,7 @@ import {
   Astérisque,
   DownloadLink,
   Dropdown,
+  Link,
 } from '@components'
 
 type ComponentProps = GFItemProps & {
@@ -172,7 +173,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      <Link onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</Link>
       {isFormVisible && (
         <form
           action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
@@ -227,14 +228,14 @@ type CancelDepositProps = {
   projectId: string
 }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => (
-  <a
+  <Link
     href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
       projectId,
     })}
     data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
     Annuler le dépôt
-  </a>
+  </Link>
 )
 
 /* PPE2 */
@@ -376,14 +377,14 @@ type WithdrawDocumentProps = {
 }
 const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
-    <a
+    <Link
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
         projectId,
       })}
       data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
     >
       Retirer le document de Potentiel
-    </a>
+    </Link>
     {uploadedByRole === 'porteur-projet' && (
       <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
     )}
@@ -402,9 +403,9 @@ const ExpirationDate = ({ projectId, canUpdate, expirationDate }: ExpirationDate
       <div className={`flex ${expirationDate && `gap-2`}`}>
         {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         {canUpdate && (
-          <a onClick={() => showForm(!isFormVisible)}>
+          <Link onClick={() => showForm(!isFormVisible)}>
             {expirationDate ? `éditer` : `Renseigner la date d'échéance`}
-          </a>
+          </Link>
         )}
       </div>
       {isFormVisible && (

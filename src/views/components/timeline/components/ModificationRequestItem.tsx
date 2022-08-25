@@ -11,6 +11,7 @@ import {
 } from '.'
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
 import { CancelledStepIcon } from './cancelledStepIcon'
+import { DownloadLink, Link } from '@components'
 
 type ComponentProps = ModificationRequestItemProps & {
   projectStatus: ProjectStatus
@@ -78,7 +79,9 @@ const Rejected = (props: RejectedProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        {responseUrl && (
+          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
+        )}
       </ContentArea>
     </>
   )
@@ -96,7 +99,9 @@ const Accepted = (props: AcceptedProps) => {
       <ContentArea>
         <ItemDate date={date} />
         <Details {...props} />
-        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
+        {responseUrl && (
+          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
+        )}
       </ContentArea>
     </>
   )
@@ -137,8 +142,10 @@ const ConfirmationRequested = (props: ModificationRequestItemProps) => {
           )}
         </div>
         <ItemTitle title={`Abandon en attente de confirmation`} />
-        {responseUrl && <a href={responseUrl}>Voir le courrier de réponse</a>}
-        <a href={detailsUrl}>Voir la demande</a>
+        {responseUrl && (
+          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
+        )}
+        <Link href={detailsUrl}>Voir la demande</Link>
       </ContentArea>
     </>
   )
@@ -161,7 +168,7 @@ const RequestConfirmed = (props: ModificationRequestItemProps) => {
           )}
         </div>
         <ItemTitle title={`Abandon confirmé par le porteur`} />
-        <a href={detailsUrl}>Voir la demande</a>
+        <Link href={detailsUrl}>Voir la demande</Link>
       </ContentArea>
     </>
   )
@@ -220,7 +227,7 @@ const Details = (
           Puissance demandée : {props.puissance} {props.unitePuissance}
         </p>
       )}
-      {showDemandeButton() && <a href={detailsUrl}>Voir la demande</a>}
+      {showDemandeButton() && <Link href={detailsUrl}>Voir la demande</Link>}
     </>
   )
 }

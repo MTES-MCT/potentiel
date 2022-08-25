@@ -9,6 +9,8 @@ import {
   Input,
   Label,
   Dropdown,
+  DownloadLink,
+  Link,
 } from '@components'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
@@ -40,9 +42,9 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
       <ItemTitle title="Proposition technique et financière" />
       {url ? (
         <div>
-          <a href={url} download>
+          <DownloadLink fileUrl={url}>
             Télécharger la proposition technique et financière
-          </a>
+          </DownloadLink>
         </div>
       ) : (
         <div>Pièce-jointe introuvable</div>
@@ -72,7 +74,7 @@ const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
 type CancelDepositProps = { projectId: string }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
-    <a
+    <Link
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'ptf' })}
       onClick={(event) =>
         confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
@@ -80,7 +82,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
       }
     >
       Annuler le dépôt
-    </a>
+    </Link>
   )
 }
 

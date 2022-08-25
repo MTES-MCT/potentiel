@@ -3,6 +3,7 @@ import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from 
 import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers'
 import { formatDate } from '../../../../helpers/formatDate'
 import { CurrentIcon } from './CurrentIcon'
+import { DownloadLink } from '@components'
 
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
   const { modificationType } = props
@@ -34,9 +35,9 @@ const LegacyModificationContainer = (
         {children}
         {courrier && (
           <div>
-            <a href={makeDocumentUrl(courrier.id, courrier.name)} download>
+            <DownloadLink fileUrl={makeDocumentUrl(courrier.id, courrier.name)}>
               Télécharger le courrier
-            </a>
+            </DownloadLink>
           </div>
         )}
       </ContentArea>

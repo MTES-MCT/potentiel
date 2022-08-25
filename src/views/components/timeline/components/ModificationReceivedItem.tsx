@@ -1,3 +1,4 @@
+import { Link } from '@components'
 import React from 'react'
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
 import { ModificationReceivedItemProps } from '../helpers'
@@ -47,7 +48,7 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      <a href={detailsUrl}>Voir la demande</a>
+      <Link href={detailsUrl}>Voir la demande</Link>
     </>
   )
 }
