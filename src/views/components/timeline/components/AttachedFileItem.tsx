@@ -1,4 +1,4 @@
-import { PaperClipIcon, TrashIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/outline'
 import React from 'react'
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
 import routes from '@routes'
