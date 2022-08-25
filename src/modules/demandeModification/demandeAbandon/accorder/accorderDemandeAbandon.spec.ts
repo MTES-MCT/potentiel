@@ -8,7 +8,7 @@ import { User } from '@entities'
 import { makeAccorderDemandeAbandon } from './accorderDemandeAbandon'
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
 import { AccorderDemandeAbandonError } from './AccorderDemandeAbandonError'
-import { StatutDemandeAbandon } from '../DemandeAbandon'
+import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon'
 
 describe(`Accorder une demande d'abandon`, () => {
   const demandeAbandonId = 'id-demande'
@@ -59,15 +59,14 @@ describe(`Accorder une demande d'abandon`, () => {
     })
   })
 
-  describe(`Impossible d'accorder une demande avec un statut autre que 'envoyée'`, () => {
+  describe(`Impossible d'accorder une demande avec un statut autre que 
+          'envoyée', en-instruction, ou 'demande confirmée'`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
-      const statutsNePouvantPasÊtreAccordé: StatutDemandeAbandon[] = [
-        'accordée',
-        'refusée',
-        'annulée',
-      ]
+      const statutsNePouvantPasÊtreAccordé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
+        (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+      )
 
       for (const statut of statutsNePouvantPasÊtreAccordé) {
         it(`
@@ -108,7 +107,11 @@ describe(`Accorder une demande d'abandon`, () => {
   describe(`Accorder un abandon`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
-      const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
+      const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = [
+        'envoyée',
+        'en-instruction',
+        'demande confirmée',
+      ]
 
       for (const statut of statutsPouvantÊtreAccordé) {
         it(`

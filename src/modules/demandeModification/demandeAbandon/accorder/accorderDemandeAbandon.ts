@@ -32,16 +32,13 @@ export const makeAccorderDemandeAbandon =
       new UniqueEntityID(demandeAbandonId),
       (demandeAbandon) => {
         const { projetId, statut } = demandeAbandon
+        if (!projetId) return errAsync(new InfraNotAvailableError())
 
-        if (!projetId) {
-          return errAsync(new InfraNotAvailableError())
-        }
-
-        if (statut !== 'envoyée' && statut !== 'en-instruction') {
+        if (!['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)) {
           return errAsync(
             new AccorderDemandeAbandonError(
               demandeAbandon,
-              'Seule une demande envoyée ou en instruction peut être accordée'
+              'Seule une demande envoyée, en instruction ou en demande confirmée peut être accordée'
             )
           )
         }

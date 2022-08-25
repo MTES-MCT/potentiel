@@ -207,7 +207,7 @@ class routes {
     } else return route
   }
 
-  static DEMANDER_ABANDON_NEW = (projectId?: Project['id']) => {
+  static DEMANDER_ABANDON = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-abandon.html'
     return projectId ? route.replace(':projectId', projectId) : route
   }
@@ -222,7 +222,7 @@ class routes {
 
   static CHANGER_CDC = '/changer-CDC'
 
-  static DEMANDER_ABANDON = withProjectId('/demande-modification.html?action=abandon')
+  static DEMANDER_ABANDONd = withProjectId('/demande-modification.html?action=abandon')
 
   static DEMANDE_ACTION = '/soumettre-demande'
 

@@ -10,7 +10,7 @@ import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/
 import { UnauthorizedError } from '../../../shared'
 import { makeRejeterDemandeAbandon } from './rejeterDemandeAbandon'
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
-import { StatutDemandeAbandon } from '../DemandeAbandon'
+import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon'
 import { RejeterDemandeAbandonError } from './RejeterDemandeAbandonError'
 
 describe(`Rejeter une demande d'abandon`, () => {
@@ -54,11 +54,9 @@ describe(`Rejeter une demande d'abandon`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
-      const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = [
-        'accordée',
-        'refusée',
-        'annulée',
-      ]
+      const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
+        (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+      )
 
       for (const statut of statutsNePouvantPasÊtreRefusé) {
         it(`
@@ -93,9 +91,9 @@ describe(`Rejeter une demande d'abandon`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
 
-      const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
+      const statutsPouvantÊtreRejetés: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
 
-      for (const statut of statutsPouvantÊtreAccordé) {
+      for (const statut of statutsPouvantÊtreRejetés) {
         it(`
       Lorsqu'il rejette une demande d'abandon avec comme statut '${statut}'
       Alors le courrier de réponse devrait être sauvegardé 

@@ -13,12 +13,9 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     const { modificationRequestId } = request.body
     const user = request.user
-    console.log('poooooo')
     if (!validateUniqueId(modificationRequestId)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
     }
-
-    console.log('poooooo1')
 
     return annulerDemandeAbandon({
       user,

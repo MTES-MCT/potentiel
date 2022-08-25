@@ -8,7 +8,7 @@ import { UnauthorizedError } from '../../../shared'
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 import { makeAnnulerDemandeAbandon } from './annulerDemandeAbandon'
 import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
-import { StatutDemandeAbandon } from '../DemandeAbandon'
+import { StatutDemandeAbandon, statutsDemandeAbandon } from '../DemandeAbandon'
 
 describe(`Commande annuler demande d'abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
@@ -40,11 +40,10 @@ describe(`Commande annuler demande d'abandon`, () => {
   describe(`Annulation possible si le porteur a les droits sur le projet`, () => {
     describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
       describe(`Etant donnée une demande d'abandon dont le statut n'est pas compatible avec une annulation`, () => {
-        const statutsIncompatiblesAvecAnnulation = [
-          'accordée',
-          'rejetée',
-          'annulée',
-        ] as StatutDemandeAbandon[]
+        const statutsIncompatiblesAvecAnnulation: StatutDemandeAbandon[] =
+          statutsDemandeAbandon.filter(
+            (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+          )
 
         for (const statut of statutsIncompatiblesAvecAnnulation) {
           it(`Lorsque le porteur annule une demande d'abandon en statut ${statut},

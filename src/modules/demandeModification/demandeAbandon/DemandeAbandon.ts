@@ -10,14 +10,17 @@ import {
   ConfirmationAbandonDemandée,
 } from './events'
 
-export type StatutDemandeAbandon =
-  | 'envoyée'
-  | 'annulée'
-  | 'accordée'
-  | 'refusée'
-  | 'en-instruction'
-  | 'en attente de confirmation'
-  | 'demande confirmée'
+export const statutsDemandeAbandon = [
+  'envoyée',
+  'annulée',
+  'accordée',
+  'refusée',
+  'en-instruction',
+  'en attente de confirmation',
+  'demande confirmée',
+] as const
+
+export type StatutDemandeAbandon = typeof statutsDemandeAbandon[number]
 
 type DemandeAbandonArgs = {
   id: UniqueEntityID
@@ -25,8 +28,8 @@ type DemandeAbandonArgs = {
 }
 
 export type DemandeAbandon = EventStoreAggregate & {
-  statut: StatutDemandeAbandon | undefined
-  projetId: string | undefined
+  statut: StatutDemandeAbandon
+  projetId: string
 }
 
 export const makeDemandeAbandon = (
@@ -34,14 +37,14 @@ export const makeDemandeAbandon = (
 ): Result<DemandeAbandon, EntityNotFoundError> => {
   const { events = [], id } = args
 
-  const agregatParDefaut: DemandeAbandon = {
+  const agregatParDefaut: Partial<DemandeAbandon> = {
     id,
     projetId: undefined,
     statut: undefined,
     pendingEvents: [],
   }
 
-  const agregat: DemandeAbandon = events.reduce((agregat, event) => {
+  const agregat = events.reduce((agregat, event) => {
     switch (event.type) {
       case AbandonDemandé.type:
         return {
@@ -62,7 +65,7 @@ export const makeDemandeAbandon = (
       default:
         return agregat
     }
-  }, agregatParDefaut)
+  }, agregatParDefaut) as DemandeAbandon
 
   return ok(agregat)
 }
