@@ -14,7 +14,7 @@ import {
   Button,
   FormulaireChampsObligatoireLégende,
   Label,
-  LinkButton,
+  SecondaryLinkButton,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
@@ -109,7 +109,9 @@ export const NewModificationRequest = PageLayout(
                   >
                     Envoyer
                   </Button>
-                  <LinkButton href={ROUTES.USER_LIST_PROJECTS}>Annuler</LinkButton>
+                  <SecondaryLinkButton href={ROUTES.USER_LIST_PROJECTS}>
+                    Annuler
+                  </SecondaryLinkButton>
                 </div>
               )}
             </div>
