@@ -1,6 +1,5 @@
 import { DomainEvent } from '@core/domain'
-import { DélaiAccordé, AbandonAccordé,
-    AccordDemandeDélaiAnnulé, } from '@modules/demandeModification'
+import { DélaiAccordé, AbandonAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
   handleLegacyModificationImported,
@@ -75,19 +74,19 @@ const onDélaiAccordé = async (event: DomainEvent) => {
 subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé')
 
 const onAbandonAccordéHandler = makeOnAbandonAccordé({
-    projectRepo,
-    publishToEventStore: eventStore.publish,
+  projectRepo,
+  publishToEventStore: eventStore.publish,
 })
 
 const onAbandonAccordé = async (event: DomainEvent) => {
-    if (!(event instanceof AbandonAccordé)) {
-        return Promise.resolve()
-    }
+  if (!(event instanceof AbandonAccordé)) {
+    return Promise.resolve()
+  }
 
-    return await onAbandonAccordéHandler(event).match(
-        () => Promise.resolve(),
-        (e) => Promise.reject(e)
-    )
+  return await onAbandonAccordéHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
 }
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé')
 
