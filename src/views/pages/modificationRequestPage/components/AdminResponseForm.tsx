@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireLégende, Button, LinkButton } from '@components'
+import { FormulaireChampsObligatoireLégende, Button } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -66,14 +66,16 @@ export const AdminResponseForm = ({
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
       </Button>
-      <LinkButton
+      <button
+        className="button warning flex-1"
         type="submit"
         data-confirm={`Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
+        name="submitRefuse"
         // name="submitRefuse"
         {...dataId('submit-button-alt')}
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
-      </LinkButton>
+      </button>
     </form>
   )
 }
