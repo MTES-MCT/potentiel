@@ -37,7 +37,7 @@ const SUCCESS_MESSAGES = {
 
 v1Router.post(
   routes.ADMIN_REPONDRE_DEMANDE_ABANDON,
-  ensureRole(['admin', 'dgec', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
