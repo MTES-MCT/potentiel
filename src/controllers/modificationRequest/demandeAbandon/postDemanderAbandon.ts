@@ -1,5 +1,4 @@
 import fs from 'fs'
-import omit from 'lodash/omit'
 import * as yup from 'yup'
 
 import { demanderAbandon, ensureRole } from '@config'
@@ -22,6 +21,7 @@ const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   justification: yup.string().optional(),
   numeroGestionnaire: yup.string().optional(),
+  newRulesOptIn: yup.boolean().optional(),
 })
 
 v1Router.post(
@@ -31,7 +31,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, justification } = body
+        const { projectId, justification, newRulesOptIn } = body
         const { user } = request
 
         const file = request.file && {
@@ -44,6 +44,7 @@ v1Router.post(
           projectId,
           file,
           justification,
+          ...(newRulesOptIn && { newRulesOptIn: true }),
         }).map(() => ({ projectId }))
       })
       .match(

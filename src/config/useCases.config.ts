@@ -365,6 +365,7 @@ export const demanderAbandon = makeDemanderAbandon({
   publishToEventStore: eventStore.publish.bind(eventStore),
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })
 
 export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({

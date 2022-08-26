@@ -7,11 +7,15 @@ import { AbandonDemandé } from '../events'
 import { FileContents, FileObject, makeFileObject } from '../../../file'
 import { AppelOffreRepo } from '@dataAccess'
 import { GetProjectAppelOffreId } from '../../../modificationRequest'
+import { Project, ProjectNewRulesOptedIn } from '@modules/project'
+import { DemanderAbandonError } from './DemanderAbandonError'
+import { NouveauCahierDesChargesNonChoisiError } from '../../demandeDélai/demander/NouveauCahierDesChargesNonChoisiError'
 
 type DemanderAbandon = (commande: {
   user: User
   projectId: string
   justification?: string
+  newRulesOptIn?: true
   file?: {
     contents: FileContents
     filename: string
@@ -24,6 +28,7 @@ type MakeDemanderAbandon = (dépendances: {
   fileRepo: Repository<FileObject>
   findAppelOffreById: AppelOffreRepo['findById']
   getProjectAppelOffreId: GetProjectAppelOffreId
+  projectRepo: Repository<Project>
 }) => DemanderAbandon
 
 export const makeDemanderAbandon: MakeDemanderAbandon =
@@ -33,37 +38,64 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
     fileRepo,
     findAppelOffreById,
     getProjectAppelOffreId,
+    projectRepo,
   }) =>
-  ({ user, projectId, justification, file }) => {
-    return wrapInfra(
-      shouldUserAccessProject({
-        user,
-        projectId,
-      })
-    )
-      .andThen((userHasRightsToProject) => {
-        if (!userHasRightsToProject) {
+  ({ user, projectId, justification, file, newRulesOptIn }) => {
+    return wrapInfra(shouldUserAccessProject({ user, projectId }))
+      .andThen((utilisateurALesDroits) => {
+        if (!utilisateurALesDroits) {
           return errAsync(new UnauthorizedError())
         }
+        return okAsync(null)
+      })
+      .andThen(() => {
+        return projectRepo.load(new UniqueEntityID(projectId))
+      })
+      .andThen((project) => {
+        if (!project.isClasse) {
+          return errAsync(new DemanderAbandonError(`Un projet éliminé ne peut pas être abandonné.`))
+        }
+        if (project.abandonedOn > 0) {
+          return errAsync(new DemanderAbandonError(`Le projet est déjà abandonné.`))
+        }
+        return okAsync(project)
+      })
+      .andThen((project) => {
         return getProjectAppelOffreId(projectId).andThen((appelOffreId) => {
-          return wrapInfra(findAppelOffreById(appelOffreId))
+          return wrapInfra(findAppelOffreById(appelOffreId)).map((appelOffre) => ({
+            appelOffre,
+            project,
+          }))
         })
       })
-      .andThen((appelOffre) => {
-        if (!file) return okAsync({ appelOffre, fileId: null })
+      .andThen(({ appelOffre, project }) => {
+        const doitSouscrireAuNouveauCDC =
+          !project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges
 
-        return makeFileObject({
-          designation: 'modification-request',
-          forProject: new UniqueEntityID(projectId),
-          createdBy: new UniqueEntityID(user.id),
-          filename: file.filename,
-          contents: file.contents,
-        }).asyncAndThen((file) =>
-          fileRepo.save(file).map(() => ({ appelOffre, fileId: file.id.toString() }))
-        )
+        if (doitSouscrireAuNouveauCDC) {
+          if (!newRulesOptIn) {
+            return errAsync(new NouveauCahierDesChargesNonChoisiError())
+          }
+
+          return publishToEventStore(
+            new ProjectNewRulesOptedIn({ payload: { projectId, optedInBy: user.id } })
+          )
+        }
+
+        if (file) {
+          return makeFileObject({
+            designation: 'modification-request',
+            forProject: new UniqueEntityID(projectId),
+            createdBy: new UniqueEntityID(user.id),
+            filename: file.filename,
+            contents: file.contents,
+          }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+        }
+
+        return okAsync(null)
       })
-      .andThen(({ appelOffre, fileId }) =>
-        publishToEventStore(
+      .andThen((fileId) => {
+        return publishToEventStore(
           new AbandonDemandé({
             payload: {
               demandeAbandonId: new UniqueEntityID().toString(),
@@ -75,5 +107,5 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
             },
           })
         )
-      )
+      })
   }

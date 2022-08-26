@@ -203,6 +203,7 @@ export interface Project extends EventStoreAggregate {
   readonly shouldCertificateBeGenerated: boolean
   readonly isClasse?: boolean
   readonly isLegacy?: boolean
+  readonly abandonedOn: number
   readonly puissanceInitiale: number
   readonly certificateData: Result<
     {
@@ -1080,6 +1081,9 @@ export const makeProject = (args: {
     },
     get completionDueOn() {
       return props.completionDueOn
+    },
+    get abandonedOn() {
+      return props.abandonedOn
     },
   })
 
