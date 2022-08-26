@@ -10,7 +10,7 @@ export type ModificationRequestEvents = ProjectEvent &
           authority: 'dgec' | 'dreal'
         } & (
           | {
-              modificationType: 'abandon' | 'recours'
+              modificationType: 'recours'
             }
           | {
               modificationType: 'delai'
@@ -34,7 +34,7 @@ export type ModificationRequestEvents = ProjectEvent &
         }
       }
     | {
-        type: 'ModificationRequestRejected' | 'ConfirmationRequested'
+        type: 'ModificationRequestRejected'
         payload: {
           modificationRequestId: string
           file?: {
@@ -44,10 +44,8 @@ export type ModificationRequestEvents = ProjectEvent &
         }
       }
     | {
-        type:
-          | 'ModificationRequestCancelled'
-          | 'ModificationRequestInstructionStarted'
-          | 'ModificationRequestConfirmed'
+        type: 'ModificationRequestCancelled' | 'ModificationRequestInstructionStarted'
+
         payload: {
           modificationRequestId: string
         }

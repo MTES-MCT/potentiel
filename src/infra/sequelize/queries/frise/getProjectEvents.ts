@@ -219,7 +219,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         authority: payload.authority,
                       })
                       break
-                    default:
+                    case 'recours':
                       events.push({
                         type,
                         date: valueDate,
@@ -247,7 +247,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ModificationRequestRejected':
-              case 'ConfirmationRequested':
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type,
@@ -260,7 +259,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 break
               case 'ModificationRequestCancelled':
               case 'ModificationRequestInstructionStarted':
-              case 'ModificationRequestConfirmed':
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type,
