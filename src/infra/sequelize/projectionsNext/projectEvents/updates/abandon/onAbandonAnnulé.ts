@@ -1,33 +1,48 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { models } from '../../../../models'
 import { AbandonAnnulé } from '../../../../../../modules/demandeModification'
+import { ProjectionEnEchec } from 'src/modules/shared'
+import { logger } from 'src/core/utils'
 
-export default ProjectEventProjector.on(AbandonAnnulé, async (evenement, transaction) => {
+export default ProjectEventProjector.on(AbandonAnnulé, async (événement, transaction) => {
   const {
     payload: { demandeAbandonId },
     occurredAt,
-  } = evenement
+  } = événement
 
-  const { ModificationRequest } = models
+  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
 
-  const { projectId } = await ModificationRequest.findByPk(demandeAbandonId, {
-    attributes: ['projectId'],
-    transaction,
-  })
+  if (!abandonEvent) {
+    logger.error(
+      new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
+        evenement: événement,
+        nomProjection: 'ProjectEventProjector.onAbandonAnnulé',
+      })
+    )
+    return
+  }
 
-  if (projectId) {
-    await ProjectEvent.create(
+  try {
+    await ProjectEvent.update(
       {
-        projectId,
-        type: 'ModificationRequestCancelled',
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
-        payload: { modificationRequestId: demandeAbandonId },
+        payload: {
+          ...abandonEvent.payload,
+          statut: 'annulée',
+        },
       },
-      { transaction }
+      { where: { id: demandeAbandonId }, transaction }
+    )
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement AbandonAnnulé`,
+        {
+          evenement: événement,
+          nomProjection: 'ProjectEventProjector.onAbandonAnnulé',
+        },
+        e
+      )
     )
   }
 })

@@ -1,32 +1,48 @@
-import { UniqueEntityID } from '@core/domain'
-import { AbandonConfirmé } from '../../../../../../modules/demandeModification'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { models } from '../../../../models'
+import { AbandonConfirmé } from '../../../../../../modules/demandeModification'
+import { ProjectionEnEchec } from 'src/modules/shared'
+import { logger } from 'src/core/utils'
 
-export default ProjectEventProjector.on(AbandonConfirmé, async (evenement, transaction) => {
+export default ProjectEventProjector.on(AbandonConfirmé, async (événement, transaction) => {
   const {
     payload: { demandeAbandonId },
     occurredAt,
-  } = evenement
+  } = événement
 
-  const { ModificationRequest } = models
+  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
 
-  const { projectId } = await ModificationRequest.findByPk(demandeAbandonId, {
-    attributes: ['projectId'],
-    transaction,
-  })
+  if (!abandonEvent) {
+    logger.error(
+      new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
+        evenement: événement,
+        nomProjection: 'ProjectEventProjector.onAbandonConfirmé',
+      })
+    )
+    return
+  }
 
-  if (projectId) {
-    await ProjectEvent.create(
+  try {
+    await ProjectEvent.update(
       {
-        projectId,
-        type: 'ModificationRequestConfirmed',
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
-        payload: { modificationRequestId: demandeAbandonId },
+        payload: {
+          ...abandonEvent.payload,
+          statut: 'demande confirmée',
+        },
       },
-      { transaction }
+      { where: { id: demandeAbandonId }, transaction }
+    )
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement AbandonConfirmé`,
+        {
+          evenement: événement,
+          nomProjection: 'ProjectEventProjector.onAbandonConfirmé',
+        },
+        e
+      )
     )
   }
 })

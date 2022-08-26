@@ -1,48 +1,48 @@
-import { UniqueEntityID } from '@core/domain'
-import { Transaction } from 'sequelize'
-import { AbandonRejeté } from '../../../../../../modules/demandeModification'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { models } from '../../../../models'
+import { AbandonRejeté } from '../../../../../../modules/demandeModification'
+import { ProjectionEnEchec } from 'src/modules/shared'
+import { logger } from 'src/core/utils'
 
-export default ProjectEventProjector.on(AbandonRejeté, async (evenement, transaction) => {
+export default ProjectEventProjector.on(AbandonRejeté, async (événement, transaction) => {
   const {
-    payload: { demandeAbandonId, fichierRéponseId },
+    payload: { demandeAbandonId },
     occurredAt,
-  } = evenement
+  } = événement
 
-  const { ModificationRequest } = models
+  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
 
-  const { projectId } = await ModificationRequest.findByPk(demandeAbandonId, {
-    attributes: ['projectId'],
-    transaction,
-  })
+  if (!abandonEvent) {
+    logger.error(
+      new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
+        evenement: événement,
+        nomProjection: 'ProjectEventProjector.onAbandonRejeté',
+      })
+    )
+    return
+  }
 
-  if (projectId) {
-    const file = await getFile(fichierRéponseId, transaction)
-    await ProjectEvent.create(
+  try {
+    await ProjectEvent.update(
       {
-        projectId,
-        type: 'ModificationRequestRejected',
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
-        payload: { modificationRequestId: demandeAbandonId, ...(file && { file }) },
+        payload: {
+          ...abandonEvent.payload,
+          statut: 'rejetée',
+        },
       },
-      { transaction }
+      { where: { id: demandeAbandonId }, transaction }
+    )
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement AbandonRejeté`,
+        {
+          evenement: événement,
+          nomProjection: 'ProjectEventProjector.onAbandonRejeté',
+        },
+        e
+      )
     )
   }
 })
-
-const getFile = async (
-  responseFileId: string,
-  transaction: Transaction | undefined
-): Promise<{ id: string; name: string } | undefined> => {
-  const { File } = models
-  const rawFilename = await File.findByPk(responseFileId, {
-    attributes: ['filename'],
-    transaction,
-  })
-
-  if (!rawFilename?.filename) return undefined
-  return { id: responseFileId, name: rawFilename?.filename }
-}
