@@ -492,6 +492,23 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
+              case 'DemandeAbandon':
+                if (userIsNot('ademe')(user)) {
+                  const { statut } = payload
+                  events.push({
+                    type,
+                    variant: user.role,
+                    date: valueDate,
+                    statut,
+                    ...(userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && {
+                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                    }),
+                    ...(userIs(['admin', 'dgec-validateur'])(user) && {
+                      actionRequise: 'à traiter',
+                    }),
+                  })
+                }
+                break
             }
 
             return Promise.resolve(events)

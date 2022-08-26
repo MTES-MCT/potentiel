@@ -2,6 +2,7 @@ import { or } from '@core/utils'
 import { Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
+import { DemandeAbandonEventStatus } from 'src/infra/sequelize/projectionsNext/projectEvents/events'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
@@ -41,6 +42,7 @@ export type ProjectEventDTO =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
+  | DemandeAbandonDTO
 
 type File = {
   id: string
@@ -406,6 +408,15 @@ export type DemandeDélaiDTO = {
           }
       ))
   )
+
+export type DemandeAbandonDTO = {
+  type: 'DemandeAbandon'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  statut: DemandeAbandonEventStatus
+  demandeUrl?: string
+  actionRequise?: 'à traiter'
+}
 
 export type ProjectEventListDTO = {
   project: {
