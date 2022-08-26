@@ -1,7 +1,7 @@
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { ConfirmationAbandonDemandée } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from 'src/modules/shared'
-import { logger } from 'src/core/utils'
+import { ProjectionEnEchec } from '@modules/shared'
+import { logger } from '@core/utils'
 
 export default ProjectEventProjector.on(
   ConfirmationAbandonDemandée,
