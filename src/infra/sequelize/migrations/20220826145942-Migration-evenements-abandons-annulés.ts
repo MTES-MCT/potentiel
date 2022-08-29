@@ -1,5 +1,5 @@
 import { AbandonAnnulé } from '@modules/demandeModification/demandeAbandon'
-import { ModificationRequestCancelled, ModificationRequested } from '@modules/modificationRequest'
+import { ModificationRequestCancelled } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
@@ -30,19 +30,19 @@ export default {
       const nouveauxÉvénements = (
         await Promise.all(
           demandesAbandonAMigrer.map(async (demandesAbandonAMigrer) => {
-            const modificationRequestedCancelledEvent: ModificationRequestCancelled | undefined =
+            const modificationRequestCancelledEvent: ModificationRequestCancelled | undefined =
               await EventStore.findOne(
                 {
                   where: {
                     aggregateId: { [Op.overlap]: [demandesAbandonAMigrer.id] },
-                    type: 'ModificationRequestedCancelled',
+                    type: 'ModificationRequestCancelled',
                   },
                 },
                 { transaction }
               )
 
-            if (modificationRequestedCancelledEvent) {
-              const { occurredAt, payload } = modificationRequestedCancelledEvent
+            if (modificationRequestCancelledEvent) {
+              const { occurredAt, payload } = modificationRequestCancelledEvent
 
               return new AbandonAnnulé({
                 payload: {
