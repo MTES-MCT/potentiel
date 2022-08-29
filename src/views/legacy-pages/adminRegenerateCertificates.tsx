@@ -132,7 +132,6 @@ export default function AdminRegenerateCertificates({ request }: AdminRegenerate
             name="submit"
             {...dataId('submit-button')}
             data-confirm={`Etes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?`}
-            primary
           >
             Regénérer les attestations des projets de cette période
           </Button>

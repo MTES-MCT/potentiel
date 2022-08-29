@@ -1,9 +1,10 @@
-import { PaperClipIcon, TrashIcon } from '@heroicons/react/outline'
+import { TrashIcon } from '@heroicons/react/outline'
 import React from 'react'
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
 import routes from '@routes'
 import { makeDocumentUrl } from '../helpers'
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps'
+import { DownloadLink } from '@components'
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
   const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props
@@ -19,10 +20,7 @@ export const AttachedFileItem = (props: AttachedFileItemProps) => {
         <ul className="list-none pl-0 mt-1">
           {files.map(({ id, name }) => (
             <li key={`fichier_${id}`}>
-              <PaperClipIcon className="h-5 w-5 align-middle mr-1 text-gray-400" />
-              <a href={makeDocumentUrl(id, name)} download>
-                {name}
-              </a>
+              <DownloadLink fileUrl={makeDocumentUrl(id, name)}>{name}</DownloadLink>
             </li>
           ))}
         </ul>

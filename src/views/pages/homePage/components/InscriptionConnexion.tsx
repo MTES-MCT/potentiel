@@ -5,7 +5,7 @@ import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLi
 import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 import { User } from '@entities'
 import routes from '@routes'
-import { Container, LinkButton } from '../../../components'
+import { LinkButton, Container, SecondaryLinkButton } from '@components'
 
 type InscriptionConnexionProps = {
   user: User
@@ -44,15 +44,17 @@ const Bienvenue = ({ user }: BienvenueProps) => (
       <LinkButton
         className="inline-flex items-center lg:text-lg"
         href={routes.REDIRECT_BASED_ON_ROLE}
-        primary={true}
       >
         <RiDashboardLine className="mr-4" />
         Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
       </LinkButton>
-      <LinkButton className="inline-flex items-center lg:text-lg" href={routes.LOGOUT_ACTION}>
+      <SecondaryLinkButton
+        className="inline-flex items-center lg:text-lg"
+        href={routes.LOGOUT_ACTION}
+      >
         <RiLogoutBoxLine className="mr-4" />
         Me déconnecter
-      </LinkButton>
+      </SecondaryLinkButton>
     </div>
   </div>
 )
@@ -83,10 +85,10 @@ const SignupBox = () => {
         />
       </div>
       {active === 'porteur-projet' && (
-        <LinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
+        <SecondaryLinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
           <RiAccountCircleLine className="mr-4" />
           M'inscrire
-        </LinkButton>
+        </SecondaryLinkButton>
       )}
       {active === 'autre-partenaire' && (
         <p className="m-0 p-0 font-semibold text-lg">
@@ -142,7 +144,7 @@ const LoginBox = () => {
         </p>
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
-      <LinkButton href={routes.LOGIN} primary={true} className="inline-flex items-center mx-auto">
+      <LinkButton href={routes.LOGIN} className="inline-flex items-center mx-auto">
         <RiLockLine className="mr-4" />
         M'identifier
       </LinkButton>

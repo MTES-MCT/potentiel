@@ -50,7 +50,7 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
               <label htmlFor="appelsOffresFile">Fichier des appels d'offre</label>
               <input type="file" name="appelsOffresFile" id="appelsOffresFile" />
             </div>
-            <Button type="submit" primary className="mt-4" {...dataId('submit-button')}>
+            <Button type="submit" className="mt-4" {...dataId('submit-button')}>
               Envoyer
             </Button>
           </form>
@@ -70,7 +70,7 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
             <label htmlFor="periodesFile">Fichier des périodes</label>
             <input type="file" name="periodesFile" id="periodesFile" />
           </div>
-          <Button type="submit" primary className="mt-4" {...dataId('submit-button')}>
+          <Button type="submit" className="mt-4" {...dataId('submit-button')}>
             Envoyer
           </Button>
         </form>

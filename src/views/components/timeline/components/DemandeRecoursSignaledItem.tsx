@@ -1,3 +1,4 @@
+import { DownloadLink } from '@components'
 import React from 'react'
 import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.'
 import { makeDocumentUrl } from '../helpers'
@@ -24,7 +25,9 @@ export const DemandeRecoursSignaledItem = ({
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+          Voir le courrier de réponse
+        </DownloadLink>
       )}
     </ContentArea>
   </>

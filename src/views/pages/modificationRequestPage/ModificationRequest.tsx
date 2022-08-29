@@ -5,7 +5,7 @@ import {
   ProjectInfo,
   RoleBasedDashboard,
   SuccessBox,
-  Button,
+  SecondaryButton,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
@@ -78,7 +78,7 @@ export const ModificationRequest = PageLayout(
                 })}
                 className="m-0"
               >
-                <Button
+                <SecondaryButton
                   type="submit"
                   name="modificationRequestId"
                   value={modificationRequest.id}
@@ -93,7 +93,7 @@ export const ModificationRequest = PageLayout(
                   }}
                 >
                   Passer en instruction
-                </Button>
+                </SecondaryButton>
               </form>
             )}
           </div>

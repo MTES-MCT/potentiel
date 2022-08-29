@@ -1,7 +1,7 @@
-import { LinkButton } from '@components'
+import { DownloadLinkButton, SecondaryLinkButton } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
-import { InboxInIcon, PaperClipIcon } from '@heroicons/react/solid'
+import { InboxInIcon } from '@heroicons/react/solid'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { userIs } from '@modules/users'
 import routes from '@routes'
@@ -95,9 +95,9 @@ type PorteurProjetActionsProps = {
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
   <div className="flex flex-col xl:flex-row gap-2">
     {!project.isClasse && (
-      <LinkButton href={routes.DEPOSER_RECOURS(project.id)}>
+      <SecondaryLinkButton href={routes.DEPOSER_RECOURS(project.id)}>
         Faire une demande de recours
-      </LinkButton>
+      </SecondaryLinkButton>
     )}
 
     {project.isClasse && (
@@ -211,19 +211,17 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
     )}
 
     {project.notifiedOn && project.certificateFile && (
-      <LinkButton
-        href={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
+      <DownloadLinkButton
+        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           nomProjet: project.nomProjet,
           potentielIdentifier: project.potentielIdentifier,
         })}
-        primary
-        download
         className="m-auto"
       >
         Télécharger mon attestation
-      </LinkButton>
+      </DownloadLinkButton>
     )}
   </div>
 )
@@ -236,29 +234,25 @@ const AdminActions = ({ project }: AdminActionsProps) => (
     <EnregistrerUneModification {...{ project }} />
 
     {project.notifiedOn && project.certificateFile ? (
-      <LinkButton
-        href={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
+      <DownloadLinkButton
+        fileUrl={routes.CANDIDATE_CERTIFICATE_FOR_ADMINS({
           id: project.id,
           certificateFileId: project.certificateFile.id,
           email: project.email,
           potentielIdentifier: project.potentielIdentifier,
         })}
-        download
-        primary
         className="m-auto"
       >
         Voir attestation
-      </LinkButton>
+      </DownloadLinkButton>
     ) : (
       !project.isLegacy && (
-        <LinkButton
-          href={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
-          download
-          primary
+        <DownloadLinkButton
+          fileUrl={routes.PREVIEW_CANDIDATE_CERTIFICATE(project)}
           className="m-auto"
         >
           Aperçu attestation
-        </LinkButton>
+        </DownloadLinkButton>
       )
     )}
   </div>

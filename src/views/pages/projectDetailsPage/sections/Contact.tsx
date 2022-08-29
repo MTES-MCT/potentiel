@@ -86,7 +86,6 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
       </label>
       <input type="email" name="email" id="email" {...dataId('email-field')} />
       <Button
-        primary
         className="mt-2 mr-3"
         type="submit"
         name="submit"

@@ -64,13 +64,7 @@ export const PartnersList = PageLayout(
                   </div>
                 </div>
               </div>
-              <Button
-                className="m-auto"
-                primary
-                type="submit"
-                id="submit"
-                {...dataId('submit-button')}
-              >
+              <Button className="m-auto" type="submit" id="submit" {...dataId('submit-button')}>
                 Inviter
               </Button>
             </form>

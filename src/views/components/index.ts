@@ -1,5 +1,5 @@
 export * from './actions'
-export * from './buttons'
+export * from './UI'
 export * from './dropdowns'
 export * from './forms'
 export * from './inputs'

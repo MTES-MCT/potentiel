@@ -304,7 +304,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </label>
           <textarea name="reason" defaultValue={query.reason} />
         </div>
-        <Button primary className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
+        <Button className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
           Modifier
         </Button>
       </form>

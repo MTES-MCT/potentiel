@@ -10,12 +10,14 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
 import {
   Button,
+  SecondaryButton,
   FormulaireChampsObligatoireLégende,
   Input,
   Label,
   Astérisque,
-  Link,
+  DownloadLink,
   Dropdown,
+  Link,
 } from '@components'
 
 type ComponentProps = GFItemProps & {
@@ -76,10 +78,11 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
           {isDreal && <UploadForm projectId={project.id} role={role} />}
           {isDreal && status === 'past-due' && (
             <p className="m-0">
-              <Link
-                href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
-                download
-              />
+              <DownloadLink
+                fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
+              >
+                Télécharger le modèle de mise en demeure
+              </DownloadLink>
             </p>
           )}
         </div>
@@ -113,9 +116,9 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
         />
         <div className="flex">
           {url ? (
-            <Link href={url} download>
+            <DownloadLink fileUrl={url}>
               Télécharger l'attestation de garanties financières
-            </Link>
+            </DownloadLink>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
@@ -148,9 +151,9 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
         <div>
           {url ? (
             <>
-              <Link href={url} download>
+              <DownloadLink fileUrl={url}>
                 Télécharger l'attestation de garanties financières
-              </Link>
+              </DownloadLink>
               <span>&nbsp;(validée)</span>
             </>
           ) : (
@@ -170,7 +173,7 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
 
   return (
     <>
-      <a onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</a>
+      <Link onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</Link>
       {isFormVisible && (
         <form
           action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
@@ -212,10 +215,8 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             régulièrement afin d’assurer une telle couverture temporelle.
           </p>
           <div className="flex gap-4 flex-col md:flex-row">
-            <Button type="submit" primary>
-              Enregistrer
-            </Button>
-            <Button onClick={() => showForm(false)}>Annuler</Button>
+            <Button type="submit">Enregistrer</Button>
+            <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
           </div>
         </form>
       )}
@@ -227,14 +228,14 @@ type CancelDepositProps = {
   projectId: string
 }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => (
-  <a
+  <Link
     href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
       projectId,
     })}
     data-confirm="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
     Annuler le dépôt
-  </a>
+  </Link>
 )
 
 /* PPE2 */
@@ -277,9 +278,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         />
         <div className="flex">
           {url ? (
-            <Link href={url} download>
+            <DownloadLink fileUrl={url}>
               Télécharger l'attestation de garanties financières
-            </Link>
+            </DownloadLink>
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
@@ -362,10 +363,8 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           )}
         </div>
         <div className="flex gap-4 flex-col md:flex-row">
-          <Button type="submit" primary>
-            Enregistrer
-          </Button>
-          <Button onClick={() => showForm(false)}>Annuler</Button>
+          <Button type="submit">Enregistrer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>
     </Dropdown>
@@ -378,14 +377,14 @@ type WithdrawDocumentProps = {
 }
 const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">
-    <a
+    <Link
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
         projectId,
       })}
       data-confirm="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
     >
       Retirer le document de Potentiel
-    </a>
+    </Link>
     {uploadedByRole === 'porteur-projet' && (
       <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
     )}
@@ -404,9 +403,9 @@ const ExpirationDate = ({ projectId, canUpdate, expirationDate }: ExpirationDate
       <div className={`flex ${expirationDate && `gap-2`}`}>
         {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         {canUpdate && (
-          <a onClick={() => showForm(!isFormVisible)}>
+          <Link onClick={() => showForm(!isFormVisible)}>
             {expirationDate ? `éditer` : `Renseigner la date d'échéance`}
-          </a>
+          </Link>
         )}
       </div>
       {isFormVisible && (
@@ -445,10 +444,8 @@ const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormPro
         régulièrement afin d’assurer une telle couverture temporelle.
       </p>
       <div className="flex gap-4 flex-col md:flex-row">
-        <Button type="submit" primary>
-          Enregistrer
-        </Button>
-        <Button onClick={() => onCancel()}>Annuler</Button>
+        <Button type="submit">Enregistrer</Button>
+        <SecondaryButton onClick={() => onCancel()}>Annuler</SecondaryButton>
       </div>
     </form>
   )

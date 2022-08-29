@@ -2,6 +2,7 @@ import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.'
 import { makeDocumentUrl } from '../helpers'
+import { DownloadLink } from '@components'
 
 type DemandeDelaiSignaledItemProps = {
   date: number
@@ -46,7 +47,9 @@ const Rejected = ({ date, attachment, notes }: RejectedProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+          Voir le courrier de réponse
+        </DownloadLink>
       )}
     </ContentArea>
   </>
@@ -64,7 +67,9 @@ const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+          Voir le courrier de réponse
+        </DownloadLink>
       )}
     </ContentArea>
   </>
@@ -96,7 +101,9 @@ const Accepted = ({
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
       {attachment && (
-        <a href={makeDocumentUrl(attachment.id, attachment.name)}>Voir le courrier de réponse</a>
+        <DownloadLink fileUrl={makeDocumentUrl(attachment.id, attachment.name)}>
+          Voir le courrier de réponse
+        </DownloadLink>
       )}
     </ContentArea>
   </>

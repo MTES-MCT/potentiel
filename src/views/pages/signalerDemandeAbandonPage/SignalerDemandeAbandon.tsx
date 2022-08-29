@@ -3,11 +3,11 @@ import { Request } from 'express'
 import {
   Button,
   Input,
-  LinkButton,
   PageLayout,
   ProjectInfo,
   RoleBasedDashboard,
-} from '../../components'
+  SecondaryLinkButton,
+} from '@components'
 import routes from '@routes'
 import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
@@ -92,10 +92,10 @@ export const SignalerDemandeAbandon = PageLayout(
             <p className="italic text-sm">*Champs obligatoires</p>
 
             <div className="m-auto flex gap-4">
-              <Button type="submit" primary>
-                Enregistrer
-              </Button>
-              <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Annuler</LinkButton>
+              <Button type="submit">Enregistrer</Button>
+              <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
+                Annuler
+              </SecondaryLinkButton>
             </div>
           </form>
         </main>

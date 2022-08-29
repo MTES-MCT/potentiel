@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import routes from '@routes'
-import { Footer, Header, Button, Input, Container, LinkButton } from '../components'
+import { Footer, Header, Button, Input, Container, SecondaryLinkButton } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
 
@@ -89,11 +89,11 @@ const AbonnementLettreInformationForm = ({
         </div>
 
         <div className="flex flex-row gap-2 mx-auto mt-2">
-          <Button className="inline-flex items-center" type="submit" primary>
+          <Button className="inline-flex items-center" type="submit">
             <RiSaveLine className="mr-2" />
             M'abonner
           </Button>
-          <LinkButton href={routes.HOME}>Annuler</LinkButton>
+          <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
         </div>
       </form>
     </div>
@@ -113,8 +113,8 @@ const AbonnementLettreInformationSuccessful = () => (
       </div>
     </h1>
 
-    <LinkButton className="mt-8 my-4 mx-auto" href={routes.HOME}>
+    <SecondaryLinkButton className="mt-8 my-4 mx-auto" href={routes.HOME}>
       Retour à l'accueil
-    </LinkButton>
+    </SecondaryLinkButton>
   </Container>
 )

@@ -14,6 +14,7 @@ import {
   Button,
   FormulaireChampsObligatoireLégende,
   Label,
+  SecondaryLinkButton,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
@@ -101,7 +102,6 @@ export const NewModificationRequest = PageLayout(
                   {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
                   <Button
-                    primary
                     className="mt-3 mr-1"
                     type="submit"
                     id="submit"
@@ -109,13 +109,9 @@ export const NewModificationRequest = PageLayout(
                   >
                     Envoyer
                   </Button>
-                  <a
-                    className="button-outline primary"
-                    {...dataId('cancel-button')}
-                    href={ROUTES.USER_LIST_PROJECTS}
-                  >
+                  <SecondaryLinkButton href={ROUTES.USER_LIST_PROJECTS}>
                     Annuler
-                  </a>
+                  </SecondaryLinkButton>
                 </div>
               )}
             </div>

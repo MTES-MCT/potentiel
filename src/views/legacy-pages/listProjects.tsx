@@ -6,7 +6,13 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 
-import { LinkButton, ProjectList, DownloadIcon, RoleBasedDashboard } from '@components'
+import {
+  ProjectList,
+  DownloadIcon,
+  RoleBasedDashboard,
+  ExcelFileIcon,
+  SecondaryLinkButton,
+} from '@components'
 
 type ListProjectsProps = {
   request: Request
@@ -316,16 +322,16 @@ export default function ListProjects({
               )}
 
               {getProjectsCount(projects) > 0 && (
-                <LinkButton
+                <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
                   href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                     request.query as any
                   )}`}
                   download
-                  excel
                 >
+                  <ExcelFileIcon className="mr-2" />
                   Télécharger un export
-                </LinkButton>
+                </SecondaryLinkButton>
               )}
             </div>
             <ProjectList

@@ -1,3 +1,4 @@
+import { Link } from '@components'
 import { DemandeDélaiDTO } from '@modules/frise/dtos'
 import { format } from 'date-fns'
 import React from 'react'
@@ -47,7 +48,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
           <p className="p-0 m-0">
             {statut !== 'accordée' ? <DélaiDemandé {...props} /> : <DélaiAccordé {...props} />}
             <br />
-            {demandeUrl && <a href={demandeUrl}>Voir la demande</a>}
+            {demandeUrl && <Link href={demandeUrl}>Voir la demande</Link>}
           </p>
         </>
       </ContentArea>

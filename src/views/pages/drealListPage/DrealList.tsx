@@ -71,13 +71,7 @@ export const DrealList = PageLayout(({ request, users, validationErrors }: Dreal
                   ))}
               </Select>
             </div>
-            <Button
-              type="submit"
-              primary
-              id="submit"
-              {...dataId('submit-button')}
-              className="m-auto"
-            >
+            <Button type="submit" id="submit" {...dataId('submit-button')} className="m-auto">
               Inviter
             </Button>
           </form>

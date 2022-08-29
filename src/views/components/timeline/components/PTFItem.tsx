@@ -4,11 +4,13 @@ import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '@routes'
 import {
   Button,
+  SecondaryButton,
   FormulaireChampsObligatoireLégende,
   Input,
   Label,
-  Astérisque,
   Dropdown,
+  DownloadLink,
+  Link,
 } from '@components'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { UserRole } from '@modules/users'
@@ -40,9 +42,9 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
       <ItemTitle title="Proposition technique et financière" />
       {url ? (
         <div>
-          <a href={url} download>
+          <DownloadLink fileUrl={url}>
             Télécharger la proposition technique et financière
-          </a>
+          </DownloadLink>
         </div>
       ) : (
         <div>Pièce-jointe introuvable</div>
@@ -72,7 +74,7 @@ const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
 type CancelDepositProps = { projectId: string }
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
-    <a
+    <Link
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'ptf' })}
       onClick={(event) =>
         confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
@@ -80,7 +82,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
       }
     >
       Annuler le dépôt
-    </a>
+    </Link>
   )
 }
 
@@ -129,10 +131,8 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           </span>
         </div>
         <div className="flex gap-4 flex-col md:flex-row mt-4">
-          <Button type="submit" primary>
-            Envoyer
-          </Button>
-          <Button onClick={() => showForm(false)}>Annuler</Button>
+          <Button type="submit">Envoyer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
         </div>
       </form>
     </Dropdown>
