@@ -1,4 +1,4 @@
-import { AbandonConfirmé } from '@modules/demandeModification'
+import { AbandonConfirmé } from '@modules/demandeModification/demandeAbandon'
 import { ModificationRequestConfirmed } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'

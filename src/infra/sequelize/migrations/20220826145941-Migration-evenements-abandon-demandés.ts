@@ -1,6 +1,6 @@
-import { AbandonDemandé } from '@modules/demandeModification'
 import { ModificationRequested } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
+import { AbandonDemandé } from '@modules/demandeModification/demandeAbandon'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 import { ProjectEvent } from '../projectionsNext'

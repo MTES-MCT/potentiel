@@ -1,4 +1,4 @@
-import { AbandonRejeté } from '@modules/demandeModification'
+import { AbandonRejeté } from '@modules/demandeModification/demandeAbandon'
 import { ModificationRequestRejected } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'

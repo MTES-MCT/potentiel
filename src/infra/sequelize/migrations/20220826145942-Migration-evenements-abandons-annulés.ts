@@ -1,4 +1,4 @@
-import { AbandonAnnulé } from '@modules/demandeModification'
+import { AbandonAnnulé } from '@modules/demandeModification/demandeAbandon'
 import { ModificationRequestCancelled, ModificationRequested } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
