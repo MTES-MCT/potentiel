@@ -14,6 +14,7 @@ import {
   DCRCertificatDéjàEnvoyéError,
   PTFCertificatDéjàEnvoyéError,
   NoGFCertificateToDeleteError,
+  Project,
 } from '@modules/project'
 import { ProjectNotQualifiedForCovidDelay } from '@modules/shared'
 
@@ -131,4 +132,5 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   data,
   id: new UniqueEntityID('project1'),
   completionDueOn: 0,
+  abandonedOn: 0,
 })

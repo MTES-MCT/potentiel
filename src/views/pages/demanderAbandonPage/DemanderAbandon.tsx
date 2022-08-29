@@ -87,7 +87,6 @@ export const DemanderAbandon = PageLayout(
                     id="file"
                   />
                   <Button
-                    primary
                     className="mt-3 mr-1"
                     type="submit"
                     id="submit"

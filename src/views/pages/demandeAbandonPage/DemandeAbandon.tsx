@@ -79,7 +79,7 @@ export const DemandeAbandon = PageLayout(
                 <div>
                   <form action={ROUTES.CONFIRMER_DEMANDE_ABANDON} method="post" className="m-0">
                     <input type="hidden" name="demandeAbandonId" value={id} />
-                    <Button primary type="submit" className="mt-4">
+                    <Button type="submit" className="mt-4">
                       Je confirme ma demande
                     </Button>
                   </form>
@@ -95,7 +95,6 @@ export const DemandeAbandon = PageLayout(
                   modificationRequest.status
                 ) && (
                   <Button
-                    primary
                     type="submit"
                     name="submitConfirm"
                     {...dataId('ask-confirmation-button')}

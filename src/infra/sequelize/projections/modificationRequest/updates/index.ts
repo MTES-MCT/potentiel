@@ -9,7 +9,6 @@ import {
   DélaiRejeté,
   RejetDélaiAnnulé,
   RejetRecoursAnnulé,
-  RejetDemandeDélaiAnnulé,
   AbandonDemandé,
   AbandonAccordé,
   AbandonRejeté,
