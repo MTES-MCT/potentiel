@@ -1,10 +1,10 @@
-import { AbandonAnnulé } from '@modules/demandeModification'
-import { ModificationRequestCancelled, ModificationRequested } from '@modules/modificationRequest'
+import { ConfirmationAbandonDemandée } from '@modules/demandeModification'
+import { ConfirmationRequested } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 import { ProjectEvent } from '../projectionsNext'
-import onAbandonAnnulé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAnnulé'
+import onConfirmationAbandonDemandée from '../projectionsNext/projectEvents/updates/abandon/onConfirmationAbandonDemandée'
 
 export default {
   up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
@@ -13,42 +13,47 @@ export default {
     try {
       const { ModificationRequest, EventStore } = models
 
-      const demandesAbandonAMigrer: Array<{ id: string; projectId: string }> =
-        await ModificationRequest.findAll(
-          {
-            where: {
-              type: 'abandon',
-              status: ['annulée'],
-            },
-            attributes: ['id', 'projectId'],
+      const demandesAbandonAMigrer: Array<{
+        id: string
+        projectId: string
+      }> = await ModificationRequest.findAll(
+        {
+          where: {
+            type: 'abandon',
+            status: ['en attente de confirmation'],
           },
-          { transaction }
-        )
+          attributes: ['id', 'projectId'],
+        },
+        { transaction }
+      )
 
-      console.log(`${demandesAbandonAMigrer.length} demandes d'abandon annulées à migrer`)
+      console.log(
+        `${demandesAbandonAMigrer.length} demandes d'abandon en attente de confirmation à migrer`
+      )
 
       const nouveauxÉvénements = (
         await Promise.all(
           demandesAbandonAMigrer.map(async (demandesAbandonAMigrer) => {
-            const modificationRequestedCancelledEvent: ModificationRequestCancelled | undefined =
+            const confirmationRequestedEvent: ConfirmationRequested | undefined =
               await EventStore.findOne(
                 {
                   where: {
                     aggregateId: { [Op.overlap]: [demandesAbandonAMigrer.id] },
-                    type: 'ModificationRequestedCancelled',
+                    type: 'ConfirmationRequested',
                   },
                 },
                 { transaction }
               )
 
-            if (modificationRequestedCancelledEvent) {
-              const { occurredAt, payload } = modificationRequestedCancelledEvent
+            if (confirmationRequestedEvent) {
+              const { occurredAt, payload } = confirmationRequestedEvent
 
-              return new AbandonAnnulé({
+              return new ConfirmationAbandonDemandée({
                 payload: {
                   demandeAbandonId: demandesAbandonAMigrer.id,
                   projetId: demandesAbandonAMigrer.projectId,
-                  annuléPar: payload.cancelledBy,
+                  demandéePar: payload.confirmationRequestedBy,
+                  fichierRéponseId: payload.responseFileId,
                 },
                 original: {
                   occurredAt,
@@ -58,16 +63,18 @@ export default {
             }
           })
         )
-      ).filter((e): e is AbandonAnnulé => e?.type === 'AbandonAnnulé')
+      ).filter((e): e is ConfirmationAbandonDemandée => e?.type === 'ConfirmationAbandonDemandée')
 
       console.log(
-        `${nouveauxÉvénements.length} nouveaux événements AbandonAnnulé vont être ajoutés`
+        `${nouveauxÉvénements.length} nouveaux événements ConfirmationAbandonDemandée vont être ajoutés`
       )
 
       await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })
 
       await Promise.all(
-        nouveauxÉvénements.map((AbandonAnnulé) => onAbandonAnnulé(AbandonAnnulé, transaction))
+        nouveauxÉvénements.map((ConfirmationAbandonDemandée) =>
+          onConfirmationAbandonDemandée(ConfirmationAbandonDemandée, transaction)
+        )
       )
 
       const modificationRequestIds = nouveauxÉvénements.map(

@@ -1,10 +1,10 @@
-import { AbandonAnnulé } from '@modules/demandeModification'
-import { ModificationRequestCancelled, ModificationRequested } from '@modules/modificationRequest'
+import { AbandonAccordé } from '@modules/demandeModification'
+import { ModificationRequestAccepted } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 import { ProjectEvent } from '../projectionsNext'
-import onAbandonAnnulé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAnnulé'
+import onAbandonAccordé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAccordé'
 
 export default {
   up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
@@ -13,42 +13,46 @@ export default {
     try {
       const { ModificationRequest, EventStore } = models
 
-      const demandesAbandonAMigrer: Array<{ id: string; projectId: string }> =
-        await ModificationRequest.findAll(
-          {
-            where: {
-              type: 'abandon',
-              status: ['annulée'],
-            },
-            attributes: ['id', 'projectId'],
+      const demandesAbandonAMigrer: Array<{
+        id: string
+        projectId: string
+      }> = await ModificationRequest.findAll(
+        {
+          where: {
+            type: 'abandon',
+            status: ['acceptée'],
+            isLegacy: { [Op.not]: true },
           },
-          { transaction }
-        )
+          attributes: ['id', 'projectId'],
+        },
+        { transaction }
+      )
 
-      console.log(`${demandesAbandonAMigrer.length} demandes d'abandon annulées à migrer`)
+      console.log(`${demandesAbandonAMigrer.length} demandes d'abandon accordées à migrer`)
 
       const nouveauxÉvénements = (
         await Promise.all(
           demandesAbandonAMigrer.map(async (demandesAbandonAMigrer) => {
-            const modificationRequestedCancelledEvent: ModificationRequestCancelled | undefined =
+            const modificationRequestAcceptedEvent: ModificationRequestAccepted | undefined =
               await EventStore.findOne(
                 {
                   where: {
                     aggregateId: { [Op.overlap]: [demandesAbandonAMigrer.id] },
-                    type: 'ModificationRequestedCancelled',
+                    type: 'ModificationRequestAccepted',
                   },
                 },
                 { transaction }
               )
 
-            if (modificationRequestedCancelledEvent) {
-              const { occurredAt, payload } = modificationRequestedCancelledEvent
+            if (modificationRequestAcceptedEvent) {
+              const { occurredAt, payload } = modificationRequestAcceptedEvent
 
-              return new AbandonAnnulé({
+              return new AbandonAccordé({
                 payload: {
                   demandeAbandonId: demandesAbandonAMigrer.id,
                   projetId: demandesAbandonAMigrer.projectId,
-                  annuléPar: payload.cancelledBy,
+                  accordéPar: payload.acceptedBy,
+                  fichierRéponseId: payload.responseFileId,
                 },
                 original: {
                   occurredAt,
@@ -58,16 +62,16 @@ export default {
             }
           })
         )
-      ).filter((e): e is AbandonAnnulé => e?.type === 'AbandonAnnulé')
+      ).filter((e): e is AbandonAccordé => e?.type === 'AbandonAccordé')
 
       console.log(
-        `${nouveauxÉvénements.length} nouveaux événements AbandonAnnulé vont être ajoutés`
+        `${nouveauxÉvénements.length} nouveaux événements AbandonAccordé vont être ajoutés`
       )
 
       await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })
 
       await Promise.all(
-        nouveauxÉvénements.map((AbandonAnnulé) => onAbandonAnnulé(AbandonAnnulé, transaction))
+        nouveauxÉvénements.map((AbandonAccordé) => onAbandonAccordé(AbandonAccordé, transaction))
       )
 
       const modificationRequestIds = nouveauxÉvénements.map(

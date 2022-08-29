@@ -80,7 +80,6 @@ export default {
 
       await ProjectEvent.destroy({
         where: {
-          type: { [Op.in]: ['ModificationRequested', 'ModificationRequestInstructionStarted'] },
           'payload.modificationRequestId': {
             [Op.in]: modificationRequestIds,
           },

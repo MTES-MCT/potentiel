@@ -1,5 +1,5 @@
 import { AbandonRejeté } from '@modules/demandeModification'
-import { ModificationRequested, ModificationRequestRejected } from '@modules/modificationRequest'
+import { ModificationRequestRejected } from '@modules/modificationRequest'
 import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
@@ -15,16 +15,15 @@ export default {
 
       const demandesAbandonAMigrer: Array<{
         id: string
-        responseFileId: string
-        respondedBy: string
         projectId: string
       }> = await ModificationRequest.findAll(
         {
           where: {
             type: 'abandon',
             status: ['rejetée'],
+            isLegacy: { [Op.not]: true },
           },
-          attributes: ['id', 'responseFileId', 'respondedBy', 'projectId'],
+          attributes: ['id', 'projectId'],
         },
         { transaction }
       )
@@ -46,14 +45,14 @@ export default {
               )
 
             if (modificationRequestRejectedEvent) {
-              const { occurredAt } = modificationRequestRejectedEvent
+              const { occurredAt, payload } = modificationRequestRejectedEvent
 
               return new AbandonRejeté({
                 payload: {
                   demandeAbandonId: demandesAbandonAMigrer.id,
                   projetId: demandesAbandonAMigrer.projectId,
-                  rejetéPar: demandesAbandonAMigrer.respondedBy,
-                  fichierRéponseId: demandesAbandonAMigrer.responseFileId,
+                  rejetéPar: payload.rejectedBy,
+                  fichierRéponseId: payload.responseFileId,
                 },
                 original: {
                   occurredAt,
@@ -81,13 +80,6 @@ export default {
 
       await ProjectEvent.destroy({
         where: {
-          type: {
-            [Op.in]: [
-              'ModificationRequested',
-              'ModificationRequestInstructionStarted',
-              'ModificationRequestRejected',
-            ],
-          },
           'payload.modificationRequestId': {
             [Op.in]: modificationRequestIds,
           },
