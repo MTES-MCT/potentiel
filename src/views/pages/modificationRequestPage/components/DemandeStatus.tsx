@@ -16,11 +16,42 @@ interface DemandeStatusProps {
   role: UserRole
 }
 
+function getAdminAnulerRejetDemandeRoute({ type, id }) {
+  if (!type) {
+    return
+  }
+
+  switch (type) {
+    case 'delai':
+      return ROUTES.ADMIN_ANNULER_DELAI_REJETE({
+        modificationRequestId: id,
+      })
+    case 'recours':
+      return ROUTES.ADMIN_ANNULER_RECOURS_REJETE({
+        modificationRequestId: id,
+      })
+    default:
+      return
+  }
+}
+
 export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps) => {
-  const { respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile, status, type } =
-    modificationRequest
+  const {
+    respondedOn,
+    respondedBy,
+    cancelledOn,
+    cancelledBy,
+    responseFile,
+    status,
+    type,
+    authority = null,
+  } = modificationRequest
   const afficherBoutonAnnulerRejet =
-    ['admin', 'dgec-validateur', 'dreal'].includes(role) && type === 'delai' && status === 'rejetée'
+    (['admin', 'dgec-validateur'].includes(role) ||
+      (role === 'dreal' && authority && authority === role)) &&
+    ['delai', 'recours'].includes(type) &&
+    status === 'rejetée'
+
   return (
     <div
       className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
@@ -37,9 +68,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       {afficherBoutonAnnulerRejet && (
         <form
           method="post"
-          action={ROUTES.ADMIN_ANNULER_DELAI_REJETE({
-            modificationRequestId: modificationRequest.id,
-          })}
+          action={getAdminAnulerRejetDemandeRoute({ type, id: modificationRequest.id })}
           className="m-0 mt-4"
         >
           <SecondaryButton
@@ -62,8 +91,8 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       )}
       {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
-      {responseFile && status !== 'demande confirmée' && (
-        <div>
+      {responseFile && (
+        <div className="mt-4">
           <a
             href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
             download={true}

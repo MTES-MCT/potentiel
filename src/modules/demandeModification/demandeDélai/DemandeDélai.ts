@@ -77,11 +77,10 @@ export const makeDemandeDélai = (
       case DélaiRejeté.type:
       case ModificationRequestRejected.type:
         return { ...agregat, statut: 'refusée' }
+
       case DélaiEnInstruction.type:
       case ModificationRequestInstructionStarted.type:
-      case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'en-instruction' }
-
       case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
       default:

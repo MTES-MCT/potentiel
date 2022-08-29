@@ -7,6 +7,7 @@ import {
   DélaiEnInstruction,
   DélaiRejeté,
   RejetDélaiAnnulé,
+  RejetRecoursAnnulé,
 } from '@modules/demandeModification'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
@@ -36,6 +37,7 @@ import {
   makeOnDélaiRejeté,
   makeOnRejetDélaiAnnulé,
   makeOnDélaiEnInstruction,
+  makeOnRejetRecoursAnnulé,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -185,7 +187,12 @@ const onDélaiEnInstructionHandler = makeOnDélaiEnInstruction({
   getModificationRequestInfoForStatusNotification,
 })
 
-const onDemandeDélaiEvénements = async (event: DomainEvent) => {
+const onRejetRecoursAnnuléHandler = makeOnRejetRecoursAnnulé({
+  sendNotification,
+  getModificationRequestInfoForStatusNotification,
+})
+
+const onDemandesÉvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiDemandé) {
     return await onDélaiDemandéHandler(event)
   }
@@ -204,10 +211,14 @@ const onDemandeDélaiEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiEnInstruction) {
     return await onDélaiEnInstructionHandler(event)
   }
+  if (event instanceof RejetRecoursAnnulé) {
+    return await onRejetRecoursAnnuléHandler(event)
+  }
 
   return Promise.resolve()
 }
-subscribeToRedis(onDemandeDélaiEvénements, 'Notification')
+
+subscribeToRedis(onDemandesÉvénements, 'Notification')
 
 console.log('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true
