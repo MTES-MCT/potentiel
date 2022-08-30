@@ -31,6 +31,16 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
+    // Changement de producteur interdit avant la date d'achèvement
+    // La date d'achèvement n'est pas encore une information à saisir dans Potentiel
+    if (project.appelOffre?.type === 'eolien') {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `L'action demandée n'est pas possible pour ce projet`,
+      })
+    }
+
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
       projectId,
