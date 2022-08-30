@@ -35,7 +35,7 @@ export const DemandeAbandon = PageLayout(
     const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
       modificationRequest
 
-    const isAdmin = ['admin', 'dgec', 'dreal'].includes(user.role)
+    const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
 
     const showFormulaireAdministrateur =
       isAdmin &&
