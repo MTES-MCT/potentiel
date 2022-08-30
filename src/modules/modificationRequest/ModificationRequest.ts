@@ -1,7 +1,7 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { err, ok, Result } from '@core/utils'
 import { User } from '@entities'
-import { RejetRecoursAnnulé } from '../demandeModification'
+import { RejetRecoursAnnulé, RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 import { EntityNotFoundError, IllegalInitialStateForAggregateError } from '../shared'
 import {
   StatusPreventsAcceptingError,
@@ -259,6 +259,7 @@ export const makeModificationRequest = (args: {
         props.status = 'demande confirmée'
         break
       case RejetRecoursAnnulé.type:
+      case RejetChangementDePuissanceAnnulé.type:
         props.status = 'envoyée'
         break
       default:
