@@ -2,9 +2,10 @@ import { logger } from '@core/utils'
 import { RejetAbandonAnnulé } from '@modules/demandeModification'
 import models from '../../../../models'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { ProjectionEnEchec } from '../../../../../../modules/shared'
 
-export default ProjectEventProjector.on(RejetAbandonAnnulé, async ({ payload }, transaction) => {
-  const { demandeAbandonId } = payload
+export default ProjectEventProjector.on(RejetAbandonAnnulé, async (événement, transaction) => {
+  const { demandeAbandonId } = événement.payload
 
   const demandeAbandonInstance = await ProjectEvent.findOne({
     where: { id: demandeAbandonId, type: 'DemandeAbandon' },
@@ -22,28 +23,32 @@ export default ProjectEventProjector.on(RejetAbandonAnnulé, async ({ payload },
 
     if (!rawRequestedOn) {
       logger.error(
-        new Error(
-          `Erreur: impossible de trouver la modificationRequest (id = ${demandeAbandonId}) depuis onRejetDemandeAbandonAnnulé)`
-        )
+        new ProjectionEnEchec('Impossible de trouver la modificationRequest pour la demande', {
+          nomProjection: 'onRejetAbandonAnnulé',
+          evenement: événement,
+        })
       )
     }
 
-    Object.assign(demandeAbandonInstance, {
-      valueDate: rawRequestedOn.requestedOn,
-      eventPublishedAt: rawRequestedOn.requestedOn,
-      payload: {
-        ...demandeAbandonInstance.payload,
-        statut: 'envoyée',
-        rejetéPar: null,
-      },
-    })
-
     try {
-      await demandeAbandonInstance.save({ transaction })
+      await ProjectEvent.update(
+        {
+          valueDate: rawRequestedOn.requestedOn,
+          eventPublishedAt: rawRequestedOn.requestedOn,
+          payload: { ...demandeAbandonInstance.payload, statut: 'envoyée' },
+        },
+        { where: { id: demandeAbandonId, type: 'DemandeAbandon' }, transaction }
+      )
     } catch (e) {
-      logger.error(e)
-      logger.info(
-        `Error: onRejetDemandeAbandonAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeAbandonId}.`
+      logger.error(
+        new ProjectionEnEchec(
+          'ProjectionEnEchec',
+          {
+            nomProjection: 'onRejetAbandonAnnulé',
+            evenement: événement,
+          },
+          e
+        )
       )
     }
   }
