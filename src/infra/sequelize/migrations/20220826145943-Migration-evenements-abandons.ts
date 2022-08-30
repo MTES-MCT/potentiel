@@ -22,6 +22,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
+      console.log('TEST')
       const { ModificationRequest, EventStore } = models
 
       const eventsAbandonAMigrer: Array<{ id: string; projectId: string }> =
@@ -36,11 +37,11 @@ export default {
           { transaction }
         )
 
-      console.log(`${eventsAbandonAMigrer.length} demandes d'abandon annulées à migrer`)
+      console.log(`${eventsAbandonAMigrer.length} demandes d'abandon à migrer`)
 
       const nouveauxÉvénements = (
         await Promise.all(
-          eventsAbandonAMigrer.flatMap(async (demandesAbandonAMigrer) => {
+          eventsAbandonAMigrer.map(async (demandesAbandonAMigrer) => {
             const { id, projectId } = demandesAbandonAMigrer
             const eventsACopier = await EventStore.findAll(
               {
@@ -64,6 +65,10 @@ export default {
                       ...(payload.justification && { justification: payload.justification }),
                       ...(payload.fileId && { fichierId: payload.fileId }),
                     },
+                    original: {
+                      occurredAt,
+                      version: 1,
+                    },
                   })
                 case 'ModificationRequestCancelled':
                   return new AbandonAnnulé({
@@ -73,7 +78,7 @@ export default {
                       annuléPar: payload.cancelledBy,
                     },
                     original: {
-                      occurredAt: occurredAt,
+                      occurredAt,
                       version: 1,
                     },
                   })
@@ -86,7 +91,7 @@ export default {
                       fichierRéponseId: payload.responseFileId,
                     },
                     original: {
-                      occurredAt: occurredAt,
+                      occurredAt,
                       version: 1,
                     },
                   })
@@ -99,7 +104,7 @@ export default {
                       fichierRéponseId: payload.responseFileId,
                     },
                     original: {
-                      occurredAt: occurredAt,
+                      occurredAt,
                       version: 1,
                     },
                   })
@@ -111,7 +116,7 @@ export default {
                       confirméPar: payload.confirmedBy,
                     },
                     original: {
-                      occurredAt: occurredAt,
+                      occurredAt,
                       version: 1,
                     },
                   })
@@ -124,7 +129,7 @@ export default {
                       fichierRéponseId: payload.responseFileId,
                     },
                     original: {
-                      occurredAt: occurredAt,
+                      occurredAt,
                       version: 1,
                     },
                   })
@@ -133,8 +138,9 @@ export default {
           })
         )
       )
-        .filter((event) => event !== undefined)
-        .sort((a, b) => a.occurredAt - b.occurredAt)
+        .flat()
+        .filter((e) => e !== undefined)
+        .sort((a, b) => a.occurredAt.getTime() - b.occurredAt.getTime())
 
       console.log(
         `${nouveauxÉvénements.length} nouveaux événements vont être ajoutés à l'event store`
@@ -142,24 +148,28 @@ export default {
 
       await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })
 
-      await Promise.all(
-        nouveauxÉvénements.map((événement) => {
-          switch (événement.type) {
-            case 'AbandonDemandé':
-              return onAbandonDemandé(événement, transaction)
-            case 'AbandonAnnulée':
-              return onAbandonAnnulé(événement, transaction)
-            case 'AbandonAccordé':
-              return onAbandonAccordé(événement, transaction)
-            case 'AbandonRejeté':
-              return onAbandonRejeté(événement, transaction)
-            case 'ConfirmationAbandonDemandée':
-              return onConfirmationAbandonDemandée(événement, transaction)
-            case 'AbandonConfirmé':
-              return onAbandonConfirmé(événement, transaction)
-          }
-        })
-      )
+      for await (let événement of nouveauxÉvénements) {
+        switch (événement.type) {
+          case 'AbandonDemandé':
+            onAbandonDemandé(événement, transaction)
+            break
+          case 'AbandonAnnulé':
+            onAbandonAnnulé(événement, transaction)
+            break
+          case 'AbandonAccordé':
+            onAbandonAccordé(événement, transaction)
+            break
+          case 'AbandonRejeté':
+            onAbandonRejeté(événement, transaction)
+            break
+          case 'ConfirmationAbandonDemandée':
+            onConfirmationAbandonDemandée(événement, transaction)
+            break
+          case 'AbandonConfirmé':
+            onAbandonConfirmé(événement, transaction)
+            break
+        }
+      }
 
       const modificationRequestIds = nouveauxÉvénements.map(
         (demande) => demande.payload.demandeAbandonId
