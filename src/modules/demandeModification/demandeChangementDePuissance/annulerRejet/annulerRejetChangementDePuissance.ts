@@ -4,15 +4,17 @@ import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { ModificationRequest } from '@modules/modificationRequest'
-// import { RejetRecoursAnnulé } from '../events'
+import { RejetChangementDePuissanceAnnulé } from '../events'
 
 type AnnulerRejetChangementDePuissance = (commande: {
   user: User
   demandeChangementDePuissanceId: string
 }) => ResultAsync<
   null,
-  InfraNotAvailableError | UnauthorizedError | StatutRéponseIncompatibleAvecAnnulationError
-  // EntityNotFoundError
+  | InfraNotAvailableError
+  | UnauthorizedError
+  | StatutRéponseIncompatibleAvecAnnulationError
+  | EntityNotFoundError
 >
 
 type MakeAnnulerRejetChangementDePuissance = (dépendances: {
@@ -39,16 +41,15 @@ export const makeAnnulerRejetChangementDePuissance: MakeAnnulerRejetChangementDe
           return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
         }
 
-        return okAsync(null)
-        // return publishToEventStore(
-        //   new RejetRecoursAnnulé({
-        //     payload: {
-        //       demandeChangementDePuissanceId,
-        //       projetId: projectId.toString(),
-        //       annuléPar: user.id,
-        //     },
-        //   })
-        // )
+        return publishToEventStore(
+          new RejetChangementDePuissanceAnnulé({
+            payload: {
+              demandeChangementDePuissanceId,
+              projetId: projectId.toString(),
+              annuléPar: user.id,
+            },
+          })
+        )
       }
     )
   }

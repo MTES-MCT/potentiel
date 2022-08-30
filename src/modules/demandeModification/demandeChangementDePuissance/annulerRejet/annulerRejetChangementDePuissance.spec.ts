@@ -78,40 +78,43 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
     })
   })
 
-  // describe(`Annuler le rejet d'une demande de recours`, () => {
-  //   describe(`Annulation de la demande possible`, () => {
-  //     describe(`Etant donné un utilisateur admin ou dgec-validateur ayant les droits sur le projet
-  //     et une demande de délai en statut "refusée"`, () => {
-  //       it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
-  //       alors un événement RejetRecoursAnnulé devrait être émis`, async () => {
-  //         const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
-  //         const projectId = 'id-du-projet'
-  //         const demandeRecoursId = 'id-de-la-demande'
-  //         const modificationRequestRepo = fakeTransactionalRepo(
-  //           makeFakeDemandeRecours({ status: 'rejetée', projectId }) as ModificationRequest
-  //         )
-  //         const annulerRejetRecours = makeAnnulerRejetRecours({
-  //           modificationRequestRepo,
-  //           publishToEventStore,
-  //         })
+  describe(`Annuler le rejet d'une demande de changement de puissance`, () => {
+    describe(`Annulation de la demande possible`, () => {
+      describe(`Etant donné un utilisateur admin, dgec-validateur ou dreal ayant les droits sur le projet
+      et une demande de délai en statut "refusée"`, () => {
+        it(`Lorsque l'utilisateur annule le rejet de la demande de délai,
+        alors un événement RejetRecoursAnnulé devrait être émis`, async () => {
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin', id: 'user-id' })))
+          const projectId = 'id-du-projet'
+          const demandeChangementDePuissanceId = 'id-de-la-demande'
+          const modificationRequestRepo = fakeTransactionalRepo(
+            makeFakeDemandeChangementDePuissance({
+              status: 'rejetée',
+              projectId,
+            }) as ModificationRequest
+          )
+          const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+            modificationRequestRepo,
+            publishToEventStore,
+          })
 
-  //         await annulerRejetRecours({
-  //           user,
-  //           demandeRecoursId,
-  //         })
+          await annulerRejetChangementDePuissance({
+            user,
+            demandeChangementDePuissanceId,
+          })
 
-  //         expect(publishToEventStore).toHaveBeenCalledWith(
-  //           expect.objectContaining({
-  //             type: 'RejetRecoursAnnulé',
-  //             payload: expect.objectContaining({
-  //               demandeRecoursId,
-  //               annuléPar: 'user-id',
-  //               projetId: projectId,
-  //             }),
-  //           })
-  //         )
-  //       })
-  //     })
-  //   })
-  // })
+          expect(publishToEventStore).toHaveBeenCalledWith(
+            expect.objectContaining({
+              type: 'RejetChangementDePuissanceAnnulé',
+              payload: expect.objectContaining({
+                demandeChangementDePuissanceId,
+                annuléPar: 'user-id',
+                projetId: projectId,
+              }),
+            })
+          )
+        })
+      })
+    })
+  })
 })
