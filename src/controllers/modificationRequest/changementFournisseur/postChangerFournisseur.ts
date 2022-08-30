@@ -2,7 +2,7 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
 
-import { ensureRole, requestProducteurModification } from '@config'
+import { ensureRole, changerProducteur } from '@config'
 import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -19,7 +19,7 @@ import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
 
 const requestBodySchema = yup.object({
-  projectId: yup.string().uuid().required(),
+  projetId: yup.string().uuid().required(),
   newRulesOptIn: yup.boolean().optional(),
   producteur: yup.string().required('Le champ producteur est obligatoire.'),
   email: yup.string().email().optional(),
@@ -33,30 +33,30 @@ v1Router.post(
   asyncHandler((request, response) =>
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, newRulesOptIn, producteur, email, justification } = body
+        const { projetId, newRulesOptIn, producteur, email, justification } = body
         const { user } = request
 
-        const file = request.file && {
+        const fichier = request.file && {
           contents: fs.createReadStream(request.file.path),
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        return requestProducteurModification({
-          requestedBy: user,
-          projectId,
+        return changerProducteur({
+          porteur: user,
+          projetId,
           ...(newRulesOptIn && { newRulesOptIn: true }),
-          file,
+          fichier,
           justification,
-          newProducteur: producteur,
+          nouveauProducteur: producteur,
           email,
-        }).map(() => ({ projectId }))
+        }).map(() => ({ projetId }))
       })
       .match(
-        ({ projectId }) => {
+        ({ projetId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Votre changement de producteur a bien été enregistré.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectUrl: routes.PROJECT_DETAILS(projetId),
               redirectTitle: 'Retourner à la page projet',
             })
           )

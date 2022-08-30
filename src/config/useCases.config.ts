@@ -32,7 +32,7 @@ import {
   makeRequestActionnaireModification,
   makeRequestConfirmation,
   makeRequestFournisseursModification,
-  makeRequestProducteurModification,
+  makeChangerProducteur,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
 } from '@modules/modificationRequest'
@@ -213,7 +213,7 @@ export const requestActionnaireModification = makeRequestActionnaireModification
   getProjectAppelOffreId,
 })
 
-export const requestProducteurModification = makeRequestProducteurModification({
+export const changerProducteur = makeChangerProducteur({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,

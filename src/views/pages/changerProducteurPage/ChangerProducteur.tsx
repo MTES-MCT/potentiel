@@ -49,7 +49,7 @@ export const ChangerProducteur = PageLayout(
             method="post"
             encType="multipart/form-data"
           >
-            <input type="hidden" name="projectId" value={project.id} />
+            <input type="hidden" name="projetId" value={project.id} />
             <FormulaireChampsObligatoireLégende className="text-right" />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>

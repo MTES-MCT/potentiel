@@ -12,26 +12,26 @@ import {
 } from '../../shared'
 import { ModificationReceived } from '../events'
 
-interface RequestProducteurModificationDeps {
+type ChangerProducteurDeps = {
   eventBus: EventBus
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
 }
 
-interface RequestProducteurModificationArgs {
-  projectId: string
-  requestedBy: User
-  newProducteur: string
+type ChangerProducteurArgs = {
+  projetId: string
+  porteur: User
+  nouveauProducteur: string
   justification?: string
-  file?: { contents: FileContents; filename: string }
+  fichier?: { contents: FileContents; filename: string }
   email?: string
 }
 
-export const makeRequestProducteurModification =
-  (deps: RequestProducteurModificationDeps) =>
+export const makeChangerProducteur =
+  (deps: ChangerProducteurDeps) =>
   (
-    args: RequestProducteurModificationArgs
+    args: ChangerProducteurArgs
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -39,12 +39,10 @@ export const makeRequestProducteurModification =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { projectId, requestedBy, newProducteur, justification, file } = args
+    const { projetId, porteur, nouveauProducteur, justification, fichier } = args
     const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
 
-    return wrapInfra(
-      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
-    )
+    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur }))
       .andThen(
         (
           userHasRightsToProject
@@ -53,15 +51,15 @@ export const makeRequestProducteurModification =
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
         > => {
           if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!file) return okAsync(null)
+          if (!fichier) return okAsync(null)
 
           return makeAndSaveFile({
             file: {
               designation: 'modification-request',
-              forProject: new UniqueEntityID(projectId),
-              createdBy: new UniqueEntityID(requestedBy.id),
-              filename: file.filename,
-              contents: file.contents,
+              forProject: new UniqueEntityID(projetId),
+              createdBy: new UniqueEntityID(porteur.id),
+              filename: fichier.filename,
+              contents: fichier.contents,
             },
             fileRepo,
           })
@@ -75,7 +73,7 @@ export const makeRequestProducteurModification =
       .andThen(
         (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
           return projectRepo.transaction(
-            new UniqueEntityID(projectId),
+            new UniqueEntityID(projetId),
             (
               project: Project
             ): ResultAsync<
@@ -83,7 +81,7 @@ export const makeRequestProducteurModification =
               AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
             > => {
               return project
-                .updateProducteur(requestedBy, newProducteur)
+                .updateProducteur(porteur, nouveauProducteur)
                 .asyncMap(async () => fileId)
             }
           )
@@ -97,10 +95,10 @@ export const makeRequestProducteurModification =
             new ModificationReceived({
               payload: {
                 modificationRequestId: new UniqueEntityID().toString(),
-                projectId: projectId.toString(),
-                requestedBy: requestedBy.id,
+                projectId: projetId,
+                requestedBy: porteur.id,
                 type: 'producteur',
-                producteur: newProducteur,
+                producteur: nouveauProducteur,
                 justification,
                 fileId,
                 authority: 'dreal',

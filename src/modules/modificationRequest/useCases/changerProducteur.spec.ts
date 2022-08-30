@@ -9,9 +9,9 @@ import { FileObject } from '../../file'
 import { Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
-import { makeRequestProducteurModification } from './requestProducteurModification'
+import { makeChangerProducteur } from './changerProducteur'
 
-describe('requestProducteurModification use-case', () => {
+describe('changerProducteur use-case', () => {
   const shouldUserAccessProject = jest.fn(async () => true)
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
   const fakeProject = { ...makeFakeProject(), producteur: 'initial producteur' }
@@ -35,17 +35,17 @@ describe('requestProducteurModification use-case', () => {
 
       const shouldUserAccessProject = jest.fn(async () => false)
 
-      const requestProducteurModification = makeRequestProducteurModification({
+      const changerProducteur = makeChangerProducteur({
         projectRepo,
         eventBus,
         shouldUserAccessProject,
         fileRepo: fileRepo as Repository<FileObject>,
       })
 
-      const res = await requestProducteurModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newProducteur: 'new producteur',
+      const res = await changerProducteur({
+        projetId: fakeProject.id.toString(),
+        porteur: fakeUser,
+        nouveauProducteur: 'new producteur',
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -60,18 +60,18 @@ describe('requestProducteurModification use-case', () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
 
-      const requestProducteurModification = makeRequestProducteurModification({
+      const changerProducteur = makeChangerProducteur({
         projectRepo,
         eventBus,
         shouldUserAccessProject,
         fileRepo: fileRepo as Repository<FileObject>,
       })
 
-      const res = await requestProducteurModification({
-        projectId: fakeProject.id,
-        requestedBy: fakeUser,
-        newProducteur,
-        file: { contents: fakeFileContents, filename: fakeFileName },
+      const res = await changerProducteur({
+        projetId: fakeProject.id.toString(),
+        porteur: fakeUser,
+        nouveauProducteur: newProducteur,
+        fichier: { contents: fakeFileContents, filename: fakeFileName },
       })
 
       expect(res.isOk()).toBe(true)
