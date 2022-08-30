@@ -145,7 +145,7 @@ export default {
       await Promise.all(
         nouveauxÉvénements.map((événement) => {
           switch (événement.type) {
-            case AbandonDemandé:
+            case 'AbandonDemandé':
               return onAbandonDemandé(événement, transaction)
             case 'AbandonAnnulée':
               return onAbandonAnnulé(événement, transaction)
