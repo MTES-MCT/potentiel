@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { AbandonAccordé, AbandonAnnulé } from '@modules/demandeModification'
+import { AbandonAccordé } from '@modules/demandeModification'
 
 export const onAbandonAccordé =
   (models) =>

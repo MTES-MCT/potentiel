@@ -280,8 +280,6 @@ describe('Commande demanderAbandon', () => {
           newRulesOptIn: true,
         })
 
-        console.log('réponse : ', res)
-
         expect(publishToEventStore).toHaveBeenNthCalledWith(
           1,
           expect.objectContaining({

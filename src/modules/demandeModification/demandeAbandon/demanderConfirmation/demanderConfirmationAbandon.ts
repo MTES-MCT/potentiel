@@ -1,11 +1,10 @@
 import { User } from '@entities'
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { DemandeAbandon } from '../DemandeAbandon'
-import { errAsync, wrapInfra } from '@core/utils'
+import { errAsync } from '@core/utils'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { Project } from '@modules/project'
 import { ConfirmationAbandonDemandée } from '../events'
 import { DemanderConfirmationAbandonError } from './DemanderConfirmationAbandonError'
 

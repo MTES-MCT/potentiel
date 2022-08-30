@@ -9,7 +9,7 @@ import { AppelOffreRepo } from '@dataAccess'
 import { GetProjectAppelOffreId } from '../../../modificationRequest'
 import { Project, ProjectNewRulesOptedIn } from '@modules/project'
 import { DemanderAbandonError } from './DemanderAbandonError'
-import { NouveauCahierDesChargesNonChoisiError } from '../../demandeDélai/demander/NouveauCahierDesChargesNonChoisiError'
+import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification/demandeDélai/demander'
 
 type DemanderAbandon = (commande: {
   user: User

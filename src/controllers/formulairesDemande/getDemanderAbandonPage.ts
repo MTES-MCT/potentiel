@@ -10,7 +10,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
-import { DemanderAbandonPage, DemanderDelaiPage } from '@views'
+import { DemanderAbandonPage } from '@views'
 
 v1Router.get(
   routes.DEMANDER_ABANDON(),

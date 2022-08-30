@@ -1,7 +1,8 @@
 import { logger } from '@core/utils'
 import { AbandonDemandé } from '@modules/demandeModification'
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
+
 import { NotifierPorteurChangementStatutDemande } from '../..'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
 type OnAbandonDemandé = (evenement: AbandonDemandé) => Promise<void>
 
