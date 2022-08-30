@@ -21,10 +21,10 @@ import {
   Signup,
   Statistiques,
   UploadLegacyModificationFiles,
+  ChangerProducteur,
+  DemanderAbandon,
+  DemandeAbandon,
 } from './pages'
-import { DemanderAbandon } from './pages/demanderAbandonPage'
-import { DemandeAbandon } from './pages/demandeAbandonPage'
-import { ChangerProducteur } from './pages/changerProducteurPage/ChangerProducteur'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
