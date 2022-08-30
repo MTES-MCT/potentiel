@@ -78,7 +78,12 @@ export const ChangerProducteur = PageLayout(
                     </div>
                   )}
                   <label>Ancien producteur</label>
-                  <Input type="text" disabled defaultValue={project.nomCandidat} />
+                  <Input
+                    type="text"
+                    disabled
+                    defaultValue={project.nomCandidat}
+                    style={{ backgroundColor: '#CECECE' }}
+                  />
                   {!isEolien && appelOffre?.isSoumisAuxGFs && (
                     <div className="notification warning my-4">
                       <span>
