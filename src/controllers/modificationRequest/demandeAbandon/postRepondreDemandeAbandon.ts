@@ -22,6 +22,8 @@ import routes from '../../../routes'
 import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
 
+import { AccorderDemandeAbandonError } from '@modules/demandeModification/demandeAbandon'
+
 const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),
   submitRefuse: yup.string().nullable(),
@@ -94,6 +96,14 @@ v1Router.post(
           )
         },
         (error) => {
+          if (error instanceof AccorderDemandeAbandonError) {
+            return errorResponse({
+              request,
+              response,
+              customStatus: 400,
+              customMessage: error.message,
+            })
+          }
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
           }
