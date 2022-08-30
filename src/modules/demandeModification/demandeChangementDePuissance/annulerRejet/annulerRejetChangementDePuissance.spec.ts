@@ -18,6 +18,7 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )
+  const shouldUserAccessProject = jest.fn(async () => true)
   beforeEach(() => {
     publishToEventStore.mockClear()
   })
@@ -37,6 +38,7 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
         it(`Lorsqu'il annule le rejet d'une demande de changement de puissance,
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
           const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+            shouldUserAccessProject,
             modificationRequestRepo,
             publishToEventStore,
           })
@@ -53,6 +55,33 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
     }
   })
 
+  describe(`Annulation impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
+    describe(`Etant donné un utilisateur dreal n'ayant pas les droits sur le projet`, () => {
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+      const shouldUserAccessProject = jest.fn(async () => false)
+      it(`Lorsqu'il annule le rejet d'une demande de délai,
+        Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+        const modificationRequestRepo = fakeTransactionalRepo(
+          makeFakeDemandeChangementDePuissance({ status: 'rejetée' }) as ModificationRequest
+        )
+
+        const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+          shouldUserAccessProject,
+          modificationRequestRepo,
+          publishToEventStore,
+        })
+
+        const res = await annulerRejetChangementDePuissance({
+          user,
+          demandeChangementDePuissanceId: 'id-de-la-demande',
+        })
+
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   describe(`Annulation impossible si le statut de la demande n'est pas "refusée"`, () => {
     describe(`Etant donné un utilisateur admin ayant les droits sur le projet
       et une demande de changement de puissance en statut 'envoyée'`, () => {
@@ -63,6 +92,7 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
           makeFakeDemandeChangementDePuissance({ status: 'envoyée' }) as ModificationRequest
         )
         const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+          shouldUserAccessProject,
           modificationRequestRepo,
           publishToEventStore,
         })
@@ -94,6 +124,7 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
             }) as ModificationRequest
           )
           const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+            shouldUserAccessProject,
             modificationRequestRepo,
             publishToEventStore,
           })

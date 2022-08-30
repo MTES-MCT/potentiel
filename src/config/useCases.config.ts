@@ -8,7 +8,6 @@ import {
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
 } from '@modules/demandeModification/demandeDélai'
-import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours'
 import {
   makeDemanderAbandon,
   makeAnnulerDemandeAbandon,
@@ -18,6 +17,8 @@ import {
   makeConfirmerDemandeAbandon,
   makeAnnulerRejetAbandon,
 } from '@modules/demandeModification/demandeAbandon'
+import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours'
+import { makeAnnulerRejetChangementDePuissance } from '@modules/demandeModification/demandeChangementDePuissance'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
 import {
@@ -360,6 +361,12 @@ export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruc
 })
 
 export const annulerRejetRecours = makeAnnulerRejetRecours({
+  modificationRequestRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })

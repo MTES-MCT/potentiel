@@ -1,5 +1,5 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync, wrapInfra, okAsync } from '@core/utils'
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
@@ -20,10 +20,11 @@ type AnnulerRejetChangementDePuissance = (commande: {
 type MakeAnnulerRejetChangementDePuissance = (dépendances: {
   modificationRequestRepo: TransactionalRepository<ModificationRequest>
   publishToEventStore: EventStore['publish']
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
 }) => AnnulerRejetChangementDePuissance
 
 export const makeAnnulerRejetChangementDePuissance: MakeAnnulerRejetChangementDePuissance =
-  ({ publishToEventStore, modificationRequestRepo }) =>
+  ({ publishToEventStore, modificationRequestRepo, shouldUserAccessProject }) =>
   ({ user, demandeChangementDePuissanceId }) => {
     if (!['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
@@ -37,19 +38,27 @@ export const makeAnnulerRejetChangementDePuissance: MakeAnnulerRejetChangementDe
           return errAsync(new InfraNotAvailableError())
         }
 
-        if (status !== 'rejetée') {
-          return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
-        }
+        return wrapInfra(
+          shouldUserAccessProject({ projectId: projectId.toString(), user })
+        ).andThen((utilisateurALesDroits) => {
+          if (!utilisateurALesDroits) {
+            return errAsync(new UnauthorizedError())
+          }
 
-        return publishToEventStore(
-          new RejetChangementDePuissanceAnnulé({
-            payload: {
-              demandeChangementDePuissanceId,
-              projetId: projectId.toString(),
-              annuléPar: user.id,
-            },
-          })
-        )
+          if (status !== 'rejetée') {
+            return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
+          }
+
+          return publishToEventStore(
+            new RejetChangementDePuissanceAnnulé({
+              payload: {
+                demandeChangementDePuissanceId,
+                projetId: projectId.toString(),
+                annuléPar: user.id,
+              },
+            })
+          )
+        })
       }
     )
   }
