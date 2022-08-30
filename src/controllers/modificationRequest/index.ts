@@ -1,4 +1,4 @@
-export * from './changementFournisseur'
+export * from './changementProducteur'
 export * from './demandeAbandon'
 export * from './getModeleReponse'
 export * from './getModificationRequestListForAdminPage'

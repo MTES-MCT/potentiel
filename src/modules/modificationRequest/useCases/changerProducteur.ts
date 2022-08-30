@@ -1,4 +1,10 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import {
+  EventBus,
+  Repository,
+  TransactionalRepository,
+  UniqueEntityID,
+  EventStore,
+} from '@core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
@@ -11,12 +17,17 @@ import {
   UnauthorizedError,
 } from '../../shared'
 import { ModificationReceived } from '../events'
+import { AppelOffreRepo } from '@dataAccess'
+import { GetProjectAppelOffreId } from '../queries'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
+  findAppelOffreById: AppelOffreRepo['findById']
+  getProjectAppelOffreId: GetProjectAppelOffreId
+  publishToEventStore: EventStore['publish']
 }
 
 type ChangerProducteurArgs = {
@@ -26,6 +37,7 @@ type ChangerProducteurArgs = {
   justification?: string
   fichier?: { contents: FileContents; filename: string }
   email?: string
+  newRulesOptIn?: true
 }
 
 export const makeChangerProducteur =
