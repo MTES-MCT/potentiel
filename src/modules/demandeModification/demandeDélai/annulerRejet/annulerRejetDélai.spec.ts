@@ -1,7 +1,7 @@
 import { DomainEvent } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
+import { StatutRéponseIncompatibleAvecAnnulationError } from '../../errors'
 import { InfraNotAvailableError } from '@modules/shared'
 import { USER_ROLES } from '@modules/users'
 import { UnwrapForTest } from '../../../../types'

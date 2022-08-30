@@ -26,8 +26,6 @@ type DemandeAbandonProps = {
   modificationRequest: DemandeAbandonPageDTO
 }
 
-moment.locale('fr')
-
 export const DemandeAbandon = PageLayout(
   ({ request, modificationRequest }: DemandeAbandonProps) => {
     const { user } = request
