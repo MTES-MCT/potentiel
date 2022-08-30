@@ -217,13 +217,20 @@ class routes {
     return projectId ? route.replace(':projectId', projectId) : route
   }
 
+  static CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/changer-producteur.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
+
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')
 
   static CHANGER_PUISSANCE = withProjectId('/demande-modification.html?action=puissance')
 
-  static CHANGER_PRODUCTEUR = withProjectId('/demande-modification.html?action=producteur')
+  //static CHANGER_PRODUCTEUR = withProjectId('/demande-modification.html?action=producteur')
 
   static CHANGER_CDC = '/changer-CDC'
 

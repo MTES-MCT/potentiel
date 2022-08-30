@@ -6,7 +6,6 @@ import { Request } from 'express'
 
 import {
   PageLayout,
-  ModificationRequestActionTitles,
   CDCChoiceForm,
   UserDashboard,
   ProjectInfo,
@@ -15,47 +14,38 @@ import {
   FormulaireChampsObligatoireLégende,
   Label,
   SecondaryLinkButton,
+  Astérisque,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import {
-  ChangementActionnaire,
-  ChangementFournisseur,
-  ChangementPuissance,
-  DemandeRecours,
-} from './components'
 
-type NewModificationRequestProps = {
+type ChangerProducteurProps = {
   request: Request
   project: Project
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-export const NewModificationRequest = PageLayout(
-  ({ request, project, cahiersChargesURLs }: NewModificationRequestProps) => {
-    const { action, error, success, puissance, actionnaire, justification } =
-      (request.query as any) || {}
+export const ChangerProducteur = PageLayout(
+  ({ request, project, cahiersChargesURLs }: ChangerProducteurProps) => {
+    const { action, error, success, justification } = (request.query as any) || {}
+
+    const { appelOffre } = project
+    const isEolien = appelOffre?.type === 'eolien'
 
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
     const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
 
-    const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
-
     return (
       <UserDashboard currentPage={'list-requests'}>
         <div className="panel">
           <div className="panel__header">
-            <h3>
-              <ModificationRequestActionTitles action={action} />
-            </h3>
+            <h3>Je signale un changement de producteur</h3>
           </div>
 
           <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
-            {action !== 'fournisseur' && (
-              <FormulaireChampsObligatoireLégende className="text-right" />
-            )}
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
@@ -77,23 +67,56 @@ export const NewModificationRequest = PageLayout(
 
               {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
-                  {action === 'puissance' && (
-                    <ChangementPuissance
-                      {...{
-                        project,
-                        puissance,
-                        justification,
-                        onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
-                      }}
-                    />
+                  {isEolien && (
+                    <div className="notification error my-4">
+                      <span>
+                        Vous ne pouvez pas changer de producteur avant la date d'achèvement de ce
+                        projet.
+                      </span>
+                    </div>
                   )}
-                  {action === 'fournisseur' && (
-                    <ChangementFournisseur {...{ project, justification }} />
+                  <label>Ancien producteur</label>
+                  <input type="text" disabled defaultValue={project.nomCandidat} />
+                  {!isEolien && appelOffre?.isSoumisAuxGFs && (
+                    <div className="notification warning my-4">
+                      <span>
+                        Attention : de nouvelles garanties financières devront être déposées d'ici
+                        un mois
+                      </span>
+                    </div>
                   )}
-                  {action === 'actionnaire' && (
-                    <ChangementActionnaire {...{ project, actionnaire, justification }} />
-                  )}
-                  {action === 'recours' && <DemandeRecours {...{ justification }} />}
+                  <label htmlFor="producteur">
+                    Nouveau producteur <Astérisque />
+                  </label>
+                  <input
+                    type="text"
+                    name="producteur"
+                    id="producteur"
+                    {...dataId('modificationRequest-producteurField')}
+                    disabled={isEolien}
+                    required
+                  />
+                  <label htmlFor="candidats" className="mt-4">
+                    Statuts mis à jour
+                  </label>
+                  <input
+                    type="file"
+                    name="file"
+                    {...dataId('modificationRequest-fileField')}
+                    id="file"
+                  />
+                  <Label htmlFor="justification" className="mt-4">
+                    <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                    <br />
+                    Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                    ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+                  </Label>
+                  <textarea
+                    name="justification"
+                    id="justification"
+                    defaultValue={justification || ''}
+                    {...dataId('modificationRequest-justificationField')}
+                  />
 
                   <Button
                     className="mt-3 mr-1"
@@ -116,4 +139,4 @@ export const NewModificationRequest = PageLayout(
   }
 )
 
-hydrateOnClient(NewModificationRequest)
+hydrateOnClient(ChangerProducteur)
