@@ -15,8 +15,6 @@ import {
   ModificationRequestedDTO,
   ModificationRequestAcceptedDTO,
   ModificationRequestRejectedDTO,
-  ModificationRequestCancelledDTO,
-  ModificationRequestInstructionStartedDTO,
   ModificationReceivedDTO,
   ProjectGFUploadedDTO,
   ProjectGFWithdrawnDTO,

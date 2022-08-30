@@ -227,49 +227,49 @@ const onAbandonConfirméHandler = makeOnAbandonConfirmé({
 
 const onDemandesEvénements = async (event: DomainEvent) => {
   if (event instanceof DélaiDemandé) {
-    return await onDélaiDemandéHandler(event)
+    return onDélaiDemandéHandler(event)
   }
   if (event instanceof DélaiAccordé) {
-    return await onDélaiAccordéHandler(event)
+    return onDélaiAccordéHandler(event)
   }
   if (event instanceof DélaiRejeté) {
-    return await onDélaiRejetéHandler(event)
+    return onDélaiRejetéHandler(event)
   }
   if (event instanceof RejetDélaiAnnulé) {
-    return await OnRejetDemandeDélaiAnnuléHandler(event)
+    return OnRejetDemandeDélaiAnnuléHandler(event)
   }
   if (event instanceof DélaiAnnulé) {
-    return await onDélaiAnnuléHandler(event)
+    return onDélaiAnnuléHandler(event)
   }
   if (event instanceof DélaiEnInstruction) {
-    return await onDélaiEnInstructionHandler(event)
+    return onDélaiEnInstructionHandler(event)
   }
   if (event instanceof RejetRecoursAnnulé) {
-    return await onRejetRecoursAnnuléHandler(event)
+    return onRejetRecoursAnnuléHandler(event)
   }
 
   if (event instanceof AbandonAccordé) {
-    return await onAbandonAccordéHandler(event)
+    return onAbandonAccordéHandler(event)
   }
 
   if (event instanceof AbandonRejeté) {
-    return await onAbandonRejetéHandler(event)
+    return onAbandonRejetéHandler(event)
   }
 
   if (event instanceof AbandonAnnulé) {
-    return await onAbandonAnnuléHandler(event)
+    return onAbandonAnnuléHandler(event)
   }
 
   if (event instanceof ConfirmationAbandonDemandée) {
-    return await onConfirmationAbandonDemandéeHandler(event)
+    return onConfirmationAbandonDemandéeHandler(event)
   }
 
   if (event instanceof AbandonConfirmé) {
-    return await onAbandonConfirméHandler(event)
+    return onAbandonConfirméHandler(event)
   }
 
   if (event instanceof AbandonDemandé) {
-    return await onAbandonDemandéHandler(event)
+    return onAbandonDemandéHandler(event)
   }
 
   return Promise.resolve()

@@ -1,5 +1,5 @@
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync } from '@core/utils'
+import { errAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'

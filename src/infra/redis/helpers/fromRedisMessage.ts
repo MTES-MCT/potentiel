@@ -10,7 +10,6 @@ import * as FileEvents from '@modules/file/events'
 import * as EDFEvents from '@modules/edf/events'
 import * as EnedisEvents from '@modules/enedis/events'
 import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNotification/events'
-import * as DemandeDélaiModificationEvents from '@modules/demandeModification/demandeDélai/events'
 import * as DemandeRecoursModificationEvents from '@modules/demandeModification/demandeRecours/events'
 import * as DemandeDélaiEvents from '@modules/demandeModification/demandeDélai/events'
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events'
@@ -41,7 +40,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...FileEvents,
   ...EDFEvents,
   ...EnedisEvents,
-  ...DemandeDélaiModificationEvents,
   ...DemandeRecoursModificationEvents,
   ...DemandeDélaiEvents,
   ...DemandeAbandonEvents,

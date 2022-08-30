@@ -66,7 +66,7 @@ const onDélaiAccordé = async (event: DomainEvent) => {
     return Promise.resolve()
   }
 
-  return await onDélaiAccordéHandler(event).match(
+  return onDélaiAccordéHandler(event).match(
     () => Promise.resolve(),
     (e) => Promise.reject(e)
   )
@@ -83,7 +83,7 @@ const onAbandonAccordé = async (event: DomainEvent) => {
     return Promise.resolve()
   }
 
-  return await onAbandonAccordéHandler(event).match(
+  return onAbandonAccordéHandler(event).match(
     () => Promise.resolve(),
     (e) => Promise.reject(e)
   )

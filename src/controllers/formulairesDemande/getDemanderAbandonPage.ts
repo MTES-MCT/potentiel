@@ -45,7 +45,7 @@ v1Router.get(
     }
     const { appelOffreId, periodeId } = project
 
-    return await getCahiersChargesURLs(appelOffreId, periodeId).match(
+    return getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
           DemanderAbandonPage({

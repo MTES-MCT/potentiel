@@ -14,7 +14,6 @@ import {
   DCRCertificatDéjàEnvoyéError,
   PTFCertificatDéjàEnvoyéError,
   NoGFCertificateToDeleteError,
-  Project,
 } from '@modules/project'
 import { ProjectNotQualifiedForCovidDelay } from '@modules/shared'
 

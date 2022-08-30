@@ -274,7 +274,7 @@ describe('Commande demanderAbandon', () => {
           projectRepo,
         })
 
-        const res = await demanderAbandon({
+        await demanderAbandon({
           user,
           projectId: fakeProject.id.toString(),
           newRulesOptIn: true,
