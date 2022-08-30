@@ -38,7 +38,7 @@ export const makeAccorderDemandeAbandon =
           return errAsync(
             new AccorderDemandeAbandonError(
               demandeAbandon,
-              'Seule une demande envoyée, en instruction ou en demande confirmée peut être accordée'
+              `Seule une demande ayant le statut "envoyée", "en instruction" ou "demande confirmée" peut être accordée.`
             )
           )
         }
