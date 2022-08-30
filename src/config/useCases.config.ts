@@ -7,8 +7,16 @@ import {
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
-  makeAnnulerRejetRecours,
-} from '@modules/demandeModification'
+} from '@modules/demandeModification/demandeDélai'
+import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours'
+import {
+  makeDemanderAbandon,
+  makeAnnulerDemandeAbandon,
+  makeAccorderDemandeAbandon,
+  makeRejeterDemandeAbandon,
+  makeDemanderConfirmationAbandon,
+  makeConfirmerDemandeAbandon,
+} from '@modules/demandeModification/demandeAbandon'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
 import {
@@ -80,12 +88,6 @@ import {
   projectRepo,
   userRepo,
 } from './repos.config'
-import { makeDemanderAbandon } from '../modules/demandeModification/demandeAbandon/demander/demanderAbandon'
-import { makeAnnulerDemandeAbandon } from '../modules/demandeModification/demandeAbandon/annuler'
-import { makeAccorderDemandeAbandon } from '../modules/demandeModification/demandeAbandon/accorder/accorderDemandeAbandon'
-import { makeRejeterDemandeAbandon } from '../modules/demandeModification/demandeAbandon/rejeter'
-import { makeDemanderConfirmationAbandon } from '../modules/demandeModification/demandeAbandon/demanderConfirmation/demanderConfirmationAbandon'
-import { makeConfirmerDemandeAbandon } from '../modules/demandeModification/demandeAbandon/confirmerAbandon/confirmerDemandeAbandon'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,

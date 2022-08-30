@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
 import { AbandonRejeté } from '@modules/demandeModification'
 import { NotifierPorteurChangementStatutDemande } from '../..'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
 
 type OnAbandonRejeté = (evenement: AbandonRejeté) => Promise<void>
 

@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { ConfirmationAbandonDemandée } from '../../../../../../modules/demandeModification'
+import { ConfirmationAbandonDemandée } from '@modules/demandeModification'
 
 export const onConfirmationAbandonDemandée =
   (models) =>

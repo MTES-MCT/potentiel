@@ -1,9 +1,9 @@
 import { okAsync } from 'neverthrow'
 import { NotificationArgs } from '../..'
 import { UniqueEntityID } from '@core/domain'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest'
-import { makeOnAbandonAnnulé } from './onAbandonAnnulé'
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest'
 import { AbandonAnnulé, AbandonAnnuléPayload } from '@modules/demandeModification'
+import { makeOnAbandonAnnulé } from './onAbandonAnnulé'
 
 const demandeAbandonId = new UniqueEntityID().toString()
 const dgecEmail = 'dgec@test.test'

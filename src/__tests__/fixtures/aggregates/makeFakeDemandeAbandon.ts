@@ -1,8 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import {
-  DemandeAbandon,
-  StatutDemandeAbandon,
-} from '../../../modules/demandeModification/demandeAbandon/DemandeAbandon'
+import { DemandeAbandon, StatutDemandeAbandon } from '@modules/demandeModification/demandeAbandon'
 
 export const makeFakeDemandeAbandon = (override?: {
   id?: string
