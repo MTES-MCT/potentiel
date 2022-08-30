@@ -2,7 +2,7 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { ResultAsync, wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { userIs, userIsNot } from '@modules/users'
-import { InfraNotAvailableError } from 'src/modules/shared'
+import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
 import { isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
@@ -219,7 +219,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         authority: payload.authority,
                       })
                       break
-                    default:
+                    case 'recours':
                       events.push({
                         type,
                         date: valueDate,
@@ -247,7 +247,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
                 break
               case 'ModificationRequestRejected':
-              case 'ConfirmationRequested':
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type,
@@ -260,7 +259,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 break
               case 'ModificationRequestCancelled':
               case 'ModificationRequestInstructionStarted':
-              case 'ModificationRequestConfirmed':
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type,
@@ -489,6 +487,24 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       (userIs('dreal') && autorité === 'dreal')) && {
                       demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                     }),
+                  })
+                }
+                break
+              case 'DemandeAbandon':
+                if (userIsNot('ademe')(user)) {
+                  const { statut } = payload
+                  events.push({
+                    type,
+                    variant: user.role,
+                    date: valueDate,
+                    statut,
+                    ...(userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && {
+                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                    }),
+                    ...(userIs(['admin', 'dgec-validateur'])(user) &&
+                      statut === 'envoyée' && {
+                        actionRequise: 'à traiter',
+                      }),
                   })
                 }
                 break

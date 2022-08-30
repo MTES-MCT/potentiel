@@ -1,24 +1,18 @@
-import { NotificationService } from '..'
+import { NotificationService } from '../..'
 import { logger } from '@core/utils'
 import routes from '@routes'
-import {
-  ConfirmationRequested,
-  ModificationRequestAccepted,
-  ModificationRequestConfirmed,
-  ModificationRequestInstructionStarted,
-  ModificationRequestRejected,
-} from '../../modificationRequest'
-import { GetModificationRequestInfoForConfirmedNotification } from '../../modificationRequest/queries'
+import { GetModificationRequestInfoForConfirmedNotification } from '../../../modificationRequest/queries'
+import { AbandonConfirmé } from '@modules/demandeModification'
 
-export const handleModificationRequestConfirmed =
+export const makeOnAbandonConfirmé =
   (deps: {
     sendNotification: NotificationService['sendNotification']
     getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification
   }) =>
-  async (event: ModificationRequestConfirmed) => {
-    const { modificationRequestId } = event.payload
+  async (event: AbandonConfirmé) => {
+    const { demandeAbandonId } = event.payload
 
-    await deps.getModificationRequestInfoForConfirmedNotification(modificationRequestId).match(
+    await deps.getModificationRequestInfoForConfirmedNotification(demandeAbandonId).match(
       async ({ chargeAffaire, nomProjet, type }) => {
         if (!chargeAffaire) {
           // no registered user for this projet, no one to warn
@@ -32,16 +26,16 @@ export const handleModificationRequestConfirmed =
           message: {
             email,
             name: fullName,
-            subject: `Demande confirmée pour le projet ${nomProjet.toLowerCase()}`,
+            subject: `Demande d'abandon confirmée pour le projet ${nomProjet.toLowerCase()}`,
           },
           context: {
-            modificationRequestId,
+            modificationRequestId: demandeAbandonId,
             userId: id,
           },
           variables: {
             nom_projet: nomProjet,
             type_demande: type,
-            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+            modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeAbandonId),
           },
         })
       },

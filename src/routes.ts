@@ -132,6 +132,7 @@ class routes {
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI = '/admin/accorder-ou-rejeter-demande-delai'
+  static ADMIN_REPONDRE_DEMANDE_ABANDON = '/admin/repondre-demande-abandon'
 
   static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-delai'
@@ -206,6 +207,11 @@ class routes {
     } else return route
   }
 
+  static DEMANDER_ABANDON = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/demander-abandon.html'
+    return projectId ? route.replace(':projectId', projectId) : route
+  }
+
   static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')
@@ -216,16 +222,20 @@ class routes {
 
   static CHANGER_CDC = '/changer-CDC'
 
-  static DEMANDER_ABANDON = withProjectId('/demande-modification.html?action=abandon')
+  static DEMANDER_ABANDONd = withProjectId('/demande-modification.html?action=abandon')
 
   static DEMANDE_ACTION = '/soumettre-demande'
 
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai'
 
-  static CONFIRMER_DEMANDE_ACTION = '/confirmer-demande'
+  static CONFIRMER_DEMANDE_ABANDON = '/confirmer-demande-abandon'
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
+
+  static DEMANDE_ABANDON_ACTION = '/soumettre-demande-abandon'
+  static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
+  static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

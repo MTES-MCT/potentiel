@@ -1,4 +1,3 @@
-export * from './AbandonForm'
 export * from './ActionnaireForm'
 export * from './AdminResponseForm'
 export * from './AdminRéponseDélaiForm'

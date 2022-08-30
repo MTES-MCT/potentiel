@@ -29,10 +29,6 @@ export const ModificationRequestItem = (props: ComponentProps) => {
       return <Accepted {...{ ...props, status }} />
     case 'annulée':
       return <Cancelled {...{ ...props, status }} />
-    case 'en attente de confirmation':
-      return <ConfirmationRequested {...props} />
-    case 'demande confirmée':
-      return <RequestConfirmed {...props} />
   }
 }
 
@@ -125,55 +121,6 @@ const Cancelled = (props: CancelledProps) => {
   )
 }
 
-const ConfirmationRequested = (props: ModificationRequestItemProps) => {
-  const { date, responseUrl, role, detailsUrl } = props
-  return (
-    <>
-      <CurrentIcon />
-      <ContentArea>
-        <div className="flex">
-          <div className="align-center">
-            <ItemDate date={date} />
-          </div>
-          {role === 'porteur-projet' && (
-            <div className="align-center mb-1">
-              <InfoItem message="Abandon à confirmer" />
-            </div>
-          )}
-        </div>
-        <ItemTitle title={`Abandon en attente de confirmation`} />
-        {responseUrl && (
-          <DownloadLink fileUrl={responseUrl}>Voir le courrier de réponse</DownloadLink>
-        )}
-        <Link href={detailsUrl}>Voir la demande</Link>
-      </ContentArea>
-    </>
-  )
-}
-
-const RequestConfirmed = (props: ModificationRequestItemProps) => {
-  const { date, role, detailsUrl } = props
-  return (
-    <>
-      <CurrentIcon />
-      <ContentArea>
-        <div className="flex">
-          <div className="align-center">
-            <ItemDate date={date} />
-          </div>
-          {['admin', 'dreal'].includes(role) && (
-            <div className="align-center mb-1">
-              <InfoItem message="à traiter" />
-            </div>
-          )}
-        </div>
-        <ItemTitle title={`Abandon confirmé par le porteur`} />
-        <Link href={detailsUrl}>Voir la demande</Link>
-      </ContentArea>
-    </>
-  )
-}
-
 const Details = (
   props: {
     status: ModificationRequestItemProps['status']
@@ -183,14 +130,13 @@ const Details = (
   } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
-    | { modificationType: 'abandon' | 'recours' }
+    | { modificationType: 'recours' }
   )
 ) => {
   const { status, modificationType, detailsUrl, authority = undefined, role } = props
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
-      abandon: `Abandon`,
       delai: `Délai supplémentaire`,
       recours: `Recours`,
       puissance: `Changement de puissance installée`,
@@ -201,8 +147,6 @@ const Details = (
     acceptée: `accepté`,
     rejetée: `rejeté`,
     annulée: `annulé`,
-    'demande confirmée': `confirmé`,
-    'en attente de confirmation': `en attente de confirmation`,
     'en instruction': `en instruction`,
   }
 

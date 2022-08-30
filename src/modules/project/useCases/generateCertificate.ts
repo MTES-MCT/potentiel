@@ -11,9 +11,8 @@ import {
 import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors'
 import { Project } from '../Project'
 import { User } from '@entities'
-
 import { GetUserById } from '@infra/sequelize/queries/users'
-import { Validateur } from 'src/views/certificates'
+
 export type GenerateCertificate = (args: {
   projectId: string
   reason?: string
@@ -70,7 +69,7 @@ export const makeGenerateCertificate =
     function _buildCertificateForProject(project: Project, validateur?: User | null) {
       return project.certificateData
         .asyncAndThen((certificateData) => {
-          const validateurParDéfaut: Validateur =
+          const validateurParDéfaut =
             certificateData.template === 'ppe2.v2'
               ? {
                   fullName: 'Nicolas CLAUSSET',

@@ -1,4 +1,5 @@
 export * from './CovidDelayGrantedEvent'
+export * from './DemandeAbandonEvents'
 export * from './DemandeDélaiEvent'
 export * from './DemandeSignaledEvents'
 export * from './FileAttachedToProjectEvent'

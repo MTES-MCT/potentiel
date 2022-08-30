@@ -12,6 +12,18 @@ interface AdminResponseFormProps {
   role: UserRole
   children: React.ReactNode
 }
+
+function getAdminRouteBasedOnType(type) {
+  switch (type) {
+    case 'delai':
+      return ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
+    case 'abandon':
+      return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON
+    default:
+      return ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
+  }
+}
+
 export const AdminResponseForm = ({
   modificationRequest,
   role,
@@ -21,11 +33,7 @@ export const AdminResponseForm = ({
 
   return (
     <form
-      action={
-        type === 'delai'
-          ? ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
-          : ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
-      }
+      action={getAdminRouteBasedOnType(type)}
       method="post"
       encType="multipart/form-data"
       className="m-0"

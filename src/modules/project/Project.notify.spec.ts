@@ -36,7 +36,7 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
 }
 
 describe('Project.notify()', () => {
-  const notifiedOn = new Date().getTime()
+  const notifiedOn = new Date('2022-11-30').getTime()
 
   it('should emit ProjectNotified', () => {
     const fakeProjectData = makeFakeProject({ notifiedOn: 0 })
@@ -104,10 +104,12 @@ describe('Project.notify()', () => {
       expect(targetEvent).toBeDefined()
       if (!targetEvent) return
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.dcrDueOn).toEqual(
-        moment(notifiedOn).add(2, 'months').toDate().getTime()
+      const expectedDcrDueOn = new Date(notifiedOn).setMonth(
+        new Date(notifiedOn).getMonth() + appelOffre.periode.delaiDcrEnMois.valeur
       )
+
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+      expect(targetEvent.payload.dcrDueOn).toEqual(expectedDcrDueOn)
     })
 
     it('should trigger ProjectCompletionDueDateSet', () => {

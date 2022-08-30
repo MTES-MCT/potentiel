@@ -15,6 +15,7 @@ import {
   LegacyModificationFileAttachedEvent,
   DemandeSignaledEvents,
   DemandeDélaiEvent,
+  DemandeAbandonEvent,
 } from '../events'
 
 export type KnownProjectEvents =
@@ -33,6 +34,7 @@ export type KnownProjectEvents =
   | LegacyModificationFileAttachedEvent
   | DemandeSignaledEvents
   | DemandeDélaiEvent
+  | DemandeAbandonEvent
 
 type NarrowType<T, N> = T extends { type: N } ? T : never
 
@@ -68,14 +70,13 @@ export const isKnownProjectEvent = or(
   is('ModificationRequestRejected'),
   is('ModificationRequestCancelled'),
   is('ModificationRequestInstructionStarted'),
-  is('ModificationRequestConfirmed'),
   is('ModificationReceived'),
   is('LegacyModificationImported'),
-  is('ConfirmationRequested'),
   is('FileAttachedToProject'),
   is('LegacyModificationFileAttached'),
   is('DemandeDelaiSignaled'),
   is('DemandeAbandonSignaled'),
   is('DemandeRecoursSignaled'),
-  is('DemandeDélai')
+  is('DemandeDélai'),
+  is('DemandeAbandon')
 )

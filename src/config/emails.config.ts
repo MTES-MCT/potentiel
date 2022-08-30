@@ -1,6 +1,10 @@
 import { fakeSendEmail, makeSendEmailFromMailjet } from '@infra/mail'
 
-import { makeNotificationService, SendEmail } from '@modules/notification'
+import {
+  makeNotificationService,
+  SendEmail,
+  makeNotifierPorteurChangementStatutDemande,
+} from '@modules/notification'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { notificationRepo } from './repos.config'
 import { getFailedNotificationsForRetry } from './queries.config'
@@ -49,4 +53,8 @@ export const { sendNotification, retryFailedNotifications } = makeNotificationSe
   emailSenderName: process.env.SEND_EMAILS_FROM_NAME,
   notificationRepo,
   getFailedNotificationsForRetry,
+})
+
+export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
+  sendNotification,
 })

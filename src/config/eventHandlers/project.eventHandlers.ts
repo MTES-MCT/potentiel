@@ -1,5 +1,5 @@
 import { DomainEvent } from '@core/domain'
-import { DélaiAccordé } from '@modules/demandeModification'
+import { DélaiAccordé, AbandonAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
   handleLegacyModificationImported,
@@ -20,6 +20,7 @@ import {
 } from '../queries.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
+import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé'
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -65,12 +66,29 @@ const onDélaiAccordé = async (event: DomainEvent) => {
     return Promise.resolve()
   }
 
-  return await onDélaiAccordéHandler(event).match(
+  return onDélaiAccordéHandler(event).match(
     () => Promise.resolve(),
     (e) => Promise.reject(e)
   )
 }
 subscribeToRedis(onDélaiAccordé, 'Project.onDélaiAccordé')
+
+const onAbandonAccordéHandler = makeOnAbandonAccordé({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+})
+
+const onAbandonAccordé = async (event: DomainEvent) => {
+  if (!(event instanceof AbandonAccordé)) {
+    return Promise.resolve()
+  }
+
+  return onAbandonAccordéHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
+}
+subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

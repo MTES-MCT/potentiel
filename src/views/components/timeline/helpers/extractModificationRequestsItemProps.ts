@@ -7,14 +7,7 @@ import ROUTES from '@routes'
 export type ModificationRequestItemProps = {
   type: 'demande-de-modification'
   date: number
-  status:
-    | 'envoyée'
-    | 'en instruction'
-    | 'acceptée'
-    | 'rejetée'
-    | 'annulée'
-    | 'en attente de confirmation'
-    | 'demande confirmée'
+  status: 'envoyée' | 'en instruction' | 'acceptée' | 'rejetée' | 'annulée'
   authority: 'dreal' | 'dgec' | undefined
   role: UserRole
   responseUrl?: string | undefined
@@ -30,7 +23,7 @@ export type ModificationRequestItemProps = {
       unitePuissance: string
     }
   | {
-      modificationType: 'recours' | 'abandon'
+      modificationType: 'recours'
     }
 )
 
@@ -88,7 +81,7 @@ export const extractModificationRequestsItemProps = (
             detailsUrl,
           }
 
-        default:
+        case 'recours':
           return {
             type: 'demande-de-modification',
             date,
@@ -110,9 +103,7 @@ const isModificationRequestEvent = or(
   is('ModificationRequestRejected'),
   is('ModificationRequestInstructionStarted'),
   is('ModificationRequestAccepted'),
-  is('ModificationRequestCancelled'),
-  is('ConfirmationRequested'),
-  is('ModificationRequestConfirmed')
+  is('ModificationRequestCancelled')
 )
 
 const getEventsGroupedByModificationRequestId = (
@@ -139,11 +130,7 @@ const getRequestEvent = (events: ModificationRequestDTO[]) => {
 
 const getResponseUrl = (latestEvent: ModificationRequestDTO) => {
   if (
-    or(
-      is('ModificationRequestRejected'),
-      is('ModificationRequestAccepted'),
-      is('ConfirmationRequested')
-    )(latestEvent) &&
+    or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(latestEvent) &&
     latestEvent.file?.name
   ) {
     return makeDocumentUrl(latestEvent.file.id, latestEvent.file.name)
@@ -164,9 +151,5 @@ function getStatus(event: ModificationRequestDTO) {
       return 'rejetée'
     case 'ModificationRequestCancelled':
       return 'annulée'
-    case 'ConfirmationRequested':
-      return 'en attente de confirmation'
-    case 'ModificationRequestConfirmed':
-      return 'demande confirmée'
   }
 }

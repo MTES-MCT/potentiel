@@ -2,6 +2,7 @@ import { or } from '@core/utils'
 import { Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
+import { DemandeAbandonEventStatus } from '@infra/sequelize/projectionsNext/projectEvents/events'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
@@ -30,8 +31,6 @@ export type ProjectEventDTO =
   | ModificationRequestCancelledDTO
   | ModificationRequestRejectedDTO
   | ModificationRequestInstructionStartedDTO
-  | ConfirmationRequestedDTO
-  | ModificationRequestConfirmedDTO
   | ModificationReceivedDTO
   | LegacyModificationImportedDTO
   | FileAttachedToProjectDTO
@@ -41,6 +40,7 @@ export type ProjectEventDTO =
   | DemandeAbandonSignaledDTO
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
+  | DemandeAbandonDTO
 
 type File = {
   id: string
@@ -218,7 +218,7 @@ export type ModificationRequestedDTO = {
       puissance: number
       unitePuissance?: string
     }
-  | { modificationType: 'abandon' | 'recours' }
+  | { modificationType: 'recours' }
 )
 
 export type ModificationRequestAcceptedDTO = {
@@ -252,29 +252,12 @@ export type ModificationRequestCancelledDTO = {
   modificationRequestId: string
 }
 
-export type ConfirmationRequestedDTO = {
-  type: 'ConfirmationRequested'
-  date: number
-  variant: Exclude<UserRole, 'ademe'>
-  modificationRequestId: string
-  file?: File
-}
-
-export type ModificationRequestConfirmedDTO = {
-  type: 'ModificationRequestConfirmed'
-  date: number
-  variant: Exclude<UserRole, 'ademe'>
-  modificationRequestId: string
-}
-
 export type ModificationRequestDTO =
   | ModificationRequestedDTO
   | ModificationRequestAcceptedDTO
   | ModificationRequestRejectedDTO
   | ModificationRequestInstructionStartedDTO
   | ModificationRequestCancelledDTO
-  | ConfirmationRequestedDTO
-  | ModificationRequestConfirmedDTO
 
 export type ModificationReceivedDTO = {
   type: 'ModificationReceived'
@@ -406,6 +389,15 @@ export type DemandeDélaiDTO = {
           }
       ))
   )
+
+export type DemandeAbandonDTO = {
+  type: 'DemandeAbandon'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  statut: DemandeAbandonEventStatus
+  demandeUrl?: string
+  actionRequise?: 'à traiter'
+}
 
 export type ProjectEventListDTO = {
   project: {

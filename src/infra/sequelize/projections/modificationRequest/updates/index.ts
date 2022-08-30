@@ -1,6 +1,7 @@
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
 import {
+  AbandonAnnulé,
   DélaiAccordé,
   DélaiAnnulé,
   DélaiDemandé,
@@ -8,6 +9,11 @@ import {
   DélaiRejeté,
   RejetDélaiAnnulé,
   RejetRecoursAnnulé,
+  AbandonDemandé,
+  AbandonAccordé,
+  AbandonRejeté,
+  ConfirmationAbandonDemandée,
+  AbandonConfirmé,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -36,6 +42,14 @@ import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
 import { onRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé'
+import {
+  onAbandonRejeté,
+  onAbandonDemandé,
+  onAbandonAnnulé,
+  onAbandonAccordé,
+  onConfirmationAbandonDemandée,
+  onAbandonConfirmé,
+} from './abandon'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -63,6 +77,12 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
 
   eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé(models))
+  eventBus.subscribe(AbandonDemandé.type, onAbandonDemandé(models))
+  eventBus.subscribe(AbandonAnnulé.type, onAbandonAnnulé(models))
+  eventBus.subscribe(AbandonConfirmé.type, onAbandonConfirmé(models))
+  eventBus.subscribe(AbandonAccordé.type, onAbandonAccordé(models))
+  eventBus.subscribe(AbandonRejeté.type, onAbandonRejeté(models))
+  eventBus.subscribe(ConfirmationAbandonDemandée.type, onConfirmationAbandonDemandée(models))
   logger.info('Initialized ModificationRequest projections')
 }
 

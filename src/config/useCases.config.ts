@@ -7,8 +7,16 @@ import {
   makeDemanderDélai,
   makeRejeterDemandeDélai,
   makePasserDemandeDélaiEnInstruction,
-  makeAnnulerRejetRecours,
-} from '@modules/demandeModification'
+} from '@modules/demandeModification/demandeDélai'
+import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours'
+import {
+  makeDemanderAbandon,
+  makeAnnulerDemandeAbandon,
+  makeAccorderDemandeAbandon,
+  makeRejeterDemandeAbandon,
+  makeDemanderConfirmationAbandon,
+  makeConfirmerDemandeAbandon,
+} from '@modules/demandeModification/demandeAbandon'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
 import {
@@ -69,6 +77,7 @@ import {
 } from './queries.config'
 import {
   appelOffreRepo,
+  demandeAbandonRepo,
   demandeDélaiRepo,
   fileRepo,
   modificationRequestRepo,
@@ -349,5 +358,44 @@ export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruc
 
 export const annulerRejetRecours = makeAnnulerRejetRecours({
   modificationRequestRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const demanderAbandon = makeDemanderAbandon({
+  fileRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  getProjectAppelOffreId,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
+})
+
+export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
+  fileRepo,
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
+  fileRepo,
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const confirmerDemandeAbandon = makeConfirmerDemandeAbandon({
+  demandeAbandonRepo,
+  aAccèsAuProjet: oldUserRepo.hasProject,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
+  fileRepo,
+  demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
 })
