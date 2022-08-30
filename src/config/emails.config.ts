@@ -1,10 +1,13 @@
 import { fakeSendEmail, makeSendEmailFromMailjet } from '@infra/mail'
 
-import { makeNotificationService, SendEmail } from '@modules/notification'
+import {
+  makeNotificationService,
+  SendEmail,
+  makeNotifierPorteurChangementStatutDemande,
+} from '@modules/notification'
 import { isProdEnv, isStagingEnv } from './env.config'
 import { notificationRepo } from './repos.config'
 import { getFailedNotificationsForRetry } from './queries.config'
-import { makeNotifierPorteurChangementStatutDemande } from 'src/modules/notification'
 
 let sendEmail: SendEmail = fakeSendEmail
 

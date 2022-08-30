@@ -2,7 +2,7 @@ import { or } from '@core/utils'
 import { Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
-import { DemandeAbandonEventStatus } from 'src/infra/sequelize/projectionsNext/projectEvents/events'
+import { DemandeAbandonEventStatus } from '@infra/sequelize/projectionsNext/projectEvents/events'
 import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
