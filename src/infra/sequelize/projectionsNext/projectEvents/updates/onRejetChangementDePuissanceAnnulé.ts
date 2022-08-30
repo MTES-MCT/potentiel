@@ -28,6 +28,5 @@ export default ProjectEventProjector.on(
         `Error: onRejetRecoursAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeChangementDePuissanceId}.`
       )
     }
-    return
   }
 )

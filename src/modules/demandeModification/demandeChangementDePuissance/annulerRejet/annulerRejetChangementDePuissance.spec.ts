@@ -2,7 +2,7 @@ import { DomainEvent } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { ModificationRequest } from '@modules/modificationRequest'
 import { UnwrapForTest } from '../../../../types'
 import {
@@ -10,7 +10,6 @@ import {
   makeFakeDemandeChangementDePuissance,
 } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { UnauthorizedError } from '@modules/shared'
 import { makeAnnulerRejetChangementDePuissance } from './annulerRejetChangementDePuissance'
 import { USER_ROLES } from '@modules/users'
 
