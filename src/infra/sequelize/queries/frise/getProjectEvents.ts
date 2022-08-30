@@ -501,9 +501,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     ...(userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && {
                       demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                     }),
-                    ...(userIs(['admin', 'dgec-validateur'])(user) && {
-                      actionRequise: 'à traiter',
-                    }),
+                    ...(userIs(['admin', 'dgec-validateur'])(user) &&
+                      statut === 'envoyée' && {
+                        actionRequise: 'à traiter',
+                      }),
                   })
                 }
                 break
