@@ -15,6 +15,8 @@ import {
   Label,
   SecondaryLinkButton,
   Astérisque,
+  Input,
+  TextArea,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -76,7 +78,7 @@ export const ChangerProducteur = PageLayout(
                     </div>
                   )}
                   <label>Ancien producteur</label>
-                  <input type="text" disabled defaultValue={project.nomCandidat} />
+                  <Input type="text" disabled defaultValue={project.nomCandidat} />
                   {!isEolien && appelOffre?.isSoumisAuxGFs && (
                     <div className="notification warning my-4">
                       <span>
@@ -85,37 +87,56 @@ export const ChangerProducteur = PageLayout(
                       </span>
                     </div>
                   )}
-                  <label htmlFor="producteur">
+                  <label htmlFor="producteur" className="mt-4 ">
                     Nouveau producteur <Astérisque />
                   </label>
-                  <input
+                  <Input
                     type="text"
                     name="producteur"
                     id="producteur"
                     {...dataId('modificationRequest-producteurField')}
-                    disabled={isEolien}
                     required
+                    {...(isEolien && { disabled: true })}
                   />
-                  <label htmlFor="candidats" className="mt-4">
+                  <label htmlFor="email" className="mt-4 ">
+                    Adresse email du nouveau producteur
+                  </label>
+                  <p className="m-0 italic">
+                    Le nouveau producteur recevra une invitation sur sa boite mail pour accéder au
+                    projet sur Potentiel.
+                  </p>
+                  <Input
+                    type="text"
+                    name="email"
+                    id="email"
+                    {...dataId('modificationRequest-producteurField')}
+                    {...(isEolien && { disabled: true })}
+                  />
+                  <label htmlFor="candidats" className="mt-4 ">
                     Statuts mis à jour
                   </label>
-                  <input
+                  <Input
                     type="file"
                     name="file"
                     {...dataId('modificationRequest-fileField')}
                     id="file"
+                    {...(isEolien && { disabled: true })}
                   />
                   <Label htmlFor="justification" className="mt-4">
-                    <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
+                    Veuillez nous indiquer les raisons qui motivent votre demande
                     <br />
-                    Pour faciliter le traitement de votre demande, veillez à détailler les raisons
-                    ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+                    <span className="italic">
+                      Pour faciliter le traitement de votre demande, veillez à détailler les raisons
+                      ayant conduit à ce besoin de modification (contexte, facteurs extérieurs,
+                      etc).
+                    </span>
                   </Label>
-                  <textarea
+                  <TextArea
                     name="justification"
                     id="justification"
                     defaultValue={justification || ''}
                     {...dataId('modificationRequest-justificationField')}
+                    {...(isEolien && { disabled: true })}
                   />
 
                   <Button
