@@ -141,6 +141,13 @@ class routes {
     } else return route
   }
 
+  static ADMIN_ANNULER_ABANDON_REJETE = (args?: { demandeAbandonId: string }) => {
+    const route = '/admin/demande/:demandeAbandonId/annuler-rejet-demande-abandon'
+    if (args) {
+      return route.replace(':demandeAbandonId', args.demandeAbandonId)
+    } else return route
+  }
+
   static ADMIN_ANNULER_RECOURS_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-recours'
     if (args) {

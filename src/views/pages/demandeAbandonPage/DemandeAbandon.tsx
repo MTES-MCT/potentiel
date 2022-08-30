@@ -5,6 +5,7 @@ import {
   PageLayout,
   ProjectInfo,
   RoleBasedDashboard,
+  SecondaryButton,
   SuccessBox,
 } from '@components'
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components'
@@ -12,7 +13,6 @@ import ROUTES from '@routes'
 import React from 'react'
 import { Request } from 'express'
 import { DemandeAbandonPageDTO } from '@modules/modificationRequest'
-import moment from 'moment'
 import { dataId } from '../../../helpers/testId'
 import {
   ModificationRequestColorByStatus,
@@ -20,6 +20,7 @@ import {
   ModificationRequestTitleColorByStatus,
 } from '../../helpers'
 import { formatDate } from '../../../helpers/formatDate'
+import { userIs } from '../../../modules/users'
 
 type DemandeAbandonProps = {
   request: Request
@@ -33,13 +34,9 @@ export const DemandeAbandon = PageLayout(
     const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
       modificationRequest
 
-    const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
-
+    const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
     const showFormulaireAdministrateur =
-      isAdmin &&
-      !modificationRequest.respondedOn &&
-      !modificationRequest.cancelledOn &&
-      status !== 'information validée'
+      isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
 
     return (
       <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
@@ -85,6 +82,32 @@ export const DemandeAbandon = PageLayout(
               )}
             </div>
           </div>
+          {status === 'rejetée' && userIs(['admin', 'dgec-validateur'])(user) && (
+            <form
+              method="post"
+              action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE({
+                demandeAbandonId: id,
+              })}
+              className="m-0 mt-4"
+            >
+              <SecondaryButton
+                type="submit"
+                value={id}
+                name="demandeAbandonId"
+                onClick={(e) => {
+                  if (
+                    !confirm(
+                      'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
+                    )
+                  ) {
+                    e.preventDefault()
+                  }
+                }}
+              >
+                Annuler le rejet de la demande
+              </SecondaryButton>
+            </form>
+          )}
           {showFormulaireAdministrateur && (
             <div className="panel__header">
               <h4>Répondre</h4>

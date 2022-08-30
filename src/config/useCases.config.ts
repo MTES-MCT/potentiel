@@ -16,6 +16,7 @@ import {
   makeRejeterDemandeAbandon,
   makeDemanderConfirmationAbandon,
   makeConfirmerDemandeAbandon,
+  makeAnnulerRejetAbandon,
 } from '@modules/demandeModification/demandeAbandon'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
@@ -398,4 +399,10 @@ export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
   fileRepo,
   demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const annulerRejetAbandon = makeAnnulerRejetAbandon({
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })

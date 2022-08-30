@@ -15,9 +15,9 @@ describe(`Pouvoir annuler le rejet d'un abandon`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin', 'dgec-validateur' ou 'dreal`, () => {
+  describe(`Annulation impossible si l'utilisateur n'a pas le rôle 'admin' ou 'dgec-validateur'`, () => {
     const rôlesNePouvantPasAnnulerLeRejetDeLAbandon = USER_ROLES.filter(
-      (role) => !['admin', 'dgec-validateur', 'dreal'].includes(role)
+      (role) => !['admin', 'dgec-validateur'].includes(role)
     )
     for (const role of rôlesNePouvantPasAnnulerLeRejetDeLAbandon) {
       it(`Etant donné un utilisateur ayant le rôle ${role}
