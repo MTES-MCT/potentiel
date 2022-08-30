@@ -7,7 +7,7 @@ import { ModificationRequest } from '@modules/modificationRequest'
 import { UnwrapForTest } from '../../../../types'
 import {
   fakeTransactionalRepo,
-  makeFakeDemandeRecours,
+  makeFakeDemandeChangementDePuissance,
 } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { UnauthorizedError } from '@modules/shared'
@@ -31,7 +31,7 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
       describe(`Etant donné un utilisateur ayant le rôle ${role}`, () => {
         const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
         const modificationRequestRepo = fakeTransactionalRepo(
-          makeFakeDemandeRecours() as ModificationRequest
+          makeFakeDemandeChangementDePuissance() as ModificationRequest
         )
 
         it(`Lorsqu'il annule le rejet d'une demande de changement de puissance,
@@ -53,30 +53,30 @@ describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
     }
   })
 
-  // describe(`Annulation impossible si le statut de la demande n'est pas "refusée"`, () => {
-  //   describe(`Etant donné un utilisateur admin ayant les droits sur le projet
-  //     et une demande de délai en statut 'envoyée'`, () => {
-  //     it(`Lorsque l'utilisateur exécute la commande,
-  //     alors une erreur StatutRéponseIncompatibleAvecAnnulationError devrait être retournée`, async () => {
-  //       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-  //       const modificationRequestRepo = fakeTransactionalRepo(
-  //         makeFakeDemandeRecours({ status: 'envoyée' }) as ModificationRequest
-  //       )
-  //       const annulerRejetRecours = makeAnnulerRejetRecours({
-  //         modificationRequestRepo,
-  //         publishToEventStore,
-  //       })
+  describe(`Annulation impossible si le statut de la demande n'est pas "refusée"`, () => {
+    describe(`Etant donné un utilisateur admin ayant les droits sur le projet
+      et une demande de changement de puissance en statut 'envoyée'`, () => {
+      it(`Lorsque l'utilisateur exécute la commande,
+      alors une erreur StatutRéponseIncompatibleAvecAnnulationError devrait être retournée`, async () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+        const modificationRequestRepo = fakeTransactionalRepo(
+          makeFakeDemandeChangementDePuissance({ status: 'envoyée' }) as ModificationRequest
+        )
+        const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
+          modificationRequestRepo,
+          publishToEventStore,
+        })
 
-  //       const res = await annulerRejetRecours({
-  //         user,
-  //         demandeRecoursId: 'id-de-la-demande',
-  //       })
+        const res = await annulerRejetChangementDePuissance({
+          user,
+          demandeChangementDePuissanceId: 'id-de-la-demande',
+        })
 
-  //       expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatutRéponseIncompatibleAvecAnnulationError)
-  //       expect(publishToEventStore).not.toHaveBeenCalled()
-  //     })
-  //   })
-  // })
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatutRéponseIncompatibleAvecAnnulationError)
+        expect(publishToEventStore).not.toHaveBeenCalled()
+      })
+    })
+  })
 
   // describe(`Annuler le rejet d'une demande de recours`, () => {
   //   describe(`Annulation de la demande possible`, () => {

@@ -11,8 +11,7 @@ type AnnulerRejetChangementDePuissance = (commande: {
   demandeChangementDePuissanceId: string
 }) => ResultAsync<
   null,
-  // InfraNotAvailableError |
-  UnauthorizedError
+  InfraNotAvailableError | UnauthorizedError | StatutRéponseIncompatibleAvecAnnulationError
   // EntityNotFoundError
 >
 
@@ -28,28 +27,28 @@ export const makeAnnulerRejetChangementDePuissance: MakeAnnulerRejetChangementDe
       return errAsync(new UnauthorizedError())
     }
 
-    return okAsync(null)
-    // return modificationRequestRepo.transaction(
-    //   new UniqueEntityID(demandeChangementDePuissanceId),
-    //   (demandeDélai) => {
-    //     const { status, projectId } = demandeDélai
-    //     if (!projectId) {
-    //       return errAsync(new InfraNotAvailableError())
-    //     }
+    return modificationRequestRepo.transaction(
+      new UniqueEntityID(demandeChangementDePuissanceId),
+      (demandeChangementDePuissance) => {
+        const { status, projectId } = demandeChangementDePuissance
+        if (!projectId) {
+          return errAsync(new InfraNotAvailableError())
+        }
 
-    //     if (status !== 'rejetée') {
-    //       return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
-    //     }
+        if (status !== 'rejetée') {
+          return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(status || 'inconnu'))
+        }
 
-    //     return publishToEventStore(
-    //       new RejetRecoursAnnulé({
-    //         payload: {
-    //           demandeChangementDePuissanceId,
-    //           projetId: projectId.toString(),
-    //           annuléPar: user.id,
-    //         },
-    //       })
-    //     )
-    //   }
-    // )
+        return okAsync(null)
+        // return publishToEventStore(
+        //   new RejetRecoursAnnulé({
+        //     payload: {
+        //       demandeChangementDePuissanceId,
+        //       projetId: projectId.toString(),
+        //       annuléPar: user.id,
+        //     },
+        //   })
+        // )
+      }
+    )
   }
