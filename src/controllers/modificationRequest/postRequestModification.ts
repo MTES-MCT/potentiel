@@ -3,7 +3,6 @@ import {
   oldProjectRepo,
   requestActionnaireModification,
   requestFournisseurModification,
-  requestProducteurModification,
   requestPuissanceModification,
   updateNewRulesOptIn,
 } from '@config'
@@ -42,12 +41,6 @@ const returnRoute = (type, projectId) => {
     case 'puissance':
       returnRoute = routes.CHANGER_PUISSANCE(projectId)
       break
-    case 'producteur':
-      returnRoute = routes.CHANGER_PRODUCTEUR(projectId)
-      break
-    case 'abandon':
-      returnRoute = routes.DEMANDER_ABANDON(projectId)
-      break
     case 'recours':
       returnRoute = routes.DEPOSER_RECOURS(projectId)
       break
@@ -81,7 +74,6 @@ v1Router.post(
     const data = pick(request.body, [
       'type',
       'actionnaire',
-      'producteur',
       'puissance',
       'justification',
       'projectId',
@@ -196,12 +188,6 @@ v1Router.post(
       if (res.isErr()) return handleError(res.error)
     }
 
-    if (data.type === 'producteur' && project?.appelOffre?.type === 'eolien') {
-      const customTitle = 'Action non autorisée'
-      const customMessage = 'Vous ne pouvez pas changer le producteur pour ce projet'
-      return unauthorizedResponse({ request, response, customTitle, customMessage })
-    }
-
     switch (data.type) {
       case 'puissance':
         await requestPuissanceModification({
@@ -266,15 +252,6 @@ v1Router.post(
           requestedBy: request.user,
           newFournisseurs,
           newEvaluationCarbone: data.evaluationCarbone,
-          justification: data.justification,
-          file,
-        }).match(handleSuccess, handleError)
-        break
-      case 'producteur':
-        await requestProducteurModification({
-          projectId: data.projectId,
-          requestedBy: request.user,
-          newProducteur: data.producteur,
           justification: data.justification,
           file,
         }).match(handleSuccess, handleError)

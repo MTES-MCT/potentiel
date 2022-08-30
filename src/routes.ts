@@ -230,8 +230,6 @@ class routes {
 
   static CHANGER_PUISSANCE = withProjectId('/demande-modification.html?action=puissance')
 
-  //static CHANGER_PRODUCTEUR = withProjectId('/demande-modification.html?action=producteur')
-
   static CHANGER_CDC = '/changer-CDC'
 
   static DEMANDER_ABANDONd = withProjectId('/demande-modification.html?action=abandon')
@@ -248,6 +246,8 @@ class routes {
   static DEMANDE_ABANDON_ACTION = '/soumettre-demande-abandon'
   static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
+
+  static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

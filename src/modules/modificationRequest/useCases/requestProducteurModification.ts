@@ -20,11 +20,12 @@ interface RequestProducteurModificationDeps {
 }
 
 interface RequestProducteurModificationArgs {
-  projectId: UniqueEntityID
+  projectId: string
   requestedBy: User
   newProducteur: string
   justification?: string
   file?: { contents: FileContents; filename: string }
+  email?: string
 }
 
 export const makeRequestProducteurModification =
@@ -57,7 +58,7 @@ export const makeRequestProducteurModification =
           return makeAndSaveFile({
             file: {
               designation: 'modification-request',
-              forProject: projectId,
+              forProject: new UniqueEntityID(projectId),
               createdBy: new UniqueEntityID(requestedBy.id),
               filename: file.filename,
               contents: file.contents,
@@ -74,7 +75,7 @@ export const makeRequestProducteurModification =
       .andThen(
         (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
           return projectRepo.transaction(
-            projectId,
+            new UniqueEntityID(projectId),
             (
               project: Project
             ): ResultAsync<

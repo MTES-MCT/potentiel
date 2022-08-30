@@ -44,9 +44,12 @@ export const ChangerProducteur = PageLayout(
             <h3>Je signale un changement de producteur</h3>
           </div>
 
-          <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+          <form
+            action={ROUTES.CHANGEMENT_PRODUCTEUR_ACTION}
+            method="post"
+            encType="multipart/form-data"
+          >
             <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value={action} />
             <FormulaireChampsObligatoireLégende className="text-right" />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
