@@ -50,7 +50,7 @@ import {
   makeSubmitDCR,
   makeSubmitGF,
   makeSubmitPTF,
-  makeUpdateNewRulesOptIn,
+  makeChoisirNouveauCahierDesCharges,
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
@@ -266,10 +266,11 @@ export const cancelModificationRequest = makeCancelModificationRequest({
   modificationRequestRepo,
 })
 
-export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
+export const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
 })
 
 export const importProjects = makeImportProjects({

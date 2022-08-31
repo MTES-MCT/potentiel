@@ -1,4 +1,4 @@
-import { ensureRole, updateNewRulesOptIn } from '@config'
+import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { UnauthorizedError } from '@modules/shared'
@@ -26,9 +26,9 @@ v1Router.post(
     )
       .andThen(({ projectId }) => ok({ projectId, optedInBy: request.user }))
       .asyncAndThen(({ projectId, optedInBy }) =>
-        updateNewRulesOptIn({
-          projectId,
-          optedInBy,
+        choisirNouveauCahierDesCharges({
+          projetId: projectId,
+          utilisateur: optedInBy,
         }).map(() => ({ projectId, optedInBy }))
       )
       .match(
