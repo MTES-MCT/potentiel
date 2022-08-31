@@ -1,5 +1,4 @@
 import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
 import { ConfirmationAbandonDemandée } from '@modules/demandeModification'
 
 export const onConfirmationAbandonDemandée =
