@@ -1,24 +1,12 @@
-import {
-  EventBus,
-  Repository,
-  TransactionalRepository,
-  UniqueEntityID,
-  EventStore,
-} from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { errAsync, okAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
+import { FileContents, FileObject, makeFileObject } from '../../file'
 import { Project } from '../../project/Project'
-import {
-  AggregateHasBeenUpdatedSinceError,
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from '../../shared'
+import { UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { AppelOffreRepo } from '@dataAccess'
-import { GetProjectAppelOffreId } from '../queries'
+import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
@@ -26,8 +14,6 @@ type ChangerProducteurDeps = {
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
   findAppelOffreById: AppelOffreRepo['findById']
-  getProjectAppelOffreId: GetProjectAppelOffreId
-  publishToEventStore: EventStore['publish']
 }
 
 type ChangerProducteurArgs = {
@@ -37,86 +23,57 @@ type ChangerProducteurArgs = {
   justification?: string
   fichier?: { contents: FileContents; filename: string }
   email?: string
-  newRulesOptIn?: true
 }
 
 export const makeChangerProducteur =
-  (deps: ChangerProducteurDeps) =>
-  (
-    args: ChangerProducteurArgs
-  ): ResultAsync<
-    null,
-    | AggregateHasBeenUpdatedSinceError
-    | InfraNotAvailableError
-    | EntityNotFoundError
-    | UnauthorizedError
-  > => {
+  (deps: ChangerProducteurDeps) => (args: ChangerProducteurArgs) => {
     const { projetId, porteur, nouveauProducteur, justification, fichier } = args
-    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
+    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo, findAppelOffreById } = deps
 
-    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur }))
-      .andThen(
-        (
-          userHasRightsToProject
-        ): ResultAsync<
-          any,
-          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
-        > => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!fichier) return okAsync(null)
+    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur })).andThen(
+      (utilisateurALesDroits) => {
+        if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
+        return projectRepo.transaction(new UniqueEntityID(projetId), (projet) => {
+          return wrapInfra(findAppelOffreById(projet.appelOffreId))
+            .andThen((appelOffre) => {
+              if (!projet.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+                return errAsync(new NouveauCahierDesChargesNonChoisiError())
+              }
 
-          return makeAndSaveFile({
-            file: {
-              designation: 'modification-request',
-              forProject: new UniqueEntityID(projetId),
-              createdBy: new UniqueEntityID(porteur.id),
-              filename: fichier.filename,
-              contents: fichier.contents,
-            },
-            fileRepo,
-          })
-            .map((responseFileId) => responseFileId)
-            .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
+              if (fichier) {
+                return makeFileObject({
+                  designation: 'modification-request',
+                  forProject: new UniqueEntityID(projetId),
+                  createdBy: new UniqueEntityID(porteur.id),
+                  filename: fichier.filename,
+                  contents: fichier.contents,
+                }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+              }
+
+              return okAsync(null)
             })
-        }
-      )
-      .andThen(
-        (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
-          return projectRepo.transaction(
-            new UniqueEntityID(projetId),
-            (
-              project: Project
-            ): ResultAsync<
-              string,
-              AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
-            > => {
-              return project
+            .andThen((fileId) => {
+              return projet
                 .updateProducteur(porteur, nouveauProducteur)
                 .asyncMap(async () => fileId)
-            }
-          )
-        }
-      )
-      .andThen(
-        (
-          fileId: string
-        ): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-          return eventBus.publish(
-            new ModificationReceived({
-              payload: {
-                modificationRequestId: new UniqueEntityID().toString(),
-                projectId: projetId,
-                requestedBy: porteur.id,
-                type: 'producteur',
-                producteur: nouveauProducteur,
-                justification,
-                fileId,
-                authority: 'dreal',
-              },
             })
-          )
-        }
-      )
+            .andThen((fileId) => {
+              return eventBus.publish(
+                new ModificationReceived({
+                  payload: {
+                    modificationRequestId: new UniqueEntityID().toString(),
+                    projectId: projetId,
+                    requestedBy: porteur.id,
+                    type: 'producteur',
+                    producteur: nouveauProducteur,
+                    justification,
+                    ...(fileId && { fileId }),
+                    authority: 'dreal',
+                  },
+                })
+              )
+            })
+        })
+      }
+    )
   }

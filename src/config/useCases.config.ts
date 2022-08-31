@@ -218,6 +218,7 @@ export const changerProducteur = makeChangerProducteur({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
 })
 
 export const requestFournisseurModification = makeRequestFournisseursModification({

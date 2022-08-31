@@ -2,8 +2,8 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
 
-import { ensureRole, changerProducteur } from '@config'
-import { logger } from '@core/utils'
+import { ensureRole, changerProducteur, choisirNouveauCahierDesCharges } from '@config'
+import { logger, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
 
@@ -41,14 +41,22 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
+        if (newRulesOptIn) {
+          return choisirNouveauCahierDesCharges({
+            utilisateur: user,
+            projetId,
+          }).map(() => ({ fichier, producteur, email, justification, user, projetId }))
+        }
+        return okAsync({ fichier: undefined, producteur, email, justification, user, projetId })
+      })
+      .andThen(({ fichier, producteur, email, justification, user, projetId }) => {
         return changerProducteur({
           porteur: user,
           projetId,
-          ...(newRulesOptIn && { newRulesOptIn: true }),
-          fichier,
-          justification,
+          ...(fichier && fichier),
+          ...(justification && { justification }),
           nouveauProducteur: producteur,
-          email,
+          ...(email && { email }),
         }).map(() => ({ projetId }))
       })
       .match(
