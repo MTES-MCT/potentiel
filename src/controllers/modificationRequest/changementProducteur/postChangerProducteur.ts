@@ -22,6 +22,12 @@ import {
 import asyncHandler from '../../helpers/asyncHandler'
 import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
+import {
+  ChangementProducteurImpossiblePourEolienError,
+  NouveauCahierDesChargesDéjàSouscrit,
+  PasDeChangementDeCDCPourCetAOError,
+} from '@modules/project/errors'
+import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
 
 const requestBodySchema = yup.object({
   projetId: yup.string().uuid().required(),
@@ -96,6 +102,19 @@ v1Router.post(
 
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (
+            error instanceof ChangementProducteurImpossiblePourEolienError ||
+            NouveauCahierDesChargesNonChoisiError ||
+            NouveauCahierDesChargesDéjàSouscrit ||
+            PasDeChangementDeCDCPourCetAOError
+          ) {
+            return errorResponse({
+              request,
+              response,
+              customMessage: error.message,
+            })
           }
 
           logger.error(error)
