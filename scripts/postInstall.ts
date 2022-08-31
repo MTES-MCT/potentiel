@@ -12,8 +12,7 @@ postInstall()
 
 async function postInstall() {
   if (['', 'local'].includes(NODE_ENV)) {
-    const devEnv = spawnSync('npm', ['run', 'configure-dev-env-variables'], { stdio: 'inherit' })
-    if (devEnv.status && devEnv.status > 0) process.exit(devEnv.status)
+    spawnSync('npm', ['run', 'configure-dev-env-variables'], { stdio: 'inherit' })
 
     const hooks = spawnSync('npm', ['run', 'configure-hooks'], { stdio: 'inherit' })
     if (hooks.status && hooks.status > 0) process.exit(hooks.status)
@@ -27,7 +26,6 @@ async function postInstall() {
       const migrate = spawnSync('npm', ['run', 'migrate'], { stdio: 'inherit' })
       process.exit(migrate.status ?? 0)
     }
-
-    process.exit(0)
   }
+  process.exit(0)
 }
