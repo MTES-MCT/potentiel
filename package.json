@@ -41,7 +41,7 @@
     "add:p": "npm run add:projection",
     "add:query": "npm run generate -- query",
     "add:q": "npm run add:query",
-    "prepare": "husky install"
+    "prepare": "npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\" && npx gitmoji -i"
   },
   "repository": {
     "type": "git",
