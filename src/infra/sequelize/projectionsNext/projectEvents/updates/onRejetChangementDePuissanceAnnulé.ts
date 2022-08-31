@@ -1,11 +1,12 @@
 import { logger } from '@core/utils'
+import { ProjectionEnEchec } from '@modules/shared'
 import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
 export default ProjectEventProjector.on(
   RejetChangementDePuissanceAnnulé,
-  async ({ payload }, transaction) => {
-    const { demandeChangementDePuissanceId } = payload
+  async (événement, transaction) => {
+    const { payload: demandeChangementDePuissanceId } = événement
 
     try {
       await ProjectEvent.destroy({
@@ -23,9 +24,14 @@ export default ProjectEventProjector.on(
         transaction,
       })
     } catch (e) {
-      logger.error(e)
-      logger.info(
-        `Error: onRejetRecoursAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeChangementDePuissanceId}.`
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement RejetChangementDePuissanceAnnulé`,
+          {
+            evenement: événement,
+            nomProjection: 'ProjectEventProjector.onRejetChangementDePuissanceAnnulé',
+          }
+        )
       )
     }
   }
