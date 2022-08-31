@@ -21,7 +21,7 @@ describe(`Pouvoir annuler le rejet d'un abandon`, () => {
     )
     for (const role of rôlesNePouvantPasAnnulerLeRejetDeLAbandon) {
       it(`Etant donné un utilisateur ayant le rôle ${role}
-          Lorsqu'il annule le rejet d'une demande de délai
+          Lorsqu'il annule le rejet d'une demande d'abandon'
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
         const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
         const shouldUserAccessProject = jest.fn(async () => true)

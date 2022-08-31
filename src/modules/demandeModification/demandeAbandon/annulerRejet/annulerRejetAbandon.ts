@@ -20,7 +20,7 @@ type MakeAnnulerRejetAbandon = (dépendances: {
 export const makeAnnulerRejetAbandon: MakeAnnulerRejetAbandon =
   ({ shouldUserAccessProject, demandeAbandonRepo, publishToEventStore }) =>
   ({ user, demandeAbandonId }) => {
-    if (!['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
+    if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError())
     }
     return demandeAbandonRepo.transaction(
