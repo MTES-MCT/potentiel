@@ -1,5 +1,5 @@
 import { err, logger, ok, Result } from '@core/utils'
-import { Constructor, DomainEvent, HasType } from '@core/domain'
+import { DomainEvent, HasType } from '@core/domain'
 import { subscribeToRedis } from '@config/eventBus.config'
 
 class NotificationError extends Error {
