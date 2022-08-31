@@ -58,13 +58,13 @@ v1Router.post(
             projetId,
           }).map(() => ({ fichier, producteur, email, justification, user, projetId }))
         }
-        return okAsync({ fichier: undefined, producteur, email, justification, user, projetId })
+        return okAsync({ fichier, producteur, email, justification, user, projetId })
       })
       .andThen(({ fichier, producteur, email, justification, user, projetId }) => {
         return changerProducteur({
           porteur: user,
           projetId,
-          ...(fichier && fichier),
+          ...(fichier && { fichier }),
           ...(justification && { justification }),
           nouveauProducteur: producteur,
           ...(email && { email }),
