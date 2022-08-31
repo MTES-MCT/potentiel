@@ -6,6 +6,7 @@ import {
   AbandonDemandé,
   AbandonRejeté,
   ConfirmationAbandonDemandée,
+  RejetAbandonAnnulé,
 } from '@modules/demandeModification'
 import {
   makeOnAbandonAccordé,
@@ -14,6 +15,7 @@ import {
   makeOnAbandonDemandé,
   makeOnConfirmationAbandonDemandée,
   makeOnAbandonConfirmé,
+  makeOnRejetAbandonAnnulé,
 } from '@modules/notification'
 import { notifierPorteurChangementStatutDemande, sendNotification } from '../../emails.config'
 import {
@@ -72,5 +74,13 @@ notificationEventSubscriber(
   makeOnAbandonConfirmé({
     sendNotification,
     getModificationRequestInfoForConfirmedNotification,
+  })
+)
+
+notificationEventSubscriber(
+  RejetAbandonAnnulé,
+  makeOnRejetAbandonAnnulé({
+    notifierPorteurChangementStatutDemande,
+    getModificationRequestInfoForStatusNotification,
   })
 )
