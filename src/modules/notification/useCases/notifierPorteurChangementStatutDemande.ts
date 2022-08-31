@@ -1,5 +1,5 @@
 import routes from '@routes'
-import { NotificationService } from '../../NotificationService'
+import { NotificationService } from '../NotificationService'
 
 export type NotifierPorteurChangementStatutDemande = (args: {
   email: string

@@ -1,4 +1,3 @@
-export * from './notifierPorteurChangementStatutDemande'
 export * from './onAbandonAccordé'
 export * from './onAbandonAnnulé'
 export * from './onAbandonConfirmé'

@@ -89,6 +89,8 @@ import {
   projectRepo,
   userRepo,
 } from './repos.config'
+import { sendNotification } from '@config/emails.config'
+import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -405,4 +407,8 @@ export const annulerRejetAbandon = makeAnnulerRejetAbandon({
   demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
+  sendNotification,
 })
