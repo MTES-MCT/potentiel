@@ -24,7 +24,7 @@ const handleEvent = async (event: DomainEvent) => {
 }
 
 export const notificationEventSubscriber = <Event extends DomainEvent>(
-  eventClass: Constructor<Event> & HasType,
+  eventClass: HasType,
   handler: EventHandler<Event>
 ): Result<null, Error> => {
   const type = eventClass.type
