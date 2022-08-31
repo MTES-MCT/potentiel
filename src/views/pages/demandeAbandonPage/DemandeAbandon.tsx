@@ -83,13 +83,7 @@ export const DemandeAbandon = PageLayout(
             </div>
           </div>
           {status === 'rejetée' && userIs(['admin', 'dgec-validateur'])(user) && (
-            <form
-              method="post"
-              action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE({
-                demandeAbandonId: id,
-              })}
-              className="m-0 mt-4"
-            >
+            <form method="post" action={ROUTES.ADMIN_ANNULER_ABANDON_REJETE} className="m-0 mt-4">
               <SecondaryButton
                 type="submit"
                 value={id}
