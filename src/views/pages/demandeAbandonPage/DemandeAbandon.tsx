@@ -90,9 +90,7 @@ export const DemandeAbandon = PageLayout(
                 name="demandeAbandonId"
                 onClick={(e) => {
                   if (
-                    !confirm(
-                      'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
-                    )
+                    !confirm('Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?')
                   ) {
                     e.preventDefault()
                   }
