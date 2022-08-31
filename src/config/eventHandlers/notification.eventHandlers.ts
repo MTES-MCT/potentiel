@@ -1,20 +1,4 @@
-import { DomainEvent } from '@core/domain'
 import { UserInvitedToProject } from '@modules/authZ'
-import {
-  AbandonAccordé,
-  AbandonAnnulé,
-  AbandonConfirmé,
-  AbandonDemandé,
-  AbandonRejeté,
-  ConfirmationAbandonDemandée,
-  DélaiAccordé,
-  DélaiAnnulé,
-  DélaiDemandé,
-  DélaiEnInstruction,
-  DélaiRejeté,
-  RejetDélaiAnnulé,
-  RejetRecoursAnnulé,
-} from '@modules/demandeModification'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
   ConfirmationRequested,
@@ -35,19 +19,6 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
-  makeOnDélaiAccordé,
-  makeOnDélaiAnnulé,
-  makeOnDélaiDemandé,
-  makeOnDélaiRejeté,
-  makeOnRejetDélaiAnnulé,
-  makeOnDélaiEnInstruction,
-  makeOnRejetRecoursAnnulé,
-  makeOnAbandonAccordé,
-  makeOnAbandonRejeté,
-  makeOnAbandonDemandé,
-  makeOnConfirmationAbandonDemandée,
-  makeOnAbandonConfirmé,
-  makeOnAbandonAnnulé,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -55,12 +26,10 @@ import {
   ProjectGFSubmitted,
   ProjectNewRulesOptedIn,
 } from '@modules/project'
-import { notifierPorteurChangementStatutDemande, sendNotification } from '../emails.config'
-import { subscribeToRedis } from '../eventBus.config'
+import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
 import {
   getInfoForModificationRequested,
-  getModificationRequestInfoForConfirmedNotification,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
 } from '../queries.config'
@@ -158,124 +127,6 @@ eventStore.subscribe(
     sendNotification,
   })
 )
-
-const onDélaiDemandéHandler = makeOnDélaiDemandé({
-  sendNotification,
-  getInfoForModificationRequested,
-  findUsersForDreal: oldUserRepo.findUsersForDreal,
-  findProjectById: oldProjectRepo.findById,
-})
-const onDélaiAccordéHandler = makeOnDélaiAccordé({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-const onDélaiRejetéHandler = makeOnDélaiRejeté({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-const OnRejetDemandeDélaiAnnuléHandler = makeOnRejetDélaiAnnulé({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-const onDélaiAnnuléHandler = makeOnDélaiAnnulé({
-  sendNotification,
-  getModificationRequestRecipient,
-  getModificationRequestInfoForStatusNotification,
-  findUsersForDreal: oldUserRepo.findUsersForDreal,
-  dgecEmail: process.env.DGEC_EMAIL,
-})
-const onDélaiEnInstructionHandler = makeOnDélaiEnInstruction({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-
-const onRejetRecoursAnnuléHandler = makeOnRejetRecoursAnnulé({
-  sendNotification,
-  getModificationRequestInfoForStatusNotification,
-})
-
-const onAbandonAccordéHandler = makeOnAbandonAccordé({
-  getModificationRequestInfoForStatusNotification,
-  notifierPorteurChangementStatutDemande,
-})
-
-const onAbandonRejetéHandler = makeOnAbandonRejeté({
-  getModificationRequestInfoForStatusNotification,
-  notifierPorteurChangementStatutDemande,
-})
-
-const onAbandonAnnuléHandler = makeOnAbandonAnnulé({
-  sendNotification,
-  getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
-  dgecEmail: process.env.DGEC_EMAIL,
-})
-
-const onAbandonDemandéHandler = makeOnAbandonDemandé({
-  getModificationRequestInfoForStatusNotification,
-  notifierPorteurChangementStatutDemande,
-})
-
-const onConfirmationAbandonDemandéeHandler = makeOnConfirmationAbandonDemandée({
-  getModificationRequestInfoForStatusNotification,
-  notifierPorteurChangementStatutDemande,
-})
-
-const onAbandonConfirméHandler = makeOnAbandonConfirmé({
-  sendNotification,
-  getModificationRequestInfoForConfirmedNotification,
-})
-
-const onDemandesEvénements = async (event: DomainEvent) => {
-  if (event instanceof DélaiDemandé) {
-    return onDélaiDemandéHandler(event)
-  }
-  if (event instanceof DélaiAccordé) {
-    return onDélaiAccordéHandler(event)
-  }
-  if (event instanceof DélaiRejeté) {
-    return onDélaiRejetéHandler(event)
-  }
-  if (event instanceof RejetDélaiAnnulé) {
-    return OnRejetDemandeDélaiAnnuléHandler(event)
-  }
-  if (event instanceof DélaiAnnulé) {
-    return onDélaiAnnuléHandler(event)
-  }
-  if (event instanceof DélaiEnInstruction) {
-    return onDélaiEnInstructionHandler(event)
-  }
-  if (event instanceof RejetRecoursAnnulé) {
-    return onRejetRecoursAnnuléHandler(event)
-  }
-
-  if (event instanceof AbandonAccordé) {
-    return onAbandonAccordéHandler(event)
-  }
-
-  if (event instanceof AbandonRejeté) {
-    return onAbandonRejetéHandler(event)
-  }
-
-  if (event instanceof AbandonAnnulé) {
-    return onAbandonAnnuléHandler(event)
-  }
-
-  if (event instanceof ConfirmationAbandonDemandée) {
-    return onConfirmationAbandonDemandéeHandler(event)
-  }
-
-  if (event instanceof AbandonConfirmé) {
-    return onAbandonConfirméHandler(event)
-  }
-
-  if (event instanceof AbandonDemandé) {
-    return onAbandonDemandéHandler(event)
-  }
-
-  return Promise.resolve()
-}
-
-subscribeToRedis(onDemandesEvénements, 'Notification')
 
 console.log('Notification Event Handlers Initialized')
 export const notificationHandlersOk = true
