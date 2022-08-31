@@ -155,7 +155,7 @@
     "dotenv-cli": "^5.1.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "jest": "^27.5.1",
     "jest-diff": "^27.5.1",
     "lint-staged": "^12.5.0",
@@ -166,81 +166,9 @@
     "ts-jest": "^27.1.5",
     "wait-for-expect": "^3.0.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,ts,css,jsx,tsx}": "prettier --write --ignore-unknown",
     "*.{js,ts,jsx,tsx}": "eslint --fix"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-emoji"
-    },
-    "cz-emoji": {
-      "skipQuestions": [
-        "scope",
-        "breaking"
-      ],
-      "types": [
-        {
-          "emoji": "🌟",
-          "code": ":star2:",
-          "description": "Add a new feature",
-          "name": "feature"
-        },
-        {
-          "emoji": "🔧",
-          "code": ":wrench:",
-          "description": "Technical task",
-          "name": "chore"
-        },
-        {
-          "emoji": "✅",
-          "code": ":white_check_mark:",
-          "description": "Tests",
-          "name": "tests"
-        },
-        {
-          "emoji": "♻️",
-          "code": ":recycle:",
-          "description": "Refactor code",
-          "name": "refacto"
-        },
-        {
-          "emoji": "🐛",
-          "code": ":bug:",
-          "description": "Fix a bug",
-          "name": "bug"
-        },
-        {
-          "emoji": "📝",
-          "code": ":memo:",
-          "description": "Documentation",
-          "name": "doc"
-        },
-        {
-          "emoji": "🔒",
-          "code": ":lock:",
-          "description": "Fix security issues",
-          "name": "security"
-        },
-        {
-          "emoji": "💩",
-          "code": ":poop:",
-          "description": "Write bad code that needs to be improved.",
-          "name": "poop"
-        },
-        {
-          "emoji": "⏪",
-          "code": ":revert:",
-          "description": "Revert a commit",
-          "name": "revert"
-        }
-      ]
-    }
   },
   "engines": {
     "node": "^16.0.0"
