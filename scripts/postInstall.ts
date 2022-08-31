@@ -11,12 +11,10 @@ const executeMigrateScript = process.env.DO_NOT_EXECUTE_MIGRATE ? false : true
 postInstall()
 
 async function postInstall() {
-  if (NODE_ENV === '') {
+  if (['', 'local'].includes(NODE_ENV)) {
     const devEnv = spawnSync('npm', ['run', 'configure-dev-env-variables'], { stdio: 'inherit' })
     if (devEnv.status && devEnv.status > 0) process.exit(devEnv.status)
-  }
 
-  if (NODE_ENV === 'local') {
     const hooks = spawnSync('npm', ['run', 'configure-hooks'], { stdio: 'inherit' })
     if (hooks.status && hooks.status > 0) process.exit(hooks.status)
   }
