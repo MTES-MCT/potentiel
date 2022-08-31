@@ -29,11 +29,6 @@ import {
   ModificationRequestStatusUpdated,
 } from '@modules/modificationRequest'
 import { onConfirmationRequested } from './onConfirmationRequested'
-import { onDélaiAccordé } from './onDélaiAccordé'
-import { onDélaiAnnulé } from './onDélaiAnnulé'
-import { onDélaiDemandé } from './onDélaiDemandé'
-import { onDélaiEnInstruction } from './onDélaiEnInstruction'
-import { onDélaiRejeté } from './onDélaiRejeté'
 import { onLegacyModificationImported } from './onLegacyModificationImported'
 import { onModificationReceived } from './onModificationReceived'
 import { onModificationRequestAccepted } from './onModificationRequestAccepted'
@@ -42,9 +37,16 @@ import { onModificationRequested } from './onModificationRequested'
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted'
 import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
-import { onRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé'
 import { onRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé'
+import {
+  onDélaiAccordé,
+  onDélaiAnnulé,
+  onDélaiEnInstruction,
+  onDélaiDemandé,
+  onDélaiRejeté,
+  onRejetDélaiAnnulé,
+} from './délai'
 import {
   onAbandonRejeté,
   onAbandonDemandé,
