@@ -2,7 +2,12 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
 
-import { ensureRole, changerProducteur, choisirNouveauCahierDesCharges } from '@config'
+import {
+  ensureRole,
+  changerProducteur,
+  choisirNouveauCahierDesCharges,
+  inviteUserToProject,
+} from '@config'
 import { logger, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -57,10 +62,20 @@ v1Router.post(
           ...(justification && { justification }),
           nouveauProducteur: producteur,
           ...(email && { email }),
-        }).map(() => ({ projetId }))
+        }).map(() => ({ projetId, email, user }))
+      })
+      .andThen(({ projetId, email, user }) => {
+        if (email) {
+          return inviteUserToProject({
+            email: email.toLowerCase(),
+            projectIds: [projetId],
+            invitedBy: user,
+          }).map(() => projetId)
+        }
+        return okAsync(projetId)
       })
       .match(
-        ({ projetId }) => {
+        (projetId) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'Votre changement de producteur a bien été enregistré.',
