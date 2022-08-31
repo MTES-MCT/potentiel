@@ -13,7 +13,7 @@ import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeAnnulerRejetChangementDePuissance } from './annulerRejetChangementDePuissance'
 import { USER_ROLES } from '@modules/users'
 
-describe(`Commande annulerRejetChangementDePuissanceRecours`, () => {
+describe(`Commande annulerRejetChangementDePuissance`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
     okAsync<null, InfraNotAvailableError>(null)
   )

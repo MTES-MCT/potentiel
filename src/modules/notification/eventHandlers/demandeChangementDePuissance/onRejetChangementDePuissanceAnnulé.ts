@@ -79,7 +79,7 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
             type_demande: typeDemande,
             status,
             modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
+            document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
           },
         })
       }
