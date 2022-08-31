@@ -1,29 +1,8 @@
 import { notificationEventSubscriber } from './notificationEventSubscriber'
-import {
-  DélaiAccordé,
-  DélaiAnnulé,
-  DélaiDemandé,
-  DélaiEnInstruction,
-  DélaiRejeté,
-  RejetDélaiAnnulé,
-  RejetRecoursAnnulé,
-} from '@modules/demandeModification'
-import {
-  makeOnDélaiAccordé,
-  makeOnDélaiAnnulé,
-  makeOnDélaiDemandé,
-  makeOnDélaiRejeté,
-  makeOnRejetDélaiAnnulé,
-  makeOnDélaiEnInstruction,
-  makeOnRejetRecoursAnnulé,
-} from '@modules/notification'
+import { RejetRecoursAnnulé } from '@modules/demandeModification'
+import { makeOnRejetRecoursAnnulé } from '@modules/notification'
 import { sendNotification } from '../../emails.config'
-import {
-  getInfoForModificationRequested,
-  getModificationRequestInfoForStatusNotification,
-  getModificationRequestRecipient,
-} from '../../queries.config'
-import { oldProjectRepo, oldUserRepo } from '../../repos.config'
+import { getModificationRequestInfoForStatusNotification } from '../../queries.config'
 
 notificationEventSubscriber(
   RejetRecoursAnnulé,
