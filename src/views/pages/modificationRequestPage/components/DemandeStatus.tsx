@@ -32,7 +32,7 @@ function getAdminAnulerRejetDemandeRoute({ type, id }) {
       })
     case 'puissance':
       return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE({
-        modificationRequestId: id,
+        demandeChangementDePuissanceId: id,
       })
     default:
       return
@@ -78,7 +78,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           <SecondaryButton
             type="submit"
             value={modificationRequest.id}
-            name="modificationRequestId"
+            name={type === 'puissance' ? 'demandeChangementDePuissanceId' : 'modificationRequestId'}
             onClick={(e) => {
               if (
                 !confirm(

@@ -151,12 +151,12 @@ class routes {
   }
 
   static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE = (args?: {
-    modificationRequestId: string
+    demandeChangementDePuissanceId: string
   }) => {
     const route =
-      '/admin/demande/:modificationRequestId/annuler-rejet-demande-changement-de-puissance'
+      '/admin/demande/:demandeChangementDePuissanceId/annuler-rejet-demande-changement-de-puissance'
     if (args) {
-      return route.replace(':modificationRequestId', args.modificationRequestId)
+      return route.replace(':demandeChangementDePuissanceId', args.demandeChangementDePuissanceId)
     } else return route
   }
 

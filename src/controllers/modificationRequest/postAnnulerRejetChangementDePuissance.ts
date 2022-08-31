@@ -15,7 +15,7 @@ import { v1Router } from '../v1Router'
 import routes from '../../routes'
 
 const requestBodySchema = yup.object({
-  modificationRequestId: yup.string().uuid().required(),
+  demandeChangementDePuissanceId: yup.string().uuid().required(),
 })
 
 v1Router.post(
@@ -25,19 +25,19 @@ v1Router.post(
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
         const { user } = request
-        const { modificationRequestId } = body
+        const { demandeChangementDePuissanceId } = body
 
         return annulerRejetChangementDePuissance({
           user,
-          demandeChangementDePuissanceId: modificationRequestId,
-        }).map(() => modificationRequestId)
+          demandeChangementDePuissanceId,
+        }).map(() => demandeChangementDePuissanceId)
       })
       .match(
-        (modificationRequestId) => {
+        (demandeChangementDePuissanceId) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: 'La réponse à la demande de changement de puissance a bien été annulée.',
-              redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+              redirectUrl: routes.DEMANDE_PAGE_DETAILS(demandeChangementDePuissanceId),
               redirectTitle: 'Retourner à la demande',
             })
           )
