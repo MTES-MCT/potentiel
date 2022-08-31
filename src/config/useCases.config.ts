@@ -406,7 +406,6 @@ export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
 export const annulerRejetAbandon = makeAnnulerRejetAbandon({
   demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
