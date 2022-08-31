@@ -6,7 +6,9 @@ import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 export default ProjectEventProjector.on(
   RejetChangementDePuissanceAnnulé,
   async (événement, transaction) => {
-    const { payload: demandeChangementDePuissanceId } = événement
+    const {
+      payload: { demandeChangementDePuissanceId },
+    } = événement
 
     try {
       await ProjectEvent.destroy({
