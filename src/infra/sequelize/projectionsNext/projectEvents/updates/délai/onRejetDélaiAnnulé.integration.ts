@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { resetDatabase } from '../../../../helpers'
+import models from '../../../../models'
+import { ProjectEvent } from '../../projectEvent.model'
 import onRejetDélaiAnnulé from './onRejetDélaiAnnulé'
 
 describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {

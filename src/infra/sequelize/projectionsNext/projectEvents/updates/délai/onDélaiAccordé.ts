@@ -1,6 +1,6 @@
 import { DélaiAccordé } from '@modules/demandeModification'
 import { logger } from '@core/utils'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default ProjectEventProjector.on(DélaiAccordé, async (evenement, transaction) => {
