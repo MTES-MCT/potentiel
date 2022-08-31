@@ -150,15 +150,8 @@ class routes {
     } else return route
   }
 
-  static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE = (args?: {
-    demandeChangementDePuissanceId: string
-  }) => {
-    const route =
-      '/admin/demande/:demandeChangementDePuissanceId/annuler-rejet-demande-changement-de-puissance'
-    if (args) {
-      return route.replace(':demandeChangementDePuissanceId', args.demandeChangementDePuissanceId)
-    } else return route
-  }
+  static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
+    '/admin/demande/annuler-rejet-demande-changement-de-puissance'
 
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
   static ADMIN_INVITATION_LIST = '/admin/invitations.html'

@@ -31,9 +31,7 @@ function getAdminAnulerRejetDemandeRoute({ type, id }) {
         modificationRequestId: id,
       })
     case 'puissance':
-      return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE({
-        demandeChangementDePuissanceId: id,
-      })
+      return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE
     default:
       return
   }

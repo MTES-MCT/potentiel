@@ -19,7 +19,7 @@ const requestBodySchema = yup.object({
 })
 
 v1Router.post(
-  routes.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE(),
+  routes.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE,
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
