@@ -35,14 +35,14 @@ describe(`Rejeter une demande de délai`, () => {
       for (const role of rolesNePouvantPasRefuser) {
         const user = { role } as User
 
-        it(`
-        Lorsqu'il rejette une demande de délai
-        Alors une erreur UnauthorizedError devrait être retournée
-        Et aucun évènement ne devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il rejette une demande de délai
+            Alors une erreur UnauthorizedError devrait être retournée
+            Et aucun évènement ne devrait être publié dans le store`, async () => {
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(makeFakeDemandeDélai()),
             publishToEventStore,
             fileRepo: fakeRepo(),
+            shouldUserAccessProject: async () => true,
           })
 
           const res = await rejeterDemandéDélai({
@@ -57,25 +57,49 @@ describe(`Rejeter une demande de délai`, () => {
       }
     })
   })
+  describe(`Impossible de rejeter un délai si DREAL sans accès au projet`, () => {
+    it(`Etant donné un utilisateur DREAL sans accès au projet
+        Lorsqu'il rejette une demande de délai
+        Alors une erreur UnauthorizedError devrait être retournée
+        Et aucun évènement ne devrait être publié dans le store`, async () => {
+      const rejeterDemandéDélai = makeRejeterDemandeDélai({
+        demandeDélaiRepo: fakeTransactionalRepo(
+          makeFakeDemandeDélai({ projetId: 'le-projet-de-la-demande' })
+        ),
+        publishToEventStore,
+        fileRepo: fakeRepo(),
+        shouldUserAccessProject: async () => false,
+      })
+
+      const res = await rejeterDemandéDélai({
+        user: { role: 'dreal' } as User,
+        demandeDélaiId,
+        fichierRéponse,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
 
   describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
-
       const statutsNePouvantPasÊtreRefusé: StatutDemandeDélai[] = ['accordée', 'refusée', 'annulée']
 
       for (const statut of statutsNePouvantPasÊtreRefusé) {
-        it(`
-      Lorsqu'il rejette une demande avec comme statut '${statut}'
-      Alors une erreur RefuserDemandeDélaiError devrait être retournée
-      Et aucun évènement ne devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il rejette une demande avec comme statut '${statut}'
+            Alors une erreur RefuserDemandeDélaiError devrait être retournée
+            Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
+          const projetId = 'le-projet-de-la-demande'
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
             demandeDélaiRepo: fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut })
+              makeFakeDemandeDélai({ id: demandeDélaiId, projetId, statut })
             ),
             publishToEventStore,
             fileRepo,
+            shouldUserAccessProject: async () => true,
           })
 
           const res = await rejeterDemandéDélai({
@@ -107,16 +131,13 @@ describe(`Rejeter une demande de délai`, () => {
   describe(`Possible de rejeter un délai si Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
-
       const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en-instruction']
 
       for (const statut of statutsPouvantÊtreAccordé) {
-        it(`
-      Lorsqu'il rejette une demande de délai avec comme statut '${statut}'
-      Alors le courrier de réponse devrait être sauvegardé 
-      Et l'évenement 'DélaiRejeté' devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il rejette une demande de délai avec comme statut '${statut}'
+            Alors le courrier de réponse devrait être sauvegardé 
+            Et l'événement 'DélaiRejeté' devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
-
           const projetId = 'le-projet-de-la-demande'
 
           const rejeterDemandéDélai = makeRejeterDemandeDélai({
@@ -129,6 +150,7 @@ describe(`Rejeter une demande de délai`, () => {
             ),
             publishToEventStore,
             fileRepo,
+            shouldUserAccessProject: async () => true,
           })
 
           const rejet = await rejeterDemandéDélai({
