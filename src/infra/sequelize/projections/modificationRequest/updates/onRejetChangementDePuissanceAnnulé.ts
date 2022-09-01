@@ -4,7 +4,10 @@ import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 
 export const onRejetChangementDePuissanceAnnulé =
   (models) => async (événement: RejetChangementDePuissanceAnnulé) => {
-    const { payload: demandeChangementDePuissanceId, occurredAt } = événement
+    const {
+      payload: { demandeChangementDePuissanceId },
+      occurredAt,
+    } = événement
     try {
       const ModificationRequestModel = models.ModificationRequest
       await ModificationRequestModel.update(
@@ -28,7 +31,8 @@ export const onRejetChangementDePuissanceAnnulé =
           {
             evenement: événement,
             nomProjection: 'ProjectEventProjector.onRejetChangementDePuissanceAnnulé',
-          }
+          },
+          e
         )
       )
     }

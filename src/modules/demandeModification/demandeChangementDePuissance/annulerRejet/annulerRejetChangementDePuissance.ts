@@ -1,7 +1,7 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/modificationRequest/errors'
+import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { ModificationRequest } from '@modules/modificationRequest'
 import { RejetChangementDePuissanceAnnulé } from '../events'
