@@ -3,9 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "prettier"
-  ],
+  "extends": ["prettier"],
   // Prevent ESLint from yelling at chai assertions (e.g : expect(undefined).to.be.undefined)
   "overrides": [
     {
@@ -21,6 +19,16 @@
       }
     }
   ],
+  "plugins": ["import", "unused-imports"],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": true,
+      "node ": true
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
@@ -29,5 +37,16 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "rules": {}
+
+  "rules": {
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+    ],
+    "import/no-useless-path-segments": ["error"],
+    "import/no-duplicates": ["error", { "considerQueryString": true }],
+    "import/no-unassigned-import": ["error"]
+  }
 }
