@@ -2,8 +2,8 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
 
-import { demanderDélai, ensureRole } from '@config'
-import { logger } from '@core/utils'
+import { choisirNouveauCahierDesCharges, demanderDélai, ensureRole } from '@config'
+import { logger, okAsync } from '@core/utils'
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -41,13 +41,6 @@ v1Router.post(
   asyncHandler((request, response) =>
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const {
-          projectId,
-          newRulesOptIn,
-          dateAchèvementDemandée,
-          justification,
-          numeroGestionnaire,
-        } = body
         const { user } = request
 
         const file = request.file && {
@@ -55,10 +48,19 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
+        if (body.newRulesOptIn) {
+          return choisirNouveauCahierDesCharges({
+            utilisateur: user,
+            projetId: body.projectId,
+          }).map(() => ({ user, file, ...body }))
+        }
+        return okAsync({ user, file, ...body })
+      })
+      .andThen(({ user, file, ...body }) => {
+        const { projectId, justification, numeroGestionnaire, dateAchèvementDemandée } = body
         return demanderDélai({
           user,
           projectId,
-          ...(newRulesOptIn && { newRulesOptIn: true }),
           file,
           justification,
           numeroGestionnaire,

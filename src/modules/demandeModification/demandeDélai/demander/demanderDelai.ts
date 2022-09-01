@@ -7,7 +7,7 @@ import { DélaiDemandé } from '@modules/demandeModification'
 import { GetProjectAppelOffreId } from '@modules/modificationRequest'
 import { AppelOffreRepo } from '@dataAccess'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { NumeroGestionnaireSubmitted, Project, ProjectNewRulesOptedIn } from '@modules/project'
+import { NumeroGestionnaireSubmitted, Project } from '@modules/project'
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError'
@@ -19,7 +19,6 @@ type DemanderDélai = (commande: {
     filename: string
   }
   projectId: string
-  newRulesOptIn?: true
   justification?: string
   dateAchèvementDemandée: Date
   numeroGestionnaire?: string
@@ -46,15 +45,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
     getProjectAppelOffreId,
     projectRepo,
   }) =>
-  ({
-    user,
-    projectId,
-    newRulesOptIn,
-    file,
-    justification,
-    dateAchèvementDemandée,
-    numeroGestionnaire,
-  }) => {
+  ({ user, projectId, file, justification, dateAchèvementDemandée, numeroGestionnaire }) => {
     return wrapInfra(
       shouldUserAccessProject({
         user,
@@ -72,6 +63,9 @@ export const makeDemanderDélai: MakeDemanderDélai =
       })
       .andThen((appelOffre) => {
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
+          if (!project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+            return errAsync(new NouveauCahierDesChargesNonChoisiError())
+          }
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
             return errAsync(
               new DemanderDateAchèvementAntérieureDateThéoriqueError(
@@ -80,20 +74,6 @@ export const makeDemanderDélai: MakeDemanderDélai =
               )
             )
           }
-
-          const doitSouscrireAuNouveauCDC =
-            !project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges
-
-          if (doitSouscrireAuNouveauCDC && !newRulesOptIn) {
-            return errAsync(new NouveauCahierDesChargesNonChoisiError())
-          }
-
-          if (doitSouscrireAuNouveauCDC) {
-            return publishToEventStore(
-              new ProjectNewRulesOptedIn({ payload: { projectId, optedInBy: user.id } })
-            )
-          }
-
           return okAsync(appelOffre)
         })
       })
