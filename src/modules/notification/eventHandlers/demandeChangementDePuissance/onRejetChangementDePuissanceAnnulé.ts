@@ -1,6 +1,5 @@
 import { logger } from '@core/utils'
 import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
-import routes from '@routes'
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
 import { NotifierPorteurChangementStatutDemande } from '../../'
 type OnRejetChangementDePuissanceAnnulé = (
@@ -41,44 +40,4 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
           logger.error(e)
         }
       )
-
-      function _sendUpdateNotification(args: {
-        email: string
-        fullName: string
-        typeDemande: string
-        nomProjet: string
-        modificationRequestId: string
-        porteurId: string
-        status: string
-        hasDocument: boolean
-      }) {
-        const {
-          email,
-          fullName,
-          typeDemande,
-          nomProjet,
-          modificationRequestId,
-          porteurId,
-          status,
-        } = args
-        return sendNotification({
-          type: 'modification-request-status-update',
-          message: {
-            email,
-            name: fullName,
-            subject: `Votre demande de ${typeDemande} pour le projet ${nomProjet}`,
-          },
-          context: {
-            modificationRequestId,
-            userId: porteurId,
-          },
-          variables: {
-            nom_projet: nomProjet,
-            type_demande: typeDemande,
-            status,
-            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
-          },
-        })
-      }
     }
