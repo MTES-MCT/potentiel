@@ -1,5 +1,9 @@
 import { Readable } from 'stream'
-import { DemanderAbandonError, makeDemanderAbandon } from '@modules/demandeModification'
+import {
+  DemanderAbandonError,
+  makeDemanderAbandon,
+  NouveauCahierDesChargesNonChoisiError,
+} from '@modules/demandeModification'
 import { Project } from '@modules/project'
 import { Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
@@ -215,42 +219,11 @@ describe('Commande demanderAbandon', () => {
     })
   })
 
-  describe(`Pas de souscription au nouveau cahier des charges si l'AO ne le requiert pas`, () => {
-    describe(`Étant donné un projet avec un AO ne requérant pas de choix du nouveau CDC
-                  Lorsque le porteur fait une demande de délai
-                  et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
-      it(`Alors aucun un événement ProjectNewRulesOptedIn ne devrait être émis`, async () => {
-        const projectRepo = fakeRepo({
-          ...fakeProject,
-          newRulesOptIn: false,
-          isClasse: true,
-        } as Project)
-
-        const demanderAbandon = makeDemanderAbandon({
-          fileRepo,
-          findAppelOffreById,
-          publishToEventStore,
-          shouldUserAccessProject,
-          getProjectAppelOffreId,
-          projectRepo,
-        })
-
-        await demanderAbandon({
-          user,
-          projectId: fakeProject.id.toString(),
-        })
-
-        expect(publishToEventStore).not.toHaveBeenCalledWith(
-          expect.objectContaining({ type: 'ProjectNewRulesOptedIn' })
-        )
-      })
-    })
-  })
-
-  describe(`Enregistrer la souscription au nouveau cahier des charges`, () => {
-    describe(`Lorsque le porteur fait une demande de délai
-            et qu'il n'avait pas encore souscrit au nouveau cahier des charges`, () => {
-      it(`Alors un événement ProjectNewRulesOptedIn devrait être émis en premier`, async () => {
+  describe(`Erreur si demande d'abandon alors que le porteur n'a pas souscri au CDC pour un AO CRE4`, () => {
+    describe(`Étant donné un projet avec un AO requérant le nouveau CDC pour effectuer des changements sur Potentiel,
+                  Lorsque le porteur fait une demande d'abandon
+                  et qu'il n'a 'pas encore souscri au nouveau cahier des charges`, () => {
+      it(`Alors aucun une erreur  NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
         const projectRepo = fakeRepo({
           ...fakeProject,
           newRulesOptIn: false,
@@ -260,9 +233,9 @@ describe('Commande demanderAbandon', () => {
         const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
           ({
             id: 'appelOffreId',
-            choisirNouveauCahierDesCharges: true,
             periodes: [{ id: 'periodeId', type: 'notified' }],
             familles: [{ id: 'familleId' }],
+            choisirNouveauCahierDesCharges: true,
           } as AppelOffre)
 
         const demanderAbandon = makeDemanderAbandon({
@@ -274,29 +247,14 @@ describe('Commande demanderAbandon', () => {
           projectRepo,
         })
 
-        await demanderAbandon({
+        const res = await demanderAbandon({
           user,
           projectId: fakeProject.id.toString(),
-          newRulesOptIn: true,
         })
 
-        expect(publishToEventStore).toHaveBeenNthCalledWith(
-          1,
-          expect.objectContaining({
-            type: 'ProjectNewRulesOptedIn',
-            payload: { projectId: fakeProject.id.toString(), optedInBy: user.id },
-          })
-        )
-
-        expect(publishToEventStore).toHaveBeenNthCalledWith(
-          2,
-          expect.objectContaining({
-            type: 'AbandonDemandé',
-            payload: expect.objectContaining({
-              projetId: fakeProject.id.toString(),
-            }),
-          })
-        )
+        expect(res.isErr()).toEqual(true)
+        if (res.isOk()) return
+        expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError)
       })
     })
   })
