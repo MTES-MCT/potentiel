@@ -11,9 +11,7 @@ import { makeAccorderDemandeDélai } from './accorderDemandeDélai'
 import { UserRole } from '@modules/users'
 import { StatutDemandeDélai } from '../DemandeDélai'
 import { User } from '@entities'
-
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-
 import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.'
 
 describe(`Accorder une demande de délai`, () => {
@@ -23,10 +21,7 @@ describe(`Accorder une demande de délai`, () => {
     filename: 'fichier-réponse',
   }
 
-  const publishToEventStore = jest.fn((event: DomainEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  )
-
+  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   beforeEach(() => publishToEventStore.mockClear())
 
   describe(`Impossible d'accorder un délai si non Admin/DGEC/DREAL`, () => {
@@ -40,16 +35,16 @@ describe(`Accorder une demande de délai`, () => {
       for (const role of rolesNePouvantPasAccorderUneDemandeDélai) {
         const user = { role } as User
 
-        it(`
-        Lorsqu'il accorde une demande de délai
-        Alors une erreur UnauthorizedError devrait être retournée
-        Et aucun évènement ne devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il accorde une demande de délai
+            Alors une erreur UnauthorizedError devrait être retournée
+            Et aucun évènement ne devrait être publié dans le store`, async () => {
           const demandeDélai = makeFakeDemandeDélai({ projetId: 'le-projet' })
           const accorderDemandéDélai = makeAccorderDemandeDélai({
             demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
             publishToEventStore,
             fileRepo: fakeRepo(),
             projectRepo: fakeRepo(),
+            shouldUserAccessProject: async () => true,
           })
 
           const res = await accorderDemandéDélai({
@@ -66,6 +61,33 @@ describe(`Accorder une demande de délai`, () => {
     })
   })
 
+  describe(`Impossible d'accorder un délai si DREAL sans accès au projet`, () => {
+    it(`Etant donné un utilisateur DREAL sans accès au projet
+        Lorsqu'il accorde une demande de délai
+        Alors une erreur UnauthorizedError devrait être retournée
+        Et aucun évènement ne devrait être publié dans le store`, async () => {
+      const user = { role: 'dreal' } as User
+      const demandeDélai = makeFakeDemandeDélai({ projetId: 'le-projet' })
+      const accorderDemandéDélai = makeAccorderDemandeDélai({
+        demandeDélaiRepo: { ...fakeTransactionalRepo(demandeDélai), ...fakeRepo(demandeDélai) },
+        publishToEventStore,
+        fileRepo: fakeRepo(),
+        projectRepo: fakeRepo(),
+        shouldUserAccessProject: async () => false,
+      })
+
+      const res = await accorderDemandéDélai({
+        user,
+        demandeDélaiId,
+        dateAchèvementAccordée: new Date(),
+        fichierRéponse,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
   describe(`Impossible d'accorder une demande avec un statut autre que 'envoyée'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
@@ -77,10 +99,9 @@ describe(`Accorder une demande de délai`, () => {
       ]
 
       for (const statut of statutsNePouvantPasÊtreAccordé) {
-        it(`
-      Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
-      Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
-      Et aucun évènement ne devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
+            Alors une erreur ImpossibleDAccorderDemandeDélai devrait être retournée
+            Et aucun évènement ne devrait être publié dans le store`, async () => {
           const fileRepo = fakeRepo()
           const projectRepo = fakeRepo(makeFakeProject())
 
@@ -94,6 +115,7 @@ describe(`Accorder une demande de délai`, () => {
             publishToEventStore,
             fileRepo,
             projectRepo,
+            shouldUserAccessProject: async () => true,
           })
 
           const res = await accorderDemandéDélai({
@@ -145,6 +167,7 @@ describe(`Accorder une demande de délai`, () => {
         publishToEventStore,
         fileRepo,
         projectRepo,
+        shouldUserAccessProject: async () => true,
       })
 
       it(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
@@ -184,10 +207,9 @@ describe(`Accorder une demande de délai`, () => {
       const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en-instruction']
 
       for (const statut of statutsPouvantÊtreAccordé) {
-        it(`
-      Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
-      Alors le courrier de réponse devrait être sauvegardé 
-      Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
+        it(`Lorsqu'il accorde une demande de délai avec comme statut '${statut}'
+            Alors le courrier de réponse devrait être sauvegardé 
+            Et l'évenement 'DélaiAccordé' devrait être publié dans le store`, async () => {
           const ancienneDateThéoriqueAchèvement = new Date('2022-06-27')
           const fileRepo = fakeRepo()
           const projectRepo = fakeRepo(
@@ -205,6 +227,7 @@ describe(`Accorder une demande de délai`, () => {
             publishToEventStore,
             fileRepo,
             projectRepo,
+            shouldUserAccessProject: async () => true,
           })
 
           const resultat = await accorderDemandéDélai({

@@ -1,7 +1,7 @@
 import { User } from '@entities'
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { DemandeDélai } from '../DemandeDélai'
-import { errAsync, ResultAsync } from '@core/utils'
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
@@ -26,10 +26,11 @@ type MakeAccorderDemandeDélai = (dépendances: {
   publishToEventStore: EventStore['publish']
   fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
 }) => AccorderDemandeDélai
 
 export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
-  ({ demandeDélaiRepo, publishToEventStore, fileRepo, projectRepo }) =>
+  ({ demandeDélaiRepo, publishToEventStore, fileRepo, projectRepo, shouldUserAccessProject }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec-validateur'])(user)) {
       return errAsync(new UnauthorizedError())
@@ -37,65 +38,67 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
 
     return demandeDélaiRepo.load(new UniqueEntityID(demandeDélaiId)).andThen((demandeDélai) => {
       const { projetId } = demandeDélai
+      if (!projetId) return errAsync(new InfraNotAvailableError())
 
-      if (!projetId) {
-        return errAsync(new InfraNotAvailableError())
-      }
-
-      return projectRepo
-        .load(new UniqueEntityID(demandeDélai.projetId))
-        .map((project) => ({ project }))
-        .andThen(({ project }) => {
-          if (dateAchèvementAccordée.getTime() <= project.completionDueOn) {
-            return errAsync(
-              new AccorderDateAchèvementAntérieureDateThéoriqueError(
-                dateAchèvementAccordée,
-                new Date(project.completionDueOn)
-              )
-            )
-          }
-
-          return demandeDélaiRepo.transaction(
-            new UniqueEntityID(demandeDélaiId),
-            (demandeDélai) => {
-              const { statut } = demandeDélai
-
-              if (statut !== 'envoyée' && statut !== 'en-instruction') {
+      return wrapInfra(shouldUserAccessProject({ projectId: projetId, user })).andThen(
+        (userHasRightsToProject) => {
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+          return projectRepo
+            .load(new UniqueEntityID(demandeDélai.projetId))
+            .map((project) => ({ project }))
+            .andThen(({ project }) => {
+              if (dateAchèvementAccordée.getTime() <= project.completionDueOn) {
                 return errAsync(
-                  new AccorderDemandeDélaiError(
-                    demandeDélai,
-                    'Seul une demande envoyée ou en instruction peut être accordée'
+                  new AccorderDateAchèvementAntérieureDateThéoriqueError(
+                    dateAchèvementAccordée,
+                    new Date(project.completionDueOn)
                   )
                 )
               }
 
-              return makeAndSaveFile({
-                file: {
-                  designation: 'modification-request-response',
-                  forProject: new UniqueEntityID(demandeDélai.projetId),
-                  createdBy: new UniqueEntityID(user.id),
-                  filename: fichierRéponse.filename,
-                  contents: fichierRéponse.contents,
-                },
-                fileRepo,
-              }).andThen((fichierRéponseId) => {
-                return publishToEventStore(
-                  new DélaiAccordé({
-                    payload: {
-                      accordéPar: user.id,
-                      projetId,
-                      dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
-                      demandeDélaiId,
-                      fichierRéponseId,
-                      ancienneDateThéoriqueAchèvement: new Date(
-                        project.completionDueOn
-                      ).toISOString(),
+              return demandeDélaiRepo.transaction(
+                new UniqueEntityID(demandeDélaiId),
+                (demandeDélai) => {
+                  const { statut } = demandeDélai
+
+                  if (statut !== 'envoyée' && statut !== 'en-instruction') {
+                    return errAsync(
+                      new AccorderDemandeDélaiError(
+                        demandeDélai,
+                        'Seul une demande envoyée ou en instruction peut être accordée'
+                      )
+                    )
+                  }
+
+                  return makeAndSaveFile({
+                    file: {
+                      designation: 'modification-request-response',
+                      forProject: new UniqueEntityID(demandeDélai.projetId),
+                      createdBy: new UniqueEntityID(user.id),
+                      filename: fichierRéponse.filename,
+                      contents: fichierRéponse.contents,
                     },
+                    fileRepo,
+                  }).andThen((fichierRéponseId) => {
+                    return publishToEventStore(
+                      new DélaiAccordé({
+                        payload: {
+                          accordéPar: user.id,
+                          projetId,
+                          dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+                          demandeDélaiId,
+                          fichierRéponseId,
+                          ancienneDateThéoriqueAchèvement: new Date(
+                            project.completionDueOn
+                          ).toISOString(),
+                        },
+                      })
+                    )
                   })
-                )
-              })
-            }
-          )
-        })
+                }
+              )
+            })
+        }
+      )
     })
   }

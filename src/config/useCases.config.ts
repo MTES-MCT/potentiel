@@ -57,8 +57,8 @@ import {
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
 import { buildCertificate } from '@views/certificates'
-import { makeParseEdfCsv } from '../infra/parseEdfCsv'
-import { makeImportEnedisData } from '../modules/enedis'
+import { makeParseEdfCsv } from '@infra/parseEdfCsv'
+import { makeImportEnedisData } from '@modules/enedis'
 import { resendInvitationEmail } from './credentials.config'
 import { eventStore } from './eventStore.config'
 import {
@@ -90,7 +90,7 @@ import {
   userRepo,
 } from './repos.config'
 import { sendNotification } from '@config/emails.config'
-import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification'
+import { makeNotifierPorteurChangementStatutDemande } from '@modules/notification'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -338,6 +338,7 @@ export const rejeterDemandeDélai = makeRejeterDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const accorderDemandeDélai = makeAccorderDemandeDélai({
@@ -345,6 +346,7 @@ export const accorderDemandeDélai = makeAccorderDemandeDélai({
   demandeDélaiRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
   projectRepo,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const annulerRejetDélai = makeAnnulerRejetDélai({
