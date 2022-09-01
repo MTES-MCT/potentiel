@@ -68,17 +68,7 @@ v1Router.post(
           ...(justification && { justification }),
           nouveauProducteur: producteur,
           ...(email && { email }),
-        }).map(() => ({ projetId, email, user }))
-      })
-      .andThen(({ projetId, email, user }) => {
-        if (email) {
-          return inviteUserToProject({
-            email: email.toLowerCase(),
-            projectIds: [projetId],
-            invitedBy: user,
-          }).map(() => projetId)
-        }
-        return okAsync(projetId)
+        }).map(() => projetId)
       })
       .match(
         (projetId) => {

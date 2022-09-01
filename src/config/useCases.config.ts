@@ -219,6 +219,7 @@ export const changerProducteur = makeChangerProducteur({
   projectRepo,
   fileRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
+  getUserByEmail,
 })
 
 export const requestFournisseurModification = makeRequestFournisseursModification({

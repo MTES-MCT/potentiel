@@ -7,6 +7,8 @@ import { UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { AppelOffreRepo } from '@dataAccess'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
+import { GetUserByEmail } from '@modules/users/queries'
+import { UserInvitedToProject } from '@modules/authZ'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
@@ -14,6 +16,7 @@ type ChangerProducteurDeps = {
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
   findAppelOffreById: AppelOffreRepo['findById']
+  getUserByEmail: GetUserByEmail
 }
 
 type ChangerProducteurArgs = {
@@ -32,8 +35,16 @@ export const makeChangerProducteur =
     projectRepo,
     fileRepo,
     findAppelOffreById,
+    getUserByEmail,
   }: ChangerProducteurDeps) =>
-  ({ projetId, porteur, nouveauProducteur, justification, fichier }: ChangerProducteurArgs) => {
+  ({
+    projetId,
+    porteur,
+    nouveauProducteur,
+    justification,
+    fichier,
+    email,
+  }: ChangerProducteurArgs) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur })).andThen(
       (utilisateurALesDroits) => {
         if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
@@ -76,6 +87,25 @@ export const makeChangerProducteur =
                   },
                 })
               )
+            })
+            .andThen(() => {
+              if (email) {
+                return getUserByEmail(email).andThen((nouveauPorteurOuNull) => {
+                  if (nouveauPorteurOuNull) {
+                    return eventBus.publish(
+                      new UserInvitedToProject({
+                        payload: {
+                          userId: nouveauPorteurOuNull.id,
+                          projectIds: [projetId],
+                          invitedBy: porteur.id,
+                        },
+                      })
+                    )
+                  }
+                  return okAsync(null)
+                })
+              }
+              return okAsync(null)
             })
         })
       }
