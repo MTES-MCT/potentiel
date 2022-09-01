@@ -28,7 +28,7 @@ type ChangerProducteurProps = {
 
 export const ChangerProducteur = PageLayout(
   ({ request, project, cahiersChargesURLs }: ChangerProducteurProps) => {
-    const { action, error, success, justification } = (request.query as any) || {}
+    const { error, success, justification } = (request.query as any) || {}
 
     const { appelOffre } = project
     const isEolien = appelOffre?.type === 'eolien'

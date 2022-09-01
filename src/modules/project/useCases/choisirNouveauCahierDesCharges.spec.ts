@@ -61,7 +61,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
 
   describe(`Impossible de souscrire deux fois au CDC`, () => {
     describe(`Etant donné un utlisateur ayant les droits sur un projet`, () => {
-      it(`Lorsqu'il souscrit une seconde dois au nouveau CDC, 
+      it(`Lorsqu'il souscrit une seconde fois au nouveau CDC, 
       alors une erreur NouveauCahierDesChargesDéjàSouscrit devrait être retournée`, async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
 

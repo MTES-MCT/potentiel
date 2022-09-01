@@ -26,10 +26,14 @@ type ChangerProducteurArgs = {
 }
 
 export const makeChangerProducteur =
-  (deps: ChangerProducteurDeps) => (args: ChangerProducteurArgs) => {
-    const { projetId, porteur, nouveauProducteur, justification, fichier } = args
-    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo, findAppelOffreById } = deps
-
+  ({
+    eventBus,
+    shouldUserAccessProject,
+    projectRepo,
+    fileRepo,
+    findAppelOffreById,
+  }: ChangerProducteurDeps) =>
+  ({ projetId, porteur, nouveauProducteur, justification, fichier }: ChangerProducteurArgs) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur })).andThen(
       (utilisateurALesDroits) => {
         if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
