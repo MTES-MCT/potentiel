@@ -32,7 +32,6 @@ export default ProjectEventProjector.on(DélaiAccordé, async (evenement, transa
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
-          //@ts-ignore
           ...projectEvent.payload,
           statut: 'accordée',
           accordéPar,

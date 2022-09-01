@@ -41,7 +41,6 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
       valueDate: rawRequestedOn.requestedOn,
       eventPublishedAt: rawRequestedOn.requestedOn,
       payload: {
-        // @ts-ignore
         ...demandeDélaiInstance.payload,
         statut: 'envoyée',
         rejetéPar: null,

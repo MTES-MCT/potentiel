@@ -25,7 +25,6 @@ export default ProjectEventProjector.on(DélaiEnInstruction, async (évènement,
     valueDate: occurredAt.getTime(),
     eventPublishedAt: occurredAt.getTime(),
     payload: {
-      // @ts-ignore
       ...instance.payload,
       statut: 'en-instruction',
       modifiéPar,

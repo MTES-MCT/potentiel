@@ -25,7 +25,6 @@ export default ProjectEventProjector.on(DélaiRejeté, async (évènement, trans
     valueDate: occurredAt.getTime(),
     eventPublishedAt: occurredAt.getTime(),
     payload: {
-      // @ts-ignore
       ...instance.payload,
       statut: 'rejetée',
       rejetéPar,
