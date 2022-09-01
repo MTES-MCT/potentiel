@@ -1,11 +1,9 @@
-import { AggregateFromHistoryFn } from '.'
+import { AggregateFromHistoryFn, ok, Result } from '.'
 import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../domain'
-import { ok, okAsync, Result } from '../utils'
 import {
   EntityAlreadyExistsError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-  InfraNotAvailableError,
 } from '@modules/shared'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import { makeEventStoreTransactionalRepo } from './makeEventStoreTransactionalRepo'

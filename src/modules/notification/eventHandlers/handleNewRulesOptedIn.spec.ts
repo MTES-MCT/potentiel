@@ -1,7 +1,6 @@
 import { NotificationArgs } from '..'
 import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import { Some, UnwrapForTest } from '../../../types'
+import { Some } from '../../../types'
 import { ProjectNewRulesOptedIn } from '../../project'
 import { handleNewRulesOptedIn } from './handleNewRulesOptedIn'
 import makeFakeProject from '../../../__tests__/fixtures/project'

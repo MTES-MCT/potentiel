@@ -1,5 +1,4 @@
-import { GenerateCertificate } from '..'
-import { ProjectCertificateObsolete } from '../../project'
+import { GenerateCertificate, ProjectCertificateObsolete } from '..'
 
 export const handleProjectCertificateObsolete =
   (deps: { generateCertificate: GenerateCertificate }) =>

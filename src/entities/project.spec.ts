@@ -1,4 +1,4 @@
-import { buildApplyProjectUpdate, Project } from './'
+import { buildApplyProjectUpdate, Project } from '.'
 
 describe('Project entity', () => {
   describe('applyProjectUpdate', () => {

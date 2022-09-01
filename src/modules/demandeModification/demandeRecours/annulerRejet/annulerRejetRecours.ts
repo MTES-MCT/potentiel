@@ -1,5 +1,5 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, ResultAsync } from '@core/utils'
 import { User } from '@entities'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'

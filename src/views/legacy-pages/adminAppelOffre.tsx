@@ -2,7 +2,6 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
-import ROUTES from '@routes'
 import { AdminDashboard, Button } from '@components'
 
 type AdminAppelOffreProps = {
@@ -37,7 +36,7 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
 
         <div className="panel__header">
           <form
-            action={ROUTES.IMPORT_AO_ACTION}
+            action={routes.IMPORT_AO_ACTION}
             method="post"
             encType="multipart/form-data"
             style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
@@ -57,7 +56,7 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
         </div>
 
         <form
-          action={ROUTES.IMPORT_PERIODE_ACTION}
+          action={routes.IMPORT_PERIODE_ACTION}
           method="post"
           encType="multipart/form-data"
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}

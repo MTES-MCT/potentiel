@@ -1,11 +1,10 @@
-import { getFailedNotificationDetails } from '@config'
+import { getFailedNotificationDetails, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { NotificationListPage } from '@views/legacy-pages'
-import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 const defaultPagination: Pagination = {

@@ -2,8 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { SuccessErrorBox } from '../components'
-import { AdminDashboard, PageLayout, SecondaryButton } from '@components'
+import { SuccessErrorBox, AdminDashboard, PageLayout, SecondaryButton } from '../components'
 
 type ImporterListingEnedisProps = {
   request: Request

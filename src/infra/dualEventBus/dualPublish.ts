@@ -1,5 +1,4 @@
-import { EventBus } from '@core/domain'
-import { DomainEvent } from '@core/domain'
+import { EventBus, DomainEvent } from '@core/domain'
 
 type MakeDualPublishDeps = {
   redisPublish: EventBus['publish']

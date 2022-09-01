@@ -7,7 +7,7 @@ import { InfraNotAvailableError } from '../../shared'
 import { PeriodeNotified } from '../events'
 import { Project } from '../Project'
 import { UnnotifiedProjectDTO } from '../queries'
-import { handlePeriodeNotified } from './'
+import { handlePeriodeNotified } from '.'
 
 describe('handlePeriodeNotified', () => {
   const getUnnotifiedProjectsForPeriode = jest.fn((appelOffreId: string, periodeId: string) =>

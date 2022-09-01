@@ -7,7 +7,7 @@ import {
   ConfirmationRequested,
   ModificationRequestConfirmed,
 } from './events'
-import { StatusPreventsConfirmationError, TypePreventsConfirmationError } from './errors'
+import { StatusPreventsConfirmationError } from './errors'
 import { makeModificationRequest } from './ModificationRequest'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import { UnwrapForTest } from '@core/utils'

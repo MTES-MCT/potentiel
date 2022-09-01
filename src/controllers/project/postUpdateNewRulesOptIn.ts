@@ -1,5 +1,5 @@
 import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
-import { logger } from '@core/utils'
+import { logger, ok } from '@core/utils'
 import asyncHandler from '../helpers/asyncHandler'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -11,8 +11,7 @@ import {
 } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
-import { ok } from '@core/utils'
-import { NouveauCahierDesChargesDéjàSouscrit } from '../../modules/project/errors/NouveauCahierDesChargesDéjàSouscrit'
+import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
 
 v1Router.post(
   routes.CHANGER_CDC,

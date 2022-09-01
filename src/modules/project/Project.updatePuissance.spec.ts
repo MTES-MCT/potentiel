@@ -2,19 +2,11 @@ import { UniqueEntityID } from '@core/domain'
 import { UnwrapForTest } from '@core/utils'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { makeUser } from '@entities'
-import moment from 'moment'
 import { UnwrapForTest as OldUnwrapForTest } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import {
-  LegacyProjectSourced,
-  ProjectGFDueDateSet,
-  ProjectGFInvalidated,
-  ProjectGFSubmitted,
-  ProjectGFSubmittedPayload,
-  ProjectPuissanceUpdated,
-} from './events'
+import { LegacyProjectSourced, ProjectPuissanceUpdated } from './events'
 import { makeProject } from './Project'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 

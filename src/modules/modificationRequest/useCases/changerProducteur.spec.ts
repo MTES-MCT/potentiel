@@ -1,6 +1,6 @@
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { makeUser, User } from '@entities'
+import { makeUser, User, AppelOffre } from '@entities'
 import { Readable } from 'stream'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
@@ -9,11 +9,9 @@ import { FileObject } from '../../file'
 import { Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { makeChangerProducteur } from './changerProducteur'
-import { AppelOffre } from '@entities'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { ModificationReceived } from '../events'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
-import { UserInvitedToProject } from '../../authZ'
 
 describe('Commande changerProducteur', () => {
   const shouldUserAccessProject = jest.fn(async () => true)

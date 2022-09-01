@@ -1,5 +1,4 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { EventStoreAggregate } from '@core/domain'
+import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain'
 import { err, ok, Result } from '@core/utils'
 import {
   ProjectCertificateGenerated,

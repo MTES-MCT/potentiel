@@ -1,4 +1,4 @@
-import { DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
+import { DomainError, UniqueEntityID } from '@core/domain'
 import { String } from 'aws-sdk/clients/cloudsearch'
 
 type IllegalInitialStateForAggregateErrorDetails = {

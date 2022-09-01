@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk'
-import { wrapInfra } from '@core/utils'
-import { err, ok, okAsync, Result } from '@core/utils'
+import { wrapInfra, err, ok, okAsync, Result } from '@core/utils'
 import { FileStorageService } from '@modules/file'
 
 class WrongIdentifierFormat extends Error {

@@ -1,5 +1,5 @@
 import { DomainEvent, EventStore, EventStoreAggregate, Repository, UniqueEntityID } from '../domain'
-import { err, errAsync, ok, okAsync, Result, ResultAsync } from '../utils'
+import { errAsync, okAsync, Result, ResultAsync } from '.'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,

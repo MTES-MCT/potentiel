@@ -1,7 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
-import { err, errAsync, ok, wrapInfra } from '@core/utils'
+import { err, ok, wrapInfra } from '@core/utils'
 import { FileNotFoundError, GetFileProject } from '@modules/file'
-import { InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 
 const { File } = models

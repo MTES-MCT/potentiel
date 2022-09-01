@@ -5,8 +5,7 @@ import { makeProjectRepo, getFullTextSearchOptions } from './project'
 import { makeModificationRequestRepo } from './modificationRequest'
 import { logger } from '@core/utils'
 
-import { appelOffreRepo } from '../inMemory/appelOffre'
-import { appelsOffreStatic } from '../inMemory/appelOffre'
+import { appelOffreRepo, appelsOffreStatic } from '../inMemory/appelOffre'
 import truncateAllTables from './helpers/truncateTables'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
 

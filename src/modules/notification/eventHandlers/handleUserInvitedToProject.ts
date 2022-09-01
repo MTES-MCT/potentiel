@@ -1,5 +1,4 @@
 import { NotificationService } from '..'
-import moment from 'moment'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import routes from '@routes'
 import { UserInvitedToProject } from '../../authZ'

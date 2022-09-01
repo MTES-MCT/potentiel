@@ -1,7 +1,6 @@
 import { LegacyCandidateNotified } from '.'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { EventStoreAggregate } from '@core/domain'
 import { EntityNotFoundError } from '../shared'
 import { HeterogeneousHistoryError } from '../shared/errors'
 

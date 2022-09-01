@@ -2,7 +2,6 @@ import React from 'react'
 
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeRequest from '../../__tests__/fixtures/request'
-import makeFakeUser from '../../__tests__/fixtures/user'
 
 import AdminNotifyCandidates from './adminNotifyCandidates'
 

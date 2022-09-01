@@ -1,6 +1,6 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { logger, wrapInfra, ResultAsync, err } from '@core/utils'
+import { logger, wrapInfra, ResultAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'

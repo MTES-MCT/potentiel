@@ -1,6 +1,6 @@
 import { okAsync } from '@core/utils'
 import { AbandonAccordé } from '@modules/demandeModification'
-import { makeOnAbandonAccordé } from '../demandeAbandon'
+import { makeOnAbandonAccordé } from '.'
 
 describe(`Notifier lorsqu'un abandon est accordé`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {

@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, Periode, ProjectAppelOffre } from '@entities'
+import { AppelOffre, Famille, Periode } from '@entities'
 import { makeGetProjectAppelOffre } from './getProjectAppelOffre'
 
 describe(`getProjectAppelOffre`, () => {

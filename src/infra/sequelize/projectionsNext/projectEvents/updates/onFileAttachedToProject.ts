@@ -1,4 +1,3 @@
-import { Payload } from 'aws-sdk/clients/iotdata'
 import { FileAttachedToProject } from '../../../../../modules/file'
 import models from '../../../models'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'

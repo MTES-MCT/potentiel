@@ -4,9 +4,13 @@ import { annulerRejetRecours, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
 import routes from '../../routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import {
+  errorResponse,
+  notFoundResponse,
+  unauthorizedResponse,
+  validateRequestBodyForErrorArray,
+} from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
-import { validateRequestBodyForErrorArray } from '../helpers'
 import { v1Router } from '../v1Router'
 
 const requestBodySchema = yup.object({

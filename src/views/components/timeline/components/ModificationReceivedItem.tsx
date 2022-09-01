@@ -1,6 +1,6 @@
 import { Link } from '@components'
 import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
+import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.'
 import { ModificationReceivedItemProps } from '../helpers'
 export const ModificationReceivedItem = (props: ModificationReceivedItemProps) => {
   const { date } = props

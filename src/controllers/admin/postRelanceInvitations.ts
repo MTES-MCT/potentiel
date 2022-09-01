@@ -1,8 +1,7 @@
-import { relanceInvitation } from '@config'
+import { relanceInvitation, ensureRole } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '@routes'
-import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 
 v1Router.post(

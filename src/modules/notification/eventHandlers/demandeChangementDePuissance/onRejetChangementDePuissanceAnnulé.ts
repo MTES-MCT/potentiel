@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
 import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
-import { NotifierPorteurChangementStatutDemande } from '../../'
+import { NotifierPorteurChangementStatutDemande } from '../..'
 type OnRejetChangementDePuissanceAnnulé = (
   evenement: RejetChangementDePuissanceAnnulé
 ) => Promise<void>
