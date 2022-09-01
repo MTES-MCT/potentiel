@@ -13,6 +13,7 @@ import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNoti
 import * as DemandeRecoursModificationEvents from '@modules/demandeModification/demandeRecours/events'
 import * as DemandeDélaiEvents from '@modules/demandeModification/demandeDélai/events'
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events'
+import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events'
 import { RedisMessage } from './RedisMessage'
 
 interface EventProps {
@@ -43,6 +44,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeRecoursModificationEvents,
   ...DemandeDélaiEvents,
   ...DemandeAbandonEvents,
+  ...DemandeChangementDePuissanceEvents,
 }
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {

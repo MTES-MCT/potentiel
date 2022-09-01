@@ -30,6 +30,8 @@ function getAdminAnulerRejetDemandeRoute({ type, id }) {
       return ROUTES.ADMIN_ANNULER_RECOURS_REJETE({
         modificationRequestId: id,
       })
+    case 'puissance':
+      return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE
     default:
       return
   }
@@ -49,7 +51,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
   const afficherBoutonAnnulerRejet =
     (['admin', 'dgec-validateur'].includes(role) ||
       (role === 'dreal' && authority && authority === role)) &&
-    ['delai', 'recours'].includes(type) &&
+    ['delai', 'recours', 'puissance'].includes(type) &&
     status === 'rejetée'
 
   return (
@@ -74,7 +76,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           <SecondaryButton
             type="submit"
             value={modificationRequest.id}
-            name="modificationRequestId"
+            name={type === 'puissance' ? 'demandeChangementDePuissanceId' : 'modificationRequestId'}
             onClick={(e) => {
               if (
                 !confirm(

@@ -9,6 +9,7 @@ import {
   DélaiRejeté,
   RejetDélaiAnnulé,
   RejetRecoursAnnulé,
+  RejetChangementDePuissanceAnnulé,
   AbandonDemandé,
   AbandonAccordé,
   AbandonRejeté,
@@ -43,6 +44,7 @@ import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
 import { onRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
 import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé'
+import { onRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé'
 import {
   onAbandonRejeté,
   onAbandonDemandé,
@@ -79,6 +81,10 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
 
   eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé(models))
+  eventBus.subscribe(
+    RejetChangementDePuissanceAnnulé.type,
+    onRejetChangementDePuissanceAnnulé(models)
+  )
   eventBus.subscribe(AbandonDemandé.type, onAbandonDemandé(models))
   eventBus.subscribe(AbandonAnnulé.type, onAbandonAnnulé(models))
   eventBus.subscribe(AbandonConfirmé.type, onAbandonConfirmé(models))

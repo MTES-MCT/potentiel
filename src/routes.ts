@@ -150,6 +150,9 @@ class routes {
     } else return route
   }
 
+  static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
+    '/admin/demande/annuler-rejet-demande-changement-de-puissance'
+
   static ADMIN_DREAL_LIST = '/admin/dreals.html'
   static ADMIN_INVITATION_LIST = '/admin/invitations.html'
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations'
