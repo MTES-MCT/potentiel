@@ -1,6 +1,6 @@
 import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { makeUser, User , AppelOffre } from '@entities'
+import { makeUser, User, AppelOffre } from '@entities'
 import { Readable } from 'stream'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
