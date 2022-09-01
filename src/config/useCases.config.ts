@@ -16,6 +16,7 @@ import {
   makeRejeterDemandeAbandon,
   makeDemanderConfirmationAbandon,
   makeConfirmerDemandeAbandon,
+  makeAnnulerRejetAbandon,
 } from '@modules/demandeModification/demandeAbandon'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
@@ -88,6 +89,8 @@ import {
   projectRepo,
   userRepo,
 } from './repos.config'
+import { sendNotification } from '@config/emails.config'
+import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -398,4 +401,13 @@ export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
   fileRepo,
   demandeAbandonRepo,
   publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const annulerRejetAbandon = makeAnnulerRejetAbandon({
+  demandeAbandonRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
+  sendNotification,
 })

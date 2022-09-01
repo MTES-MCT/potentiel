@@ -6,6 +6,7 @@ import {
   AbandonDemandé,
   AbandonRejeté,
   ConfirmationAbandonDemandée,
+  RejetAbandonAnnulé,
 } from '@modules/demandeModification'
 import {
   makeOnAbandonAccordé,
@@ -14,12 +15,14 @@ import {
   makeOnAbandonDemandé,
   makeOnConfirmationAbandonDemandée,
   makeOnAbandonConfirmé,
+  makeOnRejetAbandonAnnulé,
 } from '@modules/notification'
-import { notifierPorteurChangementStatutDemande, sendNotification } from '../../emails.config'
+import { sendNotification } from '../../emails.config'
 import {
   getModificationRequestInfoForStatusNotification,
   getModificationRequestInfoForConfirmedNotification,
 } from '../../queries.config'
+import { notifierPorteurChangementStatutDemande } from '@config/useCases.config'
 
 if (!process.env.DGEC_EMAIL) {
   console.error('ERROR: DGEC_EMAIL is not set')
@@ -72,5 +75,13 @@ notificationEventSubscriber(
   makeOnAbandonConfirmé({
     sendNotification,
     getModificationRequestInfoForConfirmedNotification,
+  })
+)
+
+notificationEventSubscriber(
+  RejetAbandonAnnulé,
+  makeOnRejetAbandonAnnulé({
+    notifierPorteurChangementStatutDemande,
+    getModificationRequestInfoForStatusNotification,
   })
 )

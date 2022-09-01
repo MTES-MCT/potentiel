@@ -11,7 +11,7 @@ export type DemandeAbandonEventStatus =
 export type DemandeAbandonEvent = ProjectEvent & {
   type: 'DemandeAbandon'
   payload: {
-    autorité: 'dgec' | 'dreal'
+    autorité: 'dgec'
     statut: DemandeAbandonEventStatus
   }
 }

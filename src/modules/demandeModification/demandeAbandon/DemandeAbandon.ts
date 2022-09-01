@@ -8,6 +8,7 @@ import {
   AbandonAccordé,
   AbandonRejeté,
   ConfirmationAbandonDemandée,
+  RejetAbandonAnnulé,
 } from './events'
 
 export const statutsDemandeAbandon = [
@@ -62,6 +63,8 @@ export const makeDemandeAbandon = (
         return { ...agregat, statut: 'refusée' }
       case ConfirmationAbandonDemandée.type:
         return { ...agregat, statut: 'en attente de confirmation' }
+      case RejetAbandonAnnulé.type:
+        return { ...agregat, statut: 'envoyée' }
       default:
         return agregat
     }
