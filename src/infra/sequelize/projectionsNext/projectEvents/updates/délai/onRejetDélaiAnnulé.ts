@@ -1,10 +1,13 @@
 import { logger } from '@core/utils'
 import { RejetDélaiAnnulé } from '@modules/demandeModification'
-import models from '../../../models'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectionEnEchec } from '@modules/shared'
+import models from '../../../../models'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 
-export default ProjectEventProjector.on(RejetDélaiAnnulé, async ({ payload }, transaction) => {
-  const { demandeDélaiId } = payload
+export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, transaction) => {
+  const {
+    payload: { demandeDélaiId },
+  } = évènement
 
   // recherche d'un événement de type DemandeDélai associé à la demande
   const demandeDélaiInstance = await ProjectEvent.findOne({
@@ -23,17 +26,21 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async ({ payload }, 
 
     if (!rawRequestedOn) {
       logger.error(
-        new Error(
-          `Erreur: impossible de trouver la modificationRequest (id = ${demandeDélaiId}) depuis onRejetDemandeDélaiAnnulé)`
+        new ProjectionEnEchec(
+          `Impossible de trouver la modificationRequest depuis onRejetDemandeDélaiAnnulé`,
+          {
+            evenement: évènement,
+            nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
+          }
         )
       )
+      return
     }
 
     Object.assign(demandeDélaiInstance, {
       valueDate: rawRequestedOn.requestedOn,
       eventPublishedAt: rawRequestedOn.requestedOn,
       payload: {
-        // @ts-ignore
         ...demandeDélaiInstance.payload,
         statut: 'envoyée',
         rejetéPar: null,
@@ -43,9 +50,15 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async ({ payload }, 
     try {
       await demandeDélaiInstance.save({ transaction })
     } catch (e) {
-      logger.error(e)
-      logger.info(
-        `Error: onRejetDemandeDélaiAnnulé n'a pas pu enregistrer la mise à jour de la demande ref ${demandeDélaiId}.`
+      logger.error(
+        new ProjectionEnEchec(
+          `Impossible d'enregistrer la mise à jour de la demande depuis onRejetDemandeDélaiAnnulé`,
+          {
+            evenement: évènement,
+            nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
+          },
+          e
+        )
       )
     }
     return
@@ -62,11 +75,17 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async ({ payload }, 
       transaction,
     })
   } catch (e) {
-    logger.error(e)
-    logger.info(
-      `Error: onRejetDemandeDélaiAnnulé n'a pas supprimer l'événement de type
-        "ModificationRequestRejected" pour la demande id ${demandeDélaiId}.`
+    logger.error(
+      new ProjectionEnEchec(
+        `Impossible de supprimer l'évènement de type "ModificationRequestRejected" depuis onRejetDemandeDélaiAnnulé`,
+        {
+          evenement: évènement,
+          nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
+        },
+        e
+      )
     )
+    return
   }
 
   try {
@@ -78,12 +97,15 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async ({ payload }, 
       transaction,
     })
   } catch (e) {
-    logger.error(e)
-    logger.info(
-      `Error: onRejetDemandeDélaiAnnulé n'a pas supprimer l'événement de type
-        "ModificationRequestInstructionStarted" pour la demande id ${demandeDélaiId}.`
+    logger.error(
+      new ProjectionEnEchec(
+        `Impossible de supprimer l'évènement de type "ModificationRequestInstructionStarted" depuis onRejetDemandeDélaiAnnulé`,
+        {
+          evenement: évènement,
+          nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
+        },
+        e
+      )
     )
   }
-
-  return
 })

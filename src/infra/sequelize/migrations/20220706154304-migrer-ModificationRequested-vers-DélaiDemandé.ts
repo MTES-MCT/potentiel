@@ -4,7 +4,7 @@ import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 import { ProjectEvent } from '../projectionsNext'
-import onDélaiDemandé from '../projectionsNext/projectEvents/updates/onDélaiDemandé'
+import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé'
 
 export default {
   up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
