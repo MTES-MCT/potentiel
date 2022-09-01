@@ -32,7 +32,7 @@ import {
   makeRequestActionnaireModification,
   makeRequestConfirmation,
   makeRequestFournisseursModification,
-  makeRequestProducteurModification,
+  makeChangerProducteur,
   makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
 } from '@modules/modificationRequest'
@@ -50,7 +50,7 @@ import {
   makeSubmitDCR,
   makeSubmitGF,
   makeSubmitPTF,
-  makeUpdateNewRulesOptIn,
+  makeChoisirNouveauCahierDesCharges,
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
@@ -213,11 +213,13 @@ export const requestActionnaireModification = makeRequestActionnaireModification
   getProjectAppelOffreId,
 })
 
-export const requestProducteurModification = makeRequestProducteurModification({
+export const changerProducteur = makeChangerProducteur({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   fileRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
+  getUserByEmail,
 })
 
 export const requestFournisseurModification = makeRequestFournisseursModification({
@@ -266,10 +268,11 @@ export const cancelModificationRequest = makeCancelModificationRequest({
   modificationRequestRepo,
 })
 
-export const updateNewRulesOptIn = makeUpdateNewRulesOptIn({
+export const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  findAppelOffreById: oldAppelOffreRepo.findById,
 })
 
 export const importProjects = makeImportProjects({

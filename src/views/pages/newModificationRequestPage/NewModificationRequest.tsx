@@ -18,10 +18,8 @@ import {
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
-  DemandeAbandon,
   ChangementActionnaire,
   ChangementFournisseur,
-  ChangementProducteur,
   ChangementPuissance,
   DemandeRecours,
 } from './components'
@@ -92,13 +90,9 @@ export const NewModificationRequest = PageLayout(
                   {action === 'fournisseur' && (
                     <ChangementFournisseur {...{ project, justification }} />
                   )}
-                  {action === 'producteur' && (
-                    <ChangementProducteur {...{ project, justification }} />
-                  )}
                   {action === 'actionnaire' && (
                     <ChangementActionnaire {...{ project, actionnaire, justification }} />
                   )}
-                  {action === 'abandon' && <DemandeAbandon {...{ justification }} />}
                   {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
                   <Button

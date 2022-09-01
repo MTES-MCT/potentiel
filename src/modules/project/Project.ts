@@ -34,6 +34,7 @@ import {
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
+  ChangementProducteurImpossiblePourEolienError,
 } from './errors'
 import {
   AppelOffreProjetModifié,
@@ -661,6 +662,10 @@ export const makeProject = (args: {
     updateProducteur: function (user, newProducteur) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+      }
+
+      if (props.appelOffre?.type === 'eolien') {
+        return err(new ChangementProducteurImpossiblePourEolienError())
       }
 
       _publishEvent(

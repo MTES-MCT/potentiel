@@ -25,13 +25,6 @@ export const Fournisseur = () => (
   />
 )
 
-export const Délais = () => (
-  <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'delai' } })}
-    project={makeFakeProject()}
-  />
-)
-
 export const Actionnaire = () => (
   <NewModificationRequest
     request={makeFakeRequest({ query: { action: 'actionnaire' } })}
@@ -54,13 +47,6 @@ export const PuissanceMaxVolumeReserve1MW = () => (
       puissance: 0.6,
       puissanceInitiale: 0.6,
     })}
-  />
-)
-
-export const Abandon = () => (
-  <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'abandon' } })}
-    project={makeFakeProject()}
   />
 )
 

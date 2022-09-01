@@ -8,7 +8,7 @@ import { errorResponse, notFoundResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
-const ACTIONS = ['actionnaire', 'puissance', 'producteur', 'abandon', 'recours', 'fournisseur']
+const ACTIONS = ['actionnaire', 'puissance', 'recours', 'fournisseur']
 
 v1Router.get(
   routes.DEMANDE_GENERIQUE,

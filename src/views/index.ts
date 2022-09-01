@@ -21,9 +21,10 @@ import {
   Signup,
   Statistiques,
   UploadLegacyModificationFiles,
+  ChangerProducteur,
+  DemanderAbandon,
+  DemandeAbandon,
 } from './pages'
-import { DemanderAbandon } from './pages/demanderAbandonPage'
-import { DemandeAbandon } from './pages/demandeAbandonPage'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
@@ -99,6 +100,14 @@ export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]
     props,
     hydrate: true,
     pageName: 'demanderAbandon',
+  })
+
+export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur>[0]) =>
+  makeHtml({
+    Component: ChangerProducteur,
+    props,
+    hydrate: true,
+    pageName: 'changerProducteur',
   })
 
 export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) =>
