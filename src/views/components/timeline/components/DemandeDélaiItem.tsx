@@ -47,7 +47,6 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
           <ItemTitle title={titre} />
           <p className="p-0 m-0">
             {statut !== 'accordée' ? <DélaiDemandé {...props} /> : <DélaiAccordé {...props} />}
-            <br />
             {demandeUrl && <Link href={demandeUrl}>Voir la demande</Link>}
           </p>
         </>
@@ -70,7 +69,10 @@ const DélaiDemandé = (
 
 const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) =>
   props.délaiEnMoisAccordé ? (
-    <>Délai accordé : {props.délaiEnMoisAccordé} mois</>
+    <>
+      Délai accordé : {props.délaiEnMoisAccordé} mois
+      <br />
+    </>
   ) : props.ancienneDateThéoriqueAchèvement ? (
     <>
       Ancienne date limite d'achèvement :{' '}
@@ -78,5 +80,6 @@ const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' })
       <br />
       Nouvelle date limite d'achèvement :{' '}
       {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
+      <br />
     </>
   ) : null
