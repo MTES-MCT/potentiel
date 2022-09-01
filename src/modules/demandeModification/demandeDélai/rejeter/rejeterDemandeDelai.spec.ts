@@ -4,7 +4,7 @@ import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { User } from '@entities'
 import { UserRole } from '@modules/users'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 
 import { StatutDemandeDélai } from '../DemandeDélai'
 import { makeRejeterDemandeDélai } from './rejeterDemandeDélai'
@@ -13,7 +13,6 @@ import {
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates'
-import { UnauthorizedError } from '../../../shared'
 import { RejeterDemandeDélaiError } from './RejeterDemandeDélaiError'
 
 describe(`Rejeter une demande de délai`, () => {

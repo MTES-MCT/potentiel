@@ -1,6 +1,6 @@
 import { okAsync } from '@core/utils'
 import { DomainEvent } from '@core/domain'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import {
   fakeTransactionalRepo,
   makeFakeDemandeDélai,
@@ -10,7 +10,6 @@ import { StatutDemandeDélai } from '../DemandeDélai'
 import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { UnauthorizedError } from '../../../shared'
 import { StatusPreventsCancellingError } from '@modules/modificationRequest'
 
 describe(`Commande annuler demande délai`, () => {

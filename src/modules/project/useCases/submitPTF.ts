@@ -1,5 +1,5 @@
 import { TransactionalRepository, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, ResultAsync, wrapInfra, okAsync } from '@core/utils'
+import { errAsync, logger, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'

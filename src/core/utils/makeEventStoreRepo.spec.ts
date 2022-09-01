@@ -1,11 +1,10 @@
 import { DomainEvent, UniqueEntityID, EventStore, BaseDomainEvent } from '../domain'
-import { ok, okAsync } from '.'
+import { ok } from '.'
 import { makeFakeEventStore } from '../../__tests__/fixtures/aggregates'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-  InfraNotAvailableError,
 } from '@modules/shared'
 import { makeEventStoreRepo } from './makeEventStoreRepo'
 

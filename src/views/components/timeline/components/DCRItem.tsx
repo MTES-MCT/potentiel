@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '../components'
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import ROUTES from '@routes'
 import {
   Button,
@@ -8,12 +8,12 @@ import {
   SecondaryButton,
   DownloadLink,
   Link,
-} from '../../'
-import { WarningItem } from '../components/WarningItem'
+  Dropdown,
+} from '../..'
+import { WarningItem } from './WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
 import { Input } from '../../inputs'
-import { Dropdown } from '@components'
 import { format } from 'date-fns'
 
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {

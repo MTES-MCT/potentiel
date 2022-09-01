@@ -1,11 +1,10 @@
 import moment from 'moment-timezone'
 import { v4 as uuid } from 'uuid'
-import { eventStore } from '@config'
+import { eventStore, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { PeriodeNotified } from '@modules/project'
 import routes from '@routes'
-import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import asyncHandler from '../helpers/asyncHandler'
 

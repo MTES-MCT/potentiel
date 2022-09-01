@@ -1,6 +1,6 @@
 import { Readable } from 'stream'
 import { okAsync } from '@core/utils'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { UniqueEntityID } from '@core/domain'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import {
   fakeRepo,

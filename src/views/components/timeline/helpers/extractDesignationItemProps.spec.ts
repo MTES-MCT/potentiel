@@ -6,7 +6,6 @@ import {
   ProjectClaimedDTO,
   ProjectEventDTO,
   ProjectImportedDTO,
-  ProjectNotificationDateSetDTO,
   ProjectNotifiedDTO,
   ProjectStatus,
 } from '@modules/frise'

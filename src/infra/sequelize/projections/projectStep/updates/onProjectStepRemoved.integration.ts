@@ -1,10 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import {
-  ProjectDCRRemoved,
-  ProjectGFRemoved,
-  ProjectGFWithdrawn,
-  ProjectPTFRemoved,
-} from '@modules/project'
+import { ProjectGFRemoved, ProjectGFWithdrawn, ProjectPTFRemoved } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectStepRemoved } from './onProjectStepRemoved'

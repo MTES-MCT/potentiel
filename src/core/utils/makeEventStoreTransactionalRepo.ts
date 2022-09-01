@@ -4,8 +4,8 @@ import {
   UniqueEntityID,
   EventStore,
   EventStoreAggregate,
-} from '..//domain'
-import { err, Result, ResultAsync, unwrapResultOfResult } from '..//utils'
+} from '../domain'
+import { err, Result, ResultAsync } from '.'
 import {
   EntityNotFoundError,
   EntityAlreadyExistsError,

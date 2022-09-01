@@ -1,4 +1,4 @@
-import { makeModificationRequest } from './'
+import { makeModificationRequest } from '.'
 
 describe('ModificationRequest entity', () => {
   it("should accept an 'actionnaire' request with actionnaire and filename", () => {

@@ -2,7 +2,6 @@ import { okAsync } from 'neverthrow'
 import { DomainEvent } from '../../../core/domain'
 import {
   ListingEnedisImporté,
-  ContratEnedisMisAJour,
   ContratEnedisRapprochéAutomatiquement,
   ContratEnedisAvecPlusieursProjetsPossibles,
   ContratEnedisOrphelin,

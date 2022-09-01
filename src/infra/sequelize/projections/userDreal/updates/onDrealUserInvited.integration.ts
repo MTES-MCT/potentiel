@@ -1,5 +1,4 @@
 import { UniqueEntityID } from '@core/domain'
-import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'
 import { onDrealUserInvited } from './onDrealUserInvited'
 import { DrealUserInvited } from '@modules/authZ'

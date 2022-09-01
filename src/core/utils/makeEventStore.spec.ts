@@ -1,4 +1,4 @@
-import { errAsync, okAsync, ResultAsync } from 'neverthrow'
+import { errAsync, okAsync } from 'neverthrow'
 import { wrapInfra } from '.'
 import { InfraNotAvailableError } from '@modules/shared'
 import { BaseDomainEvent, DomainEvent, UniqueEntityID } from '../domain'

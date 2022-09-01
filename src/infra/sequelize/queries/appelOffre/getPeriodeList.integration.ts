@@ -1,6 +1,4 @@
 import { UniqueEntityID } from '@core/domain'
-import { FileNotFoundError } from '@modules/file'
-import { EntityNotFoundError } from '@modules/shared'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
 import { getPeriodeList } from './getPeriodeList'

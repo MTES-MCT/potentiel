@@ -1,5 +1,5 @@
 import { sequelizeInstance } from '../../../sequelize.config'
-import { makeSequelizeProjector, resetDatabase } from '../helpers'
+import { makeSequelizeProjector, resetDatabase } from '.'
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize'
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import { models } from '../models'

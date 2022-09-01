@@ -1,14 +1,13 @@
 import { ProjectDataForProjectClaim } from '.'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { DomainEvent, UniqueEntityID, EventStoreAggregate } from '@core/domain'
 import { err, ok, Result } from '@core/utils'
-import { EventStoreAggregate } from '@core/domain'
 import { EntityNotFoundError } from '../shared'
 import {
   ClaimerIdentityCheckHasFailedError,
   MissingAttestationDesignationError,
   ProjectHasAlreadyBeenClaimedError,
+  ProjectCannotBeClaimedByUserAnymoreError,
 } from './errors'
-import { ProjectCannotBeClaimedByUserAnymoreError } from './errors'
 import { ProjectClaimedByOwner, ProjectClaimFailed, ProjectClaimed } from './events'
 
 export interface ProjectClaim extends EventStoreAggregate {

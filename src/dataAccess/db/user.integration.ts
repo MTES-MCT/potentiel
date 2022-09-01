@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
-import { userRepo, projectRepo, resetDatabase } from './'
+import { userRepo, projectRepo, resetDatabase } from '.'
 import { sequelizeInstance } from '../../sequelize.config'
 
 describe('userRepo sequelizeInstance', () => {

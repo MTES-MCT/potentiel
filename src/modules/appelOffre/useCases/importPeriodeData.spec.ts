@@ -1,10 +1,10 @@
-import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
+import { Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
 import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../types'
 import { makeFakeAppelOffre } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
+import { EntityNotFoundError } from '../../shared'
 import { AppelOffre } from '../AppelOffre'
 import {
   AppelOffreDoesNotExistError,

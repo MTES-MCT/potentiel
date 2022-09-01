@@ -1,10 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import {
-  ProjectDCRSubmitted,
-  ProjectGFSubmitted,
-  ProjectGFUploaded,
-  ProjectPTFSubmitted,
-} from '@modules/project'
+import { ProjectGFSubmitted, ProjectGFUploaded, ProjectPTFSubmitted } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { onProjectStepSubmitted } from './onProjectStepSubmitted'

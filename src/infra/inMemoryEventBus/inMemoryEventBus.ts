@@ -1,7 +1,6 @@
 import EventEmitter from 'events'
 import { okAsync } from 'neverthrow'
-import { DomainEvent } from '@core/domain'
-import { EventBus } from '@core/domain'
+import { DomainEvent, EventBus } from '@core/domain'
 import { logger, Queue } from '@core/utils'
 
 type MakeInMemoryPublishDeps = {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Font, PDFViewer } from '@react-pdf/renderer'
-import { Periode, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import { ProjectDataForCertificate } from '@modules/project'
 import { makeLaureat } from './components/Laureat'
 import { Certificate } from './Certificate'
