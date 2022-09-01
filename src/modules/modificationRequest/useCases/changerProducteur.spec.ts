@@ -176,48 +176,4 @@ describe('Commande changerProducteur', () => {
       })
     })
   })
-
-  describe(`Invitation du nouveau producteur déjà inscrit sur Potentiel`, () => {
-    describe(`Etant donné un nouveau producteur déjà inscrit sur Potentiel`, () => {
-      it(`En cas de formulaire de changement de producteur envoyé avec son email, 
-      alors le nouveau producteur devrait être invité sur le projet`, async () => {
-        fakePublish.mockClear()
-        fileRepo.save.mockClear()
-
-        const nouveauPorteurId = new UniqueEntityID().toString()
-        const porteurAvecEmail: User = makeFakeUser({
-          id: nouveauPorteurId,
-          email: 'email nouveau producteur',
-        })
-        const getUserByEmail = jest.fn((email: string) =>
-          okAsync<User | null, InfraNotAvailableError>(porteurAvecEmail)
-        )
-
-        const changerProducteur = makeChangerProducteur({
-          projectRepo,
-          eventBus,
-          shouldUserAccessProject,
-          fileRepo: fileRepo as Repository<FileObject>,
-          findAppelOffreById,
-          getUserByEmail,
-        })
-
-        await changerProducteur({
-          projetId: fakeProject.id.toString(),
-          porteur: fakeUser,
-          nouveauProducteur: 'nom nouveau producteur',
-          email: 'email nouveau producteur',
-          fichier: { contents: fakeFileContents, filename: fakeFileName },
-        })
-
-        expect(eventBus.publish).toHaveBeenCalledTimes(2)
-        const modificationReceivedEvent = eventBus.publish.mock.calls[0][0]
-        expect(modificationReceivedEvent).toBeInstanceOf(ModificationReceived)
-
-        const userInvitedEvent = eventBus.publish.mock.calls[1][0]
-        expect(userInvitedEvent).toBeInstanceOf(UserInvitedToProject)
-        expect(userInvitedEvent.payload.userId).toEqual(nouveauPorteurId)
-      })
-    })
-  })
 })

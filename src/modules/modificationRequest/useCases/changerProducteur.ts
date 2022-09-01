@@ -8,7 +8,6 @@ import { ModificationReceived } from '../events'
 import { AppelOffreRepo } from '@dataAccess'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
 import { GetUserByEmail } from '@modules/users/queries'
-import { UserInvitedToProject } from '@modules/authZ'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
@@ -87,25 +86,6 @@ export const makeChangerProducteur =
                   },
                 })
               )
-            })
-            .andThen(() => {
-              if (email) {
-                return getUserByEmail(email).andThen((nouveauPorteurOuNull) => {
-                  if (nouveauPorteurOuNull) {
-                    return eventBus.publish(
-                      new UserInvitedToProject({
-                        payload: {
-                          userId: nouveauPorteurOuNull.id,
-                          projectIds: [projetId],
-                          invitedBy: porteur.id,
-                        },
-                      })
-                    )
-                  }
-                  return okAsync(null)
-                })
-              }
-              return okAsync(null)
             })
         })
       }

@@ -2,12 +2,7 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import * as yup from 'yup'
 
-import {
-  ensureRole,
-  changerProducteur,
-  choisirNouveauCahierDesCharges,
-  inviteUserToProject,
-} from '@config'
+import { ensureRole, changerProducteur, choisirNouveauCahierDesCharges } from '@config'
 import { logger, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
