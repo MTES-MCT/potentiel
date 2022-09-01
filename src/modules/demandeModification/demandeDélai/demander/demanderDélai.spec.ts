@@ -1,6 +1,5 @@
 import { Readable } from 'stream'
-import { DélaiDemandé } from '@modules/demandeModification'
-import { NumeroGestionnaireSubmitted, ProjectNewRulesOptedIn, Project } from '@modules/project'
+import { Project } from '@modules/project'
 import { Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
@@ -11,7 +10,10 @@ import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
-import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
+import {
+  DemanderDateAchèvementAntérieureDateThéoriqueError,
+  NouveauCahierDesChargesNonChoisiError,
+} from '.'
 import { AppelOffre } from '@entities'
 
 describe('Commande demanderDélai', () => {
@@ -89,7 +91,7 @@ describe('Commande demanderDélai', () => {
   describe(`Demande de délai impossible si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
     const shouldUserAccessProject = jest.fn(async () => true)
     const projectRepo = fakeRepo(
-      makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime() })
+      makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime(), newRulesOptIn: true })
     )
     const demandeDelai = makeDemanderDélai({
       fileRepo,
@@ -227,50 +229,11 @@ describe('Commande demanderDélai', () => {
           })
         })
       })
-      describe(`Pas de souscription au nouveau cahier des charges si l'AO ne le requiert pas`, () => {
-        describe(`Étant donné un projet avec un AO ne requérant pas de choix du nouveau CDC
-                  Lorsque le porteur fait une demande de délai
-                  et qu'il n'avait pas encore souscri au nouveau cahier des charges`, () => {
-          it(`Alors aucun un événement ProjectNewRulesOptedIn ne devrait être émis`, async () => {
-            const projectRepo = fakeRepo({
-              ...fakeProject,
-              newRulesOptIn: false,
-            } as Project)
-
-            const demandeDelai = makeDemanderDélai({
-              fileRepo: fileRepo as Repository<FileObject>,
-              findAppelOffreById: async () => {
-                return {
-                  id: 'appelOffreId',
-                  periodes: [{ id: 'periodeId', type: 'notified' }],
-                  familles: [{ id: 'familleId' }],
-                } as AppelOffre
-              },
-
-              publishToEventStore,
-              shouldUserAccessProject,
-              getProjectAppelOffreId,
-              projectRepo,
-            })
-
-            await demandeDelai({
-              justification: 'justification',
-              dateAchèvementDemandée: new Date('2022-01-01'),
-              user,
-              projectId: fakeProject.id.toString(),
-            })
-
-            expect(publishToEventStore).not.toHaveBeenCalledWith(
-              expect.objectContaining({ type: 'ProjectNewRulesOptedIn' })
-            )
-          })
-        })
-      })
-
-      describe(`Enregistrer la souscription au nouveau cahier des charges`, () => {
-        describe(`Lorsque le porteur fait une demande de délai
-            et qu'il n'avait pas encore souscrit au nouveau cahier des charges`, () => {
-          it(`Alors un événement ProjectNewRulesOptedIn devrait être émis en premier`, async () => {
+      describe(`Erreur si le porteur n'a pas souscri au nouveau CDC alors que l'AO le requiert`, () => {
+        describe(`Étant donné un projet avec un AO requérant le choix du nouveau CDC pour pouvoir effectuer des modifications sur Potentiel,
+                  Lorsque le porteur fait une demande de délai,
+                  et qu'il n'a pas encore souscri au nouveau cahier des charges`, () => {
+          it(`Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
             const projectRepo = fakeRepo({
               ...fakeProject,
               newRulesOptIn: false,
@@ -284,32 +247,17 @@ describe('Commande demanderDélai', () => {
               getProjectAppelOffreId,
               projectRepo,
             })
-            await demandeDelai({
+
+            const res = await demandeDelai({
               justification: 'justification',
               dateAchèvementDemandée: new Date('2022-01-01'),
               user,
               projectId: fakeProject.id.toString(),
-              newRulesOptIn: true,
             })
 
-            expect(publishToEventStore).toHaveBeenNthCalledWith(
-              1,
-              expect.objectContaining({
-                type: 'ProjectNewRulesOptedIn',
-                payload: { projectId: fakeProject.id.toString(), optedInBy: user.id },
-              })
-            )
-
-            expect(publishToEventStore).toHaveBeenNthCalledWith(
-              2,
-              expect.objectContaining({
-                type: 'DélaiDemandé',
-                payload: expect.objectContaining({
-                  dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
-                  projetId: fakeProject.id.toString(),
-                }),
-              })
-            )
+            expect(res.isErr()).toEqual(true)
+            if (res.isOk()) return
+            expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError)
           })
         })
       })

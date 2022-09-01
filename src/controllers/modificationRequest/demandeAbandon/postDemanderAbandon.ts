@@ -1,8 +1,8 @@
 import fs from 'fs'
 import * as yup from 'yup'
 
-import { demanderAbandon, ensureRole } from '@config'
-import { logger } from '@core/utils'
+import { choisirNouveauCahierDesCharges, demanderAbandon, ensureRole } from '@config'
+import { logger, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
 
@@ -31,7 +31,6 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, justification, newRulesOptIn } = body
         const { user } = request
 
         const file = request.file && {
@@ -39,12 +38,22 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
+        if (body.newRulesOptIn) {
+          return choisirNouveauCahierDesCharges({
+            projetId: body.projectId,
+            utilisateur: user,
+          }).map(() => ({ file, user, ...body }))
+        }
+
+        return okAsync({ file, user, ...body })
+      })
+      .andThen(({ file, user, ...body }) => {
+        const { projectId, justification } = body
         return demanderAbandon({
           user,
           projectId,
           file,
           justification,
-          ...(newRulesOptIn && { newRulesOptIn: true }),
         }).map(() => ({ projectId }))
       })
       .match(

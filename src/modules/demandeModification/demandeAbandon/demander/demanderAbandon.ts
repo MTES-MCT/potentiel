@@ -7,7 +7,7 @@ import { AbandonDemandé } from '../events'
 import { FileContents, FileObject, makeFileObject } from '../../../file'
 import { AppelOffreRepo } from '@dataAccess'
 import { GetProjectAppelOffreId } from '../../../modificationRequest'
-import { Project, ProjectNewRulesOptedIn } from '@modules/project'
+import { Project } from '@modules/project'
 import { DemanderAbandonError } from './DemanderAbandonError'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification/demandeDélai/demander'
 
@@ -15,7 +15,6 @@ type DemanderAbandon = (commande: {
   user: User
   projectId: string
   justification?: string
-  newRulesOptIn?: true
   file?: {
     contents: FileContents
     filename: string
@@ -40,7 +39,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
     getProjectAppelOffreId,
     projectRepo,
   }) =>
-  ({ user, projectId, justification, file, newRulesOptIn }) => {
+  ({ user, projectId, justification, file }) => {
     return wrapInfra(shouldUserAccessProject({ user, projectId }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) {
@@ -69,17 +68,8 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
         })
       })
       .andThen(({ appelOffre, project }) => {
-        const doitSouscrireAuNouveauCDC =
-          !project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges
-
-        if (doitSouscrireAuNouveauCDC) {
-          if (!newRulesOptIn) {
-            return errAsync(new NouveauCahierDesChargesNonChoisiError())
-          }
-
-          return publishToEventStore(
-            new ProjectNewRulesOptedIn({ payload: { projectId, optedInBy: user.id } })
-          )
+        if (!project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+          return errAsync(new NouveauCahierDesChargesNonChoisiError())
         }
 
         if (file) {
