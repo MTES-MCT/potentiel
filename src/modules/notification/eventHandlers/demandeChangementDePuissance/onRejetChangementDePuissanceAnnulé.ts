@@ -1,21 +1,20 @@
 import { logger } from '@core/utils'
 import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 import routes from '@routes'
-import { NotificationService } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
-
+import { NotifierPorteurChangementStatutDemande } from '../../'
 type OnRejetChangementDePuissanceAnnulé = (
   evenement: RejetChangementDePuissanceAnnulé
 ) => Promise<void>
 
 type MakeOnRejetChangementDePuissanceRecoursAnnulé = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
   getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
+  notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande
 }) => OnRejetChangementDePuissanceAnnulé
 
 export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePuissanceRecoursAnnulé =
 
-    ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
+    ({ getModificationRequestInfoForStatusNotification, notifierPorteurChangementStatutDemande }) =>
     async ({ payload: { demandeChangementDePuissanceId } }: RejetChangementDePuissanceAnnulé) => {
       await getModificationRequestInfoForStatusNotification(demandeChangementDePuissanceId).match(
         async ({ porteursProjet, nomProjet, type }) => {
@@ -25,7 +24,7 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
           }
           await Promise.all(
             porteursProjet.map(({ email, fullName, id }) =>
-              _sendUpdateNotification({
+              notifierPorteurChangementStatutDemande({
                 email,
                 fullName,
                 porteurId: id,
@@ -61,7 +60,6 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
           modificationRequestId,
           porteurId,
           status,
-          hasDocument,
         } = args
         return sendNotification({
           type: 'modification-request-status-update',

@@ -6,7 +6,7 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de changement de 
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet d'une demande de changement de puissance est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const sendNotification = jest.fn()
+      const notifierPorteurChangementStatutDemande = jest.fn()
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -26,11 +26,11 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de changement de 
           nomProjet: 'nom-du-projet',
           regionProjet: 'region',
           departementProjet: 'departement',
-          type: 'recours',
+          type: 'puissance',
         })
 
       const onRejetDemandeChangementDePuissanceAnnulé = makeOnRejetChangementDePuissanceAnnulé({
-        sendNotification,
+        notifierPorteurChangementStatutDemande,
         getModificationRequestInfoForStatusNotification,
       })
 
@@ -44,33 +44,31 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de changement de 
         })
       )
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
-      expect(sendNotification).toHaveBeenNthCalledWith(
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
-          type: 'modification-request-status-update',
-          message: expect.objectContaining({
-            email: 'porteur1@test.test',
-          }),
-          variables: expect.objectContaining({
-            status: 'repassée en statut "envoyée"',
-            nom_projet: 'nom-du-projet',
-            type_demande: 'recours',
-          }),
+          email: 'porteur1@test.test',
+          status: 'repassée en statut "envoyée"',
+          fullName: 'Porteur de projet 1',
+          porteurId: 'porteur-1',
+          typeDemande: 'puissance',
+          nomProjet: 'nom-du-projet',
+          modificationRequestId: 'la-demande',
+          hasDocument: false,
         })
       )
-      expect(sendNotification).toHaveBeenNthCalledWith(
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          type: 'modification-request-status-update',
-          message: expect.objectContaining({
-            email: 'porteur2@test.test',
-          }),
-          variables: expect.objectContaining({
-            status: 'repassée en statut "envoyée"',
-            nom_projet: 'nom-du-projet',
-            type_demande: 'recours',
-          }),
+          email: 'porteur2@test.test',
+          status: 'repassée en statut "envoyée"',
+          fullName: 'Porteur de projet 2',
+          porteurId: 'porteur-2',
+          typeDemande: 'puissance',
+          nomProjet: 'nom-du-projet',
+          modificationRequestId: 'la-demande',
+          hasDocument: false,
         })
       )
     })
