@@ -57,23 +57,6 @@ describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {
           },
         })
 
-        const preModificationRequestRejected = await ProjectEvent.findOne({
-          where: { type: 'ModificationRequestRejected', payload: { modificationRequestId } },
-        })
-        const preModificationRequestInstruction = await ProjectEvent.findOne({
-          where: {
-            type: 'ModificationRequestInstructionStarted',
-            payload: { modificationRequestId },
-          },
-        })
-
-        expect(preModificationRequestRejected).toMatchObject({
-          type: 'ModificationRequestRejected',
-        })
-        expect(preModificationRequestInstruction).toMatchObject({
-          type: 'ModificationRequestInstructionStarted',
-        })
-
         await onRejetChangementDePuissanceAnnulé(
           new RejetChangementDePuissanceAnnulé({
             payload: {
