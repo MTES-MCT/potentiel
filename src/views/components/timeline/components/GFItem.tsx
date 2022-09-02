@@ -21,7 +21,15 @@ import {
 } from '@components'
 
 type ComponentProps = GFItemProps & {
-  project: { id: string; status: ProjectStatus }
+  project: { id: string; status: ProjectStatus; garantieFinanciereEnMois?: number }
+}
+
+const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
+  return garantieFinanciereEnMois
+    ? `la durée de l’engagement ne peut être inférieure à ${garantieFinanciereEnMois} mois.`
+    : `La garantie doit avoir une durée couvrant le
+            projet jusqu’à 6 mois après la date d’achèvement de l’installation ou être renouvelée
+            régulièrement afin d’assurer une telle couverture temporelle.`
 }
 
 export const GFItem = (props: ComponentProps) => {
@@ -74,8 +82,19 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
               Attestation de constitution de garanties financières en attente
             </p>
           </div>
-          {isPorteurProjet && <SubmitForm projectId={project.id} />}
-          {isDreal && <UploadForm projectId={project.id} role={role} />}
+          {isPorteurProjet && (
+            <SubmitForm
+              projectId={project.id}
+              garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            />
+          )}
+          {isDreal && (
+            <UploadForm
+              projectId={project.id}
+              role={role}
+              garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+            />
+          )}
           {isDreal && status === 'past-due' && (
             <p className="m-0">
               <DownloadLink
@@ -113,6 +132,7 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
           expirationDate={expirationDate}
           projectId={project.id}
           canUpdate={canAddExpDate}
+          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
         />
         <div className="flex">
           {url ? (
@@ -147,6 +167,7 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
           expirationDate={expirationDate}
           projectId={project.id}
           canUpdate={canAddExpDate}
+          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
         />
         <div>
           {url ? (
@@ -167,8 +188,9 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
 
 type SubmitFormProps = {
   projectId: string
+  garantieFinanciereEnMois?: number
 }
-const SubmitForm = ({ projectId }: SubmitFormProps) => {
+const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) => {
   const [isFormVisible, showForm] = useState(false)
 
   return (
@@ -210,9 +232,8 @@ const SubmitForm = ({ projectId }: SubmitFormProps) => {
             <Input type="file" name="file" id="file" required />
           </div>
           <p className="m-0 mt-3 italic">
-            <Astérisque className="text-black" /> La garantie doit avoir une durée couvrant le
-            projet jusqu’à 6 mois après la date d’Achèvement de l’installation ou être renouvelée
-            régulièrement afin d’assurer une telle couverture temporelle.
+            <Astérisque className="text-black" />
+            {getInfoDuréeGF(garantieFinanciereEnMois)}
           </p>
           <div className="flex gap-4 flex-col md:flex-row">
             <Button type="submit">Enregistrer</Button>
@@ -250,7 +271,13 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
       <ContentArea>
         <ItemTitle title={'Constitution des garanties financières'} />
         <span>Attestation de constitution des garanties financières soumise à la candidature</span>
-        {hasRightsToUpload && <UploadForm projectId={project.id} role={role} />}
+        {hasRightsToUpload && (
+          <UploadForm
+            projectId={project.id}
+            role={role}
+            garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+          />
+        )}
       </ContentArea>
     </>
   )
@@ -275,6 +302,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
           expirationDate={expirationDate}
           projectId={project.id}
           canUpdate={canUpdateGF}
+          garantieFinanciereEnMois={project.garantieFinanciereEnMois}
         />
         <div className="flex">
           {url ? (
@@ -297,8 +325,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
 type UploadFormProps = {
   projectId: string
   role: 'porteur-projet' | 'dreal'
+  garantieFinanciereEnMois?: number
 }
-const UploadForm = ({ projectId, role }: UploadFormProps) => {
+const UploadForm = ({ projectId, role, garantieFinanciereEnMois }: UploadFormProps) => {
   const isPorteur = role === 'porteur-projet'
   const [displayForm, showForm] = useState(false)
   return (
@@ -349,9 +378,7 @@ const UploadForm = ({ projectId, role }: UploadFormProps) => {
           <Input type="file" name="file" id="file" required />
           <p className="m-0 mt-3 italic">
             <Astérisque className="text-black" />
-            La garantie doit avoir une durée couvrant le projet jusqu’à 6 mois après la date
-            d’Achèvement de l’installation ou être renouvelée régulièrement afin d’assurer une telle
-            couverture temporelle.
+            {getInfoDuréeGF(garantieFinanciereEnMois)}
           </p>
           {isPorteur && (
             <p className="m-0 mt-3 italic">
@@ -395,8 +422,14 @@ type ExpirationDateProps = {
   projectId: string
   canUpdate: boolean
   expirationDate: number | undefined
+  garantieFinanciereEnMois?: number
 }
-const ExpirationDate = ({ projectId, canUpdate, expirationDate }: ExpirationDateProps) => {
+const ExpirationDate = ({
+  projectId,
+  canUpdate,
+  expirationDate,
+  garantieFinanciereEnMois,
+}: ExpirationDateProps) => {
   const [isFormVisible, showForm] = useState(false)
   return (
     <>
@@ -414,6 +447,7 @@ const ExpirationDate = ({ projectId, canUpdate, expirationDate }: ExpirationDate
           onCancel={() => {
             showForm(false)
           }}
+          garantieFinanciereEnMois={garantieFinanciereEnMois}
         />
       )}
     </>
@@ -423,8 +457,13 @@ const ExpirationDate = ({ projectId, canUpdate, expirationDate }: ExpirationDate
 type AddExpirationDateFormProps = {
   projectId: string
   onCancel: () => void
+  garantieFinanciereEnMois?: number
 }
-const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormProps) => {
+const AddExpirationDateForm = ({
+  projectId,
+  onCancel,
+  garantieFinanciereEnMois,
+}: AddExpirationDateFormProps) => {
   return (
     <form
       action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId })}
@@ -439,9 +478,7 @@ const AddExpirationDateForm = ({ projectId, onCancel }: AddExpirationDateFormPro
       </Label>
       <Input required type="date" name="expirationDate" id="expirationDate" />
       <p className="italic">
-        <Astérisque className="text-black" /> À noter : la garantie doit avoir une durée couvrant le
-        projet jusqu’à 6 mois après la date d’Achèvement de l’installation ou être renouvelée
-        régulièrement afin d’assurer une telle couverture temporelle.
+        <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
       </p>
       <div className="flex gap-4 flex-col md:flex-row">
         <Button type="submit">Enregistrer</Button>

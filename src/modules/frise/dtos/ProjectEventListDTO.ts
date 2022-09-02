@@ -405,6 +405,7 @@ export type ProjectEventListDTO = {
     status: ProjectStatus
     isSoumisAuxGF?: boolean
     isGarantiesFinancieresDeposeesALaCandidature?: boolean
+    garantieFinanciereEnMois?: number
   }
   events: ProjectEventDTO[]
 }
