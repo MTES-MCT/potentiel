@@ -106,20 +106,6 @@ export const ChangerProducteur = PageLayout(
                     required
                     {...(isEolien && { disabled: true })}
                   />
-                  <label htmlFor="email" className="mt-4 ">
-                    Adresse email du nouveau producteur
-                  </label>
-                  <p className="m-0 italic">
-                    Le nouveau producteur recevra une invitation sur sa boite mail pour accéder au
-                    projet sur Potentiel.
-                  </p>
-                  <Input
-                    type="text"
-                    name="email"
-                    id="email"
-                    {...dataId('modificationRequest-producteurField')}
-                    {...(isEolien && { disabled: true })}
-                  />
                   <label htmlFor="candidats" className="mt-4 ">
                     Statuts mis à jour
                   </label>
