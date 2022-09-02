@@ -470,24 +470,58 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
               case 'DemandeDélai':
                 if (userIsNot('ademe')(user)) {
-                  const { statut, dateAchèvementDemandée, autorité } = payload
-                  events.push({
-                    type,
-                    variant: user.role,
-                    date: valueDate,
-                    dateAchèvementDemandée,
-                    ...(statut === 'accordée'
-                      ? {
-                          statut,
-                          dateAchèvementAccordée: payload.dateAchèvementAccordée,
-                          ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
-                        }
-                      : { statut }),
-                    ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
-                      (userIs('dreal') && autorité === 'dreal')) && {
-                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
-                    }),
-                  })
+                  const { statut, autorité } = payload
+                  if (payload.dateAchèvementDemandée) {
+                    const {
+                      dateAchèvementDemandée,
+                      dateAchèvementAccordée,
+                      ancienneDateThéoriqueAchèvement,
+                    } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      //@ts-ignore
+                      dateAchèvementDemandée,
+                      ...(statut === 'accordée'
+                        ? {
+                            statut,
+                            dateAchèvementAccordée,
+                            ancienneDateThéoriqueAchèvement,
+                          }
+                        : { statut }),
+                      ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
+                        (userIs('dreal') && autorité === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                      }),
+                    })
+                  }
+
+                  if (payload.délaiEnMoisDemandé) {
+                    const {
+                      délaiEnMoisDemandé,
+                      délaiEnMoisAccordé,
+                      ancienneDateThéoriqueAchèvement,
+                    } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      //@ts-ignore
+                      délaiEnMoisDemandé,
+                      ...(statut === 'accordée'
+                        ? {
+                            statut,
+                            délaiEnMoisAccordé,
+                            ancienneDateThéoriqueAchèvement,
+                          }
+                        : { statut }),
+                      ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
+                        (userIs('dreal') && autorité === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                      }),
+                    })
+                  }
                 }
                 break
               case 'DemandeAbandon':

@@ -54,6 +54,7 @@ describe(`getProjectEvents`, () => {
               payload: {
                 statut: 'annulée',
                 annuléPar: porteurId,
+                dateAchèvementDemandée: dateDemandée,
               },
             })
 

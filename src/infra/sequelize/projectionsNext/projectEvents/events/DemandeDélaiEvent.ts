@@ -5,25 +5,33 @@ export type DemandeDélaiEvent = ProjectEvent & {
   payload: {
     autorité: 'dgec' | 'dreal'
     demandeDélaiId: string
-    dateAchèvementDemandée: string
   } & (
     | {
-        statut: 'envoyée'
-        demandeur: string
+        dateAchèvementDemandée: string
       }
     | {
-        statut: 'accordée'
-        accordéPar: string
-        dateAchèvementAccordée: string
-        ancienneDateThéoriqueAchèvement: string
+        délaiEnMoisDemandé: number
       }
-    | {
-        statut: 'annulée'
-        annuléPar: string
-      }
-    | {
-        statut: 'rejetée'
-        rejetéPar: string
-      }
-  )
+  ) &
+    (
+      | {
+          statut: 'envoyée'
+          demandeur: string
+        }
+      | ({
+          statut: 'accordée'
+          accordéPar: string
+        } & (
+          | { délaiEnMoisAccordé: number }
+          | { dateAchèvementAccordée: string; ancienneDateThéoriqueAchèvement: string }
+        ))
+      | {
+          statut: 'annulée'
+          annuléPar: string
+        }
+      | {
+          statut: 'rejetée'
+          rejetéPar: string
+        }
+    )
 }
