@@ -72,6 +72,18 @@ export const ChangerProducteur = PageLayout(
 
               {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
+                  <div className="notification error my-4">
+                    <span>
+                      Attention : une fois ce formulaire de changement de producteur envoyé,{' '}
+                      <em>vous ne pourrez plus suivre ce projet sur Potentiel</em>. Tous les accès
+                      actuels seront retirés.{' '}
+                      <strong>
+                        Le nouveau producteur pourra retrouver le projet dans les "projets à
+                        réclamer"
+                      </strong>
+                      .
+                    </span>
+                  </div>
                   {isEolien && (
                     <div className="notification error my-4">
                       <span>
