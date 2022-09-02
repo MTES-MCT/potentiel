@@ -67,6 +67,7 @@ export type AppelOffre = {
   garantiesFinancieresDeposeesALaCandidature?: boolean
   choisirNouveauCahierDesCharges?: true
   renvoiSoumisAuxGarantiesFinancieres?: string
+  garantieFinanciereEnMois?: number
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
