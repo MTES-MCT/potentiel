@@ -28,7 +28,6 @@ const requestBodySchema = yup.object({
   projetId: yup.string().uuid().required(),
   newRulesOptIn: yup.boolean().optional(),
   producteur: yup.string().required('Le champ producteur est obligatoire.'),
-  email: yup.string().email().optional(),
   justification: yup.string().optional(),
 })
 
@@ -39,7 +38,7 @@ v1Router.post(
   asyncHandler((request, response) =>
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projetId, newRulesOptIn, producteur, email, justification } = body
+        const { projetId, newRulesOptIn, producteur, justification } = body
         const { user } = request
 
         const fichier = request.file && {
@@ -51,18 +50,17 @@ v1Router.post(
           return choisirNouveauCahierDesCharges({
             utilisateur: user,
             projetId,
-          }).map(() => ({ fichier, producteur, email, justification, user, projetId }))
+          }).map(() => ({ fichier, producteur, justification, user, projetId }))
         }
-        return okAsync({ fichier, producteur, email, justification, user, projetId })
+        return okAsync({ fichier, producteur, justification, user, projetId })
       })
-      .andThen(({ fichier, producteur, email, justification, user, projetId }) => {
+      .andThen(({ fichier, producteur, justification, user, projetId }) => {
         return changerProducteur({
           porteur: user,
           projetId,
           ...(fichier && { fichier }),
           ...(justification && { justification }),
           nouveauProducteur: producteur,
-          ...(email && { email }),
         }).map(() => projetId)
       })
       .match(
