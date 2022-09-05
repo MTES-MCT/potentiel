@@ -472,21 +472,18 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 if (userIsNot('ademe')(user)) {
                   const { statut, autorité } = payload
                   if (payload.dateAchèvementDemandée) {
-                    const {
-                      dateAchèvementDemandée,
-                      dateAchèvementAccordée,
-                      ancienneDateThéoriqueAchèvement,
-                    } = payload
+                    const { dateAchèvementDemandée } = payload
                     events.push({
                       type,
-                      variant: user.role,
                       date: valueDate,
+                      variant: user.role,
                       dateAchèvementDemandée,
                       ...(statut === 'accordée'
                         ? {
                             statut,
-                            dateAchèvementAccordée,
-                            ancienneDateThéoriqueAchèvement,
+                            dateAchèvementAccordée: payload.dateAchèvementAccordée,
+                            ancienneDateThéoriqueAchèvement:
+                              payload.ancienneDateThéoriqueAchèvement,
                           }
                         : { statut }),
                       ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
@@ -497,16 +494,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
 
                   if (payload.délaiEnMoisDemandé) {
-                    const { délaiEnMoisDemandé, délaiEnMoisAccordé } = payload
+                    const { délaiEnMoisDemandé } = payload
                     events.push({
                       type,
-                      variant: user.role,
                       date: valueDate,
+                      variant: user.role,
                       délaiEnMoisDemandé,
                       ...(statut === 'accordée'
                         ? {
                             statut,
-                            délaiEnMoisAccordé,
+                            délaiEnMoisAccordé: payload.délaiEnMoisAccordé,
                           }
                         : { statut }),
                       ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
