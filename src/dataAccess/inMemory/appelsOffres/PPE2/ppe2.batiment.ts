@@ -74,7 +74,24 @@ const batimentPPE2: AppelOffre = {
         },
       },
     },
-    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
+    {
+      id: '3',
+      title: 'troisième',
+      paragrapheAchevement: '6.3',
+      certificateTemplate: 'ppe2.v2',
+      reference: '2022 S 093-254888',
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 11.72,
+          puissanceMax: 1,
+        },
+        autres: {
+          noteThreshold: 13.82,
+        },
+      },
+    },
   ],
   familles: [],
 }
