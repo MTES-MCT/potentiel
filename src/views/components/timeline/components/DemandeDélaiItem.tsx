@@ -61,7 +61,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
 }
 
 const DélaiDemandé = (
-  props: DemandeDélaiItemProps & Exclude<DemandeDélaiItemProps, { statut: 'accordée' }>
+  props: DemandeDélaiItemProps & Exclude<DemandeDélaiItemProps, { statut: 'demandée' }>
 ) =>
   props.dateAchèvementDemandée ? (
     <>
@@ -73,9 +73,9 @@ const DélaiDemandé = (
   )
 
 const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) =>
-  props.délaiEnMoisAccordé ? (
+  props.délaiEnMoisDemandé ? (
     <>Délai accordé : {props.délaiEnMoisAccordé} mois</>
-  ) : props.ancienneDateThéoriqueAchèvement ? (
+  ) : props.dateAchèvementDemandée ? (
     <>
       Ancienne date limite d'achèvement :{' '}
       {format(new Date(props.ancienneDateThéoriqueAchèvement), 'dd/MM/yyyy')}
