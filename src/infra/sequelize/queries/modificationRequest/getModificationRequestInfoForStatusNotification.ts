@@ -33,7 +33,7 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           include: [
             {
               model: User,
-              as: 'userId',
+              as: 'user',
               attributes: ['fullName', 'email', 'id'],
             },
           ],
@@ -44,10 +44,10 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           nomProjet,
           departementProjet,
           regionProjet,
-          porteursProjet: porteursProjets.map((porteur) => ({
-            id: porteur.id,
-            email: porteur.email,
-            fullName: porteur.fullName,
+          porteursProjet: porteursProjets.map(({ user }) => ({
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
           })),
         })
       )
