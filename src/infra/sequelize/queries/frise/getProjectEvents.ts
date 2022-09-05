@@ -481,7 +481,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       variant: user.role,
                       date: valueDate,
-                      //@ts-ignore
                       dateAchèvementDemandée,
                       ...(statut === 'accordée'
                         ? {
@@ -498,22 +497,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
 
                   if (payload.délaiEnMoisDemandé) {
-                    const {
-                      délaiEnMoisDemandé,
-                      délaiEnMoisAccordé,
-                      ancienneDateThéoriqueAchèvement,
-                    } = payload
+                    const { délaiEnMoisDemandé, délaiEnMoisAccordé } = payload
                     events.push({
                       type,
                       variant: user.role,
                       date: valueDate,
-                      //@ts-ignore
                       délaiEnMoisDemandé,
                       ...(statut === 'accordée'
                         ? {
                             statut,
                             délaiEnMoisAccordé,
-                            ancienneDateThéoriqueAchèvement,
                           }
                         : { statut }),
                       ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
