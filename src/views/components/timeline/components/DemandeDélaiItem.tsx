@@ -72,15 +72,22 @@ const DélaiDemandé = (
     <>Délai demandé : {props.délaiEnMoisDemandé} mois</>
   )
 
-const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) =>
-  props.délaiEnMoisDemandé ? (
-    <>Délai accordé : {props.délaiEnMoisAccordé} mois</>
-  ) : props.dateAchèvementDemandée ? (
-    <>
-      Ancienne date limite d'achèvement :{' '}
-      {format(new Date(props.ancienneDateThéoriqueAchèvement), 'dd/MM/yyyy')}
-      <br />
-      Nouvelle date limite d'achèvement :{' '}
-      {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
-    </>
-  ) : null
+const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) => {
+  if (props.délaiEnMoisDemandé) {
+    return <>Délai accordé : {props.délaiEnMoisAccordé} mois</>
+  }
+
+  if (props.dateAchèvementDemandée) {
+    return (
+      <>
+        Ancienne date limite d'achèvement :{' '}
+        {format(new Date(props.ancienneDateThéoriqueAchèvement), 'dd/MM/yyyy')}
+        <br />
+        Nouvelle date limite d'achèvement :{' '}
+        {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
+      </>
+    )
+  }
+
+  return null
+}
