@@ -78,7 +78,9 @@ v1Router.get(
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
         garantieFinanciereEnMois:
-          project.famille?.garantieFinanciereEnMois?.toString() || '!!!FAMILLE NON DISPONIBLE!!!',
+          project.famille?.garantieFinanciereEnMois?.toString() ||
+          project.appelOffre?.garantieFinanciereEnMois?.toString() ||
+          '!!!GARANTIE FINANCIERE EN MOIS NON DISPONIBLE!!!',
         dateFinGarantieFinanciere: project.famille
           ? formatDate(
               moment(project.notifiedOn)

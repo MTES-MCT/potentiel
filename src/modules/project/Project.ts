@@ -680,7 +680,7 @@ export const makeProject = (args: {
 
       const { appelOffre, isClasse } = props
 
-      if (isClasse && appelOffre?.isSoumisAuxGFs) {
+      if (isClasse && appelOffre?.isSoumisAuxGF) {
         _publishEvent(
           new ProjectGFDueDateSet({
             payload: {
@@ -1416,7 +1416,7 @@ export const makeProject = (args: {
 
   function _updateGFDate(appelOffre: ProjectAppelOffre) {
     const { isClasse } = props
-    if (isClasse && appelOffre.isSoumisAuxGFs) {
+    if (isClasse && appelOffre.isSoumisAuxGF) {
       _removePendingEventsOfType(ProjectGFDueDateSet.type)
       _publishEvent(
         new ProjectGFDueDateSet({
@@ -1430,7 +1430,7 @@ export const makeProject = (args: {
   }
 
   function _cancelGFDate(appelOffre: ProjectAppelOffre) {
-    if (appelOffre.isSoumisAuxGFs) {
+    if (appelOffre.isSoumisAuxGF) {
       _publishEvent(
         new ProjectGFDueDateCancelled({
           payload: {

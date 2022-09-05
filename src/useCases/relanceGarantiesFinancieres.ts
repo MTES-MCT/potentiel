@@ -38,16 +38,16 @@ export default function makeRelanceGarantiesFinancieres({
           return
         }
 
-        if (!project.famille?.garantieFinanciereEnMois) {
+        if (!project.famille?.soumisAuxGarantiesFinancieres) {
           logger.error(
             `Relance impossible pour un projet qui est dans une famille non soumise aux garanties financieres. Id : ${project.id}`
           )
           return
         }
 
-        if (!project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres) {
+        if (project.appelOffre?.soumisAuxGarantiesFinancieres === false) {
           logger.error(
-            `Relance impossible sur un projet sans renvoi retrait designation garanties financieres. Id : ${project.id}`
+            `Relance impossible sur un projet dont l'AO n'est pas soumis aux GF. Id : ${project.id}`
           )
           return
         }
@@ -99,7 +99,6 @@ export default function makeRelanceGarantiesFinancieres({
               'relanceGarantiesFinancieres use-case: error when calling projectRepo.save',
               updatedProject
             )
-
             return
           }
 

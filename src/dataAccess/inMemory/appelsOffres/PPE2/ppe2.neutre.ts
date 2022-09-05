@@ -17,8 +17,6 @@ const neutrePPE2: AppelOffre = {
   renvoiEngagementIPFPGPFC: '3.3.8',
   renvoiDemandeCompleteRaccordement: '6.1',
   renvoiRetraitDesignationGarantieFinancieres: '5.1',
-  soumisAuxGarantiesFinancieres: true,
-  garantiesFinancieresDeposeesALaCandidature: true,
   paragrapheDelaiDerogatoire: '6.3',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 36 },
   decoupageParTechnologie: true,
@@ -58,11 +56,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       id: '1',
       title:
         'installations implantées sur de nouveaux sites, de puissance installée supérieure ou égale à 1 MW ',
+      soumisAuxGarantiesFinancieres: true,
+      garantiesFinancieresDeposeesALaCandidature: true,
     },
     {
       id: '2',
       title:
         'installations équipant des sites existants, de puissance installée supérieure ou égale à 1 MW',
+      soumisAuxGarantiesFinancieres: true,
+      garantiesFinancieresDeposeesALaCandidature: true,
     },
   ],
 }

@@ -49,9 +49,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
 
   const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
   const soumisAuxGarantiesFinancieres =
-    appelOffre.type === 'eolien' ||
-    famille?.garantieFinanciereEnMois ||
-    famille?.soumisAuxGarantiesFinancieres
+    famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
   const addFootNote = makeAddFootnote(footNotes)

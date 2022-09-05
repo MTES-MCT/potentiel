@@ -52,11 +52,13 @@ const innovationPPE2: AppelOffre = {
       id: '1',
       title:
         'Installations photovoltaïques innovantes au sol de Puissance strictement supérieure à 500 kWc et inférieure ou égale à 3 MWc',
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '2',
       title:
         'Installations photovoltaïques innovantes sur Bâtiments, Serres agricoles Hangars, Ombrières, ou Installations agrivoltaïques innovantes de Puissance strictement supérieure à 100 kWc et inférieure ou égale à 3 MWc',
+      soumisAuxGarantiesFinancieres: false,
     },
   ],
 }

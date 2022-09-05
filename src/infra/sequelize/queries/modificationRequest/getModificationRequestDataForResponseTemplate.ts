@@ -145,7 +145,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           renvoiModification,
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
-          isSoumisAuxGFs,
+          isSoumisAuxGF,
         } = appelOffre
 
         const commonData = {
@@ -239,7 +239,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               unitePuissance,
               eolien: appelOffre.type === 'eolien' ? 'yes' : '',
               AOInnovation: appelOffre.type === 'innovation' ? 'yes' : '',
-              soumisGF: isSoumisAuxGFs ? 'yes' : '',
+              soumisGF: isSoumisAuxGF ? 'yes' : '',
               renvoiSoumisAuxGarantiesFinancieres,
               renvoiDemandeCompleteRaccordement,
               renvoiRetraitDesignationGarantieFinancieres,

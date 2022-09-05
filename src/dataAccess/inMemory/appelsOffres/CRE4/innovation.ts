@@ -78,26 +78,32 @@ const innovation: AppelOffre = {
     {
       id: '1a',
       title: "1a. Nouvelles conceptions d'intégration",
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '1b',
       title: '1b. Autres innovations de composants',
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '3',
       title: "3. Innovation liée à l'optimisation et à l'exploitation électrique de la centrale",
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '4',
       title: '4. Agrivoltaïsme',
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '1',
       title: '1. 500 kWc - 5MWc',
+      soumisAuxGarantiesFinancieres: false,
     },
     {
       id: '2',
       title: '2. 100 kWc - 3MWc',
+      soumisAuxGarantiesFinancieres: false,
     },
   ],
 }

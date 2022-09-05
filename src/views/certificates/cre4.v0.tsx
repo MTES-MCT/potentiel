@@ -48,9 +48,9 @@ const Laureat = (project: ProjectDataForCertificate) => {
 
   const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.reference} ${appelOffre.title}`
 
-  const garantieFinanciereEnMois = appelOffre.familles.find(
-    (famille) => famille.id === project.familleId
-  )?.garantieFinanciereEnMois
+  const garantieFinanciereEnMois =
+    appelOffre.familles.find((famille) => famille.id === project.familleId)
+      ?.garantieFinanciereEnMois || appelOffre.garantieFinanciereEnMois
 
   const footNotes: Array<{ footNote: string; indice: number }> = []
   const addFootNote = makeAddFootnote(footNotes)

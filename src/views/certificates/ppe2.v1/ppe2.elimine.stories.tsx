@@ -31,6 +31,7 @@ const fakeProject: ProjectDataForCertificate = {
   appelOffre: {
     ...eolienPPE2,
     soumisAuxGarantiesFinancieres: true,
+    garantiesFinancieresDeposeesALaCandidature: true,
     periode: eolienPPE2.periodes[0],
   } as ProjectAppelOffre,
   isClasse: true,
@@ -198,7 +199,12 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Autre motif',
-    appelOffre: { ...fakeProject.appelOffre, soumisAuxGarantiesFinancieres: false },
+    appelOffre: {
+      ...fakeProject.appelOffre,
+      soumisAuxGarantiesFinancieres: false,
+      garantiesFinancieresDeposeesALaCandidature: undefined,
+      garantieFinanciereEnMois: undefined,
+    },
   }
   return (
     <PDFViewer width="100%" height="900px">

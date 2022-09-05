@@ -1,6 +1,8 @@
 import { AppelOffre } from '@entities'
 import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
+const garantieFinanciereEnMois = 36
+
 export const zni2017: AppelOffre = {
   id: 'CRE4 - ZNI 2017',
   type: 'zni',
@@ -29,9 +31,7 @@ export const zni2017: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
-  soumisAuxGarantiesFinancieres: true,
-  garantieFinanciereEnMois: 36,
+  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -54,14 +54,23 @@ export const zni2017: AppelOffre = {
     {
       id: '1',
       title: '1. 100kWc - 250kWc',
+      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '2',
       title: '2. 250kWc - 1,5MWc',
+      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '3',
       title: '3. 250kWc - 5MWc',
+      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      garantiesFinancieresDeposeesALaCandidature: false,
     },
   ],
 }

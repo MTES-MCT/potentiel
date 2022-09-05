@@ -27,17 +27,25 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       } = rawProject.get()
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+      const isGarantiesFinancieresDeposeesALaCandidature =
+        appelOffre?.famille?.garantiesFinancieresDeposeesALaCandidature ||
+        appelOffre?.garantiesFinancieresDeposeesALaCandidature
+
       const garantieFinanciereEnMois =
-        appelOffre?.garantieFinanciereEnMois || appelOffre?.famille?.garantieFinanciereEnMois
+        appelOffre?.famille?.garantieFinanciereEnMois || appelOffre?.garantieFinanciereEnMois
 
       return {
         project: {
           id: projectId,
           status,
-          isSoumisAuxGF: appelOffre?.isSoumisAuxGFs,
-          isGarantiesFinancieresDeposeesALaCandidature:
-            appelOffre?.garantiesFinancieresDeposeesALaCandidature,
-          garantieFinanciereEnMois,
+          isSoumisAuxGF: appelOffre?.isSoumisAuxGF,
+          ...(isGarantiesFinancieresDeposeesALaCandidature && {
+            isGarantiesFinancieresDeposeesALaCandidature,
+          }),
+          ...(garantieFinanciereEnMois && {
+            garantieFinanciereEnMois,
+          }),
         },
         events: await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
           async (eventsPromise, projectEvent) => {
