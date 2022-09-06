@@ -39,7 +39,9 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           ],
         })
       ).map(
-        (porteursProjets: any[]): ModificationRequestInfoForStatusNotificationDTO => ({
+        (
+          porteursProjets: { user: { id: string; email: string; fullName: string } }[]
+        ): ModificationRequestInfoForStatusNotificationDTO => ({
           type,
           nomProjet,
           departementProjet,
