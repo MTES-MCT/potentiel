@@ -70,6 +70,13 @@ class routes {
     } else return route
   }
 
+  static CHOISIR_CAHIER_DES_CHARGES = (projetId?: Project['id']) => {
+    const route = '/projet/:projetId/choisir-cahier-des-charges.html'
+    if (projetId) {
+      return route.replace(':projetId', projetId)
+    } else return route
+  }
+
   static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv'
   static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'

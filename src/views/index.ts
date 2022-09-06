@@ -25,6 +25,7 @@ import {
   DemanderAbandon,
   DemandeAbandon,
 } from './pages'
+import { ChoisirCahierDesCharges } from './pages/choisirCahierDesChargesPage'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
@@ -53,6 +54,14 @@ export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) 
     props,
     hydrate: true,
     pageName: 'projectDetails', // This must match the Component name
+  })
+
+export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahierDesCharges>[0]) =>
+  makeHtml({
+    Component: ChoisirCahierDesCharges,
+    props,
+    hydrate: true,
+    pageName: 'ChoisirCahierDesCharges', // This must match the Component name
   })
 
 export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinancieres>[0]) =>

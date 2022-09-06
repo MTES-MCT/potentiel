@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { RoleBasedDashboard, SuccessErrorBox, PageLayout } from '../../components'
+import { RoleBasedDashboard, SuccessErrorBox, PageLayout } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
