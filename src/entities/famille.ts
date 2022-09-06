@@ -1,18 +1,10 @@
 export type GarantiesFinancièresFamille =
   | {
-      soumisAuxGarantiesFinancieres: true
-      garantiesFinancieresDeposeesALaCandidature: false
+      soumisAuxGarantiesFinancieres: 'après candidature'
       garantieFinanciereEnMois: number
     }
   | {
-      soumisAuxGarantiesFinancieres: true
-      garantiesFinancieresDeposeesALaCandidature: true
-      garantieFinanciereEnMois?: undefined
-    }
-  | {
-      soumisAuxGarantiesFinancieres: false
-      garantiesFinancieresDeposeesALaCandidature?: undefined
-      garantieFinanciereEnMois?: undefined
+      soumisAuxGarantiesFinancieres: 'à la candidature' | 'non soumis'
     }
 
 export type Famille = {

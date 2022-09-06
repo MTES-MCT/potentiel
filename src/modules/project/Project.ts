@@ -366,7 +366,12 @@ export const makeProject = (args: {
 
       _updateDCRDate(appelOffre)
       _updateCompletionDate(appelOffre)
-      !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate(appelOffre)
+      if (
+        appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
+        appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
+      ) {
+        _updateGFDate(appelOffre)
+      }
 
       return ok(null)
     },
@@ -602,7 +607,12 @@ export const makeProject = (args: {
       const { appelOffre } = props
       if (appelOffre) {
         _updateDCRDate(appelOffre)
-        !appelOffre.garantiesFinancieresDeposeesALaCandidature && _updateGFDate(appelOffre)
+        if (
+          appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
+          appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
+        ) {
+          _updateGFDate(appelOffre)
+        }
         _updateCompletionDate(appelOffre)
       }
 

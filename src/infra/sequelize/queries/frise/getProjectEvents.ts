@@ -29,11 +29,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       const isGarantiesFinancieresDeposeesALaCandidature =
-        appelOffre?.famille?.garantiesFinancieresDeposeesALaCandidature ||
-        appelOffre?.garantiesFinancieresDeposeesALaCandidature
+        appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
+        appelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature'
 
       const garantieFinanciereEnMois =
-        appelOffre?.famille?.garantieFinanciereEnMois || appelOffre?.garantieFinanciereEnMois
+        appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+          ? appelOffre.famille.garantieFinanciereEnMois
+          : appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
+          ? appelOffre?.garantieFinanciereEnMois
+          : undefined
 
       return {
         project: {

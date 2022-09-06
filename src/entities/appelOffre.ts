@@ -43,8 +43,6 @@ type GarantiesFinancièresAppelOffre =
   | GarantiesFinancièresFamille
   | {
       soumisAuxGarantiesFinancieres?: undefined
-      garantiesFinancieresDeposeesALaCandidature?: undefined
-      garantieFinanciereEnMois?: undefined
     }
 
 export type AppelOffre = {

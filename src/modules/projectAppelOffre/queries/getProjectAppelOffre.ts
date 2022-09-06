@@ -24,7 +24,7 @@ export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProject
       periode,
       famille,
       isSoumisAuxGF: famille
-        ? famille.soumisAuxGarantiesFinancieres
-        : !!appelOffre.soumisAuxGarantiesFinancieres,
+        ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
+        : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis',
     }
   }

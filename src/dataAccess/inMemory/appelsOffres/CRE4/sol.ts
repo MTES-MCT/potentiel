@@ -149,23 +149,20 @@ const sol: AppelOffre = {
     {
       id: '1',
       title: '1. 5 MWc – 30 Mwc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '2',
       title: '2. 500kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '3',
       title: '3. 500 kWc - 10MWc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
   ],
 }

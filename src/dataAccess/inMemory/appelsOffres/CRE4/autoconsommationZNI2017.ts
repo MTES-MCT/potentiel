@@ -29,7 +29,7 @@ export const autoconsommationZNI2017: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  soumisAuxGarantiesFinancieres: false,
+  soumisAuxGarantiesFinancieres: 'non soumis',
   changementPuissance: {
     ratios: {
       min: 0.8,

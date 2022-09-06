@@ -81,20 +81,18 @@ const fessenheim: AppelOffre = {
       id: '1',
       title: '1',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '2',
       title: '2',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '3',
       title: '3',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
 }

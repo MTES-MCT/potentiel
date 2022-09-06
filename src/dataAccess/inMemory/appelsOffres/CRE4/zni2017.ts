@@ -54,23 +54,20 @@ export const zni2017: AppelOffre = {
     {
       id: '1',
       title: '1. 100kWc - 250kWc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '2',
       title: '2. 250kWc - 1,5MWc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
     {
       id: '3',
       title: '3. 250kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: true,
+      soumisAuxGarantiesFinancieres: 'après candidature',
       garantieFinanciereEnMois,
-      garantiesFinancieresDeposeesALaCandidature: false,
     },
   ],
 }

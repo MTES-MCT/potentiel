@@ -168,57 +168,53 @@ const zni: AppelOffre = {
     {
       id: '1',
       title: '1. 100kWc - 250kWc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '2',
       title: '2. 250kWc - 1,5MWc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '3',
       title: '3. 250kWc - 5MWc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     // 2019 ZNI avec stockage
     {
       id: '1a',
       title: '1a. 100kWc - 500 kWc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '1b',
       title: '1b. 500 kWc - 1,5MWc',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '1c',
       title: '1c. 500 kWc - 5 MWc',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     // 2019 ZNI sans stockage
     {
       id: '2a',
       title: '2a. 100kWc - 500 kWc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '2b',
       title: '2b. 500 kWc - 1,5MWc',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '2c',
       title: '2c. 500 kWc - 5 MWc',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
 }

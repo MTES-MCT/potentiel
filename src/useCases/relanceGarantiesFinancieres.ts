@@ -38,14 +38,14 @@ export default function makeRelanceGarantiesFinancieres({
           return
         }
 
-        if (!project.famille?.soumisAuxGarantiesFinancieres) {
+        if (project.famille?.soumisAuxGarantiesFinancieres === 'non soumis') {
           logger.error(
             `Relance impossible pour un projet qui est dans une famille non soumise aux garanties financieres. Id : ${project.id}`
           )
           return
         }
 
-        if (project.appelOffre?.soumisAuxGarantiesFinancieres === false) {
+        if (project.appelOffre?.soumisAuxGarantiesFinancieres === 'non soumis') {
           logger.error(
             `Relance impossible sur un projet dont l'AO n'est pas soumis aux GF. Id : ${project.id}`
           )
@@ -68,7 +68,12 @@ export default function makeRelanceGarantiesFinancieres({
                 date_designation: moment(project.notifiedOn).format('DD/MM/YYYY'),
                 paragraphe_cdc:
                   project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres || '',
-                duree_garanties: project.famille?.garantieFinanciereEnMois?.toString() || '',
+                duree_garanties:
+                  project.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+                    ? project.famille.garantieFinanciereEnMois?.toString()
+                    : project.appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
+                    ? project.appelOffre.garantieFinanciereEnMois.toString()
+                    : '',
                 invitation_link: routes.PROJECT_DETAILS(project.id),
               },
               message: {

@@ -169,14 +169,13 @@ const batiment: AppelOffre = {
     {
       id: '1',
       title: '1. 100 kWc – 500 Mwc',
-      soumisAuxGarantiesFinancieres: false,
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '2',
       title: '2. 500 kWc – 8 MWc',
       garantieFinanciereEnMois,
-      soumisAuxGarantiesFinancieres: true,
-      garantiesFinancieresDeposeesALaCandidature: false,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
 }
