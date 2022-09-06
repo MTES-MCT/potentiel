@@ -88,6 +88,7 @@ export const makeChangerProducteur =
                         projectId: projetId,
                         userId: utilisateur.id,
                         revokedBy: porteur.id,
+                        cause: 'changement de producteur',
                       },
                     })
                   )
