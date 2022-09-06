@@ -27,48 +27,46 @@ export const CDCChoiceForm = ({
             src="/images/icons/external/external-link-alt-solid.svg"
             className="w-3 h-3"
             alt="Ouvrir dans un nouvel onglet"
-          ></img>
+          />
         </a>
         .
       </p>
       {!newRulesOptIn && (
-        <>
-          <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
-            <div className="inline-radio-option">
-              <input
-                type="radio"
-                name="newRulesOptIn"
-                value="false"
-                id="Anciennes règles"
-                {...dataId('modificationRequest-oldRules')}
-                disabled={newRulesOptIn}
-                defaultChecked={!newRulesOptIn}
-                onChange={handleCDCChange}
-              />
-              <label htmlFor="Anciennes règles" className="flex-1">
-                <strong>
-                  Instruction selon les dispositions du cahier des charges en vigueur au moment de
-                  la candidature &nbsp;
-                </strong>
-                {cahiersChargesURLs?.oldCahierChargesURL && (
-                  <a href={cahiersChargesURLs?.oldCahierChargesURL}>(voir le cahier des charges)</a>
-                )}
-                .
-              </label>
-            </div>
-            <div>
-              <ul>
-                <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                  Je dois envoyer ma demande ou mon signalement au format papier.
-                </li>
-                <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                  Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le
-                  souhaite.
-                </li>
-              </ul>
-            </div>
+        <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
+          <div className="inline-radio-option">
+            <input
+              type="radio"
+              name="newRulesOptIn"
+              value="false"
+              id="Anciennes règles"
+              {...dataId('modificationRequest-oldRules')}
+              disabled={newRulesOptIn}
+              defaultChecked={!newRulesOptIn}
+              onChange={handleCDCChange}
+            />
+            <label htmlFor="Anciennes règles" className="flex-1">
+              <strong>
+                Instruction selon les dispositions du cahier des charges en vigueur au moment de la
+                candidature &nbsp;
+              </strong>
+              {cahiersChargesURLs?.oldCahierChargesURL && (
+                <a href={cahiersChargesURLs?.oldCahierChargesURL}>(voir le cahier des charges)</a>
+              )}
+              .
+            </label>
           </div>
-        </>
+          <div>
+            <ul>
+              <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                Je dois envoyer ma demande ou mon signalement au format papier.
+              </li>
+              <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le
+                souhaite.
+              </li>
+            </ul>
+          </div>
+        </div>
       )}
       <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
         <div className="inline-radio-option">
