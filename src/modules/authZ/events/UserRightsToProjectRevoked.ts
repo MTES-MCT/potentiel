@@ -8,7 +8,6 @@ export interface UserRightsToProjectRevokedPayload {
   projectId: string
   userId: string
   revokedBy: string
-  cause?: 'changement de producteur'
 }
 export class UserRightsToProjectRevoked
   extends BaseDomainEvent<UserRightsToProjectRevokedPayload>
@@ -16,7 +15,7 @@ export class UserRightsToProjectRevoked
 {
   public static type: 'UserRightsToProjectRevoked' = 'UserRightsToProjectRevoked'
   public type = UserRightsToProjectRevoked.type
-  currentVersion = 2
+  currentVersion = 1
 
   aggregateIdFromPayload() {
     return undefined

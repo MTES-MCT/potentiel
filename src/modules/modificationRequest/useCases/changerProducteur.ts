@@ -5,9 +5,9 @@ import { FileContents, FileObject, makeFileObject } from '../../file'
 import { Project } from '../../project/Project'
 import { UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
-import { AppelOffreRepo, ProjectRepo } from '@dataAccess'
+import { AppelOffreRepo } from '@dataAccess'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
-import { UserRightsToProjectRevoked } from '@modules/authZ'
+import { DroitsSurLeProjetRévoqués } from '@modules/authZ'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
@@ -15,7 +15,6 @@ type ChangerProducteurDeps = {
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
   findAppelOffreById: AppelOffreRepo['findById']
-  getUsersForProject: ProjectRepo['getUsers']
 }
 
 type ChangerProducteurArgs = {
@@ -33,7 +32,6 @@ export const makeChangerProducteur =
     projectRepo,
     fileRepo,
     findAppelOffreById,
-    getUsersForProject,
   }: ChangerProducteurDeps) =>
   ({ projetId, porteur, nouveauProducteur, justification, fichier }: ChangerProducteurArgs) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur })).andThen(
@@ -80,21 +78,15 @@ export const makeChangerProducteur =
               )
             })
             .andThen(() => {
-              return wrapInfra(getUsersForProject(projetId)).andThen((utilisateurs) => {
-                utilisateurs.map((utilisateur) => {
-                  return eventBus.publish(
-                    new UserRightsToProjectRevoked({
-                      payload: {
-                        projectId: projetId,
-                        userId: utilisateur.id,
-                        revokedBy: porteur.id,
-                        cause: 'changement de producteur',
-                      },
-                    })
-                  )
+              return eventBus.publish(
+                new DroitsSurLeProjetRévoqués({
+                  payload: {
+                    projetId: projetId,
+                    utilisateurId: porteur.id,
+                    cause: 'changement producteur',
+                  },
                 })
-                return okAsync(null)
-              })
+              )
             })
         })
       }
