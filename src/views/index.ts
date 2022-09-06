@@ -24,8 +24,8 @@ import {
   ChangerProducteur,
   DemanderAbandon,
   DemandeAbandon,
+  ChoisirCahierDesCharges,
 } from './pages'
-import { ChoisirCahierDesCharges } from './pages/choisirCahierDesChargesPage'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
