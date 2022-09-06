@@ -24,7 +24,11 @@ describe('notification.handleNewRulesOptedIn', () => {
 
     await handleNewRulesOptedIn({ findProjectById, findUserById, sendNotification })(
       new ProjectNewRulesOptedIn({
-        payload: { projectId, optedInBy: userId },
+        payload: {
+          projectId,
+          optedInBy: userId,
+          cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+        },
       })
     )
 

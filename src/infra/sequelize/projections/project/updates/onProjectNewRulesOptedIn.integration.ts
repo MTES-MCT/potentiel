@@ -19,7 +19,11 @@ describe('project.onProjectNewRulesOptedIn', () => {
   it('should update the project new rules opt in', async () => {
     await onProjectNewRulesOptedIn(models)(
       new ProjectNewRulesOptedIn({
-        payload: { projectId, optedInBy: 'rocky' },
+        payload: {
+          projectId,
+          optedInBy: 'rocky',
+          cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+        },
       })
     )
 

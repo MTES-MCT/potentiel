@@ -1,8 +1,12 @@
 import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain'
 
-export interface ProjectNewRulesOptedInPayload {
+type ProjectNewRulesOptedInPayload = {
   projectId: string
   optedInBy: string
+  cahierDesCharges: {
+    id: string
+    référence: string
+  }
 }
 
 export class ProjectNewRulesOptedIn

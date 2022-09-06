@@ -43,7 +43,11 @@ export const makeChoisirNouveauCahierDesCharges =
         }
         return eventBus.publish(
           new ProjectNewRulesOptedIn({
-            payload: { projectId: projetId, optedInBy: utilisateur.id },
+            payload: {
+              projectId: projetId,
+              optedInBy: utilisateur.id,
+              cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+            },
           })
         )
       })
