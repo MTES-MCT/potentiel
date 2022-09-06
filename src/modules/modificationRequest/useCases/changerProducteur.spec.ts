@@ -1,6 +1,6 @@
-import { DomainEvent, Repository, UniqueEntityID } from '@core/domain'
+import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
-import { makeUser, User, AppelOffre } from '@entities'
+import { makeUser, AppelOffre } from '@entities'
 import { Readable } from 'stream'
 import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
@@ -12,6 +12,7 @@ import { makeChangerProducteur } from './changerProducteur'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { ModificationReceived } from '../events'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ'
 
 describe('Commande changerProducteur', () => {
   const shouldUserAccessProject = jest.fn(async () => true)
@@ -38,12 +39,6 @@ describe('Commande changerProducteur', () => {
   const fakeFileContents = Readable.from('test-content')
   const fakeFileName = 'myfilename.pdf'
 
-  const newUserId = new UniqueEntityID().toString()
-
-  const getUserByEmail = jest.fn((email: string) =>
-    okAsync<User | null, InfraNotAvailableError>(null)
-  )
-
   describe(`Impossible de changer de producteur sans avoir les droits sur le projet`, () => {
     describe(`Etant donné un porteur de projet n'ayant pas les droits sur le projet`, () => {
       it(`Lorsque le porteur change de producteur,
@@ -59,7 +54,6 @@ describe('Commande changerProducteur', () => {
           shouldUserAccessProject,
           fileRepo: fileRepo as Repository<FileObject>,
           findAppelOffreById,
-          getUserByEmail,
         })
 
         const res = await changerProducteur({
@@ -106,7 +100,6 @@ describe('Commande changerProducteur', () => {
           shouldUserAccessProject,
           fileRepo: fileRepo as Repository<FileObject>,
           findAppelOffreById,
-          getUserByEmail,
         })
 
         const res = await changerProducteur({
@@ -135,7 +128,6 @@ describe('Commande changerProducteur', () => {
           shouldUserAccessProject,
           fileRepo: fileRepo as Repository<FileObject>,
           findAppelOffreById,
-          getUserByEmail,
         })
 
         const res = await changerProducteur({
@@ -158,7 +150,7 @@ describe('Commande changerProducteur', () => {
       })
 
       it(`Un événement ModificationReceived devrait être émis`, async () => {
-        expect(eventBus.publish).toHaveBeenCalledTimes(1)
+        expect(eventBus.publish).toHaveBeenCalledTimes(2)
         const event = eventBus.publish.mock.calls[0][0]
         expect(event).toBeInstanceOf(ModificationReceived)
 
@@ -172,6 +164,37 @@ describe('Commande changerProducteur', () => {
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents)
         expect(fileRepo.save.mock.calls[0][0].filename).toEqual(fakeFileName)
       })
+    })
+  })
+
+  describe('Révocation des droits sur le projet', () => {
+    it(`Etant donné un porteur ayant les droits sur un projet,
+          lorsqu'il fait un changement de producteur,
+          alors un événement ToutAccèsAuProjetRevoqué devrait être émis`, async () => {
+      fakePublish.mockClear()
+      fileRepo.save.mockClear()
+
+      const changerProducteur = makeChangerProducteur({
+        projectRepo,
+        eventBus,
+        shouldUserAccessProject,
+        fileRepo: fileRepo as Repository<FileObject>,
+        findAppelOffreById,
+      })
+
+      const res = await changerProducteur({
+        projetId: fakeProject.id.toString(),
+        porteur: fakeUser,
+        nouveauProducteur: 'newProducteur',
+      })
+
+      expect(res.isOk()).toBe(true)
+
+      expect(eventBus.publish).toHaveBeenCalledTimes(2)
+
+      const révocationDroitsEvenement = eventBus.publish.mock.calls[1][0]
+      expect(révocationDroitsEvenement).toBeInstanceOf(ToutAccèsAuProjetRevoqué)
+      expect(révocationDroitsEvenement.payload.projetId).toEqual(fakeProject.id.toString())
     })
   })
 })

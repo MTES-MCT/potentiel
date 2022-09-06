@@ -7,6 +7,7 @@ import { UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { AppelOffreRepo } from '@dataAccess'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ'
 
 type ChangerProducteurDeps = {
   eventBus: EventBus
@@ -72,6 +73,16 @@ export const makeChangerProducteur =
                     justification,
                     ...(fileId && { fileId }),
                     authority: 'dreal',
+                  },
+                })
+              )
+            })
+            .andThen(() => {
+              return eventBus.publish(
+                new ToutAccèsAuProjetRevoqué({
+                  payload: {
+                    projetId: projetId,
+                    cause: 'changement producteur',
                   },
                 })
               )

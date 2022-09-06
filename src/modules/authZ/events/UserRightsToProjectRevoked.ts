@@ -17,7 +17,7 @@ export class UserRightsToProjectRevoked
   public type = UserRightsToProjectRevoked.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: UserRightsToProjectRevokedPayload) {
+  aggregateIdFromPayload() {
     return undefined
   }
 }
