@@ -47,7 +47,12 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
           <ItemTitle title={titre} />
           <p className="p-0 m-0">
             {statut !== 'accordée' ? <DélaiDemandé {...props} /> : <DélaiAccordé {...props} />}
-            {demandeUrl && <Link href={demandeUrl}>Voir la demande</Link>}
+            {demandeUrl && (
+              <>
+                <br />
+                <Link href={demandeUrl}>Voir la demande</Link>
+              </>
+            )}
           </p>
         </>
       </ContentArea>
@@ -56,7 +61,7 @@ export const DemandeDélaiItem = (props: DemandeDélaiItemProps) => {
 }
 
 const DélaiDemandé = (
-  props: DemandeDélaiItemProps & Exclude<DemandeDélaiItemProps, { statut: 'accordée' }>
+  props: DemandeDélaiItemProps & Exclude<DemandeDélaiItemProps, { statut: 'demandée' }>
 ) =>
   props.dateAchèvementDemandée ? (
     <>
@@ -67,19 +72,22 @@ const DélaiDemandé = (
     <>Délai demandé : {props.délaiEnMoisDemandé} mois</>
   )
 
-const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) =>
-  props.délaiEnMoisAccordé ? (
-    <>
-      Délai accordé : {props.délaiEnMoisAccordé} mois
-      <br />
-    </>
-  ) : props.ancienneDateThéoriqueAchèvement ? (
-    <>
-      Ancienne date limite d'achèvement :{' '}
-      {format(new Date(props.ancienneDateThéoriqueAchèvement), 'dd/MM/yyyy')}
-      <br />
-      Nouvelle date limite d'achèvement :{' '}
-      {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
-      <br />
-    </>
-  ) : null
+const DélaiAccordé = (props: DemandeDélaiItemProps & { statut: 'accordée' }) => {
+  if (props.délaiEnMoisDemandé) {
+    return <>Délai accordé : {props.délaiEnMoisAccordé} mois</>
+  }
+
+  if (props.dateAchèvementDemandée) {
+    return (
+      <>
+        Ancienne date limite d'achèvement :{' '}
+        {format(new Date(props.ancienneDateThéoriqueAchèvement), 'dd/MM/yyyy')}
+        <br />
+        Nouvelle date limite d'achèvement :{' '}
+        {format(new Date(props.dateAchèvementAccordée), 'dd/MM/yyyy')}
+      </>
+    )
+  }
+
+  return null
+}

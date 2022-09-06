@@ -485,24 +485,48 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
               case 'DemandeDélai':
                 if (userIsNot('ademe')(user)) {
-                  const { statut, dateAchèvementDemandée, autorité } = payload
-                  events.push({
-                    type,
-                    variant: user.role,
-                    date: valueDate,
-                    dateAchèvementDemandée,
-                    ...(statut === 'accordée'
-                      ? {
-                          statut,
-                          dateAchèvementAccordée: payload.dateAchèvementAccordée,
-                          ancienneDateThéoriqueAchèvement: payload.ancienneDateThéoriqueAchèvement,
-                        }
-                      : { statut }),
-                    ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
-                      (userIs('dreal') && autorité === 'dreal')) && {
-                      demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
-                    }),
-                  })
+                  const { statut, autorité } = payload
+                  if (payload.dateAchèvementDemandée) {
+                    const { dateAchèvementDemandée } = payload
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      dateAchèvementDemandée,
+                      ...(statut === 'accordée'
+                        ? {
+                            statut,
+                            dateAchèvementAccordée: payload.dateAchèvementAccordée,
+                            ancienneDateThéoriqueAchèvement:
+                              payload.ancienneDateThéoriqueAchèvement,
+                          }
+                        : { statut }),
+                      ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
+                        (userIs('dreal') && autorité === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                      }),
+                    })
+                  }
+
+                  if (payload.délaiEnMoisDemandé) {
+                    const { délaiEnMoisDemandé } = payload
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      délaiEnMoisDemandé,
+                      ...(statut === 'accordée'
+                        ? {
+                            statut,
+                            délaiEnMoisAccordé: payload.délaiEnMoisAccordé,
+                          }
+                        : { statut }),
+                      ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
+                        (userIs('dreal') && autorité === 'dreal')) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                      }),
+                    })
+                  }
                 }
                 break
               case 'DemandeAbandon':

@@ -369,26 +369,22 @@ export type DemandeDélaiDTO = {
   demandeUrl?: string
   actionRequise?: 'à traiter' | 'réponse à envoyer'
 } & (
-  | { dateAchèvementDemandée: string; délaiEnMoisDemandé?: undefined }
-  | { dateAchèvementDemandée?: undefined; délaiEnMoisDemandé: number }
-) &
-  (
-    | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
-    | ({
-        statut: 'accordée'
-      } & (
-        | {
-            délaiEnMoisAccordé?: undefined
-            dateAchèvementAccordée: string
-            ancienneDateThéoriqueAchèvement: string
-          }
-        | {
-            délaiEnMoisAccordé: number
-            dateAchèvementAccordée?: undefined
-            ancienneDateThéoriqueAchèvement?: undefined
-          }
-      ))
-  )
+  | ({ dateAchèvementDemandée: string; délaiEnMoisDemandé?: undefined } & (
+      | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
+      | {
+          statut: 'accordée'
+          dateAchèvementAccordée: string
+          ancienneDateThéoriqueAchèvement: string
+        }
+    ))
+  | ({ dateAchèvementDemandée?: undefined; délaiEnMoisDemandé: number } & (
+      | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
+      | {
+          statut: 'accordée'
+          délaiEnMoisAccordé: number
+        }
+    ))
+)
 
 export type DemandeAbandonDTO = {
   type: 'DemandeAbandon'
