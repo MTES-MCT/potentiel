@@ -1,7 +1,7 @@
 import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import { ProjectStatusLabel } from '../../../components'
+import { ProjectStatusLabel, Link } from '@components'
 import { ProjectActions } from './ProjectActions'
 import { ExternalLinkIcon } from '@heroicons/react/solid'
 
@@ -51,18 +51,30 @@ const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
     Instruction des demandes selon les règles du{' '}
     {project.newRulesOptIn ? (
       cahiersChargesURLs?.newCahierChargesURL ? (
-        <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
-          cahier des charges modifié (option choisie par le candidat){' '}
-          <ExternalLinkIcon className="w-4" />
-        </a>
+        <div>
+          <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
+            cahier des charges modifié (option choisie par le candidat){' '}
+            <ExternalLinkIcon className="w-4" />
+          </a>
+          <br />
+          <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
+            Choisir le cahier des charges
+          </Link>
+        </div>
       ) : (
         `cahier des charges modifié (option choisie par le candidat)`
       )
     ) : cahiersChargesURLs?.oldCahierChargesURL ? (
-      <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
-        cahier des charges initial (en vigueur à la candidature){' '}
-        <ExternalLinkIcon className="w-4" />
-      </a>
+      <div>
+        <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
+          cahier des charges initial (en vigueur à la candidature){' '}
+          <ExternalLinkIcon className="w-4" />
+        </a>
+        <br />
+        <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
+          Choisir le cahier des charges
+        </Link>
+      </div>
     ) : (
       `cahier des charges initial (en vigueur à la candidature)`
     )}

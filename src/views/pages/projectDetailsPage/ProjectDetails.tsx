@@ -7,7 +7,6 @@ import { RoleBasedDashboard, SuccessErrorBox, PageLayout } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
-  CDCForm,
   EditProjectData,
   InfoGenerales,
   Contact,
@@ -50,11 +49,11 @@ export const ProjectDetails = PageLayout(
             </div>
           </div>
 
-          {userIs('porteur-projet')(user) &&
+          {/* {userIs('porteur-projet')(user) &&
             project.isClasse &&
             project.appelOffre.choisirNouveauCahierDesCharges && (
-              <CDCForm {...{ project, cahiersChargesURLs }} />
-            )}
+    
+            )} */}
 
           {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
             <EditProjectData project={project} request={request} />

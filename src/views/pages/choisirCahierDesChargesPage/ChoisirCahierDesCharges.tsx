@@ -22,7 +22,8 @@ export const ChoisirCahierDesCharges = PageLayout(
 
     return (
       <div className="p-8">
-        <form action={ROUTES.CHANGER_CDC} method="post" className={'m-0 max-w-full'}>
+        <h1>Cahier des charges</h1>
+        <form action={ROUTES.CHANGER_CDC} method="post" className="m-0 max-w-full">
           <div>
             <p>
               Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
