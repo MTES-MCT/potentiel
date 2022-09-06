@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { PageLayout } from '@components'
+import { PageLayout, ExternalLinkIcon, Link } from '@components'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Request } from 'express'
 import ROUTES from '@routes'
@@ -28,17 +28,14 @@ export const ChoisirCahierDesCharges = PageLayout(
             <p>
               Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
               &nbsp;
-              <a
+              <Link
+                className="inline-flex items-center"
                 href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement"
                 target="_blank"
               >
-                page d'aide &nbsp;
-                <img
-                  src="/images/icons/external/external-link-alt-solid.svg"
-                  className="w-3 h-3"
-                  alt="Ouvrir dans un nouvel onglet"
-                />
-              </a>
+                page d'aide
+                <ExternalLinkIcon className="ml-1" />
+              </Link>
               .
             </p>
             {!newRulesOptIn && (
@@ -49,7 +46,6 @@ export const ChoisirCahierDesCharges = PageLayout(
                     name="newRulesOptIn"
                     value="false"
                     id="Anciennes règles"
-                    {...dataId('modificationRequest-oldRules')}
                     disabled={newRulesOptIn}
                     defaultChecked={!newRulesOptIn}
                     onChange={handleCDCChange}
@@ -60,9 +56,9 @@ export const ChoisirCahierDesCharges = PageLayout(
                       de la candidature &nbsp;
                     </strong>
                     {cahiersChargesURLs?.oldCahierChargesURL && (
-                      <a href={cahiersChargesURLs?.oldCahierChargesURL}>
+                      <Link href={cahiersChargesURLs?.oldCahierChargesURL}>
                         (voir le cahier des charges)
-                      </a>
+                      </Link>
                     )}
                     .
                   </label>
@@ -101,9 +97,9 @@ export const ChoisirCahierDesCharges = PageLayout(
                     30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre 2019&nbsp;
                   </strong>
                   {cahiersChargesURLs?.newCahierChargesURL && (
-                    <a href={cahiersChargesURLs?.newCahierChargesURL}>
+                    <Link href={cahiersChargesURLs?.newCahierChargesURL}>
                       (voir le cahier des charges)
-                    </a>
+                    </Link>
                   )}
                   .
                 </label>
