@@ -11,7 +11,7 @@ type MakeLaureat = (project: ProjectDataForCertificate) => {
 
 export const makeLaureat: MakeLaureat = (project) => {
   const { appelOffre, technologie } = project
-  const { periode, isSoumisAuxGFs } = appelOffre || {}
+  const { periode, isSoumisAuxGF } = appelOffre || {}
   const { delaiDcrEnMois } = periode
 
   const footnotes: Array<Footnote> = []
@@ -90,7 +90,7 @@ export const makeLaureat: MakeLaureat = (project) => {
           ;
         </Text>
 
-        {isSoumisAuxGFs && appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
+        {isSoumisAuxGF && appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
           <Text
             style={{
               marginTop: 10,

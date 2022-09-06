@@ -30,7 +30,6 @@ Font.register({
 const fakeProject: ProjectDataForCertificate = {
   appelOffre: {
     ...eolienPPE2,
-    soumisAuxGarantiesFinancieres: true,
     periode: eolienPPE2.periodes[0],
   } as ProjectAppelOffre,
   isClasse: true,
@@ -198,7 +197,10 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Autre motif',
-    appelOffre: { ...fakeProject.appelOffre, soumisAuxGarantiesFinancieres: false },
+    appelOffre: {
+      ...fakeProject.appelOffre,
+      soumisAuxGarantiesFinancieres: 'non soumis',
+    },
   }
   return (
     <PDFViewer width="100%" height="900px">

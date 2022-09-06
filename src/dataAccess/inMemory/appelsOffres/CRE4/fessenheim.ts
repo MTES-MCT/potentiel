@@ -1,6 +1,8 @@
 import { AppelOffre } from '@entities'
 import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
+const garantieFinanciereEnMois = 42
+
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
   type: 'autre',
@@ -29,7 +31,7 @@ const fessenheim: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
+  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -78,18 +80,19 @@ const fessenheim: AppelOffre = {
     {
       id: '1',
       title: '1',
-      garantieFinanciereEnMois: 42,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '2',
       title: '2',
-      garantieFinanciereEnMois: 42,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '3',
       title: '3',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
 }

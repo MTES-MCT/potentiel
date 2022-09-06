@@ -9,7 +9,7 @@ type ElimineProps = {
 
 export const Elimine = ({ project }: ElimineProps) => {
   const { appelOffre } = project
-  const { renvoiRetraitDesignationGarantieFinancieres, isSoumisAuxGFs } = appelOffre
+  const { renvoiRetraitDesignationGarantieFinancieres, isSoumisAuxGF } = appelOffre
 
   return (
     <>
@@ -17,7 +17,7 @@ export const Elimine = ({ project }: ElimineProps) => {
         <MotifElimination {...{ project }} />
       </Text>
 
-      {isSoumisAuxGFs && (
+      {isSoumisAuxGF && (
         <Text style={{ marginTop: 10 }}>
           Conformément au paragraphe {renvoiRetraitDesignationGarantieFinancieres} la garantie
           financière est annulée automatiquement.

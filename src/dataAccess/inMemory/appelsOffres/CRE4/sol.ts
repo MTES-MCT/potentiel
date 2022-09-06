@@ -1,6 +1,8 @@
 import { AppelOffre } from '@entities'
 import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
+const garantieFinanciereEnMois = 42
+
 const sol: AppelOffre = {
   id: 'CRE4 - Sol',
   type: 'sol',
@@ -29,8 +31,7 @@ const sol: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
-  soumisAuxGarantiesFinancieres: true,
+  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -148,17 +149,20 @@ const sol: AppelOffre = {
     {
       id: '1',
       title: '1. 5 MWc – 30 Mwc',
-      garantieFinanciereEnMois: 42,
+      soumisAuxGarantiesFinancieres: 'après candidature',
+      garantieFinanciereEnMois,
     },
     {
       id: '2',
       title: '2. 500kWc - 5MWc',
-      garantieFinanciereEnMois: 42,
+      soumisAuxGarantiesFinancieres: 'après candidature',
+      garantieFinanciereEnMois,
     },
     {
       id: '3',
       title: '3. 500 kWc - 10MWc',
-      garantieFinanciereEnMois: 42,
+      soumisAuxGarantiesFinancieres: 'après candidature',
+      garantieFinanciereEnMois,
     },
   ],
 }

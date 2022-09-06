@@ -1,4 +1,4 @@
-import { AppelOffre, Famille, ProjectAppelOffre } from '@entities'
+import { AppelOffre, ProjectAppelOffre } from '@entities'
 
 export type GetProjectAppelOffre = (args: {
   appelOffreId: string
@@ -23,13 +23,8 @@ export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProject
       ...appelOffre,
       periode,
       famille,
-      isSoumisAuxGFs: famille
-        ? isSoumisAuxGFs(famille)
-        : appelOffre.soumisAuxGarantiesFinancieres ?? false,
+      isSoumisAuxGF: famille
+        ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
+        : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis',
     }
   }
-
-const isSoumisAuxGFs = (famille: Famille) => {
-  const { soumisAuxGarantiesFinancieres, garantieFinanciereEnMois = 0 } = famille
-  return soumisAuxGarantiesFinancieres === true || garantieFinanciereEnMois > 0
-}

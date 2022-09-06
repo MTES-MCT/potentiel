@@ -78,15 +78,27 @@ v1Router.get(
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
         garantieFinanciereEnMois:
-          project.famille?.garantieFinanciereEnMois?.toString() || '!!!FAMILLE NON DISPONIBLE!!!',
-        dateFinGarantieFinanciere: project.famille
-          ? formatDate(
-              moment(project.notifiedOn)
-                .add(project.famille.garantieFinanciereEnMois, 'months')
-                .toDate()
-                .getTime()
-            )
-          : '!!!FAMILLE NON DISPONIBLE!!!',
+          project.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? project.famille.garantieFinanciereEnMois?.toString()
+            : project.appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? project.appelOffre.garantieFinanciereEnMois.toString()
+            : '!!!GARANTIE FINANCIERE EN MOIS NON DISPONIBLE!!!',
+        dateFinGarantieFinanciere:
+          project.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? formatDate(
+                moment(project.notifiedOn)
+                  .add(project.famille.garantieFinanciereEnMois, 'months')
+                  .toDate()
+                  .getTime()
+              )
+            : project.appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
+            ? formatDate(
+                moment(project.notifiedOn)
+                  .add(project.appelOffre.garantieFinanciereEnMois, 'months')
+                  .toDate()
+                  .getTime()
+              )
+            : '!!!FAMILLE NON DISPONIBLE!!!',
         dateLimiteDepotGF: formatDate(project.garantiesFinancieresDueOn),
         nomRepresentantLegal: project.nomRepresentantLegal,
         adresseProjet: project.adresseProjet,

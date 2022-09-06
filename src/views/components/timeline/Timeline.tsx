@@ -88,7 +88,13 @@ type UndatedItemProps = ItemProps & { date: undefined }
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status, isSoumisAuxGF, isGarantiesFinancieresDeposeesALaCandidature },
+    project: {
+      id: projectId,
+      status,
+      isSoumisAuxGF,
+      isGarantiesFinancieresDeposeesALaCandidature,
+      garantieFinanciereEnMois,
+    },
   },
   now,
 }: TimelineProps) => {
@@ -138,7 +144,9 @@ export const Timeline = ({
         return <ImportItem {...props} />
 
       case 'garanties-financieres':
-        return <GFItem {...{ ...props, project: { id: projectId, status } }} />
+        return (
+          <GFItem {...{ ...props, project: { id: projectId, status, garantieFinanciereEnMois } }} />
+        )
 
       case 'demande-complete-de-raccordement':
         return <DCRItem {...{ ...props, projectId }} />

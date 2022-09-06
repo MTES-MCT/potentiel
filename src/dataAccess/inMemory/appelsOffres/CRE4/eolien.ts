@@ -35,7 +35,8 @@ const eolien: AppelOffre = {
   paragrapheClauseCompetitivite: '2.7',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: false,
-  soumisAuxGarantiesFinancieres: true,
+  soumisAuxGarantiesFinancieres: 'après candidature',
+  garantieFinanciereEnMois: 51,
   changementPuissance: {
     ratios: {
       min: 0.9,

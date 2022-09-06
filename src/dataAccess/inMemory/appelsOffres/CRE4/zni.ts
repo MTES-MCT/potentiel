@@ -1,6 +1,8 @@
 import { AppelOffre } from '@entities'
 import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
+const garantieFinanciereEnMois = 36
+
 const zni: AppelOffre = {
   id: 'CRE4 - ZNI',
   type: 'zni',
@@ -29,7 +31,7 @@ const zni: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
-  renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 36 mois',
+  renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -166,48 +168,53 @@ const zni: AppelOffre = {
     {
       id: '1',
       title: '1. 100kWc - 250kWc',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '2',
       title: '2. 250kWc - 1,5MWc',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '3',
       title: '3. 250kWc - 5MWc',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     // 2019 ZNI avec stockage
     {
       id: '1a',
       title: '1a. 100kWc - 500 kWc',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '1b',
       title: '1b. 500 kWc - 1,5MWc',
-      garantieFinanciereEnMois: 36,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '1c',
       title: '1c. 500 kWc - 5 MWc',
-      garantieFinanciereEnMois: 36,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     // 2019 ZNI sans stockage
     {
       id: '2a',
       title: '2a. 100kWc - 500 kWc',
+      soumisAuxGarantiesFinancieres: 'non soumis',
     },
     {
       id: '2b',
       title: '2b. 500 kWc - 1,5MWc',
-      garantieFinanciereEnMois: 36,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
     {
       id: '2c',
       title: '2c. 500 kWc - 5 MWc',
-      garantieFinanciereEnMois: 36,
-      soumisAuxGarantiesFinancieres: true,
+      garantieFinanciereEnMois,
+      soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
 }

@@ -1,5 +1,5 @@
 import { Periode } from './periode'
-import { Famille } from './famille'
+import { Famille, GarantiesFinancièresFamille } from './famille'
 
 export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const
 export type Technologie = typeof technologies[number]
@@ -39,6 +39,12 @@ type DelaiRealisation =
       decoupageParTechnologie: true
     }
 
+type GarantiesFinancièresAppelOffre =
+  | GarantiesFinancièresFamille
+  | {
+      soumisAuxGarantiesFinancieres?: undefined
+    }
+
 export type AppelOffre = {
   id: string
   type: AppelOffreTypes
@@ -63,18 +69,17 @@ export type AppelOffre = {
   afficherValeurEvaluationCarbone: boolean
   afficherPhraseRegionImplantation: boolean
   dossierSuiviPar: string
-  soumisAuxGarantiesFinancieres?: boolean
-  garantiesFinancieresDeposeesALaCandidature?: boolean
   choisirNouveauCahierDesCharges?: true
-  renvoiSoumisAuxGarantiesFinancieres?: string
   periodes: Periode[]
   familles: Famille[]
   contenuParagrapheAchevement: string
+  renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
-} & DelaiRealisation
+} & DelaiRealisation &
+  GarantiesFinancièresAppelOffre
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode
   famille: Famille | undefined
-  isSoumisAuxGFs: boolean
+  isSoumisAuxGF: boolean
 }

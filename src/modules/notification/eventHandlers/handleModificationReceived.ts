@@ -44,7 +44,7 @@ export const handleModificationReceived =
           },
         }
 
-        if (type === 'producteur' && project.appelOffre?.isSoumisAuxGFs)
+        if (type === 'producteur' && project.appelOffre?.isSoumisAuxGF)
           notificationPayload.variables.demande_action_pp = `Suite à votre signalement de changement de ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
 
         if (type === 'fournisseur' && event.payload.evaluationCarbone) {

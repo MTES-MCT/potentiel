@@ -297,7 +297,7 @@ describe('notification.handleModificationReceived', () => {
             evaluationCarbone: 100,
             appelOffreId: 'PPE2 - Eolien',
             periodeId: '1',
-            appelOffre: { isSoumisAuxGFs: false },
+            appelOffre: { isSoumisAuxGF: false },
           })
         ).unwrap()
       )

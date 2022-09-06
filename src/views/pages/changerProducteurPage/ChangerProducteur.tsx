@@ -87,7 +87,7 @@ export const ChangerProducteur = PageLayout(
                     defaultValue={project.nomCandidat}
                     style={{ backgroundColor: '#CECECE' }}
                   />
-                  {!isEolien && appelOffre?.isSoumisAuxGFs && (
+                  {!isEolien && appelOffre?.isSoumisAuxGF && (
                     <div className="notification warning my-4">
                       <span>
                         Attention : de nouvelles garanties financières devront être déposées d'ici

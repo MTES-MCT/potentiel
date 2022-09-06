@@ -80,7 +80,7 @@ export const adminGarantiesFinancieresDues = () => (
 export const PPGarantiesFinancieresDues = () => (
   <Timeline
     projectEventList={{
-      project,
+      project: { ...project, garantieFinanciereEnMois: 42 },
       events: [
         {
           type: 'ProjectNotified',
