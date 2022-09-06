@@ -1,12 +1,11 @@
-import { err, ok, wrapInfra } from '@core/utils'
+import { wrapInfra } from '@core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
 } from '@modules/modificationRequest'
-import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
-const { ModificationRequest, Project, User } = models
+const { ModificationRequest, Project, User, UserProjects } = models
 
 export const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
   (modificationRequestId: string) => {
@@ -18,28 +17,41 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
             as: 'project',
             attributes: ['nomProjet', 'departementProjet', 'regionProjet'],
           },
-          {
-            model: User,
-            as: 'requestedBy',
-            attributes: ['fullName', 'email', 'id'],
-          },
         ],
       })
     ).andThen((modificationRequestRaw: any) => {
-      if (!modificationRequestRaw) return err(new EntityNotFoundError())
-
       const {
         type,
-        requestedBy: { email, fullName, id },
+        projectId,
         project: { nomProjet, departementProjet, regionProjet },
       } = modificationRequestRaw.get()
 
-      return ok({
-        type,
-        nomProjet,
-        departementProjet,
-        regionProjet,
-        porteursProjet: [{ id, email, fullName }],
-      } as ModificationRequestInfoForStatusNotificationDTO)
+      return wrapInfra(
+        UserProjects.findAll({
+          attributes: ['projectId'],
+          where: { projectId },
+          include: [
+            {
+              model: User,
+              as: 'user',
+              attributes: ['fullName', 'email', 'id'],
+            },
+          ],
+        })
+      ).map(
+        (
+          porteursProjets: { user: { id: string; email: string; fullName: string } }[]
+        ): ModificationRequestInfoForStatusNotificationDTO => ({
+          type,
+          nomProjet,
+          departementProjet,
+          regionProjet,
+          porteursProjet: porteursProjets.map(({ user }) => ({
+            id: user.id,
+            email: user.email,
+            fullName: user.fullName,
+          })),
+        })
+      )
     })
   }

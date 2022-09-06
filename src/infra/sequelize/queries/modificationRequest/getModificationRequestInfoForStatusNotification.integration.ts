@@ -9,6 +9,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
   const projectId = new UniqueEntityID().toString()
   const modificationRequestId = new UniqueEntityID().toString()
   const userId = new UniqueEntityID().toString()
+  const userId2 = new UniqueEntityID().toString()
 
   const projectInfo = {
     id: projectId,
@@ -26,6 +27,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
 
     const UserModel = models.User
     await UserModel.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }))
+    await UserModel.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }))
 
     const ModificationRequestModel = models.ModificationRequest
     await ModificationRequestModel.create({
@@ -37,6 +39,18 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       requestedBy: userId,
       status: 'envoyée',
     })
+
+    const UserProjects = models.UserProjects
+    await UserProjects.bulkCreate([
+      {
+        userId,
+        projectId,
+      },
+      {
+        userId: userId2,
+        projectId,
+      },
+    ])
   })
 
   it('should return a complete ModificationRequestUpdateInfoDTO', async () => {
@@ -59,6 +73,11 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
           id: userId,
           fullName: 'pp1',
           email: 'pp1@test.test',
+        },
+        {
+          id: userId2,
+          fullName: 'pp2',
+          email: 'pp2@test.test',
         },
       ],
     })
