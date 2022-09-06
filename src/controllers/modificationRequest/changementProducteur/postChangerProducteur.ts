@@ -27,7 +27,7 @@ import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModificat
 const requestBodySchema = yup.object({
   projetId: yup.string().uuid().required(),
   newRulesOptIn: yup.boolean().optional(),
-  producteur: yup.string().required('Le champ producteur est obligatoire.'),
+  producteur: yup.string().required('Le champ "nouveau producteur" est obligatoire.'),
   justification: yup.string().optional(),
 })
 
@@ -38,7 +38,6 @@ v1Router.post(
   asyncHandler((request, response) =>
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projetId, newRulesOptIn, producteur, justification } = body
         const { user } = request
 
         const fichier = request.file && {
@@ -46,13 +45,13 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        if (newRulesOptIn) {
+        if (body.newRulesOptIn) {
           return choisirNouveauCahierDesCharges({
             utilisateur: user,
-            projetId,
-          }).map(() => ({ fichier, producteur, justification, user, projetId }))
+            projetId: body.projetId,
+          }).map(() => ({ fichier, user, ...body }))
         }
-        return okAsync({ fichier, producteur, justification, user, projetId })
+        return okAsync({ fichier, user, ...body })
       })
       .andThen(({ fichier, producteur, justification, user, projetId }) => {
         return changerProducteur({
@@ -64,7 +63,7 @@ v1Router.post(
         }).map(() => projetId)
       })
       .match(
-        (projetId) => {
+        () => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Votre changement de producteur a bien été enregistré. Vous n'avez plus accès au projet sur Potentiel.`,
