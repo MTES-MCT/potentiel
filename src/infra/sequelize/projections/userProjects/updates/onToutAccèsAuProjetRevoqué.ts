@@ -1,7 +1,7 @@
 import { logger } from '@core/utils'
-import { DroitsSurLeProjetRévoqués } from '@modules/authZ'
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ'
 
-export const onDroitsSurLeProjetRévoqués = (models) => async (event: DroitsSurLeProjetRévoqués) => {
+export const onToutAccèsAuProjetRevoqué = (models) => async (event: ToutAccèsAuProjetRevoqué) => {
   const UserProjectModel = models.UserProjects
   const { projetId } = event.payload
 

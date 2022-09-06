@@ -12,7 +12,7 @@ import { makeChangerProducteur } from './changerProducteur'
 import { AppelOffreRepo } from '@dataAccess/inMemory'
 import { ModificationReceived } from '../events'
 import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
-import { DroitsSurLeProjetRévoqués } from '@modules/authZ'
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ'
 
 describe('Commande changerProducteur', () => {
   const shouldUserAccessProject = jest.fn(async () => true)
@@ -170,7 +170,7 @@ describe('Commande changerProducteur', () => {
   describe('Révocation des droits sur le projet', () => {
     it(`Etant donné un porteur ayant les droits sur un projet,
           lorsqu'il fait un changement de producteur,
-          alors un événement DroitsSurLeProjetRévoqués devrait être émis`, async () => {
+          alors un événement ToutAccèsAuProjetRevoqué devrait être émis`, async () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
 
@@ -193,7 +193,7 @@ describe('Commande changerProducteur', () => {
       expect(eventBus.publish).toHaveBeenCalledTimes(2)
 
       const révocationDroitsEvenement = eventBus.publish.mock.calls[1][0]
-      expect(révocationDroitsEvenement).toBeInstanceOf(DroitsSurLeProjetRévoqués)
+      expect(révocationDroitsEvenement).toBeInstanceOf(ToutAccèsAuProjetRevoqué)
       expect(révocationDroitsEvenement.payload.projetId).toEqual(fakeProject.id.toString())
     })
   })

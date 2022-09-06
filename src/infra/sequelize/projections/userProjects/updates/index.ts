@@ -8,12 +8,12 @@ import {
   UserProjectsLinkedByContactEmail,
   UserRightsToProjectRevoked,
   UserRightsToProjectGranted,
-  DroitsSurLeProjetRévoqués,
+  ToutAccèsAuProjetRevoqué,
 } from '@modules/authZ'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim/events'
 import { onProjectClaimed } from './onProjectClaimed'
 import { EventBus } from '@core/domain'
-import { onDroitsSurLeProjetRévoqués } from './onDroitsSurLeProjetRévoqués'
+import { onToutAccèsAuProjetRevoqué } from './onToutAccèsAuProjetRevoqué'
 
 export const initUserProjectsProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(UserRightsToProjectRevoked.type, onUserRightsToProjectRevoked(models))
@@ -25,7 +25,7 @@ export const initUserProjectsProjections = (eventBus: EventBus, models) => {
     UserProjectsLinkedByContactEmail.type,
     onUserProjectsLinkedByContactEmail(models)
   )
-  eventBus.subscribe(DroitsSurLeProjetRévoqués.type, onDroitsSurLeProjetRévoqués(models))
+  eventBus.subscribe(ToutAccèsAuProjetRevoqué.type, onToutAccèsAuProjetRevoqué(models))
 
   logger.info('Initialized User Projects projections')
 }
