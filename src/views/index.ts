@@ -61,7 +61,7 @@ export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahi
     Component: ChoisirCahierDesCharges,
     props,
     hydrate: true,
-    pageName: 'ChoisirCahierDesCharges', // This must match the Component name
+    pageName: 'choisirCahierDesCharges', // This must match the Component name
   })
 
 export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinancieres>[0]) =>
