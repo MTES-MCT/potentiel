@@ -8,6 +8,7 @@ import routes from '@routes'
 import { ChoisirCahierDesChargesPage } from '@views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
+import { err } from '../../core/utils'
 
 v1Router.get(
   routes.CHOISIR_CAHIER_DES_CHARGES(),
@@ -35,6 +36,10 @@ v1Router.get(
 
     await getProjectDataForProjectPage({ projectId: projetId, user })
       .andThen((project) => {
+        if (!project.isClasse || !project.appelOffre.choisirNouveauCahierDesCharges) {
+          return err(new EntityNotFoundError())
+        }
+
         const { appelOffreId, periodeId } = project
         return getCahiersChargesURLs(appelOffreId, periodeId).map((cahiersChargesURLs) => ({
           cahiersChargesURLs,
