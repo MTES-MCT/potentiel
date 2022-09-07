@@ -91,7 +91,10 @@ import {
   userRepo,
 } from './repos.config'
 import { sendNotification } from '@config/emails.config'
-import { makeNotifierPorteurChangementStatutDemande } from '@modules/notification'
+import {
+  makeNotifierPorteurChangementStatutDemande,
+  makeNotifierPorteurRévocationAccèsProjet,
+} from '@modules/notification'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -420,5 +423,9 @@ export const annulerRejetAbandon = makeAnnulerRejetAbandon({
 })
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
+  sendNotification,
+})
+
+export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
 })

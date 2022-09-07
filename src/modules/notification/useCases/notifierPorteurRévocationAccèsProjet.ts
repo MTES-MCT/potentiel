@@ -14,9 +14,10 @@ export type MakeNotifierPorteurRévocationAccèsProjet = (dépendances: {
   sendNotification: NotificationService['sendNotification']
 }) => NotifierPorteurRévocationAccèsProjet
 
-export const notifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRévocationAccèsProjet =
+export const makeNotifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRévocationAccèsProjet =
   ({ sendNotification }) =>
   async ({ email, nomPorteur, nomProjet, porteurId, projetId, cause }) => {
+    console.log('USE CASE')
     return sendNotification({
       type: 'accès-utilisateur-révoqués',
       message: {
