@@ -223,6 +223,19 @@ type LegacyCandidateNotification = {
   variables: {}
 }
 
+type AccèsUtilisateurRévoqués = {
+  type: 'accès-utilisateur-révoqués'
+  context: {
+    projetId: string
+    utilisateurId: string
+  }
+  variables: {
+    nom_projet: string
+    mes_projets_url: string
+    cause?: string
+  }
+}
+
 type NotificationVariants =
   | Designation
   | ProjectInvitation
@@ -240,6 +253,7 @@ type NotificationVariants =
   | PPNewRulesOptedIn
   | AdminModificationRequested
   | LegacyCandidateNotification
+  | AccèsUtilisateurRévoqués
 
 export type NotificationProps = BaseNotification & NotificationVariants
 
