@@ -1,9 +1,8 @@
 import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import { ProjectStatusLabel, Link } from '@components'
+import { ProjectStatusLabel } from '@components'
 import { ProjectActions } from './ProjectActions'
-import { ExternalLinkIcon } from '@heroicons/react/solid'
 
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage
@@ -32,8 +31,6 @@ export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHead
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
       </p>
       <div className="text-sm">{project.potentielIdentifier}</div>
-
-      <CDCInfo {...{ project, cahiersChargesURLs }} />
     </div>
 
     <div className="px-3">
@@ -46,37 +43,3 @@ type CDCInfoProps = {
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
-const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
-  <div className="text-sm">
-    Instruction des demandes selon les règles du{' '}
-    {project.newRulesOptIn ? (
-      cahiersChargesURLs?.newCahierChargesURL ? (
-        <div>
-          <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
-            cahier des charges modifié (option choisie par le candidat){' '}
-            <ExternalLinkIcon className="w-4" />
-          </a>
-          <br />
-          <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
-            Choisir le cahier des charges
-          </Link>
-        </div>
-      ) : (
-        `cahier des charges modifié (option choisie par le candidat)`
-      )
-    ) : cahiersChargesURLs?.oldCahierChargesURL ? (
-      <div>
-        <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
-          cahier des charges initial (en vigueur à la candidature){' '}
-          <ExternalLinkIcon className="w-4" />
-        </a>
-        <br />
-        <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
-          Choisir le cahier des charges
-        </Link>
-      </div>
-    ) : (
-      `cahier des charges initial (en vigueur à la candidature)`
-    )}
-  </div>
-)

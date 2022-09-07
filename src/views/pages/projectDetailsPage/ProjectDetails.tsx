@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { RoleBasedDashboard, SuccessErrorBox, PageLayout } from '@components'
+import { RoleBasedDashboard, SuccessErrorBox, PageLayout, Callout, Link } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
@@ -16,6 +16,7 @@ import {
   ContratEnedis,
 } from './sections'
 import { ProjectHeader } from './components'
+import { ExternalLinkIcon } from '@heroicons/react/solid'
 
 type ProjectDetailsProps = {
   request: Request
@@ -35,6 +36,9 @@ export const ProjectDetails = PageLayout(
         <SuccessErrorBox success={success} error={error} />
 
         <main className="flex flex-col gap-3 mt-5">
+          <Callout>
+            <CDCInfo {...{ project, cahiersChargesURLs }} />
+          </Callout>
           <div className="flex flex-col lg:flex-row gap-3">
             <EtapesProjet {...{ project, user, projectEventList, now }} />
 
@@ -48,12 +52,6 @@ export const ProjectDetails = PageLayout(
               )}
             </div>
           </div>
-
-          {/* {userIs('porteur-projet')(user) &&
-            project.isClasse &&
-            project.appelOffre.choisirNouveauCahierDesCharges && (
-    
-            )} */}
 
           {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
             <EditProjectData project={project} request={request} />
@@ -70,6 +68,47 @@ export const ProjectDetails = PageLayout(
       </RoleBasedDashboard>
     )
   }
+)
+
+type CDCInfoProps = {
+  project: ProjectDataForProjectPage
+  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+}
+
+const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
+  <>
+    <h3 className="section--title">Cahier des charges</h3>
+    Instruction des demandes selon les règles du{' '}
+    {project.newRulesOptIn ? (
+      cahiersChargesURLs?.newCahierChargesURL ? (
+        <div>
+          <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
+            cahier des charges modifié (option choisie par le candidat){' '}
+            <ExternalLinkIcon className="w-4" />
+          </a>
+          <br />
+          <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
+            Choisir le cahier des charges
+          </Link>
+        </div>
+      ) : (
+        `cahier des charges modifié (option choisie par le candidat)`
+      )
+    ) : cahiersChargesURLs?.oldCahierChargesURL ? (
+      <div>
+        <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
+          cahier des charges initial (en vigueur à la candidature){' '}
+          <ExternalLinkIcon className="w-4" />
+        </a>
+        <br />
+        <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
+          Choisir le cahier des charges
+        </Link>
+      </div>
+    ) : (
+      `cahier des charges initial (en vigueur à la candidature)`
+    )}
+  </>
 )
 
 hydrateOnClient(ProjectDetails)
