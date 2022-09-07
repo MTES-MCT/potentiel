@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { RoleBasedDashboard, SuccessErrorBox, PageLayout, Callout, Link } from '@components'
+import { RoleBasedDashboard, SuccessErrorBox, PageLayout, Callout, LinkButton } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
@@ -36,9 +36,12 @@ export const ProjectDetails = PageLayout(
         <SuccessErrorBox success={success} error={error} />
 
         <main className="flex flex-col gap-3 mt-5">
-          <Callout>
-            <CDCInfo {...{ project, cahiersChargesURLs }} />
-          </Callout>
+          {project.isClasse && project.appelOffre.choisirNouveauCahierDesCharges && (
+            <Callout>
+              <CDCInfo {...{ project, cahiersChargesURLs, user }} />
+            </Callout>
+          )}
+
           <div className="flex flex-col lg:flex-row gap-3">
             <EtapesProjet {...{ project, user, projectEventList, now }} />
 
@@ -73,40 +76,52 @@ export const ProjectDetails = PageLayout(
 type CDCInfoProps = {
   project: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  user: Request['user']
 }
 
-const CDCInfo = ({ project, cahiersChargesURLs }: CDCInfoProps) => (
+const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
   <>
-    <h3 className="section--title">Cahier des charges</h3>
-    Instruction des demandes selon les règles du{' '}
+    <h3 className="mb-0">Cahier des charges</h3>{' '}
     {project.newRulesOptIn ? (
       cahiersChargesURLs?.newCahierChargesURL ? (
         <div>
+          Instruction des demandes selon les règles du{' '}
           <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
             cahier des charges modifié (option choisie par le candidat){' '}
             <ExternalLinkIcon className="w-4" />
           </a>
           <br />
-          <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
-            Choisir le cahier des charges
-          </Link>
+          {userIs('porteur-projet')(user) && (
+            <LinkButton
+              href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
+              className="mt-4"
+            >
+              Choisir le cahier des charges
+            </LinkButton>
+          )}
         </div>
       ) : (
-        `cahier des charges modifié (option choisie par le candidat)`
+        `Instruction des demandes selon les règles du cahier des charges modifié (option choisie par le candidat)`
       )
     ) : cahiersChargesURLs?.oldCahierChargesURL ? (
       <div>
+        Instruction des demandes selon les règles du{' '}
         <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
           cahier des charges initial (en vigueur à la candidature){' '}
           <ExternalLinkIcon className="w-4" />
         </a>
         <br />
-        <Link href={`/projet/${project.id}/choisir-cahier-des-charges.html`}>
-          Choisir le cahier des charges
-        </Link>
+        {userIs('porteur-projet')(user) && (
+          <LinkButton
+            href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
+            className="mt-4"
+          >
+            Choisir le cahier des charges
+          </LinkButton>
+        )}
       </div>
     ) : (
-      `cahier des charges initial (en vigueur à la candidature)`
+      `Instruction des demandes selon les règles du cahier des charges initial (en vigueur à la candidature)`
     )}
   </>
 )
