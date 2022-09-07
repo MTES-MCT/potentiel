@@ -43,7 +43,8 @@
     "add:query": "npm run generate -- query",
     "add:q": "npm run add:query",
     "configure-dev-env-variables": "cp -n ./.env.template ./.env",
-    "configure-hooks": "npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\" && npx gitmoji -i"
+    "configure-pre-commit": "npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\"",
+    "configure-prepare-commit-msg": "npx gitmoji -i"
   },
   "repository": {
     "type": "git",

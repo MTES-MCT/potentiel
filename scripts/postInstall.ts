@@ -1,5 +1,4 @@
-//if test \"$NODE_ENV\" = \"production\" || test \"$NODE_ENV\" = \"staging\" ; then npm run build:front && npm run build:css && npm run build && npm run migrate; fi
-
+import fs from 'fs'
 import dotenv from 'dotenv'
 import { spawnSync } from 'child_process'
 
@@ -14,8 +13,10 @@ async function postInstall() {
   if (['', 'local'].includes(NODE_ENV)) {
     spawnSync('npm', ['run', 'configure-dev-env-variables'], { stdio: 'inherit' })
 
-    const hooks = spawnSync('npm', ['run', 'configure-hooks'], { stdio: 'inherit' })
-    if (hooks.status && hooks.status > 0) process.exit(hooks.status)
+    fs.rmSync('.husky/pre-commit', { force: true })
+    spawnSync('npm', ['run', 'configure-pre-commit'], { stdio: 'inherit' })
+
+    spawnSync('npm', ['run', 'configure-prepare-commit-msg'], { stdio: 'inherit' })
   }
 
   if (!['', 'local', 'test'].includes(NODE_ENV)) {
