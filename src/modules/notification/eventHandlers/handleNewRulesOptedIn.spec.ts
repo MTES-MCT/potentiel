@@ -1,7 +1,7 @@
 import { NotificationArgs } from '..'
 import { UniqueEntityID } from '@core/domain'
 import { Some } from '../../../types'
-import { ProjectNewRulesOptedIn } from '../../project'
+import { NouveauCahierDesChargesChoisi } from '../../project'
 import { handleNewRulesOptedIn } from './handleNewRulesOptedIn'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../__tests__/fixtures/user'
@@ -23,10 +23,10 @@ describe('notification.handleNewRulesOptedIn', () => {
     sendNotification.mockClear()
 
     await handleNewRulesOptedIn({ findProjectById, findUserById, sendNotification })(
-      new ProjectNewRulesOptedIn({
+      new NouveauCahierDesChargesChoisi({
         payload: {
-          projectId,
-          optedInBy: userId,
+          projetId: projectId,
+          choisiPar: userId,
           cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
         },
       })

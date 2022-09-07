@@ -13,7 +13,7 @@ import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectApp
 import remove from 'lodash/remove'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
-import { BuildProjectIdentifier, Fournisseur, ProjectNewRulesOptedIn } from '.'
+import { BuildProjectIdentifier, Fournisseur, NouveauCahierDesChargesChoisi } from '.'
 import { shallowDelta } from '../../helpers/shallowDelta'
 import {
   EntityNotFoundError,
@@ -1292,7 +1292,7 @@ export const makeProject = (args: {
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
         props.potentielIdentifier = event.payload.nouvelIdentifiant
         break
-      case ProjectNewRulesOptedIn.type:
+      case NouveauCahierDesChargesChoisi.type:
         props.newRulesOptIn = true
         break
       default:

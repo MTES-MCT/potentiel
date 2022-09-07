@@ -271,7 +271,7 @@ export const cancelModificationRequest = makeCancelModificationRequest({
 })
 
 export const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
-  eventBus: eventStore,
+  publishToEventStore: eventStore.publish.bind(eventStore),
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,

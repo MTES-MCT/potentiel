@@ -2,7 +2,7 @@ import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
-import { ProjectNewRulesOptedIn } from '@modules/project'
+import { NouveauCahierDesChargesChoisi } from '@modules/project'
 import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectNewRulesOptedIn', () => {
@@ -18,10 +18,10 @@ describe('project.onProjectNewRulesOptedIn', () => {
 
   it('should update the project new rules opt in', async () => {
     await onProjectNewRulesOptedIn(models)(
-      new ProjectNewRulesOptedIn({
+      new NouveauCahierDesChargesChoisi({
         payload: {
-          projectId,
-          optedInBy: 'rocky',
+          projetId: projectId,
+          choisiPar: 'rocky',
           cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
         },
       })

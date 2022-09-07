@@ -1,33 +1,34 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, wrapInfra } from '@core/utils'
+import { EventStore, Repository, UniqueEntityID } from '@core/domain'
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { UnauthorizedError } from '../../shared'
-import { ProjectNewRulesOptedIn } from '../events'
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { NouveauCahierDesChargesChoisi } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 import { AppelOffreRepo } from '@dataAccess'
 import { PasDeChangementDeCDCPourCetAOError } from '../errors'
 
-type ChoisirNouveauCahierDesChargeDeps = {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  eventBus: EventBus
-  projectRepo: Repository<Project>
-  findAppelOffreById: AppelOffreRepo['findById']
-}
-
-type ChoisirNouveauCahierDesChargeArgs = {
+type ChoisirNouveauCahierDesCharge = (commande: {
   projetId: string
   utilisateur: User
-}
+}) => ResultAsync<
+  null,
+  | UnauthorizedError
+  | NouveauCahierDesChargesDéjàSouscrit
+  | PasDeChangementDeCDCPourCetAOError
+  | InfraNotAvailableError
+>
 
-export const makeChoisirNouveauCahierDesCharges =
-  ({
-    shouldUserAccessProject,
-    eventBus,
-    projectRepo,
-    findAppelOffreById,
-  }: ChoisirNouveauCahierDesChargeDeps) =>
-  ({ projetId, utilisateur }: ChoisirNouveauCahierDesChargeArgs) => {
+type MakeChoisirNouveauCahierDesCharges = (dépendances: {
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  publishToEventStore: EventStore['publish']
+  projectRepo: Repository<Project>
+  findAppelOffreById: AppelOffreRepo['findById']
+}) => ChoisirNouveauCahierDesCharge
+
+export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesCharges =
+  ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
+  ({ projetId, utilisateur }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
@@ -41,11 +42,11 @@ export const makeChoisirNouveauCahierDesCharges =
         if (!appelOffre?.choisirNouveauCahierDesCharges) {
           return errAsync(new PasDeChangementDeCDCPourCetAOError())
         }
-        return eventBus.publish(
-          new ProjectNewRulesOptedIn({
+        return publishToEventStore(
+          new NouveauCahierDesChargesChoisi({
             payload: {
-              projectId: projetId,
-              optedInBy: utilisateur.id,
+              projetId: projetId,
+              choisiPar: utilisateur.id,
               cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
             },
           })

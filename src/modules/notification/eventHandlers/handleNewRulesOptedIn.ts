@@ -1,7 +1,7 @@
 import { NotificationService } from '..'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
-import { ProjectNewRulesOptedIn } from '../../project'
+import { NouveauCahierDesChargesChoisi } from '../../project'
 
 export const handleNewRulesOptedIn =
   (deps: {
@@ -9,8 +9,8 @@ export const handleNewRulesOptedIn =
     findProjectById: ProjectRepo['findById']
     findUserById: UserRepo['findById']
   }) =>
-  async (event: ProjectNewRulesOptedIn) => {
-    const { projectId, optedInBy } = event.payload
+  async (event: NouveauCahierDesChargesChoisi) => {
+    const { projetId: projectId, choisiPar: optedInBy } = event.payload
 
     const project = await deps.findProjectById(projectId)
 

@@ -22,7 +22,7 @@ import {
   ProjectGFDueDateSet,
   ProjectGFInvalidated,
   ProjectImported,
-  ProjectNewRulesOptedIn,
+  NouveauCahierDesChargesChoisi,
   ProjectNotificationDateSet,
   ProjectNotified,
   ProjectProducteurUpdated,
@@ -97,7 +97,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectActionnaireUpdated.type, onProjectActionnaireUpdated(models))
   eventBus.subscribe(ProjectProducteurUpdated.type, onProjectProducteurUpdated(models))
   eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated(models))
-  eventBus.subscribe(ProjectNewRulesOptedIn.type, onProjectNewRulesOptedIn(models))
+  eventBus.subscribe(NouveauCahierDesChargesChoisi.type, onProjectNewRulesOptedIn(models))
   eventBus.subscribe(ProjectClaimed.type, onProjectClaimed(models))
   eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed(models))
 
