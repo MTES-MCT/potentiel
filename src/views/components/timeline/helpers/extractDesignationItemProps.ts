@@ -33,20 +33,12 @@ export const extractDesignationItemProps = (
   status: ProjectStatus
 ): DesignationItemProps | null => {
   const projetDesignationEvents = events.filter(isProjectDesignation)
-  console.log('projetDesignationEvents', events, projetDesignationEvents)
-
   const lastProjectDesignationEvent = projetDesignationEvents.pop()
-  console.log('lastProjectDesignationEvent', lastProjectDesignationEvent)
 
   if (!lastProjectDesignationEvent) return null
   const { variant: role, date } = lastProjectDesignationEvent
 
-  const certificateEvent = events
-    .filter(isCertificateDTO)
-    // .filter((e) => format(e.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))
-    .pop()
-
-  console.log('certificateEvent', certificateEvent)
+  const certificateEvent = events.filter(isCertificateDTO).pop()
   if (certificateEvent) {
     return {
       type: 'designation',
