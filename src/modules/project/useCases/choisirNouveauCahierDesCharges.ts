@@ -47,7 +47,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
             payload: {
               projetId: projetId,
               choisiPar: utilisateur.id,
-              cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+              cahierDesCharges: 'CDC 2021',
             },
           })
         )

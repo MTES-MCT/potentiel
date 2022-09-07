@@ -38,7 +38,7 @@ export default {
             payload: {
               projetId,
               choisiPar,
-              cahierDesCharges: { id: 'CDC 2021', référence: '2021' },
+              cahierDesCharges: 'CDC 2021',
             },
             original: {
               occurredAt,

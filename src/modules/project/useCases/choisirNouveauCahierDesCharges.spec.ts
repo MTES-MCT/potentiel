@@ -136,7 +136,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           payload: expect.objectContaining({
             projetId: projectId,
             choisiPar: user.id,
-            cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+            cahierDesCharges: 'CDC 2021',
           }),
         })
       )
