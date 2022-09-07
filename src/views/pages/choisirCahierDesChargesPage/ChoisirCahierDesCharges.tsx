@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { PageLayout, ExternalLinkIcon, Link } from '@components'
+import { PageLayout, ExternalLinkIcon, Link, Button } from '@components'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Request } from 'express'
 import ROUTES from '@routes'
 import { hydrateOnClient } from '../../helpers'
-import { dataId } from '../../../helpers/testId'
 
 type ChoisirCahierDesChargesProps = {
   request: Request
@@ -17,7 +16,7 @@ export const ChoisirCahierDesCharges = PageLayout(
     const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
     const { newRulesOptIn } = projet
     const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-      setDisplaySubmitButton(!e.target.checked)
+      setDisplaySubmitButton(e.target.value === 'false')
     }
 
     return (
@@ -85,7 +84,6 @@ export const ChoisirCahierDesCharges = PageLayout(
                     value="true"
                     id="Nouvelles règles"
                     defaultChecked={newRulesOptIn}
-                    {...dataId('modificationRequest-newRules')}
                     disabled={newRulesOptIn}
                     onChange={handleCDCChange}
                   />
@@ -120,14 +118,14 @@ export const ChoisirCahierDesCharges = PageLayout(
           </div>
           <input type="hidden" name="projectId" value={projet.id} />
           {!projet.newRulesOptIn && (
-            <button
-              className="button"
+            <Button
               type="submit"
-              style={{ margin: 'auto', width: 260, display: 'block' }}
+              className="mx-auto w-260"
+              style={{ display: 'block' }}
               disabled={displaySubmitButton}
             >
               Enregistrer mon changement
-            </button>
+            </Button>
           )}
         </form>
       </div>

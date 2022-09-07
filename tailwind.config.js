@@ -27,6 +27,9 @@ module.exports = {
           hover: '#f93f42',
           active: '#f95a5c',
         },
+        'grey-text-disabled': {
+          base: '#929292',
+        },
       },
     },
   },
