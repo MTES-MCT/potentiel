@@ -8,7 +8,7 @@ import {
   ProjectStatus,
 } from '@modules/frise'
 import { UserRole } from '@modules/users'
-import { format } from 'date-fns'
+import { or } from '../../../../core/utils'
 
 export type DesignationItemProps = {
   type: 'designation'
@@ -32,15 +32,21 @@ export const extractDesignationItemProps = (
   projectId: Project['id'],
   status: ProjectStatus
 ): DesignationItemProps | null => {
-  const projectNotifiedEvent = events.find(is('ProjectNotified'))
-  if (!projectNotifiedEvent) return null
-  const { variant: role, date } = projectNotifiedEvent
+  const projetDesignationEvents = events.filter(isProjectDesignation)
+  console.log('projetDesignationEvents', events, projetDesignationEvents)
+
+  const lastProjectDesignationEvent = projetDesignationEvents.pop()
+  console.log('lastProjectDesignationEvent', lastProjectDesignationEvent)
+
+  if (!lastProjectDesignationEvent) return null
+  const { variant: role, date } = lastProjectDesignationEvent
 
   const certificateEvent = events
     .filter(isCertificateDTO)
-    .filter((e) => format(e.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))
+    // .filter((e) => format(e.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd'))
     .pop()
 
+  console.log('certificateEvent', certificateEvent)
   if (certificateEvent) {
     return {
       type: 'designation',
@@ -54,11 +60,20 @@ export const extractDesignationItemProps = (
   return {
     type: 'designation',
     date,
-    certificate: projectNotifiedEvent.isLegacy ? { status: 'not-applicable' } : undefined,
+    certificate:
+      'isLegacy' in lastProjectDesignationEvent && lastProjectDesignationEvent.isLegacy
+        ? { status: 'not-applicable' }
+        : undefined,
     role,
     projectStatus: status,
   }
 }
+
+const isProjectDesignation = or(
+  is('ProjectNotificationDateSet'),
+  is('ProjectNotified'),
+  is('ProjectDCRRemoved')
+)
 
 const makeCertificateLink = (
   latestCertificateEvent: ProjectCertificateDTO,
