@@ -2,6 +2,7 @@
 
 import { QueryInterface, Sequelize } from 'sequelize'
 import { FonctionUtilisateurModifiée } from '@modules/users'
+import { logger } from '@core/utils'
 import { toPersistance } from '../helpers'
 import models from '../models'
 
@@ -21,33 +22,33 @@ module.exports = {
       )
 
       if (!utilisateurCible) {
-        throw new Error(`L'utilisateur cible avec l'id ${userId} n'a pas été trouvé`)
+        logger.error(`L'utilisateur cible avec l'id ${userId} n'a pas été trouvé`)
+      } else {
+        // Mise à jour de la projection Users
+        await User.update(
+          {
+            fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
+          },
+          { where: { id: userId }, transaction }
+        )
+
+        const {
+          dataValues: { email },
+        } = utilisateurCible
+
+        await EventStore.create(
+          toPersistance(
+            new FonctionUtilisateurModifiée({
+              payload: {
+                userId,
+                email,
+                fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
+              },
+            })
+          ),
+          { transaction }
+        )
       }
-
-      // Mise à jour de la projection Users
-      await User.update(
-        {
-          fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
-        },
-        { where: { id: userId }, transaction }
-      )
-
-      const {
-        dataValues: { email },
-      } = utilisateurCible
-
-      await EventStore.create(
-        toPersistance(
-          new FonctionUtilisateurModifiée({
-            payload: {
-              userId,
-              email,
-              fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
-            },
-          })
-        ),
-        { transaction }
-      )
 
       await transaction.commit()
     } catch (error) {
