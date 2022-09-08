@@ -172,7 +172,8 @@ type PPModificationReceived = {
   variables: {
     nom_projet: string
     type_demande: string
-    modification_request_url: string
+    button_url: string
+    button_title: string
     demande_action_pp?: string
   }
 }

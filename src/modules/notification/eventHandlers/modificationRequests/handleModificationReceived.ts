@@ -39,13 +39,16 @@ export const handleModificationReceived =
           variables: {
             nom_projet: project.nomProjet,
             type_demande: type,
-            modification_request_url: routes.USER_LIST_REQUESTS,
+            button_url: routes.USER_LIST_REQUESTS,
+            button_title: 'Consulter la demande',
             demande_action_pp: undefined as string | undefined,
           },
         }
 
-        if (type === 'producteur' && project.appelOffre?.isSoumisAuxGF)
-          notificationPayload.variables.demande_action_pp = `Suite à votre signalement de changement de ${type}, vous devez déposer de nouvelles garanties financières dans un délai d'un mois maximum.`
+        if (type === 'producteur') {
+          ;(notificationPayload.variables.button_url = routes.USER_LIST_PROJECTS),
+            (notificationPayload.variables.button_title = 'Voir mes projets')
+        }
 
         if (type === 'fournisseur' && event.payload.evaluationCarbone) {
           const currentEvaluationCarbone = project.evaluationCarbone
