@@ -6,6 +6,7 @@ export default {
   component: Button,
   argTypes: {
     children: { control: 'text' },
+    disabled: { control: 'boolean' },
   },
 }
 
@@ -15,4 +16,5 @@ export const Default = Template.bind({})
 
 Default.args = {
   children: `Exemple de bouton`,
+  disabled: false,
 }

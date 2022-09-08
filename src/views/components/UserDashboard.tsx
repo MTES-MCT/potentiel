@@ -3,7 +3,7 @@ import ROUTES from '@routes'
 
 interface UserDashboardProps {
   children: React.ReactNode
-  currentPage: 'list-projects' | 'list-requests' | 'list-missing-owner-projects' | undefined
+  currentPage?: 'list-projects' | 'list-requests' | 'list-missing-owner-projects'
 }
 
 /* Pure component */
