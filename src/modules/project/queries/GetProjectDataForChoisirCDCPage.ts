@@ -12,6 +12,6 @@ export type ProjectDataForChoisirCDCPage = {
   isClasse: boolean
 }
 
-export type GetProjectDataForChoisirCDCPage = ({
-  projectId: string,
-}) => ResultAsync<ProjectDataForChoisirCDCPage, EntityNotFoundError | InfraNotAvailableError>
+export type GetProjectDataForChoisirCDCPage = (
+  projectId: string
+) => ResultAsync<ProjectDataForChoisirCDCPage, EntityNotFoundError | InfraNotAvailableError>

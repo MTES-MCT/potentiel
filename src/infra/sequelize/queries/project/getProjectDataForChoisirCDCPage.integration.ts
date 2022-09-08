@@ -22,7 +22,7 @@ describe('Sequelize getProjectDataForChoisirCDCPage', () => {
 
     await Project.create(makeFakeProject(projectInfo))
 
-    const res = (await getProjectDataForChoisirCDCPage({ projectId }))._unsafeUnwrap()
+    const res = (await getProjectDataForChoisirCDCPage(projectId))._unsafeUnwrap()
 
     expect(res).toMatchObject({
       id: projectId,

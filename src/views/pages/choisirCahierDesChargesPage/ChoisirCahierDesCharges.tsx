@@ -7,14 +7,14 @@ import {
   UserDashboard,
   SecondaryLinkButton,
 } from '@components'
-import { ProjectDataForProjectPage } from '@modules/project'
+import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { Request } from 'express'
 import ROUTES from '@routes'
 import { hydrateOnClient } from '../../helpers'
 
 type ChoisirCahierDesChargesProps = {
   request: Request
-  projet: ProjectDataForProjectPage
+  projet: ProjectDataForChoisirCDCPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 

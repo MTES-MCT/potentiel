@@ -5,7 +5,7 @@ import models from '../../models'
 import { GetProjectDataForChoisirCDCPage } from '@modules/project'
 
 const { Project } = models
-export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = ({ projectId }) => {
+export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) => {
   return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {
     if (!projectRaw) return err(new EntityNotFoundError())
 

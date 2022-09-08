@@ -35,7 +35,7 @@ v1Router.get(
       })
     }
 
-    await getProjectDataForChoisirCDCPage({ projectId: projetId })
+    await getProjectDataForChoisirCDCPage(projetId)
       .andThen((project) => {
         if (!project.isClasse || !project?.appelOffre?.choisirNouveauCahierDesCharges) {
           return err(new EntityNotFoundError())
