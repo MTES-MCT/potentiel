@@ -37,6 +37,16 @@ module.exports = {
           hover: '#d2d2d2',
           active: '#c1c1c1',
         },
+        'brown-caramel-950': {
+          base: '#f7ebe5',
+          hover: '#eccbb9',
+          active: '#e6b79a',
+        },
+        'brown-caramel-main-648': {
+          base: '#C08C65',
+          hover: '#e6b594',
+          active: '#eccab6',
+        },
       },
     },
   },
