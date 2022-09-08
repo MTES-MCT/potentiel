@@ -1,12 +1,12 @@
-import { handleModificationReceived, NotificationArgs } from '..'
+import { handleModificationReceived, NotificationArgs } from '../..'
 import { UniqueEntityID } from '@core/domain'
 import { makeProject } from '@entities'
 import routes from '@routes'
-import { None, Some } from '../../../types'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { ModificationReceived } from '../../modificationRequest'
-import { FournisseurKind } from '../../project'
+import { None, Some } from '../../../../types'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
+import makeFakeUser from '../../../../__tests__/fixtures/user'
+import { ModificationReceived } from '../../../modificationRequest'
+import { FournisseurKind } from '../../../project'
 
 const userId = new UniqueEntityID().toString()
 const projectId = new UniqueEntityID().toString()

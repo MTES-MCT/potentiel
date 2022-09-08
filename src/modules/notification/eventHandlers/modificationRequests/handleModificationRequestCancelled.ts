@@ -1,4 +1,4 @@
-import { NotificationService } from '..'
+import { NotificationService } from '../..'
 import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { UserRepo } from '@dataAccess'
 import routes from '@routes'
@@ -6,8 +6,8 @@ import {
   GetModificationRequestInfoForStatusNotification,
   GetModificationRequestRecipient,
   ModificationRequestCancelled,
-} from '../../modificationRequest'
-import { InfraNotAvailableError } from '../../shared'
+} from '../../../modificationRequest'
+import { InfraNotAvailableError } from '../../../shared'
 
 export const handleModificationRequestCancelled =
   (deps: {

@@ -1,9 +1,9 @@
-import { NotificationService } from '..'
+import { NotificationService } from '../..'
 import { logger } from '@core/utils'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import routes from '@routes'
-import { ModificationRequested } from '../../modificationRequest'
-import { GetInfoForModificationRequested } from '../queries'
+import { ModificationRequested } from '../../../modificationRequest'
+import { GetInfoForModificationRequested } from '../../queries'
 
 export const handleModificationRequested =
   (deps: {

@@ -1,12 +1,12 @@
 import { okAsync } from 'neverthrow'
-import { NotificationArgs } from '..'
+import { NotificationArgs } from '../..'
 import { UniqueEntityID } from '@core/domain'
 import { makeProject } from '@entities'
 import routes from '@routes'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { ModificationRequested } from '../../modificationRequest'
-import { GetInfoForModificationRequested } from '../queries'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
+import makeFakeUser from '../../../../__tests__/fixtures/user'
+import { ModificationRequested } from '../../../modificationRequest'
+import { GetInfoForModificationRequested } from '../../queries'
 import { handleModificationRequested } from './handleModificationRequested'
 
 const modificationRequestId = new UniqueEntityID().toString()

@@ -1,4 +1,4 @@
-import { NotificationService } from '..'
+import { NotificationService } from '../..'
 import { logger } from '@core/utils'
 import routes from '@routes'
 import {
@@ -8,8 +8,8 @@ import {
   ModificationRequestCancelled,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '../../modificationRequest'
-import { GetModificationRequestInfoForStatusNotification } from '../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
+} from '../../../modificationRequest'
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
 
 export const handleModificationRequestStatusChanged =
   (deps: {
