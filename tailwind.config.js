@@ -47,6 +47,11 @@ module.exports = {
           hover: '#e6b594',
           active: '#eccab6',
         },
+        'warning-425': {
+          base: '#b34000',
+          hover: '#ff6218',
+          active: '#ff7a55',
+        },
       },
     },
   },

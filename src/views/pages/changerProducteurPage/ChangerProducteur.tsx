@@ -17,6 +17,7 @@ import {
   Astérisque,
   Input,
   TextArea,
+  AlertBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -72,18 +73,18 @@ export const ChangerProducteur = PageLayout(
 
               {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
-                  <div className="notification error my-4">
-                    <span>
-                      Attention : une fois ce formulaire de changement de producteur envoyé,{' '}
-                      <em>vous ne pourrez plus suivre ce projet sur Potentiel</em>. Tous les accès
-                      actuels seront retirés.{' '}
-                      <strong>
-                        Le nouveau producteur pourra retrouver le projet dans les "projets à
-                        réclamer"
-                      </strong>
-                      .
+                  <AlertBox
+                    title="Attention : révocation des droits sur le projet"
+                    className="my-7"
+                  >
+                    Une fois ce formulaire de changement de producteur envoyé, vous ne pourrez plus
+                    suivre ce projet sur Potentiel. Tous les accès actuels seront retirés.
+                    <br />
+                    <span className="font-medium">
+                      Le nouveau producteur pourra retrouver le projet dans les "projets à réclamer"
                     </span>
-                  </div>
+                    .
+                  </AlertBox>
                   {isEolien && (
                     <div className="notification error my-4">
                       <span>
@@ -136,7 +137,6 @@ export const ChangerProducteur = PageLayout(
                     {...dataId('modificationRequest-justificationField')}
                     {...(isEolien && { disabled: true })}
                   />
-
                   <Button
                     className="mt-3 mr-1"
                     type="submit"
