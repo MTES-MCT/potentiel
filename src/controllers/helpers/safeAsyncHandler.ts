@@ -20,7 +20,7 @@ export default function safeAsyncHandler<Schema extends BaseSchema>(
       response: core.Response
       error
       errors: Record<string, string>
-    }) => any
+    }) => unknown
   },
   handler: (
     ...args: Parameters<
