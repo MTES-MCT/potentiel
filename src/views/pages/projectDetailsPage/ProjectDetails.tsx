@@ -82,7 +82,11 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
         <div>
           Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021,
           pris en application du décret n° 2019-1175 du 14 novembre 2019 (
-          <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={cahiersChargesURLs.newCahierChargesURL}
+          >
             voir le cahier des charges <ExternalLinkIcon className="w-4" />
           </a>
           )
@@ -104,7 +108,7 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
     ) : cahiersChargesURLs?.oldCahierChargesURL ? (
       <div>
         Instruction des demandes selon les règles du{' '}
-        <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL}>
+        <a target="_blank" href={cahiersChargesURLs.oldCahierChargesURL} rel="noopener noreferrer">
           cahier des charges initial (en vigueur à la candidature){' '}
           <ExternalLinkIcon className="w-4" />
         </a>
