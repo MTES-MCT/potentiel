@@ -21,7 +21,7 @@ type ChoisirCahierDesChargesProps = {
 export const ChoisirCahierDesCharges = PageLayout(
   ({ projet, cahiersChargesURLs }: ChoisirCahierDesChargesProps) => {
     const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
-    const { newRulesOptIn } = projet
+    const { newRulesOptIn, id } = projet
     const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
       setDisplaySubmitButton(e.target.value === 'false')
     }
@@ -125,7 +125,7 @@ export const ChoisirCahierDesCharges = PageLayout(
                 </div>
               </div>
             </div>
-            <input type="hidden" name="projectId" value={projet.id} />
+            <input type="hidden" name="projectId" value={id} />
             <div className="flex items-center justify-center">
               {!projet.newRulesOptIn && (
                 <Button
@@ -137,7 +137,7 @@ export const ChoisirCahierDesCharges = PageLayout(
                   Enregistrer mon changement
                 </Button>
               )}
-              <SecondaryLinkButton className="ml-3" href={ROUTES.USER_LIST_PROJECTS}>
+              <SecondaryLinkButton className="ml-3" href={ROUTES.PROJECT_DETAILS(id)}>
                 Annuler
               </SecondaryLinkButton>
             </div>
