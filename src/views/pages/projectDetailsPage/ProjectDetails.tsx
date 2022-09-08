@@ -85,11 +85,12 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
     {project.newRulesOptIn ? (
       cahiersChargesURLs?.newCahierChargesURL ? (
         <div>
-          Instruction des demandes selon les règles du{' '}
+          Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021,
+          pris en application du décret n° 2019-1175 du 14 novembre 2019 (
           <a target="_blank" href={cahiersChargesURLs.newCahierChargesURL}>
-            cahier des charges modifié (option choisie par le candidat){' '}
-            <ExternalLinkIcon className="w-4" />
+            voir le cahier des charges <ExternalLinkIcon className="w-4" />
           </a>
+          )
           <br />
           {userIs('porteur-projet')(user) && (
             <LinkButton
@@ -116,7 +117,7 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
             href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
             className="mt-4"
           >
-            Choisir le cahier des charges
+            Changer de cahier des charges
           </LinkButton>
         )}
       </div>

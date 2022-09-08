@@ -33,7 +33,7 @@ export const ChoisirCahierDesCharges = PageLayout(
           <ChevronLeftIcon /> Retour
         </SecondaryButton>
         <div className="panel p-4">
-          <h3 className="section--title">Choisir le cahier des charges</h3>
+          <h3 className="section--title">Cahier des charges</h3>
           <form action={ROUTES.CHANGER_CDC} method="post" className="m-0 max-w-full">
             <div>
               <p>
