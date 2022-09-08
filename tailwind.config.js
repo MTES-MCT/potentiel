@@ -27,9 +27,15 @@ module.exports = {
           hover: '#f93f42',
           active: '#f95a5c',
         },
-        grey: {
-          '625-425': '#929292',
-          '950-100': '#eee',
+        'grey-625': {
+          base: '#929292',
+          hover: '#bbbbbb',
+          active: '#cecece',
+        },
+        'grey-950': {
+          base: '#eee',
+          hover: '#d2d2d2',
+          active: '#c1c1c1',
         },
       },
     },
