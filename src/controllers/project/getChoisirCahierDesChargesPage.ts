@@ -1,6 +1,6 @@
 import { ensureRole } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
-import { getCahiersChargesURLs, getProjectDataForProjectPage } from '@config/queries.config'
+import { getCahiersChargesURLs } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { EntityNotFoundError } from '@modules/shared'
@@ -9,6 +9,7 @@ import { ChoisirCahierDesChargesPage } from '@views'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import { err } from '../../core/utils'
+import { getProjectDataForChoisirCDCPage } from '@infra/sequelize/queries/project/getProjectDataForChoisirCDCPage'
 
 v1Router.get(
   routes.CHOISIR_CAHIER_DES_CHARGES(),
@@ -34,9 +35,9 @@ v1Router.get(
       })
     }
 
-    await getProjectDataForProjectPage({ projectId: projetId, user })
+    await getProjectDataForChoisirCDCPage({ projectId: projetId })
       .andThen((project) => {
-        if (!project.isClasse || !project.appelOffre.choisirNouveauCahierDesCharges) {
+        if (!project.isClasse || !project?.appelOffre?.choisirNouveauCahierDesCharges) {
           return err(new EntityNotFoundError())
         }
 
