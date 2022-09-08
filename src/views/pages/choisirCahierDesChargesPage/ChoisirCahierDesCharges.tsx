@@ -5,16 +5,16 @@ import {
   Link,
   Button,
   UserDashboard,
-  SecondaryButton,
+  SecondaryLinkButton,
 } from '@components'
-import { ProjectDataForChoisirCDCPage } from '@modules/project'
+import { ProjectDataForProjectPage } from '@modules/project'
 import { Request } from 'express'
 import ROUTES from '@routes'
 import { hydrateOnClient } from '../../helpers'
 
 type ChoisirCahierDesChargesProps = {
   request: Request
-  projet: ProjectDataForChoisirCDCPage
+  projet: ProjectDataForProjectPage
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
@@ -137,9 +137,9 @@ export const ChoisirCahierDesCharges = PageLayout(
                   Enregistrer mon changement
                 </Button>
               )}
-              <SecondaryButton onClick={() => window.history.back()} className="ml-3">
+              <SecondaryLinkButton className="ml-3" href={ROUTES.USER_LIST_PROJECTS}>
                 Annuler
-              </SecondaryButton>
+              </SecondaryLinkButton>
             </div>
           </form>
         </div>

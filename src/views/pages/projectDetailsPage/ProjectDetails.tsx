@@ -36,12 +36,9 @@ export const ProjectDetails = PageLayout(
         <SuccessErrorBox success={success} error={error} />
 
         <main className="flex flex-col gap-3 mt-5">
-          {project.isClasse && project.appelOffre.choisirNouveauCahierDesCharges && (
-            <Callout>
-              <CDCInfo {...{ project, cahiersChargesURLs, user }} />
-            </Callout>
-          )}
-
+          <Callout>
+            <CDCInfo {...{ project, cahiersChargesURLs, user }} />
+          </Callout>
           <div className="flex flex-col lg:flex-row gap-3">
             <EtapesProjet {...{ project, user, projectEventList, now }} />
 
@@ -55,15 +52,12 @@ export const ProjectDetails = PageLayout(
               )}
             </div>
           </div>
-
           {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
             <EditProjectData project={project} request={request} />
           )}
-
           {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEDF && (
             <ContratEDF contrat={project.contratEDF} />
           )}
-
           {['admin', 'dgec-validateur'].includes(user.role) && !!project.contratEnedis && (
             <ContratEnedis contrat={project.contratEnedis} />
           )}
@@ -81,6 +75,7 @@ type CDCInfoProps = {
 
 const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
   <>
+    {console.log(project.isClasse, project.appelOffre.choisirNouveauCahierDesCharges)}
     <h3 className="mb-0">Cahier des charges</h3>{' '}
     {project.newRulesOptIn ? (
       cahiersChargesURLs?.newCahierChargesURL ? (
@@ -92,14 +87,16 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
           </a>
           )
           <br />
-          {userIs('porteur-projet')(user) && (
-            <LinkButton
-              href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
-              className="mt-4"
-            >
-              Choisir le cahier des charges
-            </LinkButton>
-          )}
+          {userIs('porteur-projet')(user) &&
+            project.isClasse &&
+            project.appelOffre.choisirNouveauCahierDesCharges && (
+              <LinkButton
+                href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
+                className="mt-4"
+              >
+                Changer le cahier des charges
+              </LinkButton>
+            )}
         </div>
       ) : (
         `Instruction des demandes selon les règles du cahier des charges modifié (option choisie par le candidat)`
@@ -112,14 +109,16 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
           <ExternalLinkIcon className="w-4" />
         </a>
         <br />
-        {userIs('porteur-projet')(user) && (
-          <LinkButton
-            href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
-            className="mt-4"
-          >
-            Changer de cahier des charges
-          </LinkButton>
-        )}
+        {userIs('porteur-projet')(user) &&
+          project.isClasse &&
+          project.appelOffre.choisirNouveauCahierDesCharges && (
+            <LinkButton
+              href={`/projet/${project.id}/choisir-cahier-des-charges.html`}
+              className="mt-4"
+            >
+              Changer de cahier des charges
+            </LinkButton>
+          )}
       </div>
     ) : (
       `Instruction des demandes selon les règles du cahier des charges initial (en vigueur à la candidature)`
