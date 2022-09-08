@@ -4,11 +4,10 @@ import ROUTES from '@routes'
 interface UserDashboardProps {
   children: React.ReactNode
   currentPage?: 'list-projects' | 'list-requests' | 'list-missing-owner-projects'
-  showMenu?: boolean
 }
 
 /* Pure component */
-export function UserDashboard({ children, currentPage, showMenu = true }: UserDashboardProps) {
+export function UserDashboard({ children, currentPage }: UserDashboardProps) {
   return (
     <>
       <section className="section section-color" style={{ padding: '1em 0' }}>
@@ -19,44 +18,41 @@ export function UserDashboard({ children, currentPage, showMenu = true }: UserDa
         </div>
       </section>
       <div className="dashboard">
-        {showMenu && (
-          <aside className="side-menu" role="navigation">
-            <ul>
-              {typeof currentPage === 'undefined' ? (
-                <li>
-                  <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
-                </li>
-              ) : (
-                ''
-              )}
+        <aside className="side-menu" role="navigation">
+          <ul>
+            {typeof currentPage === 'undefined' ? (
               <li>
-                <a
-                  href={ROUTES.USER_LIST_PROJECTS}
-                  className={currentPage === 'list-projects' ? 'active' : ''}
-                >
-                  Mes projets
-                </a>
+                <a className="active" style={{ fontSize: '2px', cursor: 'default' }}></a>
               </li>
-              <li>
-                <a
-                  href={ROUTES.USER_LIST_REQUESTS}
-                  className={currentPage === 'list-requests' ? 'active' : ''}
-                >
-                  Mes demandes
-                </a>
-              </li>
-              <li>
-                <a
-                  href={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
-                  className={currentPage === 'list-missing-owner-projects' ? 'active' : ''}
-                >
-                  Projets à réclamer
-                </a>
-              </li>
-            </ul>
-          </aside>
-        )}
-
+            ) : (
+              ''
+            )}
+            <li>
+              <a
+                href={ROUTES.USER_LIST_PROJECTS}
+                className={currentPage === 'list-projects' ? 'active' : ''}
+              >
+                Mes projets
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.USER_LIST_REQUESTS}
+                className={currentPage === 'list-requests' ? 'active' : ''}
+              >
+                Mes demandes
+              </a>
+            </li>
+            <li>
+              <a
+                href={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
+                className={currentPage === 'list-missing-owner-projects' ? 'active' : ''}
+              >
+                Projets à réclamer
+              </a>
+            </li>
+          </ul>
+        </aside>
         <div className="main">{children}</div>
       </div>
     </>

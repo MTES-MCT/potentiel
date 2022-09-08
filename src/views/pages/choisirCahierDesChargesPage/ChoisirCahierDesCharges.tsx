@@ -6,7 +6,6 @@ import {
   Button,
   UserDashboard,
   SecondaryButton,
-  ChevronLeftIcon,
 } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { Request } from 'express'
@@ -28,10 +27,7 @@ export const ChoisirCahierDesCharges = PageLayout(
     }
 
     return (
-      <UserDashboard showMenu={false}>
-        <SecondaryButton onClick={() => window.history.back()} className="mb-4">
-          <ChevronLeftIcon /> Retour
-        </SecondaryButton>
+      <UserDashboard>
         <div className="panel p-4">
           <h3 className="section--title">Cahier des charges</h3>
           <form action={ROUTES.CHANGER_CDC} method="post" className="m-0 max-w-full">
@@ -130,16 +126,21 @@ export const ChoisirCahierDesCharges = PageLayout(
               </div>
             </div>
             <input type="hidden" name="projectId" value={projet.id} />
-            {!projet.newRulesOptIn && (
-              <Button
-                type="submit"
-                className="mx-auto w-260"
-                style={{ display: 'block' }}
-                disabled={displaySubmitButton}
-              >
-                Enregistrer mon changement
-              </Button>
-            )}
+            <div className="flex items-center justify-center">
+              {!projet.newRulesOptIn && (
+                <Button
+                  type="submit"
+                  className="w-260"
+                  style={{ display: 'block' }}
+                  disabled={displaySubmitButton}
+                >
+                  Enregistrer mon changement
+                </Button>
+              )}
+              <SecondaryButton onClick={() => window.history.back()} className="ml-3">
+                Annuler
+              </SecondaryButton>
+            </div>
           </form>
         </div>
       </UserDashboard>
