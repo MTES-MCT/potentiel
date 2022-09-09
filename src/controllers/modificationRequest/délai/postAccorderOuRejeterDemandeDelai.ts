@@ -6,18 +6,18 @@ import { logger, errAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/accorder'
 
-import asyncHandler from '../helpers/asyncHandler'
+import asyncHandler from '../../helpers/asyncHandler'
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   RequestValidationErrorArray,
   unauthorizedResponse,
   validateRequestBodyForErrorArray,
-} from '../helpers'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '../../routes'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
+} from '../../helpers'
+import { addQueryParams } from '../../../helpers/addQueryParams'
+import routes from '../../../routes'
+import { upload } from '../../upload'
+import { v1Router } from '../../v1Router'
 
 const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),

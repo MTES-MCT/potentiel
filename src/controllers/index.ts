@@ -1,7 +1,6 @@
 export * from './ademe'
 export * from './admin'
 export * from './candidateNotification'
-export * from './formulairesDemande'
 export * from './garantiesFinancieres'
 export * from './helpers'
 export * from './home'
