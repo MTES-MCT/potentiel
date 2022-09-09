@@ -1,5 +1,6 @@
 export * from './abandon'
 export * from './délai'
+export * from './fournisseur'
 export * from './producteur'
 export * from './puissance'
 export * from './recours'

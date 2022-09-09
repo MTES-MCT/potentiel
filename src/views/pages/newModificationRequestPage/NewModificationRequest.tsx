@@ -17,12 +17,7 @@ import {
   SecondaryLinkButton,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import {
-  ChangementActionnaire,
-  ChangementFournisseur,
-  ChangementPuissance,
-  DemandeRecours,
-} from './components'
+import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
 
 type NewModificationRequestProps = {
   request: Request
@@ -56,9 +51,7 @@ export const NewModificationRequest = PageLayout(
           <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
-            {action !== 'fournisseur' && (
-              <FormulaireChampsObligatoireLégende className="text-right" />
-            )}
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>
@@ -91,9 +84,6 @@ export const NewModificationRequest = PageLayout(
                         onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
                       }}
                     />
-                  )}
-                  {action === 'fournisseur' && (
-                    <ChangementFournisseur {...{ project, justification }} />
                   )}
                   {action === 'actionnaire' && (
                     <ChangementActionnaire {...{ project, actionnaire, justification }} />

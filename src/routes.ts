@@ -231,7 +231,12 @@ class routes {
     } else return route
   }
 
-  static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
+  static CHANGER_FOURNISSEUR = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/changer-fournisseur.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')
 
