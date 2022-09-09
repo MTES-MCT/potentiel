@@ -260,6 +260,7 @@ class routes {
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 
   static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
+  static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'
