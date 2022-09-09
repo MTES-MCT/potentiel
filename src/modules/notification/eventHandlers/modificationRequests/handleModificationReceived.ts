@@ -41,13 +41,15 @@ export const handleModificationReceived =
             type_demande: type,
             button_url: routes.USER_LIST_REQUESTS,
             button_title: 'Consulter la demande',
+            button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
             demande_action_pp: undefined as string | undefined,
           },
         }
 
         if (type === 'producteur') {
-          ;(notificationPayload.variables.button_url = routes.USER_LIST_PROJECTS),
-            (notificationPayload.variables.button_title = 'Voir mes projets')
+          notificationPayload.variables.button_url = routes.USER_LIST_PROJECTS
+          notificationPayload.variables.button_title = 'Voir mes projets'
+          notificationPayload.variables.button_instructions = `Pour vos projets, connectez-vous à Potentiel.`
         }
 
         if (type === 'fournisseur' && event.payload.evaluationCarbone) {

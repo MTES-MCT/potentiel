@@ -58,6 +58,8 @@ describe('notification.handleModificationReceived', () => {
           notification.variables.type_demande === 'actionnaire' &&
           notification.variables.button_url === routes.USER_LIST_REQUESTS &&
           notification.variables.button_title === 'Consulter la demande' &&
+          notification.variables.button_instructions ===
+            `Pour la consulter, connectez-vous à Potentiel.` &&
           notification.variables.demande_action_pp === undefined &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.userId === userId &&

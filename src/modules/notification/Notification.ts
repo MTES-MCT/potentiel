@@ -175,6 +175,7 @@ type PPModificationReceived = {
     button_url: string
     button_title: string
     demande_action_pp?: string
+    button_instructions: string
   }
 }
 
