@@ -33,9 +33,13 @@ export const ChoisirCahierDesCharges = PageLayout(
                 </ExternalLink>
                 .
               </p>
-              {!nouvellesRèglesDInstructionChoisies && (
-                <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
-                  <div className="inline-radio-option">
+              <div
+                className={`border border-gray-400 border-solid rounded p-5 mb-5 ${
+                  nouvellesRèglesDInstructionChoisies ? 'text-grey-625-base cursor-not-allowed' : ''
+                }`}
+              >
+                <div className="inline-radio-option">
+                  {!nouvellesRèglesDInstructionChoisies && (
                     <input
                       type="radio"
                       name="nouvellesRèglesDInstructionChoisies"
@@ -44,37 +48,50 @@ export const ChoisirCahierDesCharges = PageLayout(
                       disabled={nouvellesRèglesDInstructionChoisies}
                       defaultChecked={!nouvellesRèglesDInstructionChoisies}
                       onChange={handleCDCChange}
+                      className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
                     />
-                    <label htmlFor="Anciennes règles" className="flex-1">
-                      <strong>
-                        Instruction selon les dispositions du cahier des charges en vigueur au
-                        moment de la candidature &nbsp;
-                      </strong>
-                      {cahiersChargesURLs?.oldCahierChargesURL && (
-                        <>
-                          {'('}
-                          <ExternalLink href={cahiersChargesURLs?.oldCahierChargesURL}>
-                            voir le cahier des charges
-                          </ExternalLink>
-                          {')'}
-                        </>
-                      )}
-                      .
-                    </label>
-                  </div>
-                  <div>
-                    <ul>
-                      <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                        Je dois envoyer ma demande ou mon signalement au format papier.
-                      </li>
-                      <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                        Je pourrai changer de mode d'instruction lors de ma prochaine demande si je
-                        le souhaite.
-                      </li>
-                    </ul>
-                  </div>
+                  )}
+                  <label htmlFor="Anciennes règles" className="flex-1">
+                    <strong>
+                      Instruction selon les dispositions du cahier des charges en vigueur au moment
+                      de la candidature &nbsp;
+                    </strong>
+                    {cahiersChargesURLs?.oldCahierChargesURL && (
+                      <>
+                        {'('}
+                        <ExternalLink href={cahiersChargesURLs?.oldCahierChargesURL}>
+                          voir le cahier des charges
+                        </ExternalLink>
+                        {')'}
+                      </>
+                    )}
+                    .
+                  </label>
                 </div>
-              )}
+                <div>
+                  <ul>
+                    <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                      Je dois envoyer ma demande ou mon signalement au format papier.
+                    </li>
+                    <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                      Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le
+                      souhaite.
+                    </li>
+                  </ul>
+                </div>
+
+                <div>
+                  <ul>
+                    <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                      Je dois envoyer ma demande ou mon signalement au format papier.
+                    </li>
+                    <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                      Je pourrai changer de mode d'instruction lors de ma prochaine demande si je le
+                      souhaite.
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                 <div className="inline-radio-option">
                   {!nouvellesRèglesDInstructionChoisies && (
@@ -86,6 +103,7 @@ export const ChoisirCahierDesCharges = PageLayout(
                       defaultChecked={nouvellesRèglesDInstructionChoisies}
                       disabled={nouvellesRèglesDInstructionChoisies}
                       onChange={handleCDCChange}
+                      className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
                     />
                   )}
 
