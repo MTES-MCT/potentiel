@@ -1,4 +1,5 @@
 export * from './asyncHandler'
+export * from './safeAsyncHandler'
 export * from './errorResponse'
 export * from './notFoundResponse'
 export * from './unauthorizedResponse'
