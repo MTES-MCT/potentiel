@@ -1,5 +1,5 @@
 import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
-import { errAsync, logger, okAsync } from '@core/utils'
+import { logger, okAsync } from '@core/utils'
 import { Fournisseur, FournisseurKind } from '@modules/project'
 import routes from '@routes'
 import fs from 'fs'
@@ -18,21 +18,39 @@ import { addQueryParams } from '../../../helpers/addQueryParams'
 import { ChampFournisseurManquantError } from '@modules/shared/errors/ChampFournisseurManquantError'
 import { UnauthorizedError } from '@modules/shared'
 
-const requestBodySchema = yup.object({
-  projectId: yup.string().uuid().required(),
-  newEvaluationCarbone: yup.number().positive().optional(),
-  justification: yup.string().optional(),
-  newRulesOptIn: yup.boolean().optional(),
-  'Nom du fabricant \\n(Modules ou films)': yup.string().optional(),
-  'Nom du fabricant (Cellules)': yup.string().optional(),
-  'Nom du fabricant \\n(Plaquettes de silicium (wafers))': yup.string().optional(),
-  'Nom du fabricant \\n(Polysilicium)': yup.string().optional(),
-  'Nom du fabricant \\n(Postes de conversion)': yup.string().optional(),
-  'Nom du fabricant \\n(Structure)': yup.string().optional(),
-  'Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)': yup.string().optional(),
-  'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)': yup.string().optional(),
-  'Nom du fabricant \\n(Autres technologies)': yup.string().optional(),
-})
+const requestBodySchema = yup
+  .object({
+    projectId: yup.string().uuid().required(),
+    newEvaluationCarbone: yup.number().positive().optional(),
+    justification: yup.string().optional(),
+    newRulesOptIn: yup.boolean().optional(),
+    'Nom du fabricant \\n(Modules ou films)': yup.string().optional(),
+    'Nom du fabricant (Cellules)': yup.string().optional(),
+    'Nom du fabricant \\n(Plaquettes de silicium (wafers))': yup.string().optional(),
+    'Nom du fabricant \\n(Polysilicium)': yup.string().optional(),
+    'Nom du fabricant \\n(Postes de conversion)': yup.string().optional(),
+    'Nom du fabricant \\n(Structure)': yup.string().optional(),
+    'Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)': yup.string().optional(),
+    'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)': yup.string().optional(),
+    'Nom du fabricant \\n(Autres technologies)': yup.string().optional(),
+  })
+  .test(
+    'vérification-globale-fournisseurs',
+    `Vous devez modifier au moins l'un des fournisseurs.`,
+    function (fields) {
+      return (
+        !!fields['Nom du fabricant \\n(Modules ou films)'] ||
+        !!fields['Nom du fabricant (Cellules)'] ||
+        !!fields['Nom du fabricant \\n(Plaquettes de silicium (wafers))'] ||
+        !!fields['Nom du fabricant \\n(Polysilicium)'] ||
+        !!fields['Nom du fabricant \\n(Postes de conversion)'] ||
+        !!fields['Nom du fabricant \\n(Structure)'] ||
+        !!fields['Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)'] ||
+        !!fields['Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)'] ||
+        !!fields['Nom du fabricant \\n(Autres technologies)']
+      )
+    }
+  )
 
 v1Router.post(
   routes.CHANGEMENT_FOURNISSEUR_ACTION,
@@ -43,11 +61,6 @@ v1Router.post(
       .asyncAndThen((body) => {
         const { user } = request
 
-        const nouveauxFournisseurs = getFournisseurs(body)
-
-        if (!nouveauxFournisseurs?.length) {
-          return errAsync(new ChampFournisseurManquantError())
-        }
         const file = request.file && {
           contents: fs.createReadStream(request.file.path),
           filename: `${Date.now()}-${request.file.originalname}`,
@@ -76,7 +89,7 @@ v1Router.post(
         ({ projectId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Votre demande de délai a bien été envoyée.',
+              success: 'Vos changements ont bien été enregistrés.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
             })
@@ -115,7 +128,7 @@ v1Router.post(
   })
 )
 
-function getFournisseurs(validatedBody: any): Fournisseur[] | [] {
+function getFournisseurs(validatedBody: any): Fournisseur[] {
   return [
     {
       kind: 'Nom du fabricant \n(Modules ou films)' as FournisseurKind,
