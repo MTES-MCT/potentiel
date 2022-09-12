@@ -1,7 +1,5 @@
-import { getProjectAppelOffre } from '@config/queries.config'
-import { ProjectAppelOffre } from '@entities'
 import { NouveauCahierDesChargesChoisi } from '@modules/project'
-import { Op, QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 
@@ -11,10 +9,6 @@ type ProjectNewRulesOptedIn = {
   payload: {
     projectId: string
     optedInBy: string
-    cahierDesCharges: {
-      id: string
-      référence: string
-    }
   }
 }
 
@@ -23,7 +17,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
-      const { EventStore, Project } = models
+      const { EventStore } = models
 
       const evenementsAMigrer: ProjectNewRulesOptedIn[] = await EventStore.findAll(
         {
@@ -35,50 +29,17 @@ export default {
       )
       console.log(`${evenementsAMigrer.length} événements ProjectNewRulesOptedIn à migrer`)
 
-      const projets: Array<{ id: string; appelOffreId: string; periodeId: string }> =
-        await Project.findAll(
-          {
-            where: {
-              id: { [Op.in]: evenementsAMigrer.map(({ payload: { projectId } }) => projectId) },
-            },
-            attribute: ['id', 'appelOffreId', 'periodeId'],
-          },
-          { transaction }
-        )
-
-      const projetsAvecAo: { [id: string]: { appelOffre: ProjectAppelOffre } } = projets.reduce(
-        (
-          acc,
-          { id, appelOffreId, periodeId }: { id: string; appelOffreId: string; periodeId: string }
-        ) => ({
-          ...acc,
-          [id]: { appelOffre: getProjectAppelOffre({ appelOffreId, periodeId }) },
-        }),
-        {}
-      )
-      console.log(`${Object.entries(projetsAvecAo).keys.length} projets ont été récupérés`)
-
       const nouveauxÉvénements = evenementsAMigrer.map((evenement) => {
         const {
           occurredAt,
           payload: { projectId: projetId, optedInBy: choisiPar },
         } = evenement
 
-        const projet = projetsAvecAo[projetId]
-        if (!projet) {
-          console.error(`Impossible de trouver le projet ${projetId}`)
-          console.error(`Pour l'événement ${JSON.stringify(evenementsAMigrer)}`)
-          throw new Error(`Projet introuvable`)
-        }
-
         return new NouveauCahierDesChargesChoisi({
           payload: {
             projetId,
             choisiPar,
-            cahierDesCharges: {
-              référence: projet.appelOffre.periode.reference,
-              paruLe: '30/07/2021',
-            },
+            paruLe: '30/07/2021',
           },
           original: {
             occurredAt,

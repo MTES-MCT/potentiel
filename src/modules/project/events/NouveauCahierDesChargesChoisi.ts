@@ -3,10 +3,7 @@ import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain
 type NouveauCahierDesChargesChoisiPayload = {
   projetId: string
   choisiPar: string
-  cahierDesCharges: {
-    référence: string
-    paruLe: '30/07/2021'
-  }
+  paruLe: '30/07/2021'
 }
 
 export class NouveauCahierDesChargesChoisi
