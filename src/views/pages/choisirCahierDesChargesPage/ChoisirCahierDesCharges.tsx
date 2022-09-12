@@ -39,19 +39,24 @@ export const ChoisirCahierDesCharges = PageLayout(
                 }`}
               >
                 <div className="inline-radio-option">
-                  {!nouvellesRèglesDInstructionChoisies && (
-                    <input
-                      type="radio"
-                      name="nouvellesRèglesDInstructionChoisies"
-                      value="false"
-                      id="Anciennes règles"
-                      disabled={nouvellesRèglesDInstructionChoisies}
-                      defaultChecked={!nouvellesRèglesDInstructionChoisies}
-                      onChange={handleCDCChange}
-                      className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
-                    />
-                  )}
-                  <label htmlFor="Anciennes règles" className="flex-1">
+                  <input
+                    type="radio"
+                    name="newRulesOptIn"
+                    value="false"
+                    id="Anciennes règles"
+                    disabled={nouvellesRèglesDInstructionChoisies}
+                    defaultChecked={!nouvellesRèglesDInstructionChoisies}
+                    onChange={handleCDCChange}
+                    className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
+                  />
+                  <label
+                    htmlFor="Anciennes règles"
+                    className={`flex-1 ${
+                      nouvellesRèglesDInstructionChoisies
+                        ? 'text-grey-625-base cursor-not-allowed'
+                        : ''
+                    }`}
+                  >
                     <strong>
                       Instruction selon les dispositions du cahier des charges en vigueur au moment
                       de la candidature &nbsp;
@@ -94,20 +99,24 @@ export const ChoisirCahierDesCharges = PageLayout(
               </div>
               <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                 <div className="inline-radio-option">
-                  {!nouvellesRèglesDInstructionChoisies && (
-                    <input
-                      type="radio"
-                      name="nouvellesRèglesDInstructionChoisies"
-                      value="true"
-                      id="Nouvelles règles"
-                      defaultChecked={nouvellesRèglesDInstructionChoisies}
-                      disabled={nouvellesRèglesDInstructionChoisies}
-                      onChange={handleCDCChange}
-                      className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
-                    />
-                  )}
-
-                  <label htmlFor="Nouvelles règles" className="flex-1">
+                  <input
+                    type="radio"
+                    name="newRulesOptIn"
+                    value="true"
+                    id="Nouvelles règles"
+                    defaultChecked={nouvellesRèglesDInstructionChoisies}
+                    disabled={nouvellesRèglesDInstructionChoisies}
+                    onChange={handleCDCChange}
+                    className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
+                  />
+                  <label
+                    htmlFor="Nouvelles règles"
+                    className={`flex-1 ${
+                      nouvellesRèglesDInstructionChoisies
+                        ? 'text-grey-625-base cursor-not-allowed'
+                        : ''
+                    }`}
+                  >
                     <strong>
                       Instruction selon le cahier des charges modifié rétroactivement et publié le
                       30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre
