@@ -74,14 +74,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant \n(Modules ou films)']}
                     />
-                    <label htmlFor="Nom du fabricant \n(Modules ou films)">
-                      Nouveau fournisseur
-                    </label>
+                    <label htmlFor="Fournisseur modules ou films">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Modules ou films)"
-                      id="Nom du fabricant \n(Modules ou films)"
-                      {...dataId('modificationRequest-Nom du fabricant \n(Modules ou films)Field')}
+                      name="Fournisseur modules ou films"
+                      id="Fournisseur modules ou films"
+                      {...dataId('Fournisseur modules ou films')}
                     />
                   </div>
                   <div>
@@ -92,12 +90,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant (Cellules)']}
                     />
-                    <label htmlFor="Nom du fabricant (Cellules)">Nouveau fournisseur</label>
+                    <label htmlFor="Fournisseur cellules">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant (Cellules)"
-                      id="Nom du fabricant (Cellules)"
-                      {...dataId('modificationRequest-Nom du fabricant (Cellules)Field')}
+                      name="Fournisseur cellules"
+                      id="Fournisseur cellules"
+                      {...dataId('Fournisseur cellules')}
                     />
                   </div>
                   <div>
@@ -110,16 +108,14 @@ export const ChangerFournisseur = PageLayout(
                         project.details?.['Nom du fabricant \n(Plaquettes de silicium (wafers))']
                       }
                     />
-                    <label htmlFor="Nom du fabricant \n(Plaquettes de silicium (wafers))">
+                    <label htmlFor="Fournisseur plaquettes de silicium (wafers)">
                       Nouveau fournisseur
                     </label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Plaquettes de silicium (wafers))"
-                      id="Nom du fabricant \n(Plaquettes de silicium (wafers))"
-                      {...dataId(
-                        'modificationRequest-Nom du fabricant \n(Plaquettes de silicium (wafers))Field'
-                      )}
+                      name="Fournisseur plaquettes de silicium (wafers)"
+                      id="Fournisseur plaquettes de silicium (wafers)"
+                      {...dataId('Fournisseur plaquettes de silicium (wafers)')}
                     />
                   </div>
                   <div>
@@ -130,12 +126,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant \n(Polysilicium)']}
                     />
-                    <label htmlFor="Nom du fabricant \n(Polysilicium)">Nouveau fournisseur</label>
+                    <label htmlFor="Fournisseur polysilicium">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Polysilicium)"
-                      id="Nom du fabricant \n(Polysilicium)"
-                      {...dataId('modificationRequest-Nom du fabricant \n(Polysilicium)Field')}
+                      name="Fournisseur polysilicium"
+                      id="Fournisseur polysilicium"
+                      {...dataId('Fournisseur polysilicium')}
                     />
                   </div>
                   <div>
@@ -146,16 +142,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant \n(Postes de conversion)']}
                     />
-                    <label htmlFor="Nom du fabricant \n(Postes de conversion)">
-                      Nouveau fournisseur
-                    </label>
+                    <label htmlFor="Fournisseur postes de conversion">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Postes de conversion)"
-                      id="Nom du fabricant \n(Postes de conversion)"
-                      {...dataId(
-                        'modificationRequest-Nom du fabricant \n(Postes de conversion)Field'
-                      )}
+                      name="Fournisseur postes de conversion"
+                      id="Fournisseur postes de conversion"
+                      {...dataId('modificationRequest-Fournisseur postes de conversionField')}
                     />
                   </div>
                   <div>
@@ -166,12 +158,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant \n(Structure)']}
                     />
-                    <label htmlFor="Nom du fabricant \n(Structure)">Nouveau fournisseur</label>
+                    <label htmlFor="Fournisseur structures">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Structure)"
-                      id="Nom du fabricant \n(Structure)"
-                      {...dataId('modificationRequest-Nom du fabricant \n(Structure)Field')}
+                      name="Fournisseur structures"
+                      id="Fournisseur structures"
+                      {...dataId('modificationRequest-Fournisseur structuresField')}
                     />
                   </div>
                   <div>
@@ -186,15 +178,15 @@ export const ChangerFournisseur = PageLayout(
                         ]
                       }
                     />
-                    <label htmlFor="Nom du fabricant \n(Dispositifs de stockage de l’énergie *)">
+                    <label htmlFor="Fournisseur dispositifs de stockage de l’énergie">
                       Nouveau fournisseur
                     </label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Dispositifs de stockage de l’énergie *)"
-                      id="Nom du fabricant \n(Dispositifs de stockage de l’énergie *)"
+                      name="Fournisseur dispositifs de stockage de l’énergie"
+                      id="Fournisseur dispositifs de stockage de l’énergie"
                       {...dataId(
-                        'modificationRequest-Nom du fabricant \n(Dispositifs de stockage de l’énergie *)Field'
+                        'modificationRequest-Fournisseur dispositifs de stockage de l’énergieField'
                       )}
                     />
                   </div>
@@ -210,15 +202,15 @@ export const ChangerFournisseur = PageLayout(
                         ]
                       }
                     />
-                    <label htmlFor="Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)">
+                    <label htmlFor="Fournisseur dispositifs de suivi de la course du soleil">
                       Nouveau fournisseur
                     </label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)"
-                      id="Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)"
+                      name="Fournisseur dispositifs de suivi de la course du soleil"
+                      id="Fournisseur dispositifs de suivi de la course du soleil"
                       {...dataId(
-                        'modificationRequest-Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)Field'
+                        'modificationRequest-Fournisseur dispositifs de suivi de la course du soleilField'
                       )}
                     />
                   </div>
@@ -230,16 +222,12 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.details?.['Nom du fabricant \n(Autres technologies)']}
                     />
-                    <label htmlFor="Nom du fabricant \n(Autres technologies)">
-                      Nouveau fournisseur
-                    </label>
+                    <label htmlFor="Fournisseur autres technologies">Nouveau fournisseur</label>
                     <input
                       type="text"
-                      name="Nom du fabricant \n(Autres technologies)"
-                      id="Nom du fabricant \n(Autres technologies)"
-                      {...dataId(
-                        'modificationRequest-Nom du fabricant \n(Autres technologies)Field'
-                      )}
+                      name="Fournisseur autres technologies"
+                      id="Fournisseur autres technologies"
+                      {...dataId('modificationRequest-Fournisseur autres technologiesField')}
                     />
                   </div>
                   {project.evaluationCarbone > 0 && (

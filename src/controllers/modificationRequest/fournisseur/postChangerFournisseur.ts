@@ -1,6 +1,6 @@
 import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
 import { logger, okAsync } from '@core/utils'
-import { Fournisseur, FournisseurKind } from '@modules/project'
+import { Fournisseur, isFournisseurKind } from '@modules/project'
 import routes from '@routes'
 import fs from 'fs'
 import {
@@ -18,36 +18,52 @@ import { addQueryParams } from '../../../helpers/addQueryParams'
 import { ChampFournisseurManquantError } from '@modules/shared/errors/ChampFournisseurManquantError'
 import { UnauthorizedError } from '@modules/shared'
 
-const requestBodySchema = yup
+type RequestBodyType = {
+  projectId: string
+  newEvaluationCarbone: number | undefined
+  justification: string | undefined
+  newRulesOptIn: boolean | undefined
+  'Fournisseur modules ou films': string | undefined
+  'Fournisseur cellules': string | undefined
+  'Fournisseur plaquettes de silicium (wafers)': string | undefined
+  'Fournisseur polysilicium': string | undefined
+  'Fournisseur postes de conversion': string | undefined
+  'Fournisseur structure': string | undefined
+  'Fournisseur dispositifs de stockage de l’énergie': string | undefined
+  'Fournisseur dispositifs de suivi de la course du soleil': string | undefined
+  'Fournisseur autres technologies': string | undefined
+}
+
+const requestBodySchema: yup.SchemaOf<RequestBodyType> = yup
   .object({
     projectId: yup.string().uuid().required(),
     newEvaluationCarbone: yup.number().positive().optional(),
     justification: yup.string().optional(),
     newRulesOptIn: yup.boolean().optional(),
-    'Nom du fabricant \\n(Modules ou films)': yup.string().optional(),
-    'Nom du fabricant (Cellules)': yup.string().optional(),
-    'Nom du fabricant \\n(Plaquettes de silicium (wafers))': yup.string().optional(),
-    'Nom du fabricant \\n(Polysilicium)': yup.string().optional(),
-    'Nom du fabricant \\n(Postes de conversion)': yup.string().optional(),
-    'Nom du fabricant \\n(Structure)': yup.string().optional(),
-    'Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)': yup.string().optional(),
-    'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)': yup.string().optional(),
-    'Nom du fabricant \\n(Autres technologies)': yup.string().optional(),
+    'Fournisseur modules ou films': yup.string().optional(),
+    'Fournisseur cellules': yup.string().optional(),
+    'Fournisseur plaquettes de silicium (wafers)': yup.string().optional(),
+    'Fournisseur polysilicium': yup.string().optional(),
+    'Fournisseur postes de conversion': yup.string().optional(),
+    'Fournisseur structure': yup.string().optional(),
+    'Fournisseur dispositifs de stockage de l’énergie': yup.string().optional(),
+    'Fournisseur dispositifs de suivi de la course du soleil': yup.string().optional(),
+    'Fournisseur autres technologies': yup.string().optional(),
   })
   .test(
     'vérification-globale-fournisseurs',
     `Vous devez modifier au moins l'un des fournisseurs.`,
     function (fields) {
       return (
-        !!fields['Nom du fabricant \\n(Modules ou films)'] ||
-        !!fields['Nom du fabricant (Cellules)'] ||
-        !!fields['Nom du fabricant \\n(Plaquettes de silicium (wafers))'] ||
-        !!fields['Nom du fabricant \\n(Polysilicium)'] ||
-        !!fields['Nom du fabricant \\n(Postes de conversion)'] ||
-        !!fields['Nom du fabricant \\n(Structure)'] ||
-        !!fields['Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)'] ||
-        !!fields['Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)'] ||
-        !!fields['Nom du fabricant \\n(Autres technologies)']
+        !!fields['Fournisseur modules ou films'] ||
+        !!fields['Fournisseur cellules'] ||
+        !!fields['Fournisseur plaquettes de silicium (wafers)'] ||
+        !!fields['Fournisseur polysilicium'] ||
+        !!fields['Fournisseur postes de conversion'] ||
+        !!fields['Fournisseur structure'] ||
+        !!fields['Fournisseur dispositifs de stockage de l’énergie'] ||
+        !!fields['Fournisseur dispositifs de suivi de la course du soleil'] ||
+        !!fields['Fournisseur autres technologies']
       )
     }
   )
@@ -128,43 +144,12 @@ v1Router.post(
   })
 )
 
-function getFournisseurs(validatedBody: any): Fournisseur[] {
-  return [
-    {
-      kind: 'Nom du fabricant \n(Modules ou films)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Modules ou films)'],
-    },
-    {
-      kind: 'Nom du fabricant (Cellules)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant (Cellules)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Plaquettes de silicium (wafers))' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Plaquettes de silicium (wafers))'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Polysilicium)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Polysilicium)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Postes de conversion)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Postes de conversion)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Structure)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Structure)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Dispositifs de stockage de l’énergie *)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)'],
-    },
-    {
-      kind: 'Nom du fabricant \n(Autres technologies)' as FournisseurKind,
-      name: validatedBody['Nom du fabricant \\n(Autres technologies)'],
-    },
-  ].filter(({ name }) => name)
+function getFournisseurs(validatedBody: RequestBodyType): Fournisseur[] {
+  let nouveauFournisseurs: Fournisseur[] = []
+  for (const [key, value] of Object.entries(validatedBody)) {
+    if (typeof value === 'string' && value !== '' && isFournisseurKind(key)) {
+      nouveauFournisseurs.push({ kind: key, name: value })
+    }
+  }
+  return nouveauFournisseurs
 }

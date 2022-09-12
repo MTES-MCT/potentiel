@@ -1,12 +1,26 @@
 export type Fournisseur = { kind: FournisseurKind; name: string }
 
 export type FournisseurKind =
-  | 'Nom du fabricant \n(Modules ou films)'
-  | 'Nom du fabricant (Cellules)'
-  | 'Nom du fabricant \n(Plaquettes de silicium (wafers))'
-  | 'Nom du fabricant \n(Polysilicium)'
-  | 'Nom du fabricant \n(Postes de conversion)'
-  | 'Nom du fabricant \n(Structure)'
-  | 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)'
-  | 'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)'
-  | 'Nom du fabricant \n(Autres technologies)'
+  | 'Fournisseur modules ou films'
+  | 'Fournisseur cellules'
+  | 'Fournisseur plaquettes de silicium (wafers)'
+  | 'Fournisseur polysilicium'
+  | 'Fournisseur postes de conversion'
+  | 'Fournisseur structure'
+  | 'Fournisseur dispositifs de stockage de l’énergie'
+  | 'Fournisseur dispositifs de suivi de la course du soleil'
+  | 'Fournisseur autres technologies'
+
+export const isFournisseurKind = (value: string): value is FournisseurKind => {
+  return [
+    'Fournisseur modules ou films',
+    'Fournisseur cellules',
+    'Fournisseur plaquettes de silicium (wafers)',
+    'Fournisseur polysilicium',
+    'Fournisseur postes de conversion',
+    'Fournisseur structure',
+    'Fournisseur dispositifs de stockage de l’énergie',
+    'Fournisseur dispositifs de suivi de la course du soleil',
+    'Fournisseur autres technologies',
+  ].includes(value)
+}
