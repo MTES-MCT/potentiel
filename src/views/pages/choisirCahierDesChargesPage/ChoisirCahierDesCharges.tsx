@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
-import {
-  PageLayout,
-  ExternalLinkIcon,
-  Link,
-  Button,
-  UserDashboard,
-  SecondaryLinkButton,
-} from '@components'
+import { PageLayout, Button, UserDashboard, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { Request } from 'express'
 import ROUTES from '@routes'
@@ -35,14 +28,9 @@ export const ChoisirCahierDesCharges = PageLayout(
               <p>
                 Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
                 &nbsp;
-                <Link
-                  className="inline-flex items-center"
-                  href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement"
-                  target="_blank"
-                >
+                <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
                   page d'aide
-                  <ExternalLinkIcon className="ml-1" />
-                </Link>
+                </ExternalLink>
                 .
               </p>
               {!newRulesOptIn && (
@@ -63,13 +51,13 @@ export const ChoisirCahierDesCharges = PageLayout(
                         moment de la candidature &nbsp;
                       </strong>
                       {cahiersChargesURLs?.oldCahierChargesURL && (
-                        <Link
-                          href={cahiersChargesURLs?.oldCahierChargesURL}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          (voir le cahier des charges <ExternalLinkIcon className="w-4" />)
-                        </Link>
+                        <>
+                          {'('}
+                          <ExternalLink href={cahiersChargesURLs?.oldCahierChargesURL}>
+                            voir le cahier des charges
+                          </ExternalLink>
+                          {')'}
+                        </>
                       )}
                       .
                     </label>
@@ -108,13 +96,13 @@ export const ChoisirCahierDesCharges = PageLayout(
                       2019&nbsp;
                     </strong>
                     {cahiersChargesURLs?.newCahierChargesURL && (
-                      <Link
-                        href={cahiersChargesURLs?.newCahierChargesURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        (voir le cahier des charges <ExternalLinkIcon className="w-4" />)
-                      </Link>
+                      <>
+                        {'('}
+                        <ExternalLink href={cahiersChargesURLs?.newCahierChargesURL}>
+                          voir le cahier des charges
+                        </ExternalLink>
+                        {')'}
+                      </>
                     )}
                     .
                   </label>
