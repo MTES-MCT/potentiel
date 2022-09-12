@@ -47,7 +47,7 @@ describe('requestFournisseurModification use-case', () => {
       const res = await requestFournisseurModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
-        newFournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fail' }],
+        newFournisseurs: [{ kind: 'Fournisseur cellules', name: 'fail' }],
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -58,10 +58,10 @@ describe('requestFournisseurModification use-case', () => {
   describe('when user is allowed', () => {
     const newFournisseurs = [
       {
-        kind: 'Nom du fabricant \n(Modules ou films)' as FournisseurKind,
-        name: 'fournisseur modules films',
+        kind: 'Fournisseur modules ou films' as FournisseurKind,
+        name: 'nom fournisseur modules films',
       },
-      { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur cellules' },
+      { kind: 'Fournisseur cellules' as FournisseurKind, name: 'nom fournisseur cellules' },
     ]
     const newEvaluationCarbone = 100
 

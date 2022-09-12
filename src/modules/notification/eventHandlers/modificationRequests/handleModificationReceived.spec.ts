@@ -179,7 +179,7 @@ describe('notification.handleModificationReceived', () => {
               projectId,
               requestedBy: userId,
               fournisseurs: [
-                { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur' },
+                { kind: 'Fournisseur cellules' as FournisseurKind, name: 'fournisseur' },
               ],
               evaluationCarbone: 74,
               authority: 'dreal',
