@@ -136,7 +136,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           payload: expect.objectContaining({
             projetId: projectId,
             choisiPar: user.id,
-            cahierDesCharges: 'CDC 2021',
+            paruLe: '30/07/2021',
           }),
         })
       )
