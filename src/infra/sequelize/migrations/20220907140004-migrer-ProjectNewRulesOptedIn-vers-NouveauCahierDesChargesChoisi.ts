@@ -1,5 +1,7 @@
+import { getProjectAppelOffre } from '@config/queries.config'
+import { ProjectAppelOffre } from '@entities'
 import { NouveauCahierDesChargesChoisi } from '@modules/project'
-import { QueryInterface, Sequelize } from 'sequelize'
+import { Op, QueryInterface, Sequelize } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 
@@ -21,7 +23,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
-      const { EventStore } = models
+      const { EventStore, Project } = models
 
       const evenementsAMigrer: ProjectNewRulesOptedIn[] = await EventStore.findAll(
         {
@@ -31,21 +33,59 @@ export default {
         },
         { transaction }
       )
+      console.log(`${evenementsAMigrer.length} événements ProjectNewRulesOptedIn à migrer`)
 
-      const nouveauxÉvénements = evenementsAMigrer.map(
-        ({ occurredAt, payload: { projectId: projetId, optedInBy: choisiPar } }) =>
-          new NouveauCahierDesChargesChoisi({
-            payload: {
-              projetId,
-              choisiPar,
-              cahierDesCharges: 'CDC 2021',
+      const projets: Array<{ id: string; appelOffreId: string; periodeId: string }> =
+        await Project.findAll(
+          {
+            where: {
+              id: { [Op.in]: evenementsAMigrer.map(({ payload: { projectId } }) => projectId) },
             },
-            original: {
-              occurredAt,
-              version: 1,
-            },
-          })
+            attribute: ['id', 'appelOffreId', 'periodeId'],
+          },
+          { transaction }
+        )
+
+      const projetsAvecAo: { [id: string]: { appelOffre: ProjectAppelOffre } } = projets.reduce(
+        (
+          acc,
+          { id, appelOffreId, periodeId }: { id: string; appelOffreId: string; periodeId: string }
+        ) => ({
+          ...acc,
+          [id]: { appelOffre: getProjectAppelOffre({ appelOffreId, periodeId }) },
+        }),
+        {}
       )
+      console.log(`${Object.entries(projetsAvecAo).keys.length} projets ont été récupérés`)
+
+      const nouveauxÉvénements = evenementsAMigrer.map((evenement) => {
+        const {
+          occurredAt,
+          payload: { projectId: projetId, optedInBy: choisiPar },
+        } = evenement
+
+        const projet = projetsAvecAo[projetId]
+        if (!projet) {
+          console.error(`Impossible de trouver le projet ${projetId}`)
+          console.error(`Pour l'événement ${JSON.stringify(evenementsAMigrer)}`)
+          throw new Error(`Projet introuvable`)
+        }
+
+        return new NouveauCahierDesChargesChoisi({
+          payload: {
+            projetId,
+            choisiPar,
+            cahierDesCharges: {
+              référence: projet.appelOffre.periode.reference,
+              paruLe: '30/07/2021',
+            },
+          },
+          original: {
+            occurredAt,
+            version: 1,
+          },
+        })
+      })
 
       console.log(
         `${nouveauxÉvénements.length} nouveaux événements ${NouveauCahierDesChargesChoisi.type} vont être ajoutés`
