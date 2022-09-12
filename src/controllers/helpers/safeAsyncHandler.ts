@@ -30,7 +30,12 @@ export default function safeAsyncHandler<Schema extends BaseSchema>(
 ): RequestHandler<core.ParamsDictionary, any, InferType<Schema>['body'], core.Query> {
   return expressAsyncHandler(async (request, response, next) => {
     try {
-      schema.validateSync({ body: request.body, params: request.params }, { abortEarly: false })
+      const validatedData = schema.validateSync(
+        { body: request.body, params: request.params },
+        { abortEarly: false }
+      )
+      const validatedRequest = Object.assign(request, validatedData)
+      await handler(validatedRequest, response, next)
     } catch (error) {
       if (onError) {
         const errors = error.inner.reduce(
@@ -48,6 +53,5 @@ export default function safeAsyncHandler<Schema extends BaseSchema>(
       })
       return
     }
-    await handler(request, response, next)
   })
 }
