@@ -3,12 +3,13 @@ import routes from '@routes'
 import { Request } from 'express'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
 import { RiCloseLine } from '@react-icons/all-files/ri/RiCloseLine'
-import { RiExternalLinkLine } from '@react-icons/all-files/ri/RiExternalLinkLine'
 import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 import { RiMenuLine } from '@react-icons/all-files/ri/RiMenuLine'
 import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
 import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
 import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
+
+import { ExternalLink } from '@components'
 
 type HeaderProps = {
   user?: Request['user']
@@ -156,15 +157,19 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     )}
     <li className="flex items-center">
       <a
-        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
+        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base lg:hidden"
         target="_blank"
         rel="noopener"
         href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
       >
         <RiQuestionLine className="lg:hidden text-blue-france-sun-base" />
-        <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">Aide</span>
-        <RiExternalLinkLine className="hidden lg:block text-blue-france-sun-base" />
       </a>
+      <ExternalLink
+        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+        className="no-underline hidden lg:block"
+      >
+        <span className="pt-0.5 mx-1">Aide</span>
+      </ExternalLink>
     </li>
   </ul>
 )
