@@ -3,7 +3,14 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { RoleBasedDashboard, SuccessErrorBox, PageLayout, Callout, LinkButton } from '@components'
+import {
+  RoleBasedDashboard,
+  SuccessErrorBox,
+  PageLayout,
+  Callout,
+  LinkButton,
+  Link,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
@@ -82,13 +89,13 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
         <div>
           Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021,
           pris en application du décret n° 2019-1175 du 14 novembre 2019 (
-          <a
+          <Link
             target="_blank"
             rel="noopener noreferrer"
             href={cahiersChargesURLs.newCahierChargesURL}
           >
             voir le cahier des charges <ExternalLinkIcon className="w-4" />
-          </a>
+          </Link>
           )
           <br />
           {userIs('porteur-projet')(user) &&

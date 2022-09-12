@@ -63,8 +63,12 @@ export const ChoisirCahierDesCharges = PageLayout(
                         moment de la candidature &nbsp;
                       </strong>
                       {cahiersChargesURLs?.oldCahierChargesURL && (
-                        <Link href={cahiersChargesURLs?.oldCahierChargesURL}>
-                          (voir le cahier des charges)
+                        <Link
+                          href={cahiersChargesURLs?.oldCahierChargesURL}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          (voir le cahier des charges <ExternalLinkIcon className="w-4" />)
                         </Link>
                       )}
                       .
@@ -104,8 +108,12 @@ export const ChoisirCahierDesCharges = PageLayout(
                       2019&nbsp;
                     </strong>
                     {cahiersChargesURLs?.newCahierChargesURL && (
-                      <Link href={cahiersChargesURLs?.newCahierChargesURL}>
-                        (voir le cahier des charges)
+                      <Link
+                        href={cahiersChargesURLs?.newCahierChargesURL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        (voir le cahier des charges <ExternalLinkIcon className="w-4" />)
                       </Link>
                     )}
                     .
