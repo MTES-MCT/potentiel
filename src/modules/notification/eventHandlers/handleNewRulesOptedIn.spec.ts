@@ -27,7 +27,7 @@ describe('notification.handleNewRulesOptedIn', () => {
         payload: {
           projetId: projectId,
           choisiPar: userId,
-          cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+          paruLe: '30/07/2021',
         },
       })
     )

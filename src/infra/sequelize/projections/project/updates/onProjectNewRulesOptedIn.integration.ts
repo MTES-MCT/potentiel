@@ -22,7 +22,7 @@ describe('project.onProjectNewRulesOptedIn', () => {
         payload: {
           projetId: projectId,
           choisiPar: 'rocky',
-          cahierDesCharges: { id: 'CDC 2021', référence: '2021 S XXXX' },
+          paruLe: '30/07/2021',
         },
       })
     )
