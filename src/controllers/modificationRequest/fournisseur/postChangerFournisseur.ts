@@ -41,7 +41,7 @@ const schema = yup.object({
     .test(
       'vérification-globale-fournisseurs',
       `Vous devez modifier au moins l'un des fournisseurs.`,
-      function (fields) {
+      (fields) => {
         return (
           !!fields['Fournisseur modules ou films'] ||
           !!fields['Fournisseur cellules'] ||
