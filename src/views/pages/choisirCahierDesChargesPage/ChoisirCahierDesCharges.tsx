@@ -30,13 +30,6 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
       <div>
-        <p>
-          Pour plus d'informations sur les modalités d'instruction veuillez consulter cette &nbsp;
-          <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
-            page d'aide
-          </ExternalLink>
-          .
-        </p>
         {!nouvellesRèglesDInstructionChoisies && (
           <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
             <div className="inline-radio-option">
@@ -151,6 +144,13 @@ export const ChoisirCahierDesCharges = PageLayout(
       <UserDashboard>
         <div className="panel p-4">
           <h3 className="section--title">Cahier des charges</h3>
+          <p>
+            Pour plus d'informations sur les modalités d'instruction veuillez consulter cette &nbsp;
+            <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
+              page d'aide
+            </ExternalLink>
+            .
+          </p>
           <ChoisirCahierDesChargesFormulaire
             cahiersChargesURLs={cahiersChargesURLs}
             projet={projet}
