@@ -3,24 +3,23 @@ import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
 import { NouveauCahierDesChargesChoisi } from '../../project'
 
-export const handleNewRulesOptedIn =
-  (deps: {
-    sendNotification: NotificationService['sendNotification']
-    findProjectById: ProjectRepo['findById']
-    findUserById: UserRepo['findById']
-  }) =>
-  async (event: NouveauCahierDesChargesChoisi) => {
-    const { projetId: projectId, choisiPar: optedInBy } = event.payload
+type OnNouveauCahierDesChargesChoisi = (dépendances: {
+  sendNotification: NotificationService['sendNotification']
+  findProjectById: ProjectRepo['findById']
+  findUserById: UserRepo['findById']
+}) => (événement: NouveauCahierDesChargesChoisi) => Promise<void>
 
-    const project = await deps.findProjectById(projectId)
+export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
+  ({ sendNotification, findProjectById, findUserById }) =>
+  async ({ payload: { projetId: projectId, choisiPar: optedInBy } }) => {
+    const project = await findProjectById(projectId)
 
     if (!project) {
-      logger.error(new Error('handleNewRulesOptedIn failed because project is not found'))
+      logger.error(new Error('onNouveauCahierDesChargesChoisi failed because project is not found'))
       return
     }
 
-    // Send user email
-    ;(await deps.findUserById(optedInBy)).match({
+    ;(await findUserById(optedInBy)).match({
       some: async ({ email, fullName }) => {
         const payload: any = {
           type: 'pp-new-rules-opted-in',
@@ -38,7 +37,7 @@ export const handleNewRulesOptedIn =
           },
         }
 
-        await deps.sendNotification(payload)
+        await sendNotification(payload)
       },
       none: () => {},
     })
