@@ -97,7 +97,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           ptf,
           completionDueOn,
           updatedAt,
-          newRulesOptIn,
+          nouvellesRèglesDInstructionChoisies,
           potentielIdentifier,
           contratEDF,
           contratEnedis,
@@ -147,7 +147,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             })),
           garantiesFinancieres: undefined,
           updatedAt,
-          newRulesOptIn,
+          nouvellesRèglesDInstructionChoisies,
           contratEDF,
           contratEnedis,
         }

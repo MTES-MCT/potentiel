@@ -3,7 +3,7 @@ import { logger } from '@core/utils'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { ProjectionEnEchec } from '@modules/shared'
 
-export default ProjectEventProjector.on(DélaiAccordé, async (evenement, transaction) => {
+export default ProjectEventProjector.on(DélaiAccordé, async (évènement, transaction) => {
   const {
     payload: {
       demandeDélaiId,
@@ -12,14 +12,14 @@ export default ProjectEventProjector.on(DélaiAccordé, async (evenement, transa
       ancienneDateThéoriqueAchèvement,
     },
     occurredAt,
-  } = evenement
+  } = évènement
 
   const projectEvent = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
 
   if (!projectEvent) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
-        evenement,
+        évènement,
         nomProjection: 'ProjectEvent.onDélaiAccordé',
       })
     )
@@ -46,7 +46,7 @@ export default ProjectEventProjector.on(DélaiAccordé, async (evenement, transa
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement DélaiAccordé`,
         {
-          evenement,
+          évènement,
           nomProjection: 'ProjectEvent.onDélaiAccordé',
         },
         e

@@ -88,7 +88,7 @@ v1Router.post(
       'Nom du fabricant \\n(Dispositifs de suivi de la course du soleil *)',
       'Nom du fabricant \\n(Autres technologies)',
       'evaluationCarbone',
-      'newRulesOptIn',
+      'nouvellesRèglesDInstructionChoisies',
     ])
 
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
@@ -179,7 +179,10 @@ v1Router.post(
     }
 
     const project = await oldProjectRepo.findById(data.projectId)
-    if (!project?.newRulesOptIn && project?.appelOffre?.choisirNouveauCahierDesCharges) {
+    if (
+      !project?.nouvellesRèglesDInstructionChoisies &&
+      project?.appelOffre?.choisirNouveauCahierDesCharges
+    ) {
       const res = await choisirNouveauCahierDesCharges({
         projetId: data.projectId,
         utilisateur: request.user,

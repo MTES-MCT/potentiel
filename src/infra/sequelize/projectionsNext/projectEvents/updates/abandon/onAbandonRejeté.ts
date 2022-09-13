@@ -3,18 +3,18 @@ import { AbandonRejeté } from '../../../../../../modules/demandeModification'
 import { ProjectionEnEchec } from '@modules/shared'
 import { logger } from '@core/utils'
 
-export default ProjectEventProjector.on(AbandonRejeté, async (événement, transaction) => {
+export default ProjectEventProjector.on(AbandonRejeté, async (évènement, transaction) => {
   const {
     payload: { demandeAbandonId },
     occurredAt,
-  } = événement
+  } = évènement
 
   const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
 
   if (!abandonEvent) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
-        evenement: événement,
+        évènement,
         nomProjection: 'ProjectEventProjector.onAbandonRejeté',
       })
     )
@@ -38,7 +38,7 @@ export default ProjectEventProjector.on(AbandonRejeté, async (événement, tran
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement AbandonRejeté`,
         {
-          evenement: événement,
+          évènement,
           nomProjection: 'ProjectEventProjector.onAbandonRejeté',
         },
         e

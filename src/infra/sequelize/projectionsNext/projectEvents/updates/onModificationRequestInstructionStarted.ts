@@ -7,11 +7,11 @@ import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
 export default ProjectEventProjector.on(
   ModificationRequestInstructionStarted,
-  async (evenement, transaction) => {
+  async (évènement, transaction) => {
     const {
       payload: { modificationRequestId },
       occurredAt,
-    } = evenement
+    } = évènement
 
     const demandeDélai = await ProjectEvent.findOne({
       where: { id: modificationRequestId, type: 'DemandeDélai' },
@@ -38,7 +38,7 @@ export default ProjectEventProjector.on(
           new ProjectionEnEchec(
             `Erreur lors du traitement de l'événement ModificationRequestRejected`,
             {
-              evenement,
+              évènement,
               nomProjection: 'ProjectEvent.onModificationRequestRejected',
             },
             e

@@ -14,7 +14,7 @@ export default ProjectEventProjector.on(DélaiAnnulé, async (évènement, trans
   if (!instance) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
-        evenement: évènement,
+        évènement,
         nomProjection: 'ProjectEvent.onDélaiAnnulé',
       })
     )
@@ -38,7 +38,7 @@ export default ProjectEventProjector.on(DélaiAnnulé, async (évènement, trans
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement DélaiAnnulé`,
         {
-          evenement: évènement,
+          évènement,
           nomProjection: 'ProjectEvent.onDélaiAnnulé',
         },
         e

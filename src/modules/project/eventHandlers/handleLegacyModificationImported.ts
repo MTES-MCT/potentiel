@@ -12,8 +12,8 @@ type HandleLegacyModificationImportedDependencies = {
 
 export const handleLegacyModificationImported =
   ({ projectRepo, getProjectAppelOffre }: HandleLegacyModificationImportedDependencies) =>
-  async (event: LegacyModificationImported) => {
-    const { projectId, modifications } = event.payload
+  async (évènement: LegacyModificationImported) => {
+    const { projectId, modifications } = évènement.payload
 
     const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn)
 
@@ -31,7 +31,7 @@ export const handleLegacyModificationImported =
                 return err(
                   new ProjectionEnEchec(
                     `Impossible d'appliquer la demande de modification de délai`,
-                    { nomProjection: 'handleLegacyModificationImported', evenement: event }
+                    { nomProjection: 'handleLegacyModificationImported', évènement }
                   )
                 )
               }

@@ -23,7 +23,7 @@ import { NouveauCahierDesChargesNonChoisiError } from '../../modules/demandeModi
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
-  newRulesOptIn: yup.boolean().optional(),
+  nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
   dateAchèvementDemandée: yup
     .date()
     .required(`Vous devez renseigner la date d'achèvement souhaitée.`)
@@ -48,7 +48,7 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        if (body.newRulesOptIn) {
+        if (body.nouvellesRèglesDInstructionChoisies) {
           return choisirNouveauCahierDesCharges({
             utilisateur: user,
             projetId: body.projectId,

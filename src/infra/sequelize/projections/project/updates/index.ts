@@ -22,7 +22,7 @@ import {
   ProjectGFDueDateSet,
   ProjectGFInvalidated,
   ProjectImported,
-  ProjectNewRulesOptedIn,
+  NouveauCahierDesChargesChoisi,
   ProjectNotificationDateSet,
   ProjectNotified,
   ProjectProducteurUpdated,
@@ -52,7 +52,7 @@ import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
 import { onProjectGFInvalidated } from './onProjectGFInvalidated'
 import { onProjectImported } from './onProjectImported'
-import { onProjectNewRulesOptedIn } from './onProjectNewRulesOptedIn'
+import { onNouveauCahierDesChargesChoisi } from './onNouveauCahierDesChargesChoisi'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
@@ -66,8 +66,9 @@ import {
 import { onContratEnedisMisAJour } from './onContratEnedisMisAJour'
 import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement'
 import { onIdentifiantPotentielPPE2Batiment2Corrigé } from './onIdentifiantPotentielPPE2Batiment2Corrigé'
+import { Projections } from '@infra/sequelize/models'
 
-export const initProjectProjections = (eventBus: EventBus, models) => {
+export const initProjectProjections = (eventBus: EventBus, models: Projections) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
   eventBus.subscribe(ProjectReimported.type, onProjectReimported(models))
   eventBus.subscribe(ProjectDataCorrected.type, onProjectDataCorrected(models))
@@ -97,7 +98,7 @@ export const initProjectProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ProjectActionnaireUpdated.type, onProjectActionnaireUpdated(models))
   eventBus.subscribe(ProjectProducteurUpdated.type, onProjectProducteurUpdated(models))
   eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated(models))
-  eventBus.subscribe(ProjectNewRulesOptedIn.type, onProjectNewRulesOptedIn(models))
+  eventBus.subscribe(NouveauCahierDesChargesChoisi.type, onNouveauCahierDesChargesChoisi(models))
   eventBus.subscribe(ProjectClaimed.type, onProjectClaimed(models))
   eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed(models))
 

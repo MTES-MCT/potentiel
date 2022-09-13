@@ -67,7 +67,7 @@ const baseProjectSchema = SchemaRecord({
   completionDueOn: Number,
   abandonedOn: Number,
   numeroGestionnaire: String,
-  newRulesOptIn: Boolean,
+  nouvellesRèglesDInstructionChoisies: Boolean,
   potentielIdentifier: String,
   technologie: String.withGuard((value: string): value is Technologie =>
     technologies.includes(value as Technologie)
@@ -97,7 +97,7 @@ const fields: string[] = [
   'createdAt',
   'updatedAt',
   'gf',
-  'newRulesOptIn',
+  'nouvellesRèglesDInstructionChoisies',
   'potentielIdentifier',
   ...Object.keys(baseProjectSchema.fields),
 ]
@@ -122,7 +122,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
-  newRulesOptIn: boolean
+  nouvellesRèglesDInstructionChoisies: boolean
   readonly potentielIdentifier: string
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
@@ -279,7 +279,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     completionDueOn: 0,
     abandonedOn: 0,
     numeroGestionnaire: '',
-    newRulesOptIn: false,
+    nouvellesRèglesDInstructionChoisies: false,
     potentielIdentifier: '',
     technologie: 'N/A',
   })

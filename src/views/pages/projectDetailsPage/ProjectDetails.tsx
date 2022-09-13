@@ -83,7 +83,7 @@ const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
   <>
     {console.log(project.isClasse, project.appelOffre.choisirNouveauCahierDesCharges)}
     <h3 className="mb-0">Cahier des charges</h3>{' '}
-    {project.newRulesOptIn ? (
+    {project.nouvellesRèglesDInstructionChoisies ? (
       cahiersChargesURLs?.newCahierChargesURL ? (
         <div>
           Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021,

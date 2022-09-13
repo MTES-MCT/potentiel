@@ -5,11 +5,11 @@ import { logger } from '@core/utils'
 
 export default ProjectEventProjector.on(
   ConfirmationAbandonDemandée,
-  async (événement, transaction) => {
+  async (évènement, transaction) => {
     const {
       payload: { demandeAbandonId },
       occurredAt,
-    } = événement
+    } = évènement
 
     const abandonEvent = await ProjectEvent.findOne({
       where: { id: demandeAbandonId },
@@ -19,7 +19,7 @@ export default ProjectEventProjector.on(
     if (!abandonEvent) {
       logger.error(
         new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
-          evenement: événement,
+          évènement,
           nomProjection: 'ProjectEventProjector.onConfirmationAbandonDemandée',
         })
       )
@@ -43,7 +43,7 @@ export default ProjectEventProjector.on(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'événement ConfirmationAbandonDemandée`,
           {
-            evenement: événement,
+            évènement,
             nomProjection: 'ProjectEventProjector.onConfirmationAbandonDemandée',
           },
           e

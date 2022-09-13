@@ -82,7 +82,7 @@ describe('Commande changerProducteur', () => {
         const fakeProject = {
           ...makeFakeProject(),
           producteur: 'initial producteur',
-          newRulesOptIn: false,
+          nouvellesRèglesDInstructionChoisies: false,
         }
         const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 

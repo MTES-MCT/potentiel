@@ -21,7 +21,7 @@ const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
   justification: yup.string().optional(),
   numeroGestionnaire: yup.string().optional(),
-  newRulesOptIn: yup.boolean().optional(),
+  nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
 })
 
 v1Router.post(
@@ -38,7 +38,7 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        if (body.newRulesOptIn) {
+        if (body.nouvellesRèglesDInstructionChoisies) {
           return choisirNouveauCahierDesCharges({
             projetId: body.projectId,
             utilisateur: user,

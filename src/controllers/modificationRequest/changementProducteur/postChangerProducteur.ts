@@ -26,7 +26,7 @@ import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModificat
 
 const requestBodySchema = yup.object({
   projetId: yup.string().uuid().required(),
-  newRulesOptIn: yup.boolean().optional(),
+  nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
   producteur: yup.string().required('Le champ "nouveau producteur" est obligatoire.'),
   justification: yup.string().optional(),
 })
@@ -45,7 +45,7 @@ v1Router.post(
           filename: `${Date.now()}-${request.file.originalname}`,
         }
 
-        if (body.newRulesOptIn) {
+        if (body.nouvellesRèglesDInstructionChoisies) {
           return choisirNouveauCahierDesCharges({
             utilisateur: user,
             projetId: body.projetId,

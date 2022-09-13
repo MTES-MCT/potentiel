@@ -36,8 +36,11 @@ export const NewModificationRequest = PageLayout(
       (request.query as any) || {}
 
     const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
+      project.appelOffre?.choisirNouveauCahierDesCharges &&
+      !project.nouvellesRèglesDInstructionChoisies
+    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+      project.nouvellesRèglesDInstructionChoisies
+    )
 
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
@@ -68,7 +71,9 @@ export const NewModificationRequest = PageLayout(
                     </strong>
                   </Label>
                   <CDCChoiceForm
-                    newRulesOptIn={project.newRulesOptIn}
+                    nouvellesRèglesDInstructionChoisies={
+                      project.nouvellesRèglesDInstructionChoisies
+                    }
                     cahiersChargesURLs={cahiersChargesURLs}
                     onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
                   />

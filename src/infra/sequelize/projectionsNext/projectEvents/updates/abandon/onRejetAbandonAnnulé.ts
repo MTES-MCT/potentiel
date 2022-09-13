@@ -4,8 +4,8 @@ import models from '../../../../models'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { ProjectionEnEchec } from '../../../../../../modules/shared'
 
-export default ProjectEventProjector.on(RejetAbandonAnnulé, async (événement, transaction) => {
-  const { demandeAbandonId } = événement.payload
+export default ProjectEventProjector.on(RejetAbandonAnnulé, async (évènement, transaction) => {
+  const { demandeAbandonId } = évènement.payload
 
   const demandeAbandonInstance = await ProjectEvent.findOne({
     where: { id: demandeAbandonId, type: 'DemandeAbandon' },
@@ -25,7 +25,7 @@ export default ProjectEventProjector.on(RejetAbandonAnnulé, async (événement,
       logger.error(
         new ProjectionEnEchec('Impossible de trouver la modificationRequest pour la demande', {
           nomProjection: 'onRejetAbandonAnnulé',
-          evenement: événement,
+          évènement,
         })
       )
     }
@@ -45,7 +45,7 @@ export default ProjectEventProjector.on(RejetAbandonAnnulé, async (événement,
           'ProjectionEnEchec',
           {
             nomProjection: 'onRejetAbandonAnnulé',
-            evenement: événement,
+            évènement,
           },
           e
         )

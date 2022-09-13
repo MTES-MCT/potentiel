@@ -57,4 +57,7 @@ Object.values(models).forEach((model) => {
   if (model.projector) model.projector.initModel(model)
 })
 
-export default { ...models, ...projectionsNextModels }
+const projections = { ...models, ...projectionsNextModels }
+export type Projections = typeof projections
+
+export default projections

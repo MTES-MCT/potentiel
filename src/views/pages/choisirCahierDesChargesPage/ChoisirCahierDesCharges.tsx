@@ -14,7 +14,7 @@ type ChoisirCahierDesChargesProps = {
 export const ChoisirCahierDesCharges = PageLayout(
   ({ projet, cahiersChargesURLs }: ChoisirCahierDesChargesProps) => {
     const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
-    const { newRulesOptIn, id } = projet
+    const { nouvellesRèglesDInstructionChoisies, id } = projet
     const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
       setDisplaySubmitButton(e.target.value === 'false')
     }
@@ -33,16 +33,16 @@ export const ChoisirCahierDesCharges = PageLayout(
                 </ExternalLink>
                 .
               </p>
-              {!newRulesOptIn && (
+              {!nouvellesRèglesDInstructionChoisies && (
                 <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                   <div className="inline-radio-option">
                     <input
                       type="radio"
-                      name="newRulesOptIn"
+                      name="nouvellesRèglesDInstructionChoisies"
                       value="false"
                       id="Anciennes règles"
-                      disabled={newRulesOptIn}
-                      defaultChecked={!newRulesOptIn}
+                      disabled={nouvellesRèglesDInstructionChoisies}
+                      defaultChecked={!nouvellesRèglesDInstructionChoisies}
                       onChange={handleCDCChange}
                     />
                     <label htmlFor="Anciennes règles" className="flex-1">
@@ -77,14 +77,14 @@ export const ChoisirCahierDesCharges = PageLayout(
               )}
               <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
                 <div className="inline-radio-option">
-                  {!newRulesOptIn && (
+                  {!nouvellesRèglesDInstructionChoisies && (
                     <input
                       type="radio"
-                      name="newRulesOptIn"
+                      name="nouvellesRèglesDInstructionChoisies"
                       value="true"
                       id="Nouvelles règles"
-                      defaultChecked={newRulesOptIn}
-                      disabled={newRulesOptIn}
+                      defaultChecked={nouvellesRèglesDInstructionChoisies}
+                      disabled={nouvellesRèglesDInstructionChoisies}
                       onChange={handleCDCChange}
                     />
                   )}
@@ -123,7 +123,7 @@ export const ChoisirCahierDesCharges = PageLayout(
             </div>
             <input type="hidden" name="projectId" value={id} />
             <div className="flex items-center justify-center">
-              {!projet.newRulesOptIn && (
+              {!projet.nouvellesRèglesDInstructionChoisies && (
                 <Button
                   type="submit"
                   className="w-260"

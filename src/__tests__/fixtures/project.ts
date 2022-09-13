@@ -27,7 +27,7 @@ export default function makeFakeProject(overrides?) {
     isInvestissementParticipatif: false,
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
-    newRulesOptIn: false,
+    nouvellesRèglesDInstructionChoisies: false,
     technologie: 'N/A',
     completionDueOn: 0,
   }

@@ -2,8 +2,8 @@ import { logger } from '@core/utils'
 import { RejetAbandonAnnulé } from '@modules/demandeModification'
 import { ProjectionEnEchec } from '../../../../../../modules/shared'
 
-export const onRejetAbandonAnnulé = (models) => async (evenement: RejetAbandonAnnulé) => {
-  const { payload, occurredAt } = evenement
+export const onRejetAbandonAnnulé = (models) => async (évènement: RejetAbandonAnnulé) => {
+  const { payload, occurredAt } = évènement
   const { demandeAbandonId } = payload
   try {
     const ModificationRequestModel = models.ModificationRequest
@@ -27,7 +27,7 @@ export const onRejetAbandonAnnulé = (models) => async (evenement: RejetAbandonA
       new ProjectionEnEchec(
         `Erreur lors de la projection de la demande d'abandon`,
         {
-          evenement,
+          évènement,
           nomProjection: 'onRejetAbandonAnnulé',
         },
         e

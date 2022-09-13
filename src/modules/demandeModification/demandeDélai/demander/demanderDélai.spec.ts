@@ -46,7 +46,7 @@ describe('Commande demanderDélai', () => {
 
   const projectRepo = fakeRepo({
     ...fakeProject,
-    newRulesOptIn: true,
+    nouvellesRèglesDInstructionChoisies: true,
   } as Project)
 
   beforeEach(() => {
@@ -91,7 +91,10 @@ describe('Commande demanderDélai', () => {
   describe(`Demande de délai impossible si la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement`, () => {
     const shouldUserAccessProject = jest.fn(async () => true)
     const projectRepo = fakeRepo(
-      makeFakeProject({ completionDueOn: new Date('2022-01-01').getTime(), newRulesOptIn: true })
+      makeFakeProject({
+        completionDueOn: new Date('2022-01-01').getTime(),
+        nouvellesRèglesDInstructionChoisies: true,
+      })
     )
     const demandeDelai = makeDemanderDélai({
       fileRepo,
@@ -236,7 +239,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
             const projectRepo = fakeRepo({
               ...fakeProject,
-              newRulesOptIn: false,
+              nouvellesRèglesDInstructionChoisies: false,
             } as Project)
 
             const demandeDelai = makeDemanderDélai({

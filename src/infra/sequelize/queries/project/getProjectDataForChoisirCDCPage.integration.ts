@@ -13,7 +13,7 @@ const projectInfo = {
   periodeId: '1',
   familleId: 'familleId',
   classe: 'Classé',
-  newRulesOptIn: false,
+  nouvellesRèglesDInstructionChoisies: false,
 }
 
 describe('Sequelize getProjectDataForChoisirCDCPage', () => {
@@ -29,7 +29,7 @@ describe('Sequelize getProjectDataForChoisirCDCPage', () => {
       appelOffreId: 'Fessenheim',
       periodeId: '1',
       familleId: 'familleId',
-      newRulesOptIn: false,
+      nouvellesRèglesDInstructionChoisies: false,
       isClasse: true,
     })
   })
