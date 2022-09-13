@@ -106,6 +106,36 @@ const innovation: AppelOffre = {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 051-094731',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-5-septembre-2017',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 051-094731',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-fevrier-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 051-094731',
+      periodeInitiale: 3,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-31-mars-2020',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2017/S 051-094731',
+      url: 'https://www.cre.fr/Documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire',
+    },
+    {
+      paruLe: '30/08/2022',
+      référence: '2017/S 051-094731',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { innovation }
