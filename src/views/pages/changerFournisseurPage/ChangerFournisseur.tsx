@@ -235,7 +235,7 @@ export const ChangerFournisseur = PageLayout(
                       <h3 style={{ marginTop: 15 }}>Evaluation carbone</h3>
                       <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
                       <input
-                        type="text"
+                        type="number"
                         disabled
                         defaultValue={project.evaluationCarbone}
                         {...dataId('modificationRequest-oldEvaluationCarboneField')}
@@ -244,7 +244,7 @@ export const ChangerFournisseur = PageLayout(
                         Nouvelle évaluation carbone (kg eq CO2/kWc)
                       </label>
                       <input
-                        type="text"
+                        type="number"
                         name="evaluationCarbone"
                         id="evaluationCarbone"
                         {...dataId('modificationRequest-evaluationCarboneField')}
