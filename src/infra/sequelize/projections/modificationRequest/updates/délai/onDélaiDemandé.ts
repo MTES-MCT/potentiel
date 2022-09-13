@@ -35,7 +35,7 @@ export const onDélaiDemandé = (models) => async (évènement: DélaiDemandé) 
     logger.error(
       new ProjectionEnEchec(`Erreur lors du traitement de l'évènement DélaiDemandé`, {
         nomProjection: 'ProjectEventProjector.onDélaiDemandé',
-        evenement: évènement,
+        évènement,
       })
     )
   }

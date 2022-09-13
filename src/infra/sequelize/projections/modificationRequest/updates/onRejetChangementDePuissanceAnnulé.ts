@@ -3,11 +3,11 @@ import { ProjectionEnEchec } from '@modules/shared'
 import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
 
 export const onRejetChangementDePuissanceAnnulé =
-  (models) => async (événement: RejetChangementDePuissanceAnnulé) => {
+  (models) => async (évènement: RejetChangementDePuissanceAnnulé) => {
     const {
       payload: { demandeChangementDePuissanceId },
       occurredAt,
-    } = événement
+    } = évènement
     try {
       const ModificationRequestModel = models.ModificationRequest
       await ModificationRequestModel.update(
@@ -29,7 +29,7 @@ export const onRejetChangementDePuissanceAnnulé =
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement RejetChangementDePuissanceAnnulé`,
           {
-            evenement: événement,
+            évènement,
             nomProjection: 'ProjectEventProjector.onRejetChangementDePuissanceAnnulé',
           },
           e

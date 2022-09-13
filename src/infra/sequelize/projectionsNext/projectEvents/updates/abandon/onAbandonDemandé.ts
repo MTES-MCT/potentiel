@@ -3,11 +3,11 @@ import { AbandonDemandé } from '../../../../../../modules/demandeModification'
 import { ProjectionEnEchec } from '@modules/shared'
 import { logger } from '@core/utils'
 
-export default ProjectEventProjector.on(AbandonDemandé, async (événement, transaction) => {
+export default ProjectEventProjector.on(AbandonDemandé, async (évènement, transaction) => {
   const {
     payload: { projetId, demandeAbandonId, autorité },
     occurredAt,
-  } = événement
+  } = évènement
 
   try {
     await ProjectEvent.create(
@@ -29,7 +29,7 @@ export default ProjectEventProjector.on(AbandonDemandé, async (événement, tra
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement AbandonDemandé`,
         {
-          evenement: événement,
+          évènement,
           nomProjection: 'ProjectEventProjector.onAbandonDemandé',
         },
         e

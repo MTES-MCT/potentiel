@@ -32,7 +32,7 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'événement DélaiDemandé (projectEvent.update)`,
           {
-            evenement: évènement,
+            évènement,
             nomProjection: 'ProjectEvent.onDélaiDemandé',
           },
           e
@@ -64,7 +64,7 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement DélaiDemandé (projectEvent.create)`,
         {
-          evenement: évènement,
+          évènement,
           nomProjection: 'ProjectEvent.onDélaiDemandé',
         },
         e

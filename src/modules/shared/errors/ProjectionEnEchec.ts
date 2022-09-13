@@ -2,7 +2,7 @@ import { DomainEvent } from '@core/domain'
 
 type DetailErreurProjectionEnEchec = {
   nomProjection: string
-  evenement: DomainEvent
+  évènement: DomainEvent
 }
 
 export class ProjectionEnEchec extends Error {

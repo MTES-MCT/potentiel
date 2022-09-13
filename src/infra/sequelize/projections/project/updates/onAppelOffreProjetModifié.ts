@@ -2,8 +2,8 @@ import { logger } from '@core/utils'
 import { AppelOffreProjetModifié } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
-export const onAppelOffreProjetModifié = (models) => async (event: AppelOffreProjetModifié) => {
-  const { projectId, appelOffreId } = event.payload
+export const onAppelOffreProjetModifié = (models) => async (évènement: AppelOffreProjetModifié) => {
+  const { projectId, appelOffreId } = évènement.payload
   const { Project } = models
   const projectInstance = await Project.findByPk(projectId)
 
@@ -11,7 +11,7 @@ export const onAppelOffreProjetModifié = (models) => async (event: AppelOffrePr
     logger.error(
       new ProjectionEnEchec(`Le projet n'existe pas`, {
         nomProjection: 'onAppelOffreProjetModifié',
-        evenement: event,
+        évènement,
       })
     )
     return
@@ -27,7 +27,7 @@ export const onAppelOffreProjetModifié = (models) => async (event: AppelOffrePr
         `Erreur lors de l'enregistrement des modifications sur la projection Project`,
         {
           nomProjection: 'onAppelOffreProjetModifié',
-          evenement: event,
+          évènement,
         },
         e
       )

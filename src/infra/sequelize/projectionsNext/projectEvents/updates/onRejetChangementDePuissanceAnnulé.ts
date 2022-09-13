@@ -5,10 +5,10 @@ import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
 export default ProjectEventProjector.on(
   RejetChangementDePuissanceAnnulé,
-  async (événement, transaction) => {
+  async (évènement, transaction) => {
     const {
       payload: { demandeChangementDePuissanceId },
-    } = événement
+    } = évènement
 
     try {
       await ProjectEvent.destroy({
@@ -30,7 +30,7 @@ export default ProjectEventProjector.on(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement RejetChangementDePuissanceAnnulé`,
           {
-            evenement: événement,
+            évènement,
             nomProjection: 'ProjectEventProjector.onRejetChangementDePuissanceAnnulé',
           }
         )
