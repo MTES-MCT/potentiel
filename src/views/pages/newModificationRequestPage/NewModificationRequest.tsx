@@ -38,14 +38,18 @@ export const NewModificationRequest = PageLayout(
     // eslint-disable-next-line unused-imports/no-unused-vars
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
-    const redirectionRoute =
-      action === 'puissance'
-        ? routes.CHANGER_PUISSANCE(project.id)
-        : action === 'recours'
-        ? routes.DEPOSER_RECOURS(project.id)
-        : action === 'actionnaire'
-        ? routes.CHANGER_ACTIONNAIRE(project.id)
-        : routes.PROJECT_DETAILS(project.id)
+    const redirectionRoute = (action) => {
+      switch (action) {
+        case 'actionnaire':
+          return routes.CHANGER_ACTIONNAIRE(project.id)
+        case 'puissance':
+          return routes.CHANGER_PUISSANCE(project.id)
+        case 'recours':
+          return routes.DEPOSER_RECOURS(project.id)
+        default:
+          return routes.USER_LIST_PROJECTS
+      }
+    }
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -80,7 +84,7 @@ export const NewModificationRequest = PageLayout(
                   <ChoisirCahierDesChargesFormulaire
                     cahiersChargesURLs={cahiersChargesURLs}
                     projet={project}
-                    redirectUrl={redirectionRoute}
+                    redirectUrl={redirectionRoute(action)}
                   />
                 </>
               )}

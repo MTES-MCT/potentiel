@@ -25,7 +25,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
-export const routeRedirection = (type, projectId) => {
+const routeRedirection = (type, projectId) => {
   let returnRoute: string
   switch (type) {
     case 'actionnaire':
