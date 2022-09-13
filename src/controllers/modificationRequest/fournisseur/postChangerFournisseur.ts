@@ -1,6 +1,11 @@
 import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
 import { logger } from '@core/utils'
-import { Fournisseur, isFournisseurKind } from '@modules/project'
+import {
+  Fournisseur,
+  isFournisseurKind,
+  NouveauCahierDesChargesDéjàSouscrit,
+  PasDeChangementDeCDCPourCetAOError,
+} from '@modules/project'
 import routes from '@routes'
 import fs from 'fs'
 import { errorResponse, unauthorizedResponse } from '../../helpers'
@@ -80,10 +85,34 @@ v1Router.post(
       }
 
       if (newRulesOptIn) {
-        return choisirNouveauCahierDesCharges({
+        await choisirNouveauCahierDesCharges({
           utilisateur: user,
           projetId: projectId,
-        })
+        }).match(
+          () => {},
+          (error) => {
+            if (error instanceof UnauthorizedError) {
+              return unauthorizedResponse({ request, response })
+            }
+            if (
+              error instanceof NouveauCahierDesChargesDéjàSouscrit ||
+              PasDeChangementDeCDCPourCetAOError
+            ) {
+              errorResponse({
+                request,
+                response,
+                customMessage: error.message,
+              })
+            }
+            logger.error(error)
+            return errorResponse({
+              request,
+              response,
+              customMessage:
+                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+            })
+          }
+        )
       }
 
       return requestFournisseurModification({
