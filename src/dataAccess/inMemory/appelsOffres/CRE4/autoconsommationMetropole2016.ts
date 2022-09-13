@@ -56,4 +56,23 @@ export const autoconsommationMetropole2016: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 146-264282',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 146-264282',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2016/S 146-264282',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-1',
+    },
+  ],
 }
