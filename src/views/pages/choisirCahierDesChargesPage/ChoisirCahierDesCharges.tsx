@@ -109,14 +109,7 @@ export const ChoisirCahierDesCharges = PageLayout(
                     onChange={handleCDCChange}
                     className="disabled:bg-transparent disabled:border-grey-625-base disabled:cursor-not-allowed"
                   />
-                  <label
-                    htmlFor="Nouvelles règles"
-                    className={`flex-1 ${
-                      nouvellesRèglesDInstructionChoisies
-                        ? 'text-grey-625-base cursor-not-allowed'
-                        : ''
-                    }`}
-                  >
+                  <label htmlFor="Nouvelles règles" className="flex-1">
                     <strong>
                       Instruction selon le cahier des charges modifié rétroactivement et publié le
                       30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre
