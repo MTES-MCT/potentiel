@@ -135,12 +135,11 @@ v1Router.post(
   )
 )
 
-function getFournisseurs(validatedBody: yup.InferType<typeof schema>['body']): Fournisseur[] {
-  let nouveauFournisseurs: Fournisseur[] = []
-  for (const [key, value] of Object.entries(validatedBody)) {
-    if (typeof value === 'string' && value !== '' && isFournisseurKind(key)) {
-      nouveauFournisseurs.push({ kind: key, name: value })
-    }
-  }
-  return nouveauFournisseurs
-}
+const getFournisseurs = (validatedBody: yup.InferType<typeof schema>['body']): Fournisseur[] =>
+  Object.entries(validatedBody).reduce(
+    (fournisseurs, [key, value]) =>
+      typeof value === 'string' && value !== '' && isFournisseurKind(key)
+        ? [...fournisseurs, { kind: key, name: value }]
+        : fournisseurs,
+    []
+  )
