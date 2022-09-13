@@ -251,22 +251,6 @@ export const ChangerFournisseur = PageLayout(
                       />
                     </div>
                   )}
-                  <div
-                    className="notification warning hidden"
-                    style={{ display: 'none' }}
-                    {...dataId('modificationRequest-evaluationCarbone-error-message-out-of-bounds')}
-                  >
-                    Cette nouvelle valeur entraîne une dégradation de la note du projet, celui-ci ne
-                    recevra pas d'attestation de conformité.
-                  </div>
-                  <div
-                    className="notification error hidden"
-                    style={{ display: 'none' }}
-                    {...dataId('modificationRequest-evaluationCarbone-error-message-wrong-format')}
-                  >
-                    Le format saisi n’est pas conforme (si l'évaluation carbone est un nombre
-                    décimal, pensez à utiliser un point au lieu de la virgule).
-                  </div>
                   <label htmlFor="candidats" className="mt-6">
                     Pièce-jointe
                   </label>
