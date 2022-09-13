@@ -27,8 +27,11 @@ export const ChangerFournisseur = PageLayout(
     const { error, success, justification } = (request.query as any) || {}
 
     const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
+      project.appelOffre?.choisirNouveauCahierDesCharges &&
+      !project.nouvellesRèglesDInstructionChoisies
+    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+      project.nouvellesRèglesDInstructionChoisies
+    )
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -55,7 +58,9 @@ export const ChangerFournisseur = PageLayout(
                     </strong>
                   </Label>
                   <CDCChoiceForm
-                    newRulesOptIn={project.newRulesOptIn}
+                    nouvellesRèglesDInstructionChoisies={
+                      project.nouvellesRèglesDInstructionChoisies
+                    }
                     cahiersChargesURLs={cahiersChargesURLs}
                     onChoiceChange={(isNewRule: boolean) => {
                       setNewRulesOptInSelectionné(isNewRule)
