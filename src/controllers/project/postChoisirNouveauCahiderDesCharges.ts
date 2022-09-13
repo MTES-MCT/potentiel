@@ -1,43 +1,51 @@
 import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
-import { logger, ok } from '@core/utils'
-import asyncHandler from '../helpers/asyncHandler'
+import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
 import {
   errorResponse,
   RequestValidationError,
   unauthorizedResponse,
-  validateRequestBody,
+  notFoundResponse,
 } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
+import safeAsyncHandler from '../helpers/safeAsyncHandler'
+
+const schema = yup.object({
+  body: yup.object({
+    projectId: yup.string().uuid().required(),
+    redirectUrl: yup.string().required(),
+  }),
+})
 
 v1Router.post(
   routes.CHANGER_CDC,
   ensureRole('porteur-projet'),
-  asyncHandler(async (request, response) => {
-    await validateRequestBody(
-      request.body,
-      yup.object({
-        projectId: yup.string().uuid().required(),
-      })
-    )
-      .andThen(({ projectId }) => ok({ projectId, optedInBy: request.user }))
-      .asyncAndThen(({ projectId, optedInBy }) =>
-        choisirNouveauCahierDesCharges({
-          projetId: projectId,
-          utilisateur: optedInBy,
-        }).map(() => ({ projectId, optedInBy }))
-      )
-      .match(
-        ({ projectId }) =>
+  safeAsyncHandler(
+    {
+      schema,
+      onError: ({ request, response }) =>
+        notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
+    },
+    async (request, response) => {
+      const {
+        body: { projectId, redirectUrl },
+        user,
+      } = request
+
+      return choisirNouveauCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+      }).match(
+        () =>
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success:
                 "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
-              redirectTitle: 'Retourner à la page projet',
+              redirectUrl,
+              redirectTitle: 'Retourner sur la page précédente',
             })
           ),
         (error) => {
@@ -61,5 +69,6 @@ v1Router.post(
           return errorResponse({ request, response })
         }
       )
-  })
+    }
+  )
 )
