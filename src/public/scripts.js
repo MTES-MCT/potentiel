@@ -561,6 +561,15 @@ function addStatusOnlyHandler() {
   }
 }
 
+function getDateFromDateString(str) {
+  // For a date in the DD/MM/YYYY format
+  var day = Number(str.substring(0, 2))
+  var month = Number(str.substring(3, 5))
+  var year = Number(str.substring(6))
+
+  return new Date(year, month - 1, day)
+}
+
 //
 // Delay request Page
 //
