@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Project } from '@entities'
-import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
   PageLayout,
-  CDCChoiceForm,
   UserDashboard,
   ProjectInfo,
   SuccessErrorBox,
@@ -19,7 +17,9 @@ import {
   TextArea,
   AlertBox,
 } from '@components'
+import { ChoisirCahierDesChargesFormulaire } from '../choisirCahierDesChargesPage'
 import { hydrateOnClient } from '../../helpers'
+import routes from '@routes'
 
 type ChangerProducteurProps = {
   request: Request
@@ -49,7 +49,7 @@ export const ChangerProducteur = PageLayout(
           </div>
 
           <form
-            action={ROUTES.CHANGEMENT_PRODUCTEUR_ACTION}
+            action={routes.CHANGEMENT_PRODUCTEUR_ACTION}
             method="post"
             encType="multipart/form-data"
           >
@@ -66,12 +66,10 @@ export const ChangerProducteur = PageLayout(
                       Veuillez saisir les modalités d'instruction à appliquer à ce changement
                     </strong>
                   </Label>
-                  <CDCChoiceForm
-                    nouvellesRèglesDInstructionChoisies={
-                      project.nouvellesRèglesDInstructionChoisies
-                    }
+                  <ChoisirCahierDesChargesFormulaire
                     cahiersChargesURLs={cahiersChargesURLs}
-                    onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
+                    projet={project}
+                    redirectUrl={routes.CHANGER_PRODUCTEUR(project.id)}
                   />
                 </div>
               )}
@@ -150,7 +148,7 @@ export const ChangerProducteur = PageLayout(
                   >
                     Envoyer
                   </Button>
-                  <SecondaryLinkButton href={ROUTES.USER_LIST_PROJECTS}>
+                  <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>
                     Annuler
                   </SecondaryLinkButton>
                 </div>

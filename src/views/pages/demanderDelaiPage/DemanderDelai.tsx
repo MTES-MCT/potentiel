@@ -1,5 +1,4 @@
 import {
-  CDCChoiceForm,
   PageLayout,
   ProjectInfo,
   SuccessErrorBox,
@@ -21,6 +20,8 @@ import format from 'date-fns/format'
 
 import { dataId } from '../../../helpers/testId'
 import { hydrateOnClient } from '../../helpers'
+
+import { ChoisirCahierDesChargesFormulaire } from '../choisirCahierDesChargesPage'
 
 type DemanderDelaiProps = {
   request: Request
@@ -73,10 +74,10 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                   </strong>
                 </Label>
 
-                <CDCChoiceForm
-                  nouvellesRèglesDInstructionChoisies={project.nouvellesRèglesDInstructionChoisies}
+                <ChoisirCahierDesChargesFormulaire
                   cahiersChargesURLs={cahiersChargesURLs}
-                  onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
+                  projet={project}
+                  redirectUrl={routes.DEMANDER_DELAI(project.id)}
                 />
               </div>
             )}

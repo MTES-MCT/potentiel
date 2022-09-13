@@ -244,8 +244,6 @@ class routes {
 
   static CHANGER_CDC = '/changer-CDC'
 
-  static DEMANDER_ABANDONd = withProjectId('/demande-modification.html?action=abandon')
-
   static DEMANDE_ACTION = '/soumettre-demande'
 
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai'

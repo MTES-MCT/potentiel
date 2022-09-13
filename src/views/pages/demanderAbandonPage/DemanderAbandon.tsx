@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { Project } from '@entities'
-import ROUTES from '@routes'
+import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
   PageLayout,
   ModificationRequestActionTitles,
-  CDCChoiceForm,
   UserDashboard,
   ProjectInfo,
   SuccessErrorBox,
@@ -15,6 +14,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Label,
 } from '@components'
+import { ChoisirCahierDesChargesFormulaire } from '../choisirCahierDesChargesPage'
 import { hydrateOnClient } from '../../helpers'
 
 type DemanderAbandonProps = {
@@ -43,7 +43,7 @@ export const DemanderAbandon = PageLayout(
             </h3>
           </div>
 
-          <form action={ROUTES.DEMANDE_ABANDON_ACTION} method="post" encType="multipart/form-data">
+          <form action={routes.DEMANDE_ABANDON_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <input type="hidden" name="type" value={action} />
             {action !== 'fournisseur' && (
@@ -60,12 +60,10 @@ export const DemanderAbandon = PageLayout(
                       Veuillez saisir les modalités d'instruction à appliquer à ce changement
                     </strong>
                   </Label>
-                  <CDCChoiceForm
-                    nouvellesRèglesDInstructionChoisies={
-                      project.nouvellesRèglesDInstructionChoisies
-                    }
+                  <ChoisirCahierDesChargesFormulaire
                     cahiersChargesURLs={cahiersChargesURLs}
-                    onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
+                    projet={project}
+                    redirectUrl={routes.DEMANDER_ABANDON(project.id)}
                   />
                 </div>
               )}
@@ -102,7 +100,7 @@ export const DemanderAbandon = PageLayout(
                   <a
                     className="button-outline primary"
                     {...dataId('cancel-button')}
-                    href={ROUTES.USER_LIST_PROJECTS}
+                    href={routes.USER_LIST_PROJECTS}
                   >
                     Annuler
                   </a>
