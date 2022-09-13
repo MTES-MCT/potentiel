@@ -3,6 +3,7 @@ import { resetDatabase } from '../../../helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onNouveauCahierDesChargesChoisi } from './onNouveauCahierDesChargesChoisi'
 import { NouveauCahierDesChargesChoisi } from '@modules/project'
+import { UniqueEntityID } from '@core/domain'
 
 describe('Mise à jour du projet suite au choix du nouveau cahier des charges', () => {
   const { Project } = models
@@ -14,7 +15,7 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
   it(`Étant donné un projet avec l'ancien cahier des charges
       Lorsque le nouveau cahier des charges est choisi
       Alors le projet devrait être soumis aux nouvelles règles d'instruction`, async () => {
-    const projetId = 'le-projet'
+    const projetId = new UniqueEntityID().toString()
     await Project.create(makeFakeProject({ id: projetId, newRulesOptIn: false }))
 
     await onNouveauCahierDesChargesChoisi(models)(
