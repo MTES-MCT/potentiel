@@ -30,7 +30,7 @@ export const DemanderAbandon = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+    const [nouvellesRèglesDInstructionSéléctionnées] = useState(
       project.nouvellesRèglesDInstructionChoisies
     )
 
@@ -68,7 +68,7 @@ export const DemanderAbandon = PageLayout(
                 </div>
               )}
 
-              {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
+              {(nouvellesRèglesDInstructionSéléctionnées || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   <Label htmlFor="justification">
                     <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>

@@ -9,7 +9,6 @@ export type ProjectDataForChoisirCDCPage = {
   familleId: string
   appelOffre?: ProjectAppelOffre
   nouvellesRèglesDInstructionChoisies: boolean
-  newRulesOptIn: boolean
   isClasse: boolean
 }
 

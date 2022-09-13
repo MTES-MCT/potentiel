@@ -19,7 +19,7 @@ type ChoisirCahierDesChargesFormulaireProps = {
 
 export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesFormulaireProps) => {
   const {
-    projet: { newRulesOptIn, id },
+    projet: { nouvellesRèglesDInstructionChoisies, id },
     cahiersChargesURLs,
     redirectUrl = routes.PROJECT_DETAILS(id),
   } = args
@@ -37,7 +37,7 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
           </ExternalLink>
           .
         </p>
-        {!newRulesOptIn && (
+        {!nouvellesRèglesDInstructionChoisies && (
           <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
             <div className="inline-radio-option">
               <input type="hidden" name="redirectUrl" value={redirectUrl} />
@@ -46,8 +46,8 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
                 name="newRulesOptIn"
                 value="false"
                 id="Anciennes règles"
-                disabled={newRulesOptIn}
-                defaultChecked={!newRulesOptIn}
+                disabled={nouvellesRèglesDInstructionChoisies}
+                defaultChecked={!nouvellesRèglesDInstructionChoisies}
                 onChange={handleCDCChange}
               />
               <label htmlFor="Anciennes règles" className="flex-1">
@@ -82,14 +82,14 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
         )}
         <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
           <div className="inline-radio-option">
-            {!newRulesOptIn && (
+            {!nouvellesRèglesDInstructionChoisies && (
               <input
                 type="radio"
                 name="newRulesOptIn"
                 value="true"
                 id="Nouvelles règles"
-                defaultChecked={newRulesOptIn}
-                disabled={newRulesOptIn}
+                defaultChecked={nouvellesRèglesDInstructionChoisies}
+                disabled={nouvellesRèglesDInstructionChoisies}
                 onChange={handleCDCChange}
               />
             )}
@@ -127,7 +127,7 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
       </div>
       <input type="hidden" name="projectId" value={id} />
       <div className="flex items-center justify-center">
-        {!newRulesOptIn && (
+        {!nouvellesRèglesDInstructionChoisies && (
           <Button
             type="submit"
             className="w-260"

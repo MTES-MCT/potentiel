@@ -37,7 +37,7 @@ export const ChangerProducteur = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+    const [nouvellesRèglesDInstructionSéléctionnées] = useState(
       project.nouvellesRèglesDInstructionChoisies
     )
 
@@ -74,7 +74,7 @@ export const ChangerProducteur = PageLayout(
                 </div>
               )}
 
-              {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
+              {(nouvellesRèglesDInstructionSéléctionnées || !doitChoisirCahierDesCharges) && (
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   <AlertBox
                     title="Attention : révocation des droits sur le projet"
