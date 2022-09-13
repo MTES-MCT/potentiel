@@ -17,12 +17,12 @@ type ChoisirCahierDesChargesFormulaireProps = {
   redirectUrl?: string
 }
 
-export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesFormulaireProps) => {
-  const {
-    projet: { nouvellesRèglesDInstructionChoisies, id },
-    cahiersChargesURLs,
-    redirectUrl = routes.PROJECT_DETAILS(id),
-  } = args
+export const ChoisirCahierDesChargesFormulaire = ({
+  projet,
+  cahiersChargesURLs,
+  redirectUrl,
+}: ChoisirCahierDesChargesFormulaireProps) => {
+  const { id, nouvellesRèglesDInstructionChoisies } = projet
   const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
   const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setDisplaySubmitButton(e.target.value === 'false')
@@ -33,7 +33,11 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
         {!nouvellesRèglesDInstructionChoisies && (
           <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
             <div className="inline-radio-option">
-              <input type="hidden" name="redirectUrl" value={redirectUrl} />
+              <input
+                type="hidden"
+                name="redirectUrl"
+                value={redirectUrl || routes.PROJECT_DETAILS(id)}
+              />
               <input
                 type="radio"
                 name="newRulesOptIn"
@@ -137,7 +141,6 @@ export const ChoisirCahierDesChargesFormulaire = (args: ChoisirCahierDesChargesF
     </form>
   )
 }
-
 export const ChoisirCahierDesCharges = PageLayout(
   ({ projet, cahiersChargesURLs }: ChoisirCahierDesChargesProps) => {
     return (

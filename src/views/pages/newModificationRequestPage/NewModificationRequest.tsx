@@ -17,8 +17,8 @@ import {
   ChoisirCahierDesChargesFormulaire,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import routes from '@routes'
 import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
+import routes from '@routes'
 
 type NewModificationRequestProps = {
   request: Request
@@ -35,7 +35,6 @@ export const NewModificationRequest = PageLayout(
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
 
-    // eslint-disable-next-line unused-imports/no-unused-vars
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
     const redirectionRoute = (action) => {
@@ -52,48 +51,46 @@ export const NewModificationRequest = PageLayout(
     }
 
     return (
-      <UserDashboard currentPage={'list-requests'}>
+      <UserDashboard currentPage={'list-projects'}>
         <div className="panel">
           <div className="panel__header">
             <h3>
               <ModificationRequestActionTitles action={action} />
             </h3>
           </div>
-
-          <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
-            <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value={action} />
-            <div className="form__group">
-              <SuccessErrorBox success={success} error={error} />
-              {doitChoisirCahierDesCharges && (
-                <>
-                  <InfoBox
-                    title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+          {doitChoisirCahierDesCharges ? (
+            <div>
+              <InfoBox
+                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
                   cahier des charges à appliquer"
-                    className="mb-5"
-                  >
-                    <p className="m-0">
-                      Pour plus d'informations sur les modalités d'instruction veuillez consulter
-                      cette &nbsp;
-                      <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
-                        page d'aide
-                      </ExternalLink>
-                      .
-                    </p>
-                  </InfoBox>
-                  <ChoisirCahierDesChargesFormulaire
-                    cahiersChargesURLs={cahiersChargesURLs}
-                    projet={project}
-                    redirectUrl={redirectionRoute(action)}
-                  />
-                </>
-              )}
+                className="mb-5"
+              >
+                <p className="m-0">
+                  Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
+                  &nbsp;
+                  <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
+                    page d'aide
+                  </ExternalLink>
+                  .
+                </p>
+              </InfoBox>
+              <ChoisirCahierDesChargesFormulaire
+                cahiersChargesURLs={cahiersChargesURLs}
+                projet={project}
+                redirectUrl={redirectionRoute(action)}
+              />
+            </div>
+          ) : (
+            (project.nouvellesRèglesDInstructionChoisies || !doitChoisirCahierDesCharges) && (
+              <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+                <input type="hidden" name="projectId" value={project.id} />
+                <input type="hidden" name="type" value={action} />
 
-              {(project.nouvellesRèglesDInstructionChoisies || !doitChoisirCahierDesCharges) && (
-                <>
+                <div className="form__group">
+                  <SuccessErrorBox success={success} error={error} />
                   <FormulaireChampsObligatoireLégende className="text-right" />
                   <div className="mb-2">Concernant le projet:</div>
-                  <ProjectInfo project={project} className="mb-3" />
+                  <ProjectInfo project={project} className="mb-3"></ProjectInfo>
                   <div {...dataId('modificationRequest-demandesInputs')}>
                     {action === 'puissance' && (
                       <ChangementPuissance
@@ -122,10 +119,10 @@ export const NewModificationRequest = PageLayout(
                       Annuler
                     </SecondaryLinkButton>
                   </div>
-                </>
-              )}
-            </div>
-          </form>
+                </div>
+              </form>
+            )
+          )}
         </div>
       </UserDashboard>
     )
