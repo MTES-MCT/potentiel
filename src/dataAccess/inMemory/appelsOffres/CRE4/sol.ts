@@ -165,6 +165,78 @@ const sol: AppelOffre = {
       garantieFinanciereEnMois,
     },
   ],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 3,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-3eme-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 4,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 5,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 6,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-avril-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 7,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-5-septembre-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 8,
+      url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 9,
+      url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 148-268152',
+      periodeInitiale: 10,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-12-fevrier-2021',
+    },
+    {
+      paruLe: '30/08/2022',
+      référence: '2016/S 148-268152',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-sol',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2016/S 148-268152',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-sol-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { sol }
