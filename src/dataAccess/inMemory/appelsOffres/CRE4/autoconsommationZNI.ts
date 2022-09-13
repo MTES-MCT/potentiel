@@ -57,6 +57,30 @@ const autoconsommationZNI: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276257',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AUTOCONSO-ZNI-Telecharger-le-cahier-des-charges-publie-le-12-07-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276257',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-autoconso-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2019/S 113-276257',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-1',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2019/S 113-276257',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-1-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { autoconsommationZNI }
