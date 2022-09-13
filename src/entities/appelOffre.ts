@@ -1,5 +1,6 @@
 import { Periode } from './periode'
 import { Famille, GarantiesFinancièresFamille } from './famille'
+import { CahiersDesChargesDisponibles } from './cahierDesCharges'
 
 export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const
 export type Technologie = typeof technologies[number]
@@ -75,6 +76,7 @@ export type AppelOffre = {
   contenuParagrapheAchevement: string
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
+  cahiersDesChargesDisponibles: CahiersDesChargesDisponibles
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre
 
