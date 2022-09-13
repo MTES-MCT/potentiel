@@ -95,6 +95,36 @@ const fessenheim: AppelOffre = {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 019-040037',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-publie-le-24-01-20192',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 019-040037',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-Fessemheim-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-octobre-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 019-040037',
+      periodeInitiale: 3,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-fessenheim-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-27-mai-2020',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2019/S 019-040037',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-fessenheim',
+    },
+    {
+      paruLe: '30/08/2022',
+      référence: '2019/S 019-040037',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-fessenheim-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { fessenheim }
