@@ -6,6 +6,7 @@ type CahierDesCharges = {
 } & (
   | {
       paruLe: Exclude<DatesDePublicationCDC, 'avant le 30/07/2021'>
+      alternatif?: true
     }
   | {
       paruLe: Extract<DatesDePublicationCDC, 'avant le 30/07/2021'>

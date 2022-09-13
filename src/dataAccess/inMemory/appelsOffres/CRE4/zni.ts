@@ -217,6 +217,54 @@ const zni: AppelOffre = {
       soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276264',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276264',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276264',
+      periodeInitiale: 3,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-sol-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276264',
+      periodeInitiale: 4,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2019/S 113-276264',
+      periodeInitiale: 5,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2019/S 113-276264',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-2',
+    },
+    {
+      paruLe: '30/08/2022',
+      référence: '2019/S 113-276264',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+    {
+      paruLe: '30/08/2022',
+      alternatif: true,
+      référence: '2019/S 113-276264',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-bis-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { zni }
