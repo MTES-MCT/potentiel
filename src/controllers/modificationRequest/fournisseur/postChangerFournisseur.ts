@@ -1,5 +1,5 @@
 import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
-import { logger } from '@core/utils'
+import { logger, ok, okAsync } from '@core/utils'
 import {
   Fournisseur,
   isFournisseurKind,
@@ -64,41 +64,59 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response, error }) => {
-        console.log(error)
-        return response.redirect(
+      onError: ({ request, response, error }) =>
+        response.redirect(
           addQueryParams(routes.CHANGER_FOURNISSEUR(request.body.projectId), {
             error: `${error.errors.join(' ')}`,
           })
-        )
-      },
+        ),
     },
     async (request, response) => {
       const { user } = request
-      const {
-        body: { newRulesOptIn, projectId, newEvaluationCarbone, justification },
-      } = request
-
+      const { newRulesOptIn, projectId, newEvaluationCarbone, justification } = request.body
       const file = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
       }
 
-      if (newRulesOptIn) {
-        await choisirNouveauCahierDesCharges({
-          utilisateur: user,
-          projetId: projectId,
-        }).match(
-          () => {},
+      return ok(null)
+        .asyncAndThen(() => {
+          if (newRulesOptIn) {
+            return choisirNouveauCahierDesCharges({
+              utilisateur: user,
+              projetId: projectId,
+            })
+          }
+          return okAsync(null)
+        })
+        .andThen(() =>
+          requestFournisseurModification({
+            projectId: new UniqueEntityID(projectId),
+            requestedBy: user,
+            newFournisseurs: getFournisseurs(request.body),
+            newEvaluationCarbone,
+            justification,
+            file,
+          })
+        )
+        .match(
+          () =>
+            response.redirect(
+              routes.SUCCESS_OR_ERROR_PAGE({
+                success: 'Vos changements ont bien été enregistrés.',
+                redirectUrl: routes.PROJECT_DETAILS(projectId),
+                redirectTitle: 'Retourner à la page projet',
+              })
+            ),
           (error) => {
             if (error instanceof UnauthorizedError) {
               return unauthorizedResponse({ request, response })
             }
             if (
-              error instanceof NouveauCahierDesChargesDéjàSouscrit ||
-              PasDeChangementDeCDCPourCetAOError
+              error instanceof
+              (NouveauCahierDesChargesDéjàSouscrit || PasDeChangementDeCDCPourCetAOError)
             ) {
-              errorResponse({
+              return errorResponse({
                 request,
                 response,
                 customMessage: error.message,
@@ -113,39 +131,6 @@ v1Router.post(
             })
           }
         )
-      }
-
-      return requestFournisseurModification({
-        projectId: new UniqueEntityID(projectId),
-        requestedBy: user,
-        newFournisseurs: getFournisseurs(request.body),
-        newEvaluationCarbone,
-        justification,
-        file,
-      }).match(
-        () => {
-          return response.redirect(
-            routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'Vos changements ont bien été enregistrés.',
-              redirectUrl: routes.PROJECT_DETAILS(projectId),
-              redirectTitle: 'Retourner à la page projet',
-            })
-          )
-        },
-        (error) => {
-          if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
-          }
-
-          logger.error(error)
-          return errorResponse({
-            request,
-            response,
-            customMessage:
-              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
     }
   )
 )
