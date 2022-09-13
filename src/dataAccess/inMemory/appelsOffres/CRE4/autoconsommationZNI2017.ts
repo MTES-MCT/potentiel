@@ -48,4 +48,22 @@ export const autoconsommationZNI2017: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2016/S 242-441979',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-derniere-version-modifiee-rendue-publique-le-29-mai-2017',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2016/S 242-441979',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-1',
+    },
+    {
+      paruLe: '30/08/2022',
+      référence: '2016/S 242-441979',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-1-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
