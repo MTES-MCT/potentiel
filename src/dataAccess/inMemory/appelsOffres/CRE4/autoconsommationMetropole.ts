@@ -124,6 +124,73 @@ const autoconsommationMetropole: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 1,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/autoconso-metropole-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 2,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 3,
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-24-avril-2018',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 4,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-4eme-periode',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 5,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-22-novembre-20182',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 6,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 7,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/autoconsommation-02-01-2020-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 8,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 9,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
+    },
+    {
+      paruLe: 'avant le 30/07/2021',
+      référence: '2017/S 054-100223',
+      periodeInitiale: 10,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-avril-2021',
+    },
+    {
+      paruLe: '30/07/2021',
+      référence: '2017/S 054-100223',
+      url: 'https://www.cre.fr/Documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
+    },
+  ],
 }
 
 export { autoconsommationMetropole }
