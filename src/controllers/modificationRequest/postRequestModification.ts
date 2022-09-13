@@ -1,9 +1,7 @@
 import {
   ensureRole,
-  oldProjectRepo,
   requestActionnaireModification,
   requestPuissanceModification,
-  choisirNouveauCahierDesCharges,
 } from '@config'
 import { logger } from '@core/utils'
 import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
@@ -149,19 +147,6 @@ v1Router.post(
       logger.error(error)
 
       return errorResponse({ request, response })
-    }
-
-    const project = await oldProjectRepo.findById(data.projectId)
-    if (
-      !project?.nouvellesRèglesDInstructionChoisies &&
-      project?.appelOffre?.choisirNouveauCahierDesCharges
-    ) {
-      const res = await choisirNouveauCahierDesCharges({
-        projetId: data.projectId,
-        utilisateur: request.user,
-      })
-
-      if (res.isErr()) return handleError(res.error)
     }
 
     switch (data.type) {
