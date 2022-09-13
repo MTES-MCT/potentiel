@@ -45,7 +45,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         return publishToEventStore(
           new NouveauCahierDesChargesChoisi({
             payload: {
-              projetId: projetId,
+              projetId,
               choisiPar: utilisateur.id,
               paruLe: '30/07/2021',
             },
