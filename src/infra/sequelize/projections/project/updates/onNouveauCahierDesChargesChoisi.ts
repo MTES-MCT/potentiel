@@ -14,7 +14,7 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
       payload: { projetId: id },
     } = événement
     try {
-      await Project.update({ newRulesOptIn: true }, { where: { id } })
+      await Project.update({ nouvellesRèglesDInstructionChoisies: true }, { where: { id } })
     } catch (cause) {
       logger.error(
         new ProjectionEnEchec(

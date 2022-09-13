@@ -15,7 +15,10 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
   const projectId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const projectRepo = fakeRepo({ ...makeFakeProject(), newRulesOptIn: false } as Project)
+  const projectRepo = fakeRepo({
+    ...makeFakeProject(),
+    nouvellesRèglesDInstructionChoisies: false,
+  } as Project)
 
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
     ({
@@ -61,7 +64,10 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
         publishToEventStore,
         shouldUserAccessProject,
-        projectRepo: fakeRepo({ ...makeFakeProject(), newRulesOptIn: true } as Project),
+        projectRepo: fakeRepo({
+          ...makeFakeProject(),
+          nouvellesRèglesDInstructionChoisies: true,
+        } as Project),
         findAppelOffreById,
       })
 

@@ -28,8 +28,11 @@ export const DemanderAbandon = PageLayout(
     const { action, error, success, justification } = (request.query as any) || {}
 
     const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
+      project.appelOffre?.choisirNouveauCahierDesCharges &&
+      !project.nouvellesRèglesDInstructionChoisies
+    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+      project.nouvellesRèglesDInstructionChoisies
+    )
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -58,7 +61,9 @@ export const DemanderAbandon = PageLayout(
                     </strong>
                   </Label>
                   <CDCChoiceForm
-                    newRulesOptIn={project.newRulesOptIn}
+                    nouvellesRèglesDInstructionChoisies={
+                      project.nouvellesRèglesDInstructionChoisies
+                    }
                     cahiersChargesURLs={cahiersChargesURLs}
                     onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
                   />

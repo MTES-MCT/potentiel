@@ -125,7 +125,7 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   puissanceInitiale: 0,
   lastUpdatedOn: new Date(0),
   lastCertificateUpdate: undefined,
-  newRulesOptIn: false,
+  nouvellesRèglesDInstructionChoisies: false,
   appelOffreId: 'fake-appel-offre-id',
   periodeId: '1',
   data,

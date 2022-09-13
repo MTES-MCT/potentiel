@@ -2,13 +2,13 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 
 interface CDCFormProps {
-  newRulesOptIn: boolean
+  nouvellesRèglesDInstructionChoisies: boolean
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
   onChoiceChange: (isNewRule: boolean) => void
 }
 
 export const CDCChoiceForm = ({
-  newRulesOptIn,
+  nouvellesRèglesDInstructionChoisies,
   cahiersChargesURLs,
   onChoiceChange,
 }: CDCFormProps) => {
@@ -31,17 +31,17 @@ export const CDCChoiceForm = ({
         </a>
         .
       </p>
-      {!newRulesOptIn && (
+      {!nouvellesRèglesDInstructionChoisies && (
         <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
           <div className="inline-radio-option">
             <input
               type="radio"
-              name="newRulesOptIn"
+              name="nouvellesRèglesDInstructionChoisies"
               value="false"
               id="Anciennes règles"
               {...dataId('modificationRequest-oldRules')}
-              disabled={newRulesOptIn}
-              defaultChecked={!newRulesOptIn}
+              disabled={nouvellesRèglesDInstructionChoisies}
+              defaultChecked={!nouvellesRèglesDInstructionChoisies}
               onChange={handleCDCChange}
             />
             <label htmlFor="Anciennes règles" className="flex-1">
@@ -70,15 +70,15 @@ export const CDCChoiceForm = ({
       )}
       <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
         <div className="inline-radio-option">
-          {!newRulesOptIn && (
+          {!nouvellesRèglesDInstructionChoisies && (
             <input
               type="radio"
-              name="newRulesOptIn"
+              name="nouvellesRèglesDInstructionChoisies"
               value="true"
               id="Nouvelles règles"
-              defaultChecked={newRulesOptIn}
+              defaultChecked={nouvellesRèglesDInstructionChoisies}
               {...dataId('modificationRequest-newRules')}
-              disabled={newRulesOptIn}
+              disabled={nouvellesRèglesDInstructionChoisies}
               onChange={handleCDCChange}
             />
           )}

@@ -39,8 +39,11 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges && !project.newRulesOptIn
-  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(project.newRulesOptIn)
+    project.appelOffre?.choisirNouveauCahierDesCharges &&
+    !project.nouvellesRèglesDInstructionChoisies
+  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
+    project.nouvellesRèglesDInstructionChoisies
+  )
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
@@ -71,7 +74,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                 </Label>
 
                 <CDCChoiceForm
-                  newRulesOptIn={project.newRulesOptIn}
+                  nouvellesRèglesDInstructionChoisies={project.nouvellesRèglesDInstructionChoisies}
                   cahiersChargesURLs={cahiersChargesURLs}
                   onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
                 />

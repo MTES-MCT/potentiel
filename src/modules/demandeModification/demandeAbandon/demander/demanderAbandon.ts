@@ -68,7 +68,10 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
         })
       })
       .andThen(({ appelOffre, project }) => {
-        if (!project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+        if (
+          !project.nouvellesRèglesDInstructionChoisies &&
+          appelOffre?.choisirNouveauCahierDesCharges
+        ) {
           return errAsync(new NouveauCahierDesChargesNonChoisiError())
         }
 

@@ -63,7 +63,10 @@ export const makeDemanderDélai: MakeDemanderDélai =
       })
       .andThen((appelOffre) => {
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
-          if (!project.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+          if (
+            !project.nouvellesRèglesDInstructionChoisies &&
+            appelOffre?.choisirNouveauCahierDesCharges
+          ) {
             return errAsync(new NouveauCahierDesChargesNonChoisiError())
           }
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {

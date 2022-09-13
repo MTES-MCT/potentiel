@@ -40,7 +40,10 @@ export const makeChangerProducteur =
         return projectRepo.transaction(new UniqueEntityID(projetId), (projet) => {
           return wrapInfra(findAppelOffreById(projet.appelOffreId))
             .andThen((appelOffre) => {
-              if (!projet.newRulesOptIn && appelOffre?.choisirNouveauCahierDesCharges) {
+              if (
+                !projet.nouvellesRèglesDInstructionChoisies &&
+                appelOffre?.choisirNouveauCahierDesCharges
+              ) {
                 return errAsync(new NouveauCahierDesChargesNonChoisiError())
               }
 

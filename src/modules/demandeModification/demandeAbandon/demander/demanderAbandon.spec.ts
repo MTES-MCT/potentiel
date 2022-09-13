@@ -226,7 +226,7 @@ describe('Commande demanderAbandon', () => {
       it(`Alors aucun une erreur  NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
         const projectRepo = fakeRepo({
           ...fakeProject,
-          newRulesOptIn: false,
+          nouvellesRèglesDInstructionChoisies: false,
           isClasse: true,
         } as Project)
 

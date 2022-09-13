@@ -35,7 +35,8 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         return projectRepo.load(new UniqueEntityID(projetId))
       })
       .andThen((project) => {
-        if (project.newRulesOptIn) return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
+        if (project.nouvellesRèglesDInstructionChoisies)
+          return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         return wrapInfra(findAppelOffreById(project.appelOffreId))
       })
       .andThen((appelOffre) => {

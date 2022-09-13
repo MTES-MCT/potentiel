@@ -199,7 +199,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       type: DataTypes.STRING,
       allowNull: true,
     },
-    newRulesOptIn: {
+    nouvellesRèglesDInstructionChoisies: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,

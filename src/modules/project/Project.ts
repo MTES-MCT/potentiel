@@ -218,7 +218,7 @@ export interface Project extends EventStoreAggregate {
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
-  readonly newRulesOptIn: boolean
+  readonly nouvellesRèglesDInstructionChoisies: boolean
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
@@ -265,7 +265,7 @@ export interface ProjectProps {
   isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
-  newRulesOptIn: boolean
+  nouvellesRèglesDInstructionChoisies: boolean
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
@@ -307,7 +307,7 @@ export const makeProject = (args: {
     data: undefined,
     hasError: false,
     lastCertificateUpdate: undefined,
-    newRulesOptIn: false,
+    nouvellesRèglesDInstructionChoisies: false,
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     hasCurrentPtf: false,
@@ -1082,8 +1082,8 @@ export const makeProject = (args: {
     get lastCertificateUpdate() {
       return props.lastCertificateUpdate
     },
-    get newRulesOptIn() {
-      return props.newRulesOptIn
+    get nouvellesRèglesDInstructionChoisies() {
+      return props.nouvellesRèglesDInstructionChoisies
     },
     get appelOffreId() {
       return props.appelOffreId
@@ -1293,7 +1293,7 @@ export const makeProject = (args: {
         props.potentielIdentifier = event.payload.nouvelIdentifiant
         break
       case NouveauCahierDesChargesChoisi.type:
-        props.newRulesOptIn = true
+        props.nouvellesRèglesDInstructionChoisies = true
         break
       default:
         // ignore other event types

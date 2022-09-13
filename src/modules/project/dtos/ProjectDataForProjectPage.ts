@@ -10,7 +10,7 @@ export type ProjectDataForProjectPage = {
   periodeId: string
   familleId: string
   numeroCRE: string
-  newRulesOptIn: boolean
+  nouvellesRèglesDInstructionChoisies: boolean
 
   isLegacy: boolean
 
