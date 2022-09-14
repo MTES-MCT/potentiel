@@ -1,6 +1,7 @@
 import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
 import { logger, ok, okAsync } from '@core/utils'
 import {
+  CHAMPS_FOURNISSEURS,
   Fournisseur,
   isFournisseurKind,
   NouveauCahierDesChargesDéjàSouscrit,
@@ -28,15 +29,15 @@ const schema = yup.object({
         .optional(),
       justification: yup.string().optional(),
       newRulesOptIn: yup.boolean().optional(),
-      'Fournisseur modules ou films': yup.string().optional(),
-      'Fournisseur cellules': yup.string().optional(),
-      'Fournisseur plaquettes de silicium (wafers)': yup.string().optional(),
-      'Fournisseur polysilicium': yup.string().optional(),
-      'Fournisseur postes de conversion': yup.string().optional(),
-      'Fournisseur structure': yup.string().optional(),
-      'Fournisseur dispositifs de stockage de l’énergie': yup.string().optional(),
-      'Fournisseur dispositifs de suivi de la course du soleil': yup.string().optional(),
-      'Fournisseur autres technologies': yup.string().optional(),
+      ...CHAMPS_FOURNISSEURS.reduce((acc, champ) => {
+        return {
+          [champ]: yup
+            .string()
+            .typeError(`Les champs fournisseurs doivent comporter du texte.`)
+            .optional(),
+          ...acc,
+        }
+      }, {}),
     })
     .test(
       'vérification-globale-fournisseurs',
