@@ -35,7 +35,7 @@ v1Router.post(
         return response.redirect(
           addQueryParams(routes.DEMANDER_DELAI(request.body.projetId), {
             ...omit(request.body, 'projectId'),
-            error: `${error.message} ${error.errors.join(' ')}`,
+            error: `${error.errors.join(' ')}`,
           })
         )
       },
