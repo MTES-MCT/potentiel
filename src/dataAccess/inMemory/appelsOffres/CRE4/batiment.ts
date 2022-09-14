@@ -201,7 +201,7 @@ const batiment: AppelOffre = {
       paruLe: 'avant le 30/07/2021',
       référence: '2016/S 174-312851',
       periodeInitiale: 4,
-      url: 'http://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-11-decembre-2017',
+      url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-11-decembre-2017',
     },
     {
       paruLe: 'avant le 30/07/2021',
