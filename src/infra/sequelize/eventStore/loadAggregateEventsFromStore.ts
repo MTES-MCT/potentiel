@@ -16,7 +16,7 @@ export const loadAggregateEventsFromStore: MakeEventStoreDeps['loadAggregateEven
         [Op.overlap]: [aggregateId],
       },
       type: {
-        [Op.in]: évènementsIgnorés,
+        [Op.notIn]: évènementsIgnorés,
       },
     },
     order: [['occurredAt', 'ASC']],
