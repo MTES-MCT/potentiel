@@ -61,6 +61,18 @@ const innovationPPE2: AppelOffre = {
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
   ],
+  cahiersDesChargesDisponibles: [
+    {
+      initial: true,
+      référence: '2021 S 203-530267',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-octobre-2021',
+    },
+    {
+      paruLe: '30/08/2022',
+      modifié: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-inno-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { innovationPPE2 }

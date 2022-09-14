@@ -93,6 +93,28 @@ const batimentPPE2: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      initial: true,
+      référence: '2021 S 176-457518',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      initial: true,
+      référence: '2022 S 020-047803',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      initial: true,
+      référence: '2022 S 093-254888',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      paruLe: '30/08/2022',
+      modifié: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { batimentPPE2 }

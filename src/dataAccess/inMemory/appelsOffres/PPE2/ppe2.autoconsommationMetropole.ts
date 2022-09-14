@@ -73,6 +73,23 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     // A partir de la période 3 le délai DCR passe à trois mois
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      initial: true,
+      référence: '2021 S 176-457526',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      initial: true,
+      référence: '2022 S 038 098159',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      paruLe: '30/08/2022',
+      modifié: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-auto-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { autoconsommationMetropolePPE2 }

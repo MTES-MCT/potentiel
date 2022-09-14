@@ -58,6 +58,23 @@ const eolienPPE2: AppelOffre = {
     },
   ],
   familles: [],
+  cahiersDesChargesDisponibles: [
+    {
+      initial: true,
+      référence: '2021/S 146-386083',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      initial: true,
+      référence: '2022/S 035-088651',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
+    },
+    {
+      paruLe: '30/08/2022',
+      modifié: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    },
+  ],
 }
 
 export { eolienPPE2 }
