@@ -28,14 +28,12 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response, error }) => {
-        return response.redirect(
+      onError: ({ request, response, error }) =>
+        response.redirect(
           addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
-            ...request.body,
             ...error.errors,
           })
-        )
-      },
+        ),
     },
     async (request, response) => {
       const { user } = request

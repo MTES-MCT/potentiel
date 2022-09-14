@@ -72,7 +72,7 @@ v1Router.post(
 
           if (
             error instanceof ChangementProducteurImpossiblePourEolienError ||
-            NouveauCahierDesChargesNonChoisiError
+            error instanceof NouveauCahierDesChargesNonChoisiError
           ) {
             return errorResponse({
               request,

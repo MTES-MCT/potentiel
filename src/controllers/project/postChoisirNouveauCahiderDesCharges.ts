@@ -2,12 +2,7 @@ import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
 import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
-import {
-  errorResponse,
-  RequestValidationError,
-  unauthorizedResponse,
-  notFoundResponse,
-} from '../helpers'
+import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
@@ -55,7 +50,12 @@ v1Router.post(
     {
       schema,
       onError: ({ request, response }) =>
-        notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
+        errorResponse({
+          request,
+          response,
+          customMessage:
+            'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+        }),
     },
     async (request, response) => {
       const {
@@ -82,10 +82,7 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (
-            error instanceof RequestValidationError ||
-            error instanceof NouveauCahierDesChargesDéjàSouscrit
-          ) {
+          if (error instanceof NouveauCahierDesChargesDéjàSouscrit) {
             return errorResponse({
               request,
               response,
