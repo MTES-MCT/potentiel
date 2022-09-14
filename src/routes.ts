@@ -231,7 +231,12 @@ class routes {
     } else return route
   }
 
-  static CHANGER_FOURNISSEUR = withProjectId('/demande-modification.html?action=fournisseur')
+  static CHANGER_FOURNISSEUR = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/changer-fournisseur.html'
+    if (projectId) {
+      return route.replace(':projectId', projectId)
+    } else return route
+  }
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire')
 
@@ -255,6 +260,7 @@ class routes {
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 
   static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
+  static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

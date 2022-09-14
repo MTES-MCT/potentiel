@@ -1,43 +1,42 @@
 import * as yup from 'yup'
 
-import { annulerRejetChangementDePuissance, ensureRole } from '@config'
+import { annulerRejetRecours, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
-
+import routes from '../../../routes'
 import {
   errorResponse,
   notFoundResponse,
   unauthorizedResponse,
-  validateRequestBody,
-} from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { v1Router } from '../v1Router'
-import routes from '../../routes'
+  validateRequestBodyForErrorArray,
+} from '../../helpers'
+import asyncHandler from '../../helpers/asyncHandler'
+import { v1Router } from '../../v1Router'
 
 const requestBodySchema = yup.object({
-  demandeChangementDePuissanceId: yup.string().uuid().required(),
+  modificationRequestId: yup.string().uuid().required(),
 })
 
 v1Router.post(
-  routes.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE,
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  routes.ADMIN_ANNULER_RECOURS_REJETE(),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
         const { user } = request
-        const { demandeChangementDePuissanceId } = body
+        const { modificationRequestId } = body
 
-        return annulerRejetChangementDePuissance({
+        return annulerRejetRecours({
           user,
-          demandeChangementDePuissanceId,
-        }).map(() => demandeChangementDePuissanceId)
+          demandeRecoursId: modificationRequestId,
+        }).map(() => ({ modificationRequestId }))
       })
       .match(
-        (demandeChangementDePuissanceId) => {
+        ({ modificationRequestId }) => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: 'La réponse à la demande de changement de puissance a bien été annulée.',
-              redirectUrl: routes.DEMANDE_PAGE_DETAILS(demandeChangementDePuissanceId),
+              success: 'La réponse à la demande de recours a bien été annulée.',
+              redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
               redirectTitle: 'Retourner à la demande',
             })
           )

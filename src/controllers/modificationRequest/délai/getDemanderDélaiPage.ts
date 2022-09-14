@@ -5,15 +5,15 @@ import { projectRepo } from '@dataAccess'
 
 import { logger } from '@core/utils'
 import routes from '@routes'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { v1Router } from '../v1Router'
+import { validateUniqueId } from '../../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
+import asyncHandler from '../../helpers/asyncHandler'
+import { v1Router } from '../../v1Router'
 
-import { ChangerProducteurPage } from '@views'
+import { DemanderDelaiPage } from '@views'
 
 v1Router.get(
-  routes.CHANGER_PRODUCTEUR(),
+  routes.DEMANDER_DELAI(),
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {
@@ -31,16 +31,6 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    // Changement de producteur interdit avant la date d'achèvement
-    // La date d'achèvement n'est pas encore une information à saisir dans Potentiel
-    if (project.appelOffre?.type === 'eolien') {
-      return unauthorizedResponse({
-        request,
-        response,
-        customMessage: `L'action demandée n'est pas possible pour ce projet`,
-      })
-    }
-
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
       projectId,
@@ -55,10 +45,10 @@ v1Router.get(
     }
     const { appelOffreId, periodeId } = project
 
-    return await getCahiersChargesURLs(appelOffreId, periodeId).match(
+    return getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
-          ChangerProducteurPage({
+          DemanderDelaiPage({
             request,
             project,
             cahiersChargesURLs,

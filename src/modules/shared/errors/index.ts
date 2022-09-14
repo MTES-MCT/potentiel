@@ -1,4 +1,5 @@
 export * from './AggregateHasBeenUpdatedSinceError'
+export * from './ChampFournisseurManquantError'
 export * from './EmailAlreadyUsedError'
 export * from './EntityAlreadyExistsError'
 export * from './EntityNotFound'

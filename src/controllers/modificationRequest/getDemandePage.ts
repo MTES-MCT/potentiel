@@ -8,7 +8,7 @@ import { errorResponse, notFoundResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 
-const ACTIONS = ['actionnaire', 'puissance', 'recours', 'fournisseur']
+const ACTIONS = ['actionnaire', 'puissance', 'recours']
 
 v1Router.get(
   routes.DEMANDE_GENERIQUE,
@@ -32,7 +32,7 @@ v1Router.get(
 
     const { appelOffreId, periodeId } = project
 
-    return await getCahiersChargesURLs(appelOffreId, periodeId).match(
+    return getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
           NewModificationRequestPage({

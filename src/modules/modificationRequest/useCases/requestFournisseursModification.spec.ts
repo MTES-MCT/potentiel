@@ -6,7 +6,7 @@ import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
-import { FournisseurKind, Project } from '../../project'
+import { Fournisseur, Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { makeRequestFournisseursModification } from './requestFournisseursModification'
@@ -47,7 +47,7 @@ describe('requestFournisseurModification use-case', () => {
       const res = await requestFournisseurModification({
         projectId: fakeProject.id,
         requestedBy: fakeUser,
-        newFournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fail' }],
+        newFournisseurs: [{ kind: 'Fournisseur cellules', name: 'fail' }],
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -56,12 +56,12 @@ describe('requestFournisseurModification use-case', () => {
   })
 
   describe('when user is allowed', () => {
-    const newFournisseurs = [
+    const newFournisseurs: Fournisseur[] = [
       {
-        kind: 'Nom du fabricant \n(Modules ou films)' as FournisseurKind,
-        name: 'fournisseur modules films',
+        kind: 'Fournisseur modules ou films',
+        name: 'nom fournisseur modules films',
       },
-      { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur cellules' },
+      { kind: 'Fournisseur cellules', name: 'nom fournisseur cellules' },
     ]
     const newEvaluationCarbone = 100
 

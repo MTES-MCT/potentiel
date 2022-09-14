@@ -5,15 +5,15 @@ import { projectRepo } from '@dataAccess'
 
 import { logger } from '@core/utils'
 import routes from '@routes'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { v1Router } from '../v1Router'
+import { validateUniqueId } from '../../../helpers/validateUniqueId'
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
+import asyncHandler from '../../helpers/asyncHandler'
+import { v1Router } from '../../v1Router'
 
-import { DemanderDelaiPage } from '@views'
+import { ChangerFournisseurPage } from '@views'
 
 v1Router.get(
-  routes.DEMANDER_DELAI(),
+  routes.CHANGER_FOURNISSEUR(),
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {
@@ -45,10 +45,10 @@ v1Router.get(
     }
     const { appelOffreId, periodeId } = project
 
-    return await getCahiersChargesURLs(appelOffreId, periodeId).match(
+    return getCahiersChargesURLs(appelOffreId, periodeId).match(
       (cahiersChargesURLs) => {
         return response.send(
-          DemanderDelaiPage({
+          ChangerFournisseurPage({
             request,
             project,
             cahiersChargesURLs,

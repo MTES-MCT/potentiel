@@ -25,6 +25,7 @@ import {
   DemanderAbandon,
   DemandeAbandon,
   ChoisirCahierDesCharges,
+  ChangerFournisseur,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -117,6 +118,14 @@ export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur
     props,
     hydrate: true,
     pageName: 'changerProducteur',
+  })
+
+export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisseur>[0]) =>
+  makeHtml({
+    Component: ChangerFournisseur,
+    props,
+    hydrate: true,
+    pageName: 'changerFournisseur',
   })
 
 export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) =>

@@ -6,7 +6,6 @@ import { None, Some } from '../../../../types'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { ModificationReceived } from '../../../modificationRequest'
-import { FournisseurKind } from '../../../project'
 
 const userId = new UniqueEntityID().toString()
 const projectId = new UniqueEntityID().toString()
@@ -178,9 +177,7 @@ describe('notification.handleModificationReceived', () => {
               modificationRequestId,
               projectId,
               requestedBy: userId,
-              fournisseurs: [
-                { kind: 'Nom du fabricant (Cellules)' as FournisseurKind, name: 'fournisseur' },
-              ],
+              fournisseurs: [{ kind: 'Fournisseur cellules', name: 'fournisseur' }],
               evaluationCarbone: 74,
               authority: 'dreal',
             },
@@ -226,7 +223,7 @@ describe('notification.handleModificationReceived', () => {
               modificationRequestId,
               projectId,
               requestedBy: userId,
-              fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
+              fournisseurs: [{ kind: '', name: '' }],
               evaluationCarbone: 124,
               authority: 'dreal',
             },
@@ -272,7 +269,7 @@ describe('notification.handleModificationReceived', () => {
               modificationRequestId,
               projectId,
               requestedBy: userId,
-              fournisseurs: [{ kind: '' as FournisseurKind, name: '' }],
+              fournisseurs: [{ kind: '', name: '' }],
               evaluationCarbone: 125,
               authority: 'dreal',
             },

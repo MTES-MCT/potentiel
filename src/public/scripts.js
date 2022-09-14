@@ -4,12 +4,9 @@ window.initHandlers = function () {
   addStatusOnlyHandler()
   addFriseToggleHandler()
   addFriseHiddenContentToggleHandler()
-  //addDateValidationHandler()
   addActionMenuHandlers()
   addInvitationHandlers()
   addDelayEstimator()
-  // addPuissanceModificationHandler()
-  addEvaluationCarboneModificationHandler()
   addSelectorHandlers()
   addSendCopyOfNotificationButtonHandler()
   addPaginationHandler()
@@ -534,44 +531,6 @@ function addSendCopyOfNotificationButtonHandler() {
 // Puissance modification Page
 //
 
-function addPuissanceModificationHandler() {
-  const newPuissanceField = document.querySelector(
-    '[data-testid=modificationRequest-puissanceField]'
-  )
-
-  if (newPuissanceField) {
-    const submitButton = '[data-testid=submit-button]'
-    const outOfBounds = '[data-testid=modificationRequest-puissance-error-message-out-of-bounds]'
-    const wrongFormat = '[data-testid=modificationRequest-puissance-error-message-wrong-format]'
-
-    newPuissanceField.addEventListener('keyup', function (event) {
-      if (!event.target.value?.trim()) {
-        show(outOfBounds, false)
-        show(wrongFormat, false)
-        return
-      }
-
-      const newValue = Number(event.target.value)
-      const oldValue = getFieldValue('[data-testid=modificationRequest-presentPuissanceField]')
-
-      if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        if (newValue / oldValue > 1.1 || newValue / oldValue < 0.9) {
-          show(outOfBounds, true)
-          show(wrongFormat, false)
-        } else {
-          show(outOfBounds, false)
-          show(wrongFormat, false)
-        }
-        disable(submitButton, false)
-      } else {
-        disable(submitButton, true)
-        show(outOfBounds, false)
-        show(wrongFormat, true)
-      }
-    })
-  }
-}
-
 //
 // Modification request details page
 //
@@ -602,10 +561,6 @@ function addStatusOnlyHandler() {
   }
 }
 
-//
-// Delay request Page
-//
-
 function getDateFromDateString(str) {
   // For a date in the DD/MM/YYYY format
   var day = Number(str.substring(0, 2))
@@ -614,6 +569,10 @@ function getDateFromDateString(str) {
 
   return new Date(year, month - 1, day)
 }
+
+//
+// Delay request Page
+//
 
 function addDelayEstimator() {
   const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]')
@@ -702,46 +661,6 @@ function addDateValidationHandler() {
     }
   })
 }*/
-
-function addEvaluationCarboneModificationHandler() {
-  const evaluationCarbone = document.querySelector(
-    '[data-testid=modificationRequest-evaluationCarboneField]'
-  )
-
-  if (evaluationCarbone) {
-    const outOfBounds =
-      '[data-testid=modificationRequest-evaluationCarbone-error-message-out-of-bounds]'
-    const wrongFormat =
-      '[data-testid=modificationRequest-evaluationCarbone-error-message-wrong-format]'
-
-    evaluationCarbone.addEventListener('keyup', function (event) {
-      if (!event.target.value?.trim()) {
-        show(outOfBounds, false)
-        show(wrongFormat, false)
-        return
-      }
-
-      const newValue = Number(event.target.value)
-      const oldValue = getFieldValue('[data-testid=modificationRequest-oldEvaluationCarboneField]')
-
-      if (!Number.isNaN(newValue) && !Number.isNaN(oldValue)) {
-        const switchBracket = Math.round(oldValue / 50) !== Math.round(newValue / 50)
-        const newValueIsOutOfBounds = newValue > oldValue && switchBracket
-
-        if (newValueIsOutOfBounds) {
-          show(outOfBounds, true)
-          show(wrongFormat, false)
-        } else {
-          show(outOfBounds, false)
-          show(wrongFormat, false)
-        }
-      } else {
-        show(outOfBounds, false)
-        show(wrongFormat, true)
-      }
-    })
-  }
-}
 
 //
 // General utility
