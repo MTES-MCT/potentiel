@@ -3,6 +3,8 @@ import { MakeEventStoreDeps, wrapInfra } from '@core/utils'
 import { fromPersistance } from '../helpers'
 import models from '../models'
 
+const évènementsIgnorés = ['ProjectNewRulesOptedIn'] as const
+
 const { EventStore } = models
 
 export const loadAggregateEventsFromStore: MakeEventStoreDeps['loadAggregateEventsFromStore'] = (
@@ -12,6 +14,9 @@ export const loadAggregateEventsFromStore: MakeEventStoreDeps['loadAggregateEven
     where: {
       aggregateId: {
         [Op.overlap]: [aggregateId],
+      },
+      type: {
+        [Op.in]: évènementsIgnorés,
       },
     },
     order: [['occurredAt', 'ASC']],

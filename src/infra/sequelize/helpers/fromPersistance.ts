@@ -28,8 +28,6 @@ interface HasEventConstructor {
   new (props: EventProps): DomainEvent
 }
 
-const évènementsIgnorés = ['ProjectNewRulesOptedIn'] as const
-
 const EventClassByType: Record<string, HasEventConstructor> = {
   ...ModificationRequestEvents,
   ...CandidateNotificationEvents,
@@ -48,10 +46,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
 }
 
 export const fromPersistance = (eventRaw: any): DomainEvent | null => {
-  if (évènementsIgnorés.includes(eventRaw.type)) {
-    return null
-  }
-
   const EventClass = EventClassByType[eventRaw.type]
 
   if (!EventClass) {
