@@ -35,6 +35,7 @@ export const NewModificationRequest = PageLayout(
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
     const redirectionRoute = (action) => {
