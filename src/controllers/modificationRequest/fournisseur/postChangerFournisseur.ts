@@ -16,7 +16,7 @@ import * as yup from 'yup'
 import { UniqueEntityID } from '@core/domain'
 import { addQueryParams } from '../../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
-import safeAsyncHandler from 'src/controllers/helpers/safeAsyncHandler'
+import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 
 const schema = yup.object({
   body: yup
