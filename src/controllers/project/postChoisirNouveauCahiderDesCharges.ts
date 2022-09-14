@@ -11,14 +11,42 @@ import {
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
+import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+
+const modificationRequestTypes = [
+  'actionnaire',
+  'fournisseur',
+  'producteur',
+  'puissance',
+  'recours',
+  'abandon',
+  'delai',
+]
 
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
     redirectUrl: yup.string().required(),
+    type: yup.mixed().oneOf(modificationRequestTypes).optional(),
   }),
 })
+
+const getRedirectTitle = (type: ModificationRequestType) => {
+  switch (type) {
+    case 'delai':
+    case 'recours':
+      return `Retourner sur la demande de ${type === 'delai' ? 'délai' : type}`
+    case 'abandon':
+      return `Retourner sur la demande d'${type}`
+    case 'puissance':
+    case 'fournisseur':
+    case 'producteur':
+      return `Retourner sur la demande de changement de ${type}`
+    default:
+      return 'Retourner sur la page du projet'
+  }
+}
 
 v1Router.post(
   routes.CHANGER_CDC,
@@ -31,7 +59,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl },
+        body: { projectId, redirectUrl, type },
         user,
       } = request
 
@@ -39,15 +67,16 @@ v1Router.post(
         projetId: projectId,
         utilisateur: user,
       }).match(
-        () =>
-          response.redirect(
+        () => {
+          return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success:
                 "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
               redirectUrl,
-              redirectTitle: 'Retourner sur la page précédente',
+              redirectTitle: getRedirectTitle(type),
             })
-          ),
+          )
+        },
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })

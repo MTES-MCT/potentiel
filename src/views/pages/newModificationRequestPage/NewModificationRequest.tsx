@@ -95,7 +95,6 @@ export const NewModificationRequest = PageLayout(
                         project,
                         puissance,
                         justification,
-                        onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
                       }}
                     />
                   )}

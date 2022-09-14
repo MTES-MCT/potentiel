@@ -76,12 +76,12 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
               cahiersChargesURLs={cahiersChargesURLs}
               projet={project}
               redirectUrl={routes.DEMANDER_DELAI(project.id)}
+              type="delai"
             />
           </>
         ) : (
           <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value="delai" />
             <div className="form__group">
               <SuccessErrorBox success={success} error={error} />
 

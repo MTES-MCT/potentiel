@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
+import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
   projet: Omit<ProjectDataForChoisirCDCPage, 'isClasse'>
   redirectUrl?: string
+  type?: ModificationRequestType
 }
 
 export const ChoisirCahierDesChargesFormulaire = ({
   projet,
   cahiersChargesURLs,
   redirectUrl,
+  type,
 }: ChoisirCahierDesChargesFormulaireProps) => {
   const { id, nouvellesRèglesDInstructionChoisies } = projet
   const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
@@ -30,6 +33,7 @@ export const ChoisirCahierDesChargesFormulaire = ({
                 name="redirectUrl"
                 value={redirectUrl || routes.PROJECT_DETAILS(id)}
               />
+              {type && <input type="hidden" name="type" value={type} />}
               <input
                 type="radio"
                 name="newRulesOptIn"
