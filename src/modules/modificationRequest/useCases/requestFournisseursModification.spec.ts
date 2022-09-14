@@ -6,7 +6,7 @@ import { UnwrapForTest } from '../../../types'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { FileObject } from '../../file'
-import { FournisseurKind, Project } from '../../project'
+import { Fournisseur, Project } from '../../project'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { makeRequestFournisseursModification } from './requestFournisseursModification'
@@ -56,12 +56,12 @@ describe('requestFournisseurModification use-case', () => {
   })
 
   describe('when user is allowed', () => {
-    const newFournisseurs = [
+    const newFournisseurs: Fournisseur[] = [
       {
-        kind: 'Fournisseur modules ou films' as FournisseurKind,
+        kind: 'Fournisseur modules ou films',
         name: 'nom fournisseur modules films',
       },
-      { kind: 'Fournisseur cellules' as FournisseurKind, name: 'nom fournisseur cellules' },
+      { kind: 'Fournisseur cellules', name: 'nom fournisseur cellules' },
     ]
     const newEvaluationCarbone = 100
 
