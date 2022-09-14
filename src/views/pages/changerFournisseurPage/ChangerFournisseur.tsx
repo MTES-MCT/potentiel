@@ -15,6 +15,10 @@ import {
   SecondaryLinkButton,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
+import {
+  CHAMPS_FOURNISSEURS,
+  CORRESPONDANCE_CHAMPS_FOURNISSEURS_COLONNE_IMPORT,
+} from '@modules/project'
 
 type ChangerFournisseurProps = {
   request: Request
@@ -71,173 +75,30 @@ export const ChangerFournisseur = PageLayout(
 
               {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
                 <>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Modules ou films</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant \n(Modules ou films)']}
-                    />
-                    <label htmlFor="Fournisseur modules ou films">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur modules ou films"
-                      id="Fournisseur modules ou films"
-                      {...dataId('Fournisseur modules ou films')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Cellules</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant (Cellules)']}
-                    />
-                    <label htmlFor="Fournisseur cellules">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur cellules"
-                      id="Fournisseur cellules"
-                      {...dataId('Fournisseur cellules')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Plaquettes de silicium (wafers)</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={
-                        project.details?.['Nom du fabricant \n(Plaquettes de silicium (wafers))']
-                      }
-                    />
-                    <label htmlFor="Fournisseur plaquettes de silicium (wafers)">
-                      Nouveau fournisseur
-                    </label>
-                    <input
-                      type="text"
-                      name="Fournisseur plaquettes de silicium (wafers)"
-                      id="Fournisseur plaquettes de silicium (wafers)"
-                      {...dataId('Fournisseur plaquettes de silicium (wafers)')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Polysilicium</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant \n(Polysilicium)']}
-                    />
-                    <label htmlFor="Fournisseur polysilicium">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur polysilicium"
-                      id="Fournisseur polysilicium"
-                      {...dataId('Fournisseur polysilicium')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Postes de conversion</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant \n(Postes de conversion)']}
-                    />
-                    <label htmlFor="Fournisseur postes de conversion">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur postes de conversion"
-                      id="Fournisseur postes de conversion"
-                      {...dataId('modificationRequest-Fournisseur postes de conversionField')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Structure</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant \n(Structure)']}
-                    />
-                    <label htmlFor="Fournisseur structures">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur structures"
-                      id="Fournisseur structures"
-                      {...dataId('modificationRequest-Fournisseur structuresField')}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Dispositifs de stockage de l’énergie</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={
-                        project.details?.[
-                          'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)'
-                        ]
-                      }
-                    />
-                    <label htmlFor="Fournisseur dispositifs de stockage de l’énergie">
-                      Nouveau fournisseur
-                    </label>
-                    <input
-                      type="text"
-                      name="Fournisseur dispositifs de stockage de l’énergie"
-                      id="Fournisseur dispositifs de stockage de l’énergie"
-                      {...dataId(
-                        'modificationRequest-Fournisseur dispositifs de stockage de l’énergieField'
-                      )}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Dispositifs de suivi de la course du soleil</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={
-                        project.details?.[
-                          'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)'
-                        ]
-                      }
-                    />
-                    <label htmlFor="Fournisseur dispositifs de suivi de la course du soleil">
-                      Nouveau fournisseur
-                    </label>
-                    <input
-                      type="text"
-                      name="Fournisseur dispositifs de suivi de la course du soleil"
-                      id="Fournisseur dispositifs de suivi de la course du soleil"
-                      {...dataId(
-                        'modificationRequest-Fournisseur dispositifs de suivi de la course du soleilField'
-                      )}
-                    />
-                  </div>
-                  <div>
-                    <h3 style={{ marginTop: 15 }}>Autres technologies</h3>
-                    <label>Ancien fournisseur</label>
-                    <input
-                      type="text"
-                      disabled
-                      defaultValue={project.details?.['Nom du fabricant \n(Autres technologies)']}
-                    />
-                    <label htmlFor="Fournisseur autres technologies">Nouveau fournisseur</label>
-                    <input
-                      type="text"
-                      name="Fournisseur autres technologies"
-                      id="Fournisseur autres technologies"
-                      {...dataId('modificationRequest-Fournisseur autres technologiesField')}
-                    />
-                  </div>
+                  {CHAMPS_FOURNISSEURS.map((champ) => {
+                    return (
+                      <div>
+                        <h3 style={{ marginTop: 15, marginBottom: 3 }}>{champ}</h3>
+                        <label>Ancien fournisseur</label>
+                        <input
+                          type="text"
+                          disabled
+                          defaultValue={
+                            project.details?.[
+                              CORRESPONDANCE_CHAMPS_FOURNISSEURS_COLONNE_IMPORT[champ]
+                            ]
+                          }
+                        />
+                        <label htmlFor={champ} className="mt-2">
+                          Nouveau fournisseur
+                        </label>
+                        <input type="text" name={champ} id={champ} />
+                      </div>
+                    )
+                  })}
                   {project.evaluationCarbone > 0 && (
                     <div>
-                      <h3 style={{ marginTop: 15 }}>Evaluation carbone</h3>
+                      <h3 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</h3>
                       <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
                       <input
                         type="number"
