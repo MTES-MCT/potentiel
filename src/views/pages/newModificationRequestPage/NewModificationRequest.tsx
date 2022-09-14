@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Project } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -34,9 +34,6 @@ export const NewModificationRequest = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
-
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
 
     const redirectionRoute = (action) => {
       switch (action) {
@@ -82,47 +79,45 @@ export const NewModificationRequest = PageLayout(
               />
             </div>
           ) : (
-            (project.nouvellesRèglesDInstructionChoisies || !doitChoisirCahierDesCharges) && (
-              <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
-                <input type="hidden" name="projectId" value={project.id} />
-                <input type="hidden" name="type" value={action} />
+            <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+              <input type="hidden" name="projectId" value={project.id} />
+              <input type="hidden" name="type" value={action} />
 
-                <div className="form__group">
-                  <SuccessErrorBox success={success} error={error} />
-                  <FormulaireChampsObligatoireLégende className="text-right" />
-                  <div className="mb-2">Concernant le projet:</div>
-                  <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-                  <div {...dataId('modificationRequest-demandesInputs')}>
-                    {action === 'puissance' && (
-                      <ChangementPuissance
-                        {...{
-                          project,
-                          puissance,
-                          justification,
-                          onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
-                        }}
-                      />
-                    )}
-                    {action === 'actionnaire' && (
-                      <ChangementActionnaire {...{ project, actionnaire, justification }} />
-                    )}
-                    {action === 'recours' && <DemandeRecours {...{ justification }} />}
+              <div className="form__group">
+                <SuccessErrorBox success={success} error={error} />
+                <FormulaireChampsObligatoireLégende className="text-right" />
+                <div className="mb-2">Concernant le projet:</div>
+                <ProjectInfo project={project} className="mb-3"></ProjectInfo>
+                <div {...dataId('modificationRequest-demandesInputs')}>
+                  {action === 'puissance' && (
+                    <ChangementPuissance
+                      {...{
+                        project,
+                        puissance,
+                        justification,
+                        onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
+                      }}
+                    />
+                  )}
+                  {action === 'actionnaire' && (
+                    <ChangementActionnaire {...{ project, actionnaire, justification }} />
+                  )}
+                  {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
-                    <Button
-                      className="mt-3 mr-1"
-                      type="submit"
-                      id="submit"
-                      {...dataId('submit-button')}
-                    >
-                      Envoyer
-                    </Button>
-                    <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>
-                      Annuler
-                    </SecondaryLinkButton>
-                  </div>
+                  <Button
+                    className="mt-3 mr-1"
+                    type="submit"
+                    id="submit"
+                    {...dataId('submit-button')}
+                  >
+                    Envoyer
+                  </Button>
+                  <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>
+                    Annuler
+                  </SecondaryLinkButton>
                 </div>
-              </form>
-            )
+              </div>
+            </form>
           )}
         </div>
       </UserDashboard>

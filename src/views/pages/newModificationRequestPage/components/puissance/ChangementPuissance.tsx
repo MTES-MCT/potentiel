@@ -14,14 +14,12 @@ type ChangementPuissanceProps = {
   project: Project
   puissance: number
   justification: string
-  onPuissanceChecked: (isValid: boolean) => void
 }
 
 export const ChangementPuissance = ({
   project,
   puissance,
   justification,
-  onPuissanceChecked,
 }: ChangementPuissanceProps) => {
   const { appelOffre } = project
 
@@ -42,8 +40,6 @@ export const ChangementPuissance = ({
     setDisplayAlertHorsRatios(exceedsRatios)
     setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax)
     setFileRequiredforPuissanceModification(exceedsRatios || exceedsPuissanceMax)
-
-    onPuissanceChecked(isNewValueCorrect)
   }
 
   return (
