@@ -76,6 +76,7 @@ export const NewModificationRequest = PageLayout(
                 cahiersChargesURLs={cahiersChargesURLs}
                 projet={project}
                 redirectUrl={redirectionRoute(action)}
+                type={action}
               />
             </div>
           ) : (

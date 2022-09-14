@@ -59,6 +59,7 @@ export const DemanderAbandon = PageLayout(
                 cahiersChargesURLs={cahiersChargesURLs}
                 projet={project}
                 redirectUrl={routes.DEMANDER_ABANDON(project.id)}
+                type="abandon"
               />
             </>
           ) : (
@@ -68,7 +69,6 @@ export const DemanderAbandon = PageLayout(
               encType="multipart/form-data"
             >
               <input type="hidden" name="projectId" value={project.id} />
-              <input type="hidden" name="type" value="abandon" />
               <div className="form__group">
                 <SuccessErrorBox success={success} error={error} />
                 <FormulaireChampsObligatoireLégende className="text-right" />

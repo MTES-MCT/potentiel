@@ -63,6 +63,7 @@ export const ChangerFournisseur = PageLayout(
                 cahiersChargesURLs={cahiersChargesURLs}
                 projet={project}
                 redirectUrl={routes.CHANGER_FOURNISSEUR(project.id)}
+                type="fournisseur"
               />
             </div>
           ) : (
@@ -72,7 +73,6 @@ export const ChangerFournisseur = PageLayout(
               encType="multipart/form-data"
             >
               <input type="hidden" name="projectId" value={project.id} />
-              <input type="hidden" name="type" value="fournisseur" />
               <div className="form__group">
                 <div className="mb-2">Concernant le projet:</div>
                 <ProjectInfo project={project} className="mb-3"></ProjectInfo>

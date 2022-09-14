@@ -67,6 +67,7 @@ export const ChangerProducteur = PageLayout(
                 cahiersChargesURLs={cahiersChargesURLs}
                 projet={project}
                 redirectUrl={routes.CHANGER_PRODUCTEUR(project.id)}
+                type="producteur"
               />
             </>
           ) : (
@@ -76,7 +77,6 @@ export const ChangerProducteur = PageLayout(
               encType="multipart/form-data"
             >
               <input type="hidden" name="projetId" value={project.id} />
-              <input type="hidden" name="type" value="producteur" />
               <div className="form__group">
                 <SuccessErrorBox success={success} error={error} />
 
