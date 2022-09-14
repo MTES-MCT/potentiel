@@ -1,23 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Project } from '@entities'
-import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
   PageLayout,
   ModificationRequestActionTitles,
-  CDCChoiceForm,
   UserDashboard,
   ProjectInfo,
   SuccessErrorBox,
   Button,
   FormulaireChampsObligatoireLégende,
-  Label,
   SecondaryLinkButton,
+  InfoBox,
+  ExternalLink,
+  ChoisirCahierDesChargesFormulaire,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
+import routes from '@routes'
 
 type NewModificationRequestProps = {
   request: Request
@@ -33,47 +34,61 @@ export const NewModificationRequest = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
-      project.nouvellesRèglesDInstructionChoisies
-    )
 
-    const [isSubmitButtonDisabled, setDisableSubmitButton] = useState(false)
+    const redirectionRoute = (action) => {
+      switch (action) {
+        case 'actionnaire':
+          return routes.CHANGER_ACTIONNAIRE(project.id)
+        case 'puissance':
+          return routes.CHANGER_PUISSANCE(project.id)
+        case 'recours':
+          return routes.DEPOSER_RECOURS(project.id)
+        default:
+          return routes.USER_LIST_PROJECTS
+      }
+    }
 
     return (
-      <UserDashboard currentPage={'list-requests'}>
+      <UserDashboard currentPage={'list-projects'}>
         <div className="panel">
           <div className="panel__header">
             <h3>
               <ModificationRequestActionTitles action={action} />
             </h3>
           </div>
+          {doitChoisirCahierDesCharges ? (
+            <div>
+              <InfoBox
+                title="Afin d'accéder au formulaire de demande de modification, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+                className="mb-5"
+              >
+                <p className="m-0">
+                  Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
+                  &nbsp;
+                  <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
+                    page d'aide
+                  </ExternalLink>
+                  .
+                </p>
+              </InfoBox>
+              <ChoisirCahierDesChargesFormulaire
+                cahiersChargesURLs={cahiersChargesURLs}
+                projet={project}
+                redirectUrl={redirectionRoute(action)}
+                type={action}
+              />
+            </div>
+          ) : (
+            <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+              <input type="hidden" name="projectId" value={project.id} />
+              <input type="hidden" name="type" value={action} />
 
-          <form action={ROUTES.DEMANDE_ACTION} method="post" encType="multipart/form-data">
-            <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value={action} />
-            <FormulaireChampsObligatoireLégende className="text-right" />
-            <div className="form__group">
-              <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              <SuccessErrorBox success={success} error={error} />
-              {doitChoisirCahierDesCharges && (
-                <div>
-                  <Label required>
-                    <strong>
-                      Veuillez saisir les modalités d'instruction à appliquer à ce changement
-                    </strong>
-                  </Label>
-                  <CDCChoiceForm
-                    nouvellesRèglesDInstructionChoisies={
-                      project.nouvellesRèglesDInstructionChoisies
-                    }
-                    cahiersChargesURLs={cahiersChargesURLs}
-                    onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
-                  />
-                </div>
-              )}
-
-              {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
+              <div className="form__group">
+                <SuccessErrorBox success={success} error={error} />
+                <FormulaireChampsObligatoireLégende className="text-right" />
+                <div className="mb-2">Concernant le projet:</div>
+                <ProjectInfo project={project} className="mb-3"></ProjectInfo>
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   {action === 'puissance' && (
                     <ChangementPuissance
@@ -81,7 +96,6 @@ export const NewModificationRequest = PageLayout(
                         project,
                         puissance,
                         justification,
-                        onPuissanceChecked: (isValid) => setDisableSubmitButton(!isValid),
                       }}
                     />
                   )}
@@ -98,13 +112,13 @@ export const NewModificationRequest = PageLayout(
                   >
                     Envoyer
                   </Button>
-                  <SecondaryLinkButton href={ROUTES.USER_LIST_PROJECTS}>
+                  <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>
                     Annuler
                   </SecondaryLinkButton>
                 </div>
-              )}
-            </div>
-          </form>
+              </div>
+            </form>
+          )}
         </div>
       </UserDashboard>
     )

@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Project } from '@entities'
-import ROUTES from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
   PageLayout,
-  CDCChoiceForm,
   UserDashboard,
   ProjectInfo,
   SuccessErrorBox,
@@ -18,8 +16,12 @@ import {
   Input,
   TextArea,
   AlertBox,
+  InfoBox,
+  ExternalLink,
+  ChoisirCahierDesChargesFormulaire,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
+import routes from '@routes'
 
 type ChangerProducteurProps = {
   request: Request
@@ -37,9 +39,6 @@ export const ChangerProducteur = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       !project.nouvellesRèglesDInstructionChoisies
-    const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
-      project.nouvellesRèglesDInstructionChoisies
-    )
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -48,35 +47,42 @@ export const ChangerProducteur = PageLayout(
             <h3>Je signale un changement de producteur</h3>
           </div>
 
-          <form
-            action={ROUTES.CHANGEMENT_PRODUCTEUR_ACTION}
-            method="post"
-            encType="multipart/form-data"
-          >
-            <input type="hidden" name="projetId" value={project.id} />
-            <FormulaireChampsObligatoireLégende className="text-right" />
-            <div className="form__group">
-              <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
-              <SuccessErrorBox success={success} error={error} />
-              {doitChoisirCahierDesCharges && (
-                <div>
-                  <Label required>
-                    <strong>
-                      Veuillez saisir les modalités d'instruction à appliquer à ce changement
-                    </strong>
-                  </Label>
-                  <CDCChoiceForm
-                    nouvellesRèglesDInstructionChoisies={
-                      project.nouvellesRèglesDInstructionChoisies
-                    }
-                    cahiersChargesURLs={cahiersChargesURLs}
-                    onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
-                  />
-                </div>
-              )}
+          {doitChoisirCahierDesCharges ? (
+            <>
+              <InfoBox
+                title="Afin d'accéder au formulaire de changement de producteur, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+                className="mb-5"
+              >
+                <p className="m-0">
+                  Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
+                  &nbsp;
+                  <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
+                    page d'aide
+                  </ExternalLink>
+                  .
+                </p>
+              </InfoBox>
+              <ChoisirCahierDesChargesFormulaire
+                cahiersChargesURLs={cahiersChargesURLs}
+                projet={project}
+                redirectUrl={routes.CHANGER_PRODUCTEUR(project.id)}
+                type="producteur"
+              />
+            </>
+          ) : (
+            <form
+              action={routes.CHANGEMENT_PRODUCTEUR_ACTION}
+              method="post"
+              encType="multipart/form-data"
+            >
+              <input type="hidden" name="projetId" value={project.id} />
+              <div className="form__group">
+                <SuccessErrorBox success={success} error={error} />
 
-              {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
+                <FormulaireChampsObligatoireLégende className="text-right" />
+                <div className="mb-2">Concernant le projet:</div>
+                <ProjectInfo project={project} className="mb-3"></ProjectInfo>
                 <div {...dataId('modificationRequest-demandesInputs')}>
                   <AlertBox
                     title="Attention : révocation des droits sur le projet"
@@ -150,13 +156,13 @@ export const ChangerProducteur = PageLayout(
                   >
                     Envoyer
                   </Button>
-                  <SecondaryLinkButton href={ROUTES.USER_LIST_PROJECTS}>
+                  <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>
                     Annuler
                   </SecondaryLinkButton>
                 </div>
-              )}
-            </div>
-          </form>
+              </div>
+            </form>
+          )}
         </div>
       </UserDashboard>
     )

@@ -3,3 +3,4 @@ export { RiFileExcelLine as ExcelFileIcon } from '@react-icons/all-files/ri/RiFi
 export { RiExternalLinkLine as ExternalLinkIcon } from '@react-icons/all-files/ri/RiExternalLinkLine'
 export { FiChevronLeft as ChevronLeftIcon } from '@react-icons/all-files/fi/FiChevronLeft'
 export { IoIosWarning as WarningIcon } from '@react-icons/all-files/io/IoIosWarning'
+export { BsInfoSquareFill as InfoIcon } from '@react-icons/all-files/bs/BsInfoSquareFill'

@@ -1,5 +1,4 @@
 import {
-  CDCChoiceForm,
   PageLayout,
   ProjectInfo,
   SuccessErrorBox,
@@ -9,14 +8,16 @@ import {
   UserDashboard,
   FormulaireChampsObligatoireLégende,
   Button,
-  Label,
   SecondaryLinkButton,
+  InfoBox,
+  ExternalLink,
+  ChoisirCahierDesChargesFormulaire,
 } from '@components'
 import routes from '@routes'
 import { Project } from '@entities'
 
 import { Request } from 'express'
-import React, { useState } from 'react'
+import React from 'react'
 import format from 'date-fns/format'
 
 import { dataId } from '../../../helpers/testId'
@@ -41,9 +42,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges &&
     !project.nouvellesRèglesDInstructionChoisies
-  const [newRulesOptInSelectionné, setNewRulesOptInSelectionné] = useState(
-    project.nouvellesRèglesDInstructionChoisies
-  )
+
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
   )
@@ -57,31 +56,38 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
           </h3>
         </div>
 
-        <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
-          <FormulaireChampsObligatoireLégende className="text-right" />
-          <input type="hidden" name="projectId" value={project.id} />
-          <input type="hidden" name="type" value={'delai'} />
-          <div className="form__group">
-            <div className="mb-1">Concernant le projet:</div>
-            <ProjectInfo project={project} className="mb-3" />
-            <SuccessErrorBox success={success} error={error} />
-            {doitChoisirCahierDesCharges && (
-              <div>
-                <Label required>
-                  <strong>
-                    Veuillez saisir les modalités d'instruction à appliquer à ce changement
-                  </strong>
-                </Label>
+        {doitChoisirCahierDesCharges ? (
+          <>
+            <InfoBox
+              title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
+                  cahier des charges à appliquer"
+              className="mb-5"
+            >
+              <p className="m-0">
+                Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
+                &nbsp;
+                <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
+                  page d'aide
+                </ExternalLink>
+                .
+              </p>
+            </InfoBox>
+            <ChoisirCahierDesChargesFormulaire
+              cahiersChargesURLs={cahiersChargesURLs}
+              projet={project}
+              redirectUrl={routes.DEMANDER_DELAI(project.id)}
+              type="delai"
+            />
+          </>
+        ) : (
+          <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
+            <input type="hidden" name="projectId" value={project.id} />
+            <div className="form__group">
+              <SuccessErrorBox success={success} error={error} />
 
-                <CDCChoiceForm
-                  nouvellesRèglesDInstructionChoisies={project.nouvellesRèglesDInstructionChoisies}
-                  cahiersChargesURLs={cahiersChargesURLs}
-                  onChoiceChange={(isNewRule: boolean) => setNewRulesOptInSelectionné(isNewRule)}
-                />
-              </div>
-            )}
-
-            {(newRulesOptInSelectionné || !doitChoisirCahierDesCharges) && (
+              <FormulaireChampsObligatoireLégende className="text-right" />
+              <div className="mb-1">Concernant le projet:</div>
+              <ProjectInfo project={project} className="mb-3" />
               <div {...dataId('modificationRequest-demandesInputs')}>
                 <div className="flex flex-col gap-5">
                   <div>
@@ -165,9 +171,9 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                   Annuler
                 </SecondaryLinkButton>
               </div>
-            )}
-          </div>
-        </form>
+            </div>
+          </form>
+        )}
       </div>
     </UserDashboard>
   )

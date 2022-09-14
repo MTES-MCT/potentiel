@@ -81,7 +81,6 @@ type CDCInfoProps = {
 
 const CDCInfo = ({ project, cahiersChargesURLs, user }: CDCInfoProps) => (
   <>
-    {console.log(project.isClasse, project.appelOffre.choisirNouveauCahierDesCharges)}
     <h3 className="mb-0">Cahier des charges</h3>{' '}
     {project.nouvellesRèglesDInstructionChoisies ? (
       cahiersChargesURLs?.newCahierChargesURL ? (

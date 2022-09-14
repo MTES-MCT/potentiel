@@ -1,63 +1,56 @@
 import fs from 'fs'
 import * as yup from 'yup'
 
-import { choisirNouveauCahierDesCharges, demanderAbandon, ensureRole } from '@config'
-import { logger, okAsync } from '@core/utils'
+import { demanderAbandon, ensureRole } from '@config'
+import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
 
 import { addQueryParams } from '../../../helpers/addQueryParams'
-import {
-  errorResponse,
-  RequestValidationError,
-  unauthorizedResponse,
-  validateRequestBody,
-} from '../../helpers'
-import asyncHandler from '../../helpers/asyncHandler'
+import { errorResponse, unauthorizedResponse } from '../../helpers'
 import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
+import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 
-const requestBodySchema = yup.object({
-  projectId: yup.string().uuid().required(),
-  justification: yup.string().optional(),
-  numeroGestionnaire: yup.string().optional(),
-  nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
+const schema = yup.object({
+  body: yup.object({
+    projectId: yup.string().uuid().required(),
+    justification: yup.string().optional(),
+    numeroGestionnaire: yup.string().optional(),
+    nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
+  }),
 })
 
 v1Router.post(
   routes.DEMANDE_ABANDON_ACTION,
   ensureRole('porteur-projet'),
   upload.single('file'),
-  asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
-      .asyncAndThen((body) => {
-        const { user } = request
+  safeAsyncHandler(
+    {
+      schema,
+      onError: ({ request, response, error }) =>
+        response.redirect(
+          addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
+            ...error.errors,
+          })
+        ),
+    },
+    async (request, response) => {
+      const { user } = request
+      const { projectId, justification } = request.body
 
-        const file = request.file && {
-          contents: fs.createReadStream(request.file.path),
-          filename: `${Date.now()}-${request.file.originalname}`,
-        }
+      const file = request.file && {
+        contents: fs.createReadStream(request.file.path),
+        filename: `${Date.now()}-${request.file.originalname}`,
+      }
 
-        if (body.nouvellesRèglesDInstructionChoisies) {
-          return choisirNouveauCahierDesCharges({
-            projetId: body.projectId,
-            utilisateur: user,
-          }).map(() => ({ file, user, ...body }))
-        }
-
-        return okAsync({ file, user, ...body })
-      })
-      .andThen(({ file, user, ...body }) => {
-        const { projectId, justification } = body
-        return demanderAbandon({
-          user,
-          projectId,
-          file,
-          justification,
-        }).map(() => ({ projectId }))
-      })
-      .match(
-        ({ projectId }) => {
+      return demanderAbandon({
+        user,
+        projectId,
+        file,
+        justification,
+      }).match(
+        () => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Votre demande d'abandon a bien été envoyée.`,
@@ -67,15 +60,6 @@ v1Router.post(
           )
         },
         (error) => {
-          if (error instanceof RequestValidationError) {
-            return response.redirect(
-              addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
-                ...request.body,
-                ...error.errors,
-              })
-            )
-          }
-
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
           }
@@ -89,5 +73,6 @@ v1Router.post(
           })
         }
       )
-  })
+    }
+  )
 )

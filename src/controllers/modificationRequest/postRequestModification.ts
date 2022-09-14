@@ -1,10 +1,4 @@
-import {
-  ensureRole,
-  oldProjectRepo,
-  requestActionnaireModification,
-  requestPuissanceModification,
-  choisirNouveauCahierDesCharges,
-} from '@config'
+import { ensureRole, requestActionnaireModification, requestPuissanceModification } from '@config'
 import { logger } from '@core/utils'
 import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
 import {
@@ -27,7 +21,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
 
-const returnRoute = (type, projectId) => {
+const routeRedirection = (type, projectId) => {
   let returnRoute: string
   switch (type) {
     case 'actionnaire':
@@ -80,7 +74,7 @@ v1Router.post(
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
       const { projectId, type } = data
       return response.redirect(
-        addQueryParams(returnRoute(type, projectId), {
+        addQueryParams(routeRedirection(type, projectId), {
           error: 'Erreur: la puissance n‘est pas valide.',
         })
       )
@@ -96,7 +90,7 @@ v1Router.post(
       if (!dirExists) {
         const { projectId, type } = data
         return response.redirect(
-          addQueryParams(returnRoute(type, projectId), {
+          addQueryParams(routeRedirection(type, projectId), {
             error: "Erreur: la pièce-jointe n'a pas pu être intégrée. Merci de réessayer.",
           })
         )
@@ -119,7 +113,7 @@ v1Router.post(
 
     const handleError = (error) => {
       const { projectId, type } = data
-      const redirectRoute = returnRoute(type, projectId)
+      const redirectRoute = routeRedirection(type, projectId)
 
       if (error instanceof PuissanceJustificationOrCourrierMissingError) {
         return response.redirect(
@@ -149,19 +143,6 @@ v1Router.post(
       logger.error(error)
 
       return errorResponse({ request, response })
-    }
-
-    const project = await oldProjectRepo.findById(data.projectId)
-    if (
-      !project?.nouvellesRèglesDInstructionChoisies &&
-      project?.appelOffre?.choisirNouveauCahierDesCharges
-    ) {
-      const res = await choisirNouveauCahierDesCharges({
-        projetId: data.projectId,
-        utilisateur: request.user,
-      })
-
-      if (res.isErr()) return handleError(res.error)
     }
 
     switch (data.type) {

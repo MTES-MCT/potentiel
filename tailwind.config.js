@@ -52,6 +52,11 @@ module.exports = {
           hover: '#ff6218',
           active: '#ff7a55',
         },
+        'info-425': {
+          base: '#0063cb',
+          hover: '#3b87ff',
+          active: '#3b87ff',
+        },
       },
     },
   },
