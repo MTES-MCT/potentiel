@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { AdminDashboard, UserDashboard } from '@components'
+import { AdminDashboard, LinkButton, UserDashboard } from '@components'
 
 interface SuccessOrErrorProps {
   request: Request
@@ -34,10 +34,7 @@ export default function SuccessOrError({ request }: SuccessOrErrorProps) {
           {error}
         </pre>
       )}
-
-      <a className="button" href={redirectUrl}>
-        {redirectTitle}
-      </a>
+      <LinkButton href={redirectUrl}> {redirectTitle}</LinkButton>
     </div>
   )
 
