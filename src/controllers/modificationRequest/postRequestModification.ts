@@ -1,8 +1,4 @@
-import {
-  ensureRole,
-  requestActionnaireModification,
-  requestPuissanceModification,
-} from '@config'
+import { ensureRole, requestActionnaireModification, requestPuissanceModification } from '@config'
 import { logger } from '@core/utils'
 import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
 import {
