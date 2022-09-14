@@ -42,19 +42,12 @@ const schema = yup.object({
     .test(
       'vérification-globale-fournisseurs',
       `Vous devez modifier au moins l'un des fournisseurs.`,
-      (fields) => {
-        return (
-          !!fields['Fournisseur modules ou films'] ||
-          !!fields['Fournisseur cellules'] ||
-          !!fields['Fournisseur plaquettes de silicium (wafers)'] ||
-          !!fields['Fournisseur polysilicium'] ||
-          !!fields['Fournisseur postes de conversion'] ||
-          !!fields['Fournisseur structure'] ||
-          !!fields['Fournisseur dispositifs de stockage de l’énergie'] ||
-          !!fields['Fournisseur dispositifs de suivi de la course du soleil'] ||
-          !!fields['Fournisseur autres technologies']
-        )
-      }
+      (fields) =>
+        CHAMPS_FOURNISSEURS.reduce((nombreDeFournisseursChangés, champ) => {
+          return fields[champ] !== ''
+            ? nombreDeFournisseursChangés + 1
+            : nombreDeFournisseursChangés
+        }, 0) > 0
     ),
 })
 

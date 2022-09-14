@@ -6,7 +6,7 @@ export const CHAMPS_FOURNISSEURS: ReadonlyArray<string> = [
   'Fournisseur plaquettes de silicium (wafers)',
   'Fournisseur polysilicium',
   'Fournisseur postes de conversion',
-  'Fournisseur structure',
+  'Fournisseur structures',
   'Fournisseur dispositifs de stockage de l’énergie',
   'Fournisseur dispositifs de suivi de la course du soleil',
   'Fournisseur autres technologies',
