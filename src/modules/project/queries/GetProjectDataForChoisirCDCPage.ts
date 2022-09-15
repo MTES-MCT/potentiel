@@ -7,7 +7,7 @@ export type ProjectDataForChoisirCDCPage = {
   appelOffreId: string
   periodeId: string
   familleId: string
-  appelOffre?: ProjectAppelOffre
+  appelOffre: ProjectAppelOffre
   nouvellesRèglesDInstructionChoisies: boolean
   isClasse: boolean
 }
