@@ -92,7 +92,6 @@ v1Router.post(
               description,
               files: uploadedFiles,
               attachedBy: request.user.id,
-              // date: moment(stepDate, FORMAT_DATE).toDate().getTime(),
               date: date.getTime(),
             },
           })
