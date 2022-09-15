@@ -3,17 +3,26 @@ import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
+import {
+  CahierDesChargesModifié,
+  DateParutionCahierDesChargesModifié,
+} from '@entities/cahierDesCharges'
+
+type ChoixCDC = {
+  paruLe: DateParutionCahierDesChargesModifié & 'initial'
+  alternatif?: true
+}
 
 type ChoisirCahierDesChargesFormulaireProps = {
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
   projet: Omit<ProjectDataForChoisirCDCPage, 'isClasse'>
+  cdcChoisi: ChoixCDC
   redirectUrl?: string
   type?: ModificationRequestType
 }
 
 export const ChoisirCahierDesChargesFormulaire = ({
   projet,
-  cahiersChargesURLs,
+  cdcChoisi,
   redirectUrl,
   type,
 }: ChoisirCahierDesChargesFormulaireProps) => {
@@ -24,42 +33,38 @@ export const ChoisirCahierDesChargesFormulaire = ({
   }
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
+      <input type="hidden" name="redirectUrl" value={redirectUrl || routes.PROJECT_DETAILS(id)} />
+      {type && <input type="hidden" name="type" value={type} />}
+
       <div>
-        {!nouvellesRèglesDInstructionChoisies && (
-          <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
-            <div className="inline-radio-option">
-              <input
-                type="hidden"
-                name="redirectUrl"
-                value={redirectUrl || routes.PROJECT_DETAILS(id)}
-              />
-              {type && <input type="hidden" name="type" value={type} />}
-              <input
-                type="radio"
-                name="newRulesOptIn"
-                value="false"
-                id="Anciennes règles"
-                disabled={nouvellesRèglesDInstructionChoisies}
-                defaultChecked={!nouvellesRèglesDInstructionChoisies}
-                onChange={handleCDCChange}
-              />
-              <label htmlFor="Anciennes règles" className="flex-1">
-                <strong>
-                  Instruction selon les dispositions du cahier des charges en vigueur au moment de
-                  la candidature &nbsp;
-                </strong>
-                {cahiersChargesURLs?.oldCahierChargesURL && (
-                  <>
-                    {'('}
-                    <ExternalLink href={cahiersChargesURLs?.oldCahierChargesURL}>
-                      voir le cahier des charges
-                    </ExternalLink>
-                    {')'}
-                  </>
-                )}
-                .
-              </label>
-            </div>
+        <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
+          <div className="inline-radio-option">
+            <input
+              type="radio"
+              name="choixCDC"
+              value="initial"
+              id="Anciennes règles"
+              disabled={true}
+              defaultChecked={cdcChoisi.paruLe === 'initial'}
+            />
+            <label htmlFor="Anciennes règles" className="flex-1">
+              <strong>
+                Instruction selon les dispositions du cahier des charges en vigueur au moment de la
+                candidature &nbsp;
+              </strong>
+              {projet.appelOffre?.periode.cahierDesCharges.url && (
+                <>
+                  {'('}
+                  <ExternalLink href={projet.appelOffre?.periode.cahierDesCharges.url}>
+                    voir le cahier des charges
+                  </ExternalLink>
+                  {')'}
+                </>
+              )}
+              .
+            </label>
+          </div>
+          {projet.appelOffre?.choisirNouveauCahierDesCharges && (
             <div>
               <ul>
                 <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
@@ -71,52 +76,46 @@ export const ChoisirCahierDesChargesFormulaire = ({
                 </li>
               </ul>
             </div>
-          </div>
-        )}
-        <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
-          <div className="inline-radio-option">
-            {!nouvellesRèglesDInstructionChoisies && (
+          )}
+        </div>
+
+        {projet.appelOffre?.cahiersDesChargesModifiésDisponibles.map((cdc) => (
+          <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
+            <div className="inline-radio-option">
               <input
                 type="radio"
-                name="newRulesOptIn"
-                value="true"
+                name="choixCDC"
+                value={`${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`}
                 id="Nouvelles règles"
-                defaultChecked={nouvellesRèglesDInstructionChoisies}
-                disabled={nouvellesRèglesDInstructionChoisies}
+                defaultChecked={estChoisi(cdcChoisi, cdc)}
+                disabled={estChoisi(cdcChoisi, cdc)}
                 onChange={handleCDCChange}
               />
-            )}
 
-            <label htmlFor="Nouvelles règles" className="flex-1">
-              <strong>
-                Instruction selon le cahier des charges modifié rétroactivement et publié le
-                30/07/2021, pris en application du décret n° 2019-1175 du 14 novembre 2019&nbsp;
-              </strong>
-              {cahiersChargesURLs?.newCahierChargesURL && (
-                <>
-                  {'('}
-                  <ExternalLink href={cahiersChargesURLs?.newCahierChargesURL}>
-                    voir le cahier des charges
-                  </ExternalLink>
-                  {')'}
-                </>
-              )}
-              .
-            </label>
+              <label htmlFor="Nouvelles règles" className="flex-1">
+                <strong>
+                  Instruction selon le cahier des charges modifié rétroactivement et publié le
+                  {cdc.paruLe}&nbsp;
+                </strong>
+                {'('}
+                <ExternalLink href={cdc.url}>voir le cahier des charges</ExternalLink>
+                {')'}.
+              </label>
+            </div>
+            <div>
+              <ul>
+                <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                  Ce choix s'appliquera à toutes les futures demandes faites sous Potentiel.
+                </li>
+                <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
+                  Une modification ultérieure pourra toujours être instruite selon le cahier des
+                  charges en vigueur au moment du dépôt de l'offre, à condition qu'elle soit soumise
+                  au format papier en précisant ce choix.
+                </li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <ul>
-              <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                Ce choix s'appliquera à toutes les futures demandes faites sous Potentiel.
-              </li>
-              <li style={{ listStyleImage: 'URL(/images/icons/external/arrow-right.svg)' }}>
-                Une modification ultérieure pourra toujours être instruite selon le cahier des
-                charges en vigueur au moment du dépôt de l'offre, à condition qu'elle soit soumise
-                au format papier en précisant ce choix.
-              </li>
-            </ul>
-          </div>
-        </div>
+        ))}
       </div>
       <input type="hidden" name="projectId" value={id} />
       <div className="flex items-center justify-center">
@@ -137,3 +136,5 @@ export const ChoisirCahierDesChargesFormulaire = ({
     </form>
   )
 }
+const estChoisi = (choix: ChoixCDC, cdc: CahierDesChargesModifié): boolean =>
+  choix.paruLe === cdc.paruLe && choix.alternatif === cdc.alternatif
