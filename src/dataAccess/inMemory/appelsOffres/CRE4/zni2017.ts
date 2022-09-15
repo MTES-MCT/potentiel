@@ -78,9 +78,9 @@ export const zni2017: AppelOffre = {
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-1',
     },
-    {
-      paruLe: '30/08/2022',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-1-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-    },
+    // {
+    //   paruLe: '30/08/2022',
+    //   url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-1-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    // },
   ],
 }

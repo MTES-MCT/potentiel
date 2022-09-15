@@ -157,7 +157,7 @@ const autoconsommationMetropole: AppelOffre = {
   cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/07/2021',
-      url: 'https://www.cre.fr/Documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
     },
   ],
 }
