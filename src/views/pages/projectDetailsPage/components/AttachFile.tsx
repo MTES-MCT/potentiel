@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { PaperClipIcon } from '@heroicons/react/outline'
 import ROUTES from '@routes'
-import { DateInput, Button, SecondaryButton } from '@components'
+import { Button, SecondaryButton, Input, TextArea } from '@components'
 
-interface AttachFileProps {
+type AttachFileProps = {
   projectId: string
 }
 export const AttachFile = ({ projectId }: AttachFileProps) => {
@@ -30,16 +30,16 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
         >
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date d'effet (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => {}} initialValue={new Date()} />
+            <label htmlFor="date">Date d'effet</label>
+            <Input type="date" required id="date" name="date" />
           </div>
           <div className="mt-2">
             <label htmlFor="title">Titre</label>
-            <input type="text" name="title" id="title" required />
+            <Input type="text" name="title" id="title" required />
           </div>
           <div className="mt-2">
             <label htmlFor="description">Description (optionnelle)</label>
-            <textarea name="description" id="description" />
+            <TextArea name="description" id="description" />
           </div>
           <div className="mt-2">
             <label htmlFor="file">Fichier(s) à attacher</label>
