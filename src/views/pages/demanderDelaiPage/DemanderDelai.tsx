@@ -10,7 +10,6 @@ import {
   Button,
   SecondaryLinkButton,
   InfoBox,
-  ExternalLink,
   ChoisirCahierDesChargesFormulaire,
 } from '@components'
 import routes from '@routes'
@@ -22,6 +21,7 @@ import format from 'date-fns/format'
 
 import { dataId } from '../../../helpers/testId'
 import { hydrateOnClient } from '../../helpers'
+import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type DemanderDelaiProps = {
   request: Request
@@ -57,20 +57,13 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
         </div>
 
         {doitChoisirCahierDesCharges ? (
-          <>
+          <div className="flex flex-col max-w-2xl mx-auto">
             <InfoBox
               title="Afin d'accéder au formulaire de demande de délai, vous devez d'abord changer le
                   cahier des charges à appliquer"
               className="mb-5"
             >
-              <p className="m-0">
-                Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
-                &nbsp;
-                <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
-                  page d'aide
-                </ExternalLink>
-                .
-              </p>
+              <InfoLienVersGuideUtilisation />
             </InfoBox>
             <ChoisirCahierDesChargesFormulaire
               cahiersChargesURLs={cahiersChargesURLs}
@@ -78,7 +71,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
               redirectUrl={routes.DEMANDER_DELAI(project.id)}
               type="delai"
             />
-          </>
+          </div>
         ) : (
           <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
