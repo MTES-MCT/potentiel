@@ -4,12 +4,8 @@ import { ProjectAppelOffre } from '@entities'
 
 export type ProjectDataForChoisirCDCPage = {
   id: string
-  appelOffreId: string
-  periodeId: string
-  familleId: string
   appelOffre: ProjectAppelOffre
-  nouvellesRèglesDInstructionChoisies: boolean
-  isClasse: boolean
+  cahierDesChargesActuel: 'initial' | '30/07/2021' /*| '30/08/2022' | '30/08/2022-alternatif'*/
 }
 
 export type GetProjectDataForChoisirCDCPage = (
