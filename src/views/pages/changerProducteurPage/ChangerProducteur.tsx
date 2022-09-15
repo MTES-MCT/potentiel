@@ -18,10 +18,10 @@ import {
   AlertBox,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
-import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type ChangerProducteurProps = {
   request: Request
@@ -54,7 +54,7 @@ export const ChangerProducteur = PageLayout(
                   cahier des charges à appliquer"
                 className="mb-5"
               >
-                <InfoLienVersGuideUtilisation />
+                <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
                 cahiersChargesURLs={cahiersChargesURLs}

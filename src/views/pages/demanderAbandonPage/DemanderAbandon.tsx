@@ -14,9 +14,9 @@ import {
   Label,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type DemanderAbandonProps = {
   request: Request
@@ -46,7 +46,7 @@ export const DemanderAbandon = PageLayout(
                   cahier des charges à appliquer"
                 className="mb-5"
               >
-                <InfoLienVersGuideUtilisation />
+                <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
                 cahiersChargesURLs={cahiersChargesURLs}

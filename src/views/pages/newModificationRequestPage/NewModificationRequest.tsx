@@ -14,11 +14,11 @@ import {
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
 import routes from '@routes'
-import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type NewModificationRequestProps = {
   request: Request
@@ -63,7 +63,7 @@ export const NewModificationRequest = PageLayout(
                   cahier des charges à appliquer"
                 className="mb-5"
               >
-                <InfoLienVersGuideUtilisation />
+                <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
                 cahiersChargesURLs={cahiersChargesURLs}

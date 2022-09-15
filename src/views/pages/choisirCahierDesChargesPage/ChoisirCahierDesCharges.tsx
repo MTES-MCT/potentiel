@@ -2,9 +2,9 @@ import React from 'react'
 import {
   PageLayout,
   UserDashboard,
-  ExternalLink,
   ChoisirCahierDesChargesFormulaire,
   InfoBox,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { Request } from 'express'
@@ -24,7 +24,7 @@ export const ChoisirCahierDesCharges = PageLayout(
           <h3 className="section--title">Cahier des charges</h3>
           <div className="flex flex-col max-w-2xl mx-auto">
             <InfoBox className="mb-5">
-              <InfoLienVersGuideUtilisation />
+              <InfoLienGuideUtilisationCDC />
             </InfoBox>
             <ChoisirCahierDesChargesFormulaire
               cahiersChargesURLs={cahiersChargesURLs}
@@ -35,16 +35,6 @@ export const ChoisirCahierDesCharges = PageLayout(
       </UserDashboard>
     )
   }
-)
-
-export const InfoLienVersGuideUtilisation = () => (
-  <span>
-    Pour plus d'informations sur les modalités d'instruction veuillez consulter cette&nbsp;
-    <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
-      page d'aide
-    </ExternalLink>
-    .
-  </span>
 )
 
 hydrateOnClient(ChoisirCahierDesCharges)

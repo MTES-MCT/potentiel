@@ -11,6 +11,7 @@ import {
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import routes from '@routes'
 import { Project } from '@entities'
@@ -21,7 +22,6 @@ import format from 'date-fns/format'
 
 import { dataId } from '../../../helpers/testId'
 import { hydrateOnClient } from '../../helpers'
-import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type DemanderDelaiProps = {
   request: Request
@@ -63,7 +63,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                   cahier des charges à appliquer"
               className="mb-5"
             >
-              <InfoLienVersGuideUtilisation />
+              <InfoLienGuideUtilisationCDC />
             </InfoBox>
             <ChoisirCahierDesChargesFormulaire
               cahiersChargesURLs={cahiersChargesURLs}

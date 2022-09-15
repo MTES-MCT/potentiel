@@ -14,13 +14,13 @@ import {
   Label,
   SecondaryLinkButton,
   InfoBox,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   CHAMPS_FOURNISSEURS,
   CORRESPONDANCE_CHAMPS_FOURNISSEURS_COLONNE_IMPORT,
 } from '@modules/project'
-import { InfoLienVersGuideUtilisation } from '../choisirCahierDesChargesPage'
 
 type ChangerFournisseurProps = {
   request: Request
@@ -50,7 +50,7 @@ export const ChangerFournisseur = PageLayout(
                   cahier des charges à appliquer"
                 className="mb-5"
               >
-                <InfoLienVersGuideUtilisation />
+                <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
                 cahiersChargesURLs={cahiersChargesURLs}
