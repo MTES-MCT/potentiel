@@ -60,8 +60,8 @@ v1Router.post(
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Votre changement de producteur a bien été enregistré. Vous n'avez plus accès au projet sur Potentiel.`,
-              redirectUrl: routes.PROJECT_DETAILS(projetId),
-              redirectTitle: 'Retourner à la page projet',
+              redirectUrl: routes.USER_LIST_PROJECTS,
+              redirectTitle: 'Retourner à la liste des mes projets',
             })
           )
         },
