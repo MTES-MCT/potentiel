@@ -45,7 +45,10 @@ const zni: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
-      reference: '2019/S 113-276264',
+      cahierDesCharges: {
+        reference: '2019/S 113-276264',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -72,7 +75,10 @@ const zni: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
-      reference: '2019/S 113-276264',
+      cahierDesCharges: {
+        reference: '2019/S 113-276264',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -98,7 +104,10 @@ const zni: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
-      reference: '2019/S 113-276264',
+      cahierDesCharges: {
+        reference: '2019/S 113-276264',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-sol-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -122,7 +131,10 @@ const zni: AppelOffre = {
       title: 'quatrième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
-      reference: '2019/S 113-276264',
+      cahierDesCharges: {
+        reference: '2019/S 113-276264',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThresholdBy: 'family',
       noteThreshold: [
@@ -148,7 +160,10 @@ const zni: AppelOffre = {
       title: 'cinquième',
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
-      reference: '2019/S 113-276264',
+      cahierDesCharges: {
+        reference: '2019/S 113-276264',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
+      },
       noteThresholdBy: 'family',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
       noteThreshold: [
@@ -217,56 +232,18 @@ const zni: AppelOffre = {
       soumisAuxGarantiesFinancieres: 'après candidature',
     },
   ],
-  cahiersDesChargesDisponibles: [
-    {
-      paruLe: 'avant le 30/07/2021',
-      référence: '2019/S 113-276264',
-      periodeInitiale: 1,
-      initial: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
-    },
-    {
-      paruLe: 'avant le 30/07/2021',
-      référence: '2019/S 113-276264',
-      periodeInitiale: 2,
-      initial: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
-    },
-    {
-      paruLe: 'avant le 30/07/2021',
-      référence: '2019/S 113-276264',
-      periodeInitiale: 3,
-      initial: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-sol-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
-    },
-    {
-      paruLe: 'avant le 30/07/2021',
-      référence: '2019/S 113-276264',
-      periodeInitiale: 4,
-      initial: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
-    },
-    {
-      paruLe: 'avant le 30/07/2021',
-      référence: '2019/S 113-276264',
-      periodeInitiale: 5,
-      initial: true,
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
-    },
+  cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/07/2021',
-      modifié: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-2',
     },
     {
       paruLe: '30/08/2022',
-      modifié: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
     },
     {
       paruLe: '30/08/2022',
       alternatif: true,
-      modifié: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-2-bis-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
     },
   ],

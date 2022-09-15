@@ -42,7 +42,10 @@ const solPPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
-      reference: '2021 S 211-553136',
+      cahierDesCharges: {
+        reference: '2021 S 211-553136',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -60,7 +63,10 @@ const solPPE2: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
-      reference: '2022/S 061-160516',
+      cahierDesCharges: {
+        reference: '2022/S 061-160516',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2022-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -76,20 +82,9 @@ const solPPE2: AppelOffre = {
     // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [],
-  cahiersDesChargesDisponibles: [
-    {
-      initial: true,
-      référence: '2021 S 211-553136',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
-    },
-    {
-      initial: true,
-      référence: '2022/S 061-160516',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2022-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
-    },
+  cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/08/2022',
-      modifié: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-sol-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
     },
   ],

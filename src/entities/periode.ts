@@ -54,7 +54,10 @@ export type Periode = {
   id: string
   title: string
   paragrapheAchevement: string
-  reference: string
+  cahierDesCharges: {
+    reference: string
+    url: string
+  }
   delaiDcrEnMois: {
     valeur: number
     texte: string

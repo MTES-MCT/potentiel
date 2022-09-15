@@ -42,7 +42,10 @@ const batimentPPE2: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
-      reference: '2021 S 176-457518',
+      cahierDesCharges: {
+        reference: '2021 S 176-457518',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -60,7 +63,10 @@ const batimentPPE2: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
-      reference: '2022 S 020-047803',
+      cahierDesCharges: {
+        reference: '2022 S 020-047803',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -78,7 +84,10 @@ const batimentPPE2: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v2',
-      reference: '2022 S 093-254888',
+      cahierDesCharges: {
+        reference: '2022 S 093-254888',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'category',
       noteThreshold: {
@@ -93,25 +102,9 @@ const batimentPPE2: AppelOffre = {
     },
   ],
   familles: [],
-  cahiersDesChargesDisponibles: [
-    {
-      initial: true,
-      référence: '2021 S 176-457518',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
-    },
-    {
-      initial: true,
-      référence: '2022 S 020-047803',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
-    },
-    {
-      initial: true,
-      référence: '2022 S 093-254888',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
-    },
+  cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/08/2022',
-      modifié: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-30-aout-2022',
     },
   ],
