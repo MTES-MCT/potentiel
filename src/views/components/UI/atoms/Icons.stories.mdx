@@ -2,17 +2,29 @@
 
 import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs/'
 
-import { FileDownloadIcon, ExcelFileIcon } from './icons'
+import * as icons from './icons'
 
-<Meta title="Iconography" />
+<Meta title="Components/Atoms/Iconography" />
 
 # Iconography
 
+Cette page liste les icônes à utiliser dans le projet Potentiel.
+_Exemple d'utilisation :_
+
+```js
+import { ExternalLinkIcon } from '@components'
+
+...
+
+<ExternalLinkIcon className="text-lg ml-1 -mb-1" />
+```
+
 <IconGallery>
-  <IconItem name="FileDownloadIcon">
-    <FileDownloadIcon />
-  </IconItem>
-  <IconItem name="ExcelFileIcon">
-    <ExcelFileIcon />
-  </IconItem>
+  {Object.entries(icons).map(([name, Icon]) => {
+    return (
+      <IconItem name={name}>
+        <Icon name={name} />
+      </IconItem>
+    )
+  })}
 </IconGallery>
