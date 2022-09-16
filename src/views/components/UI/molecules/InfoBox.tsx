@@ -12,7 +12,7 @@ export const InfoBox = ({ title, children, className = '', ...props }: InfoBoxPr
       <div className="pl-5 pr-8 py-4 border-solid border-1 border-info-425-base">
         {title && (
           <>
-            <span className="text-base font-semibold mb-2 inline-block">{title}</span>
+            <p className="m-0 text-base font-semibold mb-2 inline-block">{title}</p>
             <br />
           </>
         )}

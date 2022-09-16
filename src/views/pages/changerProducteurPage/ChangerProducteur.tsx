@@ -17,8 +17,8 @@ import {
   TextArea,
   AlertBox,
   InfoBox,
-  ExternalLink,
   ChoisirCahierDesChargesFormulaire,
+  InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
@@ -48,20 +48,13 @@ export const ChangerProducteur = PageLayout(
           </div>
 
           {doitChoisirCahierDesCharges ? (
-            <>
+            <div className="flex flex-col max-w-2xl mx-auto">
               <InfoBox
                 title="Afin d'accéder au formulaire de changement de producteur, vous devez d'abord changer le
                   cahier des charges à appliquer"
                 className="mb-5"
               >
-                <p className="m-0">
-                  Pour plus d'informations sur les modalités d'instruction veuillez consulter cette
-                  &nbsp;
-                  <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-faire-une-demande-de-modification-ou-informer-le-prefet-dun-changement">
-                    page d'aide
-                  </ExternalLink>
-                  .
-                </p>
+                <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
                 cahiersChargesURLs={cahiersChargesURLs}
@@ -69,7 +62,7 @@ export const ChangerProducteur = PageLayout(
                 redirectUrl={routes.CHANGER_PRODUCTEUR(project.id)}
                 type="producteur"
               />
-            </>
+            </div>
           ) : (
             <form
               action={routes.CHANGEMENT_PRODUCTEUR_ACTION}
