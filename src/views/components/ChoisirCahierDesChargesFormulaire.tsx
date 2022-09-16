@@ -14,17 +14,14 @@ type ChoisirCahierDesChargesFormulaireProps = {
 const getIdCahierDesCharges = (cdc: CahierDesChargesModifié) =>
   `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
 
-const estChoisi = (
-  cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel'],
-  cdc: CahierDesChargesModifié
-): boolean => cahierDesChargesActuel === getIdCahierDesCharges(cdc)
-
-const CahierDesChargesInitial = ({
-  cahierDesChargesActuel,
-  appelOffre,
-}: {
+type CahierDesChargesInitialProps = {
   cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
   appelOffre: ProjectAppelOffre
+}
+
+const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({
+  cahierDesChargesActuel,
+  appelOffre,
 }) => {
   return (
     <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
@@ -71,26 +68,31 @@ const CahierDesChargesInitial = ({
   )
 }
 
-const CahierDesChargesModifiéDisponible = ({
-  cdc,
-  cahierDesChargesActuel,
-  handleCDCChange,
-}: {
+type CahierDesChargesModifiéDisponibleProps = {
   cdc: CahierDesChargesModifié
   cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
-  handleCDCChange: React.ChangeEventHandler<HTMLInputElement>
+  onCahierDesChargesChoisi: (cahierDesChargesChoisi: string) => void
+}
+
+const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDisponibleProps> = ({
+  cdc,
+  cahierDesChargesActuel,
+  onCahierDesChargesChoisi,
 }) => {
+  const idCdc = getIdCahierDesCharges(cdc)
+  const coché = cahierDesChargesActuel === getIdCahierDesCharges(cdc)
+
   return (
     <div className={'border border-gray-400 border-solid rounded p-5 mb-5'}>
       <div className="inline-radio-option">
         <input
           type="radio"
           name="choixCDC"
-          value={getIdCahierDesCharges(cdc)}
+          value={idCdc}
           id="Nouvelles règles"
-          defaultChecked={estChoisi(cahierDesChargesActuel, cdc)}
-          disabled={estChoisi(cahierDesChargesActuel, cdc)}
-          onChange={handleCDCChange}
+          defaultChecked={coché}
+          disabled={coché}
+          onChange={() => onCahierDesChargesChoisi(idCdc)}
         />
 
         <label htmlFor="Nouvelles règles" className="flex-1">
@@ -125,10 +127,7 @@ export const ChoisirCahierDesChargesFormulaire = ({
   type,
 }: ChoisirCahierDesChargesFormulaireProps) => {
   const { id, appelOffre, cahierDesChargesActuel } = projet
-  const [displaySubmitButton, setDisplaySubmitButton] = useState(false)
-  const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setDisplaySubmitButton(true)
-  }
+  const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false)
 
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
@@ -144,18 +143,13 @@ export const ChoisirCahierDesChargesFormulaire = ({
             key: getIdCahierDesCharges(cdc),
             cdc,
             cahierDesChargesActuel,
-            handleCDCChange,
+            onCahierDesChargesChoisi: () => pouvoirEnregistrerLeChangement(true),
           }}
         />
       ))}
 
       <div className="flex items-center justify-center">
-        <Button
-          type="submit"
-          className="w-260"
-          style={{ display: 'block' }}
-          disabled={displaySubmitButton}
-        >
+        <Button type="submit" disabled={!peutEnregistrerLeChangement}>
           Enregistrer mon changement
         </Button>
         <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(id)}>
