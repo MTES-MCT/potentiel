@@ -3,32 +3,24 @@ import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
-import {
-  CahierDesChargesModifié,
-  DateParutionCahierDesChargesModifié,
-  ProjectAppelOffre,
-} from '@entities'
-
-type ChoixCDC = {
-  paruLe: DateParutionCahierDesChargesModifié & 'initial'
-  alternatif?: true
-}
+import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
 
 type ChoisirCahierDesChargesFormulaireProps = {
-  projet: Omit<ProjectDataForChoisirCDCPage, 'isClasse'>
-  cdcChoisi: ChoixCDC
+  projet: ProjectDataForChoisirCDCPage
   redirectUrl?: string
   type?: ModificationRequestType
 }
 
-const estChoisi = (cdcChoisi: ChoixCDC, cdc: CahierDesChargesModifié): boolean =>
-  cdcChoisi.paruLe === cdc.paruLe && cdcChoisi.alternatif === cdc.alternatif
+const estChoisi = (
+  cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel'],
+  cdc: CahierDesChargesModifié
+): boolean => cahierDesChargesActuel === `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
 
 const CahierDesChargesInitial = ({
-  cdcChoisi,
+  cahierDesChargesActuel,
   appelOffre,
 }: {
-  cdcChoisi: ChoixCDC
+  cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
   appelOffre: ProjectAppelOffre
 }) => {
   return (
@@ -40,7 +32,7 @@ const CahierDesChargesInitial = ({
           value="initial"
           id="Anciennes règles"
           disabled={true}
-          defaultChecked={cdcChoisi.paruLe === 'initial'}
+          defaultChecked={cahierDesChargesActuel === 'initial'}
         />
         <label htmlFor="Anciennes règles" className="flex-1">
           <span className="font-bold">
@@ -78,11 +70,11 @@ const CahierDesChargesInitial = ({
 
 const CahierDesChargesModifiéDisponible = ({
   cdc,
-  cdcChoisi,
+  cahierDesChargesActuel,
   handleCDCChange,
 }: {
   cdc: CahierDesChargesModifié
-  cdcChoisi: ChoixCDC
+  cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
   handleCDCChange: React.ChangeEventHandler<HTMLInputElement>
 }) => {
   return (
@@ -93,8 +85,8 @@ const CahierDesChargesModifiéDisponible = ({
           name="choixCDC"
           value={`${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`}
           id="Nouvelles règles"
-          defaultChecked={estChoisi(cdcChoisi, cdc)}
-          disabled={estChoisi(cdcChoisi, cdc)}
+          defaultChecked={estChoisi(cahierDesChargesActuel, cdc)}
+          disabled={estChoisi(cahierDesChargesActuel, cdc)}
           onChange={handleCDCChange}
         />
 
@@ -126,42 +118,36 @@ const CahierDesChargesModifiéDisponible = ({
 
 export const ChoisirCahierDesChargesFormulaire = ({
   projet,
-  cdcChoisi,
   redirectUrl,
   type,
 }: ChoisirCahierDesChargesFormulaireProps) => {
-  const { id, nouvellesRèglesDInstructionChoisies, appelOffre } = projet
-  const [displaySubmitButton, setDisplaySubmitButton] = useState(true)
+  const { id, appelOffre, cahierDesChargesActuel } = projet
+  const [displaySubmitButton, setDisplaySubmitButton] = useState(false)
   const handleCDCChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setDisplaySubmitButton(e.target.value === 'false')
+    setDisplaySubmitButton(true)
   }
+
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
       <input type="hidden" name="redirectUrl" value={redirectUrl || routes.PROJECT_DETAILS(id)} />
       <input type="hidden" name="projectId" value={id} />
       {type && <input type="hidden" name="type" value={type} />}
 
-      <CahierDesChargesInitial cdcChoisi={cdcChoisi} appelOffre={appelOffre} />
+      <CahierDesChargesInitial {...{ cahierDesChargesActuel, appelOffre }} />
 
       {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc) => (
-        <CahierDesChargesModifiéDisponible
-          cdc={cdc}
-          cdcChoisi={cdcChoisi}
-          handleCDCChange={handleCDCChange}
-        />
+        <CahierDesChargesModifiéDisponible {...{ cdc, cahierDesChargesActuel, handleCDCChange }} />
       ))}
 
       <div className="flex items-center justify-center">
-        {!nouvellesRèglesDInstructionChoisies && (
-          <Button
-            type="submit"
-            className="w-260"
-            style={{ display: 'block' }}
-            disabled={displaySubmitButton}
-          >
-            Enregistrer mon changement
-          </Button>
-        )}
+        <Button
+          type="submit"
+          className="w-260"
+          style={{ display: 'block' }}
+          disabled={displaySubmitButton}
+        >
+          Enregistrer mon changement
+        </Button>
         <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(id)}>
           Annuler
         </SecondaryLinkButton>
