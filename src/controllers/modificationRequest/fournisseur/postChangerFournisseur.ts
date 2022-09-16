@@ -1,5 +1,5 @@
-import { ensureRole, requestFournisseurModification, choisirNouveauCahierDesCharges } from '@config'
-import { logger, ok, okAsync } from '@core/utils'
+import { ensureRole, requestFournisseurModification } from '@config'
+import { logger } from '@core/utils'
 import {
   CHAMPS_FOURNISSEURS,
   Fournisseur,
@@ -30,8 +30,9 @@ const schema = yup.object({
       justification: yup.string().optional(),
       newRulesOptIn: yup.boolean().optional(),
       ...CHAMPS_FOURNISSEURS.reduce((acc, champ) => {
+        const champEchappé = champ.replace('\n', '\\n')
         return {
-          [champ]: yup
+          [champEchappé]: yup
             .string()
             .typeError(`Les champs fournisseurs doivent comporter du texte.`)
             .optional(),
@@ -44,7 +45,8 @@ const schema = yup.object({
       `Vous devez modifier au moins l'un des fournisseurs.`,
       (fields) =>
         CHAMPS_FOURNISSEURS.reduce((nombreDeFournisseursChangés, champ) => {
-          return fields[champ] !== ''
+          const champEchappé = champ.replace('\n', '\\n')
+          return fields[champEchappé] !== ''
             ? nombreDeFournisseursChangés + 1
             : nombreDeFournisseursChangés
         }, 0) > 0
@@ -67,73 +69,61 @@ v1Router.post(
     },
     async (request, response) => {
       const { user } = request
-      const { newRulesOptIn, projectId, newEvaluationCarbone, justification } = request.body
+      const { projectId, newEvaluationCarbone, justification } = request.body
       const file = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
       }
 
-      return ok(null)
-        .asyncAndThen(() => {
-          if (newRulesOptIn) {
-            return choisirNouveauCahierDesCharges({
-              utilisateur: user,
-              projetId: projectId,
+      const newFournisseurs = getFournisseurs(request.body)
+
+      return requestFournisseurModification({
+        projectId: new UniqueEntityID(projectId),
+        requestedBy: user,
+        newFournisseurs,
+        newEvaluationCarbone,
+        justification,
+        file,
+      }).match(
+        () =>
+          response.redirect(
+            routes.SUCCESS_OR_ERROR_PAGE({
+              success: 'Vos changements ont bien été enregistrés.',
+              redirectUrl: routes.PROJECT_DETAILS(projectId),
+              redirectTitle: 'Retourner à la page projet',
             })
+          ),
+        (error) => {
+          if (error instanceof UnauthorizedError) {
+            return unauthorizedResponse({ request, response })
           }
-          return okAsync(null)
-        })
-        .andThen(() =>
-          requestFournisseurModification({
-            projectId: new UniqueEntityID(projectId),
-            requestedBy: user,
-            newFournisseurs: getFournisseurs(request.body),
-            newEvaluationCarbone,
-            justification,
-            file,
-          })
-        )
-        .match(
-          () =>
-            response.redirect(
-              routes.SUCCESS_OR_ERROR_PAGE({
-                success: 'Vos changements ont bien été enregistrés.',
-                redirectUrl: routes.PROJECT_DETAILS(projectId),
-                redirectTitle: 'Retourner à la page projet',
-              })
-            ),
-          (error) => {
-            if (error instanceof UnauthorizedError) {
-              return unauthorizedResponse({ request, response })
-            }
-            if (
-              error instanceof
-              (NouveauCahierDesChargesDéjàSouscrit || PasDeChangementDeCDCPourCetAOError)
-            ) {
-              return errorResponse({
-                request,
-                response,
-                customMessage: error.message,
-              })
-            }
-            logger.error(error)
+          if (
+            error instanceof
+            (NouveauCahierDesChargesDéjàSouscrit || PasDeChangementDeCDCPourCetAOError)
+          ) {
             return errorResponse({
               request,
               response,
-              customMessage:
-                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+              customMessage: error.message,
             })
           }
-        )
+          logger.error(error)
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          })
+        }
+      )
     }
   )
 )
 
 const getFournisseurs = (validatedBody: yup.InferType<typeof schema>['body']): Fournisseur[] =>
-  Object.entries(validatedBody).reduce(
-    (fournisseurs, [key, value]) =>
-      typeof value === 'string' && value !== '' && isFournisseurKind(key)
-        ? [...fournisseurs, { kind: key, name: value }]
-        : fournisseurs,
-    []
-  )
+  Object.entries(validatedBody).reduce((fournisseurs, [key, value]) => {
+    const originalKey = key.replace('\\n', '\n')
+    return typeof value === 'string' && value !== '' && isFournisseurKind(originalKey)
+      ? [...fournisseurs, { kind: originalKey, name: value }]
+      : fournisseurs
+  }, [])
