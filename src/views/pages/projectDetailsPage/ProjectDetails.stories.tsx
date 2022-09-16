@@ -214,7 +214,6 @@ export const forPorteurProjet = () => (
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
     projectEventList={projectEventList}
-    cahiersChargesURLs={{ oldCahierChargesURL: 'string', newCahierChargesURL: 'string' }}
     now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),

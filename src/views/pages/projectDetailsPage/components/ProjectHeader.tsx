@@ -37,8 +37,3 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
     </div>
   </div>
 )
-
-type CDCInfoProps = {
-  project: ProjectDataForProjectPage
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
-}
