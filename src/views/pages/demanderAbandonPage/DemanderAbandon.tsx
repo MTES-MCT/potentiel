@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '@entities'
+import { Project, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -21,11 +21,11 @@ import { hydrateOnClient } from '../../helpers'
 type DemanderAbandonProps = {
   request: Request
   project: Project
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  appelOffre: ProjectAppelOffre
 }
 
 export const DemanderAbandon = PageLayout(
-  ({ request, project, cahiersChargesURLs }: DemanderAbandonProps) => {
+  ({ request, project, appelOffre }: DemanderAbandonProps) => {
     const { error, success, justification } = (request.query as any) || {}
 
     const doitChoisirCahierDesCharges =
@@ -49,10 +49,15 @@ export const DemanderAbandon = PageLayout(
                 <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
-                cahiersChargesURLs={cahiersChargesURLs}
-                projet={project}
-                redirectUrl={routes.DEMANDER_ABANDON(project.id)}
-                type="abandon"
+                {...{
+                  projet: {
+                    id: project.id,
+                    appelOffre,
+                    cahierDesChargesActuel: 'initial',
+                  },
+                  redirectUrl: routes.DEMANDER_ABANDON(project.id),
+                  type: 'abandon',
+                }}
               />
             </div>
           ) : (

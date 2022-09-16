@@ -14,7 +14,7 @@ import {
   InfoLienGuideUtilisationCDC,
 } from '@components'
 import routes from '@routes'
-import { Project } from '@entities'
+import { Project, ProjectAppelOffre } from '@entities'
 
 import { Request } from 'express'
 import React from 'react'
@@ -26,7 +26,7 @@ import { hydrateOnClient } from '../../helpers'
 type DemanderDelaiProps = {
   request: Request
   project: Project
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  appelOffre: ProjectAppelOffre
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
@@ -34,7 +34,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   const {
     request: { query },
     project,
-    cahiersChargesURLs,
+    appelOffre,
   } = props
 
   const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
@@ -66,10 +66,15 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
               <InfoLienGuideUtilisationCDC />
             </InfoBox>
             <ChoisirCahierDesChargesFormulaire
-              cahiersChargesURLs={cahiersChargesURLs}
-              projet={project}
-              redirectUrl={routes.DEMANDER_DELAI(project.id)}
-              type="delai"
+              {...{
+                projet: {
+                  id: project.id,
+                  appelOffre,
+                  cahierDesChargesActuel: 'initial',
+                },
+                redirectUrl: routes.DEMANDER_DELAI(project.id),
+                type: 'delai',
+              }}
             />
           </div>
         ) : (

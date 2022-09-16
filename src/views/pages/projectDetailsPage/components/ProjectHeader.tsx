@@ -7,10 +7,9 @@ import { ProjectActions } from './ProjectActions'
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage
   user: User
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
 }
 
-export const ProjectHeader = ({ project, user, cahiersChargesURLs }: ProjectHeaderProps) => (
+export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 mb-3">
       <div className="flex justify-start items-center">
