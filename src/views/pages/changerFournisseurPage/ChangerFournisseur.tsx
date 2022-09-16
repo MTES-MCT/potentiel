@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '@entities'
+import { Project, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -25,11 +25,11 @@ import {
 type ChangerFournisseurProps = {
   request: Request
   project: Project
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  appelOffre: ProjectAppelOffre
 }
 
 export const ChangerFournisseur = PageLayout(
-  ({ request, project, cahiersChargesURLs }: ChangerFournisseurProps) => {
+  ({ request, project, appelOffre }: ChangerFournisseurProps) => {
     const { error, success, justification } = (request.query as any) || {}
 
     const doitChoisirCahierDesCharges =
@@ -53,10 +53,15 @@ export const ChangerFournisseur = PageLayout(
                 <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
-                cahiersChargesURLs={cahiersChargesURLs}
-                projet={project}
-                redirectUrl={routes.CHANGER_FOURNISSEUR(project.id)}
-                type="fournisseur"
+                {...{
+                  projet: {
+                    id: project.id,
+                    appelOffre,
+                    cahierDesChargesActuel: 'initial',
+                  },
+                  redirectUrl: routes.CHANGER_FOURNISSEUR(project.id),
+                  type: 'fournisseur',
+                }}
               />
             </div>
           ) : (
