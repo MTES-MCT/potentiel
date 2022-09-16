@@ -11,10 +11,13 @@ type ChoisirCahierDesChargesFormulaireProps = {
   type?: ModificationRequestType
 }
 
+const getIdCahierDesCharges = (cdc: CahierDesChargesModifié) =>
+  `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
+
 const estChoisi = (
   cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel'],
   cdc: CahierDesChargesModifié
-): boolean => cahierDesChargesActuel === `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
+): boolean => cahierDesChargesActuel === getIdCahierDesCharges(cdc)
 
 const CahierDesChargesInitial = ({
   cahierDesChargesActuel,
@@ -83,7 +86,7 @@ const CahierDesChargesModifiéDisponible = ({
         <input
           type="radio"
           name="choixCDC"
-          value={`${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`}
+          value={getIdCahierDesCharges(cdc)}
           id="Nouvelles règles"
           defaultChecked={estChoisi(cahierDesChargesActuel, cdc)}
           disabled={estChoisi(cahierDesChargesActuel, cdc)}
@@ -136,7 +139,14 @@ export const ChoisirCahierDesChargesFormulaire = ({
       <CahierDesChargesInitial {...{ cahierDesChargesActuel, appelOffre }} />
 
       {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc) => (
-        <CahierDesChargesModifiéDisponible {...{ cdc, cahierDesChargesActuel, handleCDCChange }} />
+        <CahierDesChargesModifiéDisponible
+          {...{
+            key: getIdCahierDesCharges(cdc),
+            cdc,
+            cahierDesChargesActuel,
+            handleCDCChange,
+          }}
+        />
       ))}
 
       <div className="flex items-center justify-center">
