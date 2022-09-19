@@ -2,11 +2,6 @@
   "extends": "./tsconfig.json",
   "exclude": [
     "node_modules",
-    "features",
-    "**/*.spec.ts",
-    "**/*.integration.ts",
-    "**/*.stories.tsx",
-    "**/__tests__/**/*",
     "scripts"
   ]
 }
