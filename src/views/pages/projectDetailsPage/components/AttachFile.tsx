@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { PaperClipIcon } from '@heroicons/react/outline'
 import ROUTES from '@routes'
-import { DateInput, Button, SecondaryButton } from '@components'
+import {
+  Button,
+  SecondaryButton,
+  Input,
+  TextArea,
+  FormulaireChampsObligatoireLégende,
+  Astérisque,
+} from '@components'
 
-interface AttachFileProps {
+type AttachFileProps = {
   projectId: string
 }
 export const AttachFile = ({ projectId }: AttachFileProps) => {
@@ -28,21 +35,31 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           encType="multipart/form-data"
           className="mt-2 border border-solid border-gray-300 rounded-md p-5"
         >
+          <FormulaireChampsObligatoireLégende className="text-right" />
           <input type="hidden" name="projectId" value={projectId} />
           <div>
-            <label htmlFor="date">Date d'effet (format JJ/MM/AAAA)</label>
-            <DateInput onError={(isError) => {}} initialValue={new Date()} />
+            <label htmlFor="date">
+              Date d'effet
+              <Astérisque />
+            </label>
+            <Input type="date" required id="date" name="date" />
           </div>
           <div className="mt-2">
-            <label htmlFor="title">Titre</label>
-            <input type="text" name="title" id="title" required />
+            <label htmlFor="title">
+              Titre
+              <Astérisque />
+            </label>
+            <Input type="text" name="title" id="title" required />
           </div>
           <div className="mt-2">
-            <label htmlFor="description">Description (optionnelle)</label>
-            <textarea name="description" id="description" />
+            <label htmlFor="description">Description</label>
+            <TextArea name="description" id="description" />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">Fichier(s) à attacher</label>
+            <label htmlFor="file">
+              Fichier(s) à attacher
+              <Astérisque />
+            </label>
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
               <input key={`file_${i}`} type="file" name="file" id="file" />
             ))}
