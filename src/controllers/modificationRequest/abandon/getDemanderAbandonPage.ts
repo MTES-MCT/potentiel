@@ -1,12 +1,9 @@
-import { ensureRole } from '@config'
-import { getCahiersChargesURLs } from '@config/queries.config'
-import { shouldUserAccessProject } from '@config/useCases.config'
+import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '@config'
 import { projectRepo } from '@dataAccess'
 
-import { logger } from '@core/utils'
 import routes from '@routes'
 import { validateUniqueId } from '../../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
+import { notFoundResponse, unauthorizedResponse } from '../../helpers'
 import asyncHandler from '../../helpers/asyncHandler'
 import { v1Router } from '../../v1Router'
 
@@ -43,22 +40,19 @@ v1Router.get(
         customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
       })
     }
-    const { appelOffreId, periodeId } = project
 
-    return getCahiersChargesURLs(appelOffreId, periodeId).match(
-      (cahiersChargesURLs) => {
-        return response.send(
-          DemanderAbandonPage({
-            request,
-            project,
-            cahiersChargesURLs,
-          })
-        )
-      },
-      (error) => {
-        logger.error(error)
-        return errorResponse({ request, response })
-      }
+    const { appelOffreId, periodeId, familleId } = project
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    if (!appelOffre) {
+      return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
+    }
+
+    return response.send(
+      DemanderAbandonPage({
+        request,
+        project,
+        appelOffre,
+      })
     )
   })
 )

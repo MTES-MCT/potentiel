@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '@entities'
+import { Project, ProjectAppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
@@ -23,11 +23,11 @@ import routes from '@routes'
 type NewModificationRequestProps = {
   request: Request
   project: Project
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  appelOffre: ProjectAppelOffre
 }
 
 export const NewModificationRequest = PageLayout(
-  ({ request, project, cahiersChargesURLs }: NewModificationRequestProps) => {
+  ({ request, project, appelOffre }: NewModificationRequestProps) => {
     const { action, error, success, puissance, actionnaire, justification } =
       (request.query as any) || {}
 
@@ -66,10 +66,15 @@ export const NewModificationRequest = PageLayout(
                 <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
-                cahiersChargesURLs={cahiersChargesURLs}
-                projet={project}
-                redirectUrl={redirectionRoute(action)}
-                type={action}
+                {...{
+                  projet: {
+                    id: project.id,
+                    appelOffre,
+                    cahierDesChargesActuel: 'initial',
+                  },
+                  redirectUrl: redirectionRoute(action),
+                  type: action,
+                }}
               />
             </div>
           ) : (

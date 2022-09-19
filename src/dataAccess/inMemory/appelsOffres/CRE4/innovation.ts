@@ -42,7 +42,10 @@ const innovation: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.3',
       type: 'legacy',
-      reference: '2017/S 051-094731',
+      cahierDesCharges: {
+        reference: '2017/S 051-094731',
+        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-5-septembre-2017',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -55,7 +58,10 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 45.49 },
       ],
       certificateTemplate: 'cre4.v0',
-      reference: '2017/S 051-094731',
+      cahierDesCharges: {
+        reference: '2017/S 051-094731',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-fevrier-2019',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -68,7 +74,10 @@ const innovation: AppelOffre = {
         { familleId: '2', noteThreshold: 59.32 },
       ],
       certificateTemplate: 'cre4.v1',
-      reference: '2017/S 051-094731',
+      cahierDesCharges: {
+        reference: '2017/S 051-094731',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-31-mars-2020',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
@@ -105,6 +114,16 @@ const innovation: AppelOffre = {
       title: '2. 100 kWc - 3MWc',
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
+  ],
+  cahiersDesChargesModifiésDisponibles: [
+    {
+      paruLe: '30/07/2021',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-innovation',
+    },
+    // {
+    //   paruLe: '30/08/2022',
+    //   url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    // },
   ],
 }
 

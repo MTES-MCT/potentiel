@@ -1,4 +1,4 @@
-import { ensureRole, getCahiersChargesURLs, getProjectEvents } from '@config'
+import { ensureRole, getProjectEvents } from '@config'
 import { getProjectDataForProjectPage } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { EntityNotFoundError } from '@modules/shared'
@@ -40,28 +40,18 @@ v1Router.get(
       }
 
       await getProjectDataForProjectPage({ projectId, user })
-        .andThen((project) => {
-          const { appelOffreId, periodeId } = project
-
-          return getCahiersChargesURLs(appelOffreId, periodeId).map((cahiersChargesURLs) => ({
-            cahiersChargesURLs,
-            project,
-          }))
-        })
-        .andThen(({ cahiersChargesURLs, project }) =>
+        .andThen((project) =>
           getProjectEvents({ projectId, user }).map((projectEventList) => ({
-            cahiersChargesURLs,
             project,
             projectEventList,
           }))
         )
         .match(
-          ({ cahiersChargesURLs, project, projectEventList }) => {
+          ({ project, projectEventList }) => {
             return response.send(
               ProjectDetailsPage({
                 request,
                 project,
-                cahiersChargesURLs,
                 projectEventList,
                 now: new Date().getTime(),
               })

@@ -197,7 +197,6 @@ const MONTHS = 1000 * 3600 * 24 * 30
 export const forPorteurProjet = () => (
   <ProjectDetails
     projectEventList={projectEventList}
-    cahiersChargesURLs={{ oldCahierChargesURL: 'string', newCahierChargesURL: 'string' }}
     now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),
@@ -215,7 +214,6 @@ export const forPorteurProjet = () => (
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
     projectEventList={projectEventList}
-    cahiersChargesURLs={{ oldCahierChargesURL: 'string', newCahierChargesURL: 'string' }}
     now={new Date().getTime()}
     request={makeFakeRequest({
       user: makeFakeUser({ role: 'porteur-projet' }),

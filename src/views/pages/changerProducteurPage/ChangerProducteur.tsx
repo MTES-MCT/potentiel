@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project } from '@entities'
+import { Project, ProjectAppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
@@ -26,14 +26,13 @@ import routes from '@routes'
 type ChangerProducteurProps = {
   request: Request
   project: Project
-  cahiersChargesURLs?: { oldCahierChargesURL?: string; newCahierChargesURL?: string }
+  appelOffre: ProjectAppelOffre
 }
 
 export const ChangerProducteur = PageLayout(
-  ({ request, project, cahiersChargesURLs }: ChangerProducteurProps) => {
+  ({ request, project, appelOffre }: ChangerProducteurProps) => {
     const { error, success, justification } = (request.query as any) || {}
 
-    const { appelOffre } = project
     const isEolien = appelOffre?.type === 'eolien'
 
     const doitChoisirCahierDesCharges =
@@ -57,10 +56,15 @@ export const ChangerProducteur = PageLayout(
                 <InfoLienGuideUtilisationCDC />
               </InfoBox>
               <ChoisirCahierDesChargesFormulaire
-                cahiersChargesURLs={cahiersChargesURLs}
-                projet={project}
-                redirectUrl={routes.CHANGER_PRODUCTEUR(project.id)}
-                type="producteur"
+                {...{
+                  projet: {
+                    id: project.id,
+                    appelOffre,
+                    cahierDesChargesActuel: 'initial',
+                  },
+                  redirectUrl: routes.CHANGER_PRODUCTEUR(project.id),
+                  type: 'producteur',
+                }}
               />
             </div>
           ) : (

@@ -2,25 +2,26 @@ import { err, ok, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
-import { GetProjectDataForChoisirCDCPage } from '@modules/project'
+import { GetProjectDataForChoisirCDCPage, ProjectDataForChoisirCDCPage } from '@modules/project'
 
 const { Project } = models
+
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) => {
   return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {
     if (!projectRaw) return err(new EntityNotFoundError())
 
-    const { id, appelOffreId, periodeId, familleId, classe, nouvellesRèglesDInstructionChoisies } =
+    const { id, appelOffreId, periodeId, familleId, nouvellesRèglesDInstructionChoisies } =
       projectRaw.get()
 
-    const result = {
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    if (!appelOffre) return err(new EntityNotFoundError())
+
+    const pageProps: ProjectDataForChoisirCDCPage = {
       id,
-      appelOffreId,
-      periodeId,
-      familleId,
-      appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),
-      nouvellesRèglesDInstructionChoisies,
-      isClasse: classe === 'Classé',
+      appelOffre,
+      cahierDesChargesActuel: nouvellesRèglesDInstructionChoisies ? '30/07/2021' : 'initial',
     }
-    return ok(result)
+
+    return ok(pageProps)
   })
 }

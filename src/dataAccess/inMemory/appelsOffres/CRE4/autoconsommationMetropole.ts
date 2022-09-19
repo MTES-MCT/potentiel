@@ -43,7 +43,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'première',
       paragrapheAchevement: '6.4',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/autoconso-metropole-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -51,7 +54,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'deuxième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -59,7 +65,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'troisième',
       paragrapheAchevement: '6.4',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-24-avril-2018',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -67,7 +76,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'quatrième',
       paragrapheAchevement: '6.3',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-4eme-periode',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -75,7 +87,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'cinquième',
       paragrapheAchevement: '6.3',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-22-novembre-20182',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -83,7 +98,10 @@ const autoconsommationMetropole: AppelOffre = {
       title: 'sixième',
       paragrapheAchevement: '6.3',
       type: 'legacy',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Autoconso-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -92,7 +110,10 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 20.04,
       certificateTemplate: 'cre4.v0',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/autoconsommation-02-01-2020-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -101,7 +122,10 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 32.04,
       certificateTemplate: 'cre4.v1',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -110,7 +134,10 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 9.9,
       certificateTemplate: 'cre4.v1',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-autoconso-metro-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-juin-2020',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
     {
@@ -119,11 +146,20 @@ const autoconsommationMetropole: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 44.9,
       certificateTemplate: 'cre4.v1',
-      reference: '2017/S 054-100223',
+      cahierDesCharges: {
+        reference: '2017/S 054-100223',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-avril-2021',
+      },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
   ],
   familles: [],
+  cahiersDesChargesModifiésDisponibles: [
+    {
+      paruLe: '30/07/2021',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
+    },
+  ],
 }
 
 export { autoconsommationMetropole }

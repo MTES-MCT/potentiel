@@ -42,7 +42,10 @@ const innovationPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
-      reference: '2021 S 203-530267',
+      cahierDesCharges: {
+        reference: '2021 S 203-530267',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-octobre-2021',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
     // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
@@ -60,6 +63,12 @@ const innovationPPE2: AppelOffre = {
         'Installations photovoltaïques innovantes sur Bâtiments, Serres agricoles Hangars, Ombrières, ou Installations agrivoltaïques innovantes de Puissance strictement supérieure à 100 kWc et inférieure ou égale à 3 MWc',
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
+  ],
+  cahiersDesChargesModifiésDisponibles: [
+    // {
+    //   paruLe: '30/08/2022',
+    //   url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-inno-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    // },
   ],
 }
 

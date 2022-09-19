@@ -1,3 +1,4 @@
+import { CahierDesCharges } from '@entities/cahierDesCharges'
 import { Territoire } from './territoire'
 
 type NoteThresholdByFamily = {
@@ -54,7 +55,7 @@ export type Periode = {
   id: string
   title: string
   paragrapheAchevement: string
-  reference: string
+  cahierDesCharges: CahierDesCharges
   delaiDcrEnMois: {
     valeur: number
     texte: string

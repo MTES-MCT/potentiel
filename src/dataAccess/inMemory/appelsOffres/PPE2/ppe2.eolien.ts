@@ -43,7 +43,10 @@ const eolienPPE2: AppelOffre = {
       certificateTemplate: 'ppe2.v1',
       paragrapheAchevement: '6.3',
       noteThreshold: 0.68,
-      reference: '2021/S 146-386083',
+      cahierDesCharges: {
+        reference: '2021/S 146-386083',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
     },
@@ -53,11 +56,20 @@ const eolienPPE2: AppelOffre = {
       certificateTemplate: 'ppe2.v2',
       paragrapheAchevement: '6.3',
       noteThreshold: 0.692142857142864,
-      reference: '2022/S 035-088651',
+      cahierDesCharges: {
+        reference: '2022/S 035-088651',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
+      },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
   ],
   familles: [],
+  cahiersDesChargesModifiésDisponibles: [
+    // {
+    //   paruLe: '30/08/2022',
+    //   url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+    // },
+  ],
 }
 
 export { eolienPPE2 }

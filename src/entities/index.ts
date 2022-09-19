@@ -17,4 +17,5 @@ export * from './modificationRequest'
 export * from './periode'
 export * from './project'
 export * from './user'
+export * from './cahierDesCharges'
 export { makeUser, makeProject, makeModificationRequest, applyProjectUpdate }
