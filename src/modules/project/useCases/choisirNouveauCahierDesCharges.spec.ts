@@ -27,7 +27,10 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       id: 'appelOffreId',
       periodes: [{ id: 'periodeId', type: 'notified' }],
       familles: [{ id: 'familleId' }],
-      choisirNouveauCahierDesCharges: true,
+      cahiersDesChargesModifiésDisponibles: [
+        { paruLe: '30/07/2021', url: 'url' },
+        { paruLe: '30/08/2022', url: 'url' },
+      ] as ReadonlyArray<CahierDesChargesModifié>,
     } as AppelOffre)
 
   beforeEach(() => {
@@ -124,6 +127,44 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(PasDeChangementDeCDCPourCetAOError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Impossible de souscrire à un nouveau CDC si celui-ci n'existe pas dans les CDC modifiés disponible de l'AO`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur un projet
+        Et l'AO avec un CDC modifié paru le 30/08/2022
+        Lorsqu'il souscrit au CDC paru le 30/07/2021
+        Alors l'utilisateur devrait être alerté que le CDC choisi n'est pas disponible pour l'AO`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+        ({
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', type: 'notified' }],
+          familles: [{ id: 'familleId' }],
+          choisirNouveauCahierDesCharges: true,
+          cahiersDesChargesModifiésDisponibles: [
+            { paruLe: '30/08/2022', url: 'url' },
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as AppelOffre)
+
+      const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        findAppelOffreById,
+      })
+
+      const res = await choisirNouveauCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesNonDisponibleError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
