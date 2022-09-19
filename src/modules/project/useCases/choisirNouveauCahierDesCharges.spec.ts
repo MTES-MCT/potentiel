@@ -34,7 +34,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
 
   describe(`Changement impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
     it(`Etant donné un utlisateur n'ayant pas les droits sur un projet
-        Lorsqu'il souscrit au nouveau CDC
+        Lorsqu'il souscrit à un nouveau CDC
         Alors une erreur UnauthorizedError devrait être retournée`, async () => {
       const shouldUserAccessProject = jest.fn(async () => false)
 
@@ -48,6 +48,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const res = await choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -87,10 +90,11 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
     })
   })
 
-  describe(`Impossible de souscrire au nouveau CDC si l'AO n'est pas concerné`, () => {
-    it(`Etant donné un utlisateur ayant les droits sur un projet
-        Lorsqu'il souscrit au nouveau CDC pour un AO non concerné par ce choix
-        Alors une erreur PasDeChangementDeCDCPourCetAOError devrait être retournée`, async () => {
+  describe(`Impossible de souscrire à un nouveau CDC si l'AO n'a pas de CDC modifiés disponible`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur un projet
+        Et l'AO sans CDC modifié disponible
+        Lorsqu'il souscrit à un nouveau CDC
+        Alors l'utilisateur devrait être alerté que l'AO ne dispose pas de CDC modifiés disponible`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
 
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
@@ -98,6 +102,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           id: 'appelOffreId',
           periodes: [{ id: 'periodeId', type: 'notified' }],
           familles: [{ id: 'familleId' }],
+          cahiersDesChargesModifiésDisponibles: [],
         } as AppelOffre)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
@@ -110,6 +115,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const res = await choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(PasDeChangementDeCDCPourCetAOError)
@@ -133,6 +141,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const res = await choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
       })
 
       expect(res.isOk()).toBe(true)

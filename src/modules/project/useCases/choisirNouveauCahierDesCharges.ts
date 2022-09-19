@@ -8,9 +8,10 @@ import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDe
 import { AppelOffreRepo } from '@dataAccess'
 import { PasDeChangementDeCDCPourCetAOError } from '../errors'
 
-type ChoisirNouveauCahierDesCharge = (commande: {
+type ChoisirNouveauCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
+  cahierDesCharges: { paruLe: '30/07/2021' }
 }) => ResultAsync<
   null,
   | UnauthorizedError
@@ -24,19 +25,20 @@ type MakeChoisirNouveauCahierDesCharges = (dépendances: {
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
   findAppelOffreById: AppelOffreRepo['findById']
-}) => ChoisirNouveauCahierDesCharge
+}) => ChoisirNouveauCahierDesCharges
 
 export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesCharges =
   ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
-  ({ projetId, utilisateur }) => {
+  ({ projetId, utilisateur, cahierDesCharges: { paruLe } }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
         return projectRepo.load(new UniqueEntityID(projetId))
       })
       .andThen((project) => {
-        if (project.nouvellesRèglesDInstructionChoisies)
+        if (project.cahierDesCharges.paruLe === paruLe) {
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
+        }
         return wrapInfra(findAppelOffreById(project.appelOffreId))
       })
       .andThen((appelOffre) => {
