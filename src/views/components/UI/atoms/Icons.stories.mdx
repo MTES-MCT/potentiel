@@ -1,0 +1,30 @@
+<!-- Iconography.stories.mdx -->
+
+import { Meta, Title, IconGallery, IconItem } from '@storybook/addon-docs/'
+
+import * as icons from './icons'
+
+<Meta title="Components/Atoms/Iconography" />
+
+# Iconography
+
+Cette page liste les icônes à utiliser dans le projet Potentiel.
+_Exemple d'utilisation :_
+
+```js
+import { ExternalLinkIcon } from '@components'
+
+...
+
+<ExternalLinkIcon className="text-lg ml-1 -mb-1" />
+```
+
+<IconGallery>
+  {Object.entries(icons).map(([name, Icon]) => {
+    return (
+      <IconItem name={name}>
+        <Icon name={name} />
+      </IconItem>
+    )
+  })}
+</IconGallery>
