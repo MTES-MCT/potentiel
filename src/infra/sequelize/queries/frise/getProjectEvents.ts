@@ -547,6 +547,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
+              case 'NouveauCahierDesChargesChoisi':
+                if (userIsNot('ademe')(user)) {
+                  events.push({
+                    type,
+                    variant: user.role,
+                    date: valueDate,
+                    paruLe: payload.paruLe,
+                  })
+                }
             }
 
             return Promise.resolve(events)

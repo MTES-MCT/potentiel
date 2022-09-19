@@ -41,6 +41,7 @@ export type ProjectEventDTO =
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | DemandeAbandonDTO
+  | NouveauCahierDesChargesChoisiDTO
 
 type File = {
   id: string
@@ -393,6 +394,13 @@ export type DemandeAbandonDTO = {
   statut: DemandeAbandonEventStatus
   demandeUrl?: string
   actionRequise?: 'à traiter'
+}
+
+export type NouveauCahierDesChargesChoisiDTO = {
+  type: 'NouveauCahierDesChargesChoisi'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+  paruLe: string
 }
 
 export type ProjectEventListDTO = {

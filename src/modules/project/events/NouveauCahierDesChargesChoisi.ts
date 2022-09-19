@@ -1,6 +1,6 @@
 import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain'
 
-type NouveauCahierDesChargesChoisiPayload = {
+export type NouveauCahierDesChargesChoisiPayload = {
   projetId: string
   choisiPar: string
   paruLe: '30/07/2021'
