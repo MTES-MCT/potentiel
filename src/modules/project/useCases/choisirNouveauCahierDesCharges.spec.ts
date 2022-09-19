@@ -55,10 +55,11 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
     })
   })
 
-  describe(`Impossible de souscrire deux fois au CDC`, () => {
-    it(`Etant donné un utlisateur ayant les droits sur un projet
-        Lorsqu'il souscrit une seconde fois au nouveau CDC
-        Alors une erreur NouveauCahierDesChargesDéjàSouscrit devrait être retournée`, async () => {
+  describe(`Impossible de souscrire deux fois au même CDC`, () => {
+    it(`Etant donné un utlisateur ayant les droits sur le projet
+        Et le cahier des charges du 30/07/2021 choisi pour le projet
+        Lorsqu'il souscrit une seconde fois au même CDC (paru le 30/07/2021)
+        Alors l'utilisateur devrait être alerté qu'il est impossible de souscrire 2 fois au même CDC`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
@@ -66,7 +67,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo: fakeRepo({
           ...makeFakeProject(),
-          nouvellesRèglesDInstructionChoisies: true,
+          cahierDesCharges: {
+            paruLe: '30/07/2021',
+          },
         } as Project),
         findAppelOffreById,
       })
@@ -74,6 +77,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const res = await choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(NouveauCahierDesChargesDéjàSouscrit)
