@@ -68,7 +68,7 @@ v1Router.post(
           createdBy: new UniqueEntityID(request.user.id),
           filename: file.originalname,
           contents: createReadStream(file.path),
-        }).andThen((file): any => {
+        }).asyncAndThen((file) => {
           uploadedFiles.push({ id: file.id.toString(), name: file.filename })
           return fileRepo.save(file)
         })
