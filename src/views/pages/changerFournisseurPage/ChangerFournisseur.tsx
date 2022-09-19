@@ -17,10 +17,7 @@ import {
   InfoLienGuideUtilisationCDC,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import {
-  CHAMPS_FOURNISSEURS,
-  CORRESPONDANCE_CHAMPS_FOURNISSEURS_COLONNE_IMPORT,
-} from '@modules/project'
+import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
 
 type ChangerFournisseurProps = {
   request: Request
@@ -73,22 +70,16 @@ export const ChangerFournisseur = PageLayout(
 
                 {CHAMPS_FOURNISSEURS.map((champ) => {
                   return (
-                    <div>
-                      <h3 style={{ marginTop: 15, marginBottom: 3 }}>{champ}</h3>
+                    <div key={champ}>
+                      <h3 style={{ marginTop: 15, marginBottom: 3 }}>
+                        {CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}
+                      </h3>
                       <label>Ancien fournisseur</label>
-                      <input
-                        type="text"
-                        disabled
-                        defaultValue={
-                          project.details?.[
-                            CORRESPONDANCE_CHAMPS_FOURNISSEURS_COLONNE_IMPORT[champ]
-                          ]
-                        }
-                      />
+                      <input type="text" disabled defaultValue={project.details?.[champ]} />
                       <label htmlFor={champ} className="mt-2">
-                        Nouveau fournisseur
+                        {champ}
                       </label>
-                      <input type="text" name={champ} id={champ} />
+                      <input type="text" name={champ.replace('\n', '\\n')} id={champ} />
                     </div>
                   )
                 })}
