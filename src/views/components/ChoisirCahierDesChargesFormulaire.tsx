@@ -97,8 +97,8 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
 
         <label htmlFor="Nouvelles règles" className="flex-1">
           <span className="font-bold">
-            Instruction selon le cahier des charges modifié rétroactivement et publié le
-            {cdc.paruLe}&nbsp;
+            Instruction selon le cahier des charges modifié rétroactivement et publié le{' '}
+            {cdc.paruLe}{' '}
           </span>
           {'('}
           <ExternalLink href={cdc.url}>voir le cahier des charges</ExternalLink>

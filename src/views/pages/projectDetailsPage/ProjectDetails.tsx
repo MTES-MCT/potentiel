@@ -98,16 +98,14 @@ const CDCInfo = ({
             </ExternalLink>
             )
             <br />
-            {userIs('porteur-projet')(user) &&
-              isClasse &&
-              appelOffre.choisirNouveauCahierDesCharges && (
-                <LinkButton
-                  href={`/projet/${projectId}/choisir-cahier-des-charges.html`}
-                  className="mt-4"
-                >
-                  Changer le cahier des charges
-                </LinkButton>
-              )}
+            {userIs('porteur-projet')(user) && appelOffre.choisirNouveauCahierDesCharges && (
+              <LinkButton
+                href={`/projet/${projectId}/choisir-cahier-des-charges.html`}
+                className="mt-4"
+              >
+                Changer le cahier des charges
+              </LinkButton>
+            )}
           </div>
         ) : (
           `Instruction des demandes selon les règles du cahier des charges modifié (option choisie par le candidat)`
