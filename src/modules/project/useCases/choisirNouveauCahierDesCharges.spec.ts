@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { UnwrapForTest } from '../../../types'
-import { AppelOffre, makeUser } from '@entities'
+import { AppelOffre, CahierDesChargesModifié, makeUser } from '@entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeChoisirNouveauCahierDesCharges } from './choisirNouveauCahierDesCharges'
@@ -17,7 +17,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   const projectRepo = fakeRepo({
     ...makeFakeProject(),
-    nouvellesRèglesDInstructionChoisies: false,
+    cahierDesCharges: {
+      paruLe: 'initial',
+    },
   } as Project)
 
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
@@ -102,7 +104,8 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           id: 'appelOffreId',
           periodes: [{ id: 'periodeId', type: 'notified' }],
           familles: [{ id: 'familleId' }],
-          cahiersDesChargesModifiésDisponibles: [],
+          choisirNouveauCahierDesCharges: true,
+          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({

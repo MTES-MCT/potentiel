@@ -32,19 +32,24 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
   ({ projetId, utilisateur, cahierDesCharges: { paruLe } }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
-        if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
+        if (!utilisateurALesDroits) {
+          return errAsync(new UnauthorizedError())
+        }
+
         return projectRepo.load(new UniqueEntityID(projetId))
       })
       .andThen((project) => {
         if (project.cahierDesCharges.paruLe === paruLe) {
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         }
+
         return wrapInfra(findAppelOffreById(project.appelOffreId))
       })
       .andThen((appelOffre) => {
-        if (!appelOffre?.choisirNouveauCahierDesCharges) {
+        if (appelOffre && appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
           return errAsync(new PasDeChangementDeCDCPourCetAOError())
         }
+
         return publishToEventStore(
           new NouveauCahierDesChargesChoisi({
             payload: {
