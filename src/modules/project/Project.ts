@@ -219,6 +219,7 @@ export interface Project extends EventStoreAggregate {
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
   readonly nouvellesRèglesDInstructionChoisies: boolean
+  readonly cahierDesCharges: { paruLe: string }
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
@@ -266,6 +267,7 @@ export interface ProjectProps {
   puissanceInitiale: number
   data: ProjectDataProps | undefined
   nouvellesRèglesDInstructionChoisies: boolean
+  cahierDesCharges: { paruLe: string }
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
@@ -308,6 +310,7 @@ export const makeProject = (args: {
     hasError: false,
     lastCertificateUpdate: undefined,
     nouvellesRèglesDInstructionChoisies: false,
+    cahierDesCharges: { paruLe: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     hasCurrentPtf: false,
@@ -1085,6 +1088,9 @@ export const makeProject = (args: {
     get nouvellesRèglesDInstructionChoisies() {
       return props.nouvellesRèglesDInstructionChoisies
     },
+    get cahierDesCharges() {
+      return props.cahierDesCharges
+    },
     get appelOffreId() {
       return props.appelOffreId
     },
@@ -1294,6 +1300,7 @@ export const makeProject = (args: {
         break
       case NouveauCahierDesChargesChoisi.type:
         props.nouvellesRèglesDInstructionChoisies = true
+        props.cahierDesCharges = { paruLe: event.payload.paruLe }
         break
       default:
         // ignore other event types
