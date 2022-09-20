@@ -70,7 +70,7 @@ export const ChangerFournisseur = PageLayout(
               <input type="hidden" name="projectId" value={project.id} />
               <div className="form__group">
                 <div className="mb-2">Concernant le projet:</div>
-                <ProjectInfo project={project} className="mb-3"></ProjectInfo>
+                <ProjectInfo project={project} className="mb-3" />
                 <SuccessErrorBox success={success} error={error} />
 
                 {CHAMPS_FOURNISSEURS.map((champ) => {
@@ -91,6 +91,12 @@ export const ChangerFournisseur = PageLayout(
                 {project.evaluationCarbone > 0 && (
                   <div>
                     <h3 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</h3>
+                    <label>Évaluation carbone initiale (kg eq CO2/kWc)</label>
+                    <input
+                      type="number"
+                      disabled
+                      defaultValue={project.evaluationCarboneInitiale}
+                    />
                     <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
                     <input
                       type="number"

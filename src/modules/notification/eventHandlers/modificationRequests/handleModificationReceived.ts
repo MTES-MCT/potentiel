@@ -53,7 +53,7 @@ export const handleModificationReceived =
         }
 
         if (type === 'fournisseur' && event.payload.evaluationCarbone) {
-          const currentEvaluationCarbone = project.evaluationCarbone
+          const currentEvaluationCarbone = project.evaluationCarboneInitiale
           const newEvaluationCarbone = Number(event.payload.evaluationCarbone)
           const switchBracket =
             Math.round(newEvaluationCarbone / 50) !== Math.round(currentEvaluationCarbone / 50)
@@ -61,8 +61,9 @@ export const handleModificationReceived =
           const evaluationCarboneIsOutOfBounds =
             newEvaluationCarbone > currentEvaluationCarbone && switchBracket
 
-          if (evaluationCarboneIsOutOfBounds)
+          if (evaluationCarboneIsOutOfBounds) {
             notificationPayload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`
+          }
         }
 
         await deps.sendNotification(notificationPayload)
