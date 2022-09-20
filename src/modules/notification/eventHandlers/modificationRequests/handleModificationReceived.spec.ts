@@ -147,7 +147,7 @@ describe('notification.handleModificationReceived', () => {
   })
 
   describe('when event type is "fournisseur"', () => {
-    describe('when the new evaluationCarbone is below the current one', () => {
+    describe('when the new evaluationCarbone is below the initial one', () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -155,7 +155,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneInitiale: 100,
           })
         ).unwrap()
       )
@@ -193,7 +193,7 @@ describe('notification.handleModificationReceived', () => {
       })
     })
 
-    describe('when the new evaluationCarbone is higher than the current one and lower than the tolerated threshold', () => {
+    describe('when the new evaluationCarbone is higher than the initial one and lower than the tolerated threshold', () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -201,7 +201,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneInitiale: 100,
           })
         ).unwrap()
       )
@@ -239,7 +239,7 @@ describe('notification.handleModificationReceived', () => {
       })
     })
 
-    describe('when the new evaluationCarbone is higher than the current one and higher than the tolerated threshold', () => {
+    describe('when the new evaluationCarbone is higher than the initial one and higher than the tolerated threshold', () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -247,7 +247,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneInitiale: 100,
           })
         ).unwrap()
       )
