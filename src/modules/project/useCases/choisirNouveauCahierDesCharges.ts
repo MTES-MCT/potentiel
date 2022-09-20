@@ -11,7 +11,7 @@ import { CahierDesChargesNonDisponibleError, PasDeChangementDeCDCPourCetAOError 
 type ChoisirNouveauCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
-  cahierDesCharges: { paruLe: '30/07/2021' }
+  cahierDesCharges: { paruLe: '30/07/2021' | '30/08/2022' }
 }) => ResultAsync<
   null,
   | UnauthorizedError
@@ -62,7 +62,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
             payload: {
               projetId,
               choisiPar: utilisateur.id,
-              paruLe: '30/07/2021',
+              paruLe,
             },
           })
         )

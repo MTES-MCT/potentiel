@@ -171,8 +171,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
 
   describe('Changement de CDC possible', () => {
     it(`Etant donné un utilisateur ayant les droits sur le projet
-        Lorsqu'il souscrit pour la première fois à un projet dont l'AO est concerné par le choix du nouveau CDC
-        Alors un événement ProjectNewRulesOptedIn devrait être émis`, async () => {
+        Et l'AO avec un CDC modifié paru le 30/08/2022
+        Lorsqu'il souscrit au CDC paru le 30/08/2022
+        Alors le CDC du projet devrait être celui paru le 30/08/2022`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
@@ -186,16 +187,11 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
-          paruLe: '30/07/2021',
+          paruLe: '30/08/2022',
         },
       })
 
       expect(res.isOk()).toBe(true)
-
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user,
-        projectId,
-      })
 
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -203,7 +199,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           payload: expect.objectContaining({
             projetId: projectId,
             choisiPar: user.id,
-            paruLe: '30/07/2021',
+            paruLe: '30/08/2022',
           }),
         })
       )
