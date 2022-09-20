@@ -49,9 +49,9 @@ type GarantiesFinancièresAppelOffre =
 type RéférencesCourriersRéponseModifications = {
   engagementRéalisationEtModalitésAbandon: { référenceParagraphe: string; dispositions: string }
   changementDePuissance?: { référenceParagraphe: string; dispositions: string }
-  changementDActionnariat: { référenceParagraphe: string; dispositions: string }
-  identitéDuProducteur: { référenceParagraphe: string; dispositions: string }
-  changementDeProducteur: { référenceParReagraphe: string; dispositions: string }
+  changementDActionnariat?: { référenceParagraphe: string; dispositions: string }
+  identitéDuProducteur?: { référenceParagraphe: string; dispositions: string }
+  changementDeProducteur?: { référenceParReagraphe: string; dispositions: string }
   délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
   prolongationDeDélai?: { dispositions: string } // à vérifier si on a besoin de cette donnée
 }
