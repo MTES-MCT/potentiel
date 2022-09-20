@@ -1,6 +1,6 @@
-name: Run prettier and eslint on PR
+name: Run prettier, typecheck and eslint on PR
 
-on: [ pull_request ]
+on: [pull_request]
 
 jobs:
   test:
@@ -18,3 +18,4 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run prettier:check
+      - run: npm run typecheck
