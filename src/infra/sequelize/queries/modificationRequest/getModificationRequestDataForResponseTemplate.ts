@@ -146,6 +146,12 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
           isSoumisAuxGF,
+          délaisDAchèvement,
+          engagementRéalisationEtModalitésAbandon,
+          changementDActionnariat,
+          changementDePuissance,
+          identitéDuProducteur,
+          changementDeProducteur,
         } = appelOffre
 
         const commonData = {
@@ -177,13 +183,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           case 'delai':
             return ok({
               ...commonData,
-              referenceParagrapheAchevement: appelOffre.periode.délaisDAchèvement
-                ? appelOffre.periode.délaisDAchèvement.référenceParagraphe
-                : appelOffre.délaisDAchèvement
-                ? appelOffre.délaisDAchèvement.référenceParagraphe
+              referenceParagrapheAchevement: periode.délaisDAchèvement
+                ? periode.délaisDAchèvement.référenceParagraphe
+                : délaisDAchèvement
+                ? délaisDAchèvement.référenceParagraphe
                 : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheAchevement:
-                appelOffre.délaisDAchèvement && appelOffre.délaisDAchèvement.dispositions,
+              contenuParagrapheAchevement: délaisDAchèvement
+                ? délaisDAchèvement.dispositions
+                : '!!!CONTENU NON DISPONIBLE!!!',
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
@@ -202,9 +209,10 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               referenceParagrapheAbandon:
-                appelOffre.engagementRéalisationEtModalitésAbandon.référenceParagraphe,
+                engagementRéalisationEtModalitésAbandon.référenceParagraphe ||
+                'REFERENCE NON DISPONIBLE',
               contenuParagrapheAbandon:
-                appelOffre.engagementRéalisationEtModalitésAbandon.dispositions,
+                engagementRéalisationEtModalitésAbandon.dispositions || 'CONTENU NON DISPONIBLE',
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
@@ -213,9 +221,12 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               nouvelActionnaire: actionnaire,
-              referenceParagrapheActionnaire:
-                appelOffre.changementDActionnariat.référenceParagraphe,
-              contenuParagrapheActionnaire: appelOffre.changementDActionnariat.dispositions,
+              referenceParagrapheActionnaire: changementDActionnariat
+                ? changementDActionnariat.référenceParagraphe
+                : '!!!REFERENCE NON DISPONIBLE!!!',
+              contenuParagrapheActionnaire: changementDActionnariat
+                ? changementDActionnariat.dispositions
+                : '!!!CONTENU NON DISPONIBLE!!!',
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'recours':
             return ok({
@@ -263,23 +274,34 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance:
-                appelOffre.changementDePuissance &&
-                appelOffre.changementDePuissance.référenceParagraphe,
-              contenuParagraphePuissance:
-                appelOffre.changementDePuissance && appelOffre.changementDePuissance.dispositions,
+              referenceParagraphePuissance: periode.changementDePuissance
+                ? periode.changementDePuissance.référenceParagraphe
+                : changementDePuissance
+                ? changementDePuissance.référenceParagraphe
+                : '!!!REFERENCE NON DISPONIBLE!!!',
+              contenuParagraphePuissance: periode.changementDePuissance
+                ? periode.changementDePuissance.dispositions
+                : changementDePuissance
+                ? changementDePuissance.dispositions
+                : '!!!CONTENU NON DISPONIBLE!!!',
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
             return ok({
               ...commonData,
               nouveauProducteur: producteur,
-              referenceParagrapheIdentiteProducteur:
-                appelOffre.identitéDuProducteur.référenceParagraphe,
-              contenuParagrapheIdentiteProducteur: appelOffre.identitéDuProducteur.dispositions,
-              referenceParagrapheChangementProducteur:
-                appelOffre.changementDeProducteur.référenceParReagraphe,
-              contenuParagrapheChangementProducteur: appelOffre.changementDeProducteur.dispositions,
+              referenceParagrapheIdentiteProducteur: identitéDuProducteur
+                ? identitéDuProducteur.référenceParagraphe
+                : '!!!REFERENCE NON DISPONIBLE!!!',
+              contenuParagrapheIdentiteProducteur: identitéDuProducteur
+                ? identitéDuProducteur.dispositions
+                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagrapheChangementProducteur: changementDeProducteur
+                ? changementDeProducteur.référenceParReagraphe
+                : '!!!REFERENCE NON DISPONIBLE!!!',
+              contenuParagrapheChangementProducteur: changementDeProducteur
+                ? changementDeProducteur.dispositions
+                : '!!!CONTENU NON DISPONIBLE!!!',
             } as ModificationRequestDataForResponseTemplateDTO)
         }
 
