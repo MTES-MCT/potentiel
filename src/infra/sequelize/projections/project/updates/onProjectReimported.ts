@@ -20,7 +20,10 @@ export const onProjectReimported = (models) => async (event: ProjectReimported) 
       project.changed('details', true)
     }
 
-    Object.assign(project, other)
+    Object.assign(project, {
+      ...other,
+      evaluationCarboneInitiale: other.evaluationCarbone,
+    })
 
     await project.save()
   } catch (e) {
