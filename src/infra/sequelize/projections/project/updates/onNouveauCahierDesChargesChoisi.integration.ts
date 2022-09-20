@@ -35,9 +35,11 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
     cahierDesChargesChoisi,
     cahierDesChargesAttendu,
   } of fixtures) {
-    it(`Étant donné un projet avec l'ancien cahier des charges
-      Lorsque le nouveau cahier des charges est choisi
-      Alors le projet devrait être soumis aux nouvelles règles d'instruction`, async () => {
+    it(`Étant donné un projet avec le cahier des charges ${cahierDesChargesActuel}
+      Lorsque le cahier des charges ${
+        cahierDesChargesChoisi.alternatif ? 'alternatif' : ''
+      } paru le ${cahierDesChargesChoisi.paruLe} est choisi
+      Alors le cahier des charges du projet devrait être ${cahierDesChargesAttendu}`, async () => {
       const projetId = new UniqueEntityID().toString()
       await Project.create(makeFakeProject({ id: projetId, cahierDesChargesActuel }))
 
