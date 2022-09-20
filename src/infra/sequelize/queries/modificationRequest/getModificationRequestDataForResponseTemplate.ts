@@ -177,8 +177,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           case 'delai':
             return ok({
               ...commonData,
-              referenceParagrapheAchevement: periode.paragrapheAchevement,
-              contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
+              referenceParagrapheAchevement: appelOffre.délaisDAchèvement.référenceParagraphe,
+              contenuParagrapheAchevement: appelOffre.délaisDAchèvement.dispositions,
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
@@ -197,13 +197,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               referenceParagrapheAbandon:
-                periodeDetails[
-                  'Référence du paragraphe dédié à l’engagement de réalisation ou aux modalités d’abandon'
-                ],
+                appelOffre.engagementRéalisationEtModalitésAbandon.référenceParagraphe,
               contenuParagrapheAbandon:
-                periodeDetails[
-                  'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
-                ],
+                appelOffre.engagementRéalisationEtModalitésAbandon.dispositions,
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
@@ -213,9 +209,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               ...commonData,
               nouvelActionnaire: actionnaire,
               referenceParagrapheActionnaire:
-                periodeDetails['Référence du paragraphe dédié au changement d’actionnariat'],
-              contenuParagrapheActionnaire:
-                periodeDetails['Dispositions liées au changement d’actionnariat'],
+                appelOffre.changementDActionnariat.référenceParagraphe,
+              contenuParagrapheActionnaire: appelOffre.changementDActionnariat.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'recours':
             return ok({
@@ -263,10 +258,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance:
-                periodeDetails['Référence du paragraphe dédié au changement de puissance'],
-              contenuParagraphePuissance:
-                periodeDetails['Dispositions liées au changement de puissance'],
+              referenceParagraphePuissance: appelOffre.changementDePuissance.référenceParagraphe,
+              contenuParagraphePuissance: appelOffre.changementDePuissance.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
@@ -274,13 +267,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               ...commonData,
               nouveauProducteur: producteur,
               referenceParagrapheIdentiteProducteur:
-                periodeDetails["Référence du paragraphe dédié à l'identité du producteur"],
-              contenuParagrapheIdentiteProducteur:
-                periodeDetails['Dispositions liées à l’identité du producteur'],
+                appelOffre.identitéDuProducteur.référenceParagraphe,
+              contenuParagrapheIdentiteProducteur: appelOffre.identitéDuProducteur.dispositions,
               referenceParagrapheChangementProducteur:
-                periodeDetails['Référence du paragraphe dédié au changement de producteur'],
-              contenuParagrapheChangementProducteur:
-                periodeDetails['Dispositions liées au changement de producteur'],
+                appelOffre.changementDeProducteur.référenceParReagraphe,
+              contenuParagrapheChangementProducteur: appelOffre.changementDeProducteur.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
         }
 
