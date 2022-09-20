@@ -28,6 +28,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
             projetId: projectId.toString(),
             choisiPar: 'porteur-projet',
             paruLe: '30/07/2021',
+            alternatif: true,
           },
         }),
       ],
@@ -37,6 +38,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
 
     expect(projet.cahierDesCharges).toEqual({
       paruLe: '30/07/2021',
+      alternatif: true,
     })
   })
 })

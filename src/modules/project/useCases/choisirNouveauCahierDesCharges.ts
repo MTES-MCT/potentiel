@@ -39,7 +39,10 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         return projectRepo.load(new UniqueEntityID(projetId))
       })
       .andThen((project) => {
-        if (project.cahierDesCharges.paruLe === paruLe) {
+        if (
+          project.cahierDesCharges.paruLe === paruLe &&
+          project.cahierDesCharges.alternatif === alternatif
+        ) {
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         }
 
@@ -52,7 +55,9 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
 
         if (
           appelOffre &&
-          !appelOffre.cahiersDesChargesModifiésDisponibles.find((c) => c.paruLe === paruLe)
+          !appelOffre.cahiersDesChargesModifiésDisponibles.find(
+            (c) => c.paruLe === paruLe && c.alternatif === alternatif
+          )
         ) {
           return errAsync(new CahierDesChargesNonDisponibleError())
         }
