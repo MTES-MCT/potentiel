@@ -30,6 +30,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       cahiersDesChargesModifiésDisponibles: [
         { paruLe: '30/07/2021', url: 'url' },
         { paruLe: '30/08/2022', url: 'url' },
+        { paruLe: '30/08/2022', url: 'url', alternatif: true },
       ] as ReadonlyArray<CahierDesChargesModifié>,
     } as AppelOffre)
 
@@ -169,40 +170,57 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
     })
   })
 
-  describe('Changement de CDC possible', () => {
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-        Et l'AO avec un CDC modifié paru le 30/08/2022
-        Lorsqu'il souscrit au CDC paru le 30/08/2022
-        Alors le CDC du projet devrait être celui paru le 30/08/2022`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
+  describe(`Choix d'un CDC modifié`, () => {
+    type CahierDesCharges = { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true }
+    const fixtures: ReadonlyArray<{ cdcChoisi: CahierDesCharges; cdcAttendu: CahierDesCharges }> = [
+      { cdcChoisi: { paruLe: '30/07/2021' }, cdcAttendu: { paruLe: '30/07/2021' } },
+      { cdcChoisi: { paruLe: '30/08/2022' }, cdcAttendu: { paruLe: '30/08/2022' } },
+      {
+        cdcChoisi: { paruLe: '30/08/2022', alternatif: true },
+        cdcAttendu: { paruLe: '30/08/2022', alternatif: true },
+      },
+    ]
 
-      const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo,
-        findAppelOffreById,
-      })
+    for (const { cdcChoisi, cdcAttendu } of fixtures) {
+      it(`Etant donné un utilisateur ayant les droits sur le projet
+        Et l'AO avec les CDC modifiés disponibles suivant :
+          | paru le 30/07/2021
+          | paru le 30/08/2022 
+          | alternatif paru le 30/08/2022 
+        Lorsqu'il souscrit au CDC${cdcChoisi.alternatif ? ' alternatif' : ''} paru le ${
+        cdcChoisi.paruLe
+      }
+        Alors le CDC du projet devrait être ${
+          cdcChoisi.alternatif ? `l'alternatif` : 'celui'
+        } paru le ${cdcAttendu.paruLe}`, async () => {
+        const shouldUserAccessProject = jest.fn(async () => true)
 
-      const res = await choisirNouveauCahierDesCharges({
-        projetId: projectId,
-        utilisateur: user,
-        cahierDesCharges: {
-          paruLe: '30/08/2022',
-        },
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: NouveauCahierDesChargesChoisi.type,
-          payload: expect.objectContaining({
-            projetId: projectId,
-            choisiPar: user.id,
-            paruLe: '30/08/2022',
-          }),
+        const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          findAppelOffreById,
         })
-      )
-    })
+
+        const res = await choisirNouveauCahierDesCharges({
+          projetId: projectId,
+          utilisateur: user,
+          cahierDesCharges: cdcChoisi,
+        })
+
+        expect(res.isOk()).toBe(true)
+
+        expect(publishToEventStore).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: NouveauCahierDesChargesChoisi.type,
+            payload: expect.objectContaining({
+              projetId: projectId,
+              choisiPar: user.id,
+              ...cdcAttendu,
+            }),
+          })
+        )
+      })
+    }
   })
 })

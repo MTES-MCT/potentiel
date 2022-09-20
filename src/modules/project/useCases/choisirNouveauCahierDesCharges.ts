@@ -11,7 +11,7 @@ import { CahierDesChargesNonDisponibleError, PasDeChangementDeCDCPourCetAOError 
 type ChoisirNouveauCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
-  cahierDesCharges: { paruLe: '30/07/2021' | '30/08/2022' }
+  cahierDesCharges: { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true }
 }) => ResultAsync<
   null,
   | UnauthorizedError
@@ -29,7 +29,7 @@ type MakeChoisirNouveauCahierDesCharges = (dépendances: {
 
 export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesCharges =
   ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
-  ({ projetId, utilisateur, cahierDesCharges: { paruLe } }) => {
+  ({ projetId, utilisateur, cahierDesCharges: { paruLe, alternatif } }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) {
@@ -63,6 +63,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
               projetId,
               choisiPar: utilisateur.id,
               paruLe,
+              alternatif,
             },
           })
         )
