@@ -1,5 +1,4 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const batimentPPE2: AppelOffre = {
   id: 'PPE2 - Bâtiment',
@@ -11,7 +10,6 @@ const batimentPPE2: AppelOffre = {
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
   decoupageParTechnologie: false,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(30, '7.1.1'),
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',
   paragrapheDelaiDerogatoire: '6.3',
@@ -36,11 +34,34 @@ const batimentPPE2: AppelOffre = {
       max: 1.1,
     },
   },
+  engagementRéalisationEtModalitésAbandon: {
+    référenceParagraphe: '6.2',
+    dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
+Par exception, le Candidat est délié de cette obligation :
+- en cas de retrait de l’autorisation d’urbanisme par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du Candidat ne sont pas concernés.
+- en cas de non obtention de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
+Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
+Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de
+conditions ou du prélèvement d’une part de la garantie financière. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
+  },
+  changementDePuissance: {
+    référenceParagraphe: '5.2.4',
+    dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre, dans la limite du plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 pour le cas d'une offre entrant dans le volume réservé. Elles doivent faire l’objet d’une information au Préfet.
+ Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+ Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.
+ Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
+  },
+  délaisDAchèvement: {
+    référenceParagraphe: '6.3',
+    dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- trente (30) mois à compter de la Date de désignation ;
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la  durée de dépassement.`,
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         reference: '2021 S 176-457518',
@@ -61,7 +82,6 @@ const batimentPPE2: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
-      paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         reference: '2022 S 020-047803',
@@ -82,7 +102,6 @@ const batimentPPE2: AppelOffre = {
     {
       id: '3',
       title: 'troisième',
-      paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         reference: '2022 S 093-254888',
@@ -106,6 +125,22 @@ const batimentPPE2: AppelOffre = {
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+      changementDePuissance: {
+        référenceParagraphe: '5.2.4',
+        dispositions: `Avant  l'achèvement,  les  modifications  de  la  Puissance  installée  sont  autorisées,  sous  réserve  que  la  Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre, dans la limite du plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 pour le cas d'une offre entrant dans le volume réservé. Elles doivent faire l’objet d’une information au Préfet.
+    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation (y compris si   celle-ci a été modifiée) et que la Puissance modifiée soit inférieure au plafond de puissance de 1 MWc spécifié au paragraphe 1.2.2 dans le cas d'une offre entrant dans le volume réservé.
+    Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
+     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.
+     Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
+      },
+      délaisDAchèvement: {
+        référenceParagraphe: '6.3',
+        dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+    - trente (30) mois à compter de la Date de désignation ;
+    deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+    Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
+    En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
+      },
     },
   ],
 }
