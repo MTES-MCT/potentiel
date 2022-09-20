@@ -8,6 +8,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
   numéroGestionnaireRequis?: true
+  changementDePuissance?: { référenceParagraphe: string; dispositions: string }
 }
 
 export const cahiersDesChargesModifiésRéférences = [

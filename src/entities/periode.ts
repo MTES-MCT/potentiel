@@ -54,7 +54,7 @@ export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2'
 export type Periode = {
   id: string
   title: string
-  paragrapheAchevement: string
+  paragrapheAchevement?: string //A voir si c'est à supprimer pour être dans l'AO directement ?
   cahierDesCharges: CahierDesCharges
   delaiDcrEnMois: {
     valeur: number
