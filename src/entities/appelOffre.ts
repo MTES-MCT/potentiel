@@ -52,7 +52,7 @@ type RéférencesCourriersRéponseModifications = {
   changementDActionnariat: { référenceParagraphe: string; dispositions: string }
   identitéDuProducteur: { référenceParagraphe: string; dispositions: string }
   changementDeProducteur: { référenceParReagraphe: string; dispositions: string }
-  délaisDAchèvement: { référenceParagraphe: string; dispositions: string }
+  délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
   prolongationDeDélai?: { dispositions: string } // à vérifier si on a besoin de cette donnée
 }
 export type AppelOffre = {
