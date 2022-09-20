@@ -11,10 +11,13 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
   ({ Project }) =>
   async (événement) => {
     const {
-      payload: { projetId: id },
+      payload: { projetId: id, paruLe, alternatif },
     } = événement
     try {
-      await Project.update({ nouvellesRèglesDInstructionChoisies: true }, { where: { id } })
+      await Project.update(
+        { cahierDesChargesActuel: `${paruLe}${alternatif ? '-alternatif' : ''}` },
+        { where: { id } }
+      )
     } catch (cause) {
       logger.error(
         new ProjectionEnEchec(
