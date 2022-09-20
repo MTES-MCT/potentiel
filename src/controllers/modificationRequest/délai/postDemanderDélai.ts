@@ -22,7 +22,6 @@ import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
-    nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
     dateAchèvementDemandée: yup
       .date()
       .required(`Vous devez renseigner la date d'achèvement souhaitée.`)

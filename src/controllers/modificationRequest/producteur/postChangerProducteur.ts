@@ -18,7 +18,6 @@ import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 const schema = yup.object({
   body: yup.object({
     projetId: yup.string().uuid().required(),
-    nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
     producteur: yup.string().required('Le champ "nouveau producteur" est obligatoire.'),
     justification: yup.string().optional(),
   }),
