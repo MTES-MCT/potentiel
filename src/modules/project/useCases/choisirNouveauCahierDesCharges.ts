@@ -6,7 +6,7 @@ import { NouveauCahierDesChargesChoisi } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 import { AppelOffreRepo } from '@dataAccess'
-import { PasDeChangementDeCDCPourCetAOError } from '../errors'
+import { CahierDesChargesNonDisponibleError, PasDeChangementDeCDCPourCetAOError } from '../errors'
 
 type ChoisirNouveauCahierDesCharges = (commande: {
   projetId: string
@@ -48,6 +48,13 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
       .andThen((appelOffre) => {
         if (appelOffre && appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
           return errAsync(new PasDeChangementDeCDCPourCetAOError())
+        }
+
+        if (
+          appelOffre &&
+          !appelOffre.cahiersDesChargesModifiésDisponibles.find((c) => c.paruLe === paruLe)
+        ) {
+          return errAsync(new CahierDesChargesNonDisponibleError())
         }
 
         return publishToEventStore(

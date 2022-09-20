@@ -8,7 +8,7 @@ import { makeChoisirNouveauCahierDesCharges } from './choisirNouveauCahierDesCha
 import { PasDeChangementDeCDCPourCetAOError, Project, NouveauCahierDesChargesChoisi } from '..'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
+import { NouveauCahierDesChargesDéjàSouscrit, CahierDesChargesNonDisponibleError } from '../errors'
 import { AppelOffreRepo } from '@dataAccess'
 
 describe('Commande choisirNouveauCahierDesCharges', () => {

@@ -1,4 +1,5 @@
 export * from './AttachmentRequiredForDemandeRecoursAcceptedError'
+export * from './CahierDesChargesNonDisponibleError'
 export * from './CertificateFileIsMissingError'
 export * from './ChangementProducteurImpossiblePourEolienError'
 export * from './DCRCertificatDéjàEnvoyéError'
