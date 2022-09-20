@@ -177,8 +177,13 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           case 'delai':
             return ok({
               ...commonData,
-              referenceParagrapheAchevement: appelOffre.délaisDAchèvement.référenceParagraphe,
-              contenuParagrapheAchevement: appelOffre.délaisDAchèvement.dispositions,
+              referenceParagrapheAchevement: appelOffre.periode.délaisDAchèvement
+                ? appelOffre.periode.délaisDAchèvement.référenceParagraphe
+                : appelOffre.délaisDAchèvement
+                ? appelOffre.délaisDAchèvement.référenceParagraphe
+                : '!!!REFERENCE NON DISPONIBLE!!!',
+              contenuParagrapheAchevement:
+                appelOffre.délaisDAchèvement && appelOffre.délaisDAchèvement.dispositions,
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
