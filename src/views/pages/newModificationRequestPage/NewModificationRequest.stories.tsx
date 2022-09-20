@@ -1,10 +1,11 @@
 import React from 'react'
-import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
+import { ProjectAppelOffre } from '@entities'
 
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 
 import { NewModificationRequest } from './NewModificationRequest'
+import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
 
 export default { title: 'Modification Request' }
 
@@ -20,39 +21,54 @@ export default { title: 'Modification Request' }
 
 export const Fournisseur = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'fournisseur' } })}
-    project={makeFakeProject()}
+    {...{
+      request: makeFakeRequest({ query: { action: 'fournisseur' } }),
+      project: makeFakeProject(),
+      appelOffre: {} as ProjectAppelOffre,
+    }}
   />
 )
 
 export const Actionnaire = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'actionnaire' } })}
-    project={makeFakeProject()}
+    {...{
+      request: makeFakeRequest({ query: { action: 'actionnaire' } }),
+      project: makeFakeProject(),
+      appelOffre: {} as ProjectAppelOffre,
+    }}
   />
 )
 
 export const Puissance = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'puissance' } })}
-    project={makeFakeProject()}
+    {...{
+      request: makeFakeRequest({ query: { action: 'puissance' } }),
+      project: makeFakeProject(),
+      appelOffre: {} as ProjectAppelOffre,
+    }}
   />
 )
 
 export const PuissanceMaxVolumeReserve1MW = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'puissance' } })}
-    project={makeFakeProject({
-      appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] },
-      puissance: 0.6,
-      puissanceInitiale: 0.6,
-    })}
+    {...{
+      request: makeFakeRequest({ query: { action: 'puissance' } }),
+      project: makeFakeProject({
+        appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] },
+        puissance: 0.6,
+        puissanceInitiale: 0.6,
+      }),
+      appelOffre: {} as ProjectAppelOffre,
+    }}
   />
 )
 
 export const Recours = () => (
   <NewModificationRequest
-    request={makeFakeRequest({ query: { action: 'recours' } })}
-    project={makeFakeProject()}
+    {...{
+      request: makeFakeRequest({ query: { action: 'recours' } }),
+      project: makeFakeProject(),
+      appelOffre: {} as ProjectAppelOffre,
+    }}
   />
 )
