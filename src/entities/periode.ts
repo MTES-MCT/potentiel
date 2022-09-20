@@ -56,6 +56,7 @@ export type Periode = {
   title: string
   paragrapheAchevement?: string //A voir si c'est à supprimer pour être dans l'AO directement ?
   délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
+  changementDePuissance?: { référenceParagraphe: string; dispositions: string }
   cahierDesCharges: CahierDesCharges
   delaiDcrEnMois: {
     valeur: number
