@@ -46,7 +46,7 @@ describe('Commande demanderDélai', () => {
 
   const projectRepo = fakeRepo({
     ...fakeProject,
-    nouvellesRèglesDInstructionChoisies: true,
+    cahierDesCharges: { paruLe: '30/07/2021' },
   } as Project)
 
   beforeEach(() => {
@@ -93,7 +93,7 @@ describe('Commande demanderDélai', () => {
     const projectRepo = fakeRepo(
       makeFakeProject({
         completionDueOn: new Date('2022-01-01').getTime(),
-        nouvellesRèglesDInstructionChoisies: true,
+        cahierDesCharges: { paruLe: '30/07/2021' },
       })
     )
     const demandeDelai = makeDemanderDélai({
@@ -239,7 +239,7 @@ describe('Commande demanderDélai', () => {
           it(`Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
             const projectRepo = fakeRepo({
               ...fakeProject,
-              nouvellesRèglesDInstructionChoisies: false,
+              cahierDesCharges: { paruLe: 'initial' },
             } as Project)
 
             const demandeDelai = makeDemanderDélai({

@@ -161,6 +161,7 @@ describe('Commande demanderAbandon', () => {
     describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
       const projectRepo = fakeRepo({
         ...fakeProject,
+        cahierDesCharges: { paruLe: '30/07/2021' },
         isClasse: true,
       } as Project)
       describe(`Enregistrer la demande d'abandon'`, () => {
@@ -226,7 +227,7 @@ describe('Commande demanderAbandon', () => {
       it(`Alors aucun une erreur  NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
         const projectRepo = fakeRepo({
           ...fakeProject,
-          nouvellesRèglesDInstructionChoisies: false,
+          cahierDesCharges: { paruLe: 'initial' },
           isClasse: true,
         } as Project)
 

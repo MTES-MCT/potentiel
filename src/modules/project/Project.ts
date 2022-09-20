@@ -218,8 +218,7 @@ export interface Project extends EventStoreAggregate {
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
-  readonly nouvellesRèglesDInstructionChoisies: boolean
-  readonly cahierDesCharges: { paruLe: string; alternatif?: true }
+  readonly cahierDesCharges: { paruLe: 'initial' | '30/07/2021' | '30/08/2022'; alternatif?: true }
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
@@ -266,8 +265,7 @@ export interface ProjectProps {
   isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
-  nouvellesRèglesDInstructionChoisies: boolean
-  cahierDesCharges: { paruLe: string; alternatif?: true }
+  cahierDesCharges: { paruLe: 'initial' | '30/07/2021' | '30/08/2022'; alternatif?: true }
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
@@ -309,7 +307,6 @@ export const makeProject = (args: {
     data: undefined,
     hasError: false,
     lastCertificateUpdate: undefined,
-    nouvellesRèglesDInstructionChoisies: false,
     cahierDesCharges: { paruLe: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
@@ -1085,9 +1082,6 @@ export const makeProject = (args: {
     get lastCertificateUpdate() {
       return props.lastCertificateUpdate
     },
-    get nouvellesRèglesDInstructionChoisies() {
-      return props.nouvellesRèglesDInstructionChoisies
-    },
     get cahierDesCharges() {
       return props.cahierDesCharges
     },
@@ -1299,7 +1293,6 @@ export const makeProject = (args: {
         props.potentielIdentifier = event.payload.nouvelIdentifiant
         break
       case NouveauCahierDesChargesChoisi.type:
-        props.nouvellesRèglesDInstructionChoisies = true
         props.cahierDesCharges = {
           paruLe: event.payload.paruLe,
           alternatif: event.payload.alternatif,

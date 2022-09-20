@@ -41,7 +41,7 @@ export const makeChangerProducteur =
           return wrapInfra(findAppelOffreById(projet.appelOffreId))
             .andThen((appelOffre) => {
               if (
-                !projet.nouvellesRèglesDInstructionChoisies &&
+                projet.cahierDesCharges.paruLe === 'initial' &&
                 appelOffre?.choisirNouveauCahierDesCharges
               ) {
                 return errAsync(new NouveauCahierDesChargesNonChoisiError())
