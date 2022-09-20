@@ -263,8 +263,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance: appelOffre.changementDePuissance.référenceParagraphe,
-              contenuParagraphePuissance: appelOffre.changementDePuissance.dispositions,
+              referenceParagraphePuissance:
+                appelOffre.changementDePuissance &&
+                appelOffre.changementDePuissance.référenceParagraphe,
+              contenuParagraphePuissance:
+                appelOffre.changementDePuissance && appelOffre.changementDePuissance.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
