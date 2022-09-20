@@ -8,7 +8,7 @@ import {
   SuccessErrorBox,
   PageLayout,
   Callout,
-  LinkButton,
+  Link,
   ExternalLink,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
@@ -77,58 +77,23 @@ type CDCInfoProps = {
   user: Request['user']
 }
 
-const CDCInfo = ({
-  project: { id: projectId, appelOffre, isClasse, nouvellesRèglesDInstructionChoisies },
-  user,
-}: CDCInfoProps) => {
-  const nouveauCahierDesCharges = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-    (cdc) => cdc.paruLe === '30/07/2021'
-  )
-
-  return (
-    <>
-      <h3 className="mb-0">Cahier des charges</h3>{' '}
-      {nouvellesRèglesDInstructionChoisies ? (
-        nouveauCahierDesCharges ? (
-          <div>
-            Instruction selon le cahier des charges modifié rétroactivement et publié le 30/07/2021,
-            pris en application du décret n° 2019-1175 du 14 novembre 2019 (
-            <ExternalLink href={nouveauCahierDesCharges.url}>
-              voir le cahier des charges
-            </ExternalLink>
-            )
-            <br />
-            {userIs('porteur-projet')(user) && appelOffre.choisirNouveauCahierDesCharges && (
-              <LinkButton
-                href={`/projet/${projectId}/choisir-cahier-des-charges.html`}
-                className="mt-4"
-              >
-                Changer le cahier des charges
-              </LinkButton>
-            )}
-          </div>
-        ) : (
-          `Instruction des demandes selon les règles du cahier des charges modifié (option choisie par le candidat)`
-        )
-      ) : (
-        <div>
-          Instruction des demandes selon les règles du{' '}
-          <ExternalLink href={appelOffre.periode.cahierDesCharges.url}>
-            cahier des charges initial (en vigueur à la candidature)
-          </ExternalLink>
-          <br />
-          {userIs('porteur-projet')(user) && isClasse && appelOffre.choisirNouveauCahierDesCharges && (
-            <LinkButton
-              href={`/projet/${projectId}/choisir-cahier-des-charges.html`}
-              className="mt-4"
-            >
-              Changer de cahier des charges
-            </LinkButton>
-          )}
-        </div>
+const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: CDCInfoProps) => (
+  <>
+    <h3 className="mb-0">Cahier des charges</h3>{' '}
+    <div>
+      Instruction selon le cahier des charges{' '}
+      {cahierDesChargesActuel.type === 'initial'
+        ? 'initial (en vigueur à la candidature)'
+        : `modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
+      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
+      <br />
+      {userIs('porteur-projet')(user) && (
+        <Link className="flex mt-4" href={`/projet/${projectId}/choisir-cahier-des-charges.html`}>
+          Accèder au choix du cahier des charges
+        </Link>
       )}
-    </>
-  )
-}
+    </div>
+  </>
+)
 
 hydrateOnClient(ProjectDetails)

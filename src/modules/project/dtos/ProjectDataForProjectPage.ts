@@ -10,7 +10,17 @@ export type ProjectDataForProjectPage = {
   periodeId: string
   familleId: string
   numeroCRE: string
-  nouvellesRèglesDInstructionChoisies: boolean
+  cahierDesChargesActuel: {
+    url: string
+  } & (
+    | {
+        type: 'initial'
+      }
+    | {
+        type: 'modifié'
+        paruLe: string
+      }
+  )
 
   isLegacy: boolean
 

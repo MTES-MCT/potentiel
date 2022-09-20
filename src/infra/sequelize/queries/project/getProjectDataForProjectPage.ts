@@ -97,7 +97,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           ptf,
           completionDueOn,
           updatedAt,
-          nouvellesRèglesDInstructionChoisies,
+          // nouvellesRèglesDInstructionChoisies,
+          cahierDesChargesActuel,
           potentielIdentifier,
           contratEDF,
           contratEnedis,
@@ -107,13 +108,32 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           return err(new EntityNotFoundError())
         }
 
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+        const cahierDesCharges =
+          cahierDesChargesActuel === 'initial'
+            ? {
+                type: 'initial',
+                url: appelOffre?.periode.cahierDesCharges.url,
+              }
+            : {
+                type: 'modifié',
+                url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+                  (c) =>
+                    c.paruLe === cahierDesChargesActuel.replace('-alternatif', '') &&
+                    c.alternatif ===
+                      (cahierDesChargesActuel.search('-alternatif') === -1 ? undefined : true)
+                )?.url,
+                paruLe: cahierDesChargesActuel.replace('-alternatif', ''),
+              }
+
         const result: any = {
           id,
           potentielIdentifier,
           appelOffreId,
           periodeId,
           familleId,
-          appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),
+          appelOffre,
           numeroCRE,
           puissance,
           engagementFournitureDePuissanceAlaPointe,
@@ -147,9 +167,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             })),
           garantiesFinancieres: undefined,
           updatedAt,
-          nouvellesRèglesDInstructionChoisies,
           contratEDF,
           contratEnedis,
+          cahierDesChargesActuel: cahierDesCharges,
         }
 
         if (user.role !== 'dreal') {
