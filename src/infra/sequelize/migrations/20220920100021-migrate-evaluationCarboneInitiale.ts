@@ -36,7 +36,7 @@ module.exports = {
             event.payload?.data?.evaluationCarbone ??
             event.payload?.content?.evaluationCarbone,
         }
-      })
+      }, {})
 
       await Project.bulkCreate(
         projetsÀMigrer.map((projet) => ({
