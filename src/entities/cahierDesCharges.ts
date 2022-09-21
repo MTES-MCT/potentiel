@@ -10,3 +10,18 @@ export type CahierDesChargesModifié = {
   url: string
   alternatif?: true
 }
+
+type CahierDesChargesActuel = {
+  paruLe: string
+  alternatif?: true
+}
+
+export const parseCahierDesChargesActuel = (id: string): CahierDesChargesActuel => ({
+  paruLe: id.replace('-alternatif', ''),
+  alternatif: id.search('-alternatif') === -1 ? undefined : true,
+})
+
+export const formatCahierDesChargesActuel = ({
+  paruLe,
+  alternatif,
+}: CahierDesChargesActuel): string => `${paruLe}${alternatif ? '-alternatif' : ''}`

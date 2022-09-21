@@ -4,6 +4,7 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
+import { parseCahierDesChargesActuel } from '@entities'
 
 const { Project, File, User, UserProjects, ProjectStep } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -98,7 +99,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           completionDueOn,
           updatedAt,
           // nouvellesRèglesDInstructionChoisies,
-          cahierDesChargesActuel,
+          cahierDesChargesActuel: cahierDesChargesActuelRaw,
           potentielIdentifier,
           contratEDF,
           contratEnedis,
@@ -110,8 +111,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
+        const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesActuelRaw)
         const cahierDesCharges =
-          cahierDesChargesActuel === 'initial'
+          cahierDesChargesActuel.paruLe === 'initial'
             ? {
                 type: 'initial',
                 url: appelOffre?.periode.cahierDesCharges.url,
@@ -120,11 +122,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                 type: 'modifié',
                 url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
                   (c) =>
-                    c.paruLe === cahierDesChargesActuel.replace('-alternatif', '') &&
-                    c.alternatif ===
-                      (cahierDesChargesActuel.search('-alternatif') === -1 ? undefined : true)
+                    c.paruLe === cahierDesChargesActuel.paruLe &&
+                    c.alternatif === cahierDesChargesActuel.alternatif
                 )?.url,
-                paruLe: cahierDesChargesActuel.replace('-alternatif', ''),
+                paruLe: cahierDesChargesActuel.paruLe,
               }
 
         const result: any = {
