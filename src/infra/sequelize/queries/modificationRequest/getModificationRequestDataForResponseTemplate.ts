@@ -2,7 +2,6 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { DREAL } from '@entities'
-import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
@@ -12,7 +11,6 @@ import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import moment from 'moment'
 import { formatDate } from '../../../../helpers/formatDate'
 import models from '../../models'
-import { getPeriode } from '../appelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -30,7 +28,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           EntityNotFoundError | InfraNotAvailableError
         > => {
           if (!modificationRequest) return errAsync(new EntityNotFoundError())
-
           const { type, projectId } = modificationRequest
           if (type === 'delai') {
             return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
@@ -42,25 +39,12 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           return okAsync({ modificationRequest, previousRequest: null })
         }
       )
-      .andThen(({ modificationRequest, previousRequest }) =>
-        getPeriode(modificationRequest.project.appelOffreId, modificationRequest.project.periodeId)
-          .orElse((e): ResultAsync<PeriodeDTO, InfraNotAvailableError> => {
-            if (e instanceof EntityNotFoundError) {
-              // If periode is not found, do not crash the whole query
-              return okAsync({} as PeriodeDTO)
-            }
-
-            return errAsync(e)
-          })
-          .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
-      )
       .andThen(
         ({
           modificationRequest,
           previousRequest,
-          periodeDetails,
         }): ResultAsync<
-          { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
+          { dreal: DREAL | ''; modificationRequest; previousRequest },
           InfraNotAvailableError
         > => {
           if (user.role === 'dreal') {
@@ -75,15 +59,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 dreal,
                 modificationRequest,
                 previousRequest,
-                periodeDetails,
               }
             })
           }
 
-          return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
+          return okAsync({ dreal: '', modificationRequest, previousRequest })
         }
       )
-      .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {
+      .andThen(({ dreal, modificationRequest, previousRequest }) => {
         const {
           type,
           project,
@@ -128,6 +111,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           engagementFournitureDePuissanceAlaPointe,
           notifiedOn,
           potentielIdentifier,
+          nouvellesRèglesDInstructionChoisies,
         } = project
 
         const {
@@ -146,12 +130,13 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
           isSoumisAuxGF,
-          délaisDAchèvement,
-          engagementRéalisationEtModalitésAbandon,
-          changementDActionnariat,
-          changementDePuissance,
-          identitéDuProducteur,
-          changementDeProducteur,
+          texteDélaisDAchèvement,
+          texteEngagementRéalisationEtModalitésAbandon,
+          texteChangementDActionnariat,
+          texteChangementDePuissance: texteChangementDePuissance,
+          texteIdentitéDuProducteur,
+          texteChangementDeProducteur,
+          cahiersDesChargesModifiésDisponibles,
         } = appelOffre
 
         const commonData = {
@@ -181,16 +166,28 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
 
         switch (type) {
           case 'delai':
+            let contenuParagrapheAchevement = '!!!CONTENU NON DISPONIBLE!!!'
+            let referenceParagrapheAchevement = '!!!REFERENCE NON DISPONIBLE!!!'
+
+            if (
+              nouvellesRèglesDInstructionChoisies &&
+              cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement
+            ) {
+              contenuParagrapheAchevement =
+                cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement.dispositions
+              referenceParagrapheAchevement =
+                cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement.référenceParagraphe
+            } else if (periode.texteDélaisDAchèvement) {
+              contenuParagrapheAchevement = periode.texteDélaisDAchèvement.dispositions
+              referenceParagrapheAchevement = periode.texteDélaisDAchèvement.référenceParagraphe
+            } else if (appelOffre.texteDélaisDAchèvement) {
+              contenuParagrapheAchevement = appelOffre.texteDélaisDAchèvement.dispositions
+              referenceParagrapheAchevement = appelOffre.texteDélaisDAchèvement.référenceParagraphe
+            }
             return ok({
               ...commonData,
-              referenceParagrapheAchevement: periode.délaisDAchèvement
-                ? periode.délaisDAchèvement.référenceParagraphe
-                : délaisDAchèvement
-                ? délaisDAchèvement.référenceParagraphe
-                : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheAchevement: délaisDAchèvement
-                ? délaisDAchèvement.dispositions
-                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagrapheAchevement,
+              contenuParagrapheAchevement,
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
@@ -209,10 +206,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               referenceParagrapheAbandon:
-                engagementRéalisationEtModalitésAbandon.référenceParagraphe ||
+                texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe ||
                 'REFERENCE NON DISPONIBLE',
               contenuParagrapheAbandon:
-                engagementRéalisationEtModalitésAbandon.dispositions || 'CONTENU NON DISPONIBLE',
+                texteEngagementRéalisationEtModalitésAbandon.dispositions ||
+                'CONTENU NON DISPONIBLE',
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
@@ -221,11 +219,11 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               nouvelActionnaire: actionnaire,
-              referenceParagrapheActionnaire: changementDActionnariat
-                ? changementDActionnariat.référenceParagraphe
+              referenceParagrapheActionnaire: texteChangementDActionnariat
+                ? texteChangementDActionnariat.référenceParagraphe
                 : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheActionnaire: changementDActionnariat
-                ? changementDActionnariat.dispositions
+              contenuParagrapheActionnaire: texteChangementDActionnariat
+                ? texteChangementDActionnariat.dispositions
                 : '!!!CONTENU NON DISPONIBLE!!!',
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'recours':
@@ -268,39 +266,52 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               puissance: nouvellePuissance,
             } = modificationRequest
 
+            let contenuParagraphePuissance = '!!!CONTENU NON DISPONIBLE!!!'
+            let referenceParagraphePuissance = '!!!REFERENCE NON DISPONIBLE!!!'
+
+            if (
+              nouvellesRèglesDInstructionChoisies &&
+              cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance
+            ) {
+              contenuParagraphePuissance =
+                cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance.dispositions
+              referenceParagraphePuissance =
+                cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance
+                  .référenceParagraphe
+            } else if (periode.texteChangementDePuissance) {
+              contenuParagraphePuissance = periode.texteChangementDePuissance.dispositions
+              referenceParagraphePuissance = periode.texteChangementDePuissance.référenceParagraphe
+            } else if (appelOffre.texteChangementDePuissance) {
+              contenuParagraphePuissance = appelOffre.texteChangementDePuissance.dispositions
+              referenceParagraphePuissance =
+                appelOffre.texteChangementDePuissance.référenceParagraphe
+            }
+
             return ok({
               ...commonData,
               puissanceInitiale:
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance: periode.changementDePuissance
-                ? periode.changementDePuissance.référenceParagraphe
-                : changementDePuissance
-                ? changementDePuissance.référenceParagraphe
-                : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagraphePuissance: periode.changementDePuissance
-                ? periode.changementDePuissance.dispositions
-                : changementDePuissance
-                ? changementDePuissance.dispositions
-                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagraphePuissance,
+              contenuParagraphePuissance,
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
             return ok({
               ...commonData,
               nouveauProducteur: producteur,
-              referenceParagrapheIdentiteProducteur: identitéDuProducteur
-                ? identitéDuProducteur.référenceParagraphe
+              referenceParagrapheIdentiteProducteur: texteIdentitéDuProducteur
+                ? texteIdentitéDuProducteur.référenceParagraphe
                 : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheIdentiteProducteur: identitéDuProducteur
-                ? identitéDuProducteur.dispositions
+              contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur
+                ? texteIdentitéDuProducteur.dispositions
                 : '!!!CONTENU NON DISPONIBLE!!!',
-              referenceParagrapheChangementProducteur: changementDeProducteur
-                ? changementDeProducteur.référenceParReagraphe
+              referenceParagrapheChangementProducteur: texteChangementDeProducteur
+                ? texteChangementDeProducteur.référenceParReagraphe
                 : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheChangementProducteur: changementDeProducteur
-                ? changementDeProducteur.dispositions
+              contenuParagrapheChangementProducteur: texteChangementDeProducteur
+                ? texteChangementDeProducteur.dispositions
                 : '!!!CONTENU NON DISPONIBLE!!!',
             } as ModificationRequestDataForResponseTemplateDTO)
         }
