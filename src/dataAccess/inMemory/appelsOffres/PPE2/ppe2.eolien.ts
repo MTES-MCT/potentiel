@@ -73,7 +73,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v2',
-      paragrapheAchevement: '6.3',
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
         reference: '2022/S 035-088651',

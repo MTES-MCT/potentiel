@@ -53,7 +53,6 @@ type RéférencesCourriersRéponseModifications = {
   identitéDuProducteur?: { référenceParagraphe: string; dispositions: string }
   changementDeProducteur?: { référenceParReagraphe: string; dispositions: string }
   délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
-  prolongationDeDélai?: { dispositions: string } // à vérifier si on a besoin de cette donnée
 }
 export type AppelOffre = {
   id: string
@@ -82,7 +81,6 @@ export type AppelOffre = {
   choisirNouveauCahierDesCharges?: true
   periodes: Periode[]
   familles: Famille[]
-  contenuParagrapheAchevement?: string // a supprimer car deviendra appelOffre.DélaisDAchèvement.dispositions
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
