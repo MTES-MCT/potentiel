@@ -4,8 +4,6 @@ const path = require('path')
 const webpack = require('webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
-const pageDir = path.join(__dirname, 'src', 'views', 'pages')
-
 const pageEntries = glob
   .sync('./src/views/pages/**/*@(Page|Page.tsx)')
   .map((name) => {
@@ -42,7 +40,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     plugins: [new TsconfigPathsPlugin()],
-    fallback: { path: require.resolve('path-browserify') },
+    fallback: { path: require.resolve('path-browserify'), util: require.resolve('util') },
   },
   plugins: [
     new webpack.DefinePlugin({
