@@ -12,7 +12,7 @@ const projectId = new UniqueEntityID().toString()
 const modificationRequestId = new UniqueEntityID().toString()
 
 describe('notification.handleModificationReceived', () => {
-  it('should send a confirmation email to the PP that updated the project', async () => {
+  it(`Lorsque le projet est mis à jour, une notification devrait être envoyée au porteur à l'origine de la demande`, async () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
@@ -67,7 +67,7 @@ describe('notification.handleModificationReceived', () => {
     ).toBe(true)
   })
 
-  it('should send an email to the DREAL users for the project region(s)', async () => {
+  it(`Lorsque le projet est mis à jour, une notification devrait être envoyée aux Dreals de la région du projet`, async () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
@@ -146,8 +146,9 @@ describe('notification.handleModificationReceived', () => {
     ).toBe(true)
   })
 
-  describe('when event type is "fournisseur"', () => {
-    describe('when the new evaluationCarbone is below the initial one', () => {
+  describe('Lorsque le type de demande est "fournisseur"', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur initiale 
+        une section alerte ne devrait pas être ajoutée à la notification`, () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -185,15 +186,14 @@ describe('notification.handleModificationReceived', () => {
         )
       })
 
-      it('should NOT add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    describe('when the new evaluationCarbone is higher than the initial one and lower than the tolerated threshold', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieure à la tolérance
+        une section alerte ne devrait pas être ajoutée à la notification`, () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -231,15 +231,14 @@ describe('notification.handleModificationReceived', () => {
         )
       })
 
-      it('should NOT add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    describe('when the new evaluationCarbone is higher than the initial one and higher than the tolerated threshold', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieur à la tolérance
+        une section alerte devrait être ajoutée à la notification`, () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -277,12 +276,10 @@ describe('notification.handleModificationReceived', () => {
         )
       })
 
-      it('should add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).not.toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).not.toBeUndefined()
     })
   })
 })
