@@ -24,7 +24,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
           periodeId: '1',
           familleId: 'familleId',
           classe: 'Classé',
-          nouvellesRèglesDInstructionChoisies: false,
+          cahierDesChargesActuel: 'initial',
         })
       )
 
@@ -52,7 +52,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
           periodeId: '1',
           familleId: 'familleId',
           classe: 'Classé',
-          nouvellesRèglesDInstructionChoisies: true,
+          cahierDesChargesActuel: '30/07/2021',
         })
       )
 

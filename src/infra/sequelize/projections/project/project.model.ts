@@ -154,11 +154,6 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      nouvellesRèglesDInstructionChoisies: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
-      },
       cahierDesChargesActuel: {
         type: DataTypes.ENUM('initial', '30/07/2021', '30/08/2022', '30/08/2022-alternatif'),
         allowNull: false,

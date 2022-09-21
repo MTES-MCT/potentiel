@@ -67,7 +67,12 @@ const baseProjectSchema = SchemaRecord({
   completionDueOn: Number,
   abandonedOn: Number,
   numeroGestionnaire: String,
-  nouvellesRèglesDInstructionChoisies: Boolean,
+  cahierDesChargesActuel: Union(
+    Literal('initial'),
+    Literal('30/07/2021'),
+    Literal('30/08/2022'),
+    Literal('30/08/2022-alternatif')
+  ),
   potentielIdentifier: String,
   technologie: String.withGuard((value: string): value is Technologie =>
     technologies.includes(value as Technologie)
@@ -97,7 +102,7 @@ const fields: string[] = [
   'createdAt',
   'updatedAt',
   'gf',
-  'nouvellesRèglesDInstructionChoisies',
+  'cahierDesChargesActuel',
   'potentielIdentifier',
   ...Object.keys(baseProjectSchema.fields),
 ]
@@ -122,7 +127,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
-  nouvellesRèglesDInstructionChoisies: boolean
+  cahierDesChargesActuel: 'initial' | '30/07/2021' | '30/08/2022' | '30/08/2022-alternatif'
   readonly potentielIdentifier: string
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
@@ -279,7 +284,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     completionDueOn: 0,
     abandonedOn: 0,
     numeroGestionnaire: '',
-    nouvellesRèglesDInstructionChoisies: false,
+    cahierDesChargesActuel: 'initial',
     potentielIdentifier: '',
     technologie: 'N/A',
   })
