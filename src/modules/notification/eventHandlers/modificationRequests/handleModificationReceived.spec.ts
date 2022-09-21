@@ -148,7 +148,7 @@ describe('notification.handleModificationReceived', () => {
 
   describe('Lorsque le type de demande est "fournisseur"', () => {
     it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur initiale 
-        une section alerte ne devrait pas être ajoutée à la notification`, () => {
+        une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -165,26 +165,24 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fournisseur' }],
-              evaluationCarbone: 74,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fournisseur' }],
+            evaluationCarbone: 74,
+            authority: 'dreal',
+          },
+        })
+      )
 
       const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
@@ -193,7 +191,7 @@ describe('notification.handleModificationReceived', () => {
     })
 
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieure à la tolérance
-        une section alerte ne devrait pas être ajoutée à la notification`, () => {
+        une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -210,26 +208,24 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-              evaluationCarbone: 124,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 124,
+            authority: 'dreal',
+          },
+        })
+      )
 
       const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
@@ -238,7 +234,7 @@ describe('notification.handleModificationReceived', () => {
     })
 
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieur à la tolérance
-        une section alerte devrait être ajoutée à la notification`, () => {
+        une section alerte devrait être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -255,26 +251,24 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-              evaluationCarbone: 125,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 125,
+            authority: 'dreal',
+          },
+        })
+      )
 
       const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
