@@ -9,8 +9,8 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   url: string
   alternatif?: true
-  changementDePuissance?: { référenceParagraphe: string; dispositions: string }
-  délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
+  texteChangementDePuissance?: { référenceParagraphe: string; dispositions: string }
+  texteDélaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
 }
 
 type CahierDesChargesActuel = {

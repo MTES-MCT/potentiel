@@ -54,8 +54,8 @@ export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2'
 export type Periode = {
   id: string
   title: string
-  délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
-  changementDePuissance?: { référenceParagraphe: string; dispositions: string }
+  texteDélaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
+  texteChangementDePuissance?: { référenceParagraphe: string; dispositions: string }
   cahierDesCharges: CahierDesCharges
   delaiDcrEnMois: {
     valeur: number
