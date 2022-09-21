@@ -130,13 +130,13 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
           isSoumisAuxGF,
-          texteDélaisDAchèvement,
           texteEngagementRéalisationEtModalitésAbandon,
           texteChangementDActionnariat,
-          texteChangementDePuissance: texteChangementDePuissance,
           texteIdentitéDuProducteur,
           texteChangementDeProducteur,
           cahiersDesChargesModifiésDisponibles,
+          texteDélaisDAchèvement,
+          texteChangementDePuissance,
         } = appelOffre
 
         const commonData = {
@@ -180,9 +180,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             } else if (periode.texteDélaisDAchèvement) {
               contenuParagrapheAchevement = periode.texteDélaisDAchèvement.dispositions
               referenceParagrapheAchevement = periode.texteDélaisDAchèvement.référenceParagraphe
-            } else if (appelOffre.texteDélaisDAchèvement) {
-              contenuParagrapheAchevement = appelOffre.texteDélaisDAchèvement.dispositions
-              referenceParagrapheAchevement = appelOffre.texteDélaisDAchèvement.référenceParagraphe
+            } else if (texteDélaisDAchèvement) {
+              contenuParagrapheAchevement = texteDélaisDAchèvement.dispositions
+              referenceParagrapheAchevement = texteDélaisDAchèvement.référenceParagraphe
             }
             return ok({
               ...commonData,
@@ -281,10 +281,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             } else if (periode.texteChangementDePuissance) {
               contenuParagraphePuissance = periode.texteChangementDePuissance.dispositions
               referenceParagraphePuissance = periode.texteChangementDePuissance.référenceParagraphe
-            } else if (appelOffre.texteChangementDePuissance) {
-              contenuParagraphePuissance = appelOffre.texteChangementDePuissance.dispositions
-              referenceParagraphePuissance =
-                appelOffre.texteChangementDePuissance.référenceParagraphe
+            } else if (texteChangementDePuissance) {
+              contenuParagraphePuissance = texteChangementDePuissance.dispositions
+              referenceParagraphePuissance = texteChangementDePuissance.référenceParagraphe
             }
 
             return ok({
