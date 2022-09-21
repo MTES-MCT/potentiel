@@ -8,6 +8,7 @@ import * as yup from 'yup'
 import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { parseCahierDesChargesActuel } from '@entities'
 
 const modificationRequestTypes = [
   'actionnaire',
@@ -19,11 +20,14 @@ const modificationRequestTypes = [
   'delai',
 ]
 
+const cahierDesCharges = ['initial', '30/07/2021', '30/08/2022', '30/08/2022-alternatif']
+
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
     redirectUrl: yup.string().required(),
     type: yup.mixed().oneOf(modificationRequestTypes).optional(),
+    cahierDesCharges: yup.mixed().oneOf(cahierDesCharges).required(),
   }),
 })
 
@@ -59,13 +63,14 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl, type },
+        body: { projectId, redirectUrl, type, cahierDesCharges },
         user,
       } = request
 
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: parseCahierDesChargesActuel(cahierDesCharges),
       }).match(
         () => {
           return response.redirect(

@@ -3,16 +3,13 @@ import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
+import { CahierDesChargesModifié, formatCahierDesChargesActuel, ProjectAppelOffre } from '@entities'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
   redirectUrl?: string
   type?: ModificationRequestType
 }
-
-const getIdCahierDesCharges = (cdc: CahierDesChargesModifié) =>
-  `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
 
 type CahierDesChargesInitialProps = {
   cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
@@ -77,14 +74,14 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
   cahierDesChargesActuel,
   onCahierDesChargesChoisi,
 }) => {
-  const idCdc = getIdCahierDesCharges(cdc)
-  const coché = cahierDesChargesActuel === getIdCahierDesCharges(cdc)
+  const idCdc = formatCahierDesChargesActuel(cdc)
+  const coché = cahierDesChargesActuel === formatCahierDesChargesActuel(cdc)
 
   return (
     <li className="inline-radio-option relative">
       <input
         type="radio"
-        name="choixCDC"
+        name="cahierDesCharges"
         value={idCdc}
         id="Nouvelles règles"
         defaultChecked={coché}
@@ -135,7 +132,7 @@ export const ChoisirCahierDesChargesFormulaire = ({
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc) => (
           <CahierDesChargesModifiéDisponible
             {...{
-              key: getIdCahierDesCharges(cdc),
+              key: formatCahierDesChargesActuel(cdc),
               cdc,
               cahierDesChargesActuel,
               onCahierDesChargesChoisi: () => pouvoirEnregistrerLeChangement(true),
