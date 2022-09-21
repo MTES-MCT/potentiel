@@ -1,5 +1,4 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
@@ -10,7 +9,6 @@ const autoconsommationMetropole: AppelOffre = {
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(24, '7.1'),
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   decoupageParTechnologie: false,
   paragraphePrixReference: '7.2',
@@ -53,7 +51,6 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -75,7 +72,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '2',
       title: 'deuxième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -97,7 +93,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '3',
       title: 'troisième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -119,7 +114,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '4',
       title: 'quatrième',
-      paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -141,7 +135,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '5',
       title: 'cinquième',
-      paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -163,7 +156,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '6',
       title: 'sixième',
-      paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -185,7 +177,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '7',
       title: 'septième',
-      paragrapheAchevement: '6.3',
       noteThreshold: 20.04,
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
@@ -208,7 +199,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '8',
       title: 'huitième',
-      paragrapheAchevement: '6.3',
       noteThreshold: 32.04,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
@@ -231,7 +221,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '9',
       title: 'neuvième',
-      paragrapheAchevement: '6.3',
       noteThreshold: 9.9,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
@@ -254,7 +243,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '10',
       title: 'dixième',
-      paragrapheAchevement: '6.3',
       noteThreshold: 44.9,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
