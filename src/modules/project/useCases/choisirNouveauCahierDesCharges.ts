@@ -1,7 +1,7 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { NouveauCahierDesChargesChoisi } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
@@ -47,15 +47,16 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         }
 
-        return wrapInfra(findAppelOffreById(project.appelOffreId))
+        return wrapInfra(findAppelOffreById(project.appelOffreId)).andThen((appelOffre) =>
+          appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError())
+        )
       })
       .andThen((appelOffre) => {
-        if (appelOffre && appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+        if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
           return errAsync(new PasDeChangementDeCDCPourCetAOError())
         }
 
         if (
-          appelOffre &&
           !appelOffre.cahiersDesChargesModifiésDisponibles.find(
             (c) => c.paruLe === paruLe && c.alternatif === alternatif
           )

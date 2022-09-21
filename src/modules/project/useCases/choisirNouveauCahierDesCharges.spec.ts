@@ -3,7 +3,7 @@ import { okAsync } from '@core/utils'
 import { UnwrapForTest } from '../../../types'
 import { AppelOffre, CahierDesChargesModifié, makeUser } from '@entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeChoisirNouveauCahierDesCharges } from './choisirNouveauCahierDesCharges'
 import { PasDeChangementDeCDCPourCetAOError, Project, NouveauCahierDesChargesChoisi } from '..'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
@@ -36,6 +36,31 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
 
   beforeEach(() => {
     return publishToEventStore.mockClear()
+  })
+
+  describe(`Changement impossible si l'AO du projet n'existe pas`, () => {
+    it(`Lorsqu'il souscrit à un nouveau CDC
+        Alors il devrait être alerté que l'AO n'existe pas`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        findAppelOffreById: async () => undefined,
+      })
+
+      const res = await choisirNouveauCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: {
+          paruLe: '30/07/2021',
+        },
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EntityNotFoundError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
   })
 
   describe(`Changement impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
