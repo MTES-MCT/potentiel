@@ -46,14 +46,6 @@ type GarantiesFinancièresAppelOffre =
       soumisAuxGarantiesFinancieres?: undefined
     }
 
-type RéférencesCourriersRéponseModifications = {
-  engagementRéalisationEtModalitésAbandon: { référenceParagraphe: string; dispositions: string }
-  changementDePuissance?: { référenceParagraphe: string; dispositions: string }
-  changementDActionnariat?: { référenceParagraphe: string; dispositions: string }
-  identitéDuProducteur?: { référenceParagraphe: string; dispositions: string }
-  changementDeProducteur?: { référenceParReagraphe: string; dispositions: string }
-  délaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
-}
 export type AppelOffre = {
   id: string
   type: AppelOffreTypes
@@ -84,9 +76,17 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
+  texteEngagementRéalisationEtModalitésAbandon: {
+    référenceParagraphe: string
+    dispositions: string
+  }
+  texteChangementDePuissance?: { référenceParagraphe: string; dispositions: string }
+  texteChangementDActionnariat?: { référenceParagraphe: string; dispositions: string }
+  texteIdentitéDuProducteur?: { référenceParagraphe: string; dispositions: string }
+  texteChangementDeProducteur?: { référenceParReagraphe: string; dispositions: string }
+  texteDélaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
 } & DelaiRealisation &
-  GarantiesFinancièresAppelOffre &
-  RéférencesCourriersRéponseModifications
+  GarantiesFinancièresAppelOffre
 
 export type ProjectAppelOffre = AppelOffre & {
   periode: Periode

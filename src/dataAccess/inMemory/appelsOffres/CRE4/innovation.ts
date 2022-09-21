@@ -34,7 +34,7 @@ const innovation: AppelOffre = {
     },
   },
   choisirNouveauCahierDesCharges: true,
-  engagementRéalisationEtModalitésAbandon: {
+  texteEngagementRéalisationEtModalitésAbandon: {
     référenceParagraphe: '6.3',
     dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4). 
 Par exception, le Candidat est délié de cette obligation : 
@@ -45,20 +45,20 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
 
 Le Candidat dont l’offre a été retenue met en oeuvre les éléments, dispositifs et systèmes innovants décrits dans son offre (cf. 3.2.5 et 3.2.6) sur toute leur durée de vie de manière à ce que leur performance puisse être analysée sur une longue période.`,
   },
-  changementDActionnariat: {
+  texteChangementDActionnariat: {
     référenceParagraphe: '5.4.2',
     dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. `,
   },
-  identitéDuProducteur: {
+  texteIdentitéDuProducteur: {
     référenceParagraphe: '2.5',
     dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
   },
-  changementDeProducteur: {
+  texteChangementDeProducteur: {
     référenceParReagraphe: '5.4.1',
     dispositions: `Les changements de Producteur sont réputés autorisés.
 Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
   },
-  délaisDAchèvement: {
+  texteDélaisDAchèvement: {
     référenceParagraphe: '6.3',
     dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - 24 mois à compter de la Date de désignation.
@@ -75,7 +75,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-5-septembre-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.4.5',
         dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
       },
@@ -94,7 +94,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-fevrier-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.4.5',
         dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
       },
@@ -113,7 +113,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-31-mars-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.4.5',
         dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-quinze pourcents et cent pourcents de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.`,
       },
@@ -157,7 +157,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-innovation',
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.4.5',
         dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
  Les modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
@@ -168,7 +168,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.4.5',
         dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
     Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)  et que la Puissance modifiée soit :
@@ -177,7 +177,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     Les modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
     Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
       },
-      délaisDAchèvement: {
+      texteDélaisDAchèvement: {
         référenceParagraphe: '6.3',
         dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 * vingt-quatre (24) mois à compter de la Date de désignation.

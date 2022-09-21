@@ -46,7 +46,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
       },
     },
   },
-  engagementRéalisationEtModalitésAbandon: {
+  texteEngagementRéalisationEtModalitésAbandon: {
     référenceParagraphe: '6.2',
     dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
 Par exception, le Candidat est délié de cette obligation :
@@ -55,7 +55,7 @@ Par exception, le Candidat est délié de cette obligation :
 Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
 Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de conditions. L’accord du Ministre et les conditions imposées ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
   },
-  changementDePuissance: {
+  texteChangementDePuissance: {
     référenceParagraphe: '5.2.4',
     dispositions: `Avant l’achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise :
  • entre quatre-vingt-dix pourcents (90 %) et cent-dix pourcents (110 %) de la Puissance indiquée dans l’offre pour les projets photovoltaïques;
@@ -70,7 +70,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
  • quatre-vingt pourcents (80 %) de la Puissance indiquée dans l’offre pour les projets éoliens,
  et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
   },
-  délaisDAchèvement: {
+  texteDélaisDAchèvement: {
     référenceParagraphe: '6.3',
     dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation pour les installations photovoltaïques ;
@@ -110,7 +110,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-auto-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,
-      changementDePuissance: {
+      texteChangementDePuissance: {
         référenceParagraphe: '5.2.4',
         dispositions: `Avant  l’achèvement,  les  modifications  de  la  Puissance  installée  sont  autorisées,  sous  réserve  que  la  Puissance de l’Installation modifiée soit comprise :
     •entre quatre-vingt-dix pourcents (90 %) et cent-dix pourcents (110 %) de la Puissance indiquée dans l’offre pour les projets photovoltaïques;
@@ -126,7 +126,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
      • quatre-vingt pourcents (80 %) de la Puissance indiquée dans l’offre pour les projets éoliens,
      et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
       },
-      délaisDAchèvement: {
+      texteDélaisDAchèvement: {
         référenceParagraphe: '6.3',
         dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
     -trente (30) mois à compter de la Date de désignation pour les installations photovoltaïques ; ou trente-six (36) mois à compter de la Date de désignation pour les installations éoliennes.

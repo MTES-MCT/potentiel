@@ -34,7 +34,7 @@ const neutrePPE2: AppelOffre = {
       max: 1.2,
     },
   },
-  engagementRéalisationEtModalitésAbandon: {
+  texteEngagementRéalisationEtModalitésAbandon: {
     référenceParagraphe: '6.2',
     dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
 Par exception, le Candidat est délié de cette obligation :
@@ -44,11 +44,11 @@ Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La 
 Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de
 conditions ou du prélèvement d’une part de la garantie financière. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
   },
-  changementDePuissance: {
+  texteChangementDePuissance: {
     référenceParagraphe: '5.2.5',
     dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingtspourcents (80 %) et cent-vingt pourcents (120 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Lesmodifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
   },
-  délaisDAchèvement: {
+  texteDélaisDAchèvement: {
     référenceParagraphe: '6.3',
     dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation pour les installations photovoltaïques ;
