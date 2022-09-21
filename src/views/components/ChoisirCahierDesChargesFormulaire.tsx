@@ -3,7 +3,8 @@ import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
-import { CahierDesChargesModifié, formatCahierDesChargesActuel, ProjectAppelOffre } from '@entities'
+import { CahierDesChargesModifié, formatCahierDesChargesActuel } from '@entities/cahierDesCharges'
+import { ProjectAppelOffre } from '@entities/appelOffre'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
