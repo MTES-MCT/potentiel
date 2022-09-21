@@ -89,7 +89,7 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
       <br />
       {userIs('porteur-projet')(user) && (
         <Link className="flex mt-4" href={`/projet/${projectId}/choisir-cahier-des-charges.html`}>
-          Accèder au choix du cahier des charges
+          Accéder au choix du cahier des charges
         </Link>
       )}
     </div>

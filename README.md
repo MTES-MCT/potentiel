@@ -309,13 +309,13 @@ clever deploy -a staging --force
 
 ## Accès à la base de données distantes
 
-De la même façon qu'en local, nous pouvons utiliser `psql` pour accèder aux bases distantes. Pour celà, nous créons un autre fichier `.env` (ex: `.env.staging`) spécifique à l'environnement cible, dans lequel nous mettons les credentials de la base distante (récupérée dans la console clever cloud). **Ne jamais avoir les credentials de la prod en local.**
+De la même façon qu'en local, nous pouvons utiliser `psql` pour accéder aux bases distantes. Pour celà, nous créons un autre fichier `.env` (ex: `.env.staging`) spécifique à l'environnement cible, dans lequel nous mettons les credentials de la base distante (récupérée dans la console clever cloud). **Ne jamais avoir les credentials de la prod en local.**
 
 ```
 dotenv -e .env.staging -- bash -c 'psql -h $POSTGRESQL_ADDON_HOST -p $POSTGRESQL_ADDON_PORT -U $POSTGRESQL_ADDON_USER -d $POSTGRESQL_ADDON_DB'
 ```
 
-Il est également possible d'accèder aux données via PG Studio dans la console clever cloud.
+Il est également possible d'accéder aux données via PG Studio dans la console clever cloud.
 
 ## Créer un dump de base de données
 

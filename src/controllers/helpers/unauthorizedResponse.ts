@@ -14,6 +14,6 @@ export const unauthorizedResponse = (args: {
     response,
     customStatus: 403,
     customTitle: customTitle || 'Accès restreint',
-    customMessage: customMessage || `Votre compte ne permet pas d'accèder à cette ressource.`,
+    customMessage: customMessage || `Votre compte ne permet pas d'accéder à cette ressource.`,
   })
 }
