@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Project, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
@@ -15,6 +15,7 @@ import {
   SecondaryLinkButton,
   InfoBox,
   InfoLienGuideUtilisationCDC,
+  AlertBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
@@ -32,6 +33,8 @@ export const ChangerFournisseur = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       project.cahierDesChargesActuel === 'initial'
+
+    const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -97,7 +100,7 @@ export const ChangerFournisseur = PageLayout(
                       disabled
                       defaultValue={project.evaluationCarboneInitiale}
                     />
-                    <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
+                    <label>Évaluation carbone actuelle (kg eq CO2/kWc)</label>
                     <input
                       type="number"
                       disabled
@@ -108,11 +111,18 @@ export const ChangerFournisseur = PageLayout(
                       Nouvelle évaluation carbone (kg eq CO2/kWc)
                     </label>
                     <input
+                      onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
                       type="number"
                       name="evaluationCarbone"
                       id="evaluationCarbone"
                       {...dataId('modificationRequest-evaluationCarboneField')}
                     />
+                    {evaluationCarbone && evaluationCarbone > project.evaluationCarboneInitiale && (
+                      <AlertBox className="mt-4">
+                        Cette nouvelle valeur entraîne une dégradation de la note du projet,
+                        celui-ci ne recevra pas d'attestation de conformité.
+                      </AlertBox>
+                    )}
                   </div>
                 )}
                 <label htmlFor="candidats" className="mt-6">
