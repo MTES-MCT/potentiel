@@ -17,6 +17,7 @@ type ChoisirNouveauCahierDesCharges = (commande: {
   | UnauthorizedError
   | NouveauCahierDesChargesDéjàSouscrit
   | PasDeChangementDeCDCPourCetAOError
+  | CahierDesChargesNonDisponibleError
   | InfraNotAvailableError
 >
 

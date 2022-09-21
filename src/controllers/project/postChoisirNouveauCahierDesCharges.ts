@@ -5,7 +5,11 @@ import routes from '@routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
-import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
+import {
+  CahierDesChargesNonDisponibleError,
+  NouveauCahierDesChargesDéjàSouscrit,
+  PasDeChangementDeCDCPourCetAOError,
+} from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 
@@ -124,17 +128,25 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof NouveauCahierDesChargesDéjàSouscrit) {
+          if (
+            error instanceof NouveauCahierDesChargesDéjàSouscrit ||
+            error instanceof PasDeChangementDeCDCPourCetAOError ||
+            error instanceof CahierDesChargesNonDisponibleError
+          ) {
             return errorResponse({
               request,
               response,
-              customMessage:
-                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+              customMessage: error.message,
             })
           }
 
           logger.error(error)
-          return errorResponse({ request, response })
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          })
         }
       )
     }
