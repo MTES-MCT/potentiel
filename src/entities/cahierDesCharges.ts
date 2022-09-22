@@ -1,4 +1,4 @@
-import { TexteCDCCourriers } from './appelOffre'
+import { DonnéesCourriersRéponse } from './appelOffre'
 
 export type CahierDesCharges = {
   référence: string
@@ -10,7 +10,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
   numéroGestionnaireRequis?: true
-  texteCDCCourriers?: TexteCDCCourriers
+  donnéesCourriersRéponse?: DonnéesCourriersRéponse
 }
 
 export const cahiersDesChargesModifiésRéférences = [

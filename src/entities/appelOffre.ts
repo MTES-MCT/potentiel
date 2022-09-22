@@ -46,18 +46,15 @@ type GarantiesFinancièresAppelOffre =
       soumisAuxGarantiesFinancieres?: undefined
     }
 
-type ClésTexteCDCCourriers =
-  | 'texteEngagementRéalisationEtModalitésAbandon'
-  | 'texteChangementDActionnariat'
-  | 'texteChangementDePuissance'
-  | 'texteChangementDActionnariat'
-  | 'texteIdentitéDuProducteur'
-  | 'texteChangementDeProducteur'
-  | 'texteDélaisDAchèvement'
-
-export type TexteCDCCourriers = Partial<
+export type DonnéesCourriersRéponse = Partial<
   Record<
-    ClésTexteCDCCourriers,
+    | 'texteEngagementRéalisationEtModalitésAbandon'
+    | 'texteChangementDActionnariat'
+    | 'texteChangementDePuissance'
+    | 'texteChangementDActionnariat'
+    | 'texteIdentitéDuProducteur'
+    | 'texteChangementDeProducteur'
+    | 'texteDélaisDAchèvement',
     {
       référenceParagraphe: string
       dispositions: string
@@ -95,7 +92,7 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
-  texteCDCCourriers: TexteCDCCourriers
+  donnéesCourriersRéponse: DonnéesCourriersRéponse
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre
 
