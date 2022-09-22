@@ -45,9 +45,10 @@ Par exception, le Candidat est délié de cette obligation :
 Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée. 
 Le Candidat peut également être délié de cette obligation selon appréciation du ministre chargé de l’énergie  suite  à  une  demande  dûment  justifiée.  Le  Ministre  peut  accompagner  son accord  de conditions. L’accord du Ministre et les conditions imposées le cas échéant, ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
     },
-    texteChangementDActionnariat: { référenceParagraphe: '', dispositions: `` },
-    texteIdentitéDuProducteur: { référenceParagraphe: '', dispositions: `` },
-    texteChangementDeProducteur: { référenceParagraphe: '', dispositions: `` },
+    texteIdentitéDuProducteur: {
+      référenceParagraphe: '2.5',
+      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
+    },
   },
   periodes: [
     {
@@ -70,6 +71,15 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
 - {{délai de réalisation}} mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
+        },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.4.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.4.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
     },
@@ -94,6 +104,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
         },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.4.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.4.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
+        },
       },
     },
     {
@@ -116,6 +135,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - {{délai de réalisation}} mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
+        },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.4.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.4.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
     },
@@ -140,6 +168,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
         },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
+        },
       },
     },
     {
@@ -163,6 +200,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
         },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
+        },
       },
     },
     {
@@ -185,6 +231,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - {{délai de réalisation}} mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
+        },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
     },
@@ -210,6 +265,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
         },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
+        },
       },
     },
     {
@@ -233,6 +297,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - {{délai de réalisation}} mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
+        },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
     },
@@ -258,6 +331,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
         },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
+        },
       },
     },
     {
@@ -281,6 +363,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
 - {{délai de réalisation}} mois à compter de la Date de désignation.
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
 En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est amputée d’un raccourcissement R égal à la durée T de dépassement : R = T.`,
+        },
+        texteChangementDActionnariat: {
+          référenceParagraphe: '5.3.2',
+          dispositions: `Les modifications de la structure du capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois.`,
+        },
+        texteChangementDeProducteur: {
+          référenceParagraphe: '5.3.1',
+          dispositions: `Les changements de Producteur sont réputés autorisés.
+Ils doivent faire l’objet d’une information au Préfet dans un délai d’un mois. A cette fin, le producteur transmet à la DREAL de la région concernée par le projet, les statuts de la nouvelle société.`,
         },
       },
     },
