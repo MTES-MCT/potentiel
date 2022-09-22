@@ -93,12 +93,10 @@ v1Router.post(
         user,
       } = request
 
-      const choixCahierDesCharges = mapVersChoixCahierDesCharges(cahierDesCharges)
-
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
-        cahierDesCharges: choixCahierDesCharges,
+        cahierDesCharges: mapVersChoixCahierDesCharges(cahierDesCharges),
       }).match(
         () => {
           return response.redirect(
