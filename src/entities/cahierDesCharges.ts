@@ -1,3 +1,5 @@
+import { TexteCDCCourriers } from './appelOffre'
+
 export type CahierDesCharges = {
   reference: string
   url: string
@@ -9,8 +11,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   url: string
   alternatif?: true
-  texteChangementDePuissance?: { référenceParagraphe: string; dispositions: string }
-  texteDélaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
+  texteCDCCourriers?: TexteCDCCourriers
 }
 
 type CahierDesChargesActuel = {
