@@ -258,12 +258,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               nouveauProducteur: producteur,
-              referenceParagrapheIdentiteProducteur: texteIdentitéDuProducteur
-                ? texteIdentitéDuProducteur.référenceParagraphe
-                : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur
-                ? texteIdentitéDuProducteur.dispositions
-                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagrapheIdentiteProducteur: texteIdentitéDuProducteur.référenceParagraphe,
+              contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur.dispositions,
               referenceParagrapheChangementProducteur:
                 texteChangementDeProducteur.référenceParagraphe,
               contenuParagrapheChangementProducteur: texteChangementDeProducteur.dispositions,
