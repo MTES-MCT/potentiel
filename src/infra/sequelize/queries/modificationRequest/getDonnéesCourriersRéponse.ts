@@ -41,7 +41,7 @@ export const getDonnéesCourriersRéponse: GetDonnéesCourriersRéponse = (
   return {
     ...donnéesCourriersRéponseParDéfaut,
     ...donnéesCourriersRéponse,
-    ...(periode.donnéesCourriersRéponse && periode.donnéesCourriersRéponse),
+    ...periode.donnéesCourriersRéponse,
     ...(cahierDesChargesModifié && cahierDesChargesModifié.donnéesCourriersRéponse),
   }
 }
