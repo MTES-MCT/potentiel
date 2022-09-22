@@ -1,4 +1,4 @@
-import { getDonnéesCourriersRéponse } from './getDonnéesCourriersRéponse'
+import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'

@@ -1,3 +1,4 @@
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 import { Periode } from './periode'
 import { Famille, GarantiesFinancièresFamille } from './famille'
 import { CahierDesChargesModifié } from './cahierDesCharges'
@@ -45,19 +46,6 @@ type GarantiesFinancièresAppelOffre =
   | {
       soumisAuxGarantiesFinancieres?: undefined
     }
-
-export type DonnéesCourriersRéponse = Record<
-  | 'texteEngagementRéalisationEtModalitésAbandon'
-  | 'texteChangementDActionnariat'
-  | 'texteChangementDePuissance'
-  | 'texteIdentitéDuProducteur'
-  | 'texteChangementDeProducteur'
-  | 'texteDélaisDAchèvement',
-  {
-    référenceParagraphe: string
-    dispositions: string
-  }
->
 
 export type AppelOffre = {
   id: string

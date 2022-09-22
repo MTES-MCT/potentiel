@@ -1,7 +1,7 @@
-import { CahierDesChargesModifié } from '@entities/cahierDesCharges'
-import { ProjectAppelOffre } from '@entities/appelOffre'
-import { Periode } from '@entities/periode'
-import { getDonnéesCourriersRéponse } from './getDonnéesCourriersRéponse'
+import { CahierDesChargesModifié } from './cahierDesCharges'
+import { ProjectAppelOffre } from './appelOffre'
+import { Periode } from './periode'
+import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 
 describe(`Récupération des données des courriers de réponse`, () => {
   describe(`Cas des données présentes seulement dans l'appel d'offre`, () => {

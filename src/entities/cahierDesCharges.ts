@@ -1,4 +1,4 @@
-import { DonnéesCourriersRéponse } from './appelOffre'
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 
 export type CahierDesCharges = {
   référence: string
