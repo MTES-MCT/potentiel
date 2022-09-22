@@ -147,7 +147,7 @@ describe('notification.handleModificationReceived', () => {
   })
 
   describe('Lorsque le type de demande est "fournisseur"', () => {
-    it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur initiale 
+    it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur de référence 
         une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
@@ -190,7 +190,7 @@ describe('notification.handleModificationReceived', () => {
       expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieure à la tolérance
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
         une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
@@ -233,7 +233,7 @@ describe('notification.handleModificationReceived', () => {
       expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur initiale et inférieur à la tolérance
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
         une section alerte devrait être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
