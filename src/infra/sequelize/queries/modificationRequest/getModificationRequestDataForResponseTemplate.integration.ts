@@ -169,7 +169,7 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
     })
 
     it(`Etant donné un utilisateur Dreal téléchargeant un modèle de réponse, 
-    Alors ses nom, email et région devraient être retournés dans le DTO`, async () => {
+    Alors ses nom, email et région devraient être retournées dans le DTO`, async () => {
       const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
         modificationRequestId.toString(),
         fakeDrealUser,
@@ -827,7 +827,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       })
     })
 
-    it(`Alors un DTO devrait être retournée avec une adresse de candidat vide`, async () => {
+    it(`Alors un DTO devrait être retourné avec une adresse de candidat vide`, async () => {
       const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
         modificationRequestId.toString(),
         fakeAdminUser,
@@ -838,8 +838,8 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     })
   })
 
-  describe(`Cas d'un projet dont les référence de CDC sont dans la portée de la période`, () => {
-    describe(`Etant un donné un appel d'offre dont le traitement des demandes de délai varie selon la période`, () => {
+  describe(`Cas d'un projet dont les références de CDC sont dans la portée de la période`, () => {
+    describe(`Etant un donné un appel d'offres dont le traitement des demandes de délai varie selon la période`, () => {
       const project = makeFakeProject({
         ...projectInfo,
         appelOffreId: 'CRE4 - Bâtiment',
@@ -896,8 +896,8 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
     })
   })
 
-  describe(`Cas d'un projet dont les référence de CDC sont dans la portée du CDC modifié`, () => {
-    describe(`Etant un donné un appel d'offre dont le traitement des changements de puissance varie selon le CDC modifié`, () => {
+  describe(`Cas d'un projet dont les références de CDC sont dans la portée du CDC modifié`, () => {
+    describe(`Etant un donné un appel d'offres dont le traitement des changements de puissance varie selon le CDC modifié`, () => {
       const project = makeFakeProject({
         ...projectInfo,
         appelOffreId: 'CRE4 - Sol',
