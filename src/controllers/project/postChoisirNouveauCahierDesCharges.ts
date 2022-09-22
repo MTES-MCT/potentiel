@@ -32,7 +32,7 @@ const schema = yup.object({
         'delai',
       ])
       .optional(),
-    cahierDesCharges: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
+    choixCDC: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
   }),
 })
 
@@ -89,14 +89,14 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl, type, cahierDesCharges },
+        body: { projectId, redirectUrl, type, choixCDC },
         user,
       } = request
 
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
-        cahierDesCharges: mapVersChoixCahierDesCharges(cahierDesCharges),
+        cahierDesCharges: mapVersChoixCahierDesCharges(choixCDC),
       }).match(
         () => {
           return response.redirect(

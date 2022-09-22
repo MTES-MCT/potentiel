@@ -27,13 +27,13 @@ const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({
         type="radio"
         name="choixCDC"
         value="initial"
-        id="Anciennes règles"
+        id="initial"
         disabled={true}
         defaultChecked={cahierDesChargesActuel === 'initial'}
         className="peer absolute left-4"
       />
       <label
-        htmlFor="Anciennes règles"
+        htmlFor="initial"
         className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base hover:cursor-pointer peer-checked:bg-blue-france-975-base peer-disabled:cursor-not-allowed"
       >
         <span className="font-bold">
@@ -76,22 +76,22 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
   onCahierDesChargesChoisi,
 }) => {
   const idCdc = formatCahierDesChargesActuel(cdc)
-  const coché = cahierDesChargesActuel === formatCahierDesChargesActuel(cdc)
+  const estCoché = cahierDesChargesActuel === formatCahierDesChargesActuel(cdc)
 
   return (
     <li className="inline-radio-option relative">
       <input
         type="radio"
-        name="cahierDesCharges"
+        name="choixCDC"
         value={idCdc}
-        id="Nouvelles règles"
-        defaultChecked={coché}
-        disabled={coché}
+        id={idCdc}
+        defaultChecked={estCoché}
+        disabled={estCoché}
         onChange={() => onCahierDesChargesChoisi(idCdc)}
         className="peer absolute left-4"
       />
       <label
-        htmlFor="Nouvelles règles"
+        htmlFor={idCdc}
         className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base peer-checked:bg-blue-france-975-base hover:cursor-pointer peer-disabled:cursor-not-allowed"
       >
         <span className="font-bold">
