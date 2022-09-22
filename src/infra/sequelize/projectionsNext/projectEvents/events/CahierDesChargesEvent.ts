@@ -3,5 +3,9 @@ import { ProjectEvent } from '..'
 
 export type CahierDesChargesEvent = ProjectEvent & {
   type: 'NouveauCahierDesChargesChoisi'
-  payload: { choisiPar: string; paruLe: NouveauCahierDesChargesChoisiPayload['paruLe'] }
+  payload: {
+    choisiPar: string
+    paruLe: NouveauCahierDesChargesChoisiPayload['paruLe']
+    alternatif?: true
+  }
 }
