@@ -1,4 +1,3 @@
-export * from './GetDonnéesCourriersRéponse'
 export * from './GetModificationRequestDateForResponseTemplate'
 export * from './GetModificationRequestDetails'
 export * from './GetModificationRequestInfoForConfirmedNotification'

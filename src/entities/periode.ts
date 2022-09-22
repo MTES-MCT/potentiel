@@ -1,5 +1,5 @@
-import { CahierDesCharges } from '@entities/cahierDesCharges'
-import { DonnéesCourriersRéponse } from './appelOffre'
+import { CahierDesCharges } from './cahierDesCharges'
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 import { Territoire } from './territoire'
 
 type NoteThresholdByFamily = {

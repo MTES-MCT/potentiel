@@ -1,6 +1,23 @@
-import { DonnéesCourriersRéponse } from '@entities'
-import { parseCahierDesChargesActuel } from '@entities/cahierDesCharges'
-import { GetDonnéesCourriersRéponse } from '@modules/modificationRequest'
+import { ProjectAppelOffre } from './appelOffre'
+import { parseCahierDesChargesActuel } from './cahierDesCharges'
+
+export type DonnéesCourriersRéponse = Record<
+  | 'texteEngagementRéalisationEtModalitésAbandon'
+  | 'texteChangementDActionnariat'
+  | 'texteChangementDePuissance'
+  | 'texteIdentitéDuProducteur'
+  | 'texteChangementDeProducteur'
+  | 'texteDélaisDAchèvement',
+  {
+    référenceParagraphe: string
+    dispositions: string
+  }
+>
+
+export type GetDonnéesCourriersRéponse = (
+  cahierDesChargesActuel: string,
+  projectAppelOffre: ProjectAppelOffre
+) => DonnéesCourriersRéponse
 
 const donnéesCourriersRéponseParDéfaut: DonnéesCourriersRéponse = {
   texteChangementDActionnariat: {

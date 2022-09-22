@@ -18,4 +18,5 @@ export * from './periode'
 export * from './project'
 export * from './user'
 export * from './cahierDesCharges'
+export * from './donnéesCourriersRéponse'
 export { makeUser, makeProject, makeModificationRequest, applyProjectUpdate }
