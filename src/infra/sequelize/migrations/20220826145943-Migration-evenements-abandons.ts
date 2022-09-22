@@ -22,7 +22,6 @@ export default {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
-      console.log('TEST')
       const { ModificationRequest, EventStore } = models
 
       const eventsAbandonAMigrer: Array<{ id: string; projectId: string }> =
