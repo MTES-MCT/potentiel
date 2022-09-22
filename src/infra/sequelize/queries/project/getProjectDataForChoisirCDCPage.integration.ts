@@ -9,60 +9,29 @@ const { Project } = models
 const projectId = new UniqueEntityID().toString()
 
 describe('Récupérer les données pour la page du choix du cahier des charges', () => {
-  describe(`Cas d'un projet ayant les anciennes règles d'instruction`, () => {
-    it(`Étant donné un projet avec les anciennes règles d'instruction
-      Lorsqu'on récupère les données pour la page du choix des CDC
+  it(`Lorsqu'on récupère les données pour la page du choix des CDC
       Alors l'identifiant du projet devrait être retourné
       Et l'appel d'offre pour le projet devrait être retrourné
-      Et le cahier des charges actuel devrait être l'initial`, async () => {
-      await resetDatabase()
+      Et le cahier des charges actuel devrait être retourné`, async () => {
+    await resetDatabase()
 
-      await Project.create(
-        makeFakeProject({
-          id: projectId,
-          appelOffreId: 'Fessenheim',
-          periodeId: '1',
-          familleId: 'familleId',
-          classe: 'Classé',
-          nouvellesRèglesDInstructionChoisies: false,
-        })
-      )
-
-      const res = (await getProjectDataForChoisirCDCPage(projectId))._unsafeUnwrap()
-
-      expect(res).toMatchObject({
+    await Project.create(
+      makeFakeProject({
         id: projectId,
-        appelOffre: getProjectAppelOffre({ appelOffreId: 'Fessenheim', periodeId: '1' }),
-        cahierDesChargesActuel: 'initial',
-      })
-    })
-  })
-  describe(`Cas d'un projet ayant les nouvelles règles d'instruction`, () => {
-    it(`Étant donné un projet avec les nouvelles règles d'instruction
-      Lorsqu'on récupère les données pour la page du choix des CDC
-      Alors l'identifiant du projet devrait être retourné
-      Et l'appel d'offre pour le projet devrait être retrourné
-      Et le cahier des charges actuel devrait être '30/07/2021'`, async () => {
-      await resetDatabase()
-
-      await Project.create(
-        makeFakeProject({
-          id: projectId,
-          appelOffreId: 'Fessenheim',
-          periodeId: '1',
-          familleId: 'familleId',
-          classe: 'Classé',
-          nouvellesRèglesDInstructionChoisies: true,
-        })
-      )
-
-      const res = (await getProjectDataForChoisirCDCPage(projectId))._unsafeUnwrap()
-
-      expect(res).toMatchObject({
-        id: projectId,
-        appelOffre: getProjectAppelOffre({ appelOffreId: 'Fessenheim', periodeId: '1' }),
+        appelOffreId: 'Fessenheim',
+        periodeId: '1',
+        familleId: 'familleId',
+        classe: 'Classé',
         cahierDesChargesActuel: '30/07/2021',
       })
+    )
+
+    const res = (await getProjectDataForChoisirCDCPage(projectId))._unsafeUnwrap()
+
+    expect(res).toMatchObject({
+      id: projectId,
+      appelOffre: getProjectAppelOffre({ appelOffreId: 'Fessenheim', periodeId: '1' }),
+      cahierDesChargesActuel: '30/07/2021',
     })
   })
 })

@@ -69,7 +69,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
       })
       .andThen(({ appelOffre, project }) => {
         if (
-          !project.nouvellesRèglesDInstructionChoisies &&
+          project.cahierDesCharges.paruLe === 'initial' &&
           appelOffre?.choisirNouveauCahierDesCharges
         ) {
           return errAsync(new NouveauCahierDesChargesNonChoisiError())

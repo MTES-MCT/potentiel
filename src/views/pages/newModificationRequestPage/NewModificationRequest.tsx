@@ -33,7 +33,7 @@ export const NewModificationRequest = PageLayout(
 
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
-      !project.nouvellesRèglesDInstructionChoisies
+      project.cahierDesChargesActuel === 'initial'
 
     const redirectionRoute = (action) => {
       switch (action) {

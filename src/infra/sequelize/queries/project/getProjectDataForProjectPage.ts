@@ -4,6 +4,7 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
+import { parseCahierDesChargesActuel } from '@entities'
 
 const { Project, File, User, UserProjects, ProjectStep } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -91,13 +92,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           classe,
           motifsElimination,
           garantiesFinancieresDueOn,
-          dcrDueOn,
           users,
           gf,
           ptf,
           completionDueOn,
           updatedAt,
-          nouvellesRèglesDInstructionChoisies,
+          cahierDesChargesActuel: cahierDesChargesActuelRaw,
           potentielIdentifier,
           contratEDF,
           contratEnedis,
@@ -107,13 +107,32 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           return err(new EntityNotFoundError())
         }
 
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+        const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesActuelRaw)
+        const cahierDesCharges =
+          cahierDesChargesActuel.paruLe === 'initial'
+            ? {
+                type: 'initial',
+                url: appelOffre?.periode.cahierDesCharges.url,
+              }
+            : {
+                type: 'modifié',
+                url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+                  (c) =>
+                    c.paruLe === cahierDesChargesActuel.paruLe &&
+                    c.alternatif === cahierDesChargesActuel.alternatif
+                )?.url,
+                paruLe: cahierDesChargesActuel.paruLe,
+              }
+
         const result: any = {
           id,
           potentielIdentifier,
           appelOffreId,
           periodeId,
           familleId,
-          appelOffre: getProjectAppelOffre({ appelOffreId, periodeId, familleId }),
+          appelOffre,
           numeroCRE,
           puissance,
           engagementFournitureDePuissanceAlaPointe,
@@ -147,9 +166,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             })),
           garantiesFinancieres: undefined,
           updatedAt,
-          nouvellesRèglesDInstructionChoisies,
           contratEDF,
           contratEnedis,
+          cahierDesChargesActuel: cahierDesCharges,
         }
 
         if (user.role !== 'dreal') {

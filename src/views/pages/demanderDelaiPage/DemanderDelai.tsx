@@ -41,7 +41,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
 
   const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges &&
-    !project.nouvellesRèglesDInstructionChoisies
+    project.cahierDesChargesActuel === 'initial'
 
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1

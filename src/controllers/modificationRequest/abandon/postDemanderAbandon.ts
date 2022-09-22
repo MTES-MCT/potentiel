@@ -17,7 +17,6 @@ const schema = yup.object({
     projectId: yup.string().uuid().required(),
     justification: yup.string().optional(),
     numeroGestionnaire: yup.string().optional(),
-    nouvellesRèglesDInstructionChoisies: yup.boolean().optional(),
   }),
 })
 

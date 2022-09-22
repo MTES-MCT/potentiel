@@ -5,25 +5,34 @@ import routes from '@routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
-import { NouveauCahierDesChargesDéjàSouscrit } from '@modules/project'
+import {
+  CahierDesChargesNonDisponibleError,
+  NouveauCahierDesChargesDéjàSouscrit,
+  PasDeChangementDeCDCPourCetAOError,
+} from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 
-const modificationRequestTypes = [
-  'actionnaire',
-  'fournisseur',
-  'producteur',
-  'puissance',
-  'recours',
-  'abandon',
-  'delai',
-]
+const choixCDC = ['30/07/2021', '30/08/2022', '30/08/2022-alternatif'] as const
+type ChoixCahierDesCharges = typeof choixCDC[number]
 
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
     redirectUrl: yup.string().required(),
-    type: yup.mixed().oneOf(modificationRequestTypes).optional(),
+    type: yup
+      .mixed<ModificationRequestType>()
+      .oneOf([
+        'actionnaire',
+        'fournisseur',
+        'producteur',
+        'puissance',
+        'recours',
+        'abandon',
+        'delai',
+      ])
+      .optional(),
+    choixCDC: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
   }),
 })
 
@@ -43,6 +52,27 @@ const getRedirectTitle = (type: ModificationRequestType) => {
   }
 }
 
+const mapVersChoixCahierDesCharges = (
+  cdc: ChoixCahierDesCharges
+): { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true } => {
+  switch (cdc) {
+    case '30/07/2021':
+      return {
+        paruLe: '30/07/2021',
+      }
+    case '30/08/2022':
+      return {
+        paruLe: '30/08/2022',
+      }
+    case '30/08/2022-alternatif': {
+      return {
+        paruLe: '30/08/2022',
+        alternatif: true,
+      }
+    }
+  }
+}
+
 v1Router.post(
   routes.CHANGER_CDC,
   ensureRole('porteur-projet'),
@@ -59,13 +89,14 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl, type },
+        body: { projectId, redirectUrl, type, choixCDC },
         user,
       } = request
 
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
+        cahierDesCharges: mapVersChoixCahierDesCharges(choixCDC),
       }).match(
         () => {
           return response.redirect(
@@ -82,17 +113,25 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof NouveauCahierDesChargesDéjàSouscrit) {
+          if (
+            error instanceof NouveauCahierDesChargesDéjàSouscrit ||
+            error instanceof PasDeChangementDeCDCPourCetAOError ||
+            error instanceof CahierDesChargesNonDisponibleError
+          ) {
             return errorResponse({
               request,
               response,
-              customMessage:
-                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+              customMessage: error.message,
             })
           }
 
           logger.error(error)
-          return errorResponse({ request, response })
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          })
         }
       )
     }

@@ -1,12 +1,6 @@
 import { ensureRole, requestFournisseurModification } from '@config'
 import { logger } from '@core/utils'
-import {
-  CHAMPS_FOURNISSEURS,
-  Fournisseur,
-  isFournisseurKind,
-  NouveauCahierDesChargesDéjàSouscrit,
-  PasDeChangementDeCDCPourCetAOError,
-} from '@modules/project'
+import { CHAMPS_FOURNISSEURS, Fournisseur, isFournisseurKind } from '@modules/project'
 import routes from '@routes'
 import fs from 'fs'
 import { errorResponse, unauthorizedResponse } from '../../helpers'
@@ -97,16 +91,7 @@ v1Router.post(
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
           }
-          if (
-            error instanceof
-            (NouveauCahierDesChargesDéjàSouscrit || PasDeChangementDeCDCPourCetAOError)
-          ) {
-            return errorResponse({
-              request,
-              response,
-              customMessage: error.message,
-            })
-          }
+
           logger.error(error)
           return errorResponse({
             request,

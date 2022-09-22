@@ -30,7 +30,7 @@ export const DemanderAbandon = PageLayout(
 
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
-      !project.nouvellesRèglesDInstructionChoisies
+      project.cahierDesChargesActuel === 'initial'
 
     return (
       <UserDashboard currentPage={'list-requests'}>

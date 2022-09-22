@@ -554,6 +554,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     variant: user.role,
                     date: valueDate,
                     paruLe: payload.paruLe,
+                    alternatif: payload.alternatif,
                   })
                 }
             }

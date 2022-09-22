@@ -68,7 +68,6 @@ v1Router.post(
       'projectId',
       'numeroGestionnaire',
       'evaluationCarbone',
-      'nouvellesRèglesDInstructionChoisies',
     ])
 
     if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {

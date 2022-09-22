@@ -1,4 +1,5 @@
 import { logger } from '@core/utils'
+import { formatCahierDesChargesActuel } from '@entities'
 import { Projections } from '@infra/sequelize/models'
 import { NouveauCahierDesChargesChoisi } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
@@ -11,10 +12,13 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
   ({ Project }) =>
   async (événement) => {
     const {
-      payload: { projetId: id },
+      payload: { projetId: id, paruLe, alternatif },
     } = événement
     try {
-      await Project.update({ nouvellesRèglesDInstructionChoisies: true }, { where: { id } })
+      await Project.update(
+        { cahierDesChargesActuel: formatCahierDesChargesActuel({ paruLe, alternatif }) },
+        { where: { id } }
+      )
     } catch (cause) {
       logger.error(
         new ProjectionEnEchec(

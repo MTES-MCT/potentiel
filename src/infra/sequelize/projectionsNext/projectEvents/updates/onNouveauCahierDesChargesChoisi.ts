@@ -8,7 +8,7 @@ export default ProjectEventProjector.on(
   NouveauCahierDesChargesChoisi,
   async (évènement, transaction) => {
     const {
-      payload: { projetId, choisiPar, paruLe },
+      payload: { projetId, choisiPar, paruLe, alternatif },
     } = évènement
     try {
       await ProjectEvent.create(
@@ -16,7 +16,11 @@ export default ProjectEventProjector.on(
           id: new UniqueEntityID().toString(),
           projectId: projetId,
           type: 'NouveauCahierDesChargesChoisi',
-          payload: { choisiPar, paruLe },
+          payload: {
+            choisiPar,
+            paruLe,
+            ...(alternatif && { alternatif }),
+          },
           valueDate: évènement.occurredAt.getTime(),
           eventPublishedAt: évènement.occurredAt.getTime(),
         },

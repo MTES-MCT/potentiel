@@ -401,6 +401,7 @@ export type NouveauCahierDesChargesChoisiDTO = {
   variant: Exclude<UserRole, 'ademe'>
   date: number
   paruLe: string
+  alternatif?: true
 }
 
 export type ProjectEventListDTO = {

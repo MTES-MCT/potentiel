@@ -3,16 +3,14 @@ import { Button, SecondaryLinkButton, ExternalLink } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
+import { CahierDesChargesModifié, formatCahierDesChargesActuel } from '@entities/cahierDesCharges'
+import { ProjectAppelOffre } from '@entities/appelOffre'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
   redirectUrl?: string
   type?: ModificationRequestType
 }
-
-const getIdCahierDesCharges = (cdc: CahierDesChargesModifié) =>
-  `${cdc.paruLe}${cdc.alternatif ? '#alternatif' : ''}`
 
 type CahierDesChargesInitialProps = {
   cahierDesChargesActuel: ProjectDataForChoisirCDCPage['cahierDesChargesActuel']
@@ -29,13 +27,13 @@ const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({
         type="radio"
         name="choixCDC"
         value="initial"
-        id="Anciennes règles"
+        id="initial"
         disabled={true}
         defaultChecked={cahierDesChargesActuel === 'initial'}
         className="peer absolute left-4"
       />
       <label
-        htmlFor="Anciennes règles"
+        htmlFor="initial"
         className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base hover:cursor-pointer peer-checked:bg-blue-france-975-base peer-disabled:cursor-not-allowed"
       >
         <span className="font-bold">
@@ -77,8 +75,8 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
   cahierDesChargesActuel,
   onCahierDesChargesChoisi,
 }) => {
-  const idCdc = getIdCahierDesCharges(cdc)
-  const coché = cahierDesChargesActuel === getIdCahierDesCharges(cdc)
+  const idCdc = formatCahierDesChargesActuel(cdc)
+  const estCoché = cahierDesChargesActuel === formatCahierDesChargesActuel(cdc)
 
   return (
     <li className="inline-radio-option relative">
@@ -86,18 +84,19 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
         type="radio"
         name="choixCDC"
         value={idCdc}
-        id="Nouvelles règles"
-        defaultChecked={coché}
-        disabled={coché}
+        id={idCdc}
+        defaultChecked={estCoché}
+        disabled={estCoché}
         onChange={() => onCahierDesChargesChoisi(idCdc)}
         className="peer absolute left-4"
       />
       <label
-        htmlFor="Nouvelles règles"
+        htmlFor={idCdc}
         className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base peer-checked:bg-blue-france-975-base hover:cursor-pointer peer-disabled:cursor-not-allowed"
       >
         <span className="font-bold">
-          Instruction selon le cahier des charges modifié rétroactivement et publié le {cdc.paruLe}{' '}
+          Instruction selon le cahier des charges{cdc.alternatif ? ' alternatif' : ''} modifié{' '}
+          rétroactivement et publié le {cdc.paruLe}{' '}
         </span>
         {'('}
         <ExternalLink href={cdc.url}>voir le cahier des charges</ExternalLink>
@@ -135,7 +134,7 @@ export const ChoisirCahierDesChargesFormulaire = ({
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc) => (
           <CahierDesChargesModifiéDisponible
             {...{
-              key: getIdCahierDesCharges(cdc),
+              key: formatCahierDesChargesActuel(cdc),
               cdc,
               cahierDesChargesActuel,
               onCahierDesChargesChoisi: () => pouvoirEnregistrerLeChangement(true),
