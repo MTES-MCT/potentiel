@@ -14,7 +14,7 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: DonnéesCourriersRéponse
 }
 
-type CahierDesChargesActuel = {
+export type CahierDesChargesActuel = {
   paruLe: string
   alternatif?: true
 }
