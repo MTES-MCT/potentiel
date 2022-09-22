@@ -86,7 +86,7 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
         value={idCdc}
         id={idCdc}
         defaultChecked={estCoché}
-        disabled={estCoché}
+        disabled={estCoché || ['30/08/2022', '30/08/2022-alternatif'].includes(idCdc)}
         onChange={() => onCahierDesChargesChoisi(idCdc)}
         className="peer absolute left-4"
       />
