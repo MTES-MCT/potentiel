@@ -1,7 +1,6 @@
 import { DonnéesCourriersRéponse, ProjectAppelOffre } from '@entities/appelOffre'
-import { CahierDesChargesActuel } from '@entities/cahierDesCharges'
 
 export type GetDonnéesCourriersRéponse = (
-  cahierDesChargesActuel: CahierDesChargesActuel,
+  cahierDesChargesActuel: string,
   projectAppelOffre: ProjectAppelOffre
 ) => DonnéesCourriersRéponse
