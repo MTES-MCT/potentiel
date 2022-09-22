@@ -95,7 +95,8 @@ const CahierDesChargesModifiéDisponible: React.FC<CahierDesChargesModifiéDispo
         className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base peer-checked:bg-blue-france-975-base hover:cursor-pointer peer-disabled:cursor-not-allowed"
       >
         <span className="font-bold">
-          Instruction selon le cahier des charges modifié rétroactivement et publié le {cdc.paruLe}{' '}
+          Instruction selon le cahier des charges{cdc.alternatif ? ' alternatif' : ''} modifié{' '}
+          rétroactivement et publié le {cdc.paruLe}{' '}
         </span>
         {'('}
         <ExternalLink href={cdc.url}>voir le cahier des charges</ExternalLink>
