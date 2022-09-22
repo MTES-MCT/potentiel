@@ -13,7 +13,8 @@ import {
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 
-type ChoixCahierDesCharges = '30/07/2021' | '30/08/2022' | '30/08/2022-alternatif'
+const choixCDC = ['30/07/2021', '30/08/2022', '30/08/2022-alternatif'] as const
+type ChoixCahierDesCharges = typeof choixCDC[number]
 
 const schema = yup.object({
   body: yup.object({
@@ -31,10 +32,7 @@ const schema = yup.object({
         'delai',
       ])
       .optional(),
-    cahierDesCharges: yup
-      .mixed<ChoixCahierDesCharges>()
-      .oneOf(['30/07/2021', '30/08/2022', '30/08/2022-alternatif'])
-      .required(),
+    cahierDesCharges: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
   }),
 })
 
@@ -56,7 +54,7 @@ const getRedirectTitle = (type: ModificationRequestType) => {
 
 const construireCahierDesChargesObjet = (
   cdc: ChoixCahierDesCharges
-): { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true } | undefined => {
+): { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true } => {
   switch (cdc) {
     case '30/07/2021':
       return {
@@ -72,8 +70,6 @@ const construireCahierDesChargesObjet = (
         alternatif: true,
       }
     }
-    default:
-      return undefined
   }
 }
 
@@ -98,15 +94,6 @@ v1Router.post(
       } = request
 
       const choixCahierDesCharges = construireCahierDesChargesObjet(cahierDesCharges)
-
-      if (!choixCahierDesCharges) {
-        return errorResponse({
-          request,
-          response,
-          customMessage:
-            'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-        })
-      }
 
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
