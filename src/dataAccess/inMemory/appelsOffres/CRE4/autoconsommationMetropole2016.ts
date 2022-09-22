@@ -35,7 +35,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
     },
   },
   choisirNouveauCahierDesCharges: true,
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4). 
@@ -97,7 +97,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-1',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.2.4',
           dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt pourcents (80%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.

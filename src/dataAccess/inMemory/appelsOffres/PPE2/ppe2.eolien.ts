@@ -34,7 +34,7 @@ const eolienPPE2: AppelOffre = {
       max: 1.2,
     },
   },
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
       dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -88,7 +88,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.7',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingts pourcents (80 %) et cent vingt pourcents (120 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.

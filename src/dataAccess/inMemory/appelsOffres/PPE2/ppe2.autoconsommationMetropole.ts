@@ -46,7 +46,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
       },
     },
   },
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
       dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -111,7 +111,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-auto-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.2.4',
           dispositions: `Avant  l’achèvement,  les  modifications  de  la  Puissance  installée  sont  autorisées,  sous  réserve  que  la  Puissance de l’Installation modifiée soit comprise :

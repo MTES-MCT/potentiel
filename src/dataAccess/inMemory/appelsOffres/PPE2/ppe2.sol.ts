@@ -35,7 +35,7 @@ const solPPE2: AppelOffre = {
     },
   },
 
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
       dispositions: `Le candidat dont l’offre a été retenue met en service l’installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -107,7 +107,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-sol-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.2.3',
           dispositions: `Avant  l’achèvement,  les  modifications  de  la  Puissance  installée  sont  autorisées,  sous  réserve  que  la  Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre, dans la limite du plafond de puissance de 5 MWc spécifié au paragraphe 1.2.2 pour le cas d'une offre entrant dans le volume réservé. Elles doivent faire l’objet d’une information au Préfet.

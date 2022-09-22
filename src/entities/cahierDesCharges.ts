@@ -1,4 +1,4 @@
-import { TexteCDCCourriers } from './appelOffre'
+import { DonnéesCourriersRéponse } from './appelOffre'
 
 export type CahierDesCharges = {
   reference: string
@@ -11,7 +11,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   url: string
   alternatif?: true
-  texteCDCCourriers?: TexteCDCCourriers
+  donnéesCourriersRéponse?: DonnéesCourriersRéponse
 }
 
 type CahierDesChargesActuel = {

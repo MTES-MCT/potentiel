@@ -33,7 +33,7 @@ const innovationPPE2: AppelOffre = {
       max: 1.1,
     },
   },
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
       dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
@@ -89,7 +89,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-inno-2022-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.2.4',
           dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Les modifications de la Puissance installée hors de cette fourchette ne sont pas autorisées.

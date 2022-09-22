@@ -37,7 +37,7 @@ const batiment: AppelOffre = {
     },
   },
   choisirNouveauCahierDesCharges: true,
-  texteCDCCourriers: {
+  donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.3',
       dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4). 
@@ -72,7 +72,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     {
       id: '1',
       title: 'première',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -92,7 +92,7 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
     {
       id: '2',
       title: 'deuxième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -112,7 +112,7 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
     {
       id: '3',
       title: 'troisième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -132,7 +132,7 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
     {
       id: '4',
       title: 'quatrième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -152,7 +152,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '5',
       title: 'cinquième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -172,7 +172,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '6',
       title: 'sixième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -192,7 +192,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '7',
       title: 'septième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -212,7 +212,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '8',
       title: 'huitième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -232,7 +232,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '9',
       title: 'neuvième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -252,7 +252,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '10',
       title: 'dixième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -277,7 +277,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '11',
       title: 'onzième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -302,7 +302,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '12',
       title: 'douzième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -327,7 +327,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       id: '13',
       title: 'treizième',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.4',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
@@ -367,7 +367,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-batiment',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
           dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
@@ -379,7 +379,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-batiment-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.4',
           dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90%) et cent dix pourcents (110%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
