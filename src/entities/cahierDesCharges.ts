@@ -10,7 +10,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
   numéroGestionnaireRequis?: true
-  donnéesCourriersRéponse?: DonnéesCourriersRéponse
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
 export const cahiersDesChargesModifiésRéférences = [

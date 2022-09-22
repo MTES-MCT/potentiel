@@ -1,3 +1,4 @@
+import { getDonnéesCourriersRéponse } from './getDonnéesCourriersRéponse'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
@@ -111,7 +112,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           engagementFournitureDePuissanceAlaPointe,
           notifiedOn,
           potentielIdentifier,
-          nouvellesRèglesDInstructionChoisies,
+          cahierDesChargesActuel,
         } = project
 
         const {
@@ -130,13 +131,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
           isSoumisAuxGF,
-          texteEngagementRéalisationEtModalitésAbandon,
-          texteChangementDActionnariat,
-          texteIdentitéDuProducteur,
-          texteChangementDeProducteur,
-          cahiersDesChargesModifiésDisponibles,
-          texteDélaisDAchèvement,
-          texteChangementDePuissance,
         } = appelOffre
 
         const commonData = {
@@ -164,30 +158,21 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
         }
 
+        const {
+          texteChangementDActionnariat,
+          texteChangementDeProducteur,
+          texteChangementDePuissance,
+          texteDélaisDAchèvement,
+          texteEngagementRéalisationEtModalitésAbandon,
+          texteIdentitéDuProducteur,
+        } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre)
+
         switch (type) {
           case 'delai':
-            let contenuParagrapheAchevement = '!!!CONTENU NON DISPONIBLE!!!'
-            let referenceParagrapheAchevement = '!!!REFERENCE NON DISPONIBLE!!!'
-
-            if (
-              nouvellesRèglesDInstructionChoisies &&
-              cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement
-            ) {
-              contenuParagrapheAchevement =
-                cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement.dispositions
-              referenceParagrapheAchevement =
-                cahiersDesChargesModifiésDisponibles[0].texteDélaisDAchèvement.référenceParagraphe
-            } else if (periode.texteDélaisDAchèvement) {
-              contenuParagrapheAchevement = periode.texteDélaisDAchèvement.dispositions
-              referenceParagrapheAchevement = periode.texteDélaisDAchèvement.référenceParagraphe
-            } else if (texteDélaisDAchèvement) {
-              contenuParagrapheAchevement = texteDélaisDAchèvement.dispositions
-              referenceParagrapheAchevement = texteDélaisDAchèvement.référenceParagraphe
-            }
             return ok({
               ...commonData,
-              referenceParagrapheAchevement,
-              contenuParagrapheAchevement,
+              referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
+              contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
@@ -206,11 +191,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               referenceParagrapheAbandon:
-                texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe ||
-                'REFERENCE NON DISPONIBLE',
-              contenuParagrapheAbandon:
-                texteEngagementRéalisationEtModalitésAbandon.dispositions ||
-                'CONTENU NON DISPONIBLE',
+                texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe,
+              contenuParagrapheAbandon: texteEngagementRéalisationEtModalitésAbandon.dispositions,
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
@@ -219,12 +201,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               nouvelActionnaire: actionnaire,
-              referenceParagrapheActionnaire: texteChangementDActionnariat
-                ? texteChangementDActionnariat.référenceParagraphe
-                : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheActionnaire: texteChangementDActionnariat
-                ? texteChangementDActionnariat.dispositions
-                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
+              contenuParagrapheActionnaire: texteChangementDActionnariat.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'recours':
             return ok({
@@ -266,34 +244,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               puissance: nouvellePuissance,
             } = modificationRequest
 
-            let contenuParagraphePuissance = '!!!CONTENU NON DISPONIBLE!!!'
-            let referenceParagraphePuissance = '!!!REFERENCE NON DISPONIBLE!!!'
-
-            if (
-              nouvellesRèglesDInstructionChoisies &&
-              cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance
-            ) {
-              contenuParagraphePuissance =
-                cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance.dispositions
-              referenceParagraphePuissance =
-                cahiersDesChargesModifiésDisponibles[0].texteChangementDePuissance
-                  .référenceParagraphe
-            } else if (periode.texteChangementDePuissance) {
-              contenuParagraphePuissance = periode.texteChangementDePuissance.dispositions
-              referenceParagraphePuissance = periode.texteChangementDePuissance.référenceParagraphe
-            } else if (texteChangementDePuissance) {
-              contenuParagraphePuissance = texteChangementDePuissance.dispositions
-              referenceParagraphePuissance = texteChangementDePuissance.référenceParagraphe
-            }
-
             return ok({
               ...commonData,
               puissanceInitiale:
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance,
-              contenuParagraphePuissance,
+              referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
+              contenuParagraphePuissance: texteChangementDePuissance.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
@@ -306,12 +264,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur
                 ? texteIdentitéDuProducteur.dispositions
                 : '!!!CONTENU NON DISPONIBLE!!!',
-              referenceParagrapheChangementProducteur: texteChangementDeProducteur
-                ? texteChangementDeProducteur.référenceParReagraphe
-                : '!!!REFERENCE NON DISPONIBLE!!!',
-              contenuParagrapheChangementProducteur: texteChangementDeProducteur
-                ? texteChangementDeProducteur.dispositions
-                : '!!!CONTENU NON DISPONIBLE!!!',
+              referenceParagrapheChangementProducteur:
+                texteChangementDeProducteur.référenceParagraphe,
+              contenuParagrapheChangementProducteur: texteChangementDeProducteur.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
         }
 

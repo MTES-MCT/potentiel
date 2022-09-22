@@ -46,19 +46,17 @@ type GarantiesFinancièresAppelOffre =
       soumisAuxGarantiesFinancieres?: undefined
     }
 
-export type DonnéesCourriersRéponse = Partial<
-  Record<
-    | 'texteEngagementRéalisationEtModalitésAbandon'
-    | 'texteChangementDActionnariat'
-    | 'texteChangementDePuissance'
-    | 'texteIdentitéDuProducteur'
-    | 'texteChangementDeProducteur'
-    | 'texteDélaisDAchèvement',
-    {
-      référenceParagraphe: string
-      dispositions: string
-    }
-  >
+export type DonnéesCourriersRéponse = Record<
+  | 'texteEngagementRéalisationEtModalitésAbandon'
+  | 'texteChangementDActionnariat'
+  | 'texteChangementDePuissance'
+  | 'texteIdentitéDuProducteur'
+  | 'texteChangementDeProducteur'
+  | 'texteDélaisDAchèvement',
+  {
+    référenceParagraphe: string
+    dispositions: string
+  }
 >
 
 export type AppelOffre = {
@@ -91,7 +89,7 @@ export type AppelOffre = {
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
-  donnéesCourriersRéponse: DonnéesCourriersRéponse
+  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre
 
