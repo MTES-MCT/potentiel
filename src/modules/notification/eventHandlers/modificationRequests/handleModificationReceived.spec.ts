@@ -156,7 +156,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarboneInitiale: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )
@@ -199,7 +199,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarboneInitiale: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )
@@ -242,7 +242,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarboneInitiale: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )

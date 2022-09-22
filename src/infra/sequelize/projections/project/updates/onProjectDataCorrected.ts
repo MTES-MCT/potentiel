@@ -12,7 +12,11 @@ export const onProjectDataCorrected = (models) => async (event: ProjectDataCorre
     return
   }
 
-  Object.assign(projectInstance, event.payload.correctedData)
+  Object.assign(projectInstance, {
+    ...event.payload.correctedData,
+    evaluationCarboneDeRéférence:
+      event.payload.correctedData.evaluationCarbone ?? projectInstance.evaluationCarboneDeRéférence,
+  })
 
   try {
     await projectInstance.save()

@@ -22,7 +22,7 @@ export const onProjectReimported = (models) => async (event: ProjectReimported) 
 
     Object.assign(project, {
       ...other,
-      evaluationCarboneInitiale: other.evaluationCarbone ?? project.evaluationCarboneInitiale,
+      evaluationCarboneDeRéférence: other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
     })
 
     await project.save()

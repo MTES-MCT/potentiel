@@ -98,7 +98,7 @@ export const ChangerFournisseur = PageLayout(
                     <input
                       type="number"
                       disabled
-                      defaultValue={project.evaluationCarboneInitiale}
+                      defaultValue={project.evaluationCarboneDeRéférence}
                     />
                     <label>Évaluation carbone actuelle (kg eq CO2/kWc)</label>
                     <input
@@ -117,12 +117,15 @@ export const ChangerFournisseur = PageLayout(
                       id="evaluationCarbone"
                       {...dataId('modificationRequest-evaluationCarboneField')}
                     />
-                    {evaluationCarbone && evaluationCarbone > project.evaluationCarboneInitiale && (
-                      <AlertBox className="mt-4">
-                        Cette nouvelle valeur entraîne une dégradation de la note du projet,
-                        celui-ci ne recevra pas d'attestation de conformité.
-                      </AlertBox>
-                    )}
+                    {evaluationCarbone &&
+                      evaluationCarbone > project.evaluationCarboneDeRéférence &&
+                      Math.round(evaluationCarbone / 50) !==
+                        Math.round(project.evaluationCarboneDeRéférence / 50) && (
+                        <AlertBox className="mt-4">
+                          Cette nouvelle valeur entraîne une dégradation de la note du projet,
+                          celui-ci ne recevra pas d'attestation de conformité.
+                        </AlertBox>
+                      )}
                   </div>
                 )}
                 <label htmlFor="candidats" className="mt-6">

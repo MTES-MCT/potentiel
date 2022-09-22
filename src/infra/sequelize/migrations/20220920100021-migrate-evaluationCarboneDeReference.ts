@@ -19,7 +19,12 @@ module.exports = {
         {
           where: {
             type: {
-              [Op.in]: ['ProjectImported', 'ProjectReimported', 'LegacyProjectSourced'],
+              [Op.in]: [
+                'ProjectImported',
+                'ProjectReimported',
+                'LegacyProjectSourced',
+                'ProjectDataCorrected',
+              ],
             },
           },
           order: [['occurredAt', 'DESC']],
@@ -27,23 +32,24 @@ module.exports = {
         { transaction }
       )
 
-      const evaluationCarboneInitialeMap = importsEvents.reduce((acc, event) => {
+      const evaluationCarboneDeRéférenceMap = importsEvents.reduce((acc, event) => {
         const projetId = event.aggregateId[0]
         return {
           ...acc,
           [projetId]:
             acc[projetId] ??
             event.payload?.data?.evaluationCarbone ??
-            event.payload?.content?.evaluationCarbone,
+            event.payload?.content?.evaluationCarbone ??
+            event.payload?.correctedData?.evaluationCarbone,
         }
       }, {})
 
       await Project.bulkCreate(
         projetsÀMigrer.map((projet) => ({
           ...projet.get(),
-          evaluationCarboneInitiale: evaluationCarboneInitialeMap[projet.id],
+          evaluationCarboneDeRéférence: evaluationCarboneDeRéférenceMap[projet.id],
         })),
-        { updateOnDuplicate: ['evaluationCarboneInitiale'], transaction }
+        { updateOnDuplicate: ['evaluationCarboneDeRéférence'], transaction }
       )
 
       await transaction.commit()

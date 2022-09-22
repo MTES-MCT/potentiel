@@ -56,10 +56,10 @@ export const handleModificationReceived =
           const newEvaluationCarbone = Number(event.payload.evaluationCarbone)
           const switchBracket =
             Math.round(newEvaluationCarbone / 50) !==
-            Math.round(project.evaluationCarboneInitiale / 50)
+            Math.round(project.evaluationCarboneDeRéférence / 50)
 
           const evaluationCarboneIsOutOfBounds =
-            newEvaluationCarbone > project.evaluationCarboneInitiale && switchBracket
+            newEvaluationCarbone > project.evaluationCarboneDeRéférence && switchBracket
 
           if (evaluationCarboneIsOutOfBounds) {
             notificationPayload.variables.demande_action_pp = `Vous venez de signaler une augmentation de l'évaluation carbone de votre projet. Cette nouvelle valeur entraîne une dégradation de la note du projet. Celui-ci ne recevra pas d'attestation de conformité.`

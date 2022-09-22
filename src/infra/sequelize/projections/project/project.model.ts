@@ -48,7 +48,7 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.DOUBLE,
         allowNull: false,
       },
-      evaluationCarboneInitiale: {
+      evaluationCarboneDeRéférence: {
         type: DataTypes.DOUBLE,
         allowNull: false,
       },
