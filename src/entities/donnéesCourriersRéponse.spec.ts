@@ -4,9 +4,9 @@ import { Periode } from './periode'
 import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 
 describe(`Récupération des données des courriers de réponse`, () => {
-  describe(`Cas des données présentes seulement dans l'appel d'offre`, () => {
-    it(`Etant donné un appel d'offre de projet dont les données sont seulement dans l'AO
-        Alors les données de l'AO devraient être retournés`, () => {
+  describe(`Cas des données présentes seulement dans l'appel d'offres`, () => {
+    it(`Etant donné un appel d'offres de projet dont les données sont seulement dans l'AO
+        Alors les données de l'AO devraient être retournées`, () => {
       const cahierDesChargesActuel = '30/07/2021'
 
       const projectAppelOffre = {
@@ -41,9 +41,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
     })
   })
 
-  describe(`Cas des données présentes en partie dans la période et l'appel d'offre`, () => {
-    it(`Etant donné un appel d'offre de projet dont les données sont en partie dans la période et l'appel d'offre
-        Alors les données de la l'AO devraient être retournés surchargées par celles de la période`, () => {
+  describe(`Cas des données présentes en partie dans la période et l'appel d'offres`, () => {
+    it(`Etant donné un appel d'offres de projet dont les données sont en partie dans la période et l'appel d'offres
+        Alors les données de la l'AO devraient être retournées surchargées par celles de la période`, () => {
       const cahierDesChargesActuel = '30/07/2021'
 
       const projectAppelOffre = {
@@ -86,9 +86,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
     })
   })
 
-  describe(`Cas des données présentes en partie dans le CDC modifié, la période et l'appel d'offre`, () => {
-    it(`Etant donné un appel d'offre de projet dont les données sont en partie dans le CDC modifié, la période et l'appel d'offre
-        Alors les données de la l'AO devraient être retournés surchargées par celles de la période puis celles du CDC`, () => {
+  describe(`Cas des données présentes en partie dans le CDC modifié, la période et l'appel d'offres`, () => {
+    it(`Etant donné un appel d'offres de projet dont les données sont en partie dans le CDC modifié, la période et l'appel d'offres
+        Alors les données de l'AO devraient être retournées surchargées par celles de la période puis celles du CDC`, () => {
       const cahierDesChargesActuel = '30/08/2022-alternatif'
 
       const cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié> = [
