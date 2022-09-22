@@ -57,8 +57,9 @@ describe('project.onProjectDataCorrected', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    for (const [key, value] of Object.entries(newValues)) {
-      expect(updatedProject[key]).toEqual(value)
-    }
+    expect(updatedProject).toMatchObject({
+      ...newValues,
+      evaluationCarboneDeRéférence: newValues.evaluationCarbone,
+    })
   })
 })

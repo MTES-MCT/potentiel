@@ -93,6 +93,10 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    evaluationCarboneDeRéférence: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+    },
     note: {
       type: DataTypes.DOUBLE,
       allowNull: false,

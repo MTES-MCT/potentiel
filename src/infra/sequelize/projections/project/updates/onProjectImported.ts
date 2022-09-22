@@ -10,6 +10,7 @@ export const onProjectImported = (models) => async (event: ProjectImported) => {
     await Project.create({
       id: projectId,
       ...data,
+      evaluationCarboneDeRéférence: data.evaluationCarbone,
       potentielIdentifier,
     })
   } catch (e) {

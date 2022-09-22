@@ -16,7 +16,7 @@ const schema = yup.object({
   body: yup
     .object({
       projectId: yup.string().uuid().required(),
-      newEvaluationCarbone: yup
+      evaluationCarbone: yup
         .number()
         .typeError('Le champ Evaluation carbone doit contenir un nombre.')
         .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif.')
@@ -63,7 +63,7 @@ v1Router.post(
     },
     async (request, response) => {
       const { user } = request
-      const { projectId, newEvaluationCarbone, justification } = request.body
+      const { projectId, evaluationCarbone, justification } = request.body
       const file = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
@@ -75,7 +75,7 @@ v1Router.post(
         projectId: new UniqueEntityID(projectId),
         requestedBy: user,
         newFournisseurs,
-        newEvaluationCarbone,
+        newEvaluationCarbone: evaluationCarbone,
         justification,
         file,
       }).match(

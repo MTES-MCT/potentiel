@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Project, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
@@ -15,6 +15,7 @@ import {
   SecondaryLinkButton,
   InfoBox,
   InfoLienGuideUtilisationCDC,
+  AlertBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
@@ -32,6 +33,8 @@ export const ChangerFournisseur = PageLayout(
     const doitChoisirCahierDesCharges =
       project.appelOffre?.choisirNouveauCahierDesCharges &&
       project.cahierDesChargesActuel === 'initial'
+
+    const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
 
     return (
       <UserDashboard currentPage={'list-requests'}>
@@ -70,7 +73,7 @@ export const ChangerFournisseur = PageLayout(
               <input type="hidden" name="projectId" value={project.id} />
               <div className="form__group">
                 <div className="mb-2">Concernant le projet:</div>
-                <ProjectInfo project={project} className="mb-3"></ProjectInfo>
+                <ProjectInfo project={project} className="mb-3" />
                 <SuccessErrorBox success={success} error={error} />
 
                 {CHAMPS_FOURNISSEURS.map((champ) => {
@@ -91,7 +94,13 @@ export const ChangerFournisseur = PageLayout(
                 {project.evaluationCarbone > 0 && (
                   <div>
                     <h3 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</h3>
-                    <label>Ancienne évaluation carbone (kg eq CO2/kWc)</label>
+                    <label>Évaluation carbone initiale (kg eq CO2/kWc)</label>
+                    <input
+                      type="number"
+                      disabled
+                      defaultValue={project.evaluationCarboneDeRéférence}
+                    />
+                    <label>Évaluation carbone actuelle (kg eq CO2/kWc)</label>
                     <input
                       type="number"
                       disabled
@@ -102,11 +111,21 @@ export const ChangerFournisseur = PageLayout(
                       Nouvelle évaluation carbone (kg eq CO2/kWc)
                     </label>
                     <input
+                      onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
                       type="number"
                       name="evaluationCarbone"
                       id="evaluationCarbone"
                       {...dataId('modificationRequest-evaluationCarboneField')}
                     />
+                    {evaluationCarbone &&
+                      evaluationCarbone > project.evaluationCarboneDeRéférence &&
+                      Math.round(evaluationCarbone / 50) !==
+                        Math.round(project.evaluationCarboneDeRéférence / 50) && (
+                        <AlertBox className="mt-4">
+                          Cette nouvelle valeur entraîne une dégradation de la note du projet,
+                          celui-ci ne recevra pas d'attestation de conformité.
+                        </AlertBox>
+                      )}
                   </div>
                 )}
                 <label htmlFor="candidats" className="mt-6">

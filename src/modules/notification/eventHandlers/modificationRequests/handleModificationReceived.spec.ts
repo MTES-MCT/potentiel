@@ -12,7 +12,7 @@ const projectId = new UniqueEntityID().toString()
 const modificationRequestId = new UniqueEntityID().toString()
 
 describe('notification.handleModificationReceived', () => {
-  it('should send a confirmation email to the PP that updated the project', async () => {
+  it(`Lorsque le projet est mis à jour, une notification devrait être envoyée au porteur à l'origine de la demande`, async () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
@@ -67,7 +67,7 @@ describe('notification.handleModificationReceived', () => {
     ).toBe(true)
   })
 
-  it('should send an email to the DREAL users for the project region(s)', async () => {
+  it(`Lorsque le projet est mis à jour, une notification devrait être envoyée aux Dreals de la région du projet`, async () => {
     const sendNotification = jest.fn(async (args: NotificationArgs) => null)
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
@@ -146,8 +146,9 @@ describe('notification.handleModificationReceived', () => {
     ).toBe(true)
   })
 
-  describe('when event type is "fournisseur"', () => {
-    describe('when the new evaluationCarbone is below the current one', () => {
+  describe('Lorsque le type de demande est "fournisseur"', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur de référence 
+        une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -155,7 +156,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )
@@ -164,36 +165,33 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fournisseur' }],
-              evaluationCarbone: 74,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'fournisseur' }],
+            evaluationCarbone: 74,
+            authority: 'dreal',
+          },
+        })
+      )
 
-      it('should NOT add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    describe('when the new evaluationCarbone is higher than the current one and lower than the tolerated threshold', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
+        une section alerte ne devrait pas être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -201,7 +199,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )
@@ -210,36 +208,33 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-              evaluationCarbone: 124,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 124,
+            authority: 'dreal',
+          },
+        })
+      )
 
-      it('should NOT add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).toBeUndefined()
     })
 
-    describe('when the new evaluationCarbone is higher than the current one and higher than the tolerated threshold', () => {
+    it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
+        une section alerte devrait être ajoutée à la notification`, async () => {
       const sendNotification = jest.fn(async (args: NotificationArgs) => null)
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
@@ -247,7 +242,7 @@ describe('notification.handleModificationReceived', () => {
             id: projectId,
             nomProjet: 'nomProjet',
             regionProjet: 'region',
-            evaluationCarbone: 100,
+            evaluationCarboneDeRéférence: 100,
           })
         ).unwrap()
       )
@@ -256,33 +251,29 @@ describe('notification.handleModificationReceived', () => {
       )
       const findUsersForDreal = jest.fn(async (region: string) => [])
 
-      beforeAll(async () => {
-        await handleModificationReceived({
-          sendNotification,
-          findProjectById,
-          findUserById,
-          findUsersForDreal,
-        })(
-          new ModificationReceived({
-            payload: {
-              type: 'fournisseur',
-              modificationRequestId,
-              projectId,
-              requestedBy: userId,
-              fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
-              evaluationCarbone: 125,
-              authority: 'dreal',
-            },
-          })
-        )
-      })
+      await handleModificationReceived({
+        sendNotification,
+        findProjectById,
+        findUserById,
+        findUsersForDreal,
+      })(
+        new ModificationReceived({
+          payload: {
+            type: 'fournisseur',
+            modificationRequestId,
+            projectId,
+            requestedBy: userId,
+            fournisseurs: [{ kind: 'Nom du fabricant (Cellules)', name: 'nom fournisseur' }],
+            evaluationCarbone: 125,
+            authority: 'dreal',
+          },
+        })
+      )
 
-      it('should add a warning section in the sent email', async () => {
-        const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0])
 
-        if (notification.type !== 'pp-modification-received') return
-        expect(notification.variables.demande_action_pp).not.toBeUndefined()
-      })
+      if (notification.type !== 'pp-modification-received') return
+      expect(notification.variables.demande_action_pp).not.toBeUndefined()
     })
   })
 })

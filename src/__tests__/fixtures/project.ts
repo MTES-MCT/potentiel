@@ -13,6 +13,7 @@ export default function makeFakeProject(overrides?) {
     puissanceInitiale: 100,
     prixReference: 87.9,
     evaluationCarbone: 4.4,
+    evaluationCarboneDeRéférence: 4.4,
     note: 11,
     nomRepresentantLegal: 'nomRepresentantLegal',
     email: 'email@address.com',
