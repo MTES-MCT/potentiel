@@ -11,7 +11,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   url: string
   alternatif?: true
-  donnéesCourriersRéponse?: DonnéesCourriersRéponse
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
 export type CahierDesChargesActuel = {
