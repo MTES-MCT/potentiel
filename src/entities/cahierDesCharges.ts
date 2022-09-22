@@ -1,3 +1,5 @@
+import { TexteCDCCourriers } from './appelOffre'
+
 export type CahierDesCharges = {
   référence: string
   url: string
@@ -8,8 +10,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
   numéroGestionnaireRequis?: true
-  texteChangementDePuissance?: { référenceParagraphe: string; dispositions: string }
-  texteDélaisDAchèvement?: { référenceParagraphe: string; dispositions: string }
+  texteCDCCourriers?: TexteCDCCourriers
 }
 
 export const cahiersDesChargesModifiésRéférences = [
