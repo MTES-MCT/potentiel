@@ -27,6 +27,17 @@ export type ModificationRequestPageDTO = {
   cancelledBy?: string
   cancelledOn?: number
   authority?: string
+  cahierDesChargesActuel: {
+    url: string
+  } & (
+    | {
+        type: 'initial'
+      }
+    | {
+        type: 'modifié'
+        paruLe: string
+      }
+  )
 
   project: {
     id: string

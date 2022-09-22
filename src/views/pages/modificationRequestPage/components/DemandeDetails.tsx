@@ -5,14 +5,15 @@ import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '@routes'
-import { DownloadIcon } from '../../../components'
+import { DownloadIcon, ExternalLink } from '@components'
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
-  const { requestedBy, requestedOn, justification, attachmentFile } = modificationRequest
+  const { requestedBy, requestedOn, justification, attachmentFile, cahierDesChargesActuel } =
+    modificationRequest
 
   return (
     <div className="panel__header">
@@ -33,6 +34,11 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           </a>
         </div>
       )}
+      Instruction selon le cahier des charges{' '}
+      {cahierDesChargesActuel.type === 'initial'
+        ? 'initial (en vigueur à la candidature)'
+        : `modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
+      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
     </div>
   )
 }

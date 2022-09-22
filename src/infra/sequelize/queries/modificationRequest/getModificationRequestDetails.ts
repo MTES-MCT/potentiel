@@ -1,8 +1,12 @@
 import { err, ok, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queries.config'
-import { GetModificationRequestDetails } from '@modules/modificationRequest'
+import {
+  GetModificationRequestDetails,
+  ModificationRequestPageDTO,
+} from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
+import { parseCahierDesChargesActuel } from '@entities'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -93,10 +97,34 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       authority,
     } = modificationRequestRaw.get()
 
-    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
+    const {
+      appelOffreId,
+      periodeId,
+      notifiedOn,
+      completionDueOn,
+      technologie,
+      cahierDesChargesActuel: cahierDesChargesActuelRaw,
+    } = project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
-    return ok({
+    const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesActuelRaw)
+    const cahierDesCharges =
+      cahierDesChargesActuel.paruLe === 'initial'
+        ? {
+            type: 'initial',
+            url: appelOffre?.periode.cahierDesCharges.url,
+          }
+        : {
+            type: 'modifié',
+            url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+              (c) =>
+                c.paruLe === cahierDesChargesActuel.paruLe &&
+                c.alternatif === cahierDesChargesActuel.alternatif
+            )?.url,
+            paruLe: cahierDesChargesActuel.paruLe,
+          }
+
+    return ok<ModificationRequestPageDTO>({
       id,
       type,
       versionDate: new Date(versionDate).getTime(),
@@ -129,6 +157,8 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         puissanceAuMomentDuDepot,
         puissance,
       }),
+      cahierDesChargesActuel:
+        cahierDesCharges as ModificationRequestPageDTO['cahierDesChargesActuel'],
     })
   })
 }

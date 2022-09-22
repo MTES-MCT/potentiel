@@ -7,6 +7,7 @@ export type AbandonDemandéPayload = {
   fichierId?: string
   justification?: string
   porteurId: string
+  cahierDesCharges?: string
 }
 
 export class AbandonDemandé extends BaseDomainEvent<AbandonDemandéPayload> implements DomainEvent {
