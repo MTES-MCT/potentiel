@@ -51,7 +51,6 @@ export type DonnéesCourriersRéponse = Partial<
     | 'texteEngagementRéalisationEtModalitésAbandon'
     | 'texteChangementDActionnariat'
     | 'texteChangementDePuissance'
-    | 'texteChangementDActionnariat'
     | 'texteIdentitéDuProducteur'
     | 'texteChangementDeProducteur'
     | 'texteDélaisDAchèvement',

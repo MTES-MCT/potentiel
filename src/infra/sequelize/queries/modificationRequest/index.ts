@@ -1,3 +1,4 @@
+export * from './getDonnéesCourriersRéponse'
 export * from './getModificationRequestAuthority'
 export * from './getModificationRequestDataForResponseTemplate'
 export * from './getModificationRequestDetails'

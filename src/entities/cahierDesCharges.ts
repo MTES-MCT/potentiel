@@ -18,6 +18,7 @@ export const cahiersDesChargesModifiésRéférences = [
   '30/08/2022',
   '30/08/2022-alternatif',
 ] as const
+
 export const cahiersDesChargesRéférences = [
   'initial',
   ...cahiersDesChargesModifiésRéférences,
