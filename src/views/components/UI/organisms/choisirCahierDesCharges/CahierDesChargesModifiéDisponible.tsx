@@ -18,7 +18,6 @@ export const CahierDesChargesModifiéDisponible: React.FC<
   return (
     <CahierDesChargesSelectionnable
       {...{
-        key: id,
         id,
         cdcChoisi,
         onCahierDesChargesChoisi,
@@ -42,7 +41,7 @@ export const CahierDesChargesModifiéDisponible: React.FC<
           <li>
             <label htmlFor="identifiantGestionnaireRéseau">
               Pour pouvoir bénéficier des avantages de ce cahier des charges, vous devez renseigner
-              l'identifiant gestionnaire de réseau pour votre projet : *
+              l'identifiant gestionnaire de réseau pour votre projet : * (Champs obligatoire)
             </label>
             <Input
               id="identifiantGestionnaireRéseau"

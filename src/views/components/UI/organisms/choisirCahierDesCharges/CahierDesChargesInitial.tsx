@@ -19,7 +19,6 @@ export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = (
   return (
     <CahierDesChargesSelectionnable
       {...{
-        key: id,
         id,
         cdcChoisi,
         onCahierDesChargesChoisi,

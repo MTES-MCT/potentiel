@@ -31,18 +31,20 @@ export const ChoisirCahierDesChargesFormulaire = ({
       <ul className="list-none pl-0">
         <CahierDesChargesInitial
           {...{
+            key: 'cahier-des-charges-initial',
+            appelOffre,
             cdcChoisi,
             onCahierDesChargesChoisi: (id) => {
               choisirCdc(id)
               pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
             },
           }}
-          {...{ key: 'initial', cahierDesChargesActuel, appelOffre }}
         />
 
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc) => (
+        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc, index) => (
           <CahierDesChargesModifiéDisponible
             {...{
+              key: `cahier-des-charges-modifié-${index}`,
               cdc,
               cdcChoisi,
               onCahierDesChargesChoisi: (id) => {
