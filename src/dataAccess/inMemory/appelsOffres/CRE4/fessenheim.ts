@@ -112,6 +112,7 @@ const fessenheim: AppelOffre = {
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-fessenheim-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+      numéroGestionnaireRequis: true,
     },
   ],
 }

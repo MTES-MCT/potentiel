@@ -123,6 +123,7 @@ const innovation: AppelOffre = {
     {
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+      numéroGestionnaireRequis: true,
     },
   ],
 }
