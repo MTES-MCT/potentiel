@@ -33,6 +33,7 @@ const schema = yup.object({
       ])
       .optional(),
     choixCDC: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
+    identifiantGestionnaireRéseau: yup.string().optional(),
   }),
 })
 
@@ -89,7 +90,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl, type, choixCDC },
+        body: { projectId, redirectUrl, type, choixCDC, identifiantGestionnaireRéseau },
         user,
       } = request
 
@@ -97,6 +98,7 @@ v1Router.post(
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: mapVersChoixCahierDesCharges(choixCDC),
+        identifiantGestionnaireRéseau,
       }).match(
         () => {
           return response.redirect(
