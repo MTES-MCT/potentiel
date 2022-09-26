@@ -8,6 +8,7 @@ export type DélaiDemandéPayload = {
   justification?: string
   dateAchèvementDemandée: string
   porteurId: string
+  cahierDesCharges?: string
 }
 
 export class DélaiDemandé extends BaseDomainEvent<DélaiDemandéPayload> implements DomainEvent {

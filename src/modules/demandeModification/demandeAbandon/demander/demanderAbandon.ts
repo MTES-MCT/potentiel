@@ -85,17 +85,17 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
           }).asyncAndThen((file) =>
             fileRepo.save(file).map(() => ({
               fileId: file.id.toString(),
-              cahierDesCharges: formatCahierDesChargesActuel(project.cahierDesCharges),
+              project,
             }))
           )
         }
 
         return okAsync({
           fileId: undefined,
-          cahierDesCharges: formatCahierDesChargesActuel(project.cahierDesCharges),
+          project,
         })
       })
-      .andThen(({ fileId, cahierDesCharges }) => {
+      .andThen(({ fileId, project }) => {
         return publishToEventStore(
           new AbandonDemandé({
             payload: {
@@ -105,7 +105,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
               justification,
               autorité: 'dgec',
               porteurId: user.id,
-              cahierDesCharges,
+              cahierDesCharges: formatCahierDesChargesActuel(project.cahierDesCharges),
             },
           })
         )
