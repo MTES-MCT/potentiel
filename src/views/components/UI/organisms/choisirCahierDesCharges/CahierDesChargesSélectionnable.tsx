@@ -22,7 +22,7 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
       id={id}
       checked={sélectionné}
       disabled={désactivé}
-      onChange={() => onCahierDesChargesChoisi && onCahierDesChargesChoisi(id)}
+      onChange={() => onCahierDesChargesChoisi?.(id)}
       className="peer absolute left-4"
     />
     <label

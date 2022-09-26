@@ -39,7 +39,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
     projetId,
     utilisateur,
     cahierDesCharges: { paruLe, alternatif },
-    identifiantGestionnaireRéseau = '',
+    identifiantGestionnaireRéseau,
   }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
@@ -74,10 +74,7 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
           return errAsync(new CahierDesChargesNonDisponibleError())
         }
 
-        if (
-          cahierDesChargesChoisi.numéroGestionnaireRequis &&
-          identifiantGestionnaireRéseau === ''
-        ) {
+        if (cahierDesChargesChoisi.numéroGestionnaireRequis && !identifiantGestionnaireRéseau) {
           return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
         }
 
