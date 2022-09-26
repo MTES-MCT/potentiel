@@ -2,14 +2,14 @@ import React from 'react'
 
 type CahierDesChargesSelectionnableProps = {
   id: string
-  onCahierDesChargesChoisi: (cahierDesChargesChoisi: string) => void
-  cdcChoisi: string
+  onCahierDesChargesChoisi?: (cahierDesChargesChoisi: string) => void
+  sélectionné: boolean
   désactivé?: true
 }
 
 export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionnableProps> = ({
   id,
-  cdcChoisi,
+  sélectionné,
   désactivé,
   onCahierDesChargesChoisi,
   children,
@@ -20,9 +20,9 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
       name="choixCDC"
       value={id}
       id={id}
-      checked={cdcChoisi === id}
+      checked={sélectionné}
       disabled={désactivé}
-      onChange={() => onCahierDesChargesChoisi(id)}
+      onChange={() => onCahierDesChargesChoisi && onCahierDesChargesChoisi(id)}
       className="peer absolute left-4"
     />
     <label

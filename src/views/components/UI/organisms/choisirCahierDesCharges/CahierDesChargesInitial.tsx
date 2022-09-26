@@ -2,29 +2,13 @@ import React from 'react'
 import { ExternalLink } from '@components'
 import { ProjectAppelOffre } from '@entities/appelOffre'
 
-import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable'
-
 type CahierDesChargesInitialProps = {
   appelOffre: ProjectAppelOffre
-  cdcChoisi: string
-  onCahierDesChargesChoisi: (cahierDesChargesChoisi: string) => void
 }
 
-export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({
-  appelOffre,
-  cdcChoisi,
-  onCahierDesChargesChoisi,
-}) => {
-  const id = 'initial'
+export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({ appelOffre }) => {
   return (
-    <CahierDesChargesSelectionnable
-      {...{
-        id,
-        cdcChoisi,
-        onCahierDesChargesChoisi,
-        désactivé: true,
-      }}
-    >
+    <>
       <span className="font-bold">
         Instruction selon les dispositions du cahier des charges en vigueur au moment de la
         candidature &nbsp;
@@ -47,6 +31,6 @@ export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = (
           </li>
         </ul>
       )}
-    </CahierDesChargesSelectionnable>
+    </>
   )
 }

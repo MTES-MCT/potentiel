@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Button, SecondaryLinkButton } from '@components'
+import { Button, Input, Link, SecondaryLinkButton } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
+import { formatCahierDesChargesActuel } from '@entities/cahierDesCharges'
 
 import { CahierDesChargesInitial } from './CahierDesChargesInitial'
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible'
+import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
@@ -18,49 +20,102 @@ export const ChoisirCahierDesChargesFormulaire = ({
   redirectUrl,
   type,
 }: ChoisirCahierDesChargesFormulaireProps) => {
-  const { id, appelOffre, cahierDesChargesActuel } = projet
+  const { id: projetId, appelOffre, cahierDesChargesActuel, identifiantGestionnaireRéseau } = projet
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel)
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false)
 
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
-      <input type="hidden" name="redirectUrl" value={redirectUrl || routes.PROJECT_DETAILS(id)} />
-      <input type="hidden" name="projectId" value={id} />
+      <input
+        type="hidden"
+        name="redirectUrl"
+        value={redirectUrl || routes.PROJECT_DETAILS(projetId)}
+      />
+      <input type="hidden" name="projectId" value={projetId} />
       {type && <input type="hidden" name="type" value={type} />}
 
       <ul className="list-none pl-0">
-        <CahierDesChargesInitial
+        <CahierDesChargesSelectionnable
           {...{
             key: 'cahier-des-charges-initial',
-            appelOffre,
-            cdcChoisi,
-            onCahierDesChargesChoisi: (id) => {
-              choisirCdc(id)
-              pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
-            },
+            id: 'initial',
+            sélectionné: cdcChoisi === 'initial',
+            désactivé: true,
           }}
-        />
-
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc, index) => (
-          <CahierDesChargesModifiéDisponible
+        >
+          <CahierDesChargesInitial
             {...{
-              key: `cahier-des-charges-modifié-${index}`,
-              cdc,
+              appelOffre,
               cdcChoisi,
-              onCahierDesChargesChoisi: (id) => {
-                choisirCdc(id)
-                pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
-              },
             }}
           />
-        ))}
+        </CahierDesChargesSelectionnable>
+
+        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc, index) => {
+          const idCdc = formatCahierDesChargesActuel(cdc)
+          const cdcSélectionné = cdcChoisi === idCdc
+
+          return (
+            <CahierDesChargesSelectionnable
+              {...{
+                key: `cahier-des-charges-modifié-${index}`,
+                id: idCdc,
+                onCahierDesChargesChoisi: (id) => {
+                  choisirCdc(id)
+                  pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+                },
+                sélectionné: cdcSélectionné,
+              }}
+            >
+              <CahierDesChargesModifiéDisponible
+                {...{
+                  cdc,
+                  cdcChoisi,
+                  identifiantGestionnaireRéseau,
+                  onCahierDesChargesChoisi: (id) => {
+                    choisirCdc(id)
+                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+                  },
+                }}
+              ></CahierDesChargesModifiéDisponible>
+
+              {cdcSélectionné &&
+                cdc.numéroGestionnaireRequis &&
+                (idCdc === cahierDesChargesActuel ? (
+                  <>
+                    Identifiant gestionnaire de réseau pour votre projet déjà renseigné :{' '}
+                    {identifiantGestionnaireRéseau}
+                  </>
+                ) : (
+                  <>
+                    <label htmlFor="identifiantGestionnaireRéseau">
+                      Pour pouvoir bénéficier des avantages de ce cahier des charges, vous devez
+                      renseigner l'identifiant gestionnaire de réseau pour votre projet : * (Champs
+                      obligatoire)
+                    </label>
+                    <Input
+                      id="identifiantGestionnaireRéseau"
+                      name="identifiantGestionnaireRéseau"
+                      type="text"
+                      placeholder="Identifiant gestionnaire de réseau"
+                      defaultValue={identifiantGestionnaireRéseau}
+                      required
+                    />
+                    <Link href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                      Où trouver mon numéro ?
+                    </Link>
+                  </>
+                ))}
+            </CahierDesChargesSelectionnable>
+          )
+        })}
       </ul>
 
       <div className="flex items-center justify-center">
         <Button type="submit" disabled={!peutEnregistrerLeChangement}>
           Enregistrer mon changement
         </Button>
-        <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(id)}>
+        <SecondaryLinkButton className="ml-3" href={routes.PROJECT_DETAILS(projetId)}>
           Annuler
         </SecondaryLinkButton>
       </div>
