@@ -71,6 +71,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
+                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
                 redirectUrl: routes.DEMANDER_DELAI(project.id),
                 type: 'delai',

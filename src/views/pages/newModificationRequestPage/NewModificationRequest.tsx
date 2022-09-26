@@ -71,6 +71,7 @@ export const NewModificationRequest = PageLayout(
                     id: project.id,
                     appelOffre,
                     cahierDesChargesActuel: 'initial',
+                    identifiantGestionnaireRéseau: project.numeroGestionnaire,
                   },
                   redirectUrl: redirectionRoute(action),
                   type: action,

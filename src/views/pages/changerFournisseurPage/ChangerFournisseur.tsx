@@ -58,6 +58,7 @@ export const ChangerFournisseur = PageLayout(
                     id: project.id,
                     appelOffre,
                     cahierDesChargesActuel: 'initial',
+                    identifiantGestionnaireRéseau: project.numeroGestionnaire,
                   },
                   redirectUrl: routes.CHANGER_FOURNISSEUR(project.id),
                   type: 'fournisseur',
