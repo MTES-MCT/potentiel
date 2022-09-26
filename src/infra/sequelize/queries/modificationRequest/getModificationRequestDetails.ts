@@ -95,19 +95,13 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cancelledOn,
       dateAchèvementDemandée,
       authority,
+      cahierDesCharges: cahierDesChargesRaw,
     } = modificationRequestRaw.get()
 
-    const {
-      appelOffreId,
-      periodeId,
-      notifiedOn,
-      completionDueOn,
-      technologie,
-      cahierDesChargesActuel: cahierDesChargesActuelRaw,
-    } = project.get()
+    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
-    const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesActuelRaw)
+    const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesRaw)
     const cahierDesCharges =
       cahierDesChargesActuel.paruLe === 'initial'
         ? {

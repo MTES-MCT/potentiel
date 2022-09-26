@@ -130,6 +130,10 @@ export const MakeModificationRequestModel = (sequelize) => {
         allowNull: true,
         default: false,
       },
+      cahierDesCharges: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,

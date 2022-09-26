@@ -85,6 +85,10 @@ export default function makeModificationRequestRepo({
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    cahierDesCharges: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
 
   const FileModel = sequelizeInstance.define(
