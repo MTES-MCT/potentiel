@@ -119,6 +119,12 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
         },
       },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
     },
     {
       paruLe: '30/08/2022',
@@ -130,6 +136,12 @@ En cas de dépassement de ce délai, la durée de contrat de rémunération ment
     Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)   et  que  la  Puissance  modifiée  soit i nférieure  au  plafond  de  puissance  de  la  famille  dans  laquelle entre l’offre.
     Les modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
     Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
+        },
+      },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.4,
         },
       },
     },

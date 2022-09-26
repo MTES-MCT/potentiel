@@ -375,6 +375,12 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
  Des modifications à la baisse, en-dessous de 90% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
         },
       },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.1,
+        },
+      },
     },
     {
       paruLe: '30/08/2022',
@@ -396,6 +402,12 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
 
     !!!!!OPTION : SI PERIODE 1 à 4!!!!!En  cas  de  dépassement  de  ce  délai,  la  durée  de  contrat  de  rémunération  mentionnée  au  6.4  est  amputée d’un raccourcissement R égal à   la durée T de dépassement: R= T.
     !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.`,
+        },
+      },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.4,
         },
       },
     },

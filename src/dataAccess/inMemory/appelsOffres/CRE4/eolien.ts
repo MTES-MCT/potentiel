@@ -175,6 +175,12 @@ En   cas   de dépassement de ce délai, la durée de contrat mentionnée au 7.1
     Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
         },
       },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.4,
+        },
+      },
     },
   ],
 }

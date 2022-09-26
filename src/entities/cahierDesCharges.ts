@@ -1,3 +1,4 @@
+import { ChangementPuissance } from '@entities/appelOffre'
 import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 
 export type CahierDesCharges = {
@@ -12,6 +13,7 @@ export type CahierDesChargesModifié = {
   url: string
   alternatif?: true
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
+  changementPuissance: ChangementPuissance
 }
 
 export type CahierDesChargesActuel = {

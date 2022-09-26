@@ -34,7 +34,6 @@ const solPPE2: AppelOffre = {
       max: 1.1,
     },
   },
-
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
@@ -123,6 +122,12 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     - deux mois à compter de la fin des travaux de raccordement, sous réserve que le producteur ait  mis  en  oeuvre  toutes  les  démarches  dans  le  respect  des  exigences  du  gestionnaire  de  réseau  pour  que  les  travaux  de  raccordement  soient  réalisés  dans  les  délais.  Dans  ce  cas,  l’attestation  de  conformité  doit  être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
     Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
     En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
+        },
+      },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.4,
         },
       },
     },

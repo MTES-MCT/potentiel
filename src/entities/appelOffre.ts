@@ -11,7 +11,7 @@ type Ratios = {
   max: number
 }
 
-type ChangementPuissance =
+export type ChangementPuissance =
   | {
       changementByTechnologie?: undefined
       ratios: Ratios

@@ -173,6 +173,12 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
  Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.`,
         },
       },
+      changementPuissance: {
+        ratios: {
+          min: 0.7,
+          max: 1,
+        },
+      },
     },
     {
       paruLe: '30/08/2022',
@@ -193,6 +199,12 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     * vingt-quatre (24) mois à compter de la Date de désignation.
     * deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
     Pour  les  installations  dont  la  mise  en  service  a  lieu  entre  le  1er  septembre  2022  et  le  31  décembre  2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
+        },
+      },
+      changementPuissance: {
+        ratios: {
+          min: 0.9,
+          max: 1.4,
         },
       },
     },
