@@ -4,7 +4,7 @@ import { getProjectAppelOffre } from '@config/queries.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
-import { parseCahierDesChargesActuel } from '@entities'
+import { parseCahierDesChargesId } from '@entities'
 
 const { Project, File, User, UserProjects, ProjectStep } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -109,7 +109,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-        const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesActuelRaw)
+        const cahierDesChargesActuel = parseCahierDesChargesId(cahierDesChargesActuelRaw)
         const cahierDesCharges =
           cahierDesChargesActuel.paruLe === 'initial'
             ? {

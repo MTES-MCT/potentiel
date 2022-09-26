@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { formatCahierDesChargesActuel } from '@entities'
+import { formatCahierDesChargesId } from '@entities'
 import { Projections } from '@infra/sequelize/models'
 import { NouveauCahierDesChargesChoisi } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
@@ -16,7 +16,7 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
     } = événement
     try {
       await Project.update(
-        { cahierDesChargesActuel: formatCahierDesChargesActuel({ paruLe, alternatif }) },
+        { cahierDesChargesActuel: formatCahierDesChargesId({ paruLe, alternatif }) },
         { where: { id } }
       )
     } catch (cause) {
