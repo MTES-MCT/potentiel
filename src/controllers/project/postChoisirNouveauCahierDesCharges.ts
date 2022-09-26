@@ -7,6 +7,7 @@ import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import {
   CahierDesChargesNonDisponibleError,
+  IdentifiantGestionnaireRéseauObligatoireError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
 } from '@modules/project'
@@ -116,6 +117,7 @@ v1Router.post(
           }
 
           if (
+            error instanceof IdentifiantGestionnaireRéseauObligatoireError ||
             error instanceof NouveauCahierDesChargesDéjàSouscrit ||
             error instanceof PasDeChangementDeCDCPourCetAOError ||
             error instanceof CahierDesChargesNonDisponibleError
