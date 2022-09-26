@@ -15,11 +15,9 @@ type ChoisirCahierDesChargesFormulaireProps = {
   type?: ModificationRequestType
 }
 
-export const ChoisirCahierDesChargesFormulaire = ({
-  projet,
-  redirectUrl,
-  type,
-}: ChoisirCahierDesChargesFormulaireProps) => {
+export const ChoisirCahierDesChargesFormulaire: React.FC<
+  ChoisirCahierDesChargesFormulaireProps
+> = ({ projet, redirectUrl, type }) => {
   const { id: projetId, appelOffre, cahierDesChargesActuel, identifiantGestionnaireRéseau } = projet
   const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel)
   const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false)
@@ -51,9 +49,9 @@ export const ChoisirCahierDesChargesFormulaire = ({
           />
         </CahierDesChargesSelectionnable>
 
-        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cdc, index) => {
-          const idCdc = formatCahierDesChargesActuel(cdc)
-          const cdcSélectionné = cdcChoisi === idCdc
+        {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
+          const idCdc = formatCahierDesChargesActuel(cahierDesChargesModifié)
+          const sélectionné = cdcChoisi === idCdc
 
           return (
             <CahierDesChargesSelectionnable
@@ -64,23 +62,13 @@ export const ChoisirCahierDesChargesFormulaire = ({
                   choisirCdc(id)
                   pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
                 },
-                sélectionné: cdcSélectionné,
+                sélectionné,
               }}
             >
-              <CahierDesChargesModifiéDisponible
-                {...{
-                  cdc,
-                  cdcChoisi,
-                  identifiantGestionnaireRéseau,
-                  onCahierDesChargesChoisi: (id) => {
-                    choisirCdc(id)
-                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
-                  },
-                }}
-              ></CahierDesChargesModifiéDisponible>
+              <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
 
-              {cdcSélectionné &&
-                cdc.numéroGestionnaireRequis &&
+              {sélectionné &&
+                cahierDesChargesModifié.numéroGestionnaireRequis &&
                 (idCdc === cahierDesChargesActuel ? (
                   <>
                     Identifiant gestionnaire de réseau pour votre projet déjà renseigné :{' '}

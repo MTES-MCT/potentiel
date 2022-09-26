@@ -2,20 +2,18 @@ import React from 'react'
 import { ExternalLink } from '@components'
 import { CahierDesChargesModifié } from '@entities/cahierDesCharges'
 
-type CahierDesChargesModifiéDisponibleProps = {
-  cdc: CahierDesChargesModifié
-}
+type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié
 
 export const CahierDesChargesModifiéDisponible: React.FC<
   CahierDesChargesModifiéDisponibleProps
-> = ({ cdc }) => (
+> = ({ paruLe, alternatif, url }) => (
   <>
     <span className="font-bold">
-      Instruction selon le cahier des charges{cdc.alternatif ? ' alternatif' : ''} modifié{' '}
-      rétroactivement et publié le {cdc.paruLe}{' '}
+      Instruction selon le cahier des charges{alternatif ? ' alternatif' : ''} modifié{' '}
+      rétroactivement et publié le {paruLe}{' '}
     </span>
     {'('}
-    <ExternalLink href={cdc.url}>voir le cahier des charges</ExternalLink>
+    <ExternalLink href={url}>voir le cahier des charges</ExternalLink>
     {')'}.
     <ul className="mt-2 list-none p-1 md:list-disc md:pl-10">
       <li>Ce choix s'appliquera à toutes les futures demandes faites sous Potentiel.</li>
