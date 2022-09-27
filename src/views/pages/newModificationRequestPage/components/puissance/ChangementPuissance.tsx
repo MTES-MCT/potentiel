@@ -42,6 +42,10 @@ export const ChangementPuissance = ({
     setFileRequiredforPuissanceModification(exceedsRatios || exceedsPuissanceMax)
   }
 
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(
+    project.cahierDesChargesActuel
+  )
+
   return (
     <>
       <label>Puissance à la notification (en {appelOffre?.unitePuissance})</label>
@@ -72,7 +76,7 @@ export const ChangementPuissance = ({
         required={true}
       />
 
-      {displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
+      {!CDC2022choisi && displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
 
       {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 

@@ -19,6 +19,10 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
   const ratios = getRatiosChangementPuissance(project)
   const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre)
 
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(
+    project.cahierDesChargesActuel
+  )
+
   return (
     <>
       <div className="form__group mt-4">
@@ -34,7 +38,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
         />
       </div>
 
-      {exceedsRatios && (
+      {!CDC2022choisi && exceedsRatios && (
         <div className="notification warning mt-3">
           La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
           puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}

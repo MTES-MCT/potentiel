@@ -43,6 +43,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'completionDueOn',
             'potentielIdentifier',
             'technologie',
+            'cahierDesChargesActuel',
           ],
         },
         {
