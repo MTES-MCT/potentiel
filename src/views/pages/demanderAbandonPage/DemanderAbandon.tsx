@@ -54,6 +54,7 @@ export const DemanderAbandon = PageLayout(
                     id: project.id,
                     appelOffre,
                     cahierDesChargesActuel: 'initial',
+                    identifiantGestionnaireRéseau: project.numeroGestionnaire,
                   },
                   redirectUrl: routes.DEMANDER_ABANDON(project.id),
                   type: 'abandon',

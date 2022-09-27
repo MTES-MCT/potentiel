@@ -10,7 +10,8 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
   return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {
     if (!projectRaw) return err(new EntityNotFoundError())
 
-    const { id, appelOffreId, periodeId, familleId, cahierDesChargesActuel } = projectRaw.get()
+    const { id, appelOffreId, periodeId, familleId, cahierDesChargesActuel, numeroGestionnaire } =
+      projectRaw.get()
 
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
     if (!appelOffre) return err(new EntityNotFoundError())
@@ -19,6 +20,7 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
       id,
       appelOffre,
       cahierDesChargesActuel,
+      identifiantGestionnaireRéseau: numeroGestionnaire,
     }
 
     return ok(pageProps)

@@ -61,6 +61,7 @@ export const ChangerProducteur = PageLayout(
                     id: project.id,
                     appelOffre,
                     cahierDesChargesActuel: 'initial',
+                    identifiantGestionnaireRéseau: project.numeroGestionnaire,
                   },
                   redirectUrl: routes.CHANGER_PRODUCTEUR(project.id),
                   type: 'producteur',
