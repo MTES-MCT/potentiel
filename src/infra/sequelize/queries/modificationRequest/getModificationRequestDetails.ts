@@ -6,7 +6,11 @@ import {
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
-import { parseCahierDesChargesRéférence } from '@entities'
+import {
+  parseCahierDesChargesRéférence,
+  CahierDesChargesRéférence,
+  ProjectAppelOffre,
+} from '@entities'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -101,25 +105,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
-    const cahierDesChargesRéférenceParsed =
-      parseCahierDesChargesRéférence(cahierDesChargesRéférence)
-
-    const cahierDesCharges =
-      cahierDesChargesRéférenceParsed.paruLe === 'initial'
-        ? {
-            type: 'initial',
-            url: appelOffre?.periode.cahierDesCharges.url,
-          }
-        : {
-            type: 'modifié',
-            url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-              (c) =>
-                c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
-                c.alternatif === cahierDesChargesRéférenceParsed.alternatif
-            )?.url,
-            paruLe: cahierDesChargesRéférenceParsed.paruLe,
-          }
-
     return ok<ModificationRequestPageDTO>({
       id,
       type,
@@ -153,7 +138,35 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         puissanceAuMomentDuDepot,
         puissance,
       }),
-      cahierDesCharges: cahierDesCharges as ModificationRequestPageDTO['cahierDesCharges'],
+      cahierDesCharges:
+        appelOffre && cahierDesChargesRéférence
+          ? formatCahierDesCharges({ appelOffre, cahierDesChargesRéférence })
+          : undefined,
     })
   })
+}
+
+const formatCahierDesCharges = ({
+  cahierDesChargesRéférence,
+  appelOffre,
+}: {
+  cahierDesChargesRéférence: CahierDesChargesRéférence
+  appelOffre: ProjectAppelOffre
+}): ModificationRequestPageDTO['cahierDesCharges'] => {
+  const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence)
+
+  return cahierDesChargesRéférenceParsed.paruLe === 'initial'
+    ? ({
+        type: 'initial',
+        url: appelOffre.periode.cahierDesCharges.url,
+      } as const)
+    : ({
+        type: 'modifié',
+        url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
+          (c) =>
+            c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
+            c.alternatif === cahierDesChargesRéférenceParsed.alternatif
+        )!.url,
+        paruLe: cahierDesChargesRéférenceParsed.paruLe,
+      } as const)
 }

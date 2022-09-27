@@ -28,6 +28,7 @@ describe('modificationRequest.onModificationRequested', () => {
         justification: 'justification',
         requestedBy: userId,
         authority: 'dgec',
+        cahierDesCharges: 'initial',
       },
     })
     await onModificationRequested(models)(event)
@@ -49,6 +50,7 @@ describe('modificationRequest.onModificationRequested', () => {
       justification: 'justification',
       userId,
       authority: 'dgec',
+      cahierDesCharges: 'initial',
     })
   })
 })
