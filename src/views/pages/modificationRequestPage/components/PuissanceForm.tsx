@@ -16,7 +16,9 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
   const { project, puissance: nouvellePuissance } = modificationRequest
   const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
   const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
-  const ratios = getRatiosChangementPuissance(project)
+  const ratios = ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel)
+    ? { min: 0.9, max: 1.4 }
+    : getRatiosChangementPuissance(project)
   const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre)
 
   return (

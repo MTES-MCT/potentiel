@@ -49,6 +49,7 @@ export type ModificationRequestPageDTO = {
     potentielIdentifier: string
     technologie: Technologie
     appelOffre?: ProjectAppelOffre
+    cahierDesChargesActuel: string
   }
 } & Variant
 
