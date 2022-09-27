@@ -137,6 +137,23 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
         },
       },
+      changementPuissance: {
+        changementByTechnologie: true,
+        ratios: {
+          pv: {
+            min: 0.9,
+            max: 1.4,
+          },
+          eolien: {
+            min: 0.8,
+            max: 1.4,
+          },
+          hydraulique: {
+            min: 0.9,
+            max: 1.4,
+          },
+        },
+      },
     },
   ],
 }
