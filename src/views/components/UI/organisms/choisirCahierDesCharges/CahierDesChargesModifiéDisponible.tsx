@@ -17,11 +17,13 @@ export const CahierDesChargesModifiéDisponible: React.FC<
     {')'}.
     <ul className="mt-2 list-none p-1 md:list-disc md:pl-10">
       <li>Ce choix s'appliquera à toutes les futures demandes faites sous Potentiel.</li>
-      <li>
-        Une modification ultérieure pourra toujours être instruite selon le cahier des charges en
-        vigueur au moment du dépôt de l'offre, à condition qu'elle soit soumise au format papier en
-        précisant ce choix.
-      </li>
+      {paruLe === '30/07/2021' && (
+        <li>
+          Une modification ultérieure pourra toujours être instruite selon le cahier des charges en
+          vigueur au moment du dépôt de l'offre, à condition qu'elle soit soumise au format papier
+          en précisant ce choix.
+        </li>
+      )}
     </ul>
   </>
 )

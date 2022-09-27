@@ -76,10 +76,10 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                   </>
                 ) : (
                   <>
-                    <label htmlFor="identifiantGestionnaireRéseau">
-                      Pour pouvoir bénéficier des avantages de ce cahier des charges, vous devez
-                      renseigner l'identifiant gestionnaire de réseau pour votre projet : * (Champs
-                      obligatoire)
+                    <label className="mt-2 mb-1" htmlFor="identifiantGestionnaireRéseau">
+                      Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier des
+                      avantages de ce cahier des charges, vous devez renseigner l'identifiant
+                      gestionnaire de réseau pour votre projet : * (Champs obligatoire)
                     </label>
                     <Input
                       id="identifiantGestionnaireRéseau"

@@ -14,7 +14,7 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
   onCahierDesChargesChoisi,
   children,
 }) => (
-  <li className="inline-radio-option relative">
+  <li className="relative">
     <input
       type="radio"
       name="choixCDC"
@@ -23,11 +23,12 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
       checked={sélectionné}
       disabled={désactivé}
       onChange={() => onCahierDesChargesChoisi?.(id)}
-      className="peer absolute left-4"
+      className="absolute top-1/2 left-3 peer"
     />
     <label
       htmlFor={id}
-      className="flex-1 border border-gray-400 border-solid rounded p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-main-525-base peer-checked:bg-blue-france-975-base hover:cursor-pointer peer-disabled:cursor-not-allowed"
+      className={`flex-1 border border-grey-925-base border-solid p-5 mb-5 pl-10 peer-checked:border-2 peer-checked:border-blue-france-sun-base hover:cursor-pointer peer-disabled:cursor-not-allowed
+                  ${désactivé && 'text-grey-625-base'}`}
     >
       {children}
     </label>
