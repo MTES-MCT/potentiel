@@ -129,7 +129,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
-  cahierDesChargesActuel: 'initial' | CahierDesChargesId
+  cahierDesChargesActuel: CahierDesChargesId
   readonly potentielIdentifier: string
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
