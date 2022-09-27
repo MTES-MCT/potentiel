@@ -3,7 +3,7 @@ import { Button, Input, Link, SecondaryLinkButton } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
-import { formatCahierDesChargesId } from '@entities/cahierDesCharges'
+import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges'
 
 import { CahierDesChargesInitial } from './CahierDesChargesInitial'
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible'
@@ -50,7 +50,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         </CahierDesChargesSelectionnable>
 
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
-          const idCdc = formatCahierDesChargesId(cahierDesChargesModifié)
+          const idCdc = formatCahierDesChargesRéférence(cahierDesChargesModifié)
           const sélectionné = cdcChoisi === idCdc
 
           return (

@@ -1,8 +1,9 @@
 import React from 'react'
+import { CahierDesChargesRéférence } from '@entities'
 
 type CahierDesChargesSelectionnableProps = {
-  id: string
-  onCahierDesChargesChoisi?: (cahierDesChargesChoisi: string) => void
+  id: CahierDesChargesRéférence
+  onCahierDesChargesChoisi?: (cahierDesChargesChoisi: CahierDesChargesRéférence) => void
   sélectionné: boolean
   désactivé?: true
 }
