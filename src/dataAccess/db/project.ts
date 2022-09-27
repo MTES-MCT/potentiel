@@ -1,7 +1,7 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
-import { AppelOffre, DREAL, Famille, Periode, Project, User } from '@entities'
+import { AppelOffre, DREAL, Famille, Periode, Project, User, cahierDesChargesIds } from '@entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -204,7 +204,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: true,
     },
     cahierDesChargesActuel: {
-      type: DataTypes.ENUM('initial', '30/07/2021', '30/08/2022', '30/08/2022-alternatif'),
+      type: DataTypes.ENUM(...cahierDesChargesIds),
       allowNull: false,
       defaultValue: 'initial',
     },

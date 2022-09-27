@@ -1,9 +1,10 @@
-import { DataTypes, QueryInterface, Sequelize } from 'sequelize'
+import { DataTypes, QueryInterface } from 'sequelize'
+import { cahierDesChargesIds } from '@entities'
 
 export default {
-  up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
+  up: async (queryInterface: QueryInterface) => {
     await queryInterface.addColumn('projects', 'cahierDesChargesActuel', {
-      type: DataTypes.ENUM('initial', '30/07/2021', '30/08/2022', '30/08/2022-alternatif'),
+      type: DataTypes.ENUM(...cahierDesChargesIds),
       allowNull: false,
       defaultValue: 'initial',
     })

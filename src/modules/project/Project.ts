@@ -7,7 +7,13 @@ import {
   ok,
   Result,
 } from '@core/utils'
-import { CertificateTemplate, ProjectAppelOffre, Technologie, User } from '@entities'
+import {
+  CertificateTemplate,
+  ProjectAppelOffre,
+  Technologie,
+  User,
+  CahierDesChargesIdParsed,
+} from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import remove from 'lodash/remove'
@@ -218,7 +224,7 @@ export interface Project extends EventStoreAggregate {
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
-  readonly cahierDesCharges: { paruLe: 'initial' | '30/07/2021' | '30/08/2022'; alternatif?: true }
+  readonly cahierDesCharges: CahierDesChargesIdParsed
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
@@ -265,7 +271,7 @@ export interface ProjectProps {
   isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
-  cahierDesCharges: { paruLe: 'initial' | '30/07/2021' | '30/08/2022'; alternatif?: true }
+  cahierDesCharges: CahierDesChargesIdParsed
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean
@@ -1347,10 +1353,6 @@ export const makeProject = (args: {
     return history
       ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
       : true
-  }
-
-  function _isLegacyOrImport(event: DomainEvent): event is LegacyProjectSourced | ProjectImported {
-    return event.type === LegacyProjectSourced.type || event.type === ProjectImported.type
   }
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
