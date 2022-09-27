@@ -27,8 +27,7 @@ export const ChangementPuissance = ({
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false)
   const [displayAlertPuissanceMaxVolumeReserve, setDisplayAlertPuissanceMaxVolumeReserve] =
     useState(false)
-  const [fileRequiredforPuissanceModification, setFileRequiredforPuissanceModification] =
-    useState(false)
+  const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false)
 
   const handlePuissanceOnChange = (e) => {
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
@@ -39,8 +38,12 @@ export const ChangementPuissance = ({
     setDisplayAlertOnPuissanceType(!isNewValueCorrect)
     setDisplayAlertHorsRatios(exceedsRatios)
     setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax)
-    setFileRequiredforPuissanceModification(exceedsRatios || exceedsPuissanceMax)
+    setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax)
   }
+
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(
+    project.cahierDesChargesActuel
+  )
 
   return (
     <>
@@ -72,7 +75,7 @@ export const ChangementPuissance = ({
         required={true}
       />
 
-      {displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
+      {!CDC2022choisi && displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
 
       {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 
@@ -90,24 +93,26 @@ export const ChangementPuissance = ({
           <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
           <br />
           Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
-          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
+          conduit à ce besoin de modification (contexte, facteurs extérieurs, etc){' '}
+          {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
         </Label>
         <textarea
           name="justification"
           id="justification"
           defaultValue={justification || ''}
           {...dataId('modificationRequest-justificationField')}
+          required={!CDC2022choisi && fichierEtJustificationRequis}
         />
         <label htmlFor="candidats" className="mt-4">
           Courrier explicatif ou décision administrative.{' '}
-          {fileRequiredforPuissanceModification && <Astérisque />}
+          {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
         </label>
         <input
           type="file"
           name="file"
           {...dataId('modificationRequest-fileField')}
           id="file"
-          required={fileRequiredforPuissanceModification}
+          required={!CDC2022choisi && fichierEtJustificationRequis}
         />
       </div>
     </>

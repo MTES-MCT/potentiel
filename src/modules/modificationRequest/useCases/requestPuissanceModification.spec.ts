@@ -12,9 +12,13 @@ import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
 import { makeRequestPuissanceModification } from './requestPuissanceModification'
 
-describe('requestPuissanceModification use-case', () => {
+describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-  const fakeProject = { ...makeFakeProject(), puissanceInitiale: 100 }
+  const fakeProject = {
+    ...makeFakeProject(),
+    puissanceInitiale: 100,
+    cahierDesCharges: { paruLe: 'initial' },
+  }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
   const eventBus = {
@@ -28,7 +32,12 @@ describe('requestPuissanceModification use-case', () => {
   const file = { contents: Readable.from('test-content'), filename: 'myfilename.pdf' }
   const getPuissanceProjet = jest.fn((projectId: string) => okAsync(123))
 
-  describe('when user is not allowed', () => {
+  beforeEach(async () => {
+    fakePublish.mockClear()
+    fileRepo.save.mockClear()
+  })
+
+  describe(`Lorsque le porteur n'a pas les droits sur le projet`, () => {
     const shouldUserAccessProject = jest.fn(async () => false)
     const requestPuissanceModification = makeRequestPuissanceModification({
       projectRepo,
@@ -41,7 +50,9 @@ describe('requestPuissanceModification use-case', () => {
     })
     const newPuissance = 89
 
-    it('should return an UnauthorizedError', async () => {
+    it(`Lorsqu'un fait une demande de changement de puissance
+    alors une erreur de type UnauthorizedError devrait être émise
+    et la demande ne devrait pas être envoyée`, async () => {
       fakePublish.mockClear()
       fileRepo.save.mockClear()
 
@@ -56,99 +67,145 @@ describe('requestPuissanceModification use-case', () => {
     })
   })
 
-  describe('when user has rights to this project', () => {
+  describe(`Lorsque le porteur a les droits sur le projet`, () => {
     const shouldUserAccessProject = jest.fn(async () => true)
 
-    describe('when the modification is not auto accepted', () => {
-      const requestPuissanceModification = makeRequestPuissanceModification({
-        projectRepo,
-        eventBus,
-        getPuissanceProjet,
-        shouldUserAccessProject,
-        exceedsRatiosChangementPuissance: () => true,
-        exceedsPuissanceMaxDuVolumeReserve: () => false,
-        fileRepo: fileRepo as Repository<FileObject>,
+    describe(`Cas d'une demande qui n'est pas auto-acceptée`, () => {
+      describe(`Erreur à émettre si courrier ou justification manquant pour un CDC autre que 2022`, () => {
+        describe(`Etant donné un projet dont le CDC applicable est le CDC initial`, () => {
+          it(`Lorsque le porteur fait une demande de changement puissance sans courrier ni justification,
+        alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
+            const requestPuissanceModification = makeRequestPuissanceModification({
+              projectRepo,
+              eventBus,
+              getPuissanceProjet,
+              shouldUserAccessProject,
+              exceedsRatiosChangementPuissance: () => true,
+              exceedsPuissanceMaxDuVolumeReserve: () => false,
+              fileRepo: fileRepo as Repository<FileObject>,
+            })
+
+            const newPuissance = 89
+
+            const res = await requestPuissanceModification({
+              projectId: fakeProject.id,
+              requestedBy: fakeUser,
+              newPuissance,
+            })
+
+            expect(res.isErr()).toBe(true)
+            if (res.isOk()) return
+            expect(res.error).toBeInstanceOf(PuissanceJustificationOrCourrierMissingError)
+          })
+        })
       })
 
-      const newPuissance = 89
+      describe(`Demande sans courrier ni justificatif pour projet soumis au CDC 2022`, () => {
+        describe(`Etant donné un projet dont le CDC applicable est celui du 30/08/22`, () => {
+          it(`Lorsque le porteur fait une demande de changement puissance sans courrier ni justification,
+        alors la demande devrait être envoyée`, async () => {
+            const fakeProject = {
+              ...makeFakeProject(),
+              puissanceInitiale: 100,
+              cahierDesCharges: { paruLe: '30/08/2022' },
+            }
+            const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+            const requestPuissanceModification = makeRequestPuissanceModification({
+              projectRepo,
+              eventBus,
+              getPuissanceProjet,
+              shouldUserAccessProject,
+              exceedsRatiosChangementPuissance: () => true,
+              exceedsPuissanceMaxDuVolumeReserve: () => false,
+              fileRepo: fileRepo as Repository<FileObject>,
+            })
 
-      describe('when there is no justification nor a courrier attached to the demand', () => {
-        beforeAll(async () => {
-          fakePublish.mockClear()
-          fileRepo.save.mockClear()
-        })
+            const newPuissance = 89
 
-        it('should return a PuissanceJustificationOrCourrierMissingError', async () => {
-          const res = await requestPuissanceModification({
-            projectId: fakeProject.id,
-            requestedBy: fakeUser,
-            newPuissance,
+            const res = await requestPuissanceModification({
+              projectId: fakeProject.id,
+              requestedBy: fakeUser,
+              newPuissance,
+            })
+
+            expect(res.isOk()).toBe(true)
+            if (res.isErr()) return
+
+            expect(eventBus.publish).toHaveBeenCalledTimes(1)
+            const event = eventBus.publish.mock.calls[0][0]
+            expect(event).toBeInstanceOf(ModificationRequested)
+
+            const { type, puissance, puissanceAuMomentDuDepot } = event.payload
+            expect(type).toEqual('puissance')
+            expect(puissance).toEqual(newPuissance)
+            expect(puissanceAuMomentDuDepot).toEqual(123)
           })
-
-          expect(res.isErr()).toBe(true)
-          if (res.isOk()) return
-          expect(res.error).toBeInstanceOf(PuissanceJustificationOrCourrierMissingError)
         })
       })
 
-      describe('when a courrier or a justification is attached to the demand', () => {
-        beforeAll(async () => {
-          fakePublish.mockClear()
-          fileRepo.save.mockClear()
+      describe(`Demande avec courrier et justificatif pour projet soumis au CDC 2021`, () => {
+        describe(`Etant donné un projet dont le CDC applicable n'est pas celui du 30/08/22`, () => {
+          it(`Lorsque le porteur fait une demande de changement puissance avec courrier et justification,
+        alors la demande devrait être envoyée,
+        le fichier devrait être enregistré
+        et le projet ne devrait pas être modifié`, async () => {
+            const requestPuissanceModification = makeRequestPuissanceModification({
+              projectRepo,
+              eventBus,
+              getPuissanceProjet,
+              shouldUserAccessProject,
+              exceedsRatiosChangementPuissance: () => true,
+              exceedsPuissanceMaxDuVolumeReserve: () => false,
+              fileRepo: fileRepo as Repository<FileObject>,
+            })
+            const res = await requestPuissanceModification({
+              projectId: fakeProject.id,
+              requestedBy: fakeUser,
+              newPuissance: 90,
+              file,
+            })
 
-          const res = await requestPuissanceModification({
-            projectId: fakeProject.id,
-            requestedBy: fakeUser,
-            newPuissance,
-            file,
+            expect(res.isOk()).toBe(true)
+
+            expect(shouldUserAccessProject).toHaveBeenCalledWith({
+              user: fakeUser,
+              projectId: fakeProject.id.toString(),
+            })
+
+            expect(eventBus.publish).toHaveBeenCalledTimes(1)
+            const event = eventBus.publish.mock.calls[0][0]
+            expect(event).toBeInstanceOf(ModificationRequested)
+
+            const { type, puissance, puissanceAuMomentDuDepot } = event.payload
+            expect(type).toEqual('puissance')
+            expect(puissance).toEqual(90)
+            expect(puissanceAuMomentDuDepot).toEqual(123)
+
+            expect(fakeProject.pendingEvents).toHaveLength(0)
+
+            expect(fileRepo.save).toHaveBeenCalledTimes(1)
+            expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
+            expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
           })
-
-          expect(res.isOk()).toBe(true)
-
-          expect(shouldUserAccessProject).toHaveBeenCalledWith({
-            user: fakeUser,
-            projectId: fakeProject.id.toString(),
-          })
-        })
-
-        it('should emit a ModificationRequested', () => {
-          expect(eventBus.publish).toHaveBeenCalledTimes(1)
-          const event = eventBus.publish.mock.calls[0][0]
-          expect(event).toBeInstanceOf(ModificationRequested)
-
-          const { type, puissance, puissanceAuMomentDuDepot } = event.payload
-          expect(type).toEqual('puissance')
-          expect(puissance).toEqual(newPuissance)
-          expect(puissanceAuMomentDuDepot).toEqual(123)
-        })
-
-        it('should not change the project', () => {
-          expect(fakeProject.pendingEvents).toHaveLength(0)
-        })
-
-        it('should save the file', () => {
-          expect(fileRepo.save).toHaveBeenCalledTimes(1)
-          expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
-          expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)
         })
       })
     })
 
-    describe('when the modification is auto accepted', () => {
-      const requestPuissanceModification = makeRequestPuissanceModification({
-        projectRepo,
-        eventBus,
-        getPuissanceProjet,
-        shouldUserAccessProject,
-        exceedsRatiosChangementPuissance: () => false,
-        exceedsPuissanceMaxDuVolumeReserve: () => false,
-        fileRepo: fileRepo as Repository<FileObject>,
-      })
-      const newPuissance = 105
-
-      beforeAll(async () => {
-        fakePublish.mockClear()
-        fileRepo.save.mockClear()
+    describe('Cas des demandes auto-acceptées', () => {
+      it(`Etant donné une demande de changement de puissance qui ne sort pas des ratios de l'AO,
+      alors la demande devrait être envoyée,
+      le projet devrait être modifié
+      et le fichier devrait être sauvegardé`, async () => {
+        const requestPuissanceModification = makeRequestPuissanceModification({
+          projectRepo,
+          eventBus,
+          getPuissanceProjet,
+          shouldUserAccessProject,
+          exceedsRatiosChangementPuissance: () => false,
+          exceedsPuissanceMaxDuVolumeReserve: () => false,
+          fileRepo: fileRepo as Repository<FileObject>,
+        })
+        const newPuissance = 105
 
         const res = await requestPuissanceModification({
           projectId: fakeProject.id,
@@ -163,9 +220,7 @@ describe('requestPuissanceModification use-case', () => {
           user: fakeUser,
           projectId: fakeProject.id.toString(),
         })
-      })
 
-      it('should emit a ModificationReceived', async () => {
         expect(eventBus.publish).toHaveBeenCalledTimes(1)
         const event = eventBus.publish.mock.calls[0][0]
         expect(event).toBeInstanceOf(ModificationReceived)
@@ -174,13 +229,9 @@ describe('requestPuissanceModification use-case', () => {
         expect(type).toEqual('puissance')
         expect(puissance).toEqual(newPuissance)
         expect(puissanceAuMomentDuDepot).toEqual(123)
-      })
 
-      it('should update the puissance', () => {
         expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, newPuissance)
-      })
 
-      it('should save the file', () => {
         expect(fileRepo.save).toHaveBeenCalledTimes(1)
         expect(fileRepo.save.mock.calls[0][0].contents).toEqual(file.contents)
         expect(fileRepo.save.mock.calls[0][0].filename).toEqual(file.filename)

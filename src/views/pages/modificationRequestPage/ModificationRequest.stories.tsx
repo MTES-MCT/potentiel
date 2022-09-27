@@ -44,6 +44,7 @@ export const RecoursOuvertPourAdmin = () => (
         completionDueOn: 7376362,
         puissanceInitiale: 123,
         technologie: 'pv',
+        cahierDesChargesActuel: 'initial',
       },
     }}
   />
@@ -86,6 +87,7 @@ export const RecoursAccepté = () => (
         completionDueOn: 7376362,
         puissanceInitiale: 123,
         technologie: 'pv',
+        cahierDesChargesActuel: 'initial',
       },
     }}
   />
@@ -128,6 +130,7 @@ export const RecoursRejeté = () => (
         completionDueOn: 123,
         puissanceInitiale: 123,
         technologie: 'pv',
+        cahierDesChargesActuel: 'initial',
       },
     }}
   />
@@ -169,6 +172,7 @@ export const ChangementPuissance = () => (
         completionDueOn: 7376362,
         puissanceInitiale: 123,
         technologie: 'pv',
+        cahierDesChargesActuel: 'initial',
       },
     }}
   />
@@ -211,6 +215,7 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
         puissanceInitiale: 0.5,
         technologie: 'pv',
         appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] } as ProjectAppelOffre,
+        cahierDesChargesActuel: 'initial',
       },
     }}
   />
