@@ -125,7 +125,11 @@ export const makeRequestPuissanceModification =
                 })
               }
 
-              if ((!fileId || fileId === '') && !justification) {
+              if (
+                project.cahierDesCharges.paruLe !== '30/08/2022' &&
+                (!fileId || fileId === '') &&
+                !justification
+              ) {
                 return errAsync(new PuissanceJustificationOrCourrierMissingError())
               }
 
