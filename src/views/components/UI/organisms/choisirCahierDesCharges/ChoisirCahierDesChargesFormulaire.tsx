@@ -79,7 +79,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                     <label className="mt-2 mb-1" htmlFor="identifiantGestionnaireRéseau">
                       Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier des
                       avantages de ce cahier des charges, vous devez renseigner l'identifiant
-                      gestionnaire de réseau pour votre projet : * (Champs obligatoire)
+                      gestionnaire de réseau pour votre projet : (champ obligatoire)
                     </label>
                     <Input
                       id="identifiantGestionnaireRéseau"
