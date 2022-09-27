@@ -201,7 +201,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,
-      texteCDCCourriers: {
+      donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.4.5',
           dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.

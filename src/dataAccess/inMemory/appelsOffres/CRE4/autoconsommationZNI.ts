@@ -121,7 +121,6 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       paruLe: '30/08/2022',
       numéroGestionnaireRequis: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      numéroGestionnaireRequis: true,
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
           référenceParagraphe: '5.3.4',

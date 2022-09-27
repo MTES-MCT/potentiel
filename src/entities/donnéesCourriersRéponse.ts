@@ -1,5 +1,5 @@
 import { ProjectAppelOffre } from './appelOffre'
-import { parseCahierDesChargesActuel } from './cahierDesCharges'
+import { CahierDesChargesRéférence, parseCahierDesChargesRéférence } from './cahierDesCharges'
 
 export type DonnéesCourriersRéponse = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
@@ -15,7 +15,7 @@ export type DonnéesCourriersRéponse = Record<
 >
 
 export type GetDonnéesCourriersRéponse = (
-  cahierDesChargesActuel: string,
+  cahierDesChargesActuel: CahierDesChargesRéférence,
   projectAppelOffre: ProjectAppelOffre
 ) => DonnéesCourriersRéponse
 
@@ -50,7 +50,7 @@ export const getDonnéesCourriersRéponse: GetDonnéesCourriersRéponse = (
   cahierDesChargesActuel,
   { donnéesCourriersRéponse, periode, cahiersDesChargesModifiésDisponibles }
 ) => {
-  const cdc = parseCahierDesChargesActuel(cahierDesChargesActuel)
+  const cdc = parseCahierDesChargesRéférence(cahierDesChargesActuel)
   const cahierDesChargesModifié = cahiersDesChargesModifiésDisponibles.find(
     (c) => c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif
   )
