@@ -1,4 +1,4 @@
-import { ProjectAppelOffre, Technologie } from '@entities'
+import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '@entities'
 import { Fournisseur } from '../../project'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
@@ -49,7 +49,7 @@ export type ModificationRequestPageDTO = {
     potentielIdentifier: string
     technologie: Technologie
     appelOffre?: ProjectAppelOffre
-    cahierDesChargesActuel: string
+    cahierDesChargesActuel: CahierDesChargesRéférence
   }
 } & Variant
 
