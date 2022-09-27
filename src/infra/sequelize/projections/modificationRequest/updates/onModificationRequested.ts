@@ -14,6 +14,7 @@ export const onModificationRequested =
       justification,
       requestedBy,
       authority,
+      cahierDesCharges,
     } = payload
     try {
       await ModificationRequestModel.create({
@@ -32,6 +33,7 @@ export const onModificationRequested =
         delayInMonths: type === 'delai' ? payload.delayInMonths : undefined,
         actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
         authority,
+        cahierDesCharges,
       })
     } catch (e) {
       logger.error(e)

@@ -1,7 +1,7 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { logger, wrapInfra, ResultAsync } from '@core/utils'
-import { User, formatCahierDesChargesActuel } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'
 import { GetProjectAppelOffreId } from '@modules/modificationRequest'
@@ -116,7 +116,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
               dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
               autorité: appelOffre?.type === 'eolien' ? 'dgec' : 'dreal',
               porteurId: user.id,
-              cahierDesCharges: formatCahierDesChargesActuel(project.cahierDesCharges),
+              cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
           })
         ).andThen(() => {

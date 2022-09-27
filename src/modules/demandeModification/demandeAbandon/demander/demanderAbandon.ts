@@ -1,7 +1,7 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { wrapInfra, ResultAsync } from '@core/utils'
-import { User, formatCahierDesChargesActuel } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { AbandonDemandé } from '../events'
 import { FileContents, FileObject, makeFileObject } from '../../../file'
@@ -105,7 +105,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
               justification,
               autorité: 'dgec',
               porteurId: user.id,
-              cahierDesCharges: formatCahierDesChargesActuel(project.cahierDesCharges),
+              cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
           })
         )

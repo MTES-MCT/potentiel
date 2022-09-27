@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { CahierDesChargesRéférence } from '@entities'
 
 export type AbandonDemandéPayload = {
   demandeAbandonId: string
@@ -7,7 +8,7 @@ export type AbandonDemandéPayload = {
   fichierId?: string
   justification?: string
   porteurId: string
-  cahierDesCharges?: string
+  cahierDesCharges?: CahierDesChargesRéférence
 }
 
 export class AbandonDemandé extends BaseDomainEvent<AbandonDemandéPayload> implements DomainEvent {

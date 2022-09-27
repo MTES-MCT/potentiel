@@ -12,7 +12,7 @@ interface DemandeDetailsProps {
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
-  const { requestedBy, requestedOn, justification, attachmentFile, cahierDesChargesActuel } =
+  const { requestedBy, requestedOn, justification, attachmentFile, cahierDesCharges } =
     modificationRequest
 
   return (
@@ -34,11 +34,15 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           </a>
         </div>
       )}
-      Instruction selon le cahier des charges{' '}
-      {cahierDesChargesActuel.type === 'initial'
-        ? 'initial (en vigueur à la candidature)'
-        : `modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
-      (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
+      {cahierDesCharges && (
+        <>
+          Instruction selon le cahier des charges{' '}
+          {cahierDesCharges.type === 'initial'
+            ? 'initial (en vigueur à la candidature)'
+            : `modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
+          (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
+        </>
+      )}
     </div>
   )
 }

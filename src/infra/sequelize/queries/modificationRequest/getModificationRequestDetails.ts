@@ -6,7 +6,7 @@ import {
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
-import { parseCahierDesChargesActuel } from '@entities'
+import { parseCahierDesChargesRéférence } from '@entities'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -95,15 +95,17 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cancelledOn,
       dateAchèvementDemandée,
       authority,
-      cahierDesCharges: cahierDesChargesRaw,
+      cahierDesCharges: cahierDesChargesRéférence,
     } = modificationRequestRaw.get()
 
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
-    const cahierDesChargesActuel = parseCahierDesChargesActuel(cahierDesChargesRaw)
+    const cahierDesChargesRéférenceParsed =
+      parseCahierDesChargesRéférence(cahierDesChargesRéférence)
+
     const cahierDesCharges =
-      cahierDesChargesActuel.paruLe === 'initial'
+      cahierDesChargesRéférenceParsed.paruLe === 'initial'
         ? {
             type: 'initial',
             url: appelOffre?.periode.cahierDesCharges.url,
@@ -112,10 +114,10 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             type: 'modifié',
             url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
               (c) =>
-                c.paruLe === cahierDesChargesActuel.paruLe &&
-                c.alternatif === cahierDesChargesActuel.alternatif
+                c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
+                c.alternatif === cahierDesChargesRéférenceParsed.alternatif
             )?.url,
-            paruLe: cahierDesChargesActuel.paruLe,
+            paruLe: cahierDesChargesRéférenceParsed.paruLe,
           }
 
     return ok<ModificationRequestPageDTO>({
@@ -151,8 +153,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         puissanceAuMomentDuDepot,
         puissance,
       }),
-      cahierDesChargesActuel:
-        cahierDesCharges as ModificationRequestPageDTO['cahierDesChargesActuel'],
+      cahierDesCharges: cahierDesCharges as ModificationRequestPageDTO['cahierDesCharges'],
     })
   })
 }
