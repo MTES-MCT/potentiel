@@ -29,10 +29,15 @@ type AlertOnPuissanceOutsideRatiosProps = {
   project: {
     appelOffre?: ProjectAppelOffre
     technologie: Technologie
+    cahierDesChargesActuel: string
   }
 }
 export const AlertePuissanceHorsRatios = ({ project }: AlertOnPuissanceOutsideRatiosProps) => {
-  const { min, max } = getRatiosChangementPuissance(project)
+  const { min, max } = ['30/08/2022', '30/08/2022-alternatif'].includes(
+    project.cahierDesChargesActuel
+  )
+    ? { min: 0.9, max: 1.4 }
+    : getRatiosChangementPuissance(project)
 
   return (
     <div className="notification warning mt-4">
