@@ -46,7 +46,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -57,7 +57,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-2eme-et-3eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -68,7 +68,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/aopvbat-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-2eme-et-3eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -79,7 +79,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-11-decembre-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -90,7 +90,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-11-juin-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -101,7 +101,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-6eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -112,7 +112,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-22-novembre-2018',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -123,7 +123,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/PV-batiment-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -134,7 +134,7 @@ const batiment: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/PV-BAT-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-07-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -150,7 +150,7 @@ const batiment: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-pv-bat-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-05-fevrier-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -166,7 +166,7 @@ const batiment: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-16-juin-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -182,7 +182,7 @@ const batiment: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-bat-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-03-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -198,7 +198,7 @@ const batiment: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 174-312851',
+        référence: '2016/S 174-312851',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-23-juin-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

@@ -44,7 +44,7 @@ const autoconsommationZNI: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2019/S 113-276257',
+        référence: '2019/S 113-276257',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AUTOCONSO-ZNI-Telecharger-le-cahier-des-charges-publie-le-12-07-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -56,7 +56,7 @@ const autoconsommationZNI: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 32.9,
       cahierDesCharges: {
-        reference: '2019/S 113-276257',
+        référence: '2019/S 113-276257',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-autoconso-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

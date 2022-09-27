@@ -43,7 +43,7 @@ const batimentPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
-        reference: '2021 S 176-457518',
+        référence: '2021 S 176-457518',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
@@ -64,7 +64,7 @@ const batimentPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
-        reference: '2022 S 020-047803',
+        référence: '2022 S 020-047803',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
@@ -85,7 +85,7 @@ const batimentPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
-        reference: '2022 S 093-254888',
+        référence: '2022 S 093-254888',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },

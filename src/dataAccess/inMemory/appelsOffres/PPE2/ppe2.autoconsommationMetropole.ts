@@ -58,7 +58,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 62.5,
       cahierDesCharges: {
-        reference: '2021 S 176-457526',
+        référence: '2021 S 176-457526',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -70,7 +70,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       certificateTemplate: 'ppe2.v1',
       noteThreshold: 66.95,
       cahierDesCharges: {
-        reference: '2022 S 038 098159',
+        référence: '2022 S 038 098159',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

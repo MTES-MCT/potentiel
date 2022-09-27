@@ -1,5 +1,5 @@
 export type CahierDesCharges = {
-  reference: string
+  référence: string
   url: string
 }
 

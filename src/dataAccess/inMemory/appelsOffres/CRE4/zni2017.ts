@@ -46,7 +46,7 @@ export const zni2017: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 242-441980',
+        référence: '2016/S 242-441980',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-pv-stockage-zni',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

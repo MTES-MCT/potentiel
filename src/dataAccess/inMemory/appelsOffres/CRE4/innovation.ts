@@ -43,7 +43,7 @@ const innovation: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 051-094731',
+        référence: '2017/S 051-094731',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-version-modifiee-le-5-septembre-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -59,7 +59,7 @@ const innovation: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2017/S 051-094731',
+        référence: '2017/S 051-094731',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-26-fevrier-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -75,7 +75,7 @@ const innovation: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2017/S 051-094731',
+        référence: '2017/S 051-094731',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-31-mars-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

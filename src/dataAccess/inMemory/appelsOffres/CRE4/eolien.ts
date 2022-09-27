@@ -50,7 +50,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode-ao-eolien-08112017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -61,7 +61,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cdc-eolien-ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -72,7 +72,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cahier-des-charges_3eperioTelecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-mars-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -83,7 +83,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Eolien-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-18-juin-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -94,7 +94,7 @@ const eolien: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-23-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -106,7 +106,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 10.19,
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/eolien-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -118,7 +118,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 13,
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/eolien-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -130,7 +130,7 @@ const eolien: AppelOffre = {
       certificateTemplate: 'cre4.v1',
       noteThreshold: 9.8,
       cahierDesCharges: {
-        reference: '2017/S 083-161855',
+        référence: '2017/S 083-161855',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-terrestre-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
