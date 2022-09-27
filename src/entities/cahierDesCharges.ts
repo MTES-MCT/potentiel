@@ -31,6 +31,7 @@ export type CahierDesChargesIdParsed = {
   paruLe: DateParutionCahierDesCharges
   alternatif?: true
 }
+
 export type CahierDesChargesModifiéIdParsed = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
@@ -38,12 +39,13 @@ export type CahierDesChargesModifiéIdParsed = {
 
 export const parseCahierDesChargesId = <C extends CahierDesChargesId | CahierDesChargesModifiéId>(
   id: C
-): C extends CahierDesChargesModifiéId
-  ? CahierDesChargesModifiéIdParsed
-  : CahierDesChargesIdParsed => ({
-  paruLe: id.replace('-alternatif', '') as DateParutionCahierDesChargesModifié,
-  alternatif: id.search('-alternatif') === -1 ? undefined : true,
-})
+) =>
+  ({
+    paruLe: id.replace('-alternatif', ''),
+    alternatif: id.search('-alternatif') === -1 ? undefined : true,
+  } as C extends CahierDesChargesModifiéId
+    ? CahierDesChargesModifiéIdParsed
+    : CahierDesChargesIdParsed)
 
 export const formatCahierDesChargesId = ({
   paruLe,
