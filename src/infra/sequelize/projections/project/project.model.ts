@@ -1,5 +1,5 @@
 import { DataTypes, Op, where, col } from 'sequelize'
-import { cahierDesChargesIds } from '@entities'
+import { cahiersDesChargesRéférences } from '@entities'
 
 export const MakeProjectModel = (sequelize) => {
   const Project = sequelize.define(
@@ -160,7 +160,7 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: true,
       },
       cahierDesChargesActuel: {
-        type: DataTypes.ENUM(...cahierDesChargesIds),
+        type: DataTypes.ENUM(...cahiersDesChargesRéférences),
         allowNull: false,
         defaultValue: 'initial',
       },

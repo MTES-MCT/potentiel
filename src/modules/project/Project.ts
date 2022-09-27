@@ -12,7 +12,7 @@ import {
   ProjectAppelOffre,
   Technologie,
   User,
-  CahierDesChargesIdParsed,
+  CahierDesChargesRéférenceParsed,
 } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
@@ -224,7 +224,7 @@ export interface Project extends EventStoreAggregate {
   readonly certificateFilename: string
   readonly data: ProjectDataProps | undefined
   readonly lastCertificateUpdate: Date | undefined
-  readonly cahierDesCharges: CahierDesChargesIdParsed
+  readonly cahierDesCharges: CahierDesChargesRéférenceParsed
   readonly appelOffreId: string
   readonly periodeId: string
   readonly familleId?: string
@@ -271,7 +271,7 @@ export interface ProjectProps {
   isClasse?: boolean
   puissanceInitiale: number
   data: ProjectDataProps | undefined
-  cahierDesCharges: CahierDesChargesIdParsed
+  cahierDesCharges: CahierDesChargesRéférenceParsed
   fieldsUpdatedAfterImport: Set<string>
   potentielIdentifier?: string
   hasCurrentGf: boolean

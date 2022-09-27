@@ -1,7 +1,15 @@
 import { col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
-import { AppelOffre, DREAL, Famille, Periode, Project, User, cahierDesChargesIds } from '@entities'
+import {
+  AppelOffre,
+  DREAL,
+  Famille,
+  Periode,
+  Project,
+  User,
+  cahiersDesChargesRéférences,
+} from '@entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -204,7 +212,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: true,
     },
     cahierDesChargesActuel: {
-      type: DataTypes.ENUM(...cahierDesChargesIds),
+      type: DataTypes.ENUM(...cahiersDesChargesRéférences),
       allowNull: false,
       defaultValue: 'initial',
     },

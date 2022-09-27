@@ -14,9 +14,9 @@ import {
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 import {
-  CahierDesChargesModifiéId,
-  cahierDesChargesModifiéIds,
-  parseCahierDesChargesId,
+  CahierDesChargesModifiéRéférence,
+  cahiersDesChargesModifiésRéférences,
+  parseCahierDesChargesRéférence,
 } from '@entities'
 
 const schema = yup.object({
@@ -36,8 +36,8 @@ const schema = yup.object({
       ])
       .optional(),
     choixCDC: yup
-      .mixed<CahierDesChargesModifiéId>()
-      .oneOf(cahierDesChargesModifiéIds.slice())
+      .mixed<CahierDesChargesModifiéRéférence>()
+      .oneOf(cahiersDesChargesModifiésRéférences.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
   }),
@@ -82,7 +82,7 @@ v1Router.post(
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
-        cahierDesCharges: parseCahierDesChargesId(choixCDC),
+        cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
         identifiantGestionnaireRéseau,
       }).match(
         () => {

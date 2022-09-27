@@ -10,45 +10,53 @@ export type CahierDesChargesModifié = {
   numéroGestionnaireRequis?: true
 }
 
-export const cahierDesChargesModifiéIds = [
+export const cahiersDesChargesModifiésRéférences = [
   '30/07/2021',
   '30/08/2022',
   '30/08/2022-alternatif',
 ] as const
-export const cahierDesChargesIds = ['initial', ...cahierDesChargesModifiéIds] as const
+export const cahiersDesChargesRéférences = [
+  'initial',
+  ...cahiersDesChargesModifiésRéférences,
+] as const
 
-export type CahierDesChargesModifiéId = typeof cahierDesChargesModifiéIds[number]
-export type CahierDesChargesId = typeof cahierDesChargesIds[number]
+export type CahierDesChargesModifiéRéférence = typeof cahiersDesChargesModifiésRéférences[number]
+export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number]
 
-const datesParutionCahierDesChargesModifié = ['30/07/2021', '30/08/2022'] as const
-const datesParutionCahierDesCharges = ['initial', ...datesParutionCahierDesChargesModifié] as const
+const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022'] as const
+const datesParutionCahiersDesCharges = [
+  'initial',
+  ...datesParutionCahiersDesChargesModifiés,
+] as const
 
-export type DateParutionCahierDesCharges = typeof datesParutionCahierDesCharges[number]
+export type DateParutionCahierDesCharges = typeof datesParutionCahiersDesCharges[number]
 export type DateParutionCahierDesChargesModifié =
-  typeof datesParutionCahierDesChargesModifié[number]
+  typeof datesParutionCahiersDesChargesModifiés[number]
 
-export type CahierDesChargesIdParsed = {
+export type CahierDesChargesRéférenceParsed = {
   paruLe: DateParutionCahierDesCharges
   alternatif?: true
 }
 
-export type CahierDesChargesModifiéIdParsed = {
+export type CahierDesChargesModifiéRéférenceParsed = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
 }
 
-export const parseCahierDesChargesId = <C extends CahierDesChargesId | CahierDesChargesModifiéId>(
-  id: C
+export const parseCahierDesChargesRéférence = <
+  C extends CahierDesChargesRéférence | CahierDesChargesModifiéRéférence
+>(
+  référence: C
 ) =>
   ({
-    paruLe: id.replace('-alternatif', ''),
-    alternatif: id.search('-alternatif') === -1 ? undefined : true,
-  } as C extends CahierDesChargesModifiéId
-    ? CahierDesChargesModifiéIdParsed
-    : CahierDesChargesIdParsed)
+    paruLe: référence.replace('-alternatif', ''),
+    alternatif: référence.search('-alternatif') === -1 ? undefined : true,
+  } as C extends CahierDesChargesModifiéRéférence
+    ? CahierDesChargesModifiéRéférenceParsed
+    : CahierDesChargesRéférenceParsed)
 
-export const formatCahierDesChargesId = ({
+export const formatCahierDesChargesRéférence = ({
   paruLe,
   alternatif,
-}: CahierDesChargesIdParsed): CahierDesChargesId =>
-  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesId
+}: CahierDesChargesRéférenceParsed): CahierDesChargesRéférence =>
+  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence

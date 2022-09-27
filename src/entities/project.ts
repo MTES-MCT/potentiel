@@ -21,7 +21,7 @@ import { CertificateTemplate, isNotifiedPeriode } from './periode'
 
 import { territoireSchema } from './territoire'
 import { logger } from '@core/utils'
-import { CahierDesChargesId } from '@entities/cahierDesCharges'
+import { CahierDesChargesRéférence } from '@entities/cahierDesCharges'
 
 const baseProjectSchema = SchemaRecord({
   id: String,
@@ -129,7 +129,7 @@ type BaseProject = Static<typeof projectSchema> & {
     statusUpdatedOn: Date
     user: { fullName: string }
   }
-  cahierDesChargesActuel: CahierDesChargesId
+  cahierDesChargesActuel: CahierDesChargesRéférence
   readonly potentielIdentifier: string
   actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
 }
