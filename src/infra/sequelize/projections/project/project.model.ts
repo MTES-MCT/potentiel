@@ -1,4 +1,5 @@
 import { DataTypes, Op, where, col } from 'sequelize'
+import { cahiersDesChargesRéférences } from '@entities'
 
 export const MakeProjectModel = (sequelize) => {
   const Project = sequelize.define(
@@ -159,7 +160,7 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: true,
       },
       cahierDesChargesActuel: {
-        type: DataTypes.ENUM('initial', '30/07/2021', '30/08/2022', '30/08/2022-alternatif'),
+        type: DataTypes.ENUM(...cahiersDesChargesRéférences),
         allowNull: false,
         defaultValue: 'initial',
       },

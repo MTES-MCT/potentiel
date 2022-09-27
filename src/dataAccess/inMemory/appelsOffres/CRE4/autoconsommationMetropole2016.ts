@@ -44,7 +44,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 146-264282',
+        référence: '2016/S 146-264282',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -55,7 +55,7 @@ export const autoconsommationMetropole2016: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 146-264282',
+        référence: '2016/S 146-264282',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/cahier-des-charges-autoconsommation-modifie-du-14-09-2016',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

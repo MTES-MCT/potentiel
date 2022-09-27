@@ -46,7 +46,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
-        reference: '2021 S 176-457521',
+        référence: '2021 S 176-457521',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-neutre-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },

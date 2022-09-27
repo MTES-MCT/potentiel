@@ -43,7 +43,7 @@ const innovationPPE2: AppelOffre = {
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
-        reference: '2021 S 203-530267',
+        référence: '2021 S 203-530267',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-octobre-2021',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },

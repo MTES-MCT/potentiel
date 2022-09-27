@@ -46,7 +46,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -57,7 +57,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-2eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -68,7 +68,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-3eme-periode',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -79,7 +79,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -90,7 +90,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-aux-4eme-et-5eme-periodes',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -101,7 +101,7 @@ const sol: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-4-avril-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -118,7 +118,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-5-septembre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -135,7 +135,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -152,7 +152,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/ao-solaire-au-sol-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-29-octobre-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -169,7 +169,7 @@ const sol: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2016/S 148-268152',
+        référence: '2016/S 148-268152',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-en-vigueur-dans-sa-derniere-version-modifiee-le-12-fevrier-2021',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

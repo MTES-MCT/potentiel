@@ -46,7 +46,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2019/S 113-276264',
+        référence: '2019/S 113-276264',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -76,7 +76,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2019/S 113-276264',
+        référence: '2019/S 113-276264',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-ZNI-solaire',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -105,7 +105,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2019/S 113-276264',
+        référence: '2019/S 113-276264',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/zni-sol-telecharger-le-cahier-des-charges-publie-le-09-06-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -132,7 +132,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2019/S 113-276264',
+        référence: '2019/S 113-276264',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -161,7 +161,7 @@ const zni: AppelOffre = {
       paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
-        reference: '2019/S 113-276264',
+        référence: '2019/S 113-276264',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-publie-le-12-10-2020',
       },
       noteThresholdBy: 'family',

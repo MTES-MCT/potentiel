@@ -13,9 +13,11 @@ import {
 } from '@modules/project'
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
-
-const choixCDC = ['30/07/2021', '30/08/2022', '30/08/2022-alternatif'] as const
-type ChoixCahierDesCharges = typeof choixCDC[number]
+import {
+  CahierDesChargesModifiéRéférence,
+  cahiersDesChargesModifiésRéférences,
+  parseCahierDesChargesRéférence,
+} from '@entities'
 
 const schema = yup.object({
   body: yup.object({
@@ -33,7 +35,10 @@ const schema = yup.object({
         'delai',
       ])
       .optional(),
-    choixCDC: yup.mixed<ChoixCahierDesCharges>().oneOf(choixCDC.slice()).required(),
+    choixCDC: yup
+      .mixed<CahierDesChargesModifiéRéférence>()
+      .oneOf(cahiersDesChargesModifiésRéférences.slice())
+      .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
   }),
 })
@@ -51,27 +56,6 @@ const getRedirectTitle = (type: ModificationRequestType) => {
       return `Retourner sur la demande de changement de ${type}`
     default:
       return 'Retourner sur la page du projet'
-  }
-}
-
-const mapVersChoixCahierDesCharges = (
-  cdc: ChoixCahierDesCharges
-): { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true } => {
-  switch (cdc) {
-    case '30/07/2021':
-      return {
-        paruLe: '30/07/2021',
-      }
-    case '30/08/2022':
-      return {
-        paruLe: '30/08/2022',
-      }
-    case '30/08/2022-alternatif': {
-      return {
-        paruLe: '30/08/2022',
-        alternatif: true,
-      }
-    }
   }
 }
 
@@ -98,7 +82,7 @@ v1Router.post(
       return choisirNouveauCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
-        cahierDesCharges: mapVersChoixCahierDesCharges(choixCDC),
+        cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
         identifiantGestionnaireRéseau,
       }).match(
         () => {

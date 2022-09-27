@@ -44,7 +44,7 @@ const eolienPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 0.68,
       cahierDesCharges: {
-        reference: '2021/S 146-386083',
+        référence: '2021/S 146-386083',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
@@ -57,7 +57,7 @@ const eolienPPE2: AppelOffre = {
       paragrapheAchevement: '6.3',
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
-        reference: '2022/S 035-088651',
+        référence: '2022/S 035-088651',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-eolien-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },

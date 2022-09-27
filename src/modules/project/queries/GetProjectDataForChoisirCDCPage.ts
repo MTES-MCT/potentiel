@@ -1,11 +1,11 @@
 import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, CahierDesChargesRéférence } from '@entities'
 
 export type ProjectDataForChoisirCDCPage = {
   id: string
   appelOffre: ProjectAppelOffre
-  cahierDesChargesActuel: string
+  cahierDesChargesActuel: CahierDesChargesRéférence
   identifiantGestionnaireRéseau: string
 }
 

@@ -44,7 +44,7 @@ export const autoconsommationZNI2017: AppelOffre = {
       paragrapheAchevement: '6.3',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2016/S 242-441979',
+        référence: '2016/S 242-441979',
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/telecharger-le-cahier-des-charges-dans-sa-derniere-version-modifiee-rendue-publique-le-29-mai-2017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },

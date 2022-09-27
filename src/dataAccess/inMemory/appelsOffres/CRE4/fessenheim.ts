@@ -46,7 +46,7 @@ const fessenheim: AppelOffre = {
       paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
-        reference: '2019/S 019-040037',
+        référence: '2019/S 019-040037',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/Telecharger-le-cahier-des-charges-publie-le-24-01-20192',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -62,7 +62,7 @@ const fessenheim: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2019/S 019-040037',
+        référence: '2019/S 019-040037',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/AO-Fessemheim-Telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-octobre-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
@@ -79,7 +79,7 @@ const fessenheim: AppelOffre = {
       ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
-        reference: '2019/S 019-040037',
+        référence: '2019/S 019-040037',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ao-fessenheim-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-27-mai-2020',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
