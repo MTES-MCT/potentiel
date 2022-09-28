@@ -2,11 +2,7 @@ import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User, CahierDesChargesRéférenceParsed } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import {
-  CahierDesChargesChoisi,
-  NouveauCahierDesChargesChoisi,
-  NumeroGestionnaireSubmitted,
-} from '../events'
+import { CahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 import { AppelOffreRepo } from '@dataAccess'
@@ -109,10 +105,11 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
             })
           ).andThen(() =>
             publishToEventStore(
-              new NouveauCahierDesChargesChoisi({
+              new CahierDesChargesChoisi({
                 payload: {
                   projetId,
                   choisiPar: utilisateur.id,
+                  type: 'modifié',
                   paruLe,
                   alternatif,
                 },
@@ -122,10 +119,11 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         }
 
         return publishToEventStore(
-          new NouveauCahierDesChargesChoisi({
+          new CahierDesChargesChoisi({
             payload: {
               projetId,
               choisiPar: utilisateur.id,
+              type: 'modifié',
               paruLe,
               alternatif,
             },
