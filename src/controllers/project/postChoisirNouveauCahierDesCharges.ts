@@ -14,8 +14,8 @@ import {
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 import {
-  CahierDesChargesModifiéRéférence,
-  cahiersDesChargesModifiésRéférences,
+  CahierDesChargesRéférence,
+  cahiersDesChargesRéférences,
   parseCahierDesChargesRéférence,
 } from '@entities'
 
@@ -36,8 +36,8 @@ const schema = yup.object({
       ])
       .optional(),
     choixCDC: yup
-      .mixed<CahierDesChargesModifiéRéférence>()
-      .oneOf(cahiersDesChargesModifiésRéférences.slice())
+      .mixed<CahierDesChargesRéférence>()
+      .oneOf(cahiersDesChargesRéférences.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
   }),
