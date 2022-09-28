@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { UniqueEntityID } from '@core/domain'
 import { okAsync, Result, ResultAsync } from '@core/utils'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
@@ -8,7 +9,8 @@ export const fakeTransactionalRepo = <AggregateType>(aggregate?: AggregateType) 
     _: UniqueEntityID,
     cb: (
       aggregate: AggregateType
-    ) => ResultAsync<CallbackResult, CallbackError> | Result<CallbackResult, CallbackError>
+    ) => ResultAsync<CallbackResult, CallbackError> | Result<CallbackResult, CallbackError>,
+    opts?: { isNew?: boolean; acceptNew?: boolean }
   ) {
     return okAsync<null, CallbackError | EntityNotFoundError | InfraNotAvailableError>(
       null

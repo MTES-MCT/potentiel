@@ -1,12 +1,15 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { DomainEvent, UniqueEntityID } from '@core/domain'
 import { ok } from '@core/utils'
-import { CertificateTemplate, ProjectAppelOffre } from '@entities'
+import { CertificateTemplate, ProjectAppelOffre, User } from '@entities'
 import {
+  Fournisseur,
   ProjectDataForCertificate,
   EliminatedProjectCannotBeAbandonnedError,
   IllegalProjectDataError,
   ProjectAlreadyNotifiedError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
+  ProjectDataCorrectedPayload,
   ProjectDataProps,
   GFCertificateHasAlreadyBeenSentError,
   DCRCertificatDéjàEnvoyéError,
@@ -17,51 +20,99 @@ import { ProjectNotQualifiedForCovidDelay } from '@modules/shared'
 
 export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   notify: jest.fn(() => ok<null, ProjectAlreadyNotifiedError>(null)),
-  import: jest.fn(() => ok<null, never>(null)),
-  abandon: jest.fn(() => ok<null, EliminatedProjectCannotBeAbandonnedError>(null)),
-  abandonLegacy: jest.fn(() => ok<null, never>(null)),
-  correctData: jest.fn(() =>
+  import: jest.fn((args) => ok<null, never>(null)),
+  abandon: jest.fn((user: User) => ok<null, EliminatedProjectCannotBeAbandonnedError>(null)),
+  abandonLegacy: jest.fn((abandonnedOn: number) => ok<null, never>(null)),
+  correctData: jest.fn((user: User, data: ProjectDataCorrectedPayload['correctedData']) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
-  setNotificationDate: jest.fn(() =>
+  setNotificationDate: jest.fn((user: User, notifiedOn: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
   setCompletionDueDate: jest.fn(() => ok<null, never>(null)),
-  moveCompletionDueDate: jest.fn(() =>
+  moveCompletionDueDate: jest.fn((user: User, delayInMonths: number) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError>(null)
   ),
-  updateCertificate: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  updatePuissance: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  updateActionnaire: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  updateProducteur: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  updateFournisseurs: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  grantClasse: jest.fn(() => ok<null, never>(null)),
-  addGeneratedCertificate: jest.fn(() => ok<null, never>(null)),
+  updateCertificate: jest.fn((user: User, certificateFileId: string) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  updatePuissance: jest.fn((user: User, newPuissance: number) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  updateActionnaire: jest.fn((user: User, newActionnaire: string) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  updateProducteur: jest.fn((user: User, newProducteur: string) =>
+    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  updateFournisseurs: jest.fn(
+    (user: User, newFournisseurs: Fournisseur[], newEvaluationCarbone?: number) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  grantClasse: jest.fn((user: User) => ok<null, never>(null)),
+  addGeneratedCertificate: jest.fn(
+    (args: { projectVersionDate: Date; certificateFileId: string }) => ok<null, never>(null)
+  ),
 
-  submitGarantiesFinancieres: jest.fn(() =>
+  submitGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
   ),
-  submitDemandeComplèteRaccordement: jest.fn(() =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>(null)
+  submitDemandeComplèteRaccordement: jest.fn(
+    (args: {
+      projectId: string
+      dcrDate: Date
+      fileId: string
+      numeroDossier: string
+      submittedBy: string
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>(null)
   ),
-  submitPropositionTechniqueFinancière: jest.fn(() =>
-    ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>(null)
+  submitPropositionTechniqueFinancière: jest.fn(
+    (args: { projectId: string; ptfDate: Date; fileId: string; submittedBy: string }) =>
+      ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>(null)
   ),
-  removeGarantiesFinancieres: jest.fn(() =>
+  removeGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
-  uploadGarantiesFinancieres: jest.fn(() =>
+  uploadGarantiesFinancieres: jest.fn((gfDate: Date, fileId: string, submittedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>(null)
   ),
-  withdrawGarantiesFinancieres: jest.fn(() =>
+  withdrawGarantiesFinancieres: jest.fn((removedBy: User) =>
     ok<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>(null)
   ),
   applyCovidDelay: jest.fn(() => ok<null, ProjectNotQualifiedForCovidDelay>(null)),
-  signalerDemandeDelai: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  signalerDemandeAbandon: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  signalerDemandeRecours: jest.fn(() => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
-  modifierAppelOffre: jest.fn(() => ok<null, null>(null)),
-  addGFExpirationDate: jest.fn(() => ok<null | ProjectCannotBeUpdatedIfUnnotifiedError>(null)),
+  signalerDemandeDelai: jest.fn(
+    (args: {
+      decidedOn: Date
+      newCompletionDueOn: Date
+      status: 'acceptée' | 'rejetée' | 'accord-de-principe'
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  signalerDemandeAbandon: jest.fn(
+    (args: {
+      decidedOn: Date
+      status: 'acceptée' | 'rejetée'
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  signalerDemandeRecours: jest.fn(
+    (args: {
+      decidedOn: Date
+      status: 'acceptée' | 'rejetée'
+      notes?: string
+      attachments: Array<{ id: string; name: string }>
+      signaledBy: User
+    }) => ok<null, ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
+  modifierAppelOffre: jest.fn((appelOffre: { id: string }) => ok<null, null>(null)),
+  addGFExpirationDate: jest.fn(
+    (args: { expirationDate: Date; submittedBy: User; projectId: string }) =>
+      ok<null | ProjectCannotBeUpdatedIfUnnotifiedError>(null)
+  ),
   certificateData: ok({
     template: 'v1' as CertificateTemplate,
     data: {} as ProjectDataForCertificate,

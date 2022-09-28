@@ -1,10 +1,11 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { DomainEvent } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeFakeEventBus } from './fakeEventBus'
 
 export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {
   const { publish, subscribe } = makeFakeEventBus()
-  const _innerPublishEvents = jest.fn(() => okAsync(null))
+  const _innerPublishEvents = jest.fn((events: DomainEvent[]) => okAsync(null))
   return {
     publish,
     subscribe,
