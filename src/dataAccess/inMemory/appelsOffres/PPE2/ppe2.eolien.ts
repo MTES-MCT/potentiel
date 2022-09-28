@@ -28,6 +28,7 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {
       min: 0.8,

@@ -29,6 +29,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     changementByTechnologie: true,
     ratios: {

@@ -26,6 +26,7 @@ const innovationPPE2: AppelOffre = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
+  doitPouvoirChoisirCDCInitial: true,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   changementPuissance: {
     ratios: {
