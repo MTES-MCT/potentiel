@@ -1,6 +1,6 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, CahierDesChargesModifiéRéférenceParsed } from '@entities'
+import { User, CahierDesChargesRéférenceParsed } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { NouveauCahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
@@ -15,7 +15,7 @@ import {
 type ChoisirNouveauCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
-  cahierDesCharges: CahierDesChargesModifiéRéférenceParsed
+  cahierDesCharges: CahierDesChargesRéférenceParsed
   identifiantGestionnaireRéseau?: string
 }) => ResultAsync<
   null,
