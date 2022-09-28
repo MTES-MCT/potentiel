@@ -43,7 +43,7 @@ export type CahierDesChargesRéférenceParsed = {
 }
 
 export type CahierDesChargesModifiéRéférenceParsed = {
-  paruLe: DateParutionCahierDesChargesModifié
+  paruLe: DateParutionCahierDesCharges
   alternatif?: true
 }
 

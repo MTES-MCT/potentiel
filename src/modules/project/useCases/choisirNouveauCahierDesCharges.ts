@@ -62,43 +62,49 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         )
       })
       .andThen((appelOffre) => {
-        if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
-          return errAsync(new PasDeChangementDeCDCPourCetAOError())
-        }
-
-        const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) => c.paruLe === paruLe && c.alternatif === alternatif
-        )
-
-        if (!cahierDesChargesChoisi) {
+        if (paruLe === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
           return errAsync(new CahierDesChargesNonDisponibleError())
         }
 
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && !identifiantGestionnaireRéseau) {
-          return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
-        }
+        if (paruLe !== 'initial') {
+          if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+            return errAsync(new PasDeChangementDeCDCPourCetAOError())
+          }
 
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
-          return publishToEventStore(
-            new NumeroGestionnaireSubmitted({
-              payload: {
-                projectId: projetId,
-                submittedBy: utilisateur.id,
-                numeroGestionnaire: identifiantGestionnaireRéseau,
-              },
-            })
-          ).andThen(() =>
-            publishToEventStore(
-              new NouveauCahierDesChargesChoisi({
+          const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+            (c) => c.paruLe === paruLe && c.alternatif === alternatif
+          )
+
+          if (!cahierDesChargesChoisi) {
+            return errAsync(new CahierDesChargesNonDisponibleError())
+          }
+
+          if (cahierDesChargesChoisi.numéroGestionnaireRequis && !identifiantGestionnaireRéseau) {
+            return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
+          }
+
+          if (cahierDesChargesChoisi.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
+            return publishToEventStore(
+              new NumeroGestionnaireSubmitted({
                 payload: {
-                  projetId,
-                  choisiPar: utilisateur.id,
-                  paruLe,
-                  alternatif,
+                  projectId: projetId,
+                  submittedBy: utilisateur.id,
+                  numeroGestionnaire: identifiantGestionnaireRéseau,
                 },
               })
+            ).andThen(() =>
+              publishToEventStore(
+                new NouveauCahierDesChargesChoisi({
+                  payload: {
+                    projetId,
+                    choisiPar: utilisateur.id,
+                    paruLe,
+                    alternatif,
+                  },
+                })
+              )
             )
-          )
+          }
         }
 
         return publishToEventStore(

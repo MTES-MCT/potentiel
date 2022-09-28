@@ -7,9 +7,9 @@ import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '
 import { makeChoisirNouveauCahierDesCharges } from './choisirNouveauCahierDesCharges'
 import {
   PasDeChangementDeCDCPourCetAOError,
-  Project,
   NouveauCahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
+  Project,
 } from '..'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
@@ -255,6 +255,49 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
     })
   })
 
+  describe(`Impossible de souscrire au CDC initial si l'AO ne permet pas de faire ce choix`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur un projet
+        Et une AO ne permettant pas de choisir le CDC initial 
+        Lorsqu'il souscrit au CDC initial
+        Alors l'utilisateur devrait être alerté que l'AO ne permet pas de choisir ce cahier des charges`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        cahierDesCharges: {
+          paruLe: '30/08/2022',
+        },
+      } as Project)
+      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+        ({
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', type: 'notified' }],
+          familles: [{ id: 'familleId' }],
+          choisirNouveauCahierDesCharges: true,
+          cahiersDesChargesModifiésDisponibles: [
+            { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as AppelOffre)
+
+      const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        findAppelOffreById,
+      })
+
+      const res = await choisirNouveauCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: {
+          paruLe: 'initial',
+        },
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesNonDisponibleError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
   describe(`Choix d'un CDC modifié`, () => {
     type CahierDesCharges = { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true }
     const fixtures: ReadonlyArray<{
@@ -286,8 +329,8 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       } choisi pour le projet
           Et l'AO avec les CDC modifiés disponibles suivant :
             | paru le 30/07/2021
-            | paru le 30/08/2022 
-            | alternatif paru le 30/08/2022 
+            | paru le 30/08/2022
+            | alternatif paru le 30/08/2022
           Lorsqu'il souscrit au CDC${cdcChoisi.alternatif ? ' alternatif' : ''} paru le ${
         cdcChoisi.paruLe
       }
@@ -333,7 +376,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           Et le cahier des charges du 30/07/2021 choisi pour le projet
           Et l'AO avec les CDC modifiés disponibles suivant :
             | paru le 30/07/2021
-            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau 
+            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
           Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
           Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
@@ -387,6 +430,60 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
             projetId: projectId,
             choisiPar: user.id,
             paruLe: '30/08/2022',
+          }),
+        })
+      )
+    })
+  })
+
+  describe(`Choix du CDC initial si l'AO le permet`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+        Et le cahier des charges du 30/08/2022 choisi pour le projet
+        Et une AO permettant de choisir le CDC initial 
+        Lorsqu'il souscrit au CDC initial
+        Alors le CDC du projet devrait être 'initial'`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        cahierDesCharges: {
+          paruLe: '30/08/2022',
+        },
+      } as Project)
+      const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+        ({
+          id: 'appelOffreId',
+          periodes: [{ id: 'periodeId', type: 'notified' }],
+          familles: [{ id: 'familleId' }],
+          choisirNouveauCahierDesCharges: true,
+          doitPouvoirChoisirCDCInitial: true,
+          cahiersDesChargesModifiésDisponibles: [
+            { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+          ] as ReadonlyArray<CahierDesChargesModifié>,
+        } as AppelOffre)
+
+      const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        findAppelOffreById,
+      })
+
+      const res = await choisirNouveauCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: {
+          paruLe: 'initial',
+        },
+      })
+
+      expect(res.isOk()).toBe(true)
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: NouveauCahierDesChargesChoisi.type,
+          payload: expect.objectContaining({
+            projetId: projectId,
+            choisiPar: user.id,
+            paruLe: 'initial',
           }),
         })
       )
