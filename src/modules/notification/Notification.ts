@@ -1,7 +1,7 @@
 import { Optional } from 'utility-types'
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { DREAL, Project, User } from '@entities'
+import { DateParutionCahierDesChargesModifié, DREAL, Project, User } from '@entities'
 
 type BaseNotification = {
   message: {
@@ -179,8 +179,8 @@ type PPModificationReceived = {
   }
 }
 
-type PPNewRulesOptedIn = {
-  type: 'pp-new-rules-opted-in'
+type PPNouveauCDCChoisi = {
+  type: 'pp-nouveau-cdc-choisi'
   context: {
     modificationRequestId: string
     userId: string
@@ -188,6 +188,9 @@ type PPNewRulesOptedIn = {
   }
   variables: {
     nom_projet: string
+    cdc_date: DateParutionCahierDesChargesModifié
+    cdc_alternatif: 'alternatif' | ''
+    projet_url: string
   }
 }
 
@@ -252,7 +255,7 @@ type NotificationVariants =
   | ModificationRequestCancelled
   | DrealModificationReceived
   | PPModificationReceived
-  | PPNewRulesOptedIn
+  | PPNouveauCDCChoisi
   | AdminModificationRequested
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués

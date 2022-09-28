@@ -2,6 +2,7 @@ import { NotificationService } from '..'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
 import { NouveauCahierDesChargesChoisi } from '../../project'
+import routes from '@routes'
 
 type OnNouveauCahierDesChargesChoisi = (dépendances: {
   sendNotification: NotificationService['sendNotification']
@@ -11,7 +12,7 @@ type OnNouveauCahierDesChargesChoisi = (dépendances: {
 
 export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
   ({ sendNotification, findProjectById, findUserById }) =>
-  async ({ payload: { projetId: projectId, choisiPar: optedInBy } }) => {
+  async ({ payload: { projetId: projectId, choisiPar: optedInBy, paruLe, alternatif } }) => {
     const project = await findProjectById(projectId)
 
     if (!project) {
@@ -22,7 +23,7 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
     ;(await findUserById(optedInBy)).match({
       some: async ({ email, fullName }) => {
         const payload: any = {
-          type: 'pp-new-rules-opted-in',
+          type: 'pp-nouveau-cdc-choisi',
           message: {
             email: email,
             name: fullName,
@@ -34,6 +35,9 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
           },
           variables: {
             nom_projet: project.nomProjet,
+            cdc_date: paruLe,
+            cdc_alternatif: alternatif ? 'alternatif ' : '',
+            projet_url: routes.PROJECT_DETAILS(projectId),
           },
         }
 

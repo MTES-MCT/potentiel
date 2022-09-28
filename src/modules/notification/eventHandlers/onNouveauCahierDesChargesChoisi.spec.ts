@@ -31,6 +31,7 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
           projetId,
           choisiPar,
           paruLe: '30/07/2021',
+          alternatif: true,
         },
       })
     )
@@ -38,12 +39,15 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
     expect(sendNotification).toHaveBeenCalledTimes(1)
     expect(sendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
-        type: 'pp-new-rules-opted-in',
+        type: 'pp-nouveau-cdc-choisi',
         message: expect.objectContaining({
           email: 'porteur@test.test',
         }),
         variables: expect.objectContaining({
           nom_projet: 'nomProjet',
+          cdc_date: '30/07/2021',
+          cdc_alternatif: 'alternatif ',
+          projet_url: expect.stringContaining('le-projet'),
         }),
       })
     )
