@@ -126,7 +126,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           projectRepo: fakeRepo({
             ...makeFakeProject(),
             cahierDesCharges: cdcActuel,
-          } as Project),
+          } as unknown as Project),
           findAppelOffreById,
         })
 
@@ -155,8 +155,9 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           periodes: [{ id: 'periodeId', type: 'notified' }],
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
-          cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
-        } as AppelOffre)
+          cahiersDesChargesModifiésDisponibles:
+            [] as unknown as ReadonlyArray<CahierDesChargesModifié>,
+        } as unknown as AppelOffre)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
         publishToEventStore,
@@ -193,8 +194,8 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           choisirNouveauCahierDesCharges: true,
           cahiersDesChargesModifiésDisponibles: [
             { paruLe: '30/08/2022', url: 'url' },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
-        } as AppelOffre)
+          ] as unknown as ReadonlyArray<CahierDesChargesModifié>,
+        } as unknown as AppelOffre)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
         publishToEventStore,
@@ -232,8 +233,8 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
           choisirNouveauCahierDesCharges: true,
           cahiersDesChargesModifiésDisponibles: [
             { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-          ] as ReadonlyArray<CahierDesChargesModifié>,
-        } as AppelOffre)
+          ] as unknown as ReadonlyArray<CahierDesChargesModifié>,
+        } as unknown as AppelOffre)
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
         publishToEventStore,
@@ -341,7 +342,7 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       const projet = {
         ...makeFakeProject(),
         cahierDesCharges: { paruLe: '30/07/2021' },
-      } as Project
+      } as unknown as Project
 
       const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
         publishToEventStore,
@@ -355,8 +356,8 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
             cahiersDesChargesModifiésDisponibles: [
               { paruLe: '30/07/2021', url: 'url' },
               { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-            ] as ReadonlyArray<CahierDesChargesModifié>,
-          } as AppelOffre),
+            ] as unknown as ReadonlyArray<CahierDesChargesModifié>,
+          } as unknown as AppelOffre),
       })
 
       const res = await choisirNouveauCahierDesCharges({
