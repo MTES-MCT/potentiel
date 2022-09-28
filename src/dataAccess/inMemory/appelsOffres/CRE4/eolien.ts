@@ -1,5 +1,4 @@
 import { AppelOffre } from '@entities'
-import { makeParagrapheAchevementForDelai } from '../commonDataFields'
 
 const eolien: AppelOffre = {
   id: 'Eolien',
@@ -26,7 +25,6 @@ const eolien: AppelOffre = {
   paragrapheDelaiDerogatoire: '6.4',
   delaiRealisationEnMois: 36,
   decoupageParTechnologie: false,
-  contenuParagrapheAchevement: makeParagrapheAchevementForDelai(36, '7.1'),
   delaiRealisationTexte: 'trente-six (36) mois',
   paragrapheAttestationConformite: '6.5',
   afficherParagrapheInstallationMiseEnServiceModification: true,
@@ -43,11 +41,45 @@ const eolien: AppelOffre = {
       max: 1.1,
     },
   },
+  donnéesCourriersRéponse: {
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: '6.3 et 6.6',
+      dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4).
+
+En cas de retrait de l’autorisation environnementale mentionnée au 3.3.3 par l’autorité compétente, d’annulation de cette autorisation à la suite d’un contentieux, ou, dans le cadre des première et troisième période, d’un rejet de sa demande pour cette même autorisation, le Candidat dont l’offre a été sélectionnée peut se désister. Il en fait la demande au ministre chargé de l’énergie sans délai et il est dans ce cas délié de ses obligations au titre du présent appel d’offres.`,
+    },
+    texteChangementDePuissance: {
+      référenceParagraphe: `5.4.5`,
+      dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90 %) et cent-dix pourcents (110 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
+Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première et la troisième période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
+    },
+    texteChangementDActionnariat: {
+      référenceParagraphe: '5.4.2',
+      dispositions: `Les modifications de la structure du Capital du Candidat avant la constitution des garanties financières prévues au 6.2 ne sont pas autorisées.
+Après constitution des garanties financières, si le Candidat n’a pas joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. Si le Candidat a joint à son offre la lettre d’engagement du 3.3.6, les modifications de la structure du Capital du Candidat doivent être autorisées par le Préfet.`,
+    },
+    texteIdentitéDuProducteur: {
+      référenceParagraphe: '2.5',
+      dispositions: `Le Candidat doit être le Producteur de l’Installation de production. Il ne peut pas indiquer dans son offre qu’une autre société sera le Producteur de l’Installation de production au cas où le projet serait retenu.`,
+    },
+    texteChangementDeProducteur: {
+      référenceParagraphe: `5.4.1`,
+      dispositions: `Aucun changement de Producteur n’est possible avant l’Achèvement.
+Les changements de Producteur postérieurement à l’Achèvement sont réputés autorisés. Ils doivent faire l’objet d’une information préalable au Préfet et à EDF au minimum un (1) mois à l’avance.`,
+    },
+    texteDélaisDAchèvement: {
+      référenceParagraphe: '6.4',
+      dispositions: `Le  Candidat  dont  l’offre  a  été  retenue  s’engage  à  transmettre  à  EDF  l’attestation  de  conformité mentionnée au 6.5 dans un délai de trente-six (36) mois à compter de la Date de désignation. 
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement. 
+Sous  réserve  que  la  demande  complète  de  raccordement  de  l’Installation  ait  été  déposée  dans  les conditions  prévues  par  le  6.1  et  sous  réserve  que  le  Producteur  ait  mis  en  œuvre  toutes  les démarches  dans  le  respect  des  exigences  du  gestionnaire  de  réseau  pour  que  les  travaux  de raccordement soient réalisés dans les délais, les délais de transmission de l’attestation mentionnés ci-dessus sont prolongés lorsque la  mise  en service de l’Installation est  retardée du fait des délais nécessaires  à  la  réalisation  des  travaux  de  raccordement.  Dans  ce  cas,  le  Producteur  transmet l’attestation de conformité dans un délai de 2 mois à compter de la fin des travaux de raccordement notifiée   par   tout   document   transmis   par   le   gestionnaire   du   réseau   compétent.   
+En   cas   de dépassement de ce délai, la durée de contrat mentionnée au 7.1  est amputée d’un raccourcissement égal à la durée de dépassement.`,
+    },
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -58,7 +90,6 @@ const eolien: AppelOffre = {
     {
       id: '2',
       title: 'deuxième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -69,7 +100,6 @@ const eolien: AppelOffre = {
     {
       id: '3',
       title: 'troisième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -80,7 +110,6 @@ const eolien: AppelOffre = {
     {
       id: '4',
       title: 'quatrième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -91,7 +120,6 @@ const eolien: AppelOffre = {
     {
       id: '5',
       title: 'cinquième',
-      paragrapheAchevement: '6.4',
       type: 'legacy',
       cahierDesCharges: {
         référence: '2017/S 083-161855',
@@ -102,7 +130,6 @@ const eolien: AppelOffre = {
     {
       id: '6',
       title: 'sixième',
-      paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       noteThreshold: 10.19,
       cahierDesCharges: {
@@ -114,7 +141,6 @@ const eolien: AppelOffre = {
     {
       id: '7',
       title: 'septième',
-      paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       noteThreshold: 13,
       cahierDesCharges: {
@@ -126,7 +152,6 @@ const eolien: AppelOffre = {
     {
       id: '8',
       title: 'huitième',
-      paragrapheAchevement: '6.4',
       certificateTemplate: 'cre4.v1',
       noteThreshold: 9.8,
       cahierDesCharges: {
@@ -140,8 +165,17 @@ const eolien: AppelOffre = {
   cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/08/2022',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
+      donnéesCourriersRéponse: {
+        texteChangementDePuissance: {
+          référenceParagraphe: `5.4.5`,
+          dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingt-dix pourcents (90 %) et cent-dix pourcents (110 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
+    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.
+    Les modifications de la Puissance installée hors de cette fourchette ou les modifications à la hausse de la Puissance installée après l’Achèvement ne sont pas autorisées.
+    Par dérogation, les modifications à la baisse de la Puissance installée qui seraient imposées soit par une décision de l’Etat dans le cadre de la procédure d’autorisation mentionnée au 3.3.3 pour la première période de candidature, ou par une décision de justice concernant l’autorisation mentionnée au 3.3.3 pour l’ensemble des périodes de candidature, sont acceptées. Elles doivent faire l’objet d’une information au Préfet.`,
+        },
+      },
     },
   ],
 }

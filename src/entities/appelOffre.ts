@@ -1,3 +1,4 @@
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 import { Periode } from './periode'
 import { Famille, GarantiesFinancièresFamille } from './famille'
 import { CahierDesChargesModifié } from './cahierDesCharges'
@@ -73,10 +74,10 @@ export type AppelOffre = {
   choisirNouveauCahierDesCharges?: true
   periodes: Periode[]
   familles: Famille[]
-  contenuParagrapheAchevement: string
   renvoiSoumisAuxGarantiesFinancieres?: string
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
+  donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre
 

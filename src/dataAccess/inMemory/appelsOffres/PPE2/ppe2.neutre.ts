@@ -20,10 +20,6 @@ const neutrePPE2: AppelOffre = {
   paragrapheDelaiDerogatoire: '6.3',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 36 },
   decoupageParTechnologie: true,
-  contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
-- trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes ou hydroélectriques à compter de la Date de désignation.
-- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur puisse justifier qu’il a déposé sa demande de raccordement dans les deux (2) mois suivant la Date de désignation et mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit intervenir dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date d’envoi par le gestionnaire de réseau compétent de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
-En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
   delaiRealisationTexte:
     'trente (30) mois pour les installations photovoltaïques ou trente-six (36) mois pour les installations éoliennes ou hydroélectriques',
   paragrapheAttestationConformite: '6.6',
@@ -38,11 +34,34 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
       max: 1.2,
     },
   },
+  donnéesCourriersRéponse: {
+    texteEngagementRéalisationEtModalitésAbandon: {
+      référenceParagraphe: '6.2',
+      dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
+Par exception, le Candidat est délié de cette obligation :
+˗ en cas de retrait de l’autorisation par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés.
+˗ en cas de non obtention ou de retrait de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
+Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
+Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de
+conditions ou du prélèvement d’une part de la garantie financière. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
+    },
+    texteChangementDePuissance: {
+      référenceParagraphe: '5.2.5',
+      dispositions: `Les modifications de la Puissance installée avant l’Achèvement sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre quatre-vingtspourcents (80 %) et cent-vingt pourcents (120 %) de la Puissance indiquée dans l’offre. Elles doivent faire l’objet d’une information au Préfet. Lesmodifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposées par une décision de l’Etat à l’égard de toute autorisation administrative nécessaire à la réalisation du projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un événement extérieur au candidat, peuvent également être autorisées par le Préfet de manière exceptionnelle, sur demande dûment motivée.Après l'achèvement, les modifications à la hausse ne sont pas acceptées.`,
+    },
+    texteDélaisDAchèvement: {
+      référenceParagraphe: '6.3',
+      dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- trente (30) mois à compter de la Date de désignation pour les installations photovoltaïques ;
+ou trente-six (36) mois à compter de la Date de désignation pour les installations éoliennes ou hydroélectriques.
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
+    },
+  },
   periodes: [
     {
       id: '1',
       title: 'première',
-      paragrapheAchevement: '6.3',
       type: 'not-yet-notified',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {

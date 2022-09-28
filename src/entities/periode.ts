@@ -1,4 +1,5 @@
-import { CahierDesCharges } from '@entities/cahierDesCharges'
+import { CahierDesCharges } from './cahierDesCharges'
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
 import { Territoire } from './territoire'
 
 type NoteThresholdByFamily = {
@@ -54,7 +55,7 @@ export type CertificateTemplate = 'cre4.v0' | 'cre4.v1' | 'ppe2.v1' | 'ppe2.v2'
 export type Periode = {
   id: string
   title: string
-  paragrapheAchevement: string
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
   cahierDesCharges: CahierDesCharges
   delaiDcrEnMois: {
     valeur: number

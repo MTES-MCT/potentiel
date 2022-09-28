@@ -1,3 +1,5 @@
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
+
 export type CahierDesCharges = {
   référence: string
   url: string
@@ -8,6 +10,7 @@ export type CahierDesChargesModifié = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
   numéroGestionnaireRequis?: true
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
 export const cahiersDesChargesModifiésRéférences = [
@@ -15,6 +18,7 @@ export const cahiersDesChargesModifiésRéférences = [
   '30/08/2022',
   '30/08/2022-alternatif',
 ] as const
+
 export const cahiersDesChargesRéférences = [
   'initial',
   ...cahiersDesChargesModifiésRéférences,

@@ -1,8 +1,8 @@
+import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse'
 import { getProjectAppelOffre } from '@config/queries.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { DREAL } from '@entities'
-import { PeriodeDTO } from '@modules/appelOffre'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
@@ -12,7 +12,6 @@ import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import moment from 'moment'
 import { formatDate } from '../../../../helpers/formatDate'
 import models from '../../models'
-import { getPeriode } from '../appelOffre'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -30,7 +29,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           EntityNotFoundError | InfraNotAvailableError
         > => {
           if (!modificationRequest) return errAsync(new EntityNotFoundError())
-
           const { type, projectId } = modificationRequest
           if (type === 'delai') {
             return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
@@ -42,25 +40,12 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           return okAsync({ modificationRequest, previousRequest: null })
         }
       )
-      .andThen(({ modificationRequest, previousRequest }) =>
-        getPeriode(modificationRequest.project.appelOffreId, modificationRequest.project.periodeId)
-          .orElse((e): ResultAsync<PeriodeDTO, InfraNotAvailableError> => {
-            if (e instanceof EntityNotFoundError) {
-              // If periode is not found, do not crash the whole query
-              return okAsync({} as PeriodeDTO)
-            }
-
-            return errAsync(e)
-          })
-          .map((periodeDetails) => ({ modificationRequest, previousRequest, periodeDetails }))
-      )
       .andThen(
         ({
           modificationRequest,
           previousRequest,
-          periodeDetails,
         }): ResultAsync<
-          { dreal: DREAL | ''; modificationRequest; previousRequest; periodeDetails },
+          { dreal: DREAL | ''; modificationRequest; previousRequest },
           InfraNotAvailableError
         > => {
           if (user.role === 'dreal') {
@@ -75,15 +60,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 dreal,
                 modificationRequest,
                 previousRequest,
-                periodeDetails,
               }
             })
           }
 
-          return okAsync({ dreal: '', modificationRequest, previousRequest, periodeDetails })
+          return okAsync({ dreal: '', modificationRequest, previousRequest })
         }
       )
-      .andThen(({ dreal, modificationRequest, previousRequest, periodeDetails }) => {
+      .andThen(({ dreal, modificationRequest, previousRequest }) => {
         const {
           type,
           project,
@@ -128,6 +112,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           engagementFournitureDePuissanceAlaPointe,
           notifiedOn,
           potentielIdentifier,
+          cahierDesChargesActuel,
         } = project
 
         const {
@@ -173,12 +158,21 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateNotification: formatDate(notifiedOn),
         }
 
+        const {
+          texteChangementDActionnariat,
+          texteChangementDeProducteur,
+          texteChangementDePuissance,
+          texteDélaisDAchèvement,
+          texteEngagementRéalisationEtModalitésAbandon,
+          texteIdentitéDuProducteur,
+        } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre)
+
         switch (type) {
           case 'delai':
             return ok({
               ...commonData,
-              referenceParagrapheAchevement: periode.paragrapheAchevement,
-              contenuParagrapheAchevement: appelOffre.contenuParagrapheAchevement,
+              referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
+              contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
               dateLimiteAchevementInitiale: formatDate(
                 Number(
                   moment(notifiedOn)
@@ -197,13 +191,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               referenceParagrapheAbandon:
-                periodeDetails[
-                  'Référence du paragraphe dédié à l’engagement de réalisation ou aux modalités d’abandon'
-                ],
-              contenuParagrapheAbandon:
-                periodeDetails[
-                  'Dispositions liées à l’engagement de réalisation ou aux modalités d’abandon'
-                ],
+                texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe,
+              contenuParagrapheAbandon: texteEngagementRéalisationEtModalitésAbandon.dispositions,
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
@@ -212,10 +201,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             return ok({
               ...commonData,
               nouvelActionnaire: actionnaire,
-              referenceParagrapheActionnaire:
-                periodeDetails['Référence du paragraphe dédié au changement d’actionnariat'],
-              contenuParagrapheActionnaire:
-                periodeDetails['Dispositions liées au changement d’actionnariat'],
+              referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
+              contenuParagrapheActionnaire: texteChangementDActionnariat.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'recours':
             return ok({
@@ -263,24 +250,19 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
               nouvellePuissance,
               puissanceActuelle,
-              referenceParagraphePuissance:
-                periodeDetails['Référence du paragraphe dédié au changement de puissance'],
-              contenuParagraphePuissance:
-                periodeDetails['Dispositions liées au changement de puissance'],
+              referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
+              contenuParagraphePuissance: texteChangementDePuissance.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'producteur':
             return ok({
               ...commonData,
               nouveauProducteur: producteur,
-              referenceParagrapheIdentiteProducteur:
-                periodeDetails["Référence du paragraphe dédié à l'identité du producteur"],
-              contenuParagrapheIdentiteProducteur:
-                periodeDetails['Dispositions liées à l’identité du producteur'],
+              referenceParagrapheIdentiteProducteur: texteIdentitéDuProducteur.référenceParagraphe,
+              contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur.dispositions,
               referenceParagrapheChangementProducteur:
-                periodeDetails['Référence du paragraphe dédié au changement de producteur'],
-              contenuParagrapheChangementProducteur:
-                periodeDetails['Dispositions liées au changement de producteur'],
+                texteChangementDeProducteur.référenceParagraphe,
+              contenuParagrapheChangementProducteur: texteChangementDeProducteur.dispositions,
             } as ModificationRequestDataForResponseTemplateDTO)
         }
 
