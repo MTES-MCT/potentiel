@@ -62,5 +62,5 @@ export const parseCahierDesChargesRéférence = <
 export const formatCahierDesChargesRéférence = ({
   paruLe,
   alternatif,
-}: CahierDesChargesRéférenceParsed): CahierDesChargesRéférence =>
-  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence
+}: CahierDesChargesModifiéRéférenceParsed): CahierDesChargesModifiéRéférence =>
+  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesModifiéRéférence
