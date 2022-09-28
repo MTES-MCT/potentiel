@@ -194,6 +194,34 @@ type PPNouveauCDCChoisi = {
   }
 }
 
+type PPCDCModifiéChoisi = {
+  type: 'pp-cdc-modifié-choisi'
+  context: {
+    modificationRequestId: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+    cdc_date: DateParutionCahierDesChargesModifié
+    cdc_alternatif: 'alternatif' | ''
+    projet_url: string
+  }
+}
+
+type PPCDCInitialChoisi = {
+  type: 'pp-cdc-initial-choisi'
+  context: {
+    modificationRequestId: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
+    projet_url: string
+  }
+}
+
 type ModificationRequestConfirmedByPP = {
   type: 'modification-request-confirmed'
   context: {
@@ -256,6 +284,8 @@ type NotificationVariants =
   | DrealModificationReceived
   | PPModificationReceived
   | PPNouveauCDCChoisi
+  | PPCDCModifiéChoisi
+  | PPCDCInitialChoisi
   | AdminModificationRequested
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués

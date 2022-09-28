@@ -15,7 +15,7 @@ import {
   handleModificationRequestCancelled,
   handleModificationRequested,
   handleModificationRequestStatusChanged,
-  onNouveauCahierDesChargesChoisi,
+  onCahierDesChargesChoisi,
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
@@ -114,7 +114,7 @@ eventStore.subscribe(
 
 eventStore.subscribe(
   NouveauCahierDesChargesChoisi.type,
-  onNouveauCahierDesChargesChoisi({
+  onCahierDesChargesChoisi({
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
