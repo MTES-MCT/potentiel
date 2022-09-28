@@ -190,6 +190,7 @@ type PPNouveauCDCChoisi = {
     nom_projet: string
     cdc_date: DateParutionCahierDesChargesModifié
     cdc_alternatif: 'alternatif' | ''
+    projet_url: string
   }
 }
 

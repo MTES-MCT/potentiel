@@ -2,6 +2,7 @@ import { NotificationService } from '..'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
 import { NouveauCahierDesChargesChoisi } from '../../project'
+import routes from '@routes'
 
 type OnNouveauCahierDesChargesChoisi = (dépendances: {
   sendNotification: NotificationService['sendNotification']
@@ -36,6 +37,7 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
             nom_projet: project.nomProjet,
             cdc_date: paruLe,
             cdc_alternatif: alternatif ? 'alternatif ' : '',
+            projet_url: routes.PROJECT_DETAILS(projectId),
           },
         }
 

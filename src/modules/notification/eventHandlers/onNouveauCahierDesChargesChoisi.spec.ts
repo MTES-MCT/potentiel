@@ -47,6 +47,7 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
           nom_projet: 'nomProjet',
           cdc_date: '30/07/2021',
           cdc_alternatif: 'alternatif ',
+          projet_url: expect.stringContaining('le-projet'),
         }),
       })
     )
