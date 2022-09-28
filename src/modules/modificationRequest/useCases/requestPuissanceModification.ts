@@ -108,9 +108,9 @@ export const makeRequestPuissanceModification =
             }))
           }
 
-              if (project.cahierDesCharges.paruLe !== '30/08/2022' && !fileId && !justification) {
-                return errAsync(new PuissanceJustificationOrCourrierMissingError())
-              }
+          if (project.cahierDesCharges.paruLe !== '30/08/2022' && !fileId && !justification) {
+            return errAsync(new PuissanceJustificationOrCourrierMissingError())
+          }
 
           return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project })
         })
