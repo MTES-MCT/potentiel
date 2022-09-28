@@ -5,10 +5,9 @@ import {
 } from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
-import { Project } from '../../project/Project'
+import { Project } from '@modules/project'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -88,59 +87,40 @@ export const makeRequestPuissanceModification =
             })
         }
       )
-      .andThen(
-        (
-          fileId: string
-        ): ResultAsync<
-          { newPuissanceIsAutoAccepted: boolean; fileId: string },
-          InfraNotAvailableError | UnauthorizedError
-        > => {
-          return projectRepo.transaction(
-            projectId,
-            (
-              project: Project
-            ): ResultAsync<
-              { newPuissanceIsAutoAccepted: boolean; fileId: string },
-              | AggregateHasBeenUpdatedSinceError
-              | ProjectCannotBeUpdatedIfUnnotifiedError
-              | PuissanceJustificationOrCourrierMissingError
-            > => {
-              const exceedsRatios = exceedsRatiosChangementPuissance({
-                nouvellePuissance: newPuissance,
-                project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
-              })
-              const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
-                nouvellePuissance: newPuissance,
-                project: { ...project },
-              })
+      .andThen((fileId: string) => {
+        return projectRepo.transaction(projectId, (project: Project) => {
+          const exceedsRatios = exceedsRatiosChangementPuissance({
+            nouvellePuissance: newPuissance,
+            project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
+          })
+          const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
+            nouvellePuissance: newPuissance,
+            project: { ...project },
+          })
 
-              const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax
+          const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax
 
-              if (newPuissanceIsAutoAccepted) {
-                return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => {
-                  return {
-                    newPuissanceIsAutoAccepted,
-                    fileId,
-                  }
-                })
-              }
+          if (newPuissanceIsAutoAccepted) {
+            return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => ({
+              newPuissanceIsAutoAccepted,
+              fileId,
+              project,
+            }))
+          }
 
               if (project.cahierDesCharges.paruLe !== '30/08/2022' && !fileId && !justification) {
                 return errAsync(new PuissanceJustificationOrCourrierMissingError())
               }
 
-              return okAsync({ newPuissanceIsAutoAccepted: false, fileId })
-            }
-          )
-        }
-      )
+          return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project })
+        })
+      })
       .andThen(
-        (args: {
-          newPuissanceIsAutoAccepted: boolean
-          fileId: string
+        ({
+          newPuissanceIsAutoAccepted,
+          fileId,
+          project,
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-          const { newPuissanceIsAutoAccepted, fileId } = args
-
           const modificationRequestId = new UniqueEntityID().toString()
 
           return deps
@@ -175,6 +155,7 @@ export const makeRequestPuissanceModification =
                         justification,
                         fileId,
                         authority: 'dreal',
+                        cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })
               )

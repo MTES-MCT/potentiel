@@ -13,6 +13,7 @@ export const onModificationReceived =
       fileId,
       type,
       authority,
+      cahierDesCharges,
     } = payload
 
     try {
@@ -34,6 +35,7 @@ export const onModificationReceived =
         fournisseurs: type === 'fournisseur' ? payload.fournisseurs : undefined,
         evaluationCarbone: type === 'fournisseur' ? payload.evaluationCarbone : undefined,
         authority,
+        cahierDesCharges,
       })
     } catch (e) {
       logger.error(e)

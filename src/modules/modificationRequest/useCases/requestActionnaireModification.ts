@@ -1,9 +1,8 @@
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { combine, errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
-import { Project } from '../../project/Project'
+import { Project } from '@modules/project'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -52,89 +51,46 @@ export const makeRequestActionnaireModification =
     return wrapInfra(
       shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
     )
-      .andThen(
-        (
-          userHasRightsToProject
-        ): ResultAsync<
-          any,
-          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
-        > => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!file) return okAsync(null)
+      .andThen((userHasRightsToProject) => {
+        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+        if (!file) return okAsync(null)
 
-          return makeAndSaveFile({
-            file: {
-              designation: 'modification-request',
-              forProject: projectId,
-              createdBy: new UniqueEntityID(requestedBy.id),
-              filename: file.filename,
-              contents: file.contents,
-            },
-            fileRepo,
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request',
+            forProject: projectId,
+            createdBy: new UniqueEntityID(requestedBy.id),
+            filename: file.filename,
+            contents: file.contents,
+          },
+          fileRepo,
+        })
+          .map((responseFileId) => responseFileId)
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
           })
-            .map((responseFileId) => responseFileId)
-            .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
-      )
-      .andThen(
-        (
-          fileId: string
-        ): ResultAsync<
-          { requiresAuthorization: boolean; fileId: string },
-          InfraNotAvailableError | EntityNotFoundError
-        > =>
-          deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
-            if (appelOffreId === 'Eolien') {
-              return combine([
-                deps.hasProjectGarantieFinanciere(projectId.toString()),
-                deps.isProjectParticipatif(projectId.toString()),
-              ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
-                requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
-                fileId,
-              }))
-            }
+      })
+      .andThen((fileId: string) =>
+        deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
+          if (appelOffreId === 'Eolien') {
+            return combine([
+              deps.hasProjectGarantieFinanciere(projectId.toString()),
+              deps.isProjectParticipatif(projectId.toString()),
+            ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
+              requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
+              fileId,
+            }))
+          }
 
-            return okAsync({ requiresAuthorization: false, fileId })
-          })
+          return okAsync({ requiresAuthorization: false, fileId })
+        })
       )
-      .andThen(({ requiresAuthorization, fileId }) => {
-        if (requiresAuthorization) {
-          return eventBus.publish(
-            new ModificationRequested({
-              payload: {
-                modificationRequestId: new UniqueEntityID().toString(),
-                projectId: projectId.toString(),
-                requestedBy: requestedBy.id,
-                type: 'actionnaire',
-                actionnaire: newActionnaire,
-                justification,
-                fileId,
-                authority: 'dreal',
-              },
-            })
-          )
-        }
-
-        return projectRepo
-          .transaction(
-            projectId,
-            (
-              project: Project
-            ): ResultAsync<
-              string,
-              AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
-            > => {
-              return project
-                .updateActionnaire(requestedBy, newActionnaire)
-                .asyncMap(async () => fileId)
-            }
-          )
-          .andThen(() =>
-            eventBus.publish(
-              new ModificationReceived({
+      .andThen(({ requiresAuthorization, fileId }) =>
+        projectRepo.transaction(projectId, (project: Project) => {
+          if (requiresAuthorization) {
+            return eventBus.publish(
+              new ModificationRequested({
                 payload: {
                   modificationRequestId: new UniqueEntityID().toString(),
                   projectId: projectId.toString(),
@@ -144,9 +100,30 @@ export const makeRequestActionnaireModification =
                   justification,
                   fileId,
                   authority: 'dreal',
+                  cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                 },
               })
             )
+          }
+
+          project.updateActionnaire(requestedBy, newActionnaire)
+
+          eventBus.publish(
+            new ModificationReceived({
+              payload: {
+                modificationRequestId: new UniqueEntityID().toString(),
+                projectId: projectId.toString(),
+                requestedBy: requestedBy.id,
+                type: 'actionnaire',
+                actionnaire: newActionnaire,
+                justification,
+                fileId,
+                authority: 'dreal',
+                cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
+              },
+            })
           )
-      })
+          return okAsync(null)
+        })
+      )
   }
