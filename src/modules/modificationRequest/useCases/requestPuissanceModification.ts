@@ -142,6 +142,7 @@ export const makeRequestPuissanceModification =
                         justification,
                         fileId,
                         authority: 'dreal',
+                        cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })
                   : new ModificationRequested({

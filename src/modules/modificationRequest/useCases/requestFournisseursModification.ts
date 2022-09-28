@@ -1,15 +1,10 @@
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
+import { errAsync, logger, okAsync, wrapInfra } from '@core/utils'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { Fournisseur, ProjectCannotBeUpdatedIfUnnotifiedError } from '../../project'
+import { Fournisseur } from '../../project'
 import { Project } from '../../project/Project'
-import {
-  AggregateHasBeenUpdatedSinceError,
-  EntityNotFoundError,
-  InfraNotAvailableError,
-  UnauthorizedError,
-} from '../../shared'
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 
 interface RequestFournisseurModificationDeps {
@@ -29,16 +24,7 @@ interface RequestFournisseurModificationArgs {
 }
 
 export const makeRequestFournisseursModification =
-  (deps: RequestFournisseurModificationDeps) =>
-  (
-    args: RequestFournisseurModificationArgs
-  ): ResultAsync<
-    null,
-    | AggregateHasBeenUpdatedSinceError
-    | InfraNotAvailableError
-    | EntityNotFoundError
-    | UnauthorizedError
-  > => {
+  (deps: RequestFournisseurModificationDeps) => (args: RequestFournisseurModificationArgs) => {
     const { projectId, requestedBy, newFournisseurs, newEvaluationCarbone, justification, file } =
       args
     const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
@@ -46,69 +32,49 @@ export const makeRequestFournisseursModification =
     return wrapInfra(
       shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
     )
-      .andThen(
-        (
-          userHasRightsToProject
-        ): ResultAsync<
-          any,
-          AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
-        > => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!file) return okAsync(null)
+      .andThen((userHasRightsToProject) => {
+        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+        if (!file) return okAsync(null)
 
-          return makeAndSaveFile({
-            file: {
-              designation: 'modification-request',
-              forProject: projectId,
-              createdBy: new UniqueEntityID(requestedBy.id),
-              filename: file.filename,
-              contents: file.contents,
-            },
-            fileRepo,
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request',
+            forProject: projectId,
+            createdBy: new UniqueEntityID(requestedBy.id),
+            filename: file.filename,
+            contents: file.contents,
+          },
+          fileRepo,
+        })
+          .map((responseFileId) => responseFileId)
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
           })
-            .map((responseFileId) => responseFileId)
-            .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
+      })
+      .andThen((fileId: string) =>
+        projectRepo.transaction(projectId, (project: Project) =>
+          project
+            .updateFournisseurs(requestedBy, newFournisseurs, newEvaluationCarbone)
+            .map(() => ({ fileId, project }))
+        )
       )
-      .andThen(
-        (fileId: string): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
-          return projectRepo.transaction(
-            projectId,
-            (
-              project: Project
-            ): ResultAsync<
-              string,
-              AggregateHasBeenUpdatedSinceError | ProjectCannotBeUpdatedIfUnnotifiedError
-            > => {
-              return project
-                .updateFournisseurs(requestedBy, newFournisseurs, newEvaluationCarbone)
-                .asyncMap(async () => fileId)
-            }
-          )
-        }
-      )
-      .andThen(
-        (
-          fileId: string
-        ): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-          return eventBus.publish(
-            new ModificationReceived({
-              payload: {
-                modificationRequestId: new UniqueEntityID().toString(),
-                projectId: projectId.toString(),
-                requestedBy: requestedBy.id,
-                type: 'fournisseur',
-                fournisseurs: newFournisseurs,
-                evaluationCarbone: newEvaluationCarbone,
-                justification,
-                fileId,
-                authority: 'dreal',
-              },
-            })
-          )
-        }
+      .andThen(({ fileId, project }) =>
+        eventBus.publish(
+          new ModificationReceived({
+            payload: {
+              modificationRequestId: new UniqueEntityID().toString(),
+              projectId: projectId.toString(),
+              requestedBy: requestedBy.id,
+              type: 'fournisseur',
+              fournisseurs: newFournisseurs,
+              evaluationCarbone: newEvaluationCarbone,
+              justification,
+              fileId,
+              authority: 'dreal',
+              cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
+            },
+          })
+        )
       )
   }

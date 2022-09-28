@@ -164,16 +164,11 @@ v1Router.post(
         }).match(handleSuccess, handleError)
         break
       default:
-        ;(
-          await requestModification({
-            ...data,
-            file,
-            user: request.user,
-          })
-        ).match({
-          ok: handleSuccess,
-          err: handleError,
-        })
+        await requestModification({
+          ...data,
+          file,
+          user: request.user,
+        }).match(handleSuccess, handleError)
         break
     }
   })

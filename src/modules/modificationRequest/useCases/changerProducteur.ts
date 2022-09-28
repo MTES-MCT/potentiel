@@ -1,6 +1,6 @@
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { Project } from '../../project/Project'
 import { UnauthorizedError } from '../../shared'
@@ -76,6 +76,7 @@ export const makeChangerProducteur =
                     justification,
                     ...(fileId && { fileId }),
                     authority: 'dreal',
+                    cahierDesCharges: formatCahierDesChargesRéférence(projet.cahierDesCharges),
                   },
                 })
               )

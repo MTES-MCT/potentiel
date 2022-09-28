@@ -1,16 +1,17 @@
-import { okAsync } from 'neverthrow'
 import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { Project, User } from '@entities'
+import { ok, wrapInfra, err, errAsync } from '@core/utils'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { ModificationRequested } from '@modules/modificationRequest'
-import { NumeroGestionnaireSubmitted } from '@modules/project'
-import { ErrorResult, Ok, ResultAsync } from '../types'
+import { NumeroGestionnaireSubmitted, Project } from '@modules/project'
+import { userIsNot } from '@modules/users'
+import { UnauthorizedError } from '@modules/shared'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
   eventBus: EventBus
-  shouldUserAccessProject: (args: { user: User; projectId: Project['id'] }) => Promise<boolean>
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  projectRepo: Repository<Project>
 }
 
 interface RequestCommon {
@@ -19,7 +20,8 @@ interface RequestCommon {
     contents: FileContents
     filename: string
   }
-  projectId: Project['id']
+  projectId: string
+  numeroGestionnaire?: string
 }
 
 interface AbandonRequest {
@@ -43,79 +45,64 @@ export default function makeRequestModification({
   fileRepo,
   eventBus,
   shouldUserAccessProject,
+  projectRepo,
 }: MakeUseCaseProps) {
-  return async function requestModification(props: CallUseCaseProps): ResultAsync<null> {
-    const { user, projectId, file, type } = props
+  return ({ user, projectId, file, type, justification, numeroGestionnaire }: CallUseCaseProps) => {
+    if (userIsNot('porteur-projet')(user)) return errAsync(new UnauthorizedError())
 
-    // Check if the user has the rights to this project
-    const access =
-      user.role === 'porteur-projet' &&
-      (await shouldUserAccessProject({
+    return wrapInfra(
+      shouldUserAccessProject({
         user,
         projectId,
-      }))
-
-    if (!access) {
-      return ErrorResult(ACCESS_DENIED_ERROR)
-    }
-
-    let fileId: string | undefined
-
-    if (file) {
-      const { filename, contents } = file
-
-      const fileIdResult = await makeAndSaveFile({
-        file: {
-          designation: 'modification-request',
-          forProject: new UniqueEntityID(projectId),
-          createdBy: new UniqueEntityID(user.id),
-          filename,
-          contents,
-        },
-        fileRepo,
       })
-
-      if (fileIdResult.isErr()) {
-        logger.error(fileIdResult.error as Error)
-        return ErrorResult(SYSTEM_ERROR)
-      }
-
-      fileId = fileIdResult.value.toString()
-    }
-
-    const { justification, numeroGestionnaire } = props as any
-
-    const res = await eventBus
-      .publish(
-        new ModificationRequested({
-          payload: {
-            type,
-            modificationRequestId: new UniqueEntityID().toString(),
-            projectId,
-            requestedBy: user.id,
-            fileId,
-            justification,
-            authority: 'dgec',
-          },
-        })
-      )
-      .andThen(() => {
-        if (numeroGestionnaire) {
-          return eventBus.publish(
-            new NumeroGestionnaireSubmitted({
-              payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-            })
-          )
+    )
+      .andThen((access) => {
+        if (!access) {
+          return err(new UnauthorizedError())
         }
 
-        return okAsync(null)
+        if (!file) return ok(null)
+
+        const { filename, contents } = file
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request',
+            forProject: new UniqueEntityID(projectId),
+            createdBy: new UniqueEntityID(user.id),
+            filename,
+            contents,
+          },
+          fileRepo,
+        })
       })
-
-    if (res.isErr()) {
-      return ErrorResult(SYSTEM_ERROR)
-    }
-
-    // All is good
-    return Ok(null)
+      .andThen((fileId) =>
+        projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
+          eventBus
+            .publish(
+              new ModificationRequested({
+                payload: {
+                  type,
+                  modificationRequestId: new UniqueEntityID().toString(),
+                  projectId,
+                  requestedBy: user.id,
+                  ...(fileId ? { fileId } : {}),
+                  justification,
+                  authority: 'dgec',
+                  cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
+                },
+              })
+            )
+            .andThen(() => {
+              if (numeroGestionnaire) {
+                return eventBus.publish(
+                  new NumeroGestionnaireSubmitted({
+                    payload: { projectId, submittedBy: user.id, numeroGestionnaire },
+                  })
+                )
+              }
+              return ok(null)
+            })
+        )
+      )
   }
 }
