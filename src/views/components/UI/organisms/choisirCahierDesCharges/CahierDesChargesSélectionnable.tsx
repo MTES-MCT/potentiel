@@ -17,6 +17,7 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
   children,
 }) => (
   <RichRadio
+    className="pr-6"
     name="choixCDC"
     value={id}
     id={id}
@@ -24,6 +25,6 @@ export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionn
     disabled={désactivé}
     onChange={() => onCahierDesChargesChoisi?.(id)}
   >
-    <div className="mr-6">{children}</div>
+    {children}
   </RichRadio>
 )

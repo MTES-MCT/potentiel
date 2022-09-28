@@ -7,14 +7,17 @@ type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié
 export const CahierDesChargesModifiéDisponible: React.FC<
   CahierDesChargesModifiéDisponibleProps
 > = ({ paruLe, alternatif, url }) => (
-  <>
-    <span className="font-bold">
-      Instruction selon le cahier des charges{alternatif ? ' alternatif' : ''} modifié{' '}
-      rétroactivement et publié le {paruLe}{' '}
-    </span>
-    {'('}
-    <ExternalLink href={url}>voir le cahier des charges</ExternalLink>
-    {')'}.
+  <div className="flex-column">
+    <div>
+      <span className="font-bold">
+        Instruction selon le cahier des charges{alternatif ? ' alternatif' : ''} modifié{' '}
+        rétroactivement et publié le {paruLe}{' '}
+      </span>
+      {'('}
+      <ExternalLink href={url}>voir le cahier des charges</ExternalLink>
+      {')'}.
+    </div>
+
     <ul className="mt-2 list-none p-1 md:list-disc md:pl-10">
       <li>Ce choix s'appliquera à toutes les futures demandes faites sous Potentiel.</li>
       {paruLe === '30/07/2021' && (
@@ -25,5 +28,5 @@ export const CahierDesChargesModifiéDisponible: React.FC<
         </li>
       )}
     </ul>
-  </>
+  </div>
 )
