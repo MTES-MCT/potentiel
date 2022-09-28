@@ -17,7 +17,7 @@ if (isProdEnv || isStagingEnv) {
   getUserName = kcGetUserName
   resendInvitationEmail = kcResendInvitationEmail
 } else {
-  getUserName = (id) => okAsync('Utilisateur Test')
+  getUserName = () => okAsync('Utilisateur Test')
   createUserCredentials = (args) => {
     logger.info(`FAKE createUserCredentials(${JSON.stringify(args)})`)
     return okAsync(null)

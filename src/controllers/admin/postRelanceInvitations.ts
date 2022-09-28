@@ -20,7 +20,7 @@ v1Router.post(
           })
         )
       },
-      (e) => {
+      () => {
         return response.redirect(
           addQueryParams(redirectTo, {
             error:

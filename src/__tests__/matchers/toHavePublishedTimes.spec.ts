@@ -8,7 +8,7 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
   public type = DummyEvent.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: DummyEventPayload) {
+  aggregateIdFromPayload() {
     return undefined
   }
 }

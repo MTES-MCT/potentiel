@@ -11,7 +11,7 @@ class DummyEvent extends BaseDomainEvent<DummyEventPayload> implements DomainEve
   public type = DummyEvent.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: DummyEventPayload) {
+  aggregateIdFromPayload() {
     return undefined
   }
 }
@@ -21,12 +21,8 @@ describe('makeEventStore', () => {
 
   describe('publish', () => {
     const loadAggregateEventsFromStore = jest.fn()
-    const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
-      okAsync<null, InfraNotAvailableError>(null)
-    )
-    const publishToEventBus = jest.fn((event: DomainEvent) =>
-      okAsync<null, InfraNotAvailableError>(null)
-    )
+    const persistEventsToStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+    const publishToEventBus = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
     const subscribe = jest.fn()
 
     const eventStore = makeEventStore({
@@ -66,7 +62,7 @@ describe('makeEventStore', () => {
       subscribe,
     })
 
-    const callback = (event: DomainEvent) => {}
+    const callback = () => {}
 
     beforeAll(async () => {
       await eventStore.subscribe(DummyEvent.type, callback)
@@ -79,15 +75,11 @@ describe('makeEventStore', () => {
 
   describe('transaction', () => {
     describe('when everything is ok', () => {
-      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+      const loadAggregateEventsFromStore = jest.fn(() =>
         okAsync<DomainEvent[], InfraNotAvailableError>([])
       )
-      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
-      const publishToEventBus = jest.fn((event: DomainEvent) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
+      const persistEventsToStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+      const publishToEventBus = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
       const subscribe = jest.fn()
 
       const eventStore = makeEventStore({
@@ -101,9 +93,7 @@ describe('makeEventStore', () => {
       const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
-        okAsync<DomainEvent[], never>([targetEvent])
-      )
+      const transactionCallback = jest.fn(() => okAsync<DomainEvent[], never>([targetEvent]))
 
       beforeAll(async () => {
         const res = await eventStore.transaction(targetId, transactionCallback)
@@ -127,15 +117,11 @@ describe('makeEventStore', () => {
     })
 
     describe('when loadAggregateEventsFromStore fails', () => {
-      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+      const loadAggregateEventsFromStore = jest.fn(() =>
         errAsync<DomainEvent[], InfraNotAvailableError>(new InfraNotAvailableError())
       )
-      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
-      const publishToEventBus = jest.fn((event: DomainEvent) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
+      const persistEventsToStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+      const publishToEventBus = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
       const subscribe = jest.fn()
 
       const eventStore = makeEventStore({
@@ -149,9 +135,7 @@ describe('makeEventStore', () => {
       const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
-        okAsync<DomainEvent[], never>([targetEvent])
-      )
+      const transactionCallback = jest.fn(() => okAsync<DomainEvent[], never>([targetEvent]))
 
       beforeAll(async () => {
         const res = await eventStore.transaction(targetId, transactionCallback)
@@ -169,15 +153,13 @@ describe('makeEventStore', () => {
     })
 
     describe('when persistEventsToStore fails', () => {
-      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+      const loadAggregateEventsFromStore = jest.fn(() =>
         okAsync<DomainEvent[], InfraNotAvailableError>([])
       )
-      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
+      const persistEventsToStore = jest.fn(() =>
         errAsync<null, InfraNotAvailableError>(new InfraNotAvailableError())
       )
-      const publishToEventBus = jest.fn((event: DomainEvent) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
+      const publishToEventBus = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
       const subscribe = jest.fn()
 
       const eventStore = makeEventStore({
@@ -191,9 +173,7 @@ describe('makeEventStore', () => {
       const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
-        okAsync<DomainEvent[], never>([targetEvent])
-      )
+      const transactionCallback = jest.fn(() => okAsync<DomainEvent[], never>([targetEvent]))
       beforeAll(async () => {
         const res = await eventStore.transaction(targetId, transactionCallback)
 
@@ -206,13 +186,11 @@ describe('makeEventStore', () => {
     })
 
     describe('when publishToEventBus fails', () => {
-      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+      const loadAggregateEventsFromStore = jest.fn(() =>
         okAsync<DomainEvent[], InfraNotAvailableError>([])
       )
-      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
-      const publishToEventBus = jest.fn((event: DomainEvent) =>
+      const persistEventsToStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+      const publishToEventBus = jest.fn(() =>
         errAsync<null, InfraNotAvailableError>(new InfraNotAvailableError())
       )
       const subscribe = jest.fn()
@@ -228,9 +206,7 @@ describe('makeEventStore', () => {
       const targetId = new UniqueEntityID()
       const targetEvent = new DummyEvent({ payload: {} })
 
-      const transactionCallback = jest.fn((aggregateEvents: DomainEvent[]) =>
-        okAsync<DomainEvent[], never>([targetEvent])
-      )
+      const transactionCallback = jest.fn(() => okAsync<DomainEvent[], never>([targetEvent]))
       beforeAll(async () => {
         const res = await eventStore.transaction(targetId, transactionCallback)
 
@@ -244,15 +220,11 @@ describe('makeEventStore', () => {
     })
 
     describe('when multiple calls are made at the same time', () => {
-      const loadAggregateEventsFromStore = jest.fn((aggregateId: string) =>
+      const loadAggregateEventsFromStore = jest.fn(() =>
         okAsync<DomainEvent[], InfraNotAvailableError>([])
       )
-      const persistEventsToStore = jest.fn((events: DomainEvent[]) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
-      const publishToEventBus = jest.fn((event: DomainEvent) =>
-        okAsync<null, InfraNotAvailableError>(null)
-      )
+      const persistEventsToStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+      const publishToEventBus = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
       const subscribe = jest.fn()
 
       const targetId = new UniqueEntityID()

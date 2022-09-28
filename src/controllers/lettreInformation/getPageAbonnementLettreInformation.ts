@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 v1Router.get(
   routes.ABONNEMENT_LETTRE_INFORMATION,
   asyncHandler(async (request, response) => {
-    const { user, query } = request
+    const { query } = request
 
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
       (errors, [key, value]) => ({

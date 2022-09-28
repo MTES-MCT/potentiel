@@ -1,3 +1,4 @@
+/* eslint-disable unused-imports/no-unused-vars */
 import { AggregateFromHistoryFn, ok, Result } from '.'
 import { BaseDomainEvent, DomainEvent, EventStore, UniqueEntityID } from '../domain'
 import {

@@ -394,7 +394,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     }
   }
 
-  async function findById(id: Project['id'], includeHistory?: true): Promise<Project | undefined> {
+  async function findById(id: Project['id']): Promise<Project | undefined> {
     await _isDbReady
 
     try {
