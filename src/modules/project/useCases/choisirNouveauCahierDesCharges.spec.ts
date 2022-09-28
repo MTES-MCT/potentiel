@@ -8,6 +8,7 @@ import { makeChoisirNouveauCahierDesCharges } from './choisirNouveauCahierDesCha
 import {
   PasDeChangementDeCDCPourCetAOError,
   NouveauCahierDesChargesChoisi,
+  CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
   Project,
 } from '..'
@@ -479,11 +480,11 @@ describe('Commande choisirNouveauCahierDesCharges', () => {
       expect(res.isOk()).toBe(true)
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: NouveauCahierDesChargesChoisi.type,
+          type: CahierDesChargesChoisi.type,
           payload: expect.objectContaining({
             projetId: projectId,
             choisiPar: user.id,
-            paruLe: 'initial',
+            type: 'initial',
           }),
         })
       )
