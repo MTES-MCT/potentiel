@@ -10,7 +10,7 @@ interface CreateUserProps {
   role: UserRole
 }
 
-async function createUser({ email, fullName, password, role }: CreateUserProps) {
+async function createUser({ email, fullName, role }: CreateUserProps) {
   // Create a user object
   const userResult = makeUser({
     fullName,

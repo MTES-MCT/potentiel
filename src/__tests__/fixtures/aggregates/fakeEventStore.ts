@@ -4,7 +4,7 @@ import { makeFakeEventBus } from './fakeEventBus'
 
 export const makeFakeEventStore = (fakeEvents?: DomainEvent[]) => {
   const { publish, subscribe } = makeFakeEventBus()
-  const _innerPublishEvents = jest.fn((events: DomainEvent[]) => okAsync(null))
+  const _innerPublishEvents = jest.fn(() => okAsync(null))
   return {
     publish,
     subscribe,

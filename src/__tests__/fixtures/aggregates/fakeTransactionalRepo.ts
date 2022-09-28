@@ -8,8 +8,7 @@ export const fakeTransactionalRepo = <AggregateType>(aggregate?: AggregateType) 
     _: UniqueEntityID,
     cb: (
       aggregate: AggregateType
-    ) => ResultAsync<CallbackResult, CallbackError> | Result<CallbackResult, CallbackError>,
-    opts?: { isNew?: boolean; acceptNew?: boolean }
+    ) => ResultAsync<CallbackResult, CallbackError> | Result<CallbackResult, CallbackError>
   ) {
     return okAsync<null, CallbackError | EntityNotFoundError | InfraNotAvailableError>(
       null
