@@ -16,6 +16,7 @@ export default ProjectEventProjector.on(CahierDesChargesChoisi, async (évèneme
         type: 'CahierDesChargesChoisi',
         payload: {
           choisiPar,
+          type,
           ...(type === 'modifié' && { paruLe: payload.paruLe, alternatif: payload.alternatif }),
         },
         valueDate: évènement.occurredAt.getTime(),

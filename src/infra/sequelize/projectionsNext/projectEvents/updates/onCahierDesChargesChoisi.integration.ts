@@ -35,7 +35,7 @@ describe('Projecteur de ProjectEvent onCahierDesChargesChoisi', () => {
           type: 'CahierDesChargesChoisi',
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: { choisiPar: 'utilisateur' },
+          payload: { choisiPar: 'utilisateur', type: 'initial' },
         })
       })
 
@@ -65,7 +65,7 @@ describe('Projecteur de ProjectEvent onCahierDesChargesChoisi', () => {
           type: 'CahierDesChargesChoisi',
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: { choisiPar: 'utilisateur', paruLe: '30/07/2021' },
+          payload: { choisiPar: 'utilisateur', paruLe: '30/07/2021', type: 'modifié' },
         })
       })
     })
