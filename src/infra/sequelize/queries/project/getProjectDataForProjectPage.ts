@@ -124,6 +124,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                     c.alternatif === cahierDesChargesActuel.alternatif
                 )?.url,
                 paruLe: cahierDesChargesActuel.paruLe,
+                alternatif: cahierDesChargesActuel.alternatif,
               }
 
         const result: any = {

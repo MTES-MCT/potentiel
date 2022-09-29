@@ -25,7 +25,9 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
           Instruction selon le cahier des charges{' '}
           {cahierDesCharges.type === 'initial'
             ? 'initial (en vigueur à la candidature)'
-            : `modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
+            : `${
+                cahierDesCharges.alternatif ? 'alternatif' : ''
+              } modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
           (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
         </div>
       )}

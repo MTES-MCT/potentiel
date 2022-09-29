@@ -36,6 +36,7 @@ export type ModificationRequestPageDTO = {
     | {
         type: 'modifié'
         paruLe: string
+        alternatif?: true
       }
   )
 

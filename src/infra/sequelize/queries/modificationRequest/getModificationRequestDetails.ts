@@ -171,6 +171,7 @@ const formatCahierDesCharges = ({
   return {
     type: 'modifié',
     url: cahiersDesChargesModifié.url,
-    paruLe: cahierDesChargesRéférenceParsed.paruLe,
+    paruLe: cahiersDesChargesModifié.paruLe,
+    alternatif: cahiersDesChargesModifié.alternatif,
   }
 }
