@@ -33,68 +33,73 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
       {type && <input type="hidden" name="type" value={type} />}
 
       <ul className="list-none pl-0">
-        <CahierDesChargesSelectionnable
-          {...{
-            key: 'cahier-des-charges-initial',
-            id: 'initial',
-            sélectionné: cdcChoisi === 'initial',
-            désactivé: true,
-          }}
-        >
-          <CahierDesChargesInitial
+        <li className="mb-5" key="cahier-des-charges-initial">
+          <CahierDesChargesSelectionnable
             {...{
-              appelOffre,
-              cdcChoisi,
+              id: 'initial',
+              sélectionné: cdcChoisi === 'initial',
+              désactivé: true,
             }}
-          />
-        </CahierDesChargesSelectionnable>
+          >
+            <CahierDesChargesInitial
+              {...{
+                appelOffre,
+                cdcChoisi,
+              }}
+            />
+          </CahierDesChargesSelectionnable>
+        </li>
 
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
           const idCdc = formatCahierDesChargesRéférence(cahierDesChargesModifié)
           const sélectionné = cdcChoisi === idCdc
 
           return (
-            <CahierDesChargesSelectionnable
-              {...{
-                key: `cahier-des-charges-modifié-${index}`,
-                id: idCdc,
-                onCahierDesChargesChoisi: (id) => {
-                  choisirCdc(id)
-                  pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
-                },
-                sélectionné,
-              }}
-            >
-              <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
+            <li className="mb-5" key={`cahier-des-charges-modifié-${index}`}>
+              <CahierDesChargesSelectionnable
+                {...{
+                  id: idCdc,
+                  onCahierDesChargesChoisi: (id) => {
+                    choisirCdc(id)
+                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+                  },
+                  sélectionné,
+                }}
+              >
+                <div className="flex-column">
+                  <CahierDesChargesModifiéDisponible {...cahierDesChargesModifié} />
 
-              {sélectionné &&
-                cahierDesChargesModifié.numéroGestionnaireRequis &&
-                (idCdc === cahierDesChargesActuel ? (
-                  <>
-                    Identifiant gestionnaire de réseau pour votre projet déjà renseigné :{' '}
-                    {identifiantGestionnaireRéseau}
-                  </>
-                ) : (
-                  <>
-                    <label className="mt-2 mb-1" htmlFor="identifiantGestionnaireRéseau">
-                      Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier des
-                      avantages de ce cahier des charges, vous devez renseigner l'identifiant
-                      gestionnaire de réseau pour votre projet : (champ obligatoire)
-                    </label>
-                    <Input
-                      id="identifiantGestionnaireRéseau"
-                      name="identifiantGestionnaireRéseau"
-                      type="text"
-                      placeholder="Identifiant gestionnaire de réseau"
-                      defaultValue={identifiantGestionnaireRéseau}
-                      required
-                    />
-                    <Link href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-                      Où trouver mon numéro ?
-                    </Link>
-                  </>
-                ))}
-            </CahierDesChargesSelectionnable>
+                  {sélectionné &&
+                    cahierDesChargesModifié.numéroGestionnaireRequis &&
+                    (idCdc === cahierDesChargesActuel ? (
+                      <p>
+                        Identifiant gestionnaire de réseau pour votre projet déjà renseigné :{' '}
+                        {identifiantGestionnaireRéseau}
+                      </p>
+                    ) : (
+                      <div>
+                        <label className="mt-2 mb-1" htmlFor="identifiantGestionnaireRéseau">
+                          Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier
+                          des avantages de ce cahier des charges, vous devez renseigner
+                          l'identifiant gestionnaire de réseau pour votre projet : (champ
+                          obligatoire)
+                        </label>
+                        <Input
+                          id="identifiantGestionnaireRéseau"
+                          name="identifiantGestionnaireRéseau"
+                          type="text"
+                          placeholder="Identifiant gestionnaire de réseau"
+                          defaultValue={identifiantGestionnaireRéseau}
+                          required
+                        />
+                        <Link href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                          Où trouver mon numéro ?
+                        </Link>
+                      </div>
+                    ))}
+                </div>
+              </CahierDesChargesSelectionnable>
+            </li>
           )
         })}
       </ul>
