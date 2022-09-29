@@ -15,27 +15,27 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
   const fixtures = [
     {
       cahierDesChargesActuel: 'initial',
-      cahierDesChargesChoisi: { paruLe: '30/07/2021' },
+      cahierDesChargesChoisi: { type: 'modifié', paruLe: '30/07/2021' },
       cahierDesChargesAttendu: '30/07/2021',
     },
     {
       cahierDesChargesActuel: 'initial',
-      cahierDesChargesChoisi: { paruLe: '30/08/2022' },
+      cahierDesChargesChoisi: { type: 'modifié', paruLe: '30/08/2022' },
       cahierDesChargesAttendu: '30/08/2022',
     },
     {
       cahierDesChargesActuel: 'initial',
-      cahierDesChargesChoisi: { paruLe: '30/08/2022', alternatif: true },
+      cahierDesChargesChoisi: { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
       cahierDesChargesAttendu: '30/08/2022-alternatif',
     },
     {
       cahierDesChargesActuel: '30/08/2022',
-      cahierDesChargesChoisi: { paruLe: 'initial' },
+      cahierDesChargesChoisi: { type: 'initial', paruLe: 'initial' },
       cahierDesChargesAttendu: 'initial',
     },
     {
       cahierDesChargesActuel: '30/08/2022-alternatif',
-      cahierDesChargesChoisi: { paruLe: 'initial' },
+      cahierDesChargesChoisi: { type: 'initial', paruLe: 'initial' },
       cahierDesChargesAttendu: 'initial',
     },
   ]
