@@ -41,7 +41,7 @@ export type ProjectEventDTO =
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | DemandeAbandonDTO
-  | NouveauCahierDesChargesChoisiDTO
+  | CahierDesChargesChoisiDTO
 
 type File = {
   id: string
@@ -396,13 +396,20 @@ export type DemandeAbandonDTO = {
   actionRequise?: 'à traiter'
 }
 
-export type NouveauCahierDesChargesChoisiDTO = {
-  type: 'NouveauCahierDesChargesChoisi'
+export type CahierDesChargesChoisiDTO = {
+  type: 'CahierDesChargesChoisi'
   variant: Exclude<UserRole, 'ademe'>
   date: number
-  paruLe: string
-  alternatif?: true
-}
+} & (
+  | {
+      cahierDesCharges: 'initial'
+    }
+  | {
+      cahierDesCharges: 'modifié'
+      paruLe: '30/07/2021' | '30/08/2022'
+      alternatif?: true
+    }
+)
 
 export type ProjectEventListDTO = {
   project: {

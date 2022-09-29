@@ -81,5 +81,5 @@ export const isKnownProjectEvent = or(
   is('DemandeRecoursSignaled'),
   is('DemandeDélai'),
   is('DemandeAbandon'),
-  is('NouveauCahierDesChargesChoisi')
+  is('CahierDesChargesChoisi')
 )

@@ -547,14 +547,21 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
-              case 'NouveauCahierDesChargesChoisi':
+              case 'CahierDesChargesChoisi':
                 if (userIsNot('ademe')(user)) {
                   events.push({
                     type,
                     variant: user.role,
                     date: valueDate,
-                    paruLe: payload.paruLe,
-                    alternatif: payload.alternatif,
+                    ...(payload.type === 'initial'
+                      ? {
+                          cahierDesCharges: 'initial',
+                        }
+                      : {
+                          cahierDesCharges: 'modifié',
+                          paruLe: payload.paruLe,
+                          alternatif: payload.alternatif,
+                        }),
                   })
                 }
             }
