@@ -18,7 +18,7 @@ export class CahierDesChargesChoisi
   extends BaseDomainEvent<CahierDesChargesChoisiPayload>
   implements DomainEvent
 {
-  public static type: 'NouveauCahierDesChargesChoisi' = 'NouveauCahierDesChargesChoisi'
+  public static type: 'CahierDesChargesChoisi' = 'CahierDesChargesChoisi'
   public type = CahierDesChargesChoisi.type
   currentVersion = 1
 
