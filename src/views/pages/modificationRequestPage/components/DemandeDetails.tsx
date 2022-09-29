@@ -20,6 +20,15 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       <div>
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>
+      {cahierDesCharges && (
+        <div>
+          Instruction selon le cahier des charges{' '}
+          {cahierDesCharges.type === 'initial'
+            ? 'initial (en vigueur à la candidature)'
+            : `modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
+          (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
+        </div>
+      )}
       {justification && <div className="italic mt-2">{`"${justification}"`}</div>}
       <DetailsByType modificationRequest={modificationRequest} />
       {attachmentFile && (
@@ -33,15 +42,6 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
             Télécharger la pièce-jointe
           </a>
         </div>
-      )}
-      {cahierDesCharges && (
-        <>
-          Instruction selon le cahier des charges{' '}
-          {cahierDesCharges.type === 'initial'
-            ? 'initial (en vigueur à la candidature)'
-            : `modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
-          (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
-        </>
       )}
     </div>
   )

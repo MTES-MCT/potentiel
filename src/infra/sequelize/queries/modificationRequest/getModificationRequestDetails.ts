@@ -155,18 +155,22 @@ const formatCahierDesCharges = ({
 }): ModificationRequestPageDTO['cahierDesCharges'] => {
   const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence)
 
-  return cahierDesChargesRéférenceParsed.paruLe === 'initial'
-    ? ({
-        type: 'initial',
-        url: appelOffre.periode.cahierDesCharges.url,
-      } as const)
-    : ({
-        type: 'modifié',
-        url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) =>
-            c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
-            c.alternatif === cahierDesChargesRéférenceParsed.alternatif
-        )!.url,
-        paruLe: cahierDesChargesRéférenceParsed.paruLe,
-      } as const)
+  if (cahierDesChargesRéférenceParsed.paruLe === 'initial') {
+    return {
+      type: 'initial',
+      url: appelOffre.periode.cahierDesCharges.url,
+    }
+  }
+
+  const cahiersDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+    (c) =>
+      c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
+      c.alternatif === cahierDesChargesRéférenceParsed.alternatif
+  )
+  if (!cahiersDesChargesModifié) return undefined
+  return {
+    type: 'modifié',
+    url: cahiersDesChargesModifié.url,
+    paruLe: cahierDesChargesRéférenceParsed.paruLe,
+  }
 }
