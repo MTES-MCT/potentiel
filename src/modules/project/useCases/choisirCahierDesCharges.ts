@@ -12,7 +12,7 @@ import {
   PasDeChangementDeCDCPourCetAOError,
 } from '../errors'
 
-type ChoisirNouveauCahierDesCharges = (commande: {
+type ChoisirCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
   cahierDesCharges: CahierDesChargesRéférenceParsed
@@ -26,14 +26,14 @@ type ChoisirNouveauCahierDesCharges = (commande: {
   | InfraNotAvailableError
 >
 
-type MakeChoisirNouveauCahierDesCharges = (dépendances: {
+type MakeChoisirCahierDesCharges = (dépendances: {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
   findAppelOffreById: AppelOffreRepo['findById']
-}) => ChoisirNouveauCahierDesCharges
+}) => ChoisirCahierDesCharges
 
-export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesCharges =
+export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
   ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
   ({
     projetId,

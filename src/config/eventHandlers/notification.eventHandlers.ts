@@ -24,7 +24,7 @@ import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
-  NouveauCahierDesChargesChoisi,
+  CahierDesChargesChoisi,
 } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
@@ -113,7 +113,7 @@ eventStore.subscribe(
 )
 
 eventStore.subscribe(
-  NouveauCahierDesChargesChoisi.type,
+  CahierDesChargesChoisi.type,
   onCahierDesChargesChoisi({
     sendNotification,
     findUserById: oldUserRepo.findById,

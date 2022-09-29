@@ -1,4 +1,4 @@
-import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
+import { ensureRole, choisirCahierDesCharges } from '@config'
 import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -79,7 +79,7 @@ v1Router.post(
         user,
       } = request
 
-      return choisirNouveauCahierDesCharges({
+      return choisirCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
