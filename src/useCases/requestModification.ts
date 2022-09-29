@@ -1,11 +1,8 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { ok, wrapInfra, err, errAsync } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { ModificationRequested } from '@modules/modificationRequest'
-import { NumeroGestionnaireSubmitted, Project } from '@modules/project'
-import { userIsNot } from '@modules/users'
-import { UnauthorizedError } from '@modules/shared'
+import { EventBus, Repository } from '@core/domain'
+import { okAsync, err, ok, errAsync } from 'neverthrow'
+import { User } from '@entities'
+import { FileContents, FileObject } from '@modules/file'
+import { Project } from '@modules/project'
 
 interface MakeUseCaseProps {
   fileRepo: Repository<FileObject>
@@ -36,68 +33,25 @@ interface RecoursRequest {
 
 type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest)
 
-export default function makeRequestModification({
-  fileRepo,
-  eventBus,
-  shouldUserAccessProject,
-  projectRepo,
-}: MakeUseCaseProps) {
-  return ({ user, projectId, file, type, justification, numeroGestionnaire }: CallUseCaseProps) => {
-    if (userIsNot('porteur-projet')(user)) return errAsync(new UnauthorizedError())
+class Error1 extends Error {}
+class Error2 extends Error {}
 
-    return wrapInfra(
-      shouldUserAccessProject({
-        user,
-        projectId,
-      })
-    )
-      .andThen((access) => {
-        if (!access) {
-          return err(new UnauthorizedError())
-        }
+function test() {
+  return ok(null).andThen(() => {
+    if (1 === 1 / 2) {
+      return err(new Error1())
+    }
 
-        if (!file) return ok(null)
+    return ok<null, Error2>(null)
+  })
+}
 
-        const { filename, contents } = file
-        return makeAndSaveFile({
-          file: {
-            designation: 'modification-request',
-            forProject: new UniqueEntityID(projectId),
-            createdBy: new UniqueEntityID(user.id),
-            filename,
-            contents,
-          },
-          fileRepo,
-        })
-      })
-      .andThen((fileId) =>
-        projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
-          eventBus
-            .publish(
-              new ModificationRequested({
-                payload: {
-                  type,
-                  modificationRequestId: new UniqueEntityID().toString(),
-                  projectId,
-                  requestedBy: user.id,
-                  ...(fileId ? { fileId } : {}),
-                  justification,
-                  authority: 'dgec',
-                  cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
-                },
-              })
-            )
-            .andThen(() => {
-              if (numeroGestionnaire) {
-                return eventBus.publish(
-                  new NumeroGestionnaireSubmitted({
-                    payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-                  })
-                )
-              }
-              return ok(null)
-            })
-        )
-      )
-  }
+function testAsync() {
+  return okAsync(null).andThen(() => {
+    if (1 === 1 / 2) {
+      return errAsync(new Error1())
+    }
+
+    return okAsync<null, Error2>(null)
+  })
 }

@@ -14,7 +14,11 @@ import { makeRequestActionnaireModification } from './requestActionnaireModifica
 describe('requestActionnaireModification use-case', () => {
   const shouldUserAccessProject = jest.fn(async () => true)
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-  const fakeProject = { ...makeFakeProject(), actionnaire: 'initial actionnaire' }
+  const fakeProject = {
+    ...makeFakeProject(),
+    actionnaire: 'initial actionnaire',
+    cahierDesCharges: { paruLe: 'initial' },
+  }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
   const eventBus = {
@@ -73,10 +77,13 @@ describe('requestActionnaireModification use-case', () => {
         expect(eventBus.publish).toHaveBeenCalledTimes(1)
         const event = eventBus.publish.mock.calls[0][0]
         expect(event).toBeInstanceOf(ModificationReceived)
-
-        const { type, actionnaire } = event.payload
-        expect(type).toEqual('actionnaire')
-        expect(actionnaire).toEqual(newActionnaire)
+        expect(event).toMatchObject({
+          payload: {
+            type: 'actionnaire',
+            actionnaire: newActionnaire,
+            cahierDesCharges: 'initial',
+          },
+        })
       })
 
       it('should update the Actionnaire', () => {
@@ -137,10 +144,13 @@ describe('requestActionnaireModification use-case', () => {
           expect(eventBus.publish).toHaveBeenCalledTimes(1)
           const event = eventBus.publish.mock.calls[0][0]
           expect(event).toBeInstanceOf(ModificationRequested)
-
-          const { type, actionnaire } = event.payload
-          expect(type).toEqual('actionnaire')
-          expect(actionnaire).toEqual(newActionnaire)
+          expect(event).toMatchObject({
+            payload: {
+              type: 'actionnaire',
+              actionnaire: newActionnaire,
+              cahierDesCharges: 'initial',
+            },
+          })
         })
 
         it('should not update the Actionnaire', () => {
@@ -243,10 +253,13 @@ describe('requestActionnaireModification use-case', () => {
           expect(eventBus.publish).toHaveBeenCalledTimes(1)
           const event = eventBus.publish.mock.calls[0][0]
           expect(event).toBeInstanceOf(ModificationReceived)
-
-          const { type, actionnaire } = event.payload
-          expect(type).toEqual('actionnaire')
-          expect(actionnaire).toEqual(newActionnaire)
+          expect(event).toMatchObject({
+            payload: {
+              type: 'actionnaire',
+              actionnaire: newActionnaire,
+              cahierDesCharges: 'initial',
+            },
+          })
         })
 
         it('should update the Actionnaire', () => {

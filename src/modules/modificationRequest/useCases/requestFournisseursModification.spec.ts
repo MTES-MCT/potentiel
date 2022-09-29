@@ -11,7 +11,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ModificationReceived } from '../events'
 import { makeRequestFournisseursModification } from './requestFournisseursModification'
 
-describe('requestFournisseurModification use-case', () => {
+describe('requestFournisseursModification use-case', () => {
   const shouldUserAccessProject = jest.fn(async () => true)
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
   const fakeProject = {
@@ -96,12 +96,14 @@ describe('requestFournisseurModification use-case', () => {
       expect(eventBus.publish).toHaveBeenCalledTimes(1)
       const event = eventBus.publish.mock.calls[0][0]
       expect(event).toBeInstanceOf(ModificationReceived)
-
-      const { type, fournisseurs, evaluationCarbone } = event.payload
-
-      expect(type).toEqual('fournisseur')
-      expect(fournisseurs).toMatchObject(newFournisseurs)
-      expect(evaluationCarbone).toEqual(newEvaluationCarbone)
+      expect(event).toMatchObject({
+        payload: {
+          type: 'fournisseur',
+          fournisseurs: newFournisseurs,
+          evaluationCarbone: newEvaluationCarbone,
+          cahierDesCharges: 'initial',
+        },
+      })
     })
 
     it('should update the fournisseurs and the evaluation carbone', () => {

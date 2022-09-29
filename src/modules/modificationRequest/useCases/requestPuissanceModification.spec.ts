@@ -134,11 +134,14 @@ describe('Commande requestPuissanceModification', () => {
             expect(eventBus.publish).toHaveBeenCalledTimes(1)
             const event = eventBus.publish.mock.calls[0][0]
             expect(event).toBeInstanceOf(ModificationRequested)
-
-            const { type, puissance, puissanceAuMomentDuDepot } = event.payload
-            expect(type).toEqual('puissance')
-            expect(puissance).toEqual(newPuissance)
-            expect(puissanceAuMomentDuDepot).toEqual(123)
+            expect(event).toMatchObject({
+              payload: {
+                type: 'puissance',
+                puissance: newPuissance,
+                puissanceAuMomentDuDepot: 123,
+                cahierDesCharges: '30/08/2022',
+              },
+            })
           })
         })
       })
@@ -176,10 +179,14 @@ describe('Commande requestPuissanceModification', () => {
             const event = eventBus.publish.mock.calls[0][0]
             expect(event).toBeInstanceOf(ModificationRequested)
 
-            const { type, puissance, puissanceAuMomentDuDepot } = event.payload
-            expect(type).toEqual('puissance')
-            expect(puissance).toEqual(90)
-            expect(puissanceAuMomentDuDepot).toEqual(123)
+            expect(event).toMatchObject({
+              payload: {
+                type: 'puissance',
+                puissance: 90,
+                puissanceAuMomentDuDepot: 123,
+                cahierDesCharges: 'initial',
+              },
+            })
 
             expect(fakeProject.pendingEvents).toHaveLength(0)
 
@@ -224,11 +231,14 @@ describe('Commande requestPuissanceModification', () => {
         expect(eventBus.publish).toHaveBeenCalledTimes(1)
         const event = eventBus.publish.mock.calls[0][0]
         expect(event).toBeInstanceOf(ModificationReceived)
-
-        const { type, puissance, puissanceAuMomentDuDepot } = event.payload
-        expect(type).toEqual('puissance')
-        expect(puissance).toEqual(newPuissance)
-        expect(puissanceAuMomentDuDepot).toEqual(123)
+        expect(event).toMatchObject({
+          payload: {
+            type: 'puissance',
+            puissance: newPuissance,
+            puissanceAuMomentDuDepot: 123,
+            cahierDesCharges: 'initial',
+          },
+        })
 
         expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, newPuissance)
 

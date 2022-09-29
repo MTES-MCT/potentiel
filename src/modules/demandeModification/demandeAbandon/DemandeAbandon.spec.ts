@@ -111,7 +111,7 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
         new AbandonAnnulé({
           payload: {
             demandeAbandonId: 'la-demande',
-            annuléPar: 'annuléPar-id',
+            annuléPar: 'annu léPar-id',
             projetId: 'le-projet-de-la-demande',
           },
         }),
