@@ -17,7 +17,7 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
     const project = await findProjectById(projectId)
 
     if (!project) {
-      logger.error(new Error('onNouveauCahierDesChargesChoisi failed because project is not found'))
+      logger.error(new Error('onCahierDesChargesChoisi failed because project is not found'))
       return
     }
 

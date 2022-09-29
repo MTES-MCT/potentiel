@@ -37,27 +37,28 @@ export type DateParutionCahierDesCharges = typeof datesParutionCahiersDesCharges
 export type DateParutionCahierDesChargesModifié =
   typeof datesParutionCahiersDesChargesModifiés[number]
 
-export type CahierDesChargesRéférenceParsed = {
-  paruLe: DateParutionCahierDesCharges
-  alternatif?: true
-}
+export type CahierDesChargesRéférenceParsed =
+  | { type: 'initial' }
+  | { type: 'modifié'; paruLe: DateParutionCahierDesChargesModifié; alternatif?: true }
 
 export type CahierDesChargesModifiéRéférenceParsed = {
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
 }
 
-export const parseCahierDesChargesRéférence = <
-  C extends CahierDesChargesRéférence | CahierDesChargesModifiéRéférence
->(
-  référence: C
-) =>
-  ({
-    paruLe: référence.replace('-alternatif', ''),
+export const parseCahierDesChargesRéférence = (
+  référence: CahierDesChargesRéférence
+): CahierDesChargesRéférenceParsed => {
+  if (référence === 'initial') {
+    return { type: 'initial' }
+  }
+
+  return {
+    type: 'modifié',
+    paruLe: référence.replace('-alternatif', '') as DateParutionCahierDesChargesModifié,
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
-  } as C extends CahierDesChargesModifiéRéférence
-    ? CahierDesChargesModifiéRéférenceParsed
-    : CahierDesChargesRéférenceParsed)
+  }
+}
 
 export const formatCahierDesChargesRéférence = ({
   paruLe,

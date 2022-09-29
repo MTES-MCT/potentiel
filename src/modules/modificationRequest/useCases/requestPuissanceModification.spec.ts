@@ -17,7 +17,7 @@ describe('Commande requestPuissanceModification', () => {
   const fakeProject = {
     ...makeFakeProject(),
     puissanceInitiale: 100,
-    cahierDesCharges: { paruLe: 'initial' },
+    cahierDesCharges: { type: 'initial' },
   }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
@@ -107,7 +107,7 @@ describe('Commande requestPuissanceModification', () => {
             const fakeProject = {
               ...makeFakeProject(),
               puissanceInitiale: 100,
-              cahierDesCharges: { paruLe: '30/08/2022' },
+              cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
             }
             const projectRepo = fakeTransactionalRepo(fakeProject as Project)
             const requestPuissanceModification = makeRequestPuissanceModification({

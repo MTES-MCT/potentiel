@@ -82,7 +82,7 @@ describe('Commande changerProducteur', () => {
         const fakeProject = {
           ...makeFakeProject(),
           producteur: 'initial producteur',
-          cahierDesCharges: { paruLe: 'initial' },
+          cahierDesCharges: { type: 'initial' },
         }
         const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 

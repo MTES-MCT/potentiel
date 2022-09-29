@@ -69,7 +69,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
       })
       .andThen(({ appelOffre, project }) => {
         if (
-          project.cahierDesCharges.paruLe === 'initial' &&
+          project.cahierDesCharges.type === 'initial' &&
           appelOffre?.choisirNouveauCahierDesCharges
         ) {
           return errAsync(new NouveauCahierDesChargesNonChoisiError())

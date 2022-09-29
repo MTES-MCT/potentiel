@@ -1,7 +1,12 @@
 import { UniqueEntityID } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { UnwrapForTest } from '../../../types'
-import { AppelOffre, CahierDesChargesModifié, makeUser } from '@entities'
+import {
+  AppelOffre,
+  CahierDesChargesModifié,
+  CahierDesChargesRéférenceParsed,
+  makeUser,
+} from '@entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges'
@@ -63,6 +68,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
+          type: 'modifié',
           paruLe: '30/07/2021',
         },
       })
@@ -89,6 +95,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
+          type: 'modifié',
           paruLe: '30/07/2021',
         },
       })
@@ -99,24 +106,32 @@ describe('Commande choisirCahierDesCharges', () => {
   })
 
   describe(`Impossible de souscrire deux fois au même CDC`, () => {
-    type CahierDesCharges = { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true }
-    const fixtures: ReadonlyArray<{ cdcChoisi: CahierDesCharges; cdcActuel: CahierDesCharges }> = [
-      { cdcChoisi: { paruLe: '30/07/2021' }, cdcActuel: { paruLe: '30/07/2021' } },
-      { cdcChoisi: { paruLe: '30/08/2022' }, cdcActuel: { paruLe: '30/08/2022' } },
+    const fixtures: ReadonlyArray<{
+      cdcChoisi: CahierDesChargesRéférenceParsed
+      cdcActuel: CahierDesChargesRéférenceParsed
+    }> = [
       {
-        cdcChoisi: { paruLe: '30/08/2022', alternatif: true },
-        cdcActuel: { paruLe: '30/08/2022', alternatif: true },
+        cdcChoisi: { type: 'modifié', paruLe: '30/07/2021' },
+        cdcActuel: { type: 'modifié', paruLe: '30/07/2021' },
+      },
+      {
+        cdcChoisi: { type: 'modifié', paruLe: '30/08/2022' },
+        cdcActuel: { type: 'modifié', paruLe: '30/08/2022' },
+      },
+      {
+        cdcChoisi: { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
+        cdcActuel: { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
       },
     ]
 
     for (const { cdcActuel, cdcChoisi } of fixtures) {
       it(`Etant donné un utlisateur ayant les droits sur le projet
-        Et le cahier des charges${cdcActuel.alternatif ? ' alternatif' : ''} du ${
-        cdcActuel.paruLe
-      } choisi pour le projet
+        Et le cahier des charges${
+          cdcActuel.type === 'modifié' && cdcActuel.alternatif ? ' alternatif' : ''
+        } du ${cdcActuel.type === 'modifié' && cdcActuel.paruLe} choisi pour le projet
         Lorsqu'il souscrit une seconde fois au même CDC (${
-          cdcChoisi.alternatif ? 'alternatif ' : ''
-        }du ${cdcChoisi.paruLe})
+          cdcChoisi.type === 'modifié' && cdcChoisi.alternatif ? 'alternatif ' : ''
+        }du ${cdcChoisi.type === 'modifié' && cdcChoisi.paruLe})
         Alors l'utilisateur devrait être alerté qu'il est impossible de souscrire 2 fois au même CDC`, async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
 
@@ -169,6 +184,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
+          type: 'modifié',
           paruLe: '30/07/2021',
         },
       })
@@ -207,6 +223,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
+          type: 'modifié',
           paruLe: '30/08/2022',
           alternatif: true,
         },
@@ -246,6 +263,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
+          type: 'modifié',
           paruLe: '30/08/2022',
         },
       })
@@ -289,7 +307,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
-          paruLe: 'initial',
+          type: 'initial',
         },
       })
 
@@ -299,44 +317,43 @@ describe('Commande choisirCahierDesCharges', () => {
   })
 
   describe(`Choix d'un CDC modifié`, () => {
-    type CahierDesCharges = { paruLe: '30/07/2021' | '30/08/2022'; alternatif?: true }
     const fixtures: ReadonlyArray<{
-      cdcActuel: CahierDesCharges | { paruLe: 'initial'; alternatif?: undefined }
-      cdcChoisi: CahierDesCharges
-      cdcAttendu: CahierDesCharges
+      cdcActuel: CahierDesChargesRéférenceParsed
+      cdcChoisi: CahierDesChargesRéférenceParsed
+      cdcAttendu: CahierDesChargesRéférenceParsed
     }> = [
       {
-        cdcActuel: { paruLe: 'initial' },
-        cdcChoisi: { paruLe: '30/07/2021' },
-        cdcAttendu: { paruLe: '30/07/2021' },
+        cdcActuel: { type: 'initial' },
+        cdcChoisi: { type: 'modifié', paruLe: '30/07/2021' },
+        cdcAttendu: { type: 'modifié', paruLe: '30/07/2021' },
       },
       {
-        cdcActuel: { paruLe: '30/07/2021' },
-        cdcChoisi: { paruLe: '30/08/2022' },
-        cdcAttendu: { paruLe: '30/08/2022' },
+        cdcActuel: { type: 'modifié', paruLe: '30/07/2021' },
+        cdcChoisi: { type: 'modifié', paruLe: '30/08/2022' },
+        cdcAttendu: { type: 'modifié', paruLe: '30/08/2022' },
       },
       {
-        cdcActuel: { paruLe: '30/08/2022' },
-        cdcChoisi: { paruLe: '30/08/2022', alternatif: true },
-        cdcAttendu: { paruLe: '30/08/2022', alternatif: true },
+        cdcActuel: { type: 'modifié', paruLe: '30/08/2022' },
+        cdcChoisi: { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
+        cdcAttendu: { type: 'modifié', paruLe: '30/08/2022', alternatif: true },
       },
     ]
 
     for (const { cdcActuel, cdcChoisi, cdcAttendu } of fixtures) {
       it(`Etant donné un utilisateur ayant les droits sur le projet
-          Et le cahier des charges${cdcActuel.alternatif ? ' alternatif' : ''} du ${
-        cdcActuel.paruLe
-      } choisi pour le projet
+          Et le cahier des charges${
+            cdcActuel.type === 'modifié' && cdcActuel.alternatif ? ' alternatif' : ''
+          } du ${cdcActuel.type === 'modifié' && cdcActuel.paruLe} choisi pour le projet
           Et l'AO avec les CDC modifiés disponibles suivant :
             | paru le 30/07/2021
             | paru le 30/08/2022
             | alternatif paru le 30/08/2022
-          Lorsqu'il souscrit au CDC${cdcChoisi.alternatif ? ' alternatif' : ''} paru le ${
-        cdcChoisi.paruLe
-      }
+          Lorsqu'il souscrit au CDC${
+            cdcChoisi.type === 'modifié' && cdcChoisi.alternatif ? ' alternatif' : ''
+          } paru le ${cdcChoisi.type === 'modifié' && cdcChoisi.paruLe}
           Alors le CDC du projet devrait être ${
-            cdcChoisi.alternatif ? `l'alternatif` : 'celui'
-          } paru le ${cdcAttendu.paruLe}`, async () => {
+            cdcChoisi.type === 'modifié' && cdcChoisi.alternatif ? `l'alternatif` : 'celui'
+          } paru le ${cdcAttendu.type === 'modifié' && cdcAttendu.paruLe}`, async () => {
         const shouldUserAccessProject = jest.fn(async () => true)
 
         const choisirCahierDesCharges = makeChoisirCahierDesCharges({
@@ -363,7 +380,6 @@ describe('Commande choisirCahierDesCharges', () => {
             payload: expect.objectContaining({
               projetId: projectId,
               choisiPar: user.id,
-              type: 'modifié',
               ...cdcAttendu,
             }),
           })
@@ -406,7 +422,7 @@ describe('Commande choisirCahierDesCharges', () => {
       const res = await choisirCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
-        cahierDesCharges: { paruLe: '30/08/2022' },
+        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
         identifiantGestionnaireRéseau: 'ID_GES_RES',
       })
 
@@ -474,7 +490,7 @@ describe('Commande choisirCahierDesCharges', () => {
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: {
-          paruLe: 'initial',
+          type: 'initial',
         },
       })
 

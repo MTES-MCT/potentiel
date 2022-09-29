@@ -35,12 +35,7 @@ type MakeChoisirCahierDesCharges = (dépendances: {
 
 export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
   ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
-  ({
-    projetId,
-    utilisateur,
-    cahierDesCharges: { paruLe, alternatif },
-    identifiantGestionnaireRéseau,
-  }) => {
+  ({ projetId, utilisateur, cahierDesCharges, identifiantGestionnaireRéseau }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) {
@@ -51,8 +46,10 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
       })
       .andThen((project) => {
         if (
-          project.cahierDesCharges.paruLe === paruLe &&
-          project.cahierDesCharges.alternatif === alternatif
+          cahierDesCharges.type === 'modifié' &&
+          project.cahierDesCharges.type === 'modifié' &&
+          project.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
+          project.cahierDesCharges.alternatif === cahierDesCharges.alternatif
         ) {
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         }
@@ -62,11 +59,11 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
         )
       })
       .andThen((appelOffre) => {
-        if (paruLe === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
+        if (cahierDesCharges.type === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
           return errAsync(new CahierDesChargesNonDisponibleError())
         }
 
-        if (paruLe === 'initial') {
+        if (cahierDesCharges.type === 'initial') {
           return publishToEventStore(
             new CahierDesChargesChoisi({
               payload: {
@@ -83,7 +80,8 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
         }
 
         const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) => c.paruLe === paruLe && c.alternatif === alternatif
+          (c) =>
+            c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
         )
 
         if (!cahierDesChargesChoisi) {
@@ -110,8 +108,8 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
                   projetId,
                   choisiPar: utilisateur.id,
                   type: 'modifié',
-                  paruLe,
-                  alternatif,
+                  paruLe: cahierDesCharges.paruLe,
+                  alternatif: cahierDesCharges.alternatif,
                 },
               })
             )
@@ -124,8 +122,8 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
               projetId,
               choisiPar: utilisateur.id,
               type: 'modifié',
-              paruLe,
-              alternatif,
+              paruLe: cahierDesCharges.paruLe,
+              alternatif: cahierDesCharges.alternatif,
             },
           })
         )

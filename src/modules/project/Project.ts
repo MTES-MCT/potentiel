@@ -19,7 +19,7 @@ import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectApp
 import remove from 'lodash/remove'
 import moment from 'moment-timezone'
 import sanitize from 'sanitize-filename'
-import { BuildProjectIdentifier, Fournisseur, NouveauCahierDesChargesChoisi } from '.'
+import { BuildProjectIdentifier, Fournisseur } from '.'
 import { shallowDelta } from '../../helpers/shallowDelta'
 import {
   EntityNotFoundError,
@@ -83,6 +83,7 @@ import {
   ProjectProducteurUpdated,
   ProjectPuissanceUpdated,
   ProjectReimported,
+  CahierDesChargesChoisi,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -313,7 +314,7 @@ export const makeProject = (args: {
     data: undefined,
     hasError: false,
     lastCertificateUpdate: undefined,
-    cahierDesCharges: { paruLe: 'initial' },
+    cahierDesCharges: { type: 'initial' },
     fieldsUpdatedAfterImport: new Set<string>(),
     hasCurrentGf: false,
     hasCurrentPtf: false,
@@ -1298,10 +1299,13 @@ export const makeProject = (args: {
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
         props.potentielIdentifier = event.payload.nouvelIdentifiant
         break
-      case NouveauCahierDesChargesChoisi.type:
+      case CahierDesChargesChoisi.type:
         props.cahierDesCharges = {
-          paruLe: event.payload.paruLe,
-          alternatif: event.payload.alternatif,
+          type: event.payload.type,
+          ...(event.payload.type === 'modifié' && {
+            paruLe: event.payload.paruLe,
+            alternatif: event.payload.alternatif,
+          }),
         }
         break
       default:
