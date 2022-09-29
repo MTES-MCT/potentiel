@@ -36,11 +36,6 @@ interface RecoursRequest {
 
 type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest)
 
-export const ERREUR_FORMAT = 'Merci de remplir les champs marqués obligatoires'
-export const ACCESS_DENIED_ERROR = "Vous n'avez pas le droit de faire de demandes pour ce projet"
-export const SYSTEM_ERROR =
-  'Une erreur système est survenue, merci de réessayer ou de contacter un administrateur si le problème persiste.'
-
 export default function makeRequestModification({
   fileRepo,
   eventBus,
