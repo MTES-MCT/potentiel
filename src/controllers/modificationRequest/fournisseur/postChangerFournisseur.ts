@@ -18,9 +18,9 @@ const schema = yup.object({
       projectId: yup.string().uuid().required(),
       evaluationCarbone: yup
         .number()
-        .typeError('Le champ Evaluation carbone doit contenir un nombre.')
-        .min(0, 'Le champ Evaluation Carbone doit contenir un nombre strictement positif.')
-        .optional(),
+        .min(0)
+        .nullable(true)
+        .transform((v, o) => (o === '' ? null : v)),
       justification: yup.string().optional(),
       newRulesOptIn: yup.boolean().optional(),
       ...CHAMPS_FOURNISSEURS.reduce((acc, champ) => {
@@ -75,7 +75,7 @@ v1Router.post(
         projectId: new UniqueEntityID(projectId),
         requestedBy: user,
         newFournisseurs,
-        newEvaluationCarbone: evaluationCarbone,
+        ...(evaluationCarbone && { newEvaluationCarbone: evaluationCarbone }),
         justification,
         file,
       }).match(
