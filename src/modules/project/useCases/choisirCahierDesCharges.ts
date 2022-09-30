@@ -10,6 +10,7 @@ import {
   CahierDesChargesNonDisponibleError,
   IdentifiantGestionnaireRéseauObligatoireError,
   PasDeChangementDeCDCPourCetAOError,
+  CahierDesChargesInitialNonDisponibleError,
 } from '../errors'
 
 type ChoisirCahierDesCharges = (commande: {
@@ -60,7 +61,7 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
       })
       .andThen((appelOffre) => {
         if (cahierDesCharges.type === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
-          return errAsync(new CahierDesChargesNonDisponibleError())
+          return errAsync(new CahierDesChargesInitialNonDisponibleError())
         }
 
         if (cahierDesCharges.type === 'initial') {

@@ -20,6 +20,7 @@ import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import {
   NouveauCahierDesChargesDéjàSouscrit,
+  CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors'
@@ -311,7 +312,7 @@ describe('Commande choisirCahierDesCharges', () => {
         },
       })
 
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesNonDisponibleError)
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesInitialNonDisponibleError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })

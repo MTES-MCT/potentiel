@@ -52,7 +52,6 @@ describe('relanceGarantiesFinancieres use-case', () => {
   beforeAll(async () => {
     fakePublish.mockClear()
     const result = await relanceGarantiesFinancieres()
-    console.log(result.isOk())
 
     expect(result.isOk()).toEqual(true)
   })
