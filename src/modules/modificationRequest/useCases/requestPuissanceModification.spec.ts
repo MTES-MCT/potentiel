@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { PuissanceJustificationOrCourrierMissingError } from '..'
+import { PuissanceJustificationEtCourrierManquantError } from '..'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
@@ -95,7 +95,7 @@ describe('Commande requestPuissanceModification', () => {
 
             expect(res.isErr()).toBe(true)
             if (res.isOk()) return
-            expect(res.error).toBeInstanceOf(PuissanceJustificationOrCourrierMissingError)
+            expect(res.error).toBeInstanceOf(PuissanceJustificationEtCourrierManquantError)
           })
         })
       })

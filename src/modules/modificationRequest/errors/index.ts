@@ -1,4 +1,4 @@
-export * from './PuissanceJustificationOrCourrierMissingError'
+export * from './PuissanceJustificationEtCourrierManquantError'
 export * from './PuissanceVariationError'
 export * from './StatusPreventsAcceptingError'
 export * from './StatusPreventsCancellingError'
