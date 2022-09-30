@@ -24,7 +24,7 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
         new ProjectionEnEchec(
           'Erreur lors de la projection du nouveau cahier des charges choisi',
           {
-            nomProjection: 'onNouveauCahierDesChargesChoisi',
+            nomProjection: 'onCahierDesChargesChoisi',
             évènement,
           },
           cause
