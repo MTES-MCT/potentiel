@@ -197,29 +197,6 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
         },
       },
     },
-    {
-      paruLe: '30/08/2022',
-      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-innovation-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
-      numéroGestionnaireRequis: true,
-      donnéesCourriersRéponse: {
-        texteChangementDePuissance: {
-          référenceParagraphe: '5.4.5',
-          dispositions: `Avant l'achèvement, les modifications de la Puissance installée sont autorisées, sous réserve que la Puissance de l’Installation modifiée soit comprise entre soixante-dix pourcents (70%) et cent pourcents (100%) de la Puissance formulée dans l’offre. Elles doivent faire l’objet d’une information au Préfet.
-    Pour  les  projets  dont  soit  l'achèvement,  soit  la  mise  en  service  est  antérieur  au  31  décembre  2024,  cette  augmentation  de  puissance  peut  être  portée  à  140%  de  la  Puissance  formulée  dans  l’offre,  à condition qu’elle soit permise par l’autorisation d’urbanisme de l’Installation ( y compris si celle-ci a été modifiée)  et que la Puissance modifiée soit :
-    - Inférieure au plafond de puissance de la famille dans laquelle entre l’offre ;
-    - Inférieure à la limite de puissance de 3 MWc pour la période 1 ou de 5 MWc pour les périodes 2 et 3, mentionnée au 2.2.
-    Les modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposées par une  décision  de  l’Etat  à  l’égard  de  toute  autorisation  administrative  nécessaire  à  la  réalisation  du  projet, sont autorisées. Elles doivent faire l’objet d’une information au Préfet.
-    Des modifications à la baisse, en-dessous de 70% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
-        },
-        texteDélaisDAchèvement: {
-          référenceParagraphe: '6.3',
-          dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
-* vingt-quatre (24) mois à compter de la Date de désignation.
-* deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être  transmise  au  Cocontractant  dans  un  délai  de  2  mois  à  compter  de  la  fin  des  travaux  de  raccordement (date déclarée par le gestionnaire de réseau).
-Pour  les  installations  dont  la  mise  en  service  a  lieu  entre  le  1er  septembre  2022  et  le  31  décembre  2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
-        },
-      },
-    },
   ],
 }
 
