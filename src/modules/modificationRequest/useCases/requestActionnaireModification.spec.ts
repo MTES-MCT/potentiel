@@ -17,7 +17,7 @@ describe('requestActionnaireModification use-case', () => {
   const fakeProject = {
     ...makeFakeProject(),
     actionnaire: 'initial actionnaire',
-    cahierDesCharges: { paruLe: 'initial' },
+    cahierDesCharges: { type: 'initial' },
   }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))

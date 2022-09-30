@@ -60,8 +60,9 @@ export const parseCahierDesChargesRéférence = (
   }
 }
 
-export const formatCahierDesChargesRéférence = ({
-  paruLe,
-  alternatif,
-}: CahierDesChargesModifiéRéférenceParsed): CahierDesChargesModifiéRéférence =>
-  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesModifiéRéférence
+export const formatCahierDesChargesRéférence = (
+  cdc: CahierDesChargesRéférenceParsed
+): CahierDesChargesRéférence =>
+  cdc.type === 'initial'
+    ? 'initial'
+    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence)

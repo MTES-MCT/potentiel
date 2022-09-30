@@ -12,17 +12,10 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
   ({ Project }) =>
   async (évènement) => {
     const { payload } = évènement
-    console.log(payload)
     try {
       await Project.update(
         {
-          cahierDesChargesActuel:
-            payload.type === 'modifié'
-              ? formatCahierDesChargesRéférence({
-                  paruLe: payload.paruLe,
-                  alternatif: payload.alternatif,
-                })
-              : 'initial',
+          cahierDesChargesActuel: formatCahierDesChargesRéférence(payload),
         },
         { where: { id: payload.projetId } }
       )

@@ -76,7 +76,10 @@ export const makeChangerProducteur =
                     justification,
                     ...(fileId && { fileId }),
                     authority: 'dreal',
-                    cahierDesCharges: formatCahierDesChargesRéférence(projet.cahierDesCharges),
+                    cahierDesCharges:
+                      projet.cahierDesCharges.type === 'modifié'
+                        ? formatCahierDesChargesRéférence(projet.cahierDesCharges)
+                        : 'initial',
                   },
                 })
               )
