@@ -1,11 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
-import { NouveauCahierDesChargesChoisi } from './events'
+import { CahierDesChargesChoisi } from './events'
 import { makeProject } from './Project'
 
 describe(`Fabriquer l'aggregat projet`, () => {
   const projectId = new UniqueEntityID('le-projet')
 
-  it(`Quand on fabrique un projet sans évènement 'NouveauCahierDesChargesChoisi'
+  it(`Quand on fabrique un projet sans évènement 'CahierDesChargesChoisi'
       Alors le cahier des charges du projet devrait être celui en vigeur à la candidature`, () => {
     const projet = makeProject({
       projectId,
@@ -14,19 +14,20 @@ describe(`Fabriquer l'aggregat projet`, () => {
     })._unsafeUnwrap()
 
     expect(projet.cahierDesCharges).toEqual({
-      paruLe: 'initial',
+      type: 'initial',
     })
   })
 
-  it(`Quand on fabrique un projet avec un évènement 'NouveauCahierDesChargesChoisi'
+  it(`Quand on fabrique un projet avec un évènement 'CahierDesChargesChoisi'
       Alors le projet a un CDC correspondant à celui mentionné dans l'évènement`, () => {
     const projet = makeProject({
       projectId,
       history: [
-        new NouveauCahierDesChargesChoisi({
+        new CahierDesChargesChoisi({
           payload: {
             projetId: projectId.toString(),
             choisiPar: 'porteur-projet',
+            type: 'modifié',
             paruLe: '30/07/2021',
             alternatif: true,
           },
@@ -37,6 +38,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
     })._unsafeUnwrap()
 
     expect(projet.cahierDesCharges).toEqual({
+      type: 'modifié',
       paruLe: '30/07/2021',
       alternatif: true,
     })

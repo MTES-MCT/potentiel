@@ -31,14 +31,17 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
       />
       <input type="hidden" name="projectId" value={projetId} />
       {type && <input type="hidden" name="type" value={type} />}
-
       <ul className="list-none pl-0">
         <li className="mb-5" key="cahier-des-charges-initial">
           <CahierDesChargesSelectionnable
             {...{
               id: 'initial',
+              onCahierDesChargesChoisi: (id) => {
+                choisirCdc(id)
+                pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+              },
               sélectionné: cdcChoisi === 'initial',
-              désactivé: true,
+              ...(!projet.appelOffre.doitPouvoirChoisirCDCInitial && { désactivé: true }),
             }}
           >
             <CahierDesChargesInitial
@@ -51,7 +54,9 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         </li>
 
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
-          const idCdc = formatCahierDesChargesRéférence(cahierDesChargesModifié)
+          const idCdc = formatCahierDesChargesRéférence({
+            ...cahierDesChargesModifié,
+          })
           const sélectionné = cdcChoisi === idCdc
 
           return (

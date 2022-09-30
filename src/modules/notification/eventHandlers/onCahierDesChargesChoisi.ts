@@ -1,29 +1,41 @@
 import { NotificationService } from '..'
 import { ProjectRepo, UserRepo } from '@dataAccess'
 import { logger } from '@core/utils'
-import { NouveauCahierDesChargesChoisi } from '../../project'
+import { CahierDesChargesChoisi } from '../../project'
 import routes from '@routes'
 
-type OnNouveauCahierDesChargesChoisi = (dépendances: {
+type OnCahierDesChargesChoisi = (dépendances: {
   sendNotification: NotificationService['sendNotification']
   findProjectById: ProjectRepo['findById']
   findUserById: UserRepo['findById']
-}) => (événement: NouveauCahierDesChargesChoisi) => Promise<void>
+}) => (événement: CahierDesChargesChoisi) => Promise<void>
 
-export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
+export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
   ({ sendNotification, findProjectById, findUserById }) =>
-  async ({ payload: { projetId: projectId, choisiPar: optedInBy, paruLe, alternatif } }) => {
+  async ({ payload }) => {
+    const { projetId: projectId, choisiPar: optedInBy, type } = payload
     const project = await findProjectById(projectId)
 
     if (!project) {
-      logger.error(new Error('onNouveauCahierDesChargesChoisi failed because project is not found'))
+      logger.error(new Error('onCahierDesChargesChoisi failed because project is not found'))
       return
+    }
+
+    const mailjetTemplate = type === 'initial' ? 'pp-cdc-initial-choisi' : 'pp-cdc-modifié-choisi'
+
+    const variables = {
+      nom_projet: project.nomProjet,
+      projet_url: routes.PROJECT_DETAILS(projectId),
+      ...(type === 'modifié' && {
+        cdc_date: payload.paruLe,
+        cdc_alternatif: payload.alternatif ? 'alternatif ' : '',
+      }),
     }
 
     ;(await findUserById(optedInBy)).match({
       some: async ({ email, fullName }) => {
         const payload: any = {
-          type: 'pp-nouveau-cdc-choisi',
+          type: mailjetTemplate,
           message: {
             email: email,
             name: fullName,
@@ -33,12 +45,7 @@ export const onNouveauCahierDesChargesChoisi: OnNouveauCahierDesChargesChoisi =
             projectId: project.id,
             userId: optedInBy,
           },
-          variables: {
-            nom_projet: project.nomProjet,
-            cdc_date: paruLe,
-            cdc_alternatif: alternatif ? 'alternatif ' : '',
-            projet_url: routes.PROJECT_DETAILS(projectId),
-          },
+          variables,
         }
 
         await sendNotification(payload)

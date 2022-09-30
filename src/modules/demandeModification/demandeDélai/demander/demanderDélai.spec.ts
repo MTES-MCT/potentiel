@@ -233,14 +233,14 @@ describe('Commande demanderDélai', () => {
           })
         })
       })
-      describe(`Erreur si le porteur n'a pas souscri au nouveau CDC alors que l'AO le requiert`, () => {
-        describe(`Étant donné un projet avec un AO requérant le choix du nouveau CDC pour pouvoir effectuer des modifications sur Potentiel,
+      describe(`Erreur si le porteur n'a pas souscri à un CDC modifié alors que l'AO le requiert`, () => {
+        describe(`Étant donné un projet avec un AO requérant le choix d'un CDC modifié pour pouvoir effectuer des modifications sur Potentiel,
                   Lorsque le porteur fait une demande de délai,
                   et qu'il n'a pas encore souscri au nouveau cahier des charges`, () => {
           it(`Alors une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
             const projectRepo = fakeRepo({
               ...fakeProject,
-              cahierDesCharges: { paruLe: 'initial' },
+              cahierDesCharges: { type: 'initial' },
             } as Project)
 
             const demandeDelai = makeDemanderDélai({

@@ -28,6 +28,7 @@ const batimentPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -125,6 +126,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,

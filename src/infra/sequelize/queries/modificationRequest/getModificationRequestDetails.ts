@@ -155,7 +155,7 @@ const formatCahierDesCharges = ({
 }): ModificationRequestPageDTO['cahierDesCharges'] => {
   const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence)
 
-  if (cahierDesChargesRéférenceParsed.paruLe === 'initial') {
+  if (cahierDesChargesRéférenceParsed.type === 'initial') {
     return {
       type: 'initial',
       url: appelOffre.periode.cahierDesCharges.url,
@@ -164,6 +164,7 @@ const formatCahierDesCharges = ({
 
   const cahiersDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
     (c) =>
+      cahierDesChargesRéférenceParsed.type === 'modifié' &&
       c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
       c.alternatif === cahierDesChargesRéférenceParsed.alternatif
   )

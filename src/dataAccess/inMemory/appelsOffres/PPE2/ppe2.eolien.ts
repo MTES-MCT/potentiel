@@ -28,6 +28,7 @@ const eolienPPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.11',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -86,6 +87,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,

@@ -1,7 +1,7 @@
 import {
   ExceedsPuissanceMaxDuVolumeReserve,
   ExceedsRatiosChangementPuissance,
-  PuissanceJustificationOrCourrierMissingError,
+  PuissanceJustificationEtCourrierManquantError,
 } from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils'
@@ -108,8 +108,14 @@ export const makeRequestPuissanceModification =
             }))
           }
 
-          if (project.cahierDesCharges.paruLe !== '30/08/2022' && !fileId && !justification) {
-            return errAsync(new PuissanceJustificationOrCourrierMissingError())
+          if (
+            (project.cahierDesCharges.type === 'initial' ||
+              (project.cahierDesCharges.type === 'modifié' &&
+                project.cahierDesCharges.paruLe !== '30/08/2022')) &&
+            !fileId &&
+            !justification
+          ) {
+            return errAsync(new PuissanceJustificationEtCourrierManquantError())
           }
 
           return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project })

@@ -6,6 +6,7 @@ export type CahierDesCharges = {
 }
 
 export type CahierDesChargesModifié = {
+  type: 'modifié'
   url: string
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true
@@ -13,54 +14,41 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
-export const cahiersDesChargesModifiésRéférences = [
+export const cahiersDesChargesRéférences = [
+  'initial',
   '30/07/2021',
   '30/08/2022',
   '30/08/2022-alternatif',
 ] as const
 
-export const cahiersDesChargesRéférences = [
-  'initial',
-  ...cahiersDesChargesModifiésRéférences,
-] as const
-
-export type CahierDesChargesModifiéRéférence = typeof cahiersDesChargesModifiésRéférences[number]
 export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number]
 
 const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022'] as const
-const datesParutionCahiersDesCharges = [
-  'initial',
-  ...datesParutionCahiersDesChargesModifiés,
-] as const
 
-export type DateParutionCahierDesCharges = typeof datesParutionCahiersDesCharges[number]
 export type DateParutionCahierDesChargesModifié =
   typeof datesParutionCahiersDesChargesModifiés[number]
 
-export type CahierDesChargesRéférenceParsed = {
-  paruLe: DateParutionCahierDesCharges
-  alternatif?: true
-}
+export type CahierDesChargesRéférenceParsed =
+  | { type: 'initial' }
+  | { type: 'modifié'; paruLe: DateParutionCahierDesChargesModifié; alternatif?: true }
 
-export type CahierDesChargesModifiéRéférenceParsed = {
-  paruLe: DateParutionCahierDesChargesModifié
-  alternatif?: true
-}
+export const parseCahierDesChargesRéférence = (
+  référence: CahierDesChargesRéférence
+): CahierDesChargesRéférenceParsed => {
+  if (référence === 'initial') {
+    return { type: 'initial' }
+  }
 
-export const parseCahierDesChargesRéférence = <
-  C extends CahierDesChargesRéférence | CahierDesChargesModifiéRéférence
->(
-  référence: C
-) =>
-  ({
-    paruLe: référence.replace('-alternatif', ''),
+  return {
+    type: 'modifié',
+    paruLe: référence.replace('-alternatif', '') as DateParutionCahierDesChargesModifié,
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
-  } as C extends CahierDesChargesModifiéRéférence
-    ? CahierDesChargesModifiéRéférenceParsed
-    : CahierDesChargesRéférenceParsed)
+  }
+}
 
-export const formatCahierDesChargesRéférence = ({
-  paruLe,
-  alternatif,
-}: CahierDesChargesRéférenceParsed): CahierDesChargesRéférence =>
-  `${paruLe}${alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence
+export const formatCahierDesChargesRéférence = (
+  cdc: CahierDesChargesRéférenceParsed
+): CahierDesChargesRéférence =>
+  cdc.type === 'initial'
+    ? 'initial'
+    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence)

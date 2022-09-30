@@ -35,6 +35,7 @@ const eolien: AppelOffre = {
   afficherValeurEvaluationCarbone: false,
   soumisAuxGarantiesFinancieres: 'après candidature',
   garantieFinanciereEnMois: 51,
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {
       min: 0.9,
@@ -164,6 +165,7 @@ En   cas   de dépassement de ce délai, la durée de contrat mentionnée au 7.1
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       numéroGestionnaireRequis: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-eolien-telecharger-l-avis-modificatif-publie-le-30-aout-2022',

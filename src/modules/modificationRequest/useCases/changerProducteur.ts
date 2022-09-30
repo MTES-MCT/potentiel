@@ -41,7 +41,7 @@ export const makeChangerProducteur =
           return wrapInfra(findAppelOffreById(projet.appelOffreId))
             .andThen((appelOffre) => {
               if (
-                projet.cahierDesCharges.paruLe === 'initial' &&
+                projet.cahierDesCharges.type === 'initial' &&
                 appelOffre?.choisirNouveauCahierDesCharges
               ) {
                 return errAsync(new NouveauCahierDesChargesNonChoisiError())
@@ -76,7 +76,10 @@ export const makeChangerProducteur =
                     justification,
                     ...(fileId && { fileId }),
                     authority: 'dreal',
-                    cahierDesCharges: formatCahierDesChargesRéférence(projet.cahierDesCharges),
+                    cahierDesCharges:
+                      projet.cahierDesCharges.type === 'modifié'
+                        ? formatCahierDesChargesRéférence(projet.cahierDesCharges)
+                        : 'initial',
                   },
                 })
               )

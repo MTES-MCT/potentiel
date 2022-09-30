@@ -96,6 +96,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/07/2021',
+      type: 'modifié',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-1',
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {

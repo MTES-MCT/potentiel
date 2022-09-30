@@ -1,8 +1,8 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, CahierDesChargesModifiéRéférenceParsed } from '@entities'
+import { User, CahierDesChargesRéférenceParsed } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { NouveauCahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
+import { CahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 import { AppelOffreRepo } from '@dataAccess'
@@ -10,12 +10,13 @@ import {
   CahierDesChargesNonDisponibleError,
   IdentifiantGestionnaireRéseauObligatoireError,
   PasDeChangementDeCDCPourCetAOError,
+  CahierDesChargesInitialNonDisponibleError,
 } from '../errors'
 
-type ChoisirNouveauCahierDesCharges = (commande: {
+type ChoisirCahierDesCharges = (commande: {
   projetId: string
   utilisateur: User
-  cahierDesCharges: CahierDesChargesModifiéRéférenceParsed
+  cahierDesCharges: CahierDesChargesRéférenceParsed
   identifiantGestionnaireRéseau?: string
 }) => ResultAsync<
   null,
@@ -26,21 +27,16 @@ type ChoisirNouveauCahierDesCharges = (commande: {
   | InfraNotAvailableError
 >
 
-type MakeChoisirNouveauCahierDesCharges = (dépendances: {
+type MakeChoisirCahierDesCharges = (dépendances: {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
   findAppelOffreById: AppelOffreRepo['findById']
-}) => ChoisirNouveauCahierDesCharges
+}) => ChoisirCahierDesCharges
 
-export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesCharges =
+export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
   ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
-  ({
-    projetId,
-    utilisateur,
-    cahierDesCharges: { paruLe, alternatif },
-    identifiantGestionnaireRéseau,
-  }) => {
+  ({ projetId, utilisateur, cahierDesCharges, identifiantGestionnaireRéseau }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) {
@@ -51,8 +47,10 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
       })
       .andThen((project) => {
         if (
-          project.cahierDesCharges.paruLe === paruLe &&
-          project.cahierDesCharges.alternatif === alternatif
+          cahierDesCharges.type === 'modifié' &&
+          project.cahierDesCharges.type === 'modifié' &&
+          project.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
+          project.cahierDesCharges.alternatif === cahierDesCharges.alternatif
         ) {
           return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
         }
@@ -62,12 +60,29 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         )
       })
       .andThen((appelOffre) => {
+        if (cahierDesCharges.type === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
+          return errAsync(new CahierDesChargesInitialNonDisponibleError())
+        }
+
+        if (cahierDesCharges.type === 'initial') {
+          return publishToEventStore(
+            new CahierDesChargesChoisi({
+              payload: {
+                projetId,
+                choisiPar: utilisateur.id,
+                type: 'initial',
+              },
+            })
+          )
+        }
+
         if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
           return errAsync(new PasDeChangementDeCDCPourCetAOError())
         }
 
         const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) => c.paruLe === paruLe && c.alternatif === alternatif
+          (c) =>
+            c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
         )
 
         if (!cahierDesChargesChoisi) {
@@ -89,12 +104,13 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
             })
           ).andThen(() =>
             publishToEventStore(
-              new NouveauCahierDesChargesChoisi({
+              new CahierDesChargesChoisi({
                 payload: {
                   projetId,
                   choisiPar: utilisateur.id,
-                  paruLe,
-                  alternatif,
+                  type: 'modifié',
+                  paruLe: cahierDesCharges.paruLe,
+                  alternatif: cahierDesCharges.alternatif,
                 },
               })
             )
@@ -102,12 +118,13 @@ export const makeChoisirNouveauCahierDesCharges: MakeChoisirNouveauCahierDesChar
         }
 
         return publishToEventStore(
-          new NouveauCahierDesChargesChoisi({
+          new CahierDesChargesChoisi({
             payload: {
               projetId,
               choisiPar: utilisateur.id,
-              paruLe,
-              alternatif,
+              type: 'modifié',
+              paruLe: cahierDesCharges.paruLe,
+              alternatif: cahierDesCharges.alternatif,
             },
           })
         )

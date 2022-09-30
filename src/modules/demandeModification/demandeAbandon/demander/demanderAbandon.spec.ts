@@ -224,13 +224,13 @@ describe('Commande demanderAbandon', () => {
   })
 
   describe(`Erreur si demande d'abandon alors que le porteur n'a pas souscri au CDC pour un AO CRE4`, () => {
-    describe(`Étant donné un projet avec un AO requérant le nouveau CDC pour effectuer des changements sur Potentiel,
+    describe(`Étant donné un projet avec un AO requérant un CDC modifié pour effectuer des changements sur Potentiel,
               Lorsque le porteur fait une demande d'abandon
-              et qu'il n'a pas encore souscrit au nouveau cahier des charges`, () => {
-      it(`Alors aucun une erreur  NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
+              et qu'il n'a pas encore souscrit au cahier des charges modifié`, () => {
+      it(`Alors aucun une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
         const projectRepo = fakeRepo({
           ...fakeProject,
-          cahierDesCharges: { paruLe: 'initial' },
+          cahierDesCharges: { type: 'initial' },
           isClasse: true,
         } as Project)
 

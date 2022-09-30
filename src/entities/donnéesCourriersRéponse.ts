@@ -52,7 +52,7 @@ export const getDonnéesCourriersRéponse: GetDonnéesCourriersRéponse = (
 ) => {
   const cdc = parseCahierDesChargesRéférence(cahierDesChargesActuel)
   const cahierDesChargesModifié = cahiersDesChargesModifiésDisponibles.find(
-    (c) => c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif
+    (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif
   )
 
   return {

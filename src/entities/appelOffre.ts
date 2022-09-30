@@ -78,6 +78,7 @@ export type AppelOffre = {
   changementPuissance: ChangementPuissance
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>
+  doitPouvoirChoisirCDCInitial?: true
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre
 

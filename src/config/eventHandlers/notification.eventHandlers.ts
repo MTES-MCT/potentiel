@@ -15,7 +15,7 @@ import {
   handleModificationRequestCancelled,
   handleModificationRequested,
   handleModificationRequestStatusChanged,
-  onNouveauCahierDesChargesChoisi,
+  onCahierDesChargesChoisi,
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
@@ -24,7 +24,7 @@ import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
-  NouveauCahierDesChargesChoisi,
+  CahierDesChargesChoisi,
 } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
@@ -113,8 +113,8 @@ eventStore.subscribe(
 )
 
 eventStore.subscribe(
-  NouveauCahierDesChargesChoisi.type,
-  onNouveauCahierDesChargesChoisi({
+  CahierDesChargesChoisi.type,
+  onCahierDesChargesChoisi({
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,

@@ -1,11 +1,18 @@
-import { NouveauCahierDesChargesChoisiPayload } from '@modules/project'
+import { DateParutionCahierDesChargesModifié } from '@entities/cahierDesCharges'
 import { ProjectEvent } from '..'
 
 export type CahierDesChargesEvent = ProjectEvent & {
-  type: 'NouveauCahierDesChargesChoisi'
+  type: 'CahierDesChargesChoisi'
   payload: {
     choisiPar: string
-    paruLe: NouveauCahierDesChargesChoisiPayload['paruLe']
-    alternatif?: true
-  }
+  } & (
+    | {
+        type: 'initial'
+      }
+    | {
+        type: 'modifié'
+        paruLe: DateParutionCahierDesChargesModifié
+        alternatif?: true
+      }
+  )
 }

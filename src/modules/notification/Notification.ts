@@ -179,8 +179,8 @@ type PPModificationReceived = {
   }
 }
 
-type PPNouveauCDCChoisi = {
-  type: 'pp-nouveau-cdc-choisi'
+type PPCDCModifiéChoisi = {
+  type: 'pp-cdc-modifié-choisi'
   context: {
     modificationRequestId: string
     userId: string
@@ -190,6 +190,19 @@ type PPNouveauCDCChoisi = {
     nom_projet: string
     cdc_date: DateParutionCahierDesChargesModifié
     cdc_alternatif: 'alternatif' | ''
+    projet_url: string
+  }
+}
+
+type PPCDCInitialChoisi = {
+  type: 'pp-cdc-initial-choisi'
+  context: {
+    modificationRequestId: string
+    userId: string
+    projectId: string
+  }
+  variables: {
+    nom_projet: string
     projet_url: string
   }
 }
@@ -255,7 +268,8 @@ type NotificationVariants =
   | ModificationRequestCancelled
   | DrealModificationReceived
   | PPModificationReceived
-  | PPNouveauCDCChoisi
+  | PPCDCModifiéChoisi
+  | PPCDCInitialChoisi
   | AdminModificationRequested
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués

@@ -93,6 +93,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
 
       const cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié> = [
         {
+          type: 'modifié',
           paruLe: '30/07/2021',
           url: 'url',
           donnéesCourriersRéponse: {
@@ -103,6 +104,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
           },
         },
         {
+          type: 'modifié',
           paruLe: '30/08/2022',
           alternatif: true,
           url: 'url',

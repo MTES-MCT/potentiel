@@ -22,7 +22,7 @@ import {
   ProjectGFDueDateSet,
   ProjectGFInvalidated,
   ProjectImported,
-  NouveauCahierDesChargesChoisi,
+  CahierDesChargesChoisi,
   ProjectNotificationDateSet,
   ProjectNotified,
   ProjectProducteurUpdated,
@@ -52,7 +52,7 @@ import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
 import { onProjectGFInvalidated } from './onProjectGFInvalidated'
 import { onProjectImported } from './onProjectImported'
-import { onNouveauCahierDesChargesChoisi } from './onNouveauCahierDesChargesChoisi'
+import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated'
 import { onProjectPuissanceUpdated } from './onProjectPuissanceUpdated'
@@ -98,7 +98,7 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
   eventBus.subscribe(ProjectActionnaireUpdated.type, onProjectActionnaireUpdated(models))
   eventBus.subscribe(ProjectProducteurUpdated.type, onProjectProducteurUpdated(models))
   eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated(models))
-  eventBus.subscribe(NouveauCahierDesChargesChoisi.type, onNouveauCahierDesChargesChoisi(models))
+  eventBus.subscribe(CahierDesChargesChoisi.type, onCahierDesChargesChoisi(models))
   eventBus.subscribe(ProjectClaimed.type, onProjectClaimed(models))
   eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed(models))
 

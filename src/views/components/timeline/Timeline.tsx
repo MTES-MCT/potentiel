@@ -7,7 +7,7 @@ import {
   ProjectEventListDTO,
   DemandeDélaiDTO,
   DemandeAbandonDTO,
-  NouveauCahierDesChargesChoisiDTO,
+  CahierDesChargesChoisiDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -29,7 +29,7 @@ import {
   DemandeRecoursSignaledItem,
   DemandeDelaiSignaledItem,
   DemandeAbandonItem,
-  NouveauCahierDesChargesChoisiItem,
+  CahierDesChargesChoisiItem,
 } from './components'
 import {
   ACItemProps,
@@ -84,7 +84,7 @@ type ItemProps =
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | DemandeAbandonDTO
-  | NouveauCahierDesChargesChoisiDTO
+  | CahierDesChargesChoisiDTO
 
 type UndatedItemProps = ItemProps & { date: undefined }
 
@@ -124,7 +124,7 @@ export const Timeline = ({
     ...extractAttachedFileItemProps(events),
     ...events.filter(is('DemandeDélai')),
     ...events.filter(is('DemandeAbandon')),
-    ...events.filter(is('NouveauCahierDesChargesChoisi')),
+    ...events.filter(is('CahierDesChargesChoisi')),
   ]
     .filter(isNotNull)
     .sort((a, b) => a.date - b.date)
@@ -197,8 +197,8 @@ export const Timeline = ({
       case 'DemandeAbandon':
         return <DemandeAbandonItem {...props} />
 
-      case 'NouveauCahierDesChargesChoisi':
-        return <NouveauCahierDesChargesChoisiItem {...props} />
+      case 'CahierDesChargesChoisi':
+        return <CahierDesChargesChoisiItem {...props} />
     }
   })
 

@@ -28,13 +28,13 @@ const solPPE2: AppelOffre = {
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {
       min: 0.9,
       max: 1.1,
     },
   },
-
   donnéesCourriersRéponse: {
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: '6.2',
@@ -105,6 +105,7 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe-2-sol-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,

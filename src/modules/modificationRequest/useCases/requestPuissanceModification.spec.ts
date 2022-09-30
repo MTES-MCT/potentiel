@@ -1,5 +1,5 @@
 import { Readable } from 'stream'
-import { PuissanceJustificationOrCourrierMissingError } from '..'
+import { PuissanceJustificationEtCourrierManquantError } from '..'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
@@ -17,7 +17,7 @@ describe('Commande requestPuissanceModification', () => {
   const fakeProject = {
     ...makeFakeProject(),
     puissanceInitiale: 100,
-    cahierDesCharges: { paruLe: 'initial' },
+    cahierDesCharges: { type: 'initial' },
   }
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
@@ -95,7 +95,7 @@ describe('Commande requestPuissanceModification', () => {
 
             expect(res.isErr()).toBe(true)
             if (res.isOk()) return
-            expect(res.error).toBeInstanceOf(PuissanceJustificationOrCourrierMissingError)
+            expect(res.error).toBeInstanceOf(PuissanceJustificationEtCourrierManquantError)
           })
         })
       })
@@ -107,7 +107,7 @@ describe('Commande requestPuissanceModification', () => {
             const fakeProject = {
               ...makeFakeProject(),
               puissanceInitiale: 100,
-              cahierDesCharges: { paruLe: '30/08/2022' },
+              cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
             }
             const projectRepo = fakeTransactionalRepo(fakeProject as Project)
             const requestPuissanceModification = makeRequestPuissanceModification({

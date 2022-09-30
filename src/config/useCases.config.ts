@@ -50,7 +50,7 @@ import {
   makeSubmitDCR,
   makeSubmitGF,
   makeSubmitPTF,
-  makeChoisirNouveauCahierDesCharges,
+  makeChoisirCahierDesCharges,
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
@@ -270,7 +270,7 @@ export const cancelModificationRequest = makeCancelModificationRequest({
   modificationRequestRepo,
 })
 
-export const choisirNouveauCahierDesCharges = makeChoisirNouveauCahierDesCharges({
+export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
   publishToEventStore: eventStore.publish.bind(eventStore),
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,

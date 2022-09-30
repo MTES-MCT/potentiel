@@ -1,6 +1,6 @@
 import { ensureRole, requestActionnaireModification, requestPuissanceModification } from '@config'
 import { logger } from '@core/utils'
-import { PuissanceJustificationOrCourrierMissingError } from '@modules/modificationRequest'
+import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -114,7 +114,7 @@ v1Router.post(
       const { projectId, type } = data
       const redirectRoute = routeRedirection(type, projectId)
 
-      if (error instanceof PuissanceJustificationOrCourrierMissingError) {
+      if (error instanceof PuissanceJustificationEtCourrierManquantError) {
         return response.redirect(
           addQueryParams(redirectRoute, {
             ...omit(data, 'projectId'),

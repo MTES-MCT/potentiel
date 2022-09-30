@@ -226,6 +226,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C du 
   ],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-sol',
       donnéesCourriersRéponse: {
@@ -238,6 +239,7 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C du 
       },
     },
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre4-sol-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
       numéroGestionnaireRequis: true,

@@ -111,7 +111,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
         const cahierDesCharges =
-          cahierDesChargesActuel.paruLe === 'initial'
+          cahierDesChargesActuel.type === 'initial'
             ? {
                 type: 'initial',
                 url: appelOffre?.periode.cahierDesCharges.url,

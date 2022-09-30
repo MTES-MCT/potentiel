@@ -1,4 +1,4 @@
-import { ensureRole, choisirNouveauCahierDesCharges } from '@config'
+import { ensureRole, choisirCahierDesCharges } from '@config'
 import { logger } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
@@ -14,8 +14,8 @@ import {
 import { ModificationRequestType } from '@modules/modificationRequest'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 import {
-  CahierDesChargesModifiéRéférence,
-  cahiersDesChargesModifiésRéférences,
+  CahierDesChargesRéférence,
+  cahiersDesChargesRéférences,
   parseCahierDesChargesRéférence,
 } from '@entities'
 
@@ -36,8 +36,8 @@ const schema = yup.object({
       ])
       .optional(),
     choixCDC: yup
-      .mixed<CahierDesChargesModifiéRéférence>()
-      .oneOf(cahiersDesChargesModifiésRéférences.slice())
+      .mixed<CahierDesChargesRéférence>()
+      .oneOf(cahiersDesChargesRéférences.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
   }),
@@ -79,7 +79,7 @@ v1Router.post(
         user,
       } = request
 
-      return choisirNouveauCahierDesCharges({
+      return choisirCahierDesCharges({
         projetId: projectId,
         utilisateur: user,
         cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),

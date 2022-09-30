@@ -107,6 +107,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
   cahiersDesChargesModifiésDisponibles: [
     {
       paruLe: '30/07/2021',
+      type: 'modifié',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-zni-autoconsommation-2',
       donnéesCourriersRéponse: {
         texteChangementDePuissance: {
@@ -118,6 +119,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       },
     },
     {
+      type: 'modifié',
       paruLe: '30/08/2022',
       numéroGestionnaireRequis: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cre-4-zni-autoconsommation-2-telecharger-l-avis-modificatif-publie-le-30-aout-2022',
