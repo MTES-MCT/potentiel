@@ -28,3 +28,11 @@ jobs:
         env:
           CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
           CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
+
+      - name: Deploy to Scalingo
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SCALINGO_SECRET }}
+        run: |
+          git remote add scalingo ${{secrets.SCALINGO_REPOSITORY}}
+          git push scalingo master
