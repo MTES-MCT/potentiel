@@ -13,38 +13,23 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
-export const cahiersDesChargesModifiésRéférences = [
+export const cahiersDesChargesRéférences = [
+  'initial',
   '30/07/2021',
   '30/08/2022',
   '30/08/2022-alternatif',
 ] as const
 
-export const cahiersDesChargesRéférences = [
-  'initial',
-  ...cahiersDesChargesModifiésRéférences,
-] as const
-
-export type CahierDesChargesModifiéRéférence = typeof cahiersDesChargesModifiésRéférences[number]
 export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number]
 
 const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022'] as const
-const datesParutionCahiersDesCharges = [
-  'initial',
-  ...datesParutionCahiersDesChargesModifiés,
-] as const
 
-export type DateParutionCahierDesCharges = typeof datesParutionCahiersDesCharges[number]
 export type DateParutionCahierDesChargesModifié =
   typeof datesParutionCahiersDesChargesModifiés[number]
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }
   | { type: 'modifié'; paruLe: DateParutionCahierDesChargesModifié; alternatif?: true }
-
-export type CahierDesChargesModifiéRéférenceParsed = {
-  paruLe: DateParutionCahierDesChargesModifié
-  alternatif?: true
-}
 
 export const parseCahierDesChargesRéférence = (
   référence: CahierDesChargesRéférence
