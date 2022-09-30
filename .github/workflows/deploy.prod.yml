@@ -20,7 +20,7 @@ jobs:
 
       - run: git fetch --prune --unshallow
 
-      - name: Deploy to Clever Cloud
+      - name: Deploy to Clever Cloud 🚀
         uses: 47ng/actions-clever-cloud@v1.1
         with:
           appID: app_01c01a7d-783f-42a6-8d10-db9167ae056b
@@ -29,11 +29,12 @@ jobs:
           CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
           CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
 
-      - name: Deploy to Scalingo
+      - name: Install SSH Client 🔑
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SCALINGO_SECRET }}
 
-      - run: |
+      - name: Deploy to Scalingo 🚀
+        run: |
           git remote add scalingo ${{secrets.SCALINGO_REPOSITORY}}
           git push scalingo master
