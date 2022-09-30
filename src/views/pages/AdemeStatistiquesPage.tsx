@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { PageLayout, PartnerDashboard } from '@components'
+import { PageLayout } from '@components'
 
 type AdemeStatistiquesProps = {
   request: Request
@@ -10,27 +10,26 @@ type AdemeStatistiquesProps = {
 /* Pure component */
 export const AdemeStatistiques = PageLayout(function (props: AdemeStatistiquesProps) {
   return (
-    <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
-      <main role="main" className="panel">
-        <div className="panel__header">
-          <h3>Tableau de bord</h3>
-        </div>
-        <section className="section section-white" style={{ paddingTop: 0 }}>
-          <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
-          <div
-            className="container"
-            dangerouslySetInnerHTML={{
-              __html: `<iframe
+    // <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
+    <main role="main" className="panel">
+      <div className="panel__header">
+        <h3>Tableau de bord</h3>
+      </div>
+      <section className="section section-white" style={{ paddingTop: 0 }}>
+        <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
+        <div
+          className="container"
+          dangerouslySetInnerHTML={{
+            __html: `<iframe
             src="${props.iframeUrl}"
             frameBorder="0"
             width="100%"
             allowTransparency
             onload="iFrameResize({}, this)"
           ></iframe>`,
-            }}
-          ></div>
-        </section>
-      </main>
-    </PartnerDashboard>
+          }}
+        ></div>
+      </section>
+    </main>
   )
 })

@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { AdminDashboard, LinkButton, UserDashboard } from '@components'
+import { LinkButton, RoleBasedDashboard } from '@components'
 
 interface SuccessOrErrorProps {
   request: Request
@@ -38,13 +38,9 @@ export default function SuccessOrError({ request }: SuccessOrErrorProps) {
     </div>
   )
 
-  if (request.user?.role === 'porteur-projet') {
-    return <UserDashboard currentPage={undefined}>{contents}</UserDashboard>
-  }
-
   return (
-    <AdminDashboard role={request.user?.role} currentPage={undefined}>
+    <RoleBasedDashboard role={request.user.role} currentPage={undefined}>
       {contents}
-    </AdminDashboard>
+    </RoleBasedDashboard>
   )
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   PageLayout,
-  UserDashboard,
   ChoisirCahierDesChargesFormulaire,
   InfoBox,
   InfoLienGuideUtilisationCDC,
@@ -17,17 +16,15 @@ type ChoisirCahierDesChargesProps = {
 
 export const ChoisirCahierDesCharges = PageLayout(({ projet }: ChoisirCahierDesChargesProps) => {
   return (
-    <UserDashboard>
-      <div className="panel p-4">
-        <h3 className="section--title">Cahier des charges</h3>
-        <div className="flex flex-col max-w-2xl mx-auto">
-          <InfoBox className="mb-5">
-            <InfoLienGuideUtilisationCDC />
-          </InfoBox>
-          <ChoisirCahierDesChargesFormulaire projet={projet} />
-        </div>
+    <div className="panel p-4">
+      <h3 className="section--title">Cahier des charges</h3>
+      <div className="flex flex-col max-w-2xl mx-auto">
+        <InfoBox className="mb-5">
+          <InfoLienGuideUtilisationCDC />
+        </InfoBox>
+        <ChoisirCahierDesChargesFormulaire projet={projet} />
       </div>
-    </UserDashboard>
+    </div>
   )
 })
 

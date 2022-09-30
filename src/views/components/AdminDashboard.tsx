@@ -56,13 +56,15 @@ const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }
 
 /* Pure component */
 export function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
+  if (role === 'dreal') {
+    return <>{children}</>
+  }
+
   return (
     <>
       <section className="section py-4 px-0 section-color">
         <div className="container">
-          <h2 className="section__title mb-0">
-            Portail Administrateur {role === 'dreal' ? 'DREAL' : 'DGEC'}
-          </h2>
+          <h2 className="section__title mb-0">Portail Administrateur DGEC</h2>
         </div>
       </section>
       <div className="dashboard">
@@ -78,7 +80,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_LIST_PROJECTS}
               itemPage={'list-projects'}
               title="Projets"
-              visibleForRoles={['admin', 'dreal', 'dgec-validateur']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
@@ -86,15 +88,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.ADMIN_LIST_REQUESTS}
               itemPage={'list-requests'}
               title="Demandes"
-              visibleForRoles={['admin', 'dreal', 'dgec-validateur']}
-              role={role}
-              currentPage={currentPage}
-            />
-            <MenuItem
-              route={`${ROUTES.ADMIN_GARANTIES_FINANCIERES}?garantiesFinancieres=submitted`}
-              itemPage={'list-garanties-financieres'}
-              title="Garanties Financières"
-              visibleForRoles={['dreal']}
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />
