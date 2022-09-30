@@ -379,6 +379,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
     {
+      type: 'modifié',
       paruLe: '30/07/2021',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/30072021-avis-modificatif-cre4-autoconsommation-metropole-2',
       donnéesCourriersRéponse: {

@@ -6,6 +6,7 @@ export type CahierDesCharges = {
 }
 
 export type CahierDesChargesModifié = {
+  type: 'modifié'
   url: string
   paruLe: DateParutionCahierDesChargesModifié
   alternatif?: true

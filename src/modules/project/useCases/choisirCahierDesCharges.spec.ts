@@ -42,9 +42,9 @@ describe('Commande choisirCahierDesCharges', () => {
       periodes: [{ id: 'periodeId', type: 'notified' }],
       familles: [{ id: 'familleId' }],
       cahiersDesChargesModifiésDisponibles: [
-        { paruLe: '30/07/2021', url: 'url' },
-        { paruLe: '30/08/2022', url: 'url' },
-        { paruLe: '30/08/2022', url: 'url', alternatif: true },
+        { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
+        { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
+        { type: 'modifié', paruLe: '30/08/2022', url: 'url', alternatif: true },
       ] as ReadonlyArray<CahierDesChargesModifié>,
     } as AppelOffre)
 
@@ -208,7 +208,7 @@ describe('Commande choisirCahierDesCharges', () => {
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
           cahiersDesChargesModifiésDisponibles: [
-            { paruLe: '30/08/2022', url: 'url' },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url' },
           ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre)
 
@@ -248,7 +248,7 @@ describe('Commande choisirCahierDesCharges', () => {
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
           cahiersDesChargesModifiésDisponibles: [
-            { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
           ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre)
 
@@ -292,7 +292,7 @@ describe('Commande choisirCahierDesCharges', () => {
           familles: [{ id: 'familleId' }],
           choisirNouveauCahierDesCharges: true,
           cahiersDesChargesModifiésDisponibles: [
-            { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
           ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre)
 
@@ -413,8 +413,8 @@ describe('Commande choisirCahierDesCharges', () => {
             periodes: [{ id: 'periodeId', type: 'notified' }],
             familles: [{ id: 'familleId' }],
             cahiersDesChargesModifiésDisponibles: [
-              { paruLe: '30/07/2021', url: 'url' },
-              { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
+              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
             ] as ReadonlyArray<CahierDesChargesModifié>,
           } as AppelOffre),
       })
@@ -475,7 +475,7 @@ describe('Commande choisirCahierDesCharges', () => {
           choisirNouveauCahierDesCharges: true,
           doitPouvoirChoisirCDCInitial: true,
           cahiersDesChargesModifiésDisponibles: [
-            { paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+            { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
           ] as ReadonlyArray<CahierDesChargesModifié>,
         } as AppelOffre)
 
