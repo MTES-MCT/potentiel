@@ -56,7 +56,6 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
           const idCdc = formatCahierDesChargesRéférence({
             ...cahierDesChargesModifié,
-            type: 'modifié',
           })
           const sélectionné = cdcChoisi === idCdc
 
