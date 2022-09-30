@@ -1,8 +1,29 @@
-import type { Request } from 'express'
 import React from 'react'
+import type { Request } from 'express'
+import routes from '@routes'
 import { Footer } from './Footer'
 import { Header } from './Header'
-import { HeaderForPP } from './UI'
+
+const MenuPorteurProjet = (currentPage: string) => [
+  <Header.MenuItem
+    href={routes.USER_LIST_PROJECTS}
+    {...(currentPage === 'list-projects' && { isCurrent: true })}
+  >
+    Mes projets
+  </Header.MenuItem>,
+  <Header.MenuItem
+    href={routes.USER_LIST_REQUESTS}
+    {...(currentPage === 'list-requests' && { isCurrent: true })}
+  >
+    Mes demandes
+  </Header.MenuItem>,
+  <Header.MenuItem
+    href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+    {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
+  >
+    Projets à réclamer
+  </Header.MenuItem>,
+]
 
 interface HasRequest {
   request: Request
@@ -16,16 +37,9 @@ export const PageLayout =
     } = props
     return (
       <>
-        {user.role === 'porteur-projet' ? (
-          <HeaderForPP
-            {...{
-              user: { ...user, role: 'porteur-projet' },
-              currentPage: '',
-            }}
-          />
-        ) : (
-          <Header {...{ user: props.request.user }} />
-        )}
+        <Header {...{ user: props.request.user }}>
+          {user.role === 'porteur-projet' && MenuPorteurProjet('')}
+        </Header>
 
         {user.role === 'porteur-projet' ? (
           <main
