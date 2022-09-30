@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { CahierDesChargesRéférence } from '@entities'
 
 export type ModificationRequestedPayload = {
   modificationRequestId: string
@@ -7,6 +8,7 @@ export type ModificationRequestedPayload = {
   authority: 'dgec' | 'dreal'
   fileId?: string
   justification?: string
+  cahierDesCharges?: CahierDesChargesRéférence
 } & (
   | {
       type: 'puissance'

@@ -12,6 +12,7 @@ export const onDélaiDemandé = (models) => async (évènement: DélaiDemandé) 
       autorité,
       dateAchèvementDemandée,
       porteurId,
+      cahierDesCharges,
     },
     occurredAt,
   } = évènement
@@ -30,6 +31,7 @@ export const onDélaiDemandé = (models) => async (évènement: DélaiDemandé) 
       justification,
       authority: autorité,
       dateAchèvementDemandée,
+      cahierDesCharges,
     })
   } catch (e) {
     logger.error(

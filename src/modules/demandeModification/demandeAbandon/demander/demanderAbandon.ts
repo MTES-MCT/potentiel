@@ -1,7 +1,7 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { wrapInfra, ResultAsync } from '@core/utils'
-import { User } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { AbandonDemandé } from '../events'
 import { FileContents, FileObject, makeFileObject } from '../../../file'
@@ -82,12 +82,20 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
             createdBy: new UniqueEntityID(user.id),
             filename: file.filename,
             contents: file.contents,
-          }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+          }).asyncAndThen((file) =>
+            fileRepo.save(file).map(() => ({
+              fileId: file.id.toString(),
+              project,
+            }))
+          )
         }
 
-        return okAsync(null)
+        return okAsync({
+          fileId: undefined,
+          project,
+        })
       })
-      .andThen((fileId) => {
+      .andThen(({ fileId, project }) => {
         return publishToEventStore(
           new AbandonDemandé({
             payload: {
@@ -97,6 +105,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
               justification,
               autorité: 'dgec',
               porteurId: user.id,
+              cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
           })
         )

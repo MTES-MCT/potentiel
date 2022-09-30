@@ -84,7 +84,9 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
       Instruction selon le cahier des charges{' '}
       {cahierDesChargesActuel.type === 'initial'
         ? 'initial (en vigueur à la candidature)'
-        : `modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
+        : `${
+            cahierDesChargesActuel.alternatif ? 'alternatif' : ''
+          } modifié rétroactivement et publié le ${cahierDesChargesActuel.paruLe}`}{' '}
       (<ExternalLink href={cahierDesChargesActuel.url}>voir le cahier des charges</ExternalLink>)
       <br />
       {userIs('porteur-projet')(user) && (

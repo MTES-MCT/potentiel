@@ -1,5 +1,5 @@
-import { eventStore, fileRepo, sendNotification } from '@config'
-import { appelOffreRepo, projectRepo, userRepo } from '@dataAccess'
+import { eventStore, fileRepo, sendNotification, projectRepo } from '@config'
+import { appelOffreRepo, projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
 import makeGetUserProject from './getUserProject'
 import makeListProjects from './listProjects'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
@@ -9,54 +9,55 @@ import makeRequestModification from './requestModification'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 
 const listProjects = makeListProjects({
-  searchForRegions: projectRepo.searchForRegions,
-  findAllForRegions: projectRepo.findAllForRegions,
-  searchForUser: projectRepo.searchForUser,
-  findAllForUser: projectRepo.findAllForUser,
-  searchAll: projectRepo.searchAll,
-  findAll: projectRepo.findAll,
-  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre: projectRepo.findExistingFamillesForAppelOffre,
+  searchForRegions: OldProjectRepo.searchForRegions,
+  findAllForRegions: OldProjectRepo.findAllForRegions,
+  searchForUser: OldProjectRepo.searchForUser,
+  findAllForUser: OldProjectRepo.findAllForUser,
+  searchAll: OldProjectRepo.searchAll,
+  findAll: OldProjectRepo.findAll,
+  findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre: OldProjectRepo.findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre: OldProjectRepo.findExistingFamillesForAppelOffre,
   findDrealsForUser: userRepo.findDrealsForUser,
 })
 const listUnnotifiedProjects = makeListUnnotifiedProjects({
-  findAllProjects: projectRepo.findAll,
-  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
-  countUnnotifiedProjects: projectRepo.countUnnotifiedProjects,
-  searchAllProjects: projectRepo.searchAll,
+  findAllProjects: OldProjectRepo.findAll,
+  findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre: OldProjectRepo.findExistingPeriodesForAppelOffre,
+  countUnnotifiedProjects: OldProjectRepo.countUnnotifiedProjects,
+  searchAllProjects: OldProjectRepo.searchAll,
   appelOffreRepo,
 })
 const listMissingOwnerProjects = makeListMissingOwnerProjects({
-  searchAllMissingOwner: projectRepo.searchAllMissingOwner,
-  findExistingAppelsOffres: projectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre: projectRepo.findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre: projectRepo.findExistingFamillesForAppelOffre,
+  searchAllMissingOwner: OldProjectRepo.searchAllMissingOwner,
+  findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre: OldProjectRepo.findExistingPeriodesForAppelOffre,
+  findExistingFamillesForAppelOffre: OldProjectRepo.findExistingFamillesForAppelOffre,
 })
 
 const shouldUserAccessProject = makeShouldUserAccessProject({
   userRepo,
-  findProjectById: projectRepo.findById,
+  findProjectById: OldProjectRepo.findById,
 })
 
 const requestModification = makeRequestModification({
   fileRepo,
   eventBus: eventStore,
   shouldUserAccessProject,
+  projectRepo: projectRepo,
 })
 
 const getUserProject = makeGetUserProject({
-  findProjectById: projectRepo.findById,
+  findProjectById: OldProjectRepo.findById,
   shouldUserAccessProject,
 })
 
 const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
   eventBus: eventStore,
   findProjectsWithGarantiesFinancieresPendingBefore:
-    projectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
-  getUsersForProject: projectRepo.getUsers,
-  saveProject: projectRepo.save,
+    OldProjectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
+  getUsersForProject: OldProjectRepo.getUsers,
+  saveProject: OldProjectRepo.save,
   sendNotification,
 })
 

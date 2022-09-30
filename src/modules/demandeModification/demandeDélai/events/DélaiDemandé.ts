@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { CahierDesChargesRéférence } from '@entities'
 
 export type DélaiDemandéPayload = {
   demandeDélaiId: string
@@ -8,6 +9,7 @@ export type DélaiDemandéPayload = {
   justification?: string
   dateAchèvementDemandée: string
   porteurId: string
+  cahierDesCharges?: CahierDesChargesRéférence
 }
 
 export class DélaiDemandé extends BaseDomainEvent<DélaiDemandéPayload> implements DomainEvent {

@@ -2,18 +2,26 @@ import { Readable } from 'stream'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { FileObject } from '@modules/file'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import makeFakeUser from '../__tests__/fixtures/user'
-import makeRequestModification, { ACCESS_DENIED_ERROR } from './requestModification'
+import makeRequestModification from './requestModification'
+import { fakeRepo } from '../__tests__/fixtures/aggregates'
+import { Project } from '@modules/project'
+import makeFakeProject from '../__tests__/fixtures/project'
 
 const fakeFileContents = {
   filename: 'fakeFile.pdf',
   contents: Readable.from('test-content'),
 }
 
+const fakeProject = makeFakeProject()
+
 describe('requestModification use-case', () => {
   describe('given user has no rights on this project', () => {
     const shouldUserAccessProject = jest.fn(async () => false)
+    const projectRepo = fakeRepo({
+      ...fakeProject,
+    } as Project)
 
     const fileRepo = {
       save: jest.fn(),
@@ -29,6 +37,7 @@ describe('requestModification use-case', () => {
       fileRepo,
       eventBus,
       shouldUserAccessProject,
+      projectRepo,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
@@ -48,12 +57,13 @@ describe('requestModification use-case', () => {
 
       expect(fileRepo.save).not.toHaveBeenCalled()
       expect(requestResult.isErr()).toEqual(true)
-      expect(requestResult.unwrapErr().message).toEqual(ACCESS_DENIED_ERROR)
+      expect(requestResult._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
     })
   })
 
   describe('given user is not a porteur-projet', () => {
     const shouldUserAccessProject = jest.fn()
+    const projectRepo = fakeRepo(fakeProject as Project)
 
     const fileRepo = {
       save: jest.fn(),
@@ -69,6 +79,7 @@ describe('requestModification use-case', () => {
       fileRepo,
       eventBus,
       shouldUserAccessProject,
+      projectRepo,
     })
 
     it('should return ACCESS_DENIED_ERROR', async () => {
@@ -84,13 +95,17 @@ describe('requestModification use-case', () => {
       expect(shouldUserAccessProject).not.toHaveBeenCalled()
       expect(fileRepo.save).not.toHaveBeenCalled()
       expect(requestResult.isErr()).toEqual(true)
-      expect(requestResult.unwrapErr().message).toEqual(ACCESS_DENIED_ERROR)
+      expect(requestResult._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
     })
   })
 
   describe('given user is the projects porteur-project', () => {
     const user = makeFakeUser({ id: '1234', role: 'porteur-projet' })
     const shouldUserAccessProject = jest.fn(async () => true)
+    const projectRepo = fakeRepo({
+      ...fakeProject,
+      cahierDesCharges: { paruLe: 'initial' },
+    } as Project)
 
     describe('given request is actionnaire', () => {
       const fileRepo = {
@@ -107,6 +122,7 @@ describe('requestModification use-case', () => {
         fileRepo: fileRepo as Repository<FileObject>,
         eventBus,
         shouldUserAccessProject,
+        projectRepo,
       })
 
       beforeAll(async () => {
@@ -139,6 +155,7 @@ describe('requestModification use-case', () => {
             fileId: fakeFile.id.toString(),
             requestedBy: user.id,
             projectId: 'project1',
+            cahierDesCharges: 'initial',
           })
         )
       })

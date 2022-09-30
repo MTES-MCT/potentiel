@@ -167,6 +167,7 @@ describe('Commande demanderDélai', () => {
                 payload: expect.objectContaining({
                   dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
                   projetId: fakeProject.id.toString(),
+                  cahierDesCharges: '30/07/2021',
                 }),
               })
             )

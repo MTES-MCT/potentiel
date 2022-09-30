@@ -5,20 +5,32 @@ import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '@routes'
-import { DownloadIcon } from '../../../components'
+import { DownloadIcon, ExternalLink } from '@components'
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
-  const { requestedBy, requestedOn, justification, attachmentFile } = modificationRequest
+  const { requestedBy, requestedOn, justification, attachmentFile, cahierDesCharges } =
+    modificationRequest
 
   return (
     <div className="panel__header">
       <div>
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>
+      {cahierDesCharges && (
+        <div>
+          Instruction selon le cahier des charges{' '}
+          {cahierDesCharges.type === 'initial'
+            ? 'initial (en vigueur à la candidature)'
+            : `${
+                cahierDesCharges.alternatif ? 'alternatif' : ''
+              } modifié rétroactivement et publié le ${cahierDesCharges.paruLe}`}{' '}
+          (<ExternalLink href={cahierDesCharges.url}>voir le cahier des charges</ExternalLink>)
+        </div>
+      )}
       {justification && <div className="italic mt-2">{`"${justification}"`}</div>}
       <DetailsByType modificationRequest={modificationRequest} />
       {attachmentFile && (

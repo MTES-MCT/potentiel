@@ -20,7 +20,7 @@ import {
   ModificationRequestTitleColorByStatus,
 } from '../../helpers'
 import { formatDate } from '../../../helpers/formatDate'
-import { userIs } from '../../../modules/users'
+import { userIs } from '@modules/users'
 
 type DemandeAbandonProps = {
   request: Request

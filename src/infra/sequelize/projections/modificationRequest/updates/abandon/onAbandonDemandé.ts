@@ -4,7 +4,15 @@ import { AbandonDemandé } from '@modules/demandeModification'
 export const onAbandonDemandé =
   (models) =>
   async ({ payload, occurredAt }: AbandonDemandé) => {
-    const { demandeAbandonId, projetId, fichierId, justification, autorité, porteurId } = payload
+    const {
+      demandeAbandonId,
+      projetId,
+      fichierId,
+      justification,
+      autorité,
+      porteurId,
+      cahierDesCharges,
+    } = payload
     try {
       const ModificationRequestModel = models.ModificationRequest
 
@@ -19,6 +27,7 @@ export const onAbandonDemandé =
         userId: porteurId,
         justification,
         authority: autorité,
+        cahierDesCharges,
       })
     } catch (e) {
       logger.error(e)

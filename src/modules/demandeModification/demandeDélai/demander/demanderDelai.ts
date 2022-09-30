@@ -1,7 +1,7 @@
 import { errAsync, okAsync } from 'neverthrow'
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { logger, wrapInfra, ResultAsync } from '@core/utils'
-import { User } from '@entities'
+import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '@modules/file'
 import { DélaiDemandé } from '@modules/demandeModification'
 import { GetProjectAppelOffreId } from '@modules/modificationRequest'
@@ -77,11 +77,14 @@ export const makeDemanderDélai: MakeDemanderDélai =
               )
             )
           }
-          return okAsync(appelOffre)
+          return okAsync({
+            appelOffre,
+            project,
+          })
         })
       })
-      .andThen((appelOffre) => {
-        if (!file) return okAsync({ appelOffre, fileId: null })
+      .andThen(({ appelOffre, project }) => {
+        if (!file) return okAsync({ appelOffre, fileId: null, project })
 
         return makeFileObject({
           designation: 'modification-request',
@@ -91,14 +94,18 @@ export const makeDemanderDélai: MakeDemanderDélai =
           contents: file.contents,
         })
           .asyncAndThen((file) =>
-            fileRepo.save(file).map(() => ({ appelOffre, fileId: file.id.toString() }))
+            fileRepo.save(file).map(() => ({
+              appelOffre,
+              fileId: file.id.toString(),
+              project,
+            }))
           )
           .mapErr((e: Error) => {
             logger.error(e)
             return new InfraNotAvailableError()
           })
       })
-      .andThen(({ appelOffre, fileId }) => {
+      .andThen(({ appelOffre, fileId, project }) => {
         return publishToEventStore(
           new DélaiDemandé({
             payload: {
@@ -109,6 +116,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
               dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
               autorité: appelOffre?.type === 'eolien' ? 'dgec' : 'dreal',
               porteurId: user.id,
+              cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
           })
         ).andThen(() => {

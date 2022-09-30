@@ -20,24 +20,21 @@ describe('modificationRequest.onModificationReceived', () => {
           requestedBy: userId,
           puissance: 104,
           authority: 'dgec',
+          cahierDesCharges: 'initial',
         },
       })
     )
 
-    const {
-      puissance,
-      type,
-      projectId: receivedProjectId,
-      userId: receivedUserId,
-      status,
-      authority,
-    } = await ModificationRequestModel.findByPk(modificationRequestId)
+    const modificationRequest = await ModificationRequestModel.findByPk(modificationRequestId)
 
-    expect(puissance).toEqual(104)
-    expect(type).toEqual('puissance')
-    expect(receivedProjectId).toEqual(projectId)
-    expect(receivedUserId).toEqual(userId)
-    expect(authority).toEqual('dgec')
-    expect(status).toEqual('information validée')
+    expect(modificationRequest).toMatchObject({
+      puissance: 104,
+      type: 'puissance',
+      projectId,
+      userId,
+      status: 'information validée',
+      authority: 'dgec',
+      cahierDesCharges: 'initial',
+    })
   })
 })
