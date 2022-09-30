@@ -33,6 +33,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SCALINGO_SECRET }}
-        run: |
+
+      - run: |
           git remote add scalingo ${{secrets.SCALINGO_REPOSITORY}}
           git push scalingo master
