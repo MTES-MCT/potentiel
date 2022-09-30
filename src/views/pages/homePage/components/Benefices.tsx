@@ -18,7 +18,7 @@ export const Benefices = () => (
         <ul className="flex flex-col text-lg xl:text-xl font-medium md:font-semibold w-fit md:mx-auto m-0 p-4">
           <Benefice title="Retrouvez vos projets" />
           <Benefice title="Suivez-les étape par étape" />
-          <Benefice title="Gérer vos documents" />
+          <Benefice title="Gérez vos documents" />
           <Benefice title="Signalez des changements" />
           <Benefice title="Demandez des modifications" />
           <Benefice title="Invitez vos collègues" />
