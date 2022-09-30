@@ -179,21 +179,6 @@ type PPModificationReceived = {
   }
 }
 
-type PPNouveauCDCChoisi = {
-  type: 'pp-nouveau-cdc-choisi'
-  context: {
-    modificationRequestId: string
-    userId: string
-    projectId: string
-  }
-  variables: {
-    nom_projet: string
-    cdc_date: DateParutionCahierDesChargesModifié
-    cdc_alternatif: 'alternatif' | ''
-    projet_url: string
-  }
-}
-
 type PPCDCModifiéChoisi = {
   type: 'pp-cdc-modifié-choisi'
   context: {
@@ -283,7 +268,6 @@ type NotificationVariants =
   | ModificationRequestCancelled
   | DrealModificationReceived
   | PPModificationReceived
-  | PPNouveauCDCChoisi
   | PPCDCModifiéChoisi
   | PPCDCInitialChoisi
   | AdminModificationRequested
