@@ -1,0 +1,25 @@
+name: Deploy to Scalingo (production)
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Pre-requise for the clever-cloud deployment
+      - name: Checkout repository 📥
+        uses: actions/checkout@v3
+
+      - name: Install SSH Client 🔑
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SCALINGO_SECRET }}
+
+      - name: Deploy to Scalingo 🚀
+        run: |
+          git remote add scalingo ${{secrets.SCALINGO_REPOSITORY}}
+          git push scalingo HEAD
