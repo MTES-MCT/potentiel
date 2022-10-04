@@ -53,6 +53,7 @@ export const handleProjectCertificateUpdatedOrRegenerated =
           nomProjet: project.data?.nomProjet || '',
           raison:
             event.type === ProjectCertificateRegenerated.type ? event.payload.reason : undefined,
+          urlRedirection: 'https://potentiel.beta.gouv.fr/mes-projets.html',
         },
       })
     }

@@ -82,6 +82,7 @@ type PP_CertificateUpdated = {
   variables: {
     nomProjet: string
     raison?: string
+    urlRedirection: string
   }
 }
 
