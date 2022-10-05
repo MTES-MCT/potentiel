@@ -1,7 +1,7 @@
-import asyncHandler from '../helpers/asyncHandler'
+import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
+import { v1Router } from '../../v1Router'
 import { DatesMiseEnServicePage } from '@views'
 
 if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
