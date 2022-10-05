@@ -24,7 +24,7 @@ const schema = yup.object({
       justification: yup.string().optional(),
       newRulesOptIn: yup.boolean().optional(),
       ...CHAMPS_FOURNISSEURS.reduce((acc, champ) => {
-        const champEchappé = champ.replace('\n', '\\n')
+        const champEchappé = champ.replace(/\n/g, '\\n')
         return {
           [champEchappé]: yup
             .string()
@@ -39,7 +39,7 @@ const schema = yup.object({
       `Vous devez modifier au moins l'un des fournisseurs.`,
       (fields) =>
         CHAMPS_FOURNISSEURS.reduce((nombreDeFournisseursChangés, champ) => {
-          const champEchappé = champ.replace('\n', '\\n')
+          const champEchappé = champ.replace(/\n/g, '\\n')
           return fields[champEchappé] !== ''
             ? nombreDeFournisseursChangés + 1
             : nombreDeFournisseursChangés

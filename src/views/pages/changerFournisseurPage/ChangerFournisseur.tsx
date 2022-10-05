@@ -86,7 +86,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     <label htmlFor={champ} className="mt-2">
                       {champ}
                     </label>
-                    <input type="text" name={champ.replace('\n', '\\n')} id={champ} />
+                    <input type="text" name={champ.replace(/\n/g, '\\n')} id={champ} />
                   </div>
                 )
               })}
