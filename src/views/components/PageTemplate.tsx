@@ -99,37 +99,6 @@ const MenuDreal = (currentPage: CurrentPage) => [
   </Header.MenuItem>,
 ]
 
-interface HasRequest {
-  request: Request
-}
-
-export const PageLayout =
-  <T extends HasRequest>(Component: (props: T) => JSX.Element) =>
-  (props: T) => {
-    const {
-      request: { user },
-    } = props
-    return (
-      <>
-        <Header {...{ user: props.request.user }}>{user && getUserNavigation({ user })}</Header>
-
-        {user && userIs(['acheteur-obligé', 'ademe', 'porteur-projet', 'dreal'])(user) ? (
-          <main
-            role="main"
-            className="flex flex-col py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
-            style={{ fontFamily: 'Marianne, arial, sans-serif' }}
-          >
-            <Component {...props} />
-          </main>
-        ) : (
-          <Component {...props} />
-        )}
-
-        <Footer />
-      </>
-    )
-  }
-
 export const PageTemplate = ({
   user,
   children,

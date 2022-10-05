@@ -24,7 +24,6 @@ type ListProjectsProps = {
   existingFamilles?: Array<Famille['id']>
 }
 
-/* Pure component */
 export default function ListProjects({
   request,
   projects,

@@ -5,7 +5,6 @@ import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
-  PageLayout,
   ProjectInfo,
   SuccessErrorBox,
   Button,
@@ -14,6 +13,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
+  PageTemplate,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -23,15 +23,15 @@ type DemanderAbandonProps = {
   appelOffre: ProjectAppelOffre
 }
 
-export const DemanderAbandon = PageLayout(
-  ({ request, project, appelOffre }: DemanderAbandonProps) => {
-    const { error, success, justification } = (request.query as any) || {}
+export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbandonProps) => {
+  const { error, success, justification } = (request.query as any) || {}
 
-    const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges &&
-      project.cahierDesChargesActuel === 'initial'
+  const doitChoisirCahierDesCharges =
+    project.appelOffre?.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial'
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <h3>Je demande un abandon de mon projet</h3>
@@ -108,8 +108,8 @@ export const DemanderAbandon = PageLayout(
           </form>
         )}
       </div>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(DemanderAbandon)

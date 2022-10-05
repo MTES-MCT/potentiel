@@ -11,19 +11,18 @@ import ListProjects from './listProjects'
 import SuccessOrError from './successOrError'
 import ListMissingOwnerProjects from './listMissingOwnerProjects'
 import FakeLogin from './fakeLogin'
-import { PageLayout } from '../components/PageLayout'
 
-const AdminNotifyCandidatesPage = makePresenterPageWithLayout(AdminNotifyCandidates)
-const AdminRegenerateCertificatesPage = makePresenterPageWithLayout(AdminRegenerateCertificates)
-const ImportCandidatesPage = makePresenterPageWithLayout(ImportCandidates)
+const AdminNotifyCandidatesPage = makePresenterPage(AdminNotifyCandidates)
+const AdminRegenerateCertificatesPage = makePresenterPage(AdminRegenerateCertificates)
+const ImportCandidatesPage = makePresenterPage(ImportCandidates)
 const ListProjectsPage = makePresenterPage(ListProjects)
-const InvitationListPage = makePresenterPageWithLayout(InvitationList)
-const NotificationListPage = makePresenterPageWithLayout(NotificationList)
+const InvitationListPage = makePresenterPage(InvitationList)
+const NotificationListPage = makePresenterPage(NotificationList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
-const AdminAppelOffrePage = makePresenterPageWithLayout(AdminAppelOffre)
+const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
-const InvitationsAreDeprecatedPage = makePresenterPageWithLayout(InvitationsAreDeprecated)
-const FakeLoginPage = makePresenterPageWithLayout(FakeLogin)
+const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
+const FakeLoginPage = makePresenterPage(FakeLogin)
 
 export {
   ImportCandidatesPage,
@@ -41,18 +40,6 @@ export {
 
 interface HasRequest {
   request: Request
-}
-
-/**
- * Turn a Page Component (pure) into a presenter that returns a full HTML page
- * @param pageComponent
- */
-/* global JSX */
-function makePresenterPageWithLayout<T extends HasRequest>(
-  pageComponent: (pageProps: T) => JSX.Element
-) {
-  return (props: T): string =>
-    makeHtml({ Component: PageLayout(pageComponent), props, hydrate: false })
 }
 
 /**

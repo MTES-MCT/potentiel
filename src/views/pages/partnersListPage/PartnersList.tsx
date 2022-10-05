@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { AdminDashboard, Button, Input, PageLayout, SuccessErrorBox } from '@components'
+import { AdminDashboard, Button, Input, PageTemplate, SuccessErrorBox } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type PartnersListProps = {
@@ -12,12 +12,11 @@ type PartnersListProps = {
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
-/* Pure component */
-export const PartnersList = PageLayout(
-  ({ request, users, validationErrors }: PartnersListProps) => {
-    const { error, success } = (request.query as any) || {}
+export const PartnersList = ({ request, users, validationErrors }: PartnersListProps) => {
+  const { error, success } = (request.query as any) || {}
 
-    return (
+  return (
+    <PageTemplate user={request.user}>
       <AdminDashboard role={request.user?.role} currentPage="admin-users">
         <div className="panel">
           <div className="panel__header">
@@ -95,8 +94,8 @@ export const PartnersList = PageLayout(
           )}
         </div>
       </AdminDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(PartnersList)

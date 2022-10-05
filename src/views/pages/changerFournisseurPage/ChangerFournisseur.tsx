@@ -5,7 +5,6 @@ import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
-  PageLayout,
   ChoisirCahierDesChargesFormulaire,
   ProjectInfo,
   SuccessErrorBox,
@@ -15,6 +14,7 @@ import {
   InfoBox,
   InfoLienGuideUtilisationCDC,
   AlertBox,
+  PageTemplate,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
@@ -25,17 +25,17 @@ type ChangerFournisseurProps = {
   appelOffre: ProjectAppelOffre
 }
 
-export const ChangerFournisseur = PageLayout(
-  ({ request, project, appelOffre }: ChangerFournisseurProps) => {
-    const { error, success, justification } = (request.query as any) || {}
+export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFournisseurProps) => {
+  const { error, success, justification } = (request.query as any) || {}
 
-    const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges &&
-      project.cahierDesChargesActuel === 'initial'
+  const doitChoisirCahierDesCharges =
+    project.appelOffre?.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial'
 
-    const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
+  const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <h3>Je signale un changement de fournisseur</h3>
@@ -157,8 +157,8 @@ export const ChangerFournisseur = PageLayout(
           </form>
         )}
       </div>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(ChangerFournisseur)

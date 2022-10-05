@@ -18,7 +18,6 @@ export type GarantiesFinancieresProps = {
   existingFamilles?: Array<Famille['id']>
 }
 
-/* Pure component */
 export const GarantiesFinancieres = ({
   request,
   projects,

@@ -4,7 +4,6 @@ import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
-  PageLayout,
   ProjectInfo,
   SuccessErrorBox,
   Button,
@@ -18,6 +17,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
+  PageTemplate,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
@@ -28,17 +28,18 @@ type ChangerProducteurProps = {
   appelOffre: ProjectAppelOffre
 }
 
-export const ChangerProducteur = PageLayout(
-  ({ request, project, appelOffre }: ChangerProducteurProps) => {
-    const { error, success, justification } = (request.query as any) || {}
+export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProducteurProps) => {
+  const { error, success, justification } = (request.query as any) || {}
 
-    const isEolien = appelOffre?.type === 'eolien'
+  const isEolien = appelOffre?.type === 'eolien'
 
-    const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges &&
-      project.cahierDesChargesActuel === 'initial'
+  const doitChoisirCahierDesCharges =
+    project.appelOffre?.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial'
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
+      {' '}
       <div className="panel">
         <div className="panel__header">
           <h3>Je signale un changement de producteur</h3>
@@ -154,8 +155,8 @@ export const ChangerProducteur = PageLayout(
           </form>
         )}
       </div>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(ChangerProducteur)

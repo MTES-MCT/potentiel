@@ -4,7 +4,6 @@ import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
-  PageLayout,
   ModificationRequestActionTitles,
   ProjectInfo,
   SuccessErrorBox,
@@ -14,6 +13,7 @@ import {
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
+  PageTemplate,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
@@ -25,29 +25,33 @@ type NewModificationRequestProps = {
   appelOffre: ProjectAppelOffre
 }
 
-export const NewModificationRequest = PageLayout(
-  ({ request, project, appelOffre }: NewModificationRequestProps) => {
-    const { action, error, success, puissance, actionnaire, justification } =
-      (request.query as any) || {}
+export const NewModificationRequest = ({
+  request,
+  project,
+  appelOffre,
+}: NewModificationRequestProps) => {
+  const { action, error, success, puissance, actionnaire, justification } =
+    (request.query as any) || {}
 
-    const doitChoisirCahierDesCharges =
-      project.appelOffre?.choisirNouveauCahierDesCharges &&
-      project.cahierDesChargesActuel === 'initial'
+  const doitChoisirCahierDesCharges =
+    project.appelOffre?.choisirNouveauCahierDesCharges &&
+    project.cahierDesChargesActuel === 'initial'
 
-    const redirectionRoute = (action) => {
-      switch (action) {
-        case 'actionnaire':
-          return routes.CHANGER_ACTIONNAIRE(project.id)
-        case 'puissance':
-          return routes.CHANGER_PUISSANCE(project.id)
-        case 'recours':
-          return routes.DEPOSER_RECOURS(project.id)
-        default:
-          return routes.USER_LIST_PROJECTS
-      }
+  const redirectionRoute = (action) => {
+    switch (action) {
+      case 'actionnaire':
+        return routes.CHANGER_ACTIONNAIRE(project.id)
+      case 'puissance':
+        return routes.CHANGER_PUISSANCE(project.id)
+      case 'recours':
+        return routes.DEPOSER_RECOURS(project.id)
+      default:
+        return routes.USER_LIST_PROJECTS
     }
+  }
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
           <h3>
@@ -115,8 +119,8 @@ export const NewModificationRequest = PageLayout(
           </form>
         )}
       </div>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(NewModificationRequest)

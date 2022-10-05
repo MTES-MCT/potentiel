@@ -7,7 +7,6 @@ interface SuccessOrErrorProps {
   request: Request
 }
 
-/* Pure component */
 export default function SuccessOrError({ request }: SuccessOrErrorProps) {
   const {
     success,
