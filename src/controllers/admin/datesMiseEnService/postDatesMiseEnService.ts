@@ -36,6 +36,18 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
         )
       }
 
+      const numeroGestionnaireIds: string[] = linesResult.value.map(
+        (line: { numeroGestionnaire: string }) => line.numeroGestionnaire
+      )
+
+      if (numeroGestionnaireIds.length !== [...new Set(numeroGestionnaireIds)].length) {
+        return response.redirect(
+          addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
+            error: `L'import a échoué car le fichier comporte des numéros de gestionnaire en doublons`,
+          })
+        )
+      }
+
       return response.send(DatesMiseEnServicePage({ request }))
     })
   )
