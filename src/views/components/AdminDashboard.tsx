@@ -95,19 +95,6 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               currentPage={currentPage}
             />
 
-            {!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE && (
-              <>
-                <MenuItem
-                  route={ROUTES.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU}
-                  itemPage={'mise-à-jour-date-mise-en-service'}
-                  title="Mise à jour dates mise en service"
-                  visibleForRoles={['admin', 'dgec-validateur']}
-                  role={role}
-                  currentPage={currentPage}
-                />
-              </>
-            )}
-
             <MenuItem
               route={ROUTES.ADMIN_NOTIFY_CANDIDATES()}
               itemPage={'notify-candidates'}
@@ -129,6 +116,17 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               role={role}
               currentPage={currentPage}
             />
+            {!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE && (
+              <>
+                <MenuItem
+                  route={ROUTES.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU}
+                  itemPage={'mise-à-jour-date-mise-en-service'}
+                  title="Mise à jour dates mise en service"
+                  role={role}
+                  currentPage={currentPage}
+                />
+              </>
+            )}
             <SeparatorItem role={role} />
 
             <MenuItem
