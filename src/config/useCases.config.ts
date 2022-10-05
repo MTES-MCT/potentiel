@@ -75,6 +75,7 @@ import {
   getUserByEmail,
   getUserById,
   hasProjectGarantieFinanciere,
+  identifiantGestionnaireRéseauExistant,
   isProjectParticipatif,
 } from './queries.config'
 import {
@@ -275,6 +276,7 @@ export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
+  identifiantGestionnaireRéseauExistant,
 })
 
 export const importProjects = makeImportProjects({

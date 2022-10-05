@@ -427,6 +427,8 @@ describe('Commande choisirCahierDesCharges', () => {
           cahierDesCharges: cdcChoisi,
         })
 
+        console.log(JSON.stringify(res))
+
         expect(res.isOk()).toBe(true)
 
         expect(publishToEventStore).toHaveBeenCalledWith(

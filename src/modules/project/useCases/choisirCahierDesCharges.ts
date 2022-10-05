@@ -1,6 +1,6 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, CahierDesChargesRéférenceParsed } from '@entities'
+import { User, CahierDesChargesRéférenceParsed, AppelOffre } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { CahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
@@ -15,12 +15,16 @@ import {
 } from '../errors'
 import { IdentifiantGestionnaireRéseauExistant } from '../queries'
 
-type ChoisirCahierDesCharges = (commande: {
+type Commande = {
   projetId: string
   utilisateur: User
   cahierDesCharges: CahierDesChargesRéférenceParsed
   identifiantGestionnaireRéseau?: string
-}) => ResultAsync<
+}
+
+type ChoisirCahierDesCharges = (
+  commande: Commande
+) => ResultAsync<
   null,
   | UnauthorizedError
   | InfraNotAvailableError
@@ -40,102 +44,162 @@ type MakeChoisirCahierDesCharges = (dépendances: {
   identifiantGestionnaireRéseauExistant: IdentifiantGestionnaireRéseauExistant
 }) => ChoisirCahierDesCharges
 
-export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
-  ({
-    shouldUserAccessProject,
-    publishToEventStore,
-    projectRepo,
-    findAppelOffreById,
-    identifiantGestionnaireRéseauExistant,
-  }) =>
-  ({ projetId, utilisateur, cahierDesCharges, identifiantGestionnaireRéseau }) => {
-    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
-      .andThen((utilisateurALesDroits) => {
-        if (!utilisateurALesDroits) {
-          return errAsync(new UnauthorizedError())
-        }
+export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
+  shouldUserAccessProject,
+  publishToEventStore,
+  projectRepo,
+  findAppelOffreById,
+  identifiantGestionnaireRéseauExistant,
+}) => {
+  const vérifierAccèsProjet = (commande: Commande) => {
+    const { projetId, utilisateur } = commande
+    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
+      (utilisateurALesDroits) =>
+        utilisateurALesDroits ? okAsync(commande) : errAsync(new UnauthorizedError())
+    )
+  }
 
-        return projectRepo.load(new UniqueEntityID(projetId))
-      })
-      .andThen((project) => {
-        if (
-          cahierDesCharges.type === 'modifié' &&
-          project.cahierDesCharges.type === 'modifié' &&
-          project.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
-          project.cahierDesCharges.alternatif === cahierDesCharges.alternatif
-        ) {
-          return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
-        }
-
-        return wrapInfra(findAppelOffreById(project.appelOffreId)).andThen((appelOffre) =>
-          appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError())
+  const chargerProjetEtAO = (commande: Commande) =>
+    projectRepo
+      .load(new UniqueEntityID(commande.projetId))
+      .andThen((projet) =>
+        wrapInfra(findAppelOffreById(projet.appelOffreId)).andThen((appelOffre) =>
+          appelOffre
+            ? okAsync({ commande, appelOffre, projet })
+            : errAsync(new EntityNotFoundError())
         )
-      })
-      .andThen((appelOffre) => {
-        if (cahierDesCharges.type === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
-          return errAsync(new CahierDesChargesInitialNonDisponibleError())
+      )
+
+  const vérifierSiPasDéjàSouscrit = ({
+    commande,
+    appelOffre,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+  }) => {
+    const { cahierDesCharges } = commande
+
+    return cahierDesCharges.type === 'modifié' &&
+      projet.cahierDesCharges.type === 'modifié' &&
+      projet.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
+      projet.cahierDesCharges.alternatif === cahierDesCharges.alternatif
+      ? errAsync(new NouveauCahierDesChargesDéjàSouscrit())
+      : okAsync({ commande, projet, appelOffre })
+  }
+
+  const vérifierSiPeutÊtreChoisi = ({
+    commande,
+    appelOffre,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+  }) => {
+    const { cahierDesCharges } = commande
+
+    if (cahierDesCharges.type === 'initial') {
+      if (!appelOffre.doitPouvoirChoisirCDCInitial) {
+        return errAsync(new CahierDesChargesInitialNonDisponibleError())
+      }
+
+      return okAsync({ commande, projet, appelOffre })
+    }
+
+    if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+      return errAsync(new PasDeChangementDeCDCPourCetAOError())
+    }
+
+    const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
+    )
+
+    if (!cahierDesChargesChoisi) {
+      return errAsync(new CahierDesChargesNonDisponibleError())
+    }
+
+    return okAsync({ commande, projet, appelOffre })
+  }
+
+  const vérifierIdentifiantGestionnaireRéseau = ({
+    commande,
+    appelOffre,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+  }) => {
+    const { cahierDesCharges } = commande
+
+    if (cahierDesCharges.type === 'initial') {
+      return okAsync({ commande, projet, appelOffre })
+    }
+
+    const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
+    )
+
+    if (
+      cahierDesChargesChoisi?.numéroGestionnaireRequis &&
+      !commande.identifiantGestionnaireRéseau
+    ) {
+      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
+    }
+
+    if (
+      cahierDesChargesChoisi?.numéroGestionnaireRequis &&
+      commande.identifiantGestionnaireRéseau
+    ) {
+      return identifiantGestionnaireRéseauExistant(commande.identifiantGestionnaireRéseau).andThen(
+        (existe) => {
+          return existe
+            ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
+            : okAsync({ commande, projet, appelOffre })
         }
+      )
+    }
 
-        if (cahierDesCharges.type === 'initial') {
-          return publishToEventStore(
-            new CahierDesChargesChoisi({
-              payload: {
-                projetId,
-                choisiPar: utilisateur.id,
-                type: 'initial',
-              },
-            })
-          )
-        }
+    return okAsync({ commande, projet, appelOffre })
+  }
 
-        if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
-          return errAsync(new PasDeChangementDeCDCPourCetAOError())
-        }
+  const enregistrerLeChoix = ({
+    appelOffre,
+    commande: { cahierDesCharges, projetId, utilisateur, identifiantGestionnaireRéseau },
+  }: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+  }) => {
+    if (cahierDesCharges.type === 'initial') {
+      return publishToEventStore(
+        new CahierDesChargesChoisi({
+          payload: {
+            projetId,
+            choisiPar: utilisateur.id,
+            type: 'initial',
+          },
+        })
+      )
+    }
 
-        const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) =>
-            c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
-        )
+    const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
+    )
 
-        if (!cahierDesChargesChoisi) {
-          return errAsync(new CahierDesChargesNonDisponibleError())
-        }
-
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && !identifiantGestionnaireRéseau) {
-          return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
-        }
-
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
-          return identifiantGestionnaireRéseauExistant(identifiantGestionnaireRéseau).andThen(
-            (existe) => {
-              return existe
-                ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
-                : publishToEventStore(
-                    new NumeroGestionnaireSubmitted({
-                      payload: {
-                        projectId: projetId,
-                        submittedBy: utilisateur.id,
-                        numeroGestionnaire: identifiantGestionnaireRéseau,
-                      },
-                    })
-                  ).andThen(() =>
-                    publishToEventStore(
-                      new CahierDesChargesChoisi({
-                        payload: {
-                          projetId,
-                          choisiPar: utilisateur.id,
-                          type: 'modifié',
-                          paruLe: cahierDesCharges.paruLe,
-                          alternatif: cahierDesCharges.alternatif,
-                        },
-                      })
-                    )
-                  )
-            }
-          )
-        }
-
-        return publishToEventStore(
+    if (cahierDesChargesChoisi?.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
+      return publishToEventStore(
+        new NumeroGestionnaireSubmitted({
+          payload: {
+            projectId: projetId,
+            submittedBy: utilisateur.id,
+            numeroGestionnaire: identifiantGestionnaireRéseau,
+          },
+        })
+      ).andThen(() =>
+        publishToEventStore(
           new CahierDesChargesChoisi({
             payload: {
               projetId,
@@ -146,5 +210,27 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
             },
           })
         )
+      )
+    }
+
+    return publishToEventStore(
+      new CahierDesChargesChoisi({
+        payload: {
+          projetId,
+          choisiPar: utilisateur.id,
+          type: 'modifié',
+          paruLe: cahierDesCharges.paruLe,
+          alternatif: cahierDesCharges.alternatif,
+        },
       })
+    )
   }
+
+  return (commande) =>
+    vérifierAccèsProjet(commande)
+      .andThen(chargerProjetEtAO)
+      .andThen(vérifierSiPasDéjàSouscrit)
+      .andThen(vérifierSiPeutÊtreChoisi)
+      .andThen(vérifierIdentifiantGestionnaireRéseau)
+      .andThen(enregistrerLeChoix)
+}
