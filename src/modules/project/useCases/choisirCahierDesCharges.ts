@@ -23,10 +23,13 @@ type ChoisirCahierDesCharges = (commande: {
 }) => ResultAsync<
   null,
   | UnauthorizedError
+  | InfraNotAvailableError
   | NouveauCahierDesChargesDéjàSouscrit
+  | CahierDesChargesInitialNonDisponibleError
   | PasDeChangementDeCDCPourCetAOError
   | CahierDesChargesNonDisponibleError
-  | InfraNotAvailableError
+  | IdentifiantGestionnaireRéseauObligatoireError
+  | IdentifiantGestionnaireRéseauExistantError
 >
 
 type MakeChoisirCahierDesCharges = (dépendances: {

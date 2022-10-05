@@ -6,7 +6,9 @@ import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import {
+  CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
+  IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
@@ -101,9 +103,11 @@ v1Router.post(
           }
 
           if (
+            error instanceof IdentifiantGestionnaireRéseauExistantError ||
             error instanceof IdentifiantGestionnaireRéseauObligatoireError ||
             error instanceof NouveauCahierDesChargesDéjàSouscrit ||
             error instanceof PasDeChangementDeCDCPourCetAOError ||
+            error instanceof CahierDesChargesInitialNonDisponibleError ||
             error instanceof CahierDesChargesNonDisponibleError
           ) {
             return errorResponse({
