@@ -43,7 +43,6 @@ export default function ListMissingOwnerProjects({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
-  // <RoleBasedDashboard role={request.user.role} currentPage="list-missing-owner-projects">
   return (
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">

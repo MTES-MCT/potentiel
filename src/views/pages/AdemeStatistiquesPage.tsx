@@ -7,10 +7,8 @@ type AdemeStatistiquesProps = {
   iframeUrl: string
 }
 
-/* Pure component */
 export const AdemeStatistiques = PageLayout(function (props: AdemeStatistiquesProps) {
   return (
-    // <PartnerDashboard currentPage="ademe-statistiques" role="ademe">
     <main role="main" className="panel">
       <div className="panel__header">
         <h3>Tableau de bord</h3>

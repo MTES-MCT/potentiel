@@ -14,7 +14,6 @@ export const ImporterListingEDF = PageLayout(({ request }: ImporterListingEDFPro
   } = request
 
   return (
-    // <PartnerDashboard role={role} currentPage={'upload-edf'}>
     <div className="panel">
       <div className="panel__header">
         <h3>Importer des données producteurs</h3>

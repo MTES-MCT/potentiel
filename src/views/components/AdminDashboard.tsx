@@ -54,12 +54,7 @@ const MenuItem = ({ route, title, currentPage, itemPage, visibleForRoles, role }
     </li>
   ) : null
 
-/* Pure component */
 export function AdminDashboard({ children, currentPage, role }: AdminDashboardProps) {
-  if (role === 'dreal') {
-    return <>{children}</>
-  }
-
   return (
     <>
       <section className="section py-4 px-0 section-color">

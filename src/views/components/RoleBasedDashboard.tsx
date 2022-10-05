@@ -9,7 +9,7 @@ type RoleBasedDashboardProps = {
 }
 
 export const RoleBasedDashboard = ({ role, children, currentPage }: RoleBasedDashboardProps) => {
-  if (['admin', 'dgec-validateur', 'dreal'].includes(role)) {
+  if (['admin', 'dgec-validateur'].includes(role)) {
     return (
       <AdminDashboard currentPage={currentPage} role={role}>
         {children}
