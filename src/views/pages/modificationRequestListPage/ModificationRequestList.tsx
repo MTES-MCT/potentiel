@@ -5,7 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { PageLayout, RoleBasedDashboard, RequestList } from '@components'
+import { RoleBasedDashboard, RequestList, PageTemplate } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
 
@@ -15,38 +15,42 @@ type ModificationRequestListProps = {
   appelsOffre: Array<AppelOffre>
 }
 
-export const ModificationRequestList = PageLayout(
-  ({ request, modificationRequests, appelsOffre }: ModificationRequestListProps) => {
-    const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
-      const isChecked = e.target.checked
-      setIsShowOnlyDGECChecked(isChecked)
-      refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`)
-    }
+export const ModificationRequestList = ({
+  request,
+  modificationRequests,
+  appelsOffre,
+}: ModificationRequestListProps) => {
+  const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked
+    setIsShowOnlyDGECChecked(isChecked)
+    refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`)
+  }
 
-    const {
-      error,
-      success,
-      recherche,
-      appelOffreId,
-      periodeId,
-      familleId,
-      modificationRequestStatus,
-      modificationRequestType,
-      showOnlyDGEC = 'on',
-    } = (request.query as any) || {}
+  const {
+    error,
+    success,
+    recherche,
+    appelOffreId,
+    periodeId,
+    familleId,
+    modificationRequestStatus,
+    modificationRequestType,
+    showOnlyDGEC = 'on',
+  } = (request.query as any) || {}
 
-    const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on')
+  const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on')
 
-    const hasFilters =
-      appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType
+  const hasFilters =
+    appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType
 
-    const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes
+  const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes
 
-    const familles = appelsOffre
-      .find((ao) => ao.id === appelOffreId)
-      ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+  const familles = appelsOffre
+    .find((ao) => ao.id === appelOffreId)
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <RoleBasedDashboard role={request.user?.role} currentPage="list-requests">
         <div className="panel">
           <div className="panel__header">
@@ -240,8 +244,8 @@ export const ModificationRequestList = PageLayout(
           <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
         </div>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(ModificationRequestList)

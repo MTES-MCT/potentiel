@@ -5,21 +5,46 @@ import { Footer } from './Footer'
 import { Header } from './Header'
 import { userIs } from '@modules/users'
 
-const getUserNavigation = (user: Request['user']) => {
+type CurrentPage =
+  | 'list-projects'
+  | 'import-projects'
+  | 'list-requests'
+  | 'notify-candidates'
+  | 'list-dreal'
+  | 'list-garanties-financieres'
+  | 'list-invitations'
+  | 'list-notifications'
+  | 'regenerate-certificates'
+  | 'admin-ao'
+  | 'admin-users'
+  | 'admin-statistiques'
+  | 'admin-upload-legacy-modification-files'
+  | 'import-enedis'
+  | 'list-missing-owner-projects'
+  | 'ademe-statistiques'
+  | undefined
+
+const getUserNavigation = ({
+  user,
+  currentPage,
+}: {
+  user: Request['user']
+  currentPage?: CurrentPage
+}) => {
   switch (user.role) {
     case 'porteur-projet':
-      return MenuPorteurProjet('')
+      return MenuPorteurProjet(currentPage)
     case 'acheteur-obligé':
-      return MenuAcheteurObligé('')
+      return MenuAcheteurObligé(undefined)
     case 'ademe':
-      return MenuAdeme('')
+      return MenuAdeme(undefined)
     case 'dreal':
-      return MenuDreal('')
+      return MenuDreal(undefined)
   }
 
   return null
 }
-const MenuPorteurProjet = (currentPage: string) => [
+const MenuPorteurProjet = (currentPage: CurrentPage) => [
   <Header.MenuItem
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
@@ -40,7 +65,7 @@ const MenuPorteurProjet = (currentPage: string) => [
   </Header.MenuItem>,
 ]
 
-const MenuAcheteurObligé = (currentPage: string) => [
+const MenuAcheteurObligé = (currentPage: CurrentPage) => [
   <Header.MenuItem
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
@@ -49,7 +74,7 @@ const MenuAcheteurObligé = (currentPage: string) => [
   </Header.MenuItem>,
 ]
 
-const MenuAdeme = (currentPage: string) => [
+const MenuAdeme = (currentPage: CurrentPage) => [
   <Header.MenuItem
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
@@ -64,7 +89,7 @@ const MenuAdeme = (currentPage: string) => [
   </Header.MenuItem>,
 ]
 
-const MenuDreal = (currentPage: string) => [
+const MenuDreal = (currentPage: CurrentPage) => [
   <Header.MenuItem
     href={routes.ADMIN_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
@@ -97,7 +122,7 @@ export const PageLayout =
     } = props
     return (
       <>
-        <Header {...{ user: props.request.user }}>{user && getUserNavigation(user)}</Header>
+        <Header {...{ user: props.request.user }}>{user && getUserNavigation({ user })}</Header>
 
         {user && userIs(['acheteur-obligé', 'ademe', 'porteur-projet', 'dreal'])(user) ? (
           <main
@@ -115,3 +140,33 @@ export const PageLayout =
       </>
     )
   }
+
+export const PageTemplate = ({
+  user,
+  children,
+  currentPage,
+}: {
+  user: Request['user']
+  children: React.ReactNode
+  currentPage?: CurrentPage
+}) => {
+  return (
+    <>
+      <Header user={user}>{user && getUserNavigation({ user, currentPage })}</Header>
+
+      {user && userIs(['acheteur-obligé', 'ademe', 'porteur-projet', 'dreal'])(user) ? (
+        <main
+          role="main"
+          className="flex flex-col py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
+          style={{ fontFamily: 'Marianne, arial, sans-serif' }}
+        >
+          {children}
+        </main>
+      ) : (
+        { children }
+      )}
+
+      <Footer />
+    </>
+  )
+}

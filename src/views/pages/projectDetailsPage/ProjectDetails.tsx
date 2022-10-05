@@ -6,10 +6,10 @@ import { userIs } from '@modules/users'
 import {
   RoleBasedDashboard,
   SuccessErrorBox,
-  PageLayout,
   Callout,
   Link,
   ExternalLink,
+  PageTemplate,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
@@ -31,11 +31,16 @@ type ProjectDetailsProps = {
   now: number
 }
 
-export const ProjectDetails = PageLayout(
-  ({ request, project, projectEventList, now }: ProjectDetailsProps) => {
-    const { user } = request
-    const { error, success } = (request.query as any) || {}
-    return (
+export const ProjectDetails = ({
+  request,
+  project,
+  projectEventList,
+  now,
+}: ProjectDetailsProps) => {
+  const { user } = request
+  const { error, success } = (request.query as any) || {}
+  return (
+    <PageTemplate user={request.user} currentPage="list-projects">
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <ProjectHeader {...{ project, user }} />
         <SuccessErrorBox success={success} error={error} />
@@ -68,9 +73,9 @@ export const ProjectDetails = PageLayout(
           )}
         </main>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 type CDCInfoProps = {
   project: ProjectDataForProjectPage

@@ -5,7 +5,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { PageLayout, RoleBasedDashboard, ProjectList, DownloadIcon } from '@components'
+import { RoleBasedDashboard, ProjectList, DownloadIcon, PageTemplate } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
@@ -19,34 +19,34 @@ export type GarantiesFinancieresProps = {
 }
 
 /* Pure component */
-export const GarantiesFinancieres = PageLayout(
-  ({
-    request,
-    projects,
-    appelsOffre,
-    existingAppelsOffres,
-    existingPeriodes,
-    existingFamilles,
-  }: GarantiesFinancieresProps) => {
-    const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
-      (request.query as any) || {}
+export const GarantiesFinancieres = ({
+  request,
+  projects,
+  appelsOffre,
+  existingAppelsOffres,
+  existingPeriodes,
+  existingFamilles,
+}: GarantiesFinancieresProps) => {
+  const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
+    (request.query as any) || {}
 
-    const hasFilters = appelOffreId || periodeId || familleId
+  const hasFilters = appelOffreId || periodeId || familleId
 
-    const periodes = appelsOffre
-      .find((ao) => ao.id === appelOffreId)
-      ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
+  const periodes = appelsOffre
+    .find((ao) => ao.id === appelOffreId)
+    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
 
-    const familles = appelsOffre
-      .find((ao) => ao.id === appelOffreId)
-      ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-      .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
+  const familles = appelsOffre
+    .find((ao) => ao.id === appelOffreId)
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
-    const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
-      refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
-    }
+  const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
+    refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
+  }
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-garanties-financieres">
       <RoleBasedDashboard role={request.user.role} currentPage="list-garanties-financieres">
         <div className="panel">
           <div className="panel__header">
@@ -208,8 +208,8 @@ export const GarantiesFinancieres = PageLayout(
           )}
         </div>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(GarantiesFinancieres)

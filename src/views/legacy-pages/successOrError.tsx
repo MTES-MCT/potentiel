@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { LinkButton, RoleBasedDashboard } from '@components'
+import { LinkButton, PageTemplate, RoleBasedDashboard } from '@components'
 
 interface SuccessOrErrorProps {
   request: Request
@@ -39,8 +39,10 @@ export default function SuccessOrError({ request }: SuccessOrErrorProps) {
   )
 
   return (
-    <RoleBasedDashboard role={request.user.role} currentPage={undefined}>
-      {contents}
-    </RoleBasedDashboard>
+    <PageTemplate user={request.user}>
+      <RoleBasedDashboard role={request.user.role} currentPage={undefined}>
+        {contents}
+      </RoleBasedDashboard>
+    </PageTemplate>
   )
 }

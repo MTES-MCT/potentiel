@@ -2,7 +2,7 @@ import {
   Button,
   ErrorBox,
   ModificationRequestActionTitles,
-  PageLayout,
+  PageTemplate,
   ProjectInfo,
   RoleBasedDashboard,
   SecondaryButton,
@@ -27,18 +27,18 @@ type DemandeAbandonProps = {
   modificationRequest: DemandeAbandonPageDTO
 }
 
-export const DemandeAbandon = PageLayout(
-  ({ request, modificationRequest }: DemandeAbandonProps) => {
-    const { user } = request
-    const { error, success } = request.query as any
-    const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
-      modificationRequest
+export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonProps) => {
+  const { user } = request
+  const { error, success } = request.query as any
+  const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
+    modificationRequest
 
-    const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
-    const showFormulaireAdministrateur =
-      isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
+  const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
+  const showFormulaireAdministrateur =
+    isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
         <div className="panel">
           <div className="panel__header" style={{ position: 'relative' }}>
@@ -140,6 +140,6 @@ export const DemandeAbandon = PageLayout(
             )}
         </div>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
