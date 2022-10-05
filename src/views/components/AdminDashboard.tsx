@@ -33,6 +33,7 @@ interface AdminDashboardProps {
     | 'admin-statistiques'
     | 'admin-upload-legacy-modification-files'
     | 'import-enedis'
+    | 'mise-à-jour-date-mise-en-service'
     | undefined
 }
 
@@ -90,6 +91,15 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               route={ROUTES.IMPORT_PROJECTS}
               itemPage={'import-projects'}
               title="Importer des candidats"
+              role={role}
+              currentPage={currentPage}
+            />
+
+            <MenuItem
+              route={ROUTES.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU}
+              itemPage={'mise-à-jour-date-mise-en-service'}
+              title="Mise à jour dates mise en service"
+              visibleForRoles={['admin', 'dgec-validateur']}
               role={role}
               currentPage={currentPage}
             />

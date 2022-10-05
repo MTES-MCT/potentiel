@@ -60,6 +60,9 @@ class routes {
   static IMPORT_PROJECTS_ACTION = '/admin/importer-candidats.html'
   static IMPORT_PROJECTS = '/admin/importer-candidats.html'
 
+  static ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU =
+    '/admin/importer-fichier-gestionnaire-reseau.html'
+
   static ADMIN_STATISTIQUES = '/admin/statistiques.html'
   static ADEME_STATISTIQUES = '/ademe/statistiques.html'
 

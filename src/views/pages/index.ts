@@ -1,6 +1,7 @@
 export * from './changerFournisseurPage'
 export * from './changerProducteurPage'
 export * from './choisirCahierDesChargesPage'
+export * from './datesMiseEnServicePage'
 export * from './demandeAbandonPage'
 export * from './demanderAbandonPage'
 export * from './demanderDelaiPage'
