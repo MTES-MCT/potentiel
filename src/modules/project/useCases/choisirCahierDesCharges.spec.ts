@@ -23,6 +23,7 @@ import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
   IdentifiantGestionnaireRéseauObligatoireError,
+  IdentifiantGestionnaireRéseauExistantError,
 } from '../errors'
 import { AppelOffreRepo } from '@dataAccess'
 
@@ -63,6 +64,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById: async () => undefined,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -90,6 +92,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -144,6 +147,7 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
+          identifiantGestionnaireRéseauExistant: () => okAsync(false),
         })
 
         const res = await choisirCahierDesCharges({
@@ -179,6 +183,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -218,6 +223,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -258,6 +264,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -302,6 +309,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -313,6 +321,51 @@ describe('Commande choisirCahierDesCharges', () => {
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesInitialNonDisponibleError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Impossible de souscrire au CDC avec un identifiant gestionnaire réseau déjà existant pour un projet`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+          Et le cahier des charges du 30/07/2021 choisi pour le projet
+          Et l'AO avec les CDC modifiés disponibles suivant :
+            | paru le 30/07/2021
+            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
+          Et un autre projet ayant souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
+          Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
+          Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const projet = {
+        ...makeFakeProject(),
+        cahierDesCharges: { paruLe: '30/07/2021' },
+      } as Project
+
+      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo: fakeRepo(projet),
+        findAppelOffreById: async () =>
+          ({
+            id: 'appelOffreId',
+            periodes: [{ id: 'periodeId', type: 'notified' }],
+            familles: [{ id: 'familleId' }],
+            cahiersDesChargesModifiésDisponibles: [
+              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
+              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+            ] as ReadonlyArray<CahierDesChargesModifié>,
+          } as AppelOffre),
+        identifiantGestionnaireRéseauExistant: () => okAsync(true),
+      })
+
+      const res = await choisirCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+        identifiantGestionnaireRéseau: 'ID_GES_RES',
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(IdentifiantGestionnaireRéseauExistantError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
@@ -365,6 +418,7 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
+          identifiantGestionnaireRéseauExistant: () => okAsync(false),
         })
 
         const res = await choisirCahierDesCharges({
@@ -418,6 +472,7 @@ describe('Commande choisirCahierDesCharges', () => {
               { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
             ] as ReadonlyArray<CahierDesChargesModifié>,
           } as AppelOffre),
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({
@@ -485,6 +540,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
+        identifiantGestionnaireRéseauExistant: () => okAsync(false),
       })
 
       const res = await choisirCahierDesCharges({

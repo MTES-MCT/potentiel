@@ -11,7 +11,9 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
   PasDeChangementDeCDCPourCetAOError,
   CahierDesChargesInitialNonDisponibleError,
+  IdentifiantGestionnaireRéseauExistantError,
 } from '../errors'
+import { IdentifiantGestionnaireRéseauExistant } from '../queries'
 
 type ChoisirCahierDesCharges = (commande: {
   projetId: string
@@ -32,10 +34,17 @@ type MakeChoisirCahierDesCharges = (dépendances: {
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
   findAppelOffreById: AppelOffreRepo['findById']
+  identifiantGestionnaireRéseauExistant: IdentifiantGestionnaireRéseauExistant
 }) => ChoisirCahierDesCharges
 
 export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
-  ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
+  ({
+    shouldUserAccessProject,
+    publishToEventStore,
+    projectRepo,
+    findAppelOffreById,
+    identifiantGestionnaireRéseauExistant,
+  }) =>
   ({ projetId, utilisateur, cahierDesCharges, identifiantGestionnaireRéseau }) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
       .andThen((utilisateurALesDroits) => {
@@ -94,26 +103,32 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
         }
 
         if (cahierDesChargesChoisi.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
-          return publishToEventStore(
-            new NumeroGestionnaireSubmitted({
-              payload: {
-                projectId: projetId,
-                submittedBy: utilisateur.id,
-                numeroGestionnaire: identifiantGestionnaireRéseau,
-              },
-            })
-          ).andThen(() =>
-            publishToEventStore(
-              new CahierDesChargesChoisi({
-                payload: {
-                  projetId,
-                  choisiPar: utilisateur.id,
-                  type: 'modifié',
-                  paruLe: cahierDesCharges.paruLe,
-                  alternatif: cahierDesCharges.alternatif,
-                },
-              })
-            )
+          return identifiantGestionnaireRéseauExistant(identifiantGestionnaireRéseau).andThen(
+            (existe) => {
+              return existe
+                ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
+                : publishToEventStore(
+                    new NumeroGestionnaireSubmitted({
+                      payload: {
+                        projectId: projetId,
+                        submittedBy: utilisateur.id,
+                        numeroGestionnaire: identifiantGestionnaireRéseau,
+                      },
+                    })
+                  ).andThen(() =>
+                    publishToEventStore(
+                      new CahierDesChargesChoisi({
+                        payload: {
+                          projetId,
+                          choisiPar: utilisateur.id,
+                          type: 'modifié',
+                          paruLe: cahierDesCharges.paruLe,
+                          alternatif: cahierDesCharges.alternatif,
+                        },
+                      })
+                    )
+                  )
+            }
           )
         }
 
