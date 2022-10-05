@@ -9,7 +9,7 @@ type AdemeStatistiquesProps = {
 
 export const AdemeStatistiques = ({ iframeUrl, request }: AdemeStatistiquesProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="ademe-statistiques">
       <main role="main" className="panel">
         <div className="panel__header">
           <h3>Tableau de bord</h3>
