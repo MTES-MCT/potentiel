@@ -11,7 +11,6 @@ type RoleBasedDashboardProps = {
 export const RoleBasedDashboard = ({ role, children, currentPage }: RoleBasedDashboardProps) => {
   if (['admin', 'dgec-validateur', 'dreal'].includes(role)) {
     return (
-      // @ts-ignore
       <AdminDashboard currentPage={currentPage} role={role}>
         {children}
       </AdminDashboard>

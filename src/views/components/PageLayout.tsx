@@ -35,11 +35,11 @@ const getUserNavigation = ({
     case 'porteur-projet':
       return MenuPorteurProjet(currentPage)
     case 'acheteur-obligé':
-      return MenuAcheteurObligé(undefined)
+      return MenuAcheteurObligé(currentPage)
     case 'ademe':
-      return MenuAdeme(undefined)
+      return MenuAdeme(currentPage)
     case 'dreal':
-      return MenuDreal(undefined)
+      return MenuDreal(currentPage)
   }
 
   return null
@@ -163,7 +163,7 @@ export const PageTemplate = ({
           {children}
         </main>
       ) : (
-        { children }
+        children
       )}
 
       <Footer />
