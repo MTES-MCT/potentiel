@@ -1,12 +1,12 @@
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
-import { ensureRole } from '@config'
+import { ensureRole, eventStore } from '@config'
 import { v1Router } from '../../v1Router'
-import { DatesMiseEnServicePage } from '@views'
 import { upload } from '../../upload'
 import { parseCsv } from 'src/helpers/parseCsv'
 import { addQueryParams } from 'src/helpers/addQueryParams'
 import { logger } from '@core/utils'
+import { DatesMiseEnServiceImportées } from '@modules/enedis'
 
 if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
   v1Router.post(
@@ -31,7 +31,15 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
         logger.error(linesResult.error)
         return response.redirect(
           addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
-            error: 'Le traitement du fichier a échoué',
+            error: 'Le traitement du fichier a échoué.',
+          })
+        )
+      }
+
+      if (!linesResult.value.length) {
+        return response.redirect(
+          addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
+            error: `L'import a échoué car le fichier est vide.`,
           })
         )
       }
@@ -43,12 +51,34 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
       if (numeroGestionnaireIds.length !== [...new Set(numeroGestionnaireIds)].length) {
         return response.redirect(
           addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
-            error: `L'import a échoué car le fichier comporte des numéros de gestionnaire en doublons`,
+            error: `L'import a échoué car le fichier comporte des numéros de gestionnaire en doublons.`,
           })
         )
       }
 
-      return response.send(DatesMiseEnServicePage({ request }))
+      const datesParNumeroDeGestionnaire = linesResult.value.map((line) => ({
+        numéroGestionnaire: line.numeroGestionnaire,
+        dateDeMiseEnService: line.dateDeMiseEnService,
+      }))
+
+      await eventStore.publish(
+        new DatesMiseEnServiceImportées({
+          payload: {
+            utilisateurId: request.user.id,
+            datesParNumeroDeGestionnaire,
+          },
+        })
+      )
+
+      return response.redirect(
+        routes.SUCCESS_OR_ERROR_PAGE({
+          success: `Le fichier du gestionnaire de réseau a bien été importé.
+          Vous pouvez suivre l'avancement du traitement dans le suivi de vos tâches de fond.`,
+          //@todo : mettre le lien vers la nouvelle page "tâches"
+          redirectUrl: routes.ADMIN_DASHBOARD,
+          redirectTitle: 'Retour',
+        })
+      )
     })
   )
 }
