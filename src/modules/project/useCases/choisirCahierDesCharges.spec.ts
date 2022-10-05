@@ -64,7 +64,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById: async () => undefined,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -92,7 +92,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -147,7 +147,7 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
-          identifiantGestionnaireRéseauExistant: () => okAsync(false),
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
         })
 
         const res = await choisirCahierDesCharges({
@@ -183,7 +183,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -223,7 +223,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -264,7 +264,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -309,7 +309,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -355,7 +355,7 @@ describe('Commande choisirCahierDesCharges', () => {
               { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
             ] as ReadonlyArray<CahierDesChargesModifié>,
           } as AppelOffre),
-        identifiantGestionnaireRéseauExistant: () => okAsync(true),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
       })
 
       const res = await choisirCahierDesCharges({
@@ -418,7 +418,7 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
-          identifiantGestionnaireRéseauExistant: () => okAsync(false),
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
         })
 
         const res = await choisirCahierDesCharges({
@@ -474,7 +474,7 @@ describe('Commande choisirCahierDesCharges', () => {
               { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
             ] as ReadonlyArray<CahierDesChargesModifié>,
           } as AppelOffre),
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
@@ -499,6 +499,69 @@ describe('Commande choisirCahierDesCharges', () => {
       )
       expect(publishToEventStore).toHaveBeenNthCalledWith(
         2,
+        expect.objectContaining({
+          type: CahierDesChargesChoisi.type,
+          payload: expect.objectContaining({
+            projetId: projectId,
+            choisiPar: user.id,
+            paruLe: '30/08/2022',
+            type: 'modifié',
+          }),
+        })
+      )
+    })
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+          Et le cahier des charges du 30/07/2021 choisi pour le projet
+          Et l'identifiant gestionnaire réseau 'ID_GES_RES' déjà renseigné dans le projet
+          Et l'AO avec les CDC modifiés disponibles suivant :
+            | paru le 30/07/2021
+            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
+          Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
+          Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const projet = {
+        ...makeFakeProject(),
+        cahierDesCharges: { paruLe: '30/07/2021' },
+      } as Project
+
+      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo: fakeRepo(projet),
+        findAppelOffreById: async () =>
+          ({
+            id: 'appelOffreId',
+            periodes: [{ id: 'periodeId', type: 'notified' }],
+            familles: [{ id: 'familleId' }],
+            cahiersDesChargesModifiésDisponibles: [
+              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
+              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
+            ] as ReadonlyArray<CahierDesChargesModifié>,
+          } as AppelOffre),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projectId]),
+      })
+
+      const res = await choisirCahierDesCharges({
+        projetId: projectId,
+        utilisateur: user,
+        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+        identifiantGestionnaireRéseau: 'ID_GES_RES',
+      })
+
+      expect(res.isOk()).toBe(true)
+
+      expect(publishToEventStore).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: NumeroGestionnaireSubmitted.type,
+          payload: expect.objectContaining({
+            projectId,
+            numeroGestionnaire: 'ID_GES_RES',
+            submittedBy: user.id,
+          }),
+        })
+      )
+      expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
           type: CahierDesChargesChoisi.type,
           payload: expect.objectContaining({
@@ -542,7 +605,7 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        identifiantGestionnaireRéseauExistant: () => okAsync(false),
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({

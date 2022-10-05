@@ -1,6 +1,6 @@
 import { ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 
-export type IdentifiantGestionnaireRéseauExistant = (
+export type TrouverProjetsParIdentifiantGestionnaireRéseau = (
   identifiantGestionnaireRéseau: string
-) => ResultAsync<boolean, InfraNotAvailableError>
+) => ResultAsync<Array<string>, InfraNotAvailableError>

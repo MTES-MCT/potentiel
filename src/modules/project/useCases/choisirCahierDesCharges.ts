@@ -13,7 +13,7 @@ import {
   CahierDesChargesInitialNonDisponibleError,
   IdentifiantGestionnaireRéseauExistantError,
 } from '../errors'
-import { IdentifiantGestionnaireRéseauExistant } from '../queries'
+import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries'
 
 type Commande = {
   projetId: string
@@ -41,7 +41,7 @@ type MakeChoisirCahierDesCharges = (dépendances: {
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
   findAppelOffreById: AppelOffreRepo['findById']
-  identifiantGestionnaireRéseauExistant: IdentifiantGestionnaireRéseauExistant
+  trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau
 }) => ChoisirCahierDesCharges
 
 export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
@@ -49,7 +49,7 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
   publishToEventStore,
   projectRepo,
   findAppelOffreById,
-  identifiantGestionnaireRéseauExistant,
+  trouverProjetsParIdentifiantGestionnaireRéseau,
 }) => {
   const vérifierAccèsProjet = (commande: Commande) => {
     const { projetId, utilisateur } = commande
@@ -153,13 +153,15 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
       cahierDesChargesChoisi?.numéroGestionnaireRequis &&
       commande.identifiantGestionnaireRéseau
     ) {
-      return identifiantGestionnaireRéseauExistant(commande.identifiantGestionnaireRéseau).andThen(
-        (existe) => {
-          return existe
-            ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
-            : okAsync({ commande, projet, appelOffre })
-        }
-      )
+      return trouverProjetsParIdentifiantGestionnaireRéseau(
+        commande.identifiantGestionnaireRéseau
+      ).andThen((projets) => {
+        const existePourUnAutreProjet = projets.filter((p) => p !== commande.projetId).length > 0
+
+        return existePourUnAutreProjet
+          ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
+          : okAsync({ commande, projet, appelOffre })
+      })
     }
 
     return okAsync({ commande, projet, appelOffre })
@@ -190,26 +192,46 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
     )
 
     if (cahierDesChargesChoisi?.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
-      return publishToEventStore(
-        new NumeroGestionnaireSubmitted({
-          payload: {
-            projectId: projetId,
-            submittedBy: utilisateur.id,
-            numeroGestionnaire: identifiantGestionnaireRéseau,
-          },
-        })
-      ).andThen(() =>
-        publishToEventStore(
-          new CahierDesChargesChoisi({
-            payload: {
-              projetId,
-              choisiPar: utilisateur.id,
-              type: 'modifié',
-              paruLe: cahierDesCharges.paruLe,
-              alternatif: cahierDesCharges.alternatif,
-            },
-          })
-        )
+      return trouverProjetsParIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau).andThen(
+        (projets) => {
+          const déjàRenseigné = projets.includes(projetId)
+
+          if (déjàRenseigné) {
+            return publishToEventStore(
+              new CahierDesChargesChoisi({
+                payload: {
+                  projetId,
+                  choisiPar: utilisateur.id,
+                  type: 'modifié',
+                  paruLe: cahierDesCharges.paruLe,
+                  alternatif: cahierDesCharges.alternatif,
+                },
+              })
+            )
+          }
+
+          return publishToEventStore(
+            new NumeroGestionnaireSubmitted({
+              payload: {
+                projectId: projetId,
+                submittedBy: utilisateur.id,
+                numeroGestionnaire: identifiantGestionnaireRéseau,
+              },
+            })
+          ).andThen(() =>
+            publishToEventStore(
+              new CahierDesChargesChoisi({
+                payload: {
+                  projetId,
+                  choisiPar: utilisateur.id,
+                  type: 'modifié',
+                  paruLe: cahierDesCharges.paruLe,
+                  alternatif: cahierDesCharges.alternatif,
+                },
+              })
+            )
+          )
+        }
       )
     }
 
