@@ -72,8 +72,7 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
 
       return response.redirect(
         routes.SUCCESS_OR_ERROR_PAGE({
-          success: `Le fichier du gestionnaire de réseau a bien été importé.
-          Vous pouvez suivre l'avancement du traitement dans le suivi de vos tâches de fond.`,
+          success: `Le fichier du gestionnaire de réseau a bien été importé.\nVous pouvez suivre l'avancement du traitement dans le suivi de vos tâches de fond.`,
           //@todo : mettre le lien vers la nouvelle page "tâches"
           redirectUrl: routes.ADMIN_DASHBOARD,
           redirectTitle: 'Retour',
