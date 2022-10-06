@@ -47,6 +47,11 @@ module.exports = {
           hover: '#d2d2d2',
           active: '#c1c1c1',
         },
+        'grey-1000': {
+          base: '#ffffff',
+          hover: '#f6f6f6',
+          active: '#ededed',
+        },
         'brown-caramel-950': {
           base: '#f7ebe5',
           hover: '#eccbb9',
