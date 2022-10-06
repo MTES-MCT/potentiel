@@ -84,6 +84,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   CahierDesChargesChoisi,
+  DateDeMiseEnServiceAjoutée,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -230,6 +231,7 @@ export interface Project extends EventStoreAggregate {
   readonly periodeId: string
   readonly familleId?: string
   readonly completionDueOn: number
+  readonly dateDeMiseEnService: string
 }
 
 export interface ProjectDataProps {
@@ -282,6 +284,7 @@ export interface ProjectProps {
   appelOffreId: string
   periodeId: string
   familleId: string
+  dateDeMiseEnService: string
 }
 
 const projectValidator = makePropertyValidator({
@@ -324,6 +327,7 @@ export const makeProject = (args: {
     appelOffreId: '',
     periodeId: '',
     familleId: '',
+    dateDeMiseEnService: '',
   }
 
   // Initialize aggregate by processing each event in history
@@ -1107,6 +1111,9 @@ export const makeProject = (args: {
     get abandonedOn() {
       return props.abandonedOn
     },
+    get dateDeMiseEnService() {
+      return props.dateDeMiseEnService
+    },
   })
 
   // private methods
@@ -1307,6 +1314,9 @@ export const makeProject = (args: {
             alternatif: event.payload.alternatif,
           }),
         }
+        break
+      case DateDeMiseEnServiceAjoutée.type:
+        props.dateDeMiseEnService = event.payload.dateDeMiseEnService
         break
       default:
         // ignore other event types
