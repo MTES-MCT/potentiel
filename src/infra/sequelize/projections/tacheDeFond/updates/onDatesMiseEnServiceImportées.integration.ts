@@ -2,12 +2,8 @@ import { models } from '../../../models'
 import { DatesMiseEnServiceImportées } from '@modules/project'
 import { onDatesMiseEnServiceImportées } from './onDatesMiseEnServiceImportées'
 import { UniqueEntityID } from '@core/domain'
-// import { resetDatabase } from '@infra/sequelize/helpers'
 
 describe('handler onDatesMiseEnServiceImportées', () => {
-  // beforeEach(async () => {
-  //   await resetDatabase()
-  // })
   const { TacheDeFond } = models
 
   describe(`Créer une nouvelle tâche de fond`, () => {
@@ -25,21 +21,17 @@ describe('handler onDatesMiseEnServiceImportées', () => {
           ],
         },
       })
-      console.log('pre')
-      onDatesMiseEnServiceImportées(évènement)
-      console.log('post')
+      await onDatesMiseEnServiceImportées(models)(évènement)
+
       const tacheDeFond = await TacheDeFond.findOne({
         where: { id: évènement.id },
       })
 
-      console.log(tacheDeFond)
-
-      expect(tacheDeFond).not.toBe(null)
-      expect(tacheDeFond).toMatchObject({
+      expect(tacheDeFond.get()).toMatchObject({
         id: évènement.id,
         typeTache: 'mise-à-jour-date-mise-en-service',
         utilisateurId,
-        status: 'en cours',
+        statut: 'en cours',
       })
     })
   })
