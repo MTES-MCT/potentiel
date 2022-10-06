@@ -217,7 +217,7 @@ export const ModificationRequestList = ({
                     id="showOnlyDGEC"
                     name="showOnlyDGEC"
                     type="checkbox"
-                    {...(isShowOnlyDGECChecked && { checked: true })}
+                    checked={isShowOnlyDGECChecked}
                     onChange={handleShowOnlyDGEC}
                   />
                   <label htmlFor="showOnlyDGEC">
