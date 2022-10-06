@@ -108,7 +108,7 @@ v1Router.post(
             return response.redirect(
               routes.SUCCESS_OR_ERROR_PAGE({
                 success:
-                  "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
+                  "Votre demande de changement de modalités d'instruction a bien été enregistrée.",
                 redirectUrl,
                 redirectTitle: getRedirectTitle(type),
               })
