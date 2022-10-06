@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
           </div>
 
           {menuItems && (
-            <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 ">
+            <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
               <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
                 <MainMenu>{menuItems}</MainMenu>
               </section>
