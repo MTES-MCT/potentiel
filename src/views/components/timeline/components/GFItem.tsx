@@ -61,6 +61,7 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
   const isDreal = role === 'dreal'
+  const isAdmin = role === 'admin'
   return (
     <>
       {displayWarning ? <WarningIcon /> : <CurrentIcon />}
@@ -88,14 +89,14 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
               garantieFinanciereEnMois={project.garantieFinanciereEnMois}
             />
           )}
-          {isDreal && (
+          {(isDreal || isAdmin) && (
             <UploadForm
               projectId={project.id}
               role={role}
               garantieFinanciereEnMois={project.garantieFinanciereEnMois}
             />
           )}
-          {isDreal && status === 'past-due' && (
+          {(isDreal || isAdmin) && status === 'past-due' && (
             <p className="m-0">
               <DownloadLink
                 fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
@@ -264,7 +265,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 type NotUploadedProps = ComponentProps
 
 const NotUploaded = ({ role, project }: NotUploadedProps) => {
-  const hasRightsToUpload = role === 'porteur-projet' || role === 'dreal'
+  const hasRightsToUpload = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
   return (
     <>
       <CurrentIcon />
@@ -324,7 +325,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
 
 type UploadFormProps = {
   projectId: string
-  role: 'porteur-projet' | 'dreal'
+  role: 'porteur-projet' | 'dreal' | 'admin'
   garantieFinanciereEnMois?: number
 }
 const UploadForm = ({ projectId, role, garantieFinanciereEnMois }: UploadFormProps) => {
