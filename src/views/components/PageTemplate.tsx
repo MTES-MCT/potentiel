@@ -35,18 +35,21 @@ const getUserNavigation = ({
 }
 const MenuPorteurProjet = (currentPage: CurrentPage) => [
   <Header.MenuItem
+    key="main-menu-1"
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
     Mes projets
   </Header.MenuItem>,
   <Header.MenuItem
+    key="main-menu-2"
     href={routes.USER_LIST_REQUESTS}
     {...(currentPage === 'list-requests' && { isCurrent: true })}
   >
     Mes demandes
   </Header.MenuItem>,
   <Header.MenuItem
+    key="main-menu-3"
     href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
     {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
   >
@@ -56,6 +59,7 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => [
 
 const MenuAcheteurObligé = (currentPage: CurrentPage) => [
   <Header.MenuItem
+    key="main-menu-1"
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
@@ -65,12 +69,14 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => [
 
 const MenuAdeme = (currentPage: CurrentPage) => [
   <Header.MenuItem
+    key="main-menu-1"
     href={routes.USER_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
     Projets
   </Header.MenuItem>,
   <Header.MenuItem
+    key="main-menu-2"
     href={routes.ADEME_STATISTIQUES}
     {...(currentPage === 'ademe-statistiques' && { isCurrent: true })}
   >
@@ -80,18 +86,21 @@ const MenuAdeme = (currentPage: CurrentPage) => [
 
 const MenuDreal = (currentPage: CurrentPage) => [
   <Header.MenuItem
+    key="main-menu-1"
     href={routes.ADMIN_LIST_PROJECTS}
     {...(currentPage === 'list-projects' && { isCurrent: true })}
   >
     Projets
   </Header.MenuItem>,
   <Header.MenuItem
+    key="main-menu-2"
     href={routes.ADMIN_LIST_REQUESTS}
     {...(currentPage === 'list-requests' && { isCurrent: true })}
   >
     Demandes
   </Header.MenuItem>,
   <Header.MenuItem
+    key="main-menu-3"
     href={routes.ADMIN_GARANTIES_FINANCIERES}
     {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
   >
