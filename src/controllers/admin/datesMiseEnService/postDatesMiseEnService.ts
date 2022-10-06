@@ -6,7 +6,7 @@ import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
 import { addQueryParams } from '../../../helpers/addQueryParams'
 import { logger } from '@core/utils'
-import { DatesMiseEnServiceImportées } from '@modules/enedis'
+import { DatesMiseEnServiceImportées } from '@modules/project'
 
 if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
   v1Router.post(
