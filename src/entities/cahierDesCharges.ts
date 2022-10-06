@@ -14,6 +14,11 @@ export type CahierDesChargesModifié = {
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
 }
 
+export const isCahierDesChargesModifié = (
+  cahierDesCharges: CahierDesCharges | CahierDesChargesModifié
+): cahierDesCharges is CahierDesChargesModifié =>
+  Object.hasOwn(cahierDesCharges, 'type') && cahierDesCharges['type'] === 'modifié'
+
 export const cahiersDesChargesRéférences = [
   'initial',
   '30/07/2021',

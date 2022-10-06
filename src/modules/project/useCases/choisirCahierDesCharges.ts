@@ -1,6 +1,11 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, CahierDesChargesRéférenceParsed, AppelOffre } from '@entities'
+import {
+  User,
+  CahierDesChargesRéférenceParsed,
+  AppelOffre,
+  CahierDesChargesModifié,
+} from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { CahierDesChargesChoisi } from '../events'
 import { Project } from '../Project'
@@ -55,45 +60,68 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
     )
   }
 
-  const chargerProjetEtAO = (commande: Commande) =>
+  const chargerProjet = (commande: Commande) =>
     projectRepo
       .load(new UniqueEntityID(commande.projetId))
-      .andThen((projet) =>
-        wrapInfra(findAppelOffreById(projet.appelOffreId)).andThen((appelOffre) =>
-          appelOffre
-            ? okAsync({ commande, appelOffre, projet })
-            : errAsync(new EntityNotFoundError())
-        )
-      )
+      .andThen((projet) => okAsync({ commande, projet }))
 
-  const vérifierSiPasDéjàSouscrit = ({
-    commande,
-    appelOffre,
-    projet,
-  }: {
+  const chargerAppelOffre = (arg: { commande: Commande; projet: Project }) =>
+    wrapInfra(findAppelOffreById(arg.projet.appelOffreId)).andThen((appelOffre) =>
+      appelOffre ? okAsync({ ...arg, appelOffre }) : errAsync(new EntityNotFoundError())
+    )
+
+  const chargerCahierDesChargesChoisi = (arg: {
     commande: Commande
     projet: Project
     appelOffre: AppelOffre
   }) => {
+    const {
+      commande: { cahierDesCharges },
+      appelOffre,
+    } = arg
+
+    if (cahierDesCharges.type === 'initial') {
+      return okAsync({ ...arg, cahierDesChargesChoisi: { type: 'initial' } })
+    }
+
+    if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+      return errAsync(new PasDeChangementDeCDCPourCetAOError())
+    }
+
+    const cahierDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
+    )
+
+    return cahierDesChargesModifié
+      ? okAsync({ ...arg, cahierDesChargesChoisi: cahierDesChargesModifié })
+      : errAsync(new CahierDesChargesNonDisponibleError())
+  }
+
+  const vérifierSiPasDéjàSouscrit = (arg: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
+  }) => {
+    const { commande, projet } = arg
     const { cahierDesCharges } = commande
 
-    return cahierDesCharges.type === 'modifié' &&
+    const estDéjàSouscrit =
+      cahierDesCharges.type === 'modifié' &&
       projet.cahierDesCharges.type === 'modifié' &&
       projet.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
       projet.cahierDesCharges.alternatif === cahierDesCharges.alternatif
-      ? errAsync(new NouveauCahierDesChargesDéjàSouscrit())
-      : okAsync({ commande, projet, appelOffre })
+
+    return estDéjàSouscrit ? errAsync(new NouveauCahierDesChargesDéjàSouscrit()) : okAsync(arg)
   }
 
-  const vérifierSiPeutÊtreChoisi = ({
-    commande,
-    appelOffre,
-    projet,
-  }: {
+  const vérifierSiLInitialPeutÊtreChoisi = (arg: {
     commande: Commande
     projet: Project
     appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
   }) => {
+    const { commande, appelOffre } = arg
     const { cahierDesCharges } = commande
 
     if (cahierDesCharges.type === 'initial') {
@@ -101,48 +129,34 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
         return errAsync(new CahierDesChargesInitialNonDisponibleError())
       }
 
-      return okAsync({ commande, projet, appelOffre })
+      return okAsync(arg)
     }
 
-    if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
-      return errAsync(new PasDeChangementDeCDCPourCetAOError())
-    }
-
-    const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
-    )
-
-    if (!cahierDesChargesChoisi) {
-      return errAsync(new CahierDesChargesNonDisponibleError())
-    }
-
-    return okAsync({ commande, projet, appelOffre })
+    return okAsync(arg)
   }
 
-  const vérifierIdentifiantGestionnaireRéseau = ({
-    commande,
-    appelOffre,
-    projet,
-  }: {
+  const vérifierIdentifiantGestionnaireRéseau = (arg: {
     commande: Commande
     projet: Project
     appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
   }) => {
+    const { commande, projet, cahierDesChargesChoisi } = arg
     const { cahierDesCharges } = commande
 
     if (cahierDesCharges.type === 'initial') {
-      return okAsync({ commande, projet, appelOffre })
+      return okAsync(arg)
     }
 
-    const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
-    )
-
-    if (cahierDesChargesChoisi?.numéroGestionnaireRequis && !projet.identifiantGestionnaireRéseau) {
+    if (
+      cahierDesChargesChoisi.type === 'modifié' &&
+      cahierDesChargesChoisi.numéroGestionnaireRequis &&
+      !projet.identifiantGestionnaireRéseau
+    ) {
       return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
     }
 
-    return okAsync({ commande, projet, appelOffre })
+    return okAsync(arg)
   }
 
   const enregistrerLeChoix = ({
@@ -172,9 +186,11 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
 
   return (commande) =>
     vérifierAccèsProjet(commande)
-      .andThen(chargerProjetEtAO)
+      .andThen(chargerProjet)
+      .andThen(chargerAppelOffre)
+      .andThen(chargerCahierDesChargesChoisi)
       .andThen(vérifierSiPasDéjàSouscrit)
-      .andThen(vérifierSiPeutÊtreChoisi)
+      .andThen(vérifierSiLInitialPeutÊtreChoisi)
       .andThen(vérifierIdentifiantGestionnaireRéseau)
       .andThen(enregistrerLeChoix)
 }
