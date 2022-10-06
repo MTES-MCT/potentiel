@@ -85,15 +85,17 @@ v1Router.post(
         user,
       } = request
 
-      return (
-        identifiantGestionnaireRéseau
-          ? renseignerIdentifiantGestionnaireRéseau({
-              projetId: projectId,
-              utilisateur: user,
-              identifiantGestionnaireRéseau,
-            })
-          : okAsync(null)
-      )
+      return (() => {
+        if (!identifiantGestionnaireRéseau) {
+          return okAsync(null)
+        }
+
+        return renseignerIdentifiantGestionnaireRéseau({
+          projetId: projectId,
+          utilisateur: user,
+          identifiantGestionnaireRéseau,
+        })
+      })()
         .andThen(() =>
           choisirCahierDesCharges({
             projetId: projectId,
