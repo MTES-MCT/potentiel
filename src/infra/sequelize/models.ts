@@ -13,7 +13,7 @@ import { MakeModificationRequestModel } from './projections/modificationRequest/
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
 import { MakeCredentialsModel } from './projections/user/credentials.model'
-import { MakeUserProjectClaimsModel } from './projections'
+import { MakeTacheDeFondModel, MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
@@ -36,6 +36,7 @@ export const models = {
   UserDreal: MakeUserDrealModel(sequelizeInstance),
   Credentials: MakeCredentialsModel(sequelizeInstance),
   UserProjectClaims: MakeUserProjectClaimsModel(sequelizeInstance),
+  TacheDeFond: MakeTacheDeFondModel(sequelizeInstance),
 }
 
 // Link projectors with the eventBus (called by the application config)
