@@ -198,12 +198,14 @@ type MenuItemProps = {
   children: React.ReactNode
 }
 const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
-  <li className="py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ">
+  <li
+    className={`py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
+      isCurrent &&
+      ' font-medium border-l-[3px] border-l-blue-france-sun-base lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
+    }`}
+  >
     <a
-      className={`no-underline pl-4 lg:pl-0 lg:pb-3${
-        isCurrent &&
-        ' font-medium border-0 border-l-4 border-solid border-blue-france-sun-base lg:border-l-0 lg:border-b-4'
-      }`}
+      className={`no-underline pl-4 lg:pl-0 lg:pb-3`}
       href={href}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
