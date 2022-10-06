@@ -10,12 +10,7 @@ import {
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { makeChoisirCahierDesCharges } from './choisirCahierDesCharges'
-import {
-  PasDeChangementDeCDCPourCetAOError,
-  CahierDesChargesChoisi,
-  Project,
-  NumeroGestionnaireSubmitted,
-} from '..'
+import { PasDeChangementDeCDCPourCetAOError, CahierDesChargesChoisi, Project } from '..'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import {
@@ -23,20 +18,22 @@ import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
   IdentifiantGestionnaireRéseauObligatoireError,
-  IdentifiantGestionnaireRéseauExistantError,
 } from '../errors'
 import { AppelOffreRepo } from '@dataAccess'
 
-describe('Commande choisirCahierDesCharges', () => {
+describe('Choisir un cahier des charges', () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-  const projectId = new UniqueEntityID().toString()
+  const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const projectRepo = fakeRepo({
+  const fakeProject = {
     ...makeFakeProject(),
+    id: projetId,
     cahierDesCharges: {
       paruLe: 'initial',
     },
-  } as Project)
+    identifiantGestionnaireRéseau: 'ID-GES-RES',
+  } as Project
+  const projectRepo = fakeRepo(fakeProject)
 
   const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
     ({
@@ -64,11 +61,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById: async () => undefined,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -92,11 +88,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -147,11 +142,10 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
-          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
         })
 
         const res = await choisirCahierDesCharges({
-          projetId: projectId,
+          projetId: projetId,
           utilisateur: user,
           cahierDesCharges: cdcChoisi,
         })
@@ -183,11 +177,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -223,11 +216,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -241,11 +233,12 @@ describe('Commande choisirCahierDesCharges', () => {
     })
   })
 
-  describe(`Impossible de souscrire à un CDC sans identifiant gestionnaire réseau si le CDC en requiert un`, () => {
+  describe(`Impossible de souscrire si le projet n'a pas d'identifiant gestionnaire réseau et que le CDC en requiert un`, () => {
     it(`Etant donné un utilisateur ayant les droits sur un projet
         Et l'AO avec un CDC modifié paru le 30/08/2022 qui requiert un identifiant gestionnaire réseau
-        Lorsqu'il souscrit au CDC alternatif paru le 30/08/2022 sans identifiant gestionnaire réseau
-        Alors l'utilisateur devrait être alerté que l'identifiant gestionnaire réseau est obligatoire pour ce CDC '`, async () => {
+        Et le projet n'ayant pas d'identifiant du gestionnaire de réseau de renseigné
+        Lorsqu'il souscrit au CDC alternatif paru le 30/08/2022
+        Alors l'utilisateur devrait être alerté que l'identifiant gestionnaire réseau est obligatoire pour choisier ce CDC '`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
 
       const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
@@ -262,13 +255,12 @@ describe('Commande choisirCahierDesCharges', () => {
       const choisirCahierDesCharges = makeChoisirCahierDesCharges({
         publishToEventStore,
         shouldUserAccessProject,
-        projectRepo,
+        projectRepo: fakeRepo({ ...fakeProject, identifiantGestionnaireRéseau: '' }),
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -309,11 +301,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'initial',
@@ -321,51 +312,6 @@ describe('Commande choisirCahierDesCharges', () => {
       })
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(CahierDesChargesInitialNonDisponibleError)
-      expect(publishToEventStore).not.toHaveBeenCalled()
-    })
-  })
-
-  describe(`Impossible de souscrire au CDC avec un identifiant gestionnaire réseau déjà existant pour un projet`, () => {
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-          Et le cahier des charges du 30/07/2021 choisi pour le projet
-          Et l'AO avec les CDC modifiés disponibles suivant :
-            | paru le 30/07/2021
-            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
-          Et un autre projet ayant souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
-          Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
-          Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
-
-      const projet = {
-        ...makeFakeProject(),
-        cahierDesCharges: { paruLe: '30/07/2021' },
-      } as Project
-
-      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo: fakeRepo(projet),
-        findAppelOffreById: async () =>
-          ({
-            id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified' }],
-            familles: [{ id: 'familleId' }],
-            cahiersDesChargesModifiésDisponibles: [
-              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
-              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-            ] as ReadonlyArray<CahierDesChargesModifié>,
-          } as AppelOffre),
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
-      })
-
-      const res = await choisirCahierDesCharges({
-        projetId: projectId,
-        utilisateur: user,
-        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-      })
-
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(IdentifiantGestionnaireRéseauExistantError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
@@ -418,11 +364,10 @@ describe('Commande choisirCahierDesCharges', () => {
             cahierDesCharges: cdcActuel,
           } as Project),
           findAppelOffreById,
-          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
         })
 
         const res = await choisirCahierDesCharges({
-          projetId: projectId,
+          projetId: projetId,
           utilisateur: user,
           cahierDesCharges: cdcChoisi,
         })
@@ -435,7 +380,7 @@ describe('Commande choisirCahierDesCharges', () => {
           expect.objectContaining({
             type: CahierDesChargesChoisi.type,
             payload: expect.objectContaining({
-              projetId: projectId,
+              projetId: projetId,
               choisiPar: user.id,
               ...cdcAttendu,
             }),
@@ -445,140 +390,10 @@ describe('Commande choisirCahierDesCharges', () => {
     }
   })
 
-  describe(`CDC avec identifiant gestionnaire réseau obligatoire`, () => {
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-          Et le cahier des charges du 30/07/2021 choisi pour le projet
-          Et l'AO avec les CDC modifiés disponibles suivant :
-            | paru le 30/07/2021
-            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
-          Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
-          Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
-
-      const projet = {
-        ...makeFakeProject(),
-        cahierDesCharges: { paruLe: '30/07/2021' },
-      } as Project
-
-      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo: fakeRepo(projet),
-        findAppelOffreById: async () =>
-          ({
-            id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified' }],
-            familles: [{ id: 'familleId' }],
-            cahiersDesChargesModifiésDisponibles: [
-              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
-              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-            ] as ReadonlyArray<CahierDesChargesModifié>,
-          } as AppelOffre),
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-      })
-
-      const res = await choisirCahierDesCharges({
-        projetId: projectId,
-        utilisateur: user,
-        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(publishToEventStore).toHaveBeenNthCalledWith(
-        1,
-        expect.objectContaining({
-          type: NumeroGestionnaireSubmitted.type,
-          payload: expect.objectContaining({
-            projectId,
-            numeroGestionnaire: 'ID_GES_RES',
-            submittedBy: user.id,
-          }),
-        })
-      )
-      expect(publishToEventStore).toHaveBeenNthCalledWith(
-        2,
-        expect.objectContaining({
-          type: CahierDesChargesChoisi.type,
-          payload: expect.objectContaining({
-            projetId: projectId,
-            choisiPar: user.id,
-            paruLe: '30/08/2022',
-            type: 'modifié',
-          }),
-        })
-      )
-    })
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-          Et le cahier des charges du 30/07/2021 choisi pour le projet
-          Et l'identifiant gestionnaire réseau 'ID_GES_RES' déjà renseigné dans le projet
-          Et l'AO avec les CDC modifiés disponibles suivant :
-            | paru le 30/07/2021
-            | paru le 30/08/2022 requiérant l'identifiant gestionnaire réseau
-          Lorsqu'il souscrit au CDC paru le 30/08/2022 avec l'identifiant gestionnaire réseau 'ID_GES_RES'
-          Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES'`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
-
-      const projet = {
-        ...makeFakeProject(),
-        cahierDesCharges: { paruLe: '30/07/2021' },
-      } as Project
-
-      const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo: fakeRepo(projet),
-        findAppelOffreById: async () =>
-          ({
-            id: 'appelOffreId',
-            periodes: [{ id: 'periodeId', type: 'notified' }],
-            familles: [{ id: 'familleId' }],
-            cahiersDesChargesModifiésDisponibles: [
-              { type: 'modifié', paruLe: '30/07/2021', url: 'url' },
-              { type: 'modifié', paruLe: '30/08/2022', url: 'url', numéroGestionnaireRequis: true },
-            ] as ReadonlyArray<CahierDesChargesModifié>,
-          } as AppelOffre),
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projectId]),
-      })
-
-      const res = await choisirCahierDesCharges({
-        projetId: projectId,
-        utilisateur: user,
-        cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(publishToEventStore).not.toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: NumeroGestionnaireSubmitted.type,
-          payload: expect.objectContaining({
-            projectId,
-            numeroGestionnaire: 'ID_GES_RES',
-            submittedBy: user.id,
-          }),
-        })
-      )
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: CahierDesChargesChoisi.type,
-          payload: expect.objectContaining({
-            projetId: projectId,
-            choisiPar: user.id,
-            paruLe: '30/08/2022',
-            type: 'modifié',
-          }),
-        })
-      )
-    })
-  })
-
   describe(`Choix du CDC initial si l'AO le permet`, () => {
     it(`Etant donné un utilisateur ayant les droits sur le projet
         Et le cahier des charges du 30/08/2022 choisi pour le projet
-        Et une AO permettant de choisir le CDC initial
+        Et un AO permettant de choisir le CDC initial
         Lorsqu'il souscrit au CDC initial
         Alors le CDC du projet devrait être 'initial'`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true)
@@ -605,11 +420,10 @@ describe('Commande choisirCahierDesCharges', () => {
         shouldUserAccessProject,
         projectRepo,
         findAppelOffreById,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projectId,
+        projetId: projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'initial',
@@ -621,7 +435,7 @@ describe('Commande choisirCahierDesCharges', () => {
         expect.objectContaining({
           type: CahierDesChargesChoisi.type,
           payload: expect.objectContaining({
-            projetId: projectId,
+            projetId: projetId,
             choisiPar: user.id,
             type: 'initial',
           }),
