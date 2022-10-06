@@ -54,6 +54,7 @@ import {
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
+  makeRenseignerIdentifiantGestionnaireRéseau,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -276,6 +277,12 @@ export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
+})
+
+export const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
+  publishToEventStore: eventStore.publish.bind(eventStore),
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
 })
 
