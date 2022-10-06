@@ -7,7 +7,10 @@ import { InfraNotAvailableError } from '../../shared'
 import { Project, NumeroGestionnaireSubmitted } from '..'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { IdentifiantGestionnaireRéseauExistantError } from '../errors'
+import {
+  IdentifiantGestionnaireRéseauExistantError,
+  IdentifiantGestionnaireRéseauObligatoireError,
+} from '../errors'
 import { makeRenseignerIdentifiantGestionnaireRéseau } from './renseignerIdentifiantGestionnaireRéseau'
 
 describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
@@ -44,6 +47,32 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
       })
 
       expect(résulat._unsafeUnwrapErr()).toBeInstanceOf(IdentifiantGestionnaireRéseauExistantError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Identifiant gestionnaire réseau obligatoire`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+        Lorsqu'il renseigne l'identifiant gestionnaire réseau à vide
+        Alors l'utilisateur devrait être informé que l'identifiant est obligatoire`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
+        publishToEventStore,
+        shouldUserAccessProject,
+        projectRepo,
+        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+      })
+
+      const résulat = await renseignerIdentifiantGestionnaireRéseau({
+        projetId: projetId,
+        utilisateur: user,
+        identifiantGestionnaireRéseau: '',
+      })
+
+      expect(résulat._unsafeUnwrapErr()).toBeInstanceOf(
+        IdentifiantGestionnaireRéseauObligatoireError
+      )
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })

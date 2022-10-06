@@ -4,7 +4,10 @@ import { User } from '@entities'
 import { UnauthorizedError } from '@modules/shared'
 import { Project } from '../Project'
 import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries'
-import { IdentifiantGestionnaireRéseauExistantError } from '../errors'
+import {
+  IdentifiantGestionnaireRéseauExistantError,
+  IdentifiantGestionnaireRéseauObligatoireError,
+} from '../errors'
 import { NumeroGestionnaireSubmitted } from '../events'
 
 type Commande = {
@@ -44,6 +47,10 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
     commande: Commande
     projet: Project
   }) => {
+    if (!commande.identifiantGestionnaireRéseau) {
+      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
+    }
+
     return trouverProjetsParIdentifiantGestionnaireRéseau(
       commande.identifiantGestionnaireRéseau
     ).andThen((projets) => {
