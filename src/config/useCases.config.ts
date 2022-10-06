@@ -95,6 +95,7 @@ import {
   makeNotifierPorteurChangementStatutDemande,
   makeNotifierPorteurRévocationAccèsProjet,
 } from '@modules/notification'
+import { makeAjouterDateDeMiseEnService } from '@modules/project/useCases/ajouterDateDeMiseEnService'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -428,4 +429,9 @@ export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangem
 
 export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
+})
+
+export const ajouterDateDeMiseEnService = makeAjouterDateDeMiseEnService({
+  projectRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
 })
