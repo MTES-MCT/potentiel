@@ -12,11 +12,12 @@ export const MakeTacheDeFondModel = (sequelize) => {
       dateFin: { type: DataTypes.DATE, allowNull: true },
       rapport: { type: DataTypes.JSON, allowNull: true },
     },
-    { timestamps: true }
+    { timestamps: true, freezeTableName: true }
   )
 
-  TacheDeFond.associate = ({ User }) => {
-    TacheDeFond.belongsTo(User, { foreignKey: 'utilisateurId' })
+  TacheDeFond.associate = (models) => {
+    const { User } = models
+    TacheDeFond.belongsTo(User, { foreignKey: 'utilisateurId', as: 'utilisateur' })
   }
 
   return TacheDeFond

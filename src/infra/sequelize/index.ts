@@ -5,6 +5,7 @@ import {
   initUserProjectsProjections,
   initProjectPTFProjections,
   initAppelOffreProjections,
+  initTacheDeFondProjections,
 } from './projections'
 import { initUserProjectClaimsProjections } from './projections/userProjectClaims/updates'
 import { EventStore } from '@core/domain'
@@ -23,6 +24,7 @@ export const initProjections = (eventStore: EventStore) => {
   initProjectPTFProjections(eventStore, models)
   initAppelOffreProjections(eventStore, models)
   initUserProjectClaimsProjections(eventStore, models)
+  initTacheDeFondProjections(eventStore, models)
 }
 
 export { HasSubscribe } from './helpers/Projection'
