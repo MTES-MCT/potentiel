@@ -1,13 +1,12 @@
 import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { AdminDashboard, LinkButton, UserDashboard } from '@components'
+import { LinkButton, PageTemplate, RoleBasedDashboard } from '@components'
 
 interface SuccessOrErrorProps {
   request: Request
 }
 
-/* Pure component */
 export default function SuccessOrError({ request }: SuccessOrErrorProps) {
   const {
     success,
@@ -38,13 +37,11 @@ export default function SuccessOrError({ request }: SuccessOrErrorProps) {
     </div>
   )
 
-  if (request.user?.role === 'porteur-projet') {
-    return <UserDashboard currentPage={undefined}>{contents}</UserDashboard>
-  }
-
   return (
-    <AdminDashboard role={request.user?.role} currentPage={undefined}>
-      {contents}
-    </AdminDashboard>
+    <PageTemplate user={request.user}>
+      <RoleBasedDashboard role={request.user.role} currentPage={undefined}>
+        {contents}
+      </RoleBasedDashboard>
+    </PageTemplate>
   )
 }

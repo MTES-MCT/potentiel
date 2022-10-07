@@ -4,7 +4,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { RoleBasedDashboard, MissingOwnerProjectList } from '@components'
+import { MissingOwnerProjectList, PageTemplate } from '@components'
 
 interface ListMissingOwnerProjectsProps {
   request: Request
@@ -44,7 +44,7 @@ export default function ListMissingOwnerProjects({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
   return (
-    <RoleBasedDashboard role={request.user.role} currentPage="list-missing-owner-projects">
+    <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">
         <div className="panel__header">
           <h3>Projets en attente d'affectation</h3>
@@ -209,6 +209,6 @@ export default function ListMissingOwnerProjects({
           'Aucun projet à lister'
         )}
       </div>
-    </RoleBasedDashboard>
+    </PageTemplate>
   )
 }

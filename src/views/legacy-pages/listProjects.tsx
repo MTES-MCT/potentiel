@@ -12,6 +12,7 @@ import {
   RoleBasedDashboard,
   ExcelFileIcon,
   SecondaryLinkButton,
+  PageTemplate,
 } from '@components'
 
 type ListProjectsProps = {
@@ -23,7 +24,6 @@ type ListProjectsProps = {
   existingFamilles?: Array<Famille['id']>
 }
 
-/* Pure component */
 export default function ListProjects({
   request,
   projects,
@@ -63,295 +63,297 @@ export default function ListProjects({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
 
   return (
-    <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
-      <div className="panel">
-        <div className="panel__header">
-          <h3>Projets</h3>
-          <form
-            action={
-              ['admin', 'dgec-validateur', 'dreal'].includes(request.user?.role)
-                ? ROUTES.ADMIN_LIST_PROJECTS
-                : ROUTES.USER_LIST_PROJECTS
-            }
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
-          >
-            <div className="form__group" style={{ marginTop: 20 }}>
-              <input
-                type="text"
-                name="recherche"
-                {...dataId('recherche-field')}
-                style={{ paddingRight: 40 }}
-                defaultValue={recherche || ''}
-                placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
-              />
-              <button
-                className="overlay-button"
-                style={{
-                  right: 10,
-                  top: 10,
-                  width: 30,
-                  height: 30,
-                }}
-                type="submit"
-                {...dataId('submit-button')}
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="var(--grey)"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div className="form__group">
-              <div
-                {...dataId('visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
-              >
-                <span
+    <PageTemplate user={request.user} currentPage="list-projects">
+      <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
+        <div className="panel">
+          <div className="panel__header">
+            <h3>Projets</h3>
+            <form
+              action={
+                ['admin', 'dgec-validateur', 'dreal'].includes(request.user?.role)
+                  ? ROUTES.ADMIN_LIST_PROJECTS
+                  : ROUTES.USER_LIST_PROJECTS
+              }
+              method="GET"
+              style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+            >
+              <div className="form__group" style={{ marginTop: 20 }}>
+                <input
+                  type="text"
+                  name="recherche"
+                  {...dataId('recherche-field')}
+                  style={{ paddingRight: 40 }}
+                  defaultValue={recherche || ''}
+                  placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
+                />
+                <button
+                  className="overlay-button"
                   style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
+                    right: 10,
+                    top: 10,
+                    width: 30,
+                    height: 30,
                   }}
+                  type="submit"
+                  {...dataId('submit-button')}
                 >
-                  Filtrer
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                </svg>
+                  <svg
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                    stroke="var(--grey)"
+                    width="20"
+                    height="20"
+                  >
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                  </svg>
+                </button>
               </div>
-              <div className="filter-panel">
-                <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
-                  <select
-                    name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
-                    {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
+
+              <div className="form__group">
+                <div
+                  {...dataId('visibility-toggle')}
+                  className={'filter-toggle' + (hasFilters ? ' open' : '')}
+                >
+                  <span
+                    style={{
+                      borderBottom: '1px solid var(--light-grey)',
+                      paddingBottom: 5,
+                    }}
                   >
-                    <option value="">Tous appels d'offres</option>
-                    {appelsOffre
-                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                      .map((appelOffre) => (
-                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                          {appelOffre.shortTitle}
-                        </option>
-                      ))}
-                  </select>
-                  <select
-                    name="periodeId"
-                    className={periodeId ? 'active' : ''}
-                    {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
-                  >
-                    <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
-                          </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
+                    Filtrer
+                  </span>
+                  <svg className="icon filter-icon">
+                    <use xlinkHref="#expand"></use>
+                  </svg>
+                </div>
+                <div className="filter-panel">
+                  <div className="periode-panel">
+                    <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
                     <select
-                      name="familleId"
-                      className={familleId ? 'active' : ''}
-                      {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
+                      name="appelOffreId"
+                      className={'appelOffre ' + (appelOffreId ? 'active' : '')}
+                      {...dataId('appelOffreIdSelector')}
+                      defaultValue={appelOffreId}
                     >
-                      <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
+                      <option value="">Tous appels d'offres</option>
+                      {appelsOffre
+                        .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                        .map((appelOffre) => (
+                          <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                            {appelOffre.shortTitle}
+                          </option>
+                        ))}
+                    </select>
+                    <select
+                      name="periodeId"
+                      className={periodeId ? 'active' : ''}
+                      {...dataId('periodeIdSelector')}
+                      defaultValue={periodeId}
+                    >
+                      <option value="">Toutes périodes</option>
+                      {periodes && periodes.length
+                        ? periodes.map((periode) => (
+                            <option key={'appel_' + periode.id} value={periode.id}>
+                              {periode.title}
                             </option>
                           ))
                         : null}
                     </select>
-                  ) : null}
-                </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Garanties Financières</div>
-                  <select
-                    name="garantiesFinancieres"
-                    className={garantiesFinancieres ? 'active' : ''}
-                    {...dataId('garantiesFinancieresSelector')}
-                    defaultValue={garantiesFinancieres || ''}
-                  >
-                    <option value="">Toutes</option>
-                    <option value="submitted">Déposées</option>
-                    <option value="notSubmitted">Non-déposées</option>
-                    <option value="pastDue">En retard</option>
-                  </select>
-                </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
-                  <select
-                    name="classement"
-                    className={hasNonDefaultClassement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                    defaultValue={classement || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="classés">Classés</option>
-                    <option value="éliminés">Eliminés</option>
-                    <option value="abandons">Abandons</option>
-                  </select>
-                </div>
-
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                  <select
-                    name="reclames"
-                    {...dataId('reclamesSelector')}
-                    defaultValue={reclames || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="réclamés">Réclamés</option>
-                    <option value="non-réclamés">Non réclamés</option>
-                  </select>
-                </div>
-
-                {['admin', 'dgec-validateur'].includes(request.user.role) &&
-                  appelOffreId &&
-                  periodeId && (
-                    <div style={{ marginTop: 15 }}>
-                      <a
-                        href={`${
-                          ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV
-                        }?${querystring.stringify({
-                          ...request.query,
-                          beforeNotification: false,
-                        })}`}
-                        download
+                    {!appelOffreId || (familles && familles.length) ? (
+                      <select
+                        name="familleId"
+                        className={familleId ? 'active' : ''}
+                        {...dataId('familleIdSelector')}
+                        defaultValue={familleId}
                       >
-                        Liste des lauréats
-                        <DownloadIcon color="red" />
-                      </a>
-                    </div>
-                  )}
+                        <option value="">Toutes familles</option>
+                        {familles && familles.length
+                          ? familles.map((famille) => (
+                              <option key={'appel_' + famille.id} value={famille.id}>
+                                {famille.title}
+                              </option>
+                            ))
+                          : null}
+                      </select>
+                    ) : null}
+                  </div>
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Garanties Financières</div>
+                    <select
+                      name="garantiesFinancieres"
+                      className={garantiesFinancieres ? 'active' : ''}
+                      {...dataId('garantiesFinancieresSelector')}
+                      defaultValue={garantiesFinancieres || ''}
+                    >
+                      <option value="">Toutes</option>
+                      <option value="submitted">Déposées</option>
+                      <option value="notSubmitted">Non-déposées</option>
+                      <option value="pastDue">En retard</option>
+                    </select>
+                  </div>
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
+                    <select
+                      name="classement"
+                      className={hasNonDefaultClassement ? 'active' : ''}
+                      {...dataId('classementSelector')}
+                      defaultValue={classement || ''}
+                    >
+                      <option value="">Tous</option>
+                      <option value="classés">Classés</option>
+                      <option value="éliminés">Eliminés</option>
+                      <option value="abandons">Abandons</option>
+                    </select>
+                  </div>
+
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
+                    <select
+                      name="reclames"
+                      {...dataId('reclamesSelector')}
+                      defaultValue={reclames || ''}
+                    >
+                      <option value="">Tous</option>
+                      <option value="réclamés">Réclamés</option>
+                      <option value="non-réclamés">Non réclamés</option>
+                    </select>
+                  </div>
+
+                  {['admin', 'dgec-validateur'].includes(request.user.role) &&
+                    appelOffreId &&
+                    periodeId && (
+                      <div style={{ marginTop: 15 }}>
+                        <a
+                          href={`${
+                            ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV
+                          }?${querystring.stringify({
+                            ...request.query,
+                            beforeNotification: false,
+                          })}`}
+                          download
+                        >
+                          Liste des lauréats
+                          <DownloadIcon color="red" />
+                        </a>
+                      </div>
+                    )}
+                </div>
               </div>
-            </div>
-            {hasFilters ? (
-              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
-                Retirer tous les filtres
-              </a>
-            ) : null}
-          </form>
-          {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
-            <div>
-              <div
-                {...dataId('projectList-invitation-form-visibility-toggle')}
-                className={'filter-toggle'}
-              >
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
+              {hasFilters ? (
+                <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+                  Retirer tous les filtres
+                </a>
+              ) : null}
+            </form>
+            {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
+              <div>
+                <div
+                  {...dataId('projectList-invitation-form-visibility-toggle')}
+                  className={'filter-toggle'}
                 >
-                  Donner accès à un utilisateur
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                </svg>
-              </div>
-              <div className="filter-panel">
-                <form
-                  action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-                  method="POST"
-                  name="form"
-                  style={{ margin: '15px 0 0 0' }}
-                >
-                  <select
-                    name="projectId"
-                    multiple
-                    {...dataId('invitation-form-project-list')}
-                    style={{ display: 'none' }}
-                  ></select>
-                  <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                    ci-dessous:
-                  </label>
-                  <input type="email" name="email" id="email" {...dataId('email-field')} />
-                  <button
-                    className="button"
-                    type="submit"
-                    name="submit"
-                    id="submit"
-                    disabled
-                    {...dataId('invitation-submit-button')}
+                  <span
+                    style={{
+                      borderBottom: '1px solid var(--light-grey)',
+                      paddingBottom: 5,
+                    }}
                   >
-                    Accorder les droits sur ces projets
-                  </button>
-                </form>
+                    Donner accès à un utilisateur
+                  </span>
+                  <svg className="icon filter-icon">
+                    <use xlinkHref="#expand"></use>
+                  </svg>
+                </div>
+                <div className="filter-panel">
+                  <form
+                    action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                    method="POST"
+                    name="form"
+                    style={{ margin: '15px 0 0 0' }}
+                  >
+                    <select
+                      name="projectId"
+                      multiple
+                      {...dataId('invitation-form-project-list')}
+                      style={{ display: 'none' }}
+                    ></select>
+                    <label htmlFor="email">
+                      Courrier électronique de la personne habilitée à suivre les projets
+                      selectionnés ci-dessous:
+                    </label>
+                    <input type="email" name="email" id="email" {...dataId('email-field')} />
+                    <button
+                      className="button"
+                      type="submit"
+                      name="submit"
+                      id="submit"
+                      disabled
+                      {...dataId('invitation-submit-button')}
+                    >
+                      Accorder les droits sur ces projets
+                    </button>
+                  </form>
+                </div>
               </div>
+            )}
+          </div>
+          {success ? (
+            <div className="notification success" {...dataId('success-message')}>
+              {success}
             </div>
+          ) : (
+            ''
+          )}
+          {error ? (
+            <div className="notification error" {...dataId('error-message')}>
+              {error}
+            </div>
+          ) : (
+            ''
+          )}
+          {projects ? (
+            <>
+              <div className="flex flex-col md:flex-row md:items-center py-2">
+                {request.user.role !== 'dreal' && (
+                  <span>
+                    <strong>{getProjectsCount(projects)}</strong> projets
+                  </span>
+                )}
+
+                {getProjectsCount(projects) > 0 && (
+                  <SecondaryLinkButton
+                    className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
+                    href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                      request.query as any
+                    )}`}
+                    download
+                  >
+                    <ExcelFileIcon className="mr-2" />
+                    Télécharger un export
+                  </SecondaryLinkButton>
+                )}
+              </div>
+              <ProjectList
+                displayColumns={[
+                  'Projet',
+                  'Candidat',
+                  'Puissance',
+                  ...(request.user?.role === 'dreal' ? ['Garanties Financières'] : ['Prix']),
+                  'Evaluation Carbone',
+                  'Classé',
+                ]}
+                projects={projects}
+                role={request.user?.role}
+              />
+            </>
+          ) : (
+            'Aucun projet à lister'
           )}
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
-        {projects ? (
-          <>
-            <div className="flex flex-col md:flex-row md:items-center py-2">
-              {request.user.role !== 'dreal' && (
-                <span>
-                  <strong>{getProjectsCount(projects)}</strong> projets
-                </span>
-              )}
-
-              {getProjectsCount(projects) > 0 && (
-                <SecondaryLinkButton
-                  className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                    request.query as any
-                  )}`}
-                  download
-                >
-                  <ExcelFileIcon className="mr-2" />
-                  Télécharger un export
-                </SecondaryLinkButton>
-              )}
-            </div>
-            <ProjectList
-              displayColumns={[
-                'Projet',
-                'Candidat',
-                'Puissance',
-                ...(request.user?.role === 'dreal' ? ['Garanties Financières'] : ['Prix']),
-                'Evaluation Carbone',
-                'Classé',
-              ]}
-              projects={projects}
-              role={request.user?.role}
-            />
-          </>
-        ) : (
-          'Aucun projet à lister'
-        )}
-      </div>
-    </RoleBasedDashboard>
+      </RoleBasedDashboard>
+    </PageTemplate>
   )
 }
 

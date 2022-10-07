@@ -1,6 +1,7 @@
 import ReactDOMServer from 'react-dom/server'
 import type { Request } from 'express'
 import { getTrackerScript } from '../infra/umami'
+import React from 'react'
 interface HasRequest {
   request: Request
 }
@@ -151,7 +152,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
             </symbol>
           </defs>
         </svg>
-        <div id="root">${ReactDOMServer.renderToString(Component(props))}</div>
+        <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
         ${args.hydrate
           ? html`<script>
               window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}

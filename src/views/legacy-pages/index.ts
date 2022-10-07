@@ -1,5 +1,4 @@
 import { Request } from 'express'
-import { PageLayout } from '../components'
 import { makeHtml } from '../index.html'
 import AdminAppelOffre from './adminAppelOffre'
 import AdminNotifyCandidates from './adminNotifyCandidates'
@@ -49,6 +48,5 @@ interface HasRequest {
  */
 /* global JSX */
 function makePresenterPage<T extends HasRequest>(pageComponent: (pageProps: T) => JSX.Element) {
-  return (props: T): string =>
-    makeHtml({ Component: PageLayout(pageComponent), props, hydrate: false })
+  return (props: T): string => makeHtml({ Component: pageComponent, props, hydrate: false })
 }

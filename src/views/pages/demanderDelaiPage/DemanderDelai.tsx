@@ -1,17 +1,16 @@
 import {
-  PageLayout,
   ProjectInfo,
   SuccessErrorBox,
   TextArea,
   Astérisque,
   Input,
-  UserDashboard,
   FormulaireChampsObligatoireLégende,
   Button,
   SecondaryLinkButton,
   InfoBox,
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
+  PageTemplate,
 } from '@components'
 import routes from '@routes'
 import { Project, ProjectAppelOffre } from '@entities'
@@ -30,14 +29,8 @@ type DemanderDelaiProps = {
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
-export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
-  const {
-    request: { query },
-    project,
-    appelOffre,
-  } = props
-
-  const { error, success, justification, dateAchèvementDemandée } = (query as any) || {}
+export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiProps) => {
+  const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges &&
@@ -48,7 +41,7 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
   )
 
   return (
-    <UserDashboard currentPage="list-requests">
+    <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
           <h3>
@@ -174,8 +167,8 @@ export const DemanderDelai = PageLayout((props: DemanderDelaiProps) => {
           </form>
         )}
       </div>
-    </UserDashboard>
+    </PageTemplate>
   )
-})
+}
 
 hydrateOnClient(DemanderDelai)

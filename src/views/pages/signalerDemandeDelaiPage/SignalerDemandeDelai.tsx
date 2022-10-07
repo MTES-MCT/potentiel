@@ -2,9 +2,9 @@ import {
   Button,
   Input,
   SecondaryLinkButton,
-  PageLayout,
   ProjectInfo,
   RoleBasedDashboard,
+  PageTemplate,
 } from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
@@ -18,11 +18,15 @@ type SignalerDemandeDelaiProps = {
   project: ProjectDataForSignalerDemandeDelaiPage
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
-export const SignalerDemandeDelai = PageLayout(
-  ({ request: { user }, project, validationErrors }: SignalerDemandeDelaiProps) => {
-    const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
+export const SignalerDemandeDelai = ({
+  request: { user },
+  project,
+  validationErrors,
+}: SignalerDemandeDelaiProps) => {
+  const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
 
-    return (
+  return (
+    <PageTemplate user={user} currentPage="list-projects">
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <main role="main" className="panel">
           <div className="panel__header">
@@ -148,8 +152,8 @@ export const SignalerDemandeDelai = PageLayout(
           </form>
         </main>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(SignalerDemandeDelai)

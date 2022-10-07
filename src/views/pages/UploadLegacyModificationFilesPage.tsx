@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { AdminDashboard, PageLayout, ErrorBox, Button } from '@components'
+import { AdminDashboard, ErrorBox, Button, PageTemplate } from '@components'
 
 export type UploadLegacyModificationFileResult =
   | {
@@ -14,20 +14,23 @@ type UploadLegacyModificationFilesProps = {
   results?: UploadLegacyModificationFileResult[]
 }
 
-export const UploadLegacyModificationFiles = PageLayout(
-  ({ request, results }: UploadLegacyModificationFilesProps) => {
-    const {
-      user: { role },
-      query: { error },
-    } = request
+export const UploadLegacyModificationFiles = ({
+  request,
+  results,
+}: UploadLegacyModificationFilesProps) => {
+  const {
+    user: { role },
+    query: { error },
+  } = request
 
-    const errors =
-      results?.filter(
-        (result): result is UploadLegacyModificationFileResult & { error: true } => result.error
-      ) || []
-    const successes = results?.filter((result) => !result.error) || []
+  const errors =
+    results?.filter(
+      (result): result is UploadLegacyModificationFileResult & { error: true } => result.error
+    ) || []
+  const successes = results?.filter((result) => !result.error) || []
 
-    return (
+  return (
+    <PageTemplate user={request.user}>
       <AdminDashboard role={role} currentPage={'admin-upload-legacy-modification-files'}>
         <div className="panel">
           <div className="panel__header">
@@ -81,6 +84,6 @@ export const UploadLegacyModificationFiles = PageLayout(
           </form>
         </div>
       </AdminDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}

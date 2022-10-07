@@ -2,20 +2,19 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { SuccessErrorBox, PageLayout, PartnerDashboard, SecondaryButton } from '../components'
+import { SuccessErrorBox, SecondaryButton, PageTemplate } from '../components'
 
 type ImporterListingEDFProps = {
   request: Request
 }
 
-export const ImporterListingEDF = PageLayout(({ request }: ImporterListingEDFProps) => {
+export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
   const {
-    user: { role },
     query: { error, success },
   } = request
 
   return (
-    <PartnerDashboard role={role} currentPage={'upload-edf'}>
+    <PageTemplate user={request.user}>
       <div className="panel">
         <div className="panel__header">
           <h3>Importer des données producteurs</h3>
@@ -36,6 +35,6 @@ export const ImporterListingEDF = PageLayout(({ request }: ImporterListingEDFPro
           </SecondaryButton>
         </form>
       </div>
-    </PartnerDashboard>
+    </PageTemplate>
   )
-})
+}

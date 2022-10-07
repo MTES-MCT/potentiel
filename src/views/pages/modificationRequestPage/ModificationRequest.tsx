@@ -1,11 +1,11 @@
 import {
   ErrorBox,
   ModificationRequestActionTitles,
-  PageLayout,
   ProjectInfo,
   RoleBasedDashboard,
   SuccessBox,
   SecondaryButton,
+  PageTemplate,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
@@ -33,24 +33,24 @@ type ModificationRequestProps = {
   modificationRequest: ModificationRequestPageDTO
 }
 
-export const ModificationRequest = PageLayout(
-  ({ request, modificationRequest }: ModificationRequestProps) => {
-    const { user } = request
-    const { error, success } = request.query as any
-    const { type, id, status } = modificationRequest
+export const ModificationRequest = ({ request, modificationRequest }: ModificationRequestProps) => {
+  const { user } = request
+  const { error, success } = request.query as any
+  const { type, id, status } = modificationRequest
 
-    const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
+  const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
 
-    const showFormulaireAdministrateur =
-      isAdmin &&
-      !modificationRequest.respondedOn &&
-      !modificationRequest.cancelledOn &&
-      status !== 'information validée'
+  const showFormulaireAdministrateur =
+    isAdmin &&
+    !modificationRequest.respondedOn &&
+    !modificationRequest.cancelledOn &&
+    status !== 'information validée'
 
-    const showPasserEnInstructionButton =
-      showFormulaireAdministrateur && type === 'delai' && status === 'envoyée'
+  const showPasserEnInstructionButton =
+    showFormulaireAdministrateur && type === 'delai' && status === 'envoyée'
 
-    return (
+  return (
+    <PageTemplate user={request.user} currentPage="list-requests">
       <RoleBasedDashboard role={user.role} currentPage={'list-requests'}>
         <div className="panel">
           <div className="panel__header" style={{ position: 'relative' }}>
@@ -138,8 +138,8 @@ export const ModificationRequest = PageLayout(
           )}
         </div>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(ModificationRequest)

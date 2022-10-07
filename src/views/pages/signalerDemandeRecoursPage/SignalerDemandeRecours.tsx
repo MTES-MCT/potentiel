@@ -3,7 +3,7 @@ import { Request } from 'express'
 import {
   Button,
   Input,
-  PageLayout,
+  PageTemplate,
   ProjectInfo,
   RoleBasedDashboard,
   SecondaryLinkButton,
@@ -17,9 +17,13 @@ type SignalerDemandeRecoursProps = {
   project: ProjectDataForSignalerDemandeRecoursPage
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
-export const SignalerDemandeRecours = PageLayout(
-  ({ request: { user }, project, validationErrors }: SignalerDemandeRecoursProps) => {
-    return (
+export const SignalerDemandeRecours = ({
+  request: { user },
+  project,
+  validationErrors,
+}: SignalerDemandeRecoursProps) => {
+  return (
+    <PageTemplate user={user} currentPage="list-projects">
       <RoleBasedDashboard role={user.role} currentPage="list-projects">
         <main role="main" className="panel">
           <div className="panel__header">
@@ -100,8 +104,8 @@ export const SignalerDemandeRecours = PageLayout(
           </form>
         </main>
       </RoleBasedDashboard>
-    )
-  }
-)
+    </PageTemplate>
+  )
+}
 
 hydrateOnClient(SignalerDemandeRecours)
