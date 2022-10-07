@@ -60,15 +60,6 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
         ...(line.dateDeMiseEnService && { dateDeMiseEnService: line.dateDeMiseEnService }),
       }))
 
-      // await eventStore.publish(
-      //   new DatesMiseEnServiceImportées({
-      //     payload: {
-      //       utilisateurId: request.user.id,
-      //       datesParNumeroDeGestionnaire,
-      //     },
-      //   })
-      // )
-
       return response.redirect(
         routes.SUCCESS_OR_ERROR_PAGE({
           success: `Le fichier du gestionnaire de réseau a bien été importé.\nVous pouvez suivre l'avancement du traitement dans le suivi de vos tâches de fond.`,

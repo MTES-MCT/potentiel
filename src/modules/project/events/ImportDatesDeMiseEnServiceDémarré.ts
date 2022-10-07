@@ -5,17 +5,17 @@ export type DatesParNumeroDeGestionnaire = {
   dateDeMiseEnService: string
 }
 
-export type DatesMiseEnServiceImportéesPayload = {
+export type ImportDatesDeMiseEnServiceDémarréPayload = {
   utilisateurId: string
   datesParNumeroDeGestionnaire: DatesParNumeroDeGestionnaire[]
 }
 
-export class DatesMiseEnServiceImportées
-  extends BaseDomainEvent<DatesMiseEnServiceImportéesPayload>
+export class ImportDatesDeMiseEnServiceDémarré
+  extends BaseDomainEvent<ImportDatesDeMiseEnServiceDémarréPayload>
   implements DomainEvent
 {
-  public static type: 'DatesMiseEnServiceImportées' = 'DatesMiseEnServiceImportées'
-  public type = DatesMiseEnServiceImportées.type
+  public static type: 'ImportDatesDeMiseEnServiceDémarré' = 'ImportDatesDeMiseEnServiceDémarré'
+  public type = ImportDatesDeMiseEnServiceDémarré.type
   currentVersion = 1
 
   aggregateIdFromPayload() {

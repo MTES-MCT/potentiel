@@ -1,8 +1,8 @@
 import { logger } from '@core/utils'
-import { DatesMiseEnServiceImportées } from '@modules/project'
+import { ImportDatesDeMiseEnServiceDémarré } from '@modules/project'
 
-export const onDatesMiseEnServiceImportées =
-  (models) => async (évènement: DatesMiseEnServiceImportées) => {
+export const onImportDatesDeMiseEnServiceDémarré =
+  (models) => async (évènement: ImportDatesDeMiseEnServiceDémarré) => {
     const { TacheDeFond } = models
     const {
       id,
@@ -20,7 +20,7 @@ export const onDatesMiseEnServiceImportées =
       console.error(e)
       logger.error(e)
       logger.info(
-        `Erreur: échec du handler onDatesMiseEnServiceImportées lors de l'ajout d'une nouvelle tâche dans tacheDeFond`,
+        `Erreur: échec du handler onImportDatesDeMiseEnServiceDémarré lors de l'ajout d'une nouvelle tâche dans tacheDeFond`,
         évènement
       )
     }

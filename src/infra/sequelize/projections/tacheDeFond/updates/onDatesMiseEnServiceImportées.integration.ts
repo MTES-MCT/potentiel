@@ -1,16 +1,16 @@
 import { models } from '../../../models'
-import { DatesMiseEnServiceImportées } from '@modules/project'
-import { onDatesMiseEnServiceImportées } from './onDatesMiseEnServiceImportées'
+import { ImportDatesDeMiseEnServiceDémarré } from '@modules/project'
+import { onImportDatesDeMiseEnServiceDémarré } from './onImportDatesDeMiseEnServiceDémarré'
 import { UniqueEntityID } from '@core/domain'
 
-describe('handler onDatesMiseEnServiceImportées', () => {
+describe('handler onImportDatesDeMiseEnServiceDémarré', () => {
   const { TacheDeFond } = models
 
   describe(`Créer une nouvelle tâche de fond`, () => {
-    it(`Lorsqu'un évènement DatesMiseEnServiceImportées est émis,
+    it(`Lorsqu'un évènement ImportDatesDeMiseEnServiceDémarré est émis,
       Alors une nouvelle entrée est insérée dans la table TacheDeFond avec le statut 'en cours'`, async () => {
       const utilisateurId = new UniqueEntityID().toString()
-      const évènement = new DatesMiseEnServiceImportées({
+      const évènement = new ImportDatesDeMiseEnServiceDémarré({
         payload: {
           utilisateurId,
           datesParNumeroDeGestionnaire: [
@@ -21,7 +21,7 @@ describe('handler onDatesMiseEnServiceImportées', () => {
           ],
         },
       })
-      await onDatesMiseEnServiceImportées(models)(évènement)
+      await onImportDatesDeMiseEnServiceDémarré(models)(évènement)
 
       const tacheDeFond = await TacheDeFond.findOne({
         where: { id: évènement.id },

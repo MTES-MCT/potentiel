@@ -1,12 +1,15 @@
 import { EventBus } from '@core/domain'
 import { logger } from '@core/utils'
 import { Projections } from '@infra/sequelize/models'
-import { DatesMiseEnServiceImportées } from '@modules/project'
+import { ImportDatesDeMiseEnServiceDémarré } from '@modules/project'
 
-import { onDatesMiseEnServiceImportées } from './onDatesMiseEnServiceImportées'
+import { onImportDatesDeMiseEnServiceDémarré } from './onImportDatesDeMiseEnServiceDémarré'
 
 export const initTacheDeFondProjections = (eventBus: EventBus, models: Projections) => {
-  eventBus.subscribe(DatesMiseEnServiceImportées.type, onDatesMiseEnServiceImportées(models))
+  eventBus.subscribe(
+    ImportDatesDeMiseEnServiceDémarré.type,
+    onImportDatesDeMiseEnServiceDémarré(models)
+  )
 
   logger.info('Initialized TacheDeFond projections')
 }
