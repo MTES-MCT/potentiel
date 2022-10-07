@@ -42,6 +42,7 @@ export type ProjectEventDTO =
   | DemandeDélaiDTO
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
+  | DateDeMiseEnServiceAjoutéeDTO
 
 type File = {
   id: string
@@ -410,6 +411,12 @@ export type CahierDesChargesChoisiDTO = {
       alternatif?: true
     }
 )
+
+export type DateDeMiseEnServiceAjoutéeDTO = {
+  type: 'DateDeMiseEnServiceAjoutée'
+  variant: Exclude<UserRole, 'ademe'>
+  date: number
+}
 
 export type ProjectEventListDTO = {
   project: {
