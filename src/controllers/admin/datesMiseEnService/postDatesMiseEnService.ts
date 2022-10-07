@@ -1,12 +1,11 @@
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
-import { ensureRole, eventStore } from '@config'
+import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
 import { addQueryParams } from '../../../helpers/addQueryParams'
 import { logger } from '@core/utils'
-import { DatesMiseEnServiceImportées } from '@modules/project'
 
 if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
   v1Router.post(
@@ -58,17 +57,17 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
 
       const datesParNumeroDeGestionnaire = linesResult.value.map((line) => ({
         numéroGestionnaire: line.numeroGestionnaire,
-        dateDeMiseEnService: line.dateDeMiseEnService,
+        ...(line.dateDeMiseEnService && { dateDeMiseEnService: line.dateDeMiseEnService }),
       }))
 
-      await eventStore.publish(
-        new DatesMiseEnServiceImportées({
-          payload: {
-            utilisateurId: request.user.id,
-            datesParNumeroDeGestionnaire,
-          },
-        })
-      )
+      // await eventStore.publish(
+      //   new DatesMiseEnServiceImportées({
+      //     payload: {
+      //       utilisateurId: request.user.id,
+      //       datesParNumeroDeGestionnaire,
+      //     },
+      //   })
+      // )
 
       return response.redirect(
         routes.SUCCESS_OR_ERROR_PAGE({

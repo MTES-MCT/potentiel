@@ -54,6 +54,8 @@ import {
   makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
+  makeAjouterDateDeMiseEnService,
+  makeImporterDatesMiseEnService,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -95,7 +97,6 @@ import {
   makeNotifierPorteurChangementStatutDemande,
   makeNotifierPorteurRévocationAccèsProjet,
 } from '@modules/notification'
-import { makeAjouterDateDeMiseEnService } from '@modules/project/useCases/ajouterDateDeMiseEnService'
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -433,5 +434,9 @@ export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévoca
 
 export const ajouterDateDeMiseEnService = makeAjouterDateDeMiseEnService({
   projectRepo,
+  publishToEventStore: eventStore.publish.bind(eventStore),
+})
+
+export const importerDatesMiseEnService = makeImporterDatesMiseEnService({
   publishToEventStore: eventStore.publish.bind(eventStore),
 })
