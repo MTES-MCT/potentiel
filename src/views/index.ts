@@ -26,7 +26,7 @@ import {
   DemandeAbandon,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  DatesMiseEnService,
+  ImporterDatesDeMiseEnService,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -232,9 +232,11 @@ export const AbonnementLettreInformationPage = (
     hydrate: false,
   })
 
-export const DatesMiseEnServicePage = (props: Parameters<typeof DatesMiseEnService>[0]) =>
+export const ImporterDatesDeMiseEnServicePage = (
+  props: Parameters<typeof ImporterDatesDeMiseEnService>[0]
+) =>
   makeHtml({
-    Component: DatesMiseEnService,
+    Component: ImporterDatesDeMiseEnService,
     props,
     hydrate: false,
   })

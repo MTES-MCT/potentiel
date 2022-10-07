@@ -33,7 +33,7 @@ interface AdminDashboardProps {
     | 'admin-statistiques'
     | 'admin-upload-legacy-modification-files'
     | 'import-enedis'
-    | 'mise-à-jour-date-mise-en-service'
+    | 'mise-à-jour-dates-de-mise-en-service'
     | undefined
 }
 
@@ -120,8 +120,8 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               <>
                 <MenuItem
                   route={ROUTES.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU}
-                  itemPage={'mise-à-jour-date-mise-en-service'}
-                  title="Mise à jour dates mise en service"
+                  itemPage={'mise-à-jour-dates-de-mise-en-service'}
+                  title="Mise à jour dates de mise en service"
                   role={role}
                   currentPage={currentPage}
                 />
