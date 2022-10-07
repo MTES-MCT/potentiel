@@ -27,10 +27,10 @@ export default ProjectEventProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement AbandonDemandé`,
+          `Erreur lors du traitement de l'événement DateDeMiseEnServiceAjoutée`,
           {
             évènement,
-            nomProjection: 'ProjectEventProjector.onAbandonDemandé',
+            nomProjection: 'ProjectEventProjector.onDateDeMiseEnServiceAjoutée',
           },
           error
         )
