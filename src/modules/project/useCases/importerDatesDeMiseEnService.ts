@@ -2,15 +2,14 @@ import { EventStore } from '@core/domain'
 import { errAsync, okAsync, ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import {
-  ImportDateMiseEnServiceManquanteError,
   ImportDateMiseEnServiceMauvaisFormatError,
   ImportDatesMiseEnServiceDoublonsError,
 } from '../errors'
 import { isMatch } from 'date-fns'
 import { User } from '@entities'
+import { ImportDatesDeMiseEnServiceDémarré } from '../events'
 
 type ImportDatesMiseEnServiceErreurs =
-  | ImportDateMiseEnServiceManquanteError
   | ImportDateMiseEnServiceMauvaisFormatError
   | ImportDatesMiseEnServiceDoublonsError
 
@@ -31,7 +30,7 @@ type MakeImporterDatesMiseEnService = (dépendances: {
 export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
   ({ publishToEventStore }) =>
   // vérifier que le user est admin ou dgec-validateur
-  ({ datesDeMiseEnServiceParNumeroDeGestionnaire }) => {
+  ({ datesDeMiseEnServiceParNumeroDeGestionnaire, utilisateur }) => {
     const erreurs: ImportDatesMiseEnServiceErreursArray = []
 
     const numérosDeGestionnaireIds = datesDeMiseEnServiceParNumeroDeGestionnaire.map(
@@ -54,12 +53,12 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
       return errAsync(erreurs)
     }
 
-    // @TODO
-    // Emettre l'événement ImportDatesDeMiseEnServiceDémarré avec importData et ses dates au bon format
-    // and then émettre un événement qui va mettre à jour la projection TachesDeFond ?
-    // and then return okAsync(null)
-
-    return okAsync(null)
+    return publishToEventStore(
+      new ImportDatesDeMiseEnServiceDémarré({
+        payload: {
+          datesDeMiseEnServiceParNumeroDeGestionnaire,
+          utilisateurId: utilisateur.id,
+        },
+      })
+    ).andThen(() => okAsync(null))
   }
-
-// Retirer les doublons :

@@ -7,7 +7,7 @@ export type DatesParNumeroDeGestionnaire = {
 
 export type ImportDatesDeMiseEnServiceDémarréPayload = {
   utilisateurId: string
-  datesParNumeroDeGestionnaire: DatesParNumeroDeGestionnaire[]
+  datesDeMiseEnServiceParNumeroDeGestionnaire: DatesParNumeroDeGestionnaire[]
 }
 
 export class ImportDatesDeMiseEnServiceDémarré
