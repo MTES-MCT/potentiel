@@ -9,7 +9,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { okAsync } from '@core/utils'
 
 describe(`Commmande ajouterDateDeMiseEnService`, () => {
-  const nouvelleDateDeMiseEnService = new Date('2022-01-01').toISOString()
+  const nouvelleDateDeMiseEnService = new Date('2022-01-01')
   const projetId = new UniqueEntityID()
   const project = makeFakeProject()
   const projectRepo = fakeRepo({ ...project, id: projetId } as Project)
@@ -61,7 +61,7 @@ describe(`Commmande ajouterDateDeMiseEnService`, () => {
           type: 'DateDeMiseEnServiceAjoutée',
           payload: expect.objectContaining({
             projetId: projetId.toString(),
-            nouvelleDateDeMiseEnService,
+            nouvelleDateDeMiseEnService: nouvelleDateDeMiseEnService.toISOString(),
             utilisateurId: utilisateur.id,
           }),
         })
@@ -92,6 +92,41 @@ describe(`Commmande ajouterDateDeMiseEnService`, () => {
         projetId: projetId.toString(),
       })
       expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Mise à jour d'un projet qui a déjà une date de mise en service mais différente de la nouvelle ajoutée`, () => {
+    it(`Etant donné un projet avec date de mise en service,
+      lorsque que la commande est appelée avec une date de mise en service différente,
+      alors un événement de type DateDeMiseEnServiceAjoutée devrait être émis`, async () => {
+      const utilisateur = makeFakeUser({ role: 'admin', id: 'utilisateur-id' }) as User
+      const projetId = new UniqueEntityID()
+      const project = makeFakeProject()
+      const projectRepo = fakeRepo({
+        ...project,
+        id: projetId,
+        dateDeMiseEnService: new Date('2024-01-01'),
+      } as Project)
+
+      const ajouterDateDeMiseEnService = makeAjouterDateDeMiseEnService({
+        projectRepo,
+        publishToEventStore,
+      })
+      await ajouterDateDeMiseEnService({
+        utilisateur,
+        nouvelleDateDeMiseEnService,
+        projetId: projetId.toString(),
+      })
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'DateDeMiseEnServiceAjoutée',
+          payload: expect.objectContaining({
+            projetId: projetId.toString(),
+            nouvelleDateDeMiseEnService: nouvelleDateDeMiseEnService.toISOString(),
+            utilisateurId: utilisateur.id,
+          }),
+        })
+      )
     })
   })
 })

@@ -7,7 +7,7 @@ import { DateDeMiseEnServiceAjoutée } from '../events'
 import { Project } from '../Project'
 
 type AjouterDateDeMiseEnService = (commande: {
-  nouvelleDateDeMiseEnService: string
+  nouvelleDateDeMiseEnService: Date
   utilisateur: User
   projetId: string
 }) => ResultAsync<null, UnauthorizedError | InfraNotAvailableError>
@@ -34,7 +34,7 @@ export const makeAjouterDateDeMiseEnService: MakeAjouterDateDeMiseEnService =
           payload: {
             utilisateurId: utilisateur.id,
             projetId,
-            nouvelleDateDeMiseEnService,
+            nouvelleDateDeMiseEnService: nouvelleDateDeMiseEnService.toISOString(),
           },
         })
       ).andThen(() => okAsync(null))

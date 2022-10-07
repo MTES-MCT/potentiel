@@ -231,7 +231,7 @@ export interface Project extends EventStoreAggregate {
   readonly periodeId: string
   readonly familleId?: string
   readonly completionDueOn: number
-  readonly dateDeMiseEnService: string
+  readonly dateDeMiseEnService: Date | undefined
 }
 
 export interface ProjectDataProps {
@@ -284,7 +284,7 @@ export interface ProjectProps {
   appelOffreId: string
   periodeId: string
   familleId: string
-  dateDeMiseEnService: string
+  dateDeMiseEnService: Date | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -327,7 +327,7 @@ export const makeProject = (args: {
     appelOffreId: '',
     periodeId: '',
     familleId: '',
-    dateDeMiseEnService: '',
+    dateDeMiseEnService: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1316,7 +1316,7 @@ export const makeProject = (args: {
         }
         break
       case DateDeMiseEnServiceAjoutée.type:
-        props.dateDeMiseEnService = event.payload.dateDeMiseEnService
+        props.dateDeMiseEnService = new Date(event.payload.dateDeMiseEnService)
         break
       default:
         // ignore other event types
