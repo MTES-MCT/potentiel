@@ -1,6 +1,6 @@
 import { EventStore } from '@core/domain'
 import { errAsync, okAsync, ResultAsync } from '@core/utils'
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import {
   ImportDateMiseEnServiceMauvaisFormatError,
   ImportDatesMiseEnServiceDoublonsError,
@@ -8,6 +8,7 @@ import {
 import { isMatch } from 'date-fns'
 import { User } from '@entities'
 import { ImportDatesDeMiseEnServiceDémarré } from '../events'
+import { userIsNot } from '@modules/users'
 
 type ImportDatesMiseEnServiceErreurs =
   | ImportDateMiseEnServiceMauvaisFormatError
@@ -31,6 +32,10 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
   ({ publishToEventStore }) =>
   // vérifier que le user est admin ou dgec-validateur
   ({ datesDeMiseEnServiceParNumeroDeGestionnaire, utilisateur }) => {
+    if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
+      return errAsync(new UnauthorizedError())
+    }
+
     const erreurs: ImportDatesMiseEnServiceErreursArray = []
 
     const numérosDeGestionnaireIds = datesDeMiseEnServiceParNumeroDeGestionnaire.map(

@@ -1,4 +1,4 @@
-import { InfraNotAvailableError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { okAsync } from '@core/utils'
 
 import { makeImporterDatesMiseEnService } from './importerDatesDeMiseEnService'
@@ -7,10 +7,37 @@ import {
   ImportDatesMiseEnServiceDoublonsError,
 } from '../errors'
 import makeFakeUser from '../../../__tests__/fixtures/user'
+import { USER_ROLES } from '@modules/users'
 
 describe(`Commande importerDatesMiseEnService`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   const utilisateur = makeFakeUser({ id: 'utilisateur1' })
+
+  describe(`Erreur si l'utilisateur n'a pas les droits`, () => {
+    for (const role of USER_ROLES.filter((r) => !['admin', 'dgec-validateur'].includes(r))) {
+      it(`Étant donné un utilisateur avec un role autre que admin/dgec-validateur
+        Si l'utilisateur a le role ${role}
+        Alors une erreur UnauthorizedError devrait être retourné et aucun évènement ne devrait être émis`, async () => {
+        const datesDeMiseEnServiceParNumeroDeGestionnaire = [
+          {
+            numéroGestionnaire: 'ndg01',
+            dateDeMiseEnService: '01/01/2023',
+          },
+        ]
+
+        const importerDatesMiseEnService = makeImporterDatesMiseEnService({
+          publishToEventStore,
+        })
+
+        const résultat = await importerDatesMiseEnService({
+          datesDeMiseEnServiceParNumeroDeGestionnaire,
+          utilisateur: { ...utilisateur, role },
+        })
+
+        expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+      })
+    }
+  })
 
   describe(`Erreur si une date de mise est mauvais format`, () => {
     it(`Étant donné un fichier comportant une date qui n'est pas au format "dd/mm/aaaa",
