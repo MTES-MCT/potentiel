@@ -20,7 +20,7 @@ type ImporterDatesMiseEnService = (commande: {
   utilisateur: User
   datesDeMiseEnServiceParNumeroDeGestionnaire: {
     numéroGestionnaire: string
-    dateDeMiseEnService?: string
+    dateDeMiseEnService: string
   }[]
 }) => ResultAsync<null, InfraNotAvailableError | ImportDatesMiseEnServiceErreursArray>
 
@@ -39,10 +39,6 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
     )
 
     datesDeMiseEnServiceParNumeroDeGestionnaire.forEach((line, index) => {
-      if (!line.dateDeMiseEnService) {
-        erreurs.push(new ImportDateMiseEnServiceManquanteError((index += 1)))
-        return
-      }
       if (!isMatch(line.dateDeMiseEnService, 'dd/mm/yyyy')) {
         erreurs.push(new ImportDateMiseEnServiceMauvaisFormatError((index += 1)))
         return

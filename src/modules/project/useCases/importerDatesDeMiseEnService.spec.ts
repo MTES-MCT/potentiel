@@ -3,7 +3,6 @@ import { okAsync } from '@core/utils'
 
 import { makeImporterDatesMiseEnService } from './importerDatesDeMiseEnService'
 import {
-  ImportDateMiseEnServiceManquanteError,
   ImportDateMiseEnServiceMauvaisFormatError,
   ImportDatesMiseEnServiceDoublonsError,
 } from '../errors'
@@ -12,28 +11,6 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 describe(`Commande importerDatesMiseEnService`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   const utilisateur = makeFakeUser({ id: 'utilisateur1' })
-
-  describe(`Erreur si une date de mise en service est manquante dans le fichier`, () => {
-    it(`Étant donné un fichier comportant une ligne avec un numéro gestionnaire bien renseigné mais une date de mise en service manquante,
-        Alors une erreur de type ImportDateMiseEnServiceManquanteError est retournée et aucun évènement n'est publié`, async () => {
-      const datesDeMiseEnServiceParNumeroDeGestionnaire = [
-        {
-          numéroGestionnaire: 'ndg01',
-        },
-      ]
-
-      const importerDatesMiseEnService = makeImporterDatesMiseEnService({
-        publishToEventStore,
-      })
-
-      const résultat = await importerDatesMiseEnService({
-        datesDeMiseEnServiceParNumeroDeGestionnaire,
-        utilisateur,
-      })
-
-      expect(résultat._unsafeUnwrapErr()[0]).toBeInstanceOf(ImportDateMiseEnServiceManquanteError)
-    })
-  })
 
   describe(`Erreur si une date de mise est mauvais format`, () => {
     it(`Étant donné un fichier comportant une date qui n'est pas au format "dd/mm/aaaa",
