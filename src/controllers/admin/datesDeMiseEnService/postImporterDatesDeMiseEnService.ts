@@ -43,22 +43,21 @@ if (!!process.env.ENABLE_IMPORT_DATES_MISE_EN_SERVICE) {
         )
       }
 
-      const numeroGestionnaireIds: string[] = linesResult.value.map(
-        (line: { numeroGestionnaire: string }) => line.numeroGestionnaire
+      const datesDeMiseEnServiceParNumeroDeGestionnaire = linesResult.value.filter(
+        (line) => line.numéroGestionnaire && line.dateDeMiseEnService
       )
 
-      if (numeroGestionnaireIds.length !== [...new Set(numeroGestionnaireIds)].length) {
+      if (!datesDeMiseEnServiceParNumeroDeGestionnaire.length) {
         return response.redirect(
           addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
-            error: `L'import a échoué car le fichier comporte des numéros de gestionnaire en doublons.`,
+            error: `L'import a échoué car est incomplet.`,
           })
         )
       }
 
-      const datesParNumeroDeGestionnaire = linesResult.value.map((line) => ({
-        numéroGestionnaire: line.numeroGestionnaire,
-        ...(line.dateDeMiseEnService && { dateDeMiseEnService: line.dateDeMiseEnService }),
-      }))
+      // @todo: appeler la commande importerDatesMiseEnService en lui passant
+      // - datesDeMiseEnServiceParNumeroDeGestionnaire
+      // - le user
 
       return response.redirect(
         routes.SUCCESS_OR_ERROR_PAGE({
