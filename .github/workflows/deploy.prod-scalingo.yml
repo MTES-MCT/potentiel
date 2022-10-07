@@ -10,16 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Pre-requise for the clever-cloud deployment
       - name: Checkout repository 📥
         uses: actions/checkout@v3
 
-      - name: Install SSH Client 🔑
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.SCALINGO_SECRET }}
-
       - name: Deploy to Scalingo 🚀
         run: |
-          git remote add scalingo ${{secrets.SCALINGO_REPOSITORY}}
-          git push scalingo HEAD
+          curl -O https://cli-dl.scalingo.com/install && bash install
+          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
+          scalingo --app ${{ secrets.SCALINGO_PRODUCTION_APP }} --region ${{ secrets.SCALINGO_PRODUCTION_REGION }} integration-link-manual-deploy HEAD
