@@ -1,9 +1,10 @@
 import { EventStore } from '@core/domain'
-import { okAsync, ResultAsync } from '@core/utils'
+import { errAsync, okAsync, ResultAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import {
   ImportDateMiseEnServiceManquanteError,
   ImportDateMiseEnServiceMauvaisFormatError,
+  ImportDatesMiseEnServiceDoublonsError,
 } from '../errors'
 import { isMatch } from 'date-fns'
 import { User } from '@entities'
@@ -11,6 +12,7 @@ import { User } from '@entities'
 type ImportDatesMiseEnServiceErreurs =
   | ImportDateMiseEnServiceManquanteError
   | ImportDateMiseEnServiceMauvaisFormatError
+  | ImportDatesMiseEnServiceDoublonsError
 
 type ImportDatesMiseEnServiceErreursArray = ImportDatesMiseEnServiceErreurs[]
 
@@ -31,6 +33,11 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
   // vérifier que le user est admin ou dgec-validateur
   ({ datesDeMiseEnServiceParNumeroDeGestionnaire }) => {
     const erreurs: ImportDatesMiseEnServiceErreursArray = []
+
+    const numérosDeGestionnaireIds = datesDeMiseEnServiceParNumeroDeGestionnaire.map(
+      (l) => l.numéroGestionnaire
+    )
+
     datesDeMiseEnServiceParNumeroDeGestionnaire.forEach((line, index) => {
       if (!line.dateDeMiseEnService) {
         erreurs.push(new ImportDateMiseEnServiceManquanteError((index += 1)))
@@ -40,13 +47,18 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
         erreurs.push(new ImportDateMiseEnServiceMauvaisFormatError((index += 1)))
         return
       }
+
+      if (numérosDeGestionnaireIds.filter((id) => id === line.numéroGestionnaire).length > 1) {
+        erreurs.push(new ImportDatesMiseEnServiceDoublonsError(line.numéroGestionnaire))
+        return
+      }
     })
 
     if (erreurs.length) {
-      // Emettre un événement qui va mettre à jour la projection TachesDeFond avec les erreurs
-      // and then return okAsync(null)
+      return errAsync(erreurs)
     }
 
+    // @TODO
     // Emettre l'événement ImportDatesDeMiseEnServiceDémarré avec importData et ses dates au bon format
     // and then émettre un événement qui va mettre à jour la projection TachesDeFond ?
     // and then return okAsync(null)
@@ -55,15 +67,3 @@ export const makeImporterDatesMiseEnService: MakeImporterDatesMiseEnService =
   }
 
 // Retirer les doublons :
-
-// const numeroGestionnaireIds: string[] = linesResult.value.map(
-//   (line: { numeroGestionnaire: string }) => line.numeroGestionnaire
-// )
-
-// if (numeroGestionnaireIds.length !== [...new Set(numeroGestionnaireIds)].length) {
-//   return response.redirect(
-//     addQueryParams(routes.ADMIN_IMPORT_FICHIER_GESTIONNAIRE_RESEAU, {
-//       error: `L'import a échoué car le fichier comporte des numéros de gestionnaire en doublons.`,
-//     })
-//   )
-// }
