@@ -64,7 +64,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -91,7 +91,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -145,7 +145,7 @@ describe('Choisir un cahier des charges', () => {
         })
 
         const res = await choisirCahierDesCharges({
-          projetId: projetId,
+          projetId,
           utilisateur: user,
           cahierDesCharges: cdcChoisi,
         })
@@ -180,7 +180,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -219,7 +219,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -260,7 +260,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'modifié',
@@ -304,7 +304,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'initial',
@@ -367,7 +367,7 @@ describe('Choisir un cahier des charges', () => {
         })
 
         const res = await choisirCahierDesCharges({
-          projetId: projetId,
+          projetId,
           utilisateur: user,
           cahierDesCharges: cdcChoisi,
         })
@@ -380,7 +380,7 @@ describe('Choisir un cahier des charges', () => {
           expect.objectContaining({
             type: CahierDesChargesChoisi.type,
             payload: expect.objectContaining({
-              projetId: projetId,
+              projetId,
               choisiPar: user.id,
               ...cdcAttendu,
             }),
@@ -423,7 +423,7 @@ describe('Choisir un cahier des charges', () => {
       })
 
       const res = await choisirCahierDesCharges({
-        projetId: projetId,
+        projetId,
         utilisateur: user,
         cahierDesCharges: {
           type: 'initial',
@@ -435,7 +435,7 @@ describe('Choisir un cahier des charges', () => {
         expect.objectContaining({
           type: CahierDesChargesChoisi.type,
           payload: expect.objectContaining({
-            projetId: projetId,
+            projetId,
             choisiPar: user.id,
             type: 'initial',
           }),
