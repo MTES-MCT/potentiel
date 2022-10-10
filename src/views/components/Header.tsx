@@ -93,8 +93,8 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       <>
         <li className="flex items-center">
           {['admin', 'dgec-validateur'].includes(user.role) ? (
-            <a
-              className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
+            <Link
+              className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
             >
               <UserIcon />
@@ -104,7 +104,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               >
                 {user.fullName ? user.fullName : user.email}
               </span>
-            </a>
+            </Link>
           ) : (
             <span
               className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
@@ -121,22 +121,22 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
           )}
         </li>
         <li className="flex items-center">
-          <a
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+          <Link
+            className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGOUT_ACTION}
           >
             <LogoutBoxIcon className="text-blue-france-sun-base" />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
               Me déconnecter
             </span>
-          </a>
+          </Link>
         </li>
       </>
     ) : (
       <>
         <li>
           <Link
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
+            className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.SIGNUP}
           >
             <RiAccountCircleLine className="text-blue-france-sun-base" />
@@ -145,7 +145,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         </li>
         <li>
           <Link
-            className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
+            className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
             <LockIcon className="text-blue-france-sun-base" />
@@ -156,7 +156,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
     )}
     <li>
       <Link
-        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
+        className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
         target="_blank"
         rel="noopener"
         href="https://docs.potentiel.beta.gouv.fr"
