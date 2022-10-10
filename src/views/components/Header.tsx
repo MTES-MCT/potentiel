@@ -19,6 +19,31 @@ type HeaderProps = {
   children?: React.ReactNode
 }
 
+const LogoAndTitle = () => (
+  <Link
+    className="flex items-center no-underline hover:no-underline focus:no-underline visited:no-underline"
+    href={routes.HOME}
+  >
+    <div className="flex flex-col">
+      <div className="lg:mb-1 logo-before"></div>
+      <div className="hidden lg:block uppercase font-bold leading-none tracking-tighter text-black">
+        République
+        <br />
+        Française
+      </div>
+      <div className="hidden lg:block logo-after" />
+    </div>
+    <div className="ml-2 lg:ml-8 no-underline">
+      <div className="font-bold lg:text-xl text-black">Potentiel</div>
+      <div className="hidden lg:block text-base text-black">
+        Facilite le parcours des producteurs
+        <br />
+        d'énergies renouvelables électriques
+      </div>
+    </div>
+  </Link>
+)
+
 const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
   children,
@@ -40,8 +65,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
         <div className="p-2 lg:p-0 text-lg">
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
-              <Logo />
-              <Title />
+              <LogoAndTitle />
               <div className={`flex flex-row ml-auto ${menuItems && 'mr-4'}`}>
                 <QuickAccess {...{ user }} />
               </div>
@@ -60,29 +84,6 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
     </>
   )
 }
-
-const Logo = () => (
-  <div className="flex flex-col">
-    <div className="lg:mb-1 logo-before"></div>
-    <div className="hidden lg:block uppercase font-bold leading-none tracking-tighter">
-      République
-      <br />
-      Française
-    </div>
-    <div className="hidden lg:block logo-after"></div>
-  </div>
-)
-
-const Title = () => (
-  <a className="ml-2 lg:ml-8 no-underline" href={routes.HOME}>
-    <div className="font-bold lg:text-xl text-black">Potentiel</div>
-    <div className="hidden lg:block text-base text-black">
-      Facilite le parcours des producteurs
-      <br />
-      d'énergies renouvelables électriques
-    </div>
-  </a>
-)
 
 type QuickAccessProps = {
   user?: Request['user']
