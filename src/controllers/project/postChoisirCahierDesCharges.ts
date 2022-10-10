@@ -1,12 +1,18 @@
-import { ensureRole, choisirCahierDesCharges } from '@config'
-import { logger } from '@core/utils'
+import {
+  ensureRole,
+  choisirCahierDesCharges,
+  renseignerIdentifiantGestionnaireRéseau,
+} from '@config'
+import { logger, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import {
+  CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
+  IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
@@ -79,49 +85,64 @@ v1Router.post(
         user,
       } = request
 
-      return choisirCahierDesCharges({
-        projetId: projectId,
-        utilisateur: user,
-        cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
-        identifiantGestionnaireRéseau,
-      }).match(
-        () => {
-          return response.redirect(
-            routes.SUCCESS_OR_ERROR_PAGE({
-              success:
-                "Votre demande de changement de modalités d'instructions a bien été enregistrée.",
-              redirectUrl,
-              redirectTitle: getRedirectTitle(type),
-            })
-          )
-        },
-        (error) => {
-          if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
-          }
+      return (() => {
+        if (!identifiantGestionnaireRéseau) {
+          return okAsync(null)
+        }
 
-          if (
-            error instanceof IdentifiantGestionnaireRéseauObligatoireError ||
-            error instanceof NouveauCahierDesChargesDéjàSouscrit ||
-            error instanceof PasDeChangementDeCDCPourCetAOError ||
-            error instanceof CahierDesChargesNonDisponibleError
-          ) {
+        return renseignerIdentifiantGestionnaireRéseau({
+          projetId: projectId,
+          utilisateur: user,
+          identifiantGestionnaireRéseau,
+        })
+      })()
+        .andThen(() =>
+          choisirCahierDesCharges({
+            projetId: projectId,
+            utilisateur: user,
+            cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
+          })
+        )
+        .match(
+          () => {
+            return response.redirect(
+              routes.SUCCESS_OR_ERROR_PAGE({
+                success:
+                  "Votre demande de changement de modalités d'instruction a bien été enregistrée.",
+                redirectUrl,
+                redirectTitle: getRedirectTitle(type),
+              })
+            )
+          },
+          (error) => {
+            if (error instanceof UnauthorizedError) {
+              return unauthorizedResponse({ request, response })
+            }
+
+            if (
+              error instanceof IdentifiantGestionnaireRéseauExistantError ||
+              error instanceof IdentifiantGestionnaireRéseauObligatoireError ||
+              error instanceof NouveauCahierDesChargesDéjàSouscrit ||
+              error instanceof PasDeChangementDeCDCPourCetAOError ||
+              error instanceof CahierDesChargesInitialNonDisponibleError ||
+              error instanceof CahierDesChargesNonDisponibleError
+            ) {
+              return errorResponse({
+                request,
+                response,
+                customMessage: error.message,
+              })
+            }
+
+            logger.error(error)
             return errorResponse({
               request,
               response,
-              customMessage: error.message,
+              customMessage:
+                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
             })
           }
-
-          logger.error(error)
-          return errorResponse({
-            request,
-            response,
-            customMessage:
-              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
+        )
     }
   )
 )

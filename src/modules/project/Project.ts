@@ -84,6 +84,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   CahierDesChargesChoisi,
+  NumeroGestionnaireSubmitted,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -230,6 +231,7 @@ export interface Project extends EventStoreAggregate {
   readonly periodeId: string
   readonly familleId?: string
   readonly completionDueOn: number
+  readonly identifiantGestionnaireRéseau: string
 }
 
 export interface ProjectDataProps {
@@ -282,6 +284,7 @@ export interface ProjectProps {
   appelOffreId: string
   periodeId: string
   familleId: string
+  identifiantGestionnaireRéseau: string
 }
 
 const projectValidator = makePropertyValidator({
@@ -324,6 +327,7 @@ export const makeProject = (args: {
     appelOffreId: '',
     periodeId: '',
     familleId: '',
+    identifiantGestionnaireRéseau: '',
   }
 
   // Initialize aggregate by processing each event in history
@@ -1107,6 +1111,9 @@ export const makeProject = (args: {
     get abandonedOn() {
       return props.abandonedOn
     },
+    get identifiantGestionnaireRéseau() {
+      return props.identifiantGestionnaireRéseau
+    },
   })
 
   // private methods
@@ -1307,6 +1314,10 @@ export const makeProject = (args: {
             alternatif: event.payload.alternatif,
           }),
         }
+        break
+      case NumeroGestionnaireSubmitted.type:
+        props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
+
         break
       default:
         // ignore other event types

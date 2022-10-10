@@ -1,8 +1,13 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, CahierDesChargesRéférenceParsed } from '@entities'
+import {
+  User,
+  CahierDesChargesRéférenceParsed,
+  AppelOffre,
+  CahierDesChargesModifié,
+} from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { CahierDesChargesChoisi, NumeroGestionnaireSubmitted } from '../events'
+import { CahierDesChargesChoisi } from '../events'
 import { Project } from '../Project'
 import { NouveauCahierDesChargesDéjàSouscrit } from '../errors/NouveauCahierDesChargesDéjàSouscrit'
 import { AppelOffreRepo } from '@dataAccess'
@@ -11,20 +16,27 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
   PasDeChangementDeCDCPourCetAOError,
   CahierDesChargesInitialNonDisponibleError,
+  IdentifiantGestionnaireRéseauExistantError,
 } from '../errors'
 
-type ChoisirCahierDesCharges = (commande: {
+type Commande = {
   projetId: string
   utilisateur: User
   cahierDesCharges: CahierDesChargesRéférenceParsed
-  identifiantGestionnaireRéseau?: string
-}) => ResultAsync<
+}
+
+type ChoisirCahierDesCharges = (
+  commande: Commande
+) => ResultAsync<
   null,
   | UnauthorizedError
+  | InfraNotAvailableError
   | NouveauCahierDesChargesDéjàSouscrit
+  | CahierDesChargesInitialNonDisponibleError
   | PasDeChangementDeCDCPourCetAOError
   | CahierDesChargesNonDisponibleError
-  | InfraNotAvailableError
+  | IdentifiantGestionnaireRéseauObligatoireError
+  | IdentifiantGestionnaireRéseauExistantError
 >
 
 type MakeChoisirCahierDesCharges = (dépendances: {
@@ -34,91 +46,134 @@ type MakeChoisirCahierDesCharges = (dépendances: {
   findAppelOffreById: AppelOffreRepo['findById']
 }) => ChoisirCahierDesCharges
 
-export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
-  ({ shouldUserAccessProject, publishToEventStore, projectRepo, findAppelOffreById }) =>
-  ({ projetId, utilisateur, cahierDesCharges, identifiantGestionnaireRéseau }) => {
-    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur }))
-      .andThen((utilisateurALesDroits) => {
-        if (!utilisateurALesDroits) {
-          return errAsync(new UnauthorizedError())
-        }
+export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges = ({
+  shouldUserAccessProject,
+  publishToEventStore,
+  projectRepo,
+  findAppelOffreById,
+}) => {
+  const vérifierAccèsProjet = (commande: Commande) => {
+    const { projetId, utilisateur } = commande
+    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
+      (utilisateurALesDroits) =>
+        utilisateurALesDroits ? okAsync(commande) : errAsync(new UnauthorizedError())
+    )
+  }
 
-        return projectRepo.load(new UniqueEntityID(projetId))
-      })
-      .andThen((project) => {
-        if (
-          cahierDesCharges.type === 'modifié' &&
-          project.cahierDesCharges.type === 'modifié' &&
-          project.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
-          project.cahierDesCharges.alternatif === cahierDesCharges.alternatif
-        ) {
-          return errAsync(new NouveauCahierDesChargesDéjàSouscrit())
-        }
+  const chargerProjet = (commande: Commande) =>
+    projectRepo
+      .load(new UniqueEntityID(commande.projetId))
+      .andThen((projet) => okAsync({ commande, projet }))
 
-        return wrapInfra(findAppelOffreById(project.appelOffreId)).andThen((appelOffre) =>
-          appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError())
-        )
-      })
-      .andThen((appelOffre) => {
-        if (cahierDesCharges.type === 'initial' && !appelOffre.doitPouvoirChoisirCDCInitial) {
-          return errAsync(new CahierDesChargesInitialNonDisponibleError())
-        }
+  const chargerAppelOffre = (arg: { commande: Commande; projet: Project }) =>
+    wrapInfra(findAppelOffreById(arg.projet.appelOffreId)).andThen((appelOffre) =>
+      appelOffre ? okAsync({ ...arg, appelOffre }) : errAsync(new EntityNotFoundError())
+    )
 
-        if (cahierDesCharges.type === 'initial') {
-          return publishToEventStore(
-            new CahierDesChargesChoisi({
-              payload: {
-                projetId,
-                choisiPar: utilisateur.id,
-                type: 'initial',
-              },
-            })
-          )
-        }
+  const chargerCahierDesChargesChoisi = (arg: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+  }) => {
+    const {
+      commande: { cahierDesCharges },
+      appelOffre,
+    } = arg
 
-        if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
-          return errAsync(new PasDeChangementDeCDCPourCetAOError())
-        }
+    if (cahierDesCharges.type === 'initial') {
+      return okAsync({ ...arg, cahierDesChargesChoisi: { type: 'initial' } })
+    }
 
-        const cahierDesChargesChoisi = appelOffre.cahiersDesChargesModifiésDisponibles.find(
-          (c) =>
-            c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
-        )
+    if (appelOffre.cahiersDesChargesModifiésDisponibles.length === 0) {
+      return errAsync(new PasDeChangementDeCDCPourCetAOError())
+    }
 
-        if (!cahierDesChargesChoisi) {
-          return errAsync(new CahierDesChargesNonDisponibleError())
-        }
+    const cahierDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
+      (c) => c.paruLe === cahierDesCharges.paruLe && c.alternatif === cahierDesCharges.alternatif
+    )
 
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && !identifiantGestionnaireRéseau) {
-          return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
-        }
+    return cahierDesChargesModifié
+      ? okAsync({ ...arg, cahierDesChargesChoisi: cahierDesChargesModifié })
+      : errAsync(new CahierDesChargesNonDisponibleError())
+  }
 
-        if (cahierDesChargesChoisi.numéroGestionnaireRequis && identifiantGestionnaireRéseau) {
-          return publishToEventStore(
-            new NumeroGestionnaireSubmitted({
-              payload: {
-                projectId: projetId,
-                submittedBy: utilisateur.id,
-                numeroGestionnaire: identifiantGestionnaireRéseau,
-              },
-            })
-          ).andThen(() =>
-            publishToEventStore(
-              new CahierDesChargesChoisi({
-                payload: {
-                  projetId,
-                  choisiPar: utilisateur.id,
-                  type: 'modifié',
-                  paruLe: cahierDesCharges.paruLe,
-                  alternatif: cahierDesCharges.alternatif,
-                },
-              })
-            )
-          )
-        }
+  const vérifierSiPasDéjàSouscrit = (arg: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
+  }) => {
+    const { commande, projet } = arg
+    const { cahierDesCharges } = commande
 
-        return publishToEventStore(
-          new CahierDesChargesChoisi({
+    const estDéjàSouscrit =
+      cahierDesCharges.type === 'modifié' &&
+      projet.cahierDesCharges.type === 'modifié' &&
+      projet.cahierDesCharges.paruLe === cahierDesCharges.paruLe &&
+      projet.cahierDesCharges.alternatif === cahierDesCharges.alternatif
+
+    return estDéjàSouscrit ? errAsync(new NouveauCahierDesChargesDéjàSouscrit()) : okAsync(arg)
+  }
+
+  const vérifierSiLInitialPeutÊtreChoisi = (arg: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
+  }) => {
+    const { commande, appelOffre } = arg
+    const { cahierDesCharges } = commande
+
+    if (cahierDesCharges.type === 'initial') {
+      if (!appelOffre.doitPouvoirChoisirCDCInitial) {
+        return errAsync(new CahierDesChargesInitialNonDisponibleError())
+      }
+
+      return okAsync(arg)
+    }
+
+    return okAsync(arg)
+  }
+
+  const vérifierIdentifiantGestionnaireRéseau = (arg: {
+    commande: Commande
+    projet: Project
+    appelOffre: AppelOffre
+    cahierDesChargesChoisi: CahierDesChargesModifié | { type: 'initial' }
+  }) => {
+    const { commande, projet, cahierDesChargesChoisi } = arg
+    const { cahierDesCharges } = commande
+
+    if (cahierDesCharges.type === 'initial') {
+      return okAsync(arg)
+    }
+
+    if (
+      cahierDesChargesChoisi.type === 'modifié' &&
+      cahierDesChargesChoisi.numéroGestionnaireRequis &&
+      !projet.identifiantGestionnaireRéseau
+    ) {
+      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
+    }
+
+    return okAsync(arg)
+  }
+
+  const enregistrerLeChoix = ({
+    commande: { cahierDesCharges, projetId, utilisateur },
+  }: {
+    commande: Commande
+  }) =>
+    publishToEventStore(
+      cahierDesCharges.type === 'initial'
+        ? new CahierDesChargesChoisi({
+            payload: {
+              projetId,
+              choisiPar: utilisateur.id,
+              type: 'initial',
+            },
+          })
+        : new CahierDesChargesChoisi({
             payload: {
               projetId,
               choisiPar: utilisateur.id,
@@ -127,6 +182,15 @@ export const makeChoisirCahierDesCharges: MakeChoisirCahierDesCharges =
               alternatif: cahierDesCharges.alternatif,
             },
           })
-        )
-      })
-  }
+    )
+
+  return (commande) =>
+    vérifierAccèsProjet(commande)
+      .andThen(chargerProjet)
+      .andThen(chargerAppelOffre)
+      .andThen(chargerCahierDesChargesChoisi)
+      .andThen(vérifierSiPasDéjàSouscrit)
+      .andThen(vérifierSiLInitialPeutÊtreChoisi)
+      .andThen(vérifierIdentifiantGestionnaireRéseau)
+      .andThen(enregistrerLeChoix)
+}
