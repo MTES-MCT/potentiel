@@ -99,7 +99,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             >
               <UserIcon />
               <span
-                className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                className="hidden lg:block max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
               >
                 {user.fullName ? user.fullName : user.email}
@@ -134,31 +134,27 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       </>
     ) : (
       <>
-        <li className="flex items-center">
-          <a
+        <li>
+          <Link
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.SIGNUP}
           >
             <RiAccountCircleLine className="text-blue-france-sun-base" />
-            <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
-              M'inscrire
-            </span>
-          </a>
+            <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'inscrire</span>
+          </Link>
         </li>
-        <li className="flex items-center">
-          <a
+        <li>
+          <Link
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
             <LockIcon className="text-blue-france-sun-base" />
-            <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
-              M'identifier
-            </span>
-          </a>
+            <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'identifier</span>
+          </Link>
         </li>
       </>
     )}
-    <li className="flex items-center">
+    <li>
       <Link
         className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
         target="_blank"
@@ -166,8 +162,10 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         href="https://docs.potentiel.beta.gouv.fr"
       >
         <QuestionIcon className="lg:hidden text-blue-france-sun-base" />
-        <ExternalLinkIcon className="hidden lg:block text-blue-france-sun-base" />
-        <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">Aide</span>
+        <span className="hidden lg:flex lg:items-center mx-1 text-blue-france-sun-base">
+          <span className="pt-0.5">Aide</span>
+          <ExternalLinkIcon className="w-4 h-4 ml-1" />
+        </span>
       </Link>
     </li>
   </ul>
