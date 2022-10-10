@@ -2,14 +2,17 @@ import React from 'react'
 import routes from '@routes'
 import { Request } from 'express'
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
-import { RiCloseLine } from '@react-icons/all-files/ri/RiCloseLine'
-import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
-import { RiMenuLine } from '@react-icons/all-files/ri/RiMenuLine'
-import { RiQuestionLine } from '@react-icons/all-files/ri/RiQuestionLine'
-import { RiUserLine } from '@react-icons/all-files/ri/RiUserLine'
-import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 
-import { ExternalLink } from '@components'
+import {
+  ExternalLinkIcon,
+  Link,
+  QuestionIcon,
+  LockIcon,
+  UserIcon,
+  MenuIcon,
+  LogoutBoxIcon,
+  CloseIcon,
+} from '@components'
 
 type HeaderProps = {
   user?: Request['user']
@@ -94,7 +97,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
             >
-              <RiUserLine />
+              <UserIcon />
               <span
                 className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -107,7 +110,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
               style={{ color: 'var(--text-default-grey)' }}
             >
-              <RiUserLine />
+              <UserIcon />
               <span
                 className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -122,7 +125,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGOUT_ACTION}
           >
-            <RiLogoutBoxLine className="text-blue-france-sun-base" />
+            <LogoutBoxIcon className="text-blue-france-sun-base" />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
               Me déconnecter
             </span>
@@ -147,7 +150,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
-            <RiLockLine className="text-blue-france-sun-base" />
+            <LockIcon className="text-blue-france-sun-base" />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
               M'identifier
             </span>
@@ -156,20 +159,16 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       </>
     )}
     <li className="flex items-center">
-      <a
-        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base lg:hidden"
+      <Link
+        className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base"
         target="_blank"
         rel="noopener"
         href="https://docs.potentiel.beta.gouv.fr"
       >
-        <RiQuestionLine className="lg:hidden text-blue-france-sun-base" />
-      </a>
-      <ExternalLink
-        href="https://docs.potentiel.beta.gouv.fr"
-        className="no-underline hidden lg:block"
-      >
-        <span className="pt-0.5 mx-1">Aide</span>
-      </ExternalLink>
+        <QuestionIcon className="lg:hidden text-blue-france-sun-base" />
+        <ExternalLinkIcon className="hidden lg:block text-blue-france-sun-base" />
+        <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">Aide</span>
+      </Link>
     </li>
   </ul>
 )
@@ -181,8 +180,8 @@ const MainMenu = ({ children }: MainMenuProps) => (
   <>
     <input id="menu-toggle" className="hidden" type="checkbox" />
     <label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
-      <RiMenuLine className="menu-open" />
-      <RiCloseLine className="menu-close hidden" />
+      <MenuIcon className="menu-open" />
+      <CloseIcon className="menu-close hidden" />
     </label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
       <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
