@@ -160,12 +160,12 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         className="no-underline flex flex-row items-center px-2 md:px-3 text-blue-france-sun-base lg:hidden"
         target="_blank"
         rel="noopener"
-        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+        href="https://docs.potentiel.beta.gouv.fr"
       >
         <RiQuestionLine className="lg:hidden text-blue-france-sun-base" />
       </a>
       <ExternalLink
-        href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
+        href="https://docs.potentiel.beta.gouv.fr"
         className="no-underline hidden lg:block"
       >
         <span className="pt-0.5 mx-1">Aide</span>
