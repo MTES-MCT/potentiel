@@ -372,8 +372,6 @@ describe('Choisir un cahier des charges', () => {
           cahierDesCharges: cdcChoisi,
         })
 
-        console.log(JSON.stringify(res))
-
         expect(res.isOk()).toBe(true)
 
         expect(publishToEventStore).toHaveBeenCalledWith(
