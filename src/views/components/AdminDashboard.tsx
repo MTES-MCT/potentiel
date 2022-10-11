@@ -33,6 +33,7 @@ interface AdminDashboardProps {
     | 'admin-statistiques'
     | 'admin-upload-legacy-modification-files'
     | 'import-enedis'
+    | 'import-gestionnaire-réseau'
     | undefined
 }
 
@@ -85,6 +86,20 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
             />
 
             <SeparatorItem role={role} />
+
+            {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+              <>
+                <MenuItem
+                  route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
+                  itemPage={'import-gestionnaire-réseau'}
+                  title="Mise à jour dates de mise en service"
+                  role={role}
+                  currentPage={currentPage}
+                />
+
+                <SeparatorItem role={role} />
+              </>
+            )}
 
             <MenuItem
               route={ROUTES.IMPORT_PROJECTS}
