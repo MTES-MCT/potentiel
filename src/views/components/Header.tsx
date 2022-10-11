@@ -26,10 +26,10 @@ const LogoAndTitle = () => (
   >
     <div className="flex flex-col">
       <div className="lg:mb-1 logo-before"></div>
-      <div className="hidden lg:block uppercase font-bold leading-none tracking-tighter text-black">
-        République
+      <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
+        RÉPUBLIQUE
         <br />
-        Française
+        FRANÇAISE
       </div>
       <div className="hidden lg:block logo-after" />
     </div>
