@@ -8,7 +8,6 @@ import { addQueryParams } from '../../../helpers/addQueryParams'
 import { errAsync, logger, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import { stringToDateYupTransformation } from '../../helpers'
-import { ValidationError } from 'yup'
 
 const csvDataSchema = yup
   .array()
@@ -72,9 +71,6 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
     const donnéesValidées = csvDataSchema.validateSync(données, { abortEarly: false })
     return okAsync(donnéesValidées)
   } catch (error) {
-    if (error instanceof ValidationError) {
-      return errAsync(error)
-    }
     return errAsync(new Error('Le fichier csv contient des valeurs incorrectes'))
   }
 }
