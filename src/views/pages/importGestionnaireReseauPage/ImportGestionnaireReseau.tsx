@@ -19,7 +19,7 @@ export const ImportGestionnaireReseau = ({ request }: ImportGestionnaireReseauPr
           encType="multipart/form-data"
         >
           <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
-          <Input type="file" required name="fichier-import-date-mise-en-service" id="fichier" />
+          <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
           <Button type="submit" className="mt-4">
             Mettre les projets à jour
           </Button>
