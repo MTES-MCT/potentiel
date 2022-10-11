@@ -114,7 +114,7 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
 type SubmittedProps = ComponentProps & { status: 'pending-validation' }
 const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
-  const canAddExpDate = role === 'porteur-projet' || role === 'dreal'
+  const canAddExpDate = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
 
   return (
     <>
