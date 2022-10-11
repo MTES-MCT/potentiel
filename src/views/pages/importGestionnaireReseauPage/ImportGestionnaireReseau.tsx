@@ -14,7 +14,7 @@ export const ImportGestionnaireReseau = ({ request }: ImportGestionnaireReseauPr
         <h3 className="section--title">Import gestionnaire réseau</h3>
         <SuccessErrorBox error={request.query.error as string} />
         <form
-          action={routes.IMPORT_GESTIONNAIRE_RESEAU}
+          action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
           method="post"
           encType="multipart/form-data"
         >
