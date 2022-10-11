@@ -5,16 +5,34 @@ import { Request } from 'express'
 
 type ImportGestionnaireReseauProps = {
   request: Request
+  success?: string
+  error?: string
+  validationErreurs?: string[]
 }
 
-export const ImportGestionnaireReseau = ({ request }: ImportGestionnaireReseauProps) => (
+export const ImportGestionnaireReseau = ({
+  request,
+  validationErreurs,
+
+  error,
+  success,
+}: ImportGestionnaireReseauProps) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
         <h3 className="section--title">Import gestionnaire réseau</h3>
-        <SuccessErrorBox error={request.query.error as string} />
+        <SuccessErrorBox success={success} error={error} />
+        {validationErreurs && (
+          <ul className="notification error">
+            {validationErreurs.map((erreur, index) => (
+              <li key={index} className="ml-3">
+                {erreur}
+              </li>
+            ))}
+          </ul>
+        )}
         <form
-          action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
+          action={routes.IMPORT_GESTIONNAIRE_RESEAU}
           method="post"
           encType="multipart/form-data"
         >

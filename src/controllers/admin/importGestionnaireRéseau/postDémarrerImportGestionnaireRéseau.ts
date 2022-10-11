@@ -4,10 +4,10 @@ import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
-import { addQueryParams } from '../../../helpers/addQueryParams'
 import { errAsync, logger, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import { stringToDateYupTransformation } from '../../helpers'
+import { ImportGestionnaireReseauPage } from '@views'
 
 const csvDataSchema = yup
   .array()
@@ -20,21 +20,19 @@ const csvDataSchema = yup
         .date()
         .nullable()
         .transform((_, originalValue) => stringToDateYupTransformation(originalValue, 'dd/MM/yyyy'))
-        .typeError(`Une date de mise en service n'est pas valide`),
+        .typeError(`La date de mise en service n'est pas valide`),
     })
   )
 
 if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
   v1Router.post(
-    routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU,
+    routes.IMPORT_GESTIONNAIRE_RESEAU,
     ensureRole(['admin', 'dgec-validateur']),
     upload.single('fichier-import-gestionnaire-réseau'),
     asyncHandler(async (request, response) => {
-      if (!request.file?.path) {
-        return response.redirect(
-          addQueryParams(routes.IMPORT_GESTIONNAIRE_RESEAU, {
-            error: 'Le fichier est obligatoire',
-          })
+      if (!request.file || !request.file.path) {
+        return response.send(
+          ImportGestionnaireReseauPage({ request, error: 'Le fichier est obligatoire' })
         )
       }
 
@@ -44,22 +42,13 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       })
         .andThen(validerLesDonnéesDuFichierCsv)
         .match(
-          () => {
-            return response.redirect(
-              routes.SUCCESS_OR_ERROR_PAGE({
-                success: `L'import du fichier a démarré.`,
-                redirectUrl: routes.ADMIN_DASHBOARD,
-                redirectTitle: 'Retour aux projets',
-              })
-            )
-          },
-          (error) => {
-            logger.error(error)
-            return response.redirect(
-              addQueryParams(routes.IMPORT_GESTIONNAIRE_RESEAU, {
-                error: error.message,
-              })
-            )
+          () =>
+            response.send(
+              ImportGestionnaireReseauPage({ request, success: "L'import du fichier a démarré." })
+            ),
+          (validationErreurs) => {
+            logger.error(validationErreurs)
+            return response.send(ImportGestionnaireReseauPage({ request, validationErreurs }))
           }
         )
     })
@@ -70,7 +59,14 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
     const donnéesValidées = csvDataSchema.validateSync(données)
     return okAsync(donnéesValidées)
-  } catch (error) {
-    return errAsync(new Error('Le fichier csv contient des valeurs incorrectes'))
+  } catch (erreur) {
+    const erreurs = erreur.inner.reduce((acc, erreur) => {
+      let index = Number(erreur.path.slice(1, 2))
+      index += 2
+      acc.push(`ligne ${index} (${erreur.params.originalValue}) : ${erreur.errors[0]} `)
+      return acc
+    }, [])
+
+    return errAsync(erreurs)
   }
 }
