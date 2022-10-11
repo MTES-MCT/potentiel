@@ -384,7 +384,7 @@ class routes {
   static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet'
   static RETIRER_FICHIER_DU_PROJET_ACTION = '/retirer-fichier-du-projet'
 
-  static IMPORT_GESTIONNAIRE_RESEAU = '/admin/importer-gestionnaire-reseau.html'
+  static IMPORT_GESTIONNAIRE_RESEAU = '/admin/import-gestionnaire-reseau.html'
 }
 
 export default routes

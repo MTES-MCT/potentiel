@@ -2,17 +2,16 @@ import React from 'react'
 import { Input, Label, AdminDashboard, Button, SuccessErrorBox, PageTemplate } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
-import { hydrateOnClient } from '@views/helpers'
 
-type ImportGestionnaireRéseauProps = {
+type ImportGestionnaireReseauProps = {
   request: Request
 }
 
-export const ImportGestionnaireRéseau = ({ request }: ImportGestionnaireRéseauProps) => (
+export const ImportGestionnaireReseau = ({ request }: ImportGestionnaireReseauProps) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
-        <h3 className="section--title">Mise à jour dates de mise en service</h3>
+        <h3 className="section--title">Import gestionnaire réseau</h3>
         <SuccessErrorBox error={request.query.error as string} />
         <form
           action={routes.IMPORT_GESTIONNAIRE_RESEAU}
@@ -29,5 +28,3 @@ export const ImportGestionnaireRéseau = ({ request }: ImportGestionnaireRéseau
     </AdminDashboard>
   </PageTemplate>
 )
-
-hydrateOnClient(ImportGestionnaireRéseau)

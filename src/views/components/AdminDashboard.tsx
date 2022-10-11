@@ -87,20 +87,6 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
 
             <SeparatorItem role={role} />
 
-            {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
-              <>
-                <MenuItem
-                  route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
-                  itemPage={'import-gestionnaire-réseau'}
-                  title="Mise à jour dates de mise en service"
-                  role={role}
-                  currentPage={currentPage}
-                />
-
-                <SeparatorItem role={role} />
-              </>
-            )}
-
             <MenuItem
               route={ROUTES.IMPORT_PROJECTS}
               itemPage={'import-projects'}
@@ -139,6 +125,18 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               role={role}
               currentPage={currentPage}
             />
+
+            {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+              <>
+                <MenuItem
+                  route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
+                  itemPage={'import-gestionnaire-réseau'}
+                  title="Import gestionnaire réseau"
+                  role={role}
+                  currentPage={currentPage}
+                />
+              </>
+            )}
 
             <SeparatorItem role={role} />
             {/* {!!process.env.ENABLE_ENEDIS_IMPORT && (

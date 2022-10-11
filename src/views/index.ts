@@ -26,7 +26,7 @@ import {
   DemandeAbandon,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  ImportGestionnaireRéseau,
+  ImportGestionnaireReseau,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -232,12 +232,11 @@ export const AbonnementLettreInformationPage = (
     hydrate: false,
   })
 
-export const ImportGestionnaireRéseauPage = (
-  props: Parameters<typeof ImportGestionnaireRéseau>[0]
+export const ImportGestionnaireReseauPage = (
+  props: Parameters<typeof ImportGestionnaireReseau>[0]
 ) =>
   makeHtml({
-    Component: ImportGestionnaireRéseau,
+    Component: ImportGestionnaireReseau,
     props,
-    hydrate: true,
-    pageName: 'importGestionnaireRéseau',
+    hydrate: false,
   })
