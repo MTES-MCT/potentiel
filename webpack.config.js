@@ -3,8 +3,7 @@ const startCase = require('lodash/startCase')
 const path = require('path')
 const webpack = require('webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-
-const pageDir = path.join(__dirname, 'src', 'views', 'pages')
+require('dotenv').config()
 
 const pageEntries = glob
   .sync('./src/views/pages/**/*@(Page|Page.tsx)')
@@ -47,6 +46,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version),
+      'process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU': JSON.stringify(
+        process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU
+      ),
     }),
   ],
   module: {
