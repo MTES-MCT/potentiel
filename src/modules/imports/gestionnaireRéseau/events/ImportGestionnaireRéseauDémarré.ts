@@ -1,7 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
-export type ImportGestionnaireRéseauDémarréPayload = {
+type ImportGestionnaireRéseauDémarréPayload = {
   démarréPar: string
   gestionnaire: string
 }

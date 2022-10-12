@@ -1,7 +1,7 @@
 import { EventStore, TransactionalRepository } from '@core/domain'
 import { ImportGestionnaireRéseau } from './ImportGestionnaireRéseau'
 import { User } from '@entities'
-import { ImportGestionnaireRéseauDémarré } from './events'
+import { ImportGestionnaireRéseauDémarré, MiseAJourDateMiseEnServiceDémarrée } from './events'
 import { errAsync } from 'neverthrow'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import ImportGestionnaireRéseauId from './ImportGestionnaireRéseauId'
@@ -15,6 +15,7 @@ type MakeDémarrerImportGestionnaireRéseauDépendances = {
 type DémarrerImportGestionnaireRéseauCommande = {
   utilisateur: User
   gestionnaire: string
+  données: Array<{ numeroGestionnaire: string; dateMiseEnService: Date }>
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
@@ -22,6 +23,7 @@ export const makeDémarrerImportGestionnaireRéseau =
   ({
     utilisateur: { id: démarréPar, role },
     gestionnaire,
+    données,
   }: DémarrerImportGestionnaireRéseauCommande) => {
     if (role !== 'admin') {
       return errAsync(new UnauthorizedError())
@@ -35,12 +37,24 @@ export const makeDémarrerImportGestionnaireRéseau =
         }
 
         return publishToEventStore(
-          new ImportGestionnaireRéseauDémarré({
+          new MiseAJourDateMiseEnServiceDémarrée({
             payload: {
-              démarréPar,
               gestionnaire,
+              dates: données.map(({ numeroGestionnaire, dateMiseEnService }) => ({
+                numeroGestionnaire,
+                dateMiseEnService: dateMiseEnService.toISOString(),
+              })),
             },
           })
+        ).andThen(() =>
+          publishToEventStore(
+            new ImportGestionnaireRéseauDémarré({
+              payload: {
+                démarréPar,
+                gestionnaire,
+              },
+            })
+          )
         )
       }
     )

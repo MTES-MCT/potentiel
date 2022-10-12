@@ -8,9 +8,10 @@ import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { USER_ROLES } from '@modules/users'
 
 describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
-  describe(`Démarrer un import pour un gestionnaire de réseau`, () => {
-    it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
-        Alors un import pour le gestionnaire de réseau est en cours`, async () => {
+  describe(`Démarrer la mise à jour des dates de mise en service au démarrage de l'import`, () => {
+    it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis avec des dates de mise en service
+        Alors la mise à jour des dates de mise en service est démarrée
+        Et l'import pour le gestionnaire de réseau est démarré`, async () => {
       const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
@@ -23,12 +24,38 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       const démarrage = await démarrerImportGestionnaireRéseau({
         utilisateur,
         gestionnaire: 'Enedis',
+        données: [
+          { numeroGestionnaire: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
+          { numeroGestionnaire: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
+        ],
       })
 
       expect(démarrage.isOk()).toBe(true)
 
-      expect(publishToEventStore).toHaveBeenCalledWith(
+      expect(publishToEventStore).toHaveBeenNthCalledWith(
+        1,
         expect.objectContaining({
+          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          type: 'MiseAJourDateMiseEnServiceDémarrée',
+          payload: expect.objectContaining({
+            gestionnaire: 'Enedis',
+            dates: [
+              {
+                numeroGestionnaire: 'NUM-GEST-1',
+                dateMiseEnService: new Date('2024-01-20').toISOString(),
+              },
+              {
+                numeroGestionnaire: 'NUM-GEST-2',
+                dateMiseEnService: new Date('2024-02-20').toISOString(),
+              },
+            ],
+          }),
+        })
+      )
+      expect(publishToEventStore).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'ImportGestionnaireRéseauDémarré',
           payload: expect.objectContaining({
             démarréPar: utilisateur.id,
@@ -57,6 +84,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         const démarrage = await démarrerImportGestionnaireRéseau({
           utilisateur,
           gestionnaire: 'Enedis',
+          données: [],
         })
 
         expect(démarrage.isErr()).toBe(true)
@@ -83,6 +111,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       const démarrage = await démarrerImportGestionnaireRéseau({
         utilisateur,
         gestionnaire: 'Enedis',
+        données: [],
       })
 
       expect(démarrage.isErr()).toBe(true)
