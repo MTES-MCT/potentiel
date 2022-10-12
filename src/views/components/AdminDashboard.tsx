@@ -33,6 +33,7 @@ interface AdminDashboardProps {
     | 'admin-statistiques'
     | 'admin-upload-legacy-modification-files'
     | 'import-enedis'
+    | 'import-gestionnaire-réseau'
     | undefined
 }
 
@@ -124,6 +125,16 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
               role={role}
               currentPage={currentPage}
             />
+
+            {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+              <MenuItem
+                route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
+                itemPage={'import-gestionnaire-réseau'}
+                title="Import gestionnaire réseau"
+                role={role}
+                currentPage={currentPage}
+              />
+            )}
 
             <SeparatorItem role={role} />
             {/* {!!process.env.ENABLE_ENEDIS_IMPORT && (
