@@ -6,6 +6,7 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { okAsync } from 'neverthrow'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { USER_ROLES } from '@modules/users'
+import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
 describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   describe(`Démarrer la mise à jour des dates de mise en service au démarrage de l'import`, () => {
@@ -116,6 +117,31 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
 
       expect(démarrage.isErr()).toBe(true)
       expect(démarrage._unsafeUnwrapErr()).toBeInstanceOf(DémarrageImpossibleError)
+
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Impossible de démarrer un import sans données de mise à jour`, () => {
+    it(`Lorsqu'on démarre un import sans données de mise à jour
+        Alors on est averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
+      const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+
+      const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+        importRepo: fakeTransactionalRepo({ état: undefined } as ImportGestionnaireRéseau),
+        publishToEventStore,
+      })
+
+      const utilisateur = { role: 'admin', id: 'administrateur-potentiel' } as User
+
+      const démarrage = await démarrerImportGestionnaireRéseau({
+        utilisateur,
+        gestionnaire: 'Enedis',
+        données: [],
+      })
+
+      expect(démarrage.isErr()).toBe(true)
+      expect(démarrage._unsafeUnwrapErr()).toBeInstanceOf(DonnéesDeMiseAJourObligatoiresError)
 
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
