@@ -30,7 +30,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
     ensureRole(['admin', 'dgec-validateur']),
     upload.single('fichier-import-gestionnaire-réseau'),
     asyncHandler(async (request, response) => {
-      if (!request.file || !request.file.path) {
+      if (!request.file?.path) {
         return response.redirect(
           addQueryParams(routes.IMPORT_GESTIONNAIRE_RESEAU, {
             error: 'Le fichier est obligatoire',
