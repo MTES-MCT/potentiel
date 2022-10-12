@@ -152,7 +152,7 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
 
 type ValidatedProps = ComponentProps & { status: 'validated' }
 const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps) => {
-  const canAddExpDate = role === 'porteur-projet' || role === 'dreal'
+  const canAddExpDate = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
 
   return (
     <>
@@ -287,7 +287,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
-  const canUpdateGF = role === 'porteur-projet' || role === 'dreal'
+  const canUpdateGF = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
 
   return (
     <>
@@ -317,6 +317,9 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         {canUpdateGF && <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />}
         {uploadedByRole === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
+        )}
+        {uploadedByRole === 'admin' && (
+          <p className="m-0 italic">Ce document a été ajouté par la DGEC</p>
         )}
       </ContentArea>
     </>
@@ -401,7 +404,7 @@ const UploadForm = ({ projectId, role, garantieFinanciereEnMois }: UploadFormPro
 
 type WithdrawDocumentProps = {
   projectId: string
-  uploadedByRole?: 'porteur-projet' | 'dreal'
+  uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
 }
 const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) => (
   <p className="p-0 m-0">

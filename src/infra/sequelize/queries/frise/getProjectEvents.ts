@@ -165,7 +165,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       file: file && { id: file.id, name: file.name },
                       expirationDate: payload.expirationDate,
-                      ...((uploadedByRole === 'porteur-projet' || uploadedByRole === 'dreal') && {
+                      ...((uploadedByRole === 'porteur-projet' ||
+                        uploadedByRole === 'dreal' ||
+                        uploadedByRole === 'admin') && {
                         uploadedByRole,
                       }),
                     })

@@ -130,7 +130,7 @@ export type ProjectGFUploadedDTO = {
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: File
   expirationDate?: number
-  uploadedByRole?: 'porteur-projet' | 'dreal'
+  uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
 }
 
 export type ProjectGFDueDateSetDTO = {
