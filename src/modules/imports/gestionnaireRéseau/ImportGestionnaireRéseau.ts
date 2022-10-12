@@ -1,8 +1,13 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok } from '@core/utils'
-import { ImportGestionnaireRéseauDémarré } from './events'
+import { ImportGestionnaireRéseauDémarré, MiseAJourDateMiseEnServiceDémarrée } from './events'
 
-export type ImportGestionnaireRéseau = EventStoreAggregate & { état: 'en cours' | undefined }
+export type ImportGestionnaireRéseau = EventStoreAggregate & {
+  état: 'en cours' | undefined
+  tâchesEnCours: Array<{
+    type: 'maj-date-mise-en-service'
+  }>
+}
 
 export const makeImportGestionnaireRéseau = (args: {
   id: UniqueEntityID
@@ -14,6 +19,7 @@ export const makeImportGestionnaireRéseau = (args: {
     id,
     pendingEvents: [],
     état: undefined,
+    tâchesEnCours: [],
   }
 
   const agregat: ImportGestionnaireRéseau = events.reduce((agregat, event) => {
@@ -21,6 +27,12 @@ export const makeImportGestionnaireRéseau = (args: {
       case ImportGestionnaireRéseauDémarré.type:
         return {
           ...agregat,
+          état: 'en cours',
+        }
+      case MiseAJourDateMiseEnServiceDémarrée.type:
+        return {
+          ...agregat,
+          tâchesEnCours: [...agregat.tâchesEnCours, { type: 'maj-date-mise-en-service' }],
           état: 'en cours',
         }
       default:
