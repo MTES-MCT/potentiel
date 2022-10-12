@@ -68,7 +68,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
 
 const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
-    const donnéesValidées = csvDataSchema.validateSync(données, { abortEarly: false })
+    const donnéesValidées = csvDataSchema.validateSync(données)
     return okAsync(donnéesValidées)
   } catch (error) {
     return errAsync(new Error('Le fichier csv contient des valeurs incorrectes'))
