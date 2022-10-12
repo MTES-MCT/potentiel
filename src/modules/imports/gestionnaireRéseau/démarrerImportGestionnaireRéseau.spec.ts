@@ -9,26 +9,29 @@ import { USER_ROLES } from '@modules/users'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
 describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
+  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+  const importDémarrable = { état: undefined } as ImportGestionnaireRéseau
+  const utilisateurAutorisé = { role: 'admin', id: 'administrateur-potentiel' } as User
+  const donnéesImportValides = [
+    { numeroGestionnaire: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
+    { numeroGestionnaire: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
+  ]
+
+  beforeEach(() => publishToEventStore.mockClear())
+
   describe(`Démarrer la mise à jour des dates de mise en service au démarrage de l'import`, () => {
     it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis avec des dates de mise en service
         Alors la mise à jour des dates de mise en service est démarrée
         Et l'import pour le gestionnaire de réseau est démarré`, async () => {
-      const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-        importRepo: fakeTransactionalRepo({ état: undefined } as ImportGestionnaireRéseau),
+        importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
       })
 
-      const utilisateur = { role: 'admin', id: 'administrateur-potentiel' } as User
-
       const démarrage = await démarrerImportGestionnaireRéseau({
-        utilisateur,
+        utilisateur: utilisateurAutorisé,
         gestionnaire: 'Enedis',
-        données: [
-          { numeroGestionnaire: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
-          { numeroGestionnaire: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
-        ],
+        données: donnéesImportValides,
       })
 
       expect(démarrage.isOk()).toBe(true)
@@ -59,7 +62,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
           aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'ImportGestionnaireRéseauDémarré',
           payload: expect.objectContaining({
-            démarréPar: utilisateur.id,
+            démarréPar: utilisateurAutorisé.id,
             gestionnaire: 'Enedis',
           }),
         })
@@ -73,19 +76,15 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     for (const role of rolesNonAutorisés) {
       it(`Lorsqu'un utilisateur ${role} démarre un import pour le gestionnaire de réseau Enedis
         Alors il est averti qu'il n'est pas autorisé à faire un import`, async () => {
-        const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-          importRepo: fakeTransactionalRepo({ état: undefined } as ImportGestionnaireRéseau),
+          importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
         })
 
-        const utilisateur = { role, id: 'administrateur-potentiel' } as User
-
         const démarrage = await démarrerImportGestionnaireRéseau({
-          utilisateur,
+          utilisateur: { role, id: 'administrateur-potentiel' } as User,
           gestionnaire: 'Enedis',
-          données: [],
+          données: donnéesImportValides,
         })
 
         expect(démarrage.isErr()).toBe(true)
@@ -100,19 +99,15 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     it(`Étant donné un import en cours pour le gestionnaire de réseau Enedis
         Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
         Alors on est averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
-      const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo({ état: 'en cours' } as ImportGestionnaireRéseau),
         publishToEventStore,
       })
 
-      const utilisateur = { role: 'admin', id: 'administrateur-potentiel' } as User
-
       const démarrage = await démarrerImportGestionnaireRéseau({
-        utilisateur,
+        utilisateur: utilisateurAutorisé,
         gestionnaire: 'Enedis',
-        données: [],
+        données: donnéesImportValides,
       })
 
       expect(démarrage.isErr()).toBe(true)
@@ -125,17 +120,13 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   describe(`Impossible de démarrer un import sans données de mise à jour`, () => {
     it(`Lorsqu'on démarre un import sans données de mise à jour
         Alors on est averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
-      const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-        importRepo: fakeTransactionalRepo({ état: undefined } as ImportGestionnaireRéseau),
+        importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
       })
 
-      const utilisateur = { role: 'admin', id: 'administrateur-potentiel' } as User
-
       const démarrage = await démarrerImportGestionnaireRéseau({
-        utilisateur,
+        utilisateur: utilisateurAutorisé,
         gestionnaire: 'Enedis',
         données: [],
       })
