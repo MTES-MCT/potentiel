@@ -19,7 +19,6 @@ export const makeDémarrerImportGestionnaireRéseau =
     return publishToEventStore(
       new ImportGestionnaireRéseauDémarré({
         payload: {
-          date: new Date().toISOString(),
           démarréPar,
           gestionnaire,
         },

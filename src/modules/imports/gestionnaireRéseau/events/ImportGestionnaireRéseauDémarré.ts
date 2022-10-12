@@ -1,7 +1,6 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 
 export type ImportGestionnaireRéseauDémarréPayload = {
-  date: string
   démarréPar: string
   gestionnaire: string
 }

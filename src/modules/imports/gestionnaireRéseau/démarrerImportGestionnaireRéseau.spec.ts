@@ -29,7 +29,6 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         expect.objectContaining({
           type: 'ImportGestionnaireRéseauDémarré',
           payload: expect.objectContaining({
-            date: expect.any(String),
             démarréPar: utilisateur.id,
             gestionnaire: 'Enedis',
           }),
