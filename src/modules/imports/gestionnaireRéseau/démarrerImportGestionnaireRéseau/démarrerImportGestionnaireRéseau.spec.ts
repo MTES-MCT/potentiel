@@ -64,7 +64,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
 
     for (const role of rolesNonAutorisés) {
       it(`Lorsqu'un utilisateur ${role} démarre un import pour le gestionnaire de réseau Enedis
-        Alors il est averti qu'il n'est pas autorisé à faire un import`, async () => {
+          Alors il devrait être averti qu'il n'est pas autorisé à faire un import`, async () => {
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
           importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
@@ -87,7 +87,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   describe(`Impossible de démarrer un import déjà en cours pour le même gestionnaire de réseau`, () => {
     it(`Étant donné un import en cours pour le gestionnaire de réseau Enedis
         Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
-        Alors on est averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
+        Alors on devrait être averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo({ état: 'en cours' } as ImportGestionnaireRéseau),
         publishToEventStore,
@@ -108,7 +108,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
 
   describe(`Impossible de démarrer un import sans données de mise à jour`, () => {
     it(`Lorsqu'on démarre un import sans données de mise à jour
-        Alors on est averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
+        Alors on devrait être averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
