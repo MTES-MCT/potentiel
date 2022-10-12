@@ -6,8 +6,12 @@ import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
 import { errAsync, logger, okAsync } from '@core/utils'
 import * as yup from 'yup'
-import { stringToDateYupTransformation, yupFormatCsvDataError } from '../../helpers'
+import {
+  mapYupValidationErrorToCsvValidationError,
+  stringToDateYupTransformation,
+} from '../../helpers'
 import { ImportGestionnaireReseauPage } from '@views'
+import { ValidationError } from 'yup'
 
 const csvDataSchema = yup
   .array()
@@ -59,8 +63,11 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
     const donnéesValidées = csvDataSchema.validateSync(données)
     return okAsync(donnéesValidées)
-  } catch (errors) {
-    const formattedErrors = yupFormatCsvDataError(errors)
-    return errAsync(formattedErrors)
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return errAsync(mapYupValidationErrorToCsvValidationError(error))
+    }
+
+    return errAsync(error)
   }
 }
