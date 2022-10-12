@@ -157,19 +157,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 break
               case 'ProjectGFUploaded':
                 if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                  const { file, uploadedByRole } = payload
                   if (type === 'ProjectGFUploaded') {
+                    const { file, uploadedByRole } = payload
                     events.push({
                       type,
                       date: valueDate,
                       variant: user.role,
                       file: file && { id: file.id, name: file.name },
                       expirationDate: payload.expirationDate,
-                      ...((uploadedByRole === 'porteur-projet' ||
-                        uploadedByRole === 'dreal' ||
-                        uploadedByRole === 'admin') && {
-                        uploadedByRole,
-                      }),
+                      uploadedByRole,
                     })
                   }
                 }

@@ -8,6 +8,8 @@ import { WarningIcon } from './WarningIcon'
 import { ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
+import { UserRole } from '@modules/users'
+
 import {
   Button,
   SecondaryButton,
@@ -54,14 +56,18 @@ export const GFItem = (props: ComponentProps) => {
   }
 }
 
+const rolesAvecAccèsAuxGF = ['porteur-projet', 'dreal', 'admin'] as const
+const aAccèsAuxGF = (role: UserRole): role is typeof rolesAvecAccèsAuxGF[number] => {
+  return (rolesAvecAccèsAuxGF as readonly string[]).includes(role)
+}
+
 /* CRE4 */
 
 type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
 const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const displayWarning = status === 'past-due' && isPorteurProjet
-  const isDreal = role === 'dreal'
-  const isAdmin = role === 'admin'
+  const peutChargerGFSansValidation = role === 'dreal' || role === 'admin'
   return (
     <>
       {displayWarning ? <WarningIcon /> : <CurrentIcon />}
@@ -89,21 +95,26 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
               garantieFinanciereEnMois={project.garantieFinanciereEnMois}
             />
           )}
-          {(isDreal || isAdmin) && (
-            <UploadForm
-              projectId={project.id}
-              role={role}
-              garantieFinanciereEnMois={project.garantieFinanciereEnMois}
-            />
-          )}
-          {(isDreal || isAdmin) && status === 'past-due' && (
-            <p className="m-0">
-              <DownloadLink
-                fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({ id: project.id, nomProjet })}
-              >
-                Télécharger le modèle de mise en demeure
-              </DownloadLink>
-            </p>
+          {peutChargerGFSansValidation && (
+            <>
+              <UploadForm
+                projectId={project.id}
+                role={role}
+                garantieFinanciereEnMois={project.garantieFinanciereEnMois}
+              />
+              {status === 'past-due' && (
+                <p className="m-0">
+                  <DownloadLink
+                    fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+                      id: project.id,
+                      nomProjet,
+                    })}
+                  >
+                    Télécharger le modèle de mise en demeure
+                  </DownloadLink>
+                </p>
+              )}
+            </>
           )}
         </div>
       </ContentArea>
@@ -114,7 +125,7 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
 type SubmittedProps = ComponentProps & { status: 'pending-validation' }
 const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
-  const canAddExpDate = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
+  const canAddExpDate = aAccèsAuxGF(role)
 
   return (
     <>
@@ -152,7 +163,7 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
 
 type ValidatedProps = ComponentProps & { status: 'validated' }
 const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps) => {
-  const canAddExpDate = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
+  const canAddExpDate = aAccèsAuxGF(role)
 
   return (
     <>
@@ -265,7 +276,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 type NotUploadedProps = ComponentProps
 
 const NotUploaded = ({ role, project }: NotUploadedProps) => {
-  const hasRightsToUpload = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
+  const hasRightsToUpload = aAccèsAuxGF(role)
   return (
     <>
       <CurrentIcon />
@@ -287,7 +298,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 type UploadedProps = ComponentProps & { status: 'uploaded' }
 
 const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
-  const canUpdateGF = role === 'porteur-projet' || role === 'dreal' || role === 'admin'
+  const canUpdateGF = aAccèsAuxGF(role)
 
   return (
     <>
