@@ -1,4 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
 export type ImportGestionnaireRéseauDémarréPayload = {
   démarréPar: string
@@ -14,6 +15,6 @@ export class ImportGestionnaireRéseauDémarré
   currentVersion = 1
 
   aggregateIdFromPayload(payload: ImportGestionnaireRéseauDémarréPayload) {
-    return `import-gestionnaire-réseau#${payload.gestionnaire}`
+    return ImportGestionnaireRéseauId.format(payload.gestionnaire).toString()
   }
 }

@@ -1,9 +1,10 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { EventStore, TransactionalRepository } from '@core/domain'
 import { ImportGestionnaireRéseau } from './ImportGestionnaireRéseau'
 import { User } from '@entities'
 import { ImportGestionnaireRéseauDémarré } from './events'
 import { errAsync } from 'neverthrow'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
+import ImportGestionnaireRéseauId from './ImportGestionnaireRéseauId'
 
 type MakeDémarrerImportGestionnaireRéseauDépendances = {
   importRepo: TransactionalRepository<ImportGestionnaireRéseau>
@@ -15,14 +16,11 @@ type DémarrerImportGestionnaireRéseauCommande = {
   gestionnaire: string
 }
 
-const makeImportGestionnaireRéseauAggregateId = (gestionnaire: string) =>
-  new UniqueEntityID(`import-gestionnaire-réseau#${gestionnaire}`)
-
 export const makeDémarrerImportGestionnaireRéseau =
   ({ importRepo, publishToEventStore }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
   ({ utilisateur: { id: démarréPar }, gestionnaire }: DémarrerImportGestionnaireRéseauCommande) => {
     return importRepo.transaction(
-      makeImportGestionnaireRéseauAggregateId(gestionnaire),
+      ImportGestionnaireRéseauId.format(gestionnaire),
       (importGestionnaireRéseau) => {
         if (importGestionnaireRéseau.état === 'en cours') {
           return errAsync(new DémarrageImpossibleError({ gestionnaire }))
