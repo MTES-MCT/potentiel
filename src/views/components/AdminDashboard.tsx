@@ -127,15 +127,13 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
             />
 
             {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
-              <>
-                <MenuItem
-                  route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
-                  itemPage={'import-gestionnaire-réseau'}
-                  title="Import gestionnaire réseau"
-                  role={role}
-                  currentPage={currentPage}
-                />
-              </>
+              <MenuItem
+                route={ROUTES.IMPORT_GESTIONNAIRE_RESEAU}
+                itemPage={'import-gestionnaire-réseau'}
+                title="Import gestionnaire réseau"
+                role={role}
+                currentPage={currentPage}
+              />
             )}
 
             <SeparatorItem role={role} />
