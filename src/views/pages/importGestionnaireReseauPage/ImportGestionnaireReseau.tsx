@@ -13,7 +13,6 @@ type ImportGestionnaireReseauProps = {
 export const ImportGestionnaireReseau = ({
   request,
   validationErreurs,
-
   error,
   success,
 }: ImportGestionnaireReseauProps) => (
