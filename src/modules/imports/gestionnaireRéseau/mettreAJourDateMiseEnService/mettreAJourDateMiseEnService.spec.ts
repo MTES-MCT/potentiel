@@ -8,9 +8,10 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   beforeEach(() => publishToEventStore.mockClear())
 
   describe(`Ajout de la date de mise en service au projet`, () => {
-    it(`Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
-        Alors la date de mise en service des projets correspondant devrait être ajoutée
-        Et la tâche devrait être terminée`, async () => {
+    it(`Étant donné un unique projet par identifiant gestionnaire réseau
+        Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
+        Alors la date de mise en service des projets correspondant devrait être renseignée
+        Et la tâche devrait être terminée avec le résultat des mises à jour`, async () => {
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -61,6 +62,16 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           type: 'MiseAJourDateMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
+            résultat: [
+              {
+                projetId: 'projet-1',
+                état: 'réussie',
+              },
+              {
+                projetId: 'projet-2',
+                état: 'réussie',
+              },
+            ],
           }),
         })
       )

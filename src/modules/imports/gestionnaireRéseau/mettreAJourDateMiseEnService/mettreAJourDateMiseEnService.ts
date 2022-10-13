@@ -1,5 +1,5 @@
 import { EventStore } from '@core/domain'
-import { combine, ResultAsync } from '@core/utils'
+import { combine, ok, ResultAsync } from '@core/utils'
 import { MiseAJourDateMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 
@@ -31,24 +31,24 @@ export const makeMettreAJourDateMiseEnService =
       données.map((d) => d.identifiantGestionnaireRéseau)
     )
       .andThen((résultats) => {
-        const result = données.reduce(
+        const résultat = données.reduce(
           (prev, { identifiantGestionnaireRéseau, dateMiseEnService }) => {
             const projetId = résultats[identifiantGestionnaireRéseau][0].id
 
-            const result = renseignerDateMiseEnService({ projetId, dateMiseEnService })
-
-            return [...prev, result]
+            renseignerDateMiseEnService({ projetId, dateMiseEnService })
+            return [...prev, ok({ état: 'réussie' as const, projetId })]
           },
           []
         )
 
-        return combine(result)
+        return combine(résultat)
       })
-      .andThen(() =>
+      .andThen((résultat) =>
         publishToEventStore(
           new MiseAJourDateMiseEnServiceTerminée({
             payload: {
               gestionnaire,
+              résultat,
             },
           })
         )
