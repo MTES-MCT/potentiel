@@ -19,11 +19,8 @@ export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement,
     if (projectEvent) {
       await ProjectEvent.update(
         {
-          projectId,
-          type: 'GarantiesFinancières',
-          valueDate: garantiesFinancieresDueOn,
+          valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          id: projectEvent.id,
           payload: {
             ...projectEvent?.payload,
             dateLimiteDEnvoi: garantiesFinancieresDueOn,
@@ -38,7 +35,7 @@ export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement,
       {
         projectId,
         type: 'GarantiesFinancières',
-        valueDate: garantiesFinancieresDueOn,
+        valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
         payload: { statut: 'due', dateLimiteDEnvoi: garantiesFinancieresDueOn },

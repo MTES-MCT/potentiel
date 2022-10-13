@@ -27,6 +27,7 @@ export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènem
 
     await ProjectEvent.update(
       {
+        valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
           ...projectEvent.payload,

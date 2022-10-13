@@ -28,6 +28,7 @@ export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, tr
 
     await ProjectEvent.update(
       {
+        valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
           statut: 'due',

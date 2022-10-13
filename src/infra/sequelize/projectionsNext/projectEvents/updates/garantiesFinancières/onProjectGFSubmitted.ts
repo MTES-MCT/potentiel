@@ -47,7 +47,7 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
 
     await ProjectEvent.update(
       {
-        valueDate: gfDate.getTime(),
+        valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
           dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,

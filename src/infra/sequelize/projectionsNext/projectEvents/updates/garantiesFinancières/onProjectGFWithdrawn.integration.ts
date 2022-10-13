@@ -1,7 +1,7 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '../..'
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFWithdrawn, ProjectGFWithdrawnPayload } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
+import { resetDatabase } from '../../../../helpers'
 import onProjectGFWithdrawn from './onProjectGFWithdrawn'
 
 describe('onProjectGFWithdrawn', () => {

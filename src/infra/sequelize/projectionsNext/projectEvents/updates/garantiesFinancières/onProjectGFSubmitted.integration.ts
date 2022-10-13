@@ -3,7 +3,7 @@ import { ProjectGFSubmitted, ProjectGFSubmittedPayload } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import models from '../../../models'
 import { ProjectEvent } from '../projectEvent.model'
-import onProjectGFSubmitted from './onProjectGFSubmitted'
+import onProjectGFSubmitted from './garantiesFinancières/onProjectGFSubmitted'
 
 describe('onProjectGFSubmitted', () => {
   const { File } = models

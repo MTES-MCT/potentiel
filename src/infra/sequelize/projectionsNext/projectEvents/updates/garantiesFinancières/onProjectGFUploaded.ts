@@ -62,7 +62,7 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
 
     await ProjectEvent.update(
       {
-        valueDate: gfDate.getTime(),
+        valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
           statut: 'uploaded',

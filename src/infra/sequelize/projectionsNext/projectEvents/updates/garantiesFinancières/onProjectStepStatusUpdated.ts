@@ -1,9 +1,9 @@
 import { ProjectStepStatusUpdated } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { models } from '../../../models'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { models } from '../../../../models'
 import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '../../../../../modules/shared'
-import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
+import { ProjectionEnEchec } from '../../../../../../modules/shared'
+import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
 
 export default ProjectEventProjector.on(
   ProjectStepStatusUpdated,
@@ -44,11 +44,12 @@ export default ProjectEventProjector.on(
 
       await ProjectEvent.update(
         {
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
           payload: {
             ...projectEvent.payload,
             statut: newStatus === 'validé' ? 'validated' : 'pending-validation',
           },
-          eventPublishedAt: occurredAt.getTime(),
         },
         {
           where: {
