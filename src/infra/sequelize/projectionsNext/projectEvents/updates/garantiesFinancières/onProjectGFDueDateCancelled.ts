@@ -3,11 +3,7 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { Op } from 'sequelize'
-import { typeCheck } from '../../guards/typeCheck'
-import {
-  GarantiesFinancièreEventPayload,
-  GarantiesFinancièresEvent,
-} from '../../events/GarantiesFinancièresEvent'
+import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
 
 export default ProjectEventProjector.on(
   ProjectGFDueDateCancelled,
@@ -33,30 +29,18 @@ export default ProjectEventProjector.on(
         return
       }
 
-      const { dateLimiteDEnvoi, ...newPayload } = { ...projectEvent?.payload }
-
-      if (newPayload.statut !== 'due' && !dateLimiteDEnvoi) {
-        await ProjectEvent.update(
-          {
-            valueDate: occurredAt.getTime(),
-            eventPublishedAt: occurredAt.getTime(),
-            payload: typeCheck<GarantiesFinancièreEventPayload>(newPayload),
-          },
-          {
-            where: { type: 'GarantiesFinancières', projectId },
-            transaction,
-          }
-        )
-      } else {
-        await ProjectEvent.destroy({
-          where: {
-            type: 'GarantiesFinancières',
-            projectId,
-            'payload.dateLimiteDEnvoi': { [Op.not]: null },
-          },
-          transaction,
-        })
+      if (!projectEvent.payload.dateLimiteDEnvoi) {
+        return
       }
+
+      await ProjectEvent.destroy({
+        where: {
+          type: 'GarantiesFinancières',
+          projectId,
+          'payload.dateLimiteDEnvoi': { [Op.not]: null },
+        },
+        transaction,
+      })
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
