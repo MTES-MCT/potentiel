@@ -43,11 +43,7 @@ export default ProjectEventProjector.on(
             payload: typeCheck<GarantiesFinancièreEventPayload>(newPayload),
           },
           {
-            where: {
-              type: 'GarantiesFinancières',
-              projectId,
-              'payload.dateLimiteDEnvoi': { [Op.not]: null },
-            },
+            where: { type: 'GarantiesFinancières', projectId },
             transaction,
           }
         )
