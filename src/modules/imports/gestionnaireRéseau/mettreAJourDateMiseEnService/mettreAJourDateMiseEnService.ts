@@ -33,10 +33,24 @@ export const makeMettreAJourDateMiseEnService =
       .andThen((résultats) => {
         const résultat = données.reduce(
           (prev, { identifiantGestionnaireRéseau, dateMiseEnService }) => {
+            if (résultats[identifiantGestionnaireRéseau].length > 1) {
+              return [
+                ...prev,
+                ok({
+                  identifiantGestionnaireRéseau,
+                  état: 'échec' as const,
+                  raison: `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`,
+                }),
+              ]
+            }
+
             const projetId = résultats[identifiantGestionnaireRéseau][0].id
 
             renseignerDateMiseEnService({ projetId, dateMiseEnService })
-            return [...prev, ok({ état: 'réussie' as const, projetId })]
+            return [
+              ...prev,
+              ok({ identifiantGestionnaireRéseau, état: 'succès' as const, projetId }),
+            ]
           },
           []
         )

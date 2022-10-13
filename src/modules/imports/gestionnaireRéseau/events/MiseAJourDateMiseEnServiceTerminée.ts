@@ -3,7 +3,12 @@ import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
 type MiseAJourDateMiseEnServiceTerminéePayload = {
   gestionnaire: string
-  résultat: Array<{ état: 'réussie'; projetId: string }>
+  résultat: Array<
+    { identifiantGestionnaireRéseau: string } & (
+      | { état: 'succès'; projetId: string }
+      | { état: 'échec'; raison: string }
+    )
+  >
 }
 
 export class MiseAJourDateMiseEnServiceTerminée
