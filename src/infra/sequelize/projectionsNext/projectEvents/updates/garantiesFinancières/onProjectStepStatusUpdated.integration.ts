@@ -1,9 +1,9 @@
-import { ProjectEvent } from '../projectEvent.model'
+import { ProjectEvent } from '../../projectEvent.model'
 import { UniqueEntityID } from '@core/domain'
 import { ProjectStepStatusUpdated, ProjectStepStatusUpdatedPayload } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
+import { resetDatabase } from '../../../../helpers'
 import onProjectStepStatusUpdated from './onProjectStepStatusUpdated'
-import models from '../../../models'
+import models from '../../../../models'
 
 describe('onProjectStepStatusUpdated', () => {
   const projectStepId = new UniqueEntityID().toString()

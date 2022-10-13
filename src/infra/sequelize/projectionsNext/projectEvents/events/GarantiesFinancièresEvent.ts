@@ -1,20 +1,42 @@
 import { ProjectEvent } from '..'
 
+export type GarantiesFinancièresDueEventPayload = { statut: 'due'; dateLimiteDEnvoi: number }
+export type GarantiesFinancièresUploadedEventPayload = {
+  statut: 'uploaded' | 'pending-validation' | 'validated'
+  dateConstitution: number
+  dateExpiration: number
+  fichier: {
+    id: string
+    name: string
+  }
+  initiéParRole?: 'porteur-projet' | 'dreal'
+}
+export type GarantiesFinancièresPendingEventPayload = {
+  statut: 'uploaded' | 'pending-validation' | 'validated'
+  dateConstitution: number
+  dateExpiration: number
+  fichier: {
+    id: string
+    name: string
+  }
+  initiéParRole?: 'porteur-projet' | 'dreal'
+}
+export type GarantiesFinancièresValidatedEventPayload = {
+  statut: 'uploaded' | 'pending-validation' | 'validated'
+  dateConstitution: number
+  dateExpiration: number
+  fichier: {
+    id: string
+    name: string
+  }
+  initiéParRole?: 'porteur-projet' | 'dreal'
+}
+
 export type GarantiesFinancièresEvent = ProjectEvent & {
   type: 'GarantiesFinancières'
-  payload: {
-    type: 'GarantiesFinancières'
-    dateExpiration?: number
-    initiéParRole?: 'porteur-projet' | 'dreal'
-  } & (
-    | { statut: 'due'; dateLimiteDEnvoi: number }
-    | {
-        statut: 'uploaded' | 'pending-validation' | 'validated'
-        dateConstitution: number
-        fichier: {
-          id: string
-          name: string
-        }
-      }
-  )
+  payload:
+    | GarantiesFinancièresDueEventPayload
+    | GarantiesFinancièresPendingEventPayload
+    | GarantiesFinancièresUploadedEventPayload
+    | GarantiesFinancièresValidatedEventPayload
 }

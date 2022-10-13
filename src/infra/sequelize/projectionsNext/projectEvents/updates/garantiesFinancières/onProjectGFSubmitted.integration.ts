@@ -1,9 +1,9 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFSubmitted, ProjectGFSubmittedPayload } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
-import onProjectGFSubmitted from './garantiesFinancières/onProjectGFSubmitted'
+import { resetDatabase } from '../../../../helpers'
+import models from '../../../../models'
+import { ProjectEvent } from '../../projectEvent.model'
+import onProjectGFSubmitted from './onProjectGFSubmitted'
 
 describe('onProjectGFSubmitted', () => {
   const { File } = models
