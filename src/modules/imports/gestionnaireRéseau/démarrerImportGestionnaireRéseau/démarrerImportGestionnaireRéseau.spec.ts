@@ -13,8 +13,8 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   const importDémarrable = { état: undefined } as ImportGestionnaireRéseau
   const utilisateurAutorisé = { role: 'admin', id: 'administrateur-potentiel' } as User
   const donnéesImportValides = [
-    { numeroGestionnaire: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
-    { numeroGestionnaire: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
+    { identifiantGestionnaireRéseau: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
+    { identifiantGestionnaireRéseau: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
   ]
 
   beforeEach(() => publishToEventStore.mockClear())
@@ -45,11 +45,11 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
             gestionnaire: 'Enedis',
             dates: [
               {
-                numeroGestionnaire: 'NUM-GEST-1',
+                identifiantGestionnaireRéseau: 'NUM-GEST-1',
                 dateMiseEnService: new Date('2024-01-20').toISOString(),
               },
               {
-                numeroGestionnaire: 'NUM-GEST-2',
+                identifiantGestionnaireRéseau: 'NUM-GEST-2',
                 dateMiseEnService: new Date('2024-02-20').toISOString(),
               },
             ],

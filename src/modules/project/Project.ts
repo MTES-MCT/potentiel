@@ -232,6 +232,7 @@ export interface Project extends EventStoreAggregate {
   readonly familleId?: string
   readonly completionDueOn: number
   readonly identifiantGestionnaireRéseau: string
+  readonly dateMiseEnService?: Date
 }
 
 export interface ProjectDataProps {
@@ -1113,6 +1114,9 @@ export const makeProject = (args: {
     },
     get identifiantGestionnaireRéseau() {
       return props.identifiantGestionnaireRéseau
+    },
+    get dateMiseEnService() {
+      return undefined
     },
   })
 

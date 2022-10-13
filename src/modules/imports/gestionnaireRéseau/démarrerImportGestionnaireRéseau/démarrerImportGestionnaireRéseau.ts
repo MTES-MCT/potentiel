@@ -17,7 +17,7 @@ type MakeDémarrerImportGestionnaireRéseauDépendances = {
 export type DémarrerImportGestionnaireRéseauCommande = {
   utilisateur: User
   gestionnaire: 'Enedis'
-  données: Array<{ numeroGestionnaire: string; dateMiseEnService: Date }>
+  données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
@@ -45,8 +45,8 @@ export const makeDémarrerImportGestionnaireRéseau =
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.map(({ numeroGestionnaire, dateMiseEnService }) => ({
-                numeroGestionnaire,
+              dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
+                identifiantGestionnaireRéseau,
                 dateMiseEnService: dateMiseEnService.toISOString(),
               })),
             },

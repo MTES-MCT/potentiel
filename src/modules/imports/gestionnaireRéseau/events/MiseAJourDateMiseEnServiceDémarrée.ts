@@ -4,7 +4,7 @@ import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 type MiseAJourDateMiseEnServiceDémarréePayload = {
   misAJourPar: string
   gestionnaire: string
-  dates: Array<{ numeroGestionnaire: string; dateMiseEnService: string }>
+  dates: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: string }>
 }
 
 export class MiseAJourDateMiseEnServiceDémarrée
