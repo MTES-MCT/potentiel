@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain'
 import { ProjectGFDueDateSet } from '@modules/project'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 
 export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement, transaction) => {
   const {

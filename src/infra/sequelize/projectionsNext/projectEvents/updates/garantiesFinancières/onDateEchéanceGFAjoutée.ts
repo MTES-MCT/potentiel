@@ -1,5 +1,5 @@
 import { DateEchéanceGFAjoutée } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 

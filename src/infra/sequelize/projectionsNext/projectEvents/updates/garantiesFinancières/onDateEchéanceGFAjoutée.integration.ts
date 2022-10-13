@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain'
 import { DateEchéanceGFAjoutée } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
-import { ProjectEvent } from '../projectEvent.model'
+import { resetDatabase } from '../../../../helpers'
+import { ProjectEvent } from '../../projectEvent.model'
 import onDateEchéanceGFAjoutée from './onDateEchéanceGFAjoutée'
 
 describe('Handler onDateEchéanceGFAjoutée de ProjectEvent', () => {

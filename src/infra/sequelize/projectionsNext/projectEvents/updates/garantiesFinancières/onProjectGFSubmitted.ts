@@ -1,13 +1,13 @@
-import { ProjectGFUploaded } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import models from '../../../models'
+import { ProjectGFSubmitted } from '@modules/project'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import models from '../../../../models'
 import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '../../../../../modules/shared'
-import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
+import { ProjectionEnEchec } from '@modules/shared'
+import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
 
-export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, transaction) => {
+export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, transaction) => {
   const {
-    payload: { projectId, fileId, gfDate, expirationDate, submittedBy },
+    payload: { projectId, fileId, gfDate, expirationDate },
     occurredAt,
   } = évènement
 
@@ -22,21 +22,6 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
     logger.error(
       new Error(
         `Impossible de trouver le fichier (id = ${fileId}) d'attestation GF pour le project ${projectId})`
-      )
-    )
-  }
-
-  const { User } = models
-  const rawUser = await User.findOne({
-    attributes: ['role'],
-    where: { id: submittedBy },
-    transaction,
-  })
-
-  if (!rawUser) {
-    logger.error(
-      new Error(
-        `Impossible de trouver l'utilisateur (id = ${submittedBy}) émetteur d'une GF pour le project ${projectId})`
       )
     )
   }
@@ -65,12 +50,11 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
-          statut: 'uploaded',
           dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
+          statut: 'pending-validation',
           dateConstitution: gfDate.getTime(),
           ...(file && { fichier: file }),
           ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
-          initiéParRole: rawUser?.role,
         },
       },
       {

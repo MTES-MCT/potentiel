@@ -1,8 +1,8 @@
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { ProjectGFRemoved } from '@modules/project'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
+import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
 
 export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, transaction) => {
   const {

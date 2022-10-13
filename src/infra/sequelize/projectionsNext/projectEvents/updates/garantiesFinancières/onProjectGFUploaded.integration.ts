@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFUploaded, ProjectGFUploadedPayload } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
+import { resetDatabase } from '../../../../helpers'
+import models from '../../../../models'
+import { ProjectEvent } from '../../projectEvent.model'
 import onProjectGFUploaded from './onProjectGFUploaded'
 
 describe('onProjectGFUploaded', () => {

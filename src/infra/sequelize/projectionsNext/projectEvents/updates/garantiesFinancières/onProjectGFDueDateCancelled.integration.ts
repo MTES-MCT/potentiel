@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain'
 import { ProjectGFDueDateCancelled } from '@modules/project'
-import { resetDatabase } from '../../../helpers'
-import { ProjectEvent } from '../projectEvent.model'
+import { resetDatabase } from '../../../../helpers'
+import { ProjectEvent } from '../../projectEvent.model'
 import onProjectGFDueDateCancelled from './onProjectGFDueDateCancelled'
 
 describe('onProjectGFDueDateCancelled', () => {
