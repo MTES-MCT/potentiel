@@ -20,7 +20,7 @@ export type ProjectGFEvents = ProjectEvent &
             name: string
           }
           expirationDate?: number
-          uploadedByRole?: string
+          uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
         }
       }
     | {
