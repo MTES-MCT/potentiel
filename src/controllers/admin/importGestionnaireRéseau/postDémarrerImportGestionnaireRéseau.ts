@@ -4,7 +4,7 @@ import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
-import { errAsync, logger, okAsync } from '@core/utils'
+import { errAsync, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import {
   mapYupValidationErrorToCsvValidationError,
@@ -12,6 +12,7 @@ import {
 } from '../../helpers'
 import { ImportGestionnaireReseauPage } from '@views'
 import { ValidationError } from 'yup'
+import { CsvValidationError } from '../../helpers/errors'
 
 const csvDataSchema = yup
   .array()
@@ -50,9 +51,16 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
             response.send(
               ImportGestionnaireReseauPage({ request, success: "L'import du fichier a démarré." })
             ),
-          (validationErreurs) => {
-            logger.error(validationErreurs)
-            return response.send(ImportGestionnaireReseauPage({ request, validationErreurs }))
+          (erreur: CsvValidationError | Error) => {
+            const validationErreurs =
+              erreur instanceof CsvValidationError ? erreur.détails : undefined
+            return response.send(
+              ImportGestionnaireReseauPage({
+                request,
+                validationErreurs,
+                error: erreur.message,
+              })
+            )
           }
         )
     })
@@ -61,13 +69,13 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
 
 const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
-    const donnéesValidées = csvDataSchema.validateSync(données)
+    const donnéesValidées = csvDataSchema.validateSync(données, { abortEarly: false })
     return okAsync(donnéesValidées)
   } catch (error) {
     if (error instanceof ValidationError) {
       return errAsync(mapYupValidationErrorToCsvValidationError(error))
     }
 
-    return errAsync(error)
+    return errAsync(new CsvValidationError([]))
   }
 }

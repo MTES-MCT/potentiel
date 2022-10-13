@@ -51,6 +51,12 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
             },
             errors: ['Une erreur est survenue'],
           },
+          {
+            params: {
+              originalValue: 1,
+            },
+            errors: ['Une erreur est survenue'],
+          },
         ],
       } as ValidationError
 
@@ -67,6 +73,10 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
           },
           {
             valeur: 'originalValue2',
+            erreur: 'Une erreur est survenue',
+          },
+          {
+            valeur: undefined,
             erreur: 'Une erreur est survenue',
           },
         ])

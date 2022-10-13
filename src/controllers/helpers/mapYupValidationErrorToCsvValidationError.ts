@@ -18,7 +18,7 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
       ...acc,
       {
         numéroLigne,
-        valeur: params && params.originalValue ? params.originalValue.toString() : undefined,
+        valeur: typeof params?.originalValue === 'string' ? params?.originalValue : undefined,
         erreur: errors[0],
       },
     ]

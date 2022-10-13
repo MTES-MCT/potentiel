@@ -7,7 +7,11 @@ type ImportGestionnaireReseauProps = {
   request: Request
   success?: string
   error?: string
-  validationErreurs?: string[]
+  validationErreurs?: Array<{
+    numéroLigne?: number
+    valeur?: string
+    erreur?: string
+  }>
 }
 
 export const ImportGestionnaireReseau = ({
@@ -15,33 +19,39 @@ export const ImportGestionnaireReseau = ({
   validationErreurs,
   error,
   success,
-}: ImportGestionnaireReseauProps) => (
-  <PageTemplate user={request.user}>
-    <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
-      <div className="panel p-4">
-        <h3 className="section--title">Import gestionnaire réseau</h3>
-        <SuccessErrorBox success={success} error={error} />
-        {validationErreurs && (
-          <ul className="notification error">
-            {validationErreurs.map((erreur, index) => (
-              <li key={index} className="ml-3">
-                {erreur}
-              </li>
-            ))}
-          </ul>
-        )}
-        <form
-          action={routes.IMPORT_GESTIONNAIRE_RESEAU}
-          method="post"
-          encType="multipart/form-data"
-        >
-          <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
-          <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
-          <Button type="submit" className="mt-4">
-            Mettre les projets à jour
-          </Button>
-        </form>
-      </div>
-    </AdminDashboard>
-  </PageTemplate>
-)
+}: ImportGestionnaireReseauProps) => {
+  return (
+    <PageTemplate user={request.user}>
+      <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
+        <div className="panel p-4">
+          <h3 className="section--title">Import gestionnaire réseau</h3>
+          <SuccessErrorBox success={success} />
+          {validationErreurs && validationErreurs.length ? (
+            <ul className="notification error">
+              {validationErreurs.map(({ numéroLigne, valeur, erreur }, index) => (
+                <li key={index} className="ml-3">
+                  {numéroLigne && `Ligne ${numéroLigne.toString()} - `}
+                  {valeur && `${valeur} - `}
+                  {erreur && `${erreur}`}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            error && <SuccessErrorBox error={error} />
+          )}
+          <form
+            action={routes.IMPORT_GESTIONNAIRE_RESEAU}
+            method="post"
+            encType="multipart/form-data"
+          >
+            <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
+            <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
+            <Button type="submit" className="mt-4">
+              Mettre les projets à jour
+            </Button>
+          </form>
+        </div>
+      </AdminDashboard>
+    </PageTemplate>
+  )
+}
