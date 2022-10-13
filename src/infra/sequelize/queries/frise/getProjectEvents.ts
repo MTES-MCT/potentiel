@@ -16,6 +16,9 @@ import { GarantiesFinancièresEvent } from '../../projectionsNext/projectEvents/
 
 const { Project } = models
 
+const computeDueStatut = ({ dateLimiteDEnvoi, now }: { dateLimiteDEnvoi: number; now: number }) =>
+  dateLimiteDEnvoi < now ? 'past-due' : 'due'
+
 const getGarantiesFinancières = ({
   garantiesFinancièresEvent,
   isSoumisAuxGF,
@@ -50,14 +53,18 @@ const getGarantiesFinancières = ({
   return {
     type: 'garanties-financieres',
     statut:
-      payload.statut === 'due' ? (dateLimiteDEnvoi < now ? 'past-due' : 'due') : payload.statut,
+      payload.statut === 'due'
+        ? computeDueStatut({ dateLimiteDEnvoi: payload.dateLimiteDEnvoi, now })
+        : payload.statut,
     date: payload.statut === 'due' ? dateLimiteDEnvoi : eventPublishedAt,
     role: user.role,
     ...(payload.statut !== 'due' && {
       url: routes.DOWNLOAD_PROJECT_FILE(payload.fichier.id, payload.fichier.name),
     }),
-    ...(payload.dateExpiration && { dateExpiration: payload.dateExpiration }),
-    ...(payload.initiéParRole && { initiéParRole: payload.initiéParRole }),
+    ...('dateExpiration' in payload && { dateExpiration: payload.dateExpiration }),
+    ...('initiéParRole' in payload && {
+      initiéParRole: payload.initiéParRole,
+    }),
   } as GarantiesFinancièresDTO
 }
 

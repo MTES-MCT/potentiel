@@ -2,6 +2,11 @@ import { DateEchéanceGFAjoutée } from '@modules/project'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
+import {
+  GarantiesFinancièreEventPayload,
+  GarantiesFinancièresEvent,
+} from '../../events/GarantiesFinancièresEvent'
+import { typeCheck } from '../../guards/typeCheck'
 
 export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènement, transaction) => {
   const {
@@ -10,10 +15,10 @@ export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènem
   } = évènement
 
   try {
-    const projectEvent = await ProjectEvent.findOne({
+    const projectEvent = (await ProjectEvent.findOne({
       where: { type: 'GarantiesFinancières', projectId },
       transaction,
-    })
+    })) as GarantiesFinancièresEvent | undefined
 
     if (!projectEvent) {
       logger.error(
@@ -29,10 +34,10 @@ export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènem
       {
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: {
+        payload: typeCheck<GarantiesFinancièreEventPayload>({
           ...projectEvent.payload,
-          ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
-        },
+          ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+        }),
       },
       {
         where: { type: 'GarantiesFinancières', projectId },

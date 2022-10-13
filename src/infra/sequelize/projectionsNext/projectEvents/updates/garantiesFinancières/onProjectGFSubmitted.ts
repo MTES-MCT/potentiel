@@ -3,7 +3,11 @@ import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import models from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
+import {
+  GarantiesFinancièreEventPayload,
+  GarantiesFinancièresEvent,
+} from '../../events/GarantiesFinancièresEvent'
+import { typeCheck } from '../../guards/typeCheck'
 
 export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, transaction) => {
   const {
@@ -12,13 +16,13 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
   } = évènement
 
   const { File } = models
-  const rawFilename = await File.findOne({
+  const rawFile = await File.findOne({
     attributes: ['filename'],
     where: { id: fileId },
     transaction,
   })
 
-  if (!rawFilename) {
+  if (!rawFile) {
     logger.error(
       new Error(
         `Impossible de trouver le fichier (id = ${fileId}) d'attestation GF pour le project ${projectId})`
@@ -26,8 +30,7 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
     )
   }
 
-  const filename: string | undefined = rawFilename?.filename
-  const file = filename && { id: fileId, name: filename }
+  const file = { id: fileId, name: rawFile.filename as string }
 
   try {
     const projectEvent = (await ProjectEvent.findOne({
@@ -49,13 +52,13 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
       {
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: {
-          dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
+        payload: typeCheck<GarantiesFinancièreEventPayload>({
           statut: 'pending-validation',
+          dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
           dateConstitution: gfDate.getTime(),
-          ...(file && { fichier: file }),
+          fichier: file,
           ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
-        },
+        }),
       },
       {
         where: { type: 'GarantiesFinancières', projectId },

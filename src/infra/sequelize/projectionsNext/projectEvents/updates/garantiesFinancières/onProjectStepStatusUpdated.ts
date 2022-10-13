@@ -3,7 +3,11 @@ import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { models } from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '../../../../../../modules/shared'
-import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
+import {
+  GarantiesFinancièreEventPayload,
+  GarantiesFinancièresEvent,
+} from '../../events/GarantiesFinancièresEvent'
+import { typeCheck } from '../../guards/typeCheck'
 
 export default ProjectEventProjector.on(
   ProjectStepStatusUpdated,
@@ -26,12 +30,8 @@ export default ProjectEventProjector.on(
       )
       return
     }
-
-    const type = projectStep.type
-
-    if (type !== 'garantie-financiere' || (newStatus !== 'validé' && newStatus !== 'à traiter')) {
-      return
-    }
+    if (projectStep.type !== 'garantie-financiere') return
+    if (newStatus !== 'validé' && newStatus !== 'à traiter') return
 
     try {
       const projectEvent = (await ProjectEvent.findOne({
@@ -42,14 +42,21 @@ export default ProjectEventProjector.on(
         transaction,
       })) as GarantiesFinancièresEvent
 
+      if (
+        projectEvent.payload.statut !== 'pending-validation' &&
+        projectEvent.payload.statut !== 'validated'
+      ) {
+        return
+      }
+
       await ProjectEvent.update(
         {
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: {
+          payload: typeCheck<GarantiesFinancièreEventPayload>({
             ...projectEvent.payload,
             statut: newStatus === 'validé' ? 'validated' : 'pending-validation',
-          },
+          }),
         },
         {
           where: {
