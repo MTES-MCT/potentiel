@@ -1,44 +1,53 @@
 import { DateEchéanceGFAjoutée } from '@modules/project'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { Op } from 'sequelize'
 import { logger } from '@core/utils'
+import { ProjectionEnEchec } from '@modules/shared'
 
-export default ProjectEventProjector.on(
-  DateEchéanceGFAjoutée,
-  async ({ payload: { expirationDate, projectId } }, transaction) => {
-    const events = await ProjectEvent.findAll({
-      where: { type: { [Op.or]: ['ProjectGFSubmitted', 'ProjectGFUploaded'] }, projectId },
-      order: [['eventPublishedAt', 'ASC']],
+export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènement, transaction) => {
+  const {
+    occurredAt,
+    payload: { expirationDate, projectId },
+  } = évènement
+
+  try {
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
       transaction,
     })
 
-    const instance = events.pop()
-
-    if (!instance) {
+    if (!projectEvent) {
       logger.error(
-        `Error : la date d'expiration n'a pas pu être enregistrée, impossible de trouver l'événement garantie financière envoyée/enregistrée pour le project ${projectId})`
+        new ProjectionEnEchec(`Erreur lors du traitement de l'événement DateEchéanceGFAjoutée`, {
+          évènement,
+          nomProjection: 'ProjectEvent.onDateEchéanceGFAjoutée',
+        })
       )
       return
     }
 
-    try {
-      await ProjectEvent.update(
-        {
-          payload: {
-            ...instance.payload,
-            expirationDate: expirationDate.getTime(),
-          },
+    await ProjectEvent.update(
+      {
+        eventPublishedAt: occurredAt.getTime(),
+        payload: {
+          ...projectEvent.payload,
+          ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
         },
+      },
+      {
+        where: { type: 'GarantiesFinancières', projectId },
+        transaction,
+      }
+    )
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement DateEchéanceGFAjoutée`,
         {
-          where: {
-            id: instance.id,
-          },
-          transaction,
-        }
+          évènement,
+          nomProjection: 'ProjectEvent.onDateEchéanceGFAjoutée',
+        },
+        e
       )
-    } catch (e) {
-      logger.error(e)
-      logger.info('Error: onProjectGFInvalidated projection failed to update project step')
-    }
+    )
   }
-)
+})

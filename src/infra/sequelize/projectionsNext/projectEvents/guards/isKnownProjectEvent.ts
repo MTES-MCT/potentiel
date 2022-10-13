@@ -4,7 +4,6 @@ import {
   ProjectCertificateEvents,
   ProjectClaimedEvent,
   ProjectDCREvents,
-  ProjectGFEvents,
   ProjectImportedEvent,
   ProjectNotificationDateSetEvent,
   ProjectNotifiedEvent,
@@ -18,6 +17,7 @@ import {
   DemandeAbandonEvent,
   CahierDesChargesEvent,
 } from '../events'
+import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
 
 export type KnownProjectEvents =
   | ProjectImportedEvent
@@ -27,7 +27,7 @@ export type KnownProjectEvents =
   | ProjectNotificationDateSetEvent
   | CovidDelayGrantedEvent
   | ProjectCertificateEvents
-  | ProjectGFEvents
+  | GarantiesFinancièresEvent
   | ProjectDCREvents
   | ProjectPTFEvents
   | ModificationRequestEvents
@@ -55,13 +55,7 @@ export const isKnownProjectEvent = or(
   is('ProjectCertificateGenerated'),
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
-  is('ProjectGFSubmitted'),
-  is('ProjectGFUploaded'),
-  is('ProjectGFValidated'),
-  is('ProjectGFInvalidated'),
-  is('ProjectGFRemoved'),
-  is('ProjectGFWithdrawn'),
-  is('ProjectGFDueDateSet'),
+  is('GarantiesFinancières'),
   is('ProjectDCRSubmitted'),
   is('ProjectDCRRemoved'),
   is('ProjectDCRDueDateSet'),

@@ -3,9 +3,9 @@ import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.'
 import ROUTES from '@routes'
 import { InfoItem } from './InfoItem'
 import { WarningItem } from './WarningItem'
-import { GFItemProps } from '../helpers'
+// import { GFItemProps } from '../helpers'
 import { WarningIcon } from './WarningIcon'
-import { ProjectStatus } from '@modules/frise'
+import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise'
 import { formatDate } from '../../../../helpers/formatDate'
 import { format } from 'date-fns'
 import { UserRole } from '@modules/users'
@@ -22,7 +22,7 @@ import {
   Link,
 } from '@components'
 
-type ComponentProps = GFItemProps & {
+type ComponentProps = GarantiesFinancièresDTO & {
   project: { id: string; status: ProjectStatus; garantieFinanciereEnMois?: number }
 }
 
@@ -35,14 +35,14 @@ const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
 }
 
 export const GFItem = (props: ComponentProps) => {
-  const { status, project } = props
+  const { statut, project } = props
 
-  switch (status) {
+  switch (statut) {
     case 'pending-validation':
-      return <Submitted {...{ ...props, status, project }} />
+      return <Submitted {...{ ...props, statut, project }} />
 
     case 'validated':
-      return <Validated {...{ ...props, status, project }} />
+      return <Validated {...{ ...props, statut, project }} />
 
     case 'due':
     case 'past-due':
@@ -52,7 +52,7 @@ export const GFItem = (props: ComponentProps) => {
       return <NotUploaded {...{ ...props, project }} />
 
     case 'uploaded':
-      return <Uploaded {...{ ...props, project, status }} />
+      return <Uploaded {...{ ...props, project, statut }} />
   }
 }
 
@@ -63,10 +63,10 @@ const aAccèsAuxGF = (role: UserRole): role is typeof rolesAvecAccèsAuxGF[numbe
 
 /* CRE4 */
 
-type NotSubmittedProps = ComponentProps & { status: 'due' | 'past-due' }
-const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedProps) => {
+type NotSubmittedProps = ComponentProps & { statut: 'due' | 'past-due' }
+const NotSubmitted = ({ date, statut, role, project, nomProjet }: NotSubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
-  const displayWarning = status === 'past-due' && isPorteurProjet
+  const displayWarning = statut === 'past-due' && isPorteurProjet
   const peutChargerGFSansValidation = role === 'dreal' || role === 'admin'
   return (
     <>
@@ -102,7 +102,7 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
                 role={role}
                 garantieFinanciereEnMois={project.garantieFinanciereEnMois}
               />
-              {status === 'past-due' && (
+              {statut === 'past-due' && (
                 <p className="m-0">
                   <DownloadLink
                     fileUrl={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
@@ -122,8 +122,8 @@ const NotSubmitted = ({ date, status, role, project, nomProjet }: NotSubmittedPr
   )
 }
 
-type SubmittedProps = ComponentProps & { status: 'pending-validation' }
-const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps) => {
+type SubmittedProps = ComponentProps & { statut: 'pending-validation' }
+const Submitted = ({ date, url, role, project, dateExpiration }: SubmittedProps) => {
   const isPorteurProjet = role === 'porteur-projet'
   const canAddExpDate = aAccèsAuxGF(role)
 
@@ -141,7 +141,7 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
         <ExpirationDate
-          expirationDate={expirationDate}
+          dateExpiration={dateExpiration}
           projectId={project.id}
           canUpdate={canAddExpDate}
           garantieFinanciereEnMois={project.garantieFinanciereEnMois}
@@ -161,8 +161,8 @@ const Submitted = ({ date, url, role, project, expirationDate }: SubmittedProps)
   )
 }
 
-type ValidatedProps = ComponentProps & { status: 'validated' }
-const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps) => {
+type ValidatedProps = ComponentProps & { statut: 'validated' }
+const Validated = ({ date, url, dateExpiration, role, project }: ValidatedProps) => {
   const canAddExpDate = aAccèsAuxGF(role)
 
   return (
@@ -176,7 +176,7 @@ const Validated = ({ date, url, expirationDate, role, project }: ValidatedProps)
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
         <ExpirationDate
-          expirationDate={expirationDate}
+          dateExpiration={dateExpiration}
           projectId={project.id}
           canUpdate={canAddExpDate}
           garantieFinanciereEnMois={project.garantieFinanciereEnMois}
@@ -297,9 +297,9 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
   )
 }
 
-type UploadedProps = ComponentProps & { status: 'uploaded' }
+type UploadedProps = ComponentProps & { statut: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: UploadedProps) => {
+const Uploaded = ({ date, url, role, project, dateExpiration, initiéParRole }: UploadedProps) => {
   const canUpdateGF = aAccèsAuxGF(role)
 
   return (
@@ -313,7 +313,7 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
         <ExpirationDate
-          expirationDate={expirationDate}
+          dateExpiration={dateExpiration}
           projectId={project.id}
           canUpdate={canUpdateGF}
           garantieFinanciereEnMois={project.garantieFinanciereEnMois}
@@ -327,11 +327,11 @@ const Uploaded = ({ date, url, role, project, expirationDate, uploadedByRole }: 
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {canUpdateGF && <WithdrawDocument projectId={project.id} uploadedByRole={uploadedByRole} />}
-        {uploadedByRole === 'dreal' && (
+        {canUpdateGF && <WithdrawDocument projectId={project.id} uploadedByRole={initiéParRole} />}
+        {initiéParRole === 'dreal' && (
           <p className="m-0 italic">Ce document a été ajouté par la DREAL</p>
         )}
-        {uploadedByRole === 'admin' && (
+        {initiéParRole === 'admin' && (
           <p className="m-0 italic">Ce document a été ajouté par la DGEC</p>
         )}
       </ContentArea>
@@ -438,24 +438,24 @@ const WithdrawDocument = ({ projectId, uploadedByRole }: WithdrawDocumentProps) 
 type ExpirationDateProps = {
   projectId: string
   canUpdate: boolean
-  expirationDate: number | undefined
+  dateExpiration: number | undefined
   garantieFinanciereEnMois?: number
 }
 const ExpirationDate = ({
   projectId,
   canUpdate,
-  expirationDate,
+  dateExpiration,
   garantieFinanciereEnMois,
 }: ExpirationDateProps) => {
   return (
     <>
       <div>
-        {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
+        {dateExpiration && <p className="m-0">Date d'échéance : {formatDate(dateExpiration)}</p>}
         {canUpdate && (
           <AddExpirationDateForm
             projectId={projectId}
             garantieFinanciereEnMois={garantieFinanciereEnMois}
-            action={expirationDate ? 'Éditer' : 'Ajouter'}
+            action={dateExpiration ? 'Éditer' : 'Ajouter'}
           />
         )}
       </div>

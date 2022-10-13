@@ -35,6 +35,15 @@ describe('onProjectGFUploaded', () => {
         role,
       })
 
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        type: 'GarantiesFinancières',
+        projectId,
+        valueDate: new Date('2020-01-01').getTime(),
+        eventPublishedAt: new Date('2020-01-01').getTime(),
+        payload: { statut: 'due' },
+      })
+
       await onProjectGFUploaded(
         new ProjectGFUploaded({
           payload: {
@@ -51,45 +60,20 @@ describe('onProjectGFUploaded', () => {
         })
       )
 
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+      const projectEvent = await ProjectEvent.findOne({
+        where: { type: 'GarantiesFinancières', projectId },
+      })
 
       expect(projectEvent).not.toBeNull()
       expect(projectEvent).toMatchObject({
-        type: 'ProjectGFUploaded',
+        type: 'GarantiesFinancières',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         payload: {
-          file: { id: fileId, name: filename },
-          expirationDate: expirationDate.getTime(),
-          uploadedByRole: role,
+          fichier: { id: fileId, name: filename },
+          dateExpiration: expirationDate.getTime(),
+          initiéParRole: role,
         },
-      })
-    })
-  })
-  describe('when there is no corresponding file is the File projection', () => {
-    it('should still add a new event in ProjectEvent', async () => {
-      await onProjectGFUploaded(
-        new ProjectGFUploaded({
-          payload: {
-            projectId,
-            fileId,
-            submittedBy: userId,
-            gfDate,
-          } as ProjectGFUploadedPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
-
-      expect(projectEvent).not.toBeNull()
-      expect(projectEvent).toMatchObject({
-        type: 'ProjectGFUploaded',
-        valueDate: gfDate.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
       })
     })
   })

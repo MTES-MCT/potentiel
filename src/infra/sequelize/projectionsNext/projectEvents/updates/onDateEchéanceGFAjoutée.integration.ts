@@ -9,48 +9,45 @@ describe('Handler onDateEchéanceGFAjoutée de ProjectEvent', () => {
     describe('Etant donné deux événements ProjectGFSubmitted et ProjectGFUploaded', () => {
       const projectId = new UniqueEntityID().toString()
       const expirationDate = new Date('2024-01-01')
-      const eventId = new UniqueEntityID().toString()
 
       beforeAll(async () => {
         await resetDatabase()
         try {
-          ProjectEvent.create({
+          await ProjectEvent.create({
             id: new UniqueEntityID().toString(),
-            type: 'ProjectGFSubmitted',
+            type: 'GarantiesFinancières',
             projectId: projectId,
             valueDate: new Date('2020-01-01').getTime(),
             eventPublishedAt: new Date('2020-01-01').getTime(),
-            payload: {},
-          })
-          ProjectEvent.create({
-            id: eventId,
-            type: 'ProjectGFUploaded',
-            projectId: projectId,
-            valueDate: new Date('2022-01-01').getTime(),
-            eventPublishedAt: new Date('2022-01-01').getTime(),
-            payload: { file: { id: 'id', name: 'name' } },
+            payload: { statut: 'uploaded' },
           })
         } catch (e) {
           console.log(e)
         }
       })
       it(`Alors la date d'échance devrait être ajoutée au dernier événement`, async () => {
+        const occurredAt = new Date()
         await onDateEchéanceGFAjoutée(
           new DateEchéanceGFAjoutée({
             payload: { projectId, expirationDate, submittedBy: 'id' },
+            original: {
+              version: 1,
+              occurredAt,
+            },
           })
         )
 
-        const res = await ProjectEvent.findOne({ where: { id: eventId } })
+        const projectEvent = await ProjectEvent.findOne({
+          where: { type: 'GarantiesFinancières', projectId },
+        })
 
-        expect(res).not.toBeNull()
-        expect(res).toMatchObject({
-          id: eventId,
-          type: 'ProjectGFUploaded',
+        expect(projectEvent).not.toBeNull()
+        expect(projectEvent).toMatchObject({
+          type: 'GarantiesFinancières',
           projectId,
-          valueDate: new Date('2022-01-01').getTime(),
-          eventPublishedAt: new Date('2022-01-01').getTime(),
-          payload: { file: { id: 'id', name: 'name' }, expirationDate: expirationDate.getTime() },
+          valueDate: new Date('2020-01-01').getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload: { statut: 'uploaded', dateExpiration: expirationDate.getTime() },
         })
       })
     })

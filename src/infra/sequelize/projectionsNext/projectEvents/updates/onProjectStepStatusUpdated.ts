@@ -1,12 +1,18 @@
-import { UniqueEntityID } from '@core/domain'
 import { ProjectStepStatusUpdated } from '@modules/project'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 import { models } from '../../../models'
 import { logger } from '@core/utils'
+import { ProjectionEnEchec } from '../../../../../modules/shared'
+import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
 
 export default ProjectEventProjector.on(
   ProjectStepStatusUpdated,
-  async ({ payload: { newStatus, projectStepId }, occurredAt }, transaction) => {
+  async (évènement, transaction) => {
+    const {
+      payload: { newStatus, projectStepId },
+      occurredAt,
+    } = évènement
+
     const { ProjectStep } = models
     const projectStep = await ProjectStep.findOne({
       attributes: ['projectId', 'type'],
@@ -14,7 +20,7 @@ export default ProjectEventProjector.on(
       transaction,
     })
 
-    if (!ProjectStep) {
+    if (!projectStep) {
       logger.error(
         `Error: onProjectStepStatusUpdated projection failed to retrieve project step from db ProjectStep`
       )
@@ -22,21 +28,47 @@ export default ProjectEventProjector.on(
     }
 
     const type = projectStep.type
-    const status = newStatus
 
-    if (type !== 'garantie-financiere' || (status !== 'validé' && status !== 'à traiter')) {
+    if (type !== 'garantie-financiere' || (newStatus !== 'validé' && newStatus !== 'à traiter')) {
       return
     }
 
-    await ProjectEvent.create(
-      {
-        type: status === 'validé' ? 'ProjectGFValidated' : 'ProjectGFInvalidated',
-        projectId: projectStep.projectId,
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        id: new UniqueEntityID().toString(),
-      },
-      { transaction }
-    )
+    try {
+      const projectEvent = (await ProjectEvent.findOne({
+        where: {
+          type: 'GarantiesFinancières',
+          projectId: projectStep.projectId,
+        },
+        transaction,
+      })) as GarantiesFinancièresEvent
+
+      await ProjectEvent.update(
+        {
+          payload: {
+            ...projectEvent.payload,
+            statut: newStatus === 'validé' ? 'validated' : 'pending-validation',
+          },
+          eventPublishedAt: occurredAt.getTime(),
+        },
+        {
+          where: {
+            type: 'GarantiesFinancières',
+            projectId: projectStep.projectId,
+          },
+          transaction,
+        }
+      )
+    } catch (e) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'événement ProjectStepStatusUpdated`,
+          {
+            évènement,
+            nomProjection: 'ProjectEvent.onProjectStepStatusUpdated',
+          },
+          e
+        )
+      )
+    }
   }
 )

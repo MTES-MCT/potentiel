@@ -1,15 +1,31 @@
-import { ProjectGFDueDateCancelled, ProjectGFDueDateSet } from '@modules/project'
+import { ProjectGFDueDateCancelled } from '@modules/project'
+import { logger } from '../../../../../core/utils'
+import { ProjectionEnEchec } from '../../../../../modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
 export default ProjectEventProjector.on(
   ProjectGFDueDateCancelled,
-  async ({ payload: { projectId }, occurredAt }, transaction) => {
-    await ProjectEvent.destroy({
-      where: {
-        projectId,
-        type: ProjectGFDueDateSet.type,
-      },
-      transaction,
-    })
+  async (évènement, transaction) => {
+    const {
+      payload: { projectId },
+    } = évènement
+
+    try {
+      await ProjectEvent.destroy({
+        where: { type: 'GarantiesFinancières', projectId },
+        transaction,
+      })
+    } catch (e) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'événement ProjectGFDueDateCancelled`,
+          {
+            évènement,
+            nomProjection: 'ProjectEvent.onProjectGFDueDateCancellede',
+          },
+          e
+        )
+      )
+    }
   }
 )

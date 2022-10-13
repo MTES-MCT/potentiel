@@ -13,6 +13,15 @@ describe('onProjectGFRemoved', () => {
     const removedBy = 'user-id'
     const occurredAt = new Date('2022-01-12')
 
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      type: 'GarantiesFinancières',
+      projectId,
+      valueDate: new Date('2020-01-01').getTime(),
+      eventPublishedAt: new Date('2020-01-01').getTime(),
+      payload: { statut: 'pending-validation' },
+    })
+
     await onProjectGFRemoved(
       new ProjectGFRemoved({
         payload: { projectId, removedBy } as ProjectGFRemovedPayload,
@@ -23,13 +32,16 @@ describe('onProjectGFRemoved', () => {
       })
     )
 
-    const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
+    })
 
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
-      type: 'ProjectGFRemoved',
-      valueDate: occurredAt.getTime(),
+      projectId,
+      type: 'GarantiesFinancières',
       eventPublishedAt: occurredAt.getTime(),
+      payload: { statut: 'due' },
     })
   })
 })

@@ -11,7 +11,7 @@ import { UnauthorizedError } from '@modules/shared'
 
 v1Router.get(
   routes.WITHDRAW_GARANTIES_FINANCIERES(),
-  ensureRole(['porteur-projet', 'dreal']),
+  ensureRole(['porteur-projet', 'dreal', 'admin']),
   asyncHandler(async (request, response) => {
     const { user } = request
     const { projectId } = request.params

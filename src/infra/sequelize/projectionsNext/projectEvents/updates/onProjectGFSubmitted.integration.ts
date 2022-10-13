@@ -27,6 +27,15 @@ describe('onProjectGFSubmitted', () => {
         designation: 'designation',
       })
 
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        type: 'GarantiesFinancières',
+        projectId,
+        valueDate: new Date('2020-01-01').getTime(),
+        eventPublishedAt: new Date('2020-01-01').getTime(),
+        payload: { statut: 'due' },
+      })
+
       await onProjectGFSubmitted(
         new ProjectGFSubmitted({
           payload: {
@@ -43,41 +52,16 @@ describe('onProjectGFSubmitted', () => {
         })
       )
 
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
-
-      expect(projectEvent).not.toBeNull()
-      expect(projectEvent).toMatchObject({
-        type: 'ProjectGFSubmitted',
-        valueDate: gfDate.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        payload: { file: { id: fileId, name: filename }, expirationDate: expirationDate.getTime() },
+      const projectEvent = await ProjectEvent.findOne({
+        where: { type: 'GarantiesFinancières', projectId },
       })
-    })
-  })
-  describe('when there is no corresponding file is the File projection', () => {
-    it('should still add a new event in ProjectEvent', async () => {
-      await onProjectGFSubmitted(
-        new ProjectGFSubmitted({
-          payload: {
-            projectId,
-            fileId,
-            submittedBy,
-            gfDate,
-          } as ProjectGFSubmittedPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
 
       expect(projectEvent).not.toBeNull()
       expect(projectEvent).toMatchObject({
-        type: 'ProjectGFSubmitted',
+        type: 'GarantiesFinancières',
         valueDate: gfDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
+        payload: { statut: 'pending-validation' },
       })
     })
   })

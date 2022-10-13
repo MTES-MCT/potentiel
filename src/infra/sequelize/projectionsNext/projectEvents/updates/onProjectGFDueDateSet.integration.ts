@@ -27,14 +27,17 @@ describe('onProjectGFDueDateSet', () => {
       })
     )
 
-    const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+    const projectEvent = await ProjectEvent.findOne({
+      where: { projectId, type: 'GarantiesFinancières' },
+    })
 
     expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
       projectId,
-      type: 'ProjectGFDueDateSet',
+      type: 'GarantiesFinancières',
       eventPublishedAt: occurredAt.getTime(),
       valueDate: garantiesFinancieresDueOn,
+      payload: { statut: 'due' },
     })
   })
 })

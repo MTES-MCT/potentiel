@@ -1,13 +1,65 @@
 import { getProjectAppelOffre } from '@config/queries.config'
 import { ResultAsync, wrapInfra } from '@core/utils'
-import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
+import {
+  GarantiesFinancièresDTO,
+  GetProjectEvents,
+  ProjectEventDTO,
+  ProjectStatus,
+} from '@modules/frise'
 import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
-import { isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
+import { is, isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
+import { User } from '@entities'
+import { GarantiesFinancièresEvent } from '../../projectionsNext/projectEvents/events/GarantiesFinancièresEvent'
 
 const { Project } = models
+
+const getGarantiesFinancières = ({
+  garantiesFinancièresEvent,
+  isSoumisAuxGF,
+  isGarantiesFinancieresDeposeesALaCandidature,
+  projectStatus,
+  user,
+  now = Date.now(),
+}: {
+  garantiesFinancièresEvent?: GarantiesFinancièresEvent
+  isSoumisAuxGF?: boolean
+  isGarantiesFinancieresDeposeesALaCandidature: boolean
+  projectStatus: string
+  user: User
+  now?: number
+}): GarantiesFinancièresDTO | undefined => {
+  if (!userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) return
+  if (!isSoumisAuxGF || projectStatus === 'Eliminé') return
+
+  if (!garantiesFinancièresEvent) {
+    if (!isGarantiesFinancieresDeposeesALaCandidature || projectStatus === 'Abandonné') return
+    return {
+      type: 'garanties-financieres',
+      role: user.role,
+      statut: 'submitted-with-application',
+      date: 0,
+    }
+  }
+
+  const { payload, eventPublishedAt } = garantiesFinancièresEvent
+  const { dateLimiteDEnvoi } = payload
+
+  return {
+    type: 'garanties-financieres',
+    statut:
+      payload.statut === 'due' ? (dateLimiteDEnvoi < now ? 'past-due' : 'due') : payload.statut,
+    date: payload.statut === 'due' ? dateLimiteDEnvoi : eventPublishedAt,
+    role: user.role,
+    ...(payload.statut !== 'due' && {
+      url: routes.DOWNLOAD_PROJECT_FILE(payload.fichier.id, payload.fichier.name),
+    }),
+    ...(payload.dateExpiration && { dateExpiration: payload.dateExpiration }),
+    ...(payload.initiéParRole && { initiéParRole: payload.initiéParRole }),
+  } as GarantiesFinancièresDTO
+}
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(Project.findByPk(projectId))
@@ -39,18 +91,28 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
           ? appelOffre?.garantieFinanciereEnMois
           : undefined
 
+      const garantiesFinancièresEvent = rawEvents.find(
+        (event) => event.type === 'GarantiesFinancières'
+      )
+
       return {
         project: {
           id: projectId,
           status,
-          isSoumisAuxGF: appelOffre?.isSoumisAuxGF,
-          ...(isGarantiesFinancieresDeposeesALaCandidature && {
-            isGarantiesFinancieresDeposeesALaCandidature,
-          }),
           ...(garantieFinanciereEnMois && {
             garantieFinanciereEnMois,
           }),
         },
+        garantiesFinancières:
+          !garantiesFinancièresEvent || is('GarantiesFinancières')(garantiesFinancièresEvent)
+            ? getGarantiesFinancières({
+                user,
+                projectStatus: status,
+                isGarantiesFinancieresDeposeesALaCandidature,
+                isSoumisAuxGF: appelOffre?.isSoumisAuxGF,
+                garantiesFinancièresEvent,
+              })
+            : undefined,
         events: await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
           async (eventsPromise, projectEvent) => {
             const { type, valueDate, payload, id } = projectEvent
@@ -114,20 +176,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
-              case 'ProjectGFSubmitted':
-                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                  const { file } = payload
-                  if (type === 'ProjectGFSubmitted') {
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
-                      file: file && { id: file.id, name: file.name },
-                      expirationDate: payload.expirationDate,
-                    })
-                  }
-                }
-                break
               case 'ProjectDCRSubmitted':
                 if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   const { file } = payload
@@ -155,27 +203,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                 }
                 break
-              case 'ProjectGFUploaded':
-                if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                  if (type === 'ProjectGFUploaded') {
-                    const { file, uploadedByRole } = payload
-                    events.push({
-                      type,
-                      date: valueDate,
-                      variant: user.role,
-                      file: file && { id: file.id, name: file.name },
-                      expirationDate: payload.expirationDate,
-                      uploadedByRole,
-                    })
-                  }
-                }
-                break
-              case 'ProjectGFRemoved':
-              case 'ProjectGFValidated':
-              case 'ProjectGFInvalidated':
               case 'ProjectDCRRemoved':
               case 'ProjectPTFRemoved':
-              case 'ProjectGFWithdrawn':
                 if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                   events.push({
                     type,
@@ -184,16 +213,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   })
                 }
                 break
-              case 'ProjectGFDueDateSet':
-                if (userIsNot('ademe')(user)) {
-                  events.push({
-                    type,
-                    date: valueDate,
-                    variant: user.role,
-                    nomProjet,
-                  })
-                }
-                break
+
               case 'ProjectDCRDueDateSet':
               case 'ProjectCompletionDueDateSet':
                 if (userIsNot('ademe')(user)) {

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { ProjectGFDueDateCancelled, ProjectGFDueDateSet } from '@modules/project'
+import { ProjectGFDueDateCancelled } from '@modules/project'
 import { resetDatabase } from '../../../helpers'
 import { ProjectEvent } from '../projectEvent.model'
 import onProjectGFDueDateCancelled from './onProjectGFDueDateCancelled'
@@ -7,15 +7,14 @@ import onProjectGFDueDateCancelled from './onProjectGFDueDateCancelled'
 describe('onProjectGFDueDateCancelled', () => {
   const projectId = new UniqueEntityID().toString()
   const occurredAt = new Date('2021-11-27')
-  const eventId = new UniqueEntityID().toString()
 
   beforeEach(async () => {
     await resetDatabase()
     await ProjectEvent.create({
       projectId,
-      type: ProjectGFDueDateSet.type,
+      type: 'GarantiesFinancières',
       eventPublishedAt: occurredAt.getTime(),
-      id: eventId,
+      id: new UniqueEntityID().toString(),
       valueDate: occurredAt.getTime(),
     })
   })
@@ -34,7 +33,7 @@ describe('onProjectGFDueDateCancelled', () => {
     )
 
     const projectEvent = await ProjectEvent.findOne({
-      where: { projectId, type: ProjectGFDueDateSet.type },
+      where: { projectId, type: 'GarantiesFinancières' },
     })
 
     expect(projectEvent).toBeNull()
