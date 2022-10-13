@@ -1,5 +1,13 @@
 import React from 'react'
-import { Input, Label, AdminDashboard, Button, SuccessErrorBox, PageTemplate } from '@components'
+import {
+  Input,
+  Label,
+  AdminDashboard,
+  Button,
+  SuccessErrorBox,
+  PageTemplate,
+  CsvValidationErrorBox,
+} from '@components'
 import routes from '@routes'
 import { Request } from 'express'
 
@@ -27,15 +35,7 @@ export const ImportGestionnaireReseau = ({
           <h3 className="section--title">Import gestionnaire réseau</h3>
           <SuccessErrorBox success={success} />
           {validationErreurs && validationErreurs.length ? (
-            <ul className="notification error">
-              {validationErreurs.map(({ numéroLigne, valeur, erreur }, index) => (
-                <li key={index} className="ml-3">
-                  {numéroLigne && `Ligne ${numéroLigne.toString()} - `}
-                  {valeur && `${valeur} - `}
-                  {erreur && `${erreur}`}
-                </li>
-              ))}
-            </ul>
+            <CsvValidationErrorBox validationErreurs={validationErreurs} />
           ) : (
             error && <SuccessErrorBox error={error} />
           )}
