@@ -2,6 +2,7 @@ import { ProjectGFDueDateCancelled } from '@modules/project'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { Op } from 'sequelize'
 
 export default ProjectEventProjector.on(
   ProjectGFDueDateCancelled,
@@ -12,7 +13,11 @@ export default ProjectEventProjector.on(
 
     try {
       await ProjectEvent.destroy({
-        where: { type: 'GarantiesFinancières', projectId },
+        where: {
+          type: 'GarantiesFinancières',
+          projectId,
+          'payload.dateLimiteDEnvoi': { [Op.not]: null },
+        },
         transaction,
       })
     } catch (e) {
