@@ -1,7 +1,7 @@
 import { ProjectEvent } from '..'
 
-type GarantiesFinancièresDueEventPayload = { statut: 'due'; dateLimiteDEnvoi: number }
-type GarantiesFinancièresUploadedEventPayload = {
+export type GarantiesFinancièresDueEventPayload = { statut: 'due'; dateLimiteDEnvoi: number }
+export type GarantiesFinancièresUploadedEventPayload = {
   statut: 'uploaded'
   dateConstitution: number
   dateExpiration?: number
@@ -12,6 +12,7 @@ type GarantiesFinancièresUploadedEventPayload = {
   initiéParRole?: 'porteur-projet' | 'dreal'
   dateLimiteDEnvoi?: number
 }
+
 type GarantiesFinancièresPendingEventPayload = {
   statut: 'pending-validation'
   dateConstitution: number
