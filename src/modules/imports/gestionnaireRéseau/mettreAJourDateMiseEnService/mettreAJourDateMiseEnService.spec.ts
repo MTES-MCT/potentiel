@@ -1,4 +1,4 @@
-import { okAsync } from '@core/utils'
+import { errAsync, okAsync } from '@core/utils'
 import { makeMettreAJourDateMiseEnService } from './mettreAJourDateMiseEnService'
 
 describe(`Mettre à jour les dates de mise en service`, () => {
@@ -89,8 +89,8 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
         Alors la date de mise en service devrait être renseignée seulement pour le projet 'Projet Test'
         Et la tâche devrait être terminée 
-        Et le résultat devrait être 'succès' pour l'identifiant 'AAA-BB-2022-000001'
-        Et devrait être 'échouée' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
+        Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
+        Et devrait être en 'échec' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -155,6 +155,58 @@ describe(`Mettre à jour les dates de mise en service`, () => {
                 identifiantGestionnaireRéseau: 'Enedis',
                 état: 'échec',
                 raison: `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`,
+              },
+            ]),
+          }),
+        })
+      )
+    })
+  })
+
+  describe(`Avoir un résultat en 'échec' si la mise à jour échoue`, () => {
+    it(`Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient avec un seul identifiant
+        Et que la mise à jour de la date de mise en service du projet échoue car 'La date est plus récente que l'actuelle'
+        Alors la date de mise en service ne devrait pas être renseignée pour le projet
+        Et la tâche devrait être terminée 
+        Et le résultat devrait être en 'échec' avec la raison 'La date est plus récente que l'actuelle'`, async () => {
+      const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+        getProjetsParIdentifiantGestionnaireRéseau: () =>
+          okAsync({
+            'AAA-BB-2022-000001': [
+              {
+                id: 'Projet Test',
+              },
+            ],
+          }),
+        renseignerDateMiseEnService: () =>
+          errAsync(new Error(`La date est plus récente que l'actuelle`)),
+        publishToEventStore,
+      })
+
+      const miseAJour = await mettreAJourDateMiseEnService({
+        gestionnaire: 'Enedis',
+        données: [
+          {
+            identifiantGestionnaireRéseau: 'AAA-BB-2022-000001',
+            dateMiseEnService: new Date('2024-02-20'),
+          },
+        ],
+      })
+
+      expect(miseAJour.isOk()).toBe(true)
+
+      expect(publishToEventStore).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          type: 'MiseAJourDateMiseEnServiceTerminée',
+          payload: expect.objectContaining({
+            gestionnaire: 'Enedis',
+            résultat: expect.arrayContaining([
+              {
+                identifiantGestionnaireRéseau: 'AAA-BB-2022-000001',
+                projetId: 'Projet Test',
+                état: 'échec',
+                raison: `La date est plus récente que l'actuelle`,
               },
             ]),
           }),
