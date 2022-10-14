@@ -136,7 +136,7 @@ export type ProjectGFUploadedDTO = {
 
 export type GarantiesFinancièresDTO = {
   type: 'garanties-financieres'
-  role: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   date: number
 } & (
   | {

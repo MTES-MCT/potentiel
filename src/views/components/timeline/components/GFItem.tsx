@@ -64,10 +64,10 @@ const aAccèsAuxGF = (role: UserRole): role is typeof rolesAvecAccèsAuxGF[numbe
 /* CRE4 */
 
 type NotSubmittedProps = ComponentProps & { statut: 'due' | 'past-due' }
-const NotSubmitted = ({ date, statut, role, project, nomProjet }: NotSubmittedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
+const NotSubmitted = ({ date, statut, variant, project, nomProjet }: NotSubmittedProps) => {
+  const isPorteurProjet = variant === 'porteur-projet'
   const displayWarning = statut === 'past-due' && isPorteurProjet
-  const peutChargerGFSansValidation = role === 'dreal' || role === 'admin'
+  const peutChargerGFSansValidation = variant === 'dreal' || variant === 'admin'
   return (
     <>
       {displayWarning ? <WarningIcon /> : <CurrentIcon />}
@@ -99,7 +99,7 @@ const NotSubmitted = ({ date, statut, role, project, nomProjet }: NotSubmittedPr
             <>
               <UploadForm
                 projectId={project.id}
-                role={role}
+                role={variant}
                 garantieFinanciereEnMois={project.garantieFinanciereEnMois}
               />
               {statut === 'past-due' && (
@@ -123,9 +123,9 @@ const NotSubmitted = ({ date, statut, role, project, nomProjet }: NotSubmittedPr
 }
 
 type SubmittedProps = ComponentProps & { statut: 'pending-validation' }
-const Submitted = ({ date, url, role, project, dateExpiration }: SubmittedProps) => {
-  const isPorteurProjet = role === 'porteur-projet'
-  const canAddExpDate = aAccèsAuxGF(role)
+const Submitted = ({ date, url, variant, project, dateExpiration }: SubmittedProps) => {
+  const isPorteurProjet = variant === 'porteur-projet'
+  const canAddExpDate = aAccèsAuxGF(variant)
 
   return (
     <>
@@ -136,7 +136,7 @@ const Submitted = ({ date, url, role, project, dateExpiration }: SubmittedProps)
             <ItemDate date={date} />
           </div>
           <div className="align-middle mb-1">
-            <InfoItem message={role === 'dreal' ? 'à traiter' : 'validation en attente'} />
+            <InfoItem message={variant === 'dreal' ? 'à traiter' : 'validation en attente'} />
           </div>
         </div>
         <ItemTitle title={'Constitution des garanties financières'} />
@@ -162,8 +162,8 @@ const Submitted = ({ date, url, role, project, dateExpiration }: SubmittedProps)
 }
 
 type ValidatedProps = ComponentProps & { statut: 'validated' }
-const Validated = ({ date, url, dateExpiration, role, project }: ValidatedProps) => {
-  const canAddExpDate = aAccèsAuxGF(role)
+const Validated = ({ date, url, dateExpiration, variant, project }: ValidatedProps) => {
+  const canAddExpDate = aAccèsAuxGF(variant)
 
   return (
     <>
@@ -277,8 +277,8 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => (
 
 type NotUploadedProps = ComponentProps
 
-const NotUploaded = ({ role, project }: NotUploadedProps) => {
-  const hasRightsToUpload = aAccèsAuxGF(role)
+const NotUploaded = ({ variant, project }: NotUploadedProps) => {
+  const hasRightsToUpload = aAccèsAuxGF(variant)
   return (
     <>
       <CurrentIcon />
@@ -288,7 +288,7 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
         {hasRightsToUpload && (
           <UploadForm
             projectId={project.id}
-            role={role}
+            role={variant}
             garantieFinanciereEnMois={project.garantieFinanciereEnMois}
           />
         )}
@@ -299,8 +299,15 @@ const NotUploaded = ({ role, project }: NotUploadedProps) => {
 
 type UploadedProps = ComponentProps & { statut: 'uploaded' }
 
-const Uploaded = ({ date, url, role, project, dateExpiration, initiéParRole }: UploadedProps) => {
-  const canUpdateGF = aAccèsAuxGF(role)
+const Uploaded = ({
+  date,
+  url,
+  variant,
+  project,
+  dateExpiration,
+  initiéParRole,
+}: UploadedProps) => {
+  const canUpdateGF = aAccèsAuxGF(variant)
 
   return (
     <>
