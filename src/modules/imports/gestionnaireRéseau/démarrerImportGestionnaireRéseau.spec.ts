@@ -21,8 +21,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
 
   describe(`Démarrer la mise à jour des dates de mise en service au démarrage de l'import`, () => {
     it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis avec des dates de mise en service
-        Alors la mise à jour des dates de mise en service est démarrée
-        Et l'import pour le gestionnaire de réseau est démarré`, async () => {
+        Alors la mise à jour des dates de mise en service est démarrée`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
@@ -42,6 +41,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
           aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'MiseAJourDateMiseEnServiceDémarrée',
           payload: expect.objectContaining({
+            misAJourPar: utilisateurAutorisé.id,
             gestionnaire: 'Enedis',
             dates: [
               {
@@ -53,17 +53,6 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
                 dateMiseEnService: new Date('2024-02-20').toISOString(),
               },
             ],
-          }),
-        })
-      )
-      expect(publishToEventStore).toHaveBeenNthCalledWith(
-        2,
-        expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
-          type: 'ImportGestionnaireRéseauDémarré',
-          payload: expect.objectContaining({
-            démarréPar: utilisateurAutorisé.id,
-            gestionnaire: 'Enedis',
           }),
         })
       )

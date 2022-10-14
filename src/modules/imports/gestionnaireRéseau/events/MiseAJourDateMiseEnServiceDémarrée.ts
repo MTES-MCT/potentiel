@@ -2,6 +2,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
 type MiseAJourDateMiseEnServiceDémarréePayload = {
+  misAJourPar: string
   gestionnaire: string
   dates: Array<{ numeroGestionnaire: string; dateMiseEnService: string }>
 }
