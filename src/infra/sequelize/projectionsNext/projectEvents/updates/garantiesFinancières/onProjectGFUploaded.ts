@@ -8,6 +8,7 @@ import {
   GarantiesFinancièresEvent,
 } from '../../events/GarantiesFinancièresEvent'
 import { typeCheck } from '../../guards/typeCheck'
+import { UniqueEntityID } from '@core/domain'
 
 export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, transaction) => {
   const {
@@ -54,12 +55,20 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
     })) as GarantiesFinancièresEvent | undefined
 
     if (!projectEvent) {
-      logger.error(
-        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFUploaded`, {
-          évènement,
-          nomProjection: 'ProjectEvent.onProjectGFUploaded',
-        })
-      )
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        type: 'GarantiesFinancières',
+        projectId,
+        valueDate: occurredAt.getTime(),
+        eventPublishedAt: occurredAt.getTime(),
+        payload: typeCheck<GarantiesFinancièreEventPayload>({
+          statut: 'uploaded',
+          dateConstitution: gfDate.getTime(),
+          fichier: file,
+          ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+          initiéParRole: rawUser?.role,
+        }),
+      })
       return
     }
 
