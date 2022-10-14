@@ -4,13 +4,13 @@ import { ProjectionEnEchec } from '@modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { Op } from 'sequelize'
 import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
+import { typeCheck } from '../../guards/typeCheck'
 
 export default ProjectEventProjector.on(
   ProjectGFDueDateCancelled,
   async (évènement, transaction) => {
     const {
       payload: { projectId },
-      occurredAt,
     } = évènement
 
     try {
@@ -30,6 +30,23 @@ export default ProjectEventProjector.on(
       }
 
       if (!projectEvent.payload.dateLimiteDEnvoi) {
+        return
+      }
+
+      if (projectEvent.payload.fichier) {
+        const newPayload = projectEvent.payload
+        delete newPayload.dateLimiteDEnvoi
+        await ProjectEvent.update(
+          {
+            payload: typeCheck<GarantiesFinancièresEvent['payload']>({
+              ...newPayload,
+            }),
+          },
+          {
+            where: { type: 'GarantiesFinancières', projectId },
+            transaction,
+          }
+        )
         return
       }
 

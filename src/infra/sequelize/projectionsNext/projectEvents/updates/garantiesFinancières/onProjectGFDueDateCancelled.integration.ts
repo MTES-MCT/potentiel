@@ -55,8 +55,8 @@ describe(`ProjectEvents handler onProjectGFDueDateCancelled lorsqu'un événemen
   })
 
   describe(`Elément GF trouvé dans ProjectEvent avec une date limite due`, () => {
-    it(`Etant donné un élément "GarantiesFinancières" de type 'due' avec une date limite due, 
-  alors cet événement doit être supprimé`, async () => {
+    it(`Etant donné un élément "GarantiesFinancières" de type 'due' avec une date limite due,
+    alors cet événement doit être supprimé`, async () => {
       const élémentGFInitial = {
         id: new UniqueEntityID().toString(),
         type: 'GarantiesFinancières',
@@ -79,43 +79,38 @@ describe(`ProjectEvents handler onProjectGFDueDateCancelled lorsqu'un événemen
       expect(élémentGFFinal).toBeNull()
     })
 
-    it(`Etant donné un élement "GarantiesFinancières" de type 'uploaded' avec une date limite due sans son payload, 
-  alors seule la date limite d'envoi doit être retirée du payload et l'élément est conservé`, async () => {
-      // situation d'un projet soumis à GF après candidature avec GF 'uploadées' par la Dreal
-      // suite d'événements dans ce cas : ProjectGFDueDateSet, ProjectGFUploaded
-      const élémentGFInitial = {
-        id: new UniqueEntityID().toString(),
-        type: 'GarantiesFinancières',
-        projectId,
-        valueDate: 123,
-        eventPublishedAt: 123,
-        payload: {
-          statut: 'uploaded',
-          dateLimiteDEnvoi: 456,
-          fichier,
+    for (const statut of ['uploaded', 'validated', 'pending-validation']) {
+      it(`Etant donné un élement "GarantiesFinancières" de type '${statut}' 
+      avec une date limite due dans son payload, 
+      alors seule la date limite d'envoi doit être retirée du payload 
+      et l'élément est conservé`, async () => {
+        const élémentGFInitial = {
+          id: new UniqueEntityID().toString(),
+          type: 'GarantiesFinancières',
+          projectId,
+          valueDate: 123,
+          eventPublishedAt: 123,
+          payload: {
+            statut,
+            dateLimiteDEnvoi: 456,
+            fichier,
+            initiéParRole: 'porteur-projet',
+          },
+        }
+        await ProjectEvent.create(élémentGFInitial)
+
+        await onProjectGFDueDateCancelled(new ProjectGFDueDateCancelled({ payload: { projectId } }))
+
+        const élémentGFFinal = await ProjectEvent.findOne({
+          where: { projectId, type: 'GarantiesFinancières' },
+        })
+
+        expect(élémentGFFinal?.get().payload).toEqual({
+          statut,
+          fichier: { name: 'fichier', id: 'id' },
           initiéParRole: 'porteur-projet',
-        } as GarantiesFinancièresUploadedEventPayload,
-      }
-      await ProjectEvent.create(élémentGFInitial)
-
-      await onProjectGFDueDateCancelled(new ProjectGFDueDateCancelled({ payload: { projectId } }))
-
-      const élémentGFFinal = await ProjectEvent.findOne({
-        where: { projectId, type: 'GarantiesFinancières' },
+        })
       })
-
-      expect(élémentGFFinal?.get().payload).toMatchObject({
-        statut: 'uploaded',
-        //dateLimiteDEnvoi: 456,
-        fichier,
-        initiéParRole: 'porteur-projet',
-      })
-    })
-
-    it(`Etant donné un élement "GarantiesFinancières" de type 'pending-validation' avec une date limite due, 
-  alors cet élement doit être supprimé`, () => {})
-
-    it(`Etant donné un élement "GarantiesFinancières" de type 'validated' avec une date limite due, 
-  alors cet élement doit être supprimé`, () => {})
+    }
   })
 })
