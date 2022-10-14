@@ -10,7 +10,6 @@ import { typeCheck } from '../../guards/typeCheck'
 
 export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènement, transaction) => {
   const {
-    occurredAt,
     payload: { expirationDate, projectId },
   } = évènement
 
@@ -32,8 +31,6 @@ export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènem
 
     await ProjectEvent.update(
       {
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
         payload: typeCheck<GarantiesFinancièreEventPayload>({
           ...projectEvent.payload,
           ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
