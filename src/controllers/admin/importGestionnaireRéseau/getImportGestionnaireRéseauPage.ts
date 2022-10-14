@@ -9,7 +9,16 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
     routes.IMPORT_GESTIONNAIRE_RESEAU,
     ensureRole(['admin', 'dgec-validateur']),
     asyncHandler(async (request, response) => {
-      return response.send(ImportGestionnaireReseauPage({ request }))
+      const { postDemarrerImportGestionnaireReseau } = request.cookies
+      response.clearCookie('postDemarrerImportGestionnaireReseau')
+      return response.send(
+        ImportGestionnaireReseauPage({
+          request,
+          ...(postDemarrerImportGestionnaireReseau && {
+            feedback: postDemarrerImportGestionnaireReseau,
+          }),
+        })
+      )
     })
   )
 }

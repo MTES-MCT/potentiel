@@ -4,40 +4,31 @@ import {
   Label,
   AdminDashboard,
   Button,
-  SuccessErrorBox,
   PageTemplate,
+  SuccessErrorBox,
   CsvValidationErrorBox,
 } from '@components'
 import routes from '@routes'
-import { Request } from 'express'
+import { Request, Response } from 'express'
+import { Feedback } from '../../../controllers/helpers/guards'
 
 type ImportGestionnaireReseauProps = {
   request: Request
-  success?: string
-  error?: string
-  validationErreurs?: Array<{
-    numéroLigne?: number
-    valeur?: string
-    erreur?: string
-  }>
+  response: Response
+  feedback: Feedback
 }
 
-export const ImportGestionnaireReseau = ({
-  request,
-  validationErreurs,
-  error,
-  success,
-}: ImportGestionnaireReseauProps) => {
+export const ImportGestionnaireReseau = ({ request, feedback }: ImportGestionnaireReseauProps) => {
   return (
     <PageTemplate user={request.user}>
       <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
         <div className="panel p-4">
           <h3 className="section--title">Import gestionnaire réseau</h3>
-          <SuccessErrorBox success={success} />
-          {validationErreurs && validationErreurs.length ? (
-            <CsvValidationErrorBox validationErreurs={validationErreurs} />
+          {'success' in feedback && <SuccessErrorBox success={feedback.success} />}
+          {'validationErreurs' in feedback && feedback.validationErreurs.length ? (
+            <CsvValidationErrorBox validationErreurs={feedback.validationErreurs} />
           ) : (
-            error && <SuccessErrorBox error={error} />
+            'error' in feedback && feedback.error && <SuccessErrorBox error={feedback.error} />
           )}
           <form
             action={routes.IMPORT_GESTIONNAIRE_RESEAU}

@@ -8,7 +8,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         Alors on devrait récupérer une CsvValidationError sans détails d'erreurs ([])
     `, () => {
       expect(mapYupValidationErrorToCsvValidationError(new ValidationError(''))).toStrictEqual(
-        new CsvValidationError([])
+        new CsvValidationError({ validationErreurs: [] })
       )
 
       const erreur = {
@@ -19,13 +19,13 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
       } as ValidationError
 
       expect(mapYupValidationErrorToCsvValidationError(new ValidationError(erreur))).toStrictEqual(
-        new CsvValidationError([])
+        new CsvValidationError({ validationErreurs: [] })
       )
 
       const erreurs = [erreur, erreur, erreur]
 
       expect(mapYupValidationErrorToCsvValidationError(new ValidationError(erreurs))).toStrictEqual(
-        new CsvValidationError([])
+        new CsvValidationError({ validationErreurs: [] })
       )
     })
   })
@@ -61,25 +61,27 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
       } as ValidationError
 
       expect(mapYupValidationErrorToCsvValidationError(new ValidationError(erreur))).toStrictEqual(
-        new CsvValidationError([
-          {
-            numéroLigne: 2,
-            valeur: 'originalValue1',
-            erreur: 'Le champ est incorrect car X',
-          },
-          {
-            numéroLigne: 3,
-            erreur: 'Le champ est manquant',
-          },
-          {
-            valeur: 'originalValue2',
-            erreur: 'Une erreur est survenue',
-          },
-          {
-            valeur: undefined,
-            erreur: 'Une erreur est survenue',
-          },
-        ])
+        new CsvValidationError({
+          validationErreurs: [
+            {
+              numéroLigne: 2,
+              valeur: 'originalValue1',
+              erreur: 'Le champ est incorrect car X',
+            },
+            {
+              numéroLigne: 3,
+              erreur: 'Le champ est manquant',
+            },
+            {
+              valeur: 'originalValue2',
+              erreur: 'Une erreur est survenue',
+            },
+            {
+              valeur: undefined,
+              erreur: 'Une erreur est survenue',
+            },
+          ],
+        })
       )
     })
   })

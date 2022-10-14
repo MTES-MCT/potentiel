@@ -7,12 +7,15 @@ import { parseCsv } from '../../../helpers/parseCsv'
 import { errAsync, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import {
+  CsvValidationError,
+  isCsvValidationErrorFeedback,
+  isErrorFeedback,
+  isSuccessFeedback,
   mapYupValidationErrorToCsvValidationError,
   stringToDateYupTransformation,
 } from '../../helpers'
-import { ImportGestionnaireReseauPage } from '@views'
 import { ValidationError } from 'yup'
-import { CsvValidationError } from '../../helpers/errors'
+import { Response } from 'express'
 
 const csvDataSchema = yup
   .array()
@@ -29,42 +32,17 @@ const csvDataSchema = yup
     })
   )
 
-if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
-  v1Router.post(
-    routes.IMPORT_GESTIONNAIRE_RESEAU,
-    ensureRole(['admin', 'dgec-validateur']),
-    upload.single('fichier-import-gestionnaire-réseau'),
-    asyncHandler(async (request, response) => {
-      if (!request.file || !request.file.path) {
-        return response.send(
-          ImportGestionnaireReseauPage({ request, error: 'Le fichier est obligatoire' })
-        )
-      }
-
-      await parseCsv(request.file.path, {
-        delimiter: ';',
-        encoding: 'utf8',
-      })
-        .andThen(validerLesDonnéesDuFichierCsv)
-        .match(
-          () =>
-            response.send(
-              ImportGestionnaireReseauPage({ request, success: "L'import du fichier a démarré." })
-            ),
-          (erreur: CsvValidationError | Error) => {
-            const validationErreurs =
-              erreur instanceof CsvValidationError ? erreur.détails : undefined
-            return response.send(
-              ImportGestionnaireReseauPage({
-                request,
-                validationErreurs,
-                error: erreur.message,
-              })
-            )
-          }
-        )
-    })
-  )
+const ajouterCookie = (response: Response, message) => {
+  if (
+    !isErrorFeedback(message) &&
+    !isSuccessFeedback(message) &&
+    !isCsvValidationErrorFeedback(message)
+  ) {
+    return
+  }
+  console.log('im here')
+  response.clearCookie('postDemarrerImportGestionnaireReseau')
+  response.cookie('postDemarrerImportGestionnaireReseau', message)
 }
 
 const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
@@ -76,6 +54,38 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
       return errAsync(mapYupValidationErrorToCsvValidationError(error))
     }
 
-    return errAsync(new CsvValidationError([]))
+    return errAsync(new CsvValidationError({ validationErreurs: [] }))
   }
+}
+if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
+  v1Router.post(
+    routes.IMPORT_GESTIONNAIRE_RESEAU,
+    ensureRole(['admin', 'dgec-validateur']),
+    upload.single('fichier-import-gestionnaire-réseau'),
+    asyncHandler(async (request, response) => {
+      if (!request.file || !request.file.path) {
+        ajouterCookie(response, {
+          error: 'Le fichier est obligatoire',
+        })
+        return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+      }
+
+      await parseCsv(request.file.path, {
+        delimiter: ';',
+        encoding: 'utf8',
+      })
+        .andThen(validerLesDonnéesDuFichierCsv)
+        .match(
+          () => {
+            ajouterCookie(response, { success: "L'import du fichier a démarré." })
+            return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+          },
+          (e) => {
+            const validationErreurs = e instanceof CsvValidationError ? e.détails : undefined
+            ajouterCookie(response, validationErreurs)
+            return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+          }
+        )
+    })
+  )
 }

@@ -1,11 +1,7 @@
-export type CsvValidationErrorType = Array<{
-  numéroLigne?: number
-  valeur?: string
-  erreur?: string
-}>
+import { CsvValidationErrorFeedback } from '../guards'
 
 export class CsvValidationError extends Error {
-  constructor(public détails: CsvValidationErrorType) {
+  constructor(public détails: CsvValidationErrorFeedback) {
     super('Les données du fichier csv sont incorrectes')
   }
 }
