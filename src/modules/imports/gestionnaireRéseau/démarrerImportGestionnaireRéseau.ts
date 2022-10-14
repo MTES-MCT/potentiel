@@ -16,7 +16,7 @@ type MakeDémarrerImportGestionnaireRéseauDépendances = {
 
 export type DémarrerImportGestionnaireRéseauCommande = {
   utilisateur: User
-  gestionnaire: string
+  gestionnaire: 'Enedis'
   données: Array<{ numeroGestionnaire: string; dateMiseEnService: Date }>
 }
 
