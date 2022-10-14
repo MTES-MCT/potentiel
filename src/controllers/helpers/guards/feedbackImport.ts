@@ -1,4 +1,4 @@
-export type CsvValidationError = {
+export type CsvValidationErrorType = {
   numéroLigne?: number
   valeur?: string
   erreur?: string
@@ -13,7 +13,7 @@ type ErrorFeedback = {
 }
 
 export type CsvValidationErrorFeedback = {
-  validationErreurs: CsvValidationError[]
+  validationErreurs: CsvValidationErrorType[]
 }
 
 export type Feedback = SuccessFeedback | ErrorFeedback | CsvValidationErrorFeedback

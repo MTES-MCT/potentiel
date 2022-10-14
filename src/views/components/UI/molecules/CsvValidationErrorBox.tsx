@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
-import { CsvValidationErrorType } from '../../../../controllers/helpers/errors'
+import { CsvValidationErrorType } from 'src/controllers/helpers/guards'
 
 type ValidationErrorBoxProps = {
-  validationErreurs: CsvValidationErrorType
+  validationErreurs: CsvValidationErrorType[]
 }
 
 export const CsvValidationErrorBox: FC<ValidationErrorBoxProps> = ({ validationErreurs }) => (
