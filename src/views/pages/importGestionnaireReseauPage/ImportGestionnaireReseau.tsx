@@ -18,7 +18,7 @@ type ImportGestionnaireReseauProps = {
   feedback: Feedback
 }
 
-const afficherFeedback = (feedback) => {
+const AfficherFeedback = ({ feedback }: { feedback: Feedback }) => {
   if ('success' in feedback) {
     return <SuccessErrorBox success={feedback.success} />
   }
@@ -37,9 +37,9 @@ export const ImportGestionnaireReseau = ({ request, feedback }: ImportGestionnai
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
         <h3 className="section--title">Import gestionnaire réseau</h3>
-        {feedback && afficherFeedback(feedback)}
+        {feedback && <AfficherFeedback feedback={feedback} />}
         <form
-          action={routes.IMPORT_GESTIONNAIRE_RESEAU}
+          action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
           method="post"
           encType="multipart/form-data"
         >

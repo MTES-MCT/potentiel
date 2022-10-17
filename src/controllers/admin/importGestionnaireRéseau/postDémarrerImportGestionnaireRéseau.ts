@@ -40,7 +40,6 @@ const ajouterCookie = (response: Response, message) => {
   ) {
     return
   }
-  console.log('im here')
   response.clearCookie('postDemarrerImportGestionnaireReseau')
   response.cookie('postDemarrerImportGestionnaireReseau', message)
 }
@@ -59,7 +58,7 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
 }
 if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
   v1Router.post(
-    routes.IMPORT_GESTIONNAIRE_RESEAU,
+    routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU,
     ensureRole(['admin', 'dgec-validateur']),
     upload.single('fichier-import-gestionnaire-réseau'),
     asyncHandler(async (request, response) => {
