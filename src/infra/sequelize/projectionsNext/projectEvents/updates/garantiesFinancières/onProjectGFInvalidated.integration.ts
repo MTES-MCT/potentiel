@@ -10,7 +10,7 @@ describe('Handler onProjectGFInvalidated', () => {
   const id = new UniqueEntityID().toString()
 
   it(`Etant donné un élément GF avec le statut 'validated' dans ProjectEvent,
-  alors il devrait être mis à jour avec le statut 'pending-validation'`, async () => {
+      alors il devrait être mis à jour avec le statut 'pending-validation'`, async () => {
     await ProjectEvent.create({
       id,
       type: 'GarantiesFinancières',
