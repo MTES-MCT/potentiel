@@ -115,7 +115,7 @@
     "pg": "^8.7.3",
     "pg-connection-string": "^2.5.0",
     "pg-hstore": "^2.3.4",
-    "pizzip": "^3.1.1",
+    "pizzip": "^3.1.3",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.1.0",
     "postcss-prefix-selector": "^1.16.0",
