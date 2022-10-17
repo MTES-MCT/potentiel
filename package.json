@@ -108,7 +108,7 @@
     "multer": "^1.4.4",
     "neverthrow": "^4.3.1",
     "node-mailjet": "^3.4.1",
-    "npm": "^8.13.2",
+    "npm": "^8.19.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "path-browserify": "^1.0.1",
