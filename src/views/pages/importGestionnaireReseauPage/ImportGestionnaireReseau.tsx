@@ -9,12 +9,11 @@ import {
   CsvValidationErrorBox,
 } from '@components'
 import routes from '@routes'
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import { Feedback } from '../../../controllers/helpers/guards'
 
 type ImportGestionnaireReseauProps = {
   request: Request
-  response: Response
   feedback: Feedback
 }
 

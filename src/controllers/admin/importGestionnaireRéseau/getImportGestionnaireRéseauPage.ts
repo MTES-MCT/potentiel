@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole } from '@config'
@@ -9,16 +10,26 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
     routes.IMPORT_GESTIONNAIRE_RESEAU,
     ensureRole(['admin', 'dgec-validateur']),
     asyncHandler(async (request, response) => {
-      const { postDemarrerImportGestionnaireReseau } = request.cookies
-      response.clearCookie('postDemarrerImportGestionnaireReseau')
       return response.send(
         ImportGestionnaireReseauPage({
           request,
-          ...(postDemarrerImportGestionnaireReseau && {
-            feedback: postDemarrerImportGestionnaireReseau,
-          }),
+          feedback: getFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU),
         })
       )
     })
   )
+}
+
+const getFormFeedback = (request: Request, formId: string) => {
+  const {
+    session: { forms },
+  } = request
+
+  if (forms) {
+    const { [formId]: form, ...clearedForms } = forms
+
+    request.session.forms = clearedForms
+
+    return form?.feedback
+  }
 }

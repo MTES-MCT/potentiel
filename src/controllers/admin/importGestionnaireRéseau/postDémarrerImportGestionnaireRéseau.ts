@@ -8,14 +8,12 @@ import { errAsync, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import {
   CsvValidationError,
-  isCsvValidationErrorFeedback,
-  isErrorFeedback,
-  isSuccessFeedback,
+  Feedback,
   mapYupValidationErrorToCsvValidationError,
   stringToDateYupTransformation,
 } from '../../helpers'
 import { ValidationError } from 'yup'
-import { Response } from 'express'
+import { Request } from 'express'
 
 const csvDataSchema = yup
   .array()
@@ -31,18 +29,6 @@ const csvDataSchema = yup
         .typeError(`La date de mise en service n'est pas valide`),
     })
   )
-
-const ajouterCookie = (response: Response, message) => {
-  if (
-    !isErrorFeedback(message) &&
-    !isSuccessFeedback(message) &&
-    !isCsvValidationErrorFeedback(message)
-  ) {
-    return
-  }
-  response.clearCookie('postDemarrerImportGestionnaireReseau')
-  response.cookie('postDemarrerImportGestionnaireReseau', message)
-}
 
 const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   try {
@@ -63,7 +49,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
     upload.single('fichier-import-gestionnaire-réseau'),
     asyncHandler(async (request, response) => {
       if (!request.file || !request.file.path) {
-        ajouterCookie(response, {
+        setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
           error: 'Le fichier est obligatoire',
         })
         return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
@@ -76,15 +62,29 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
         .andThen(validerLesDonnéesDuFichierCsv)
         .match(
           () => {
-            ajouterCookie(response, { success: "L'import du fichier a démarré." })
+            setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              success: "L'import du fichier a démarré.",
+            })
             return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
           },
           (e) => {
             const validationErreurs = e instanceof CsvValidationError ? e.détails : undefined
-            ajouterCookie(response, validationErreurs)
+            setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, validationErreurs)
             return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
           }
         )
     })
   )
+}
+
+const setFormFeedback = (request: Request, formId: string, feedback: Feedback | undefined) => {
+  const form = request.session.forms && request.session.forms[formId]
+
+  request.session.forms = {
+    ...request.session.forms,
+    [formId]: {
+      ...form,
+      feedback,
+    },
+  }
 }

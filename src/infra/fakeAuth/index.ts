@@ -1,3 +1,4 @@
+import session from 'express-session'
 import QueryString from 'querystring'
 import { logger } from '@core/utils'
 import { User } from '@entities'
@@ -16,7 +17,13 @@ const FAKE_AUTH_COOKIE = 'fake_auth_cookie'
 export const makeFakeAuth = (deps) => {
   const { getUserByEmail } = deps
 
-  const registerAuth: RegisterAuth = ({ app, router }) => {
+  const registerAuth: RegisterAuth = ({ app, sessionSecret, router }) => {
+    app.use(
+      session({
+        secret: sessionSecret,
+        cookie: { maxAge: 60000 },
+      })
+    )
     // Add middleware that looks for test_auth cookie and loads user with getUserByEmail
     app.use((request, response, next) => {
       if (
