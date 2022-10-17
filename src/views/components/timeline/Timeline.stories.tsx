@@ -811,7 +811,7 @@ export const PPModificationReceived = () => (
 export const drealGarantiesFinancieresNotUploaded = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
@@ -832,7 +832,7 @@ export const drealGarantiesFinancieresNotUploaded = () => (
 export const PPGarantiesFinancieresNotUploaded = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
@@ -862,7 +862,7 @@ export const PPGarantiesFinancieresNotUploaded = () => (
 export const drealGarantiesFinancieresUploaded = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
@@ -891,7 +891,7 @@ export const drealGarantiesFinancieresUploaded = () => (
 export const PPGarantiesFinancieresUploaded = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
@@ -929,7 +929,7 @@ export const PPGarantiesFinancieresUploaded = () => (
 export const PPGarantiesFinancieresWithdrawn = () => (
   <Timeline
     projectEventList={{
-      project: { ...project, isGarantiesFinancieresDeposeesALaCandidature: true },
+      project: { ...project },
       events: [
         {
           type: 'ProjectNotified',
