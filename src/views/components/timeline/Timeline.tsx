@@ -88,13 +88,12 @@ type ItemProps =
 export const Timeline = ({
   projectEventList: {
     events,
-    garantiesFinancières,
     project: { id: projectId, status, garantieFinanciereEnMois },
   },
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { status })
-  console.log('events', garantiesFinancières)
+  const garantiesFinancières = events.find(is('garanties-financieres'))
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),

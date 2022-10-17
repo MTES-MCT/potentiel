@@ -441,9 +441,7 @@ export type ProjectEventListDTO = {
   project: {
     id: Project['id']
     status: ProjectStatus
-    isSoumisAuxGF?: boolean
     garantieFinanciereEnMois?: number
   }
-  garantiesFinancières?: GarantiesFinancièresDTO
   events: ProjectEventDTO[]
 }
