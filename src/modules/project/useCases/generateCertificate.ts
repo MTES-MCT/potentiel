@@ -10,8 +10,10 @@ import {
 } from '../../shared/errors'
 import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors'
 import { Project } from '../Project'
-import { User } from '@entities'
+import { CertificateTemplate, User } from '@entities'
 import { GetUserById } from '@infra/sequelize/queries/users'
+import { ProjectDataForCertificate } from '@modules/project'
+import { Validateur } from '@views/certificates'
 
 export type GenerateCertificate = (args: {
   projectId: string
@@ -32,10 +34,10 @@ interface GenerateCertificateDeps {
   fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
   getUserById: GetUserById
-  buildCertificate: ({
-    template: CertificateTemplate,
-    data: ProjectDataForCertificate,
-    validateur: Validateur,
+  buildCertificate: (options: {
+    template: CertificateTemplate
+    data: ProjectDataForCertificate
+    validateur?: Validateur
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError

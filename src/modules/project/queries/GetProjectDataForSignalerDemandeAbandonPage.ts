@@ -16,8 +16,8 @@ export type ProjectDataForSignalerDemandeAbandonPage = {
   appelOffreId: string
 }
 
-export type GetProjectDataForSignalerDemandeAbandonPage = ({
-  projectId: string,
+export type GetProjectDataForSignalerDemandeAbandonPage = (filtre: {
+  projectId: string
 }) => ResultAsync<
   ProjectDataForSignalerDemandeAbandonPage,
   EntityNotFoundError | InfraNotAvailableError

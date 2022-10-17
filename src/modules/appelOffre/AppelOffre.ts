@@ -18,7 +18,7 @@ export interface AppelOffre extends EventStoreAggregate {
     data: any
     updatedBy: User
   }) => Result<null, UnauthorizedError>
-  remove: ({ removedBy: User }) => Result<null, never>
+  remove: (args: { removedBy: User }) => Result<null, never>
 }
 
 interface AppelOffreProps {

@@ -7,7 +7,7 @@ import { makeCertificate as makeCre4V1Certificate } from './cre4.v1'
 import { makeCertificate as makePpe2V1Certificate } from './ppe2.v1'
 import { makeCertificate as makePpe2V2Certificate } from './ppe2.v2'
 
-export type Validateur = { fullName: string; fonction?: string }
+export type Validateur = { fullName: string; fonction?: string | null }
 
 export const buildCertificate = ({
   template,

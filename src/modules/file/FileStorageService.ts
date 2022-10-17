@@ -4,9 +4,9 @@ import { FileAccessDeniedError, FileNotFoundError } from './errors'
 import { FileContents } from './FileObject'
 
 export interface FileStorageService {
-  upload: ({
-    contents: FileContents,
-    path: string,
+  upload: (file: {
+    contents: FileContents
+    path: string
   }) => ResultAsync<string, FileAccessDeniedError | InfraNotAvailableError>
   download: (
     storedAt: string

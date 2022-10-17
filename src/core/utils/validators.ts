@@ -61,13 +61,13 @@ export const ValidationError: HasErrorFieldsContructor = class ValidationError e
   }
 }
 
-export const makeValidator = <T, E extends HasErrorFieldsContructor>(
+export const makeValidator = <E extends HasErrorFieldsContructor>(
   validatorMap: Record<string, (obj: any) => void>,
   ErrorType: E
 ) => {
   const propertyValidator = makePropertyValidator(validatorMap)
 
-  return (object: T): Result<T, E> => {
+  return (object: Record<string, any>): Result<Record<string, any>, E> => {
     const errorsInFields = propertyValidator(object)
     if (Object.keys(errorsInFields).length) {
       return err(new ErrorType(errorsInFields))
