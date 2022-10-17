@@ -122,7 +122,7 @@
     "prompts": "^2.4.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "runtypes": "^6.5.1",
+    "runtypes": "^6.6.0",
     "sanitize-filename": "^1.6.3",
     "sequelize": "^6.25.2",
     "sequelize-cli": "^6.5.1",
