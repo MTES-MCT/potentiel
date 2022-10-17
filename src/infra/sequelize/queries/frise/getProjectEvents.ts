@@ -591,7 +591,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
             }
 
-            console
             return Promise.resolve(events)
           },
           Promise.resolve([] as ProjectEventDTO[])
