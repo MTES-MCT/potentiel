@@ -4,14 +4,16 @@ import { ProjectGFRemoved, ProjectGFRemovedPayload } from '@modules/project'
 import { resetDatabase } from '../../../../helpers'
 import onProjectGFRemoved from './onProjectGFRemoved'
 
-describe('onProjectGFRemoved', () => {
+describe('Handler onProjectGFRemoved', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
-  it('should create a new event of type ProjectGFRemoved', async () => {
+  it(`Etant donné un élément GF avec le statut 'pending-validation' dans ProjectEvent,
+      alors il devrait être mis à jour avec le statut 'due'`, async () => {
     const projectId = new UniqueEntityID().toString()
     const removedBy = 'user-id'
     const occurredAt = new Date('2022-01-12')
+    const dateLimiteDEnvoi = new Date('2022-04-12')
 
     await ProjectEvent.create({
       id: new UniqueEntityID().toString(),
@@ -19,7 +21,10 @@ describe('onProjectGFRemoved', () => {
       projectId,
       valueDate: new Date('2020-01-01').getTime(),
       eventPublishedAt: new Date('2020-01-01').getTime(),
-      payload: { statut: 'pending-validation' },
+      payload: {
+        statut: 'pending-validation',
+        dateLimiteDEnvoi: dateLimiteDEnvoi.getTime(),
+      },
     })
 
     await onProjectGFRemoved(
@@ -41,7 +46,10 @@ describe('onProjectGFRemoved', () => {
       projectId,
       type: 'GarantiesFinancières',
       eventPublishedAt: occurredAt.getTime(),
-      payload: { statut: 'due' },
+      payload: {
+        statut: 'due',
+        dateLimiteDEnvoi: dateLimiteDEnvoi.getTime(),
+      },
     })
   })
 })

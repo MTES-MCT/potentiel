@@ -9,7 +9,6 @@ export default {
 
       await transaction.commit()
     } catch (error) {
-      console.log(error, error.message)
       await transaction.rollback()
       throw error
     }
