@@ -3,10 +3,11 @@ import { userIs } from '@modules/users'
 import routes from '@routes'
 import { User } from '@entities'
 import { GarantiesFinancièresEvent } from '../../projectionsNext/projectEvents/events/GarantiesFinancièresEvent'
+
 const computeDueStatut = ({ dateLimiteDEnvoi, now }: { dateLimiteDEnvoi: number; now: number }) =>
   dateLimiteDEnvoi < now ? 'past-due' : 'due'
 
-export const getGarantiesFinancières = ({
+export const getGarantiesFinancièresEvent = ({
   garantiesFinancièresEvent,
   isSoumisAuxGF,
   isGarantiesFinancieresDeposeesALaCandidature,
