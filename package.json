@@ -163,7 +163,7 @@
     "eslint-import-resolver-typescript": "^3.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-unused-imports": "^2.0.0",
-    "gitmoji-cli": "^6.1.0",
+    "gitmoji-cli": "^6.3.0",
     "husky": "^8.0.1",
     "jest": "^27.5.1",
     "jest-diff": "^27.5.1",
