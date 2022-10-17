@@ -1,7 +1,6 @@
 import fs from 'fs'
 import mkdirp from 'mkdirp'
 import path from 'path'
-import { Readable } from 'stream'
 import util from 'util'
 import { logger, err, ok, Result, ResultAsync } from '@core/utils'
 import { pathExists } from '../../helpers/pathExists'
@@ -14,7 +13,7 @@ const buildDirectoryStructure = (filePath: string) =>
     (e: any) => new Error(e.message || 'Error in buildDirectoryStructure')
   )
 
-const writeFileStream = (readStream: Readable, filePath: string) =>
+const writeFileStream = (readStream: NodeJS.ReadableStream, filePath: string) =>
   ResultAsync.fromPromise(
     new Promise((resolve, reject) => {
       const uploadWriteStream = fs.createWriteStream(filePath, {

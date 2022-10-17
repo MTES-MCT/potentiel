@@ -41,7 +41,7 @@ export interface FileObjectArgs {
   contents: FileContents
 }
 
-const validateFileArgs = makeValidator<FileObjectArgs, typeof IllegalFileDataError>(
+const validateFileArgs = makeValidator<typeof IllegalFileDataError>(
   {
     filename: isDefined,
     designation: isDefined,
