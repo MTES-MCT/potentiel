@@ -7,18 +7,18 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
   }
 
   const validationErreurs = error.inner.reduce((acc, err) => {
-    const { path, params, errors = ['Une erreur est survenue'] } = err
+    const { path, params, errors } = err
 
     const numéroLigne = path ? Number(path.slice(1, 2)) + 2 : undefined
-    if (!numéroLigne) {
-      return acc
+    if (!numéroLigne || !errors?.length || typeof params?.originalValue !== 'string') {
+      return [...acc]
     }
 
     return [
       ...acc,
       {
         numéroLigne,
-        valeur: typeof params?.originalValue === 'string' ? params?.originalValue : undefined,
+        valeur: params.originalValue,
         erreur: errors[0],
       },
     ]
