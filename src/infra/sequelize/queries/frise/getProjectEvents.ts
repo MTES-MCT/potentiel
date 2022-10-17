@@ -6,7 +6,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
 import { is, isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
-import { getGarantiesFinancières } from './getGarantiesFinancières'
+import { getGarantiesFinancièresEvent } from './getGarantiesFinancièresEvent'
 
 const { Project } = models
 
@@ -46,7 +46,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
       const garantiesFinancières =
         !garantiesFinancièresEvent || is('GarantiesFinancières')(garantiesFinancièresEvent)
-          ? getGarantiesFinancières({
+          ? getGarantiesFinancièresEvent({
               user,
               projectStatus: status,
               isGarantiesFinancieresDeposeesALaCandidature,
