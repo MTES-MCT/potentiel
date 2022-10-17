@@ -81,7 +81,7 @@
     "babel-loader": "^8.2.5",
     "chalk": "^5.0.1",
     "concat-stream": "^2.0.0",
-    "concurrently": "^7.2.2",
+    "concurrently": "^7.4.0",
     "connect-ensure-login": "^0.1.1",
     "connect-session-sequelize": "^7.1.5",
     "cookie-parser": "^1.4.6",
