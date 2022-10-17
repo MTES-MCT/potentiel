@@ -47,8 +47,8 @@ const getGarantiesFinancières = ({
     }
   }
 
-  const { payload, eventPublishedAt } = garantiesFinancièresEvent
-  const { dateLimiteDEnvoi } = payload
+  const { payload } = garantiesFinancièresEvent
+  const { dateLimiteDEnvoi, dateConstitution } = payload
 
   return {
     type: 'garanties-financieres',
@@ -56,7 +56,7 @@ const getGarantiesFinancières = ({
       payload.statut === 'due'
         ? computeDueStatut({ dateLimiteDEnvoi: payload.dateLimiteDEnvoi, now })
         : payload.statut,
-    date: payload.statut === 'due' ? dateLimiteDEnvoi : eventPublishedAt,
+    date: payload.statut === 'due' ? dateLimiteDEnvoi : dateConstitution,
     variant: user.role,
     ...(payload.statut !== 'due' && {
       url: routes.DOWNLOAD_PROJECT_FILE(payload.fichier.id, payload.fichier.name),
@@ -591,6 +591,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 }
             }
 
+            console
             return Promise.resolve(events)
           },
           Promise.resolve([] as ProjectEventDTO[])

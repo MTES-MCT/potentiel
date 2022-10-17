@@ -4,7 +4,7 @@ import { ProjectGFWithdrawn, ProjectGFWithdrawnPayload } from '@modules/project'
 import { resetDatabase } from '../../../../helpers'
 import onProjectGFWithdrawn from './onProjectGFWithdrawn'
 
-describe('onProjectGFWithdrawn', () => {
+describe('Handler onProjectGFWithdrawn', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
