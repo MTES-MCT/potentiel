@@ -32,10 +32,10 @@ interface GenerateCertificateDeps {
   fileRepo: Repository<FileObject>
   projectRepo: Repository<Project>
   getUserById: GetUserById
-  buildCertificate: ({
-    template: CertificateTemplate,
-    data: ProjectDataForCertificate,
-    validateur: Validateur,
+  buildCertificate: (options: {
+    template: CertificateTemplate
+    data: ProjectDataForCertificate
+    validateur: Validateur
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError

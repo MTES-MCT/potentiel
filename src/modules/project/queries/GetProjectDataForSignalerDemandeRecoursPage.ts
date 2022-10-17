@@ -16,8 +16,8 @@ export type ProjectDataForSignalerDemandeRecoursPage = {
   appelOffreId: string
 }
 
-export type GetProjectDataForSignalerDemandeRecoursPage = ({
-  projectId: string,
+export type GetProjectDataForSignalerDemandeRecoursPage = (filtre: {
+  projectId: string
 }) => ResultAsync<
   ProjectDataForSignalerDemandeRecoursPage,
   EntityNotFoundError | InfraNotAvailableError
