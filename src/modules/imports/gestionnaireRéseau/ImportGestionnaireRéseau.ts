@@ -1,9 +1,9 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok } from '@core/utils'
-import { MiseAJourDateMiseEnServiceDémarrée } from './events'
+import { MiseAJourDateMiseEnServiceDémarrée, MiseAJourDateMiseEnServiceTerminée } from './events'
 
 export type ImportGestionnaireRéseau = EventStoreAggregate & {
-  état: 'en cours' | undefined
+  état: 'en cours' | 'terminé' | undefined
   tâchesEnCours: Array<{
     type: 'maj-date-mise-en-service'
   }>
@@ -29,6 +29,14 @@ export const makeImportGestionnaireRéseau = (args: {
           ...agregat,
           tâchesEnCours: [...agregat.tâchesEnCours, { type: 'maj-date-mise-en-service' }],
           état: 'en cours',
+        }
+      case MiseAJourDateMiseEnServiceTerminée.type:
+        return {
+          ...agregat,
+          tâchesEnCours: [
+            ...agregat.tâchesEnCours.filter((t) => t.type !== 'maj-date-mise-en-service'),
+          ],
+          état: 'terminé',
         }
       default:
         return agregat
