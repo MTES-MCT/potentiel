@@ -11,17 +11,18 @@ import { makeRenseignerDateDeMiseEnService } from './renseignerDateDeMiseEnServi
 describe('Renseigner une date de mise en service', () => {
   const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const projectRepo = fakeRepo({
-    ...makeFakeProject(),
-    id: projetId,
-    dateMiseEnService: new Date('2023-01-01'),
-  } as Project)
 
-  describe(`Impossible de renseigner la date de mise en service si le projet dispose d'une date de mise en service plus récente que celle à renseigner`, () => {
-    it(`Étant donné un projet avec une date de mise en service existante au '2023-01-01
-        Lorsqu'on renseigne une nouvelle date de mise en service pour ce projet au '2022-01-01'
-        Alors la date de mise en service n'est pas remplacée et une erreur de type 'DateDeMiseEnServicePlusRécenteError' est retournée
+  describe(`Impossible de renseigner une date de mise en service plus récente que celle du projet`, () => {
+    it(`Étant donné un projet avec une date de mise en service existante
+        Lorsqu'on renseigne une nouvelle date de mise en service pour ce projet et que celle-ci est plus récente que celle du projet
+        Alors on devrait être averti qu'il n'est pas possible de renseigner une date plus récente que celle du projet
         Et aucun évènement ne devrait être émis`, async () => {
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        id: projetId,
+        dateDeMiseEnService: new Date('2022-01-01'),
+      } as Project)
+
       const renseignerDateMiseEnService = makeRenseignerDateDeMiseEnService({
         publishToEventStore,
         projectRepo,
@@ -29,7 +30,7 @@ describe('Renseigner une date de mise en service', () => {
 
       const résultat = await renseignerDateMiseEnService({
         projetId,
-        dateMiseEnService: new Date('2022-01-01'),
+        dateDeMiseEnService: new Date('2023-01-01'),
       })
 
       expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateDeMiseEnServicePlusRécenteError)

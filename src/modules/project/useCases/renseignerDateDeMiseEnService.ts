@@ -6,7 +6,7 @@ import { Project } from '../Project'
 
 type Commande = {
   projetId: string
-  dateMiseEnService: Date
+  dateDeMiseEnService: Date
 }
 
 type RenseignerDateDeMiseEnService = (commande: Commande) => ResultAsync<null, UnauthorizedError>
@@ -25,22 +25,29 @@ export const makeRenseignerDateDeMiseEnService: MakeRenseignerDateDeMiseEnServic
       projet,
     }))
 
-  const vérifierSiDateDeMiseEnServicePlusAncienne = (résultat: {
+  const vérifierSiDateDeMiseEnServicePlusAncienneQueCelleDuProjet = (résultat: {
     commande: Commande
     projet: Project
   }) => {
     const { commande, projet } = résultat
 
     if (
-      projet.dateMiseEnService &&
-      projet.dateMiseEnService.getTime() > commande.dateMiseEnService.getTime()
+      projet.dateDeMiseEnService &&
+      projet.dateDeMiseEnService.getTime() < commande.dateDeMiseEnService.getTime()
     ) {
       return errAsync(new DateDeMiseEnServicePlusRécenteError())
     }
 
+    return okAsync(commande)
+  }
+
+  const enregistrerDateDeMiseEnService = (commande: Commande) => {
+    console.log('I have to maj', commande)
     return okAsync(null)
   }
 
   return (commande) =>
-    chargerProjet(commande).andThen((projet) => vérifierSiDateDeMiseEnServicePlusAncienne(projet))
+    chargerProjet(commande)
+      .andThen(vérifierSiDateDeMiseEnServicePlusAncienneQueCelleDuProjet)
+      .andThen(enregistrerDateDeMiseEnService)
 }
