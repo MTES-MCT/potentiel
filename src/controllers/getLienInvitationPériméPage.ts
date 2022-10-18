@@ -1,7 +1,7 @@
 import asyncHandler from './helpers/asyncHandler'
 import routes from '@routes'
-import { InvitationsAreDeprecatedPage } from '@views/legacy-pages'
 import { v1Router } from './v1Router'
+import { LienInvitationPériméPage } from '@views'
 
 /**
  * This page is used to display a message to users trying to use an old invitation link
@@ -10,6 +10,6 @@ import { v1Router } from './v1Router'
 v1Router.get(
   routes.USER_INVITATION,
   asyncHandler(async (request, response) => {
-    response.send(InvitationsAreDeprecatedPage({ request }))
+    response.send(LienInvitationPériméPage({ request }))
   })
 )
