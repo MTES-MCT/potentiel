@@ -9,23 +9,21 @@ type ErreurValidationCsv = {
   raison: string
 }
 
-type RésultatSoumissionFormulaire =
-  | {
-      type: 'succès'
-    }
-  | {
-      type: 'échec'
-      raison: string
-      erreursDeValidationCsv?: Array<ErreurValidationCsv>
-    }
-
 type ImportGestionnaireReseauProps = {
   request: Request
-  résultatSoumissionFormulaire?: RésultatSoumissionFormulaire
+  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
 type RésultatSoumissionFormulaireProps = {
-  résultatSoumissionFormulaire: RésultatSoumissionFormulaire
+  résultatSoumissionFormulaire:
+    | {
+        type: 'succès'
+      }
+    | {
+        type: 'échec'
+        raison: string
+        erreursDeValidationCsv?: Array<ErreurValidationCsv>
+      }
 }
 
 const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
