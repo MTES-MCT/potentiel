@@ -1,28 +1,31 @@
+import { ProjectEvent } from '../..'
 import { UniqueEntityID } from '@core/domain'
-import { ProjectGFInvalidated } from '@modules/project'
-import { ProjectEvent } from '../../projectEvent.model'
+import { ProjectGFInvalidated, ProjectGFInvalidatedPayload } from '@modules/project'
+import { resetDatabase } from '../../../../helpers'
 import onProjectGFInvalidated from './onProjectGFInvalidated'
 
 describe('Handler onProjectGFInvalidated', () => {
-  const projectId = new UniqueEntityID().toString()
-  const occurredAt = new Date('2022-01-04')
-  const gfDate = new Date('2021-12-26')
-  const id = new UniqueEntityID().toString()
+  beforeEach(async () => {
+    await resetDatabase()
+  })
+  it(`Etant donné un élément GF avec le statut 'uploaded' et une date limite d'envoi dans ProjectEvent,
+      alors il devrait être mis à jour avec le statut 'due'.`, async () => {
+    const projectId = new UniqueEntityID().toString()
+    const occurredAt = new Date('2022-01-12')
+    const dateLimiteDEnvoi = new Date('2023-01-01')
 
-  it(`Etant donné un élément GF avec le statut 'validated' dans ProjectEvent,
-      alors il devrait être mis à jour avec le statut 'pending-validation'`, async () => {
     await ProjectEvent.create({
-      id,
+      id: new UniqueEntityID().toString(),
       type: 'GarantiesFinancières',
       projectId,
       valueDate: new Date('2020-01-01').getTime(),
       eventPublishedAt: new Date('2020-01-01').getTime(),
-      payload: { statut: 'validated', dateConstitution: gfDate.getTime() },
+      payload: { statut: 'uploaded', dateLimiteDEnvoi: dateLimiteDEnvoi.getTime() },
     })
 
     await onProjectGFInvalidated(
       new ProjectGFInvalidated({
-        payload: { projectId },
+        payload: { projectId } as ProjectGFInvalidatedPayload,
         original: {
           version: 1,
           occurredAt,
@@ -34,15 +37,43 @@ describe('Handler onProjectGFInvalidated', () => {
       where: { type: 'GarantiesFinancières', projectId },
     })
 
+    expect(projectEvent).not.toBeNull()
     expect(projectEvent).toMatchObject({
-      id,
       type: 'GarantiesFinancières',
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
-      payload: {
-        statut: 'pending-validation',
-        dateConstitution: gfDate.getTime(),
-      },
+      payload: { statut: 'due', dateLimiteDEnvoi: dateLimiteDEnvoi.getTime() },
     })
+  })
+
+  it(`Etant donné un élément GF avec le statut 'uploaded' et aucunue date limite d'envoi dans ProjectEvent,
+      alors il devrait être supprimé.`, async () => {
+    const projectId = new UniqueEntityID().toString()
+    const occurredAt = new Date('2022-01-12')
+
+    await ProjectEvent.create({
+      id: new UniqueEntityID().toString(),
+      type: 'GarantiesFinancières',
+      projectId,
+      valueDate: new Date('2020-01-01').getTime(),
+      eventPublishedAt: new Date('2020-01-01').getTime(),
+      payload: { statut: 'uploaded' },
+    })
+
+    await onProjectGFInvalidated(
+      new ProjectGFInvalidated({
+        payload: { projectId } as ProjectGFInvalidatedPayload,
+        original: {
+          version: 1,
+          occurredAt,
+        },
+      })
+    )
+
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
+    })
+
+    expect(projectEvent).toBeNull()
   })
 })

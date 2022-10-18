@@ -17,7 +17,7 @@ describe('onProjectGFDueDateSet', () => {
 
   describe(`Pas d'élément de type GF correspondant dans ProjectEvent`, () => {
     it(`Si aucun élément de type GF n'est trouvé dans ProjectEvent,
-    alors un nouvel élément devrait être créé`, async () => {
+        alors un nouvel élément devrait être créé`, async () => {
       await onProjectGFDueDateSet(
         new ProjectGFDueDateSet({
           payload: {
@@ -44,7 +44,7 @@ describe('onProjectGFDueDateSet', () => {
   })
   describe(`Elément de type GF correspondant dans ProjectEvent`, () => {
     it(`Etant donné un élément de statut 'due' sans date limite d'envoi,
-    alors la date limite d'envoi devrait être ajoutée`, async () => {
+        alors la date limite d'envoi devrait être ajoutée`, async () => {
       const élémentId = new UniqueEntityID().toString()
       const élémentGFInitial = {
         id: élémentId,
@@ -83,7 +83,7 @@ describe('onProjectGFDueDateSet', () => {
     })
 
     it(`Etant donné un élément de statut 'due' avec date limite d'envoi,
-    alors la date limite d'envoi devrait être mise à jour`, async () => {
+        alors la date limite d'envoi devrait être mise à jour`, async () => {
       const élémentId = new UniqueEntityID().toString()
       const élémentGFInitial = {
         id: élémentId,
@@ -124,8 +124,8 @@ describe('onProjectGFDueDateSet', () => {
 
     for (const statut of ['uploaded', 'validated', 'pending-validation']) {
       it(`Etant donné un élément de statut '${statut}' avec date limite d'envoi,
-      alors la date limite d'envoi devrait être mise à jour 
-      et le fichier conservé`, async () => {
+          alors la date limite d'envoi devrait être mise à jour 
+          et le fichier conservé`, async () => {
         const élémentId = new UniqueEntityID().toString()
         const élémentGFInitial = {
           id: élémentId,
@@ -167,8 +167,8 @@ describe('onProjectGFDueDateSet', () => {
     }
 
     it(`Etant donné un élément de statut 'uploaded' sans date limite d'envoi,
-    alors la date limite d'envoi devrait être ajoutée 
-    et le fichier conservé`, async () => {
+        alors la date limite d'envoi devrait être ajoutée 
+        et le fichier conservé`, async () => {
       const élémentId = new UniqueEntityID().toString()
       const élémentGFInitial = {
         id: élémentId,
