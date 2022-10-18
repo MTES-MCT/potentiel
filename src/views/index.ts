@@ -34,6 +34,7 @@ export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
     Component: Statistiques,
     props,
     hydrate: false,
+    title: 'Tableau de bord public',
   })
 
 export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques>[0]) =>
@@ -41,6 +42,7 @@ export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques
     Component: AdminStatistiques,
     props,
     hydrate: false,
+    title: 'Tableau de bord',
   })
 
 export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
@@ -48,6 +50,7 @@ export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques
     Component: AdemeStatistiques,
     props,
     hydrate: false,
+    title: 'Tableau de bord',
   })
 
 export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) =>
@@ -56,6 +59,7 @@ export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) 
     props,
     hydrate: true,
     pageName: 'projectDetails', // This must match the Component name
+    title: props.project.nomProjet,
   })
 
 export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahierDesCharges>[0]) =>
@@ -64,6 +68,7 @@ export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahi
     props,
     hydrate: true,
     pageName: 'choisirCahierDesCharges', // This must match the Component name
+    title: 'Changer de cahier des charges',
   })
 
 export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinancieres>[0]) =>
@@ -72,6 +77,7 @@ export const GarantiesFinancieresPage = (props: Parameters<typeof GarantiesFinan
     props,
     hydrate: true,
     pageName: 'garantiesFinancieres', // This must match the Component name
+    title: 'Garanties financières',
   })
 
 export const NewModificationRequestPage = (props: Parameters<typeof NewModificationRequest>[0]) =>
@@ -80,6 +86,7 @@ export const NewModificationRequestPage = (props: Parameters<typeof NewModificat
     props,
     hydrate: true,
     pageName: 'newModificationRequest', // This must match the Component name
+    title: 'Nouvelle demande',
   })
 
 export const ErrorPage = (props: Parameters<typeof Error>[0]) =>
@@ -87,6 +94,7 @@ export const ErrorPage = (props: Parameters<typeof Error>[0]) =>
     Component: Error,
     props,
     hydrate: false,
+    title: 'Erreur',
   })
 
 export const ModificationRequestPage = (props: Parameters<typeof ModificationRequest>[0]) =>
@@ -95,6 +103,7 @@ export const ModificationRequestPage = (props: Parameters<typeof ModificationReq
     props,
     hydrate: true,
     pageName: 'modificationRequest', // This must match the Component name
+    title: 'Détails demande',
   })
 
 export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
@@ -103,6 +112,7 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     props,
     hydrate: true,
     pageName: 'demanderDelai',
+    title: 'Demander délai',
   })
 
 export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]) =>
@@ -111,6 +121,7 @@ export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]
     props,
     hydrate: true,
     pageName: 'demanderAbandon',
+    title: 'Demander abandon',
   })
 
 export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur>[0]) =>
@@ -119,6 +130,7 @@ export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur
     props,
     hydrate: true,
     pageName: 'changerProducteur',
+    title: 'Changer producteur',
   })
 
 export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisseur>[0]) =>
@@ -127,6 +139,7 @@ export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisse
     props,
     hydrate: true,
     pageName: 'changerFournisseur',
+    title: 'Changer fournisseur',
   })
 
 export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) =>
@@ -135,6 +148,7 @@ export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) 
     props,
     hydrate: true,
     pageName: 'demandeAbandon', // This must match the Component name
+    title: 'Demande abandon',
   })
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
@@ -143,6 +157,7 @@ export const ModificationRequestListPage = (props: Parameters<typeof Modificatio
     props,
     hydrate: true,
     pageName: 'modificationRequestList', // This must match the Component name
+    title: 'Demandes de modification',
   })
 
 export const HomePage = (props: Parameters<typeof Home>[0]) =>
@@ -151,6 +166,7 @@ export const HomePage = (props: Parameters<typeof Home>[0]) =>
     props,
     hydrate: true,
     pageName: 'home', // This must match the Component name
+    title: 'Accueil',
   })
 
 export const UploadLegacyModificationFilesPage = (
@@ -160,6 +176,7 @@ export const UploadLegacyModificationFilesPage = (
     Component: UploadLegacyModificationFiles,
     props,
     hydrate: false,
+    title: 'Importer courriers historiques',
   })
 
 export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemandeDelai>[0]) =>
@@ -168,6 +185,7 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     props,
     hydrate: true,
     pageName: 'signalerDemandeDelai', // This must match the Component name
+    title: 'Signaler demande de délai',
   })
 
 export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDemandeAbandon>[0]) =>
@@ -176,6 +194,7 @@ export const SignalerDemandeAbandonPage = (props: Parameters<typeof SignalerDema
     props,
     hydrate: true,
     pageName: 'signalerDemandeAbandon', // This must match the Component name
+    title: 'Signaler demande abandon',
   })
 
 export const SignalerDemandeRecoursPage = (props: Parameters<typeof SignalerDemandeRecours>[0]) =>
@@ -184,6 +203,7 @@ export const SignalerDemandeRecoursPage = (props: Parameters<typeof SignalerDema
     props,
     hydrate: true,
     pageName: 'signalerDemandeRecours', // This must match the Component name
+    title: 'Signaler demande recours',
   })
 
 export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
@@ -191,6 +211,7 @@ export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
     Component: Signup,
     props,
     hydrate: false,
+    title: 'Inscription',
   })
 
 export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
@@ -199,6 +220,7 @@ export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
     props,
     hydrate: true,
     pageName: 'drealList', // This must match the Component name
+    title: 'DREALs',
   })
 
 export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
@@ -207,6 +229,7 @@ export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
     props,
     hydrate: true,
     pageName: 'partnersList', // This must match the Component name
+    title: 'Partenaires',
   })
 
 export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingEDF>[0]) =>
@@ -214,6 +237,7 @@ export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingE
     Component: ImporterListingEDF,
     props,
     hydrate: false,
+    title: 'Importer listing EDF',
   })
 
 export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListingEnedis>[0]) =>
@@ -221,6 +245,7 @@ export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListi
     Component: ImporterListingEnedis,
     props,
     hydrate: false,
+    title: 'Importer listing Enedis',
   })
 
 export const AbonnementLettreInformationPage = (
@@ -230,6 +255,7 @@ export const AbonnementLettreInformationPage = (
     Component: AbonnementLettreInformation,
     props,
     hydrate: false,
+    title: 'Abdonnement lettre information',
   })
 
 export const ImportGestionnaireReseauPage = (
@@ -239,4 +265,5 @@ export const ImportGestionnaireReseauPage = (
     Component: ImportGestionnaireReseau,
     props,
     hydrate: false,
+    title: 'Importer fichier gestionnaire réseau',
   })
