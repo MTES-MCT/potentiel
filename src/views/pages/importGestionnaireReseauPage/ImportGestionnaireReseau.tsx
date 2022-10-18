@@ -10,33 +10,55 @@ import {
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
-import { Feedback } from '../../../controllers/helpers/guards'
+
+type RésultatSoumissionFormulaire =
+  | {
+      type: 'succès'
+    }
+  | {
+      type: 'échec'
+      raison: string
+      erreursDeValidationCsv?: Array<{
+        numéroLigne: number
+        valeurInvalide: string
+        raison: string
+      }>
+    }
 
 type ImportGestionnaireReseauProps = {
   request: Request
-  feedback: Feedback
+  résultatSoumissionFormulaire?: RésultatSoumissionFormulaire
 }
 
-const AfficherFeedback = ({ feedback }: { feedback: Feedback }) => {
-  if ('success' in feedback) {
-    return <SuccessErrorBox success={feedback.success} />
-  }
-  if ('validationErreurs' in feedback) {
-    return <CsvValidationErrorBox validationErreurs={feedback.validationErreurs} />
-  }
-  if ('error' in feedback) {
-    return <SuccessErrorBox error={feedback.error} />
-  }
-
-  return null
+type RésultatSoumissionFormulaireProps = {
+  résultatSoumissionFormulaire: RésultatSoumissionFormulaire
 }
 
-export const ImportGestionnaireReseau = ({ request, feedback }: ImportGestionnaireReseauProps) => (
+const AfficherFeedback = ({ résultatSoumissionFormulaire }: RésultatSoumissionFormulaireProps) => {
+  switch (résultatSoumissionFormulaire.type) {
+    case 'succès':
+      return <SuccessErrorBox success="L'import du fichier a démarré." />
+    case 'échec':
+      return résultatSoumissionFormulaire.erreursDeValidationCsv &&
+        résultatSoumissionFormulaire.erreursDeValidationCsv?.length > 0 ? (
+        <CsvValidationErrorBox
+          validationErreurs={résultatSoumissionFormulaire.erreursDeValidationCsv}
+        />
+      ) : (
+        <SuccessErrorBox error={résultatSoumissionFormulaire.raison} />
+      )
+  }
+}
+
+export const ImportGestionnaireReseau = ({
+  request,
+  résultatSoumissionFormulaire,
+}: ImportGestionnaireReseauProps) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
         <h3 className="section--title">Import gestionnaire réseau</h3>
-        {feedback && <AfficherFeedback feedback={feedback} />}
+        {résultatSoumissionFormulaire && <AfficherFeedback {...{ résultatSoumissionFormulaire }} />}
         <form
           action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
           method="post"
