@@ -53,10 +53,10 @@ export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement,
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
-        `Erreur lors du traitement de l'événement ProjectGFUploaded`,
+        `Erreur lors du traitement de l'événement ProjectGFDueDateSet`,
         {
           évènement,
-          nomProjection: 'ProjectEvent.ProjectGFUploaded',
+          nomProjection: 'ProjectEvent.ProjectGFDueDateSet',
         },
         e
       )

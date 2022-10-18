@@ -21,10 +21,13 @@ export default ProjectEventProjector.on(
 
       if (!projectEvent) {
         logger.error(
-          new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFRemoved`, {
-            évènement,
-            nomProjection: 'ProjectEvent.onProjectGFRemoved',
-          })
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement ProjectGFDueDateCancelled`,
+            {
+              évènement,
+              nomProjection: 'ProjectEvent.onProjectGFDueDateCancelled',
+            }
+          )
         )
         return
       }

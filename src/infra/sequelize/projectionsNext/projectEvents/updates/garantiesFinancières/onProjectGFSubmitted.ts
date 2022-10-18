@@ -40,9 +40,9 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
 
     if (!projectEvent) {
       logger.error(
-        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFUploaded`, {
+        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFSubmitted`, {
           évènement,
-          nomProjection: 'ProjectEvent.onProjectGFUploaded',
+          nomProjection: 'ProjectEvent.onProjectGFSubmitted',
         })
       )
       return
@@ -68,10 +68,10 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
-        `Erreur lors du traitement de l'événement ProjectGFUploaded`,
+        `Erreur lors du traitement de l'événement ProjectGFSubmitted`,
         {
           évènement,
-          nomProjection: 'ProjectEvent.ProjectGFUploaded',
+          nomProjection: 'ProjectEvent.ProjectGFSubmitted',
         },
         e
       )

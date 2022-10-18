@@ -22,9 +22,9 @@ export default ProjectEventProjector.on(ProjectGFInvalidated, async (évènement
 
     if (!projectEvent || projectEvent.payload.statut !== 'validated') {
       logger.error(
-        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFRemoved`, {
+        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFInvalidated`, {
           évènement,
-          nomProjection: 'ProjectEvent.onProjectGFRemoved',
+          nomProjection: 'ProjectEvent.onProjectGFInvalidated',
         })
       )
       return
@@ -47,10 +47,10 @@ export default ProjectEventProjector.on(ProjectGFInvalidated, async (évènement
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
-        `Erreur lors du traitement de l'événement ProjectGFRemoved`,
+        `Erreur lors du traitement de l'événement ProjectGFInvalidated`,
         {
           évènement,
-          nomProjection: 'ProjectEvent.onProjectGFRemoved',
+          nomProjection: 'ProjectEvent.onProjectGFInvalidated',
         },
         e
       )
