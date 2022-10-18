@@ -4,20 +4,17 @@ import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
 import ListMissingOwnerProjects from './listMissingOwnerProjects'
-import FakeLogin from './fakeLogin'
 
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
-const FakeLoginPage = makePresenterPage(FakeLogin)
 
 export {
   InvitationListPage,
   NotificationListPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,
-  FakeLoginPage,
 }
 
 interface HasRequest {

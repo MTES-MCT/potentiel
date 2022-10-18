@@ -33,6 +33,7 @@ import {
   AdminImporterCandidats,
   ListeProjets,
   SuccèsOuErreur,
+  FakeLogin,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -321,6 +322,13 @@ export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>
 export const SuccèsOuErreurPage = (props: Parameters<typeof SuccèsOuErreur>[0]) =>
   makeHtml({
     Component: SuccèsOuErreur,
+    props,
+    hydrate: false,
+  })
+
+export const FakeLoginPage = (props: Parameters<typeof FakeLogin>[0]) =>
+  makeHtml({
+    Component: FakeLogin,
     props,
     hydrate: false,
   })
