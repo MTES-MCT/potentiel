@@ -19,7 +19,7 @@ export default function NotificationList({ request, notifications }: Notificatio
       <AdminDashboard role={request.user?.role} currentPage="list-notifications">
         <div className="panel">
           <div className="panel__header">
-            <h3>Notifications en erreur</h3>
+            <h3>Emails en erreur</h3>
             <p>Sont listées uniquement les notifications qui ont un status &quot;erreur&quot;.</p>
           </div>
           <div className="panel__header">

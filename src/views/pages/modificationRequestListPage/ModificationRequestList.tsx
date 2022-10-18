@@ -54,7 +54,7 @@ export const ModificationRequestList = ({
       <RoleBasedDashboard role={request.user?.role} currentPage="list-requests">
         <div className="panel">
           <div className="panel__header">
-            <h3>Demandes</h3>
+            <h3>{request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}</h3>
             <form
               action={`${
                 request.user?.role === 'porteur-projet'

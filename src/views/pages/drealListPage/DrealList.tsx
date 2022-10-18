@@ -19,7 +19,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
       <AdminDashboard role={request.user?.role} currentPage="list-dreal">
         <div className="panel">
           <div className="panel__header">
-            <h1 className="text-2xl">Les DREALs</h1>
+            <h1 className="text-2xl">Gérer les DREAL</h1>
           </div>
           <div className="panel__header">
             <h2 className="text-lg">Ajouter un utilisateur DREAL</h2>

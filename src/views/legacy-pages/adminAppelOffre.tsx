@@ -16,7 +16,7 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
       <AdminDashboard role={request.user?.role} currentPage="admin-ao">
         <div className="panel">
           <div className="panel__header">
-            <h3>Appels d'offres</h3>
+            <h3>Gérer les appels d'offres</h3>
           </div>
 
           {success ? (

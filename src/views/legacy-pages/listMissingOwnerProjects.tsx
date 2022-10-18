@@ -47,11 +47,11 @@ export default function ListMissingOwnerProjects({
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets en attente d'affectation</h3>
+          <h3>Projets à réclamer</h3>
           <div className="notification">
             <span>
-              Pour ajouter un projet à votre suivi de projets (onglet "Mes projets"),
-              sélectionnez-le, qu’il vous soit pré-affecté ou non.
+              Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
+              projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.
               <br />
               Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
               référence tel qu'il figure dans votre attestation de désignation, ainsi que le numéro
