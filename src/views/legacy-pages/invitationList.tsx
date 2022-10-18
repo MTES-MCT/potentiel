@@ -20,10 +20,10 @@ export default function InvitationList({ request, invitations }: InvitationListP
       <AdminDashboard role={request.user?.role} currentPage="list-invitations">
         <div className="panel">
           <div className="panel__header">
-            <h3>Invitations candidats en attente</h3>
+            <h3>Invitations de candidats en attente</h3>
             <p>
               Sont listées uniquement les invitations de candidats qui n‘ont pas donné lieu à une
-              inscription. Les parrainnages ne sont pas inclus.
+              inscription. Les parrainages ne sont pas inclus.
             </p>
           </div>
           {success ? (
