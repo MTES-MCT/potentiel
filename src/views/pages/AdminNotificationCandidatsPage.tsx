@@ -9,7 +9,7 @@ import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
 
-type AdminNotifyCandidatesProps = {
+type AdminNotificationCandidatsProps = {
   request: Request
   results?: {
     projects: PaginatedList<Project>
@@ -21,7 +21,10 @@ type AdminNotifyCandidatesProps = {
   }
 }
 
-export default function AdminNotifyCandidates({ request, results }: AdminNotifyCandidatesProps) {
+export const AdminNotificationCandidats = ({
+  request,
+  results,
+}: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {}
   if (!results) {
     // All projects have been notified

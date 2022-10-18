@@ -28,6 +28,7 @@ import {
   ChangerFournisseur,
   ImportGestionnaireReseau,
   AdminAppelsOffres,
+  AdminNotificationCandidats,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -275,4 +276,14 @@ export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres
     props,
     hydrate: false,
     title: 'Appels offres',
+  })
+
+export const AdminNotificationCandidatsPage = (
+  props: Parameters<typeof AdminNotificationCandidats>[0]
+) =>
+  makeHtml({
+    Component: AdminNotificationCandidats,
+    props,
+    hydrate: false,
+    title: 'Notifier des candidats',
   })
