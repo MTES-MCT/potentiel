@@ -29,6 +29,7 @@ import {
   ImportGestionnaireReseau,
   AdminAppelsOffres,
   AdminNotificationCandidats,
+  AdminRegénérerPeriodeAttestations,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -286,4 +287,14 @@ export const AdminNotificationCandidatsPage = (
     props,
     hydrate: false,
     title: 'Notifier des candidats',
+  })
+
+export const AdminRegénérerPeriodeAttestationsPage = (
+  props: Parameters<typeof AdminRegénérerPeriodeAttestations>[0]
+) =>
+  makeHtml({
+    Component: AdminRegénérerPeriodeAttestations,
+    props,
+    hydrate: false,
+    title: 'Regénérer période attestations',
   })
