@@ -3,10 +3,10 @@ import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { listMissingOwnerProjects } from '@useCases'
-import { ListMissingOwnerProjectsPage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import asyncHandler from '../helpers/asyncHandler'
+import { ProjetsÀRéclamerPage } from '@views'
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -65,7 +65,7 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
   }
 
   response.send(
-    ListMissingOwnerProjectsPage({
+    ProjetsÀRéclamerPage({
       request,
       projects,
       existingAppelsOffres,

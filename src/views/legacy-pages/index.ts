@@ -1,12 +1,10 @@
 import { Request } from 'express'
 import { makeHtml } from '../index.html'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
-import ListMissingOwnerProjects from './listMissingOwnerProjects'
 
-const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
 
-export { ListMissingOwnerProjectsPage, InvitationsAreDeprecatedPage }
+export { InvitationsAreDeprecatedPage }
 
 interface HasRequest {
   request: Request
