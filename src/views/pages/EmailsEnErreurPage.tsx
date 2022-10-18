@@ -31,7 +31,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
               method="POST"
               style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
             >
-              {notifications.itemCount && (
+              {!!notifications.itemCount && (
                 <Button
                   className="mt-3"
                   type="submit"
