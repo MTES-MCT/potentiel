@@ -48,10 +48,12 @@ export default ProjectEventProjector.on(ProjectGFInvalidated, async (évènement
         }
       )
     } else {
-      await ProjectEvent.destroy({
-        where: { type: 'GarantiesFinancières', projectId },
-        transaction,
-      })
+      logger.error(
+        new ProjectionEnEchec(`La date limite d'envoi est manquante pour ce ProjetEvent`, {
+          évènement,
+          nomProjection: 'ProjectEvent.onProjectGFInvalidated',
+        })
+      )
     }
   } catch (e) {
     logger.error(
