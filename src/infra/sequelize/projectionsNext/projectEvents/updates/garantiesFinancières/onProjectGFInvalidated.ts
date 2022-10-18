@@ -20,7 +20,7 @@ export default ProjectEventProjector.on(ProjectGFInvalidated, async (évènement
       transaction,
     })) as GarantiesFinancièresEvent | undefined
 
-    if (!projectEvent || projectEvent.payload.statut !== 'validated') {
+    if (!projectEvent) {
       logger.error(
         new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFInvalidated`, {
           évènement,
@@ -30,20 +30,29 @@ export default ProjectEventProjector.on(ProjectGFInvalidated, async (évènement
       return
     }
 
-    await ProjectEvent.update(
-      {
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        payload: typeCheck<GarantiesFinancièreEventPayload>({
-          ...projectEvent.payload,
-          statut: 'pending-validation',
-        }),
-      },
-      {
+    const { payload } = projectEvent
+
+    if (payload.dateLimiteDEnvoi) {
+      await ProjectEvent.update(
+        {
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload: typeCheck<GarantiesFinancièreEventPayload>({
+            statut: 'due',
+            dateLimiteDEnvoi: payload.dateLimiteDEnvoi,
+          }),
+        },
+        {
+          where: { type: 'GarantiesFinancières', projectId },
+          transaction,
+        }
+      )
+    } else {
+      await ProjectEvent.destroy({
         where: { type: 'GarantiesFinancières', projectId },
         transaction,
-      }
-    )
+      })
+    }
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
