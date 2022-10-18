@@ -67,7 +67,7 @@ export default function ListProjects({
       <RoleBasedDashboard role={request.user.role} currentPage="list-projects">
         <div className="panel">
           <div className="panel__header">
-            <h3>Projets</h3>
+            <h3>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</h3>
             <form
               action={
                 ['admin', 'dgec-validateur', 'dreal'].includes(request.user?.role)

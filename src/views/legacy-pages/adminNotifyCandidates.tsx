@@ -30,7 +30,7 @@ export default function AdminNotifyCandidates({ request, results }: AdminNotifyC
         <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
           <div className="panel">
             <div className="panel__header">
-              <h3>Notifier les candidats</h3>
+              <h3>Notifier des candidats</h3>
             </div>
             {success ? (
               <div className="notification success" {...dataId('success-message')}>

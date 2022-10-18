@@ -105,7 +105,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
             <MenuItem
               route={ROUTES.ADMIN_INVITATION_LIST}
               itemPage={'list-invitations'}
-              title="Invitations candidats en attente"
+              title="Invitations de candidats en attente"
               role={role}
               currentPage={currentPage}
             />
@@ -169,7 +169,7 @@ export function AdminDashboard({ children, currentPage, role }: AdminDashboardPr
             <MenuItem
               route={ROUTES.ADMIN_AO_PERIODE}
               itemPage={'admin-ao'}
-              title="Gérer les appels d'offre"
+              title="Gérer les appels d'offres"
               role={role}
               currentPage={currentPage}
             />
