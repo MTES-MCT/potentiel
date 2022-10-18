@@ -27,6 +27,7 @@ import {
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ImportGestionnaireReseau,
+  AdminAppelsOffres,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -266,4 +267,12 @@ export const ImportGestionnaireReseauPage = (
     props,
     hydrate: false,
     title: 'Importer fichier gestionnaire réseau',
+  })
+
+export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres>[0]) =>
+  makeHtml({
+    Component: AdminAppelsOffres,
+    props,
+    hydrate: false,
+    title: 'Appels offres',
   })

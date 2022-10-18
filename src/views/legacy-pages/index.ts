@@ -1,6 +1,5 @@
 import { Request } from 'express'
 import { makeHtml } from '../index.html'
-import AdminAppelOffre from './adminAppelOffre'
 import AdminNotifyCandidates from './adminNotifyCandidates'
 import AdminRegenerateCertificates from './adminRegenerateCertificates'
 import ImportCandidates from './importCandidates'
@@ -19,7 +18,6 @@ const ListProjectsPage = makePresenterPage(ListProjects)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
-const AdminAppelOffrePage = makePresenterPage(AdminAppelOffre)
 const ListMissingOwnerProjectsPage = makePresenterPage(ListMissingOwnerProjects)
 const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
 const FakeLoginPage = makePresenterPage(FakeLogin)
@@ -31,7 +29,6 @@ export {
   InvitationListPage,
   NotificationListPage,
   SuccessOrErrorPage as SuccessPage,
-  AdminAppelOffrePage,
   AdminRegenerateCertificatesPage,
   ListMissingOwnerProjectsPage,
   InvitationsAreDeprecatedPage,

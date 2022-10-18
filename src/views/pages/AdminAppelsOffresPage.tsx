@@ -8,7 +8,7 @@ type AdminAppelOffreProps = {
   request: Request
 }
 
-export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
+export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (
@@ -41,12 +41,12 @@ export default function AdminAppelOffre({ request }: AdminAppelOffreProps) {
               encType="multipart/form-data"
               style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
             >
-              <h4>Mettre à jour les appels d'offre</h4>
+              <h4>Mettre à jour les appels d'offres</h4>
               <a href={routes.EXPORT_AO_CSV} download>
                 Télécharger les données actuelles
               </a>
               <div className="form__group">
-                <label htmlFor="appelsOffresFile">Fichier des appels d'offre</label>
+                <label htmlFor="appelsOffresFile">Fichier des appels d'offres</label>
                 <input type="file" name="appelsOffresFile" id="appelsOffresFile" />
               </div>
               <Button type="submit" className="mt-4" {...dataId('submit-button')}>
