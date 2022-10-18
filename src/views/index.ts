@@ -32,6 +32,7 @@ import {
   AdminRegénérerPeriodeAttestations,
   AdminImporterCandidats,
   ListeProjets,
+  SuccèsOuErreur,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -315,4 +316,11 @@ export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>
     props,
     hydrate: false,
     title: 'Projets',
+  })
+
+export const SuccèsOuErreurPage = (props: Parameters<typeof SuccèsOuErreur>[0]) =>
+  makeHtml({
+    Component: SuccèsOuErreur,
+    props,
+    hydrate: false,
   })

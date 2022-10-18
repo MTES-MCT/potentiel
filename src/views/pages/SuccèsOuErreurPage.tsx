@@ -3,11 +3,11 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { LinkButton, PageTemplate, RoleBasedDashboard } from '@components'
 
-interface SuccessOrErrorProps {
+interface SuccèsOuErreurProps {
   request: Request
 }
 
-export default function SuccessOrError({ request }: SuccessOrErrorProps) {
+export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
   const {
     success,
     error,
