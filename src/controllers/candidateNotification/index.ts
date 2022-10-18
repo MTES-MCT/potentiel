@@ -1,5 +1,5 @@
 export * from './getCandidateCertificatePreview'
-export * from './getImportProjectsPage'
+export * from './getAdminImporterCandidatsPage'
 export * from './getAdminNotificationCandidatsPage'
 export * from './getProjectCertificateFile'
 export * from './postImportProjects'
