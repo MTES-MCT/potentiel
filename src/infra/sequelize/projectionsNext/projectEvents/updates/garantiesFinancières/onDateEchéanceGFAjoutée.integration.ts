@@ -11,15 +11,47 @@ describe('Handler onDateEchéanceGFAjoutée de ProjectEvent', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
-  describe(`Pas d'élément GF correspondant dans ProjectEvent`, () => {
-    it(`Si aucun élément de type GF n'est trouvé dans ProjectEvent
-    alors l'événement est ignoré`, async () => {
+  it(`Étant donné aucun élément de type GF dans ProjectEvent
+      Lorsque un énement de type 'DateEchéanceGFAjoutée' survient
+      Alors l'évènement devrait être ignoré`, async () => {
+    await onDateEchéanceGFAjoutée(
+      new DateEchéanceGFAjoutée({
+        payload: { projectId, expirationDate, submittedBy: 'id' },
+        original: {
+          version: 1,
+          occurredAt: new Date(),
+        },
+      })
+    )
+
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
+    })
+
+    expect(projectEvent).toBeNull()
+  })
+  for (const statut of ['uploaded', 'validated', 'pending-validation']) {
+    it(`Etant donné un élément GF avec le statut '${statut},
+        Lorsque un énement de type 'DateEchéanceGFAjoutée' survient
+        Alors cet élément doit être mis à jour avec la date d'expiration,
+        et la de l'élément reste inchangée`, async () => {
+      const dateEvenementInitial = new Date('2020-01-01')
+      const dateEvenementCorrectif = new Date('2021-01-01')
+      await ProjectEvent.create({
+        id: new UniqueEntityID().toString(),
+        type: 'GarantiesFinancières',
+        projectId: projectId,
+        valueDate: dateEvenementInitial.getTime(),
+        eventPublishedAt: dateEvenementInitial.getTime(),
+        payload: { statut },
+      })
+
       await onDateEchéanceGFAjoutée(
         new DateEchéanceGFAjoutée({
           payload: { projectId, expirationDate, submittedBy: 'id' },
           original: {
             version: 1,
-            occurredAt: new Date(),
+            occurredAt: dateEvenementCorrectif,
           },
         })
       )
@@ -28,48 +60,14 @@ describe('Handler onDateEchéanceGFAjoutée de ProjectEvent', () => {
         where: { type: 'GarantiesFinancières', projectId },
       })
 
-      expect(projectEvent).toBeNull()
-    })
-  })
-  describe(`Elément GF correspondant trouvé dans ProjectEvent`, () => {
-    for (const statut of ['uploaded', 'validated', 'pending-validation']) {
-      it(`Etant donné un élément GF avec le statut '${statut},
-      alors cet élément doit être mis à jour avec la date d'expiration,
-      et la de l'élément reste inchangée`, async () => {
-        const dateEvenementInitial = new Date('2020-01-01')
-        const dateEvenementCorrectif = new Date('2021-01-01')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          type: 'GarantiesFinancières',
-          projectId: projectId,
-          valueDate: dateEvenementInitial.getTime(),
-          eventPublishedAt: dateEvenementInitial.getTime(),
-          payload: { statut },
-        })
+      expect(projectEvent).not.toBeNull()
 
-        await onDateEchéanceGFAjoutée(
-          new DateEchéanceGFAjoutée({
-            payload: { projectId, expirationDate, submittedBy: 'id' },
-            original: {
-              version: 1,
-              occurredAt: dateEvenementCorrectif,
-            },
-          })
-        )
-
-        const projectEvent = await ProjectEvent.findOne({
-          where: { type: 'GarantiesFinancières', projectId },
-        })
-
-        expect(projectEvent).not.toBeNull()
-
-        expect(projectEvent).toMatchObject({
-          type: 'GarantiesFinancières',
-          projectId,
-          eventPublishedAt: dateEvenementInitial.getTime(),
-          payload: { statut, dateExpiration: expirationDate.getTime() },
-        })
+      expect(projectEvent).toMatchObject({
+        type: 'GarantiesFinancières',
+        projectId,
+        eventPublishedAt: dateEvenementInitial.getTime(),
+        payload: { statut, dateExpiration: expirationDate.getTime() },
       })
-    }
-  })
+    })
+  }
 })

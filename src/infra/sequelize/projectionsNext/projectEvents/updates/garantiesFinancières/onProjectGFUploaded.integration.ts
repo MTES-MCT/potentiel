@@ -20,113 +20,113 @@ describe('Handler onProjectGFUploaded', () => {
     await resetDatabase()
   })
 
-  describe(`Cas où n'y a pas encore d'élément GF correspondant dans ProjectEvent`, () => {
-    it(`Alors un nouvel élément devrait GF être inséré dans ProjectEvent avec le statut 'uploaded'`, async () => {
-      await File.create({
-        id: fileId,
-        filename,
-        designation: 'designation',
-      })
+  it(`Etant donné pas encore d'élément GF correspondant dans ProjectEvent,
+      Lorsque un énement de type 'ProjectGFUploaded' survient
+      Alors un nouvel élément devrait GF être inséré dans ProjectEvent avec le statut 'uploaded'`, async () => {
+    await File.create({
+      id: fileId,
+      filename,
+      designation: 'designation',
+    })
 
-      await User.create({
-        id: userId,
-        role: 'porteur-projet',
-        email: 'email',
-        fullName: 'name',
-      })
+    await User.create({
+      id: userId,
+      role: 'porteur-projet',
+      email: 'email',
+      fullName: 'name',
+    })
 
-      await onProjectGFUploaded(
-        new ProjectGFUploaded({
-          payload: {
-            projectId,
-            fileId,
-            submittedBy: userId,
-            gfDate,
-            expirationDate,
-          } as ProjectGFUploadedPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvent = await ProjectEvent.findOne({
-        where: { type: 'GarantiesFinancières', projectId },
-      })
-
-      expect(projectEvent).toMatchObject({
-        type: 'GarantiesFinancières',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
+    await onProjectGFUploaded(
+      new ProjectGFUploaded({
         payload: {
-          statut: 'uploaded',
-          fichier: { id: fileId, name: filename },
-          dateConstitution: gfDate.getTime(),
-          dateExpiration: expirationDate.getTime(),
-          initiéParRole: 'porteur-projet',
+          projectId,
+          fileId,
+          submittedBy: userId,
+          gfDate,
+          expirationDate,
+        } as ProjectGFUploadedPayload,
+        original: {
+          version: 1,
+          occurredAt,
         },
       })
+    )
+
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
+    })
+
+    expect(projectEvent).toMatchObject({
+      type: 'GarantiesFinancières',
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
+      payload: {
+        statut: 'uploaded',
+        fichier: { id: fileId, name: filename },
+        dateConstitution: gfDate.getTime(),
+        dateExpiration: expirationDate.getTime(),
+        initiéParRole: 'porteur-projet',
+      },
     })
   })
 
-  describe(`Cas où il y a un élément GF avec le statut 'due' dans ProjectEvent`, () => {
-    it(`Alors il devrait être mis à jour avec le fichier envoyé`, async () => {
-      await File.create({
-        id: fileId,
-        filename,
-        designation: 'designation',
-      })
+  it(`Etant donné un élément GF avec le statut 'due' dans ProjectEvent,
+      Lorsque un énement de type 'ProjectGFUploaded' survient
+      Alors il devrait être mis à jour avec le fichier envoyé`, async () => {
+    await File.create({
+      id: fileId,
+      filename,
+      designation: 'designation',
+    })
 
-      await User.create({
-        id: userId,
-        role: 'porteur-projet',
-        email: 'email',
-        fullName: 'name',
-      })
+    await User.create({
+      id: userId,
+      role: 'porteur-projet',
+      email: 'email',
+      fullName: 'name',
+    })
 
-      await ProjectEvent.create({
-        id,
-        type: 'GarantiesFinancières',
-        projectId,
-        valueDate: new Date('2020-01-01').getTime(),
-        eventPublishedAt: new Date('2020-01-01').getTime(),
-        payload: { statut: 'due' },
-      })
+    await ProjectEvent.create({
+      id,
+      type: 'GarantiesFinancières',
+      projectId,
+      valueDate: new Date('2020-01-01').getTime(),
+      eventPublishedAt: new Date('2020-01-01').getTime(),
+      payload: { statut: 'due' },
+    })
 
-      await onProjectGFUploaded(
-        new ProjectGFUploaded({
-          payload: {
-            projectId,
-            fileId,
-            submittedBy: userId,
-            gfDate,
-            expirationDate,
-          } as ProjectGFUploadedPayload,
-          original: {
-            version: 1,
-            occurredAt,
-          },
-        })
-      )
-
-      const projectEvent = await ProjectEvent.findOne({
-        where: { type: 'GarantiesFinancières', projectId },
-      })
-
-      expect(projectEvent).toMatchObject({
-        id,
-        type: 'GarantiesFinancières',
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
+    await onProjectGFUploaded(
+      new ProjectGFUploaded({
         payload: {
-          statut: 'uploaded',
-          fichier: { id: fileId, name: filename },
-          dateConstitution: gfDate.getTime(),
-          dateExpiration: expirationDate.getTime(),
-          initiéParRole: 'porteur-projet',
+          projectId,
+          fileId,
+          submittedBy: userId,
+          gfDate,
+          expirationDate,
+        } as ProjectGFUploadedPayload,
+        original: {
+          version: 1,
+          occurredAt,
         },
       })
+    )
+
+    const projectEvent = await ProjectEvent.findOne({
+      where: { type: 'GarantiesFinancières', projectId },
+    })
+
+    expect(projectEvent).toMatchObject({
+      id,
+      type: 'GarantiesFinancières',
+      valueDate: occurredAt.getTime(),
+      eventPublishedAt: occurredAt.getTime(),
+      payload: {
+        statut: 'uploaded',
+        fichier: { id: fileId, name: filename },
+        dateConstitution: gfDate.getTime(),
+        dateExpiration: expirationDate.getTime(),
+        initiéParRole: 'porteur-projet',
+      },
     })
   })
 })
