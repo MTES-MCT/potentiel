@@ -206,58 +206,56 @@ const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) =>
   const [displayForm, showForm] = useState(false)
 
   return (
-    <>
-      <Dropdown
-        design="link"
-        isOpen={displayForm}
-        changeOpenState={(isOpen) => showForm(isOpen)}
-        text="Soumettre une attestation"
+    <Dropdown
+      design="link"
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+      text="Soumettre une attestation"
+    >
+      <form
+        action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
+        method="post"
+        encType="multipart/form-data"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
       >
-        <form
-          action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
-          method="post"
-          encType="multipart/form-data"
-          className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
-        >
-          <FormulaireChampsObligatoireLégende className="ml-auto" />
-          <input type="hidden" name="type" id="type" value="garanties-financieres" />
-          <input type="hidden" name="projectId" value={projectId} />
-          <div>
-            <Label required htmlFor="stepDate">
-              Date de constitution des garanties financières
-            </Label>
-            <Input
-              type="date"
-              name="stepDate"
-              id="stepDate"
-              max={format(new Date(), 'yyyy-MM-dd')}
-              required
-            />
-          </div>
-          <div>
-            <Label required htmlFor="expirationDate">
-              Date d'échéance des garanties
-              <Astérisque className="text-black" />
-            </Label>
-            <Input type="date" name="expirationDate" id="expirationDate" required />
-          </div>
-          <div>
-            <Label required htmlFor="file">
-              Attestation
-            </Label>
-            <Input type="file" name="file" id="file" required />
-          </div>
-          <p className="m-0 mt-3 italic">
+        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <input type="hidden" name="type" id="type" value="garanties-financieres" />
+        <input type="hidden" name="projectId" value={projectId} />
+        <div>
+          <Label required htmlFor="stepDate">
+            Date de constitution des garanties financières
+          </Label>
+          <Input
+            type="date"
+            name="stepDate"
+            id="stepDate"
+            max={format(new Date(), 'yyyy-MM-dd')}
+            required
+          />
+        </div>
+        <div>
+          <Label required htmlFor="expirationDate">
+            Date d'échéance des garanties
             <Astérisque className="text-black" />
-            {getInfoDuréeGF(garantieFinanciereEnMois)}
-          </p>
-          <div className="flex gap-4 flex-col md:flex-row">
-            <Button type="submit">Enregistrer</Button>
-            <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
-          </div>
-        </form>
-      </Dropdown>
-    </>
+          </Label>
+          <Input type="date" name="expirationDate" id="expirationDate" required />
+        </div>
+        <div>
+          <Label required htmlFor="file">
+            Attestation
+          </Label>
+          <Input type="file" name="file" id="file" required />
+        </div>
+        <p className="m-0 mt-3 italic">
+          <Astérisque className="text-black" />
+          {getInfoDuréeGF(garantieFinanciereEnMois)}
+        </p>
+        <div className="flex gap-4 flex-col md:flex-row">
+          <Button type="submit">Enregistrer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+        </div>
+      </form>
+    </Dropdown>
   )
 }
 
