@@ -35,6 +35,7 @@ import {
   SuccèsOuErreur,
   FakeLogin,
   InvitationsCandidatsEnAttente,
+  EmailsEnErreur,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -342,4 +343,12 @@ export const InvitationsCandidatsEnAttentePage = (
     props,
     hydrate: false,
     title: 'Invitations en attente',
+  })
+
+export const EmailsEnErreurPage = (props: Parameters<typeof EmailsEnErreur>[0]) =>
+  makeHtml({
+    Component: EmailsEnErreur,
+    props,
+    hydrate: false,
+    title: 'Emails en erreur',
   })

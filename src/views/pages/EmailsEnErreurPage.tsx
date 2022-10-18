@@ -6,12 +6,12 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-interface NotificationListProps {
+type EmailsEnErreurProps = {
   request: Request
   notifications: PaginatedList<FailedNotificationDTO>
 }
 
-export default function NotificationList({ request, notifications }: NotificationListProps) {
+export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (

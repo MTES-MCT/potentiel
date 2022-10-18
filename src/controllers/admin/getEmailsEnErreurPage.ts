@@ -4,8 +4,8 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { NotificationListPage } from '@views/legacy-pages'
 import { v1Router } from '../v1Router'
+import { EmailsEnErreurPage } from '@views'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -21,7 +21,7 @@ v1Router.get(
     return await getFailedNotificationDetails(pagination).match(
       (notifications) =>
         response.send(
-          NotificationListPage({
+          EmailsEnErreurPage({
             request,
             notifications,
           })
