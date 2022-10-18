@@ -203,12 +203,16 @@ type SubmitFormProps = {
   garantieFinanciereEnMois?: number
 }
 const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) => {
-  const [isFormVisible, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false)
 
   return (
     <>
-      <Link onClick={() => showForm(!isFormVisible)}>Transmettre l'attestation</Link>
-      {isFormVisible && (
+      <Dropdown
+        design="link"
+        isOpen={displayForm}
+        changeOpenState={(isOpen) => showForm(isOpen)}
+        text="Soumettre une attestation"
+      >
         <form
           action={ROUTES.SUBMIT_GARANTIES_FINANCIERES({ projectId })}
           method="post"
@@ -220,7 +224,7 @@ const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) =>
           <input type="hidden" name="projectId" value={projectId} />
           <div>
             <Label required htmlFor="stepDate">
-              Date de constitution
+              Date de constitution des garanties financières
             </Label>
             <Input
               type="date"
@@ -232,7 +236,7 @@ const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) =>
           </div>
           <div>
             <Label required htmlFor="expirationDate">
-              Date d'échéance de la garantie
+              Date d'échéance des garanties
               <Astérisque className="text-black" />
             </Label>
             <Input type="date" name="expirationDate" id="expirationDate" required />
@@ -252,7 +256,7 @@ const SubmitForm = ({ projectId, garantieFinanciereEnMois }: SubmitFormProps) =>
             <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
           </div>
         </form>
-      )}
+      </Dropdown>
     </>
   )
 }
@@ -363,7 +367,7 @@ const UploadForm = ({ projectId, role, garantieFinanciereEnMois }: UploadFormPro
         <input type="hidden" name="projectId" value={projectId} />
         <div>
           <Label required htmlFor="stepDate">
-            Date de constitution
+            Date de constitution des garanties financières
           </Label>
           <Input
             type="date"
@@ -375,7 +379,7 @@ const UploadForm = ({ projectId, role, garantieFinanciereEnMois }: UploadFormPro
         </div>
         <div>
           <Label required htmlFor="expirationDate">
-            Date d'échéance de la garantie
+            Date d'échéance des garanties
             <Astérisque className="text-black" />
           </Label>
           <Input type="date" name="expirationDate" id="expirationDate" required />
@@ -445,60 +449,60 @@ const ExpirationDate = ({
   expirationDate,
   garantieFinanciereEnMois,
 }: ExpirationDateProps) => {
-  const [isFormVisible, showForm] = useState(false)
   return (
     <>
-      <div className={`flex ${expirationDate && `gap-2`}`}>
+      <div>
         {expirationDate && <p className="m-0">Date d'échéance : {formatDate(expirationDate)}</p>}
         {canUpdate && (
-          <Link onClick={() => showForm(!isFormVisible)}>
-            {expirationDate ? `éditer` : `Renseigner la date d'échéance`}
-          </Link>
+          <AddExpirationDateForm
+            projectId={projectId}
+            garantieFinanciereEnMois={garantieFinanciereEnMois}
+            action={expirationDate ? 'Éditer' : 'Ajouter'}
+          />
         )}
       </div>
-      {isFormVisible && (
-        <AddExpirationDateForm
-          projectId={projectId}
-          onCancel={() => {
-            showForm(false)
-          }}
-          garantieFinanciereEnMois={garantieFinanciereEnMois}
-        />
-      )}
     </>
   )
 }
 
 type AddExpirationDateFormProps = {
   projectId: string
-  onCancel: () => void
   garantieFinanciereEnMois?: number
+  action: 'Éditer' | 'Ajouter'
 }
 const AddExpirationDateForm = ({
   projectId,
-  onCancel,
   garantieFinanciereEnMois,
+  action,
 }: AddExpirationDateFormProps) => {
+  const [displayForm, showForm] = useState(false)
   return (
-    <form
-      action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId })}
-      method="POST"
-      className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+    <Dropdown
+      design="link"
+      text={`${action} la date d'échéance`}
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
     >
-      <FormulaireChampsObligatoireLégende className="ml-auto" />
-      <input name="projectId" value={projectId} readOnly hidden />
-      <Label htmlFor="expirationDate" required>
-        Date d'échéance des garanties financières
-        <Astérisque className="text-black" />
-      </Label>
-      <Input required type="date" name="expirationDate" id="expirationDate" />
-      <p className="italic">
-        <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
-      </p>
-      <div className="flex gap-4 flex-col md:flex-row">
-        <Button type="submit">Enregistrer</Button>
-        <SecondaryButton onClick={() => onCancel()}>Annuler</SecondaryButton>
-      </div>
-    </form>
+      <form
+        action={ROUTES.ADD_GF_EXPIRATION_DATE({ projectId })}
+        method="POST"
+        className="mt-2 border border-solid border-gray-300 rounded-md p-5 flex flex-col gap-3"
+      >
+        <FormulaireChampsObligatoireLégende className="ml-auto" />
+        <input name="projectId" value={projectId} readOnly hidden />
+        <Label htmlFor="expirationDate" required>
+          Date d'échéance des garanties financières
+          <Astérisque className="text-black" />
+        </Label>
+        <Input required type="date" name="expirationDate" id="expirationDate" />
+        <p className="italic">
+          <Astérisque className="text-black" /> À noter : {getInfoDuréeGF(garantieFinanciereEnMois)}
+        </p>
+        <div className="flex gap-4 flex-col md:flex-row">
+          <Button type="submit">Enregistrer</Button>
+          <SecondaryButton onClick={() => showForm(false)}>Annuler</SecondaryButton>
+        </div>
+      </form>
+    </Dropdown>
   )
 }
