@@ -3,11 +3,9 @@ import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { models } from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '../../../../../../modules/shared'
-import {
-  GarantiesFinancièreEventPayload,
-  GarantiesFinancièresEvent,
-} from '../../events/GarantiesFinancièresEvent'
+import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
 import { typeCheck } from '../../guards/typeCheck'
+import { is } from '../../guards'
 
 export default ProjectEventProjector.on(
   ProjectStepStatusUpdated,
@@ -34,13 +32,26 @@ export default ProjectEventProjector.on(
     if (newStatus !== 'validé' && newStatus !== 'à traiter') return
 
     try {
-      const projectEvent = (await ProjectEvent.findOne({
+      const projectEvent = await ProjectEvent.findOne({
         where: {
           type: 'GarantiesFinancières',
           projectId: projectStep.projectId,
         },
         transaction,
-      })) as GarantiesFinancièresEvent
+      })
+
+      if (!projectEvent || !is('GarantiesFinancières')(projectEvent)) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement ProjectStepStatusUpdated`,
+            {
+              évènement,
+              nomProjection: 'ProjectEvent.onProjectStepStatusUpdated',
+            }
+          )
+        )
+        return
+      }
 
       if (
         projectEvent.payload.statut !== 'pending-validation' &&

@@ -4,6 +4,7 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
 import { typeCheck } from '../../guards/typeCheck'
+import { is } from '../../guards'
 
 export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, transaction) => {
   const {
@@ -12,14 +13,16 @@ export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, tr
   } = évènement
 
   try {
-    const projectEvent = (await ProjectEvent.findOne({
+    const projectEvent = await ProjectEvent.findOne({
       where: { type: 'GarantiesFinancières', projectId },
       transaction,
-    })) as GarantiesFinancièresEvent | undefined
+    })
 
-    const dateLimiteDEnvoi = projectEvent?.payload.dateLimiteDEnvoi
-
-    if (!dateLimiteDEnvoi) {
+    if (
+      !projectEvent ||
+      !is('GarantiesFinancières')(projectEvent) ||
+      !projectEvent?.payload.dateLimiteDEnvoi
+    ) {
       logger.error(
         new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFRemoved`, {
           évènement,
@@ -35,7 +38,7 @@ export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, tr
         eventPublishedAt: occurredAt.getTime(),
         payload: typeCheck<GarantiesFinancièresEvent['payload']>({
           statut: 'due',
-          dateLimiteDEnvoi,
+          dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
         }),
       },
       {

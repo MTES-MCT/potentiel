@@ -1,4 +1,5 @@
 import { or } from '@core/utils'
+import { ProjectEvent } from '@infra/sequelize'
 import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,
@@ -42,7 +43,7 @@ type NarrowType<T, N> = T extends { type: N } ? T : never
 
 export const is =
   <T extends KnownProjectEvents, K extends T['type']>(type: K) =>
-  (event: KnownProjectEvents): event is NarrowType<T, K> =>
+  (event: ProjectEvent): event is NarrowType<T, K> =>
     event.type === type
 
 export const isKnownProjectEvent = or(
