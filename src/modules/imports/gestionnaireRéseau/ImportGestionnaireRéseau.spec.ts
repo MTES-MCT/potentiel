@@ -15,7 +15,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
             gestionnaire: 'Enedis',
             dates: [
               {
-                numeroGestionnaire: 'Enedis',
+                identifiantGestionnaireRéseau: 'Enedis',
                 dateMiseEnService: new Date('2024-01-20').toISOString(),
               },
             ],
