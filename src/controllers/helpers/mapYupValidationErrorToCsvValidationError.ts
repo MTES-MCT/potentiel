@@ -6,15 +6,18 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
     const { path, params, errors } = err
 
     const numéroLigne = path ? Number(path.slice(1, 2)) + 2 : undefined
-    if (!numéroLigne || !errors?.length || typeof params?.originalValue !== 'string') {
+    if (!numéroLigne || !errors?.length) {
       return [...acc]
     }
+
+    const valeurInvalide =
+      typeof params?.originalValue?.toString === 'function' ? params.originalValue : undefined
 
     return [
       ...acc,
       {
         numéroLigne,
-        valeurInvalide: params.originalValue,
+        valeurInvalide: valeurInvalide?.toString(),
         raison: errors[0],
       },
     ]

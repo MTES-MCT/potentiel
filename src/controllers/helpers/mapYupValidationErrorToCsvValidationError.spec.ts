@@ -37,7 +37,9 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
             } as Record<string, unknown>,
           },
           {
-            path: '[1].column',
+            params: {
+              originalValue: 'originalValue2',
+            } as Record<string, unknown>,
             errors: ['le champ est incorrect car X'],
           },
         ],
@@ -56,7 +58,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
   })
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de originalValue`, () => {
-    it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs dont l'une ne dispose pas de originalValue
+    it(`Lorsqu'on mappe une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de originalValue
         Alors on devrait récupérer une CsvValidation contenant deux entrées dans validationErreurs dont une a une erreur qui précise que le champ est manquant`, () => {
       const erreur = {
         inner: [
@@ -84,6 +86,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         },
         {
           numéroLigne: 3,
+          valeurInvalide: undefined,
           raison: 'le champ est manquant',
         },
       ])
@@ -119,6 +122,11 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
           raison: 'le champ est incorrect car X',
+        },
+        {
+          numéroLigne: 3,
+          valeurInvalide: '1',
+          raison: 'le champ est incorrect car Y',
         },
       ])
     })
