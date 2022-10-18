@@ -61,10 +61,10 @@ const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValida
   </ul>
 )
 
-export const ImportGestionnaireReseau: FC<ImportGestionnaireReseauProps> = ({
+export const ImportGestionnaireReseau = ({
   request,
   résultatSoumissionFormulaire,
-}) => (
+}: ImportGestionnaireReseauProps) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
