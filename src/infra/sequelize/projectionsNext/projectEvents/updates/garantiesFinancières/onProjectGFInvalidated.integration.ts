@@ -45,35 +45,4 @@ describe('Handler onProjectGFInvalidated', () => {
       payload: { statut: 'due', dateLimiteDEnvoi: dateLimiteDEnvoi.getTime() },
     })
   })
-
-  it(`Etant donné un élément GF avec le statut 'uploaded' et aucune date limite d'envoi dans ProjectEvent,
-      alors il devrait être supprimé.`, async () => {
-    const projectId = new UniqueEntityID().toString()
-    const occurredAt = new Date('2022-01-12')
-
-    await ProjectEvent.create({
-      id: new UniqueEntityID().toString(),
-      type: 'GarantiesFinancières',
-      projectId,
-      valueDate: new Date('2020-01-01').getTime(),
-      eventPublishedAt: new Date('2020-01-01').getTime(),
-      payload: { statut: 'uploaded' },
-    })
-
-    await onProjectGFInvalidated(
-      new ProjectGFInvalidated({
-        payload: { projectId } as ProjectGFInvalidatedPayload,
-        original: {
-          version: 1,
-          occurredAt,
-        },
-      })
-    )
-
-    const projectEvent = await ProjectEvent.findOne({
-      where: { type: 'GarantiesFinancières', projectId },
-    })
-
-    expect(projectEvent).toBeNull()
-  })
 })
