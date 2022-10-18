@@ -4,8 +4,8 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { InvitationListPage } from '@views/legacy-pages'
 import { v1Router } from '../v1Router'
+import { InvitationsCandidatsEnAttentePage } from '@views'
 
 const defaultPagination: Pagination = {
   page: 0,
@@ -20,7 +20,7 @@ v1Router.get(
 
     await getPendingCandidateInvitations(pagination).match(
       (invitations) => {
-        return response.send(InvitationListPage({ request, invitations }))
+        return response.send(InvitationsCandidatsEnAttentePage({ request, invitations }))
       },
       () => {
         return response.redirect(
