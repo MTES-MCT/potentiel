@@ -4,9 +4,9 @@ import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { listProjects } from '@useCases'
-import { ListProjectsPage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
+import { ListeProjetsPage } from '@views'
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -67,7 +67,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   }
 
   response.send(
-    ListProjectsPage({
+    ListeProjetsPage({
       request,
       projects,
       existingAppelsOffres,

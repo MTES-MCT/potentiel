@@ -3,12 +3,10 @@ import { makeHtml } from '../index.html'
 import InvitationList from './invitationList'
 import NotificationList from './notificationList'
 import InvitationsAreDeprecated from './invitationsAreDeprecated'
-import ListProjects from './listProjects'
 import SuccessOrError from './successOrError'
 import ListMissingOwnerProjects from './listMissingOwnerProjects'
 import FakeLogin from './fakeLogin'
 
-const ListProjectsPage = makePresenterPage(ListProjects)
 const InvitationListPage = makePresenterPage(InvitationList)
 const NotificationListPage = makePresenterPage(NotificationList)
 const SuccessOrErrorPage = makePresenterPage(SuccessOrError)
@@ -17,7 +15,6 @@ const InvitationsAreDeprecatedPage = makePresenterPage(InvitationsAreDeprecated)
 const FakeLoginPage = makePresenterPage(FakeLogin)
 
 export {
-  ListProjectsPage,
   InvitationListPage,
   NotificationListPage,
   SuccessOrErrorPage as SuccessPage,
