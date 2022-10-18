@@ -88,7 +88,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Et le projet 'Projet Test' avec l'identifiant 'AAA-BB-2022-000001'
         Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
         Alors la date de mise en service devrait être renseignée seulement pour le projet 'Projet Test'
-        Et la tâche devrait être terminée 
+        Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
@@ -167,7 +167,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
     it(`Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient avec un seul identifiant
         Et que la mise à jour de la date de mise en service du projet échoue car 'La date est plus récente que l'actuelle'
         Alors la date de mise en service ne devrait pas être renseignée pour le projet
-        Et la tâche devrait être terminée 
+        Et la tâche devrait être terminée
         Et le résultat devrait être en 'échec' avec la raison 'La date est plus récente que l'actuelle'`, async () => {
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
