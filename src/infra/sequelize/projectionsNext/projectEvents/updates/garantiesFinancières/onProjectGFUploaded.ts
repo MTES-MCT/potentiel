@@ -55,20 +55,23 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
     })) as GarantiesFinancièresEvent | undefined
 
     if (!projectEvent) {
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        type: 'GarantiesFinancières',
-        projectId,
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        payload: typeCheck<GarantiesFinancièreEventPayload>({
-          statut: 'uploaded',
-          dateConstitution: gfDate.getTime(),
-          fichier: file,
-          ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
-          initiéParRole: rawUser?.role,
-        }),
-      })
+      await ProjectEvent.create(
+        {
+          id: new UniqueEntityID().toString(),
+          type: 'GarantiesFinancières',
+          projectId,
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload: typeCheck<GarantiesFinancièreEventPayload>({
+            statut: 'uploaded',
+            dateConstitution: gfDate.getTime(),
+            fichier: file,
+            ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+            initiéParRole: rawUser?.role,
+          }),
+        },
+        { transaction }
+      )
       return
     }
 
