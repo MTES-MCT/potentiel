@@ -4,7 +4,6 @@ import models from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
 import { UniqueEntityID } from '@core/domain'
 import { is } from '../../guards'
 
@@ -53,6 +52,13 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
     })
 
     if (!projectEvent || !is('GarantiesFinancières')(projectEvent)) {
+      const payload: GarantiesFinancièreEventPayload = {
+        statut: 'uploaded',
+        dateConstitution: gfDate.getTime(),
+        fichier: file,
+        ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+        initiéParRole: rawUser?.role,
+      }
       await ProjectEvent.create(
         {
           id: new UniqueEntityID().toString(),
@@ -60,31 +66,26 @@ export default ProjectEventProjector.on(ProjectGFUploaded, async (évènement, t
           projectId,
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: typeCheck<GarantiesFinancièreEventPayload>({
-            statut: 'uploaded',
-            dateConstitution: gfDate.getTime(),
-            fichier: file,
-            ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
-            initiéParRole: rawUser?.role,
-          }),
+          payload,
         },
         { transaction }
       )
       return
     }
 
+    const payload: GarantiesFinancièreEventPayload = {
+      statut: 'uploaded',
+      dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
+      dateConstitution: gfDate.getTime(),
+      fichier: file,
+      ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+      initiéParRole: rawUser?.role,
+    }
     await ProjectEvent.update(
       {
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: typeCheck<GarantiesFinancièreEventPayload>({
-          statut: 'uploaded',
-          dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
-          dateConstitution: gfDate.getTime(),
-          fichier: file,
-          ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
-          initiéParRole: rawUser?.role,
-        }),
+        payload,
       },
       {
         where: { type: 'GarantiesFinancières', projectId },

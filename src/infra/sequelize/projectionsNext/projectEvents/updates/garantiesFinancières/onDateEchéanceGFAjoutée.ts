@@ -3,7 +3,6 @@ import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
 import { is } from '../../guards'
 
 export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènement, transaction) => {
@@ -27,13 +26,12 @@ export default ProjectEventProjector.on(DateEchéanceGFAjoutée, async (évènem
       return
     }
 
+    const payload: GarantiesFinancièreEventPayload = {
+      ...projectEvent.payload,
+      ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
+    }
     await ProjectEvent.update(
-      {
-        payload: typeCheck<GarantiesFinancièreEventPayload>({
-          ...projectEvent.payload,
-          ...(expirationDate && { dateExpiration: expirationDate.getTime() }),
-        }),
-      },
+      { payload },
       {
         where: { type: 'GarantiesFinancières', projectId },
         transaction,

@@ -4,7 +4,6 @@ import models from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
 import { is } from '../../guards'
 
 export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, transaction) => {
@@ -46,17 +45,18 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
       return
     }
 
+    const payload: GarantiesFinancièreEventPayload = {
+      statut: 'pending-validation',
+      dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
+      dateConstitution: gfDate.getTime(),
+      fichier: file,
+      ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
+    }
     await ProjectEvent.update(
       {
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: typeCheck<GarantiesFinancièreEventPayload>({
-          statut: 'pending-validation',
-          dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
-          dateConstitution: gfDate.getTime(),
-          fichier: file,
-          ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
-        }),
+        payload,
       },
       {
         where: { type: 'GarantiesFinancières', projectId },

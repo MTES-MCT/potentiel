@@ -3,8 +3,7 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import { Op } from 'sequelize'
-import { GarantiesFinancièresEvent } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
+import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
 import { is } from '../../guards'
 
 export default ProjectEventProjector.on(
@@ -38,14 +37,10 @@ export default ProjectEventProjector.on(
       }
 
       if (projectEvent.payload.fichier) {
-        const newPayload = projectEvent.payload
-        delete newPayload.dateLimiteDEnvoi
+        const payload: GarantiesFinancièreEventPayload = projectEvent.payload
+        delete payload.dateLimiteDEnvoi
         await ProjectEvent.update(
-          {
-            payload: typeCheck<GarantiesFinancièresEvent['payload']>({
-              ...newPayload,
-            }),
-          },
+          { payload },
           {
             where: { type: 'GarantiesFinancières', projectId },
             transaction,

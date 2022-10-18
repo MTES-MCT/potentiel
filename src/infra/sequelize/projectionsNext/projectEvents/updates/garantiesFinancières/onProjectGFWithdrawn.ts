@@ -3,7 +3,6 @@ import { ProjectGFWithdrawn } from '@modules/project'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
 import { is } from '../../guards'
 
 export default ProjectEventProjector.on(ProjectGFWithdrawn, async (évènement, transaction) => {
@@ -27,17 +26,18 @@ export default ProjectEventProjector.on(ProjectGFWithdrawn, async (évènement, 
       return
     }
 
-    const { payload } = projectEvent
+    const dateLimiteDEnvoi = projectEvent.payload.dateLimiteDEnvoi
 
-    if (payload.dateLimiteDEnvoi) {
+    if (dateLimiteDEnvoi) {
+      const payload: GarantiesFinancièreEventPayload = {
+        statut: 'due',
+        dateLimiteDEnvoi,
+      }
       await ProjectEvent.update(
         {
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: typeCheck<GarantiesFinancièreEventPayload>({
-            statut: 'due',
-            dateLimiteDEnvoi: payload.dateLimiteDEnvoi,
-          }),
+          payload,
         },
         {
           where: { type: 'GarantiesFinancières', projectId },

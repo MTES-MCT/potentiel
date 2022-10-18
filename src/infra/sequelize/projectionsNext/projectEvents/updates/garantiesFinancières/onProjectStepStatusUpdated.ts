@@ -4,7 +4,6 @@ import { models } from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '../../../../../../modules/shared'
 import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { typeCheck } from '../../guards/typeCheck'
 import { is } from '../../guards'
 
 export default ProjectEventProjector.on(
@@ -60,14 +59,15 @@ export default ProjectEventProjector.on(
         return
       }
 
+      const payload: GarantiesFinancièreEventPayload = {
+        ...projectEvent.payload,
+        statut: newStatus === 'validé' ? 'validated' : 'pending-validation',
+      }
       await ProjectEvent.update(
         {
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: typeCheck<GarantiesFinancièreEventPayload>({
-            ...projectEvent.payload,
-            statut: newStatus === 'validé' ? 'validated' : 'pending-validation',
-          }),
+          payload,
         },
         {
           where: {
