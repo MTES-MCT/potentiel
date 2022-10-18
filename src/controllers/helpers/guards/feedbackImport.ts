@@ -1,7 +1,7 @@
 export type CsvValidationErrorType = {
-  numéroLigne?: number
+  numéroLigne: number
   valeur?: string
-  erreur?: string
+  erreur: string
 }
 
 type SuccessFeedback = {
@@ -17,15 +17,3 @@ export type CsvValidationErrorFeedback = {
 }
 
 export type Feedback = SuccessFeedback | ErrorFeedback | CsvValidationErrorFeedback
-
-export const isErrorFeedback = (message: Feedback): message is ErrorFeedback => {
-  return (message as ErrorFeedback).error !== undefined
-}
-export const isSuccessFeedback = (message: Feedback): message is SuccessFeedback => {
-  return (message as SuccessFeedback).success !== undefined
-}
-
-export const isCsvValidationErrorFeedback = (
-  messages: Feedback
-): messages is CsvValidationErrorFeedback =>
-  (messages as CsvValidationErrorFeedback).validationErreurs !== undefined

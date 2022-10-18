@@ -1,5 +1,4 @@
 import { User } from '@entities'
-import { Feedback } from '../../controllers'
 
 declare module 'express-serve-static-core' {
   // eslint-disable-next-line
@@ -10,11 +9,25 @@ declare module 'express-serve-static-core' {
 }
 
 declare module 'express-session' {
+  type RésultatSoumissionFormulaire =
+    | {
+        type: 'succès'
+      }
+    | {
+        type: 'échec'
+        raison: string
+        erreursDeValidationCsv?: Array<{
+          numéroLigne: number
+          valeurInvalide?: string
+          raison: string
+        }>
+      }
+
   interface SessionData {
     forms?: Record<
       string,
       | {
-          feedback: Feedback
+          résultatSoumissionFormulaire?: RésultatSoumissionFormulaire
         }
       | undefined
     >

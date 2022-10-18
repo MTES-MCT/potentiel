@@ -8,12 +8,12 @@ import { errAsync, okAsync } from '@core/utils'
 import * as yup from 'yup'
 import {
   CsvValidationError,
-  Feedback,
   mapYupValidationErrorToCsvValidationError,
   stringToDateYupTransformation,
 } from '../../helpers'
 import { ValidationError } from 'yup'
 import { Request } from 'express'
+import { RésultatSoumissionFormulaire } from 'express-session'
 
 const csvDataSchema = yup
   .array()
@@ -49,8 +49,9 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
     upload.single('fichier-import-gestionnaire-réseau'),
     asyncHandler(async (request, response) => {
       if (!request.file || !request.file.path) {
-        setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
-          error: 'Le fichier est obligatoire',
+        setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+          type: 'échec',
+          raison: 'Le fichier est obligatoire',
         })
         return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
       }
@@ -62,14 +63,23 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
         .andThen(validerLesDonnéesDuFichierCsv)
         .match(
           () => {
-            setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
-              success: "L'import du fichier a démarré.",
+            setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              type: 'succès',
             })
             return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
           },
           (e) => {
             const validationErreurs = e instanceof CsvValidationError ? e.détails : undefined
-            setFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU, validationErreurs)
+            const erreursDeValidationCsv = validationErreurs?.validationErreurs.map((e) => ({
+              numéroLigne: e.numéroLigne,
+              valeurInvalide: e.valeur,
+              raison: e.erreur,
+            }))
+            setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              type: 'échec',
+              raison: e.message,
+              erreursDeValidationCsv,
+            })
             return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
           }
         )
@@ -77,14 +87,18 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
   )
 }
 
-const setFormFeedback = (request: Request, formId: string, feedback: Feedback | undefined) => {
+const setFormResult = (
+  request: Request,
+  formId: string,
+  formResult: RésultatSoumissionFormulaire | undefined
+) => {
   const form = request.session.forms && request.session.forms[formId]
 
   request.session.forms = {
     ...request.session.forms,
     [formId]: {
       ...form,
-      feedback,
+      résultatSoumissionFormulaire: formResult,
     },
   }
 }

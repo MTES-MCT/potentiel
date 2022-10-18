@@ -1,15 +1,13 @@
-import React from 'react'
-import {
-  Input,
-  Label,
-  AdminDashboard,
-  Button,
-  PageTemplate,
-  SuccessErrorBox,
-  CsvValidationErrorBox,
-} from '@components'
+import React, { FC } from 'react'
+import { Input, Label, AdminDashboard, Button, PageTemplate, SuccessErrorBox } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
+
+type ErreurValidationCsv = {
+  numéroLigne: number
+  valeurInvalide?: string
+  raison: string
+}
 
 type RésultatSoumissionFormulaire =
   | {
@@ -18,11 +16,7 @@ type RésultatSoumissionFormulaire =
   | {
       type: 'échec'
       raison: string
-      erreursDeValidationCsv?: Array<{
-        numéroLigne: number
-        valeurInvalide: string
-        raison: string
-      }>
+      erreursDeValidationCsv?: Array<ErreurValidationCsv>
     }
 
 type ImportGestionnaireReseauProps = {
@@ -34,7 +28,9 @@ type RésultatSoumissionFormulaireProps = {
   résultatSoumissionFormulaire: RésultatSoumissionFormulaire
 }
 
-const AfficherFeedback = ({ résultatSoumissionFormulaire }: RésultatSoumissionFormulaireProps) => {
+const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
+  résultatSoumissionFormulaire,
+}) => {
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
       return <SuccessErrorBox success="L'import du fichier a démarré." />
@@ -42,7 +38,7 @@ const AfficherFeedback = ({ résultatSoumissionFormulaire }: RésultatSoumission
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&
         résultatSoumissionFormulaire.erreursDeValidationCsv?.length > 0 ? (
         <CsvValidationErrorBox
-          validationErreurs={résultatSoumissionFormulaire.erreursDeValidationCsv}
+          erreursDeValidationCsv={résultatSoumissionFormulaire.erreursDeValidationCsv}
         />
       ) : (
         <SuccessErrorBox error={résultatSoumissionFormulaire.raison} />
@@ -50,15 +46,32 @@ const AfficherFeedback = ({ résultatSoumissionFormulaire }: RésultatSoumission
   }
 }
 
-export const ImportGestionnaireReseau = ({
+type CsvValidationErrorBoxProps = {
+  erreursDeValidationCsv: Array<ErreurValidationCsv>
+}
+const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValidationCsv }) => (
+  <ul className="notification error">
+    {erreursDeValidationCsv.map(({ numéroLigne, valeurInvalide, raison }, index) => (
+      <li key={index} className="ml-3">
+        {numéroLigne && `Ligne ${numéroLigne.toString()} - `}
+        {valeurInvalide && `${valeurInvalide} - `}
+        {raison && `${raison}`}
+      </li>
+    ))}
+  </ul>
+)
+
+export const ImportGestionnaireReseau: FC<ImportGestionnaireReseauProps> = ({
   request,
   résultatSoumissionFormulaire,
-}: ImportGestionnaireReseauProps) => (
+}) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel p-4">
         <h3 className="section--title">Import gestionnaire réseau</h3>
-        {résultatSoumissionFormulaire && <AfficherFeedback {...{ résultatSoumissionFormulaire }} />}
+        {résultatSoumissionFormulaire && (
+          <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
+        )}
         <form
           action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
           method="post"

@@ -13,14 +13,14 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       return response.send(
         ImportGestionnaireReseauPage({
           request,
-          feedback: getFormFeedback(request, routes.IMPORT_GESTIONNAIRE_RESEAU),
+          résultatSoumissionFormulaire: getFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU),
         })
       )
     })
   )
 }
 
-const getFormFeedback = (request: Request, formId: string) => {
+const getFormResult = (request: Request, formId: string) => {
   const {
     session: { forms },
   } = request
@@ -30,6 +30,6 @@ const getFormFeedback = (request: Request, formId: string) => {
 
     request.session.forms = clearedForms
 
-    return form?.feedback
+    return form?.résultatSoumissionFormulaire
   }
 }
