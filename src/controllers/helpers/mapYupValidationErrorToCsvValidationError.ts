@@ -2,10 +2,6 @@ import { ValidationError } from 'yup'
 import { CsvValidationError } from './errors'
 
 export const mapYupValidationErrorToCsvValidationError = (error: ValidationError) => {
-  if (!error) {
-    return new CsvValidationError({ validationErreurs: [] })
-  }
-
   const validationErreurs = error.inner.reduce((acc, err) => {
     const { path, params, errors } = err
 
@@ -18,11 +14,11 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
       ...acc,
       {
         numéroLigne,
-        valeur: params.originalValue,
-        erreur: errors[0],
+        valeurInvalide: params.originalValue,
+        raison: errors[0],
       },
     ]
   }, [])
 
-  return new CsvValidationError({ validationErreurs })
+  return new CsvValidationError(validationErreurs)
 }

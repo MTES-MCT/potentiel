@@ -1,5 +1,4 @@
 import { ValidationError } from 'yup'
-import { CsvValidationError } from './errors'
 import { mapYupValidationErrorToCsvValidationError } from './mapYupValidationErrorToCsvValidationError'
 
 describe(`mapper une ValidationError yup vers une erreur de type CsvValidationError`, () => {
@@ -7,9 +6,8 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
     it(`Lorsqu'on mappe une ValidationError sans sous-erreurs
         Alors on devrait récupérer une CsvValidationError sans détails d'erreurs ([])
     `, () => {
-      expect(mapYupValidationErrorToCsvValidationError(new ValidationError(''))).toStrictEqual(
-        new CsvValidationError({ validationErreurs: [] })
-      )
+      const csvValidationError1 = mapYupValidationErrorToCsvValidationError(new ValidationError(''))
+      expect(csvValidationError1.détails).toHaveLength(0)
 
       const erreur = {
         value: 'erreurValue',
@@ -18,10 +16,11 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         message: 'message',
         inner: [],
       } as ValidationError
-
-      expect(mapYupValidationErrorToCsvValidationError(erreur)).toStrictEqual(
-        new CsvValidationError({ validationErreurs: [] })
+      const csvValidationError2 = mapYupValidationErrorToCsvValidationError(
+        new ValidationError(erreur)
       )
+
+      expect(csvValidationError2.détails).toHaveLength(0)
     })
   })
 
@@ -44,17 +43,15 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError
 
-      expect(mapYupValidationErrorToCsvValidationError(erreur)).toStrictEqual(
-        new CsvValidationError({
-          validationErreurs: [
-            {
-              numéroLigne: 2,
-              valeur: 'originalValue1',
-              erreur: 'Le champ est incorrect car X',
-            },
-          ],
-        })
-      )
+      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur)
+
+      expect(csvValidationErreur.détails).toStrictEqual([
+        {
+          numéroLigne: 2,
+          valeurInvalide: 'originalValue1',
+          raison: 'le champ est incorrect car X',
+        },
+      ])
     })
   })
 
@@ -77,21 +74,19 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError
 
-      expect(mapYupValidationErrorToCsvValidationError(erreur)).toStrictEqual(
-        new CsvValidationError({
-          validationErreurs: [
-            {
-              numéroLigne: 2,
-              valeur: 'originalValue1',
-              erreur: 'Le champ est incorrect car X',
-            },
-            {
-              numéroLigne: 3,
-              erreur: 'le champ est manquant',
-            },
-          ],
-        })
-      )
+      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur)
+
+      expect(csvValidationErreur.détails).toStrictEqual([
+        {
+          numéroLigne: 2,
+          valeurInvalide: 'originalValue1',
+          raison: 'le champ est incorrect car X',
+        },
+        {
+          numéroLigne: 3,
+          raison: 'le champ est manquant',
+        },
+      ])
     })
   })
 
@@ -117,17 +112,15 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError
 
-      expect(mapYupValidationErrorToCsvValidationError(erreur)).toStrictEqual(
-        new CsvValidationError({
-          validationErreurs: [
-            {
-              numéroLigne: 2,
-              valeur: 'originalValue1',
-              erreur: 'Le champ est incorrect car X',
-            },
-          ],
-        })
-      )
+      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur)
+
+      expect(csvValidationErreur.détails).toStrictEqual([
+        {
+          numéroLigne: 2,
+          valeurInvalide: 'originalValue1',
+          raison: 'le champ est incorrect car X',
+        },
+      ])
     })
   })
 
@@ -149,17 +142,15 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         ],
       } as ValidationError
 
-      expect(mapYupValidationErrorToCsvValidationError(erreur)).toStrictEqual(
-        new CsvValidationError({
-          validationErreurs: [
-            {
-              numéroLigne: 2,
-              valeur: 'originalValue1',
-              erreur: 'Le champ est incorrect car X',
-            },
-          ],
-        })
-      )
+      const csvValidationErreur = mapYupValidationErrorToCsvValidationError(erreur)
+
+      expect(csvValidationErreur.détails).toStrictEqual([
+        {
+          numéroLigne: 2,
+          valeurInvalide: 'originalValue1',
+          raison: 'le champ est incorrect car X',
+        },
+      ])
     })
   })
 })

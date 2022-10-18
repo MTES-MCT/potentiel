@@ -39,7 +39,7 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
       return errAsync(mapYupValidationErrorToCsvValidationError(error))
     }
 
-    return errAsync(new CsvValidationError({ validationErreurs: [] }))
+    return errAsync(new CsvValidationError())
   }
 }
 if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
@@ -69,12 +69,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
             return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
           },
           (e) => {
-            const validationErreurs = e instanceof CsvValidationError ? e.détails : undefined
-            const erreursDeValidationCsv = validationErreurs?.validationErreurs.map((e) => ({
-              numéroLigne: e.numéroLigne,
-              valeurInvalide: e.valeur,
-              raison: e.erreur,
-            }))
+            const erreursDeValidationCsv = e instanceof CsvValidationError ? e.détails : undefined
             setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
               type: 'échec',
               raison: e.message,
