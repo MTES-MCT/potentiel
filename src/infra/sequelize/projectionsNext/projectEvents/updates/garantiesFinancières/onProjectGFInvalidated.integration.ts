@@ -46,7 +46,7 @@ describe('Handler onProjectGFInvalidated', () => {
     })
   })
 
-  it(`Etant donné un élément GF avec le statut 'uploaded' et aucunue date limite d'envoi dans ProjectEvent,
+  it(`Etant donné un élément GF avec le statut 'uploaded' et aucune date limite d'envoi dans ProjectEvent,
       alors il devrait être supprimé.`, async () => {
     const projectId = new UniqueEntityID().toString()
     const occurredAt = new Date('2022-01-12')
