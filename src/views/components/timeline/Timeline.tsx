@@ -8,6 +8,7 @@ import {
   DemandeDélaiDTO,
   DemandeAbandonDTO,
   CahierDesChargesChoisiDTO,
+  GarantiesFinancièresDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -42,11 +43,9 @@ import {
   extractCRItemProps,
   extractDCRItemProps,
   extractDesignationItemProps,
-  extractGFItemProps,
   extractImportItemProps,
   extractMeSItemProps,
   extractPTFItemProps,
-  GFItemProps,
   ImportItemProps,
   MeSItemProps,
   PTFItemProps,
@@ -68,7 +67,6 @@ export type TimelineProps = {
 type ItemProps =
   | ImportItemProps
   | DesignationItemProps
-  | GFItemProps
   | DCRItemProps
   | ACItemProps
   | PTFItemProps
@@ -85,33 +83,22 @@ type ItemProps =
   | DemandeDélaiDTO
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
-
-type UndatedItemProps = ItemProps & { date: undefined }
+  | GarantiesFinancièresDTO
 
 export const Timeline = ({
   projectEventList: {
     events,
-    project: {
-      id: projectId,
-      status,
-      isSoumisAuxGF,
-      isGarantiesFinancieresDeposeesALaCandidature,
-      garantieFinanciereEnMois,
-    },
+    project: { id: projectId, status, garantieFinanciereEnMois },
   },
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { status })
-  const GFItemProps = extractGFItemProps(events, now, {
-    status,
-    isSoumisAuxGF,
-    isGarantiesFinancieresDeposeesALaCandidature,
-  })
+  const garantiesFinancières = events.find(is('garanties-financieres'))
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    GFItemProps?.date ? GFItemProps : null,
+    garantiesFinancières ?? null,
     extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
@@ -134,8 +121,8 @@ export const Timeline = ({
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
   insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { status }))
-  GFItemProps?.status === 'submitted-with-application' &&
-    insertAfter(itemProps, 'designation', GFItemProps)
+  garantiesFinancières?.statut === 'submitted-with-application' &&
+    insertAfter(itemProps, 'designation', garantiesFinancières)
 
   const timelineItems = itemProps.map((props) => {
     const { type } = props
@@ -149,7 +136,12 @@ export const Timeline = ({
 
       case 'garanties-financieres':
         return (
-          <GFItem {...{ ...props, project: { id: projectId, status, garantieFinanciereEnMois } }} />
+          <GFItem
+            {...{
+              project: { id: projectId, status, garantieFinanciereEnMois },
+              ...props,
+            }}
+          />
         )
 
       case 'demande-complete-de-raccordement':
@@ -225,7 +217,7 @@ function isNotNull<T>(arg: T): arg is Exclude<T, null> {
 function insertBefore(
   itemProps: ItemProps[],
   referenceType: ItemProps['type'],
-  item: UndatedItemProps | null
+  item: ItemProps | null
 ) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {
@@ -241,7 +233,7 @@ function insertBefore(
 function insertAfter(
   itemProps: ItemProps[],
   referenceType: ItemProps['type'],
-  item: UndatedItemProps | null
+  item: ItemProps | null
 ) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {

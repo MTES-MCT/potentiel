@@ -1,10 +1,10 @@
 import { or } from '@core/utils'
+import { ProjectEvent } from '@infra/sequelize'
 import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,
   ProjectClaimedEvent,
   ProjectDCREvents,
-  ProjectGFEvents,
   ProjectImportedEvent,
   ProjectNotificationDateSetEvent,
   ProjectNotifiedEvent,
@@ -18,6 +18,7 @@ import {
   DemandeAbandonEvent,
   CahierDesChargesEvent,
 } from '../events'
+import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
 
 export type KnownProjectEvents =
   | ProjectImportedEvent
@@ -27,7 +28,7 @@ export type KnownProjectEvents =
   | ProjectNotificationDateSetEvent
   | CovidDelayGrantedEvent
   | ProjectCertificateEvents
-  | ProjectGFEvents
+  | GarantiesFinancièresEvent
   | ProjectDCREvents
   | ProjectPTFEvents
   | ModificationRequestEvents
@@ -42,7 +43,7 @@ type NarrowType<T, N> = T extends { type: N } ? T : never
 
 export const is =
   <T extends KnownProjectEvents, K extends T['type']>(type: K) =>
-  (event: KnownProjectEvents): event is NarrowType<T, K> =>
+  (event: ProjectEvent): event is NarrowType<T, K> =>
     event.type === type
 
 export const isKnownProjectEvent = or(
@@ -55,13 +56,7 @@ export const isKnownProjectEvent = or(
   is('ProjectCertificateGenerated'),
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
-  is('ProjectGFSubmitted'),
-  is('ProjectGFUploaded'),
-  is('ProjectGFValidated'),
-  is('ProjectGFInvalidated'),
-  is('ProjectGFRemoved'),
-  is('ProjectGFWithdrawn'),
-  is('ProjectGFDueDateSet'),
+  is('GarantiesFinancières'),
   is('ProjectDCRSubmitted'),
   is('ProjectDCRRemoved'),
   is('ProjectDCRDueDateSet'),

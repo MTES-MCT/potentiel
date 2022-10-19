@@ -14,6 +14,7 @@ export type ProjectEventDTO =
   | ProjectClaimedDTO
   | ProjectGFSubmittedDTO
   | ProjectGFUploadedDTO
+  | GarantiesFinancièresDTO
   | ProjectGFRemovedDTO
   | ProjectGFWithdrawnDTO
   | ProjectGFDueDateSetDTO
@@ -132,6 +133,31 @@ export type ProjectGFUploadedDTO = {
   expirationDate?: number
   uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
 }
+
+export type GarantiesFinancièresDTO = {
+  type: 'garanties-financieres'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  date: number
+} & (
+  | {
+      statut: 'due' | 'past-due'
+      nomProjet: string
+    }
+  | {
+      statut: 'pending-validation' | 'validated'
+      url: string | undefined
+      dateExpiration: number | undefined
+    }
+  | {
+      statut: 'uploaded'
+      url: string | undefined
+      dateExpiration: number | undefined
+      initiéParRole?: 'porteur-projet' | 'dreal' | 'admin'
+    }
+  | {
+      statut: 'submitted-with-application'
+    }
+)
 
 export type ProjectGFDueDateSetDTO = {
   type: 'ProjectGFDueDateSet'
@@ -415,8 +441,6 @@ export type ProjectEventListDTO = {
   project: {
     id: Project['id']
     status: ProjectStatus
-    isSoumisAuxGF?: boolean
-    isGarantiesFinancieresDeposeesALaCandidature?: boolean
     garantieFinanciereEnMois?: number
   }
   events: ProjectEventDTO[]

@@ -38,7 +38,7 @@ export default function safeAsyncHandler<Schema extends BaseSchema>(
       await handler(validatedRequest, response, next)
     } catch (error) {
       if (onError) {
-        const errors = error.inner.reduce(
+        const errors = error.inner?.reduce(
           (errors, { path, message }) => ({ ...errors, [`error-${path}`]: message }),
           {}
         )
