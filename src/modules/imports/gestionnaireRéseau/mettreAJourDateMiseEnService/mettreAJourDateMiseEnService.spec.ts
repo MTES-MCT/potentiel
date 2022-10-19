@@ -12,7 +12,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
   describe(`Mise à jour de toutes les dates de mise en service des projets`, () => {
     it(`Étant donné un unique projet par identifiant gestionnaire réseau
-        Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
+        Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
         Alors la date de mise en service des projets correspondant devrait être renseignée
         Et la tâche devrait être terminée avec le résultat des mises à jour`, async () => {
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
@@ -62,7 +62,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-gestionnaire-réseau#Enedis',
-          type: 'MiseAJourDateMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: [
@@ -86,7 +86,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   describe(`Ne pas mettre à jour si plusieurs résultats pour un identifiant`, () => {
     it(`Étant donné plusieurs projets avec l'identifiant gestionnaire de réseau 'Enedis'
         Et le projet 'Projet Test' avec l'identifiant 'AAA-BB-2022-000001'
-        Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient
+        Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
         Alors la date de mise en service devrait être renseignée seulement pour le projet 'Projet Test'
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
@@ -142,7 +142,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-gestionnaire-réseau#Enedis',
-          type: 'MiseAJourDateMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
@@ -164,7 +164,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   })
 
   describe(`Avoir un résultat en 'échec' si la mise à jour échoue`, () => {
-    it(`Lorsqu'un évènement 'MiseAJourDateMiseEnServiceDémarrée' survient avec un seul identifiant
+    it(`Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient avec un seul identifiant
         Et que la mise à jour de la date de mise en service du projet échoue car 'La date est plus récente que l'actuelle'
         Alors la date de mise en service ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
@@ -198,7 +198,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-gestionnaire-réseau#Enedis',
-          type: 'MiseAJourDateMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([

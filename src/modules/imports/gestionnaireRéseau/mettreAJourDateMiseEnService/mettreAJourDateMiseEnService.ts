@@ -1,6 +1,6 @@
 import { EventStore } from '@core/domain'
 import { ResultAsync } from '@core/utils'
-import { MiseAJourDateMiseEnServiceTerminée } from '../events'
+import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 
 type Dépendances = {
@@ -63,7 +63,7 @@ export const makeMettreAJourDateMiseEnService =
 
     const terminerLaMiseAJour = (miseAJour) => {
       return publishToEventStore(
-        new MiseAJourDateMiseEnServiceTerminée({
+        new TâcheMiseAJourDatesMiseEnServiceTerminée({
           payload: {
             gestionnaire,
             résultat: miseAJour,

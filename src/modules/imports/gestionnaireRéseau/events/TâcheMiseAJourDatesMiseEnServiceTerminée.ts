@@ -1,7 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
-type MiseAJourDateMiseEnServiceTerminéePayload = {
+type TâcheMiseAJourDatesMiseEnServiceTerminéePayload = {
   gestionnaire: string
   résultat: Array<
     { identifiantGestionnaireRéseau: string } & (
@@ -11,15 +11,16 @@ type MiseAJourDateMiseEnServiceTerminéePayload = {
   >
 }
 
-export class MiseAJourDateMiseEnServiceTerminée
-  extends BaseDomainEvent<MiseAJourDateMiseEnServiceTerminéePayload>
+export class TâcheMiseAJourDatesMiseEnServiceTerminée
+  extends BaseDomainEvent<TâcheMiseAJourDatesMiseEnServiceTerminéePayload>
   implements DomainEvent
 {
-  public static type: 'MiseAJourDateMiseEnServiceTerminée' = 'MiseAJourDateMiseEnServiceTerminée'
-  public type = MiseAJourDateMiseEnServiceTerminée.type
+  public static type: 'TâcheMiseAJourDatesMiseEnServiceTerminée' =
+    'TâcheMiseAJourDatesMiseEnServiceTerminée'
+  public type = TâcheMiseAJourDatesMiseEnServiceTerminée.type
   currentVersion = 1
 
-  aggregateIdFromPayload(payload: MiseAJourDateMiseEnServiceTerminéePayload) {
+  aggregateIdFromPayload(payload: TâcheMiseAJourDatesMiseEnServiceTerminéePayload) {
     return ImportGestionnaireRéseauId.format(payload.gestionnaire).toString()
   }
 }

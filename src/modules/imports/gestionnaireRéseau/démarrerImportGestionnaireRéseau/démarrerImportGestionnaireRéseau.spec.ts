@@ -107,7 +107,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         1,
         expect.objectContaining({
           aggregateId: 'import-gestionnaire-réseau#Enedis',
-          type: 'MiseAJourDateMiseEnServiceDémarrée',
+          type: 'TâcheMiseAJourDatesMiseEnServiceDémarrée',
           payload: expect.objectContaining({
             misAJourPar: utilisateurAutorisé.id,
             gestionnaire: 'Enedis',

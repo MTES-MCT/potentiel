@@ -5,7 +5,7 @@ import { userIsNot } from '@modules/users'
 import { errAsync } from '@core/utils'
 import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
-import { MiseAJourDateMiseEnServiceDémarrée } from '../events'
+import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '../events'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
@@ -41,7 +41,7 @@ export const makeDémarrerImportGestionnaireRéseau =
         }
 
         return publishToEventStore(
-          new MiseAJourDateMiseEnServiceDémarrée({
+          new TâcheMiseAJourDatesMiseEnServiceDémarrée({
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
