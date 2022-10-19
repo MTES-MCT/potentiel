@@ -5,6 +5,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { DateDeMiseEnServicePlusRécenteError } from '../errors'
+import { DateDeMiseEnServiceRenseignée } from '../events'
 import { Project } from '../Project'
 import { makeRenseignerDateDeMiseEnService } from './renseignerDateDeMiseEnService'
 
@@ -35,6 +36,39 @@ describe('Renseigner une date de mise en service', () => {
 
       expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateDeMiseEnServicePlusRécenteError)
       expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Renseigner une date de mise en service`, () => {
+    it(`Étant donné un projet
+        Lorsqu'on renseigne une nouvelle date de mise en service pour ce projet
+        Alors cette date de mise en service du projet devrait être celle du projet`, async () => {
+      const dateDeMiseEnService = new Date('2023-01-01')
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        id: projetId,
+      } as Project)
+
+      const renseignerDateMiseEnService = makeRenseignerDateDeMiseEnService({
+        publishToEventStore,
+        projectRepo,
+      })
+
+      const résultat = await renseignerDateMiseEnService({
+        projetId,
+        dateDeMiseEnService,
+      })
+
+      expect(résultat.isOk()).toBe(true)
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: DateDeMiseEnServiceRenseignée.type,
+          payload: expect.objectContaining({
+            projetId,
+            dateDeMiseEnService: dateDeMiseEnService.toISOString(),
+          }),
+        })
+      )
     })
   })
 })

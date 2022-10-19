@@ -2,6 +2,7 @@ import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync, ResultAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import { DateDeMiseEnServicePlusRécenteError } from '../errors'
+import { DateDeMiseEnServiceRenseignée } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
@@ -17,6 +18,7 @@ type MakeRenseignerDateDeMiseEnService = (dépendances: {
 }) => RenseignerDateDeMiseEnService
 
 export const makeRenseignerDateDeMiseEnService: MakeRenseignerDateDeMiseEnService = ({
+  publishToEventStore,
   projectRepo,
 }) => {
   const chargerProjet = (commande: Commande) =>
@@ -41,10 +43,15 @@ export const makeRenseignerDateDeMiseEnService: MakeRenseignerDateDeMiseEnServic
     return okAsync(commande)
   }
 
-  const enregistrerDateDeMiseEnService = (commande: Commande) => {
-    console.log('I have to maj', commande)
-    return okAsync(null)
-  }
+  const enregistrerDateDeMiseEnService = ({ projetId, dateDeMiseEnService }: Commande) =>
+    publishToEventStore(
+      new DateDeMiseEnServiceRenseignée({
+        payload: {
+          projetId,
+          dateDeMiseEnService: dateDeMiseEnService.toISOString(),
+        },
+      })
+    )
 
   return (commande) =>
     chargerProjet(commande)
