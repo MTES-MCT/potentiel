@@ -26,15 +26,22 @@ export const makeMettreAJourDateMiseEnService =
     publishToEventStore,
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
-    const lancementDesMiseAJourPourChaqueProjet = (projetsParIdentifiantGestionnaireRéseau) => {
+    const lancementDesMiseAJourPourChaqueProjet = (
+      projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ id: string }>>
+    ) => {
       return ResultAsync.fromPromise(
         Promise.all(
           données.map(async ({ identifiantGestionnaireRéseau, dateMiseEnService }) => {
-            if (projetsParIdentifiantGestionnaireRéseau[identifiantGestionnaireRéseau].length > 1) {
+            const nombreDeProjetsCorrespondant =
+              projetsParIdentifiantGestionnaireRéseau[identifiantGestionnaireRéseau].length
+            if (nombreDeProjetsCorrespondant !== 1) {
               return {
                 identifiantGestionnaireRéseau,
                 état: 'échec' as const,
-                raison: `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`,
+                raison:
+                  nombreDeProjetsCorrespondant > 1
+                    ? `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`
+                    : `Aucun projet ne correspond à l'identifiant gestionnaire de réseau`,
               }
             }
 
