@@ -97,7 +97,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
 
     it(`Quand on fabrique un projet avec évènement 'DateMiseEnServiceRenseignée'
      Alors la date de mise en service du projet devrait être celle mentionné dans l'évènement`, () => {
-      const dateMiseEnService = new Date('2022-01-01').toISOString()
+      const dateMiseEnService = new Date('2022-01-01')
 
       const projet = makeProject({
         projectId,
@@ -105,7 +105,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
           new DateMiseEnServiceRenseignée({
             payload: {
               projetId: projectId.toString(),
-              dateMiseEnService,
+              dateMiseEnService: dateMiseEnService.toISOString(),
             },
           }),
         ],

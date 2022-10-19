@@ -18,7 +18,13 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
 
     if (!projectInstance) {
       logger.error(
-        `Error: onDateMiseEnServiceRenseignée projection failed to retrieve project from db`
+        new ProjectionEnEchec(
+          'Erreur dans la projection onDateMiseEnServiceRenseingée : impossible de récupérer le projet de la db',
+          {
+            nomProjection: 'onDateMiseEnServiceRenseignée',
+            évènement,
+          }
+        )
       )
       return
     }

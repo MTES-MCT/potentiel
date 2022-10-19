@@ -1326,7 +1326,7 @@ export const makeProject = (args: {
         props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
         break
       case DateMiseEnServiceRenseignée.type:
-        props.dateMiseEnService = event.payload.dateMiseEnService
+        props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
         break
       default:
         // ignore other event types
