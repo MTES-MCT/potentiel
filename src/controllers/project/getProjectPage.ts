@@ -1,3 +1,4 @@
+import { userIs } from '@modules/users'
 import { okAsync } from '@core/utils'
 import { ensureRole, getProjectEvents } from '@config'
 import { getProjectDataForProjectPage } from '@config/queries.config'
@@ -42,7 +43,7 @@ v1Router.get(
 
       await getProjectDataForProjectPage({ projectId, user })
         .andThen((project) => {
-          if (user.role === 'ademe') {
+          if (userIs('ademe')(user)) {
             return okAsync({ project, projectEventList: undefined })
           }
           return getProjectEvents({ projectId, user }).map((projectEventList) => ({
