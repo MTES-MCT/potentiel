@@ -27,7 +27,7 @@ import { ProjectHeader } from './components'
 type ProjectDetailsProps = {
   request: Request
   project: ProjectDataForProjectPage
-  projectEventList: ProjectEventListDTO
+  projectEventList?: ProjectEventListDTO
   now: number
 }
 
@@ -50,9 +50,10 @@ export const ProjectDetails = ({
             <CDCInfo {...{ project, user }} />
           </Callout>
           <div className="flex flex-col lg:flex-row gap-3">
-            <EtapesProjet {...{ project, user, projectEventList, now }} />
-
-            <div className="flex flex-col gap-3">
+            {projectEventList && <EtapesProjet {...{ project, user, projectEventList, now }} />}
+            <div
+              className={`flex flex-col ${!projectEventList ? 'xl:flex-row' : ''} gap-3 flex-grow`}
+            >
               <InfoGenerales {...{ project }} />
               <Contact {...{ user, project }} />
               <MaterielsEtTechnologies {...{ project }} />
