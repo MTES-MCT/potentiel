@@ -15,7 +15,7 @@ export const onDateDeMiseEnServiceRenseignée: OnDateDeMiseEnServiceRenseignée 
     } = évènement
 
     const projectInstance = await Project.findByPk(projetId)
-    console.log('project instance', projectInstance)
+
     if (!projectInstance) {
       logger.error(
         `Error: onDateDeMiseEnServiceRenseignée projection failed to retrieve project from db`
