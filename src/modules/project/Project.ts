@@ -85,6 +85,7 @@ import {
   ProjectReimported,
   CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
+  DateMiseEnServiceRenseignée,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -286,6 +287,7 @@ export interface ProjectProps {
   periodeId: string
   familleId: string
   identifiantGestionnaireRéseau: string
+  dateMiseEnService: Date | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -329,6 +331,7 @@ export const makeProject = (args: {
     periodeId: '',
     familleId: '',
     identifiantGestionnaireRéseau: '',
+    dateMiseEnService: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1116,7 +1119,7 @@ export const makeProject = (args: {
       return props.identifiantGestionnaireRéseau
     },
     get dateMiseEnService() {
-      return undefined
+      return props.dateMiseEnService
     },
   })
 
@@ -1321,7 +1324,9 @@ export const makeProject = (args: {
         break
       case NumeroGestionnaireSubmitted.type:
         props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
-
+        break
+      case DateMiseEnServiceRenseignée.type:
+        props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
         break
       default:
         // ignore other event types
