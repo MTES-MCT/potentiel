@@ -22,7 +22,7 @@ export const onDateDeMiseEnServiceRenseignée: OnDateDeMiseEnServiceRenseignée 
       )
       return
     }
-    console.log('look im here')
+
     try {
       await Project.update(
         {
