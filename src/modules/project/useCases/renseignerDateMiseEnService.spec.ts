@@ -4,10 +4,10 @@ import { InfraNotAvailableError } from '@modules/shared'
 
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
-import { DateDeMiseEnServicePlusRécenteError } from '../errors'
-import { DateDeMiseEnServiceRenseignée } from '../events'
+import { DateMiseEnServicePlusRécenteError } from '../errors'
+import { DateMiseEnServiceRenseignée } from '../events'
 import { Project } from '../Project'
-import { makeRenseignerDateDeMiseEnService } from './renseignerDateDeMiseEnService'
+import { makeRenseignerDateMiseEnService } from './renseignerDateMiseEnService'
 
 describe('Renseigner une date de mise en service', () => {
   const projetId = new UniqueEntityID().toString()
@@ -21,20 +21,20 @@ describe('Renseigner une date de mise en service', () => {
       const projectRepo = fakeRepo({
         ...makeFakeProject(),
         id: projetId,
-        dateDeMiseEnService: new Date('2022-01-01'),
+        dateMiseEnService: new Date('2022-01-01'),
       } as Project)
 
-      const renseignerDateMiseEnService = makeRenseignerDateDeMiseEnService({
+      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
         publishToEventStore,
         projectRepo,
       })
 
       const résultat = await renseignerDateMiseEnService({
         projetId,
-        dateDeMiseEnService: new Date('2023-01-01'),
+        dateMiseEnService: new Date('2023-01-01'),
       })
 
-      expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateDeMiseEnServicePlusRécenteError)
+      expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateMiseEnServicePlusRécenteError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
@@ -42,29 +42,29 @@ describe('Renseigner une date de mise en service', () => {
   describe(`Renseigner une date de mise en service`, () => {
     it(`Lorsqu'on renseigne pour un projet une nouvelle date de mise en service
         Alors cette date de mise en service du projet devrait être celle du projet`, async () => {
-      const dateDeMiseEnService = new Date('2023-01-01')
+      const dateMiseEnService = new Date('2023-01-01')
       const projectRepo = fakeRepo({
         ...makeFakeProject(),
         id: projetId,
       } as Project)
 
-      const renseignerDateMiseEnService = makeRenseignerDateDeMiseEnService({
+      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
         publishToEventStore,
         projectRepo,
       })
 
       const résultat = await renseignerDateMiseEnService({
         projetId,
-        dateDeMiseEnService,
+        dateMiseEnService,
       })
 
       expect(résultat.isOk()).toBe(true)
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: DateDeMiseEnServiceRenseignée.type,
+          type: DateMiseEnServiceRenseignée.type,
           payload: expect.objectContaining({
             projetId,
-            dateDeMiseEnService: dateDeMiseEnService.toISOString(),
+            dateMiseEnService: dateMiseEnService.toISOString(),
           }),
         })
       )

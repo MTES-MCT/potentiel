@@ -185,7 +185,7 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.JSON,
         allowNull: true,
       },
-      dateDeMiseEnService: {
+      dateMiseEnService: {
         type: DataTypes.STRING,
         allowNull: true,
       },

@@ -29,7 +29,7 @@ import {
   ProjectPuissanceUpdated,
   ProjectReimported,
   IdentifiantPotentielPPE2Batiment2Corrigé,
-  DateDeMiseEnServiceRenseignée,
+  DateMiseEnServiceRenseignée,
 } from '@modules/project'
 import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
@@ -67,7 +67,7 @@ import {
 import { onContratEnedisMisAJour } from './onContratEnedisMisAJour'
 import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement'
 import { onIdentifiantPotentielPPE2Batiment2Corrigé } from './onIdentifiantPotentielPPE2Batiment2Corrigé'
-import { onDateDeMiseEnServiceRenseignée } from './onDateDeMiseEnServiceRenseignée'
+import { onDateMiseEnServiceRenseignée } from './onDateMiseEnServiceRenseignée'
 
 import { Projections } from '@infra/sequelize/models'
 
@@ -127,7 +127,7 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
     onIdentifiantPotentielPPE2Batiment2Corrigé(models)
   )
 
-  eventBus.subscribe(DateDeMiseEnServiceRenseignée.type, onDateDeMiseEnServiceRenseignée(models))
+  eventBus.subscribe(DateMiseEnServiceRenseignée.type, onDateMiseEnServiceRenseignée(models))
 
   logger.info('Initialized Project projections')
 }
