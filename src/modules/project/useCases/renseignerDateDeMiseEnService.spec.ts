@@ -40,8 +40,7 @@ describe('Renseigner une date de mise en service', () => {
   })
 
   describe(`Renseigner une date de mise en service`, () => {
-    it(`Étant donné un projet
-        Lorsqu'on renseigne une nouvelle date de mise en service pour ce projet
+    it(`Lorsqu'on renseigne pour un projet une nouvelle date de mise en service
         Alors cette date de mise en service du projet devrait être celle du projet`, async () => {
       const dateDeMiseEnService = new Date('2023-01-01')
       const projectRepo = fakeRepo({
