@@ -1,13 +1,13 @@
 import { EventStore, TransactionalRepository } from '@core/domain'
-import { ImportGestionnaireRéseau } from './ImportGestionnaireRéseau'
 import { User } from '@entities'
-import { MiseAJourDateMiseEnServiceDémarrée } from './events'
-import { errAsync } from 'neverthrow'
-import { DémarrageImpossibleError } from './DémarrageImpossibleError'
-import ImportGestionnaireRéseauId from './ImportGestionnaireRéseauId'
 import { UnauthorizedError } from '@modules/shared'
-import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 import { userIsNot } from '@modules/users'
+import { errAsync } from '@core/utils'
+import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
+import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
+import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '../events'
+import { DémarrageImpossibleError } from './DémarrageImpossibleError'
+import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
 type MakeDémarrerImportGestionnaireRéseauDépendances = {
   importRepo: TransactionalRepository<ImportGestionnaireRéseau>
@@ -17,7 +17,7 @@ type MakeDémarrerImportGestionnaireRéseauDépendances = {
 export type DémarrerImportGestionnaireRéseauCommande = {
   utilisateur: User
   gestionnaire: 'Enedis'
-  données: Array<{ numeroGestionnaire: string; dateMiseEnService: Date }>
+  données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
@@ -25,7 +25,7 @@ export const makeDémarrerImportGestionnaireRéseau =
   (commande: DémarrerImportGestionnaireRéseauCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
-    if (userIsNot('admin')(utilisateur)) {
+    if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
     }
 
@@ -41,12 +41,12 @@ export const makeDémarrerImportGestionnaireRéseau =
         }
 
         return publishToEventStore(
-          new MiseAJourDateMiseEnServiceDémarrée({
+          new TâcheMiseAJourDatesMiseEnServiceDémarrée({
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.map(({ numeroGestionnaire, dateMiseEnService }) => ({
-                numeroGestionnaire,
+              dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
+                identifiantGestionnaireRéseau,
                 dateMiseEnService: dateMiseEnService.toISOString(),
               })),
             },
