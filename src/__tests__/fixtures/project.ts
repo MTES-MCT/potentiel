@@ -31,6 +31,7 @@ export default function makeFakeProject(overrides?) {
     cahierDesChargesActuel: 'initial',
     technologie: 'N/A',
     completionDueOn: 0,
+    dateDeMiseEnService: undefined,
   }
 
   const project = {

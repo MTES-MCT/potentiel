@@ -85,6 +85,7 @@ import {
   ProjectReimported,
   CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
+  DateDeMiseEnServiceRenseignée,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -1323,7 +1324,9 @@ export const makeProject = (args: {
         break
       case NumeroGestionnaireSubmitted.type:
         props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
-
+        break
+      case DateDeMiseEnServiceRenseignée.type:
+        props.dateDeMiseEnService = event.payload.dateDeMiseEnService
         break
       default:
         // ignore other event types

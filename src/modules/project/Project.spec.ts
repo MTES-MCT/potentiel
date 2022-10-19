@@ -1,5 +1,9 @@
 import { UniqueEntityID } from '@core/domain'
-import { CahierDesChargesChoisi, NumeroGestionnaireSubmitted } from './events'
+import {
+  CahierDesChargesChoisi,
+  DateDeMiseEnServiceRenseignée,
+  NumeroGestionnaireSubmitted,
+} from './events'
 import { makeProject } from './Project'
 
 describe(`Fabriquer l'aggregat projet`, () => {
@@ -76,6 +80,40 @@ describe(`Fabriquer l'aggregat projet`, () => {
       })._unsafeUnwrap()
 
       expect(projet.identifiantGestionnaireRéseau).toEqual('NUMERO-GESTIONNAIRE')
+    })
+  })
+
+  describe(`Date de mise en service actuel du projet`, () => {
+    it(`Quand on fabrique un projet sans évènement 'DateDeMiseEnServiceRenseignée'
+      Alors la date de mise en service du projet devrait être undefined`, () => {
+      const projet = makeProject({
+        projectId,
+        getProjectAppelOffre: jest.fn(),
+        buildProjectIdentifier: jest.fn(),
+      })._unsafeUnwrap()
+
+      expect(projet.dateDeMiseEnService).toEqual(undefined)
+    })
+
+    it(`Quand on fabrique un projet avec évènement 'DateDeMiseEnServiceRenseignée'
+     Alors la date de mise en service du projet devrait être celle mentionné dans l'évènement`, () => {
+      const dateDeMiseEnService = new Date('2022-01-01').toISOString()
+
+      const projet = makeProject({
+        projectId,
+        history: [
+          new DateDeMiseEnServiceRenseignée({
+            payload: {
+              projetId: projectId.toString(),
+              dateDeMiseEnService,
+            },
+          }),
+        ],
+        getProjectAppelOffre: jest.fn(),
+        buildProjectIdentifier: jest.fn(),
+      })._unsafeUnwrap()
+
+      expect(projet.dateDeMiseEnService).toEqual(dateDeMiseEnService)
     })
   })
 })
