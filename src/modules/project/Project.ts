@@ -286,6 +286,7 @@ export interface ProjectProps {
   periodeId: string
   familleId: string
   identifiantGestionnaireRéseau: string
+  dateDeMiseEnService: Date | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -329,6 +330,7 @@ export const makeProject = (args: {
     periodeId: '',
     familleId: '',
     identifiantGestionnaireRéseau: '',
+    dateDeMiseEnService: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1115,8 +1117,8 @@ export const makeProject = (args: {
     get identifiantGestionnaireRéseau() {
       return props.identifiantGestionnaireRéseau
     },
-    get dateMiseEnService() {
-      return undefined
+    get dateDeMiseEnService() {
+      return props.dateDeMiseEnService
     },
   })
 
