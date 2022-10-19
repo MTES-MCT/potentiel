@@ -25,7 +25,7 @@ export const makeDémarrerImportGestionnaireRéseau =
   (commande: DémarrerImportGestionnaireRéseauCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
-    if (userIsNot('admin')(utilisateur)) {
+    if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
     }
 
