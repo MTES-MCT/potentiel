@@ -133,5 +133,4 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   completionDueOn: 0,
   abandonedOn: 0,
   identifiantGestionnaireRéseau: '',
-  dateMiseEnService: undefined,
 })
