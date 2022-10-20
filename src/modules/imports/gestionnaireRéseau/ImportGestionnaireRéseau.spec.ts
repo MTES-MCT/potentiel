@@ -24,6 +24,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
               },
             ],
           },
+          original: { version: 1, occurredAt: new Date('2020-01-01') },
         }),
       ],
     })
@@ -31,7 +32,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
-      tâcheId: '1577836800000#maj-date-mise-en-service',
+      dateDeDébut: new Date('2020-01-01').getTime(),
       tâchesEnCours: [
         {
           type: 'maj-date-mise-en-service',
@@ -57,6 +58,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
               },
             ],
           },
+          original: { version: 1, occurredAt: new Date('2020-01-01') },
         }),
         new TâcheMiseAJourDatesMiseEnServiceTerminée({
           payload: {
@@ -70,7 +72,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
 
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
-      tâcheId: '1577836800000#maj-date-mise-en-service',
+      dateDeDébut: new Date('2020-01-01').getTime(),
       état: 'terminé',
       tâchesEnCours: [],
     })
