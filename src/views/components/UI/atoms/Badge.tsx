@@ -7,10 +7,32 @@ type BadgeProps = {
   type: BadgeType
 }
 
-export const Badge: FC<BadgeProps> = ({ type, className, children }) => (
-  <span
-    className={`inline-flex self-start px-2 py-1 rounded-md text-sm font-bold uppercase bg-${type}-950-base text-${type}-425-base ${className}`}
-  >
-    {children}
-  </span>
-)
+const badgeColorsByType: Record<BadgeType, { backgroundColor: string; textColor: string }> = {
+  success: {
+    backgroundColor: 'bg-success-950-base',
+    textColor: 'text-success-425-base',
+  },
+  error: {
+    backgroundColor: 'bg-error-950-base',
+    textColor: 'text-error-425-base',
+  },
+  info: {
+    backgroundColor: 'bg-info-950-base',
+    textColor: 'text-info-425-base',
+  },
+  warning: {
+    backgroundColor: 'bg-warning-950-base',
+    textColor: 'text-warning-425-base',
+  },
+}
+
+export const Badge: FC<BadgeProps> = ({ type, className, children }) => {
+  const { backgroundColor, textColor } = badgeColorsByType[type]
+  return (
+    <span
+      className={`inline-flex self-start px-2 py-1 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} ${className}`}
+    >
+      {children}
+    </span>
+  )
+}

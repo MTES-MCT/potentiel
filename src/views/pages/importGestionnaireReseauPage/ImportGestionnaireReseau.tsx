@@ -43,9 +43,9 @@ const Tâche: FC<TâcheProps> = (props) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
-        <div className="flex flex-col lg:flex-row lg:items-center gap-1">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-1">
           <p className="font-bold m-0 p-0">Mise à jour de dates de mise en service</p>
-          <Badge className="lg:ml-auto" type={état === 'en cours' ? 'info' : 'success'}>
+          <Badge className="" type={état === 'en cours' ? 'info' : 'success'}>
             {état}
           </Badge>
         </div>
