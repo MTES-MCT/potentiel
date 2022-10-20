@@ -14,6 +14,7 @@ import { makeLegacyCandidateNotification } from '@modules/legacyCandidateNotific
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
 import { makeDemandeDélai } from '@modules/demandeModification'
 import { makeDemandeAbandon } from '../../../modules/demandeModification/demandeAbandon/DemandeAbandon'
+import { makeImportGestionnaireRéseau } from '@modules/imports/gestionnaireRéseau'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -55,5 +56,12 @@ export const demandeAbandonRepo = {
   ...makeEventStoreRepo({
     eventStore,
     makeAggregate: makeDemandeAbandon,
+  }),
+}
+
+export const importGestionnaireRéseauRepo = {
+  ...makeEventStoreTransactionalRepo({
+    eventStore,
+    makeAggregate: makeImportGestionnaireRéseau,
   }),
 }

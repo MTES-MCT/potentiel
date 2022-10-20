@@ -10,7 +10,7 @@ import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
 type MakeDémarrerImportGestionnaireRéseauDépendances = {
-  importRepo: TransactionalRepository<ImportGestionnaireRéseau>
+  importGestionnaireRéseauRepo: TransactionalRepository<ImportGestionnaireRéseau>
   publishToEventStore: EventStore['publish']
 }
 
@@ -21,7 +21,10 @@ export type DémarrerImportGestionnaireRéseauCommande = {
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
-  ({ importRepo, publishToEventStore }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
+  ({
+    importGestionnaireRéseauRepo,
+    publishToEventStore,
+  }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
   (commande: DémarrerImportGestionnaireRéseauCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
@@ -29,7 +32,7 @@ export const makeDémarrerImportGestionnaireRéseau =
       return errAsync(new UnauthorizedError())
     }
 
-    return importRepo.transaction(
+    return importGestionnaireRéseauRepo.transaction(
       ImportGestionnaireRéseauId.format(gestionnaire),
       (importGestionnaireRéseau) => {
         if (importGestionnaireRéseau.état === 'en cours') {
