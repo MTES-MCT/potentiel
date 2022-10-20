@@ -11,7 +11,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
   })
 
   it(`Lorsque un énement de type 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
-      Alors une nouvelle tâche devrait être inséré dans Tasks avec le type 'maj-date-mise-en-service'`, async () => {
+      Alors une nouvelle tâche devrait être inséréé dans Tasks avec le type 'maj-date-mise-en-service'`, async () => {
     await onTâcheMiseAJourDatesMiseEnServiceDémarrée(
       new TâcheMiseAJourDatesMiseEnServiceDémarrée({
         payload: {

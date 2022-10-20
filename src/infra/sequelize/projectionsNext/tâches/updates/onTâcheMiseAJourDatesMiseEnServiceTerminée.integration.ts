@@ -13,7 +13,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   it(`Étant donné une tache en base de donnée
       Lorsque un énement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient
       Alors la tâche devrait être mise à jour avec le type avec une date de fin, 
-      un nombre de succès et un nom d'échecs`, async () => {
+      un nombre de succès et un nombre d'échecs`, async () => {
     await Tâches.create({
       id: 'tâche-id',
       type: 'maj-date-mise-en-service',
