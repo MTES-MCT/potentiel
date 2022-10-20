@@ -52,6 +52,9 @@ export const makeDémarrerImportGestionnaireRéseau =
             },
           })
         )
+      },
+      {
+        acceptNew: true,
       }
     )
   }

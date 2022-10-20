@@ -63,8 +63,4 @@ export const importRepo = {
     eventStore,
     makeAggregate: makeImportGestionnaireRéseau,
   }),
-  ...makeEventStoreRepo({
-    eventStore,
-    makeAggregate: makeImportGestionnaireRéseau,
-  }),
 }

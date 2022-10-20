@@ -15,6 +15,10 @@ import {
 import { ValidationError } from 'yup'
 import { Request } from 'express'
 import { RésultatSoumissionFormulaire } from 'express-session'
+import {
+  DonnéesDeMiseAJourObligatoiresError,
+  DémarrageImpossibleError,
+} from '@modules/imports/gestionnaireRéseau'
 
 const csvDataSchema = yup
   .array()
@@ -110,6 +114,17 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
                 type: 'échec',
                 raison: error.message,
                 erreursDeValidationCsv: error.détails,
+              })
+              return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+            }
+
+            if (
+              error instanceof DémarrageImpossibleError ||
+              error instanceof DonnéesDeMiseAJourObligatoiresError
+            ) {
+              setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+                type: 'échec',
+                raison: error.message,
               })
               return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
             }
