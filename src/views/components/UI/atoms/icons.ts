@@ -4,6 +4,8 @@ export { RiQuestionLine as QuestionIcon } from '@react-icons/all-files/ri/RiQues
 export { RiLockLine as LockIcon } from '@react-icons/all-files/ri/RiLockLine'
 export { RiUserLine as UserIcon } from '@react-icons/all-files/ri/RiUserLine'
 export { RiMenuLine as MenuIcon } from '@react-icons/all-files/ri/RiMenuLine'
+export { RiCheckboxCircleFill as SuccessIcon } from '@react-icons/all-files/ri/RiCheckboxCircleFill'
+export { RiErrorWarningFill as ErrorIcon } from '@react-icons/all-files/ri/RiErrorWarningFill'
 export { RiLogoutBoxLine as LogoutBoxIcon } from '@react-icons/all-files/ri/RiLogoutBoxLine'
 export { RiExternalLinkLine as ExternalLinkIcon } from '@react-icons/all-files/ri/RiExternalLinkLine'
 export { FiChevronLeft as ChevronLeftIcon } from '@react-icons/all-files/fi/FiChevronLeft'
