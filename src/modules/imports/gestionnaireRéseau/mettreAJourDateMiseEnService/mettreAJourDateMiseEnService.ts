@@ -1,8 +1,11 @@
-import { EventStore } from '@core/domain'
+import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
+import { formatTaskId } from '../TâcheId'
+import { EventStore, TransactionalRepository } from '@core/domain'
 import { ResultAsync } from '@core/utils'
 import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
+import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
 
 type Dépendances = {
   getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
@@ -11,6 +14,7 @@ type Dépendances = {
     dateMiseEnService: Date
   }) => ResultAsync<null, Error>
   publishToEventStore: EventStore['publish']
+  importRepo: TransactionalRepository<ImportGestionnaireRéseau>
 }
 
 type Commande = {
@@ -23,6 +27,7 @@ export const makeMettreAJourDateMiseEnService =
     getProjetsParIdentifiantGestionnaireRéseau,
     renseignerDateMiseEnService,
     publishToEventStore,
+    importRepo,
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
     const lancementDesMiseAJourPourChaqueProjet = (
@@ -68,13 +73,22 @@ export const makeMettreAJourDateMiseEnService =
     }
 
     const terminerLaMiseAJour = (miseAJour) => {
-      return publishToEventStore(
-        new TâcheMiseAJourDatesMiseEnServiceTerminée({
-          payload: {
-            gestionnaire,
-            résultat: miseAJour,
-          },
-        })
+      return importRepo.transaction(
+        ImportGestionnaireRéseauId.format(gestionnaire),
+        (importGestionnaireRéseau) => {
+          return publishToEventStore(
+            new TâcheMiseAJourDatesMiseEnServiceTerminée({
+              payload: {
+                tâcheId: formatTaskId({
+                  date: importGestionnaireRéseau.dateDeDébut,
+                  type: 'maj-date-mise-en-service',
+                }).toString(),
+                gestionnaire,
+                résultat: miseAJour,
+              },
+            })
+          )
+        }
       )
     }
 

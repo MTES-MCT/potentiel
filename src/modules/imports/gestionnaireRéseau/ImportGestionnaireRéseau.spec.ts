@@ -14,6 +14,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
+            tâcheId: '1577836800000#maj-date-mise-en-service',
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
             dates: [
@@ -30,6 +31,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
+      tâcheId: '1577836800000#maj-date-mise-en-service',
       tâchesEnCours: [
         {
           type: 'maj-date-mise-en-service',
@@ -45,6 +47,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
+            tâcheId: '1577836800000#maj-date-mise-en-service',
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
             dates: [
@@ -57,6 +60,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
         }),
         new TâcheMiseAJourDatesMiseEnServiceTerminée({
           payload: {
+            tâcheId: '1577836800000#maj-date-mise-en-service',
             gestionnaire: 'Enedis',
             résultat: [],
           },
@@ -66,6 +70,7 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
 
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
+      tâcheId: '1577836800000#maj-date-mise-en-service',
       état: 'terminé',
       tâchesEnCours: [],
     })

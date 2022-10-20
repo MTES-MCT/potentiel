@@ -10,7 +10,10 @@ import { makeDémarrerImportGestionnaireRéseau } from './démarrerImportGestion
 
 describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const importDémarrable = { état: undefined } as ImportGestionnaireRéseau
+  const importDémarrable = {
+    état: undefined,
+    dateDeDébut: new Date('2020-01-01').getTime(),
+  } as ImportGestionnaireRéseau
   const adminAutorisé = { role: 'admin', id: 'administrateur-potentiel' } as User
   const utilisateursAutorisés = [
     adminAutorisé,
@@ -114,6 +117,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
             aggregateId: 'import-gestionnaire-réseau#Enedis',
             type: 'TâcheMiseAJourDatesMiseEnServiceDémarrée',
             payload: expect.objectContaining({
+              tâcheId: '1577836800000#maj-date-mise-en-service',
               misAJourPar: utilisateurAutorisé.id,
               gestionnaire: 'Enedis',
               dates: [

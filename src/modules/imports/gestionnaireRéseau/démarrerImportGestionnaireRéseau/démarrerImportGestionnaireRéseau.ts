@@ -1,3 +1,4 @@
+import { formatTaskId } from '../TâcheId'
 import { EventStore, TransactionalRepository } from '@core/domain'
 import { User } from '@entities'
 import { UnauthorizedError } from '@modules/shared'
@@ -43,6 +44,10 @@ export const makeDémarrerImportGestionnaireRéseau =
         return publishToEventStore(
           new TâcheMiseAJourDatesMiseEnServiceDémarrée({
             payload: {
+              tâcheId: formatTaskId({
+                date: importGestionnaireRéseau.dateDeDébut,
+                type: 'maj-date-mise-en-service',
+              }).toString(),
               misAJourPar: utilisateur.id,
               gestionnaire,
               dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
