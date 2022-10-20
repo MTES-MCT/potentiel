@@ -55,6 +55,7 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
+  makeRenseignerDateMiseEnService,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -446,5 +447,10 @@ export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévoca
 
 export const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
   importRepo,
+  publishToEventStore,
+})
+
+export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+  projectRepo,
   publishToEventStore,
 })
