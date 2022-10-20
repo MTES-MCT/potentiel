@@ -1,5 +1,4 @@
 import { QueryInterface, DataTypes } from 'sequelize'
-;('use strict')
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
