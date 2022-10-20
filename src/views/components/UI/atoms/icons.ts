@@ -12,3 +12,4 @@ export { FiChevronLeft as ChevronLeftIcon } from '@react-icons/all-files/fi/FiCh
 export { IoIosWarning as WarningIcon } from '@react-icons/all-files/io/IoIosWarning'
 export { BsInfoSquareFill as InfoIcon } from '@react-icons/all-files/bs/BsInfoSquareFill'
 export { RiCloseLine as CloseIcon } from '@react-icons/all-files/ri/RiCloseLine'
+export { RiRefreshLine as RefreshIcon } from '@react-icons/all-files/ri/RiRefreshLine'

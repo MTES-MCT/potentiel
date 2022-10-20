@@ -10,6 +10,8 @@ import {
   Tile,
   ErrorIcon,
   SuccessIcon,
+  RefreshIcon,
+  SecondaryLinkButton,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
@@ -73,7 +75,24 @@ const Tâche: FC<TâcheProps> = (props) => {
 
 type ImportGestionnaireReseauProps = {
   request: Request
-  tâches: Array<TâcheProps>
+  tâches: Array<
+    {
+      id: string
+      type: 'maj-date-mise-en-service'
+      date: Date
+    } & (
+      | {
+          état: 'en cours'
+        }
+      | {
+          état: 'terminée'
+          résultat: {
+            succès: number
+            échec: number
+          }
+        }
+    )
+  >
   résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
@@ -146,8 +165,13 @@ export const ImportGestionnaireReseau = ({
           </Button>
         </form>
       </div>
-      <div className="panel">
-        <h4>Liste des mises à jour :</h4>
+      <div className="panel flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <h4 className="m-0 p-0">Liste des mises à jour :</h4>
+          <SecondaryLinkButton href={request.path}>
+            <RefreshIcon className="h-4 w-4 mr-2" /> Actualiser
+          </SecondaryLinkButton>
+        </div>
 
         {tâches.length === 0 && (
           <div className="flex p-16 border border-dashed border-grey-625-base">

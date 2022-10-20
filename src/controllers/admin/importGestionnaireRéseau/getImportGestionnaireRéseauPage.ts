@@ -13,6 +13,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       return response.send(
         ImportGestionnaireReseauPage({
           request,
+          tâches: [],
           résultatSoumissionFormulaire: getFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU),
         })
       )
