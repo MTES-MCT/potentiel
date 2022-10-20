@@ -10,7 +10,7 @@ export default TâchesProjector.on(
     const { tâcheId } = payload
 
     try {
-      Tâches.create(
+      await Tâches.create(
         {
           id: tâcheId,
           type: 'maj-date-mise-en-service',

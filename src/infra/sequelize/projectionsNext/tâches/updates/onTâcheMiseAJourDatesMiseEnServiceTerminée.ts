@@ -11,7 +11,7 @@ export default TâchesProjector.on(
     const { nombreDeSucces, nombreDEchecs } = countEchecsSuccess(résultat)
 
     try {
-      Tâches.update(
+      await Tâches.update(
         {
           dateDeFin: occurredAt,
           nombreDeSucces,

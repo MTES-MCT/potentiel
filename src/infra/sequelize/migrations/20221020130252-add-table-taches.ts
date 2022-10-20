@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface: QueryInterface) {
     await queryInterface.createTable('taches', {
       id: {
-        type: DataTypes.UUID,
+        type: DataTypes.STRING,
         primaryKey: true,
       },
       type: {

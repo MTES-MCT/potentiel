@@ -13,12 +13,12 @@ class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttributes<T�
   nombreDEchecs?: number
 }
 
-const nomProjection = 'tasks'
+const nomProjection = 'taches'
 
 Tâches.init(
   {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.STRING,
       primaryKey: true,
     },
     type: {
