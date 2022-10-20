@@ -51,7 +51,9 @@ const Tâche: FC<TâcheProps> = (props) => {
             {état}
           </Badge>
         </div>
-        <p className="m-0 p-0 text-sm text-grey-625-base">Démarrée le {format(date, 'P à p')}</p>
+        <p className="m-0 p-0 text-sm text-grey-625-base">
+          {état === 'en cours' ? 'Démarrée' : 'Terminée'} le {format(date, 'P à p')}
+        </p>
       </div>
       {état === 'terminée' && (
         <div className="flex flex-col lg:flex-row gap-1">
