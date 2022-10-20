@@ -2,16 +2,11 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequ
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
-type TasksPayload = {
-  nombreDeSucces: number
-  nombreDEchecs: number
-}
+export type TâchesType = 'maj-date-mise-en-service'
 
-export type TaskType = 'maj-date-mise-en-service'
-
-class Tasks extends Model<InferAttributes<Tasks>, InferCreationAttributes<Tasks>> {
+class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttributes<Tâches>> {
   id: string
-  type: TaskType
+  type: TâchesType
   dateDeDébut: Date
   dateDeFin?: Date
   nombreDeSucces?: number
@@ -20,7 +15,7 @@ class Tasks extends Model<InferAttributes<Tasks>, InferCreationAttributes<Tasks>
 
 const nomProjection = 'tasks'
 
-Tasks.init(
+Tâches.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -55,6 +50,6 @@ Tasks.init(
   }
 )
 
-const TasksProjector = makeSequelizeProjector(Tasks, nomProjection)
+const TâchesProjector = makeSequelizeProjector(Tâches, nomProjection)
 
-export { Tasks, TasksProjector }
+export { Tâches, TâchesProjector }

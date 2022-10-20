@@ -3,7 +3,7 @@ import { QueryInterface, DataTypes } from 'sequelize'
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.createTable('tasks', {
+    await queryInterface.createTable('taches', {
       id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -34,6 +34,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable('tasks')
+    await queryInterface.dropTable('taches')
   },
 }

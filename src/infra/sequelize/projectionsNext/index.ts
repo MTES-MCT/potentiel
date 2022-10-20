@@ -1,2 +1,2 @@
 export * from './projectEvents'
-export * from './tasks'
+export * from './tâches'

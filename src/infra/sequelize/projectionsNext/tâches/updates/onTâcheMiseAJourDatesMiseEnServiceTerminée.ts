@@ -1,9 +1,9 @@
 import { logger } from '@core/utils'
 import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/gestionnaireRéseau/events'
 import { ProjectionEnEchec } from '@modules/shared'
-import { TasksProjector, Tasks } from '../tasks.model'
+import { TâchesProjector, Tâches } from '../tâches.model'
 
-export default TasksProjector.on(
+export default TâchesProjector.on(
   TâcheMiseAJourDatesMiseEnServiceTerminée,
   async (évènement, transaction) => {
     const { payload, occurredAt } = évènement
@@ -11,7 +11,7 @@ export default TasksProjector.on(
     const { nombreDeSucces, nombreDEchecs } = countEchecsSuccess(résultat)
 
     try {
-      Tasks.update(
+      Tâches.update(
         {
           dateDeFin: occurredAt,
           nombreDeSucces,
