@@ -2,11 +2,10 @@ import { EventStore } from '@core/domain'
 import { ResultAsync } from '@core/utils'
 import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
+import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
 
 type Dépendances = {
-  getProjetsParIdentifiantGestionnaireRéseau: (
-    identifiantGestionnaireRéseau: Array<string>
-  ) => ResultAsync<Record<string, Array<{ id: string }>>, InfraNotAvailableError>
+  getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
   renseignerDateMiseEnService: (commande: {
     projetId: string
     dateMiseEnService: Date
