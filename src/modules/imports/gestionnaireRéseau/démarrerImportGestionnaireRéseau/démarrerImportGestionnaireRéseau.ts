@@ -13,6 +13,7 @@ import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourOblig
 type MakeDémarrerImportGestionnaireRéseauDépendances = {
   importRepo: TransactionalRepository<ImportGestionnaireRéseau>
   publishToEventStore: EventStore['publish']
+  now: Date
 }
 
 export type DémarrerImportGestionnaireRéseauCommande = {
@@ -22,7 +23,11 @@ export type DémarrerImportGestionnaireRéseauCommande = {
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
-  ({ importRepo, publishToEventStore }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
+  ({
+    importRepo,
+    publishToEventStore,
+    now = new Date(),
+  }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
   (commande: DémarrerImportGestionnaireRéseauCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
@@ -45,7 +50,7 @@ export const makeDémarrerImportGestionnaireRéseau =
           new TâcheMiseAJourDatesMiseEnServiceDémarrée({
             payload: {
               tâcheId: formatTaskId({
-                date: importGestionnaireRéseau.dateDeDébut,
+                date: now.getTime(),
                 type: 'maj-date-mise-en-service',
               }).toString(),
               misAJourPar: utilisateur.id,

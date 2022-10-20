@@ -10,10 +10,8 @@ import { makeDémarrerImportGestionnaireRéseau } from './démarrerImportGestion
 
 describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const importDémarrable = {
-    état: undefined,
-    dateDeDébut: new Date('2020-01-01').getTime(),
-  } as ImportGestionnaireRéseau
+  const importDémarrable = { état: undefined } as ImportGestionnaireRéseau
+  const now = new Date('2020-01-01')
   const adminAutorisé = { role: 'admin', id: 'administrateur-potentiel' } as User
   const utilisateursAutorisés = [
     adminAutorisé,
@@ -35,6 +33,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
           importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
+          now,
         })
 
         const démarrage = await démarrerImportGestionnaireRéseau({
@@ -58,6 +57,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo({ état: 'en cours' } as ImportGestionnaireRéseau),
         publishToEventStore,
+        now,
       })
 
       const démarrage = await démarrerImportGestionnaireRéseau({
@@ -79,6 +79,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
         importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
+        now,
       })
 
       const démarrage = await démarrerImportGestionnaireRéseau({
@@ -101,6 +102,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
           importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
+          now,
         })
 
         const démarrage = await démarrerImportGestionnaireRéseau({
