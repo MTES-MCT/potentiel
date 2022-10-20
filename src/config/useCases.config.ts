@@ -91,7 +91,7 @@ import {
   projectClaimRepo,
   projectRepo,
   userRepo,
-  importGestionnaireRéseauRepo,
+  importRepo,
 } from './repos.config'
 import { sendNotification } from '@config/emails.config'
 import {
@@ -445,6 +445,6 @@ export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévoca
 })
 
 export const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-  importGestionnaireRéseauRepo,
+  importRepo,
   publishToEventStore,
 })

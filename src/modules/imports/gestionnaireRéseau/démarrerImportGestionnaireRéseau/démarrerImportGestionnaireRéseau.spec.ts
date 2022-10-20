@@ -30,7 +30,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       it(`Lorsqu'un utilisateur ${role} démarre un import pour le gestionnaire de réseau Enedis
           Alors il devrait être averti qu'il n'est pas autorisé à faire un import`, async () => {
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-          importGestionnaireRéseauRepo: fakeTransactionalRepo(importDémarrable),
+          importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
         })
 
@@ -53,7 +53,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
         Alors on devrait être averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-        importGestionnaireRéseauRepo: fakeTransactionalRepo({
+        importRepo: fakeTransactionalRepo({
           état: 'en cours',
         } as ImportGestionnaireRéseau),
         publishToEventStore,
@@ -76,7 +76,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     it(`Lorsqu'on démarre un import sans données de mise à jour
         Alors on devrait être averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-        importGestionnaireRéseauRepo: fakeTransactionalRepo(importDémarrable),
+        importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
       })
 
@@ -98,7 +98,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
       it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis avec des dates de mise en service
         Alors la mise à jour des dates de mise en service est démarrée`, async () => {
         const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-          importGestionnaireRéseauRepo: fakeTransactionalRepo(importDémarrable),
+          importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
         })
 
