@@ -157,21 +157,21 @@ export const ImportGestionnaireReseau = ({
           </SecondaryLinkButton>
         </div>
 
-        {tâches.length === 0 && (
+        {tâches.length === 0 ? (
           <div className="flex p-16 border border-dashed border-grey-625-base">
             <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
           </div>
+        ) : (
+          <ul className="m-0 p-0 list-none">
+            {tâches.map((tâche, index) => (
+              <li key={`tâche-${index}`} className="m-0 mb-3 p-0">
+                <Tile>
+                  <Tâche {...tâche} />
+                </Tile>
+              </li>
+            ))}
+          </ul>
         )}
-
-        <ul className="m-0 p-0 list-none">
-          {tâches.map((tâche, index) => (
-            <li key={`tâche-${index}`} className="m-0 mb-3 p-0">
-              <Tile>
-                <Tâche {...tâche} />
-              </Tile>
-            </li>
-          ))}
-        </ul>
       </div>
     </AdminDashboard>
   </PageTemplate>
