@@ -39,6 +39,30 @@ describe('Renseigner une date de mise en service', () => {
     })
   })
 
+  describe(`Ne pas renseigner une date de mise en service si identique à celle du projet`, () => {
+    it(`Lorsqu'on renseigne une nouvelle date de mise en service et que celle-ci est identique à celle du projet
+        Alors aucun évènment ne devrait être émis`, async () => {
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        id: projetId,
+        dateMiseEnService: new Date('2022-01-01'),
+      } as Project)
+
+      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+        publishToEventStore,
+        projectRepo,
+      })
+
+      const résultat = await renseignerDateMiseEnService({
+        projetId,
+        dateMiseEnService: new Date('2022-01-01'),
+      })
+
+      expect(résultat.isOk()).toBe(true)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
   describe(`Renseigner une date de mise en service`, () => {
     it(`Lorsqu'on renseigne pour un projet une nouvelle date de mise en service
         Alors cette date de mise en service du projet devrait être celle du projet`, async () => {

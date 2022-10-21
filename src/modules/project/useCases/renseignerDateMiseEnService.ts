@@ -17,6 +17,11 @@ type MakeRenseignerDateMiseEnService = (dépendances: {
   projectRepo: Repository<Project>
 }) => RenseignerDateMiseEnService
 
+type Résultat = {
+  commande: Commande
+  projet: Project
+}
+
 export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = ({
   publishToEventStore,
   projectRepo,
@@ -27,10 +32,7 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
       projet,
     }))
 
-  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = (résultat: {
-    commande: Commande
-    projet: Project
-  }) => {
+  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = (résultat: Résultat) => {
     const { commande, projet } = résultat
 
     if (
@@ -40,18 +42,23 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
       return errAsync(new DateMiseEnServicePlusRécenteError())
     }
 
-    return okAsync(commande)
+    return okAsync({ projet, commande })
   }
 
-  const enregistrerDateMiseEnService = ({ projetId, dateMiseEnService }: Commande) =>
-    publishToEventStore(
-      new DateMiseEnServiceRenseignée({
-        payload: {
-          projetId,
-          dateMiseEnService: dateMiseEnService.toISOString(),
-        },
-      })
-    )
+  const enregistrerDateMiseEnService = ({
+    projet,
+    commande: { projetId, dateMiseEnService },
+  }: Résultat) =>
+    projet.dateMiseEnService?.getTime() === dateMiseEnService.getTime()
+      ? okAsync(null)
+      : publishToEventStore(
+          new DateMiseEnServiceRenseignée({
+            payload: {
+              projetId,
+              dateMiseEnService: dateMiseEnService.toISOString(),
+            },
+          })
+        )
 
   return (commande) =>
     chargerProjet(commande)
