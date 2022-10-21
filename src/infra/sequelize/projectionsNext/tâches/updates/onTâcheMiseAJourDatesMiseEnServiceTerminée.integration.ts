@@ -11,10 +11,15 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     await resetDatabase()
   })
 
-  it(`Étant donné une tache en base de donnée
-      Lorsque un énement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient
-      Alors la tâche devrait être mise à jour avec le type avec une date de fin, 
-      un nombre de succès et un nombre d'échecs`, async () => {
+  it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
+        - le gestionnaire Enedis
+        - la date de début au 2022-01-05
+      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+        - le gestionnaire Enedis
+      Alors la tâche devrait être 'terminée' avec :
+        - une date de fin, 
+        - un nombre de succès
+        - et un nombre d'échecs`, async () => {
     await Tâches.create({
       id: 1,
       type: 'maj-date-mise-en-service',
@@ -51,6 +56,75 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       dateDeFin: occurredAt,
       nombreDeSucces: 2,
       nombreDEchecs: 1,
+    })
+  })
+
+  it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
+        - le gestionnaire Enedis
+        - la date de début au 2022-01-05
+      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+      Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
+        - le gestionnaire Enercoop
+        - la date de début au 2022-01-05
+      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+        - le gestionnaire Enedis
+      Alors seulement la tâche du gestionnaire Enedis devrait être 'terminée' avec :
+        - une date de fin, 
+        - un nombre de succès
+        - et un nombre d'échecs`, async () => {
+    await Tâches.bulkCreate([
+      {
+        id: 1,
+        type: 'maj-date-mise-en-service',
+        gestionnaire,
+        état: 'en cours',
+        dateDeDébut: new Date('2022-01-05'),
+      },
+      {
+        id: 2,
+        type: 'maj-date-mise-en-service',
+        gestionnaire: 'Enercoop',
+        état: 'en cours',
+        dateDeDébut: new Date('2022-01-05'),
+      },
+    ])
+
+    await onTâcheMiseAJourDatesMiseEnServiceTerminée(
+      new TâcheMiseAJourDatesMiseEnServiceTerminée({
+        payload: {
+          gestionnaire,
+          résultat: [
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
+          ],
+        },
+        original: {
+          version: 1,
+          occurredAt,
+        },
+      })
+    )
+
+    const tâcheEnedis = await Tâches.findOne({
+      where: {
+        id: 1,
+      },
+    })
+    expect(tâcheEnedis).toMatchObject({
+      état: 'terminée',
+      dateDeFin: occurredAt,
+      nombreDeSucces: 2,
+      nombreDEchecs: 1,
+    })
+
+    const tâcheEneercoop = await Tâches.findOne({
+      where: {
+        id: 2,
+      },
+    })
+    expect(tâcheEneercoop).toMatchObject({
+      état: 'en cours',
     })
   })
 })

@@ -12,7 +12,9 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
   })
 
   it(`Lorsque un énement de type 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
-      Alors une nouvelle tâche devrait être inséréé dans Tasks avec le type 'maj-date-mise-en-service'`, async () => {
+      Alors une nouvelle tâche 'en cours' de mise a jour de date de mise en service devrait être créée avec :
+        - le gestionnaire 
+        - la date de début`, async () => {
     await onTâcheMiseAJourDatesMiseEnServiceDémarrée(
       new TâcheMiseAJourDatesMiseEnServiceDémarrée({
         payload: {
@@ -38,6 +40,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
 
     expect(tâche).not.toBeNull()
     expect(tâche).toMatchObject({
+      id: expect.any(Number),
       gestionnaire,
       état: 'en cours',
       type: 'maj-date-mise-en-service',
