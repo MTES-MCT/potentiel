@@ -8,24 +8,25 @@ export const Default = () => (
     request={{} as any}
     tâches={[
       {
-        id: '',
         type: 'maj-date-mise-en-service',
-        date: new Date(),
         état: 'en cours',
+        dateDeDébut: new Date(),
       },
       {
-        id: '',
         type: 'maj-date-mise-en-service',
-        date: new Date(),
         état: 'terminée',
-        résultat: { succès: 12, échec: 0 },
+        dateDeDébut: new Date(),
+        dateDeFin: new Date(),
+        nombreDEchecs: 0,
+        nombreDeSucces: 12,
       },
       {
-        id: '',
         type: 'maj-date-mise-en-service',
-        date: new Date(),
         état: 'terminée',
-        résultat: { succès: 12, échec: 3 },
+        dateDeDébut: new Date(),
+        dateDeFin: new Date(),
+        nombreDEchecs: 3,
+        nombreDeSucces: 12,
       },
     ]}
   />

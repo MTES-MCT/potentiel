@@ -24,24 +24,22 @@ type ErreurValidationCsv = {
 }
 
 type TâcheProps = {
-  id: string
   type: 'maj-date-mise-en-service'
-  date: Date
+  dateDeDébut: Date
 } & (
   | {
       état: 'en cours'
     }
   | {
       état: 'terminée'
-      résultat: {
-        succès: number
-        échec: number
-      }
+      dateDeFin: Date
+      nombreDeSucces: number
+      nombreDEchecs: number
     }
 )
 
 const Tâche: FC<TâcheProps> = (props) => {
-  const { état, date } = props
+  const { état, dateDeDébut } = props
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
@@ -52,21 +50,22 @@ const Tâche: FC<TâcheProps> = (props) => {
           </Badge>
         </div>
         <p className="m-0 p-0 text-sm text-grey-625-base">
-          {état === 'en cours' ? 'Démarrée' : 'Terminée'} le {format(date, 'P à p')}
+          {état === 'en cours' && `Démarrée le ${format(dateDeDébut, 'P à p')}`}
+          {état === 'terminée' && `Terminée le ${format(props.dateDeFin, 'P à p')}`}
         </p>
       </div>
       {état === 'terminée' && (
         <div className="flex flex-col lg:flex-row gap-1">
-          {props.résultat.succès > 0 && (
+          {props.nombreDeSucces > 0 && (
             <div className="flex items-center text-sm lg:mr-4">
               <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
-              {props.résultat.succès} projets ont été mis à jour
+              {props.nombreDeSucces} projets ont été mis à jour
             </div>
           )}
-          {props.résultat.échec > 0 && (
+          {props.nombreDEchecs > 0 && (
             <div className="flex items-center text-sm">
               <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
-              {props.résultat.échec} mises à jour ont échouées
+              {props.nombreDEchecs} mises à jour ont échouées
             </div>
           )}
         </div>
@@ -77,24 +76,7 @@ const Tâche: FC<TâcheProps> = (props) => {
 
 type ImportGestionnaireReseauProps = {
   request: Request
-  tâches: Array<
-    {
-      id: string
-      type: 'maj-date-mise-en-service'
-      date: Date
-    } & (
-      | {
-          état: 'en cours'
-        }
-      | {
-          état: 'terminée'
-          résultat: {
-            succès: number
-            échec: number
-          }
-        }
-    )
-  >
+  tâches: Array<TâcheProps>
   résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
@@ -182,8 +164,8 @@ export const ImportGestionnaireReseau = ({
         )}
 
         <ul className="m-0 p-0 list-none">
-          {tâches.map((tâche) => (
-            <li key={tâche.id} className="m-0 mb-3 p-0">
+          {tâches.map((tâche, index) => (
+            <li key={`tâche-${index}`} className="m-0 mb-3 p-0">
               <Tile>
                 <Tâche {...tâche} />
               </Tile>
