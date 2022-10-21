@@ -62,8 +62,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enedis
         - la date de début au 2022-01-05
-      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
-      Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
+        Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enercoop
         - la date de début au 2022-01-05
       Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
