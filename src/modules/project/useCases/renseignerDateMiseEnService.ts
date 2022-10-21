@@ -17,11 +17,6 @@ type MakeRenseignerDateMiseEnService = (dépendances: {
   projectRepo: Repository<Project>
 }) => RenseignerDateMiseEnService
 
-type Résultat = {
-  commande: Commande
-  projet: Project
-}
-
 export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = ({
   publishToEventStore,
   projectRepo,
@@ -32,9 +27,13 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
       projet,
     }))
 
-  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = (résultat: Résultat) => {
-    const { commande, projet } = résultat
-
+  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = ({
+    commande,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+  }) => {
     if (
       projet.dateMiseEnService &&
       projet.dateMiseEnService.getTime() < commande.dateMiseEnService.getTime()
@@ -45,23 +44,22 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDateMiseEnService = ({
-    projet,
-    commande: { projetId, dateMiseEnService },
-  }: Résultat) =>
-    projet.dateMiseEnService?.getTime() === dateMiseEnService.getTime()
-      ? okAsync(null)
-      : publishToEventStore(
-          new DateMiseEnServiceRenseignée({
-            payload: {
-              projetId,
-              dateMiseEnService: dateMiseEnService.toISOString(),
-            },
-          })
-        )
+  const enregistrerDateMiseEnService = ({ projetId, dateMiseEnService }: Commande) =>
+    publishToEventStore(
+      new DateMiseEnServiceRenseignée({
+        payload: {
+          projetId,
+          dateMiseEnService: dateMiseEnService.toISOString(),
+        },
+      })
+    )
 
   return (commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
-      .andThen(enregistrerDateMiseEnService)
+      .andThen(({ projet, commande }) =>
+        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService.getTime()
+          ? okAsync(null)
+          : enregistrerDateMiseEnService(commande)
+      )
 }
