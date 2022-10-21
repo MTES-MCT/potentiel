@@ -5,6 +5,7 @@ import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDat
 
 describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   const occurredAt = new Date('2022-01-05')
+  const gestionnaire = 'Enedis'
 
   beforeEach(async () => {
     await resetDatabase()
@@ -15,16 +16,17 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       Alors la tâche devrait être mise à jour avec le type avec une date de fin, 
       un nombre de succès et un nombre d'échecs`, async () => {
     await Tâches.create({
-      id: 'tâche-id',
+      id: 1,
       type: 'maj-date-mise-en-service',
+      gestionnaire,
+      état: 'en cours',
       dateDeDébut: new Date(),
     })
 
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
       new TâcheMiseAJourDatesMiseEnServiceTerminée({
         payload: {
-          tâcheId: 'tâche-id',
-          gestionnaire: 'Enedis',
+          gestionnaire,
           résultat: [
             { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
             { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
@@ -39,11 +41,13 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     )
 
     const tâche = await Tâches.findOne({
-      where: { id: 'tâche-id' },
+      where: {
+        id: 1,
+      },
     })
 
+    expect(tâche).not.toBeNull()
     expect(tâche).toMatchObject({
-      id: 'tâche-id',
       dateDeFin: occurredAt,
       nombreDeSucces: 2,
       nombreDEchecs: 1,

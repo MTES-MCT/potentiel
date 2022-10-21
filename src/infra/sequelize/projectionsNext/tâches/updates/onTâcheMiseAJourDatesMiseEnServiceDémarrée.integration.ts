@@ -5,6 +5,7 @@ import onTâcheMiseAJourDatesMiseEnServiceDémarrée from './onTâcheMiseAJourDa
 
 describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
   const occurredAt = new Date('2022-01-04')
+  const gestionnaire = 'Enedis'
 
   beforeEach(async () => {
     await resetDatabase()
@@ -15,9 +16,8 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
     await onTâcheMiseAJourDatesMiseEnServiceDémarrée(
       new TâcheMiseAJourDatesMiseEnServiceDémarrée({
         payload: {
-          tâcheId: 'tâche-id',
           misAJourPar: 'misAJourPar-id',
-          gestionnaire: 'Enedis',
+          gestionnaire,
           dates: [],
         },
         original: {
@@ -28,11 +28,18 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
     )
 
     const tâche = await Tâches.findOne({
-      where: { id: 'tâche-id' },
+      where: {
+        gestionnaire,
+        type: 'maj-date-mise-en-service',
+        état: 'en cours',
+        dateDeDébut: occurredAt,
+      },
     })
 
+    expect(tâche).not.toBeNull()
     expect(tâche).toMatchObject({
-      id: 'tâche-id',
+      gestionnaire,
+      état: 'en cours',
       type: 'maj-date-mise-en-service',
       dateDeDébut: occurredAt,
     })

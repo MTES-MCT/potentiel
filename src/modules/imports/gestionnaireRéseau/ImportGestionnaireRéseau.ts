@@ -6,7 +6,6 @@ import {
 } from './events'
 
 export type ImportGestionnaireRéseau = EventStoreAggregate & {
-  dateDeDébut: number
   état: 'en cours' | 'terminé' | undefined
   tâchesEnCours: Array<{
     type: 'maj-date-mise-en-service'
@@ -22,7 +21,6 @@ export const makeImportGestionnaireRéseau = (args: {
   const agregatParDefaut: ImportGestionnaireRéseau = {
     id,
     pendingEvents: [],
-    dateDeDébut: undefined!,
     état: undefined,
     tâchesEnCours: [],
   }
@@ -32,7 +30,6 @@ export const makeImportGestionnaireRéseau = (args: {
       case TâcheMiseAJourDatesMiseEnServiceDémarrée.type:
         return {
           ...agregat,
-          dateDeDébut: event.occurredAt.getTime(),
           tâchesEnCours: [...agregat.tâchesEnCours, { type: 'maj-date-mise-en-service' }],
           état: 'en cours',
         }

@@ -1,4 +1,3 @@
-import { formatTaskId } from '../TâcheId'
 import { EventStore, TransactionalRepository } from '@core/domain'
 import { User } from '@entities'
 import { UnauthorizedError } from '@modules/shared'
@@ -13,7 +12,6 @@ import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourOblig
 type MakeDémarrerImportGestionnaireRéseauDépendances = {
   importRepo: TransactionalRepository<ImportGestionnaireRéseau>
   publishToEventStore: EventStore['publish']
-  now: Date
 }
 
 export type DémarrerImportGestionnaireRéseauCommande = {
@@ -23,11 +21,7 @@ export type DémarrerImportGestionnaireRéseauCommande = {
 }
 
 export const makeDémarrerImportGestionnaireRéseau =
-  ({
-    importRepo,
-    publishToEventStore,
-    now = new Date(),
-  }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
+  ({ importRepo, publishToEventStore }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
   (commande: DémarrerImportGestionnaireRéseauCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
@@ -49,10 +43,6 @@ export const makeDémarrerImportGestionnaireRéseau =
         return publishToEventStore(
           new TâcheMiseAJourDatesMiseEnServiceDémarrée({
             payload: {
-              tâcheId: formatTaskId({
-                date: now.getTime(),
-                type: 'maj-date-mise-en-service',
-              }).toString(),
               misAJourPar: utilisateur.id,
               gestionnaire,
               dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({

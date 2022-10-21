@@ -14,7 +14,6 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
             dates: [
@@ -24,7 +23,6 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
               },
             ],
           },
-          original: { version: 1, occurredAt: new Date('2020-01-01') },
         }),
       ],
     })
@@ -32,7 +30,6 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
-      dateDeDébut: new Date('2020-01-01').getTime(),
       tâchesEnCours: [
         {
           type: 'maj-date-mise-en-service',
@@ -48,7 +45,6 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
             dates: [
@@ -58,11 +54,9 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
               },
             ],
           },
-          original: { version: 1, occurredAt: new Date('2020-01-01') },
         }),
         new TâcheMiseAJourDatesMiseEnServiceTerminée({
           payload: {
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             gestionnaire: 'Enedis',
             résultat: [],
           },
@@ -72,7 +66,6 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
 
     expect(importGestionnaireRéseau.isOk()).toBe(true)
     expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
-      dateDeDébut: new Date('2020-01-01').getTime(),
       état: 'terminé',
       tâchesEnCours: [],
     })

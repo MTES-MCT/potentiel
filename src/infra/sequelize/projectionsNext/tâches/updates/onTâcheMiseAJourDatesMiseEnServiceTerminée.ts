@@ -6,19 +6,26 @@ import { TâchesProjector, Tâches } from '../tâches.model'
 export default TâchesProjector.on(
   TâcheMiseAJourDatesMiseEnServiceTerminée,
   async (évènement, transaction) => {
-    const { payload, occurredAt } = évènement
-    const { résultat, tâcheId } = payload
+    const {
+      payload: { résultat, gestionnaire },
+      occurredAt,
+    } = évènement
     const { nombreDeSucces, nombreDEchecs } = countEchecsSuccess(résultat)
 
     try {
       await Tâches.update(
         {
+          état: 'terminée',
           dateDeFin: occurredAt,
           nombreDeSucces,
           nombreDEchecs,
         },
         {
-          where: { id: tâcheId },
+          where: {
+            gestionnaire,
+            état: 'en cours',
+            type: 'maj-date-mise-en-service',
+          },
           transaction,
         }
       )

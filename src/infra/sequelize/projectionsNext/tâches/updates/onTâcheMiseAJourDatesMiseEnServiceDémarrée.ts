@@ -6,14 +6,17 @@ import { TâchesProjector, Tâches } from '../tâches.model'
 export default TâchesProjector.on(
   TâcheMiseAJourDatesMiseEnServiceDémarrée,
   async (évènement, transaction) => {
-    const { payload, occurredAt } = évènement
-    const { tâcheId } = payload
+    const {
+      payload: { gestionnaire },
+      occurredAt,
+    } = évènement
 
     try {
       await Tâches.create(
         {
-          id: tâcheId,
+          gestionnaire,
           type: 'maj-date-mise-en-service',
+          état: 'en cours',
           dateDeDébut: occurredAt,
         },
         {

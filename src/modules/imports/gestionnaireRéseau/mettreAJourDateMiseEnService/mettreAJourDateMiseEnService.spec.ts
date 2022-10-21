@@ -1,7 +1,5 @@
 import { errAsync, okAsync } from '@core/utils'
 import { makeMettreAJourDateMiseEnService } from './mettreAJourDateMiseEnService'
-import { fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
-import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
 
 describe(`Mettre à jour les dates de mise en service`, () => {
   const publishToEventStore = jest.fn(() => okAsync(null))
@@ -17,7 +15,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
         Alors la date de mise en service des projets correspondant devrait être renseignée
         Et la tâche devrait être terminée avec le résultat des mises à jour`, async () => {
-      const dateDeDébut = new Date('2020-01-01').getTime()
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -34,7 +31,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           }),
         renseignerDateMiseEnService,
         publishToEventStore,
-        importRepo: fakeTransactionalRepo({ dateDeDébut } as ImportGestionnaireRéseau),
       })
 
       const miseAJour = await mettreAJourDateMiseEnService({
@@ -69,7 +65,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             résultat: [
               {
                 identifiantGestionnaireRéseau: 'NUM-GEST-1',
@@ -96,7 +91,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
-      const dateDeDébut = new Date('2020-01-01').getTime()
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -116,7 +110,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           }),
         renseignerDateMiseEnService,
         publishToEventStore,
-        importRepo: fakeTransactionalRepo({ dateDeDébut } as ImportGestionnaireRéseau),
       })
 
       const miseAJour = await mettreAJourDateMiseEnService({
@@ -151,7 +144,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
               {
@@ -179,7 +171,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Aucun projet ne correspond à l'identifiant'`, async () => {
-      const dateDeDébut = new Date('2020-01-01').getTime()
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -192,7 +183,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           }),
         renseignerDateMiseEnService,
         publishToEventStore,
-        importRepo: fakeTransactionalRepo({ dateDeDébut } as ImportGestionnaireRéseau),
       })
 
       const miseAJour = await mettreAJourDateMiseEnService({
@@ -227,7 +217,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
               {
@@ -253,7 +242,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Alors la date de mise en service ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
         Et le résultat devrait être en 'échec' avec la raison 'La date est plus récente que l'actuelle'`, async () => {
-      const dateDeDébut = new Date('2020-01-01').getTime()
       const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -266,7 +254,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         renseignerDateMiseEnService: () =>
           errAsync(new Error(`La date est plus récente que l'actuelle`)),
         publishToEventStore,
-        importRepo: fakeTransactionalRepo({ dateDeDébut } as ImportGestionnaireRéseau),
       })
 
       const miseAJour = await mettreAJourDateMiseEnService({
@@ -286,7 +273,6 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           aggregateId: 'import-gestionnaire-réseau#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
-            tâcheId: '1577836800000#maj-date-mise-en-service',
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
               {

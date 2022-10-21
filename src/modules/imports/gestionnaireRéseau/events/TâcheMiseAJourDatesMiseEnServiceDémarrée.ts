@@ -2,7 +2,6 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
 type TâcheMiseAJourDatesMiseEnServiceDémarréePayload = {
-  tâcheId: string
   misAJourPar: string
   gestionnaire: string
   dates: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: string }>
