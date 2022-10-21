@@ -73,6 +73,7 @@ import {
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
   getProjectIdsForPeriode,
+  getProjetsParIdentifiantGestionnaireRéseau,
   getPuissanceProjet,
   getUserByEmail,
   getUserById,
@@ -100,7 +101,10 @@ import {
   makeNotifierPorteurRévocationAccèsProjet,
 } from '@modules/notification'
 
-import { makeDémarrerImportGestionnaireRéseau } from '@modules/imports/gestionnaireRéseau'
+import {
+  makeDémarrerImportGestionnaireRéseau,
+  makeMettreAJourDateMiseEnService,
+} from '@modules/imports/gestionnaireRéseau'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -453,4 +457,10 @@ export const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnair
 export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
   projectRepo,
   publishToEventStore,
+})
+
+export const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+  getProjetsParIdentifiantGestionnaireRéseau,
+  publishToEventStore,
+  renseignerDateMiseEnService,
 })
