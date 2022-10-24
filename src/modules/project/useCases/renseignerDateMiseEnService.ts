@@ -27,12 +27,13 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
       projet,
     }))
 
-  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = (résultat: {
+  const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = ({
+    commande,
+    projet,
+  }: {
     commande: Commande
     projet: Project
   }) => {
-    const { commande, projet } = résultat
-
     if (
       projet.dateMiseEnService &&
       projet.dateMiseEnService.getTime() < commande.dateMiseEnService.getTime()
@@ -40,7 +41,7 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
       return errAsync(new DateMiseEnServicePlusRécenteError())
     }
 
-    return okAsync(commande)
+    return okAsync({ projet, commande })
   }
 
   const enregistrerDateMiseEnService = ({ projetId, dateMiseEnService }: Commande) =>
@@ -56,5 +57,9 @@ export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = 
   return (commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
-      .andThen(enregistrerDateMiseEnService)
+      .andThen(({ projet, commande }) =>
+        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService.getTime()
+          ? okAsync(null)
+          : enregistrerDateMiseEnService(commande)
+      )
 }
