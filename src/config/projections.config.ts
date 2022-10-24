@@ -1,4 +1,9 @@
-import { initProjections, initProjectors, ProjectEventProjector } from '@infra/sequelize'
+import {
+  initProjections,
+  initProjectors,
+  ProjectEventProjector,
+  TâchesProjector,
+} from '@infra/sequelize'
 import { subscribeToRedis } from './eventBus.config'
 import { eventStore } from './eventStore.config'
 
@@ -9,7 +14,7 @@ initProjections(eventStore)
 const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
-const projectorsNext = [ProjectEventProjector].map((projector) => {
+const projectorsNext = [ProjectEventProjector, TâchesProjector].map((projector) => {
   projector.initEventStream({
     subscribe: subscribeToRedis,
   })

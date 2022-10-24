@@ -67,10 +67,40 @@ module.exports = {
           hover: '#ff6218',
           active: '#ff7a55',
         },
+        'warning-950': {
+          base: '#ffe9e6',
+          hover: '#ffc6bd',
+          active: '#ffb0a2',
+        },
         'info-425': {
           base: '#0063cb',
           hover: '#3b87ff',
           active: '#3b87ff',
+        },
+        'info-950': {
+          base: '#e8edff',
+          hover: '#c2d1ff',
+          active: '#a9bfff',
+        },
+        'success-425': {
+          base: '#18753c',
+          hover: '#27a959',
+          active: '#2fc368',
+        },
+        'success-950': {
+          base: '#b8fec9',
+          hover: '#46fd89',
+          active: '#34eb7b',
+        },
+        'error-425': {
+          base: '#ce0500',
+          hover: '#ff2725',
+          active: '#ff4140',
+        },
+        'error-950': {
+          base: '#ffe9e9',
+          hover: '#ffc5c5',
+          active: '#ffafaf',
         },
       },
     },
