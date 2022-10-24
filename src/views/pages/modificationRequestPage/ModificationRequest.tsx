@@ -8,6 +8,7 @@ import {
   PageTemplate,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
+import { userIs } from '@modules/users'
 import ROUTES from '@routes'
 import { Request } from 'express'
 import moment from 'moment'
@@ -38,10 +39,11 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
   const { error, success } = request.query as any
   const { type, id, status } = modificationRequest
 
-  const isAdmin = ['admin', 'dgec-validateur', 'dreal'].includes(user.role)
+  const userIsAdmin = userIs(['admin', 'dgec-validateur', 'dreal'])(user)
+  const userIsAO = userIs('acheteur-obligé')(user)
 
   const showFormulaireAdministrateur =
-    isAdmin &&
+    userIsAdmin &&
     !modificationRequest.respondedOn &&
     !modificationRequest.cancelledOn &&
     status !== 'information validée'
@@ -122,20 +124,21 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
             </div>
           )}
 
-          {type === 'delai' ? (
-            <AnnulerDemandeDélaiBouton
-              status={status}
-              id={id}
-              isAdmin={isAdmin}
-              route={
-                modificationRequest.delayInMonths
-                  ? ROUTES.ANNULER_DEMANDE_ACTION
-                  : ROUTES.ANNULER_DEMANDE_DELAI
-              }
-            />
-          ) : (
-            <CancelButton status={status} id={id} isAdmin={isAdmin} />
-          )}
+          {!userIsAO &&
+            (type === 'delai' ? (
+              <AnnulerDemandeDélaiBouton
+                status={status}
+                id={id}
+                isAdmin={userIsAdmin}
+                route={
+                  modificationRequest.delayInMonths
+                    ? ROUTES.ANNULER_DEMANDE_ACTION
+                    : ROUTES.ANNULER_DEMANDE_DELAI
+                }
+              />
+            ) : (
+              <CancelButton status={status} id={id} isAdmin={userIsAdmin} />
+            ))}
         </div>
       </RoleBasedDashboard>
     </PageTemplate>
