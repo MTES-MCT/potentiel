@@ -7,12 +7,15 @@ import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 
-interface InvitationListProps {
+interface InvitationsCandidatsEnAttenteProps {
   request: Request
   invitations: PaginatedList<PendingCandidateInvitationDTO>
 }
 
-export default function InvitationList({ request, invitations }: InvitationListProps) {
+export const InvitationsCandidatsEnAttente = ({
+  request,
+  invitations,
+}: InvitationsCandidatsEnAttenteProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (

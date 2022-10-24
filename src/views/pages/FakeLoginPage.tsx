@@ -4,11 +4,11 @@ import { dataId } from '../../helpers/testId'
 import routes from '@routes'
 import { Button, PageTemplate } from '@components'
 
-interface Props {
+interface FakeLoginProps {
   request: Request
 }
 
-export default function FakeLoginPage({ request }: Props) {
+export const FakeLogin = ({ request }: FakeLoginProps) => {
   const { error } = (request.query as any) || {}
   return (
     <PageTemplate user={request.user}>

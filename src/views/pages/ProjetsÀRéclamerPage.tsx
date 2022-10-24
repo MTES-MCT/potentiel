@@ -6,7 +6,7 @@ import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { MissingOwnerProjectList, PageTemplate } from '@components'
 
-interface ListMissingOwnerProjectsProps {
+interface ProjetsÀRéclamerProps {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
@@ -15,14 +15,14 @@ interface ListMissingOwnerProjectsProps {
   existingFamilles?: Array<Famille['id']>
 }
 
-export default function ListMissingOwnerProjects({
+export const ProjetsÀRéclamer = ({
   request,
   projects,
   appelsOffre,
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
-}: ListMissingOwnerProjectsProps) {
+}: ProjetsÀRéclamerProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, classement } =
     (request.query as any) || {}
 

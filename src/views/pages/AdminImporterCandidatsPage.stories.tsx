@@ -1,19 +1,21 @@
 import React from 'react'
 import makeFakeRequest from '../../__tests__/fixtures/request'
-import AdminRegenerateCertificates from './adminRegenerateCertificates'
+import { AdminImporterCandidats } from './AdminImporterCandidatsPage'
 
-export default { title: 'Admin: Regénérer les attestations' }
+// This is static
 
-export const empty = () => <AdminRegenerateCertificates request={makeFakeRequest()} />
+export default { title: 'Import Candidates' }
+
+export const empty = () => <AdminImporterCandidats request={makeFakeRequest()} />
 
 export const withError = () => (
-  <AdminRegenerateCertificates
+  <AdminImporterCandidats
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
 
 export const withSuccess = () => (
-  <AdminRegenerateCertificates
+  <AdminImporterCandidats
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}

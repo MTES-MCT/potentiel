@@ -2,11 +2,11 @@ import { PageTemplate } from '@components'
 import React from 'react'
 import { Request } from 'express'
 
-interface InvitationsAreDeprecatedProps {
+interface LienInvitationPériméProps {
   request: Request
 }
 
-export default function InvitationsAreDeprecated({ request }: InvitationsAreDeprecatedProps) {
+export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps) => {
   return (
     <PageTemplate user={request.user}>
       <main role="main">

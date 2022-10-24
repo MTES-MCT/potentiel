@@ -5,7 +5,7 @@ import { User } from '@entities'
 import { EnsureRole, RegisterAuth } from '@modules/authN'
 import { CreateUser, GetUserByEmail } from '@modules/users'
 import routes from '@routes'
-import { FakeLoginPage } from '@views/legacy-pages'
+import { FakeLoginPage } from '@views'
 
 export interface FakeAuthDeps {
   getUserByEmail: GetUserByEmail

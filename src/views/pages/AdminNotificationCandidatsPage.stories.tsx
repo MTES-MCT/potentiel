@@ -3,10 +3,9 @@ import React from 'react'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeRequest from '../../__tests__/fixtures/request'
 
-import AdminNotifyCandidates from './adminNotifyCandidates'
-
 // This is static
 import { appelsOffreStatic } from '@dataAccess/inMemory'
+import { AdminNotificationCandidats } from './AdminNotificationCandidatsPage'
 
 export default { title: 'Notifier les candidats' }
 
@@ -14,13 +13,13 @@ const selectedAppelOffreId = appelsOffreStatic[0].id
 const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id
 
 export const withError = () => (
-  <AdminNotifyCandidates
+  <AdminNotificationCandidats
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
 )
 
 export const withSuccess = () => (
-  <AdminNotifyCandidates
+  <AdminNotificationCandidats
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
@@ -28,7 +27,7 @@ export const withSuccess = () => (
 )
 
 export const withProjects = () => (
-  <AdminNotifyCandidates
+  <AdminNotificationCandidats
     request={makeFakeRequest()}
     results={{
       selectedAppelOffreId: selectedAppelOffreId,
@@ -61,4 +60,4 @@ export const withProjects = () => (
   />
 )
 
-export const withoutProjects = () => <AdminNotifyCandidates request={makeFakeRequest()} />
+export const withoutProjects = () => <AdminNotificationCandidats request={makeFakeRequest()} />

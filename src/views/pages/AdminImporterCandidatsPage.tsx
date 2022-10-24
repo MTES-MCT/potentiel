@@ -4,19 +4,19 @@ import ROUTES from '@routes'
 import { Request } from 'express'
 import { AdminDashboard, Button, PageTemplate } from '@components'
 
-type ImportProjectsProps = {
+type AdminImporterCandidatsProps = {
   request: Request
   importErrors?: Record<number, string>
   otherError?: string
   isSuccess?: boolean
 }
 
-export default function ImportProjects({
+export const AdminImporterCandidats = ({
   request,
   importErrors,
   isSuccess,
   otherError,
-}: ImportProjectsProps) {
+}: AdminImporterCandidatsProps) => {
   return (
     <PageTemplate user={request.user}>
       <AdminDashboard role={request.user?.role} currentPage="import-projects">
