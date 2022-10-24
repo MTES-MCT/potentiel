@@ -12,7 +12,7 @@ import { userIs } from '@modules/users'
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé']),
   asyncHandler(async (request, response) => {
     const { user, cookies, query } = request
 

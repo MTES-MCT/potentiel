@@ -119,7 +119,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               </AdminResponseForm>
             </div>
           )}
-          {!isAdmin &&
+          {userIs('porteur-projet')(user) &&
             ['envoyée', 'en-instruction', 'en attente de confirmation'].includes(status) && (
               <form
                 action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION}

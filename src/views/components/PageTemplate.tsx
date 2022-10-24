@@ -65,6 +65,13 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => [
   >
     Projets
   </Header.MenuItem>,
+  <Header.MenuItem
+    key="main-menu-2"
+    href={routes.ADMIN_LIST_REQUESTS}
+    {...(currentPage === 'list-requests' && { isCurrent: true })}
+  >
+    Demandes
+  </Header.MenuItem>,
 ]
 
 const MenuAdeme = (currentPage: CurrentPage) => [
