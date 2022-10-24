@@ -533,6 +533,20 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           }),
                     })
                   }
+                  break
+                case 'DateMiseEnService':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      variant: user.role,
+                      ...(payload.statut === 'renseignée'
+                        ? {
+                            date: new Date(payload.dateMiseEnService).getTime(),
+                            statut: 'renseignée',
+                          }
+                        : { statut: 'non-renseignée' }),
+                    })
+                  }
               }
 
               return Promise.resolve(events)
