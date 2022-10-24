@@ -1,4 +1,5 @@
 export * from './démarrerImportGestionnaireRéseau'
+export * from './eventHandlers'
 export * from './events'
 export * from './mettreAJourDateMiseEnService'
 export * from './ImportGestionnaireRéseau'

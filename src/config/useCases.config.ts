@@ -55,6 +55,7 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
+  makeRenseignerDateMiseEnService,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -72,6 +73,7 @@ import {
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
   getProjectIdsForPeriode,
+  getProjetsParIdentifiantGestionnaireRéseau,
   getPuissanceProjet,
   getUserByEmail,
   getUserById,
@@ -91,12 +93,20 @@ import {
   projectClaimRepo,
   projectRepo,
   userRepo,
+  importRepo,
 } from './repos.config'
 import { sendNotification } from '@config/emails.config'
 import {
   makeNotifierPorteurChangementStatutDemande,
   makeNotifierPorteurRévocationAccèsProjet,
 } from '@modules/notification'
+
+import {
+  makeDémarrerImportGestionnaireRéseau,
+  makeMettreAJourDatesMiseEnService,
+} from '@modules/imports/gestionnaireRéseau'
+
+const publishToEventStore = eventStore.publish.bind(eventStore)
 
 export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
@@ -273,14 +283,14 @@ export const cancelModificationRequest = makeCancelModificationRequest({
 })
 
 export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
 })
 
 export const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
@@ -323,7 +333,7 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
 })
 
 export const importEdfData = makeImportEdfData({
-  publish: eventStore.publish.bind(eventStore),
+  publish: publishToEventStore,
   parseCsvFile: makeParseEdfCsv({ fileRepo }),
   getSearchIndex: getEDFSearchIndex,
 })
@@ -337,7 +347,7 @@ export const importEnedisData = makeImportEnedisData({
 export const demanderDélai = makeDemanderDélai({
   fileRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
@@ -346,20 +356,20 @@ export const demanderDélai = makeDemanderDélai({
 export const annulerDemandeDélai = makeAnnulerDemandeDélai({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const rejeterDemandeDélai = makeRejeterDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const accorderDemandeDélai = makeAccorderDemandeDélai({
   fileRepo,
   demandeDélaiRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   projectRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
@@ -367,30 +377,30 @@ export const accorderDemandeDélai = makeAccorderDemandeDélai({
 export const annulerRejetDélai = makeAnnulerRejetDélai({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const annulerRejetRecours = makeAnnulerRejetRecours({
   modificationRequestRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const demanderAbandon = makeDemanderAbandon({
   fileRepo,
   findAppelOffreById: oldAppelOffreRepo.findById,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
   getProjectAppelOffreId,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
@@ -399,36 +409,36 @@ export const demanderAbandon = makeDemanderAbandon({
 export const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeAbandonRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const accorderDemandeAbandon = makeAccorderDemandeAbandon({
   fileRepo,
   demandeAbandonRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const demanderConfirmationAbandon = makeDemanderConfirmationAbandon({
   fileRepo,
   demandeAbandonRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const confirmerDemandeAbandon = makeConfirmerDemandeAbandon({
   demandeAbandonRepo,
   aAccèsAuProjet: oldUserRepo.hasProject,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
   fileRepo,
   demandeAbandonRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const annulerRejetAbandon = makeAnnulerRejetAbandon({
   demandeAbandonRepo,
-  publishToEventStore: eventStore.publish.bind(eventStore),
+  publishToEventStore,
 })
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
@@ -437,4 +447,20 @@ export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangem
 
 export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
+})
+
+export const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+  importRepo,
+  publishToEventStore,
+})
+
+export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+  projectRepo,
+  publishToEventStore,
+})
+
+export const mettreAJourDatesMiseEnService = makeMettreAJourDatesMiseEnService({
+  getProjetsParIdentifiantGestionnaireRéseau,
+  publishToEventStore,
+  renseignerDateMiseEnService,
 })

@@ -1,2 +1,2 @@
 export * from './GetProjetsParIdentifiantGestionnaireRéseau'
-export * from './mettreAJourDateMiseEnService'
+export * from './mettreAJourDatesMiseEnService'

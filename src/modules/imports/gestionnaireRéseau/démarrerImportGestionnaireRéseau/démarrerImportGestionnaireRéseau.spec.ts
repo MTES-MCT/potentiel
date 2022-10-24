@@ -53,7 +53,9 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
         Alors on devrait être averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
       const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
-        importRepo: fakeTransactionalRepo({ état: 'en cours' } as ImportGestionnaireRéseau),
+        importRepo: fakeTransactionalRepo({
+          état: 'en cours',
+        } as ImportGestionnaireRéseau),
         publishToEventStore,
       })
 

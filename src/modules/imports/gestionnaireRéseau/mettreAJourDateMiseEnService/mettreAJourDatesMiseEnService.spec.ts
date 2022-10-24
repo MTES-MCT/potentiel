@@ -1,5 +1,5 @@
 import { errAsync, okAsync } from '@core/utils'
-import { makeMettreAJourDateMiseEnService } from './mettreAJourDateMiseEnService'
+import { makeMettreAJourDatesMiseEnService } from './mettreAJourDatesMiseEnService'
 
 describe(`Mettre à jour les dates de mise en service`, () => {
   const publishToEventStore = jest.fn(() => okAsync(null))
@@ -15,7 +15,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
         Alors la date de mise en service des projets correspondant devrait être renseignée
         Et la tâche devrait être terminée avec le résultat des mises à jour`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             'NUM-GEST-1': [
@@ -91,7 +91,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             Enedis: [
@@ -171,7 +171,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Aucun projet ne correspond à l'identifiant'`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             Enedis: [],
@@ -242,7 +242,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         Alors la date de mise en service ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
         Et le résultat devrait être en 'échec' avec la raison 'La date est plus récente que l'actuelle'`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             'AAA-BB-2022-000001': [
