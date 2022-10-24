@@ -8,14 +8,14 @@ type OnTâcheMiseAJourDatesMiseEnServiceDémarrée = (
 ) => ResultAsync<null, InfraNotAvailableError>
 
 type MakeOnTâcheMiseAJourDatesMiseEnServiceDémarrée = (dépendances: {
-  mettreAJourDateMiseEnService
+  mettreAJourDatesMiseEnService
 }) => OnTâcheMiseAJourDatesMiseEnServiceDémarrée
 
 export const makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée: MakeOnTâcheMiseAJourDatesMiseEnServiceDémarrée =
 
-    ({ mettreAJourDateMiseEnService }) =>
+    ({ mettreAJourDatesMiseEnService }) =>
     ({ payload: { gestionnaire, dates } }: TâcheMiseAJourDatesMiseEnServiceDémarrée) => {
-      return mettreAJourDateMiseEnService({
+      return mettreAJourDatesMiseEnService({
         gestionnaire,
         données: dates.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
           identifiantGestionnaireRéseau,

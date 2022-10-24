@@ -18,7 +18,7 @@ type Commande = {
   données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
 }
 
-export const makeMettreAJourDateMiseEnService =
+export const makeMettreAJourDatesMiseEnService =
   ({
     getProjetsParIdentifiantGestionnaireRéseau,
     renseignerDateMiseEnService,

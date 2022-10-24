@@ -3,12 +3,12 @@ import { makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée } from './onTâcheMis
 
 describe(`Éxécution du use-case mettreÀJourDateMiseEnService`, () => {
   it(`Lorsqu'un évènement TâcheMiseAJourDatesMiseEnServiceDémarrée survient
-      Alors le use case mettreAJourDateMiseEnService devrait être éxécuté`, async () => {
-    const mettreAJourDateMiseEnService = jest.fn()
+      Alors le use case mettreAJourDatesMiseEnService devrait être éxécuté`, async () => {
+    const mettreAJourDatesMiseEnService = jest.fn()
 
     const onTâcheMiseAJourDatesMiseEnServiceDémarrée =
       makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée({
-        mettreAJourDateMiseEnService,
+        mettreAJourDatesMiseEnService,
       })
 
     await onTâcheMiseAJourDatesMiseEnServiceDémarrée(
@@ -21,7 +21,7 @@ describe(`Éxécution du use-case mettreÀJourDateMiseEnService`, () => {
       })
     )
 
-    expect(mettreAJourDateMiseEnService).toHaveBeenCalledWith(
+    expect(mettreAJourDatesMiseEnService).toHaveBeenCalledWith(
       expect.objectContaining({
         gestionnaire: 'Enedis',
         données: [

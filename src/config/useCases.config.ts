@@ -103,7 +103,7 @@ import {
 
 import {
   makeDémarrerImportGestionnaireRéseau,
-  makeMettreAJourDateMiseEnService,
+  makeMettreAJourDatesMiseEnService,
 } from '@modules/imports/gestionnaireRéseau'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
@@ -459,7 +459,7 @@ export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
   publishToEventStore,
 })
 
-export const mettreAJourDateMiseEnService = makeMettreAJourDateMiseEnService({
+export const mettreAJourDatesMiseEnService = makeMettreAJourDatesMiseEnService({
   getProjetsParIdentifiantGestionnaireRéseau,
   publishToEventStore,
   renseignerDateMiseEnService,

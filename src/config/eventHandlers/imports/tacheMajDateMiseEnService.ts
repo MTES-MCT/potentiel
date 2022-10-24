@@ -3,10 +3,10 @@ import {
   makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée,
   TâcheMiseAJourDatesMiseEnServiceDémarrée,
 } from '@modules/imports/gestionnaireRéseau'
-import { mettreAJourDateMiseEnService } from '../../useCases.config'
+import { mettreAJourDatesMiseEnService } from '../../useCases.config'
 
 const onTâcheMiseAJourDatesMiseEnServiceDémarrée = makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée({
-  mettreAJourDateMiseEnService,
+  mettreAJourDatesMiseEnService,
 })
 
 tacheImportEventSubscriber(

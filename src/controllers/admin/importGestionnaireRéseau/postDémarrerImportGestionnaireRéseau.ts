@@ -53,7 +53,7 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formatterLesDonnées = (données: Array<{ numeroGestionnaire: string; 'date de MES': Date }>) =>
+const formaterLesDonnées = (données: Array<{ numeroGestionnaire: string; 'date de MES': Date }>) =>
   données.map((d) => ({
     identifiantGestionnaireRéseau: d.numeroGestionnaire,
     dateMiseEnService: d['date de MES'],
@@ -98,7 +98,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
           démarrerImportGestionnaireRéseau({
             utilisateur: request.user,
             gestionnaire: 'Enedis',
-            données: formatterLesDonnées(données),
+            données: formaterLesDonnées(données),
           })
         )
         .match(
