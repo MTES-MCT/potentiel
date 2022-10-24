@@ -63,7 +63,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         - le gestionnaire Enedis
         - la date de début au 2022-01-05
         Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
-        - le gestionnaire Enercoop
+        - le gestionnaire 'autre-gestionnaire'
         - la date de début au 2022-01-05
       Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
         - le gestionnaire Enedis
@@ -82,7 +82,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       {
         id: 2,
         type: 'maj-date-mise-en-service',
-        gestionnaire: 'Enercoop',
+        gestionnaire: 'autre-gestionnaire',
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),
       },
@@ -117,12 +117,12 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       nombreDEchecs: 1,
     })
 
-    const tâcheEneercoop = await Tâches.findOne({
+    const tâcheAutreGestionnaire = await Tâches.findOne({
       where: {
         id: 2,
       },
     })
-    expect(tâcheEneercoop).toMatchObject({
+    expect(tâcheAutreGestionnaire).toMatchObject({
       état: 'en cours',
     })
   })
