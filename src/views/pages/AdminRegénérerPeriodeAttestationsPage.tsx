@@ -5,11 +5,13 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { AdminDashboard, Button, PageTemplate } from '@components'
 
-type AdminRegenerateCertificatesProps = {
+type AdminRegénérerPeriodeAttestationsProps = {
   request: Request
 }
 
-export default function AdminRegenerateCertificates({ request }: AdminRegenerateCertificatesProps) {
+export const AdminRegénérerPeriodeAttestations = ({
+  request,
+}: AdminRegénérerPeriodeAttestationsProps) => {
   const { error, success, appelOffreId, periodeId, familleId, notificationDate, reason } =
     (request.query as any) || {}
 

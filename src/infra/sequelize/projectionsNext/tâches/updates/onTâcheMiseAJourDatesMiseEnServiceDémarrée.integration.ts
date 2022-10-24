@@ -11,7 +11,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
     await resetDatabase()
   })
 
-  it(`Lorsque un énement de type 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
+  it(`Lorsqu'un évènement de type 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
       Alors une nouvelle tâche 'en cours' de mise a jour de date de mise en service devrait être créée avec :
         - le gestionnaire 
         - la date de début`, async () => {

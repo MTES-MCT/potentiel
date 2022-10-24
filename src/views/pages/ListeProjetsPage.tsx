@@ -15,7 +15,7 @@ import {
   PageTemplate,
 } from '@components'
 
-type ListProjectsProps = {
+type ListeProjetsProps = {
   request: Request
   projects?: PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
@@ -24,14 +24,14 @@ type ListProjectsProps = {
   existingFamilles?: Array<Famille['id']>
 }
 
-export default function ListProjects({
+export const ListeProjets = ({
   request,
   projects,
   appelsOffre,
   existingAppelsOffres,
   existingPeriodes,
   existingFamilles,
-}: ListProjectsProps) {
+}: ListeProjetsProps) => {
   const {
     error,
     success,

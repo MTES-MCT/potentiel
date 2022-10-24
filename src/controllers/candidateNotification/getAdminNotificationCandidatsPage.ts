@@ -3,9 +3,9 @@ import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { listUnnotifiedProjects } from '@useCases'
-import { AdminNotifyCandidatesPage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
+import { AdminNotificationCandidatsPage } from '@views'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),
@@ -34,7 +34,7 @@ v1Router.get(
 
     if (result === null) {
       return response.send(
-        AdminNotifyCandidatesPage({
+        AdminNotificationCandidatsPage({
           request,
         })
       )
@@ -58,7 +58,7 @@ v1Router.get(
     }
 
     response.send(
-      AdminNotifyCandidatesPage({
+      AdminNotificationCandidatsPage({
         request,
         results: {
           projects,

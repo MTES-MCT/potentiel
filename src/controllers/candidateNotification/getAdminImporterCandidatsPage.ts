@@ -1,13 +1,17 @@
 import asyncHandler from '../helpers/asyncHandler'
 import routes from '@routes'
-import { AdminAppelOffrePage } from '@views/legacy-pages'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
+import { AdminImporterCandidatsPage } from '@views'
 
 v1Router.get(
-  routes.ADMIN_AO_PERIODE,
+  routes.IMPORT_PROJECTS,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    return response.send(AdminAppelOffrePage({ request }))
+    return response.send(
+      AdminImporterCandidatsPage({
+        request,
+      })
+    )
   })
 )

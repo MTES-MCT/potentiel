@@ -1,21 +1,20 @@
 import { appelOffreRepo } from '@dataAccess'
-import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listProjects } from '@useCases'
-import { ListProjectsPage } from '@views/legacy-pages'
+import { listMissingOwnerProjects } from '@useCases'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
+import asyncHandler from '../helpers/asyncHandler'
+import { ProjetsÀRéclamerPage } from '@views'
 
-const getProjectListPage = asyncHandler(async (request, response) => {
+const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {
     appelOffreId,
     periodeId,
     familleId,
     recherche,
     classement,
-    reclames,
     garantiesFinancieres,
     pageSize,
   } = request.query as any
@@ -44,7 +43,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     familleId = undefined
   }
 
-  const results = await listProjects({
+  const results = await listMissingOwnerProjects({
     user,
     appelOffreId,
     periodeId,
@@ -52,7 +51,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     pagination,
     recherche,
     classement,
-    reclames,
     garantiesFinancieres,
   })
 
@@ -67,7 +65,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   }
 
   response.send(
-    ListProjectsPage({
+    ProjetsÀRéclamerPage({
       request,
       projects,
       existingAppelsOffres,
@@ -79,13 +77,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 })
 
 v1Router.get(
-  routes.ADMIN_DASHBOARD,
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
-  getProjectListPage
-)
-
-v1Router.get(
-  routes.USER_DASHBOARD,
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
-  getProjectListPage
+  routes.USER_LIST_MISSING_OWNER_PROJECTS,
+  ensureRole(['porteur-projet']),
+  getMissingOwnerProjectListPage
 )

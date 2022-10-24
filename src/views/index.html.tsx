@@ -9,6 +9,7 @@ interface HasRequest {
 type PageProps<T> = {
   Component: (props: T) => JSX.Element
   props: T
+  title?: string
 } & ({ hydrate: false } | { hydrate: true; pageName: string })
 
 const html = String.raw
@@ -24,7 +25,7 @@ function stripRequest(props: HasRequest) {
 const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID
 
 export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
-  const { Component, props } = args
+  const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args
   return html`
     <!DOCTYPE html>
     <html itemscope itemtype="http://schema.org/WebPage" lang="fr">
@@ -33,7 +34,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <title>Potentiel - Suivi des Projets d'Energies Renouvelables</title>
+        <title>${`${title} - Potentiel`}</title>
 
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
