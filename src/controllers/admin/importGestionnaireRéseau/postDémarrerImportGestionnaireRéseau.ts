@@ -64,7 +64,7 @@ const setFormResult = (
   formId: string,
   formResult: RésultatSoumissionFormulaire | undefined
 ) => {
-  const form = request.session.forms && request.session.forms[formId]
+  const form = request.session.forms?.[formId]
 
   request.session.forms = {
     ...request.session.forms,
