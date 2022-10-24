@@ -40,7 +40,6 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
   const { type, id, status } = modificationRequest
 
   const userIsAdmin = userIs(['admin', 'dgec-validateur', 'dreal'])(user)
-  const userIsAO = userIs('acheteur-obligé')(user)
 
   const showFormulaireAdministrateur =
     userIsAdmin &&
@@ -124,12 +123,11 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
             </div>
           )}
 
-          {!userIsAO &&
+          {userIs('porteur-projet')(user) &&
             (type === 'delai' ? (
               <AnnulerDemandeDélaiBouton
                 status={status}
                 id={id}
-                isAdmin={userIsAdmin}
                 route={
                   modificationRequest.delayInMonths
                     ? ROUTES.ANNULER_DEMANDE_ACTION
@@ -137,7 +135,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
                 }
               />
             ) : (
-              <CancelButton status={status} id={id} isAdmin={userIsAdmin} />
+              <CancelButton status={status} id={id} />
             ))}
         </div>
       </RoleBasedDashboard>
