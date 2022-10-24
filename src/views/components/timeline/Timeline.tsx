@@ -98,10 +98,12 @@ export const Timeline = ({
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    garantiesFinancières ?? null,
+    garantiesFinancières?.statut !== 'submitted-with-application'
+      ? garantiesFinancières
+      : undefined,
     extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
-    PTFItemProps?.status === 'submitted' ? PTFItemProps : null,
+    PTFItemProps?.status === 'submitted' ? PTFItemProps : undefined,
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -113,7 +115,7 @@ export const Timeline = ({
     ...events.filter(is('DemandeAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
   ]
-    .filter(isNotNull)
+    .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
 
   PTFItemProps?.status === 'not-submitted' &&
@@ -210,8 +212,8 @@ export const Timeline = ({
   )
 }
 
-function isNotNull<T>(arg: T): arg is Exclude<T, null> {
-  return arg !== null
+function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
+  return arg !== null && arg !== undefined
 }
 
 function insertBefore(
