@@ -49,7 +49,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   children,
 }: HeaderProps) => {
   const menuItems = React.Children.map(children, (child: React.ReactElement) => {
-    if (child.type === MenuItem) {
+    if (true || child.type === MenuItem) {
       return child
     }
   })
@@ -183,7 +183,7 @@ const MainMenu = ({ children }: MainMenuProps) => (
       <CloseIcon className="menu-close hidden" />
     </label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
-      <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+      <ul className="flex flex-col list-none px-2 md:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}
       </ul>
     </nav>

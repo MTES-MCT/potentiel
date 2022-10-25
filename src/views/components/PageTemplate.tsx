@@ -33,6 +33,7 @@ const getUserNavigation = ({
 
   return null
 }
+
 const MenuPorteurProjet = (currentPage: CurrentPage) => [
   <Header.MenuItem
     key="main-menu-1"
