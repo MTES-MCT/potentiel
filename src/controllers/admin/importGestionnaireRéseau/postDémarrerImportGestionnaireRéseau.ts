@@ -30,8 +30,11 @@ const csvDataSchema = yup
       'date de MES': yup
         .date()
         .required('La date de mise en service est obligatoire')
+        .nullable()
         .transform((_, originalValue) => stringToDateYupTransformation(originalValue, 'dd/MM/yyyy'))
-        .typeError(`La date de mise en service n'est pas valide`) as yup.DateSchema<Date>,
+        .typeError(
+          `Vous devez renseigner une date de mise en service au format jj/mm/aaaa`
+        ) as yup.DateSchema<Date>,
     })
   )
 
