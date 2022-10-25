@@ -2,13 +2,9 @@ import { ValidationError } from 'yup'
 import { CsvValidationError } from './errors'
 
 const getNuméroLigne = (path: string | undefined) => {
-  if (!path) {
-    return undefined
-  }
-
   const extractLigne = path?.replace(/\D/g, '')
   if (!extractLigne) {
-    return undefined
+    return
   }
 
   return Number(extractLigne) + 2
