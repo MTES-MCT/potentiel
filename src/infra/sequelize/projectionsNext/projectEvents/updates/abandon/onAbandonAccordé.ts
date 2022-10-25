@@ -46,8 +46,21 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
     )
   }
 
-  await ProjectEvent.destroy({
-    where: { projectId: projetId, type: 'DateMiseEnService' },
-    transaction,
-  })
+  try {
+    await ProjectEvent.destroy({
+      where: { projectId: projetId, type: 'DateMiseEnService' },
+      transaction,
+    })
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement AbandonAccordé: suppression de l'élément DateMiseEnService`,
+        {
+          évènement,
+          nomProjection: 'ProjectEventProjector.onAbandonAccordé',
+        },
+        e
+      )
+    )
+  }
 })
