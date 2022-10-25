@@ -17,6 +17,7 @@ import {
   DemandeDélaiEvent,
   DemandeAbandonEvent,
   CahierDesChargesEvent,
+  DateMiseEnServiceEvent,
 } from '../events'
 import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
 
@@ -38,6 +39,7 @@ export type KnownProjectEvents =
   | DemandeDélaiEvent
   | DemandeAbandonEvent
   | CahierDesChargesEvent
+  | DateMiseEnServiceEvent
 
 type NarrowType<T, N> = T extends { type: N } ? T : never
 
@@ -76,5 +78,6 @@ export const isKnownProjectEvent = or(
   is('DemandeRecoursSignaled'),
   is('DemandeDélai'),
   is('DemandeAbandon'),
-  is('CahierDesChargesChoisi')
+  is('CahierDesChargesChoisi'),
+  is('DateMiseEnService')
 )

@@ -5,7 +5,7 @@ import { logger } from '@core/utils'
 
 export default ProjectEventProjector.on(AbandonAccordé, async (évènement, transaction) => {
   const {
-    payload: { demandeAbandonId },
+    payload: { demandeAbandonId, projetId },
     occurredAt,
   } = évènement
 
@@ -37,6 +37,24 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
     logger.error(
       new ProjectionEnEchec(
         `Erreur lors du traitement de l'événement AbandonAccordé`,
+        {
+          évènement,
+          nomProjection: 'ProjectEventProjector.onAbandonAccordé',
+        },
+        e
+      )
+    )
+  }
+
+  try {
+    await ProjectEvent.destroy({
+      where: { projectId: projetId, type: 'DateMiseEnService' },
+      transaction,
+    })
+  } catch (e) {
+    logger.error(
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'événement AbandonAccordé: suppression de l'élément DateMiseEnService`,
         {
           évènement,
           nomProjection: 'ProjectEventProjector.onAbandonAccordé',

@@ -43,6 +43,7 @@ export type ProjectEventDTO =
   | DemandeDélaiDTO
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
+  | DateMiseEnServiceDTO
 
 type File = {
   id: string
@@ -436,6 +437,11 @@ export type CahierDesChargesChoisiDTO = {
       alternatif?: true
     }
 )
+
+export type DateMiseEnServiceDTO = {
+  type: 'DateMiseEnService'
+  variant: Exclude<UserRole, 'ademe'>
+} & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' })
 
 export type ProjectEventListDTO = {
   project: {
