@@ -5,7 +5,7 @@ import { logger } from '@core/utils'
 
 export default ProjectEventProjector.on(AbandonAccordé, async (évènement, transaction) => {
   const {
-    payload: { demandeAbandonId },
+    payload: { demandeAbandonId, projetId },
     occurredAt,
   } = évènement
 
@@ -45,4 +45,9 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
       )
     )
   }
+
+  await ProjectEvent.destroy({
+    where: { projectId: projetId, type: 'DateMiseEnService' },
+    transaction,
+  })
 })
