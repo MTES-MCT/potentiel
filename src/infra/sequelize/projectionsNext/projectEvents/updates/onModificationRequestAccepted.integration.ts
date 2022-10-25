@@ -133,4 +133,32 @@ describe('Handler onModificationRequestAccepted', () => {
       })
     })
   })
+
+  describe(`Cas d'un recours`, () => {
+    it(`Etant donnée une demande de recours acceptée,
+    alors un item 'DateMiseEnService' avec le statut 'non-renseignée' devrait être ajouté`, async () => {
+      await onModificationRequestAccepted(
+        new ModificationRequestAccepted({
+          payload: {
+            modificationRequestId,
+            acceptedBy: adminId,
+            responseFileId: fileId,
+            params: { type: 'recours' },
+          } as ModificationRequestAcceptedPayload,
+          original: {
+            version: 1,
+            occurredAt: new Date('2022-02-09'),
+          },
+        })
+      )
+
+      const projectEvent = await ProjectEvent.findOne({
+        where: { projectId, type: 'DateMiseEnService' },
+      })
+
+      expect(projectEvent).toMatchObject({
+        payload: { statut: 'non-renseignée' },
+      })
+    })
+  })
 })
