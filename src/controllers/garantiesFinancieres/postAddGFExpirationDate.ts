@@ -14,6 +14,7 @@ const schema = yup.object({
     expirationDate: yup
       .date()
       .required("Vous devez renseigner la date d'échéance.")
+      .nullable()
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date d'échéance saisie n'est pas valide.`),
   }),
