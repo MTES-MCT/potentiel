@@ -78,7 +78,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
 
   describe(`Pas de project event de type 'DateMiseEnService'`, () => {
     it(`Etant donné un project qui n'a pas de project event de type 'DateMiseEnService',
-    alors un projcet event de type 'DateMiseEnService' devrait être ajouté`, async () => {
+    alors un project event de type 'DateMiseEnService' devrait être ajouté`, async () => {
       await onDateMiseEnServiceRenseignée(
         new DateMiseEnServiceRenseignée({
           payload: {
