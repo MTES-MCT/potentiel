@@ -18,14 +18,17 @@ export default ProjectEventProjector.on(
 
     if (!projectEvent) {
       try {
-        await ProjectEvent.create({
-          type: 'DateMiseEnService',
-          id: new UniqueEntityID().toString(),
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-          projectId: projetId,
-          payload: { statut: 'renseignée', dateMiseEnService },
-        })
+        await ProjectEvent.create(
+          {
+            type: 'DateMiseEnService',
+            id: new UniqueEntityID().toString(),
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            projectId: projetId,
+            payload: { statut: 'renseignée', dateMiseEnService },
+          },
+          { transaction }
+        )
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
