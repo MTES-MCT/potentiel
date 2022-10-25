@@ -47,7 +47,6 @@ import {
   extractImportItemProps,
   extractPTFItemProps,
   ImportItemProps,
-  MeSItemProps,
   PTFItemProps,
   extractModificationRequestsItemProps,
   ModificationRequestItemProps,
@@ -71,7 +70,6 @@ type ItemProps =
   | ACItemProps
   | PTFItemProps
   | CRItemProps
-  | MeSItemProps
   | CAItemProps
   | ModificationRequestItemProps
   | ModificationReceivedItemProps
