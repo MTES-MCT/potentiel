@@ -1,15 +1,18 @@
+import { DateMiseEnServiceDTO } from '@modules/frise'
 import React from 'react'
-import { ContentArea, ItemTitle, NextUpIcon } from '.'
+import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.'
 
-export const MeSItem = () => {
+type MeSProps = DateMiseEnServiceDTO
+
+export const MeSItem = (props: MeSProps) => {
+  const { statut } = props
   return (
     <>
       <NextUpIcon />
       <ContentArea>
-        <ItemTitle title="Achèvement" />
-        <span aria-disabled className="disabled-action">
-          Indiquer la date (fonctionnalité bientôt disponible sur Potentiel)
-        </span>
+        {statut === 'renseignée' && <ItemDate date={props.date} />}
+        <ItemTitle title="Mise en service" />
+        {statut === 'non-renseignée' && <span>Date de mise en service à venir</span>}
       </ContentArea>
     </>
   )

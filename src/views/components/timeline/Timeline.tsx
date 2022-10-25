@@ -9,6 +9,7 @@ import {
   DemandeAbandonDTO,
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
+  DateMiseEnServiceDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -44,7 +45,6 @@ import {
   extractDCRItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
-  extractMeSItemProps,
   extractPTFItemProps,
   ImportItemProps,
   MeSItemProps,
@@ -84,6 +84,7 @@ type ItemProps =
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO
+  | DateMiseEnServiceDTO
 
 export const Timeline = ({
   projectEventList: {
@@ -94,6 +95,7 @@ export const Timeline = ({
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { status })
   const garantiesFinancières = events.find(is('garanties-financieres'))
+  const dateMiseEnService = events.find(is('DateMiseEnService'))
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
@@ -114,6 +116,7 @@ export const Timeline = ({
     ...events.filter(is('DemandeDélai')),
     ...events.filter(is('DemandeAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
+    dateMiseEnService?.statut === 'renseignée' ? dateMiseEnService : undefined,
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
@@ -122,7 +125,8 @@ export const Timeline = ({
     insertBefore(itemProps, 'attestation-de-conformite', PTFItemProps)
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
-  insertAfter(itemProps, 'attestation-de-conformite', extractMeSItemProps(events, { status }))
+  dateMiseEnService?.statut === 'non-renseignée' &&
+    insertAfter(itemProps, 'attestation-de-conformite', dateMiseEnService)
   garantiesFinancières?.statut === 'submitted-with-application' &&
     insertAfter(itemProps, 'designation', garantiesFinancières)
 
@@ -158,8 +162,8 @@ export const Timeline = ({
       case 'attestation-de-conformite':
         return <ACItem {...props} />
 
-      case 'mise-en-service':
-        return <MeSItem />
+      case 'DateMiseEnService':
+        return <MeSItem {...props} />
 
       case 'contrat-achat':
         return <CAItem />
