@@ -117,7 +117,7 @@ const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValida
   const afficherErreur = ({ numéroLigne, valeurInvalide, raison }: ErreurValidationCsv) => {
     return `${numéroLigne ? `Ligne ${numéroLigne.toString()} - ` : ''}${
       valeurInvalide ? `${valeurInvalide} - ` : ''
-    }${raison && `${raison}`}`
+    }${raison}`
   }
 
   if (erreursDeValidationCsv.length === 1) {
