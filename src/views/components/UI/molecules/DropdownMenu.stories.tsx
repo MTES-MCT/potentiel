@@ -16,8 +16,10 @@ const Template = (args: Parameters<typeof DropdownMenu>[0]) => (
 export const Default = Template.bind({})
 Default.args = {
   buttonChildren: `Exemple de menu déroulant`,
-  children: [
-    <DropdownMenu.DropdownItem href="#">Menu 1</DropdownMenu.DropdownItem>,
-    <DropdownMenu.DropdownItem href="#">Menu 2</DropdownMenu.DropdownItem>,
-  ],
+  children: (
+    <>
+      <DropdownMenu.DropdownItem href="#">Menu 1</DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href="#">Menu 2</DropdownMenu.DropdownItem>
+    </>
+  ),
 } as Parameters<typeof DropdownMenu>[0]

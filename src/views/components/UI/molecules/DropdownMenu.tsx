@@ -36,7 +36,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
     >
       <div
         onClick={() => setVisible(!visible)}
-        className={`py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
+        className={`flex-1 py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
           isCurrent &&
           ' font-medium border-l-[3px] border-l-blue-france-sun-base lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
         }`}
