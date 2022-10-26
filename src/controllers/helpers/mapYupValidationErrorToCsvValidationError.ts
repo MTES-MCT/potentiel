@@ -37,7 +37,5 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
     ]
   }, [])
 
-  console.log('validation Erreurs', validationErreurs)
-
   return new CsvValidationError(validationErreurs)
 }
