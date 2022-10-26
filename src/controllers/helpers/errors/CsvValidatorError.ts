@@ -1,5 +1,5 @@
 type CsvValidationErrorType = {
-  numéroLigne: number
+  numéroLigne?: number
   valeurInvalide?: string
   raison: string
 }

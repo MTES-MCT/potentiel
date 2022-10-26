@@ -26,7 +26,7 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
 
   describe(`Cas d'une ValidationError contenant deux sous-erreurs dont l'une ne dispose pas de path`, () => {
     it(`Lorsqu'on mappe une ValidationError content deux sous-erreurs dont l'une ne dispose pas de path
-        Alors on devrait récupérer une CsvValidation contenant une seule entrée dans validationErreurs`, () => {
+        Alors on devrait récupérer une CsvValidation contenant deux entrées dont l'une ne dispose pas de numéroLigne`, () => {
       const erreur = {
         inner: [
           {
@@ -51,6 +51,10 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         {
           numéroLigne: 2,
           valeurInvalide: 'originalValue1',
+          raison: 'le champ est incorrect car X',
+        },
+        {
+          valeurInvalide: 'originalValue2',
           raison: 'le champ est incorrect car X',
         },
       ])
@@ -86,7 +90,6 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         },
         {
           numéroLigne: 3,
-          valeurInvalide: undefined,
           raison: 'le champ est manquant',
         },
       ])
@@ -125,7 +128,6 @@ describe(`mapper une ValidationError yup vers une erreur de type CsvValidationEr
         },
         {
           numéroLigne: 3,
-          valeurInvalide: '1',
           raison: 'le champ est incorrect car Y',
         },
       ])

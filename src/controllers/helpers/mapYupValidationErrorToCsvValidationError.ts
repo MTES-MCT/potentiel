@@ -15,20 +15,20 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
     const { path, params, errors } = err
     const numéroLigne = getNuméroLigne(path)
 
-    if (!numéroLigne || !errors?.length) {
+    if (!errors?.length) {
       return [...acc]
     }
 
     const valeurInvalide =
-      typeof params?.originalValue?.toString === 'function' ? params.originalValue : undefined
+      typeof params?.originalValue === 'string' ? params.originalValue : undefined
 
     const [raison] = errors
 
     return [
       ...acc,
       {
-        numéroLigne,
-        valeurInvalide: valeurInvalide?.toString(),
+        ...(numéroLigne && { numéroLigne }),
+        ...(valeurInvalide && { valeurInvalide: valeurInvalide.toString() }),
         raison,
       },
     ]

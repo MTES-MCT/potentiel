@@ -17,7 +17,7 @@ import routes from '@routes'
 import { Request } from 'express'
 
 type ErreurValidationCsv = {
-  numéroLigne: number
+  numéroLigne?: number
   valeurInvalide?: string
   raison: string
 }
@@ -118,17 +118,27 @@ const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
 type CsvValidationErrorBoxProps = {
   erreursDeValidationCsv: Array<ErreurValidationCsv>
 }
-const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValidationCsv }) => (
-  <ul className="notification error">
-    {erreursDeValidationCsv.map(({ numéroLigne, valeurInvalide, raison }, index) => (
-      <li key={index} className="ml-3">
-        {numéroLigne && `Ligne ${numéroLigne.toString()} - `}
-        {valeurInvalide && `${valeurInvalide} - `}
-        {raison && `${raison}`}
-      </li>
-    ))}
-  </ul>
-)
+const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValidationCsv }) => {
+  const afficherErreur = ({ numéroLigne, valeurInvalide, raison }: ErreurValidationCsv) => {
+    return `${numéroLigne ? `Ligne ${numéroLigne.toString()} - ` : ''}${
+      valeurInvalide ? `${valeurInvalide} - ` : ''
+    }${raison}`
+  }
+
+  if (erreursDeValidationCsv.length === 1) {
+    return <div className="notification error">{afficherErreur(erreursDeValidationCsv[0])}</div>
+  }
+
+  return (
+    <ul className="notification error">
+      {erreursDeValidationCsv.map((erreur, index) => (
+        <li key={index} className="ml-3">
+          {afficherErreur(erreur)}
+        </li>
+      ))}
+    </ul>
+  )
+}
 
 export const ImportGestionnaireReseau = ({
   request,
