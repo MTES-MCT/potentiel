@@ -20,9 +20,7 @@ export const mapYupValidationErrorToCsvValidationError = (error: ValidationError
     }
 
     const valeurInvalide =
-      typeof params?.originalValue === 'string'
-        ? params.originalValue
-        : undefined
+      typeof params?.originalValue === 'string' ? params.originalValue : undefined
 
     const [raison] = errors
 
