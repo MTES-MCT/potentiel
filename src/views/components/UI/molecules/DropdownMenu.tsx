@@ -50,7 +50,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
         </div>
       </div>
       <ul
-        className={`list-none p-0 px-4 md:px-0 md:mt-4 z-10 md:absolute top-full left-0 bg-white w-full md:w-auto md:shadow-[0_2px_6px_1px_rgba(0,0,0,0.2)] min-w-[300px] ${
+        className={`list-none p-0 pl-4 md:pl-0 md:mt-4 z-10 md:absolute top-full left-0 bg-white w-full md:w-auto md:shadow-[0_2px_6px_1px_rgba(0,0,0,0.2)] min-w-[300px] ${
           visible ? 'block' : 'hidden'
         }`}
       >
