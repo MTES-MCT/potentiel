@@ -192,8 +192,10 @@ export const ImportGestionnaireReseau = ({
 }: ImportGestionnaireReseauProps) => (
   <PageTemplate user={request.user}>
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
-      <div className="panel p-4">
-        <h3 className="section--title">Import gestionnaire réseau</h3>
+      <div className="panel">
+        <div className="panel__header">
+          <h1 className="text-2xl">Import gestionnaire réseau</h1>
+        </div>
         {résultatSoumissionFormulaire && (
           <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
         )}
