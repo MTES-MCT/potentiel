@@ -34,6 +34,11 @@ type TâcheProps = {
       dateDeFin: Date
       nombreDeSucces: number
       nombreDEchecs: number
+      résultatErreurs: Array<{
+        raison: string
+        projetId?: string
+        identifiantGestionnaireRéseau: string
+      }>
     }
 )
 
