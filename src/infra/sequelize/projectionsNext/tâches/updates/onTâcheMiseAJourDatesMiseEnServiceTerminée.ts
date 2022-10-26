@@ -19,6 +19,7 @@ export default TâchesProjector.on(
           dateDeFin: occurredAt,
           nombreDeSucces,
           nombreDEchecs,
+          résultat,
         },
         {
           where: {
