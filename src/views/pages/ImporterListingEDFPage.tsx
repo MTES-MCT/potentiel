@@ -3,6 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { SuccessErrorBox, SecondaryButton, PageTemplate } from '../components'
+import { hydrateOnClient } from '../helpers'
 
 type ImporterListingEDFProps = {
   request: Request
@@ -38,3 +39,5 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
     </PageTemplate>
   )
 }
+
+hydrateOnClient(ImporterListingEDF)

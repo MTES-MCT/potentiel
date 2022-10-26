@@ -1,6 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { PageTemplate } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 interface Props {
   request: Request
@@ -22,3 +23,5 @@ export const Error = ({ errorTitle, errorMessage, request }: Props) => {
     </PageTemplate>
   )
 }
+
+hydrateOnClient(Error)

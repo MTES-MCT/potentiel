@@ -5,6 +5,7 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import { MissingOwnerProjectList, PageTemplate } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 interface ProjetsÀRéclamerProps {
   request: Request
@@ -212,3 +213,5 @@ export const ProjetsÀRéclamer = ({
     </PageTemplate>
   )
 }
+
+hydrateOnClient(ProjetsÀRéclamer)

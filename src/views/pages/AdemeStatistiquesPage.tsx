@@ -1,6 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { PageTemplate } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 type AdemeStatistiquesProps = {
   request: Request
@@ -33,3 +34,5 @@ export const AdemeStatistiques = ({ iframeUrl, request }: AdemeStatistiquesProps
     </PageTemplate>
   )
 }
+
+hydrateOnClient(AdemeStatistiques)

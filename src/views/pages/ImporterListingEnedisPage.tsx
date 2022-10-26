@@ -2,7 +2,8 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { SuccessErrorBox, AdminDashboard, SecondaryButton, PageTemplate } from '../components'
+import { SuccessErrorBox, SecondaryButton, PageTemplate } from '../components'
+import { hydrateOnClient } from '../helpers'
 
 type ImporterListingEnedisProps = {
   request: Request
@@ -10,34 +11,32 @@ type ImporterListingEnedisProps = {
 
 export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) => {
   const {
-    user: { role },
     query: { error, success },
   } = request
 
   return (
     <PageTemplate user={request.user}>
-      <AdminDashboard role={role} currentPage={'import-enedis'}>
-        <div className="panel">
-          <div className="panel__header">
-            <h3>Importer des données Enedis</h3>
-          </div>
-
-          <form action={ROUTES.IMPORTER_LISTING_ENEDIS} method="post" encType="multipart/form-data">
-            <SuccessErrorBox error={error as string} success={success as string} />
-            <div>Sélectionner le fichier à importer.</div>
-            <input type="file" name="file" />
-            <SecondaryButton
-              className="mt-2"
-              type="submit"
-              name="submit"
-              id="submit"
-              {...dataId('submit-button')}
-            >
-              Envoyer
-            </SecondaryButton>
-          </form>
+      <div className="panel">
+        <div className="panel__header">
+          <h3>Importer des données Enedis</h3>
         </div>
-      </AdminDashboard>
+
+        <form action={ROUTES.IMPORTER_LISTING_ENEDIS} method="post" encType="multipart/form-data">
+          <SuccessErrorBox error={error as string} success={success as string} />
+          <div>Sélectionner le fichier à importer.</div>
+          <input type="file" name="file" />
+          <SecondaryButton
+            className="mt-2"
+            type="submit"
+            name="submit"
+            id="submit"
+            {...dataId('submit-button')}
+          >
+            Envoyer
+          </SecondaryButton>
+        </form>
+      </div>
     </PageTemplate>
   )
 }
+hydrateOnClient(ImporterListingEnedis)

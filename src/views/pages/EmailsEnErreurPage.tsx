@@ -6,6 +6,7 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
+import { hydrateOnClient } from '../helpers'
 type EmailsEnErreurProps = {
   request: Request
   notifications: PaginatedList<FailedNotificationDTO>
@@ -138,3 +139,5 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
     </PageTemplate>
   )
 }
+
+hydrateOnClient(EmailsEnErreur)

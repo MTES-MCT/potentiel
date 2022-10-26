@@ -1,6 +1,7 @@
 import type { Request } from 'express'
 import React from 'react'
 import { PageTemplate } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 type StatistiquesProps = {
   request: Request
@@ -49,3 +50,5 @@ export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: Statistiq
     </PageTemplate>
   )
 }
+
+hydrateOnClient(Statistiques)

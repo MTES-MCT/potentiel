@@ -4,6 +4,7 @@ import routes from '@routes'
 import { Footer, Header, Button, Input, Container, SecondaryLinkButton } from '../components'
 import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
 import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
+import { hydrateOnClient } from '../helpers'
 
 type AbonnementLettreInformationProps = {
   request: Request
@@ -118,3 +119,5 @@ const AbonnementLettreInformationSuccessful = () => (
     </SecondaryLinkButton>
   </Container>
 )
+
+hydrateOnClient(AbonnementLettreInformation)

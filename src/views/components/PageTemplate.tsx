@@ -42,6 +42,8 @@ const getUserNavigation = ({
       return MenuDreal(currentPage)
     case 'admin':
       return MenuAdmin(currentPage)
+    case 'dgec-validateur':
+      return MenuAdmin(currentPage)
   }
 
   return null

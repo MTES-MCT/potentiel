@@ -44,7 +44,8 @@ export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
   makeHtml({
     Component: Statistiques,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'statistiques',
     title: 'Tableau de bord public',
   })
 
@@ -52,7 +53,8 @@ export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques
   makeHtml({
     Component: AdminStatistiques,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'adminStatistiques',
     title: 'Tableau de bord',
   })
 
@@ -60,7 +62,8 @@ export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques
   makeHtml({
     Component: AdemeStatistiques,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'ademeStatistiques',
     title: 'Tableau de bord',
   })
 
@@ -104,7 +107,8 @@ export const ErrorPage = (props: Parameters<typeof Error>[0]) =>
   makeHtml({
     Component: Error,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'error',
     title: 'Erreur',
   })
 
@@ -186,7 +190,8 @@ export const UploadLegacyModificationFilesPage = (
   makeHtml({
     Component: UploadLegacyModificationFiles,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'uploadLegacyModificationFiles',
     title: 'Importer courriers historiques',
   })
 
@@ -221,7 +226,8 @@ export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
   makeHtml({
     Component: Signup,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'signup',
     title: 'Inscription',
   })
 
@@ -247,7 +253,8 @@ export const ImporterListingEDFPage = (props: Parameters<typeof ImporterListingE
   makeHtml({
     Component: ImporterListingEDF,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'importerListingEDF',
     title: 'Importer listing EDF',
   })
 
@@ -255,7 +262,8 @@ export const ImporterListingEnedisPage = (props: Parameters<typeof ImporterListi
   makeHtml({
     Component: ImporterListingEnedis,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'importerListingEnedis',
     title: 'Importer listing Enedis',
   })
 
@@ -265,7 +273,8 @@ export const AbonnementLettreInformationPage = (
   makeHtml({
     Component: AbonnementLettreInformation,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'abonnementLettreInformation',
     title: 'Abdonnement lettre information',
   })
 
@@ -276,15 +285,16 @@ export const ImportGestionnaireReseauPage = (
     Component: ImportGestionnaireReseau,
     props,
     hydrate: true,
-    title: 'Importer fichier gestionnaire réseau',
     pageName: 'importGestionnaireReseau',
+    title: 'Importer fichier gestionnaire réseau',
   })
 
 export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres>[0]) =>
   makeHtml({
     Component: AdminAppelsOffres,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'adminAppelsOffres',
     title: 'Appels offres',
   })
 
@@ -294,7 +304,8 @@ export const AdminNotificationCandidatsPage = (
   makeHtml({
     Component: AdminNotificationCandidats,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'adminNotificationCandidats',
     title: 'Notifier des candidats',
   })
 
@@ -304,7 +315,8 @@ export const AdminRegénérerPeriodeAttestationsPage = (
   makeHtml({
     Component: AdminRegénérerPeriodeAttestations,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'adminRegénérerPeriodeAttestations',
     title: 'Regénérer période attestations',
   })
 
@@ -312,7 +324,8 @@ export const AdminImporterCandidatsPage = (props: Parameters<typeof AdminImporte
   makeHtml({
     Component: AdminImporterCandidats,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'adminImporterCandidats',
     title: 'Importer des candidats',
   })
 
@@ -329,14 +342,16 @@ export const SuccèsOuErreurPage = (props: Parameters<typeof SuccèsOuErreur>[0]
   makeHtml({
     Component: SuccèsOuErreur,
     props,
-    hydrate: false,
+    pageName: 'succèsOuErreur',
+    hydrate: true,
   })
 
 export const FakeLoginPage = (props: Parameters<typeof FakeLogin>[0]) =>
   makeHtml({
     Component: FakeLogin,
     props,
-    hydrate: false,
+    pageName: 'fakeLogin',
+    hydrate: true,
   })
 
 export const InvitationsCandidatsEnAttentePage = (
@@ -345,7 +360,8 @@ export const InvitationsCandidatsEnAttentePage = (
   makeHtml({
     Component: InvitationsCandidatsEnAttente,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'invitationsCandidatsEnAttente',
     title: 'Invitations en attente',
   })
 
@@ -353,7 +369,8 @@ export const EmailsEnErreurPage = (props: Parameters<typeof EmailsEnErreur>[0]) 
   makeHtml({
     Component: EmailsEnErreur,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'emailsEnErreur',
     title: 'Emails en erreur',
   })
 
@@ -361,7 +378,8 @@ export const ProjetsÀRéclamerPage = (props: Parameters<typeof ProjetsÀRéclam
   makeHtml({
     Component: ProjetsÀRéclamer,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'projetsÀRéclamer',
     title: 'Projets à réclamer',
   })
 
@@ -369,6 +387,7 @@ export const LienInvitationPériméPage = (props: Parameters<typeof LienInvitati
   makeHtml({
     Component: LienInvitationPérimé,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'lienInvitationPérimé',
     title: 'Lien invitation périmé',
   })

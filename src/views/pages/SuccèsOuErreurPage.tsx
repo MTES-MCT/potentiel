@@ -2,6 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { LinkButton, PageTemplate, RoleBasedDashboard } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 interface SuccèsOuErreurProps {
   request: Request
@@ -45,3 +46,5 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
     </PageTemplate>
   )
 }
+
+hydrateOnClient(SuccèsOuErreur)
