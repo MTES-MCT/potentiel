@@ -41,7 +41,9 @@ const RapportErreurs: FC<{ erreurs: RésultatErreurs }> = ({ erreurs }) => (
           </span>
           <span className="block">Erreur : {erreur.raison}</span>
           {erreur.projetId && (
-            <span className="block">Identifiant projet : ${erreur.projetId}</span>
+            <Link className="block" href={routes.PROJECT_DETAILS(erreur.projetId)}>
+              Voir page projet
+            </Link>
           )}
           {index !== erreurs.length - 1 && (
             <hr
@@ -103,16 +105,14 @@ const Tâche: FC<TâcheProps> = (props) => {
                 className="flex items-center text-sm"
                 href="#"
                 onClick={() => {
-                  console.log('pré', afficherDétailErreurs)
                   setAfficherDétailErreurs(!afficherDétailErreurs)
-                  console.log('post', afficherDétailErreurs)
                 }}
               >
                 <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
                 {`${props.nombreDEchecs} ${
                   props.nombreDEchecs === 1 ? 'mise à jour a' : 'mises à jour ont'
                 } échoué`}{' '}
-                (voir détails)
+                ({afficherDétailErreurs ? 'masquer le détail' : 'voir le détail'})
               </Link>
             )}
           </div>
