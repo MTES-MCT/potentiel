@@ -17,7 +17,7 @@ declare module 'express-session' {
         type: 'échec'
         raison: string
         erreursDeValidationCsv?: Array<{
-          numéroLigne: number
+          numéroLigne?: number
           valeurInvalide?: string
           raison: string
         }>
