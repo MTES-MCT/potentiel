@@ -63,30 +63,7 @@ const MenuAdmin = (currentPage: CurrentPage) => [
   >
     Demandes
   </Header.MenuItem>,
-  <DropdownMenu buttonChildren={'Imports'}>
-    <DropdownMenu.DropdownItem
-      href={routes.IMPORT_PROJECTS}
-      {...(currentPage === 'import-projects' && { isCurrent: true })}
-    >
-      Importer des candidats
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
-      {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
-    >
-      Importer des courriers historiques
-    </DropdownMenu.DropdownItem>
-    {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
-      <DropdownMenu.DropdownItem
-        key="main-menu-2"
-        href={routes.IMPORT_GESTIONNAIRE_RESEAU}
-        {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
-      >
-        Import gestionnaire réseau
-      </DropdownMenu.DropdownItem>
-    )}
-  </DropdownMenu>,
+
   <DropdownMenu buttonChildren={'Candidats'}>
     <DropdownMenu.DropdownItem
       href={routes.IMPORT_PROJECTS}
@@ -146,6 +123,22 @@ const MenuAdmin = (currentPage: CurrentPage) => [
     >
       Gérer les utilisateurs partenaires
     </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem
+      key="main-menu-2"
+      href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
+      {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
+    >
+      Importer des courriers historiques
+    </DropdownMenu.DropdownItem>
+    {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+      <DropdownMenu.DropdownItem
+        key="main-menu-2"
+        href={routes.IMPORT_GESTIONNAIRE_RESEAU}
+        {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
+      >
+        Import gestionnaire réseau
+      </DropdownMenu.DropdownItem>
+    )}
   </DropdownMenu>,
 
   <Header.MenuItem
