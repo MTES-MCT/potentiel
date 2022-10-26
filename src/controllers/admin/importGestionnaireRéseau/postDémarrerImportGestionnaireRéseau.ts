@@ -19,6 +19,7 @@ import {
   DonnéesDeMiseAJourObligatoiresError,
   DémarrageImpossibleError,
 } from '@modules/imports/gestionnaireRéseau'
+import { CsvError } from 'csv-parse'
 
 const csvDataSchema = yup
   .array()
@@ -128,6 +129,14 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
               setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
                 type: 'échec',
                 raison: error.message,
+              })
+              return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+            }
+
+            if (error instanceof CsvError) {
+              setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+                type: 'échec',
+                raison: 'Le fichier csv est mal formaté',
               })
               return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
             }
