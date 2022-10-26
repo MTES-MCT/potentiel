@@ -10,7 +10,8 @@ type PageProps<T> = {
   Component: (props: T) => JSX.Element
   props: T
   title?: string
-} & ({ hydrate: false } | { hydrate: true; pageName: string })
+  pageName: string
+}
 
 const html = String.raw
 
@@ -54,12 +55,10 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         />
         <script src="/scripts.js"></script>
 
-        ${args.hydrate
-          ? html`
-              <script src="/js/shared.js"></script>
-              <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
-            `
-          : ''}
+        ${html`
+          <script src="/js/shared.js"></script>
+          <script src="/js/${args.pageName}.js?${process.env.npm_package_version}"></script>
+        `}
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
       </head>
 
@@ -154,11 +153,9 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
           </defs>
         </svg>
         <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
-        ${args.hydrate
-          ? html`<script>
-              window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
-            </script>`
-          : ''}
+        ${html`<script>
+          window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
+        </script>`}
       </body>
     </html>
   `
