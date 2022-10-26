@@ -15,7 +15,6 @@ import {
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
-import { format } from 'date-fns'
 
 type ErreurValidationCsv = {
   numéroLigne: number
@@ -50,8 +49,8 @@ const Tâche: FC<TâcheProps> = (props) => {
           </Badge>
         </div>
         <p className="m-0 p-0 text-sm text-grey-625-base">
-          {état === 'en cours' && `Démarrée le ${format(dateDeDébut, 'P à p')}`}
-          {état === 'terminée' && `Terminée le ${format(props.dateDeFin, 'P à p')}`}
+          {état === 'en cours' && `Démarrée le ${dateDeDébut.toLocaleString()}`}
+          {état === 'terminée' && `Terminée le ${props.dateDeFin.toLocaleString()}`}
         </p>
       </div>
       {état === 'terminée' && (
@@ -59,13 +58,17 @@ const Tâche: FC<TâcheProps> = (props) => {
           {props.nombreDeSucces > 0 && (
             <div className="flex items-center text-sm lg:mr-4">
               <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
-              {props.nombreDeSucces} projets ont été mis à jour
+              {`${props.nombreDeSucces} ${
+                props.nombreDeSucces === 1 ? 'projet a' : 'projets ont'
+              } été mis à jour`}
             </div>
           )}
           {props.nombreDEchecs > 0 && (
             <div className="flex items-center text-sm">
               <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
-              {props.nombreDEchecs} mises à jour ont échouées
+              {`${props.nombreDEchecs} ${
+                props.nombreDEchecs === 1 ? 'mise à jour a' : 'mises à jour ont'
+              } échoué`}
             </div>
           )}
         </div>
@@ -97,7 +100,9 @@ const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
 }) => {
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
-      return <SuccessErrorBox success="L'import du fichier a démarré." />
+      return (
+        <SuccessErrorBox success="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
+      )
     case 'échec':
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&
         résultatSoumissionFormulaire.erreursDeValidationCsv?.length > 0 ? (
