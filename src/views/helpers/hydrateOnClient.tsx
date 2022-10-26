@@ -2,7 +2,6 @@ import React from 'react'
 import { hydrate } from 'react-dom'
 
 export const hydrateOnClient = (Component: (props: any) => JSX.Element) => {
-  console.log('hydrate')
   if (typeof window !== 'undefined') {
     window.addEventListener('DOMContentLoaded', function () {
       const props = (window as any).__INITIAL_PROPS__
