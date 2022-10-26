@@ -320,7 +320,8 @@ export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>
   makeHtml({
     Component: ListeProjets,
     props,
-    hydrate: false,
+    hydrate: true,
+    pageName: 'listeProjets',
     title: 'Projets',
   })
 

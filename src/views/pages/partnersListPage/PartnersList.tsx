@@ -16,7 +16,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
   const { error, success } = (request.query as any) || {}
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="admin-users">
       <AdminDashboard role={request.user?.role} currentPage="admin-users">
         <div className="panel">
           <div className="panel__header">

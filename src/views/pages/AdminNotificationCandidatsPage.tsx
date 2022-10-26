@@ -29,7 +29,7 @@ export const AdminNotificationCandidats = ({
   if (!results) {
     // All projects have been notified
     return (
-      <PageTemplate user={request.user}>
+      <PageTemplate user={request.user} currentPage="notify-candidates">
         <AdminDashboard role={request.user?.role} currentPage="notify-candidates">
           <div className="panel">
             <div className="panel__header">

@@ -22,7 +22,7 @@ export const AdminRegénérerPeriodeAttestations = ({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="regenerate-certificates">
       <AdminDashboard role={request.user?.role} currentPage="regenerate-certificates">
         <div className="panel">
           <div className="panel__header">

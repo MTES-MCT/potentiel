@@ -12,7 +12,7 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
   const { error, success } = (request.query as any) || {}
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="admin-ao">
       <AdminDashboard role={request.user?.role} currentPage="admin-ao">
         <div className="panel">
           <div className="panel__header">

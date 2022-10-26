@@ -15,7 +15,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
   const { error, success } = (request.query as any) || {}
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="list-notifications">
       <AdminDashboard role={request.user?.role} currentPage="list-notifications">
         <div className="panel">
           <div className="panel__header">

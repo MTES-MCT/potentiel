@@ -15,7 +15,7 @@ type DrealListProps = {
 export const DrealList = ({ request, users, validationErrors }: DrealListProps) => {
   const { success, error } = (request.query as any) || {}
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="list-dreal">
       <AdminDashboard role={request.user?.role} currentPage="list-dreal">
         <div className="panel">
           <div className="panel__header">

@@ -18,7 +18,7 @@ export const AdminImporterCandidats = ({
   otherError,
 }: AdminImporterCandidatsProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="import-projects">
       <AdminDashboard role={request.user?.role} currentPage="import-projects">
         <div className="panel">
           <div className="panel__header">

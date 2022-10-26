@@ -19,7 +19,7 @@ export const InvitationsCandidatsEnAttente = ({
   const { error, success } = (request.query as any) || {}
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="list-invitations">
       <AdminDashboard role={request.user?.role} currentPage="list-invitations">
         <div className="panel">
           <div className="panel__header">

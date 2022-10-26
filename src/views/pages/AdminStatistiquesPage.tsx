@@ -9,7 +9,7 @@ type AdminStatistiquesProps = {
 
 export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps) => {
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="admin-statistiques">
       <AdminDashboard currentPage="admin-statistiques" role="admin">
         <main role="main" className="panel">
           <div className="panel__header">

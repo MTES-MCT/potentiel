@@ -189,7 +189,7 @@ export const ImportGestionnaireReseau = ({
   tâches,
   résultatSoumissionFormulaire,
 }: ImportGestionnaireReseauProps) => (
-  <PageTemplate user={request.user}>
+  <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
     <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
       <div className="panel">
         <div className="panel__header">

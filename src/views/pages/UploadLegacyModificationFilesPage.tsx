@@ -30,7 +30,7 @@ export const UploadLegacyModificationFiles = ({
   const successes = results?.filter((result) => !result.error) || []
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
       <AdminDashboard role={role} currentPage={'admin-upload-legacy-modification-files'}>
         <div className="panel">
           <div className="panel__header">

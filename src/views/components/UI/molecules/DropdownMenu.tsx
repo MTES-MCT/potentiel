@@ -1,4 +1,4 @@
-import React, { ComponentProps, useLayoutEffect, useRef, useState } from 'react'
+import React, { ComponentProps, useEffect, useRef, useState } from 'react'
 import { ArrowDownIcon } from '../atoms/icons'
 
 type DropdownMenuProps = ComponentProps<'li'> & {
@@ -15,7 +15,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
   const [visible, setVisible] = useState(false)
 
   const ref = useRef<HTMLLIElement>(null)
-  useLayoutEffect(() => {
+  useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const element = e.target as HTMLElement
       if (ref.current !== element && !ref.current?.contains(element)) {
@@ -66,13 +66,13 @@ type DropdownItemProps = {
 const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
   <li
     style={{ borderBottomWidth: 1 }}
-    className={`flex items-center border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
+    className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
       isCurrent && ' font-medium'
     }`}
   >
     {isCurrent && <div className="h-[24px] w-[2px] bg-blue-france-sun-base" />}
     <a
-      className="px-4 py-3 block no-underline hover:bg-grey-1000-hover whitespace-nowrap"
+      className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
