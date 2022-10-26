@@ -14,6 +14,7 @@ import { Request } from 'express'
 import { DemandeAbandonPageDTO } from '@modules/modificationRequest'
 import { dataId } from '../../../helpers/testId'
 import {
+  hydrateOnClient,
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
@@ -140,3 +141,5 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
     </PageTemplate>
   )
 }
+
+hydrateOnClient(DemandeAbandon)
