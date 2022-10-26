@@ -21,6 +21,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
           request,
           tâches: tâches.map((t) => {
             const { dateDeDébut, type, état, résultat } = t
+
             return {
               type,
               dateDeDébut,

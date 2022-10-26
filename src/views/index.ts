@@ -275,8 +275,9 @@ export const ImportGestionnaireReseauPage = (
   makeHtml({
     Component: ImportGestionnaireReseau,
     props,
-    hydrate: false,
+    hydrate: true,
     title: 'Importer fichier gestionnaire réseau',
+    pageName: 'importGestionnaireReseau',
   })
 
 export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres>[0]) =>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import {
   Badge,
   Input,
@@ -12,15 +12,48 @@ import {
   SuccessIcon,
   RefreshIcon,
   SecondaryLinkButton,
+  Link,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
+import { hydrateOnClient } from '@views/helpers'
 
 type ErreurValidationCsv = {
   numéroLigne?: number
   valeurInvalide?: string
   raison: string
 }
+
+type RésultatErreurs = Array<{
+  raison: string
+  projetId?: string
+  identifiantGestionnaireRéseau: string
+}>
+
+const RapportErreurs: FC<{ erreurs: RésultatErreurs }> = ({ erreurs }) => (
+  <ul className="p-0 list-none">
+    {erreurs.map((erreur, index) => {
+      return (
+        <li className="mt-3 text-sm">
+          <span className="block">
+            Identifiant gestionnaire réseau :
+            <code className="font-bold">{erreur.identifiantGestionnaireRéseau}</code>
+          </span>
+          <span className="block">Erreur : {erreur.raison}</span>
+          {erreur.projetId && (
+            <span className="block">Identifiant projet : ${erreur.projetId}</span>
+          )}
+          {index !== erreurs.length - 1 && (
+            <hr
+              style={{ borderTopWidth: '1px', borderTopStyle: 'solid' }}
+              className="my-4 border-t-grey-925-base"
+            />
+          )}
+        </li>
+      )
+    })}
+  </ul>
+)
 
 type TâcheProps = {
   type: 'maj-date-mise-en-service'
@@ -34,16 +67,12 @@ type TâcheProps = {
       dateDeFin: Date
       nombreDeSucces: number
       nombreDEchecs: number
-      résultatErreurs: Array<{
-        raison: string
-        projetId?: string
-        identifiantGestionnaireRéseau: string
-      }>
+      résultatErreurs: RésultatErreurs
     }
 )
-
 const Tâche: FC<TâcheProps> = (props) => {
   const { état, dateDeDébut } = props
+  const [afficherDétailErreurs, setAfficherDétailErreurs] = useState(false)
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
@@ -59,24 +88,36 @@ const Tâche: FC<TâcheProps> = (props) => {
         </p>
       </div>
       {état === 'terminée' && (
-        <div className="flex flex-col lg:flex-row gap-1">
-          {props.nombreDeSucces > 0 && (
-            <div className="flex items-center text-sm lg:mr-4">
-              <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
-              {`${props.nombreDeSucces} ${
-                props.nombreDeSucces === 1 ? 'projet a' : 'projets ont'
-              } été mis à jour`}
-            </div>
-          )}
-          {props.nombreDEchecs > 0 && (
-            <div className="flex items-center text-sm">
-              <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
-              {`${props.nombreDEchecs} ${
-                props.nombreDEchecs === 1 ? 'mise à jour a' : 'mises à jour ont'
-              } échoué`}
-            </div>
-          )}
-        </div>
+        <>
+          <div className="flex flex-col lg:flex-row gap-1">
+            {props.nombreDeSucces > 0 && (
+              <div className="flex items-center text-sm lg:mr-4">
+                <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
+                {`${props.nombreDeSucces} ${
+                  props.nombreDeSucces === 1 ? 'projet a' : 'projets ont'
+                } été mis à jour`}
+              </div>
+            )}
+            {props.nombreDEchecs > 0 && (
+              <Link
+                className="flex items-center text-sm"
+                href="#"
+                onClick={() => {
+                  console.log('pré', afficherDétailErreurs)
+                  setAfficherDétailErreurs(!afficherDétailErreurs)
+                  console.log('post', afficherDétailErreurs)
+                }}
+              >
+                <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
+                {`${props.nombreDEchecs} ${
+                  props.nombreDEchecs === 1 ? 'mise à jour a' : 'mises à jour ont'
+                } échoué`}{' '}
+                (voir détails)
+              </Link>
+            )}
+          </div>
+          {afficherDétailErreurs && <RapportErreurs erreurs={props.résultatErreurs} />}
+        </>
       )}
     </div>
   )
@@ -99,7 +140,6 @@ type RésultatSoumissionFormulaireProps = {
         erreursDeValidationCsv?: Array<ErreurValidationCsv>
       }
 }
-
 const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
   résultatSoumissionFormulaire,
 }) => {
@@ -196,3 +236,5 @@ export const ImportGestionnaireReseau = ({
     </AdminDashboard>
   </PageTemplate>
 )
+
+hydrateOnClient(ImportGestionnaireReseau)
