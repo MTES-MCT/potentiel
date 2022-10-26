@@ -48,12 +48,6 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
   children,
 }: HeaderProps) => {
-  const menuItems = React.Children.map(children, (child: React.ReactElement) => {
-    if (true || child.type === MenuItem) {
-      return child
-    }
-  })
-
   return (
     <>
       <header
@@ -66,16 +60,16 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
-              <div className={`flex flex-row ml-auto ${menuItems && 'mr-4'}`}>
+              <div className={`flex flex-row ml-auto ${children && 'mr-4'}`}>
                 <QuickAccess {...{ user }} />
               </div>
             </section>
           </div>
 
-          {menuItems && (
+          {children && (
             <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
               <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
-                <MainMenu>{menuItems}</MainMenu>
+                <MainMenu>{children}</MainMenu>
               </section>
             </div>
           )}

@@ -1,9 +1,9 @@
-import React, { ComponentProps, useEffect, useRef, useState } from 'react'
+import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react'
 import { ArrowDownIcon } from '../atoms/icons'
 
 type DropdownMenuProps = ComponentProps<'li'> & {
   buttonChildren: React.ReactNode
-  children: React.ReactNode
+  children: (ReactElement | false)[]
 }
 
 const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
@@ -13,8 +13,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
   ...props
 }: DropdownMenuProps) => {
   const [visible, setVisible] = useState(false)
-
+  const isCurrent = children.some((subMenu) => subMenu && subMenu.props.isCurrent)
   const ref = useRef<HTMLLIElement>(null)
+
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
       const element = e.target as HTMLElement
@@ -35,7 +36,10 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
     >
       <div
         onClick={() => setVisible(!visible)}
-        className={`py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover`}
+        className={`py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
+          isCurrent &&
+          ' font-medium border-l-[3px] border-l-blue-france-sun-base lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
+        }`}
       >
         <div className={`no-underline pl-4 lg:pl-0 flex items-center`}>
           {buttonChildren}

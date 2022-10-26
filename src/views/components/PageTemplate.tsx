@@ -48,189 +48,176 @@ const getUserNavigation = ({
 
   return null
 }
-const MenuAdmin = (currentPage: CurrentPage) => [
-  <Header.MenuItem
-    key="main-menu-1"
-    href={routes.ADMIN_LIST_PROJECTS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.ADMIN_LIST_REQUESTS}
-    {...(currentPage === 'list-requests' && { isCurrent: true })}
-  >
-    Demandes
-  </Header.MenuItem>,
 
-  <DropdownMenu buttonChildren={'Candidats'}>
-    <DropdownMenu.DropdownItem
-      href={routes.IMPORT_PROJECTS}
-      {...(currentPage === 'import-projects' && { isCurrent: true })}
+const MenuAdmin = (currentPage: CurrentPage) => (
+  <>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_PROJECTS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
-      Importer des candidats
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_NOTIFY_CANDIDATES()}
-      {...(currentPage === 'notify-candidates' && { isCurrent: true })}
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
     >
-      Notifier des candidats
-    </DropdownMenu.DropdownItem>
-
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_INVITATION_LIST}
-      {...(currentPage === 'list-invitations' && { isCurrent: true })}
-    >
-      Invitations de candidats en attente
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_NOTIFICATION_LIST}
-      {...(currentPage === 'list-notifications' && { isCurrent: true })}
-    >
-      Emails en erreur
-    </DropdownMenu.DropdownItem>
-  </DropdownMenu>,
-  <DropdownMenu buttonChildren={'Gestion'}>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_DREAL_LIST}
-      {...(currentPage === 'list-dreal' && { isCurrent: true })}
-    >
-      Gérer les DREAL
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_REGENERATE_CERTIFICATES}
-      {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
-    >
-      Regénérer des attestations
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_AO_PERIODE}
-      {...(currentPage === 'admin-ao' && { isCurrent: true })}
-    >
-      Gérer les appels d'offres
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.ADMIN_PARTNER_USERS}
-      {...(currentPage === 'admin-users' && { isCurrent: true })}
-    >
-      Gérer les utilisateurs partenaires
-    </DropdownMenu.DropdownItem>
-    <DropdownMenu.DropdownItem
-      key="main-menu-2"
-      href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
-      {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
-    >
-      Importer des courriers historiques
-    </DropdownMenu.DropdownItem>
-    {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+      Demandes
+    </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Candidats'}>
       <DropdownMenu.DropdownItem
-        key="main-menu-2"
-        href={routes.IMPORT_GESTIONNAIRE_RESEAU}
-        {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
+        href={routes.IMPORT_PROJECTS}
+        {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
-        Import gestionnaire réseau
+        Importer des candidats
       </DropdownMenu.DropdownItem>
-    )}
-  </DropdownMenu>,
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_NOTIFY_CANDIDATES()}
+        {...(currentPage === 'notify-candidates' && { isCurrent: true })}
+      >
+        Notifier des candidats
+      </DropdownMenu.DropdownItem>
 
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.ADMIN_STATISTIQUES}
-    {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
-  >
-    Tableau de bord
-  </Header.MenuItem>,
-]
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_INVITATION_LIST}
+        {...(currentPage === 'list-invitations' && { isCurrent: true })}
+      >
+        Invitations de candidats en attente
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_NOTIFICATION_LIST}
+        {...(currentPage === 'list-notifications' && { isCurrent: true })}
+      >
+        Emails en erreur
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
+    <DropdownMenu buttonChildren={'Gestion'}>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_REGENERATE_CERTIFICATES}
+        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
+      >
+        Regénérer des attestations
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_AO_PERIODE}
+        {...(currentPage === 'admin-ao' && { isCurrent: true })}
+      >
+        Gérer les appels d'offres
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_DREAL_LIST}
+        {...(currentPage === 'list-dreal' && { isCurrent: true })}
+      >
+        Gérer les DREAL
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_PARTNER_USERS}
+        {...(currentPage === 'admin-users' && { isCurrent: true })}
+      >
+        Gérer les utilisateurs partenaires
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
+        {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
+      >
+        Importer des courriers historiques
+      </DropdownMenu.DropdownItem>
+      {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+        <DropdownMenu.DropdownItem
+          href={routes.IMPORT_GESTIONNAIRE_RESEAU}
+          {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
+        >
+          Import gestionnaire réseau
+        </DropdownMenu.DropdownItem>
+      )}
+    </DropdownMenu>
+    <Header.MenuItem
+      href={routes.ADMIN_STATISTIQUES}
+      {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
+    >
+      Tableau de bord
+    </Header.MenuItem>
+  </>
+)
 
-const MenuPorteurProjet = (currentPage: CurrentPage) => [
-  <Header.MenuItem
-    key="main-menu-1"
-    href={routes.USER_LIST_PROJECTS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Mes projets
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.USER_LIST_REQUESTS}
-    {...(currentPage === 'list-requests' && { isCurrent: true })}
-  >
-    Mes demandes
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-3"
-    href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
-    {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
-  >
-    Projets à réclamer
-  </Header.MenuItem>,
-]
+const MenuPorteurProjet = (currentPage: CurrentPage) => (
+  <>
+    <Header.MenuItem
+      href={routes.USER_LIST_PROJECTS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Mes projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.USER_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Mes demandes
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+      {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
+    >
+      Projets à réclamer
+    </Header.MenuItem>
+  </>
+)
 
-const MenuAcheteurObligé = (currentPage: CurrentPage) => [
-  <Header.MenuItem
-    key="main-menu-1"
-    href={routes.USER_LIST_PROJECTS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.ADMIN_LIST_REQUESTS}
-    {...(currentPage === 'list-requests' && { isCurrent: true })}
-  >
-    Demandes
-  </Header.MenuItem>,
-]
+const MenuAcheteurObligé = (currentPage: CurrentPage) => (
+  <>
+    <Header.MenuItem
+      href={routes.USER_LIST_PROJECTS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Demandes
+    </Header.MenuItem>
+  </>
+)
 
-const MenuAdeme = (currentPage: CurrentPage) => [
-  <Header.MenuItem
-    key="main-menu-1"
-    href={routes.USER_LIST_PROJECTS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.ADEME_STATISTIQUES}
-    {...(currentPage === 'ademe-statistiques' && { isCurrent: true })}
-  >
-    Tableau de bord
-  </Header.MenuItem>,
-]
+const MenuAdeme = (currentPage: CurrentPage) => (
+  <>
+    <Header.MenuItem
+      href={routes.USER_LIST_PROJECTS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ADEME_STATISTIQUES}
+      {...(currentPage === 'ademe-statistiques' && { isCurrent: true })}
+    >
+      Tableau de bord
+    </Header.MenuItem>
+  </>
+)
 
-const MenuDreal = (currentPage: CurrentPage) => [
-  <Header.MenuItem
-    key="main-menu-1"
-    href={routes.ADMIN_LIST_PROJECTS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-2"
-    href={routes.ADMIN_LIST_REQUESTS}
-    {...(currentPage === 'list-requests' && { isCurrent: true })}
-  >
-    Demandes
-  </Header.MenuItem>,
-  <Header.MenuItem
-    key="main-menu-3"
-    href={routes.ADMIN_GARANTIES_FINANCIERES}
-    {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
-  >
-    Garanties Financières
-  </Header.MenuItem>,
-]
+const MenuDreal = (currentPage: CurrentPage) => (
+  <>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_PROJECTS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ADMIN_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Demandes
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ADMIN_GARANTIES_FINANCIERES}
+      {...(currentPage === 'list-garanties-financieres' && { isCurrent: true })}
+    >
+      Garanties Financières
+    </Header.MenuItem>
+  </>
+)
 
 export const PageTemplate = ({
   user,
