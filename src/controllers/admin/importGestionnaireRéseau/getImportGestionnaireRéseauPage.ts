@@ -19,8 +19,8 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       return response.send(
         ImportGestionnaireReseauPage({
           request,
-          tâches: tâches.map((t) => {
-            const { dateDeDébut, type, état, résultat } = t
+          tâches: tâches.map((tâche) => {
+            const { dateDeDébut, type, état, résultat } = tâche
 
             return {
               type,
@@ -31,9 +31,9 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
                   }
                 : {
                     état: 'terminée',
-                    dateDeFin: t.dateDeFin!,
-                    nombreDeSucces: t.nombreDeSucces!,
-                    nombreDEchecs: t.nombreDEchecs!,
+                    dateDeFin: tâche.dateDeFin!,
+                    nombreDeSucces: tâche.nombreDeSucces!,
+                    nombreDEchecs: tâche.nombreDEchecs!,
                     résultatErreurs: getRésultatErreurs(résultat!),
                   }),
             }
