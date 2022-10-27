@@ -19,6 +19,17 @@ export const Default = () => (
         dateDeFin: new Date(),
         nombreDEchecs: 0,
         nombreDeSucces: 12,
+        résultatErreurs: [
+          {
+            identifiantGestionnaireRéseau: 'idGR01',
+            raison: 'Plusieurs projets pour un gesitonnaire de réseau',
+          },
+          {
+            identifiantGestionnaireRéseau: 'idGR02',
+            projetId: 'idprojet',
+            raison: "La date est plus récente que l'actuelle",
+          },
+        ],
       },
       {
         type: 'maj-date-mise-en-service',
@@ -27,6 +38,17 @@ export const Default = () => (
         dateDeFin: new Date(),
         nombreDEchecs: 3,
         nombreDeSucces: 12,
+        résultatErreurs: [
+          {
+            identifiantGestionnaireRéseau: 'idGR01',
+            raison: 'Plusieurs projets pour un gesitonnaire de réseau',
+          },
+          {
+            identifiantGestionnaireRéseau: 'idGR02',
+            projetId: 'idprojet',
+            raison: "La date est plus récente que l'actuelle",
+          },
+        ],
       },
     ]}
   />

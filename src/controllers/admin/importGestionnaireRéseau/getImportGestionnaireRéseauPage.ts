@@ -5,6 +5,7 @@ import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { ImportGestionnaireReseauPage } from '@views'
 import { Tâches } from '@infra/sequelize/projectionsNext'
+import { RésultatTâcheMaJMeS } from '@modules/imports/gestionnaireRéseau'
 
 if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
   v1Router.get(
@@ -18,8 +19,9 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       return response.send(
         ImportGestionnaireReseauPage({
           request,
-          tâches: tâches.map((t) => {
-            const { dateDeDébut, type, état } = t
+          tâches: tâches.map((tâche) => {
+            const { dateDeDébut, type, état, résultat } = tâche
+
             return {
               type,
               dateDeDébut,
@@ -29,9 +31,10 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
                   }
                 : {
                     état: 'terminée',
-                    dateDeFin: t.dateDeFin!,
-                    nombreDeSucces: t.nombreDeSucces!,
-                    nombreDEchecs: t.nombreDEchecs!,
+                    dateDeFin: tâche.dateDeFin!,
+                    nombreDeSucces: tâche.nombreDeSucces!,
+                    nombreDEchecs: tâche.nombreDEchecs!,
+                    résultatErreurs: getRésultatErreurs(résultat!),
                   }),
             }
           }),
@@ -54,4 +57,21 @@ const getFormResult = (request: Request, formId: string) => {
 
     return form?.résultatSoumissionFormulaire
   }
+}
+
+const getRésultatErreurs = (résultat: RésultatTâcheMaJMeS) => {
+  type RésultatEchecs = {
+    raison: string
+    projetId?: string
+    identifiantGestionnaireRéseau: string
+    état: 'échec'
+  }
+
+  return résultat
+    .filter((r): r is RésultatEchecs => r.état === 'échec')
+    .map(({ raison, projetId, identifiantGestionnaireRéseau }) => ({
+      raison,
+      ...(projetId && { projetId }),
+      identifiantGestionnaireRéseau,
+    }))
 }

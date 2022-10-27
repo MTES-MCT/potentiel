@@ -1,3 +1,4 @@
+import { RésultatTâcheMaJMeS } from '@modules/imports/gestionnaireRéseau/events'
 import {
   CreationOptional,
   DataTypes,
@@ -22,6 +23,7 @@ class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttributes<T�
   dateDeFin?: Date
   nombreDeSucces?: number
   nombreDEchecs?: number
+  résultat?: RésultatTâcheMaJMeS
 }
 
 const nomProjection = 'taches'
@@ -59,6 +61,10 @@ Tâches.init(
     },
     nombreDEchecs: {
       type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    résultat: {
+      type: DataTypes.ARRAY(DataTypes.JSON),
       allowNull: true,
     },
   },
