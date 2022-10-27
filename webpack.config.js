@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 require('dotenv').config()
 
+const formatPageEntrieName = (name) => name.charAt(0).toLowerCase() + name.slice(1)
 const pageEntries = glob
   .sync('./src/views/pages/**/*@(Page|Page.tsx)')
   .map((name) => {
@@ -20,7 +21,7 @@ const pageEntries = glob
   .reduce(
     (entries, { name, path }) => ({
       ...entries,
-      [name]: {
+      [formatPageEntrieName(name)]: {
         import: path,
         dependOn: 'shared',
       },
