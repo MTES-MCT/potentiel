@@ -85,8 +85,8 @@ const Tâche: FC<TâcheProps> = (props) => {
           </Badge>
         </div>
         <p className="m-0 p-0 text-sm text-grey-625-base">
-          {état === 'en cours' && `Démarrée le ${dateDeDébut.toLocaleString()}`}
-          {état === 'terminée' && `Terminée le ${props.dateDeFin.toLocaleString()}`}
+          {état === 'en cours' && `Démarrée le ${new Date(dateDeDébut).toLocaleString()}`}
+          {état === 'terminée' && `Terminée le ${new Date(props.dateDeFin).toLocaleString()}`}
         </p>
       </div>
       {état === 'terminée' && (
