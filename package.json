@@ -171,7 +171,7 @@
     "lint-staged": "^12.5.0",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "^2.7.1",
-    "pretty-format": "^27.5.1",
+    "pretty-format": "^29.2.1",
     "start-server-and-test": "^1.14.0",
     "ts-jest": "^29.0.0",
     "wait-for-expect": "^3.0.2"
