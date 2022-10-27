@@ -25,7 +25,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
-  })
+  }, [setVisible])
 
   return (
     <li
