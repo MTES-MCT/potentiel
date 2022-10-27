@@ -2,90 +2,54 @@ import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
 import { onProjectGFInvalidated } from './onProjectGFInvalidated'
 import { ProjectGFInvalidated } from '@modules/project'
-import { v4 as uuid } from 'uuid'
-import makeFakeProjectStep from '../../../../../__tests__/fixtures/projectStep'
+import makeFakeProject from '../../../../../__tests__/fixtures/project'
+import { UniqueEntityID } from '@core/domain'
 
 describe('project.onProjectGFInvalidated', () => {
-  const { ProjectStep } = models
-  const projectId = uuid()
-  const projectStepId1 = uuid()
-  const projectStepId2 = uuid()
-  const projectStep2 = makeFakeProjectStep({
-    id: projectStepId2,
-    projectId,
-    status: 'invalidé',
-    updatedAt: new Date('01/01/2021'),
+  const { Project } = models
+  const projectId = new UniqueEntityID().toString()
+
+  beforeEach(async () => {
+    await resetDatabase()
   })
 
-  describe('when current GF status is "null"', () => {
-    const projectStep1 = makeFakeProjectStep({ id: projectStepId1, projectId, status: null })
+  it(`Etant donné un projet avec un fichier de garanties financières
+      Lorsqu'un évènement ProjectGFInvalidated survient
+      Alors le fichier de garanties financières devrait être retiré du project`, async () => {
+    await Project.create(
+      makeFakeProject({
+        id: projectId,
+        garantiesFinancieresFileId: new UniqueEntityID().toString(),
+      })
+    )
 
-    beforeAll(async () => {
-      await resetDatabase()
-      await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
-        })
-      )
-    })
+    await onProjectGFInvalidated(models)(
+      new ProjectGFInvalidated({
+        payload: { projectId },
+      })
+    )
 
-    it('should set the GF status to "invalidé"', async () => {
-      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
-      expect(updatedProjectSteps1.status).toEqual('invalidé')
-    })
-
-    it('should not modify the GF that already has its status set to `invalidé`', async () => {
-      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
-      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
-    })
+    const project = await Project.findByPk(projectId)
+    expect(project.garantiesFinancieresFileId).toBeNull()
   })
 
-  describe('when current GF status is "à traiter"', () => {
-    const projectStep1 = makeFakeProjectStep({ id: projectStepId1, projectId, status: 'à traiter' })
+  it(`Etant donné un projet sans fichier de garanties financières
+      Lorsqu'un évènement ProjectGFInvalidated survient
+      Alors le projet devrait rester sans garanties financières`, async () => {
+    await Project.create(
+      makeFakeProject({
+        id: projectId,
+        garantiesFinancieresFileId: null,
+      })
+    )
 
-    beforeAll(async () => {
-      await resetDatabase()
-      await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
-        })
-      )
-    })
+    await onProjectGFInvalidated(models)(
+      new ProjectGFInvalidated({
+        payload: { projectId },
+      })
+    )
 
-    it('should set the GF status to "invalidé"', async () => {
-      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
-      expect(updatedProjectSteps1.status).toEqual('invalidé')
-    })
-
-    it('should not modify the GF that already has its status set to `invalidé`', async () => {
-      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
-      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
-    })
-  })
-
-  describe('when current GF status is "validé"', () => {
-    const projectStep1 = makeFakeProjectStep({ id: projectStepId1, projectId, status: 'validé' })
-
-    beforeAll(async () => {
-      await resetDatabase()
-      await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
-        })
-      )
-    })
-
-    it('should set the GF status to "invalidé"', async () => {
-      const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
-      expect(updatedProjectSteps1.status).toEqual('invalidé')
-    })
-
-    it('should not modify the GF that already has its status set to `invalidé`', async () => {
-      const updatedProjectSteps2 = await ProjectStep.findByPk(projectStepId2)
-      expect(updatedProjectSteps2.updatedAt).toEqual(projectStep2.updatedAt)
-    })
+    const project = await Project.findByPk(projectId)
+    expect(project.garantiesFinancieresFileId).toBeNull()
   })
 })
