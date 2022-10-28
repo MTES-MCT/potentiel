@@ -19,12 +19,14 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
+  makeOnDélaiCDC2022Appliqué,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   CahierDesChargesChoisi,
+  DélaiCDC2022Appliqué,
 } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
@@ -125,6 +127,15 @@ eventStore.subscribe(
   LegacyCandidateNotified.type,
   handleLegacyCandidateNotified({
     sendNotification,
+  })
+)
+
+eventStore.subscribe(
+  DélaiCDC2022Appliqué.type,
+  makeOnDélaiCDC2022Appliqué({
+    sendNotification,
+    getProjectUsers: oldProjectRepo.getUsers,
+    getProjectById: oldProjectRepo.findById,
   })
 )
 

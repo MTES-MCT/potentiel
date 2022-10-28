@@ -255,6 +255,12 @@ type AccèsUtilisateurRévoqués = {
   }
 }
 
+type DélaiCDC2022Appliqué = {
+  type: 'pp-delai-cdc-2022-appliqué'
+  context: { projetId: string; utilisateurId: string }
+  variables: { nom_projet: string; projet_url: string }
+}
+
 type NotificationVariants =
   | Designation
   | ProjectInvitation
@@ -274,6 +280,7 @@ type NotificationVariants =
   | AdminModificationRequested
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués
+  | DélaiCDC2022Appliqué
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

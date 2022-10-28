@@ -26,6 +26,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'accès-utilisateur-révoqués': 4177049,
   'pp-cdc-modifié-choisi': 4237729,
   'pp-cdc-initial-choisi': 4237739,
+  'pp-delai-cdc-2022-appliqué': 4316228,
 }
 
 interface SendEmailFromMailjetDeps {
