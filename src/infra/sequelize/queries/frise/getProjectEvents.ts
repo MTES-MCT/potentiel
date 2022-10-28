@@ -547,6 +547,22 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         : { statut: 'non-renseignée' }),
                     })
                   }
+                  break
+                case 'DélaiCDC2022Appliqué':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type: 'DélaiCDC2022Appliqué',
+                      variant: user.role,
+                      ancienneDateLimiteAchèvement: new Date(
+                        payload.ancienneDateLimiteAchèvement
+                      ).getTime(),
+                      nouvelleDateLimiteAchèvement: new Date(
+                        payload.nouvelleDateLimiteAchèvement
+                      ).getTime(),
+                      date: valueDate,
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)
