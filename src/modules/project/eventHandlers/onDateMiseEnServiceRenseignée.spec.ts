@@ -13,6 +13,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
   )
   beforeEach(() => publishToEventStore.mockClear())
 
+  const dateAchèvementInitiale = new Date('2024-01-01').getTime()
+
+  const nouvelleDateAchèvementAttendue = new Date(
+    new Date(dateAchèvementInitiale).setMonth(new Date(dateAchèvementInitiale).getMonth() + 18)
+  )
+
   for (const type of ['autoconso', 'batiment', 'innovation', 'neutre', 'sol', 'zni', 'autre']) {
     describe(`Projets PV ${type}`, () => {
       const getProjectAppelOffre = jest.fn(() => ({ type } as ProjectAppelOffre))
@@ -120,8 +126,6 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
       - ayant souscrit au CDC 2022,
       - dont la date de mise en service est comprise entre le 1er septembre 2022 et le 31 décembre 2024,
       alors le délai de 18 mois en lien avec le CDC 2022 devrait être appliqué`, async () => {
-          const dateAchèvementInitiale = new Date('2024-01-01').getTime()
-
           const projectRepo = fakeTransactionalRepo(
             makeFakeProject({
               id: 'projetId',
@@ -148,7 +152,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
           expect(évènement1.payload).toEqual(
             expect.objectContaining({
               projectId: 'projetId',
-              completionDueOn: new Date('2025-06-30T23:00:00.000Z').getTime(),
+              completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
             })
           )
 
@@ -157,8 +161,8 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
           expect(évènement2.payload).toEqual(
             expect.objectContaining({
               projetId: 'projetId',
-              nouvelleDateLimiteAchèvement: '2025-06-30T23:00:00.000Z',
-              ancienneDateLimiteAchèvement: '2024-01-01T00:00:00.000Z',
+              nouvelleDateLimiteAchèvement: nouvelleDateAchèvementAttendue.toISOString(),
+              ancienneDateLimiteAchèvement: new Date(dateAchèvementInitiale).toISOString(),
             })
           )
         })
@@ -243,8 +247,6 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
       it(`dont la date de mise en service est comprise entre le 1er juin 2022 et le 30 septembre 2024,
       et ayant souscrit au CDC 2022, 
       alors le délai de 18 mois en lien avec le CDC 2022 devrait être appliqué`, async () => {
-        const dateAchèvementInitiale = new Date('2024-01-01').getTime()
-
         const projectRepo = fakeTransactionalRepo(
           makeFakeProject({
             id: 'projetId',
@@ -271,7 +273,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
         expect(évènement1.payload).toEqual(
           expect.objectContaining({
             projectId: 'projetId',
-            completionDueOn: new Date('2025-06-30T23:00:00.000Z').getTime(),
+            completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
           })
         )
 
@@ -280,8 +282,8 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
         expect(évènement2.payload).toEqual(
           expect.objectContaining({
             projetId: 'projetId',
-            nouvelleDateLimiteAchèvement: '2025-06-30T23:00:00.000Z',
-            ancienneDateLimiteAchèvement: '2024-01-01T00:00:00.000Z',
+            nouvelleDateLimiteAchèvement: nouvelleDateAchèvementAttendue.toISOString(),
+            ancienneDateLimiteAchèvement: new Date(dateAchèvementInitiale).toISOString(),
           })
         )
       })
