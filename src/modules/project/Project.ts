@@ -86,6 +86,7 @@ import {
   CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
   DateMiseEnServiceRenseignée,
+  DélaiCDC2022Appliqué,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -234,6 +235,7 @@ export interface Project extends EventStoreAggregate {
   readonly completionDueOn: number
   readonly identifiantGestionnaireRéseau: string
   readonly dateMiseEnService?: Date
+  readonly délaiCDC2022appliqué: boolean
 }
 
 export interface ProjectDataProps {
@@ -288,6 +290,7 @@ export interface ProjectProps {
   familleId: string
   identifiantGestionnaireRéseau: string
   dateMiseEnService: Date | undefined
+  délaiCDC2022appliqué: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -332,6 +335,7 @@ export const makeProject = (args: {
     familleId: '',
     identifiantGestionnaireRéseau: '',
     dateMiseEnService: undefined,
+    délaiCDC2022appliqué: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1121,6 +1125,9 @@ export const makeProject = (args: {
     get dateMiseEnService() {
       return props.dateMiseEnService
     },
+    get délaiCDC2022appliqué() {
+      return props.délaiCDC2022appliqué
+    },
   })
 
   // private methods
@@ -1327,6 +1334,9 @@ export const makeProject = (args: {
         break
       case DateMiseEnServiceRenseignée.type:
         props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
+        break
+      case DélaiCDC2022Appliqué.type:
+        props.délaiCDC2022appliqué = true
         break
       default:
         // ignore other event types
