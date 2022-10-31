@@ -103,7 +103,6 @@ const Tâche: FC<TâcheProps> = (props) => {
             {props.nombreDEchecs > 0 && (
               <Link
                 className="flex items-center text-sm"
-                href="#"
                 onClick={() => {
                   setAfficherDétailErreurs(!afficherDétailErreurs)
                 }}
