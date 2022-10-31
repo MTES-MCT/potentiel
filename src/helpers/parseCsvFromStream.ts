@@ -1,5 +1,5 @@
 import { ResultAsync } from '@core/utils'
-import csvParse from 'csv-parse'
+import { parse } from 'csv-parse'
 import iconv from 'iconv-lite'
 export interface parseCsvOptions {
   delimiter?: ',' | ';'
@@ -14,13 +14,13 @@ export const parseCsvFromStream = (fileStream: NodeJS.ReadableStream, options?: 
       fileStream
         .pipe(decode)
         .pipe(
-          csvParse({
+          parse({
             delimiter: options?.delimiter || ';',
             columns: true,
             ltrim: true,
             rtrim: true,
             skip_empty_lines: true,
-            skip_lines_with_empty_values: true,
+            skip_records_with_empty_values: true,
           })
         )
         .on('data', (row: Record<string, string>) => {
