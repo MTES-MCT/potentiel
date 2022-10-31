@@ -38,7 +38,7 @@ interface SendEmailFromMailjetDeps {
 export const makeSendEmailFromMailjet = (deps: SendEmailFromMailjetDeps): SendEmail => {
   const { MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE, authorizedTestEmails, isProduction } = deps
 
-  const mailjetClient = Mailjet.connect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE)
+  const mailjetClient = Mailjet.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE)
 
   return function sendEmailFromMailjet(props: SendEmailProps): ResultAsync<null, Error> {
     const { id, recipients, fromEmail, fromName, subject, type, variables } = props
