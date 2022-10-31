@@ -32,28 +32,43 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
         délaiCDC2022appliqué,
         completionDueOn,
       }) => {
-        const appelOffre = getProjectAppelOffre({
-          appelOffreId,
-          periodeId,
-          familleId,
-        })
-        if (!appelOffre) {
-          logger.error(
-            `project eventHandler onDateMiseEnServiceRenseignée : AO non trouvé. Projet ${projetId}`
-          )
-        }
-        const dateMin = appelOffre?.type === 'eolien' ? '2022-06-01' : '2022-09-01'
-        const dateMax = appelOffre?.type === 'eolien' ? '2024-09-30' : '2024-12-31'
-        if (
-          new Date(dateMiseEnService).getTime() < new Date(dateMin).getTime() ||
-          new Date(dateMiseEnService).getTime() > new Date(dateMax).getTime()
-        ) {
-          return okAsync(null)
-        }
         if (
           cahierDesCharges.type !== 'modifié' ||
           cahierDesCharges.paruLe !== '30/08/2022' ||
           délaiCDC2022appliqué
+        ) {
+          return okAsync(null)
+        }
+        const projectAppelOffre = getProjectAppelOffre({
+          appelOffreId,
+          periodeId,
+          familleId,
+        })
+        if (!projectAppelOffre) {
+          logger.error(
+            `project eventHandler onDateMiseEnServiceRenseignée : AO non trouvé. Projet ${projetId}`
+          )
+          return okAsync(null)
+        }
+        const donnéesCDC =
+          projectAppelOffre.cahiersDesChargesModifiésDisponibles &&
+          projectAppelOffre.cahiersDesChargesModifiésDisponibles.find(
+            (CDC) =>
+              CDC.type === 'modifié' &&
+              CDC.paruLe === '30/08/2022' &&
+              CDC.alternatif === cahierDesCharges.alternatif
+          )
+        if (!donnéesCDC || !donnéesCDC.dateMeSLimitesDélaiSuppCDC2022) {
+          logger.error(
+            `project eventHandler onDateMiseEnServiceRenseignée : données CDC modifié non trouvées. Projet ${projetId}`
+          )
+          return okAsync(null)
+        }
+        if (
+          new Date(dateMiseEnService).getTime() <
+            new Date(donnéesCDC.dateMeSLimitesDélaiSuppCDC2022.min).getTime() ||
+          new Date(dateMiseEnService).getTime() >
+            new Date(donnéesCDC.dateMeSLimitesDélaiSuppCDC2022.max).getTime()
         ) {
           return okAsync(null)
         }
