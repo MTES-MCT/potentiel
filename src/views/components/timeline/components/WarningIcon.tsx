@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ExclamationIcon } from '@heroicons/react/solid'
+import { ExclamationIcon } from '@components'
 
 export const WarningIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">

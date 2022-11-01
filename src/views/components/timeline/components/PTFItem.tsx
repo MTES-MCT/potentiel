@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { ExclamationIcon } from '@heroicons/react/outline'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
+import { format } from 'date-fns'
 import ROUTES from '@routes'
+import { UserRole } from '@modules/users'
 import {
   Button,
   SecondaryButton,
@@ -11,10 +11,10 @@ import {
   Dropdown,
   DownloadLink,
   Link,
+  ExclamationIcon,
 } from '@components'
 import { PTFItemProps } from '../helpers/extractPTFItemProps'
-import { UserRole } from '@modules/users'
-import { format } from 'date-fns'
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 
 export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
   const { projectId, status } = props

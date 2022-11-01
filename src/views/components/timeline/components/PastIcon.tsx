@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckIcon } from '@heroicons/react/solid'
+import { CheckIcon } from '@components'
 
 export const PastIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">
