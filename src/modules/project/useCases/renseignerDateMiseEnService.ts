@@ -14,6 +14,8 @@ type Dépendances = {
   projectRepo: Repository<Project>
 }
 
+export type RenseignerDateMiseEnService = ReturnType<typeof makeRenseignerDateMiseEnService>
+
 export const makeRenseignerDateMiseEnService = ({
   publishToEventStore,
   projectRepo,

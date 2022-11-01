@@ -3,14 +3,11 @@ import { ResultAsync } from '@core/utils'
 import { RésultatTâcheMaJMeS, TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
-import {
-  DateMiseEnServicePlusRécenteError,
-  makeRenseignerDateMiseEnService,
-} from '@modules/project'
+import { DateMiseEnServicePlusRécenteError, RenseignerDateMiseEnService } from '@modules/project'
 
 type Dépendances = {
   getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
-  renseignerDateMiseEnService: ReturnType<typeof makeRenseignerDateMiseEnService>
+  renseignerDateMiseEnService: RenseignerDateMiseEnService
   publishToEventStore: EventStore['publish']
 }
 
