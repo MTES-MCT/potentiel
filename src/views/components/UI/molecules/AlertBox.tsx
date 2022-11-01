@@ -1,9 +1,14 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, FC } from 'react'
 import { WarningIcon } from '../atoms'
 
-export type AlertBoxProps = ComponentProps<'div'> & { title?: string }
+type AlertBoxProps = ComponentProps<'div'> & { title?: string }
 
-export const AlertBox = ({ title, children, className = '', ...props }: AlertBoxProps) => {
+export const AlertBox: FC<AlertBoxProps> = ({
+  title,
+  children,
+  className = '',
+  ...props
+}: AlertBoxProps) => {
   return (
     <div className={`flex ${className}`} {...props}>
       <div className="bg-warning-425-base">
