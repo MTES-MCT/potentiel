@@ -1,5 +1,5 @@
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { combine, errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User, formatCahierDesChargesRéférence } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../file'
 import { Project } from '@modules/project'
@@ -74,7 +74,7 @@ export const makeRequestActionnaireModification =
       .andThen((fileId: string) =>
         deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
           if (appelOffreId === 'Eolien') {
-            return combine([
+            return ResultAsync.combine([
               deps.hasProjectGarantieFinanciere(projectId.toString()),
               deps.isProjectParticipatif(projectId.toString()),
             ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
