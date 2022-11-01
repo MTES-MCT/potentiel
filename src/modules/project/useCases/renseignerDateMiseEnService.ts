@@ -1,6 +1,5 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync, ResultAsync } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
+import { errAsync, okAsync } from '@core/utils'
 import { DateMiseEnServicePlusRécenteError } from '../errors'
 import { DateMiseEnServiceRenseignée } from '../events'
 import { Project } from '../Project'
@@ -10,17 +9,15 @@ type Commande = {
   dateMiseEnService: Date
 }
 
-type RenseignerDateMiseEnService = (commande: Commande) => ResultAsync<null, UnauthorizedError>
-
-type MakeRenseignerDateMiseEnService = (dépendances: {
+type Dépendances = {
   publishToEventStore: EventStore['publish']
   projectRepo: Repository<Project>
-}) => RenseignerDateMiseEnService
+}
 
-export const makeRenseignerDateMiseEnService: MakeRenseignerDateMiseEnService = ({
+export const makeRenseignerDateMiseEnService = ({
   publishToEventStore,
   projectRepo,
-}) => {
+}: Dépendances) => {
   const chargerProjet = (commande: Commande) =>
     projectRepo.load(new UniqueEntityID(commande.projetId)).map((projet) => ({
       commande,
