@@ -10,7 +10,6 @@ import {
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
   DateMiseEnServiceDTO,
-  DélaiCDC2022AppliquéDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -33,7 +32,6 @@ import {
   DemandeDelaiSignaledItem,
   DemandeAbandonItem,
   CahierDesChargesChoisiItem,
-  DélaiCDC2022Item,
 } from './components'
 import {
   ACItemProps,
@@ -85,7 +83,6 @@ type ItemProps =
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO
   | DateMiseEnServiceDTO
-  | DélaiCDC2022AppliquéDTO
 
 export const Timeline = ({
   projectEventList: {
@@ -118,7 +115,6 @@ export const Timeline = ({
     ...events.filter(is('DemandeAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
     dateMiseEnService?.statut === 'renseignée' ? dateMiseEnService : undefined,
-    ...events.filter(is('DélaiCDC2022Appliqué')),
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
@@ -199,9 +195,6 @@ export const Timeline = ({
 
       case 'CahierDesChargesChoisi':
         return <CahierDesChargesChoisiItem {...props} />
-
-      case 'DélaiCDC2022Appliqué':
-        return <DélaiCDC2022Item {...props} />
     }
   })
 

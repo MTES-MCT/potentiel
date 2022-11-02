@@ -86,7 +86,6 @@ import {
   CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
   DateMiseEnServiceRenseignée,
-  DélaiCDC2022Appliqué,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -1220,6 +1219,10 @@ export const makeProject = (args: {
         props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
+        props.completionDueOn = event.payload.completionDueOn
+        if (event.payload.reason === 'délaiCdc2022') props.délaiCDC2022appliqué = true
+        break
       case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn
@@ -1334,9 +1337,6 @@ export const makeProject = (args: {
         break
       case DateMiseEnServiceRenseignée.type:
         props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
-        break
-      case DélaiCDC2022Appliqué.type:
-        props.délaiCDC2022appliqué = true
         break
       default:
         // ignore other event types

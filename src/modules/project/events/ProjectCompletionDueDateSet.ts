@@ -4,6 +4,7 @@ export interface ProjectCompletionDueDateSetPayload {
   projectId: string
   completionDueOn: number
   setBy?: string
+  reason?: 'délaiCdc2022'
 }
 export class ProjectCompletionDueDateSet
   extends BaseDomainEvent<ProjectCompletionDueDateSetPayload>
@@ -11,7 +12,7 @@ export class ProjectCompletionDueDateSet
 {
   public static type: 'ProjectCompletionDueDateSet' = 'ProjectCompletionDueDateSet'
   public type = ProjectCompletionDueDateSet.type
-  currentVersion = 1
+  currentVersion = 2
 
   aggregateIdFromPayload(payload: ProjectCompletionDueDateSetPayload) {
     return payload.projectId

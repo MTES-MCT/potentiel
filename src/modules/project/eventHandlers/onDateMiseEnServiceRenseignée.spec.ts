@@ -234,23 +234,14 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
 
       await onDateMiseEnServiceRenseignée(événementMeSRenseignée)
 
-      expect(publishToEventStore).toHaveBeenCalledTimes(2)
-      const évènement1 = publishToEventStore.mock.calls[0][0]
-      expect(évènement1.type).toEqual('ProjectCompletionDueDateSet')
-      expect(évènement1.payload).toEqual(
+      expect(publishToEventStore).toHaveBeenCalledTimes(1)
+      const évènement = publishToEventStore.mock.calls[0][0]
+      expect(évènement.type).toEqual('ProjectCompletionDueDateSet')
+      expect(évènement.payload).toEqual(
         expect.objectContaining({
           projectId: fakeProject.id.toString(),
           completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
-        })
-      )
-
-      const évènement2 = publishToEventStore.mock.calls[1][0]
-      expect(évènement2.type).toEqual('DélaiCDC2022Appliqué')
-      expect(évènement2.payload).toEqual(
-        expect.objectContaining({
-          projetId: fakeProject.id.toString(),
-          nouvelleDateLimiteAchèvement: nouvelleDateAchèvementAttendue.toISOString(),
-          ancienneDateLimiteAchèvement: new Date(dateAchèvementInitiale).toISOString(),
+          reason: 'délaiCdc2022',
         })
       )
     })

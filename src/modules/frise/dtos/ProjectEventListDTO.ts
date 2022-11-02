@@ -44,7 +44,6 @@ export type ProjectEventDTO =
   | DemandeAbandonDTO
   | CahierDesChargesChoisiDTO
   | DateMiseEnServiceDTO
-  | DélaiCDC2022AppliquéDTO
 
 type File = {
   id: string
@@ -443,14 +442,6 @@ export type DateMiseEnServiceDTO = {
   type: 'DateMiseEnService'
   variant: Exclude<UserRole, 'ademe'>
 } & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' })
-
-export type DélaiCDC2022AppliquéDTO = {
-  type: 'DélaiCDC2022Appliqué'
-  variant: Exclude<UserRole, 'ademe'>
-  ancienneDateLimiteAchèvement: number
-  nouvelleDateLimiteAchèvement: number
-  date: number
-}
 
 export type ProjectEventListDTO = {
   project: {

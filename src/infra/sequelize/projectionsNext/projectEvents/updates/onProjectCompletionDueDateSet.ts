@@ -4,7 +4,7 @@ import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
 
 export default ProjectEventProjector.on(
   ProjectCompletionDueDateSet,
-  async ({ payload: { projectId, completionDueOn }, occurredAt }, transaction) => {
+  async ({ payload: { projectId, completionDueOn, reason }, occurredAt }, transaction) => {
     await ProjectEvent.create(
       {
         projectId,
@@ -12,6 +12,7 @@ export default ProjectEventProjector.on(
         eventPublishedAt: occurredAt.getTime(),
         valueDate: completionDueOn,
         id: new UniqueEntityID().toString(),
+        payload: { ...(reason && { reason }) },
       },
       { transaction }
     )

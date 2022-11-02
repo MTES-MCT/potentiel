@@ -1,6 +1,5 @@
 export * from './onDélaiAccordé'
 export * from './onDélaiAnnulé'
-export * from './onDélaiCDC2022Appliqué'
 export * from './onDélaiDemandé'
 export * from './onDélaiEnInstruction'
 export * from './onDélaiRejeté'

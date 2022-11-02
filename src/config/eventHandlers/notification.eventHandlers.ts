@@ -19,14 +19,14 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
-  makeOnDélaiCDC2022Appliqué,
+  makeOnProjectCompletionDueDateSet,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   CahierDesChargesChoisi,
-  DélaiCDC2022Appliqué,
+  ProjectCompletionDueDateSet,
 } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
@@ -131,8 +131,8 @@ eventStore.subscribe(
 )
 
 eventStore.subscribe(
-  DélaiCDC2022Appliqué.type,
-  makeOnDélaiCDC2022Appliqué({
+  ProjectCompletionDueDateSet.type,
+  makeOnProjectCompletionDueDateSet({
     sendNotification,
     getProjectUsers: oldProjectRepo.getUsers,
     getProjectById: oldProjectRepo.findById,

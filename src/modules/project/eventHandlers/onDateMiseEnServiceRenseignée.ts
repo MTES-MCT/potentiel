@@ -2,11 +2,7 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { logger, okAsync, ResultAsync } from '@core/utils'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { InfraNotAvailableError } from '@modules/shared'
-import {
-  DateMiseEnServiceRenseignée,
-  DélaiCDC2022Appliqué,
-  ProjectCompletionDueDateSet,
-} from '../events'
+import { DateMiseEnServiceRenseignée, ProjectCompletionDueDateSet } from '../events'
 import { Project } from '../Project'
 
 type OnDateMiseEnServiceRenseignée = (
@@ -78,18 +74,12 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
 
         return publishToEventStore(
           new ProjectCompletionDueDateSet({
-            payload: { projectId: projetId, completionDueOn: nouvelleDate.getTime() },
+            payload: {
+              projectId: projetId,
+              completionDueOn: nouvelleDate.getTime(),
+              reason: 'délaiCdc2022',
+            },
           })
-        ).andThen(() =>
-          publishToEventStore(
-            new DélaiCDC2022Appliqué({
-              payload: {
-                projetId,
-                nouvelleDateLimiteAchèvement: nouvelleDate.toISOString(),
-                ancienneDateLimiteAchèvement: new Date(completionDueOn).toISOString(),
-              },
-            })
-          )
         )
       }
     )
