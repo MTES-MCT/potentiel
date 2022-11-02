@@ -1,11 +1,13 @@
 import { Result, Option, Err } from '@hqoss/monads'
+
 import { logger } from '@core/utils'
 
 // For monads
+export { Ok, Err, Some, None } from '@hqoss/monads'
+export type { Result, Option } from '@hqoss/monads'
 
 const ErrorResult = <T>(error: string) => Err<T, Error>(new Error(error))
 
-export { Option, Result, Ok, Err, Some, None } from '@hqoss/monads'
 export { ErrorResult }
 
 export type ResultAsync<T> = Promise<Result<T, Error>>
