@@ -10,7 +10,7 @@ export type RésultatTâcheMaJMeS = Array<
         projetId: string
       }
     | {
-        état: 'échec'
+        état: 'échec' | 'ignoré'
         raison: string
         projetId?: string
       }

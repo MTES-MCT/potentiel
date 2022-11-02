@@ -23,6 +23,8 @@ export const makeMettreAJourDatesMiseEnService =
     publishToEventStore,
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
+    type tt = ReturnType<typeof lancementDesMiseAJourPourChaqueProjet>
+
     const lancementDesMiseAJourPourChaqueProjet = (
       projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ id: string }>>
     ) => {
@@ -50,12 +52,15 @@ export const makeMettreAJourDatesMiseEnService =
             return {
               identifiantGestionnaireRéseau,
               projetId,
-              ...(result.isOk() || result.error instanceof DateMiseEnServicePlusRécenteError
+              ...(result.isOk()
                 ? {
                     état: 'succès' as const,
                   }
                 : {
-                    état: 'échec' as const,
+                    état:
+                      result.error instanceof DateMiseEnServicePlusRécenteError
+                        ? ('ignoré' as const)
+                        : ('échec' as const),
                     raison: result.error.message,
                   }),
             }

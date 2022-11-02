@@ -288,12 +288,14 @@ describe(`Mettre à jour les dates de mise en service`, () => {
     })
   })
 
-  describe(`Ne pas retourner d'erreur si la date était plus récente`, () => {
+  describe(`Avoir un résultat 'ignoré' si la date était plus récente`, () => {
     it(`Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient avec un seul identifiant
         Et que la mise à jour de la date de mise en service du projet échoue car 'La date est plus récente que l'actuelle'
         Alors la date de mise en service ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
-        Et le résultat devrait être un 'succès'`, async () => {
+        Et le résultat devrait être 'ignoré' avec la raison`, async () => {
+      const erreur = new DateMiseEnServicePlusRécenteError()
+
       const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
@@ -303,7 +305,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService: () => errAsync(new DateMiseEnServicePlusRécenteError()),
+        renseignerDateMiseEnService: () => errAsync(erreur),
         publishToEventStore,
       })
 
@@ -329,7 +331,8 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               {
                 identifiantGestionnaireRéseau: 'AAA-BB-2022-000001',
                 projetId: 'Projet Test',
-                état: 'succès',
+                état: 'ignoré',
+                raison: erreur.message,
               },
             ]),
           }),
