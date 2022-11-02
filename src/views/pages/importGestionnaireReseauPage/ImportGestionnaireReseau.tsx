@@ -205,7 +205,8 @@ export const ImportGestionnaireReseau = ({
           Mettre les projets à jour
         </Button>
       </form>
-
+    </div>
+    <div className="panel flex flex-col gap-2">
       {tâches.length === 0 ? (
         <div className="flex p-16 border border-dashed border-grey-625-base">
           <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
