@@ -96,7 +96,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
         href={routes.ADMIN_REGENERATE_CERTIFICATES}
         {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
       >
-        Regénérer des attestations
+        Régénérer des attestations
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
@@ -127,7 +127,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
 
-    <DropdownMenu buttonChildren={'Gestion'}>
+    <DropdownMenu buttonChildren={'Outils'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_STATISTIQUES}
         {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
