@@ -255,8 +255,14 @@ type AccèsUtilisateurRévoqués = {
   }
 }
 
-type DélaiCDC2022Appliqué = {
+type PP_DélaiCDC2022Appliqué = {
   type: 'pp-delai-cdc-2022-appliqué'
+  context: { projetId: string; utilisateurId: string }
+  variables: { nom_projet: string; projet_url: string }
+}
+
+type Dreals_DélaiCDC2022Appliqué = {
+  type: 'dreals-delai-cdc-2022-appliqué'
   context: { projetId: string; utilisateurId: string }
   variables: { nom_projet: string; projet_url: string }
 }
@@ -280,7 +286,8 @@ type NotificationVariants =
   | AdminModificationRequested
   | LegacyCandidateNotification
   | AccèsUtilisateurRévoqués
-  | DélaiCDC2022Appliqué
+  | PP_DélaiCDC2022Appliqué
+  | Dreals_DélaiCDC2022Appliqué
 
 export type NotificationProps = BaseNotification & NotificationVariants
 

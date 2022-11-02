@@ -136,6 +136,7 @@ eventStore.subscribe(
     sendNotification,
     getProjectUsers: oldProjectRepo.getUsers,
     getProjectById: oldProjectRepo.findById,
+    findUsersForDreal: oldUserRepo.findUsersForDreal,
   })
 )
 
