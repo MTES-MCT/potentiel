@@ -1,7 +1,6 @@
 import React from 'react'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 
-import { Link, Button } from '@components'
+import { Link, Button, ChevronDownIcon, ChevronUpIcon } from '@components'
 
 interface DropdownProps extends React.ComponentProps<'div'> {
   text: string

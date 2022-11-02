@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ClockIcon } from '@heroicons/react/solid'
+import { ClockIcon } from '@components'
 
 export const NextUpIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">

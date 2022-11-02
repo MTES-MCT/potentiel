@@ -1,10 +1,9 @@
-import { TrashIcon } from '@heroicons/react/outline'
 import React from 'react'
 import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
 import routes from '@routes'
 import { makeDocumentUrl } from '../helpers'
 import { AttachedFileItemProps } from '../helpers/extractAttachedFileItemProps'
-import { DownloadLink } from '@components'
+import { DownloadLink, TrashIcon } from '@components'
 
 export const AttachedFileItem = (props: AttachedFileItemProps) => {
   const { date, title, description, files, isOwner, attachmentId, projectId, attachedBy } = props

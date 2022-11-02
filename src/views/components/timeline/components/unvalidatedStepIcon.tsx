@@ -1,5 +1,5 @@
 import React from 'react'
-import { XIcon } from '@heroicons/react/solid'
+import { XIcon } from '@components'
 
 export const UnvalidatedStepIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">

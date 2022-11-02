@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { PaperClipIcon } from '@heroicons/react/outline'
 import ROUTES from '@routes'
 import {
   Button,
@@ -8,6 +7,7 @@ import {
   TextArea,
   FormulaireChampsObligatoireLégende,
   Astérisque,
+  PaperClipIcon,
 } from '@components'
 
 type AttachFileProps = {

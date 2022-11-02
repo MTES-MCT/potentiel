@@ -1,10 +1,9 @@
 import React from 'react'
-import { CalendarIcon } from '@heroicons/react/outline'
-import { Timeline } from '../../../components'
-import { AttachFile } from '../components/AttachFile'
-import { userIs } from '@modules/users'
 import { Request } from 'express'
+import { Timeline, CalendarIcon } from '@components'
+import { userIs } from '@modules/users'
 import { ProjectEventListDTO } from '@modules/frise'
+import { AttachFile } from '../components/AttachFile'
 
 type EtapesProjetProps = {
   project: { id: string }
