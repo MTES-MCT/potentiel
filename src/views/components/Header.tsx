@@ -25,7 +25,7 @@ const LogoAndTitle = () => (
     href={routes.HOME}
   >
     <div className="flex flex-col">
-      <div className="lg:mb-1 logo-before"></div>
+      <div className="lg:mb-1 logo-before" />
       <div className="hidden lg:block font-bold leading-none tracking-tighter text-black">
         RÉPUBLIQUE
         <br />

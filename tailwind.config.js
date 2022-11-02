@@ -32,6 +32,11 @@ module.exports = {
           hover: '#343434',
           active: '#474747',
         },
+        'grey-425': {
+          base: '#666666',
+          hover: '#919191',
+          active: '#a6a6a6',
+        },
         'grey-625': {
           base: '#929292',
           hover: '#bbbbbb',
@@ -102,6 +107,10 @@ module.exports = {
           hover: '#ffc5c5',
           active: '#ffafaf',
         },
+      },
+      screens: {
+        'dsfr-breakpoint-992': '992px',
+        'dsfr-breakpoint-576': '576px',
       },
     },
   },
