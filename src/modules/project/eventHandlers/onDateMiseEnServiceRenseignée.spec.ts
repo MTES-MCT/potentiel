@@ -34,9 +34,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
                   {
                     type: 'modifié',
                     paruLe: '30/08/2022',
-                    délaiCDC2022: {
-                      délaiApplicableEnMois: 18,
-                      datesLimitesMeS: { min: '2022-09-01', max: '2024-12-31' },
+                    délaiApplicable: {
+                      délaiEnMois: 18,
+                      intervaleDateMiseEnService: {
+                        min: new Date('2022-09-01'),
+                        max: new Date('2024-12-31'),
+                      },
                     },
                   } as CahierDesChargesModifié,
                 ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -84,9 +87,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
                 {
                   type: 'modifié',
                   paruLe: '30/08/2022',
-                  délaiCDC2022: {
-                    délaiApplicableEnMois: 18,
-                    datesLimitesMeS: { min: '2022-06-01', max: '2024-09-30' },
+                  délaiApplicable: {
+                    délaiEnMois: 18,
+                    intervaleDateMiseEnService: {
+                      min: new Date('2022-06-01'),
+                      max: new Date('2024-09-30'),
+                    },
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -139,9 +145,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
                 {
                   type: 'modifié',
                   paruLe: '30/08/2022',
-                  délaiCDC2022: {
-                    délaiApplicableEnMois: 18,
-                    datesLimitesMeS: { min: '2022-06-01', max: '2024-09-30' },
+                  délaiApplicable: {
+                    délaiEnMois: 18,
+                    intervaleDateMiseEnService: {
+                      min: new Date('2022-06-01'),
+                      max: new Date('2024-09-30'),
+                    },
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -179,9 +188,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
                 {
                   type: 'modifié',
                   paruLe: '30/08/2022',
-                  délaiCDC2022: {
-                    délaiApplicableEnMois: 18,
-                    datesLimitesMeS: { min: '2022-06-01', max: '2024-09-30' },
+                  délaiApplicable: {
+                    délaiEnMois: 18,
+                    intervaleDateMiseEnService: {
+                      min: new Date('2022-06-01'),
+                      max: new Date('2024-09-30'),
+                    },
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
@@ -221,9 +233,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
               {
                 type: 'modifié',
                 paruLe: '30/08/2022',
-                délaiCDC2022: {
-                  délaiApplicableEnMois: 18,
-                  datesLimitesMeS: { min: '2022-06-01', max: '2024-09-30' },
+                délaiApplicable: {
+                  délaiEnMois: 18,
+                  intervaleDateMiseEnService: {
+                    min: new Date('2022-06-01'),
+                    max: new Date('2024-09-30'),
+                  },
                 },
               } as CahierDesChargesModifié,
             ] as ReadonlyArray<CahierDesChargesModifié>,

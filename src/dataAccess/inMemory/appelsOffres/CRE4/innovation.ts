@@ -198,9 +198,9 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     Pour  les  installations  dont  la  mise  en  service  a  lieu  entre  le  1er  septembre  2022  et  le  31  décembre  2024 inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
         },
       },
-      délaiCDC2022: {
-        délaiApplicableEnMois: 18,
-        datesLimitesMeS: { min: '2022-09-01', max: '2024-12-31' },
+      délaiApplicable: {
+        délaiEnMois: 18,
+        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
       },
     },
   ],

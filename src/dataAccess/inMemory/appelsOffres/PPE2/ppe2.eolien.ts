@@ -108,9 +108,9 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
         },
       },
-      délaiCDC2022: {
-        délaiApplicableEnMois: 18,
-        datesLimitesMeS: { min: '2022-06-01', max: '2024-09-30' },
+      délaiApplicable: {
+        délaiEnMois: 18,
+        intervaleDateMiseEnService: { min: new Date('2022-06-01'), max: new Date('2024-09-30') },
       },
     },
   ],
