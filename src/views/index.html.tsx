@@ -29,7 +29,7 @@ const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1)
 export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
   const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args
 
-  return html`s
+  return html`
     <!DOCTYPE html>
     <html itemscope itemtype="http://schema.org/WebPage" lang="fr">
       <head>
@@ -160,5 +160,6 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
           window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
         </script>`}
       </body>
-    </html> `
+    </html>
+  `
 }

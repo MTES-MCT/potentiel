@@ -63,25 +63,48 @@ const MenuAdmin = (currentPage: CurrentPage) => (
     >
       Demandes
     </Header.MenuItem>
-    <DropdownMenu buttonChildren={'Candidats'}>
+    <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.IMPORT_PROJECTS}
         {...(currentPage === 'import-projects' && { isCurrent: true })}
       >
-        Importer des candidats
+        Nouveaux candidats
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
+        {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
+      >
+        Courriers historiques
+      </DropdownMenu.DropdownItem>
+      {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+        <DropdownMenu.DropdownItem
+          href={routes.IMPORT_GESTIONNAIRE_RESEAU}
+          {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
+        >
+          Données de raccordement
+        </DropdownMenu.DropdownItem>
+      )}
+    </DropdownMenu>
+    <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_NOTIFY_CANDIDATES()}
         {...(currentPage === 'notify-candidates' && { isCurrent: true })}
       >
         Notifier des candidats
       </DropdownMenu.DropdownItem>
-
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_REGENERATE_CERTIFICATES}
+        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
+      >
+        Regénérer des attestations
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
+    <DropdownMenu buttonChildren={'Gestion des accès'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_INVITATION_LIST}
         {...(currentPage === 'list-invitations' && { isCurrent: true })}
       >
-        Invitations de candidats en attente
+        Candidats en attente
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_NOTIFICATION_LIST}
@@ -89,13 +112,27 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Emails en erreur
       </DropdownMenu.DropdownItem>
+
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_DREAL_LIST}
+        {...(currentPage === 'list-dreal' && { isCurrent: true })}
+      >
+        Dreals
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_PARTNER_USERS}
+        {...(currentPage === 'admin-users' && { isCurrent: true })}
+      >
+        Partenaires
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
+
     <DropdownMenu buttonChildren={'Gestion'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_REGENERATE_CERTIFICATES}
-        {...(currentPage === 'regenerate-certificates' && { isCurrent: true })}
+        href={routes.ADMIN_STATISTIQUES}
+        {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
       >
-        Regénérer des attestations
+        Tableau de bord
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_AO_PERIODE}
@@ -103,39 +140,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Gérer les appels d'offres
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_DREAL_LIST}
-        {...(currentPage === 'list-dreal' && { isCurrent: true })}
-      >
-        Gérer les DREAL
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_PARTNER_USERS}
-        {...(currentPage === 'admin-users' && { isCurrent: true })}
-      >
-        Gérer les utilisateurs partenaires
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
-        {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
-      >
-        Importer des courriers historiques
-      </DropdownMenu.DropdownItem>
-      {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
-        <DropdownMenu.DropdownItem
-          href={routes.IMPORT_GESTIONNAIRE_RESEAU}
-          {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
-        >
-          Import gestionnaire réseau
-        </DropdownMenu.DropdownItem>
-      )}
     </DropdownMenu>
-    <Header.MenuItem
-      href={routes.ADMIN_STATISTIQUES}
-      {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
-    >
-      Tableau de bord
-    </Header.MenuItem>
   </>
 )
 
