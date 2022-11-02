@@ -228,6 +228,7 @@ export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet'
   date: number
   variant: Exclude<UserRole, 'ademe'>
+  délaiCDC2022Appliqué?: true
 }
 
 export type ModificationRequestedDTO = {

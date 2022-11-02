@@ -2,5 +2,5 @@ import { ProjectEvent } from '..'
 
 export type ProjectCompletionDueDateSetEvent = ProjectEvent & {
   type: 'ProjectCompletionDueDateSet'
-  payload: null
+  payload: null | { reason: 'délaiCdc2022' }
 }

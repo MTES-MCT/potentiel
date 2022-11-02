@@ -5,6 +5,7 @@ export type ACItemProps = {
   type: 'attestation-de-conformite'
   date: number
   covidDelay?: true
+  délaiCDC2022Appliqué?: true
 }
 
 export const extractACItemProps = (
@@ -23,11 +24,16 @@ export const extractACItemProps = (
 
   const hasCovidDelay = events.find(is('CovidDelayGranted'))
 
+  const hasDélaiCDC2022Appliqué = events.find(
+    (event) => event.type === 'ProjectCompletionDueDateSet' && event.délaiCDC2022Appliqué
+  )
+
   if (latestEvent) {
     return {
       type: 'attestation-de-conformite',
       date: latestEvent.date,
       ...(hasCovidDelay && { covidDelay: true }),
+      ...(hasDélaiCDC2022Appliqué && { délaiCDC2022Appliqué: true }),
     }
   }
 
