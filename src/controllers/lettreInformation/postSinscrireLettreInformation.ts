@@ -32,7 +32,8 @@ v1Router.post(
     },
     async (request, response) => {
       const { email } = request.body
-      const mailjet = Mailjet.connect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE)
+
+      const mailjet = Mailjet.apiConnect(MJ_APIKEY_PUBLIC, MJ_APIKEY_PRIVATE)
 
       const inscription = await ResultAsync.fromPromise(
         mailjet
