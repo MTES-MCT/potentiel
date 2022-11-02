@@ -2,7 +2,7 @@ import { Queue } from './Queue'
 import { wrapInfra } from './wrapInfra'
 import { InfraNotAvailableError } from '@modules/shared'
 import { DomainEvent, EventBus, EventStore, UniqueEntityID } from '../domain'
-import { combine, ResultAsync, unwrapResultOfResult } from './Result'
+import { ResultAsync, unwrapResultOfResult } from './Result'
 import { logger } from '.'
 import { errAsync } from 'neverthrow'
 
@@ -30,7 +30,7 @@ export const makeEventStore = (deps: MakeEventStoreDeps): EventStore => {
 
   const publishEventsBatch = (events: DomainEvent[]) => {
     return persistEventsToStore(events)
-      .andThen(() => combine(events.map((event) => publishToEventBus(event))))
+      .andThen(() => ResultAsync.combine(events.map((event) => publishToEventBus(event))))
       .map(() => null)
       .orElse(() => {
         logger.error(

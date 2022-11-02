@@ -1,5 +1,5 @@
 import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { combineWithAllErrors, errAsync, ResultAsync } from '@core/utils'
+import { errAsync, ResultAsync } from '@core/utils'
 import { User } from '@entities'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { AppelOffre } from '../AppelOffre'
@@ -78,6 +78,6 @@ export const makeImportAppelOffreData =
             })
         })
 
-        return combineWithAllErrors([...removals, ...updates]).map(() => null)
+        return ResultAsync.combineWithAllErrors([...removals, ...updates]).map(() => null)
       })
   }
