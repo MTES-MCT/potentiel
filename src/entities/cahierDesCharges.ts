@@ -5,9 +5,12 @@ export type CahierDesCharges = {
   url: string
 }
 
-export type DateMeSLimitesDélaiSuppCDC2022 =
-  | { min: '2022-06-01'; max: '2024-09-30' } // Eolien
-  | { min: '2022-09-01'; max: '2024-12-31' } // PV
+export type DélaiCDC2022 = {
+  délaiApplicableEnMois: 18
+  datesLimitesMeS:
+    | { min: '2022-06-01'; max: '2024-09-30' } // éolien
+    | { min: '2022-09-01'; max: '2024-12-31' } // PV
+}
 
 export type CahierDesChargesModifié = {
   type: 'modifié'
@@ -16,7 +19,7 @@ export type CahierDesChargesModifié = {
   alternatif?: true
   numéroGestionnaireRequis?: true
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
-  dateMeSLimitesDélaiSuppCDC2022?: DateMeSLimitesDélaiSuppCDC2022
+  délaiCDC2022?: DélaiCDC2022
 }
 
 export const cahiersDesChargesRéférences = [

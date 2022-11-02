@@ -140,7 +140,10 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est réduite de la durée de dépassement.`,
         },
       },
-      dateMeSLimitesDélaiSuppCDC2022: { min: '2022-09-01', max: '2024-12-31' },
+      délaiCDC2022: {
+        délaiApplicableEnMois: 18,
+        datesLimitesMeS: { min: '2022-09-01', max: '2024-12-31' },
+      },
     },
   ],
 }

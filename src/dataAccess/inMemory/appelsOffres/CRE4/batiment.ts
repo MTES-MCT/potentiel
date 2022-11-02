@@ -401,7 +401,10 @@ En cas de dépassement de ce délai, le prix de référence T0 proposé au C. du
     !!!!!OPTION : SI PERIODE 5 à 13!!!!!En cas de dépassement de ce délai, le prix de référence T0 proposé   au C. du formulaire de candidature est diminué́ de 0.25 €/MWh par mois de retard pendant les 6 premiers mois, puis de 0.50 €/MWh par mois de retard à partir du 7ème mois.`,
         },
       },
-      dateMeSLimitesDélaiSuppCDC2022: { min: '2022-09-01', max: '2024-12-31' },
+      délaiCDC2022: {
+        délaiApplicableEnMois: 18,
+        datesLimitesMeS: { min: '2022-09-01', max: '2024-12-31' },
+      },
     },
   ],
 }

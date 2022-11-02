@@ -54,7 +54,7 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
               CDC.paruLe === '30/08/2022' &&
               CDC.alternatif === cahierDesCharges.alternatif
           )
-        if (!donnéesCDC || !donnéesCDC.dateMeSLimitesDélaiSuppCDC2022) {
+        if (!donnéesCDC || !donnéesCDC.délaiCDC2022) {
           logger.error(
             `project eventHandler onDateMiseEnServiceRenseignée : données CDC modifié non trouvées. Projet ${projetId}`
           )
@@ -62,14 +62,16 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
         }
         if (
           new Date(dateMiseEnService).getTime() <
-            new Date(donnéesCDC.dateMeSLimitesDélaiSuppCDC2022.min).getTime() ||
+            new Date(donnéesCDC.délaiCDC2022.datesLimitesMeS.min).getTime() ||
           new Date(dateMiseEnService).getTime() >
-            new Date(donnéesCDC.dateMeSLimitesDélaiSuppCDC2022.max).getTime()
+            new Date(donnéesCDC.délaiCDC2022.datesLimitesMeS.max).getTime()
         ) {
           return okAsync(null)
         }
         const nouvelleDate = new Date(
-          new Date(completionDueOn).setMonth(new Date(completionDueOn).getMonth() + 18)
+          new Date(completionDueOn).setMonth(
+            new Date(completionDueOn).getMonth() + donnéesCDC.délaiCDC2022.délaiApplicableEnMois
+          )
         )
 
         return publishToEventStore(
