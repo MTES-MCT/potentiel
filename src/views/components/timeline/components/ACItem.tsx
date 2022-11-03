@@ -13,7 +13,7 @@ export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps
           Transmettre l'attestation (fonctionnalité bientôt disponible sur Potentiel)
         </span>
         {covidDelay && (
-          <p className="p-0 m-0">
+          <p className="p-0 mb-0 mt-3">
             Ce projet bénéficie d'une prolongation de délai d'achèvement ou de mise en service
             compte tenu de la crise liée au coronavirus (covid-19) (
             <Link
@@ -26,7 +26,7 @@ export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps
           </p>
         )}
         {délaiCDC2022Appliqué && (
-          <p className="p-0 m-0">
+          <p className="p-0 mb-0 mt-3">
             Ce projet bénéficie d'une prolongation de délai d'achèvement de 18 mois conformément au
             cahier des charges modifié rétroactivement et publié le 30/08/2022.
           </p>

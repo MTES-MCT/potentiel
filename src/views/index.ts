@@ -232,7 +232,7 @@ export const ImportGestionnaireReseauPage = (
   makeHtml({
     Component: ImportGestionnaireReseau,
     props,
-    title: 'Importer fichier gestionnaire réseau',
+    title: 'Importer données de raccordement',
   })
 
 export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres>[0]) =>

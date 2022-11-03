@@ -10,6 +10,8 @@ import {
   ErrorIcon,
   SuccessIcon,
   Link,
+  SecondaryLinkButton,
+  RefreshIcon,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
@@ -189,7 +191,7 @@ export const ImportGestionnaireReseau = ({
   <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
     <div className="panel">
       <div className="panel__header">
-        <h1 className="text-2xl">Import gestionnaire réseau</h1>
+        <h1 className="text-2xl">Import des données de raccordement</h1>
       </div>
       {résultatSoumissionFormulaire && (
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
@@ -207,6 +209,12 @@ export const ImportGestionnaireReseau = ({
       </form>
     </div>
     <div className="panel flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <h4 className="m-0 p-0">Liste des mises à jour :</h4>
+        <SecondaryLinkButton href={request.path}>
+          <RefreshIcon className="h-4 w-4 mr-2" /> Actualiser
+        </SecondaryLinkButton>
+      </div>
       {tâches.length === 0 ? (
         <div className="flex p-16 border border-dashed border-grey-625-base">
           <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
