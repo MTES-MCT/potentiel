@@ -3,6 +3,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
 import { Button, PageTemplate } from '@components'
+import { hydrateOnClient } from '../helpers'
 
 interface FakeLoginProps {
   request: Request
@@ -42,3 +43,5 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
     </PageTemplate>
   )
 }
+
+hydrateOnClient(FakeLogin)

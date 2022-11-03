@@ -3,15 +3,12 @@ import {
   Badge,
   Input,
   Label,
-  AdminDashboard,
   Button,
   PageTemplate,
   SuccessErrorBox,
   Tile,
   ErrorIcon,
   SuccessIcon,
-  RefreshIcon,
-  SecondaryLinkButton,
   Link,
 } from '@components'
 import routes from '@routes'
@@ -189,52 +186,43 @@ export const ImportGestionnaireReseau = ({
   tâches,
   résultatSoumissionFormulaire,
 }: ImportGestionnaireReseauProps) => (
-  <PageTemplate user={request.user}>
-    <AdminDashboard currentPage="import-gestionnaire-réseau" role="admin">
-      <div className="panel">
-        <div className="panel__header">
-          <h1 className="text-2xl">Import gestionnaire réseau</h1>
-        </div>
-        {résultatSoumissionFormulaire && (
-          <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
-        )}
-        <form
-          action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
-          method="post"
-          encType="multipart/form-data"
-        >
-          <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
-          <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
-          <Button type="submit" className="mt-4">
-            Mettre les projets à jour
-          </Button>
-        </form>
+  <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
+    <div className="panel">
+      <div className="panel__header">
+        <h1 className="text-2xl">Import gestionnaire réseau</h1>
       </div>
-      <div className="panel flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <h4 className="m-0 p-0">Liste des mises à jour :</h4>
-          <SecondaryLinkButton href={request.path}>
-            <RefreshIcon className="h-4 w-4 mr-2" /> Actualiser
-          </SecondaryLinkButton>
+      {résultatSoumissionFormulaire && (
+        <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
+      )}
+      <form
+        action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
+        method="post"
+        encType="multipart/form-data"
+      >
+        <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
+        <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
+        <Button type="submit" className="mt-4">
+          Mettre les projets à jour
+        </Button>
+      </form>
+    </div>
+    <div className="panel flex flex-col gap-2">
+      {tâches.length === 0 ? (
+        <div className="flex p-16 border border-dashed border-grey-625-base">
+          <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
         </div>
-
-        {tâches.length === 0 ? (
-          <div className="flex p-16 border border-dashed border-grey-625-base">
-            <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
-          </div>
-        ) : (
-          <ul className="m-0 p-0 list-none">
-            {tâches.map((tâche, index) => (
-              <li key={`tâche-${index}`} className="m-0 mb-3 p-0">
-                <Tile>
-                  <Tâche {...tâche} />
-                </Tile>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </AdminDashboard>
+      ) : (
+        <ul className="m-0 p-0 list-none">
+          {tâches.map((tâche, index) => (
+            <li key={`tâche-${index}`} className="m-0 mb-3 p-0">
+              <Tile>
+                <Tâche {...tâche} />
+              </Tile>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   </PageTemplate>
 )
 

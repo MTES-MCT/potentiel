@@ -23,3 +23,4 @@ export { HiExclamation as ExclamationIcon } from '@react-icons/all-files/hi/HiEx
 export { HiOutlinePaperClip as PaperClipIcon } from '@react-icons/all-files/hi/HiOutlinePaperClip'
 export { HiInboxIn as InboxInIcon } from '@react-icons/all-files/hi/HiInboxIn'
 export { HiOutlineCalendar as CalendarIcon } from '@react-icons/all-files/hi/HiOutlineCalendar'
+export { RiArrowDownSLine as ArrowDownIcon } from '@react-icons/all-files/ri/RiArrowDownSLine'

@@ -48,12 +48,6 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
   children,
 }: HeaderProps) => {
-  const menuItems = React.Children.map(children, (child: React.ReactElement) => {
-    if (child.type === MenuItem) {
-      return child
-    }
-  })
-
   return (
     <>
       <header
@@ -66,16 +60,16 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
-              <div className={`flex flex-row ml-auto ${menuItems && 'mr-4'}`}>
+              <div className={`flex flex-row ml-auto ${children && 'mr-4'}`}>
                 <QuickAccess {...{ user }} />
               </div>
             </section>
           </div>
 
-          {menuItems && (
+          {children && (
             <div className="lg:border-0 lg:border-t lg:border-solid lg:border-slate-200 lg:mt-5">
               <section className="flex flex-col xl:mx-auto xl:max-w-7xl">
-                <MainMenu>{menuItems}</MainMenu>
+                <MainMenu>{children}</MainMenu>
               </section>
             </div>
           )}
@@ -183,7 +177,7 @@ const MainMenu = ({ children }: MainMenuProps) => (
       <CloseIcon className="menu-close hidden" />
     </label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
-      <ul className="flex flex-col list-none px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
+      <ul className="flex flex-col list-none px-2 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}
       </ul>
     </nav>
@@ -197,13 +191,13 @@ type MenuItemProps = {
 }
 const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
   <li
-    className={`py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
-      isCurrent &&
-      ' font-medium border-l-[3px] border-l-blue-france-sun-base lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
+    className={`flex items-center py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
+      isCurrent && 'font-medium lg:border-l-0 lg:border-b-2 lg:border-b-blue-france-sun-base'
     }`}
   >
+    {isCurrent && <div className="lg:hidden h-[24px] w-[2px] bg-blue-france-sun-base" />}
     <a
-      className={`no-underline pl-4 lg:pl-0 lg:pb-3`}
+      className={`no-underline pl-4 lg:pl-0`}
       href={href}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }

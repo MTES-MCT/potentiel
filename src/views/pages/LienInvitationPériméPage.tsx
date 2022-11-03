@@ -1,6 +1,7 @@
 import { PageTemplate } from '@components'
 import React from 'react'
 import { Request } from 'express'
+import { hydrateOnClient } from '../helpers'
 
 interface LienInvitationPériméProps {
   request: Request
@@ -28,3 +29,5 @@ export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps)
     </PageTemplate>
   )
 }
+
+hydrateOnClient(LienInvitationPérimé)
