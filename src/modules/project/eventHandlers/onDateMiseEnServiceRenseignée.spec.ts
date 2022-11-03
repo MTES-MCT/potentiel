@@ -22,7 +22,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
 
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
-  describe(`Projets non pouvant pas bénéficier du délai de 18 mois`, () => {
+  describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
     describe(`Dates hors limites`, () => {
       describe(`Projets PV`, () => {
         for (const type of ['batiment', 'innovation', 'sol', 'zni', 'autre']) {
