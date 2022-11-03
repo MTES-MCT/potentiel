@@ -19,12 +19,14 @@ import {
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
+  makeOnProjectCompletionDueDateSet,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   CahierDesChargesChoisi,
+  ProjectCompletionDueDateSet,
 } from '@modules/project'
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
@@ -125,6 +127,16 @@ eventStore.subscribe(
   LegacyCandidateNotified.type,
   handleLegacyCandidateNotified({
     sendNotification,
+  })
+)
+
+eventStore.subscribe(
+  ProjectCompletionDueDateSet.type,
+  makeOnProjectCompletionDueDateSet({
+    sendNotification,
+    getProjectUsers: oldProjectRepo.getUsers,
+    getProjectById: oldProjectRepo.findById,
+    findUsersForDreal: oldUserRepo.findUsersForDreal,
   })
 )
 

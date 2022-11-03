@@ -234,6 +234,7 @@ export interface Project extends EventStoreAggregate {
   readonly completionDueOn: number
   readonly identifiantGestionnaireRéseau: string
   readonly dateMiseEnService?: Date
+  readonly délaiCDC2022appliqué: boolean
 }
 
 export interface ProjectDataProps {
@@ -288,6 +289,7 @@ export interface ProjectProps {
   familleId: string
   identifiantGestionnaireRéseau: string
   dateMiseEnService: Date | undefined
+  délaiCDC2022appliqué: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -332,6 +334,7 @@ export const makeProject = (args: {
     familleId: '',
     identifiantGestionnaireRéseau: '',
     dateMiseEnService: undefined,
+    délaiCDC2022appliqué: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1121,6 +1124,9 @@ export const makeProject = (args: {
     get dateMiseEnService() {
       return props.dateMiseEnService
     },
+    get délaiCDC2022appliqué() {
+      return props.délaiCDC2022appliqué
+    },
   })
 
   // private methods
@@ -1213,6 +1219,10 @@ export const makeProject = (args: {
         props.fieldsUpdatedAfterImport.add('notifiedOn')
         break
       case ProjectCompletionDueDateSet.type:
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
+        props.completionDueOn = event.payload.completionDueOn
+        if (event.payload.reason === 'délaiCdc2022') props.délaiCDC2022appliqué = true
+        break
       case CovidDelayGranted.type:
         if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
         props.completionDueOn = event.payload.completionDueOn

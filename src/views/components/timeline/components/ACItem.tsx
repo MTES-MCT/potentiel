@@ -2,7 +2,7 @@ import { Link } from '@components'
 import React from 'react'
 import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.'
 import { ACItemProps } from '../helpers'
-export const ACItem = ({ date, covidDelay }: ACItemProps) => {
+export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps) => {
   return (
     <>
       <NextUpIcon />
@@ -23,6 +23,12 @@ export const ACItem = ({ date, covidDelay }: ACItemProps) => {
               critères d'attribution
             </Link>
             ).
+          </p>
+        )}
+        {délaiCDC2022Appliqué && (
+          <p className="p-0 m-0">
+            Ce projet bénéficie d'une prolongation de délai d'achèvement de 18 mois conformément au
+            cahier des charges modifié rétroactivement et publié le 30/08/2022.
           </p>
         )}
       </ContentArea>

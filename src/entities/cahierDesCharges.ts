@@ -5,6 +5,11 @@ export type CahierDesCharges = {
   url: string
 }
 
+export type DélaiApplicable = {
+  délaiEnMois: number
+  intervaleDateMiseEnService: { min: Date; max: Date }
+}
+
 export type CahierDesChargesModifié = {
   type: 'modifié'
   url: string
@@ -12,6 +17,7 @@ export type CahierDesChargesModifié = {
   alternatif?: true
   numéroGestionnaireRequis?: true
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
+  délaiApplicable?: DélaiApplicable
 }
 
 export const cahiersDesChargesRéférences = [

@@ -148,6 +148,10 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
     En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
         },
       },
+      délaiApplicable: {
+        délaiEnMois: 18,
+        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
+      },
     },
   ],
 }

@@ -111,6 +111,10 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     Des modifications à la baisse, en-dessous de 80% de la Puissance formulée dans l'offre et imposée par un  événement  extérieur  au  candidat,  peuvent  également  être  autorisées  par  le  Préfet  de  manière  exceptionnelle, sur demande dûment motivée. `,
         },
       },
+      délaiApplicable: {
+        délaiEnMois: 18,
+        intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
+      },
     },
   ],
 }

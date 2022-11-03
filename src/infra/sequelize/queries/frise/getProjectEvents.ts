@@ -164,9 +164,17 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
-
-                case 'ProjectDCRDueDateSet':
                 case 'ProjectCompletionDueDateSet':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      date: valueDate,
+                      variant: user.role,
+                      ...(payload?.reason === 'délaiCdc2022' && { délaiCDC2022Appliqué: true }),
+                    })
+                  }
+                  break
+                case 'ProjectDCRDueDateSet':
                   if (userIsNot('ademe')(user)) {
                     events.push({
                       type,
@@ -547,6 +555,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         : { statut: 'non-renseignée' }),
                     })
                   }
+                  break
               }
 
               return Promise.resolve(events)
