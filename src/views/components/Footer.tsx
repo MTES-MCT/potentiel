@@ -74,12 +74,12 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="mt-4 flex flex-wrap items-center border-0 border-t border-solid border-gray-400">
+          <div className="mt-4 flex flex-wrap items-center border-0 border-t border-solid border-grey-925-base">
             <ul className="p-0 m-0 list-none w-full flex flex-wrap items-center px-0 pt-2 pb-4">
               <li className="text-xs ">
                 <span className="text-grey-425-base">Accessibilité: non conforme</span>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-425-base before:mr-3">
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a
                   className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                   href="https://docs.potentiel.beta.gouv.fr/info/cgu"
@@ -87,7 +87,7 @@ const Footer = () => {
                   Mentions légales
                 </a>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-425-base before:mr-3">
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a
                   className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                   href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel"
@@ -95,7 +95,7 @@ const Footer = () => {
                   Guide d'utilisation
                 </a>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-425-base before:mr-3">
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a
                   className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                   href="https://potentiel.beta.gouv.fr/stats.html"
@@ -103,7 +103,7 @@ const Footer = () => {
                   Statistiques
                 </a>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-425-base before:mr-3">
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a
                   className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                   href="https://docs.potentiel.beta.gouv.fr/info/cgu#cookies"
@@ -111,13 +111,12 @@ const Footer = () => {
                   Gestion des cookies
                 </a>
               </li>
-              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-425-base before:mr-3">
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <span className="text-grey-425-base">
                   Version {process.env.npm_package_version}
                 </span>
               </li>
             </ul>
-            {/* <div className="mt-2"> */}
             <p className="text-xs text-grey-425-base mt-2 mb-4">
               Sauf mention contraire, tous les contenus de ce site sont sous{' '}
               <a
@@ -128,7 +127,6 @@ const Footer = () => {
                 licence etalab-2.0
               </a>
             </p>
-            {/* </div> */}
           </div>
         </div>
       </footer>
