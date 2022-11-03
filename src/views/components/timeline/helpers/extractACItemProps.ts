@@ -22,9 +22,9 @@ export const extractACItemProps = (
 
   const latestEvent = completionDueOnEvents.pop()
 
-  const hasCovidDelay = events.find(is('CovidDelayGranted'))
+  const hasCovidDelay = events.some(is('CovidDelayGranted'))
 
-  const hasDélaiCDC2022Appliqué = events.find(
+  const hasDélaiCDC2022Appliqué = events.some(
     (event) => event.type === 'ProjectCompletionDueDateSet' && event.délaiCDC2022Appliqué
   )
 
