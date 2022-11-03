@@ -189,7 +189,7 @@ export const ImportGestionnaireReseau = ({
   <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
     <div className="panel">
       <div className="panel__header">
-        <h1 className="text-2xl">Import gestionnaire réseau</h1>
+        <h1 className="text-2xl">Import des données de raccordement</h1>
       </div>
       {résultatSoumissionFormulaire && (
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
