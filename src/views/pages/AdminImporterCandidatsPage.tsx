@@ -25,7 +25,7 @@ export const AdminImporterCandidats = ({
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
+          {isSuccess && <SuccessBox title="Les projets ont bien été importés." className="mb-3" />}
           {!!importErrors && (
             <div className="notification error" {...dataId('error-message')}>
               Le fichier n'a pas pu être importé à cause des erreurs suivantes:
