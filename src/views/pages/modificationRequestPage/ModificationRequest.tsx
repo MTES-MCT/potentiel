@@ -64,7 +64,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
         <ProjectInfo project={modificationRequest.project} className="mb-3" />
 
         <ErrorBox error={error} />
-        <SuccessBox success={success} />
+        <SuccessBox title={success} />
 
         <div className="panel__header">
           <DemandeStatus role={user.role} modificationRequest={modificationRequest} />

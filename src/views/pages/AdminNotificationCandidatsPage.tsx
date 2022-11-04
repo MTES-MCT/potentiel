@@ -1,4 +1,4 @@
-import { Button, DownloadIcon, PageTemplate, ProjectList } from '@components'
+import { Button, DownloadIcon, PageTemplate, ProjectList, SuccessBox } from '@components'
 import { AppelOffre, Periode, Project } from '@entities'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -35,13 +35,7 @@ export const AdminNotificationCandidats = ({
           <div className="panel__header">
             <h3>Notifier des candidats</h3>
           </div>
-          {success ? (
-            <div className="notification success" {...dataId('success-message')}>
-              {success}
-            </div>
-          ) : (
-            ''
-          )}
+          {success && <SuccessBox title={success} />}
           {error ? (
             <div className="notification error" {...dataId('error-message')}>
               {error}
@@ -215,13 +209,7 @@ export const AdminNotificationCandidats = ({
           )}
         </form>
 
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
         {error ? (
           <div className="notification error" {...dataId('error-message')}>
             {error}

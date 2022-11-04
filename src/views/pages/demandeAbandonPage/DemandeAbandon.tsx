@@ -49,7 +49,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
         <p className="m-0">Concernant le projet :</p>
         <ProjectInfo project={modificationRequest.project} className="mb-3" />
         <ErrorBox error={error} />
-        <SuccessBox success={success} />
+        <SuccessBox title={success} />
         <div className="panel__header">
           <div
             className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}

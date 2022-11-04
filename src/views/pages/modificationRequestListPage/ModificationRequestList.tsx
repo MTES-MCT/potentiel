@@ -5,7 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { RequestList, PageTemplate } from '@components'
+import { RequestList, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
 
@@ -226,13 +226,7 @@ export const ModificationRequestList = ({
             )}
           </form>
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
         {error ? (
           <div className="notification error" {...dataId('error-message')}>
             {error}

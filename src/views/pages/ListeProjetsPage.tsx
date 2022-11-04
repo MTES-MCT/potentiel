@@ -12,6 +12,7 @@ import {
   ExcelFileIcon,
   SecondaryLinkButton,
   PageTemplate,
+  SuccessBox,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -298,13 +299,7 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
         {error ? (
           <div className="notification error" {...dataId('error-message')}>
             {error}
