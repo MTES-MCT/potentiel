@@ -3,7 +3,7 @@ import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, PageTemplate, SuccessBox } from '@components'
+import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminRegénérerPeriodeAttestationsProps = {

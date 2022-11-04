@@ -13,6 +13,7 @@ import {
   SecondaryLinkButton,
   PageTemplate,
   SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 

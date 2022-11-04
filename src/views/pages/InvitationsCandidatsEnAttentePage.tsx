@@ -1,4 +1,4 @@
-import { PageTemplate, PaginationPanel, SecondaryButton, SuccessBox } from '@components'
+import { ErrorBox, PageTemplate, PaginationPanel, SecondaryButton, SuccessBox } from '@components'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { Request } from 'express'

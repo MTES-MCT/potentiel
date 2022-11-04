@@ -88,7 +88,7 @@ export const NewModificationRequest = ({
 
             <div className="form__group">
               {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox error={error} className="mb-3" />}
+              {error && <ErrorBox title={error} className="mb-3" />}
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>

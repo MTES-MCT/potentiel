@@ -15,6 +15,7 @@ import {
   AlertBox,
   PageTemplate,
   SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
