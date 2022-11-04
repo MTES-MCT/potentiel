@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, Input, PageTemplate, Select, SuccessBox, SuccessErrorBox } from '@components'
+import { Button, Input, PageTemplate, Select, SuccessBox, ErrorBox } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type PartnersListProps = {
@@ -23,8 +23,8 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         </div>
         <div className="panel__header">
           <h2 className="text-lg">Ajouter un utilisateur</h2>
-          {success && <SuccessBox title={success} />}
-          {error && <SuccessErrorBox error={error} success={success} />}
+          {success && <SuccessBox title={success} className="mb-3" />}
+          {error && <ErrorBox title={error} className="mb-3" />}
           <form
             action={ROUTES.ADMIN_INVITE_USER_ACTION}
             method="post"

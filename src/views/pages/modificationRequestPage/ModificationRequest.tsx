@@ -1,10 +1,10 @@
 import {
-  ErrorBox,
   ModificationRequestActionTitles,
   ProjectInfo,
   SuccessBox,
   SecondaryButton,
   PageTemplate,
+  ErrorBox,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { userIs } from '@modules/users'
@@ -63,7 +63,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
         <p className="m-0">Concernant le projet :</p>
         <ProjectInfo project={modificationRequest.project} className="mb-3" />
 
-        <ErrorBox error={error} />
+        {error && <ErrorBox title={error} />}
         {success && <SuccessBox title={success} />}
 
         <div className="panel__header">

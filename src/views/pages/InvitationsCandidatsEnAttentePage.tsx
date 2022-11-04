@@ -29,14 +29,8 @@ export const InvitationsCandidatsEnAttente = ({
             inscription. Les parrainages ne sont pas inclus.
           </p>
         </div>
-        {success && <SuccessBox title={success} />}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} className="mb-3" />}
+        {error && <ErrorBox title={error} className="mb-3" />}
 
         <div className="pagination__count">
           <strong>{invitations.itemCount}</strong> invitations en attente{' '}

@@ -3,7 +3,7 @@ import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
-import { SuccessErrorBox, Callout, Link, ExternalLink, PageTemplate, SuccessBox } from '@components'
+import { Callout, Link, ExternalLink, PageTemplate, SuccessBox, ErrorBox } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
   EtapesProjet,
@@ -35,9 +35,8 @@ export const ProjectDetails = ({
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
-      {success && <SuccessBox title={success} />}
-      {error && <SuccessErrorBox error={error} success={success} />}
-
+      {success && <SuccessBox title={success} className="mb-3" />}
+      {error && <ErrorBox title={error} className="mb-3" />}
       <main className="flex flex-col gap-3 mt-5">
         <Callout>
           <CDCInfo {...{ project, user }} />

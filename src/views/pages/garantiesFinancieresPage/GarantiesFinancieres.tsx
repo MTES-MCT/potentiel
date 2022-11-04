@@ -5,7 +5,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { ProjectList, DownloadIcon, PageTemplate, SuccessBox } from '@components'
+import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
@@ -157,14 +157,8 @@ export const GarantiesFinancieres = ({
             />
           </form>
         </div>
-        {success && <SuccessBox title={success} />}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} className="mb-3" />}
+        {error && <ErrorBox title={error} className="mb-3" />}
         {projects ? (
           <>
             <div className="pagination__count">

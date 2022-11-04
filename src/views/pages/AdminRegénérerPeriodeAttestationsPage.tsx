@@ -35,14 +35,8 @@ export const AdminRegénérerPeriodeAttestations = ({
           sur le modèle de l‘attestation ou dans les données relatives à un appel d‘offre.
         </p>
 
-        {success && <SuccessBox title={success} />}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} className="mb-3" />}
+        {error && <ErrorBox title={error} className="mb-3" />}
 
         <form
           action={ROUTES.ADMIN_REGENERATE_CERTIFICATES_ACTION}

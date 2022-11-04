@@ -6,7 +6,6 @@ import { Request } from 'express'
 import {
   ModificationRequestActionTitles,
   ProjectInfo,
-  SuccessErrorBox,
   Button,
   FormulaireChampsObligatoireLégende,
   SecondaryLinkButton,
@@ -15,6 +14,7 @@ import {
   InfoLienGuideUtilisationCDC,
   PageTemplate,
   SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, ChangementPuissance, DemandeRecours } from './components'
@@ -87,8 +87,8 @@ export const NewModificationRequest = ({
             <input type="hidden" name="type" value={action} />
 
             <div className="form__group">
-              {success && <SuccessBox title={success} />}
-              {error && <SuccessErrorBox error={error} success={success} />}
+              {success && <SuccessBox title={success} className="mb-3" />}
+              {error && <ErrorBox error={error} className="mb-3" />}
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>

@@ -1,6 +1,5 @@
 import {
   ProjectInfo,
-  SuccessErrorBox,
   TextArea,
   Astérisque,
   Input,
@@ -12,6 +11,7 @@ import {
   InfoLienGuideUtilisationCDC,
   PageTemplate,
   SuccessBox,
+  ErrorBox,
 } from '@components'
 import routes from '@routes'
 import { Project, ProjectAppelOffre } from '@entities'
@@ -76,8 +76,8 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
-              {success && <SuccessBox title={success} />}
-              {error && <SuccessErrorBox error={error} success={success} />}
+              {success && <SuccessBox title={success} className="mb-3" />}
+              {error && <ErrorBox title={error as string} className="mb-3" />}
 
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-1">Concernant le projet:</div>

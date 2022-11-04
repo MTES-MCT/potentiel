@@ -1,7 +1,6 @@
 import { Request } from 'express'
 import React from 'react'
-import { dataId } from '../../helpers/testId'
-import { LinkButton, PageTemplate, SuccessBox } from '@components'
+import { LinkButton, PageTemplate, SuccessBox, ErrorBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface SuccèsOuErreurProps {
@@ -24,12 +23,7 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
   const contents = (
     <div className="panel">
       {success && <SuccessBox title={success} className="mb-4" />}
-
-      {error && (
-        <pre className="notification error" {...dataId('error-message')}>
-          {error}
-        </pre>
-      )}
+      {error && <ErrorBox title={error} className="mb-4" />}
       <LinkButton href={redirectUrl}> {redirectTitle}</LinkButton>
     </div>
   )

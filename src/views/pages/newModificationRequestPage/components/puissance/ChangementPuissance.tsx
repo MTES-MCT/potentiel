@@ -8,7 +8,7 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/modificationRequest'
-import { Astérisque, Label } from '@components'
+import { Astérisque, ErrorBox, Label } from '@components'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -80,12 +80,7 @@ export const ChangementPuissance = ({
       {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 
       {displayAlertOnPuissanceType && (
-        <div
-          className="notification error"
-          {...dataId('modificationRequest-puissance-error-message-wrong-format')}
-        >
-          Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal.
-        </div>
+        <ErrorBox title="Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal." />
       )}
 
       <div className="mt-4">

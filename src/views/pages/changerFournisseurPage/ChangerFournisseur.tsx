@@ -7,7 +7,6 @@ import { Request } from 'express'
 import {
   ChoisirCahierDesChargesFormulaire,
   ProjectInfo,
-  SuccessErrorBox,
   Button,
   Label,
   SecondaryLinkButton,
@@ -75,7 +74,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
               {success && <SuccessBox title={success} />}
-              {error && <SuccessErrorBox error={error} success={success} />}
+              {error && <ErrorBox title={error} className="mb-3" />}
 
               {CHAMPS_FOURNISSEURS.map((champ) => {
                 return (

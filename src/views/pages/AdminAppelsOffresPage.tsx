@@ -2,7 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
-import { Button, PageTemplate, SuccessBox } from '@components'
+import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminAppelOffreProps = {
@@ -19,14 +19,8 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
           <h3>Gérer les appels d'offres</h3>
         </div>
 
-        {success && <SuccessBox title={success} />}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} className="mb-3" />}
+        {error && <ErrorBox title={error} className="mb-3" />}
 
         <div className="panel__header">
           <form

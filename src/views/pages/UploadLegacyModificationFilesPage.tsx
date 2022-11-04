@@ -36,11 +36,10 @@ export const UploadLegacyModificationFiles = ({
           <h3>Importer des courriers historiques</h3>
         </div>
 
-        <ErrorBox error={error as string} />
+        {error && <ErrorBox title={error as string} className="mb-3" />}
 
-        {Boolean(errors.length) && (
-          <div className="notification error py-2">
-            <div>Erreur(s):</div>
+        {errors.length > 0 && (
+          <ErrorBox title="Erreurs :" className="mb-3">
             <ul className="pl-3 mb-0 mt-1">
               {errors.map((result) => (
                 <li key={`result_for_${result.filename}`} className="mb-1">
@@ -49,9 +48,9 @@ export const UploadLegacyModificationFiles = ({
                 </li>
               ))}
             </ul>
-          </div>
+          </ErrorBox>
         )}
-        {Boolean(successes.length) && (
+        {successes.length > 0 && (
           <SuccessBox
             title={`${successes.length} courrier${successes.length > 1 && 's'} rattaché${
               successes.length > 1 && 's'

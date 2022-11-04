@@ -299,14 +299,8 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success && <SuccessBox title={success} />}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} className="mb-3" />}
+        {error && <ErrorBox title={error} className="mb-3" />}
         {projects ? (
           <>
             <div className="flex flex-col md:flex-row md:items-center py-2">
