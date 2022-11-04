@@ -108,10 +108,6 @@ module.exports = {
           active: '#ffafaf',
         },
       },
-      screens: {
-        'dsfr-breakpoint-992': '992px',
-        'dsfr-breakpoint-576': '576px',
-      },
     },
   },
   variants: {

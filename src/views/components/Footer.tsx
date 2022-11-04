@@ -11,7 +11,7 @@ const Footer = () => {
           fontFamily: 'Marianne, arial, sans-serif',
         }}
       >
-        <div className="w-full px-4 mx-auto dsfr-breakpoint-992:px-6 lg:max-w-[78rem]">
+        <div className="w-full px-4 mx-auto lg:px-6 lg:max-w-[78rem]">
           <div className="flex flex-row flex-wrap items-center mb-4 md:mb-6">
             <div className="flex flex-row items-center basis-full md:p-4 md:-m-[1rem] md:mr-0 md:basis-auto basis">
               <a
@@ -33,13 +33,13 @@ const Footer = () => {
                 <div className="logo-after" />
               </a>
             </div>
-            <div className="flex flex-wrap basis-full mt-6 md:ml-auto dsfr-breakpoint-992:mt-0 dsfr-breakpoint-992:basis-1/2">
+            <div className="flex flex-wrap basis-full mt-6 md:ml-auto lg:mt-0 lg:basis-1/2">
               <p className="text-sm leading-6 mt-0 mb-2">
                 Suivez efficacement vos projets :<br />
                 Transmettez vos documents, demandez des modifications.
               </p>
               <ul className="p-0 m-0 list-none flex flex-wrap self-center">
-                <li className="mr-4 mt-2 mb-2 dsfr-breakpoint-576:mr-6">
+                <li className="mr-4 mt-2 mb-2 sm:mr-6">
                   <a
                     className="font-bold text-sm leading-6 text-black no-underline hover:text-black hover:underline hover:decoration-2"
                     href="https://legifrance.gouv.fr"
@@ -47,7 +47,7 @@ const Footer = () => {
                     legifrance.gouv.fr
                   </a>
                 </li>
-                <li className="mr-4 mt-2 mb-2 dsfr-breakpoint-576:mr-6">
+                <li className="mr-4 mt-2 mb-2 sm:mr-6">
                   <a
                     className="font-bold text-sm leading-6 text-black no-underline hover:text-black hover:underline hover:decoration-2"
                     href="https://gouvernement.fr"
@@ -55,7 +55,7 @@ const Footer = () => {
                     gouvernement.fr
                   </a>
                 </li>
-                <li className="mr-4 mt-2 mb-2 dsfr-breakpoint-576:mr-6">
+                <li className="mr-4 mt-2 mb-2 sm:mr-6">
                   <a
                     className="font-bold text-sm leading-6 text-black no-underline hover:text-black hover:underline hover:decoration-2"
                     href="https://service-public.fr"
@@ -63,7 +63,7 @@ const Footer = () => {
                     service-public.fr
                   </a>
                 </li>
-                <li className="mr-4 mt-2 mb-2 dsfr-breakpoint-576:mr-6">
+                <li className="mr-4 mt-2 mb-2 sm:mr-6">
                   <a
                     className="font-bold text-sm leading-6 text-black no-underline hover:text-black hover:underline hover:decoration-2"
                     href="https://data.gouv.fr"
