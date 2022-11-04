@@ -57,9 +57,21 @@ export const Tâche: FC<TâcheProps> = (props) => {
       </div>
       {props.état === 'terminée' && (
         <div className="flex flex-col lg:flex-row gap-1">
-          {props.détail.succès && <DétailSuccès {...{ succès: props.détail.succès }} />}
-          {props.détail.ignorés && <DétailIgnorés {...{ ignorés: props.détail.ignorés }} />}
-          {props.détail.erreurs && <DétailErreurs {...{ erreurs: props.détail.erreurs }} />}
+          {props.détail.succès && (
+            <div>
+              <DétailSuccès {...{ succès: props.détail.succès }} />
+            </div>
+          )}
+          {props.détail.ignorés && (
+            <div>
+              <DétailIgnorés {...{ ignorés: props.détail.ignorés }} />
+            </div>
+          )}
+          {props.détail.erreurs && (
+            <div>
+              <DétailErreurs {...{ erreurs: props.détail.erreurs }} />
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -68,7 +80,7 @@ export const Tâche: FC<TâcheProps> = (props) => {
 
 const DétailSuccès: FC<{ succès: Array<Succès> }> = ({ succès }) => {
   return succès.length > 0 ? (
-    <div className="flex text-sm lg:mr-4">
+    <div className="flex items-center text-sm lg:mr-4">
       <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
       {`${succès.length} ${succès.length === 1 ? 'projet a' : 'projets ont'} été mis à jour`}
     </div>
@@ -79,9 +91,9 @@ const DétailIgnorés: FC<{ ignorés: Array<Ignorés> }> = ({ ignorés }) => {
   const [afficherDétail, setAfficherDétail] = useState(false)
 
   return ignorés.length > 0 ? (
-    <div>
+    <>
       <Link
-        className="flex text-sm lg:mr-4"
+        className="flex items-center text-sm lg:mr-4"
         onClick={() => {
           setAfficherDétail(!afficherDétail)
         }}
@@ -93,9 +105,12 @@ const DétailIgnorés: FC<{ ignorés: Array<Ignorés> }> = ({ ignorés }) => {
       </Link>
       {afficherDétail && (
         <ul className="p-0 list-none">
-          {ignorés.map((ignorés) => {
+          {ignorés.map((ignorés, index) => {
             return (
-              <li className="py-3 text-sm border-0 border-solid border-b-grey-925-base border-b-[1px] last:border-b-0 last:pb-0">
+              <li
+                key={`skip-${index}`}
+                className="py-3 text-sm border-0 border-solid border-b-grey-925-base border-b-[1px] last:border-b-0"
+              >
                 <div>
                   Identifiant gestionnaire réseau :
                   <code className="font-bold">{ignorés.identifiantGestionnaireRéseau}</code>
@@ -111,7 +126,7 @@ const DétailIgnorés: FC<{ ignorés: Array<Ignorés> }> = ({ ignorés }) => {
           })}
         </ul>
       )}
-    </div>
+    </>
   ) : null
 }
 
@@ -119,7 +134,7 @@ const DétailErreurs: FC<{ erreurs: Array<Erreur> }> = ({ erreurs }) => {
   const [afficherDétail, setAfficherDétail] = useState(false)
 
   return erreurs.length > 0 ? (
-    <div>
+    <>
       <Link
         className="flex items-center text-sm"
         onClick={() => {
@@ -133,9 +148,12 @@ const DétailErreurs: FC<{ erreurs: Array<Erreur> }> = ({ erreurs }) => {
       </Link>
       {afficherDétail && (
         <ul className="p-0 list-none">
-          {erreurs.map((erreur) => {
+          {erreurs.map((erreur, index) => {
             return (
-              <li className="py-3 text-sm border-0 border-solid border-b-grey-925-base border-b-[1px] last:border-b-0 last:pb-0">
+              <li
+                key={`error-${index}`}
+                className="py-3 text-sm border-0 border-solid border-b-grey-925-base border-b-[1px] last:border-b-0"
+              >
                 <div>
                   Identifiant gestionnaire réseau :
                   <code className="font-bold">{erreur.identifiantGestionnaireRéseau}</code>
@@ -151,6 +169,6 @@ const DétailErreurs: FC<{ erreurs: Array<Erreur> }> = ({ erreurs }) => {
           })}
         </ul>
       )}
-    </div>
+    </>
   ) : null
 }
