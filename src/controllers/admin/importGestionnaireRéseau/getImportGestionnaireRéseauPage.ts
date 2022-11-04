@@ -16,6 +16,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
         where: { type: 'maj-date-mise-en-service' },
         order: [['dateDeDébut', 'DESC']],
       })
+
       return response.send(
         ImportGestionnaireReseauPage({
           request,
@@ -32,7 +33,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
                 : {
                     état: 'terminée',
                     dateDeFin: tâche.dateDeFin!,
-                    détail: résultat || {},
+                    détail: résultat!,
                   }),
             }
           }),

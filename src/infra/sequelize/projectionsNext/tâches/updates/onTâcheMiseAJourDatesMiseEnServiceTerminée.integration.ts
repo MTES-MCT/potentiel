@@ -21,15 +21,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         - le gestionnaire Enedis
       Alors la tâche devrait être 'terminée' avec :
         - une date de fin, 
-        - un nombre de succès
-        - et un nombre d'échecs
-        - un array de résultat`, async () => {
-    const résultat: RésultatTâcheMaJMeS = [
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
-    ]
-
+        - et le détail`, async () => {
     await Tâches.create({
       id: 1,
       type: 'maj-date-mise-en-service',
@@ -37,6 +29,24 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       état: 'en cours',
       dateDeDébut: new Date(),
     })
+
+    const résultat: RésultatTâcheMaJMeS = [
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
+      {
+        identifiantGestionnaireRéseau: 'Enedis',
+        état: 'échec',
+        projetId: 'projet-1',
+        raison: 'raison',
+      },
+      {
+        identifiantGestionnaireRéseau: 'Enedis',
+        état: 'ignoré',
+        projetId: 'projet-2',
+        raison: 'raison',
+      },
+    ]
 
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
       new TâcheMiseAJourDatesMiseEnServiceTerminée({
@@ -61,8 +71,6 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     expect(tâche).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
-      nombreDeSucces: 2,
-      nombreDEchecs: 1,
       résultat,
     })
   })
@@ -77,14 +85,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         - le gestionnaire Enedis
       Alors seulement la tâche du gestionnaire Enedis devrait être 'terminée' avec :
         - une date de fin, 
-        - un nombre de succès
-        - et un nombre d'échecs`, async () => {
-    const résultat: RésultatTâcheMaJMeS = [
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
-    ]
-
+        - et le détail`, async () => {
     await Tâches.bulkCreate([
       {
         id: 1,
@@ -102,6 +103,23 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       },
     ])
 
+    const résultat: RésultatTâcheMaJMeS = [
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
+      {
+        identifiantGestionnaireRéseau: 'Enedis',
+        état: 'échec',
+        projetId: 'projet-1',
+        raison: 'raison',
+      },
+      {
+        identifiantGestionnaireRéseau: 'Enedis',
+        état: 'ignoré',
+        projetId: 'projet-2',
+        raison: 'raison',
+      },
+    ]
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
       new TâcheMiseAJourDatesMiseEnServiceTerminée({
         payload: {
@@ -123,8 +141,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     expect(tâcheEnedis).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
-      nombreDeSucces: 2,
-      nombreDEchecs: 1,
+      résultat,
     })
 
     const tâcheAutreGestionnaire = await Tâches.findOne({

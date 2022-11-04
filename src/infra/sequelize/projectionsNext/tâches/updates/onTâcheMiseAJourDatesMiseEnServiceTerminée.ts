@@ -10,15 +10,12 @@ export default TâchesProjector.on(
       payload: { résultat, gestionnaire },
       occurredAt,
     } = évènement
-    const { nombreDeSucces, nombreDEchecs } = countEchecsSuccess(résultat)
 
     try {
       await Tâches.update(
         {
           état: 'terminée',
           dateDeFin: occurredAt,
-          nombreDeSucces,
-          nombreDEchecs,
           résultat,
         },
         {
@@ -41,18 +38,3 @@ export default TâchesProjector.on(
     }
   }
 )
-
-const countEchecsSuccess = (
-  résultat: TâcheMiseAJourDatesMiseEnServiceTerminée['payload']['résultat']
-) => {
-  return résultat.reduce(
-    ({ nombreDeSucces, nombreDEchecs }, { état }) => ({
-      nombreDeSucces: état === 'succès' ? nombreDeSucces + 1 : nombreDeSucces,
-      nombreDEchecs: état === 'échec' ? nombreDEchecs + 1 : nombreDEchecs,
-    }),
-    {
-      nombreDeSucces: 0,
-      nombreDEchecs: 0,
-    }
-  )
-}
