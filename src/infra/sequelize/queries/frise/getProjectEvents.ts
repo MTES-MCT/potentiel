@@ -7,6 +7,7 @@ import routes from '../../../../routes'
 import { models } from '../../models'
 import { is, isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
 import { getGarantiesFinancièresEvent } from './getGarantiesFinancièresEvent'
+import { ProjectAppelOffre } from '@entities'
 
 const { Project } = models
 
@@ -25,20 +26,21 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         appelOffreId,
         periodeId,
         familleId,
+        details,
       } = rawProject.get()
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
-      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+      const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       const isGarantiesFinancieresDeposeesALaCandidature =
-        appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-        appelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature'
+        projectAppelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
+        projectAppelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature'
 
       const garantieFinanciereEnMois =
-        appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
-          ? appelOffre.famille.garantieFinanciereEnMois
-          : appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
-          ? appelOffre?.garantieFinanciereEnMois
-          : undefined
+        projectAppelOffre &&
+        getGarantieFinanciereEnMois({
+          projectAppelOffre,
+          projectData: details,
+        })
 
       const garantiesFinancièresEvent = rawEvents.find(
         (event) => event.type === 'GarantiesFinancières'
@@ -50,7 +52,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               user,
               projectStatus: status,
               isGarantiesFinancieresDeposeesALaCandidature,
-              isSoumisAuxGF: appelOffre?.isSoumisAuxGF,
+              isSoumisAuxGF: projectAppelOffre?.isSoumisAuxGF,
               garantiesFinancièresEvent,
             })
           : undefined
@@ -207,7 +209,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           puissance: payload.puissance,
-                          unitePuissance: appelOffre?.unitePuissance,
+                          unitePuissance: projectAppelOffre?.unitePuissance,
                           authority: payload.authority,
                         })
                         break
@@ -303,7 +305,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           puissance: payload.puissance,
-                          unitePuissance: appelOffre?.unitePuissance,
+                          unitePuissance: projectAppelOffre?.unitePuissance,
                         })
                         break
                     }
@@ -571,4 +573,29 @@ const getEvents = (projectId): ResultAsync<Array<KnownProjectEvents>, InfraNotAv
   return wrapInfra(
     ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] })
   ).map((events) => events.filter(isKnownProjectEvent))
+}
+
+type GetGarantieFinanciereEnMois = (args: {
+  projectAppelOffre: ProjectAppelOffre
+  projectData: Record<string, string>
+}) => number | undefined
+
+const getGarantieFinanciereEnMois: GetGarantieFinanciereEnMois = ({
+  projectAppelOffre,
+  projectData,
+}) => {
+  const { periode, famille, soumisAuxGarantiesFinancieres } = projectAppelOffre
+  if (
+    periode.garantieFinanciereEnMoisSansAutorisationEnvironnementale &&
+    !['Dérogation', 'AU valide'].includes(
+      projectData["Type d'autorisation environnementale (pièce n°3)"]
+    )
+  ) {
+    return periode.garantieFinanciereEnMoisSansAutorisationEnvironnementale
+  }
+  return famille?.soumisAuxGarantiesFinancieres === 'après candidature'
+    ? famille.garantieFinanciereEnMois
+    : soumisAuxGarantiesFinancieres === 'après candidature'
+    ? projectAppelOffre.garantieFinanciereEnMois
+    : undefined
 }
