@@ -10,7 +10,6 @@ import {
   CsvValidationError,
   errorResponse,
   mapYupValidationErrorToCsvValidationError,
-  stringToDateYupTransformation,
 } from '../../helpers'
 import { ValidationError } from 'yup'
 import { Request } from 'express'
@@ -20,6 +19,7 @@ import {
   DémarrageImpossibleError,
 } from '@modules/imports/gestionnaireRéseau'
 import { CsvError } from 'csv-parse'
+import { parse } from 'date-fns'
 
 const csvDataSchema = yup
   .array()
@@ -29,13 +29,9 @@ const csvDataSchema = yup
     yup.object({
       numeroGestionnaire: yup.string().ensure().required('Le numéro gestionnaire est obligatoire'),
       'date de MES': yup
-        .date()
-        .required('La date de mise en service est obligatoire')
-        .nullable()
-        .transform((_, originalValue) => stringToDateYupTransformation(originalValue, 'dd/MM/yyyy'))
-        .typeError(
-          `Vous devez renseigner une date de mise en service au format jj/mm/aaaa`
-        ) as yup.DateSchema<Date>,
+        .string()
+        .required('Date de mise en service obligatoire')
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mis en service attendu : jj/mm/aaaa'),
     })
   )
 
@@ -57,10 +53,12 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formaterLesDonnées = (données: Array<{ numeroGestionnaire: string; 'date de MES': Date }>) =>
+const formaterLesDonnées = (
+  données: Array<{ numeroGestionnaire: string; 'date de MES': string }>
+) =>
   données.map((d) => ({
     identifiantGestionnaireRéseau: d.numeroGestionnaire,
-    dateMiseEnService: d['date de MES'],
+    dateMiseEnService: parse(d['date de MES'], 'dd/MM/yyyy', new Date()),
   }))
 
 const setFormResult = (
