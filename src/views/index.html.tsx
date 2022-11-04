@@ -41,7 +41,6 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
 
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
-        <link href="/css/dsfr.css" rel="stylesheet" />
 
         <meta name="theme-color" content="#000091" />
         <!-- Défini la couleur de thème du navigateur (Safari/Android) -->
