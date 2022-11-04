@@ -39,7 +39,6 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
 
         <title>${`${title} - Potentiel`}</title>
 
-        <link href="/css/fonts.css" rel="preload" as="style" />
         <link href="/main.min.css" rel="stylesheet" />
         <link href="/css/index.css" rel="stylesheet" />
 
