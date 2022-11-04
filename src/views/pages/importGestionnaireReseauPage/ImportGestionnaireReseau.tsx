@@ -12,6 +12,7 @@ import {
   Link,
   SecondaryLinkButton,
   RefreshIcon,
+  SuccessBox,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
@@ -144,7 +145,7 @@ const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
       return (
-        <SuccessErrorBox success="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
+        <SuccessBox title="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
       )
     case 'échec':
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&

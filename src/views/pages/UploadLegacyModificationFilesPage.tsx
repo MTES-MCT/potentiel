@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { ErrorBox, Button, PageTemplate } from '@components'
+import { ErrorBox, Button, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 export type UploadLegacyModificationFileResult =
@@ -52,9 +52,11 @@ export const UploadLegacyModificationFiles = ({
           </div>
         )}
         {Boolean(successes.length) && (
-          <div className="notification success">
-            {successes.length} courrier(s) rattaché(s) avec succès
-          </div>
+          <SuccessBox
+            title={`${successes.length} courrier${successes.length > 1 && 's'} rattaché${
+              successes.length > 1 && 's'
+            } avec succès`}
+          />
         )}
 
         <form

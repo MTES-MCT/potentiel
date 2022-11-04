@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { Request } from 'express'
-import { Button, PageTemplate } from '@components'
+import { Button, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminImporterCandidatsProps = {
@@ -25,11 +25,7 @@ export const AdminImporterCandidats = ({
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {isSuccess && (
-            <div className="notification success" {...dataId('success-message')}>
-              Les projets ont bien été importés.
-            </div>
-          )}
+          {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
           {!!importErrors && (
             <div className="notification error" {...dataId('error-message')}>
               Le fichier n'a pas pu être importé à cause des erreurs suivantes:

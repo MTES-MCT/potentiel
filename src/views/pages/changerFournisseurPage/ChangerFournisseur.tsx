@@ -15,6 +15,7 @@ import {
   InfoLienGuideUtilisationCDC,
   AlertBox,
   PageTemplate,
+  SuccessBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
@@ -73,7 +74,8 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
-              <SuccessErrorBox success={success} error={error} />
+              {success && <SuccessBox title={success} />}
+              {error && <SuccessErrorBox error={error} success={success} />}
 
               {CHAMPS_FOURNISSEURS.map((champ) => {
                 return (

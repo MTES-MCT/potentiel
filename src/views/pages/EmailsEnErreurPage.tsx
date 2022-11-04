@@ -1,4 +1,4 @@
-import { PaginationPanel, Button, PageTemplate } from '@components'
+import { PaginationPanel, Button, PageTemplate, SuccessBox } from '@components'
 import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -42,13 +42,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
               </Button>
             )}
           </form>
-          {success ? (
-            <div className="notification success" {...dataId('success-message')}>
-              {success}
-            </div>
-          ) : (
-            ''
-          )}
+          {success && <SuccessBox title={success} />}
           {error ? (
             <div className="notification error" {...dataId('error-message')}>
               {error}

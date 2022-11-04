@@ -18,6 +18,7 @@ import {
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
   PageTemplate,
+  SuccessBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
@@ -75,7 +76,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           >
             <input type="hidden" name="projetId" value={project.id} />
             <div className="form__group">
-              <SuccessErrorBox success={success} error={error} />
+              {success && <SuccessBox title={success} />}
+              {error && <SuccessErrorBox error={error} success={success} />}
 
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>

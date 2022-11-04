@@ -3,7 +3,7 @@ import React from 'react'
 import { DREAL, REGIONS } from '../../../entities/dreal'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, Input, PageTemplate, Select } from '@components'
+import { Button, Input, PageTemplate, Select, SuccessBox } from '@components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type DrealListProps = {
@@ -22,13 +22,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         </div>
         <div className="panel__header">
           <h2 className="text-lg">Ajouter un utilisateur DREAL</h2>
-
-          {success && (
-            <div className="notification success" {...dataId('success-message')}>
-              {success}
-            </div>
-          )}
-
+          {success && <SuccessBox title={success} />}
           {error && (
             <div className="notification error" {...dataId('error-message')}>
               {error}
