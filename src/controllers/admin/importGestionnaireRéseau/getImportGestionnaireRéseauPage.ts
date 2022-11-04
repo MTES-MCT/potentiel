@@ -32,9 +32,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
                 : {
                     état: 'terminée',
                     dateDeFin: tâche.dateDeFin!,
-                    nombreDeSucces: tâche.nombreDeSucces!,
-                    nombreDEchecs: tâche.nombreDEchecs!,
-                    résultatErreurs: getRésultatErreurs(résultat!),
+                    détail: résultat || {},
                   }),
             }
           }),
