@@ -42,7 +42,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
           >
             <input type="hidden" name="role" value="dreal" />
             <div>
-              <label htmlFor="email">Adresse email</label>
+              <label htmlFor="email">Adresse email :</label>
               <Input
                 type="email"
                 name="email"
@@ -53,7 +53,6 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
               />
             </div>
             <div>
-              <label htmlFor="region">Sélectionnez une région</label>
               <Select
                 name="region"
                 id="region"
@@ -61,6 +60,9 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                 required
                 {...(validationErrors && { error: validationErrors['region']?.toString() })}
               >
+                <option>
+                  <label htmlFor="region">Sélectionnez une région</label>
+                </option>
                 {[...REGIONS]
                   .sort((a, b) => a.localeCompare(b))
                   .map((value, index) => (
