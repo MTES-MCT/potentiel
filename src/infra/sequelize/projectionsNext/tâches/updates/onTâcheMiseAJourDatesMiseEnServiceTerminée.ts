@@ -11,12 +11,20 @@ export default TâchesProjector.on(
       occurredAt,
     } = évènement
 
+    const succès = résultat.filter((r): r is typeof r & { état: 'succès' } => r.état === 'succès')
+    const ignorés = résultat.filter((r): r is typeof r & { état: 'ignoré' } => r.état === 'ignoré')
+    const erreurs = résultat.filter((r): r is typeof r & { état: 'échec' } => r.état === 'échec')
+
     try {
       await Tâches.update(
         {
           état: 'terminée',
           dateDeFin: occurredAt,
-          résultat,
+          résultat: {
+            succès,
+            ignorés,
+            erreurs,
+          },
         },
         {
           where: {

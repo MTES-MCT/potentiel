@@ -1,7 +1,4 @@
-import {
-  RésultatTâcheMaJMeS,
-  TâcheMiseAJourDatesMiseEnServiceTerminée,
-} from '@modules/imports/gestionnaireRéseau/events'
+import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/gestionnaireRéseau/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
 import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDatesMiseEnServiceTerminée'
@@ -30,29 +27,27 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       dateDeDébut: new Date(),
     })
 
-    const résultat: RésultatTâcheMaJMeS = [
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
-      {
-        identifiantGestionnaireRéseau: 'Enedis',
-        état: 'échec',
-        projetId: 'projet-1',
-        raison: 'raison',
-      },
-      {
-        identifiantGestionnaireRéseau: 'Enedis',
-        état: 'ignoré',
-        projetId: 'projet-2',
-        raison: 'raison',
-      },
-    ]
-
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
       new TâcheMiseAJourDatesMiseEnServiceTerminée({
         payload: {
           gestionnaire,
-          résultat,
+          résultat: [
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
+            {
+              identifiantGestionnaireRéseau: 'Enedis',
+              état: 'échec',
+              projetId: 'projet-1',
+              raison: 'raison',
+            },
+            {
+              identifiantGestionnaireRéseau: 'Enedis',
+              état: 'ignoré',
+              projetId: 'projet-2',
+              raison: 'raison',
+            },
+          ],
         },
         original: {
           version: 1,
@@ -71,7 +66,27 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     expect(tâche).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
-      résultat,
+      résultat: {
+        succès: [
+          { identifiantGestionnaireRéseau: 'Enedis', projetId: 'projet-id' },
+          { identifiantGestionnaireRéseau: 'Enedis', projetId: 'projet-id' },
+        ],
+        ignorés: [
+          {
+            identifiantGestionnaireRéseau: 'Enedis',
+            projetId: 'projet-2',
+            raison: 'raison',
+          },
+        ],
+        erreurs: [
+          { identifiantGestionnaireRéseau: 'Enedis', raison: 'raison' },
+          {
+            identifiantGestionnaireRéseau: 'Enedis',
+            projetId: 'projet-1',
+            raison: 'raison',
+          },
+        ],
+      },
     })
   })
 
@@ -103,28 +118,27 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       },
     ])
 
-    const résultat: RésultatTâcheMaJMeS = [
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
-      { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
-      {
-        identifiantGestionnaireRéseau: 'Enedis',
-        état: 'échec',
-        projetId: 'projet-1',
-        raison: 'raison',
-      },
-      {
-        identifiantGestionnaireRéseau: 'Enedis',
-        état: 'ignoré',
-        projetId: 'projet-2',
-        raison: 'raison',
-      },
-    ]
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
       new TâcheMiseAJourDatesMiseEnServiceTerminée({
         payload: {
           gestionnaire,
-          résultat,
+          résultat: [
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'succès', projetId: 'projet-id' },
+            { identifiantGestionnaireRéseau: 'Enedis', état: 'échec', raison: 'raison' },
+            {
+              identifiantGestionnaireRéseau: 'Enedis',
+              état: 'échec',
+              projetId: 'projet-1',
+              raison: 'raison',
+            },
+            {
+              identifiantGestionnaireRéseau: 'Enedis',
+              état: 'ignoré',
+              projetId: 'projet-2',
+              raison: 'raison',
+            },
+          ],
         },
         original: {
           version: 1,
@@ -141,7 +155,27 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     expect(tâcheEnedis).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
-      résultat,
+      résultat: {
+        succès: [
+          { identifiantGestionnaireRéseau: 'Enedis', projetId: 'projet-id' },
+          { identifiantGestionnaireRéseau: 'Enedis', projetId: 'projet-id' },
+        ],
+        ignorés: [
+          {
+            identifiantGestionnaireRéseau: 'Enedis',
+            projetId: 'projet-2',
+            raison: 'raison',
+          },
+        ],
+        erreurs: [
+          { identifiantGestionnaireRéseau: 'Enedis', raison: 'raison' },
+          {
+            identifiantGestionnaireRéseau: 'Enedis',
+            projetId: 'projet-1',
+            raison: 'raison',
+          },
+        ],
+      },
     })
 
     const tâcheAutreGestionnaire = await Tâches.findOne({

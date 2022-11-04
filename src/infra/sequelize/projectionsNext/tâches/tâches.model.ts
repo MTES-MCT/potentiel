@@ -1,4 +1,3 @@
-import { RésultatTâcheMaJMeS } from '@modules/imports/gestionnaireRéseau/events'
 import {
   CreationOptional,
   DataTypes,
@@ -14,6 +13,29 @@ export type TâchesType = typeof typesTâche[number]
 
 const étatsPossibles = ['en cours', 'terminée'] as const
 
+type Succès = {
+  projetId: string
+  identifiantGestionnaireRéseau: string
+}
+
+type Erreur = {
+  raison: string
+  projetId?: string
+  identifiantGestionnaireRéseau: string
+}
+
+type Ignorés = {
+  raison: string
+  projetId: string
+  identifiantGestionnaireRéseau: string
+}
+
+type Résultat = {
+  succès?: Array<Succès>
+  ignorés?: Array<Ignorés>
+  erreurs?: Array<Erreur>
+}
+
 class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttributes<Tâches>> {
   id: CreationOptional<number>
   gestionnaire: string
@@ -21,9 +43,7 @@ class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttributes<T�
   état: typeof étatsPossibles[number]
   dateDeDébut: Date
   dateDeFin?: Date
-  nombreDeSucces?: number
-  nombreDEchecs?: number
-  résultat?: RésultatTâcheMaJMeS
+  résultat?: Résultat
 }
 
 const nomProjection = 'taches'
@@ -55,16 +75,8 @@ Tâches.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    nombreDeSucces: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    nombreDEchecs: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     résultat: {
-      type: DataTypes.ARRAY(DataTypes.JSON),
+      type: DataTypes.JSON,
       allowNull: true,
     },
   },
