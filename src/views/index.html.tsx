@@ -14,6 +14,10 @@ type PageProps<T> = {
 
 const html = String.raw
 
+const escapeHtml = (value: string) => {
+  return value.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+}
+
 function stripRequest(props: HasRequest) {
   const { query, user } = props.request
   return {
@@ -156,7 +160,9 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         </svg>
         <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
         ${html`<script>
-          window.__INITIAL_PROPS__ = ${props ? JSON.stringify(stripRequest(props)) : '{}'}
+          window.__INITIAL_PROPS__ = ${props
+            ? escapeHtml(JSON.stringify(stripRequest(props)))
+            : '{}'}
         </script>`}
       </body>
     </html>
