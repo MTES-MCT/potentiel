@@ -3,14 +3,14 @@ import { okAsync } from '@core/utils'
 import { USER_ROLES } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
-import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
+import { ImportDonnéesRaccordement } from '../ImportDonnéesRaccordement'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
-import { makeDémarrerImportGestionnaireRéseau } from './démarrerImportGestionnaireRéseau'
+import { makeDémarrerImportDonnéesRaccordement } from './démarrerImportDonnéesRaccordement'
 
-describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
+describe(`Démarrer un import de données de raccordement`, () => {
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
-  const importDémarrable = { état: undefined } as ImportGestionnaireRéseau
+  const importDémarrable = { état: undefined } as ImportDonnéesRaccordement
   const adminAutorisé = { role: 'admin', id: 'administrateur-potentiel' } as User
   const utilisateursAutorisés = [
     adminAutorisé,
@@ -29,12 +29,12 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     for (const role of rolesNonAutorisés) {
       it(`Lorsqu'un utilisateur ${role} démarre un import pour le gestionnaire de réseau Enedis
           Alors il devrait être averti qu'il n'est pas autorisé à faire un import`, async () => {
-        const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+        const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
           importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
         })
 
-        const démarrage = await démarrerImportGestionnaireRéseau({
+        const démarrage = await démarrerImportDonnéesRaccordement({
           utilisateur: { role, id: 'administrateur-potentiel' } as User,
           gestionnaire: 'Enedis',
           données: donnéesImportValides,
@@ -52,14 +52,14 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     it(`Étant donné un import en cours pour le gestionnaire de réseau Enedis
         Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis
         Alors on devrait être averti qu'il impossible de démarrer un import alors qu'un est déjà en cours`, async () => {
-      const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+      const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
         importRepo: fakeTransactionalRepo({
           état: 'en cours',
-        } as ImportGestionnaireRéseau),
+        } as ImportDonnéesRaccordement),
         publishToEventStore,
       })
 
-      const démarrage = await démarrerImportGestionnaireRéseau({
+      const démarrage = await démarrerImportDonnéesRaccordement({
         utilisateur: adminAutorisé,
         gestionnaire: 'Enedis',
         données: donnéesImportValides,
@@ -75,12 +75,12 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
   describe(`Impossible de démarrer un import sans données de mise à jour`, () => {
     it(`Lorsqu'on démarre un import sans données de mise à jour
         Alors on devrait être averti qu'il faut des données de mise à jour pour pouvoir démarrer l'import`, async () => {
-      const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+      const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
         importRepo: fakeTransactionalRepo(importDémarrable),
         publishToEventStore,
       })
 
-      const démarrage = await démarrerImportGestionnaireRéseau({
+      const démarrage = await démarrerImportDonnéesRaccordement({
         utilisateur: adminAutorisé,
         gestionnaire: 'Enedis',
         données: [],
@@ -97,12 +97,12 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
     for (const utilisateurAutorisé of utilisateursAutorisés) {
       it(`Lorsqu'on démarre un import pour le gestionnaire de réseau Enedis avec des dates de mise en service
         Alors la mise à jour des dates de mise en service est démarrée`, async () => {
-        const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+        const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
           importRepo: fakeTransactionalRepo(importDémarrable),
           publishToEventStore,
         })
 
-        const démarrage = await démarrerImportGestionnaireRéseau({
+        const démarrage = await démarrerImportDonnéesRaccordement({
           utilisateur: utilisateurAutorisé,
           gestionnaire: 'Enedis',
           données: donnéesImportValides,
@@ -113,7 +113,7 @@ describe(`Démarrer un import de fichier de gestionnaire réseau`, () => {
         expect(publishToEventStore).toHaveBeenNthCalledWith(
           1,
           expect.objectContaining({
-            aggregateId: 'import-gestionnaire-réseau#Enedis',
+            aggregateId: 'import-données-raccordement#Enedis',
             type: 'TâcheMiseAJourDatesMiseEnServiceDémarrée',
             payload: expect.objectContaining({
               misAJourPar: utilisateurAutorisé.id,

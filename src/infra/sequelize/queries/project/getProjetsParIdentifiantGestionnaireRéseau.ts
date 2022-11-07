@@ -1,4 +1,4 @@
-import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/gestionnaireRéseau'
+import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/donnéesRaccordement'
 import { okAsync, wrapInfra } from '@core/utils'
 import models from '../../models'
 import { Op } from 'sequelize'

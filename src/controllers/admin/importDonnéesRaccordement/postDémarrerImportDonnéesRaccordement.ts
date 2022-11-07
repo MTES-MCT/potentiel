@@ -1,6 +1,6 @@
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
-import { démarrerImportGestionnaireRéseau, ensureRole } from '@config'
+import { démarrerImportDonnéesRaccordement, ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
@@ -17,7 +17,7 @@ import { RésultatSoumissionFormulaire } from 'express-session'
 import {
   DonnéesDeMiseAJourObligatoiresError,
   DémarrageImpossibleError,
-} from '@modules/imports/gestionnaireRéseau'
+} from '@modules/imports/donnéesRaccordement'
 import { CsvError } from 'csv-parse'
 import { parse } from 'date-fns'
 
@@ -77,18 +77,18 @@ const setFormResult = (
   }
 }
 
-if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
+if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.post(
-    routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU,
+    routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
     ensureRole(['admin', 'dgec-validateur']),
-    upload.single('fichier-import-gestionnaire-réseau'),
+    upload.single('fichier-données-raccordement'),
     asyncHandler(async (request, response) => {
       if (!request.file || !request.file.path) {
-        setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+        setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
           type: 'échec',
           raison: 'Le fichier est obligatoire',
         })
-        return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+        return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
       }
 
       await parseCsv(request.file.path, {
@@ -97,7 +97,7 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
       })
         .andThen(validerLesDonnéesDuFichierCsv)
         .andThen((données) =>
-          démarrerImportGestionnaireRéseau({
+          démarrerImportDonnéesRaccordement({
             utilisateur: request.user,
             gestionnaire: 'Enedis',
             données: formaterLesDonnées(données),
@@ -105,38 +105,38 @@ if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
         )
         .match(
           () => {
-            setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+            setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
               type: 'succès',
             })
-            return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+            return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
           },
           (error) => {
             if (error instanceof CsvValidationError) {
-              setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: error.message,
                 erreursDeValidationCsv: error.détails,
               })
-              return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
             }
 
             if (
               error instanceof DémarrageImpossibleError ||
               error instanceof DonnéesDeMiseAJourObligatoiresError
             ) {
-              setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: error.message,
               })
-              return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
             }
 
             if (error instanceof CsvError) {
-              setFormResult(request, routes.IMPORT_GESTIONNAIRE_RESEAU, {
+              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: 'Le fichier csv est mal formaté',
               })
-              return response.redirect(routes.IMPORT_GESTIONNAIRE_RESEAU)
+              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
             }
 
             logger.error(error)

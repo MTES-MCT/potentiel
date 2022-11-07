@@ -1,4 +1,4 @@
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/gestionnaireRéseau/events'
+import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
 import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDatesMiseEnServiceTerminée'

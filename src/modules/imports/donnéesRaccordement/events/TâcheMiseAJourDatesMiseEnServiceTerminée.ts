@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
-import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
+import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 
 type TâcheMiseAJourDatesMiseEnServiceTerminéePayload = {
   gestionnaire: string
@@ -35,6 +35,6 @@ export class TâcheMiseAJourDatesMiseEnServiceTerminée
   currentVersion = 1
 
   aggregateIdFromPayload(payload: TâcheMiseAJourDatesMiseEnServiceTerminéePayload) {
-    return ImportGestionnaireRéseauId.format(payload.gestionnaire).toString()
+    return ImportDonnéesRaccordementId.format(payload.gestionnaire).toString()
   }
 }

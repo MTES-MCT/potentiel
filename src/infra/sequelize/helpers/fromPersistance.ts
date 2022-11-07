@@ -14,7 +14,7 @@ import * as DemandeRecoursModificationEvents from '@modules/demandeModification/
 import * as DemandeDelaiEvents from '@modules/demandeModification/demandeDélai/events'
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events'
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events'
-import * as ImportGestionnaireRéseauEvents from '@modules/imports/gestionnaireRéseau/events'
+import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
 
 interface EventProps {
   payload: any
@@ -44,7 +44,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeDelaiEvents,
   ...DemandeAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
-  ...ImportGestionnaireRéseauEvents,
+  ...ImportDonnéesRaccordementEvents,
 }
 
 export const fromPersistance = (eventRaw: any): DomainEvent | null => {

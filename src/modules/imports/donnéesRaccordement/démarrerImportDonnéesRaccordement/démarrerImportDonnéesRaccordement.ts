@@ -3,26 +3,26 @@ import { User } from '@entities'
 import { UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 import { errAsync } from '@core/utils'
-import { ImportGestionnaireRéseau } from '../ImportGestionnaireRéseau'
-import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
+import { ImportDonnéesRaccordement } from '../ImportDonnéesRaccordement'
+import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '../events'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
-type MakeDémarrerImportGestionnaireRéseauDépendances = {
-  importRepo: TransactionalRepository<ImportGestionnaireRéseau>
+type MakeDémarrerImportDonnéesRaccordementDépendances = {
+  importRepo: TransactionalRepository<ImportDonnéesRaccordement>
   publishToEventStore: EventStore['publish']
 }
 
-export type DémarrerImportGestionnaireRéseauCommande = {
+export type DémarrerImportDonnéesRaccordementCommande = {
   utilisateur: User
   gestionnaire: 'Enedis'
   données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
 }
 
-export const makeDémarrerImportGestionnaireRéseau =
-  ({ importRepo, publishToEventStore }: MakeDémarrerImportGestionnaireRéseauDépendances) =>
-  (commande: DémarrerImportGestionnaireRéseauCommande) => {
+export const makeDémarrerImportDonnéesRaccordement =
+  ({ importRepo, publishToEventStore }: MakeDémarrerImportDonnéesRaccordementDépendances) =>
+  (commande: DémarrerImportDonnéesRaccordementCommande) => {
     const { utilisateur, gestionnaire, données } = commande
 
     if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
@@ -30,9 +30,9 @@ export const makeDémarrerImportGestionnaireRéseau =
     }
 
     return importRepo.transaction(
-      ImportGestionnaireRéseauId.format(gestionnaire),
-      (importGestionnaireRéseau) => {
-        if (importGestionnaireRéseau.état === 'en cours') {
+      ImportDonnéesRaccordementId.format(gestionnaire),
+      (importDonnéesRaccordement) => {
+        if (importDonnéesRaccordement.état === 'en cours') {
           return errAsync(new DémarrageImpossibleError(commande))
         }
 

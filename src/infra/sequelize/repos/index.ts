@@ -13,7 +13,7 @@ import { makeProjectClaimRepo } from './projectClaimRepo'
 import { makeLegacyCandidateNotification } from '@modules/legacyCandidateNotification'
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
 import { makeDemandeDélai, makeDemandeAbandon } from '@modules/demandeModification'
-import { makeImportGestionnaireRéseau } from '@modules/imports/gestionnaireRéseau'
+import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -61,6 +61,6 @@ export const demandeAbandonRepo = {
 export const importRepo = {
   ...makeEventStoreTransactionalRepo({
     eventStore,
-    makeAggregate: makeImportGestionnaireRéseau,
+    makeAggregate: makeImportDonnéesRaccordement,
   }),
 }

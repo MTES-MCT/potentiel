@@ -5,27 +5,27 @@ import {
   TâcheMiseAJourDatesMiseEnServiceTerminée,
 } from './events'
 
-export type ImportGestionnaireRéseau = EventStoreAggregate & {
+export type ImportDonnéesRaccordement = EventStoreAggregate & {
   état: 'en cours' | 'terminé' | undefined
   tâchesEnCours: Array<{
     type: 'maj-date-mise-en-service'
   }>
 }
 
-export const makeImportGestionnaireRéseau = (args: {
+export const makeImportDonnéesRaccordement = (args: {
   id: UniqueEntityID
   events?: DomainEvent[]
 }) => {
   const { events = [], id } = args
 
-  const agregatParDefaut: ImportGestionnaireRéseau = {
+  const agregatParDefaut: ImportDonnéesRaccordement = {
     id,
     pendingEvents: [],
     état: undefined,
     tâchesEnCours: [],
   }
 
-  const agregat: ImportGestionnaireRéseau = events.reduce((agregat, event) => {
+  const agregat: ImportDonnéesRaccordement = events.reduce((agregat, event) => {
     switch (event.type) {
       case TâcheMiseAJourDatesMiseEnServiceDémarrée.type:
         return {

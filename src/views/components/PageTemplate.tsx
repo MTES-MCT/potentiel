@@ -16,7 +16,7 @@ type CurrentPage =
   | 'list-invitations'
   | 'list-notifications'
   | 'admin-upload-legacy-modification-files'
-  | 'import-gestionnaire-réseau'
+  | 'import-données-raccordement'
   | 'list-dreal'
   | 'regenerate-certificates'
   | 'admin-ao'
@@ -76,10 +76,10 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
-      {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+      {!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT && (
         <DropdownMenu.DropdownItem
-          href={routes.IMPORT_GESTIONNAIRE_RESEAU}
-          {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
+          href={routes.IMPORT_DONNEES_RACCORDEMENT}
+          {...(currentPage === 'import-données-raccordement' && { isCurrent: true })}
         >
           Données de raccordement
         </DropdownMenu.DropdownItem>

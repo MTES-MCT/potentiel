@@ -1,16 +1,16 @@
 import { UniqueEntityID } from '@core/domain'
-import { makeImportGestionnaireRéseau } from './ImportGestionnaireRéseau'
+import { makeImportDonnéesRaccordement } from './ImportDonnéesRaccordement'
 import {
   TâcheMiseAJourDatesMiseEnServiceDémarrée,
   TâcheMiseAJourDatesMiseEnServiceTerminée,
 } from './events'
 
-describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () => {
-  it(`Quand on fabrique l'import de gestionnaire de réseau avec un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée'
+describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () => {
+  it(`Quand on fabrique l'import de données de raccordement avec un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
-    const importGestionnaireRéseau = makeImportGestionnaireRéseau({
-      id: new UniqueEntityID('import-gestionnaire-réseau#Enedis'),
+    const importDonnéesRaccordement = makeImportDonnéesRaccordement({
+      id: new UniqueEntityID('import-données-raccordement#Enedis'),
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
@@ -27,8 +27,8 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       ],
     })
 
-    expect(importGestionnaireRéseau.isOk()).toBe(true)
-    expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
+    expect(importDonnéesRaccordement.isOk()).toBe(true)
+    expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
       tâchesEnCours: [
         {
@@ -37,11 +37,11 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       ],
     })
   })
-  it(`Quand on fabrique l'import de gestionnaire de réseau avec 2 évènements consécutifs 'TâcheMiseAJourDatesMiseEnServiceDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
+  it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDatesMiseEnServiceDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
-    const importGestionnaireRéseau = makeImportGestionnaireRéseau({
-      id: new UniqueEntityID('import-gestionnaire-réseau#Enedis'),
+    const importDonnéesRaccordement = makeImportDonnéesRaccordement({
+      id: new UniqueEntityID('import-données-raccordement#Enedis'),
       events: [
         new TâcheMiseAJourDatesMiseEnServiceDémarrée({
           payload: {
@@ -64,8 +64,8 @@ describe(`Fabriquer l'agrégat pour un import de gestionnaire de réseau`, () =>
       ],
     })
 
-    expect(importGestionnaireRéseau.isOk()).toBe(true)
-    expect(importGestionnaireRéseau._unsafeUnwrap()).toMatchObject({
+    expect(importDonnéesRaccordement.isOk()).toBe(true)
+    expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'terminé',
       tâchesEnCours: [],
     })

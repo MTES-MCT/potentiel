@@ -1,5 +1,5 @@
 import { resetDatabase } from '../../../helpers'
-import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '@modules/imports/gestionnaireRéseau'
+import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '@modules/imports/donnéesRaccordement'
 import { Tâches } from '../tâches.model'
 import onTâcheMiseAJourDatesMiseEnServiceDémarrée from './onTâcheMiseAJourDatesMiseEnServiceDémarrée'
 

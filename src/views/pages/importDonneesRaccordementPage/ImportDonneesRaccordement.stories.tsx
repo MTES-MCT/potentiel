@@ -1,10 +1,10 @@
 import React from 'react'
-import { ImportGestionnaireReseau } from '.'
+import { ImportDonneesRaccordement } from '.'
 
 export default { title: 'Pages/Import gestionnaire de réseau' }
 
 export const Default = () => (
-  <ImportGestionnaireReseau
+  <ImportDonneesRaccordement
     request={{} as any}
     tâches={[
       {
