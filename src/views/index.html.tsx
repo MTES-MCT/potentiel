@@ -23,6 +23,7 @@ function stripRequest(props: HasRequest) {
 }
 
 const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID
+const crispWebsiteId = process.env.CRISP_WEBSITE_ID
 
 const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1)
 
@@ -62,6 +63,20 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
               .npm_package_version}"></script>
         `}
         ${trackerWebsiteId ? getTrackerScript(trackerWebsiteId) : ''}
+        ${crispWebsiteId
+          ? `
+        <script type="text/javascript">
+          window.$crisp = []
+          window.CRISP_WEBSITE_ID = '${crispWebsiteId}'
+          ;(function () {
+            d = document
+            s = d.createElement('script')
+            s.src = 'https://client.crisp.chat/l.js'
+            s.async = 1
+            d.getElementsByTagName('head')[0].appendChild(s)
+          })()
+        </script>`
+          : ''}
       </head>
 
       <body style="min-height: 100vh; display: flex; flex-direction: column;">
