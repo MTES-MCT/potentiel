@@ -12,7 +12,10 @@ import { EmailAlreadyUsedError } from '../../../modules/shared/errors'
 const requestBodySchema = yup.object({
   role: yup
     .mixed<'acheteur-obligé' | 'ademe'>()
-    .oneOf(['acheteur-obligé', 'ademe'])
+    .oneOf(
+      ['acheteur-obligé', 'ademe'],
+      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME'
+    )
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
   email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),

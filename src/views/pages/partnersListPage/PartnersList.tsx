@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, Input, PageTemplate, SuccessErrorBox } from '@components'
+import { Button, Input, PageTemplate, Select, SuccessErrorBox } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type PartnersListProps = {
@@ -31,7 +31,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             className="flex flex-col gap-4"
           >
             <div>
-              <label htmlFor="email">Adresse email</label>
+              <label htmlFor="email">Adresse email :</label>
               <Input
                 type="email"
                 name="email"
@@ -41,25 +41,20 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
             </div>
-            <div className="flex gap-2 md:gap-6 flex-col md:flex-row">
-              <p className="m-0">Sélectionnez un rôle : </p>
-              <div className="flex gap-6">
-                <div className="flex">
-                  <input
-                    type="radio"
-                    name="role"
-                    id="acheteur-obligé"
-                    value="acheteur-obligé"
-                    defaultChecked
-                    required
-                  />
-                  <label htmlFor="acheteur-obligé">Acheteur obligé</label>
-                </div>
-                <div className="flex">
-                  <input type="radio" name="role" id="ademe" value="ademe" required />
-                  <label htmlFor="ademe">ADEME</label>
-                </div>
-              </div>
+            <div>
+              <Select
+                name="role"
+                id="role"
+                {...dataId('role-field')}
+                required
+                {...(validationErrors && { error: validationErrors['role']?.toString() })}
+              >
+                <option>
+                  <label htmlFor="role">Sélectionnez un rôle</label>
+                </option>
+                <option value="acheteur-obligé">Acheteur obligé</option>
+                <option value="ademe">ADEME</option>
+              </Select>
             </div>
             <Button className="m-auto" type="submit" id="submit" {...dataId('submit-button')}>
               Inviter
