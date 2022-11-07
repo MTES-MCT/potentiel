@@ -1,15 +1,20 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
+import { HasDemandeDeMêmeTypeOuverte } from '@modules/project'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  DemandeDeMêmeTypeDéjàOuverteError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../errors'
 import { Project } from '../Project'
 
 type SignalerDemandeRecoursDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   projectRepo: TransactionalRepository<Project>
+  hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte
 }
 
 type SignalerDemandeRecoursArgs = {
@@ -29,21 +34,23 @@ export const makeSignalerDemandeRecours =
   (
     args: SignalerDemandeRecoursArgs
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { projectRepo, fileRepo, shouldUserAccessProject } = deps
+    const { projectRepo, fileRepo, shouldUserAccessProject, hasDemandeDeMêmeTypeOuverte } = deps
     const { projectId, decidedOn, status, notes, signaledBy, file } = args
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy }))
+      .andThen((userHasRightsToProject) => {
+        if (!userHasRightsToProject) {
+          return errAsync(new UnauthorizedError())
+        }
+        return hasDemandeDeMêmeTypeOuverte({ projetId: projectId, type: 'recours' })
+      })
       .andThen(
         (
-          userHasRightsToProject
-        ): ResultAsync<
-          { id: string; name: string } | null,
-          InfraNotAvailableError | UnauthorizedError
-        > => {
-          if (!userHasRightsToProject) {
-            return errAsync(new UnauthorizedError())
+          demandeDeMêmeType
+        ): ResultAsync<{ id: string; name: string } | null, InfraNotAvailableError> => {
+          if (demandeDeMêmeType) {
+            return errAsync(new DemandeDeMêmeTypeDéjàOuverteError())
           }
-
           if (file) {
             const { filename, contents } = file
             const fileObject = makeFileObject({

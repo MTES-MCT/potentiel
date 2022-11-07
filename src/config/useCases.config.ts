@@ -77,6 +77,7 @@ import {
   getPuissanceProjet,
   getUserByEmail,
   getUserById,
+  hasDemandeDeMêmeTypeOuverte,
   hasProjectGarantieFinanciere,
   isProjectParticipatif,
   trouverProjetsParIdentifiantGestionnaireRéseau,
@@ -330,6 +331,7 @@ export const signalerDemandeRecours = makeSignalerDemandeRecours({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  hasDemandeDeMêmeTypeOuverte,
 })
 
 export const importEdfData = makeImportEdfData({
