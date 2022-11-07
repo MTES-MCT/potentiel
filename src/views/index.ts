@@ -26,7 +26,7 @@ import {
   DemandeAbandon,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
-  ImportGestionnaireReseau,
+  ImportDonnéesRaccordement,
   AdminAppelsOffres,
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
@@ -226,11 +226,11 @@ export const AbonnementLettreInformationPage = (
     title: 'Abdonnement lettre information',
   })
 
-export const ImportGestionnaireReseauPage = (
-  props: Parameters<typeof ImportGestionnaireReseau>[0]
+export const ImportDonnéesRaccordementPage = (
+  props: Parameters<typeof ImportDonnéesRaccordement>[0]
 ) =>
   makeHtml({
-    Component: ImportGestionnaireReseau,
+    Component: ImportDonnéesRaccordement,
     props,
     title: 'Importer données de raccordement',
   })

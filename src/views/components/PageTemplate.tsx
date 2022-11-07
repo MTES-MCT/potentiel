@@ -78,7 +78,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       </DropdownMenu.DropdownItem>
       {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
         <DropdownMenu.DropdownItem
-          href={routes.IMPORT_GESTIONNAIRE_RESEAU}
+          href={routes.IMPORT_DONNEES_RACCORDEMENT}
           {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}
         >
           Données de raccordement

@@ -18,17 +18,17 @@ import {
 } from './components/RésultatSoumissionFormulaire'
 import { Tâche, TâcheProps } from './components/Tâche'
 
-type ImportGestionnaireReseauProps = {
+type ImportDonnéesRaccordementProps = {
   request: Request
   tâches: Array<TâcheProps>
   résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
-export const ImportGestionnaireReseau = ({
+export const ImportDonnéesRaccordement = ({
   request,
   tâches,
   résultatSoumissionFormulaire,
-}: ImportGestionnaireReseauProps) => (
+}: ImportDonnéesRaccordementProps) => (
   <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
     <div className="panel">
       <div className="panel__header">
@@ -38,12 +38,12 @@ export const ImportGestionnaireReseau = ({
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
       )}
       <form
-        action={routes.POST_DEMARRER_IMPORT_GESTIONNAIRE_RESEAU}
+        action={routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT}
         method="post"
         encType="multipart/form-data"
       >
         <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
-        <Input type="file" required name="fichier-import-gestionnaire-réseau" id="fichier" />
+        <Input type="file" required name="fichier-données-raccordement" id="fichier" />
         <Button type="submit" className="mt-4">
           Mettre les projets à jour
         </Button>
@@ -75,4 +75,4 @@ export const ImportGestionnaireReseau = ({
   </PageTemplate>
 )
 
-hydrateOnClient(ImportGestionnaireReseau)
+hydrateOnClient(ImportDonnéesRaccordement)
