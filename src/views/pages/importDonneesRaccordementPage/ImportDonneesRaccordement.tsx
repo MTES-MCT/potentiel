@@ -24,7 +24,7 @@ type ImportDonnéesRaccordementProps = {
   résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
-export const ImportDonnéesRaccordement = ({
+export const ImportDonneesRaccordement = ({
   request,
   tâches,
   résultatSoumissionFormulaire,
@@ -75,4 +75,4 @@ export const ImportDonnéesRaccordement = ({
   </PageTemplate>
 )
 
-hydrateOnClient(ImportDonnéesRaccordement)
+hydrateOnClient(ImportDonneesRaccordement)

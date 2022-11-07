@@ -3,7 +3,7 @@ import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
-import { ImportDonnéesRaccordementPage } from '@views'
+import { ImportDonneesRaccordementPage } from '@views'
 import { Tâches } from '@infra/sequelize/projectionsNext'
 
 if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
@@ -17,7 +17,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
       })
 
       return response.send(
-        ImportDonnéesRaccordementPage({
+        ImportDonneesRaccordementPage({
           request,
           tâches: tâches.map((tâche) => {
             const { dateDeDébut, type, état, résultat } = tâche
