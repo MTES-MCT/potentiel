@@ -1,5 +1,5 @@
 import { logger } from '@core/utils'
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/gestionnaireRéseau/events'
+import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { ProjectionEnEchec } from '@modules/shared'
 import { TâchesProjector, Tâches } from '../tâches.model'
 

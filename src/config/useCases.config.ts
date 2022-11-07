@@ -102,9 +102,9 @@ import {
 } from '@modules/notification'
 
 import {
-  makeDémarrerImportGestionnaireRéseau,
+  makeDémarrerImportDonnéesRaccordement,
   makeMettreAJourDatesMiseEnService,
-} from '@modules/imports/gestionnaireRéseau'
+} from '@modules/imports/donnéesRaccordement'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -449,7 +449,7 @@ export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévoca
   sendNotification,
 })
 
-export const démarrerImportGestionnaireRéseau = makeDémarrerImportGestionnaireRéseau({
+export const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRaccordement({
   importRepo,
   publishToEventStore,
 })

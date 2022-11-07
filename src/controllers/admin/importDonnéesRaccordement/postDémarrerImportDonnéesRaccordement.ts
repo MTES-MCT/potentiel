@@ -1,6 +1,6 @@
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
-import { démarrerImportGestionnaireRéseau, ensureRole } from '@config'
+import { démarrerImportDonnéesRaccordement, ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { upload } from '../../upload'
 import { parseCsv } from '../../../helpers/parseCsv'
@@ -17,7 +17,7 @@ import { RésultatSoumissionFormulaire } from 'express-session'
 import {
   DonnéesDeMiseAJourObligatoiresError,
   DémarrageImpossibleError,
-} from '@modules/imports/gestionnaireRéseau'
+} from '@modules/imports/donnéesRaccordement'
 import { CsvError } from 'csv-parse'
 import { parse } from 'date-fns'
 
@@ -97,7 +97,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
       })
         .andThen(validerLesDonnéesDuFichierCsv)
         .andThen((données) =>
-          démarrerImportGestionnaireRéseau({
+          démarrerImportDonnéesRaccordement({
             utilisateur: request.user,
             gestionnaire: 'Enedis',
             données: formaterLesDonnées(données),

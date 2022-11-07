@@ -62,7 +62,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          aggregateId: 'import-données-raccordement#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
@@ -142,7 +142,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          aggregateId: 'import-données-raccordement#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
@@ -215,7 +215,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          aggregateId: 'import-données-raccordement#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
@@ -270,7 +270,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          aggregateId: 'import-données-raccordement#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
@@ -323,7 +323,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          aggregateId: 'import-gestionnaire-réseau#Enedis',
+          aggregateId: 'import-données-raccordement#Enedis',
           type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',

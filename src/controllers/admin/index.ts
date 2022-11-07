@@ -1,5 +1,5 @@
 export * from './drealUsers'
-export * from './importGestionnaireRéseau'
+export * from './importDonnéesRaccordement'
 export * from './partnerUsers'
 export * from './getAdminStatistiquesPage'
 export * from './getAdminAppelsOffresPage'
