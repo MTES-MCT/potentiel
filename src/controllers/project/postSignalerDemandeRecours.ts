@@ -15,6 +15,7 @@ import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import * as yup from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { DemandeDeMêmeTypeDéjàOuverteError } from '@modules/project'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -72,6 +73,15 @@ v1Router.post(
               addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
                 ...request.body,
                 ...error.errors,
+              })
+            )
+          }
+
+          if (error instanceof DemandeDeMêmeTypeDéjàOuverteError) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
+                error: error.message,
+                ...request.body,
               })
             )
           }
