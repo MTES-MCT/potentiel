@@ -1,15 +1,13 @@
 import { EventStore } from '@core/domain'
 import { ResultAsync } from '@core/utils'
-import { RésultatTâcheMaJMeS, TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
+import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
+import { DateMiseEnServicePlusRécenteError, RenseignerDateMiseEnService } from '@modules/project'
 
 type Dépendances = {
   getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
-  renseignerDateMiseEnService: (commande: {
-    projetId: string
-    dateMiseEnService: Date
-  }) => ResultAsync<null, Error>
+  renseignerDateMiseEnService: RenseignerDateMiseEnService
   publishToEventStore: EventStore['publish']
 }
 
@@ -57,7 +55,10 @@ export const makeMettreAJourDatesMiseEnService =
                     état: 'succès' as const,
                   }
                 : {
-                    état: 'échec' as const,
+                    état:
+                      result.error instanceof DateMiseEnServicePlusRécenteError
+                        ? ('ignoré' as const)
+                        : ('échec' as const),
                     raison: result.error.message,
                   }),
             }
@@ -67,12 +68,14 @@ export const makeMettreAJourDatesMiseEnService =
       )
     }
 
-    const terminerLaMiseAJour = (miseAJour: RésultatTâcheMaJMeS) => {
+    const terminerLaMiseAJour = (
+      résultat: TâcheMiseAJourDatesMiseEnServiceTerminée['payload']['résultat']
+    ) => {
       return publishToEventStore(
         new TâcheMiseAJourDatesMiseEnServiceTerminée({
           payload: {
             gestionnaire,
-            résultat: miseAJour,
+            résultat,
           },
         })
       )

@@ -1,25 +1,28 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
 import ImportGestionnaireRéseauId from '../ImportGestionnaireRéseauId'
 
-export type RésultatTâcheMaJMeS = Array<
-  {
-    identifiantGestionnaireRéseau: string
-  } & (
-    | {
-        état: 'succès'
-        projetId: string
-      }
-    | {
-        état: 'échec'
-        raison: string
-        projetId?: string
-      }
-  )
->
-
 type TâcheMiseAJourDatesMiseEnServiceTerminéePayload = {
   gestionnaire: string
-  résultat: RésultatTâcheMaJMeS
+  résultat: Array<
+    {
+      identifiantGestionnaireRéseau: string
+    } & (
+      | {
+          état: 'succès'
+          projetId: string
+        }
+      | {
+          état: 'ignoré'
+          raison: string
+          projetId: string
+        }
+      | {
+          état: 'échec'
+          raison: string
+          projetId?: string
+        }
+    )
+  >
 }
 
 export class TâcheMiseAJourDatesMiseEnServiceTerminée

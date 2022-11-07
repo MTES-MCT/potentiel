@@ -17,38 +17,73 @@ export const Default = () => (
         état: 'terminée',
         dateDeDébut: new Date(),
         dateDeFin: new Date(),
-        nombreDEchecs: 0,
-        nombreDeSucces: 12,
-        résultatErreurs: [
-          {
-            identifiantGestionnaireRéseau: 'idGR01',
-            raison: 'Plusieurs projets pour un gesitonnaire de réseau',
-          },
-          {
-            identifiantGestionnaireRéseau: 'idGR02',
-            projetId: 'idprojet',
-            raison: "La date est plus récente que l'actuelle",
-          },
-        ],
+        détail: {
+          erreurs: [
+            {
+              identifiantGestionnaireRéseau: 'idGR01',
+              raison: 'Plusieurs projets pour un gesitonnaire de réseau',
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+              raison: "La date est plus récente que l'actuelle",
+            },
+          ],
+        },
       },
       {
         type: 'maj-date-mise-en-service',
         état: 'terminée',
         dateDeDébut: new Date(),
         dateDeFin: new Date(),
-        nombreDEchecs: 3,
-        nombreDeSucces: 12,
-        résultatErreurs: [
-          {
-            identifiantGestionnaireRéseau: 'idGR01',
-            raison: 'Plusieurs projets pour un gesitonnaire de réseau',
-          },
-          {
-            identifiantGestionnaireRéseau: 'idGR02',
-            projetId: 'idprojet',
-            raison: "La date est plus récente que l'actuelle",
-          },
-        ],
+        détail: {
+          succès: [
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+            },
+          ],
+          ignorés: [
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+              raison: "La date est plus récente que l'actuelle",
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+              raison: "La date est plus récente que l'actuelle",
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+              raison: "La date est plus récente que l'actuelle",
+            },
+          ],
+          erreurs: [
+            {
+              identifiantGestionnaireRéseau: 'idGR01',
+              raison: 'Plusieurs projets pour un gesitonnaire de réseau',
+            },
+            {
+              identifiantGestionnaireRéseau: 'idGR02',
+              projetId: 'idprojet',
+              raison: "La date est plus récente que l'actuelle",
+            },
+          ],
+        },
       },
     ]}
   />
