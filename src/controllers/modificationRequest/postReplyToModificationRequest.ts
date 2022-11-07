@@ -13,6 +13,7 @@ import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formV
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
+  ProjetDéjàClasséError,
   PuissanceVariationWithDecisionJusticeError,
 } from '@modules/modificationRequest'
 import {
@@ -225,6 +226,14 @@ function _handleErrors(request, response, modificationRequestId) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: e.message,
+        })
+      )
+    }
+
+    if (e instanceof ProjetDéjàClasséError) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          error: `Vous ne pouvez pas accepter cette demande de recours car le projet est déjà "classé". Le porteur a la possibilité d'annuler sa demande, ou bien vous pouvez la rejeter.`,
         })
       )
     }

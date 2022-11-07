@@ -8,6 +8,7 @@ import makeFakeUser from '../../__tests__/fixtures/user'
 import { LegacyProjectSourced, ProjectClasseGranted } from './events'
 import { makeProject } from './Project'
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { ProjetDéjàClasséError } from '@modules/modificationRequest'
 
 const projectId = new UniqueEntityID('project1')
 const appelOffreId = 'Fessenheim'
@@ -20,7 +21,7 @@ const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
 const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 describe('Project.grantClasse()', () => {
-  describe('when project is Eliminé', () => {
+  describe('Si le projet est Eliminé', () => {
     const project = UnwrapForTest(
       makeProject({
         projectId,
@@ -42,7 +43,7 @@ describe('Project.grantClasse()', () => {
       })
     )
 
-    it('should emit ProjectClasseGranted event', () => {
+    it('Alors un événement ProjectClasseGranted devrait être émis.', () => {
       project.grantClasse(fakeUser)
 
       const targetEvent = project.pendingEvents.find(
@@ -56,7 +57,7 @@ describe('Project.grantClasse()', () => {
     })
   })
 
-  describe('when project is Classé', () => {
+  describe('Si le projet est Classé', () => {
     const project = UnwrapForTest(
       makeProject({
         projectId,
@@ -78,10 +79,14 @@ describe('Project.grantClasse()', () => {
       })
     )
 
-    it('not emit', () => {
-      project.grantClasse(fakeUser)
+    it('Alors aucun événement ne devrait être émis et une erreur devrait être retournée', () => {
+      const résultat = project.grantClasse(fakeUser)
 
       expect(project.pendingEvents).toHaveLength(0)
+
+      expect(résultat.isErr()).toBe(true)
+      if (!résultat.isErr()) return
+      expect(résultat.error).toBeInstanceOf(ProjetDéjàClasséError)
     })
   })
 })
