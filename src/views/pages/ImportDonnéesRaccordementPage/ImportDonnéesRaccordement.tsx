@@ -29,7 +29,7 @@ export const ImportDonnéesRaccordement = ({
   tâches,
   résultatSoumissionFormulaire,
 }: ImportDonnéesRaccordementProps) => (
-  <PageTemplate user={request.user} currentPage="import-gestionnaire-réseau">
+  <PageTemplate user={request.user} currentPage="import-données-raccordement">
     <div className="panel">
       <div className="panel__header">
         <h1 className="text-2xl">Import des données de raccordement</h1>
