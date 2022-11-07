@@ -76,7 +76,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
-      {!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU && (
+      {!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT && (
         <DropdownMenu.DropdownItem
           href={routes.IMPORT_DONNEES_RACCORDEMENT}
           {...(currentPage === 'import-gestionnaire-réseau' && { isCurrent: true })}

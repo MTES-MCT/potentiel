@@ -77,7 +77,7 @@ const setFormResult = (
   }
 }
 
-if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
+if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.post(
     routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
     ensureRole(['admin', 'dgec-validateur']),

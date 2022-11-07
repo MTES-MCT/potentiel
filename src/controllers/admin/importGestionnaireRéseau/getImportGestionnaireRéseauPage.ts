@@ -6,7 +6,7 @@ import { v1Router } from '../../v1Router'
 import { ImportDonnéesRaccordementPage } from '@views'
 import { Tâches } from '@infra/sequelize/projectionsNext'
 
-if (!!process.env.ENABLE_IMPORT_GESTIONNAIRE_RESEAU) {
+if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.get(
     routes.IMPORT_DONNEES_RACCORDEMENT,
     ensureRole(['admin', 'dgec-validateur']),
