@@ -37,6 +37,7 @@ export async function makeServer(port: number, sessionSecret: string) {
                 "'unsafe-inline'",
                 'analytics.potentiel.beta.gouv.fr',
                 'client.crisp.chat',
+                'client.relay.crisp.chat',
               ],
               'img-src': ["'self'", 'data:', 'client.crisp.chat'],
               'font-src': ["'self'", 'data:', 'client.crisp.chat'],
