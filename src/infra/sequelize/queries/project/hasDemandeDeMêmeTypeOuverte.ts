@@ -21,5 +21,5 @@ export const hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte = ({ pro
         },
       },
     })
-  ).map((demandeOuverte: any) => demandeOuverte!!)
+  ).map((demandeOuverte: any) => !!demandeOuverte)
 }
