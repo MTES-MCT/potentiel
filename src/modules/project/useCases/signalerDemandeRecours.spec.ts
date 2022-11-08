@@ -9,6 +9,7 @@ import { makeSignalerDemandeRecours } from './signalerDemandeRecours'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
 import { Readable } from 'stream'
+import { DemandeDeMêmeTypeDéjàOuverteError } from '../errors'
 
 const projectId = new UniqueEntityID().toString()
 const fakeFileContents = {
@@ -22,8 +23,78 @@ const fakeProject = makeFakeProject()
 
 const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
-describe('signalerDemandeRecours use-case', () => {
-  describe('when the user has rights on this project', () => {
+const hasDemandeDeMêmeTypeOuverte = jest.fn(() => okAsync(false))
+
+describe('Commande signalerDemandeRecours', () => {
+  describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
+    it('Alors une erreur UnauthorizedError devrait être retournée', async () => {
+      fakePublish.mockClear()
+
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+
+      const shouldUserAccessProject = jest.fn(async () => false)
+
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
+
+      const signalerDemandeRecours = makeSignalerDemandeRecours({
+        fileRepo,
+        shouldUserAccessProject,
+        projectRepo,
+        hasDemandeDeMêmeTypeOuverte,
+      })
+
+      const res = await signalerDemandeRecours({
+        projectId,
+        decidedOn: new Date('2022-04-12'),
+        status: 'acceptée',
+        signaledBy: user,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+      expect(fakePublish).not.toHaveBeenCalled()
+    })
+  })
+  describe(`Lorsque l'utilisateur a les droits sur le projet,
+  mais qu'une demande de recours faite dans Potentiel est à traiter`, () => {
+    it('Alors une erreur DemandeDeMêmeTypeDéjàOuverteError devrait être retournée', async () => {
+      fakePublish.mockClear()
+
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+
+      const shouldUserAccessProject = jest.fn(async () => true)
+
+      const hasDemandeDeMêmeTypeOuverte = jest.fn(() => okAsync(true))
+
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
+
+      const signalerDemandeRecours = makeSignalerDemandeRecours({
+        fileRepo,
+        shouldUserAccessProject,
+        projectRepo,
+        hasDemandeDeMêmeTypeOuverte,
+      })
+
+      const res = await signalerDemandeRecours({
+        projectId,
+        decidedOn: new Date('2022-04-12'),
+        status: 'acceptée',
+        signaledBy: user,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(DemandeDeMêmeTypeDéjàOuverteError)
+
+      expect(fakePublish).not.toHaveBeenCalled()
+    })
+  })
+  describe(`Lorsque l'utilisateur a les droits sur le projet
+  et qu'aucune demande de recours est en attente`, () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     const fileRepo = {
@@ -40,6 +111,7 @@ describe('signalerDemandeRecours use-case', () => {
         fileRepo: fileRepo as Repository<FileObject>,
         shouldUserAccessProject,
         projectRepo,
+        hasDemandeDeMêmeTypeOuverte,
       })
 
       const res = await signalerDemandeRecours({
@@ -59,12 +131,12 @@ describe('signalerDemandeRecours use-case', () => {
       })
     })
 
-    it('should save the attachment file', async () => {
+    it('Alors le fichier devrait être sauvegardé', async () => {
       expect(fileRepo.save).toHaveBeenCalled()
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    it('should call signalerDemandRecours', () => {
+    it('Alors la méthode project.signalerDemandRecours devrait être appelée', () => {
       const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeProject.signalerDemandeRecours).toHaveBeenCalledWith({
         decidedOn: new Date('2022-04-12'),
@@ -73,38 +145,6 @@ describe('signalerDemandeRecours use-case', () => {
         attachment: { id: fakeFile.id.toString(), name: fakeFileContents.filename },
         signaledBy: user,
       })
-    })
-  })
-
-  describe('When the user doesnt have rights on the project', () => {
-    it('should return an UnauthorizedError', async () => {
-      fakePublish.mockClear()
-
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-
-      const shouldUserAccessProject = jest.fn(async () => false)
-
-      const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
-      }
-
-      const signalerDemandeRecours = makeSignalerDemandeRecours({
-        fileRepo,
-        shouldUserAccessProject,
-        projectRepo,
-      })
-
-      const res = await signalerDemandeRecours({
-        projectId,
-        decidedOn: new Date('2022-04-12'),
-        status: 'acceptée',
-        signaledBy: user,
-      })
-
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-
-      expect(fakePublish).not.toHaveBeenCalled()
     })
   })
 })
