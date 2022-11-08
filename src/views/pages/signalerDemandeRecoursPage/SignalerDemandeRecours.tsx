@@ -1,6 +1,13 @@
 import React from 'react'
 import { Request } from 'express'
-import { Button, Input, PageTemplate, ProjectInfo, SecondaryLinkButton } from '@components'
+import {
+  Button,
+  ErrorBox,
+  Input,
+  PageTemplate,
+  ProjectInfo,
+  SecondaryLinkButton,
+} from '@components'
 import routes from '@routes'
 import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
@@ -11,17 +18,18 @@ type SignalerDemandeRecoursProps = {
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 export const SignalerDemandeRecours = ({
-  request: { user },
+  request,
   project,
   validationErrors,
 }: SignalerDemandeRecoursProps) => {
+  const { error, user } = request.query as any
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
         <div className="panel__header">
           <h1 className="text-2xl">Enregistrer une demande de recours traitée hors Potentiel</h1>
         </div>
-
+        {error && <ErrorBox error={error} />}
         <form
           action={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_POST}
           method="POST"
