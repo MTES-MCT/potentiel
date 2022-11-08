@@ -31,7 +31,7 @@ export async function makeServer(port: number, sessionSecret: string) {
           contentSecurityPolicy: {
             useDefaults: false,
             directives: {
-              'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr'],
+              'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr', 'client.crisp.chat'],
               'connect-src': ["'self'", "'unsafe-inline'", 'analytics.potentiel.beta.gouv.fr'],
               'img-src': ["'self'", 'data:'],
               'font-src': ["'self'", 'data:'],
