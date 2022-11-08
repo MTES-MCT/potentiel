@@ -1,11 +1,13 @@
+'use strict'
+
+import { QueryInterface } from 'sequelize'
 import { logger } from '@core/utils'
 import { ProjectGFDueDateSet } from '@modules/project'
-import { QueryInterface } from 'sequelize'
 import { toPersistance } from '../helpers'
 import models from '../models'
 
-export default {
-  up: async (queryInterface: QueryInterface) => {
+module.exports = {
+  async up(queryInterface: QueryInterface) {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
@@ -17,45 +19,46 @@ export default {
         },
         { transaction }
       )
+
       if (!projects.length) {
         logger.error(`aucun projet trouvé`)
-        return
-      }
-      console.log(`Nombre de projets lauréats de la période : ${projects.length}`)
+      } else {
+        console.log(`Nombre de projets lauréats de la période : ${projects.length}`)
 
-      let événementsAjoutés = 0
-      let projetNonModifiés = 0
+        let événementsAjoutés = 0
+        let projetNonModifiés = 0
 
-      for (const project of projects) {
-        const { id: projectId, garantiesFinancieresDueOn, notifiedOn } = project
+        for (const project of projects) {
+          const { id: projectId, garantiesFinancieresDueOn, notifiedOn } = project
 
-        const projectGFDueDateSetEvent = await EventStore.findOne(
-          {
-            where: { type: 'ProjectGFDueDateSet', 'payload.projectId': projectId },
-          },
-          { transaction }
-        )
-        if (projectGFDueDateSetEvent) {
-          projetNonModifiés++
-          return
+          const projectGFDueDateSetEvent = await EventStore.findOne(
+            {
+              where: { type: 'ProjectGFDueDateSet', 'payload.projectId': projectId },
+            },
+            { transaction }
+          )
+          if (projectGFDueDateSetEvent) {
+            projetNonModifiés++
+            return
+          }
+          await EventStore.create(
+            toPersistance(
+              new ProjectGFDueDateSet({
+                payload: { projectId, garantiesFinancieresDueOn },
+                original: {
+                  occurredAt: new Date(notifiedOn),
+                  version: 1,
+                },
+              })
+            ),
+            { transaction }
+          )
+          événementsAjoutés++
         }
-        await EventStore.create(
-          toPersistance(
-            new ProjectGFDueDateSet({
-              payload: { projectId, garantiesFinancieresDueOn },
-              original: {
-                occurredAt: new Date(notifiedOn),
-                version: 1,
-              },
-            })
-          ),
-          { transaction }
-        )
-        événementsAjoutés++
-      }
 
-      console.log(`Nombre d'événements créés : ${événementsAjoutés}`)
-      console.log(`Nombre de projets non modifiés : ${projetNonModifiés}`)
+        console.log(`Nombre d'événements créés : ${événementsAjoutés}`)
+        console.log(`Nombre de projets non modifiés : ${projetNonModifiés}`)
+      }
 
       transaction.commit()
     } catch (error) {
@@ -64,5 +67,12 @@ export default {
     }
   },
 
-  down: async () => {},
+  async down(queryInterface, Sequelize) {
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
+  },
 }
