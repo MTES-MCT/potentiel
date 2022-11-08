@@ -147,16 +147,7 @@ v1Router.post(
           )
         }
 
-        if (e instanceof CertificateFileIsMissingError) {
-          return response.redirect(
-            addQueryParams(routes.PROJECT_DETAILS(projectId), {
-              error: e.message,
-              ...request.body,
-            })
-          )
-        }
-
-        if (e instanceof ProjetDéjàClasséError) {
+        if (e instanceof CertificateFileIsMissingError || e instanceof ProjetDéjàClasséError) {
           return response.redirect(
             addQueryParams(routes.PROJECT_DETAILS(projectId), {
               error: e.message,
