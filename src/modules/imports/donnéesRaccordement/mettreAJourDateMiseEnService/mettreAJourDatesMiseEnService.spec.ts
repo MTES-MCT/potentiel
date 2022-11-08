@@ -4,11 +4,11 @@ import { makeMettreAJourDatesMiseEnService } from './mettreAJourDatesMiseEnServi
 
 describe(`Mettre à jour les dates de mise en service`, () => {
   const publishToEventStore = jest.fn(() => okAsync(null))
-  const renseignerDateMiseEnService = jest.fn(() => okAsync(null))
+  const renseignerDonnéesDeRaccordement = jest.fn(() => okAsync(null))
 
   beforeEach(() => {
     publishToEventStore.mockClear()
-    renseignerDateMiseEnService.mockClear()
+    renseignerDonnéesDeRaccordement.mockClear()
   })
 
   describe(`Mise à jour de toutes les dates de mise en service des projets`, () => {
@@ -30,7 +30,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService,
+        renseignerDonnéesDeRaccordement,
         publishToEventStore,
       })
 
@@ -50,12 +50,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(miseAJour.isOk()).toBe(true)
 
-      expect(renseignerDateMiseEnService).toHaveBeenCalledTimes(2)
-      expect(renseignerDateMiseEnService).toHaveBeenCalledWith({
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledTimes(2)
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'projet-1',
         dateMiseEnService: new Date('2024-01-20'),
       })
-      expect(renseignerDateMiseEnService).toHaveBeenCalledWith({
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'projet-2',
         dateMiseEnService: new Date('2024-02-20'),
       })
@@ -109,7 +109,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService,
+        renseignerDonnéesDeRaccordement,
         publishToEventStore,
       })
 
@@ -129,12 +129,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(miseAJour.isOk()).toBe(true)
 
-      expect(renseignerDateMiseEnService).toHaveBeenCalledTimes(1)
-      expect(renseignerDateMiseEnService).toHaveBeenCalledWith({
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledTimes(1)
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'Projet Test',
         dateMiseEnService: new Date('2024-02-20'),
       })
-      expect(renseignerDateMiseEnService).not.toHaveBeenCalledWith(
+      expect(renseignerDonnéesDeRaccordement).not.toHaveBeenCalledWith(
         expect.objectContaining({
           dateMiseEnService: new Date('2024-01-20'),
         })
@@ -182,7 +182,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService,
+        renseignerDonnéesDeRaccordement,
         publishToEventStore,
       })
 
@@ -202,12 +202,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
 
       expect(miseAJour.isOk()).toBe(true)
 
-      expect(renseignerDateMiseEnService).toHaveBeenCalledTimes(1)
-      expect(renseignerDateMiseEnService).toHaveBeenCalledWith({
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledTimes(1)
+      expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'Projet Test',
         dateMiseEnService: new Date('2024-02-20'),
       })
-      expect(renseignerDateMiseEnService).not.toHaveBeenCalledWith(
+      expect(renseignerDonnéesDeRaccordement).not.toHaveBeenCalledWith(
         expect.objectContaining({
           dateMiseEnService: new Date('2024-01-20'),
         })
@@ -252,7 +252,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService: () => errAsync(new Error(`Il y a eu une erreur`)),
+        renseignerDonnéesDeRaccordement: () => errAsync(new Error(`Il y a eu une erreur`)),
         publishToEventStore,
       })
 
@@ -305,7 +305,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
               },
             ],
           }),
-        renseignerDateMiseEnService: () => errAsync(erreur),
+        renseignerDonnéesDeRaccordement: () => errAsync(erreur),
         publishToEventStore,
       })
 

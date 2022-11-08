@@ -1,7 +1,7 @@
 import { okAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { DateMiseEnServiceRenseignée } from '../events'
+import { DonnéesDeRaccordementRenseignées } from '../events'
 import { makeOnDateMiseEnServiceRenseignée } from './onDateMiseEnServiceRenseignée'
 import { DomainEvent } from '@core/domain'
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
@@ -53,7 +53,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
               getProjectAppelOffre,
             })
 
-            const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+            const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '31/12/2025' },
             })
 
@@ -69,7 +69,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
               getProjectAppelOffre,
             })
 
-            const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+            const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/08/2022' },
             })
 
@@ -106,7 +106,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
             getProjectAppelOffre,
           })
 
-          const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+          const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/05/2022' },
           })
 
@@ -122,7 +122,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
             getProjectAppelOffre,
           })
 
-          const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+          const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '30/10/2024' },
           })
 
@@ -166,7 +166,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
           publishToEventStore,
           getProjectAppelOffre,
         })
-        const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+        const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
         })
         await onDateMiseEnServiceRenseignée(événementMeSRenseignée)
@@ -210,7 +210,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
           publishToEventStore,
           getProjectAppelOffre,
         })
-        const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+        const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
         })
         await onDateMiseEnServiceRenseignée(événementMeSRenseignée)
@@ -258,7 +258,7 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
         getProjectAppelOffre,
       })
 
-      const événementMeSRenseignée = new DateMiseEnServiceRenseignée({
+      const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
         payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
       })
 

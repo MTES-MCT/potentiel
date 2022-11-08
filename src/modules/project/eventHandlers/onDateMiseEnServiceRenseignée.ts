@@ -2,11 +2,11 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { logger, okAsync, ResultAsync } from '@core/utils'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { InfraNotAvailableError } from '@modules/shared'
-import { DateMiseEnServiceRenseignée, ProjectCompletionDueDateSet } from '../events'
+import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events'
 import { Project } from '../Project'
 
 type OnDateMiseEnServiceRenseignée = (
-  event: DateMiseEnServiceRenseignée
+  event: DonnéesDeRaccordementRenseignées
 ) => ResultAsync<null, InfraNotAvailableError>
 
 type MakeOnDateMiseEnServiceRenseignée = (deps: {

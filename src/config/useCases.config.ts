@@ -55,7 +55,7 @@ import {
   makeUploadGF,
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
-  makeRenseignerDateMiseEnService,
+  makeRenseignerDonnéesDeRaccordement,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -454,7 +454,7 @@ export const démarrerImportDonnéesRaccordement = makeDémarrerImportDonnéesRa
   publishToEventStore,
 })
 
-export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+export const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccordement({
   projectRepo,
   publishToEventStore,
 })
@@ -462,5 +462,5 @@ export const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
 export const mettreAJourDatesMiseEnService = makeMettreAJourDatesMiseEnService({
   getProjetsParIdentifiantGestionnaireRéseau,
   publishToEventStore,
-  renseignerDateMiseEnService,
+  renseignerDonnéesDeRaccordement,
 })

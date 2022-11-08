@@ -1,11 +1,11 @@
 import { logger } from '@core/utils'
 import { Projections } from '@infra/sequelize/models'
-import { DateMiseEnServiceRenseignée } from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
 type OnDateMiseEnServiceRenseignée = (
   projections: Projections
-) => (événement: DateMiseEnServiceRenseignée) => Promise<void>
+) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>
 
 export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
   ({ Project }) =>

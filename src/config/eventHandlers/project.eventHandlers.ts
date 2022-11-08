@@ -2,7 +2,7 @@ import { DomainEvent } from '@core/domain'
 import { DélaiAccordé, AbandonAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   handleLegacyModificationImported,
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
@@ -99,7 +99,7 @@ const onDateMiseEnServiceRenseignéeHandler = makeOnDateMiseEnServiceRenseignée
 })
 
 const onDateMiseEnServiceRenseignée = async (event: DomainEvent) => {
-  if (!(event instanceof DateMiseEnServiceRenseignée)) {
+  if (!(event instanceof DonnéesDeRaccordementRenseignées)) {
     return Promise.resolve()
   }
 

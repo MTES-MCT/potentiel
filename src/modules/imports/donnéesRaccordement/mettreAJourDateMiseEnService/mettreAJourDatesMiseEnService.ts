@@ -3,11 +3,14 @@ import { ResultAsync } from '@core/utils'
 import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '../events'
 import { InfraNotAvailableError } from '@modules/shared'
 import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
-import { DateMiseEnServicePlusRécenteError, RenseignerDateMiseEnService } from '@modules/project'
+import {
+  DateMiseEnServicePlusRécenteError,
+  RenseignerDonnéesDeRaccordement,
+} from '@modules/project'
 
 type Dépendances = {
   getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
-  renseignerDateMiseEnService: RenseignerDateMiseEnService
+  renseignerDonnéesDeRaccordement: RenseignerDonnéesDeRaccordement
   publishToEventStore: EventStore['publish']
 }
 
@@ -19,7 +22,7 @@ type Commande = {
 export const makeMettreAJourDatesMiseEnService =
   ({
     getProjetsParIdentifiantGestionnaireRéseau,
-    renseignerDateMiseEnService,
+    renseignerDonnéesDeRaccordement,
     publishToEventStore,
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
@@ -45,7 +48,7 @@ export const makeMettreAJourDatesMiseEnService =
             const projetId =
               projetsParIdentifiantGestionnaireRéseau[identifiantGestionnaireRéseau][0].id
 
-            const result = await renseignerDateMiseEnService({ projetId, dateMiseEnService })
+            const result = await renseignerDonnéesDeRaccordement({ projetId, dateMiseEnService })
 
             return {
               identifiantGestionnaireRéseau,

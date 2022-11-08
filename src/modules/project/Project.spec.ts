@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain'
 import {
   CahierDesChargesChoisi,
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   NumeroGestionnaireSubmitted,
 } from './events'
 import { makeProject } from './Project'
@@ -102,7 +102,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
       const projet = makeProject({
         projectId,
         history: [
-          new DateMiseEnServiceRenseignée({
+          new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId.toString(),
               dateMiseEnService: dateMiseEnService.toISOString(),

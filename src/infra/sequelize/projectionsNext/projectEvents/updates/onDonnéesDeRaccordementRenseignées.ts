@@ -1,11 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { DateMiseEnServiceRenseignée } from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default ProjectEventProjector.on(
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
     const {
       payload: { dateMiseEnService, projetId },

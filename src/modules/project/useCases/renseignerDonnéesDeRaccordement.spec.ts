@@ -5,11 +5,11 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { DateMiseEnServicePlusRécenteError } from '../errors'
-import { DateMiseEnServiceRenseignée } from '../events'
+import { DonnéesDeRaccordementRenseignées } from '../events'
 import { Project } from '../Project'
-import { makeRenseignerDateMiseEnService } from './renseignerDateMiseEnService'
+import { makeRenseignerDonnéesDeRaccordement } from './renseignerDonnéesDeRaccordement'
 
-describe('Renseigner une date de mise en service', () => {
+describe('Renseigner des données de raccordement', () => {
   const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
@@ -24,7 +24,7 @@ describe('Renseigner une date de mise en service', () => {
         dateMiseEnService: new Date('2022-01-01'),
       } as Project)
 
-      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+      const renseignerDateMiseEnService = makeRenseignerDonnéesDeRaccordement({
         publishToEventStore,
         projectRepo,
       })
@@ -48,7 +48,7 @@ describe('Renseigner une date de mise en service', () => {
         dateMiseEnService: new Date('2022-01-01'),
       } as Project)
 
-      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+      const renseignerDateMiseEnService = makeRenseignerDonnéesDeRaccordement({
         publishToEventStore,
         projectRepo,
       })
@@ -72,7 +72,7 @@ describe('Renseigner une date de mise en service', () => {
         id: projetId,
       } as Project)
 
-      const renseignerDateMiseEnService = makeRenseignerDateMiseEnService({
+      const renseignerDateMiseEnService = makeRenseignerDonnéesDeRaccordement({
         publishToEventStore,
         projectRepo,
       })
@@ -85,7 +85,7 @@ describe('Renseigner une date de mise en service', () => {
       expect(résultat.isOk()).toBe(true)
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: DateMiseEnServiceRenseignée.type,
+          type: DonnéesDeRaccordementRenseignées.type,
           payload: expect.objectContaining({
             projetId,
             dateMiseEnService: dateMiseEnService.toISOString(),
