@@ -11,6 +11,7 @@ import routes from '@routes'
 import { errorResponse } from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
+import { ProjetDéjàClasséError } from '@modules/modificationRequest'
 
 const FORMAT_DATE = 'DD/MM/YYYY'
 
@@ -145,7 +146,8 @@ v1Router.post(
             })
           )
         }
-        if (e instanceof CertificateFileIsMissingError) {
+
+        if (e instanceof CertificateFileIsMissingError || e instanceof ProjetDéjàClasséError) {
           return response.redirect(
             addQueryParams(routes.PROJECT_DETAILS(projectId), {
               error: e.message,

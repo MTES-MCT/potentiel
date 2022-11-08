@@ -1,6 +1,7 @@
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
 import { User } from '@entities'
+import { ProjetDéjàClasséError } from '@modules/modificationRequest'
 import { FileContents, FileObject, IllegalFileDataError, makeFileObject } from '../../file'
 import {
   EntityNotFoundError,
@@ -64,6 +65,7 @@ type CorrectProjectDataError =
   | IllegalProjectDataError
   | IllegalFileDataError
   | OtherError
+  | ProjetDéjàClasséError
 
 export type CorrectProjectData = (
   args: CorrectProjectDataArgs
@@ -124,7 +126,7 @@ export const makeCorrectProjectData =
       })
     })
 
-    function _grantClasseIfNecessary(project: Project): Result<null, never> {
+    function _grantClasseIfNecessary(project: Project): Result<null, ProjetDéjàClasséError> {
       return shouldGrantClasse ? project.grantClasse(user) : ok(null)
     }
     function _addCertificateToProjectIfExists(

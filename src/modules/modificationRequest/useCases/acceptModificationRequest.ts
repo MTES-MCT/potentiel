@@ -1,4 +1,4 @@
-import { PuissanceVariationWithDecisionJusticeError } from '..'
+import { ProjetDéjàClasséError, PuissanceVariationWithDecisionJusticeError } from '..'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
 import { User } from '@entities'
@@ -41,6 +41,7 @@ export const makeAcceptModificationRequest =
     | EntityNotFoundError
     | UnauthorizedError
     | PuissanceVariationWithDecisionJusticeError
+    | ProjetDéjàClasséError
   > => {
     const { fileRepo, modificationRequestRepo, projectRepo } = deps
     const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
@@ -111,7 +112,7 @@ export const makeAcceptModificationRequest =
       .andThen(({ project, modificationRequest, responseFileId }) => {
         let action: Result<
           null,
-          ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError
+          ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError | ProjetDéjàClasséError
         > = ok(null)
 
         switch (modificationRequest.type) {

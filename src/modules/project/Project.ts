@@ -15,6 +15,7 @@ import {
   CahierDesChargesRéférenceParsed,
 } from '@entities'
 import { isNotifiedPeriode } from '@entities/periode'
+import { ProjetDéjàClasséError } from '@modules/modificationRequest'
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import remove from 'lodash/remove'
 import moment from 'moment-timezone'
@@ -138,7 +139,7 @@ export interface Project extends EventStoreAggregate {
     newFournisseurs: Fournisseur[],
     newEvaluationCarbone?: number
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  grantClasse: (user: User) => Result<null, never>
+  grantClasse: (user: User) => Result<null, ProjetDéjàClasséError>
   addGeneratedCertificate: (args: {
     projectVersionDate: Date
     certificateFileId: string
@@ -750,16 +751,17 @@ export const makeProject = (args: {
       return ok(null)
     },
     grantClasse: function (user) {
-      if (!props.isClasse) {
-        _publishEvent(
-          new ProjectClasseGranted({
-            payload: {
-              projectId: props.projectId.toString(),
-              grantedBy: user.id,
-            },
-          })
-        )
+      if (props.isClasse) {
+        return err(new ProjetDéjàClasséError())
       }
+      _publishEvent(
+        new ProjectClasseGranted({
+          payload: {
+            projectId: props.projectId.toString(),
+            grantedBy: user.id,
+          },
+        })
+      )
 
       return ok(null)
     },

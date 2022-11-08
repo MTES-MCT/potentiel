@@ -1,3 +1,4 @@
+export * from './ProjetDéjàClasséError'
 export * from './PuissanceJustificationEtCourrierManquantError'
 export * from './PuissanceVariationError'
 export * from './StatusPreventsAcceptingError'
