@@ -32,9 +32,14 @@ export async function makeServer(port: number, sessionSecret: string) {
             useDefaults: false,
             directives: {
               'default-src': ["'self'", 'metabase.potentiel.beta.gouv.fr', 'client.crisp.chat'],
-              'connect-src': ["'self'", "'unsafe-inline'", 'analytics.potentiel.beta.gouv.fr'],
-              'img-src': ["'self'", 'data:'],
-              'font-src': ["'self'", 'data:'],
+              'connect-src': [
+                "'self'",
+                "'unsafe-inline'",
+                'analytics.potentiel.beta.gouv.fr',
+                'client.crisp.chat',
+              ],
+              'img-src': ["'self'", 'data:', 'client.crisp.chat'],
+              'font-src': ["'self'", 'data:', 'client.crisp.chat'],
               'style-src': ["'self'", 'data:', "'unsafe-inline'", 'client.crisp.chat'],
               'script-src': [
                 "'unsafe-inline'",
