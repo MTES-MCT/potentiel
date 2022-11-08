@@ -1,16 +1,15 @@
-import { DownloadIcon, PaginationPanel, ProjectActions } from '@components'
-import { logger } from '@core/utils'
+import { ACTION_BY_ROLE, DownloadIcon, PaginationPanel, ProjectActions } from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
-import ROUTES from '@routes'
+import routes from '@routes'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { ACTION_BY_ROLE } from './actions'
+import { Button, Tile } from './UI'
+import { PowerIcon, EuroIcon, CloudIcon } from './UI/atoms/icons'
 
 type Columns =
-  | 'Projet'
   | 'Candidat'
   | 'Puissance'
   | 'Prix'
@@ -21,25 +20,6 @@ type Columns =
 type ColumnRenderer = (props: { project: Project; GFPastDue?: boolean }) => React.ReactNode
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
-  Projet: function ProjetColumn({ project }) {
-    return (
-      <td valign="top" className="projectList-projet-column">
-        <div {...dataId('projectList-item-nomProjet')}>{project.nomProjet}</div>
-        <div
-          style={{
-            fontStyle: 'italic',
-            lineHeight: 'normal',
-            fontSize: 12,
-          }}
-        >
-          <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
-          <span {...dataId('projectList-item-departementProjet')}>{project.departementProjet}</span>
-          , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
-          <div style={{ marginTop: 5, fontStyle: 'normal' }}>{project.potentielIdentifier}</div>
-        </div>
-      </td>
-    )
-  } as ColumnRenderer,
   Candidat: function CandidatColumn({ project }) {
     return (
       <td valign="top" className="projectList-candidat-column">
@@ -124,7 +104,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
               {project.garantiesFinancieresFileRef && (
                 <>
                   <a
-                    href={ROUTES.DOWNLOAD_PROJECT_FILE(
+                    href={routes.DOWNLOAD_PROJECT_FILE(
                       project.garantiesFinancieresFileRef.id,
                       project.garantiesFinancieresFileRef.filename
                     )}
@@ -159,7 +139,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
         )}
         {GFPastDue && (
           <a
-            href={ROUTES.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+            href={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
               id: project.id,
               nomProjet: project.nomProjet,
             })}
@@ -295,68 +275,144 @@ export const ProjectList = ({ projects, displayColumns, role, GFPastDue }: Props
 
   return (
     <>
-      <table className="table projectList" {...dataId('projectList-list')}>
-        <thead>
-          <tr>
-            <th {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
-              <input type="checkbox" {...dataId('projectList-selectAll-checkbox')} />
-            </th>
-            {displayColumns?.map((column) => (
-              <th key={column}>{column}</th>
-            ))}
-            {ACTION_BY_ROLE[role] ? <th></th> : ''}
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((project) => {
-            return (
-              <tr
-                key={'project_' + project.id}
-                {...dataId('projectList-item')}
-                style={{ cursor: 'pointer' }}
-                data-goto-projectid={project.id}
+      {items.map((project) => {
+        return (
+          <Tile
+            className="mb-4 flex flex-col"
+            key={'project_' + project.id}
+            {...dataId('projectList-item')}
+          >
+            <div {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
+              <input
+                type="checkbox"
+                {...dataId('projectList-item-checkbox')}
+                data-projectid={project.id}
+              />
+            </div>
+
+            <div className="mb-4" {...dataId('projectList-item-nomProjet')}>
+              <a href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</a>{' '}
+              <div className="bg-success-950-base bg-sucess inline-block ml-2 px-2 rounded-md">
+                Classé
+              </div>
+            </div>
+            <div className="flex flex-row justify-between gap-4">
+              <div
+                style={{
+                  fontStyle: 'italic',
+                  lineHeight: 'normal',
+                  fontSize: 12,
+                }}
               >
-                <td {...dataId('projectList-checkbox')} style={{ display: 'none' }}>
-                  <input
-                    type="checkbox"
-                    {...dataId('projectList-item-checkbox')}
-                    data-projectid={project.id}
+                <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>,{' '}
+                <span {...dataId('projectList-item-departementProjet')}>
+                  {project.departementProjet}
+                </span>
+                , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
+                <div style={{ marginTop: 5, fontStyle: 'normal' }}>
+                  {project.potentielIdentifier}
+                </div>
+              </div>
+
+              <div className="projectList-candidat-column">
+                <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
+                <div
+                  style={{
+                    fontStyle: 'italic',
+                    lineHeight: 'normal',
+                    fontSize: 12,
+                  }}
+                >
+                  <span {...dataId('projectList-item-nomRepresentantLegal')}>
+                    {project.nomRepresentantLegal}
+                  </span>{' '}
+                  <span {...dataId('projectList-item-email')}>{project.email}</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-grey-425-base flex flex-row items-center">
+                  <PowerIcon className="mr-2" />
+                </div>
+                <div>
+                  <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    {project.appelOffre?.unitePuissance}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-2">
+                <div className="text-grey-425-base flex flex-row items-center">
+                  <EuroIcon />
+                </div>
+                <div>
+                  <span {...dataId('projectList-item-prixReference')}>{project.prixReference}</span>{' '}
+                  <span
+                    style={{
+                      fontStyle: 'italic',
+                      lineHeight: 'normal',
+                      fontSize: 12,
+                    }}
+                  >
+                    €/MWh
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center gap-2 mr-4">
+                <div className="text-grey-425-base flex flex-row items-center">
+                  <CloudIcon />
+                </div>{' '}
+                <div>
+                  {project.evaluationCarbone > 0 ? (
+                    <>
+                      <span {...dataId('projectList-item-evaluationCarbone')}>
+                        {project.evaluationCarbone}
+                      </span>{' '}
+                      <span
+                        style={{
+                          fontStyle: 'italic',
+                          lineHeight: 'normal',
+                          fontSize: 12,
+                        }}
+                      >
+                        kg eq CO2/kWc
+                      </span>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row gap-4 items-center mt-4">
+              {ACTION_BY_ROLE[role] ? (
+                <div className="ml-auto" {...dataId('item-actions-container')}>
+                  <ProjectActions
+                    role={role}
+                    project={{
+                      ...project,
+                      isClasse: project.classe === 'Classé',
+                      isAbandoned: project.abandonedOn !== 0,
+                      notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+                    }}
                   />
-                </td>
-                {displayColumns?.map((column) => {
-                  const Column = ColumnComponent[column]
-                  if (!Column) {
-                    logger.error(`Column ${column} could not be found`)
-                    return <td></td>
-                  }
-                  return (
-                    <Column
-                      key={'project_' + project.id + '_' + column}
-                      project={project}
-                      GFPastDue={GFPastDue}
-                    />
-                  )
-                })}
-                {ACTION_BY_ROLE[role] ? (
-                  <td {...dataId('item-actions-container')}>
-                    <ProjectActions
-                      role={role}
-                      project={{
-                        ...project,
-                        isClasse: project.classe === 'Classé',
-                        isAbandoned: project.abandonedOn !== 0,
-                        notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-                      }}
-                    />
-                  </td>
-                ) : (
-                  ''
-                )}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+                </div>
+              ) : (
+                ''
+              )}
+              <Button>Voir</Button>
+            </div>
+          </Tile>
+        )
+      })}
       {!Array.isArray(projects) ? (
         <PaginationPanel
           pagination={projects.pagination}
