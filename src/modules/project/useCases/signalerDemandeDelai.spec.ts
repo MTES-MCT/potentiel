@@ -9,6 +9,7 @@ import { makeSignalerDemandeDelai } from './signalerDemandeDelai'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
 import { Readable } from 'stream'
+import { ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError } from '../errors'
 
 const projectId = new UniqueEntityID().toString()
 const fakeFileContents = {
@@ -140,6 +141,48 @@ describe('signalerDemandeDelai use-case', () => {
           })
 
           expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+          expect(fakePublish).not.toHaveBeenCalled()
+        })
+      })
+
+      describe(`Lorsque le porteur n'a pas choisi le cahier des charges du 30/08/22`, () => {
+        it(`Alors une erreur ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError devrait être retournée`, async () => {
+          fakePublish.mockClear()
+
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+          const shouldUserAccessProject = jest.fn(async () => true)
+
+          const fileRepo = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
+
+          const cahierDesCharges = { type: 'modifié', paruLe: '30/07/2021' }
+
+          const fakeProject = { ...makeFakeProject(), cahierDesCharges }
+
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+
+          const signalerDemandeDelai = makeSignalerDemandeDelai({
+            fileRepo,
+            shouldUserAccessProject,
+            projectRepo,
+          })
+
+          const res = await signalerDemandeDelai({
+            projectId,
+            decidedOn: new Date('2022-04-12'),
+            status: 'acceptée',
+            newCompletionDueOn: new Date('2025-01-31'),
+            signaledBy: user,
+            raison: 'délaiCdc2022',
+          })
+
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(
+            ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError
+          )
 
           expect(fakePublish).not.toHaveBeenCalled()
         })

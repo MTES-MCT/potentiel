@@ -3,7 +3,10 @@ import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../errors'
 import { Project } from '../Project'
 
 type SignalerDemandeDelaiDeps = {
@@ -86,6 +89,15 @@ export const makeSignalerDemandeDelai =
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
+            const { cahierDesCharges } = project
+            if (status === 'acceptée' && args.raison === 'délaiCdc2022') {
+              if (
+                cahierDesCharges.type === 'initial' ||
+                (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe !== '30/08/2022')
+              ) {
+                return errAsync(new ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError())
+              }
+            }
             return project
               .signalerDemandeDelai({
                 decidedOn,
