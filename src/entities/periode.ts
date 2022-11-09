@@ -62,6 +62,7 @@ export type Periode = {
     texte: string
   }
   dossierSuiviPar?: string
+  garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode)
 
 export const isNotifiedPeriode = (periode: Periode): periode is Periode & NotifiedPeriode => {

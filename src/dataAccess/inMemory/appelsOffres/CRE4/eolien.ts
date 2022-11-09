@@ -87,6 +87,7 @@ En   cas   de dépassement de ce délai, la durée de contrat mentionnée au 7.1
         url: 'https://www.cre.fr/media/fichiers/publications/appelsoffres/ancienne-version-du-cahier-des-charges-dans-sa-version-applicable-a-la-1ere-periode-ao-eolien-08112017',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
     },
     {
       id: '2',
@@ -107,6 +108,7 @@ En   cas   de dépassement de ce délai, la durée de contrat mentionnée au 7.1
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/cahier-des-charges_3eperioTelecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-04-mars-2019',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
+      garantieFinanciereEnMoisSansAutorisationEnvironnementale: 57,
     },
     {
       id: '4',
