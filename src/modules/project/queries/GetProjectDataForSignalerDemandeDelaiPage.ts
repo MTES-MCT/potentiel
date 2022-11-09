@@ -15,6 +15,7 @@ export type ProjectDataForSignalerDemandeDelaiPage = {
   notifiedOn: number
   appelOffreId: string
   cahierDesChargesActuel: string
+  délaiCDC2022Applicable?: number
 }
 
 export type GetProjectDataForSignalerDemandeDelaiPage = (filtre: {

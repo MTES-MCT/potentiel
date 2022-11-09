@@ -30,7 +30,8 @@ export const SignalerDemandeDelai = ({
   const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
   const ajoutDélaiCdc2022Possible =
     ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
-    ['admin', 'dgec-validateur'].includes(user.role)
+    ['admin', 'dgec-validateur'].includes(user.role) &&
+    !!project.délaiCDC2022Applicable
 
   return (
     <PageTemplate user={user} currentPage="list-projects">
@@ -122,6 +123,13 @@ export const SignalerDemandeDelai = ({
 
           {doesNewDateImpactProject && (
             <div>
+              {ajoutDélaiCdc2022Possible && (
+                <label htmlFor="délaiCdc2022" className="mt-4 mb-2">
+                  <input type="checkbox" name="raison" value="délaiCdc2022" id="délaiCdc2022" />
+                  Appliquer le délai de {project.délaiCDC2022Applicable} mois relatif au CDC du
+                  30/08/2022
+                </label>
+              )}
               <label htmlFor="newCompletionDueOn">
                 Nouvelle date d'achèvement accordée <Astérisque />
               </label>
@@ -138,12 +146,6 @@ export const SignalerDemandeDelai = ({
                 Cette date impactera le projet seulement si elle est postérieure à la date théorique
                 de mise en service actuelle.
               </p>
-              {ajoutDélaiCdc2022Possible && (
-                <label htmlFor="délaiCdc2022" className="mt-4">
-                  <input type="checkbox" name="raison" value="délaiCdc2022" id="délaiCdc2022" />
-                  Délai de 18 mois relatif au cahier des charges du 30/08/2022
-                </label>
-              )}
             </div>
           )}
 
