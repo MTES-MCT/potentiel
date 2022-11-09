@@ -131,6 +131,10 @@ export const SignalerDemandeDelai = ({
                 Cette date impactera le projet seulement si elle est postérieure à la date théorique
                 de mise en service actuelle.
               </p>
+              <label htmlFor="délaiCdc2022" className="mt-4">
+                <input type="checkbox" name="raison" value="délaiCdc2022" id="délaiCdc2022" />
+                Délai de 18 mois relatif au cahier des charges du 30/08/2022
+              </label>
             </div>
           )}
 
