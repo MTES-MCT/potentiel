@@ -1,4 +1,4 @@
-import { ACTION_BY_ROLE, DownloadIcon, PaginationPanel, ProjectActions } from '@components'
+import { ACTION_BY_ROLE, PaginationPanel, ProjectActions } from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
@@ -14,8 +14,10 @@ type ColumnRenderer = (props: { project: Project; GFPastDue?: boolean }) => Reac
 const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
   return (
     <div>
+      <div className="text-grey mb-1">Garanties Financières</div>
+      {!project.garantiesFinancieresSubmittedOn && !GFPastDue && <div>Non Déposées</div>}
       {project.garantiesFinancieresSubmittedOn !== 0 && (
-        <div {...dataId('gfList-item-garanties-financieres')}>
+        <div>
           {project.garantiesFinancieresFileRef && (
             <a
               className="block"
@@ -26,26 +28,15 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
               download={true}
               {...dataId('gfList-item-download-link')}
             >
-              <FileDownloadIcon />
+              <FileDownloadIcon className="align-middle mr-1" />
               Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
             </a>
           )}
-          {project.gf?.status ? (
-            <span
-              style={{
-                fontSize: 14,
-              }}
-            >
-              {project.gf.status}
-            </span>
-          ) : (
-            <span
-              style={{
-                fontSize: 14,
-              }}
-            >
-              à traiter
-            </span>
+          {project.gf?.status === 'validé' && (
+            <Badge className="bg-green-700 inline-block mt-1">validé</Badge>
+          )}
+          {project.gf?.status !== 'validé' && (
+            <Badge className="bg-yellow-500 inline-block mt-1">à traiter</Badge>
           )}
         </div>
       )}
@@ -65,62 +56,6 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
 }
 
 const ColumnComponent: Record<string, ColumnRenderer> = {
-  'Garanties Financières': function GarantieFinanciereColumn({ project, GFPastDue }) {
-    return (
-      <td valign="top">
-        {project.garantiesFinancieresSubmittedOn !== 0 && (
-          <div {...dataId('gfList-item-garanties-financieres')}>
-            <>
-              {project.garantiesFinancieresFileRef && (
-                <>
-                  <a
-                    href={routes.DOWNLOAD_PROJECT_FILE(
-                      project.garantiesFinancieresFileRef.id,
-                      project.garantiesFinancieresFileRef.filename
-                    )}
-                    download={true}
-                    {...dataId('gfList-item-download-link')}
-                  >
-                    <DownloadIcon />
-                    Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
-                  </a>
-                  <br />
-                </>
-              )}
-              {project.gf?.status ? (
-                <span
-                  style={{
-                    fontSize: 14,
-                  }}
-                >
-                  {project.gf.status}
-                </span>
-              ) : (
-                <span
-                  style={{
-                    fontSize: 14,
-                  }}
-                >
-                  à traiter
-                </span>
-              )}
-            </>
-          </div>
-        )}
-        {GFPastDue && (
-          <a
-            href={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
-              id: project.id,
-              nomProjet: project.nomProjet,
-            })}
-            download
-          >
-            Télécharger le modèle de mise de demeure
-          </a>
-        )}
-      </td>
-    )
-  } as ColumnRenderer,
   Classé: function ClasséColumn({ project }) {
     if (project.abandonedOn) {
       return (
