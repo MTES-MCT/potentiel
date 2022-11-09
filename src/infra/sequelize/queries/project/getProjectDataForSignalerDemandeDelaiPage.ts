@@ -33,6 +33,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             periodeId,
             familleId,
             appelOffreId,
+            cahierDesChargesActuel,
           } = projectRaw.get()
 
           const project = {
@@ -47,6 +48,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             periodeId,
             familleId,
             appelOffreId,
+            cahierDesChargesActuel,
           }
 
           return ok(project)

@@ -14,6 +14,7 @@ export type ProjectDataForSignalerDemandeDelaiPage = {
   familleId: string
   notifiedOn: number
   appelOffreId: string
+  cahierDesChargesActuel: string
 }
 
 export type GetProjectDataForSignalerDemandeDelaiPage = (filtre: {
