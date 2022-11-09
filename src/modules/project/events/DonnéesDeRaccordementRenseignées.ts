@@ -3,6 +3,7 @@ import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain
 type DonnéesDeRaccordementRenseignéesdPayload = {
   projetId: string
   dateMiseEnService: string
+  dateFileAttente?: string
 }
 
 export class DonnéesDeRaccordementRenseignées

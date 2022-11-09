@@ -7,6 +7,7 @@ import { Project } from '../Project'
 type Commande = {
   projetId: string
   dateMiseEnService: Date
+  dateFileAttente?: Date
 }
 
 type Dépendances = {
@@ -43,12 +44,17 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDonnéesDeRaccordement = ({ projetId, dateMiseEnService }: Commande) =>
+  const enregistrerDonnéesDeRaccordement = ({
+    projetId,
+    dateMiseEnService,
+    dateFileAttente,
+  }: Commande) =>
     publishToEventStore(
       new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId,
           dateMiseEnService: dateMiseEnService.toISOString(),
+          dateFileAttente: dateFileAttente?.toISOString(),
         },
       })
     )
