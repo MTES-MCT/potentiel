@@ -3,11 +3,11 @@ import {
   makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée,
   TâcheMiseAJourDonnéesDeRaccordementDémarrée,
 } from '@modules/imports/donnéesRaccordement'
-import { mettreAJourDatesMiseEnService } from '../../useCases.config'
+import { mettreAJourDonnéesDeRaccordement } from '../../useCases.config'
 
 const onTâcheMiseAJourDonnéesDeRaccordementDémarrée =
   makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée({
-    mettreAJourDatesMiseEnService,
+    mettreAJourDonnéesDeRaccordement,
   })
 
 tacheImportEventSubscriber(

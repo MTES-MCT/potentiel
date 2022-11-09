@@ -1,7 +1,7 @@
 import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
-import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDatesMiseEnServiceTerminée'
+import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
 
 describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   const occurredAt = new Date('2022-01-05')

@@ -459,7 +459,7 @@ export const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccorde
   publishToEventStore,
 })
 
-export const mettreAJourDatesMiseEnService = makeMettreAJourDonnéesDeRaccordement({
+export const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
   getProjetsParIdentifiantGestionnaireRéseau,
   publishToEventStore,
   renseignerDonnéesDeRaccordement,
