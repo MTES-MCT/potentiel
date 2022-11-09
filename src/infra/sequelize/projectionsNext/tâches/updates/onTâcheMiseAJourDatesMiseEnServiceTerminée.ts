@@ -1,10 +1,10 @@
 import { logger } from '@core/utils'
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { ProjectionEnEchec } from '@modules/shared'
 import { TâchesProjector, Tâches } from '../tâches.model'
 
 export default TâchesProjector.on(
-  TâcheMiseAJourDatesMiseEnServiceTerminée,
+  TâcheMiseAJourDonnéesDeRaccordementTerminée,
   async (évènement, transaction) => {
     const {
       payload: { résultat, gestionnaire },

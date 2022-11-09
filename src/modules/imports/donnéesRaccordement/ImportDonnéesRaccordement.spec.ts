@@ -1,18 +1,18 @@
 import { UniqueEntityID } from '@core/domain'
 import { makeImportDonnéesRaccordement } from './ImportDonnéesRaccordement'
 import {
-  TâcheMiseAJourDatesMiseEnServiceDémarrée,
-  TâcheMiseAJourDatesMiseEnServiceTerminée,
+  TâcheMiseAJourDonnéesDeRaccordementDémarrée,
+  TâcheMiseAJourDonnéesDeRaccordementTerminée,
 } from './events'
 
 describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () => {
-  it(`Quand on fabrique l'import de données de raccordement avec un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée'
+  it(`Quand on fabrique l'import de données de raccordement avec un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
     const importDonnéesRaccordement = makeImportDonnéesRaccordement({
       id: new UniqueEntityID('import-données-raccordement#Enedis'),
       events: [
-        new TâcheMiseAJourDatesMiseEnServiceDémarrée({
+        new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
           payload: {
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
@@ -37,13 +37,13 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
       ],
     })
   })
-  it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDatesMiseEnServiceDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
+  it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
     const importDonnéesRaccordement = makeImportDonnéesRaccordement({
       id: new UniqueEntityID('import-données-raccordement#Enedis'),
       events: [
-        new TâcheMiseAJourDatesMiseEnServiceDémarrée({
+        new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
           payload: {
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
@@ -55,7 +55,7 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
             ],
           },
         }),
-        new TâcheMiseAJourDatesMiseEnServiceTerminée({
+        new TâcheMiseAJourDonnéesDeRaccordementTerminée({
           payload: {
             gestionnaire: 'Enedis',
             résultat: [],

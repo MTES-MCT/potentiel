@@ -1,15 +1,16 @@
 import { tacheImportEventSubscriber } from './importsEventSubscriber'
 import {
-  makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée,
-  TâcheMiseAJourDatesMiseEnServiceDémarrée,
+  makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée,
+  TâcheMiseAJourDonnéesDeRaccordementDémarrée,
 } from '@modules/imports/donnéesRaccordement'
 import { mettreAJourDatesMiseEnService } from '../../useCases.config'
 
-const onTâcheMiseAJourDatesMiseEnServiceDémarrée = makeOnTâcheMiseAJourDatesMiseEnServiceDémarrée({
-  mettreAJourDatesMiseEnService,
-})
+const onTâcheMiseAJourDonnéesDeRaccordementDémarrée =
+  makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée({
+    mettreAJourDatesMiseEnService,
+  })
 
 tacheImportEventSubscriber(
-  TâcheMiseAJourDatesMiseEnServiceDémarrée,
-  onTâcheMiseAJourDatesMiseEnServiceDémarrée
+  TâcheMiseAJourDonnéesDeRaccordementDémarrée,
+  onTâcheMiseAJourDonnéesDeRaccordementDémarrée
 )

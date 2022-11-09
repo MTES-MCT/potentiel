@@ -1,0 +1,22 @@
+import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
+
+type Payload = {
+  misAJourPar: string
+  gestionnaire: string
+  dates: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: string }>
+}
+
+export class TâcheMiseAJourDonnéesDeRaccordementDémarrée
+  extends BaseDomainEvent<Payload>
+  implements DomainEvent
+{
+  public static type: 'TâcheTâcheMiseAJourDonnéesDeRaccordementDémarrée' =
+    'TâcheTâcheMiseAJourDonnéesDeRaccordementDémarrée'
+  public type = TâcheMiseAJourDonnéesDeRaccordementDémarrée.type
+  currentVersion = 1
+
+  aggregateIdFromPayload(payload: Payload) {
+    return ImportDonnéesRaccordementId.format(payload.gestionnaire).toString()
+  }
+}

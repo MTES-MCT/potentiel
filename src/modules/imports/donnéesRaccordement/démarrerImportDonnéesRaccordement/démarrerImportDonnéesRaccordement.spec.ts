@@ -114,7 +114,7 @@ describe(`Démarrer un import de données de raccordement`, () => {
           1,
           expect.objectContaining({
             aggregateId: 'import-données-raccordement#Enedis',
-            type: 'TâcheMiseAJourDatesMiseEnServiceDémarrée',
+            type: 'TâcheMiseAJourDonnéesDeRaccordementDémarrée',
             payload: expect.objectContaining({
               misAJourPar: utilisateurAutorisé.id,
               gestionnaire: 'Enedis',

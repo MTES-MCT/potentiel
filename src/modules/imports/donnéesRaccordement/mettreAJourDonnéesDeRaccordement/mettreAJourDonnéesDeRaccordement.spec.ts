@@ -1,6 +1,6 @@
 import { errAsync, okAsync } from '@core/utils'
 import { DateMiseEnServicePlusRécenteError } from '@modules/project'
-import { makeMettreAJourDatesMiseEnService } from './mettreAJourDatesMiseEnService'
+import { makeMettreAJourDonnéesDeRaccordement } from './mettreAJourDonnéesDeRaccordement'
 
 describe(`Mettre à jour les dates de mise en service`, () => {
   const publishToEventStore = jest.fn(() => okAsync(null))
@@ -11,12 +11,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
     renseignerDonnéesDeRaccordement.mockClear()
   })
 
-  describe(`Mise à jour de toutes les dates de mise en service des projets`, () => {
+  describe(`Mise à jour des données de raccordement des projets`, () => {
     it(`Étant donné un unique projet par identifiant gestionnaire réseau
-        Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
-        Alors la date de mise en service des projets correspondant devrait être renseignée
+        Lorsqu'un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' survient
+        Alors les données de raccordement des projets correspondant devrait être renseignées
         Et la tâche devrait être terminée avec le résultat des mises à jour`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
+      const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             'NUM-GEST-1': [
@@ -34,12 +34,13 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         publishToEventStore,
       })
 
-      const miseAJour = await mettreAJourDateMiseEnService({
+      const miseAJour = await mettreAJourDonnéesDeRaccordement({
         gestionnaire: 'Enedis',
         données: [
           {
             identifiantGestionnaireRéseau: 'NUM-GEST-1',
             dateMiseEnService: new Date('2024-01-20'),
+            dateFileAttente: new Date('2023-01-20'),
           },
           {
             identifiantGestionnaireRéseau: 'NUM-GEST-2',
@@ -54,6 +55,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'projet-1',
         dateMiseEnService: new Date('2024-01-20'),
+        dateFileAttente: new Date('2023-01-20'),
       })
       expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'projet-2',
@@ -63,7 +65,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-données-raccordement#Enedis',
-          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDonnéesDeRaccordementTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: [
@@ -87,12 +89,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   describe(`Ne pas mettre à jour si plusieurs résultats pour un identifiant`, () => {
     it(`Étant donné plusieurs projets avec l'identifiant gestionnaire de réseau 'Enedis'
         Et le projet 'Projet Test' avec l'identifiant 'AAA-BB-2022-000001'
-        Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
-        Alors la date de mise en service devrait être renseignée seulement pour le projet 'Projet Test'
+        Lorsqu'un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' survient
+        Alors les données de raccordement devrait être renseignée seulement pour le projet 'Projet Test'
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Plusieurs projets correspondent à l'identifiant'`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
+      const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             Enedis: [
@@ -113,7 +115,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         publishToEventStore,
       })
 
-      const miseAJour = await mettreAJourDateMiseEnService({
+      const miseAJour = await mettreAJourDonnéesDeRaccordement({
         gestionnaire: 'Enedis',
         données: [
           {
@@ -143,7 +145,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-données-raccordement#Enedis',
-          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDonnéesDeRaccordementTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
@@ -168,11 +170,11 @@ describe(`Mettre à jour les dates de mise en service`, () => {
     it(`Étant donné aucun projet avec l'identifiant gestionnaire de réseau 'Enedis'
         Et le projet 'Projet Test' avec l'identifiant 'AAA-BB-2022-000001'
         Lorsqu'un évènement 'TâcheMiseAJourDatesEnServiceDémarrée' survient
-        Alors la date de mise en service devrait être renseignée seulement pour le projet 'Projet Test'
+        Alors les données de raccordement devrait être renseignée seulement pour le projet 'Projet Test'
         Et la tâche devrait être terminée
         Et le résultat devrait être un 'succès' pour l'identifiant 'AAA-BB-2022-000001'
         Et devrait être en 'échec' pour 'Enedis' avec la raison 'Aucun projet ne correspond à l'identifiant'`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
+      const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             Enedis: [],
@@ -186,7 +188,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         publishToEventStore,
       })
 
-      const miseAJour = await mettreAJourDateMiseEnService({
+      const miseAJour = await mettreAJourDonnéesDeRaccordement({
         gestionnaire: 'Enedis',
         données: [
           {
@@ -216,7 +218,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-données-raccordement#Enedis',
-          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDonnéesDeRaccordementTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
@@ -238,12 +240,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   })
 
   describe(`Avoir un résultat en 'échec' si la mise à jour échoue`, () => {
-    it(`Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient avec un seul identifiant
-        Et que la mise à jour de la date de mise en service du projet échoue
-        Alors la date de mise en service ne devrait pas être renseignée pour le projet
+    it(`Lorsqu'un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' survient avec un seul identifiant
+        Et que la mise à jour de les données de raccordement du projet échoue
+        Alors les données de raccordement ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
         Et le résultat devrait être en 'échec' avec la raison de l'erreur`, async () => {
-      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
+      const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             'AAA-BB-2022-000001': [
@@ -256,7 +258,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         publishToEventStore,
       })
 
-      const miseAJour = await mettreAJourDateMiseEnService({
+      const miseAJour = await mettreAJourDonnéesDeRaccordement({
         gestionnaire: 'Enedis',
         données: [
           {
@@ -271,7 +273,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-données-raccordement#Enedis',
-          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDonnéesDeRaccordementTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([
@@ -289,14 +291,14 @@ describe(`Mettre à jour les dates de mise en service`, () => {
   })
 
   describe(`Avoir un résultat 'ignoré' si la date était plus récente`, () => {
-    it(`Lorsqu'un évènement 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient avec un seul identifiant
-        Et que la mise à jour de la date de mise en service du projet échoue car 'La date est plus récente que l'actuelle'
-        Alors la date de mise en service ne devrait pas être renseignée pour le projet
+    it(`Lorsqu'un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' survient avec un seul identifiant
+        Et que la mise à jour de les données de raccordement du projet échoue car 'La date est plus récente que l'actuelle'
+        Alors les données de raccordement ne devrait pas être renseignée pour le projet
         Et la tâche devrait être terminée
         Et le résultat devrait être 'ignoré' avec la raison`, async () => {
       const erreur = new DateMiseEnServicePlusRécenteError()
 
-      const mettreAJourDateMiseEnService = makeMettreAJourDatesMiseEnService({
+      const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccordement({
         getProjetsParIdentifiantGestionnaireRéseau: () =>
           okAsync({
             'AAA-BB-2022-000001': [
@@ -309,7 +311,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         publishToEventStore,
       })
 
-      const miseAJour = await mettreAJourDateMiseEnService({
+      const miseAJour = await mettreAJourDonnéesDeRaccordement({
         gestionnaire: 'Enedis',
         données: [
           {
@@ -324,7 +326,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(publishToEventStore).toHaveBeenLastCalledWith(
         expect.objectContaining({
           aggregateId: 'import-données-raccordement#Enedis',
-          type: 'TâcheMiseAJourDatesMiseEnServiceTerminée',
+          type: 'TâcheMiseAJourDonnéesDeRaccordementTerminée',
           payload: expect.objectContaining({
             gestionnaire: 'Enedis',
             résultat: expect.arrayContaining([

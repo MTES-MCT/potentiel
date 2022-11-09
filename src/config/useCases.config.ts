@@ -103,7 +103,7 @@ import {
 
 import {
   makeDémarrerImportDonnéesRaccordement,
-  makeMettreAJourDatesMiseEnService,
+  makeMettreAJourDonnéesDeRaccordement,
 } from '@modules/imports/donnéesRaccordement'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
@@ -459,7 +459,7 @@ export const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccorde
   publishToEventStore,
 })
 
-export const mettreAJourDatesMiseEnService = makeMettreAJourDatesMiseEnService({
+export const mettreAJourDatesMiseEnService = makeMettreAJourDonnéesDeRaccordement({
   getProjetsParIdentifiantGestionnaireRéseau,
   publishToEventStore,
   renseignerDonnéesDeRaccordement,

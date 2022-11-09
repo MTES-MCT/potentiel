@@ -1,2 +1,2 @@
-export * from './TâcheMiseAJourDatesMiseEnServiceDémarrée'
-export * from './TâcheMiseAJourDatesMiseEnServiceTerminée'
+export * from './TâcheMiseAJourDonnéesDeRaccordementDémarrée'
+export * from './TâcheMiseAJourDonnéesDeRaccordementTerminée'

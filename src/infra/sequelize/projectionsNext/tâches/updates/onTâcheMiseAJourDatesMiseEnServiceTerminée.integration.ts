@@ -1,4 +1,4 @@
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
 import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDatesMiseEnServiceTerminée'
@@ -28,7 +28,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     })
 
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
-      new TâcheMiseAJourDatesMiseEnServiceTerminée({
+      new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,
           résultat: [
@@ -119,7 +119,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     ])
 
     await onTâcheMiseAJourDatesMiseEnServiceTerminée(
-      new TâcheMiseAJourDatesMiseEnServiceTerminée({
+      new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,
           résultat: [

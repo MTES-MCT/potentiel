@@ -1,8 +1,8 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok } from '@core/utils'
 import {
-  TâcheMiseAJourDatesMiseEnServiceDémarrée,
-  TâcheMiseAJourDatesMiseEnServiceTerminée,
+  TâcheMiseAJourDonnéesDeRaccordementDémarrée,
+  TâcheMiseAJourDonnéesDeRaccordementTerminée,
 } from './events'
 
 export type ImportDonnéesRaccordement = EventStoreAggregate & {
@@ -27,13 +27,13 @@ export const makeImportDonnéesRaccordement = (args: {
 
   const agregat: ImportDonnéesRaccordement = events.reduce((agregat, event) => {
     switch (event.type) {
-      case TâcheMiseAJourDatesMiseEnServiceDémarrée.type:
+      case TâcheMiseAJourDonnéesDeRaccordementDémarrée.type:
         return {
           ...agregat,
           tâchesEnCours: [...agregat.tâchesEnCours, { type: 'maj-date-mise-en-service' }],
           état: 'en cours',
         }
-      case TâcheMiseAJourDatesMiseEnServiceTerminée.type:
+      case TâcheMiseAJourDonnéesDeRaccordementTerminée.type:
         return {
           ...agregat,
           tâchesEnCours: [
