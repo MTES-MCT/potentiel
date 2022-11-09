@@ -229,18 +229,7 @@ export const AdminNotificationCandidats = ({
         ) : (
           ''
         )}
-        <ProjectList
-          projects={projects}
-          displayColumns={[
-            'Projet',
-            'Candidat',
-            'Puissance',
-            'Prix',
-            'Evaluation Carbone',
-            'Classé',
-          ]}
-          role={request.user?.role}
-        />
+        <ProjectList projects={projects} role={request.user?.role} />
       </div>
     </PageTemplate>
   )
