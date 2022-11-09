@@ -234,6 +234,7 @@ export interface Project extends EventStoreAggregate {
   readonly completionDueOn: number
   readonly identifiantGestionnaireRéseau: string
   readonly dateMiseEnService?: Date
+  readonly dateFileAttente?: Date
   readonly délaiCDC2022appliqué: boolean
 }
 
@@ -289,6 +290,7 @@ export interface ProjectProps {
   familleId: string
   identifiantGestionnaireRéseau: string
   dateMiseEnService: Date | undefined
+  dateFileAttente: Date | undefined
   délaiCDC2022appliqué: boolean
 }
 
@@ -334,6 +336,7 @@ export const makeProject = (args: {
     familleId: '',
     identifiantGestionnaireRéseau: '',
     dateMiseEnService: undefined,
+    dateFileAttente: undefined,
     délaiCDC2022appliqué: false,
   }
 
@@ -1124,6 +1127,9 @@ export const makeProject = (args: {
     get dateMiseEnService() {
       return props.dateMiseEnService
     },
+    get dateFileAttente() {
+      return props.dateFileAttente
+    },
     get délaiCDC2022appliqué() {
       return props.délaiCDC2022appliqué
     },
@@ -1337,6 +1343,7 @@ export const makeProject = (args: {
         break
       case DonnéesDeRaccordementRenseignées.type:
         props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
+        props.dateFileAttente = new Date(event.payload.dateFileAttente)
         break
       default:
         // ignore other event types
