@@ -40,7 +40,13 @@ export const makeSignalerDemandeDelai =
   (deps: SignalerDemandeDelaiDeps) =>
   (
     args: SignalerDemandeDelaiArgs
-  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  ): ResultAsync<
+    null,
+    | InfraNotAvailableError
+    | UnauthorizedError
+    | ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError
+    | DélaiCDC2022DéjàAppliquéError
+  > => {
     const { projectRepo, fileRepo, shouldUserAccessProject } = deps
     const { projectId, decidedOn, status, notes, signaledBy, file } = args
 

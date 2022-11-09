@@ -6,6 +6,7 @@ import {
   PageTemplate,
   Astérisque,
   FormulaireChampsObligatoireLégende,
+  ErrorBox,
 } from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
@@ -20,10 +21,12 @@ type SignalerDemandeDelaiProps = {
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 export const SignalerDemandeDelai = ({
-  request: { user },
+  request,
   project,
   validationErrors,
 }: SignalerDemandeDelaiProps) => {
+  const { user } = request
+  const { error } = (request.query as any) || {}
   const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
   const ajoutDélaiCdc2022Possible =
     ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
@@ -35,6 +38,7 @@ export const SignalerDemandeDelai = ({
         <div className="panel__header">
           <h1 className="text-2xl">Enregistrer une demande de délai traitée hors Potentiel</h1>
         </div>
+        {error && <ErrorBox error={error} />}
 
         <form
           action={routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST}
