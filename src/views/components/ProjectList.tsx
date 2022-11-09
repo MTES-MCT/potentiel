@@ -2,11 +2,11 @@ import { PaginationPanel, ProjectActions } from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
-import React, { ComponentProps, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { SecondaryButton, Tile } from './UI'
+import { Badge, SecondaryButton, Tile } from './UI'
 import {
   PowerIcon,
   EuroIcon,
@@ -16,8 +16,6 @@ import {
   BuildingHouseIcon,
   UserIcon,
 } from './UI/atoms/icons'
-
-type ColumnRenderer = (props: { project: Project; GFPastDue?: boolean }) => React.ReactNode
 
 const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
   return (
@@ -41,10 +39,14 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
             </a>
           )}
           {project.gf?.status === 'validé' && (
-            <Badge className="bg-green-700 inline-block mt-1">validé</Badge>
+            <Badge type="success" className="inline-block mt-1">
+              validé
+            </Badge>
           )}
           {project.gf?.status !== 'validé' && (
-            <Badge className="bg-yellow-500 inline-block mt-1">à traiter</Badge>
+            <Badge type="warning" className="inline-block mt-1">
+              à traiter
+            </Badge>
           )}
         </div>
       )}
@@ -63,102 +65,6 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
   )
 }
 
-const ColumnComponent: Record<string, ColumnRenderer> = {
-  Classé: function ClasséColumn({ project }) {
-    if (project.abandonedOn) {
-      return (
-        <td
-          valign="top"
-          className={'projectList-classe-column notification warning'}
-          style={{ position: 'relative' }}
-        >
-          <div {...dataId('projectList-item-classe')}>Abandonné</div>
-        </td>
-      )
-    }
-
-    if (project.classe === 'Eliminé') {
-      return (
-        <td
-          valign="top"
-          className={'projectList-classe-column notification error'}
-          style={{ position: 'relative' }}
-        >
-          <div {...dataId('projectList-item-classe')}>
-            {project.motifsElimination ? (
-              <a
-                href="#"
-                {...dataId('projectList-item-toggleMotifsElimination')}
-                style={{
-                  textDecoration: 'none',
-                  color: 'var(--theme-dark-text)',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Eliminé
-                <svg
-                  className="icon icon-mail"
-                  style={{
-                    width: 10,
-                    verticalAlign: 'bottom',
-                    marginLeft: 5,
-                  }}
-                >
-                  <use xlinkHref="#expand"></use>
-                </svg>
-              </a>
-            ) : (
-              'Eliminé'
-            )}
-          </div>
-
-          <div
-            style={{
-              fontStyle: 'italic',
-              lineHeight: 'normal',
-              fontSize: 12,
-              display: 'none',
-            }}
-            className="motif-popover"
-            {...dataId('projectList-item-motifsElimination')}
-          >
-            {project.motifsElimination || ''}
-          </div>
-        </td>
-      )
-    }
-
-    return (
-      <td
-        valign="top"
-        className={'projectList-classe-column notification success'}
-        style={{ position: 'relative' }}
-      >
-        <div {...dataId('projectList-item-classe')}>Classé</div>
-        <div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            right: 5,
-            fontSize: 12,
-            color: 'var(--green)',
-          }}
-        >
-          {project.isFinancementParticipatif
-            ? 'FP'
-            : project.isInvestissementParticipatif
-            ? 'IP'
-            : project.actionnariat === 'financement-collectif'
-            ? 'FC'
-            : project.actionnariat === 'gouvernance-partagee'
-            ? 'GP'
-            : ''}
-        </div>
-      </td>
-    )
-  } as ColumnRenderer,
-}
-
 interface Props {
   projects: PaginatedList<Project> | Array<Project>
   displayGF?: true
@@ -166,70 +72,40 @@ interface Props {
   GFPastDue?: boolean
 }
 
-const Currency = ({ children }: { children: ReactNode }) => (
-  <span
-    style={{
-      fontStyle: 'italic',
-      lineHeight: 'normal',
-      fontSize: 12,
-    }}
-  >
-    {children}
-  </span>
+const Unit = ({ children }: { children: ReactNode }) => (
+  <span className="italic text-sm">{children}</span>
 )
-
-const Badge = ({
-  children,
-  className,
-  ...props
-}: { children: ReactNode } & ComponentProps<'span'>) => {
-  return (
-    <span
-      className={`px-2 bg-blue-france-sun-base text-white rounded-md ${className ?? ''}`}
-      {...props}
-    >
-      {children}
-    </span>
-  )
-}
 
 const StatutBadge = ({ project, className }: { project: Project; className: string }) => {
   if (project.abandonedOn) {
-    return <Badge className={`bg-warning ${className}`}>Abandonné</Badge>
-  }
-
-  if (project.classe === 'Eliminé') {
     return (
-      <Badge className={`bg-error ${className}`}>
-        Eliminé
-        <div
-          style={{
-            fontStyle: 'italic',
-            lineHeight: 'normal',
-            fontSize: 12,
-            display: 'none',
-          }}
-          className="motif-popover"
-          {...dataId('projectList-item-motifsElimination')}
-        >
-          {project.motifsElimination || ''}
-        </div>
+      <Badge type="warning" className={className}>
+        Abandonné
       </Badge>
     )
   }
 
+  if (project.classe === 'Eliminé') {
+    return (
+      <Badge type="error" className={className}>
+        Eliminé
+      </Badge>
+    )
+  }
+
+  const type = project.isFinancementParticipatif
+    ? 'FP'
+    : project.isInvestissementParticipatif
+    ? 'IP'
+    : project.actionnariat === 'financement-collectif'
+    ? 'FC'
+    : project.actionnariat === 'gouvernance-partagee'
+    ? 'GP'
+    : ''
+
   return (
-    <Badge className={`bg-success ${className}`}>
-      Classé{' '}
-      {project.isFinancementParticipatif
-        ? 'FP'
-        : project.isInvestissementParticipatif
-        ? 'IP'
-        : project.actionnariat === 'financement-collectif'
-        ? 'FC'
-        : project.actionnariat === 'gouvernance-partagee'
-        ? 'GP'
-        : ''}
+    <Badge type="success" className={className}>
+      Classé {type ? `(${type})` : ''}
     </Badge>
   )
 }
@@ -287,8 +163,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     <PowerIcon />
                   </div>
                   <div>
-                    <span>{project.puissance}</span>{' '}
-                    <Currency>{project.appelOffre?.unitePuissance}</Currency>
+                    {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-2 flex-1">
@@ -296,7 +171,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     <EuroIcon />
                   </div>
                   <div>
-                    <span>{project.prixReference}</span> <Currency>€/MWh</Currency>
+                    {project.prixReference} <Unit>€/MWh</Unit>
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-2 flex-1">
@@ -304,12 +179,10 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     <CloudIcon />
                   </div>
                   <div>
-                    {project.evaluationCarbone > 0 ? (
+                    {project.evaluationCarbone > 0 && (
                       <>
-                        <span>{project.evaluationCarbone}</span> <Currency>kg eq CO2/kWc</Currency>
+                        {project.evaluationCarbone} <Unit>kg eq CO2/kWc</Unit>
                       </>
-                    ) : (
-                      ''
                     )}
                   </div>
                 </div>
@@ -321,7 +194,9 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
               )}
             </div>
             <div className="flex flex-row items-center mt-2">
-              <SecondaryButton className="ml-auto">Voir</SecondaryButton>
+              <a className="ml-auto block no-underline" href={routes.PROJECT_DETAILS(project.id)}>
+                <SecondaryButton>Voir</SecondaryButton>
+              </a>
               <ProjectActions
                 role={role}
                 project={{
