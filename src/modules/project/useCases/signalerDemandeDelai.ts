@@ -4,6 +4,7 @@ import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import {
+  DélaiCDC2022DéjàAppliquéError,
   ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
 } from '../errors'
@@ -89,15 +90,19 @@ export const makeSignalerDemandeDelai =
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
-            const { cahierDesCharges } = project
             if (status === 'acceptée' && args.raison === 'délaiCdc2022') {
+              const { cahierDesCharges, délaiCDC2022appliqué } = project
               if (
                 cahierDesCharges.type === 'initial' ||
                 (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe !== '30/08/2022')
               ) {
                 return errAsync(new ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError())
               }
+              if (délaiCDC2022appliqué) {
+                return errAsync(new DélaiCDC2022DéjàAppliquéError())
+              }
             }
+
             return project
               .signalerDemandeDelai({
                 decidedOn,
@@ -105,6 +110,7 @@ export const makeSignalerDemandeDelai =
                   ? {
                       status,
                       newCompletionDueOn: args.newCompletionDueOn,
+                      ...(args.raison === 'délaiCdc2022' && { raison: args.raison }),
                     }
                   : { status }),
                 notes,

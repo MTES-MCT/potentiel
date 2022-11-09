@@ -9,7 +9,10 @@ import { makeSignalerDemandeDelai } from './signalerDemandeDelai'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
 import { Readable } from 'stream'
-import { ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError } from '../errors'
+import {
+  DélaiCDC2022DéjàAppliquéError,
+  ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
+} from '../errors'
 
 const projectId = new UniqueEntityID().toString()
 const fakeFileContents = {
@@ -56,6 +59,7 @@ describe('signalerDemandeDelai use-case', () => {
       expect(fakePublish).not.toHaveBeenCalled()
     })
   })
+
   describe(`Lorsque l'utilisateur a les droits sur le projet`, () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
@@ -110,6 +114,7 @@ describe('signalerDemandeDelai use-case', () => {
       })
     })
   })
+
   describe(`Cahier des charges 2022`, () => {
     describe(`Etant donné une demande de délai avec la raison 'délaiCdc2022`, () => {
       describe(`Lorsque l'utilisateur n'est pas 'admin' ou 'dgec-validateur'`, () => {
@@ -161,7 +166,11 @@ describe('signalerDemandeDelai use-case', () => {
 
           const cahierDesCharges = { type: 'modifié', paruLe: '30/07/2021' }
 
-          const fakeProject = { ...makeFakeProject(), cahierDesCharges }
+          const fakeProject = {
+            ...makeFakeProject(),
+            cahierDesCharges,
+            délaiCDC2022appliqué: false,
+          }
 
           const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
@@ -185,6 +194,95 @@ describe('signalerDemandeDelai use-case', () => {
           )
 
           expect(fakePublish).not.toHaveBeenCalled()
+        })
+      })
+
+      describe(`Lorsque le délai relatif du CDC 2022 a déjà été appliqué au projet`, () => {
+        it(`Alors une erreur DélaiCDC2022DéjàAppliquéError devrait être retournée`, async () => {
+          fakePublish.mockClear()
+
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+          const shouldUserAccessProject = jest.fn(async () => true)
+
+          const fileRepo = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
+
+          const cahierDesCharges = { type: 'modifié', paruLe: '30/08/2022' }
+
+          const fakeProject = { ...makeFakeProject(), cahierDesCharges, délaiCDC2022appliqué: true }
+
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+
+          const signalerDemandeDelai = makeSignalerDemandeDelai({
+            fileRepo,
+            shouldUserAccessProject,
+            projectRepo,
+          })
+
+          const res = await signalerDemandeDelai({
+            projectId,
+            decidedOn: new Date('2022-04-12'),
+            status: 'acceptée',
+            newCompletionDueOn: new Date('2025-01-31'),
+            signaledBy: user,
+            raison: 'délaiCdc2022',
+          })
+
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(DélaiCDC2022DéjàAppliquéError)
+
+          expect(fakePublish).not.toHaveBeenCalled()
+        })
+      })
+
+      describe(`Lorsque le porteur a choisi le CDC 2022, 
+      que le projet n'a pas encore bénéficié du délai, 
+      et que l'utilisateur est "admin"`, () => {
+        it(`Alors la méthode project.signalerDemandeDélai devrait être appelée`, async () => {
+          fakePublish.mockClear()
+
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
+          const shouldUserAccessProject = jest.fn(async () => true)
+
+          const fileRepo = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
+
+          const cahierDesCharges = { type: 'modifié', paruLe: '30/08/2022' }
+
+          const fakeProject = {
+            ...makeFakeProject(),
+            cahierDesCharges,
+            délaiCDC2022appliqué: false,
+          }
+
+          const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+
+          const signalerDemandeDelai = makeSignalerDemandeDelai({
+            fileRepo,
+            shouldUserAccessProject,
+            projectRepo,
+          })
+
+          const res = await signalerDemandeDelai({
+            projectId,
+            decidedOn: new Date('2022-04-12'),
+            status: 'acceptée',
+            newCompletionDueOn: new Date('2025-01-31'),
+            signaledBy: user,
+            raison: 'délaiCdc2022',
+          })
+
+          expect(res.isOk()).toBe(true)
+
+          expect(shouldUserAccessProject).toHaveBeenCalledWith({
+            user,
+            projectId,
+          })
         })
       })
     })
