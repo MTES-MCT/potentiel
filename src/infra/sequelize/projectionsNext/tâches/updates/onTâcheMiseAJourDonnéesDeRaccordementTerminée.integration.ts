@@ -21,7 +21,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         - et le détail`, async () => {
     await Tâches.create({
       id: 1,
-      type: 'maj-date-mise-en-service',
+      type: 'maj-données-de-raccordement',
       gestionnaire,
       état: 'en cours',
       dateDeDébut: new Date(),
@@ -104,14 +104,14 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     await Tâches.bulkCreate([
       {
         id: 1,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         gestionnaire,
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),
       },
       {
         id: 2,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         gestionnaire: 'autre-gestionnaire',
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),

@@ -32,7 +32,7 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementDémarrée', () => {
     const tâche = await Tâches.findOne({
       where: {
         gestionnaire,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         état: 'en cours',
         dateDeDébut: occurredAt,
       },
@@ -43,7 +43,7 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementDémarrée', () => {
       id: expect.any(Number),
       gestionnaire,
       état: 'en cours',
-      type: 'maj-date-mise-en-service',
+      type: 'maj-données-de-raccordement',
       dateDeDébut: occurredAt,
     })
   })

@@ -15,7 +15,7 @@ export default TâchesProjector.on(
       await Tâches.create(
         {
           gestionnaire,
-          type: 'maj-date-mise-en-service',
+          type: 'maj-données-de-raccordement',
           état: 'en cours',
           dateDeDébut: occurredAt,
         },

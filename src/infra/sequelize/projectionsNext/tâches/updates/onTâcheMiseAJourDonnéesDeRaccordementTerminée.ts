@@ -30,7 +30,7 @@ export default TâchesProjector.on(
           where: {
             gestionnaire,
             état: 'en cours',
-            type: 'maj-date-mise-en-service',
+            type: 'maj-données-de-raccordement',
           },
           transaction,
         }
