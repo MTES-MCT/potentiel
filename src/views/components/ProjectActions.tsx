@@ -29,19 +29,14 @@ interface Props {
 }
 
 export const ProjectActions = ({ project, role }: Props) => {
-  if (!project || !role) {
-    return <div />
-  }
+  if (!project || !role) return <></>
 
   const actions = ACTION_BY_ROLE[role]?.call(null, project)
-
-  if (!actions || !actions.length) {
-    return <div />
-  }
+  if (!actions || !actions.length) return <></>
 
   return (
     <div style={{ position: 'relative' }} {...dataId('project-actions')}>
-      <Button {...dataId('action-menu-trigger')}>
+      <Button className="ml-4" {...dataId('action-menu-trigger')}>
         Actions <ChevronDownIcon className="ml-2" />
       </Button>
       <ul className="list--action-menu" {...dataId('action-menu')}>

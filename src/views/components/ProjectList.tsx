@@ -1,4 +1,4 @@
-import { ACTION_BY_ROLE, PaginationPanel, ProjectActions } from '@components'
+import { PaginationPanel, ProjectActions } from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
@@ -7,14 +7,22 @@ import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
 import { SecondaryButton, Tile } from './UI'
-import { PowerIcon, EuroIcon, CloudIcon, FileDownloadIcon } from './UI/atoms/icons'
+import {
+  PowerIcon,
+  EuroIcon,
+  CloudIcon,
+  FileDownloadIcon,
+  MapPinIcon,
+  BuildingHouseIcon,
+  UserIcon,
+} from './UI/atoms/icons'
 
 type ColumnRenderer = (props: { project: Project; GFPastDue?: boolean }) => React.ReactNode
 
 const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
   return (
     <div>
-      <div className="text-grey mb-1">Garanties Financières</div>
+      <div className="text-gray-500 mb-1">Garanties Financières</div>
       {!project.garantiesFinancieresSubmittedOn && !GFPastDue && <div>Non Déposées</div>}
       {project.garantiesFinancieresSubmittedOn !== 0 && (
         <div>
@@ -250,49 +258,26 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
     <>
       {items.map((project) => {
         return (
-          <Tile
-            className="mb-4 flex flex-col"
-            key={'project_' + project.id}
-            {...dataId('projectList-item')}
-          >
-            <div className="mb-4" {...dataId('projectList-item-nomProjet')}>
+          <Tile className="mb-4 flex flex-col" key={'project_' + project.id}>
+            <div>
               <a href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</a>{' '}
               <StatutBadge project={project} className="ml-2" />
             </div>
-            <div className="flex flex-row justify-between gap-4 items-center">
-              <div className="flex-1">
-                <div
-                  style={{
-                    fontStyle: 'italic',
-                    lineHeight: 'normal',
-                    fontSize: 12,
-                  }}
-                >
-                  <span {...dataId('projectList-item-communeProjet')}>{project.communeProjet}</span>
-                  ,{' '}
-                  <span {...dataId('projectList-item-departementProjet')}>
-                    {project.departementProjet}
-                  </span>
-                  , <span {...dataId('projectList-item-regionProjet')}>{project.regionProjet}</span>
-                  <div style={{ marginTop: 5, fontStyle: 'normal' }}>
-                    {project.potentielIdentifier}
-                  </div>
+            <div className="mb-4 mt-1 italic text-xs text-grey">{project.potentielIdentifier}</div>
+            <div className="flex flex-col md:flex-row justify-between gap-4 md:items-center">
+              <div className="flex-1 text-sm">
+                <div className="mt-1 flex italic small items-center">
+                  <MapPinIcon className="mr-2" />
+                  {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
                 </div>
 
-                <div className="mt-2">
-                  <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    <span {...dataId('projectList-item-nomRepresentantLegal')}>
-                      {project.nomRepresentantLegal}
-                    </span>{' '}
-                    <span {...dataId('projectList-item-email')}>{project.email}</span>
-                  </div>
+                <div className="mt-1 flex items-center">
+                  <BuildingHouseIcon className="mr-2" />
+                  {project.nomCandidat}
+                </div>
+                <div className="mt-1 flex items-center">
+                  <UserIcon className="mr-2" />
+                  {project.nomRepresentantLegal} {project.email}
                 </div>
               </div>
 
@@ -302,7 +287,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     <PowerIcon />
                   </div>
                   <div>
-                    <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+                    <span>{project.puissance}</span>{' '}
                     <Currency>{project.appelOffre?.unitePuissance}</Currency>
                   </div>
                 </div>
@@ -311,10 +296,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     <EuroIcon />
                   </div>
                   <div>
-                    <span {...dataId('projectList-item-prixReference')}>
-                      {project.prixReference}
-                    </span>{' '}
-                    <Currency>€/MWh</Currency>
+                    <span>{project.prixReference}</span> <Currency>€/MWh</Currency>
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-2 flex-1">
@@ -324,10 +306,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                   <div>
                     {project.evaluationCarbone > 0 ? (
                       <>
-                        <span {...dataId('projectList-item-evaluationCarbone')}>
-                          {project.evaluationCarbone}
-                        </span>{' '}
-                        <Currency>kg eq CO2/kWc</Currency>
+                        <span>{project.evaluationCarbone}</span> <Currency>kg eq CO2/kWc</Currency>
                       </>
                     ) : (
                       ''
@@ -341,35 +320,27 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                 </div>
               )}
             </div>
-            <div className="flex flex-row gap-4 items-center mt-2">
+            <div className="flex flex-row items-center mt-2">
               <SecondaryButton className="ml-auto">Voir</SecondaryButton>
-              {ACTION_BY_ROLE[role] ? (
-                <div {...dataId('item-actions-container')}>
-                  <ProjectActions
-                    role={role}
-                    project={{
-                      ...project,
-                      isClasse: project.classe === 'Classé',
-                      isAbandoned: project.abandonedOn !== 0,
-                      notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-                    }}
-                  />
-                </div>
-              ) : (
-                ''
-              )}
+              <ProjectActions
+                role={role}
+                project={{
+                  ...project,
+                  isClasse: project.classe === 'Classé',
+                  isAbandoned: project.abandonedOn !== 0,
+                  notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+                }}
+              />
             </div>
           </Tile>
         )
       })}
-      {!Array.isArray(projects) ? (
+      {!Array.isArray(projects) && (
         <PaginationPanel
           pagination={projects.pagination}
           pageCount={projects.pageCount}
           itemTitle="Projets"
         />
-      ) : (
-        ''
       )}
     </>
   )
