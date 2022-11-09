@@ -98,7 +98,7 @@ const onDateMiseEnServiceRenseignéeHandler = makeOnDateMiseEnServiceRenseignée
   getProjectAppelOffre,
 })
 
-const onDateMiseEnServiceRenseignée = async (event: DomainEvent) => {
+const onDonnéesDeRaccordementRenseignées = async (event: DomainEvent) => {
   if (!(event instanceof DonnéesDeRaccordementRenseignées)) {
     return Promise.resolve()
   }
@@ -108,7 +108,7 @@ const onDateMiseEnServiceRenseignée = async (event: DomainEvent) => {
     (e) => Promise.reject(e)
   )
 }
-subscribeToRedis(onDateMiseEnServiceRenseignée, 'Project.onDateMiseEnServiceRenseignée')
+subscribeToRedis(onDonnéesDeRaccordementRenseignées, 'Project.onDonnéesDeRaccordementRenseignées')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

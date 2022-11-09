@@ -3,11 +3,11 @@ import { Projections } from '@infra/sequelize/models'
 import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
-type OnDateMiseEnServiceRenseignée = (
+type onDonnéesDeRaccordementRenseignées = (
   projections: Projections
 ) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>
 
-export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
+export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRenseignées =
   ({ Project }) =>
   async (évènement) => {
     const {
@@ -21,7 +21,7 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
         new ProjectionEnEchec(
           'Erreur dans la projection onDateMiseEnServiceRenseingée : impossible de récupérer le projet de la db',
           {
-            nomProjection: 'onDateMiseEnServiceRenseignée',
+            nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
           }
         )
@@ -43,7 +43,7 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
         new ProjectionEnEchec(
           'Erreur lors de la projection du renseignement de la date de mise en service',
           {
-            nomProjection: 'onDateMiseEnServiceRenseignée',
+            nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
           },
           cause

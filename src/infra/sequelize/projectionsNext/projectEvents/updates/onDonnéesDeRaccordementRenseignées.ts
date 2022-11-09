@@ -35,7 +35,7 @@ export default ProjectEventProjector.on(
             `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée: création d'un nouveau project event`,
             {
               évènement,
-              nomProjection: 'ProjectEvent.onDateMiseEnServiceRenseignée',
+              nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
             },
             error
           )
@@ -55,7 +55,7 @@ export default ProjectEventProjector.on(
           `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée : mise à jour du project event`,
           {
             évènement,
-            nomProjection: 'ProjectEvent.onDateMiseEnServiceRenseignée',
+            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
           },
           error
         )

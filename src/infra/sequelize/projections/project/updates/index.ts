@@ -67,7 +67,7 @@ import {
 import { onContratEnedisMisAJour } from './onContratEnedisMisAJour'
 import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement'
 import { onIdentifiantPotentielPPE2Batiment2Corrigé } from './onIdentifiantPotentielPPE2Batiment2Corrigé'
-import { onDateMiseEnServiceRenseignée } from './onDonnéesDeRaccordementRenseignées'
+import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées'
 
 import { Projections } from '@infra/sequelize/models'
 
@@ -127,7 +127,10 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
     onIdentifiantPotentielPPE2Batiment2Corrigé(models)
   )
 
-  eventBus.subscribe(DonnéesDeRaccordementRenseignées.type, onDateMiseEnServiceRenseignée(models))
+  eventBus.subscribe(
+    DonnéesDeRaccordementRenseignées.type,
+    onDonnéesDeRaccordementRenseignées(models)
+  )
 
   logger.info('Initialized Project projections')
 }

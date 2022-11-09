@@ -5,7 +5,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events'
 import { Project } from '../Project'
 
-type OnDateMiseEnServiceRenseignée = (
+type onDonnéesDeRaccordementRenseignées = (
   event: DonnéesDeRaccordementRenseignées
 ) => ResultAsync<null, InfraNotAvailableError>
 
@@ -13,7 +13,7 @@ type MakeOnDateMiseEnServiceRenseignée = (deps: {
   projectRepo: TransactionalRepository<Project>
   publishToEventStore: EventStore['publish']
   getProjectAppelOffre: GetProjectAppelOffre
-}) => OnDateMiseEnServiceRenseignée
+}) => onDonnéesDeRaccordementRenseignées
 
 export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseignée =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }) =>
@@ -42,7 +42,7 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
         })
         if (!projectAppelOffre) {
           logger.error(
-            `project eventHandler onDateMiseEnServiceRenseignée : AO non trouvé. Projet ${projetId}`
+            `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projetId}`
           )
           return okAsync(null)
         }
@@ -56,7 +56,7 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
           )
         if (!donnéesCDC || !donnéesCDC.délaiApplicable) {
           logger.error(
-            `project eventHandler onDateMiseEnServiceRenseignée : données CDC modifié non trouvées. Projet ${projetId}`
+            `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId}`
           )
           return okAsync(null)
         }
