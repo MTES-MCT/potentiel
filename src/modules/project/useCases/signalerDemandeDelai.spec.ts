@@ -23,7 +23,39 @@ const fakeProject = makeFakeProject()
 const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
 describe('signalerDemandeDelai use-case', () => {
-  describe('when the user has rights on this project', () => {
+  describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
+    it(`Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+      fakePublish.mockClear()
+
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+
+      const shouldUserAccessProject = jest.fn(async () => false)
+
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
+
+      const signalerDemandeDelai = makeSignalerDemandeDelai({
+        fileRepo,
+        shouldUserAccessProject,
+        projectRepo,
+      })
+
+      const res = await signalerDemandeDelai({
+        projectId,
+        decidedOn: new Date('2022-04-12'),
+        status: 'acceptée',
+        newCompletionDueOn: new Date('2025-01-31'),
+        signaledBy: user,
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+      expect(fakePublish).not.toHaveBeenCalled()
+    })
+  })
+  describe(`Lorsque l'utilisateur a les droits sur le projet`, () => {
     const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
 
     const fileRepo = {
@@ -60,12 +92,12 @@ describe('signalerDemandeDelai use-case', () => {
       })
     })
 
-    it('should save the attachment file', async () => {
+    it('Alors le fichier devrait être sauvegardé', async () => {
       expect(fileRepo.save).toHaveBeenCalled()
       expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
     })
 
-    it('should call signalerDemandDelai', () => {
+    it(`Alors la méthode project.signalerDemandDelai devrait être appelée`, () => {
       const fakeFile = fileRepo.save.mock.calls[0][0]
       expect(fakeProject.signalerDemandeDelai).toHaveBeenCalledWith({
         decidedOn: new Date('2022-04-12'),
@@ -77,37 +109,41 @@ describe('signalerDemandeDelai use-case', () => {
       })
     })
   })
+  describe(`Cahier des charges 2022`, () => {
+    describe(`Etant donné une demande de délai avec la raison 'délaiCdc2022`, () => {
+      describe(`Lorsque l'utilisateur n'est pas 'admin' ou 'dgec-validateur'`, () => {
+        it(`Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+          fakePublish.mockClear()
 
-  describe('When the user doesnt have rights on the project', () => {
-    it('should return an UnauthorizedError', async () => {
-      fakePublish.mockClear()
+          const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
 
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+          const shouldUserAccessProject = jest.fn(async () => true)
 
-      const shouldUserAccessProject = jest.fn(async () => false)
+          const fileRepo = {
+            save: jest.fn(),
+            load: jest.fn(),
+          }
 
-      const fileRepo = {
-        save: jest.fn(),
-        load: jest.fn(),
-      }
+          const signalerDemandeDelai = makeSignalerDemandeDelai({
+            fileRepo,
+            shouldUserAccessProject,
+            projectRepo,
+          })
 
-      const signalerDemandeDelai = makeSignalerDemandeDelai({
-        fileRepo,
-        shouldUserAccessProject,
-        projectRepo,
+          const res = await signalerDemandeDelai({
+            projectId,
+            decidedOn: new Date('2022-04-12'),
+            status: 'acceptée',
+            newCompletionDueOn: new Date('2025-01-31'),
+            signaledBy: user,
+            raison: 'délaiCdc2022',
+          })
+
+          expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+          expect(fakePublish).not.toHaveBeenCalled()
+        })
       })
-
-      const res = await signalerDemandeDelai({
-        projectId,
-        decidedOn: new Date('2022-04-12'),
-        status: 'acceptée',
-        newCompletionDueOn: new Date('2025-01-31'),
-        signaledBy: user,
-      })
-
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-
-      expect(fakePublish).not.toHaveBeenCalled()
     })
   })
 })

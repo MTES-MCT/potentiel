@@ -25,6 +25,7 @@ type SignalerDemandeDelaiArgs = {
   | {
       status: 'acceptée'
       newCompletionDueOn: Date
+      raison?: 'délaiCdc2022'
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
@@ -48,6 +49,14 @@ export const makeSignalerDemandeDelai =
           InfraNotAvailableError | UnauthorizedError
         > => {
           if (!userHasRightsToProject) {
+            return errAsync(new UnauthorizedError())
+          }
+
+          if (
+            status === 'acceptée' &&
+            args.raison === 'délaiCdc2022' &&
+            !['admin', 'dgec-validateur'].includes(signaledBy.role)
+          ) {
             return errAsync(new UnauthorizedError())
           }
 
