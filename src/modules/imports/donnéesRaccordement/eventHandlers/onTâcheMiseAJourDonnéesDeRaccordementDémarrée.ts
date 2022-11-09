@@ -1,4 +1,5 @@
 import { ResultAsync } from '@core/utils'
+import { MettreAJourDonnéesDeRaccordement } from '@modules/imports/donnéesRaccordement'
 import { InfraNotAvailableError } from '@modules/shared'
 
 import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
@@ -8,7 +9,7 @@ type OnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (
 ) => ResultAsync<null, InfraNotAvailableError>
 
 type MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (dépendances: {
-  mettreAJourDonnéesDeRaccordement
+  mettreAJourDonnéesDeRaccordement: MettreAJourDonnéesDeRaccordement
 }) => OnTâcheMiseAJourDonnéesDeRaccordementDémarrée
 
 export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée =
@@ -17,9 +18,12 @@ export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâche
     ({ payload: { gestionnaire, dates } }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
       return mettreAJourDonnéesDeRaccordement({
         gestionnaire,
-        données: dates.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
-          identifiantGestionnaireRéseau,
-          dateMiseEnService: new Date(dateMiseEnService),
-        })),
+        données: dates.map(
+          ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
+            identifiantGestionnaireRéseau,
+            dateMiseEnService: new Date(dateMiseEnService),
+            ...(dateFileAttente && { dateFileAttente: new Date(dateFileAttente) }),
+          })
+        ),
       })
     }

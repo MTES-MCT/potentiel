@@ -16,7 +16,13 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
         payload: {
           misAJourPar: 'utilisateur1',
           gestionnaire: 'Enedis',
-          dates: [{ identifiantGestionnaireRéseau: 'gr01', dateMiseEnService: '01/01/2022' }],
+          dates: [
+            {
+              identifiantGestionnaireRéseau: 'gr01',
+              dateMiseEnService: new Date('2022-01-01').toISOString(),
+              dateFileAttente: new Date('2023-12-31').toISOString(),
+            },
+          ],
         },
       })
     )
@@ -25,7 +31,11 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
       expect.objectContaining({
         gestionnaire: 'Enedis',
         données: [
-          { identifiantGestionnaireRéseau: 'gr01', dateMiseEnService: new Date('01/01/2022') },
+          {
+            identifiantGestionnaireRéseau: 'gr01',
+            dateMiseEnService: new Date('2022-01-01'),
+            dateFileAttente: new Date('2023-12-31'),
+          },
         ],
       })
     )

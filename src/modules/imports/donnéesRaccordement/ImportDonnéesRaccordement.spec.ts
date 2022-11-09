@@ -20,6 +20,7 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
               {
                 identifiantGestionnaireRéseau: 'Enedis',
                 dateMiseEnService: new Date('2024-01-20').toISOString(),
+                dateFileAttente: new Date('2023-12-31').toISOString(),
               },
             ],
           },
@@ -30,11 +31,6 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
     expect(importDonnéesRaccordement.isOk()).toBe(true)
     expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
-      tâchesEnCours: [
-        {
-          type: 'maj-date-mise-en-service',
-        },
-      ],
     })
   })
   it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
@@ -51,6 +47,7 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
               {
                 identifiantGestionnaireRéseau: 'Enedis',
                 dateMiseEnService: new Date('2024-01-20').toISOString(),
+                dateFileAttente: new Date('2023-12-31').toISOString(),
               },
             ],
           },
@@ -67,7 +64,6 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
     expect(importDonnéesRaccordement.isOk()).toBe(true)
     expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'terminé',
-      tâchesEnCours: [],
     })
   })
 })

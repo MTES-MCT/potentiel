@@ -4,7 +4,11 @@ import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 type Payload = {
   misAJourPar: string
   gestionnaire: string
-  dates: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: string }>
+  dates: Array<{
+    identifiantGestionnaireRéseau: string
+    dateMiseEnService: string
+    dateFileAttente?: string
+  }>
 }
 
 export class TâcheMiseAJourDonnéesDeRaccordementDémarrée

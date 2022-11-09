@@ -23,6 +23,10 @@ type Commande = {
   }>
 }
 
+export type MettreAJourDonnéesDeRaccordement = ReturnType<
+  typeof makeMettreAJourDonnéesDeRaccordement
+>
+
 export const makeMettreAJourDonnéesDeRaccordement =
   ({
     getProjetsParIdentifiantGestionnaireRéseau,
