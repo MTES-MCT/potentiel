@@ -11,8 +11,8 @@ export class TâcheMiseAJourDonnéesDeRaccordementDémarrée
   extends BaseDomainEvent<Payload>
   implements DomainEvent
 {
-  public static type: 'TâcheTâcheMiseAJourDonnéesDeRaccordementDémarrée' =
-    'TâcheTâcheMiseAJourDonnéesDeRaccordementDémarrée'
+  public static type: 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' =
+    'TâcheMiseAJourDonnéesDeRaccordementDémarrée'
   public type = TâcheMiseAJourDonnéesDeRaccordementDémarrée.type
   currentVersion = 1
 

@@ -17,7 +17,11 @@ type MakeDémarrerImportDonnéesRaccordementDépendances = {
 export type DémarrerImportDonnéesRaccordementCommande = {
   utilisateur: User
   gestionnaire: 'Enedis'
-  données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
+  données: Array<{
+    identifiantGestionnaireRéseau: string
+    dateMiseEnService: Date
+    dateFileAttente?: Date
+  }>
 }
 
 export const makeDémarrerImportDonnéesRaccordement =
@@ -45,10 +49,13 @@ export const makeDémarrerImportDonnéesRaccordement =
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
-                identifiantGestionnaireRéseau,
-                dateMiseEnService: dateMiseEnService.toISOString(),
-              })),
+              dates: données.map(
+                ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
+                  identifiantGestionnaireRéseau,
+                  dateMiseEnService: dateMiseEnService.toISOString(),
+                  dateFileAttente: dateFileAttente?.toISOString(),
+                })
+              ),
             },
           })
         )

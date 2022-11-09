@@ -17,7 +17,11 @@ describe(`Démarrer un import de données de raccordement`, () => {
     { role: 'dgec-validateur', id: 'validateur-potentiel' } as User,
   ]
   const donnéesImportValides = [
-    { identifiantGestionnaireRéseau: 'NUM-GEST-1', dateMiseEnService: new Date('2024-01-20') },
+    {
+      identifiantGestionnaireRéseau: 'NUM-GEST-1',
+      dateMiseEnService: new Date('2024-01-20'),
+      dateFileAttente: new Date('2023-01-20'),
+    },
     { identifiantGestionnaireRéseau: 'NUM-GEST-2', dateMiseEnService: new Date('2024-02-20') },
   ]
 
@@ -122,6 +126,7 @@ describe(`Démarrer un import de données de raccordement`, () => {
                 {
                   identifiantGestionnaireRéseau: 'NUM-GEST-1',
                   dateMiseEnService: new Date('2024-01-20').toISOString(),
+                  dateFileAttente: new Date('2023-01-20').toISOString(),
                 },
                 {
                   identifiantGestionnaireRéseau: 'NUM-GEST-2',

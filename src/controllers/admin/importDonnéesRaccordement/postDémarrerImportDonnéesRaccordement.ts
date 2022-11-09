@@ -11,7 +11,7 @@ import {
   errorResponse,
   mapYupValidationErrorToCsvValidationError,
 } from '../../helpers'
-import { ValidationError } from 'yup'
+import { InferType, ValidationError } from 'yup'
 import { Request } from 'express'
 import { RésultatSoumissionFormulaire } from 'express-session'
 import {
@@ -31,7 +31,12 @@ const csvDataSchema = yup
       'date de MES': yup
         .string()
         .required('Date de mise en service obligatoire')
-        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mis en service attendu : jj/mm/aaaa'),
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mise en service attendu : jj/mm/aaaa'),
+      'Entr�e FA': yup
+        .string()
+        .optional()
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, `Format de date d'entrée FA attendu : jj/mm/aaaa`)
+        .nullable(),
     })
   )
 
@@ -53,13 +58,20 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formaterLesDonnées = (
-  données: Array<{ numeroGestionnaire: string; 'date de MES': string }>
-) =>
-  données.map((d) => ({
-    identifiantGestionnaireRéseau: d.numeroGestionnaire,
-    dateMiseEnService: parse(d['date de MES'], 'dd/MM/yyyy', new Date()),
-  }))
+const formaterLesDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
+  données.map((d) => {
+    const identifiantGestionnaireRéseau = d.numeroGestionnaire
+    const dateMiseEnService = parse(d['date de MES'], 'dd/MM/yyyy', new Date())
+    const dateFileAttente = d['Entr�e FA']
+      ? parse(d['Entr�e FA'], 'dd/MM/yyyy', new Date())
+      : undefined
+
+    return {
+      identifiantGestionnaireRéseau,
+      dateMiseEnService,
+      dateFileAttente,
+    }
+  })
 
 const setFormResult = (
   request: Request,
