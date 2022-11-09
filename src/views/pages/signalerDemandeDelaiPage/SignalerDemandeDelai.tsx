@@ -1,4 +1,12 @@
-import { Button, Input, SecondaryLinkButton, ProjectInfo, PageTemplate } from '@components'
+import {
+  Button,
+  Input,
+  SecondaryLinkButton,
+  ProjectInfo,
+  PageTemplate,
+  Astérisque,
+  FormulaireChampsObligatoireLégende,
+} from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
 import { Request } from 'express'
@@ -32,6 +40,7 @@ export const SignalerDemandeDelai = ({
           className="flex flex-col gap-5"
         >
           <div>
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <p className="m-0">Pour le projet</p>
             <ProjectInfo project={project}>
               <p className="m-0">
@@ -50,7 +59,9 @@ export const SignalerDemandeDelai = ({
           <input name="projectId" value={project.id} readOnly hidden />
 
           <div>
-            <p className="m-0">Décision* :</p>
+            <p className="m-0">
+              Décision <Astérisque /> :
+            </p>
             <div className="flex flex-col lg:flex-row gap-3 my-2">
               <div className="flex flex-row">
                 <input
@@ -90,7 +101,9 @@ export const SignalerDemandeDelai = ({
           </div>
 
           <div>
-            <label htmlFor="decidedOn">Date de la décision (=date du courrier)*</label>
+            <label htmlFor="decidedOn">
+              Date de la décision (=date du courrier) <Astérisque />
+            </label>
             <Input
               type="date"
               name="decidedOn"
@@ -102,7 +115,9 @@ export const SignalerDemandeDelai = ({
 
           {doesNewDateImpactProject && (
             <div>
-              <label htmlFor="newCompletionDueOn">Nouvelle date d'achèvement accordée*</label>
+              <label htmlFor="newCompletionDueOn">
+                Nouvelle date d'achèvement accordée <Astérisque />
+              </label>
               <Input
                 type="date"
                 name="newCompletionDueOn"
@@ -132,8 +147,6 @@ export const SignalerDemandeDelai = ({
               id="notes"
             ></textarea>
           </div>
-
-          <p className="italic text-sm">*Champs obligatoires</p>
 
           <div className="m-auto flex gap-4">
             <Button type="submit">Enregistrer</Button>
