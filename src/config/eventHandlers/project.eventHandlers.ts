@@ -92,7 +92,7 @@ const onAbandonAccordé = async (event: DomainEvent) => {
 }
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé')
 
-const onDateMiseEnServiceRenseignéeHandler = makeOnDonnéesDeRaccordementRenseignées({
+const onDonnéesDeRaccordementRenseignéesHandler = makeOnDonnéesDeRaccordementRenseignées({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
@@ -103,7 +103,7 @@ const onDonnéesDeRaccordementRenseignées = async (event: DomainEvent) => {
     return Promise.resolve()
   }
 
-  return onDateMiseEnServiceRenseignéeHandler(event).match(
+  return onDonnéesDeRaccordementRenseignéesHandler(event).match(
     () => Promise.resolve(),
     (e) => Promise.reject(e)
   )
