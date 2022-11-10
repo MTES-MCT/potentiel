@@ -1,23 +1,18 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { logger, okAsync, ResultAsync } from '@core/utils'
+import { logger, okAsync } from '@core/utils'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { InfraNotAvailableError } from '@modules/shared'
 import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events'
 import { Project } from '../Project'
 
-type onDonnéesDeRaccordementRenseignées = (
-  event: DonnéesDeRaccordementRenseignées
-) => ResultAsync<null, InfraNotAvailableError>
-
-type MakeOnDateMiseEnServiceRenseignée = (deps: {
+type Dépendances = {
   projectRepo: TransactionalRepository<Project>
   publishToEventStore: EventStore['publish']
   getProjectAppelOffre: GetProjectAppelOffre
-}) => onDonnéesDeRaccordementRenseignées
+}
 
-export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseignée =
-  ({ projectRepo, publishToEventStore, getProjectAppelOffre }) =>
-  ({ payload: { projetId, dateMiseEnService } }) => {
+export const makeOnDonnéesDeRaccordementRenseignées =
+  ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
+  ({ payload: { projetId, dateMiseEnService } }: DonnéesDeRaccordementRenseignées) => {
     return projectRepo.transaction(
       new UniqueEntityID(projetId),
       ({
