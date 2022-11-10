@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getDélaiCDC2022Applicable } from '@config/queries.config'
 import { err, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { parseCahierDesChargesRéférence } from '@entities'
 import {
@@ -58,19 +58,12 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             cahierDesChargesParsed.type === 'modifié' &&
             cahierDesChargesParsed.paruLe === '30/08/2022'
           ) {
-            const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-            if (!projectAppelOffre) return err(new EntityNotFoundError())
-
-            const détailsCDC =
-              projectAppelOffre!.cahiersDesChargesModifiésDisponibles &&
-              projectAppelOffre!.cahiersDesChargesModifiésDisponibles.find(
-                (CDC) =>
-                  CDC.type === cahierDesChargesParsed.type &&
-                  CDC.paruLe === cahierDesChargesParsed.paruLe &&
-                  CDC.alternatif === cahierDesChargesParsed.alternatif
-              )
-
-            const délaiCDC2022Applicable = détailsCDC && détailsCDC.délaiApplicable?.délaiEnMois
+            const délaiCDC2022Applicable = getDélaiCDC2022Applicable({
+              familleId,
+              periodeId,
+              appelOffreId,
+              cahierDesChargesParsed,
+            })
 
             return ok({ ...project, délaiCDC2022Applicable })
           }

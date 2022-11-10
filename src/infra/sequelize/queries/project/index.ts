@@ -1,4 +1,5 @@
 export * from './findProjectByIdentifiers'
+export * from './getDélaiCdc2022Applicable'
 export * from './getLegacyModificationByFilename'
 export * from './getNonLegacyProjectsByContactEmail'
 export * from './getProjectDataForChoisirCDCPage'
