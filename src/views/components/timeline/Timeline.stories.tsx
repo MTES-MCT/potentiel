@@ -25,6 +25,8 @@ import {
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   DemandeAbandonDTO,
+  DateMiseEnServiceDTO,
+  DateFileAttenteDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -1315,6 +1317,33 @@ export const AbandonRejetéForPP = () => (
           statut: 'rejetée',
           demandeUrl: 'demandeUrl',
         } as DemandeAbandonDTO,
+      ],
+    }}
+    now={new Date().getTime()}
+  />
+)
+
+export const DateMESEtFA = () => (
+  <Timeline
+    projectEventList={{
+      project,
+      events: [
+        {
+          type: 'ProjectNotified',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-12').getTime(),
+        } as ProjectNotifiedDTO,
+        {
+          type: 'DateMiseEnService',
+          variant: 'porteur-projet',
+          statut: 'renseignée',
+          date: new Date('2019-01-13').getTime(),
+        } as DateMiseEnServiceDTO,
+        {
+          type: 'DateFileAttente',
+          variant: 'porteur-projet',
+          date: new Date('2019-01-13').getTime(),
+        } as DateFileAttenteDTO,
       ],
     }}
     now={new Date().getTime()}
