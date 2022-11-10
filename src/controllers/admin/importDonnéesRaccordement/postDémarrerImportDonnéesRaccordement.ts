@@ -34,12 +34,11 @@ const csvDataSchema = yup
         .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mise en service attendu : jj/mm/aaaa'),
       dateFileAttente: yup
         .string()
-        .optional()
-        .matches(
-          /^\d{2}\/\d{2}\/\d{4}$/,
-          `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`
-        )
-        .nullable(),
+        .notRequired()
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, {
+          message: `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`,
+          excludeEmptyString: true,
+        }),
     })
   )
 
