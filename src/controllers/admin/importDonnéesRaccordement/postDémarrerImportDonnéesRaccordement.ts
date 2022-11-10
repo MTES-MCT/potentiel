@@ -28,14 +28,17 @@ const csvDataSchema = yup
   .of(
     yup.object({
       numeroGestionnaire: yup.string().ensure().required('Le numéro gestionnaire est obligatoire'),
-      'date de MES': yup
+      dateMiseEnService: yup
         .string()
         .required('Date de mise en service obligatoire')
         .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mise en service attendu : jj/mm/aaaa'),
-      'Entr�e FA': yup
+      dateFileAttente: yup
         .string()
         .optional()
-        .matches(/^\d{2}\/\d{2}\/\d{4}$/, `Format de date d'entrée FA attendu : jj/mm/aaaa`)
+        .matches(
+          /^\d{2}\/\d{2}\/\d{4}$/,
+          `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`
+        )
         .nullable(),
     })
   )
@@ -59,19 +62,11 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
 }
 
 const formaterLesDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
-  données.map((d) => {
-    const identifiantGestionnaireRéseau = d.numeroGestionnaire
-    const dateMiseEnService = parse(d['date de MES'], 'dd/MM/yyyy', new Date())
-    const dateFileAttente = d['Entr�e FA']
-      ? parse(d['Entr�e FA'], 'dd/MM/yyyy', new Date())
-      : undefined
-
-    return {
-      identifiantGestionnaireRéseau,
-      dateMiseEnService,
-      dateFileAttente,
-    }
-  })
+  données.map(({ numeroGestionnaire, dateMiseEnService, dateFileAttente }) => ({
+    identifiantGestionnaireRéseau: numeroGestionnaire,
+    dateMiseEnService: parse(dateMiseEnService, 'dd/MM/yyyy', new Date()),
+    ...(dateFileAttente && { dateFileAttente: parse(dateFileAttente, 'dd/MM/yyyy', new Date()) }),
+  }))
 
 const setFormResult = (
   request: Request,

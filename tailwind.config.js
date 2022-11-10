@@ -42,6 +42,11 @@ module.exports = {
           hover: '#bbbbbb',
           active: '#cecece',
         },
+        'grey-200': {
+          base: '#3a3a3a',
+          hover: '#616161',
+          active: '#777777',
+        },
         'grey-925': {
           base: '#e5e5e5',
           hover: '#c5c5c5',
@@ -51,6 +56,11 @@ module.exports = {
           base: '#eee',
           hover: '#d2d2d2',
           active: '#c1c1c1',
+        },
+        'grey-975': {
+          base: '#f6f6f6',
+          hover: '#dfdfdf',
+          active: '#cfcfcf',
         },
         'grey-1000': {
           base: '#ffffff',
