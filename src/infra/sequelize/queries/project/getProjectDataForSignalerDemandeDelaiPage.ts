@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config'
+import { getProjectAppelOffre } from '@config/queries.config'
 import { err, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { parseCahierDesChargesRéférence } from '@entities'
 import {
@@ -22,7 +22,6 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
           EntityNotFoundError
         > => {
           if (!projectRaw) return err(new EntityNotFoundError())
-          console.log('projet trouvé')
           const {
             id,
             completionDueOn,
@@ -80,7 +79,6 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
         }
       )
       .andThen((project) => {
-        console.log('test')
         return hasPendingDemandeDelai(project.id).andThen((count) =>
           ok({
             ...project,
