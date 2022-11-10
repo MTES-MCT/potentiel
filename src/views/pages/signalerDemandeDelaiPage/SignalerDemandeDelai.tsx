@@ -10,6 +10,7 @@ import {
 } from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
+import { appliquerDélaiEnMois } from '@views/helpers'
 import { Request } from 'express'
 import React, { useState } from 'react'
 import { formatDate } from '../../../helpers/formatDate'
@@ -196,16 +197,3 @@ export const SignalerDemandeDelai = ({
 }
 
 hydrateOnClient(SignalerDemandeDelai)
-
-type AppliquerDélaiEnMoisProps = (args: { dateActuelle: Date; délaiEnMois: number }) => Date
-
-const appliquerDélaiEnMois: AppliquerDélaiEnMoisProps = ({ dateActuelle, délaiEnMois }) =>
-  new Date(
-    new Date(
-      new Date(dateActuelle).setMonth(new Date(dateActuelle).getMonth() + délaiEnMois)
-    ).setDate(
-      new Date(
-        new Date(dateActuelle).setMonth(new Date(dateActuelle).getMonth() + délaiEnMois)
-      ).getDate() + 1
-    )
-  )
