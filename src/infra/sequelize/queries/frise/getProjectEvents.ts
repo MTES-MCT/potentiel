@@ -558,6 +558,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'DateFileAttente':
+                  if (userIsNot('ademe')(user)) {
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: new Date(payload.dateFileAttente).getTime(),
+                    })
+                  }
+                  break
               }
 
               return Promise.resolve(events)
