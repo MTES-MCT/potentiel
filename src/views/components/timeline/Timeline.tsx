@@ -10,6 +10,7 @@ import {
   CahierDesChargesChoisiDTO,
   GarantiesFinancièresDTO,
   DateMiseEnServiceDTO,
+  DateFileAttenteDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -22,6 +23,7 @@ import {
   CAItem,
   CRItem,
   MeSItem,
+  DateFileAttenteItem,
   ModificationRequestItem,
   ModificationReceivedItem,
   AttachedFileItem,
@@ -83,6 +85,7 @@ type ItemProps =
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO
   | DateMiseEnServiceDTO
+  | DateFileAttenteDTO
 
 export const Timeline = ({
   projectEventList: {
@@ -94,6 +97,7 @@ export const Timeline = ({
   const PTFItemProps = extractPTFItemProps(events, { status })
   const garantiesFinancières = events.find(is('garanties-financieres'))
   const dateMiseEnService = events.find(is('DateMiseEnService'))
+  const dateFileAttente = events.find(is('DateFileAttente'))
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
@@ -115,6 +119,7 @@ export const Timeline = ({
     ...events.filter(is('DemandeAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
     dateMiseEnService?.statut === 'renseignée' ? dateMiseEnService : undefined,
+    dateFileAttente ? dateFileAttente : undefined,
   ]
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
@@ -162,6 +167,9 @@ export const Timeline = ({
 
       case 'DateMiseEnService':
         return <MeSItem {...props} />
+
+      case 'DateFileAttente':
+        return <DateFileAttenteItem {...props} />
 
       case 'contrat-achat':
         return <CAItem />
