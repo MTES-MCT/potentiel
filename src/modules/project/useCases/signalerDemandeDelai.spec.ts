@@ -142,7 +142,7 @@ describe('signalerDemandeDelai use-case', () => {
             status: 'acceptée',
             newCompletionDueOn: new Date('2025-01-31'),
             signaledBy: user,
-            raison: 'délaiCdc2022',
+            délaiCdc2022: true,
           })
 
           expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
@@ -186,7 +186,7 @@ describe('signalerDemandeDelai use-case', () => {
             status: 'acceptée',
             newCompletionDueOn: new Date('2025-01-31'),
             signaledBy: user,
-            raison: 'délaiCdc2022',
+            délaiCdc2022: true,
           })
 
           expect(res._unsafeUnwrapErr()).toBeInstanceOf(
@@ -228,7 +228,7 @@ describe('signalerDemandeDelai use-case', () => {
             status: 'acceptée',
             newCompletionDueOn: new Date('2025-01-31'),
             signaledBy: user,
-            raison: 'délaiCdc2022',
+            délaiCdc2022: true,
           })
 
           expect(res._unsafeUnwrapErr()).toBeInstanceOf(DélaiCDC2022DéjàAppliquéError)
@@ -274,7 +274,7 @@ describe('signalerDemandeDelai use-case', () => {
             status: 'acceptée',
             newCompletionDueOn: new Date('2025-01-31'),
             signaledBy: user,
-            raison: 'délaiCdc2022',
+            délaiCdc2022: true,
           })
 
           expect(res.isOk()).toBe(true)
