@@ -144,7 +144,7 @@ export const SignalerDemandeDelai = ({
                     name="délaiCdc2022"
                     value={appliquerCDC2022Délai ? 'true' : 'false'}
                     id="délaiCdc2022"
-                    onClick={() => setappliquerCDC2022Délai(!appliquerCDC2022Délai)}
+                    onChange={() => setappliquerCDC2022Délai(!appliquerCDC2022Délai)}
                   />
                   Appliquer le délai de {project.délaiCDC2022Applicable} mois relatif au CDC du
                   30/08/2022.
