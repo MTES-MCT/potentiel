@@ -32,7 +32,7 @@ export default ProjectEventProjector.on(
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
-            `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée: création d'un nouveau project event`,
+            `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
             {
               évènement,
               nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
@@ -52,7 +52,7 @@ export default ProjectEventProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée : mise à jour du project event`,
+          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées : mise à jour du project event`,
           {
             évènement,
             nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
