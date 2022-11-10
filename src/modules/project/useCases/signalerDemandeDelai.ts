@@ -29,7 +29,7 @@ type SignalerDemandeDelaiArgs = {
   | {
       status: 'acceptée'
       newCompletionDueOn: Date
-      raison?: 'délaiCdc2022'
+      délaiCdc2022?: true
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
@@ -64,7 +64,7 @@ export const makeSignalerDemandeDelai =
 
           if (
             status === 'acceptée' &&
-            args.raison === 'délaiCdc2022' &&
+            args.délaiCdc2022 &&
             !['admin', 'dgec-validateur'].includes(signaledBy.role)
           ) {
             return errAsync(new UnauthorizedError())
@@ -96,7 +96,7 @@ export const makeSignalerDemandeDelai =
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
-            if (status === 'acceptée' && args.raison === 'délaiCdc2022') {
+            if (status === 'acceptée' && args.délaiCdc2022) {
               const { cahierDesCharges, délaiCDC2022appliqué } = project
               if (
                 cahierDesCharges.type === 'initial' ||
@@ -116,7 +116,7 @@ export const makeSignalerDemandeDelai =
                   ? {
                       status,
                       newCompletionDueOn: args.newCompletionDueOn,
-                      ...(args.raison === 'délaiCdc2022' && { raison: args.raison }),
+                      ...(args.délaiCdc2022 && { délaiCdc2022: args.délaiCdc2022 }),
                     }
                   : { status }),
                 notes,

@@ -141,8 +141,8 @@ export const SignalerDemandeDelai = ({
                 <label htmlFor="délaiCdc2022" className="mt-4 mb-2">
                   <input
                     type="checkbox"
-                    name="raison"
-                    value="délaiCdc2022"
+                    name="délaiCdc2022"
+                    value={appliquerCDC2022Délai ? 'true' : 'false'}
                     id="délaiCdc2022"
                     onClick={() => setappliquerCDC2022Délai(!appliquerCDC2022Délai)}
                   />
