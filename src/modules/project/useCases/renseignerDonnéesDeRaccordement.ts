@@ -59,7 +59,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       })
     )
 
-  return (commande) =>
+  return (commande: Commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
       .andThen(({ projet, commande }) =>
