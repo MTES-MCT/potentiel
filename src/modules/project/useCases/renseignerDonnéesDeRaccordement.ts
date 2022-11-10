@@ -1,12 +1,13 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
 import { DateMiseEnServicePlusRécenteError } from '../errors'
-import { DateMiseEnServiceRenseignée } from '../events'
+import { DonnéesDeRaccordementRenseignées } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
   projetId: string
   dateMiseEnService: Date
+  dateFileAttente?: Date
 }
 
 type Dépendances = {
@@ -14,9 +15,9 @@ type Dépendances = {
   projectRepo: Repository<Project>
 }
 
-export type RenseignerDateMiseEnService = ReturnType<typeof makeRenseignerDateMiseEnService>
+export type RenseignerDonnéesDeRaccordement = ReturnType<typeof makeRenseignerDonnéesDeRaccordement>
 
-export const makeRenseignerDateMiseEnService = ({
+export const makeRenseignerDonnéesDeRaccordement = ({
   publishToEventStore,
   projectRepo,
 }: Dépendances) => {
@@ -43,22 +44,27 @@ export const makeRenseignerDateMiseEnService = ({
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDateMiseEnService = ({ projetId, dateMiseEnService }: Commande) =>
+  const enregistrerDonnéesDeRaccordement = ({
+    projetId,
+    dateMiseEnService,
+    dateFileAttente,
+  }: Commande) =>
     publishToEventStore(
-      new DateMiseEnServiceRenseignée({
+      new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId,
           dateMiseEnService: dateMiseEnService.toISOString(),
+          dateFileAttente: dateFileAttente?.toISOString(),
         },
       })
     )
 
-  return (commande) =>
+  return (commande: Commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
       .andThen(({ projet, commande }) =>
         projet.dateMiseEnService?.getTime() === commande.dateMiseEnService.getTime()
           ? okAsync(null)
-          : enregistrerDateMiseEnService(commande)
+          : enregistrerDonnéesDeRaccordement(commande)
       )
 }

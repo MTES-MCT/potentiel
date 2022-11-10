@@ -12,7 +12,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
     ensureRole(['admin', 'dgec-validateur']),
     asyncHandler(async (request, response) => {
       const tâches = await Tâches.findAll({
-        where: { type: 'maj-date-mise-en-service' },
+        where: { type: 'maj-données-de-raccordement' },
         order: [['dateDeDébut', 'DESC']],
       })
 

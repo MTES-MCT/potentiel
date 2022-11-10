@@ -8,12 +8,12 @@ export const Default = () => (
     request={{} as any}
     tâches={[
       {
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         état: 'en cours',
         dateDeDébut: new Date(),
       },
       {
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         état: 'terminée',
         dateDeDébut: new Date(),
         dateDeFin: new Date(),
@@ -32,7 +32,7 @@ export const Default = () => (
         },
       },
       {
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         état: 'terminée',
         dateDeDébut: new Date(),
         dateDeFin: new Date(),

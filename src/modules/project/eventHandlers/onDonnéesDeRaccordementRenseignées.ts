@@ -1,23 +1,18 @@
 import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { logger, okAsync, ResultAsync } from '@core/utils'
+import { logger, okAsync } from '@core/utils'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { InfraNotAvailableError } from '@modules/shared'
-import { DateMiseEnServiceRenseignée, ProjectCompletionDueDateSet } from '../events'
+import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events'
 import { Project } from '../Project'
 
-type OnDateMiseEnServiceRenseignée = (
-  event: DateMiseEnServiceRenseignée
-) => ResultAsync<null, InfraNotAvailableError>
-
-type MakeOnDateMiseEnServiceRenseignée = (deps: {
+type Dépendances = {
   projectRepo: TransactionalRepository<Project>
   publishToEventStore: EventStore['publish']
   getProjectAppelOffre: GetProjectAppelOffre
-}) => OnDateMiseEnServiceRenseignée
+}
 
-export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseignée =
-  ({ projectRepo, publishToEventStore, getProjectAppelOffre }) =>
-  ({ payload: { projetId, dateMiseEnService } }) => {
+export const makeOnDonnéesDeRaccordementRenseignées =
+  ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
+  ({ payload: { projetId, dateMiseEnService } }: DonnéesDeRaccordementRenseignées) => {
     return projectRepo.transaction(
       new UniqueEntityID(projetId),
       ({
@@ -42,7 +37,7 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
         })
         if (!projectAppelOffre) {
           logger.error(
-            `project eventHandler onDateMiseEnServiceRenseignée : AO non trouvé. Projet ${projetId}`
+            `project eventHandler onDonnéesDeRaccordementRenseignées : AO non trouvé. Projet ${projetId}`
           )
           return okAsync(null)
         }
@@ -56,7 +51,7 @@ export const makeOnDateMiseEnServiceRenseignée: MakeOnDateMiseEnServiceRenseign
           )
         if (!donnéesCDC || !donnéesCDC.délaiApplicable) {
           logger.error(
-            `project eventHandler onDateMiseEnServiceRenseignée : données CDC modifié non trouvées. Projet ${projetId}`
+            `project eventHandler onDonnéesDeRaccordementRenseignées : données CDC modifié non trouvées. Projet ${projetId}`
           )
           return okAsync(null)
         }

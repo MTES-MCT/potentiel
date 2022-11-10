@@ -2,12 +2,12 @@ import { DomainEvent } from '@core/domain'
 import { DélaiAccordé, AbandonAccordé } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   handleLegacyModificationImported,
   handlePeriodeNotified,
   handleProjectCertificateObsolete,
   handleProjectRawDataImported,
-  makeOnDateMiseEnServiceRenseignée,
+  makeOnDonnéesDeRaccordementRenseignées,
   makeOnDélaiAccordé,
   PeriodeNotified,
   ProjectCertificateObsolete,
@@ -92,23 +92,23 @@ const onAbandonAccordé = async (event: DomainEvent) => {
 }
 subscribeToRedis(onAbandonAccordé, 'Project.onAbandonAccordé')
 
-const onDateMiseEnServiceRenseignéeHandler = makeOnDateMiseEnServiceRenseignée({
+const onDonnéesDeRaccordementRenseignéesHandler = makeOnDonnéesDeRaccordementRenseignées({
   projectRepo,
   publishToEventStore: eventStore.publish,
   getProjectAppelOffre,
 })
 
-const onDateMiseEnServiceRenseignée = async (event: DomainEvent) => {
-  if (!(event instanceof DateMiseEnServiceRenseignée)) {
+const onDonnéesDeRaccordementRenseignées = async (event: DomainEvent) => {
+  if (!(event instanceof DonnéesDeRaccordementRenseignées)) {
     return Promise.resolve()
   }
 
-  return onDateMiseEnServiceRenseignéeHandler(event).match(
+  return onDonnéesDeRaccordementRenseignéesHandler(event).match(
     () => Promise.resolve(),
     (e) => Promise.reject(e)
   )
 }
-subscribeToRedis(onDateMiseEnServiceRenseignée, 'Project.onDateMiseEnServiceRenseignée')
+subscribeToRedis(onDonnéesDeRaccordementRenseignées, 'Project.onDonnéesDeRaccordementRenseignées')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

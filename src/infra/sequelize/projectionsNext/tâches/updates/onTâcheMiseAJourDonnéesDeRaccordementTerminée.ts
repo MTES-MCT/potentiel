@@ -1,10 +1,10 @@
 import { logger } from '@core/utils'
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { ProjectionEnEchec } from '@modules/shared'
 import { TâchesProjector, Tâches } from '../tâches.model'
 
 export default TâchesProjector.on(
-  TâcheMiseAJourDatesMiseEnServiceTerminée,
+  TâcheMiseAJourDonnéesDeRaccordementTerminée,
   async (évènement, transaction) => {
     const {
       payload: { résultat, gestionnaire },
@@ -30,7 +30,7 @@ export default TâchesProjector.on(
           where: {
             gestionnaire,
             état: 'en cours',
-            type: 'maj-date-mise-en-service',
+            type: 'maj-données-de-raccordement',
           },
           transaction,
         }
@@ -38,8 +38,11 @@ export default TâchesProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement TâcheMiseAJourDatesMiseEnServiceTerminée`,
-          { évènement, nomProjection: 'ProjectEvent.onTâcheMiseAJourDatesMiseEnServiceTerminée' },
+          `Erreur lors du traitement de l'évènement TâcheMiseAJourDonnéesDeRaccordementTerminée`,
+          {
+            évènement,
+            nomProjection: 'ProjectEvent.onTâcheMiseAJourDonnéesDeRaccordementTerminée',
+          },
           error
         )
       )

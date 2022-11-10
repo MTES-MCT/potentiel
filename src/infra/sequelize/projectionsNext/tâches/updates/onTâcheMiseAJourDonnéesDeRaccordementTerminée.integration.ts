@@ -1,9 +1,9 @@
-import { TâcheMiseAJourDatesMiseEnServiceTerminée } from '@modules/imports/donnéesRaccordement/events'
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
-import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDatesMiseEnServiceTerminée'
+import onTâcheMiseAJourDonnéesDeRaccordementTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
 
-describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
+describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
   const occurredAt = new Date('2022-01-05')
   const gestionnaire = 'Enedis'
 
@@ -14,21 +14,21 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enedis
         - la date de début au 2022-01-05
-      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+      Lorsque un évènement de type 'TâcheMiseAJourDonnéesDeRaccordementTerminée' survient avec 
         - le gestionnaire Enedis
       Alors la tâche devrait être 'terminée' avec :
         - une date de fin, 
         - et le détail`, async () => {
     await Tâches.create({
       id: 1,
-      type: 'maj-date-mise-en-service',
+      type: 'maj-données-de-raccordement',
       gestionnaire,
       état: 'en cours',
       dateDeDébut: new Date(),
     })
 
-    await onTâcheMiseAJourDatesMiseEnServiceTerminée(
-      new TâcheMiseAJourDatesMiseEnServiceTerminée({
+    await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
+      new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,
           résultat: [
@@ -96,7 +96,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire 'autre-gestionnaire'
         - la date de début au 2022-01-05
-      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+      Lorsque un évènement de type 'TâcheMiseAJourDonnéesDeRaccordementTerminée' survient avec 
         - le gestionnaire Enedis
       Alors seulement la tâche du gestionnaire Enedis devrait être 'terminée' avec :
         - une date de fin, 
@@ -104,22 +104,22 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
     await Tâches.bulkCreate([
       {
         id: 1,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         gestionnaire,
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),
       },
       {
         id: 2,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         gestionnaire: 'autre-gestionnaire',
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),
       },
     ])
 
-    await onTâcheMiseAJourDatesMiseEnServiceTerminée(
-      new TâcheMiseAJourDatesMiseEnServiceTerminée({
+    await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
+      new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,
           résultat: [

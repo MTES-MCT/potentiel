@@ -5,7 +5,7 @@ import { userIsNot } from '@modules/users'
 import { errAsync } from '@core/utils'
 import { ImportDonnéesRaccordement } from '../ImportDonnéesRaccordement'
 import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
-import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '../events'
+import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
 import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 
@@ -17,7 +17,11 @@ type MakeDémarrerImportDonnéesRaccordementDépendances = {
 export type DémarrerImportDonnéesRaccordementCommande = {
   utilisateur: User
   gestionnaire: 'Enedis'
-  données: Array<{ identifiantGestionnaireRéseau: string; dateMiseEnService: Date }>
+  données: Array<{
+    identifiantGestionnaireRéseau: string
+    dateMiseEnService: Date
+    dateFileAttente?: Date
+  }>
 }
 
 export const makeDémarrerImportDonnéesRaccordement =
@@ -41,14 +45,17 @@ export const makeDémarrerImportDonnéesRaccordement =
         }
 
         return publishToEventStore(
-          new TâcheMiseAJourDatesMiseEnServiceDémarrée({
+          new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.map(({ identifiantGestionnaireRéseau, dateMiseEnService }) => ({
-                identifiantGestionnaireRéseau,
-                dateMiseEnService: dateMiseEnService.toISOString(),
-              })),
+              dates: données.map(
+                ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
+                  identifiantGestionnaireRéseau,
+                  dateMiseEnService: dateMiseEnService.toISOString(),
+                  dateFileAttente: dateFileAttente?.toISOString(),
+                })
+              ),
             },
           })
         )

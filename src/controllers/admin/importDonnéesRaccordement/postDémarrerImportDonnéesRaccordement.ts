@@ -11,7 +11,7 @@ import {
   errorResponse,
   mapYupValidationErrorToCsvValidationError,
 } from '../../helpers'
-import { ValidationError } from 'yup'
+import { InferType, ValidationError } from 'yup'
 import { Request } from 'express'
 import { RésultatSoumissionFormulaire } from 'express-session'
 import {
@@ -28,10 +28,18 @@ const csvDataSchema = yup
   .of(
     yup.object({
       numeroGestionnaire: yup.string().ensure().required('Le numéro gestionnaire est obligatoire'),
-      'date de MES': yup
+      dateMiseEnService: yup
         .string()
         .required('Date de mise en service obligatoire')
-        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mis en service attendu : jj/mm/aaaa'),
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mise en service attendu : jj/mm/aaaa'),
+      dateFileAttente: yup
+        .string()
+        .optional()
+        .matches(
+          /^\d{2}\/\d{2}\/\d{4}$/,
+          `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`
+        )
+        .nullable(),
     })
   )
 
@@ -53,12 +61,11 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formaterLesDonnées = (
-  données: Array<{ numeroGestionnaire: string; 'date de MES': string }>
-) =>
-  données.map((d) => ({
-    identifiantGestionnaireRéseau: d.numeroGestionnaire,
-    dateMiseEnService: parse(d['date de MES'], 'dd/MM/yyyy', new Date()),
+const formaterLesDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
+  données.map(({ numeroGestionnaire, dateMiseEnService, dateFileAttente }) => ({
+    identifiantGestionnaireRéseau: numeroGestionnaire,
+    dateMiseEnService: parse(dateMiseEnService, 'dd/MM/yyyy', new Date()),
+    ...(dateFileAttente && { dateFileAttente: parse(dateFileAttente, 'dd/MM/yyyy', new Date()) }),
   }))
 
 const setFormResult = (

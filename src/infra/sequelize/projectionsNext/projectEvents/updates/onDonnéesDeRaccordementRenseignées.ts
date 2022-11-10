@@ -1,11 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { DateMiseEnServiceRenseignée } from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default ProjectEventProjector.on(
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
     const {
       payload: { dateMiseEnService, projetId },
@@ -32,10 +32,10 @@ export default ProjectEventProjector.on(
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
-            `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée: création d'un nouveau project event`,
+            `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
             {
               évènement,
-              nomProjection: 'ProjectEvent.onDateMiseEnServiceRenseignée',
+              nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
             },
             error
           )
@@ -52,10 +52,10 @@ export default ProjectEventProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement DateMiseEnServiceRenseignée : mise à jour du project event`,
+          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées : mise à jour du project event`,
           {
             évènement,
-            nomProjection: 'ProjectEvent.onDateMiseEnServiceRenseignée',
+            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
           },
           error
         )

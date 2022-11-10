@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers'
-import { TâcheMiseAJourDatesMiseEnServiceDémarrée } from '@modules/imports/donnéesRaccordement'
+import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '@modules/imports/donnéesRaccordement'
 import { Tâches } from '../tâches.model'
-import onTâcheMiseAJourDatesMiseEnServiceDémarrée from './onTâcheMiseAJourDatesMiseEnServiceDémarrée'
+import onTâcheMiseAJourDonnéesDeRaccordementDémarrée from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée'
 
-describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
+describe('Handler onTâcheMiseAJourDonnéesDeRaccordementDémarrée', () => {
   const occurredAt = new Date('2022-01-04')
   const gestionnaire = 'Enedis'
 
@@ -11,12 +11,12 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
     await resetDatabase()
   })
 
-  it(`Lorsqu'un évènement de type 'TâcheMiseAJourDatesMiseEnServiceDémarrée' survient
+  it(`Lorsqu'un évènement de type 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' survient
       Alors une nouvelle tâche 'en cours' de mise a jour de date de mise en service devrait être créée avec :
         - le gestionnaire 
         - la date de début`, async () => {
-    await onTâcheMiseAJourDatesMiseEnServiceDémarrée(
-      new TâcheMiseAJourDatesMiseEnServiceDémarrée({
+    await onTâcheMiseAJourDonnéesDeRaccordementDémarrée(
+      new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
         payload: {
           misAJourPar: 'misAJourPar-id',
           gestionnaire,
@@ -32,7 +32,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
     const tâche = await Tâches.findOne({
       where: {
         gestionnaire,
-        type: 'maj-date-mise-en-service',
+        type: 'maj-données-de-raccordement',
         état: 'en cours',
         dateDeDébut: occurredAt,
       },
@@ -43,7 +43,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceDémarrée', () => {
       id: expect.any(Number),
       gestionnaire,
       état: 'en cours',
-      type: 'maj-date-mise-en-service',
+      type: 'maj-données-de-raccordement',
       dateDeDébut: occurredAt,
     })
   })

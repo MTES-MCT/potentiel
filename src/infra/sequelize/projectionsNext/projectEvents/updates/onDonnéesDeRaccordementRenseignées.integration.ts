@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { resetDatabase } from '@infra/sequelize/helpers'
-import { DateMiseEnServiceRenseignée, DateMiseEnServiceRenseignéedPayload } from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
-import onDateMiseEnServiceRenseignée from './onDateMiseEnServiceRenseignée'
+import onDonnéesDeRaccordementRenseignées from './onDonnéesDeRaccordementRenseignées'
 
-describe(`Handler onDateMiseEnServiceRenseignée`, () => {
+describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
   const projectId = new UniqueEntityID().toString()
   const nouvelleDateMiseEnService = '01/01/2021'
   beforeEach(async () => {
@@ -22,12 +22,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
         id: new UniqueEntityID().toString(),
       })
 
-      await onDateMiseEnServiceRenseignée(
-        new DateMiseEnServiceRenseignée({
+      await onDonnéesDeRaccordementRenseignées(
+        new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: projectId,
             dateMiseEnService: nouvelleDateMiseEnService,
-          } as DateMiseEnServiceRenseignéedPayload,
+          },
           original: { version: 1, occurredAt: new Date() },
         })
       )
@@ -55,12 +55,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
         id: new UniqueEntityID().toString(),
       })
 
-      await onDateMiseEnServiceRenseignée(
-        new DateMiseEnServiceRenseignée({
+      await onDonnéesDeRaccordementRenseignées(
+        new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: projectId,
             dateMiseEnService: nouvelleDateMiseEnService,
-          } as DateMiseEnServiceRenseignéedPayload,
+          },
           original: { version: 1, occurredAt: new Date() },
         })
       )
@@ -79,12 +79,12 @@ describe(`Handler onDateMiseEnServiceRenseignée`, () => {
   describe(`Pas de project event de type 'DateMiseEnService'`, () => {
     it(`Etant donné un project qui n'a pas de project event de type 'DateMiseEnService',
     alors un project event de type 'DateMiseEnService' devrait être ajouté`, async () => {
-      await onDateMiseEnServiceRenseignée(
-        new DateMiseEnServiceRenseignée({
+      await onDonnéesDeRaccordementRenseignées(
+        new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: projectId,
             dateMiseEnService: nouvelleDateMiseEnService,
-          } as DateMiseEnServiceRenseignéedPayload,
+          },
           original: { version: 1, occurredAt: new Date() },
         })
       )

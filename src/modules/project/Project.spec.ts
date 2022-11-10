@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain'
 import {
   CahierDesChargesChoisi,
-  DateMiseEnServiceRenseignée,
+  DonnéesDeRaccordementRenseignées,
   NumeroGestionnaireSubmitted,
 } from './events'
 import { makeProject } from './Project'
@@ -83,29 +83,34 @@ describe(`Fabriquer l'aggregat projet`, () => {
     })
   })
 
-  describe(`Date de mise en service actuel du projet`, () => {
-    it(`Quand on fabrique un projet sans évènement 'DateMiseEnServiceRenseignée'
-      Alors la date de mise en service du projet devrait être undefined`, () => {
+  describe(`Données de raccordement du projet`, () => {
+    it(`Quand on fabrique un projet sans évènement 'DonnéesDeRaccordementRenseignées'
+      Alors le projet ne devrait pas avoir de date de mise en service
+      Et le projet ne devrait pas avoir de date en file d'attente`, () => {
       const projet = makeProject({
         projectId,
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
       })._unsafeUnwrap()
 
-      expect(projet.dateMiseEnService).toEqual(undefined)
+      expect(projet.dateMiseEnService).toBeUndefined()
+      expect(projet.dateFileAttente).toBeUndefined()
     })
 
-    it(`Quand on fabrique un projet avec évènement 'DateMiseEnServiceRenseignée'
-     Alors la date de mise en service du projet devrait être celle mentionné dans l'évènement`, () => {
-      const dateMiseEnService = new Date('2022-01-01')
+    it(`Quand on fabrique un projet avec évènement 'DonnéesDeRaccordementRenseignées'
+        Alors le projet devrait avoir la date de mise en service des données de raccordement
+        Et le projet devrait avoir la date en file d'attente des données de raccordement`, () => {
+      const dateMiseEnService = new Date('2024-01-01')
+      const dateFileAttente = new Date('2023-01-01')
 
       const projet = makeProject({
         projectId,
         history: [
-          new DateMiseEnServiceRenseignée({
+          new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId.toString(),
               dateMiseEnService: dateMiseEnService.toISOString(),
+              dateFileAttente: dateFileAttente.toISOString(),
             },
           }),
         ],
@@ -114,6 +119,7 @@ describe(`Fabriquer l'aggregat projet`, () => {
       })._unsafeUnwrap()
 
       expect(projet.dateMiseEnService).toEqual(dateMiseEnService)
+      expect(projet.dateFileAttente).toEqual(dateFileAttente)
     })
   })
 })

@@ -1,17 +1,17 @@
 import { logger } from '@core/utils'
 import { Projections } from '@infra/sequelize/models'
-import { DateMiseEnServiceRenseignée } from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 
-type OnDateMiseEnServiceRenseignée = (
+type onDonnéesDeRaccordementRenseignées = (
   projections: Projections
-) => (événement: DateMiseEnServiceRenseignée) => Promise<void>
+) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>
 
-export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
+export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRenseignées =
   ({ Project }) =>
   async (évènement) => {
     const {
-      payload: { projetId, dateMiseEnService },
+      payload: { projetId, dateMiseEnService, dateFileAttente },
     } = évènement
 
     const projectInstance = await Project.findByPk(projetId)
@@ -19,9 +19,9 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
     if (!projectInstance) {
       logger.error(
         new ProjectionEnEchec(
-          'Erreur dans la projection onDateMiseEnServiceRenseingée : impossible de récupérer le projet de la db',
+          'Erreur dans la projection onDonnéesDeRaccordementRenseignées : impossible de récupérer le projet de la db',
           {
-            nomProjection: 'onDateMiseEnServiceRenseignée',
+            nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
           }
         )
@@ -33,6 +33,7 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
       await Project.update(
         {
           dateMiseEnService,
+          dateFileAttente,
         },
         {
           where: { id: projetId },
@@ -43,7 +44,7 @@ export const onDateMiseEnServiceRenseignée: OnDateMiseEnServiceRenseignée =
         new ProjectionEnEchec(
           'Erreur lors de la projection du renseignement de la date de mise en service',
           {
-            nomProjection: 'onDateMiseEnServiceRenseignée',
+            nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
           },
           cause

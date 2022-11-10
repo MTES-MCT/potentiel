@@ -37,17 +37,52 @@ export const ImportDonneesRaccordement = ({
       {résultatSoumissionFormulaire && (
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
       )}
-      <form
-        action={routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT}
-        method="post"
-        encType="multipart/form-data"
-      >
-        <Label htmlFor="fichier">Fichier .csv du gestionnaire de réseau :</Label>
-        <Input type="file" required name="fichier-données-raccordement" id="fichier" />
-        <Button type="submit" className="mt-4">
-          Mettre les projets à jour
-        </Button>
-      </form>
+      <div className="flex flex-col gap-5 lg:flex-row lg:items-center">
+        <form
+          action={routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT}
+          method="post"
+          encType="multipart/form-data"
+        >
+          <Label htmlFor="fichier">Fichier .csv des données de raccordement :</Label>
+          <Input type="file" required name="fichier-données-raccordement" id="fichier" />
+          <Button type="submit" className="mt-4">
+            Mettre les projets à jour
+          </Button>
+        </form>
+        <table className="lg:mx-4 border-spacing-0">
+          <caption className="text-left">Format du fichier csv attendu</caption>
+          <thead>
+            <tr>
+              <th
+                className="bg-grey-950-base border-solid border-0 border-b-2 border-b-grey-920-base text-left p-4"
+                scope="col"
+              >
+                Colonne
+              </th>
+              <th
+                className="bg-grey-950-base border-solid border-0 border-b-2 border-b-grey-920-base text-left p-4"
+                scope="col"
+              >
+                Format
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-grey-950-base">
+            <tr className="odd:bg-grey-975-base">
+              <td className="text-left p-4">numeroGestionnaire</td>
+              <td className="text-left p-4">chaîne de caractères</td>
+            </tr>
+            <tr className="odd:bg-grey-975-base">
+              <td className="text-left p-4">dateMiseEnService</td>
+              <td className="text-left p-4">date au format JJ/MM/AAAA</td>
+            </tr>
+            <tr className="odd:bg-grey-975-base">
+              <td className="text-left p-4">dateFileAttente</td>
+              <td className="text-left p-4">date au format JJ/MM/AAAA</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div className="panel flex flex-col gap-2">
       <div className="flex items-center justify-between">

@@ -8,7 +8,7 @@ import {
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
-const typesTâche = ['maj-date-mise-en-service'] as const
+const typesTâche = ['maj-données-de-raccordement'] as const
 export type TâchesType = typeof typesTâche[number]
 
 const étatsPossibles = ['en cours', 'terminée'] as const

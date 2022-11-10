@@ -3,7 +3,7 @@ import routes from '@routes'
 import React, { FC, useState } from 'react'
 
 export type TâcheProps = {
-  type: 'maj-date-mise-en-service'
+  type: 'maj-données-de-raccordement'
   dateDeDébut: Date
 } & (
   | {
@@ -45,7 +45,7 @@ export const Tâche: FC<TâcheProps> = (props) => {
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-1">
-          <p className="font-bold m-0 p-0">Mise à jour de dates de mise en service</p>
+          <p className="font-bold m-0 p-0">Mise à jour des données de raccordement</p>
           <Badge className="" type={état === 'en cours' ? 'info' : 'success'}>
             {état}
           </Badge>
