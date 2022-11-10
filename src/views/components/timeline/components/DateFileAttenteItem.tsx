@@ -1,10 +1,10 @@
 import { DateFileAttenteDTO } from '@modules/frise'
 import React from 'react'
-import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.'
+import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
 
 export const DateFileAttenteItem = (props: DateFileAttenteDTO) => (
   <>
-    <NextUpIcon />
+    <PastIcon />
     <ContentArea>
       <ItemDate date={props.date} />
       <ItemTitle title="Mise en file d'attente" />
