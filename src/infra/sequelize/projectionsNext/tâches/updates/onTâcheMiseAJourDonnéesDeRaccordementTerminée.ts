@@ -38,8 +38,11 @@ export default TâchesProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement TâcheMiseAJourDatesMiseEnServiceTerminée`,
-          { évènement, nomProjection: 'ProjectEvent.onTâcheMiseAJourDatesMiseEnServiceTerminée' },
+          `Erreur lors du traitement de l'évènement TâcheMiseAJourDonnéesDeRaccordementTerminée`,
+          {
+            évènement,
+            nomProjection: 'ProjectEvent.onTâcheMiseAJourDonnéesDeRaccordementTerminée',
+          },
           error
         )
       )

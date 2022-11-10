@@ -1,9 +1,9 @@
 import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
 import { resetDatabase } from '../../../helpers'
 import { Tâches } from '../tâches.model'
-import onTâcheMiseAJourDatesMiseEnServiceTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
+import onTâcheMiseAJourDonnéesDeRaccordementTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
 
-describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
+describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
   const occurredAt = new Date('2022-01-05')
   const gestionnaire = 'Enedis'
 
@@ -14,7 +14,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
   it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enedis
         - la date de début au 2022-01-05
-      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+      Lorsque un évènement de type 'TâcheMiseAJourDonnéesDeRaccordementTerminée' survient avec 
         - le gestionnaire Enedis
       Alors la tâche devrait être 'terminée' avec :
         - une date de fin, 
@@ -27,7 +27,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       dateDeDébut: new Date(),
     })
 
-    await onTâcheMiseAJourDatesMiseEnServiceTerminée(
+    await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
       new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,
@@ -96,7 +96,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
         Et une autre tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire 'autre-gestionnaire'
         - la date de début au 2022-01-05
-      Lorsque un évènement de type 'TâcheMiseAJourDatesMiseEnServiceTerminée' survient avec 
+      Lorsque un évènement de type 'TâcheMiseAJourDonnéesDeRaccordementTerminée' survient avec 
         - le gestionnaire Enedis
       Alors seulement la tâche du gestionnaire Enedis devrait être 'terminée' avec :
         - une date de fin, 
@@ -118,7 +118,7 @@ describe('Handler onTâcheMiseAJourDatesMiseEnServiceTerminée', () => {
       },
     ])
 
-    await onTâcheMiseAJourDatesMiseEnServiceTerminée(
+    await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
       new TâcheMiseAJourDonnéesDeRaccordementTerminée({
         payload: {
           gestionnaire,

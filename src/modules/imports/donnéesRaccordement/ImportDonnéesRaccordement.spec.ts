@@ -33,7 +33,7 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
       état: 'en cours',
     })
   })
-  it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' et 'TâcheMiseAJourDatesMiseEnServiceTerminée'
+  it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' et 'TâcheMiseAJourDonnéesDeRaccordementTerminée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
     const importDonnéesRaccordement = makeImportDonnéesRaccordement({
