@@ -174,18 +174,17 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     {project.prixReference} <Unit>€/MWh</Unit>
                   </div>
                 </div>
-                <div className="flex flex-col items-center gap-2 flex-1">
-                  <div className="text-grey-425-base flex flex-row items-center">
-                    <CloudIcon />
+                {project.evaluationCarbone > 0 && (
+                  <div className="flex flex-col items-center gap-2 flex-1">
+                    <div className="text-grey-425-base flex flex-row items-center">
+                      <CloudIcon />
+                    </div>
+                    <div>
+                      {project.evaluationCarbone}
+                      <Unit>kg eq CO2/kWc</Unit>
+                    </div>
                   </div>
-                  <div>
-                    {project.evaluationCarbone > 0 && (
-                      <>
-                        {project.evaluationCarbone} <Unit>kg eq CO2/kWc</Unit>
-                      </>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
               {displayGF && (
                 <div className="flex-1 text-right">
