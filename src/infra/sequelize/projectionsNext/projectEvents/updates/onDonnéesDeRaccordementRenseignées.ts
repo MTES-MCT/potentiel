@@ -11,7 +11,7 @@ export default ProjectEventProjector.on(
       payload: { dateMiseEnService, dateFileAttente, projetId },
       occurredAt,
     } = évènement
-    const projectEvent = await ProjectEvent.findOne({
+    const projectEventDateMiseEnService = await ProjectEvent.findOne({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
     })
@@ -19,7 +19,7 @@ export default ProjectEventProjector.on(
     try {
       await ProjectEvent.upsert(
         {
-          id: projectEvent?.id || new UniqueEntityID().toString(),
+          id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
           type: 'DateMiseEnService',
           valueDate: occurredAt.getTime(),
           eventPublishedAt: occurredAt.getTime(),
@@ -27,7 +27,6 @@ export default ProjectEventProjector.on(
           payload: {
             statut: 'renseignée',
             dateMiseEnService,
-            ...(dateFileAttente && { dateFileAttente }),
           },
         },
         { transaction }
@@ -44,6 +43,41 @@ export default ProjectEventProjector.on(
         )
       )
     }
+
+    if (dateFileAttente) {
+      const projectEventDateFileAttente = await ProjectEvent.findOne({
+        where: { projectId: projetId, type: 'DateFileAttente' },
+        transaction,
+      })
+
+      try {
+        await ProjectEvent.upsert(
+          {
+            id: projectEventDateFileAttente?.id || new UniqueEntityID().toString(),
+            type: 'DateFileAttente',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            projectId: projetId,
+            payload: {
+              dateFileAttente,
+            },
+          },
+          { transaction }
+        )
+      } catch (error) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
+            {
+              évènement,
+              nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+            },
+            error
+          )
+        )
+      }
+    }
+
     return
   }
 )
