@@ -19,7 +19,7 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
     if (!projectInstance) {
       logger.error(
         new ProjectionEnEchec(
-          'Erreur dans la projection onDateMiseEnServiceRenseingée : impossible de récupérer le projet de la db',
+          'Erreur dans la projection onDonnéesDeRaccordementRenseignées : impossible de récupérer le projet de la db',
           {
             nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
