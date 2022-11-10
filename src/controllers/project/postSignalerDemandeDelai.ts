@@ -71,12 +71,15 @@ v1Router.post(
           projectId,
           decidedOn,
           ...(status === 'acceptée'
-            ? { status, newCompletionDueOn: body.newCompletionDueOn! }
+            ? {
+                status,
+                newCompletionDueOn: body.newCompletionDueOn!,
+                ...(délaiCdc2022 && { délaiCdc2022 }),
+              }
             : { status }),
           notes,
           file,
           signaledBy,
-          ...(délaiCdc2022 && { délaiCdc2022 }),
         }).map(() => ({ projectId }))
       })
       .match(
