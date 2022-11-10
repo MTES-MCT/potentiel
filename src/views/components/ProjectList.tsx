@@ -159,7 +159,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
 
               <div className="flex flex-row items-center flex-1 justify-between mr-4">
                 <div className="flex flex-col items-center gap-2 flex-1">
-                  <div className="text-grey-425-base flex flex-row items-center">
+                  <div className="text-yellow-moutarde-850-base flex flex-row items-center">
                     <PowerIcon />
                   </div>
                   <div>
@@ -167,7 +167,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                   </div>
                 </div>
                 <div className="flex flex-col items-center gap-2 flex-1">
-                  <div className="text-grey-425-base flex flex-row items-center">
+                  <div className="text-orange-terre-battue-main-645-base flex flex-row items-center">
                     <EuroIcon />
                   </div>
                   <div>
@@ -176,7 +176,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                 </div>
                 {project.evaluationCarbone > 0 && (
                   <div className="flex flex-col items-center gap-2 flex-1">
-                    <div className="text-grey-425-base flex flex-row items-center">
+                    <div className="text-grey-425-active flex flex-row items-center">
                       <CloudIcon />
                     </div>
                     <div>

@@ -117,6 +117,16 @@ module.exports = {
           hover: '#ffc5c5',
           active: '#ffafaf',
         },
+        'yellow-moutarde-850': {
+          base: '#fcc63a',
+          hover: '#cb9f2d',
+          active: '#b18a26',
+        },
+        'orange-terre-battue-main-645': {
+          base: '#E4794A',
+          hover: '#f1a892',
+          active: '#f4bfb1',
+        },
       },
     },
   },
