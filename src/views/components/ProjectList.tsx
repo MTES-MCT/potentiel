@@ -191,20 +191,20 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                   <GF project={project} GFPastDue={GFPastDue} />
                 </div>
               )}
-            </div>
-            <div className="flex flex-row items-center mt-2">
-              <a className="ml-auto block no-underline" href={routes.PROJECT_DETAILS(project.id)}>
-                <SecondaryButton>Voir</SecondaryButton>
-              </a>
-              <ProjectActions
-                role={role}
-                project={{
-                  ...project,
-                  isClasse: project.classe === 'Classé',
-                  isAbandoned: project.abandonedOn !== 0,
-                  notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-                }}
-              />
+              <div className="flex flex-row">
+                <a className="ml-auto block no-underline" href={routes.PROJECT_DETAILS(project.id)}>
+                  <SecondaryButton>Voir</SecondaryButton>
+                </a>
+                <ProjectActions
+                  role={role}
+                  project={{
+                    ...project,
+                    isClasse: project.classe === 'Classé',
+                    isAbandoned: project.abandonedOn !== 0,
+                    notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+                  }}
+                />
+              </div>
             </div>
           </Tile>
         )
