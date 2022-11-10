@@ -13,10 +13,6 @@ module.exports = {
       type: DataTypes.ENUM('maj-données-de-raccordement'),
       allowNull: false,
     })
-    // await queryInterface.changeColumn('taches', 'type', {
-    //   type: DataTypes.ENUM('maj-date-mise-en-service'),
-    //   allowNull: false,
-    // })
     queryInterface.addConstraint('taches', {
       fields: ['gestionnaire', 'type', 'dateDeDébut'],
       type: 'unique',

@@ -11,7 +11,7 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
   ({ Project }) =>
   async (évènement) => {
     const {
-      payload: { projetId, dateMiseEnService },
+      payload: { projetId, dateMiseEnService, dateFileAttente },
     } = évènement
 
     const projectInstance = await Project.findByPk(projetId)
@@ -33,6 +33,7 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
       await Project.update(
         {
           dateMiseEnService,
+          dateFileAttente,
         },
         {
           where: { id: projetId },

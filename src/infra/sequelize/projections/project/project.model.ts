@@ -189,6 +189,10 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      dateFileAttente: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
     },
     {
       timestamps: true,
