@@ -8,24 +8,59 @@ export default ProjectEventProjector.on(
   DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
     const {
-      payload: { dateMiseEnService, projetId },
+      payload: { dateMiseEnService, dateFileAttente, projetId },
       occurredAt,
     } = évènement
-    const projectEvent = await ProjectEvent.findOne({
+    const projectEventDateMiseEnService = await ProjectEvent.findOne({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
     })
 
-    if (!projectEvent) {
-      try {
-        await ProjectEvent.create(
+    try {
+      await ProjectEvent.upsert(
+        {
+          id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
+          type: 'DateMiseEnService',
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          projectId: projetId,
+          payload: {
+            statut: 'renseignée',
+            dateMiseEnService,
+          },
+        },
+        { transaction }
+      )
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
           {
-            type: 'DateMiseEnService',
-            id: new UniqueEntityID().toString(),
+            évènement,
+            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+          },
+          error
+        )
+      )
+    }
+
+    if (dateFileAttente) {
+      const projectEventDateFileAttente = await ProjectEvent.findOne({
+        where: { projectId: projetId, type: 'DateFileAttente' },
+        transaction,
+      })
+
+      try {
+        await ProjectEvent.upsert(
+          {
+            id: projectEventDateFileAttente?.id || new UniqueEntityID().toString(),
+            type: 'DateFileAttente',
             valueDate: occurredAt.getTime(),
             eventPublishedAt: occurredAt.getTime(),
             projectId: projetId,
-            payload: { statut: 'renseignée', dateMiseEnService },
+            payload: {
+              dateFileAttente,
+            },
           },
           { transaction }
         )
@@ -41,25 +76,8 @@ export default ProjectEventProjector.on(
           )
         )
       }
-      return
     }
 
-    try {
-      await ProjectEvent.update(
-        { payload: { statut: 'renseignée', dateMiseEnService } },
-        { where: { projectId: projetId, type: 'DateMiseEnService' }, transaction }
-      )
-    } catch (error) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées : mise à jour du project event`,
-          {
-            évènement,
-            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
-          },
-          error
-        )
-      )
-    }
+    return
   }
 )

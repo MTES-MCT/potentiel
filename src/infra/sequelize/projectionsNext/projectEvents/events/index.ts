@@ -1,5 +1,6 @@
 export * from './CahierDesChargesEvent'
 export * from './CovidDelayGrantedEvent'
+export * from './DateFileAttenteEvent'
 export * from './DateMiseEnServiceEvent'
 export * from './DemandeAbandonEvents'
 export * from './DemandeDélaiEvent'
