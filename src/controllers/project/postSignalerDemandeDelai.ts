@@ -15,6 +15,10 @@ import { v1Router } from '../v1Router'
 import { upload } from '../upload'
 import * as yup from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import {
+  DélaiCDC2022DéjàAppliquéError,
+  ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
+} from '@modules/project'
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -45,6 +49,7 @@ const requestBodySchema = yup.object({
       .typeError(`La date saisie n'est pas valide`),
   }),
   notes: yup.string().optional(),
+  délaiCdc2022: yup.boolean().required(),
 })
 
 v1Router.post(
@@ -54,7 +59,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, decidedOn, status, notes } = body
+        const { projectId, decidedOn, status, notes, délaiCdc2022 } = body
         const { user: signaledBy } = request
 
         const file = request.file && {
@@ -66,7 +71,11 @@ v1Router.post(
           projectId,
           decidedOn,
           ...(status === 'acceptée'
-            ? { status, newCompletionDueOn: body.newCompletionDueOn! }
+            ? {
+                status,
+                newCompletionDueOn: body.newCompletionDueOn!,
+                ...(délaiCdc2022 && { délaiCdc2022 }),
+              }
             : { status }),
           notes,
           file,
@@ -89,6 +98,18 @@ v1Router.post(
               addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
                 ...request.body,
                 ...error.errors,
+              })
+            )
+          }
+
+          if (
+            error instanceof DélaiCDC2022DéjàAppliquéError ||
+            error instanceof ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError
+          ) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
+                error: error.message,
+                ...request.body,
               })
             )
           }

@@ -1,5 +1,6 @@
 export * from './BuildProjectIdentifier'
 export * from './FindProjectByIdentifiers'
+export * from './GetDélaiCdc2022Applicable'
 export * from './GetProjectDataForChoisirCDCPage'
 export * from './GetProjectDataForProjectClaim'
 export * from './GetProjectDataForProjectPage'

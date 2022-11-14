@@ -1,4 +1,6 @@
+import { getDélaiCDC2022Applicable } from '@config/queries.config'
 import { err, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { parseCahierDesChargesRéférence } from '@entities'
 import {
   GetProjectDataForSignalerDemandeDelaiPage,
   ProjectDataForSignalerDemandeDelaiPage,
@@ -20,7 +22,6 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
           EntityNotFoundError
         > => {
           if (!projectRaw) return err(new EntityNotFoundError())
-
           const {
             id,
             completionDueOn,
@@ -33,6 +34,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             periodeId,
             familleId,
             appelOffreId,
+            cahierDesChargesActuel,
           } = projectRaw.get()
 
           const project = {
@@ -47,19 +49,36 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             periodeId,
             familleId,
             appelOffreId,
+            cahierDesChargesActuel,
+          }
+
+          const cahierDesChargesParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel)
+
+          if (
+            cahierDesChargesParsed.type === 'modifié' &&
+            cahierDesChargesParsed.paruLe === '30/08/2022'
+          ) {
+            const délaiCDC2022Applicable = getDélaiCDC2022Applicable({
+              familleId,
+              periodeId,
+              appelOffreId,
+              cahierDesChargesParsed,
+            })
+
+            return ok({ ...project, délaiCDC2022Applicable })
           }
 
           return ok(project)
         }
       )
-      .andThen((project) =>
-        hasPendingDemandeDelai(project.id).andThen((count) =>
+      .andThen((project) => {
+        return hasPendingDemandeDelai(project.id).andThen((count) =>
           ok({
             ...project,
             hasPendingDemandeDelai: count > 0 ? true : false,
           })
         )
-      )
+      })
   }
 
 const hasPendingDemandeDelai: (projectId: string) => ResultAsync<number, InfraNotAvailableError> = (

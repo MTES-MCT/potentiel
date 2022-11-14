@@ -186,6 +186,7 @@ export interface Project extends EventStoreAggregate {
       | {
           status: 'acceptée'
           newCompletionDueOn: Date
+          délaiCdc2022?: true
         }
       | {
           status: 'rejetée' | 'accord-de-principe'
@@ -952,6 +953,7 @@ export const makeProject = (args: {
               projectId: props.projectId.toString(),
               completionDueOn: args.newCompletionDueOn.getTime(),
               setBy: signaledBy.id,
+              ...(args.délaiCdc2022 && { reason: 'délaiCdc2022' }),
             },
           })
         )

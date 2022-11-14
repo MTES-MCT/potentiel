@@ -3,7 +3,11 @@ import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  DélaiCDC2022DéjàAppliquéError,
+  ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+} from '../errors'
 import { Project } from '../Project'
 
 type SignalerDemandeDelaiDeps = {
@@ -25,6 +29,7 @@ type SignalerDemandeDelaiArgs = {
   | {
       status: 'acceptée'
       newCompletionDueOn: Date
+      délaiCdc2022?: true
     }
   | {
       status: 'rejetée' | 'accord-de-principe'
@@ -35,7 +40,13 @@ export const makeSignalerDemandeDelai =
   (deps: SignalerDemandeDelaiDeps) =>
   (
     args: SignalerDemandeDelaiArgs
-  ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+  ): ResultAsync<
+    null,
+    | InfraNotAvailableError
+    | UnauthorizedError
+    | ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError
+    | DélaiCDC2022DéjàAppliquéError
+  > => {
     const { projectRepo, fileRepo, shouldUserAccessProject } = deps
     const { projectId, decidedOn, status, notes, signaledBy, file } = args
 
@@ -48,6 +59,14 @@ export const makeSignalerDemandeDelai =
           InfraNotAvailableError | UnauthorizedError
         > => {
           if (!userHasRightsToProject) {
+            return errAsync(new UnauthorizedError())
+          }
+
+          if (
+            status === 'acceptée' &&
+            args.délaiCdc2022 &&
+            !['admin', 'dgec-validateur'].includes(signaledBy.role)
+          ) {
             return errAsync(new UnauthorizedError())
           }
 
@@ -77,6 +96,19 @@ export const makeSignalerDemandeDelai =
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (project: Project): ResultAsync<null, ProjectCannotBeUpdatedIfUnnotifiedError> => {
+            if (status === 'acceptée' && args.délaiCdc2022) {
+              const { cahierDesCharges, délaiCDC2022appliqué } = project
+              if (
+                cahierDesCharges.type === 'initial' ||
+                (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe !== '30/08/2022')
+              ) {
+                return errAsync(new ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError())
+              }
+              if (délaiCDC2022appliqué) {
+                return errAsync(new DélaiCDC2022DéjàAppliquéError())
+              }
+            }
+
             return project
               .signalerDemandeDelai({
                 decidedOn,
@@ -84,6 +116,7 @@ export const makeSignalerDemandeDelai =
                   ? {
                       status,
                       newCompletionDueOn: args.newCompletionDueOn,
+                      ...(args.délaiCdc2022 && { délaiCdc2022: args.délaiCdc2022 }),
                     }
                   : { status }),
                 notes,
