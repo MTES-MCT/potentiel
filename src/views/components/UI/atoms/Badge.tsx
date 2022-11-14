@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 type BadgeType = 'success' | 'error' | 'info' | 'warning'
 
 type BadgeProps = {
-  className: string
+  className?: string
   type: BadgeType
 }
 

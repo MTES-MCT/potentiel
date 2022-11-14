@@ -6,7 +6,7 @@ import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { Badge, SecondaryButton, Tile } from './UI'
+import { Badge, Link, SecondaryLinkButton, Tile } from './UI'
 import {
   PowerIcon,
   EuroIcon,
@@ -65,7 +65,7 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
   )
 }
 
-interface Props {
+type Props = {
   projects: PaginatedList<Project> | Array<Project>
   displayGF?: true
   role: UserRole
@@ -76,21 +76,13 @@ const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project, className }: { project: Project; className: string }) => {
+const StatutBadge = ({ project }: { project: Project }) => {
   if (project.abandonedOn) {
-    return (
-      <Badge type="warning" className={className}>
-        Abandonné
-      </Badge>
-    )
+    return <Badge type="warning">Abandonné</Badge>
   }
 
   if (project.classe === 'Eliminé') {
-    return (
-      <Badge type="error" className={className}>
-        Eliminé
-      </Badge>
-    )
+    return <Badge type="error">Eliminé</Badge>
   }
 
   const type = project.isFinancementParticipatif
@@ -103,11 +95,7 @@ const StatutBadge = ({ project, className }: { project: Project; className: stri
     ? 'GP'
     : ''
 
-  return (
-    <Badge type="success" className={className}>
-      Classé {type ? `(${type})` : ''}
-    </Badge>
-  )
+  return <Badge type="success">Classé {type ? `(${type})` : ''}</Badge>
 }
 
 export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => {
@@ -135,66 +123,70 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
       {items.map((project) => {
         return (
           <Tile className="mb-4 flex flex-col" key={'project_' + project.id}>
-            <div>
-              <a href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</a>{' '}
-              <StatutBadge project={project} className="ml-2" />
+            <div className="flex flex-col gap-2 mb-4">
+              <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
+              <StatutBadge project={project} />
+              <div className="italic text-xs text-grey">{project.potentielIdentifier}</div>
             </div>
-            <div className="mb-4 mt-1 italic text-xs text-grey">{project.potentielIdentifier}</div>
-            <div className="flex flex-col md:flex-row justify-between gap-4 md:items-center">
-              <div className="flex-1 text-sm">
-                <div className="mt-1 flex italic small items-center">
-                  <MapPinIcon className="mr-2" />
-                  {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
+
+            <div className="flex flex-col md:flex-row gap-4 md:items-center">
+              <div className="flex md:flex-1 flex-col gap-1 text-sm">
+                <div className="flex items-center">
+                  <MapPinIcon className="mr-2 shrink-0" />
+                  <span className="italic">
+                    {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
+                  </span>
                 </div>
 
-                <div className="mt-1 flex items-center">
-                  <BuildingHouseIcon className="mr-2" />
+                <div className="flex  items-center">
+                  <BuildingHouseIcon className="mr-2 shrink-0" />
                   {project.nomCandidat}
                 </div>
-                <div className="mt-1 flex items-center">
-                  <UserIcon className="mr-2" />
-                  {project.nomRepresentantLegal} {project.email}
+                <div className="flex items-center">
+                  <UserIcon className="mr-2 shrink-0" />
+                  <div className="flex flex-col">
+                    <div>{project.nomRepresentantLegal}</div>
+                    <div>{project.email}</div>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex flex-row items-center flex-1 justify-between mr-4">
-                <div className="flex flex-col items-center gap-2 flex-1">
-                  <div className="text-yellow-moutarde-850-base flex flex-row items-center">
-                    <PowerIcon />
-                  </div>
-                  <div>
+              <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+                <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                  <PowerIcon className="text-yellow-moutarde-850-base" />
+                  <div className="lg:flex lg:flex-col items-center">
                     {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                   </div>
                 </div>
-                <div className="flex flex-col items-center gap-2 flex-1">
-                  <div className="text-orange-terre-battue-main-645-base flex flex-row items-center">
-                    <EuroIcon />
-                  </div>
-                  <div>
+
+                <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                  <EuroIcon className="text-orange-terre-battue-main-645-base" />
+                  <div className="lg:flex lg:flex-col items-center">
                     {project.prixReference} <Unit>€/MWh</Unit>
                   </div>
                 </div>
-                {project.evaluationCarbone > 0 && (
-                  <div className="flex flex-col items-center gap-2 flex-1">
-                    <div className="text-grey-425-active flex flex-row items-center">
-                      <CloudIcon />
-                    </div>
-                    <div>
-                      {project.evaluationCarbone}
-                      <Unit>kg eq CO2/kWc</Unit>
-                    </div>
+
+                <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+                  <CloudIcon className="text-grey-425-active" />
+                  <div>
+                    {project.evaluationCarbone > 0 ? (
+                      <div className="lg:flex lg:flex-col items-center text-center">
+                        {project.evaluationCarbone}
+                        <Unit> kg eq CO2/kWc</Unit>
+                      </div>
+                    ) : (
+                      '- - -'
+                    )}
                   </div>
-                )}
-              </div>
-              {displayGF && (
-                <div className="flex-1 text-right">
-                  <GF project={project} GFPastDue={GFPastDue} />
                 </div>
-              )}
-              <div className="flex flex-row">
-                <a className="ml-auto block no-underline" href={routes.PROJECT_DETAILS(project.id)}>
-                  <SecondaryButton>Voir</SecondaryButton>
-                </a>
+
+                {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
+              </div>
+
+              <div className="flex justify-end ml-6">
+                <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
+                  Voir
+                </SecondaryLinkButton>
                 <ProjectActions
                   role={role}
                   project={{
