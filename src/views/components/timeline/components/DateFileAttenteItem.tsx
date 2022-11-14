@@ -7,7 +7,7 @@ export const DateFileAttenteItem = (props: DateFileAttenteDTO) => (
     <PastIcon />
     <ContentArea>
       <ItemDate date={props.date} />
-      <ItemTitle title="Mise en file d'attente" />
+      <ItemTitle title="Entrée en file d'attente" />
     </ContentArea>
   </>
 )
