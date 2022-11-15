@@ -11,7 +11,7 @@
     <p>Redirection en cours vers <a href="https://potentiel.beta.gouv.fr">Potentiel</a> ...</p>
 
     <script>
-      window.location = 'https://potentiel.beta.gouv.fr'
+      window.location = 'http://localhost:3000'
     </script>
 
   </body>

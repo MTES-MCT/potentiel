@@ -48,7 +48,7 @@ NB: Sur MacOS M1, il est nécessaire de modifier le fichier [`Dockerfile.local`]
 
 ### Accès à l'interface admin de keycloak
 
-Il est possible d'accéder à l'interface admin de Keycloak via [http://localhost:8000/auth/admin/master/console/#/realms](http://localhost:8000/auth/admin/master/console/#/realms) puis en saisissant les identifiants présents dans le [`docker-compose.yml`](../keycloak/docker-compose.yml) (par défaut, admin/test).
+Il est possible d'accéder à l'interface admin de Keycloak via [http://localhost:8000/auth/admin/master/console/#/realms](http://localhost:8000/auth/admin/master/console/#/realms) puis en saisissant les identifiants présents dans le [`docker-compose.yml`](../keycloak-legacy/docker-compose.yml) (par défaut, admin/test).
 
 ### Création du Realm Potentiel
 
@@ -100,7 +100,7 @@ Il n'est pas possible d'importer plusieurs fois le fichier `realm-export.json` p
 Il est toutefois possible de créer un clone du fichier `realm-export.json` avec des identifiants neufs avec la commande suivante:
 
 ```bash
-cd keycloak && node cloneRealm.js realm-export.json > realm-export2.json
+cd keycloak-legacy && node cloneRealm.js realm-export.json > realm-export2.json
 ```
 
 Celui-ci pourra être importé pour faire un realm clone.
