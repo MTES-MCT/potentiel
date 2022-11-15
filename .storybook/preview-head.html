@@ -1,0 +1,11 @@
+<link href="/css/index.css" rel="stylesheet" />
+<link href="/main.min.css" rel="stylesheet" />
+<script src="/scripts.js"></script>
+<script>
+  // Storybook specific, wait for react to print the dom elements
+  document.addEventListener('DOMContentLoaded', (event) => {
+    setTimeout(() => {
+      initHandlers()
+    }, 2000)
+  })
+</script>

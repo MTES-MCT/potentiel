@@ -42,7 +42,9 @@
     "add:q": "npm run add:query",
     "configure-dev-env-variables": "cp -n ./.env.template ./.env",
     "configure-pre-commit": "npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\"",
-    "configure-prepare-commit-msg": "npx gitmoji -i"
+    "configure-prepare-commit-msg": "npx gitmoji -i",
+    "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -137,15 +139,26 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-interactions": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/builder-webpack5": "^6.5.13",
+    "@storybook/manager-webpack5": "^6.5.13",
+    "@storybook/react": "^6.5.13",
+    "@storybook/testing-library": "^0.0.13",
     "@types/node-mailjet": "^3.3.9",
     "@types/pg": "^8.6.5",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
+    "babel-loader": "^8.3.0",
     "dotenv-cli": "^6.0.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-storybook": "^0.6.7",
     "eslint-plugin-unused-imports": "^2.0.0",
     "gitmoji-cli": "^7.0.2",
     "husky": "^8.0.1",
@@ -156,6 +169,7 @@
     "prettier": "^2.7.1",
     "pretty-format": "^29.2.1",
     "start-server-and-test": "^1.14.0",
+    "storybook-addon-turbo-build": "^1.1.0",
     "ts-jest": "^29.0.0",
     "wait-for-expect": "^3.0.2"
   },
