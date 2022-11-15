@@ -3,9 +3,10 @@ import { USER_ROLES } from '@modules/users/UserRoles'
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.createTable('connexionParRoleEtParJour', {
+    await queryInterface.createTable('connexionsParRoleEtParJour', {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
         primaryKey: true,
       },
       date: {
@@ -22,15 +23,15 @@ module.exports = {
       },
     })
 
-    queryInterface.addConstraint('connexionParRoleEtParJour', {
-      fields: ['date', 'role'],
-      type: 'unique',
-      name: 'date_unique_par_role',
-    })
+    // queryInterface.addConstraint('connexionsParRoleEtParJour', {
+    //   fields: ['date', 'role'],
+    //   type: 'unique',
+    //   name: 'date_unique_par_role',
+    // })
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.removeConstraint('connexionParRoleEtParJour', 'date_unique_par_role')
-    await queryInterface.dropTable('connexionParRoleEtParJour')
+    await queryInterface.removeConstraint('connexionsParRoleEtParJour', 'date_unique_par_role')
+    await queryInterface.dropTable('connexionsParRoleEtParJour')
   },
 }

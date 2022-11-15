@@ -1,4 +1,4 @@
-keycloak/
+keycloak-legacy/
 dist/
 package-lock.json
 package.json
