@@ -6,7 +6,7 @@ import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { Badge, Link, SecondaryLinkButton, Tile } from './UI'
+import { Badge, Link, LinkButton, Tile } from './UI'
 import {
   PowerIcon,
   EuroIcon,
@@ -120,13 +120,38 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
 
   return (
     <>
+      <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm">
+        <div className="flex items-center">
+          <PowerIcon
+            className="text-yellow-moutarde-850-base mr-1 shrink-0"
+            aria-label="Puissance"
+          />{' '}
+          Puissance
+        </div>
+        <div className="flex items-center">
+          <EuroIcon
+            className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+            aria-label="Prix de référence"
+          />{' '}
+          Prix de référence
+        </div>
+        <div className="flex items-center">
+          <CloudIcon
+            className="text-grey-425-active mr-1 shrink-0"
+            aria-label="Évaluation carbone"
+          />
+          Évaluation carbone
+        </div>
+      </div>
       {items.map((project) => {
         return (
-          <Tile className="mb-4 flex flex-col" key={'project_' + project.id}>
+          <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
             <div className="flex flex-col gap-2 mb-4">
-              <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-              <StatutBadge project={project} />
-              <div className="italic text-xs text-grey">{project.potentielIdentifier}</div>
+              <div className="flex flex-col md:flex-row gap-2">
+                <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
+                <StatutBadge project={project} />
+              </div>
+              <div className="italic text-xs text-grey-425-base">{project.potentielIdentifier}</div>
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 md:items-center">
@@ -144,49 +169,58 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                 </div>
                 <div className="flex items-center">
                   <UserIcon className="mr-2 shrink-0" />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col overflow-hidden">
                     <div>{project.nomRepresentantLegal}</div>
-                    <div>{project.email}</div>
+                    <div className="truncate" title={project.email}>
+                      {project.email}
+                    </div>
                   </div>
                 </div>
               </div>
 
               <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
-                <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-                  <PowerIcon className="text-yellow-moutarde-850-base" />
+                <div className="flex lg:flex-1 lg:flex-col items-center gap-2" title="Puissance">
+                  <PowerIcon className="text-yellow-moutarde-850-base" aria-label="Puissance" />
                   <div className="lg:flex lg:flex-col items-center">
                     {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                   </div>
                 </div>
-
-                <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-                  <EuroIcon className="text-orange-terre-battue-main-645-base" />
+                <div
+                  className="flex lg:flex-1 lg:flex-col items-center gap-2"
+                  title="Prix de référence"
+                >
+                  <EuroIcon
+                    className="text-orange-terre-battue-main-645-base"
+                    aria-label="Prix de référence"
+                  />
                   <div className="lg:flex lg:flex-col items-center">
                     {project.prixReference} <Unit>€/MWh</Unit>
                   </div>
                 </div>
 
-                <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
-                  <CloudIcon className="text-grey-425-active" />
-                  <div>
-                    {project.evaluationCarbone > 0 ? (
-                      <div className="lg:flex lg:flex-col items-center text-center">
-                        {project.evaluationCarbone}
-                        <Unit> kg eq CO2/kWc</Unit>
-                      </div>
-                    ) : (
-                      '- - -'
-                    )}
+                {displayGF ? (
+                  <GF project={project} GFPastDue={GFPastDue} />
+                ) : (
+                  <div
+                    className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
+                    title="Évaluation carbone"
+                  >
+                    <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
+                    <div>
+                      {project.evaluationCarbone > 0 ? (
+                        <div className="lg:flex lg:flex-col items-center text-center">
+                          {project.evaluationCarbone}
+                          <Unit> kg eq CO2/kWc</Unit>
+                        </div>
+                      ) : (
+                        '- - -'
+                      )}
+                    </div>
                   </div>
-                </div>
-
-                {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
+                )}
               </div>
 
-              <div className="flex justify-end ml-6">
-                <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>
-                  Voir
-                </SecondaryLinkButton>
+              <div className="flex md:absolute md:top-4 md:right-5 gap-2">
                 <ProjectActions
                   role={role}
                   project={{
@@ -196,6 +230,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
                     notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
                   }}
                 />
+                <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Voir</LinkButton>
               </div>
             </div>
           </Tile>

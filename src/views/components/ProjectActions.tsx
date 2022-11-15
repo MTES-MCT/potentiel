@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { UserRole } from '@modules/users'
 import { ACTION_BY_ROLE } from './actions'
-import { Button, ChevronDownIcon } from './UI'
+import { ChevronDownIcon, SecondaryButton } from './UI'
 
 interface Props {
   project: {
@@ -36,9 +36,9 @@ export const ProjectActions = ({ project, role }: Props) => {
 
   return (
     <div style={{ position: 'relative' }} {...dataId('project-actions')}>
-      <Button className="ml-4" {...dataId('action-menu-trigger')}>
+      <SecondaryButton className="ml-4" {...dataId('action-menu-trigger')}>
         Actions <ChevronDownIcon className="ml-2" />
-      </Button>
+      </SecondaryButton>
       <ul className="list--action-menu" {...dataId('action-menu')}>
         {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
           <li key={'notif_' + projectId + '_' + actionIndex}>
