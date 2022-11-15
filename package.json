@@ -152,7 +152,6 @@
     "@types/pg": "^8.6.5",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
-    "babel-loader": "^8.3.0",
     "dotenv-cli": "^6.0.0",
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
