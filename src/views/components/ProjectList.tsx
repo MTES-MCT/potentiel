@@ -4,66 +4,16 @@ import { UserRole } from '@modules/users'
 import routes from '@routes'
 import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { Badge, Link, LinkButton, Tile } from './UI'
+import { Badge, DownloadLink, Link, LinkButton, Tile } from './UI'
 import {
   PowerIcon,
   EuroIcon,
   CloudIcon,
-  FileDownloadIcon,
   MapPinIcon,
   BuildingHouseIcon,
   UserIcon,
 } from './UI/atoms/icons'
-
-const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
-  return (
-    <div>
-      <div className="text-gray-500 mb-1">Garanties Financières</div>
-      {!project.garantiesFinancieresSubmittedOn && !GFPastDue && <div>Non Déposées</div>}
-      {project.garantiesFinancieresSubmittedOn !== 0 && (
-        <div>
-          {project.garantiesFinancieresFileRef && (
-            <a
-              className="block"
-              href={routes.DOWNLOAD_PROJECT_FILE(
-                project.garantiesFinancieresFileRef.id,
-                project.garantiesFinancieresFileRef.filename
-              )}
-              download={true}
-              {...dataId('gfList-item-download-link')}
-            >
-              <FileDownloadIcon className="align-middle mr-1" />
-              Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
-            </a>
-          )}
-          {project.gf?.status === 'validé' && (
-            <Badge type="success" className="inline-block mt-1">
-              validé
-            </Badge>
-          )}
-          {project.gf?.status !== 'validé' && (
-            <Badge type="warning" className="inline-block mt-1">
-              à traiter
-            </Badge>
-          )}
-        </div>
-      )}
-      {GFPastDue && (
-        <a
-          href={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
-            id: project.id,
-            nomProjet: project.nomProjet,
-          })}
-          download
-        >
-          Télécharger le modèle de mise de demeure
-        </a>
-      )}
-    </div>
-  )
-}
 
 type Props = {
   projects: PaginatedList<Project> | Array<Project>
@@ -246,3 +196,48 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
     </>
   )
 }
+
+const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => (
+  <div
+    className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
+    title="Garanties financières"
+  >
+    <div className="flex text-grey-425-base font-bold text-sm pt-0.5">GF</div>
+    {!project.garantiesFinancieresSubmittedOn && !GFPastDue && (
+      <div className="flex">Non Déposées</div>
+    )}
+
+    {project.garantiesFinancieresSubmittedOn !== 0 && (
+      <div className="flex flex-col md:flex-row lg:flex-col items-center gap-1">
+        {project.gf?.status === 'validé' ? (
+          <Badge type="success">validé</Badge>
+        ) : (
+          <Badge type="warning">à traiter</Badge>
+        )}
+        {project.garantiesFinancieresFileRef && (
+          <DownloadLink
+            className="flex text-sm"
+            fileUrl={routes.DOWNLOAD_PROJECT_FILE(
+              project.garantiesFinancieresFileRef.id,
+              project.garantiesFinancieresFileRef.filename
+            )}
+          >
+            Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
+          </DownloadLink>
+        )}
+      </div>
+    )}
+
+    {GFPastDue && (
+      <Link
+        href={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+          id: project.id,
+          nomProjet: project.nomProjet,
+        })}
+        download
+      >
+        Télécharger le modèle de mise de demeure
+      </Link>
+    )}
+  </div>
+)
