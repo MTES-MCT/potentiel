@@ -335,7 +335,7 @@ export const ListeProjets = ({
               )}
             </div>
             <ProjectList
-              {...(request.user?.role === 'dreal' ? { displayGF: true } : {})}
+              {...(request.user?.role === 'dreal' && { displayGF: true })}
               projects={projects}
               role={request.user?.role}
             />
