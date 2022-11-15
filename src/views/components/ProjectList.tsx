@@ -70,7 +70,7 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-2 mb-2 text-sm">
+      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm" aria-hidden>
         <div className="flex items-center">
           <PowerIcon
             className="text-yellow-moutarde-850-base mr-1 shrink-0"
@@ -104,7 +104,8 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
             Évaluation carbone
           </div>
         )}
-      </div>
+      </legend>
+
       {items.map((project) => {
         return (
           <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
