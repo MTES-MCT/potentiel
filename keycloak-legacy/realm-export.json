@@ -814,7 +814,8 @@
       "secret": "**********",
       "redirectUris": [
         "http://potentiel.beta.gouv.fr/*",
-        "https://potentiel.beta.gouv.fr/*"
+        "https://potentiel.beta.gouv.fr/*",
+        "http://localhost:3000/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
