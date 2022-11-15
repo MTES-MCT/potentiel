@@ -85,13 +85,25 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
           />{' '}
           Prix de référence
         </div>
-        <div className="flex items-center">
-          <CloudIcon
-            className="text-grey-425-active mr-1 shrink-0"
-            aria-label="Évaluation carbone"
-          />
-          Évaluation carbone
-        </div>
+        {displayGF ? (
+          <div className="flex items-center">
+            <div
+              className="flex text-grey-200-base font-bold text-sm mr-1"
+              aria-label="Garanties Financières"
+            >
+              GF
+            </div>
+            Garanties Financières
+          </div>
+        ) : (
+          <div className="flex items-center">
+            <CloudIcon
+              className="text-grey-425-active mr-1 shrink-0"
+              aria-label="Évaluation carbone"
+            />
+            Évaluation carbone
+          </div>
+        )}
       </div>
       {items.map((project) => {
         return (
@@ -202,7 +214,7 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
     className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
     title="Garanties financières"
   >
-    <div className="flex text-grey-425-base font-bold text-sm pt-0.5">GF</div>
+    <div className="flex text-grey-200-base font-bold text-sm pt-0.5">GF</div>
     {!project.garantiesFinancieresSubmittedOn && !GFPastDue && (
       <div className="flex">Non Déposées</div>
     )}
@@ -210,9 +222,13 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
     {project.garantiesFinancieresSubmittedOn !== 0 && (
       <div className="flex flex-col md:flex-row lg:flex-col items-center gap-1">
         {project.gf?.status === 'validé' ? (
-          <Badge type="success">validé</Badge>
+          <Badge className="lg:self-center" type="success">
+            validé
+          </Badge>
         ) : (
-          <Badge type="warning">à traiter</Badge>
+          <Badge className="lg:self-center" type="warning">
+            à traiter
+          </Badge>
         )}
         {project.garantiesFinancieresFileRef && (
           <DownloadLink
@@ -229,15 +245,15 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
     )}
 
     {GFPastDue && (
-      <Link
-        href={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+      <DownloadLink
+        className="text-sm"
+        fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
           id: project.id,
           nomProjet: project.nomProjet,
         })}
-        download
       >
         Télécharger le modèle de mise de demeure
-      </Link>
+      </DownloadLink>
     )}
   </div>
 )
