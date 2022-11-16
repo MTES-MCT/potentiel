@@ -2,8 +2,9 @@ import React, { FC } from 'react'
 import { Link, FileDownloadIcon } from '../atoms'
 
 type DownloadLinkProps = {
-  className?: string
   fileUrl: string
+  className?: string
+  children?: React.ReactNode
 }
 
 export const DownloadLink: FC<DownloadLinkProps> = ({ children, className, fileUrl }) => (

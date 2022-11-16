@@ -3,6 +3,7 @@ import { LinkButton, FileDownloadIcon } from '../atoms'
 
 type DownloadLinkButtonProps = {
   className?: string
+  children?: React.ReactNode
   fileUrl: string
 }
 

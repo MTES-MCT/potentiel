@@ -7,6 +7,7 @@ type CahierDesChargesSelectionnableProps = {
   onCahierDesChargesChoisi?: (cahierDesChargesChoisi: CahierDesChargesRéférence) => void
   sélectionné: boolean
   désactivé?: true
+  children?: React.ReactNode
 }
 
 export const CahierDesChargesSelectionnable: React.FC<CahierDesChargesSelectionnableProps> = ({

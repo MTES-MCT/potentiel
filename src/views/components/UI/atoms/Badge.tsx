@@ -5,6 +5,7 @@ type BadgeType = 'success' | 'error' | 'info' | 'warning'
 type BadgeProps = {
   className?: string
   type: BadgeType
+  children?: React.ReactNode
 }
 
 const badgeColorsByType: Record<BadgeType, { backgroundColor: string; textColor: string }> = {
