@@ -3,7 +3,7 @@ import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, PageTemplate } from '@components'
+import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminRegénérerPeriodeAttestationsProps = {
@@ -35,20 +35,8 @@ export const AdminRegénérerPeriodeAttestations = ({
           sur le modèle de l‘attestation ou dans les données relatives à un appel d‘offre.
         </p>
 
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
 
         <form
           action={ROUTES.ADMIN_REGENERATE_CERTIFICATES_ACTION}

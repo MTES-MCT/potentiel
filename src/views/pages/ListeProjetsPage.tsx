@@ -12,6 +12,8 @@ import {
   ExcelFileIcon,
   SecondaryLinkButton,
   PageTemplate,
+  SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -298,20 +300,8 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
         {projects ? (
           <>
             <div className="flex flex-col md:flex-row md:items-center py-2">

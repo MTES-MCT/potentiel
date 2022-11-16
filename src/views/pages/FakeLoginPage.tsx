@@ -2,7 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
-import { Button, PageTemplate } from '@components'
+import { Button, ErrorBox, PageTemplate } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface FakeLoginProps {
@@ -18,11 +18,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
           <div className="container">
             <form action={routes.LOGIN_ACTION} method="post" name="form">
               <h3 id="login">Je m‘identifie</h3>
-              {!!error && (
-                <div className="notification error" {...dataId('error-message')}>
-                  {error}
-                </div>
-              )}
+              {!!error && <ErrorBox title={error} />}
               <div className="form__group">
                 <label htmlFor="email">Courrier électronique</label>
                 <input type="email" name="email" id="email" {...dataId('email-field')} />

@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { SuccessErrorBox, SecondaryButton, PageTemplate } from '../components'
+import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type ImporterListingEnedisProps = {
@@ -22,7 +22,8 @@ export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) =
         </div>
 
         <form action={ROUTES.IMPORTER_LISTING_ENEDIS} method="post" encType="multipart/form-data">
-          <SuccessErrorBox error={error as string} success={success as string} />
+          {success && <SuccessBox title={success as string} />}
+          {error && <ErrorBox title={error as string} />}
           <div>Sélectionner le fichier à importer.</div>
           <input type="file" name="file" />
           <SecondaryButton

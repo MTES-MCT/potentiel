@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { Request } from 'express'
-import { Button, PageTemplate } from '@components'
+import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminImporterCandidatsProps = {
@@ -25,14 +25,9 @@ export const AdminImporterCandidats = ({
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {isSuccess && (
-            <div className="notification success" {...dataId('success-message')}>
-              Les projets ont bien été importés.
-            </div>
-          )}
+          {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
           {!!importErrors && (
-            <div className="notification error" {...dataId('error-message')}>
-              Le fichier n'a pas pu être importé à cause des erreurs suivantes:
+            <ErrorBox title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :">
               <ul>
                 {Object.entries(importErrors).map(([lineNumber, message]) => (
                   <li key={`error_line_${lineNumber}`}>
@@ -40,14 +35,10 @@ export const AdminImporterCandidats = ({
                   </li>
                 ))}
               </ul>
-            </div>
+            </ErrorBox>
           )}
 
-          {!!otherError && (
-            <div className="notification error" {...dataId('error-message')}>
-              {otherError}
-            </div>
-          )}
+          {!!otherError && <ErrorBox title={otherError} className="mb-3" />}
 
           <div className="form__group">
             <label htmlFor="candidats">Fichier csv des candidats</label>

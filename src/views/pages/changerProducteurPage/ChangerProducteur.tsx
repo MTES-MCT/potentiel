@@ -5,7 +5,6 @@ import { Request } from 'express'
 
 import {
   ProjectInfo,
-  SuccessErrorBox,
   Button,
   FormulaireChampsObligatoireLégende,
   Label,
@@ -18,6 +17,8 @@ import {
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
   PageTemplate,
+  SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
@@ -75,7 +76,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           >
             <input type="hidden" name="projetId" value={project.id} />
             <div className="form__group">
-              <SuccessErrorBox success={success} error={error} />
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
 
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
@@ -91,12 +93,11 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   .
                 </AlertBox>
                 {isEolien && (
-                  <div className="notification error my-4">
-                    <span>
-                      Vous ne pouvez pas changer de producteur avant la date d'achèvement de ce
-                      projet.
-                    </span>
-                  </div>
+                  <ErrorBox
+                    title="Vous ne pouvez pas changer de producteur avant la date d'achèvement de ce
+                      projet."
+                    className="my-4"
+                  />
                 )}
                 <label>Ancien producteur</label>
                 <Input

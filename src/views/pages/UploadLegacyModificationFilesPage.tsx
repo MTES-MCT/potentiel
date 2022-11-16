@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { ErrorBox, Button, PageTemplate } from '@components'
+import { ErrorBox, Button, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 export type UploadLegacyModificationFileResult =
@@ -36,11 +36,10 @@ export const UploadLegacyModificationFiles = ({
           <h3>Importer des courriers historiques</h3>
         </div>
 
-        <ErrorBox error={error as string} />
+        {error && <ErrorBox title={error as string} />}
 
-        {Boolean(errors.length) && (
-          <div className="notification error py-2">
-            <div>Erreur(s):</div>
+        {errors.length > 0 && (
+          <ErrorBox title="Erreurs :">
             <ul className="pl-3 mb-0 mt-1">
               {errors.map((result) => (
                 <li key={`result_for_${result.filename}`} className="mb-1">
@@ -49,12 +48,14 @@ export const UploadLegacyModificationFiles = ({
                 </li>
               ))}
             </ul>
-          </div>
+          </ErrorBox>
         )}
-        {Boolean(successes.length) && (
-          <div className="notification success">
-            {successes.length} courrier(s) rattaché(s) avec succès
-          </div>
+        {successes.length > 0 && (
+          <SuccessBox
+            title={`${successes.length} courrier${successes.length > 1 && 's'} rattaché${
+              successes.length > 1 && 's'
+            } avec succès`}
+          />
         )}
 
         <form

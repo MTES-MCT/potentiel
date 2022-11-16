@@ -6,7 +6,6 @@ import { Request } from 'express'
 
 import {
   ProjectInfo,
-  SuccessErrorBox,
   Button,
   FormulaireChampsObligatoireLégende,
   Label,
@@ -14,6 +13,8 @@ import {
   ChoisirCahierDesChargesFormulaire,
   InfoLienGuideUtilisationCDC,
   PageTemplate,
+  SuccessBox,
+  ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -63,7 +64,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           <form action={routes.DEMANDE_ABANDON_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
-              <SuccessErrorBox success={success} error={error} />
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
               <FormulaireChampsObligatoireLégende className="text-right" />
 
               <div className="mb-2">Concernant le projet:</div>

@@ -1,4 +1,4 @@
-import { PageTemplate, PaginationPanel, SecondaryButton } from '@components'
+import { ErrorBox, PageTemplate, PaginationPanel, SecondaryButton, SuccessBox } from '@components'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -29,20 +29,8 @@ export const InvitationsCandidatsEnAttente = ({
             inscription. Les parrainages ne sont pas inclus.
           </p>
         </div>
-        {success ? (
-          <div className="notification success" {...dataId('success-message')}>
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {error ? (
-          <div className="notification error" {...dataId('error-message')}>
-            {error}
-          </div>
-        ) : (
-          ''
-        )}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
 
         <div className="pagination__count">
           <strong>{invitations.itemCount}</strong> invitations en attente{' '}

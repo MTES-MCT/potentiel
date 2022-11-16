@@ -4,7 +4,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { MissingOwnerProjectList, PageTemplate } from '@components'
+import { ErrorBox, MissingOwnerProjectList, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface ProjetsÀRéclamerProps {
@@ -176,15 +176,11 @@ export const ProjetsÀRéclamer = ({
             ) : null}
           </form>
         </div>
-        {success && (
-          <div className="notification success" {...dataId('success-message')}>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>{success}</pre>
-          </div>
-        )}
+        {success && <SuccessBox title={success} />}
         {error && (
-          <div className="notification error" {...dataId('error-message')}>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>{error}</pre>
-          </div>
+          <ErrorBox>
+            <pre className="whitespace-pre-wrap">{error}</pre>
+          </ErrorBox>
         )}
         {projects ? (
           <>

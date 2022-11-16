@@ -29,7 +29,7 @@ export const SignalerDemandeRecours = ({
         <div className="panel__header">
           <h1 className="text-2xl">Enregistrer une demande de recours traitée hors Potentiel</h1>
         </div>
-        {error && <ErrorBox error={error} />}
+        {error && <ErrorBox title={error} />}
         <form
           action={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_POST}
           method="POST"

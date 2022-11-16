@@ -1,4 +1,4 @@
-import { PaginationPanel, Button, PageTemplate } from '@components'
+import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox } from '@components'
 import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -42,20 +42,8 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
               </Button>
             )}
           </form>
-          {success ? (
-            <div className="notification success" {...dataId('success-message')}>
-              {success}
-            </div>
-          ) : (
-            ''
-          )}
-          {error ? (
-            <div className="notification error" {...dataId('error-message')}>
-              {error}
-            </div>
-          ) : (
-            ''
-          )}
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
         </div>
 
         <div className="pagination__count">
@@ -96,21 +84,14 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                           ? formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')
                           : ''}
                       </td>
-                      <td
-                        valign="top"
-                        className="notification error"
-                        style={{ position: 'relative' }}
-                      >
-                        <div>Echec de l‘envoi</div>
-                        <div
-                          style={{
-                            fontStyle: 'italic',
-                            lineHeight: 'normal',
-                            fontSize: 12,
-                          }}
-                        >
-                          {notification.error || ''}
-                        </div>
+                      <td valign="top" className="relative">
+                        {notification.error && (
+                          <ErrorBox title="Echec de l‘envoi">
+                            <div className="italic leading-normal text-xs">
+                              {notification.error}
+                            </div>
+                          </ErrorBox>
+                        )}
                       </td>
                     </tr>
                   )

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { SuccessErrorBox } from '@components'
+import { ErrorBox, SuccessBox } from '@components'
 
 export type RésultatSoumissionFormulaireProps = {
   résultatSoumissionFormulaire:
@@ -19,7 +19,7 @@ export const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProp
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
       return (
-        <SuccessErrorBox success="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
+        <SuccessBox title="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
       )
     case 'échec':
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&
@@ -28,7 +28,7 @@ export const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProp
           erreursDeValidationCsv={résultatSoumissionFormulaire.erreursDeValidationCsv}
         />
       ) : (
-        <SuccessErrorBox error={résultatSoumissionFormulaire.raison} />
+        <ErrorBox title={résultatSoumissionFormulaire.raison} />
       )
   }
 }
