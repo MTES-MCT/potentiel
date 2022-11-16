@@ -1,6 +1,13 @@
 import React from 'react'
 import { Request } from 'express'
-import { Button, Input, PageTemplate, ProjectInfo, SecondaryLinkButton } from '@components'
+import {
+  Button,
+  Input,
+  PageTemplate,
+  ProjectInfo,
+  SecondaryLinkButton,
+  ErrorBox,
+} from '@components'
 import routes from '@routes'
 import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
@@ -11,17 +18,19 @@ type SignalerDemandeAbandonProps = {
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 export const SignalerDemandeAbandon = ({
-  request: { user },
+  request,
   project,
   validationErrors,
 }: SignalerDemandeAbandonProps) => {
+  const { query, user } = request
+  const { error } = query as any
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
         <div className="panel__header">
           <h1 className="text-2xl">Enregistrer une demande d'abandon traitée hors Potentiel</h1>
         </div>
-
+        {error && <ErrorBox error={error} />}
         <form
           action={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_POST}
           method="POST"
