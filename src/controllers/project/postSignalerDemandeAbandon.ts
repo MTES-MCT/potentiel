@@ -65,7 +65,7 @@ v1Router.post(
         () => {
           return response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: `Votre signalement de demande d'abandon a bien été enregistrée.`,
+              success: `Votre signalement de demande d'abandon a bien été enregistré.`,
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
             })
