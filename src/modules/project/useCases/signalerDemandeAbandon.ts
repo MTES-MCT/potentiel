@@ -5,13 +5,14 @@ import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { Project } from '../Project'
-import { hasDemandeDeMêmeTypeOuverte } from '@config'
 import { DemandeDeMêmeTypeDéjàOuverteError } from '../errors/DemandeDeMêmeTypeDéjàOuverteError'
+import { HasDemandeDeMêmeTypeOuverte } from '../queries'
 
 type SignalerDemandeAbandonDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   fileRepo: Repository<FileObject>
   projectRepo: TransactionalRepository<Project>
+  hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte
 }
 
 type SignalerDemandeAbandonArgs = {
@@ -46,14 +47,14 @@ export const makeSignalerDemandeAbandon =
             return errAsync(new UnauthorizedError())
           }
 
-          return hasDemandeDeMêmeTypeOuverte({ projetId: projectId, type: 'abandon' }).andThen(
-            (result) => {
+          return deps
+            .hasDemandeDeMêmeTypeOuverte({ projetId: projectId, type: 'abandon' })
+            .andThen((result) => {
               if (result) {
                 return errAsync(new DemandeDeMêmeTypeDéjàOuverteError())
               }
               return okAsync(null)
-            }
-          )
+            })
         }
       )
       .andThen(() => {
