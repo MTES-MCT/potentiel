@@ -186,14 +186,7 @@ export const GarantiesFinancieres = ({
               </a>
             </div>
             <ProjectList
-              displayColumns={[
-                'Projet',
-                'Candidat',
-                'Puissance',
-                'Garanties Financières',
-                'Evaluation Carbone',
-                'Classé',
-              ]}
+              displayGF={true}
               projects={projects}
               role={request.user?.role}
               GFPastDue={garantiesFinancieres === 'pastDue'}

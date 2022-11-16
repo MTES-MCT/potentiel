@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 type BadgeType = 'success' | 'error' | 'info' | 'warning'
 
 type BadgeProps = {
-  className: string
+  className?: string
   type: BadgeType
 }
 
@@ -30,7 +30,7 @@ export const Badge: FC<BadgeProps> = ({ type, className = '', children }) => {
   const { backgroundColor, textColor } = badgeColorsByType[type]
   return (
     <span
-      className={`inline-flex self-start px-2 py-1 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} ${className}`}
+      className={`inline-flex self-start px-2 py-0.5 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} ${className}`}
     >
       {children}
     </span>

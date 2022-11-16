@@ -335,14 +335,7 @@ export const ListeProjets = ({
               )}
             </div>
             <ProjectList
-              displayColumns={[
-                'Projet',
-                'Candidat',
-                'Puissance',
-                ...(request.user?.role === 'dreal' ? ['Garanties Financières'] : ['Prix']),
-                'Evaluation Carbone',
-                'Classé',
-              ]}
+              {...(request.user?.role === 'dreal' && { displayGF: true })}
               projects={projects}
               role={request.user?.role}
             />

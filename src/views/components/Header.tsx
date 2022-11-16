@@ -94,7 +94,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             >
               <UserIcon />
               <span
-                className="hidden lg:block max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
+                className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
               >
                 {user.fullName ? user.fullName : user.email}
