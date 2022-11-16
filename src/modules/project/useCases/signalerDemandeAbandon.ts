@@ -5,6 +5,8 @@ import { FileContents, FileObject, makeFileObject } from '../../file'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
 import { Project } from '../Project'
+import { hasDemandeDeMêmeTypeOuverte } from '@config'
+import { DemandeDeMêmeTypeDéjàOuverteError } from '../errors/DemandeDeMêmeTypeDéjàOuverteError'
 
 type SignalerDemandeAbandonDeps = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -44,28 +46,34 @@ export const makeSignalerDemandeAbandon =
             return errAsync(new UnauthorizedError())
           }
 
-          if (file) {
-            const { filename, contents } = file
-            const fileObject = makeFileObject({
-              designation: 'other',
-              forProject: new UniqueEntityID(projectId),
-              createdBy: new UniqueEntityID(signaledBy.id),
-              filename,
-              contents,
-            })
-              .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
-              .map((fileId) => ({ id: fileId, name: filename }))
-              .mapErr((e: Error) => {
-                logger.error(e)
-                return new InfraNotAvailableError()
-              })
-
-            return fileObject
-          }
-
-          return okAsync(null)
+          return hasDemandeDeMêmeTypeOuverte({ projetId: projectId, type: 'abandon' }).andThen(
+            (result) => {
+              if (result) {
+                return errAsync(new DemandeDeMêmeTypeDéjàOuverteError())
+              }
+              return okAsync(null)
+            }
+          )
         }
       )
+      .andThen(() => {
+        if (!file) return okAsync(null)
+        const { filename, contents } = file
+        const fileObject = makeFileObject({
+          designation: 'other',
+          forProject: new UniqueEntityID(projectId),
+          createdBy: new UniqueEntityID(signaledBy.id),
+          filename,
+          contents,
+        })
+          .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+          .map((fileId) => ({ id: fileId, name: filename }))
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
+          })
+        return fileObject
+      })
       .andThen((attachment) => {
         return projectRepo.transaction(
           new UniqueEntityID(projectId),

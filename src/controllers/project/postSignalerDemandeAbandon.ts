@@ -9,6 +9,7 @@ import { upload } from '../upload'
 import * as yup from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { DemandeDeMêmeTypeDéjàOuverteError } from '../../modules/project/errors/DemandeDeMêmeTypeDéjàOuverteError'
 
 const schema = yup.object({
   body: yup.object({
@@ -73,6 +74,15 @@ v1Router.post(
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (error instanceof DemandeDeMêmeTypeDéjàOuverteError) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
+                error: error.message,
+                ...request.body,
+              })
+            )
           }
 
           logger.error(error)
