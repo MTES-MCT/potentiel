@@ -10,7 +10,7 @@ export const SuccessBox: FC<AlertBoxProps> = ({
   ...props
 }: AlertBoxProps) => {
   return (
-    <div className={`flex ${className}`} {...props}>
+    <div className={`flex mb-3 ${className}`} {...props}>
       <div className="bg-success-425-base">
         <SuccessIcon className="text-white text-3xl mx-2 mt-4" />
       </div>

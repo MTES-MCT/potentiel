@@ -76,8 +76,8 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
           >
             <input type="hidden" name="projetId" value={project.id} />
             <div className="form__group">
-              {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox title={error} className="mb-3" />}
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
 
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>

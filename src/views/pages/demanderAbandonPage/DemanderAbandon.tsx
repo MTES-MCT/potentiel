@@ -64,8 +64,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
           <form action={routes.DEMANDE_ABANDON_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
-              {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox title={error} className="mb-3" />}
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
               <FormulaireChampsObligatoireLégende className="text-right" />
 
               <div className="mb-2">Concernant le projet:</div>

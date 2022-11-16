@@ -25,12 +25,9 @@ export const AdminImporterCandidats = ({
           <h3>Importer des candidats</h3>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
-          {isSuccess && <SuccessBox title="Les projets ont bien été importés." className="mb-3" />}
+          {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}
           {!!importErrors && (
-            <ErrorBox
-              title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :"
-              className="mb-3"
-            >
+            <ErrorBox title="Le fichier n'a pas pu être importé à cause des erreurs suivantes :">
               <ul>
                 {Object.entries(importErrors).map(([lineNumber, message]) => (
                   <li key={`error_line_${lineNumber}`}>

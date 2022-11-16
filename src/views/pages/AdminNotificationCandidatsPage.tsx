@@ -35,8 +35,8 @@ export const AdminNotificationCandidats = ({
           <div className="panel__header">
             <h3>Notifier des candidats</h3>
           </div>
-          {success && <SuccessBox title={success} className="mb-3" />}
-          {error && <ErrorBox title={error} className="mb-3" />}
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
           <div>Tous les candidats ont été notifiés</div>
         </div>
       </PageTemplate>
@@ -203,8 +203,8 @@ export const AdminNotificationCandidats = ({
           )}
         </form>
 
-        {success && <SuccessBox title={success} className="mb-3" />}
-        {error && <ErrorBox title={error} className="mb-3" />}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
         <ProjectList projects={projects} role={request.user?.role} />
       </div>
     </PageTemplate>

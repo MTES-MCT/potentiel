@@ -87,8 +87,8 @@ export const NewModificationRequest = ({
             <input type="hidden" name="type" value={action} />
 
             <div className="form__group">
-              {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox title={error} className="mb-3" />}
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3"></ProjectInfo>

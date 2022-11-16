@@ -22,8 +22,8 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
 
   const contents = (
     <div className="panel">
-      {success && <SuccessBox title={success} className="mb-4" />}
-      {error && <ErrorBox title={error} className="mb-4" />}
+      {success && <SuccessBox title={success} />}
+      {error && <ErrorBox title={error} />}
       <LinkButton href={redirectUrl}> {redirectTitle}</LinkButton>
     </div>
   )

@@ -22,8 +22,8 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         </div>
         <div className="panel__header">
           <h2 className="text-lg">Ajouter un utilisateur DREAL</h2>
-          {success && <SuccessBox title={success} className="mb-3" />}
-          {error && <ErrorBox title={error} className="mb-3" />}
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
 
           <form
             action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}

@@ -36,10 +36,10 @@ export const UploadLegacyModificationFiles = ({
           <h3>Importer des courriers historiques</h3>
         </div>
 
-        {error && <ErrorBox title={error as string} className="mb-3" />}
+        {error && <ErrorBox title={error as string} />}
 
         {errors.length > 0 && (
-          <ErrorBox title="Erreurs :" className="mb-3">
+          <ErrorBox title="Erreurs :">
             <ul className="pl-3 mb-0 mt-1">
               {errors.map((result) => (
                 <li key={`result_for_${result.filename}`} className="mb-1">

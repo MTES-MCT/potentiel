@@ -19,8 +19,8 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
           <h3>Gérer les appels d'offres</h3>
         </div>
 
-        {success && <SuccessBox title={success} className="mb-3" />}
-        {error && <ErrorBox title={error} className="mb-3" />}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
 
         <div className="panel__header">
           <form

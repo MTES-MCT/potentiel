@@ -42,8 +42,8 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
               </Button>
             )}
           </form>
-          {success && <SuccessBox title={success} className="mb-3" />}
-          {error && <ErrorBox title={error} className="mb-3" />}
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
         </div>
 
         <div className="pagination__count">

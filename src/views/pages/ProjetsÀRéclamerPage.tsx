@@ -176,9 +176,9 @@ export const ProjetsÀRéclamer = ({
             ) : null}
           </form>
         </div>
-        {success && <SuccessBox title={success} className="mb-3" />}
+        {success && <SuccessBox title={success} />}
         {error && (
-          <ErrorBox className="mb-3">
+          <ErrorBox>
             <pre className="whitespace-pre-wrap">{error}</pre>
           </ErrorBox>
         )}

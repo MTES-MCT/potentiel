@@ -22,8 +22,8 @@ export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) =
         </div>
 
         <form action={ROUTES.IMPORTER_LISTING_ENEDIS} method="post" encType="multipart/form-data">
-          {success && <SuccessBox title={success as string} className="mb-3" />}
-          {error && <ErrorBox title={error as string} className="mb-3" />}
+          {success && <SuccessBox title={success as string} />}
+          {error && <ErrorBox title={error as string} />}
           <div>Sélectionner le fichier à importer.</div>
           <input type="file" name="file" />
           <SecondaryButton

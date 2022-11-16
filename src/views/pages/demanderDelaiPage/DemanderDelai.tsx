@@ -76,8 +76,8 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
           <form action={routes.DEMANDE_DELAI_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
-              {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox title={error as string} className="mb-3" />}
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error as string} />}
 
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-1">Concernant le projet:</div>

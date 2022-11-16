@@ -35,8 +35,8 @@ export const ProjectDetails = ({
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
-      {success && <SuccessBox title={success} className="mb-3" />}
-      {error && <ErrorBox title={error} className="mb-3" />}
+      {success && <SuccessBox title={success} />}
+      {error && <ErrorBox title={error} />}
       <main className="flex flex-col gap-3 mt-5">
         <Callout>
           <CDCInfo {...{ project, user }} />

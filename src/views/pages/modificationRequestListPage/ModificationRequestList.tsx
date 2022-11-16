@@ -226,8 +226,8 @@ export const ModificationRequestList = ({
             )}
           </form>
         </div>
-        {success && <SuccessBox title={success} className="mb-3" />}
-        {error && <ErrorBox title={error} className="mb-3" />}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
         <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
       </div>
     </PageTemplate>

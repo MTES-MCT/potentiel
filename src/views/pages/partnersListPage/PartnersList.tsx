@@ -23,8 +23,8 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         </div>
         <div className="panel__header">
           <h2 className="text-lg">Ajouter un utilisateur</h2>
-          {success && <SuccessBox title={success} className="mb-3" />}
-          {error && <ErrorBox title={error} className="mb-3" />}
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
           <form
             action={ROUTES.ADMIN_INVITE_USER_ACTION}
             method="post"

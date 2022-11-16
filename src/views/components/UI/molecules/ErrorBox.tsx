@@ -10,7 +10,7 @@ export const ErrorBox: FC<AlertBoxProps> = ({
   ...props
 }: AlertBoxProps) => {
   return (
-    <div className={`flex ${className}`} {...props}>
+    <div className={`flex mb-3 ${className}`} {...props}>
       <div className="bg-error-425-base">
         <ErrorIcon className="text-white text-3xl mx-2 mt-4" />
       </div>

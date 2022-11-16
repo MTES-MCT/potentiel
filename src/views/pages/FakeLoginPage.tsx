@@ -18,7 +18,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
           <div className="container">
             <form action={routes.LOGIN_ACTION} method="post" name="form">
               <h3 id="login">Je m‘identifie</h3>
-              {!!error && <ErrorBox title={error} className="mb-3" />}
+              {!!error && <ErrorBox title={error} />}
               <div className="form__group">
                 <label htmlFor="email">Courrier électronique</label>
                 <input type="email" name="email" id="email" {...dataId('email-field')} />

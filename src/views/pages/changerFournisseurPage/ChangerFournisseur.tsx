@@ -74,8 +74,8 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
               <ProjectInfo project={project} className="mb-3" />
-              {success && <SuccessBox title={success} className="mb-3" />}
-              {error && <ErrorBox title={error} className="mb-3" />}
+              {success && <SuccessBox title={success} />}
+              {error && <ErrorBox title={error} />}
 
               {CHAMPS_FOURNISSEURS.map((champ) => {
                 return (

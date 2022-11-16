@@ -300,8 +300,8 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success && <SuccessBox title={success} className="mb-3" />}
-        {error && <ErrorBox title={error} className="mb-3" />}
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
         {projects ? (
           <>
             <div className="flex flex-col md:flex-row md:items-center py-2">
