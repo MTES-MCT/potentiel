@@ -44,7 +44,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
         <div className={`flex-1 no-underline pl-4 lg:pl-0 flex items-center`}>
           {buttonChildren}
           <ArrowDownIcon
-            style={{ transform: visible ? 'rotate(180deg)' : '' }}
+            style={{ ...(visible && { transform: 'rotate(180deg)' }) }}
             className={`ml-auto lg:ml-2 mr-2 lg:mr-0 transition`}
           />
         </div>
