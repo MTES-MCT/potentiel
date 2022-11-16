@@ -2,6 +2,7 @@ import { UserRole } from '@modules/users'
 import { sequelizeInstance } from '../../sequelize.config'
 import { format, parseISO } from 'date-fns'
 import { ConnexionsParRoleEtParJour } from '../sequelize/tableModels'
+import { logger } from '@core/utils'
 
 type mettreAJourConnexionsParJourEtParRoleProps = { role: UserRole; date: Date }
 
@@ -10,40 +11,27 @@ export const mettreAJourConnexionsParJourEtParRole = async ({
   date,
 }: mettreAJourConnexionsParJourEtParRoleProps) => {
   const transaction = await sequelizeInstance.transaction()
-  const dateDuJour = format(parseISO(date.toISOString()), 'yyyy-MM-dd')
+  const dateFormatée = format(parseISO(date.toISOString()), 'yyyy-MM-dd')
 
   const entréeExistante = await ConnexionsParRoleEtParJour.findOne({
-    where: { role: 'admin', date: dateDuJour },
+    where: { role, date: dateFormatée },
     attributes: ['id', 'compteur'],
     transaction,
   })
 
-  if (entréeExistante) {
-    try {
-      await ConnexionsParRoleEtParJour.update(
-        {
-          compteur: (entréeExistante.compteur += 1),
-        },
-        { where: { id: entréeExistante.id }, transaction }
-      )
-      await transaction.commit()
-    } catch (e) {
-      await transaction.rollback()
-    }
-  } else {
-    try {
-      await ConnexionsParRoleEtParJour.create(
-        {
-          role,
-          compteur: 1,
-          date: dateDuJour,
-        },
-        { transaction }
-      )
-      await transaction.commit()
-    } catch (e) {
-      await transaction.rollback()
-    }
+  try {
+    await ConnexionsParRoleEtParJour.upsert(
+      {
+        ...(entréeExistante && { id: entréeExistante.id }),
+        compteur: entréeExistante ? (entréeExistante.compteur += 1) : 1,
+        role,
+        date: dateFormatée,
+      },
+      { transaction }
+    )
+    await transaction.commit()
+  } catch (e) {
+    logger.error(e)
+    await transaction.rollback()
   }
-  return
 }
