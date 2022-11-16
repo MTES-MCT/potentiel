@@ -23,11 +23,11 @@ module.exports = {
       },
     })
 
-    // queryInterface.addConstraint('connexionsParRoleEtParJour', {
-    //   fields: ['date', 'role'],
-    //   type: 'unique',
-    //   name: 'date_unique_par_role',
-    // })
+    queryInterface.addConstraint('connexionsParRoleEtParJour', {
+      fields: ['date', 'role'],
+      type: 'unique',
+      name: 'date_unique_par_role',
+    })
   },
 
   async down(queryInterface: QueryInterface) {
