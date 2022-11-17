@@ -71,7 +71,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
           ? `
         <script type="text/javascript">
           window.$crisp = [];
-          CRISP_COOKIE_EXPIRE = 300;
+          CRISP_COOKIE_EXPIRE = 3600;
           window.CRISP_WEBSITE_ID = '${crispWebsiteId}'
           ;(function () {
             d = document
