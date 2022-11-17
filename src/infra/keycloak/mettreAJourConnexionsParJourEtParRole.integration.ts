@@ -18,7 +18,7 @@ describe(`helper mettreAJourConnexionsParJourEtParRole`, () => {
     it(`Alors, le compteur de cette entrée devrait être incrémenté`, async () => {
       const entréeInitiale = await ConnexionsParRoleEtParJour.create({
         role: 'admin',
-        date: '2022-01-01',
+        date: new Date('2022-01-01'),
         compteur: 1,
       })
 

@@ -13,7 +13,7 @@ class ConnexionsParRoleEtParJour extends Model<
   InferCreationAttributes<ConnexionsParRoleEtParJour>
 > {
   id: CreationOptional<number>
-  date: string
+  date: Date
   role: UserRole
   compteur: number
 }
@@ -25,7 +25,7 @@ ConnexionsParRoleEtParJour.init(
       primaryKey: true,
     },
     date: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATEONLY,
       allowNull: false,
     },
     role: {

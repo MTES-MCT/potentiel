@@ -1,6 +1,5 @@
 import { UserRole } from '@modules/users'
 import { sequelizeInstance } from '../../sequelize.config'
-import { format, parseISO } from 'date-fns'
 import { ConnexionsParRoleEtParJour } from '../sequelize/tableModels'
 import { logger } from '@core/utils'
 
@@ -11,10 +10,9 @@ export const mettreAJourConnexionsParJourEtParRole = async ({
   date,
 }: mettreAJourConnexionsParJourEtParRoleProps) => {
   const transaction = await sequelizeInstance.transaction()
-  const dateFormatée = format(parseISO(date.toISOString()), 'yyyy-MM-dd')
 
   const entréeExistante = await ConnexionsParRoleEtParJour.findOne({
-    where: { role, date: dateFormatée },
+    where: { role, date },
     attributes: ['id', 'compteur'],
     transaction,
   })
@@ -25,7 +23,7 @@ export const mettreAJourConnexionsParJourEtParRole = async ({
         ...(entréeExistante && { id: entréeExistante.id }),
         compteur: entréeExistante ? (entréeExistante.compteur += 1) : 1,
         role,
-        date: dateFormatée,
+        date,
       },
       { transaction }
     )
