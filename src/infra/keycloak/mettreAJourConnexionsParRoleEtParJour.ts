@@ -3,12 +3,12 @@ import { sequelizeInstance } from '../../sequelize.config'
 import { ConnexionsParRoleEtParJour } from '../sequelize/tableModels'
 import { logger } from '@core/utils'
 
-type mettreAJourConnexionsParJourEtParRoleProps = { role: UserRole; date: Date }
+type mettreAJourConnexionsParRoleEtParJourProps = { role: UserRole; date: Date }
 
-export const mettreAJourConnexionsParJourEtParRole = async ({
+export const mettreAJourConnexionsParRoleEtParJour = async ({
   role,
   date,
-}: mettreAJourConnexionsParJourEtParRoleProps) => {
+}: mettreAJourConnexionsParRoleEtParJourProps) => {
   const transaction = await sequelizeInstance.transaction()
 
   const entréeExistante = await ConnexionsParRoleEtParJour.findOne({

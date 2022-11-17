@@ -8,7 +8,7 @@ import { EnsureRole, RegisterAuth } from '@modules/authN'
 import { CreateUser, GetUserByEmail } from '@modules/users'
 import routes from '@routes'
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware'
-import { mettreAJourConnexionsParJourEtParRole } from './mettreAJourConnexionsParJourEtParRole'
+import { mettreAJourConnexionsParRoleEtParJour } from './mettreAJourConnexionsParRoleEtParJour'
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any
@@ -130,7 +130,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         return
       }
 
-      await mettreAJourConnexionsParJourEtParRole({ role: req.user.role, date: new Date() })
+      await mettreAJourConnexionsParRoleEtParJour({ role: req.user.role, date: new Date() })
 
       // @ts-ignore
       const queryString = QueryString.stringify(req.query)
