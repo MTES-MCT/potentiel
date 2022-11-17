@@ -298,7 +298,8 @@ export const ListeProjets = ({
                       id="submit"
                       disabled={!selectedProjectIds.length}
                     >
-                      Accorder les droits sur ces projets
+                      Accorder les droits sur {selectedProjectIds.length}{' '}
+                      {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
                     </Button>
                   </form>
                 </div>
