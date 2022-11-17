@@ -1,5 +1,5 @@
 import { userIs } from '@modules/users'
-import { okAsync } from '@core/utils'
+import { logger, okAsync, ResultAsync } from '@core/utils'
 import { ensureRole, getProjectEvents } from '@config'
 import { getProjectDataForProjectPage } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
@@ -10,6 +10,7 @@ import { ProjectDetailsPage } from '@views'
 import { notFoundResponse, errorResponse, unauthorizedResponse } from '../helpers'
 import routes from '@routes'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { mettreAJourConnexionsParProjetEtParRoleParJour } from '@infra/keycloak/mettreAJourConnexionsParProjetEtParRoleParJour'
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
@@ -41,14 +42,6 @@ v1Router.get(
         })
       }
 
-      /* TODO 
-        mettreAJourConnexionsParProjetEtParRoleParJour({
-          role: request.user.role,
-          date: new Date(),
-          projet: project.id,
-        })
-      */
-
       await getProjectDataForProjectPage({ projectId, user })
         .andThen((project) => {
           if (userIs('ademe')(user)) {
@@ -61,14 +54,25 @@ v1Router.get(
         })
         .match(
           ({ project, projectEventList }) => {
-            return response.send(
-              ProjectDetailsPage({
-                request,
-                project,
-                projectEventList,
-                now: new Date().getTime(),
-              })
-            )
+            ResultAsync.fromPromise(
+              mettreAJourConnexionsParProjetEtParRoleParJour({
+                role: request.user.role,
+                date: new Date(),
+                projet: project.id,
+              }),
+              (e: Error) => {
+                logger.error(e)
+              }
+            ).then(() => {
+              return response.send(
+                ProjectDetailsPage({
+                  request,
+                  project,
+                  projectEventList,
+                  now: new Date().getTime(),
+                })
+              )
+            })
           },
           (e) => {
             if (e instanceof EntityNotFoundError) {
