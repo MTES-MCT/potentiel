@@ -14,6 +14,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Button,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -263,7 +264,10 @@ export const ListeProjets = ({
                 >
                   Donner accès à un utilisateur
                 </span>
-                <svg className="icon filter-icon">
+                <svg
+                  className="icon filter-icon"
+                  style={{ transform: displaySelection ? 'rotate(0deg)' : '' }}
+                >
                   <use xlinkHref="#expand"></use>
                 </svg>
               </div>
@@ -287,15 +291,15 @@ export const ListeProjets = ({
                       selectionnés ci-dessous:
                     </label>
                     <input type="email" name="email" id="email" {...dataId('email-field')} />
-                    <button
-                      className="button"
+                    <Button
+                      className="mt-4"
                       type="submit"
                       name="submit"
                       id="submit"
                       disabled={!selectedProjectIds.length}
                     >
                       Accorder les droits sur ces projets
-                    </button>
+                    </Button>
                   </form>
                 </div>
               )}
