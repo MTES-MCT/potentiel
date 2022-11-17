@@ -41,6 +41,14 @@ v1Router.get(
         })
       }
 
+      /* TODO 
+        mettreAJourConnexionsParProjetEtParRoleParJour({
+          role: request.user.role,
+          date: new Date(),
+          projet: project.id,
+        })
+      */
+
       await getProjectDataForProjectPage({ projectId, user })
         .andThen((project) => {
           if (userIs('ademe')(user)) {
