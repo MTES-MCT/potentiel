@@ -22,7 +22,8 @@ export const SignalerDemandeRecours = ({
   project,
   validationErrors,
 }: SignalerDemandeRecoursProps) => {
-  const { error, user } = request.query as any
+  const { query, user } = request
+  const { error } = query as any
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">

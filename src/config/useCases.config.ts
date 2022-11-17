@@ -325,6 +325,7 @@ export const signalerDemandeAbandon = makeSignalerDemandeAbandon({
   fileRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  hasDemandeDeMêmeTypeOuverte,
 })
 
 export const signalerDemandeRecours = makeSignalerDemandeRecours({
