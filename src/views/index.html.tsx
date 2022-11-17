@@ -70,7 +70,8 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         ${crispWebsiteId
           ? `
         <script type="text/javascript">
-          window.$crisp = []
+          window.$crisp = [];
+          CRISP_COOKIE_EXPIRE = 3600;
           window.CRISP_WEBSITE_ID = '${crispWebsiteId}'
           ;(function () {
             d = document
@@ -79,6 +80,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
             s.async = 1
             d.getElementsByTagName('head')[0].appendChild(s)
           })()
+          $crisp.push(["on", "chat:opened", () => !$crisp.is("session:ongoing") && $crisp.push(["do", "message:send", ["text", "Bonjour !"]])])
         </script>`
           : ''}
       </head>
