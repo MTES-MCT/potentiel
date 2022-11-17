@@ -79,7 +79,7 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
             s.async = 1
             d.getElementsByTagName('head')[0].appendChild(s)
           })()
-          $crisp.push(["on", "chat:opened", () => $crisp.push(["do", "message:send", ["text", "Bonjour !"]])])
+          $crisp.push(["on", "chat:opened", () => !$crisp.is("session:ongoing") && $crisp.push(["do", "message:send", ["text", "Bonjour !"]])])
         </script>`
           : ''}
       </head>
