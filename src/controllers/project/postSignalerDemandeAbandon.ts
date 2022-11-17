@@ -9,7 +9,7 @@ import { upload } from '../upload'
 import * as yup from 'yup'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
-import { DemandeDeMêmeTypeDéjàOuverteError } from '../../modules/project/errors/DemandeDeMêmeTypeDéjàOuverteError'
+import { DemandeDeMêmeTypeDéjàOuverteError } from '@modules/project/errors/DemandeDeMêmeTypeDéjàOuverteError'
 
 const schema = yup.object({
   body: yup.object({
