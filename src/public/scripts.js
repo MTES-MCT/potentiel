@@ -13,7 +13,6 @@ window.initHandlers = function () {
   addGoToProjectPageHandlers()
   addMotifEliminationToggleHandlers()
   addVisibilityToggleHandler()
-  addProjectListSelectionHandler()
   addConfirmHandlers()
   addGoToOnClickHandlers()
   addMissingOwnerProjectListSelectionHandler()
@@ -229,89 +228,6 @@ function addMotifEliminationToggleHandlers() {
       toggleMotifVisibilty(item, !wasVisible)
     })
   )
-}
-
-function addProjectListSelectionHandler() {
-  const invitedProjectsList = document.querySelector('[data-testid=invitation-form-project-list]')
-
-  const projectCheckboxes = document.querySelectorAll('[data-testid=projectList-item-checkbox]')
-
-  const selectAllCheckbox = document.querySelector('[data-testid=projectList-selectAll-checkbox]')
-
-  const checkboxColumns = document.querySelectorAll('[data-testid=projectList-checkbox]')
-
-  const invitationFormVisibilityToggle = document.querySelector(
-    '[data-testid=projectList-invitation-form-visibility-toggle]'
-  )
-
-  if (invitationFormVisibilityToggle) {
-    invitationFormVisibilityToggle.addEventListener('click', function (event) {
-      event.preventDefault()
-
-      const wasVisible = invitationFormVisibilityToggle.classList.contains('open')
-
-      toggleVisibility(invitationFormVisibilityToggle, !wasVisible)
-
-      checkboxColumns.forEach((item) => (item.style.display = wasVisible ? 'none' : ''))
-    })
-  }
-
-  const invitationSubmitButton = document.querySelector('[data-testid=invitation-submit-button]')
-
-  function updateAccessFormVisibility() {
-    if (invitedProjectsList && invitationSubmitButton) {
-      if (invitedProjectsList.options.length) {
-        invitationSubmitButton.disabled = false
-      } else {
-        invitationSubmitButton.disabled = true
-      }
-    }
-  }
-
-  function findOption(options, value) {
-    for (var i = 0; i < options.length; i++) {
-      if (options[i].value === value) return options[i]
-    }
-  }
-
-  function toggleProjectInList(projectId, isSelected) {
-    if (invitedProjectsList) {
-      const projectOption = findOption(invitedProjectsList.options, projectId)
-      if (isSelected && !projectOption) {
-        invitedProjectsList.options.add(new Option(projectId, projectId, true, true))
-      }
-
-      if (!isSelected && projectOption) {
-        projectOption.remove()
-      }
-    }
-
-    updateAccessFormVisibility()
-  }
-
-  function toggleProjectBox(item, isSelected) {
-    const projectId = item.getAttribute('data-projectid')
-
-    item.checked = isSelected
-
-    toggleProjectInList(projectId, isSelected)
-  }
-
-  projectCheckboxes.forEach((item) =>
-    item.addEventListener('change', function (event) {
-      if (selectAllCheckbox) {
-        selectAllCheckbox.checked = false
-      }
-
-      toggleProjectBox(item, event.target.checked)
-    })
-  )
-
-  if (selectAllCheckbox) {
-    selectAllCheckbox.addEventListener('change', function (event) {
-      projectCheckboxes.forEach((item) => toggleProjectBox(item, event.target.checked))
-    })
-  }
 }
 
 function addMissingOwnerProjectListSelectionHandler() {

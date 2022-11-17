@@ -15,13 +15,6 @@ import {
   UserIcon,
 } from './UI/atoms/icons'
 
-type Props = {
-  projects: PaginatedList<Project> | Array<Project>
-  displayGF?: true
-  role: UserRole
-  GFPastDue?: boolean
-}
-
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
@@ -48,7 +41,25 @@ const StatutBadge = ({ project }: { project: Project }) => {
   return <Badge type="success">Classé {type ? `(${type})` : ''}</Badge>
 }
 
-export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => {
+type Props = {
+  projects: PaginatedList<Project> | Array<Project>
+  displayGF?: true
+  role: UserRole
+  GFPastDue?: boolean
+  displaySelection?: boolean
+  selectedIds?: string[]
+  onSelectedIdsChanged?: (projectIds: string[]) => void
+}
+
+export const ProjectList = ({
+  projects,
+  displayGF,
+  role,
+  GFPastDue,
+  selectedIds = [],
+  displaySelection = false,
+  onSelectedIdsChanged,
+}: Props) => {
   let items: Array<Project>
   if (Array.isArray(projects)) {
     items = projects
@@ -66,6 +77,17 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
         </tbody>
       </table>
     )
+  }
+
+  const toggleSelected = (projectId: string, value: boolean) => {
+    const newSelectedIds = selectedIds.slice()
+    if (value) {
+      newSelectedIds.push(projectId)
+    } else {
+      const index = newSelectedIds.indexOf(projectId)
+      newSelectedIds.splice(index, 1)
+    }
+    onSelectedIdsChanged?.(newSelectedIds)
   }
 
   return (
@@ -111,6 +133,13 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
           <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
             <div className="flex flex-col gap-2 mb-4">
               <div className="flex flex-col md:flex-row gap-2">
+                {displaySelection && (
+                  <input
+                    onChange={(e) => toggleSelected(project.id, e.target.checked)}
+                    type="checkbox"
+                    value={project.id}
+                  />
+                )}
                 <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
                 <StatutBadge project={project} />
               </div>

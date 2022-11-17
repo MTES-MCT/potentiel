@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import querystring from 'querystring'
-import React from 'react'
+import React, { useState } from 'react'
 import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
@@ -14,6 +14,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Button,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -63,6 +64,9 @@ export const ListeProjets = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
+
+  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
+  const [displaySelection, setDisplaySelection] = useState(false)
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -251,10 +255,7 @@ export const ListeProjets = ({
           </form>
           {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
             <div>
-              <div
-                {...dataId('projectList-invitation-form-visibility-toggle')}
-                className={'filter-toggle'}
-              >
+              <div onClick={() => setDisplaySelection(!displaySelection)} className="filter-toggle">
                 <span
                   style={{
                     borderBottom: '1px solid var(--light-grey)',
@@ -263,40 +264,46 @@ export const ListeProjets = ({
                 >
                   Donner accès à un utilisateur
                 </span>
-                <svg className="icon filter-icon">
+                <svg
+                  className="icon filter-icon"
+                  style={{ transform: displaySelection ? 'rotate(0deg)' : '' }}
+                >
                   <use xlinkHref="#expand"></use>
                 </svg>
               </div>
-              <div className="filter-panel">
-                <form
-                  action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-                  method="POST"
-                  name="form"
-                  style={{ margin: '15px 0 0 0' }}
-                >
-                  <select
-                    name="projectId"
-                    multiple
-                    {...dataId('invitation-form-project-list')}
-                    style={{ display: 'none' }}
-                  ></select>
-                  <label htmlFor="email">
-                    Courrier électronique de la personne habilitée à suivre les projets selectionnés
-                    ci-dessous:
-                  </label>
-                  <input type="email" name="email" id="email" {...dataId('email-field')} />
-                  <button
-                    className="button"
-                    type="submit"
-                    name="submit"
-                    id="submit"
-                    disabled
-                    {...dataId('invitation-submit-button')}
+              {displaySelection && (
+                <div>
+                  <form
+                    action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                    method="POST"
+                    name="form"
+                    style={{ margin: '15px 0 0 0' }}
                   >
-                    Accorder les droits sur ces projets
-                  </button>
-                </form>
-              </div>
+                    <select name="projectId" multiple hidden>
+                      {selectedProjectIds.map((projectId) => (
+                        <option selected key={projectId} value={projectId}>
+                          {projectId}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor="email">
+                      Courrier électronique de la personne habilitée à suivre les projets
+                      selectionnés ci-dessous:
+                    </label>
+                    <input type="email" name="email" id="email" {...dataId('email-field')} />
+                    <Button
+                      className="mt-4"
+                      type="submit"
+                      name="submit"
+                      id="submit"
+                      disabled={!selectedProjectIds.length}
+                    >
+                      Accorder les droits sur {selectedProjectIds.length}{' '}
+                      {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+                    </Button>
+                  </form>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -325,6 +332,9 @@ export const ListeProjets = ({
               )}
             </div>
             <ProjectList
+              displaySelection={displaySelection}
+              selectedIds={selectedProjectIds}
+              onSelectedIdsChanged={setSelectedProjectIds}
               {...(request.user?.role === 'dreal' && { displayGF: true })}
               projects={projects}
               role={request.user?.role}
