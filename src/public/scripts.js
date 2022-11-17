@@ -238,7 +238,7 @@ function addProjectListSelectionHandler() {
 
   const selectAllCheckbox = document.querySelector('[data-testid=projectList-selectAll-checkbox]')
 
-  const checkboxColumns = document.querySelectorAll('[data-testid=projectList-checkbox]')
+  const checkboxColumns = document.querySelectorAll('[data-testid=projectList-item-checkbox]')
 
   const invitationFormVisibilityToggle = document.querySelector(
     '[data-testid=projectList-invitation-form-visibility-toggle]'
@@ -290,7 +290,7 @@ function addProjectListSelectionHandler() {
   }
 
   function toggleProjectBox(item, isSelected) {
-    const projectId = item.getAttribute('data-projectid')
+    const projectId = item.value
 
     item.checked = isSelected
 

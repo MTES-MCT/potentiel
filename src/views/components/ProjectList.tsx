@@ -3,6 +3,7 @@ import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
 import React, { ReactNode } from 'react'
+import { dataId } from 'src/helpers/testId'
 import { formatDate } from '../../helpers/formatDate'
 import { PaginatedList } from '../../types'
 import { Badge, DownloadLink, Link, LinkButton, Tile } from './UI'
@@ -111,6 +112,12 @@ export const ProjectList = ({ projects, displayGF, role, GFPastDue }: Props) => 
           <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
             <div className="flex flex-col gap-2 mb-4">
               <div className="flex flex-col md:flex-row gap-2">
+                <input
+                  type="checkbox"
+                  style={{ display: 'none' }}
+                  value={project.id}
+                  {...dataId('projectList-item-checkbox')}
+                />
                 <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
                 <StatutBadge project={project} />
               </div>
