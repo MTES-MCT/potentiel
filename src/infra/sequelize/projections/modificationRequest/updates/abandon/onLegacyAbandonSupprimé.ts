@@ -6,8 +6,7 @@ export const onLegacyAbandonSupprimé =
   async ({ payload }: LegacyAbandonSupprimé) => {
     const { projetId } = payload
     try {
-      const ModificationRequestModel = models.ModificationRequest
-      await ModificationRequestModel.destroy({ where: { projectId: projetId, type: 'abandon' } })
+      await models.ModificationRequest.destroy({ where: { projectId: projetId, type: 'abandon' } })
     } catch (e) {
       logger.error(e)
     }
