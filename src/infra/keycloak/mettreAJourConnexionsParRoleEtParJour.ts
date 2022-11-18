@@ -18,11 +18,10 @@ export const mettreAJourConnexionsParRoleEtParJour = async ({
   })
 
   try {
-    const compteur = entréeExistante ? (entréeExistante.compteur += 1) : 1
     await ConnexionsParRoleEtParJour.upsert(
       {
         ...(entréeExistante && { id: entréeExistante.id }),
-        compteur,
+        compteur: entréeExistante?.compteur ? entréeExistante?.compteur + 1 : 1,
         role,
         date,
       },
