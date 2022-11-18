@@ -15,6 +15,7 @@ const adminActions = (project: {
   nomProjet: string
   potentielIdentifier: string
   attestationDesignationProof: { file: { id: string; filename: string } }
+  isLegacy: boolean
 }) => {
   const canDownloadCertificate = !!project.certificateFile
 
@@ -32,7 +33,7 @@ const adminActions = (project: {
       isDownload: true,
       disabled: !canDownloadCertificate,
     })
-  } else {
+  } else if (!project.isLegacy) {
     actions.push({
       title: 'Aperçu attestation',
       link: ROUTES.PREVIEW_CANDIDATE_CERTIFICATE(project),
