@@ -129,12 +129,7 @@ export const ProjectList = ({
       </legend>
 
       {items.map((project) => {
-        const isLegacy =
-          project.appelOffre?.periodes.find((p) => p.id === project.periodeId)?.type === 'legacy'
-        console.log(
-          'it happens here',
-          project.appelOffre?.periodes.find((p) => p.id === project.periodeId)?.type
-        )
+        const isLegacy = project.appelOffre?.periode.type === 'legacy'
         return (
           <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
             <div className="flex flex-col gap-2 mb-4">
