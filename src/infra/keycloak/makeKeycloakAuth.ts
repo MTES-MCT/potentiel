@@ -83,6 +83,10 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
         resave: false,
         proxy: true,
         saveUninitialized: false,
+        cookie: {
+          secure: true,
+          httpOnly: true
+        }
       })
     )
 
