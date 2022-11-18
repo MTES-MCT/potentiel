@@ -87,6 +87,7 @@ import {
   CahierDesChargesChoisi,
   NumeroGestionnaireSubmitted,
   DonnéesDeRaccordementRenseignées,
+  LegacyAbandonSupprimé,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -1322,6 +1323,9 @@ export const makeProject = (args: {
         break
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime()
+        break
+      case LegacyAbandonSupprimé.type:
+        props.abandonedOn = 0
         break
       case AppelOffreProjetModifié.type:
         props.appelOffreId = event.payload.appelOffreId
