@@ -1,4 +1,3 @@
-
 import { resetDatabase } from '@infra/sequelize/helpers'
 import { ConnexionsParProjetEtParRoleParJour } from '@infra/sequelize/tableModels'
 import { mettreAJourConnexionsParProjetEtParRoleParJour } from './mettreAJourConnexionsParProjetEtParRoleParJour'
@@ -11,7 +10,9 @@ describe(`helper mettreAJourConnexionsParProjetEtParRoleParJour`, () => {
   describe(`Lorsqu'il n'y a pas d'entrée dans la table ConnexionsParProjetEtParRoleParJour pour le projet et le rôle à la date du jour`, () => {
     it(`Alors, une nouvelle entrée devrait être insérée dans la table ConnexionsParProjetEtParRoleParJour`, async () => {
       await mettreAJourConnexionsParProjetEtParRoleParJour({ role: 'admin', date, projet })
-      const entrée = await ConnexionsParProjetEtParRoleParJour.findOne({ where: { role: 'admin', projet } })
+      const entrée = await ConnexionsParProjetEtParRoleParJour.findOne({
+        where: { role: 'admin', projet },
+      })
       expect(entrée?.compteur).toEqual(1)
       expect(entrée?.projet).toEqual(projet)
     })
@@ -24,11 +25,13 @@ describe(`helper mettreAJourConnexionsParProjetEtParRoleParJour`, () => {
         date,
         projet,
         compteur: 1,
-      });
+      })
 
       await mettreAJourConnexionsParProjetEtParRoleParJour({ role: 'admin', projet, date })
 
-      const entrée = await ConnexionsParProjetEtParRoleParJour.findOne({ where: { id: entréeInitiale.id } })
+      const entrée = await ConnexionsParProjetEtParRoleParJour.findOne({
+        where: { id: entréeInitiale.id },
+      })
 
       expect(entrée?.compteur).toEqual(2)
     })

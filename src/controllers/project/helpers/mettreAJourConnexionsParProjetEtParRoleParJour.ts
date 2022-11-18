@@ -1,14 +1,15 @@
 import { UserRole } from '@modules/users'
-import { sequelizeInstance } from '../../sequelize.config'
-import { ConnexionsParProjetEtParRoleParJour } from '../sequelize/tableModels'
+import { ConnexionsParProjetEtParRoleParJour } from '@infra/sequelize/tableModels'
 import { logger } from '@core/utils'
+
+import { sequelizeInstance } from '../../../sequelize.config'
 
 type mettreAJourConnexionsParRoleEtParJourProps = { role: UserRole; date: Date; projet: string }
 
 export const mettreAJourConnexionsParProjetEtParRoleParJour = async ({
   role,
   date,
-  projet
+  projet,
 }: mettreAJourConnexionsParRoleEtParJourProps) => {
   const transaction = await sequelizeInstance.transaction()
 
@@ -25,7 +26,7 @@ export const mettreAJourConnexionsParProjetEtParRoleParJour = async ({
         compteur: entréeExistante ? (entréeExistante.compteur += 1) : 1,
         role,
         date,
-        projet
+        projet,
       },
       { transaction }
     )

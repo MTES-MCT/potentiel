@@ -10,7 +10,7 @@ import { ProjectDetailsPage } from '@views'
 import { notFoundResponse, errorResponse, unauthorizedResponse } from '../helpers'
 import routes from '@routes'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
-import { mettreAJourConnexionsParProjetEtParRoleParJour } from '@infra/keycloak/mettreAJourConnexionsParProjetEtParRoleParJour'
+import { mettreAJourConnexionsParProjetEtParRoleParJour } from './helpers/mettreAJourConnexionsParProjetEtParRoleParJour'
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
