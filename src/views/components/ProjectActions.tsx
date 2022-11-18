@@ -9,6 +9,7 @@ interface Props {
     id: string
     isClasse: boolean
     isAbandoned: boolean
+    isLegacy: boolean
     notifiedOn?: Date
     certificateFile?: {
       id: string
@@ -30,7 +31,6 @@ interface Props {
 
 export const ProjectActions = ({ project, role }: Props) => {
   if (!project || !role) return <></>
-
   const actions = ACTION_BY_ROLE[role]?.call(null, project)
   if (!actions || !actions.length) return <></>
 
