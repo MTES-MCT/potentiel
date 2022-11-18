@@ -1,6 +1,7 @@
 import multer from 'multer'
 import { promises as fs } from 'fs'
 import { logger } from '@core/utils'
+import sanitize from 'sanitize-filename'
 
 const FILE_SIZE_LIMIT_MB = 50
 const uploadWithMulter = multer({
@@ -13,7 +14,7 @@ export const upload = {
     res.on('finish', async () => {
       if (req.file) {
         try {
-          await fs.unlink(req.file.path)
+          await fs.unlink(sanitize(req.file.path))
         } catch (error) {
           logger.error(error)
         }
