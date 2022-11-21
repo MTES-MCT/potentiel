@@ -44,7 +44,7 @@ export const ImportDonneesRaccordement = ({
           encType="multipart/form-data"
         >
           <Label htmlFor="fichier">Fichier .csv des données de raccordement :</Label>
-          <Input type="file" required name="fichier-données-raccordement" id="fichier" />
+          <Input type="file" required name="fichier-donnees-raccordement" id="fichier" />
           <Button type="submit" className="mt-4">
             Mettre les projets à jour
           </Button>
