@@ -2,57 +2,85 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '@routes'
 import { inviteUserToProject, ensureRole } from '@config'
 import { v1Router } from '../v1Router'
-import asyncHandler from '../helpers/asyncHandler'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, unauthorizedResponse } from '../helpers'
 import { UnauthorizedError } from '@modules/shared'
 import { logger } from '@core/utils'
+import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import * as yup from 'yup'
+import { User } from '@entities'
+
+const schema = yup.object({
+  body: yup.object({
+    email: yup.string().required().email(),
+    projectId: yup.lazy((value) => {
+      switch (typeof value) {
+        case 'string':
+          return yup.string().uuid().required()
+        default:
+          return yup.array().of(yup.string().uuid().required()).required()
+      }
+    }),
+  }),
+})
+
+const getRedirectTo = ({
+  projectId,
+  role,
+}: {
+  projectId: string | string[]
+  role: User['role']
+}) => {
+  return Array.isArray(projectId)
+    ? role === 'porteur-projet'
+      ? routes.USER_LIST_PROJECTS
+      : routes.ADMIN_LIST_PROJECTS
+    : routes.PROJECT_DETAILS(projectId)
+}
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,
   ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet']),
-  asyncHandler(async (request, response) => {
-    const { email, projectId } = request.body
-    const { user } = request
+  safeAsyncHandler(
+    {
+      schema,
+      onError: ({ response, request, error }) => {
+        const projectId = request.body.projectId
+        const redirectTo = getRedirectTo({ projectId, role: request.user.role })
+        return response.redirect(
+          addQueryParams(redirectTo, {
+            ...request.body,
+            error: `${error.errors.join(' ')}`,
+          })
+        )
+      },
+    },
+    async (request, response) => {
+      const { email, projectId } = request.body
+      const { user } = request
 
-    const projectIds = Array.isArray(projectId) ? projectId : [projectId]
+      const projectIds = Array.isArray(projectId) ? projectId : [projectId]
+      const redirectTo = getRedirectTo({ projectId, role: request.user.role })
 
-    if (!projectIds.every((projectId) => validateUniqueId(projectId))) {
-      return errorResponse({
-        request,
-        response,
-        customMessage:
-          'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-      })
-    }
-
-    const redirectTo = Array.isArray(projectId)
-      ? user.role === 'porteur-projet'
-        ? routes.USER_LIST_PROJECTS
-        : routes.ADMIN_LIST_PROJECTS
-      : routes.PROJECT_DETAILS(projectId)
-    ;(
-      await inviteUserToProject({
+      return inviteUserToProject({
         email: email.toLowerCase(),
         projectIds,
         invitedBy: user,
-      })
-    ).match(
-      () =>
-        response.redirect(
-          addQueryParams(redirectTo, {
-            success: 'Une invitation a bien été envoyée à ' + email,
-          })
-        ),
-      (error) => {
-        if (error instanceof UnauthorizedError) {
-          return unauthorizedResponse({ response, request })
+      }).match(
+        () =>
+          response.redirect(
+            addQueryParams(redirectTo, {
+              success: 'Une invitation a bien été envoyée à ' + email,
+            })
+          ),
+        (error) => {
+          if (error instanceof UnauthorizedError) {
+            return unauthorizedResponse({ response, request })
+          }
+
+          logger.error(error)
+          return errorResponse({ request, response })
         }
-
-        logger.error(error)
-
-        return errorResponse({ request, response })
-      }
-    )
-  })
+      )
+    }
+  )
 )

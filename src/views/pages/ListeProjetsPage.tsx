@@ -290,7 +290,13 @@ export const ListeProjets = ({
                       Courrier électronique de la personne habilitée à suivre les projets
                       selectionnés ci-dessous:
                     </label>
-                    <input type="email" name="email" id="email" {...dataId('email-field')} />
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      id="email"
+                      {...dataId('email-field')}
+                    />
                     <Button
                       className="mt-4"
                       type="submit"
