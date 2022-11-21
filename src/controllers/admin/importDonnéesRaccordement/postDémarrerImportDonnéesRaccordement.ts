@@ -87,7 +87,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.post(
     routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
     ensureRole(['admin', 'dgec-validateur']),
-    upload.single('fichier-données-raccordement'),
+    upload.single('fichier-donnees-raccordement'),
     asyncHandler(async (request, response) => {
       if (!request.file || !request.file.path) {
         setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {

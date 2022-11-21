@@ -101,7 +101,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.39",
     "morgan": "^1.10.0",
-    "multer": "^1.4.4",
+    "multer": "^1.4.5-lts.1",
     "neverthrow": "^5.1.0",
     "node-mailjet": "^5.1.1",
     "npm": "^9.1.2",
