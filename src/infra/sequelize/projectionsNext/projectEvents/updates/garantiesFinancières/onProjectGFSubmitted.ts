@@ -3,8 +3,8 @@ import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
 import models from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancièreEventPayload } from '../../events/GarantiesFinancièresEvent'
-import { is } from '../../guards'
+import { UniqueEntityID } from '@core/domain'
+import { GarantiesFinancièreEventPayload } from '../../events'
 
 export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, transaction) => {
   const {
@@ -35,31 +35,24 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
       transaction,
     })
 
-    if (!projectEvent || !is('GarantiesFinancières')(projectEvent)) {
-      logger.error(
-        new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFSubmitted`, {
-          évènement,
-          nomProjection: 'ProjectEvent.onProjectGFSubmitted',
-        })
-      )
-      return
-    }
-
     const payload: GarantiesFinancièreEventPayload = {
+      ...projectEvent?.payload,
       statut: 'pending-validation',
-      dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
       dateConstitution: gfDate.getTime(),
       fichier: file,
       ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
     }
-    await ProjectEvent.update(
+
+    await ProjectEvent.upsert(
       {
+        id: projectEvent?.id || new UniqueEntityID().toString(),
+        type: 'GarantiesFinancières',
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
+        projectId,
         payload,
       },
       {
-        where: { type: 'GarantiesFinancières', projectId },
         transaction,
       }
     )
