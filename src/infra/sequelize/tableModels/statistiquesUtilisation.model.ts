@@ -8,6 +8,12 @@ import {
 } from 'sequelize'
 import { sequelizeInstance } from '../../../sequelize.config'
 
+type JSONValue = string | number | boolean | { [key: string]: JSONValue } | Array<JSONValue>
+
+export type Données = {
+  [key: string]: JSONValue
+}
+
 class StatistiquesUtilisation extends Model<
   InferAttributes<StatistiquesUtilisation>,
   InferCreationAttributes<StatistiquesUtilisation>
@@ -15,7 +21,7 @@ class StatistiquesUtilisation extends Model<
   id: CreationOptional<number>
   type: string
   date: Date
-  données: JSON
+  données: Données
 }
 
 StatistiquesUtilisation.init(

@@ -7,7 +7,12 @@ import { EntityNotFoundError } from '@modules/shared'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import { ProjectDetailsPage } from '@views'
-import { notFoundResponse, errorResponse, unauthorizedResponse } from '../helpers'
+import {
+  notFoundResponse,
+  errorResponse,
+  unauthorizedResponse,
+  miseAJourStatistiquesUtilisation,
+} from '../helpers'
 import routes from '@routes'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 
@@ -53,6 +58,17 @@ v1Router.get(
         })
         .match(
           ({ project, projectEventList }) => {
+            miseAJourStatistiquesUtilisation({
+              type: 'projetConsulté',
+              date: new Date(),
+              données: {
+                role: request.user.role,
+                appelOffreId: project.appelOffreId,
+                periodeId: project.periodeId,
+                ...(project.familleId && { familleId: project.familleId }),
+                numéroCRE: project.numeroCRE,
+              },
+            })
             return response.send(
               ProjectDetailsPage({
                 request,
