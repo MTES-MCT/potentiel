@@ -17,11 +17,7 @@ export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, tr
       transaction,
     })
 
-    if (
-      !projectEvent ||
-      !is('GarantiesFinancières')(projectEvent) ||
-      !projectEvent?.payload.dateLimiteDEnvoi
-    ) {
+    if (!projectEvent || !is('GarantiesFinancières')(projectEvent)) {
       logger.error(
         new ProjectionEnEchec(`Erreur lors du traitement de l'événement ProjectGFRemoved`, {
           évènement,
@@ -31,21 +27,30 @@ export default ProjectEventProjector.on(ProjectGFRemoved, async (évènement, tr
       return
     }
 
-    const payload: GarantiesFinancièreEventPayload = {
-      statut: 'due',
-      dateLimiteDEnvoi: projectEvent.payload.dateLimiteDEnvoi,
-    }
-    await ProjectEvent.update(
-      {
-        valueDate: occurredAt.getTime(),
-        eventPublishedAt: occurredAt.getTime(),
-        payload,
-      },
-      {
+    const dateLimiteDEnvoi = projectEvent.payload.dateLimiteDEnvoi
+
+    if (dateLimiteDEnvoi) {
+      const payload: GarantiesFinancièreEventPayload = {
+        statut: 'due',
+        dateLimiteDEnvoi,
+      }
+      await ProjectEvent.update(
+        {
+          valueDate: occurredAt.getTime(),
+          eventPublishedAt: occurredAt.getTime(),
+          payload,
+        },
+        {
+          where: { type: 'GarantiesFinancières', projectId },
+          transaction,
+        }
+      )
+    } else {
+      await ProjectEvent.destroy({
         where: { type: 'GarantiesFinancières', projectId },
         transaction,
-      }
-    )
+      })
+    }
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
