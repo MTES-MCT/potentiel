@@ -4,6 +4,7 @@ import models from '../../../../models'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { UniqueEntityID } from '@core/domain'
+import { GarantiesFinancièreEventPayload } from '../../events'
 
 export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, transaction) => {
   const {
@@ -34,6 +35,14 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
       transaction,
     })
 
+    const payload: GarantiesFinancièreEventPayload = {
+      ...projectEvent?.payload,
+      statut: 'pending-validation',
+      dateConstitution: gfDate.getTime(),
+      fichier: file,
+      ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
+    }
+
     await ProjectEvent.upsert(
       {
         id: projectEvent?.id || new UniqueEntityID().toString(),
@@ -41,13 +50,7 @@ export default ProjectEventProjector.on(ProjectGFSubmitted, async (évènement, 
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         projectId,
-        payload: {
-          ...projectEvent?.payload,
-          statut: 'pending-validation',
-          dateConstitution: gfDate.getTime(),
-          fichier: file,
-          ...(expirationDate && { dateExpiration: expirationDate?.getTime() }),
-        },
+        payload,
       },
       {
         transaction,

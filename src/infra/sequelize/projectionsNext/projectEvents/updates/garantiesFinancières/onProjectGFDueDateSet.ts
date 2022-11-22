@@ -3,6 +3,7 @@ import { ProjectGFDueDateSet } from '@modules/project'
 import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { GarantiesFinancièreEventPayload } from '../../events'
 
 export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement, transaction) => {
   const {
@@ -15,6 +16,12 @@ export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement,
     transaction,
   })
 
+  const payload: GarantiesFinancièreEventPayload = {
+    statut: 'due',
+    ...projectEvent?.payload,
+    dateLimiteDEnvoi: garantiesFinancieresDueOn,
+  }
+
   try {
     await ProjectEvent.upsert(
       {
@@ -23,10 +30,7 @@ export default ProjectEventProjector.on(ProjectGFDueDateSet, async (évènement,
         valueDate: occurredAt.getTime(),
         eventPublishedAt: occurredAt.getTime(),
         projectId,
-        payload: {
-          ...projectEvent?.payload,
-          dateLimiteDEnvoi: garantiesFinancieresDueOn,
-        },
+        payload,
       },
       { transaction }
     )
