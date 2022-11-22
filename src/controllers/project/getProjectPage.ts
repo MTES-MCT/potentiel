@@ -60,13 +60,14 @@ v1Router.get(
           ({ project, projectEventList }) => {
             miseAJourStatistiquesUtilisation({
               type: 'projetConsulté',
-              date: new Date(),
               données: {
-                role: request.user.role,
-                appelOffreId: project.appelOffreId,
-                periodeId: project.periodeId,
-                ...(project.familleId && { familleId: project.familleId }),
-                numéroCRE: project.numeroCRE,
+                utilisateur: { role: request.user.role },
+                projet: {
+                  appelOffreId: project.appelOffreId,
+                  periodeId: project.periodeId,
+                  ...(project.familleId && { familleId: project.familleId }),
+                  numéroCRE: project.numeroCRE,
+                },
               },
             })
             return response.send(

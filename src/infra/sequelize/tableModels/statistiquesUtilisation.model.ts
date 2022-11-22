@@ -20,7 +20,7 @@ class StatistiquesUtilisation extends Model<
 > {
   id: CreationOptional<number>
   type: string
-  date: Date
+  date?: Date
   données: Données
 }
 

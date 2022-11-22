@@ -1,11 +1,10 @@
 import { Données, StatistiquesUtilisation } from '@infra/sequelize/tableModels'
 
-type MiseAJourStatistiquesUtilisationProps = { type: string; date: Date; données: Données }
+type MiseAJourStatistiquesUtilisationProps = { type: string; données: Données }
 
 export const miseAJourStatistiquesUtilisation = ({
   type,
-  date,
   données,
 }: MiseAJourStatistiquesUtilisationProps) => {
-  StatistiquesUtilisation.create({ type, date, données })
+  StatistiquesUtilisation.create({ type, données })
 }
