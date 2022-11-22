@@ -61,7 +61,7 @@ v1Router.post(
       const projectIds = Array.isArray(projectId) ? projectId : [projectId]
       const redirectTo = getRedirectTo({ projectId, role: request.user.role })
 
-      return inviteUserToProject({
+      return await inviteUserToProject({
         email: email.toLowerCase(),
         projectIds,
         invitedBy: user,

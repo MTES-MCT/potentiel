@@ -2,7 +2,7 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button } from '@components'
+import { Button, Input, Label } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Section } from '../components'
@@ -81,10 +81,10 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
     >
       <h5 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</h5>
       <input type="hidden" name="projectId" id="projectId" value={project.id} />
-      <label htmlFor="email">
+      <Label htmlFor="email" required>
         Courrier électronique de la personne habilitée à suivre ce projet
-      </label>
-      <input type="email" name="email" id="email" {...dataId('email-field')} />
+      </Label>
+      <Input type="email" name="email" id="email" required />
       <Button
         className="mt-2 mr-3"
         type="submit"
