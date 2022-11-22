@@ -228,6 +228,11 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       type: DataTypes.STRING,
       allowNull: true,
     },
+    isSoumisGF: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   })
 
   const FileModel = sequelizeInstance.define(
