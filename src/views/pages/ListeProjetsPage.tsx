@@ -15,6 +15,8 @@ import {
   SuccessBox,
   ErrorBox,
   Button,
+  Input,
+  Label,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -277,7 +279,7 @@ export const ListeProjets = ({
                     action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
                     method="POST"
                     name="form"
-                    style={{ margin: '15px 0 0 0' }}
+                    className="m-0 mt-4"
                   >
                     <select name="projectId" multiple hidden>
                       {selectedProjectIds.map((projectId) => (
@@ -286,11 +288,17 @@ export const ListeProjets = ({
                         </option>
                       ))}
                     </select>
-                    <label htmlFor="email">
+                    <Label htmlFor="email" required>
                       Courrier électronique de la personne habilitée à suivre les projets
                       selectionnés ci-dessous:
-                    </label>
-                    <input type="email" name="email" id="email" {...dataId('email-field')} />
+                    </Label>
+                    <Input
+                      required
+                      type="email"
+                      name="email"
+                      id="email"
+                      {...dataId('email-field')}
+                    />
                     <Button
                       className="mt-4"
                       type="submit"
