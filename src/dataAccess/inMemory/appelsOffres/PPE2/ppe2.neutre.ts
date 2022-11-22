@@ -28,6 +28,7 @@ const neutrePPE2: AppelOffre = {
   paragrapheClauseCompetitivite: '2.14',
   afficherPhraseRegionImplantation: false,
   afficherValeurEvaluationCarbone: true,
+  soumisAuxGarantiesFinancieres: 'à la candidature',
   changementPuissance: {
     ratios: {
       min: 0.8,
@@ -62,15 +63,15 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
     {
       id: '1',
       title: 'première',
-      type: 'not-yet-notified',
-      certificateTemplate: 'ppe2.v1',
+      type: 'notified',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 26.89,
       cahierDesCharges: {
-        référence: '2021 S 176-457521',
+        référence: '2022 S 100-276861',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-neutre-telecharger-le-cahier-des-charges-en-vigueur',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
     },
-    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [
     // seulement sur les installations hydrauliques
