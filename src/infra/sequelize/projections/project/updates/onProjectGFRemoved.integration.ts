@@ -1,11 +1,11 @@
 import models from '../../../models'
 import { resetDatabase } from '../../../helpers'
-import { onProjectGFInvalidated } from './onProjectGFInvalidated'
-import { ProjectGFInvalidated } from '@modules/project'
+import { onProjectGFRemoved } from './onProjectGFRemoved'
+import { ProjectGFRemoved } from '@modules/project'
 import { v4 as uuid } from 'uuid'
 import makeFakeProjectStep from '../../../../../__tests__/fixtures/projectStep'
 
-describe('project.onProjectGFInvalidated', () => {
+describe('project.onProjectGFRemoved', () => {
   const { ProjectStep } = models
   const projectId = uuid()
   const projectStepId1 = uuid()
@@ -23,9 +23,9 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
+      await onProjectGFRemoved(models)(
+        new ProjectGFRemoved({
+          payload: { projectId, removedBy: '' },
         })
       )
     })
@@ -47,9 +47,9 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
+      await onProjectGFRemoved(models)(
+        new ProjectGFRemoved({
+          payload: { projectId, removedBy: '' },
         })
       )
     })
@@ -71,9 +71,9 @@ describe('project.onProjectGFInvalidated', () => {
     beforeAll(async () => {
       await resetDatabase()
       await ProjectStep.bulkCreate([projectStep1, projectStep2])
-      await onProjectGFInvalidated(models)(
-        new ProjectGFInvalidated({
-          payload: { projectId },
+      await onProjectGFRemoved(models)(
+        new ProjectGFRemoved({
+          payload: { projectId, removedBy: '' },
         })
       )
     })

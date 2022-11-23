@@ -72,7 +72,6 @@ import {
   ProjectFournisseursUpdated,
   ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
-  ProjectGFInvalidated,
   ProjectGFRemoved,
   ProjectGFSubmitted,
   ProjectGFUploaded,
@@ -726,9 +725,10 @@ export const makeProject = (args: {
 
         if (props.hasCurrentGf) {
           _publishEvent(
-            new ProjectGFInvalidated({
+            new ProjectGFRemoved({
               payload: {
                 projectId: props.projectId.toString(),
+                removedBy: '',
               },
             })
           )
@@ -1184,7 +1184,6 @@ export const makeProject = (args: {
       case ProjectClasseGranted.type:
       case ProjectGFSubmitted.type:
       case ProjectGFRemoved.type:
-      case ProjectGFInvalidated.type:
       case ProjectGFUploaded.type:
         props.lastUpdatedOn = event.occurredAt
         break
@@ -1317,7 +1316,6 @@ export const makeProject = (args: {
         props.hasCurrentPtf = false
         break
       case ProjectGFRemoved.type:
-      case ProjectGFInvalidated.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false
         break

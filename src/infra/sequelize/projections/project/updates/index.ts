@@ -20,7 +20,6 @@ import {
   ProjectFournisseursUpdated,
   ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
-  ProjectGFInvalidated,
   ProjectImported,
   CahierDesChargesChoisi,
   ProjectNotificationDateSet,
@@ -31,6 +30,7 @@ import {
   IdentifiantPotentielPPE2Batiment2Corrigé,
   DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
+  ProjectGFRemoved,
 } from '@modules/project'
 import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
@@ -52,7 +52,7 @@ import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
-import { onProjectGFInvalidated } from './onProjectGFInvalidated'
+import { onProjectGFRemoved } from './onProjectGFRemoved'
 import { onProjectImported } from './onProjectImported'
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
@@ -81,7 +81,7 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
   eventBus.subscribe(ProjectDCRDueDateCancelled.type, onProjectDCRDueDateCancelled(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
   eventBus.subscribe(ProjectGFDueDateCancelled.type, onProjectGFDueDateCancelled(models))
-  eventBus.subscribe(ProjectGFInvalidated.type, onProjectGFInvalidated(models))
+  eventBus.subscribe(ProjectGFRemoved.type, onProjectGFRemoved(models))
   eventBus.subscribe(ProjectCompletionDueDateSet.type, onProjectCompletionDueDateSet(models))
   eventBus.subscribe(
     ProjectCompletionDueDateCancelled.type,

@@ -10,7 +10,7 @@ import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
 import {
   LegacyProjectSourced,
   ProjectGFDueDateSet,
-  ProjectGFInvalidated,
+  ProjectGFRemoved,
   ProjectGFSubmitted,
   ProjectGFSubmittedPayload,
   ProjectProducteurUpdated,
@@ -166,13 +166,13 @@ describe('Project.updateProducteur()', () => {
             })
           )
 
-          it('should emit ProjectGFInvalidated', () => {
+          it('should emit ProjectGFRemoved', () => {
             project.updateProducteur(fakeUser, newProducteur)
 
             expect(project.pendingEvents).toHaveLength(3)
 
             const targetEvent = project.pendingEvents.find(
-              (event): event is ProjectGFInvalidated => event.type === ProjectGFInvalidated.type
+              (event): event is ProjectGFRemoved => event.type === ProjectGFRemoved.type
             )
             expect(targetEvent).toBeDefined()
             if (!targetEvent) return

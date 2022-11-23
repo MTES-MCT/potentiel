@@ -1,8 +1,8 @@
 import { Op } from 'sequelize'
 import { logger } from '@core/utils'
-import { ProjectGFInvalidated } from '@modules/project'
+import { ProjectGFRemoved } from '@modules/project'
 
-export const onProjectGFInvalidated = (models) => async (event: ProjectGFInvalidated) => {
+export const onProjectGFRemoved = (models) => async (event: ProjectGFRemoved) => {
   const { ProjectStep } = models
   const { projectId } = event.payload
 
@@ -19,6 +19,6 @@ export const onProjectGFInvalidated = (models) => async (event: ProjectGFInvalid
     )
   } catch (e) {
     logger.error(e)
-    logger.info('Error: onProjectGFInvalidated projection failed to update project step', event)
+    logger.info('Error: onProjectGFRemoved projection failed to update project step', event)
   }
 }
