@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { logger, ok } from '@core/utils'
 import { CreateUser, GetUserByEmail, USER_ROLES } from '@modules/users'
+import { getPermissions } from '@modules/authN'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
@@ -52,6 +53,7 @@ const makeAttachUserToRequestMiddleware =
             request.user = {
               ...user,
               accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,
+              permissions: getPermissions(user),
             }
           },
           (e: Error) => {

@@ -3,10 +3,14 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listProjects } from '@useCases'
-import { ensureRole } from '@config'
+import { listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
+import { userIs } from '@modules/users'
+import { PermissionListerProjets } from '@modules/project'
+import { vérifierPermissionUtilisateur } from '../helpers'
+
+const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
 const getProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -22,10 +26,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   const { user } = request
 
   // Set default filter on classés for admins
-  if (
-    ['admin', 'dgec-validateur', 'dreal'].includes(user.role) &&
-    typeof classement === 'undefined'
-  ) {
+  if (userIs(['admin', 'dgec-validateur', 'dreal'])(user) && typeof classement === 'undefined') {
     classement = 'classés'
     request.query.classement = 'classés'
   }
@@ -61,7 +62,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   if (pageSize) {
     // Save the pageSize in a cookie
     response.cookie('pageSize', pageSize, {
-      maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
+      maxAge: TROIS_MOIS,
       httpOnly: true,
     })
   }
@@ -80,6 +81,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 
 v1Router.get(
   routes.LISTE_PROJETS,
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
+  vérifierPermissionUtilisateur(PermissionListerProjets),
   getProjectListPage
 )

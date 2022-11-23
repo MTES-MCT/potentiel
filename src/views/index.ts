@@ -38,6 +38,7 @@ import {
   EmailsEnErreur,
   ProjetsÀRéclamer,
   LienInvitationPérimé,
+  AccèsNonAutorisé,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -314,4 +315,10 @@ export const LienInvitationPériméPage = (props: Parameters<typeof LienInvitati
     Component: LienInvitationPérimé,
     props,
     title: 'Lien invitation périmé',
+  })
+
+export const AccèsNonAutoriséPage = (props: Parameters<typeof AccèsNonAutorisé>[0]) =>
+  makeHtml({
+    Component: AccèsNonAutorisé,
+    props,
   })

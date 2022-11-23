@@ -5,9 +5,9 @@ import {
   ProjectFilters,
   ContextSpecificProjectListFilter,
 } from '@dataAccess'
-import { Pagination, PaginatedList } from '../types'
+import { Pagination, PaginatedList } from '../../../types'
 
-interface MakeUseCaseProps {
+type Dépendances = {
   searchForRegions: ProjectRepo['searchForRegions']
   findAllForRegions: ProjectRepo['findAllForRegions']
   searchForUser: ProjectRepo['searchForUser']
@@ -20,7 +20,7 @@ interface MakeUseCaseProps {
   findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
-interface ListProjectsDeps {
+type Filtres = {
   user: User
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
@@ -32,14 +32,19 @@ interface ListProjectsDeps {
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
-interface ListProjectsResult {
+type Résultat = {
   projects: PaginatedList<Project>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>
   existingFamilles?: Array<Famille['id']>
 }
 
-export default function makeListProjects({
+export const PermissionListerProjets = {
+  nom: 'lister-projets',
+  description: 'Lister les projets',
+}
+
+export const makeListProjects = ({
   searchForRegions,
   findAllForRegions,
   searchForUser,
@@ -50,7 +55,7 @@ export default function makeListProjects({
   findExistingPeriodesForAppelOffre,
   findExistingFamillesForAppelOffre,
   findDrealsForUser,
-}: MakeUseCaseProps) {
+}: Dépendances) => {
   return async function listProjects({
     user,
     appelOffreId,
@@ -61,7 +66,7 @@ export default function makeListProjects({
     classement,
     reclames,
     garantiesFinancieres,
-  }: ListProjectsDeps): Promise<ListProjectsResult> {
+  }: Filtres): Promise<Résultat> {
     const query: ProjectFilters = {
       isNotified: true,
     }
@@ -155,6 +160,6 @@ export default function makeListProjects({
       )
     }
 
-    return result as ListProjectsResult
+    return result as Résultat
   }
 }

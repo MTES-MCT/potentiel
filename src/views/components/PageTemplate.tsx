@@ -238,7 +238,7 @@ export const PageTemplate = ({
       <Header user={user}>{user && getUserNavigation({ user, currentPage })}</Header>
       <main
         role="main"
-        className="flex flex-col py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
+        className="flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
         style={{ fontFamily: 'Marianne, arial, sans-serif' }}
       >
         {children}
