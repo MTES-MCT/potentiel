@@ -448,7 +448,10 @@ export const makeProject = (args: {
               familleId,
               numeroCRE,
               importId,
-              data,
+              data: {
+                ...data,
+                ...(appelOffre.isSoumisAuxGF && { soumisAuxGF: true }),
+              },
               potentielIdentifier: buildProjectIdentifier({
                 appelOffreId,
                 periodeId,

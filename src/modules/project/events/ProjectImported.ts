@@ -38,6 +38,7 @@ export interface ProjectImportedPayload {
     details: any
     technologie: Technologie
     actionnariat?: string
+    soumisAuxGF?: true
   }
 }
 export class ProjectImported
