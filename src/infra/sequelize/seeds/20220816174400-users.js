@@ -54,6 +54,13 @@ module.exports = {
           fonction: 'Intitulé de la fonction du DGEC validateur test',
           role: 'dgec-validateur',
         },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa998',
+          fullName: 'CRE',
+          email: 'cre@test.test',
+          fonction: 'Intitulé de la fonction du CRE',
+          role: 'cre',
+        },
       ]
 
       await queryInterface.bulkInsert(
