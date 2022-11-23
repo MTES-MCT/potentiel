@@ -57,7 +57,7 @@ v1Router.post(
             success: `Les attestations de la période ${appelOffreId} - ${periodeId}${
               familleId ? ` famille ${familleId}` : ''
             } sont en cours de regénération. Les porteurs de projets seront prévenus par email dès que leur nouvelle attestation sera prête.`,
-            redirectUrl: addQueryParams(routes.ADMIN_LIST_PROJECTS, {
+            redirectUrl: addQueryParams(routes.LISTE_PROJETS, {
               appelOffreId,
               periodeId,
               familleId,

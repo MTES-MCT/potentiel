@@ -79,13 +79,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 })
 
 v1Router.get(
-  routes.ADMIN_DASHBOARD,
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
-  getProjectListPage
-)
-
-v1Router.get(
-  routes.USER_DASHBOARD,
+  routes.LISTE_PROJETS,
   ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
   getProjectListPage
 )

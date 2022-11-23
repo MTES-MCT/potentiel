@@ -52,7 +52,7 @@ const getUserNavigation = ({
 const MenuAdmin = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.ADMIN_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -147,7 +147,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
 const MenuPorteurProjet = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Mes projets
@@ -170,7 +170,7 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
 const MenuAcheteurObligé = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -187,7 +187,7 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => (
 const MenuAdeme = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -204,7 +204,7 @@ const MenuAdeme = (currentPage: CurrentPage) => (
 const MenuDreal = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.ADMIN_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets

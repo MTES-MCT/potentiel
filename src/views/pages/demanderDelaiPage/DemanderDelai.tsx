@@ -161,7 +161,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                 >
                   Envoyer
                 </Button>
-                <SecondaryLinkButton {...dataId('cancel-button')} href={routes.USER_LIST_PROJECTS}>
+                <SecondaryLinkButton {...dataId('cancel-button')} href={routes.LISTE_PROJETS}>
                   Annuler
                 </SecondaryLinkButton>
               </div>

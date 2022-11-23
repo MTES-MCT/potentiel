@@ -51,7 +51,7 @@ export const handleCandidateNotifiedForPeriode =
                 periodeId,
               },
               variables: {
-                invitation_link: routes.USER_DASHBOARD,
+                invitation_link: routes.LISTE_PROJETS,
               },
               message: {
                 subject,

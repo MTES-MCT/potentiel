@@ -24,7 +24,7 @@ v1Router.get(
       },
       () => {
         return response.redirect(
-          addQueryParams(routes.ADMIN_DASHBOARD, {
+          addQueryParams(routes.LISTE_PROJETS, {
             error: "La liste des invitations en attente n'a pas pu être générée.",
           })
         )

@@ -116,12 +116,7 @@ export const makeFakeAuth = (deps) => {
       // @ts-ignore
       const queryString = QueryString.stringify(req.query)
 
-      if (['admin', 'dgec-validateur', 'dreal'].includes(user.role)) {
-        res.redirect(routes.ADMIN_DASHBOARD + '?' + queryString)
-        return
-      }
-
-      res.redirect(routes.USER_DASHBOARD + '?' + queryString)
+      res.redirect(routes.LISTE_PROJETS + '?' + queryString)
     })
   }
 

@@ -101,7 +101,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                 <a
                   className="button-outline primary"
                   {...dataId('cancel-button')}
-                  href={routes.USER_LIST_PROJECTS}
+                  href={routes.LISTE_PROJETS}
                 >
                   Annuler
                 </a>
