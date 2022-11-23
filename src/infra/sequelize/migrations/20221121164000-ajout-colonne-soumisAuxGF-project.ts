@@ -10,6 +10,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface) {
-    queryInterface.removeColumn('projects', 'issoumisAuxGF')
+    queryInterface.removeColumn('projects', 'soumisAuxGF')
   },
 }

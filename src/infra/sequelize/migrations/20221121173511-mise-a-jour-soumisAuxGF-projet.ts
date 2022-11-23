@@ -1,7 +1,7 @@
 'use strict'
 
 import { getProjectAppelOffre } from '@config/queries.config'
-import { Op, QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface, Sequelize } from 'sequelize'
 import models from '../models'
 
 module.exports = {
@@ -14,11 +14,7 @@ module.exports = {
       const projetsCible = await Project.findAll(
         {
           where: {
-            [Op.and]: [
-              {
-                classe: 'Classé',
-              },
-            ],
+            classe: 'Classé',
           },
           attributes: ['id', 'appelOffreId', 'periodeId', 'familleId'],
         },
