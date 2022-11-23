@@ -17,9 +17,6 @@ module.exports = {
             [Op.and]: [
               {
                 classe: 'Classé',
-                notifiedOn: {
-                  [Op.gte]: 1586901600000, // 15/04/2020,
-                },
               },
             ],
           },
@@ -39,7 +36,7 @@ module.exports = {
 
         await Project.update(
           {
-            isSoumisGF: true,
+            soumisAuxGF: true,
           },
           {
             where: {

@@ -2,7 +2,7 @@ import { QueryInterface, DataTypes } from 'sequelize'
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.addColumn('projects', 'isSoumisGF', {
+    await queryInterface.addColumn('projects', 'soumisAuxGF', {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
@@ -10,6 +10,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface) {
-    queryInterface.removeColumn('projects', 'isSoumisGF')
+    queryInterface.removeColumn('projects', 'issoumisAuxGF')
   },
 }

@@ -134,4 +134,5 @@ export const makeFakeProject = (data: Partial<ProjectDataProps> = {}) => ({
   abandonedOn: 0,
   identifiantGestionnaireRéseau: '',
   délaiCDC2022appliqué: false,
+  soumisAuxGF: false,
 })

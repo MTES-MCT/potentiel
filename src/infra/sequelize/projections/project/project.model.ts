@@ -193,7 +193,7 @@ export const MakeProjectModel = (sequelize) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      isSoumisGF: {
+      soumisAuxGF: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,

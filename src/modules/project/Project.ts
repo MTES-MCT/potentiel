@@ -450,7 +450,7 @@ export const makeProject = (args: {
               importId,
               data: {
                 ...data,
-                ...(appelOffre.isSoumisAuxGF && { isSoumisGF: true }),
+                ...(appelOffre.isSoumisAuxGF && { soumisAuxGF: true }),
               },
               potentielIdentifier: buildProjectIdentifier({
                 appelOffreId,
