@@ -1,12 +1,12 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
-import { DateMiseEnServicePlusRécenteError } from '../errors'
+import { DateMiseEnServicePlusRécenteError, ImpossibleDeChangerLaDateDeFAError } from '../errors'
 import { DonnéesDeRaccordementRenseignées } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
   projetId: string
-  dateMiseEnService: Date
+  dateMiseEnService?: Date
   dateFileAttente?: Date
 }
 
@@ -35,12 +35,28 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     projet: Project
   }) => {
     if (
+      commande.dateMiseEnService &&
       projet.dateMiseEnService &&
       projet.dateMiseEnService.getTime() < commande.dateMiseEnService.getTime()
     ) {
       return errAsync(new DateMiseEnServicePlusRécenteError())
     }
 
+    return okAsync({ projet, commande })
+  }
+
+  const vérifierSiDateFAApplicableSansDateMeS = ({
+    commande,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+  }) => {
+    if (commande.dateFileAttente && !commande.dateMiseEnService) {
+      if (projet.dateMiseEnService) {
+        return errAsync(new ImpossibleDeChangerLaDateDeFAError())
+      }
+    }
     return okAsync({ projet, commande })
   }
 
@@ -53,7 +69,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId,
-          dateMiseEnService: dateMiseEnService.toISOString(),
+          dateMiseEnService: dateMiseEnService?.toISOString(),
           dateFileAttente: dateFileAttente?.toISOString(),
         },
       })
@@ -62,8 +78,10 @@ export const makeRenseignerDonnéesDeRaccordement = ({
   return (commande: Commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
+      .andThen(vérifierSiDateFAApplicableSansDateMeS)
       .andThen(({ projet, commande }) =>
-        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService.getTime()
+        commande.dateMiseEnService &&
+        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService?.getTime()
           ? okAsync(null)
           : enregistrerDonnéesDeRaccordement(commande)
       )
