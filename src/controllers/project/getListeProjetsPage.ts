@@ -37,8 +37,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   }
   const pagination = makePagination(request.query, defaultPagination)
 
-  const appelsOffre = await appelOffreRepo.findAll()
-
   if (!appelOffreId) {
     // Reset the periodId and familleId if there is no appelOffreId
     periodeId = undefined
@@ -66,6 +64,8 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       httpOnly: true,
     })
   }
+
+  const appelsOffre = await appelOffreRepo.findAll()
 
   response.send(
     ListeProjetsPage({
