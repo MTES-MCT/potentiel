@@ -32,8 +32,8 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
     try {
       await Project.update(
         {
-          dateMiseEnService,
-          dateFileAttente,
+          ...(dateMiseEnService && { dateMiseEnService }),
+          ...(dateFileAttente && { dateFileAttente }),
         },
         {
           where: { id: projetId },

@@ -19,7 +19,7 @@ export type DémarrerImportDonnéesRaccordementCommande = {
   gestionnaire: 'Enedis'
   données: Array<{
     identifiantGestionnaireRéseau: string
-    dateMiseEnService: Date
+    dateMiseEnService?: Date
     dateFileAttente?: Date
   }>
 }
@@ -52,7 +52,7 @@ export const makeDémarrerImportDonnéesRaccordement =
               dates: données.map(
                 ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
                   identifiantGestionnaireRéseau,
-                  dateMiseEnService: dateMiseEnService.toISOString(),
+                  dateMiseEnService: dateMiseEnService?.toISOString(),
                   dateFileAttente: dateFileAttente?.toISOString(),
                 })
               ),

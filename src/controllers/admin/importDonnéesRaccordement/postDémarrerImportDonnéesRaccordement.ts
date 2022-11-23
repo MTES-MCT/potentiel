@@ -30,8 +30,11 @@ const csvDataSchema = yup
       numeroGestionnaire: yup.string().ensure().required('Le numéro gestionnaire est obligatoire'),
       dateMiseEnService: yup
         .string()
-        .required('Date de mise en service obligatoire')
-        .matches(/^\d{2}\/\d{2}\/\d{4}$/, 'Format de date de mise en service attendu : jj/mm/aaaa'),
+        .notRequired()
+        .matches(/^\d{2}\/\d{2}\/\d{4}$/, {
+          message: `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`,
+          excludeEmptyString: true,
+        }),
       dateFileAttente: yup
         .string()
         .notRequired()
@@ -60,12 +63,24 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formaterLesDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
-  données.map(({ numeroGestionnaire, dateMiseEnService, dateFileAttente }) => ({
-    identifiantGestionnaireRéseau: numeroGestionnaire,
-    dateMiseEnService: parse(dateMiseEnService, 'dd/MM/yyyy', new Date()),
-    ...(dateFileAttente && { dateFileAttente: parse(dateFileAttente, 'dd/MM/yyyy', new Date()) }),
-  }))
+const formaterDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
+  données.reduce((donnéesFormatées, { numeroGestionnaire, dateMiseEnService, dateFileAttente }) => {
+    if (dateMiseEnService || dateFileAttente) {
+      return [
+        ...donnéesFormatées,
+        {
+          identifiantGestionnaireRéseau: numeroGestionnaire,
+          ...(dateMiseEnService && {
+            dateMiseEnService: parse(dateMiseEnService, 'dd/MM/yyyy', new Date()),
+          }),
+          ...(dateFileAttente && {
+            dateFileAttente: parse(dateFileAttente, 'dd/MM/yyyy', new Date()),
+          }),
+        },
+      ]
+    }
+    return donnéesFormatées
+  }, [])
 
 const setFormResult = (
   request: Request,
@@ -102,13 +117,22 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
         encoding: 'utf8',
       })
         .andThen(validerLesDonnéesDuFichierCsv)
-        .andThen((données) =>
-          démarrerImportDonnéesRaccordement({
+        .andThen((données) => {
+          const donnéesFormatées = formaterDonnées(données)
+          if (!donnéesFormatées) {
+            return errAsync(
+              new DonnéesDeMiseAJourObligatoiresError({
+                utilisateur: request.user,
+                gestionnaire: 'Enedis',
+              })
+            )
+          }
+          return démarrerImportDonnéesRaccordement({
             utilisateur: request.user,
             gestionnaire: 'Enedis',
-            données: formaterLesDonnées(données),
+            données: donnéesFormatées,
           })
-        )
+        })
         .match(
           () => {
             setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {

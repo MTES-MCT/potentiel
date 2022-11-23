@@ -18,7 +18,7 @@ type Commande = {
   gestionnaire: string
   données: Array<{
     identifiantGestionnaireRéseau: string
-    dateMiseEnService: Date
+    dateMiseEnService?: Date
     dateFileAttente?: Date
   }>
 }

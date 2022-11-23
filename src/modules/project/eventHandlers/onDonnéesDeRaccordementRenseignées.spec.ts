@@ -22,6 +22,24 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
   const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
+  describe(`Données de raccordement sans date de mise en service`, () => {
+    it(`Lorsqu'un événement DonnéesDeRaccordementRenseignées est émis sans date de mise en service, 
+    alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
+      const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
+        projectRepo,
+        publishToEventStore,
+        getProjectAppelOffre: jest.fn(),
+      })
+
+      const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
+        payload: { projetId: fakeProject.id.toString() },
+      })
+
+      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
   describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
     describe(`Dates hors limites`, () => {
       describe(`Projets PV`, () => {

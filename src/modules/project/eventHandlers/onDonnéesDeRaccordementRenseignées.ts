@@ -13,6 +13,9 @@ type Dépendances = {
 export const makeOnDonnéesDeRaccordementRenseignées =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
   ({ payload: { projetId, dateMiseEnService } }: DonnéesDeRaccordementRenseignées) => {
+    if (!dateMiseEnService) {
+      return okAsync(null)
+    }
     return projectRepo.transaction(
       new UniqueEntityID(projetId),
       ({

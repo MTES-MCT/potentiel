@@ -6,7 +6,7 @@ type Payload = {
   gestionnaire: string
   dates: Array<{
     identifiantGestionnaireRéseau: string
-    dateMiseEnService: string
+    dateMiseEnService?: string
     dateFileAttente?: string
   }>
 }

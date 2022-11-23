@@ -16,32 +16,34 @@ export default ProjectEventProjector.on(
       transaction,
     })
 
-    try {
-      await ProjectEvent.upsert(
-        {
-          id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
-          type: 'DateMiseEnService',
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-          projectId: projetId,
-          payload: {
-            statut: 'renseignée',
-            dateMiseEnService,
-          },
-        },
-        { transaction }
-      )
-    } catch (error) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
+    if (dateMiseEnService) {
+      try {
+        await ProjectEvent.upsert(
           {
-            évènement,
-            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+            id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
+            type: 'DateMiseEnService',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            projectId: projetId,
+            payload: {
+              statut: 'renseignée',
+              dateMiseEnService,
+            },
           },
-          error
+          { transaction }
         )
-      )
+      } catch (error) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
+            {
+              évènement,
+              nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+            },
+            error
+          )
+        )
+      }
     }
 
     if (dateFileAttente) {

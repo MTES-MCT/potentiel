@@ -21,7 +21,7 @@ export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâche
         données: dates.map(
           ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
             identifiantGestionnaireRéseau,
-            dateMiseEnService: new Date(dateMiseEnService),
+            ...(dateMiseEnService && { dateMiseEnService: new Date(dateMiseEnService) }),
             ...(dateFileAttente && { dateFileAttente: new Date(dateFileAttente) }),
           })
         ),
