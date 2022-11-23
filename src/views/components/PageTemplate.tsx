@@ -44,10 +44,19 @@ const getUserNavigation = ({
       return MenuAdmin(currentPage)
     case 'dgec-validateur':
       return MenuAdmin(currentPage)
+    case 'cre':
+      return MenuCre(currentPage)
   }
-
-  return null
 }
+
+const MenuCre = (currentPage: CurrentPage) => (
+  <Header.MenuItem
+    href={routes.LISTE_PROJETS}
+    {...(currentPage === 'list-projects' && { isCurrent: true })}
+  >
+    Projets
+  </Header.MenuItem>
+)
 
 const MenuAdmin = (currentPage: CurrentPage) => (
   <>
