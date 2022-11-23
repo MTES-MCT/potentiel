@@ -24,25 +24,26 @@ module.exports = {
       )
 
       for (const { appelOffreId, periodeId, familleId, id } of projetsCible) {
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-
-        if (!appelOffre?.isSoumisAuxGF) {
-          return
-        }
-
-        await Project.update(
-          {
-            soumisAuxGF: true,
-          },
-          {
-            where: {
-              id,
+        const appelOffre = getProjectAppelOffre({
+          appelOffreId,
+          periodeId,
+          ...(familleId && { familleId }),
+        })
+        if (appelOffre?.isSoumisAuxGF) {
+          await Project.update(
+            {
+              soumisAuxGF: true,
             },
-          },
-          {
-            transaction,
-          }
-        )
+            {
+              where: {
+                id,
+              },
+            },
+            {
+              transaction,
+            }
+          )
+        }
       }
       await transaction.commit()
     } catch (error) {
