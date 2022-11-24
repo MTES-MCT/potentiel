@@ -59,27 +59,40 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDonnéesDeRaccordement = (commande: Commande) =>
-    publishToEventStore(
-      new DonnéesDeRaccordementRenseignées({
-        payload: {
-          projetId: commande.projetId,
-          ...('dateMiseEnService' in commande &&
-            'dateFileAttente' in commande && {
-              dateMiseEnService: commande.dateMiseEnService.toISOString(),
-              dateFileAttente: commande.dateFileAttente.toISOString(),
-            }),
-          ...('dateFileAttente' in commande &&
-            !('dateMiseEnService' in commande) && {
-              dateFileAttente: commande.dateFileAttente.toISOString(),
-            }),
-          ...(!('dateFileAttente' in commande) &&
-            'dateMiseEnService' in commande && {
-              dateMiseEnService: commande.dateMiseEnService.toISOString(),
-            }),
-        },
-      })
-    )
+  const enregistrerDonnéesDeRaccordement = (commande: Commande) => {
+    if ('dateMiseEnService' in commande && 'dateFileAttente' in commande) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateMiseEnService: commande.dateMiseEnService.toISOString(),
+            dateFileAttente: commande.dateFileAttente.toISOString(),
+          },
+        })
+      )
+    }
+    if ('dateMiseEnService' in commande && !('dateFileAttente' in commande)) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateMiseEnService: commande.dateMiseEnService.toISOString(),
+          },
+        })
+      )
+    }
+    if (!('dateMiseEnService' in commande) && 'dateFileAttente' in commande) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateFileAttente: commande.dateFileAttente.toISOString(),
+          },
+        })
+      )
+    }
+    return okAsync(null)
+  }
 
   return (commande: Commande) =>
     chargerProjet(commande)
