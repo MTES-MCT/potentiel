@@ -98,10 +98,22 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
       .andThen(vérifierSiDateFAApplicableSansDateMeS)
-      .andThen(({ projet, commande }) =>
-        'dateMiseEnService' in commande &&
-        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService?.getTime()
-          ? okAsync(null)
-          : enregistrerDonnéesDeRaccordement(commande)
-      )
+      .andThen(({ projet, commande }) => {
+        if (
+          'dateMiseEnService' in commande &&
+          projet.dateMiseEnService?.getTime() === commande.dateMiseEnService?.getTime()
+        ) {
+          return okAsync(null)
+        }
+
+        if (
+          !('dateMiseEnService' in commande) &&
+          'dateFileAttente' in commande &&
+          projet.dateFileAttente?.getTime() === commande.dateFileAttente?.getTime()
+        ) {
+          return okAsync(null)
+        }
+
+        return enregistrerDonnéesDeRaccordement(commande)
+      })
 }

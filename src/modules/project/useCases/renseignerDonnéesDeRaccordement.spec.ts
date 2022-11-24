@@ -137,6 +137,31 @@ describe('Renseigner des données de raccordement', () => {
       })
     })
 
+    describe(`Ne rien faire si la date de FA importée est identique à la date de FA du projet`, () => {
+      it(`Etant donné un projet qui a une date de FA, 
+      lorsque la commande est appelée avec une date de FA identique à celle du projet (et pas de MeS),
+      alors la date de FA importée doit être ignorée`, async () => {
+        const projectRepo = fakeRepo({
+          ...makeFakeProject(),
+          id: projetId,
+          dateFileAttente: new Date('2023-01-01'),
+        } as Project)
+
+        const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccordement({
+          publishToEventStore,
+          projectRepo,
+        })
+
+        await renseignerDonnéesDeRaccordement({
+          projetId,
+          dateFileAttente: new Date('2023-01-01'),
+          identifiantGestionnaireRéseau,
+        })
+
+        expect(publishToEventStore).not.toHaveBeenCalled()
+      })
+    })
+
     describe(`Possible de renseigner une nouvelle date de FA seule si le projet n'a pas de date de MeS`, () => {
       it(`Etant donné un projet qui n'a pas de date de MeS ni de date de FA, 
       lorsque la commande est appelée avec une date de FA seulement,
