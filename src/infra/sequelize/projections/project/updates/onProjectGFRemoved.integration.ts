@@ -17,7 +17,7 @@ describe('project.onProjectGFRemoved', () => {
     it(`Etant donné une ligne ProjectStep existante
         Lorsque l'évènement ProjectGFRemoved survient
         Alors on supprime la ligne ProjectStep`, async () => {
-      await ProjectStep.create({ id: projectStepId1, projectId, status: null })
+      await ProjectStep.makeFakeProjectStep({ id: projectStepId1, projectId, status: 'validé' })
       await onProjectGFRemoved(models)(
         new ProjectGFRemoved({
           payload: { projectId },
