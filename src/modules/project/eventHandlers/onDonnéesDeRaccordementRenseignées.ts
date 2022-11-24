@@ -12,8 +12,9 @@ type Dépendances = {
 
 export const makeOnDonnéesDeRaccordementRenseignées =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
-  ({ payload: { projetId, dateMiseEnService } }: DonnéesDeRaccordementRenseignées) => {
-    if (!dateMiseEnService) {
+  ({ payload }: DonnéesDeRaccordementRenseignées) => {
+    const { projetId } = payload
+    if (!('dateMiseEnService' in payload)) {
       return okAsync(null)
     }
     return projectRepo.transaction(
@@ -59,9 +60,9 @@ export const makeOnDonnéesDeRaccordementRenseignées =
           return okAsync(null)
         }
         if (
-          new Date(dateMiseEnService).getTime() <
+          new Date(payload.dateMiseEnService).getTime() <
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.min).getTime() ||
-          new Date(dateMiseEnService).getTime() >
+          new Date(payload.dateMiseEnService).getTime() >
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime()
         ) {
           return okAsync(null)

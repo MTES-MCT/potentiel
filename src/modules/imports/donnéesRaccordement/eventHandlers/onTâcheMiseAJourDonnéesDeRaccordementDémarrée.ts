@@ -18,12 +18,36 @@ export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâche
     ({ payload: { gestionnaire, dates } }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
       return mettreAJourDonnéesDeRaccordement({
         gestionnaire,
-        données: dates.map(
-          ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => ({
-            identifiantGestionnaireRéseau,
-            ...(dateMiseEnService && { dateMiseEnService: new Date(dateMiseEnService) }),
-            ...(dateFileAttente && { dateFileAttente: new Date(dateFileAttente) }),
-          })
-        ),
+        données: dates.reduce((donnéesFormatées, ligne) => {
+          if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateMiseEnService: new Date(ligne.dateMiseEnService),
+                dateFileAttente: new Date(ligne.dateFileAttente),
+              },
+            ]
+          }
+          if ('dateMiseEnService' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateMiseEnService: new Date(ligne.dateMiseEnService),
+              },
+            ]
+          }
+          if ('dateFileAttente' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateFileAttente: new Date(ligne.dateFileAttente),
+              },
+            ]
+          }
+          return donnéesFormatées
+        }, []),
       })
     }

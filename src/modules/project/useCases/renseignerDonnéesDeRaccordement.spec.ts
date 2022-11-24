@@ -13,6 +13,7 @@ describe('Renseigner des données de raccordement', () => {
   const projetId = new UniqueEntityID().toString()
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   beforeEach(() => publishToEventStore.mockClear())
+  const identifiantGestionnaireRéseau = 'id-gestionnaire'
 
   describe(`Date de mise en service présente`, () => {
     describe(`Impossible de renseigner des données de raccordement avec une date de mise en service plus récente`, () => {
@@ -34,6 +35,7 @@ describe('Renseigner des données de raccordement', () => {
         const résultat = await renseignerDonnéesDeRaccordement({
           projetId,
           dateMiseEnService: new Date('2023-01-01'),
+          identifiantGestionnaireRéseau,
         })
 
         expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateMiseEnServicePlusRécenteError)
@@ -58,6 +60,7 @@ describe('Renseigner des données de raccordement', () => {
         const résultat = await renseignerDonnéesDeRaccordement({
           projetId,
           dateMiseEnService: new Date('2022-01-01'),
+          identifiantGestionnaireRéseau,
         })
 
         expect(résultat.isOk()).toBe(true)
@@ -89,6 +92,7 @@ describe('Renseigner des données de raccordement', () => {
           projetId,
           dateMiseEnService,
           dateFileAttente,
+          identifiantGestionnaireRéseau,
         })
 
         expect(résultat.isOk()).toBe(true)
@@ -125,6 +129,7 @@ describe('Renseigner des données de raccordement', () => {
         const résultat = await renseignerDonnéesDeRaccordement({
           projetId,
           dateFileAttente: new Date('2023-01-01'),
+          identifiantGestionnaireRéseau,
         })
 
         expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(ImpossibleDeChangerLaDateDeFAError)
@@ -149,6 +154,7 @@ describe('Renseigner des données de raccordement', () => {
         const résultat = await renseignerDonnéesDeRaccordement({
           projetId,
           dateFileAttente: new Date('2023-01-01'),
+          identifiantGestionnaireRéseau,
         })
 
         expect(résultat.isOk()).toBe(true)
@@ -180,6 +186,7 @@ describe('Renseigner des données de raccordement', () => {
         const résultat = await renseignerDonnéesDeRaccordement({
           projetId,
           dateFileAttente: new Date('2023-01-01'),
+          identifiantGestionnaireRéseau: 'id',
         })
 
         expect(résultat.isOk()).toBe(true)

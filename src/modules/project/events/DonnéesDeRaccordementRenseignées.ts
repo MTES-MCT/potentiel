@@ -1,10 +1,12 @@
 import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain'
 
-type DonnéesDeRaccordementRenseignéesdPayload = {
+export type DonnéesDeRaccordementRenseignéesdPayload = {
   projetId: string
-  dateMiseEnService?: string
-  dateFileAttente?: string
-}
+} & (
+  | { dateMiseEnService: string; dateFileAttente: string }
+  | { dateMiseEnService: string }
+  | { dateFileAttente: string }
+)
 
 export class DonnéesDeRaccordementRenseignées
   extends BaseDomainEvent<DonnéesDeRaccordementRenseignéesdPayload>

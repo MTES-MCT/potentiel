@@ -7,16 +7,14 @@ import { ProjectionEnEchec } from '@modules/shared'
 export default ProjectEventProjector.on(
   DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
-    const {
-      payload: { dateMiseEnService, dateFileAttente, projetId },
-      occurredAt,
-    } = évènement
+    const { payload, occurredAt } = évènement
+    const { projetId } = payload
     const projectEventDateMiseEnService = await ProjectEvent.findOne({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
     })
 
-    if (dateMiseEnService) {
+    if ('dateMiseEnService' in payload) {
       try {
         await ProjectEvent.upsert(
           {
@@ -27,7 +25,7 @@ export default ProjectEventProjector.on(
             projectId: projetId,
             payload: {
               statut: 'renseignée',
-              dateMiseEnService,
+              dateMiseEnService: payload.dateMiseEnService,
             },
           },
           { transaction }
@@ -46,7 +44,7 @@ export default ProjectEventProjector.on(
       }
     }
 
-    if (dateFileAttente) {
+    if ('dateFileAttente' in payload) {
       const projectEventDateFileAttente = await ProjectEvent.findOne({
         where: { projectId: projetId, type: 'DateFileAttente' },
         transaction,
@@ -61,7 +59,7 @@ export default ProjectEventProjector.on(
             eventPublishedAt: occurredAt.getTime(),
             projectId: projetId,
             payload: {
-              dateFileAttente,
+              dateFileAttente: payload.dateFileAttente,
             },
           },
           { transaction }

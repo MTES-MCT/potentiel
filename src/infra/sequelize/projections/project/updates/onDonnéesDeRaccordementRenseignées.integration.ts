@@ -1,7 +1,10 @@
 import models from '../../../models'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées'
-import { DonnéesDeRaccordementRenseignées } from '@modules/project'
+import {
+  DonnéesDeRaccordementRenseignées,
+  DonnéesDeRaccordementRenseignéesdPayload,
+} from '@modules/project'
 import { UniqueEntityID } from '@core/domain'
 
 describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`, () => {
@@ -22,7 +25,7 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
           projetId,
           dateMiseEnService,
           dateFileAttente,
-        },
+        } as DonnéesDeRaccordementRenseignéesdPayload,
       })
     )
 

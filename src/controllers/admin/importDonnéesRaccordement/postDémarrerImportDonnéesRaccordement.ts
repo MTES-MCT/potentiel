@@ -16,6 +16,7 @@ import { Request } from 'express'
 import { RésultatSoumissionFormulaire } from 'express-session'
 import {
   DonnéesDeMiseAJourObligatoiresError,
+  DonnéesRaccordement,
   DémarrageImpossibleError,
 } from '@modules/imports/donnéesRaccordement'
 import { CsvError } from 'csv-parse'
@@ -63,19 +64,37 @@ const validerLesDonnéesDuFichierCsv = (données: Record<string, string>[]) => {
   }
 }
 
-const formaterDonnées = (données: NonNullable<InferType<typeof csvDataSchema>>) =>
+const parseDate = (date: string) => parse(date, 'dd/MM/yyyy', new Date())
+
+const formaterDonnées = (
+  données: NonNullable<InferType<typeof csvDataSchema>>
+): DonnéesRaccordement[] =>
   données.reduce((donnéesFormatées, { numeroGestionnaire, dateMiseEnService, dateFileAttente }) => {
-    if (dateMiseEnService || dateFileAttente) {
+    if (dateMiseEnService && dateFileAttente) {
       return [
         ...donnéesFormatées,
         {
           identifiantGestionnaireRéseau: numeroGestionnaire,
-          ...(dateMiseEnService && {
-            dateMiseEnService: parse(dateMiseEnService, 'dd/MM/yyyy', new Date()),
-          }),
-          ...(dateFileAttente && {
-            dateFileAttente: parse(dateFileAttente, 'dd/MM/yyyy', new Date()),
-          }),
+          dateMiseEnService: parseDate(dateMiseEnService),
+          dateFileAttente: parseDate(dateFileAttente),
+        },
+      ]
+    }
+    if (dateMiseEnService && !dateFileAttente) {
+      return [
+        ...donnéesFormatées,
+        {
+          identifiantGestionnaireRéseau: numeroGestionnaire,
+          dateMiseEnService: parseDate(dateMiseEnService),
+        },
+      ]
+    }
+    if (!dateMiseEnService && dateFileAttente) {
+      return [
+        ...donnéesFormatées,
+        {
+          identifiantGestionnaireRéseau: numeroGestionnaire,
+          dateFileAttente: parseDate(dateFileAttente),
         },
       ]
     }

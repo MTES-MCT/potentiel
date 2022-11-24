@@ -1,14 +1,11 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { DonnéesRaccordementFormatDatesISOString } from '../DonnéesRaccordement'
 import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 
 type Payload = {
   misAJourPar: string
   gestionnaire: string
-  dates: Array<{
-    identifiantGestionnaireRéseau: string
-    dateMiseEnService?: string
-    dateFileAttente?: string
-  }>
+  dates: DonnéesRaccordementFormatDatesISOString[]
 }
 
 export class TâcheMiseAJourDonnéesDeRaccordementDémarrée

@@ -1,7 +1,10 @@
 import { okAsync } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { DonnéesDeRaccordementRenseignées } from '../events'
+import {
+  DonnéesDeRaccordementRenseignées,
+  DonnéesDeRaccordementRenseignéesdPayload,
+} from '../events'
 import { makeOnDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées'
 import { DomainEvent } from '@core/domain'
 import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
@@ -32,7 +35,9 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
       })
 
       const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-        payload: { projetId: fakeProject.id.toString() },
+        payload: {
+          projetId: fakeProject.id.toString(),
+        } as DonnéesDeRaccordementRenseignéesdPayload,
       })
 
       await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -72,7 +77,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             })
 
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-              payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '31/12/2025' },
+              payload: {
+                projetId: fakeProject.id.toString(),
+                dateMiseEnService: '31/12/2025',
+              } as DonnéesDeRaccordementRenseignéesdPayload,
             })
 
             await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -88,7 +96,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             })
 
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-              payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/08/2022' },
+              payload: {
+                projetId: fakeProject.id.toString(),
+                dateMiseEnService: '01/08/2022',
+              } as DonnéesDeRaccordementRenseignéesdPayload,
             })
 
             await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -125,7 +136,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           })
 
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-            payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/05/2022' },
+            payload: {
+              projetId: fakeProject.id.toString(),
+              dateMiseEnService: '01/05/2022',
+            } as DonnéesDeRaccordementRenseignéesdPayload,
           })
 
           await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -141,7 +155,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           })
 
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-            payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '30/10/2024' },
+            payload: {
+              projetId: fakeProject.id.toString(),
+              dateMiseEnService: '30/10/2024',
+            } as DonnéesDeRaccordementRenseignéesdPayload,
           })
 
           await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -185,7 +202,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           getProjectAppelOffre,
         })
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-          payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
+          payload: {
+            projetId: fakeProject.id.toString(),
+            dateMiseEnService: '01/01/2023',
+          } as DonnéesDeRaccordementRenseignéesdPayload,
         })
         await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
         expect(publishToEventStore).not.toHaveBeenCalled()
@@ -229,7 +249,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           getProjectAppelOffre,
         })
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-          payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
+          payload: {
+            projetId: fakeProject.id.toString(),
+            dateMiseEnService: '01/01/2023',
+          } as DonnéesDeRaccordementRenseignéesdPayload,
         })
         await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
         expect(publishToEventStore).not.toHaveBeenCalled()
@@ -277,7 +300,10 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
       })
 
       const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
-        payload: { projetId: fakeProject.id.toString(), dateMiseEnService: '01/01/2023' },
+        payload: {
+          projetId: fakeProject.id.toString(),
+          dateMiseEnService: '01/01/2023',
+        } as DonnéesDeRaccordementRenseignéesdPayload,
       })
 
       await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)

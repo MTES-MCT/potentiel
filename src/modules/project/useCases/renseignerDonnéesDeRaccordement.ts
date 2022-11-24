@@ -1,14 +1,13 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
+import { DonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
 import { DateMiseEnServicePlusRécenteError, ImpossibleDeChangerLaDateDeFAError } from '../errors'
 import { DonnéesDeRaccordementRenseignées } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
   projetId: string
-  dateMiseEnService?: Date
-  dateFileAttente?: Date
-}
+} & DonnéesRaccordement
 
 type Dépendances = {
   publishToEventStore: EventStore['publish']
@@ -35,7 +34,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     projet: Project
   }) => {
     if (
-      commande.dateMiseEnService &&
+      'dateMiseEnService' in commande &&
       projet.dateMiseEnService &&
       projet.dateMiseEnService.getTime() < commande.dateMiseEnService.getTime()
     ) {
@@ -52,7 +51,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     commande: Commande
     projet: Project
   }) => {
-    if (commande.dateFileAttente && !commande.dateMiseEnService) {
+    if ('dateFileAttente' in commande && !('dateMiseEnService' in commande)) {
       if (projet.dateMiseEnService) {
         return errAsync(new ImpossibleDeChangerLaDateDeFAError())
       }
@@ -60,17 +59,24 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDonnéesDeRaccordement = ({
-    projetId,
-    dateMiseEnService,
-    dateFileAttente,
-  }: Commande) =>
+  const enregistrerDonnéesDeRaccordement = (commande: Commande) =>
     publishToEventStore(
       new DonnéesDeRaccordementRenseignées({
         payload: {
-          projetId,
-          dateMiseEnService: dateMiseEnService?.toISOString(),
-          dateFileAttente: dateFileAttente?.toISOString(),
+          projetId: commande.projetId,
+          ...('dateMiseEnService' in commande &&
+            'dateFileAttente' in commande && {
+              dateMiseEnService: commande.dateMiseEnService.toISOString(),
+              dateFileAttente: commande.dateFileAttente.toISOString(),
+            }),
+          ...('dateFileAttente' in commande &&
+            !('dateMiseEnService' in commande) && {
+              dateFileAttente: commande.dateFileAttente.toISOString(),
+            }),
+          ...(!('dateFileAttente' in commande) &&
+            'dateMiseEnService' in commande && {
+              dateMiseEnService: commande.dateMiseEnService.toISOString(),
+            }),
         },
       })
     )
@@ -80,7 +86,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
       .andThen(vérifierSiDateFAApplicableSansDateMeS)
       .andThen(({ projet, commande }) =>
-        commande.dateMiseEnService &&
+        'dateMiseEnService' in commande &&
         projet.dateMiseEnService?.getTime() === commande.dateMiseEnService?.getTime()
           ? okAsync(null)
           : enregistrerDonnéesDeRaccordement(commande)
