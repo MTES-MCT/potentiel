@@ -728,7 +728,6 @@ export const makeProject = (args: {
             new ProjectGFRemoved({
               payload: {
                 projectId: props.projectId.toString(),
-                removedBy: '',
               },
             })
           )

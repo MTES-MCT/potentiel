@@ -20,7 +20,7 @@ describe('project.onProjectGFRemoved', () => {
       await ProjectStep.create({ id: projectStepId1, projectId, status: null })
       await onProjectGFRemoved(models)(
         new ProjectGFRemoved({
-          payload: { projectId, removedBy: '' },
+          payload: { projectId },
         })
       )
 
