@@ -30,7 +30,6 @@ import {
   IdentifiantPotentielPPE2Batiment2Corrigé,
   DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
-  ProjectGFRemoved,
 } from '@modules/project'
 import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
@@ -80,7 +79,6 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
   eventBus.subscribe(ProjectDCRDueDateCancelled.type, onProjectDCRDueDateCancelled(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
   eventBus.subscribe(ProjectGFDueDateCancelled.type, onProjectGFDueDateCancelled(models))
-  eventBus.subscribe(ProjectGFRemoved.type, onProjectGFRemoved(models))
   eventBus.subscribe(ProjectCompletionDueDateSet.type, onProjectCompletionDueDateSet(models))
   eventBus.subscribe(
     ProjectCompletionDueDateCancelled.type,
