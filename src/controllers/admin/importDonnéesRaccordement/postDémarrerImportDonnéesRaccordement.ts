@@ -33,7 +33,7 @@ const csvDataSchema = yup
         .string()
         .notRequired()
         .matches(/^\d{2}\/\d{2}\/\d{4}$/, {
-          message: `Format de date d'entrée en file d'attente attendu : jj/mm/aaaa`,
+          message: `Format de date de mise en service attendu : jj/mm/aaaa`,
           excludeEmptyString: true,
         }),
       dateFileAttente: yup
