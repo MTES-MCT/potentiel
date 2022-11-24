@@ -3,6 +3,7 @@ import { resetDatabase } from '../../../helpers'
 import { onProjectGFRemoved } from './onProjectGFRemoved'
 import { ProjectGFRemoved } from '@modules/project'
 import { v4 as uuid } from 'uuid'
+import makeFakeProjectStep from '../../../../../__tests__/fixtures/projectStep'
 
 describe('project.onProjectGFRemoved', () => {
   const { ProjectStep } = models
@@ -17,7 +18,9 @@ describe('project.onProjectGFRemoved', () => {
     it(`Etant donné une ligne ProjectStep existante
         Lorsque l'évènement ProjectGFRemoved survient
         Alors on supprime la ligne ProjectStep`, async () => {
-      await ProjectStep.makeFakeProjectStep({ id: projectStepId1, projectId, status: 'validé' })
+      await ProjectStep.create(
+        makeFakeProjectStep({ id: projectStepId1, projectId, status: 'validé' })
+      )
       await onProjectGFRemoved(models)(
         new ProjectGFRemoved({
           payload: { projectId },
