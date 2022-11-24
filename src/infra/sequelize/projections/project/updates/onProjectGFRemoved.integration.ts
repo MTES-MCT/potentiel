@@ -28,7 +28,7 @@ describe('project.onProjectGFRemoved', () => {
       )
 
       const updatedProjectSteps1 = await ProjectStep.findByPk(projectStepId1)
-      expect(updatedProjectSteps1.status).toBeNull()
+      expect(updatedProjectSteps1).toBeNull()
     })
   })
 })
