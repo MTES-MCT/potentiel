@@ -1,4 +1,3 @@
-
 # Projections
 
 Les projections sont les tables de base de données qui représentent un état à date.
@@ -18,12 +17,12 @@ Les données qui sont affichées dans les vues sont issues de ces projections.
 - [userProjectClaims](#userprojectclaims)
 - [userProjects](#userprojects)
 
-
 ## Projections
 
-
 ### appelOffre
+
 Mise à jour par:
+
 - [AppelOffreCreated](./Events.md#appeloffrecreated)
 
 - [AppelOffreRemoved](./Events.md#appeloffreremoved)
@@ -34,9 +33,10 @@ Mise à jour par:
 
 - [PeriodeUpdated](./Events.md#periodeupdated)
 
-
 ### modificationRequest
+
 Mise à jour par:
+
 - [ConfirmationRequested](./Events.md#confirmationrequested)
 
 - [LegacyModificationImported](./Events.md#legacymodificationimported)
@@ -57,9 +57,10 @@ Mise à jour par:
 
 - [ModificationRequested](./Events.md#modificationrequested)
 
-
 ### project
+
 Mise à jour par:
+
 - [CovidDelayGranted](./Events.md#coviddelaygranted)
 
 - [NumeroGestionnaireSubmitted](./Events.md#numerogestionnairesubmitted)
@@ -96,8 +97,6 @@ Mise à jour par:
 
 - [ProjectGFDueDateSet](./Events.md#projectgfduedateset)
 
-- [ProjectGFInvalidated](./Events.md#projectgfinvalidated)
-
 - [ProjectImported](./Events.md#projectimported)
 
 - [ProjectNewRulesOptedIn](./Events.md#projectnewrulesoptedin)
@@ -116,9 +115,10 @@ Mise à jour par:
 
 - [ProjectClaimedByOwner](./Events.md#projectclaimedbyowner)
 
-
 ### projectEvents
+
 Mise à jour par:
+
 - [ConfirmationRequested](./Events.md#confirmationrequested)
 
 - [LegacyModificationImported](./Events.md#legacymodificationimported)
@@ -201,9 +201,10 @@ Mise à jour par:
 
 - [LegacyModificationFileAttached](./Events.md#legacymodificationfileattached)
 
-
 ### projectStep
+
 Mise à jour par:
+
 - [ProjectDCRRemoved](./Events.md#projectdcrremoved)
 
 - [ProjectDCRSubmitted](./Events.md#projectdcrsubmitted)
@@ -222,24 +223,28 @@ Mise à jour par:
 
 - [ProjectStepStatusUpdated](./Events.md#projectstepstatusupdated)
 
-
 ### user
+
 Mise à jour par:
+
 - [UserCreated](./Events.md#usercreated)
 
-
 ### userDreal
+
 Mise à jour par:
+
 - [DrealUserInvited](./Events.md#drealuserinvited)
 
-
 ### userProjectClaims
+
 Mise à jour par:
+
 - [ProjectClaimFailed](./Events.md#projectclaimfailed)
 
-
 ### userProjects
+
 Mise à jour par:
+
 - [UserInvitedToProject](./Events.md#userinvitedtoproject)
 
 - [UserProjectsLinkedByContactEmail](./Events.md#userprojectslinkedbycontactemail)
@@ -251,6 +256,3 @@ Mise à jour par:
 - [ProjectClaimed](./Events.md#projectclaimed)
 
 - [ProjectClaimedByOwner](./Events.md#projectclaimedbyowner)
-
-  
-  

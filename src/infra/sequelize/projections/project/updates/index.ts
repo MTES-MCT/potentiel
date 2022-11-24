@@ -20,7 +20,6 @@ import {
   ProjectFournisseursUpdated,
   ProjectGFDueDateCancelled,
   ProjectGFDueDateSet,
-  ProjectGFInvalidated,
   ProjectImported,
   CahierDesChargesChoisi,
   ProjectNotificationDateSet,
@@ -52,7 +51,6 @@ import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled'
 import { onProjectGFDueDateSet } from './onProjectGFDueDateSet'
-import { onProjectGFInvalidated } from './onProjectGFInvalidated'
 import { onProjectImported } from './onProjectImported'
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet'
@@ -81,7 +79,6 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
   eventBus.subscribe(ProjectDCRDueDateCancelled.type, onProjectDCRDueDateCancelled(models))
   eventBus.subscribe(ProjectGFDueDateSet.type, onProjectGFDueDateSet(models))
   eventBus.subscribe(ProjectGFDueDateCancelled.type, onProjectGFDueDateCancelled(models))
-  eventBus.subscribe(ProjectGFInvalidated.type, onProjectGFInvalidated(models))
   eventBus.subscribe(ProjectCompletionDueDateSet.type, onProjectCompletionDueDateSet(models))
   eventBus.subscribe(
     ProjectCompletionDueDateCancelled.type,

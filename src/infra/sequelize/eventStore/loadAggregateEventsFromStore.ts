@@ -3,7 +3,11 @@ import { MakeEventStoreDeps, wrapInfra } from '@core/utils'
 import { fromPersistance } from '../helpers'
 import models from '../models'
 
-const évènementsIgnorés = ['ProjectNewRulesOptedIn', 'NouveauCahierDesChargesChoisi'] as const
+const évènementsIgnorés = [
+  'ProjectNewRulesOptedIn',
+  'NouveauCahierDesChargesChoisi',
+  'ProjectGFInvalidated',
+] as const
 
 const { EventStore } = models
 
