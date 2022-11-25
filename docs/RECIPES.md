@@ -141,6 +141,71 @@ export type GetProjectData = (args: {
 
 ## Créer une nouvelle projection
 
+### Nouvelles projections
+
+Appelons cette projection `maproj` et imaginons qu'il s'agisse d'une projection sur l'infra `sequelize`.
+
+- Créer un dossier `src/infra/sequelize/projectionsNext/maproj`
+- Créer le fichier `src/infra/sequelize/projectionsNext/maproj/maproj.model.ts` de la forme:
+
+```ts
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize'
+import { sequelizeInstance } from '../../../../sequelize.config'
+import { makeSequelizeProjector } from '../../helpers'
+
+class Maproj extends Model<InferAttributes<Maproj>, InferCreationAttributes<Maproj>> {
+  id: CreationOptional<number>
+  //...
+}
+
+const nomProjection = 'maProj'
+
+Maproj.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    //...
+  },
+  {
+    indexes: [
+      {
+        unique: true,
+        //fields: ,
+      },
+    ],
+    sequelize: sequelizeInstance,
+    tableName: nomProjection,
+    //timestamps: true,
+    freezeTableName: true,
+  }
+)
+
+const MaProjProjector = makeSequelizeProjector(Maproj, nomProjection)
+
+export { Maproj, MaProjProjector }
+```
+
+- Mettre à jour `src/infra/sequelize/projectionsNext/index.ts` pour inclure le nouveau dossier (barrel)
+
+- `npx sequelize-cli migration:generate --name create-maproj` puis éditer le fichier généré pour ajouter la table avec le schéma contenu dans `maproj.model.ts`
+  Penser à rajouter les colonnes:
+
+```ts
+  createdAt: Sequelize.DataTypes.DATE,
+  updatedAt: Sequelize.DataTypes.DATE,
+```
+
+### Projections legacy
+
 Appelons cette projection `maproj` et imaginons qu'il s'agisse d'une projection sur l'infra `sequelize`.
 
 - Créer un dossier `src/infra/sequelize/projections/maproj`
@@ -193,7 +258,7 @@ export const models = {
 }
 ```
 
-## Ajout d'un événement de mise à jour de projection
+#### Ajout d'un événement de mise à jour de projection
 
 Soient la projection `maproj` et l'événement `MyEvent`.
 
