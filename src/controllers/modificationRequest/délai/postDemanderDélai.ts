@@ -41,8 +41,6 @@ v1Router.post(
     {
       schema,
       onError: ({ request, response, error }) => {
-        console.log(JSON.stringify(request.body))
-        console.log('request invalid')
         return response.redirect(
           addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
             ...omit(request.body, 'projectId'),
