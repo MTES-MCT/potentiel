@@ -23,7 +23,7 @@ const requestBodySchema = yup.object({
   submitAccept: yup.string().nullable(),
   submitRefuse: yup.string().nullable(),
   modificationRequestId: yup.string().uuid().required(),
-  dateAchèvementAccordée: yup.date().when('submitAccept', {
+  dateAchevementAccordee: yup.date().when('submitAccept', {
     is: (submitAccept) => typeof submitAccept === 'string',
     then: yup
       .date()
@@ -41,7 +41,12 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { modificationRequestId, dateAchèvementAccordée, submitAccept, submitRefuse } = body
+        const {
+          modificationRequestId,
+          dateAchevementAccordee: dateAchèvementAccordée,
+          submitAccept,
+          submitRefuse,
+        } = body
         const { user } = request
 
         if (!request.file) {

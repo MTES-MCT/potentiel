@@ -25,13 +25,13 @@ export const AdminRéponseDélaiForm = ({ modificationRequest }: AdminRéponseD�
 
   return (
     <div className="mt-4 mb-4">
-      <label htmlFor="dateAchèvementAccordée">
+      <label htmlFor="dateAchevementAccordee">
         Date limite d'achèvement accordée <Astérisque />
       </label>
       <Input
         type="date"
-        name="dateAchèvementAccordée"
-        id="dateAchèvementAccordée"
+        name="dateAchevementAccordee"
+        id="dateAchevementAccordee"
         {...(dateDemandée && {
           defaultValue: format(dateDemandée, 'yyyy-MM-dd'),
         })}
