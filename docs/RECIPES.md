@@ -204,6 +204,8 @@ export { Maproj, MaProjProjector }
   updatedAt: Sequelize.DataTypes.DATE,
 ```
 
+- Brancher le projecteur (ici MaProjProjector) à l'eventStream dans `projections.config.ts`
+
 ### Projections legacy
 
 Appelons cette projection `maproj` et imaginons qu'il s'agisse d'une projection sur l'infra `sequelize`.
