@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false,
       },
       statut: {
-        type: DataTypes.ENUM('du', 'à traiter', 'validé'),
+        type: DataTypes.ENUM('en attente', 'à traiter', 'validé'),
         allowNull: false,
       },
       soumisALaCandidature: {

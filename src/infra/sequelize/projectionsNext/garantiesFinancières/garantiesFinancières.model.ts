@@ -2,7 +2,7 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequ
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
-export const garantiesFinancièresStatuts = ['du', 'à traiter', 'validé'] as const
+export const garantiesFinancièresStatuts = ['en attente', 'à traiter', 'validé'] as const
 type GarantiesFinancièresStatut = typeof garantiesFinancièresStatuts[number]
 
 class GarantiesFinancières extends Model<

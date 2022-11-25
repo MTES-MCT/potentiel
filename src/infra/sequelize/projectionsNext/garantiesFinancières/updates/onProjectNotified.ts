@@ -43,7 +43,7 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
       {
         id: new UniqueEntityID().toString(),
         projetId,
-        statut: 'du',
+        statut: 'en attente',
         soumisALaCandidature,
       },
       { transaction }
