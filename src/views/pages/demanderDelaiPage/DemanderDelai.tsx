@@ -95,13 +95,13 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                     />
                   </div>
                   <div>
-                    <label htmlFor="dateAchèvementDemandée">
+                    <label htmlFor="dateAchevementDemandee">
                       Saisissez la date limite d'achèvement souhaitée <Astérisque />
                     </label>
                     <Input
                       type="date"
-                      name="dateAchèvementDemandée"
-                      id="dateAchèvementDemandée"
+                      name="dateAchevementDemandee"
+                      id="dateAchevementDemandee"
                       min={format(nouvelleDateAchèvementMinimale, 'yyyy-MM-dd')}
                       defaultValue={dateAchèvementDemandée}
                       required

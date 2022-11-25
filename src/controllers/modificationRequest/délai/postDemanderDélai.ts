@@ -22,7 +22,7 @@ import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
-    dateAchèvementDemandée: yup
+    dateAchevementDemandee: yup
       .date()
       .required(`Vous devez renseigner la date d'achèvement souhaitée.`)
       .nullable()
@@ -50,7 +50,12 @@ v1Router.post(
       },
     },
     async (request, response) => {
-      const { projectId, justification, numeroGestionnaire, dateAchèvementDemandée } = request.body
+      const {
+        projectId,
+        justification,
+        numeroGestionnaire,
+        dateAchevementDemandee: dateAchèvementDemandée,
+      } = request.body
       const { user } = request
 
       const file = request.file && {
