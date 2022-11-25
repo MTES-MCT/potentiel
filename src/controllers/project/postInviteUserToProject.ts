@@ -30,11 +30,7 @@ const getRedirectTo = ({
   projectId: string | string[]
   role: User['role']
 }) => {
-  return Array.isArray(projectId)
-    ? role === 'porteur-projet'
-      ? routes.USER_LIST_PROJECTS
-      : routes.ADMIN_LIST_PROJECTS
-    : routes.PROJECT_DETAILS(projectId)
+  return Array.isArray(projectId) ? routes.LISTE_PROJETS : routes.PROJECT_DETAILS(projectId)
 }
 
 v1Router.post(

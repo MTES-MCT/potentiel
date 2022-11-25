@@ -13,7 +13,8 @@ const userSchema = Record({
     Literal('dreal'),
     Literal('acheteur-obligé'),
     Literal('ademe'),
-    Literal('dgec-validateur')
+    Literal('dgec-validateur'),
+    Literal('cre')
   ),
 })
 

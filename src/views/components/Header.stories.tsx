@@ -12,6 +12,7 @@ export const HeaderPourPorteurDeProjet = () => (
         email: 'email@email.test',
         fullName: 'Porteur Projet',
         role: 'porteur-projet',
+        permissions: [],
       },
     }}
   />
@@ -26,6 +27,7 @@ export const HeaderPourPorteurDeProjetSansNom = () => (
         email: 'email@email.test',
         fullName: '',
         role: 'porteur-projet',
+        permissions: [],
       },
     }}
   />
@@ -41,6 +43,7 @@ export const HeaderPourPorteurDeProjetAvecUnTrèsLongNom = () => (
         fullName:
           'Porteur Projet Porteur Projet Porteur Projet Porteur Projet Porteur Projet Porteur Projet Porteur Projet',
         role: 'porteur-projet',
+        permissions: [],
       },
     }}
   />
@@ -55,6 +58,7 @@ export const HeaderPourAdmin = () => (
         email: 'email@email.test',
         fullName: 'Administrateur',
         role: 'admin',
+        permissions: [],
       },
     }}
   />
@@ -68,6 +72,7 @@ export const HeaderPourAdminSansNom = () => (
         email: 'email@email.test',
         fullName: '',
         role: 'admin',
+        permissions: [],
       },
     }}
   />
@@ -83,6 +88,7 @@ export const HeaderPourAdminAvecUnTrèsLongNom = () => (
         fullName:
           'AdministrateurAdministrateurAdministrateurAdministrateurAdministrateurAdministrateurAdministrateur',
         role: 'admin',
+        permissions: [],
       },
     }}
   />

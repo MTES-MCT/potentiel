@@ -10,4 +10,5 @@ export const ACTION_BY_ROLE: Record<UserRole, (project: any) => any[]> = {
   dreal: drealActions,
   'acheteur-obligé': () => [],
   ademe: () => [],
+  cre: () => [],
 }

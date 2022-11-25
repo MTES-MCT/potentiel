@@ -1,25 +1,12 @@
 import { eventStore, fileRepo, sendNotification, projectRepo } from '@config'
 import { appelOffreRepo, projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
 import makeGetUserProject from './getUserProject'
-import makeListProjects from './listProjects'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 import makeListMissingOwnerProjects from './listMissingOwnerProjects'
 import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 import makeRequestModification from './requestModification'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 
-const listProjects = makeListProjects({
-  searchForRegions: OldProjectRepo.searchForRegions,
-  findAllForRegions: OldProjectRepo.findAllForRegions,
-  searchForUser: OldProjectRepo.searchForUser,
-  findAllForUser: OldProjectRepo.findAllForUser,
-  searchAll: OldProjectRepo.searchAll,
-  findAll: OldProjectRepo.findAll,
-  findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre: OldProjectRepo.findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre: OldProjectRepo.findExistingFamillesForAppelOffre,
-  findDrealsForUser: userRepo.findDrealsForUser,
-})
 const listUnnotifiedProjects = makeListUnnotifiedProjects({
   findAllProjects: OldProjectRepo.findAll,
   findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
@@ -62,7 +49,6 @@ const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
 })
 
 const useCases = Object.freeze({
-  listProjects,
   sendNotification,
   requestModification,
   listUnnotifiedProjects,
@@ -74,7 +60,6 @@ const useCases = Object.freeze({
 
 export default useCases
 export {
-  listProjects,
   sendNotification,
   requestModification,
   listUnnotifiedProjects,

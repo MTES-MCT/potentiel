@@ -47,7 +47,7 @@ export const handleModificationReceived =
         }
 
         if (type === 'producteur') {
-          notificationPayload.variables.button_url = routes.USER_LIST_PROJECTS
+          notificationPayload.variables.button_url = routes.LISTE_PROJETS
           notificationPayload.variables.button_title = 'Voir mes projets'
           notificationPayload.variables.button_instructions = `Pour vos projets, connectez-vous à Potentiel.`
         }

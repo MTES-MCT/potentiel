@@ -44,15 +44,24 @@ const getUserNavigation = ({
       return MenuAdmin(currentPage)
     case 'dgec-validateur':
       return MenuAdmin(currentPage)
+    case 'cre':
+      return MenuCre(currentPage)
   }
-
-  return null
 }
+
+const MenuCre = (currentPage: CurrentPage) => (
+  <Header.MenuItem
+    href={routes.LISTE_PROJETS}
+    {...(currentPage === 'list-projects' && { isCurrent: true })}
+  >
+    Projets
+  </Header.MenuItem>
+)
 
 const MenuAdmin = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.ADMIN_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -147,7 +156,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
 const MenuPorteurProjet = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Mes projets
@@ -170,7 +179,7 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
 const MenuAcheteurObligé = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -187,7 +196,7 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => (
 const MenuAdeme = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.USER_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -204,7 +213,7 @@ const MenuAdeme = (currentPage: CurrentPage) => (
 const MenuDreal = (currentPage: CurrentPage) => (
   <>
     <Header.MenuItem
-      href={routes.ADMIN_LIST_PROJECTS}
+      href={routes.LISTE_PROJETS}
       {...(currentPage === 'list-projects' && { isCurrent: true })}
     >
       Projets
@@ -238,7 +247,7 @@ export const PageTemplate = ({
       <Header user={user}>{user && getUserNavigation({ user, currentPage })}</Header>
       <main
         role="main"
-        className="flex flex-col py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
+        className="flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
         style={{ fontFamily: 'Marianne, arial, sans-serif' }}
       >
         {children}

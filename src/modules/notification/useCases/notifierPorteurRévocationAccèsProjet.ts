@@ -30,7 +30,7 @@ export const makeNotifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRév
       },
       variables: {
         nom_projet: nomProjet,
-        mes_projets_url: routes.USER_LIST_PROJECTS,
+        mes_projets_url: routes.LISTE_PROJETS,
         cause:
           cause === 'changement producteur'
             ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'

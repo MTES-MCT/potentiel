@@ -150,7 +150,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                 >
                   Envoyer
                 </Button>
-                <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>Annuler</SecondaryLinkButton>
+                <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>
           </form>

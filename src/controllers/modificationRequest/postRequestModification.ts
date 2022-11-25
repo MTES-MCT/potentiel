@@ -34,7 +34,7 @@ const routeRedirection = (type, projectId) => {
       returnRoute = routes.DEPOSER_RECOURS(projectId)
       break
     default:
-      returnRoute = routes.USER_LIST_PROJECTS
+      returnRoute = routes.LISTE_PROJETS
       break
   }
   return returnRoute

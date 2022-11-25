@@ -1,9 +1,9 @@
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { DREAL, makeProject, makeUser, Project } from '@entities'
-import { UnwrapForTest } from '../types'
-import makeFakeProject from '../__tests__/fixtures/project'
-import makeFakeUser from '../__tests__/fixtures/user'
-import makeListProjects from './listProjects'
+import { UnwrapForTest } from '../../../types'
+import makeFakeProject from '../../../__tests__/fixtures/project'
+import makeFakeUser from '../../../__tests__/fixtures/user'
+import { makeListProjects } from './listProjects'
 
 const pagination = {
   page: 0,

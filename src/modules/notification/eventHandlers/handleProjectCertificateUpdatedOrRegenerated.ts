@@ -54,7 +54,7 @@ export const handleProjectCertificateUpdatedOrRegenerated =
           nomProjet: project.data?.nomProjet || '',
           raison:
             event.type === ProjectCertificateRegenerated.type ? event.payload.reason : undefined,
-          urlRedirection: routes.USER_LIST_PROJECTS,
+          urlRedirection: routes.LISTE_PROJETS,
         },
       })
     }

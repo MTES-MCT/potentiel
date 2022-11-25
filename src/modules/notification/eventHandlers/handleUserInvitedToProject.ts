@@ -40,7 +40,7 @@ export const handleUserInvitedToProject =
           },
           variables: {
             nomProjet,
-            invitation_link: routes.USER_LIST_PROJECTS,
+            invitation_link: routes.LISTE_PROJETS,
           },
         })
       },

@@ -154,7 +154,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               <Button className="mt-3 mr-1" type="submit" id="submit" {...dataId('submit-button')}>
                 Envoyer
               </Button>
-              <SecondaryLinkButton href={routes.USER_LIST_PROJECTS}>Annuler</SecondaryLinkButton>
+              <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
             </div>
           </form>
         )}

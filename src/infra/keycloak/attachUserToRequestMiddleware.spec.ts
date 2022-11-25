@@ -195,6 +195,7 @@ describe(`attachUserToRequestMiddleware`, () => {
               id: userId,
               role: 'porteur-projet',
               accountUrl: expect.any(String),
+              permissions: expect.anything(),
             }
             expect(request.user).toMatchObject(expectedUser)
           })
@@ -247,6 +248,7 @@ describe(`attachUserToRequestMiddleware`, () => {
               id: userId,
               role: userRole,
               accountUrl: expect.any(String),
+              permissions: expect.anything(),
             }
             expect(request.user).toMatchObject(expectedUser)
           })

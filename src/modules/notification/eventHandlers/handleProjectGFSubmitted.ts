@@ -69,7 +69,7 @@ export const handleProjectGFSubmitted =
               variables: {
                 nomProjet: project.nomProjet,
                 departementProjet: project.departementProjet,
-                invitation_link: routes.ADMIN_DASHBOARD,
+                invitation_link: routes.LISTE_PROJETS,
               },
             })
           )

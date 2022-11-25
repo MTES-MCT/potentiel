@@ -36,7 +36,6 @@ class routes {
   static SIGNUP = '/signup'
 
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard'
-  static ADMIN_DASHBOARD = '/admin/dashboard.html'
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html'
 
   static ADMIN_AO_PERIODE = '/admin/appels-offres.html'
@@ -79,7 +78,6 @@ class routes {
 
   static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv'
-  static ADMIN_LIST_PROJECTS = '/admin/dashboard.html'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html'
   static ADMIN_REGENERATE_CERTIFICATES_ACTION = '/admin/regenerer-attestations'
@@ -204,8 +202,8 @@ class routes {
     redirectTitle?: string
   }>('/confirmation.html')
 
-  static USER_DASHBOARD = '/mes-projets.html'
-  static USER_LIST_PROJECTS = '/mes-projets.html'
+  static LISTE_PROJETS = '/projets.html'
+
   static USER_LIST_MISSING_OWNER_PROJECTS = '/projets-a-reclamer.html'
   static USER_CLAIM_PROJECTS = '/reclamer-propriete-projets.html'
   static USER_LIST_REQUESTS = '/mes-demandes.html'

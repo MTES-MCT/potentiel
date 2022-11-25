@@ -76,11 +76,7 @@ export const ListeProjets = ({
         <div className="panel__header">
           <h3>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</h3>
           <form
-            action={
-              ['admin', 'dgec-validateur', 'dreal'].includes(request.user?.role)
-                ? ROUTES.ADMIN_LIST_PROJECTS
-                : ROUTES.USER_LIST_PROJECTS
-            }
+            action={ROUTES.LISTE_PROJETS}
             method="GET"
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
