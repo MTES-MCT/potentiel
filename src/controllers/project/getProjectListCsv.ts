@@ -4,12 +4,14 @@ import routes from '@routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
-import { ensureRole, listProjects } from '@config'
+import { listProjects } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { promises as fsPromises } from 'fs'
 import moment from 'moment'
 import { Project } from '@entities'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
+import { vérifierPermissionUtilisateur } from '../helpers'
+import { PermissionListerProjets } from '@modules/project'
 
 const orderedFields = [
   { dataField: 'numeroCRE', visibility: ['*'] },
@@ -757,6 +759,6 @@ function _selectFieldsForRole(userRole: string): { label: string; value: string 
 
 v1Router.get(
   routes.DOWNLOAD_PROJECTS_CSV,
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
+  vérifierPermissionUtilisateur(PermissionListerProjets),
   getProjectListCsv
 )
