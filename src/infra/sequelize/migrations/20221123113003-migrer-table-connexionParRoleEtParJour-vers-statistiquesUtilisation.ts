@@ -22,7 +22,6 @@ module.exports = {
           )
         }
       }
-      await queryInterface.dropTable('connexionsParRoleEtParJour', { transaction })
       await transaction.commit()
     } catch (e) {
       console.error(e)
