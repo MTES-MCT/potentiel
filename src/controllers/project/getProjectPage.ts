@@ -1,6 +1,6 @@
 import { userIs } from '@modules/users'
 import { okAsync } from '@core/utils'
-import { ensureRole, getProjectEvents } from '@config'
+import { getProjectEvents } from '@config'
 import { getProjectDataForProjectPage } from '@config/queries.config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { EntityNotFoundError } from '@modules/shared'
@@ -12,9 +12,11 @@ import {
   errorResponse,
   unauthorizedResponse,
   miseAJourStatistiquesUtilisation,
+  vérifierPermissionUtilisateur,
 } from '../helpers'
 import routes from '@routes'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { PermissionConsulterProjet } from '@modules/project'
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().uuid().required() }),
@@ -22,7 +24,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.PROJECT_DETAILS(),
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe']),
+  vérifierPermissionUtilisateur(PermissionConsulterProjet),
   safeAsyncHandler(
     {
       schema,
@@ -70,6 +72,7 @@ v1Router.get(
                 },
               },
             })
+
             return response.send(
               ProjectDetailsPage({
                 request,

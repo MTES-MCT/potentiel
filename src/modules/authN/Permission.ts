@@ -1,4 +1,4 @@
-import { PermissionListerProjets } from '@modules/project'
+import { PermissionConsulterProjet, PermissionListerProjets } from '@modules/project'
 import { UserRole } from '@modules/users'
 
 export type Permission = {
@@ -15,7 +15,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
     case 'acheteur-obligé':
     case 'ademe':
     case 'cre':
-      return [PermissionListerProjets]
+      return [PermissionListerProjets, PermissionConsulterProjet]
 
     default:
       return []
