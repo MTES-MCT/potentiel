@@ -1,9 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
 import { resetDatabase } from '@infra/sequelize/helpers'
-import {
-  DonnéesDeRaccordementRenseignées,
-  DonnéesDeRaccordementRenseignéesdPayload,
-} from '@modules/project'
+import { DonnéesDeRaccordementRenseignées } from '@modules/project'
 import { ProjectEvent } from '../projectEvent.model'
 import onDonnéesDeRaccordementRenseignées from './onDonnéesDeRaccordementRenseignées'
 
@@ -34,7 +31,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             payload: {
               projetId: projectId,
               dateMiseEnService: nouvelleDateMiseEnService,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
@@ -67,7 +64,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             payload: {
               projetId: projectId,
               dateMiseEnService: nouvelleDateMiseEnService,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
@@ -91,7 +88,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             payload: {
               projetId: projectId,
               dateMiseEnService: nouvelleDateMiseEnService,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
@@ -129,7 +126,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
               projetId: projectId,
               dateMiseEnService: new Date('2022-01-01').toISOString(),
               dateFileAttente: nouvelleDateFileAttente,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
@@ -163,7 +160,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
               projetId: projectId,
               dateMiseEnService: new Date('2022-01-01').toISOString(),
               dateFileAttente: nouvelleDateFileAttente,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
@@ -188,7 +185,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
               projetId: projectId,
               dateMiseEnService: new Date('2022-01-01').toISOString(),
               dateFileAttente: nouvelleDateFileAttente,
-            } as DonnéesDeRaccordementRenseignéesdPayload,
+            },
             original: { version: 1, occurredAt: new Date() },
           })
         )
