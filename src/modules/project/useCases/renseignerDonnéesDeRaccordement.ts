@@ -1,14 +1,13 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
-import { DateMiseEnServicePlusRécenteError } from '../errors'
+import { DonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
+import { DateMiseEnServicePlusRécenteError, ImpossibleDeChangerLaDateDeFAError } from '../errors'
 import { DonnéesDeRaccordementRenseignées } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
   projetId: string
-  dateMiseEnService: Date
-  dateFileAttente?: Date
-}
+} & DonnéesRaccordement
 
 type Dépendances = {
   publishToEventStore: EventStore['publish']
@@ -35,6 +34,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     projet: Project
   }) => {
     if (
+      'dateMiseEnService' in commande &&
       projet.dateMiseEnService &&
       projet.dateMiseEnService.getTime() < commande.dateMiseEnService.getTime()
     ) {
@@ -44,27 +44,76 @@ export const makeRenseignerDonnéesDeRaccordement = ({
     return okAsync({ projet, commande })
   }
 
-  const enregistrerDonnéesDeRaccordement = ({
-    projetId,
-    dateMiseEnService,
-    dateFileAttente,
-  }: Commande) =>
-    publishToEventStore(
-      new DonnéesDeRaccordementRenseignées({
-        payload: {
-          projetId,
-          dateMiseEnService: dateMiseEnService.toISOString(),
-          dateFileAttente: dateFileAttente?.toISOString(),
-        },
-      })
-    )
+  const vérifierSiDateFAApplicableSansDateMeS = ({
+    commande,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+  }) => {
+    if ('dateFileAttente' in commande && !('dateMiseEnService' in commande)) {
+      if (projet.dateMiseEnService) {
+        return errAsync(new ImpossibleDeChangerLaDateDeFAError())
+      }
+    }
+    return okAsync({ projet, commande })
+  }
+
+  const enregistrerDonnéesDeRaccordement = (commande: Commande) => {
+    if ('dateMiseEnService' in commande && 'dateFileAttente' in commande) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateMiseEnService: commande.dateMiseEnService.toISOString(),
+            dateFileAttente: commande.dateFileAttente.toISOString(),
+          },
+        })
+      )
+    }
+    if ('dateMiseEnService' in commande && !('dateFileAttente' in commande)) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateMiseEnService: commande.dateMiseEnService.toISOString(),
+          },
+        })
+      )
+    }
+    if (!('dateMiseEnService' in commande) && 'dateFileAttente' in commande) {
+      return publishToEventStore(
+        new DonnéesDeRaccordementRenseignées({
+          payload: {
+            projetId: commande.projetId,
+            dateFileAttente: commande.dateFileAttente.toISOString(),
+          },
+        })
+      )
+    }
+    return okAsync(null)
+  }
 
   return (commande: Commande) =>
     chargerProjet(commande)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
-      .andThen(({ projet, commande }) =>
-        projet.dateMiseEnService?.getTime() === commande.dateMiseEnService.getTime()
-          ? okAsync(null)
-          : enregistrerDonnéesDeRaccordement(commande)
-      )
+      .andThen(vérifierSiDateFAApplicableSansDateMeS)
+      .andThen(({ projet, commande }) => {
+        if (
+          'dateMiseEnService' in commande &&
+          projet.dateMiseEnService?.getTime() === commande.dateMiseEnService?.getTime()
+        ) {
+          return okAsync(null)
+        }
+
+        if (
+          !('dateMiseEnService' in commande) &&
+          'dateFileAttente' in commande &&
+          projet.dateFileAttente?.getTime() === commande.dateFileAttente?.getTime()
+        ) {
+          return okAsync(null)
+        }
+
+        return enregistrerDonnéesDeRaccordement(commande)
+      })
 }

@@ -7,44 +7,44 @@ import { ProjectionEnEchec } from '@modules/shared'
 export default ProjectEventProjector.on(
   DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
-    const {
-      payload: { dateMiseEnService, dateFileAttente, projetId },
-      occurredAt,
-    } = évènement
+    const { payload, occurredAt } = évènement
+    const { projetId } = payload
     const projectEventDateMiseEnService = await ProjectEvent.findOne({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
     })
 
-    try {
-      await ProjectEvent.upsert(
-        {
-          id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
-          type: 'DateMiseEnService',
-          valueDate: occurredAt.getTime(),
-          eventPublishedAt: occurredAt.getTime(),
-          projectId: projetId,
-          payload: {
-            statut: 'renseignée',
-            dateMiseEnService,
-          },
-        },
-        { transaction }
-      )
-    } catch (error) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
+    if ('dateMiseEnService' in payload) {
+      try {
+        await ProjectEvent.upsert(
           {
-            évènement,
-            nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+            id: projectEventDateMiseEnService?.id || new UniqueEntityID().toString(),
+            type: 'DateMiseEnService',
+            valueDate: occurredAt.getTime(),
+            eventPublishedAt: occurredAt.getTime(),
+            projectId: projetId,
+            payload: {
+              statut: 'renseignée',
+              dateMiseEnService: payload.dateMiseEnService,
+            },
           },
-          error
+          { transaction }
         )
-      )
+      } catch (error) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'événement DonnéesDeRaccordementRenseignées: création d'un nouveau project event`,
+            {
+              évènement,
+              nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
+            },
+            error
+          )
+        )
+      }
     }
 
-    if (dateFileAttente) {
+    if ('dateFileAttente' in payload) {
       const projectEventDateFileAttente = await ProjectEvent.findOne({
         where: { projectId: projetId, type: 'DateFileAttente' },
         transaction,
@@ -59,7 +59,7 @@ export default ProjectEventProjector.on(
             eventPublishedAt: occurredAt.getTime(),
             projectId: projetId,
             payload: {
-              dateFileAttente,
+              dateFileAttente: payload.dateFileAttente,
             },
           },
           { transaction }

@@ -10,11 +10,9 @@ type onDonnéesDeRaccordementRenseignées = (
 export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRenseignées =
   ({ Project }) =>
   async (évènement) => {
-    const {
-      payload: { projetId, dateMiseEnService, dateFileAttente },
-    } = évènement
+    const { payload } = évènement
 
-    const projectInstance = await Project.findByPk(projetId)
+    const projectInstance = await Project.findByPk(payload.projetId)
 
     if (!projectInstance) {
       logger.error(
@@ -32,11 +30,11 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
     try {
       await Project.update(
         {
-          dateMiseEnService,
-          dateFileAttente,
+          ...('dateMiseEnService' in payload && { dateMiseEnService: payload.dateMiseEnService }),
+          ...('dateFileAttente' in payload && { dateFileAttente: payload.dateFileAttente }),
         },
         {
-          where: { id: projetId },
+          where: { id: payload.projetId },
         }
       )
     } catch (cause) {

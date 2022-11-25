@@ -1350,8 +1350,12 @@ export const makeProject = (args: {
         props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
         break
       case DonnéesDeRaccordementRenseignées.type:
-        props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
-        props.dateFileAttente = new Date(event.payload.dateFileAttente)
+        if (event.payload.dateMiseEnService) {
+          props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
+        }
+        if (event.payload.dateFileAttente) {
+          props.dateFileAttente = new Date(event.payload.dateFileAttente)
+        }
         break
       default:
         // ignore other event types

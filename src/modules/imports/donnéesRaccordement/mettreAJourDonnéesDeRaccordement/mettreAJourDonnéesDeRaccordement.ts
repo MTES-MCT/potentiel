@@ -7,6 +7,7 @@ import {
   DateMiseEnServicePlusRécenteError,
   RenseignerDonnéesDeRaccordement,
 } from '@modules/project'
+import { DonnéesRaccordement } from '../DonnéesRaccordement'
 
 type Dépendances = {
   getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
@@ -16,11 +17,7 @@ type Dépendances = {
 
 type Commande = {
   gestionnaire: string
-  données: Array<{
-    identifiantGestionnaireRéseau: string
-    dateMiseEnService: Date
-    dateFileAttente?: Date
-  }>
+  données: DonnéesRaccordement[]
 }
 
 export type MettreAJourDonnéesDeRaccordement = ReturnType<
@@ -39,47 +36,44 @@ export const makeMettreAJourDonnéesDeRaccordement =
     ) => {
       return ResultAsync.fromPromise(
         Promise.all(
-          données.map(
-            async ({ identifiantGestionnaireRéseau, dateMiseEnService, dateFileAttente }) => {
-              const nombreDeProjetsCorrespondant =
-                projetsParIdentifiantGestionnaireRéseau[identifiantGestionnaireRéseau].length
-              if (nombreDeProjetsCorrespondant !== 1) {
-                return {
-                  identifiantGestionnaireRéseau,
-                  état: 'échec' as const,
-                  raison:
-                    nombreDeProjetsCorrespondant > 1
-                      ? `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`
-                      : `Aucun projet ne correspond à l'identifiant gestionnaire de réseau`,
-                }
-              }
-
-              const projetId =
-                projetsParIdentifiantGestionnaireRéseau[identifiantGestionnaireRéseau][0].id
-
-              const result = await renseignerDonnéesDeRaccordement({
-                projetId,
-                dateMiseEnService,
-                dateFileAttente,
-              })
-
+          données.map(async (ligne) => {
+            const nombreDeProjetsCorrespondant =
+              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau].length
+            if (nombreDeProjetsCorrespondant !== 1) {
               return {
-                identifiantGestionnaireRéseau,
-                projetId,
-                ...(result.isOk()
-                  ? {
-                      état: 'succès' as const,
-                    }
-                  : {
-                      état:
-                        result.error instanceof DateMiseEnServicePlusRécenteError
-                          ? ('ignoré' as const)
-                          : ('échec' as const),
-                      raison: result.error.message,
-                    }),
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                état: 'échec' as const,
+                raison:
+                  nombreDeProjetsCorrespondant > 1
+                    ? `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`
+                    : `Aucun projet ne correspond à l'identifiant gestionnaire de réseau`,
               }
             }
-          )
+
+            const projetId =
+              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau][0].id
+
+            const result = await renseignerDonnéesDeRaccordement({
+              projetId,
+              ...ligne,
+            })
+
+            return {
+              identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+              projetId,
+              ...(result.isOk()
+                ? {
+                    état: 'succès' as const,
+                  }
+                : {
+                    état:
+                      result.error instanceof DateMiseEnServicePlusRécenteError
+                        ? ('ignoré' as const)
+                        : ('échec' as const),
+                    raison: result.error.message,
+                  }),
+            }
+          })
         ),
         () => new InfraNotAvailableError()
       )

@@ -56,10 +56,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
         projetId: 'projet-1',
         dateMiseEnService: new Date('2024-01-20'),
         dateFileAttente: new Date('2023-01-20'),
+        identifiantGestionnaireRéseau: 'NUM-GEST-1',
       })
       expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'projet-2',
         dateMiseEnService: new Date('2024-02-20'),
+        identifiantGestionnaireRéseau: 'NUM-GEST-2',
       })
 
       expect(publishToEventStore).toHaveBeenLastCalledWith(
@@ -135,10 +137,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'Projet Test',
         dateMiseEnService: new Date('2024-02-20'),
+        identifiantGestionnaireRéseau: 'AAA-BB-2022-000001',
       })
       expect(renseignerDonnéesDeRaccordement).not.toHaveBeenCalledWith(
         expect.objectContaining({
           dateMiseEnService: new Date('2024-01-20'),
+          identifiantGestionnaireRéseau: 'Enedis',
         })
       )
 
@@ -208,10 +212,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
       expect(renseignerDonnéesDeRaccordement).toHaveBeenCalledWith({
         projetId: 'Projet Test',
         dateMiseEnService: new Date('2024-02-20'),
+        identifiantGestionnaireRéseau: 'AAA-BB-2022-000001',
       })
       expect(renseignerDonnéesDeRaccordement).not.toHaveBeenCalledWith(
         expect.objectContaining({
           dateMiseEnService: new Date('2024-01-20'),
+          identifiantGestionnaireRéseau: 'Enedis',
         })
       )
 
