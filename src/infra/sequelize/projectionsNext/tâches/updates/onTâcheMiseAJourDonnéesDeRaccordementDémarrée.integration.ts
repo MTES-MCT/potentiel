@@ -20,7 +20,9 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementDémarrée', () => {
         payload: {
           misAJourPar: 'misAJourPar-id',
           gestionnaire,
-          dates: [],
+          dates: [
+            { identifiantGestionnaireRéseau: 'id', dateMiseEnService: new Date().toISOString() },
+          ],
         },
         original: {
           version: 1,
