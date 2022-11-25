@@ -13,13 +13,13 @@ class GarantiesFinancières extends Model<
   projetId: string
   statut: GarantiesFinancièresStatut
   soumisALaCandidature: boolean
-  dateLimiteEnvoi: Date
-  fichierId: string
-  dateEnvoi: Date
-  envoyéPar: string
-  dateEchéance: Date
-  validéPar: string
-  validéLe: Date
+  dateLimiteEnvoi?: Date
+  fichierId?: string
+  dateEnvoi?: Date
+  envoyéPar?: string
+  dateEchéance?: Date
+  validéPar?: string
+  validéLe?: Date
 }
 
 const nomProjection = 'garantiesFinancières'
