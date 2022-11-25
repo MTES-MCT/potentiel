@@ -138,7 +138,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
         .andThen(validerLesDonnéesDuFichierCsv)
         .andThen((données) => {
           const donnéesFormatées = formaterDonnées(données)
-          if (!donnéesFormatées) {
+          if (donnéesFormatées.length === 0) {
             return errAsync(
               new DonnéesDeMiseAJourObligatoiresError({
                 utilisateur: request.user,
