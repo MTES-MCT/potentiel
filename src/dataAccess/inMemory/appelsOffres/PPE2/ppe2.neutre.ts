@@ -75,18 +75,18 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1 est
   ],
   familles: [
     // seulement sur les installations hydrauliques
-    {
-      id: '1',
-      title:
-        'installations implantées sur de nouveaux sites, de puissance installée supérieure ou égale à 1 MW ',
-      soumisAuxGarantiesFinancieres: 'à la candidature',
-    },
-    {
-      id: '2',
-      title:
-        'installations équipant des sites existants, de puissance installée supérieure ou égale à 1 MW',
-      soumisAuxGarantiesFinancieres: 'à la candidature',
-    },
+    // {
+    //   id: '1',
+    //   title:
+    //     'installations implantées sur de nouveaux sites, de puissance installée supérieure ou égale à 1 MW ',
+    //   soumisAuxGarantiesFinancieres: 'à la candidature',
+    // },
+    // {
+    //   id: '2',
+    //   title:
+    //     'installations équipant des sites existants, de puissance installée supérieure ou égale à 1 MW',
+    //   soumisAuxGarantiesFinancieres: 'à la candidature',
+    // },
   ],
   cahiersDesChargesModifiésDisponibles: [],
 }
