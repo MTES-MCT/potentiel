@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import {
   DomainEvent,
   EventStore,

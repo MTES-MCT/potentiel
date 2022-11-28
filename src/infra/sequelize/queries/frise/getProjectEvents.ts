@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ResultAsync, wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
 import { userIs, userIsNot } from '@modules/users'

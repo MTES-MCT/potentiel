@@ -1,7 +1,7 @@
 import { Op } from 'sequelize'
 import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { getFullTextSearchOptions } from '@dataAccess/db'
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { User } from '@entities'
 import { makePaginatedList, paginate } from '../../../../helpers/paginate'
 import {

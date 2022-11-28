@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
 import { ProjectNotified } from '@modules/project'
