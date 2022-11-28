@@ -36,6 +36,10 @@ module.exports = {
         type: DataTypes.UUID,
         allowNull: true,
       },
+      dateConstitution: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
       dateEchéance: {
         type: DataTypes.DATE,
         allowNull: true,

@@ -17,6 +17,7 @@ class GarantiesFinancières extends Model<
   fichierId?: string
   dateEnvoi?: Date
   envoyéPar?: string
+  dateConstitution?: Date
   dateEchéance?: Date
   validéPar?: string
   validéLe?: Date
@@ -57,6 +58,10 @@ GarantiesFinancières.init(
     },
     envoyéPar: {
       type: DataTypes.UUID,
+      allowNull: true,
+    },
+    dateConstitution: {
+      type: DataTypes.DATE,
       allowNull: true,
     },
     dateEchéance: {
