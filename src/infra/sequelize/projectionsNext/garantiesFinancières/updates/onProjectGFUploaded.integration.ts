@@ -34,8 +34,8 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
 
   describe(`Mise à jour d'une ligne dans la projection`, () => {
     it(`Etant donné un projet existant dans la projection garantiesFinancières,
-    Lorsqu'un événement ProjectGFUploaded est émis pour ce projet,
-    alors la ligne devrait être mise à jour le fichier et le statut 'validé'`, async () => {
+    lorsqu'un événement ProjectGFUploaded est émis pour ce projet,
+    alors la ligne devrait être mise à jour avec le fichier et le statut 'validé'`, async () => {
       await GarantiesFinancières.create({
         id,
         projetId,
@@ -61,7 +61,7 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
 
   describe(`Création d'une ligne dans la projection`, () => {
     it(`Etant donné un projet non présent dans la projection garantiesFinancières,
-      Lorsqu'un évènement ProjectGFUploaded est émis pour ce projet,
+      lorsqu'un évènement ProjectGFUploaded est émis pour ce projet,
       alors une nouvelle ligne devrait être insérée dans la projection`, async () => {
       const { Project } = models
       const projet = makeFakeProject({

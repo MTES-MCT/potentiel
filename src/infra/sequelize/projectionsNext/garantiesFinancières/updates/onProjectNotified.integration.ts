@@ -39,7 +39,7 @@ describe(`handler onProjectNotified pour la projection garantiesFinancières`, (
   describe(`Enregistrer une nouvelle ligne si le projet est soumis à GF`, () => {
     it(`Etant donné un événement ProjectNotified émis pour un projet soumis à GF,
     et dont les GF ont été soumises à la candidature (selon l'AO),
-    alors alors une entrée est ajoutée indiquant que les GF ont été soumises à la candidature`, async () => {
+    alors une entrée est ajoutée indiquant que les GF ont été soumises à la candidature`, async () => {
       const évènement = new ProjectNotified({
         payload: {
           projectId: projetId,

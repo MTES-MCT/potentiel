@@ -17,7 +17,7 @@ describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières
 
   describe(`Mise à jour d'une ligne dans la projection`, () => {
     it(`Etant donné un projet existant dans la projection garantiesFinancières,
-    Lorsqu'un événement ProjectGFDueDateSet est émis pour ce projet,
+    lorsqu'un événement ProjectGFDueDateSet est émis pour ce projet,
     alors la ligne devrait être mise à jour avec une nouvelle date limite d'envoi`, async () => {
       await GarantiesFinancières.create({
         id,
