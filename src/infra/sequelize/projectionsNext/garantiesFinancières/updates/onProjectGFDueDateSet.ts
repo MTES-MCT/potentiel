@@ -2,6 +2,9 @@ import { logger } from '@core/utils'
 import { ProjectGFDueDateSet } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
+import { UniqueEntityID } from '@core/domain'
+import { models } from '../../../models'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 
 export default GarantiesFinancièresProjector.on(
   ProjectGFDueDateSet,
@@ -10,32 +13,67 @@ export default GarantiesFinancièresProjector.on(
       payload: { projectId: projetId, garantiesFinancieresDueOn },
     } = évènement
 
-    const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId } })
+    const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
 
-    if (!entréeExistante) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement ProjectGFDueDateSet : entrée non trouvée`,
+    if (entréeExistante) {
+      try {
+        await GarantiesFinancières.update(
           {
-            évènement,
-            nomProjection: 'GarantiesFinancières',
-          }
+            dateLimiteEnvoi: new Date(garantiesFinancieresDueOn),
+          },
+          { where: { projetId }, transaction }
         )
-      )
+      } catch (error) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'évènement ProjectGFDueDateSet : mise à jour de l'entrée GF du projet`,
+            {
+              évènement,
+              nomProjection: 'GarantiesFinancières',
+            },
+            error
+          )
+        )
+      }
       return
     }
 
     try {
-      await GarantiesFinancières.update(
+      const { Project } = models
+      const { appelOffreId, periodeId, familleId } = await Project.findOne({
+        where: { id: projetId },
+        transaction,
+      })
+      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+      if (!appelOffre) {
+        logger.error(
+          new ProjectionEnEchec(
+            `Erreur lors du traitement de l'évènement ProjectGFDueDateSet : AO non trouvé`,
+            {
+              évènement,
+              nomProjection: 'GarantiesFinancières',
+            }
+          )
+        )
+      }
+
+      await GarantiesFinancières.create(
         {
+          id: new UniqueEntityID().toString(),
+          projetId,
+          soumisALaCandidature:
+            appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
+            appelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature',
           dateLimiteEnvoi: new Date(garantiesFinancieresDueOn),
+          statut: 'en attente',
         },
         { where: { projetId }, transaction }
       )
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement ProjectGFDueDateSet`,
+          `Erreur lors du traitement de l'évènement ProjectGFDueDateSet : création d'une nouvelle entrée`,
           {
             évènement,
             nomProjection: 'GarantiesFinancières',
