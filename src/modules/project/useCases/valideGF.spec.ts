@@ -58,7 +58,7 @@ describe('ValideGF usecase', () => {
 
   describe(`Etant donné un projet avec garantie financières et un utilisateur DREAL
             Lorsque le usecase est invoqué`, () => {
-    it('Alors un évènement GFValidées devrait être émis', async () => {
+    it('Alors un évènement ProjectGFValidées devrait être émis', async () => {
       fakePublish.mockClear()
 
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
@@ -77,7 +77,7 @@ describe('ValideGF usecase', () => {
       expect(res.isOk()).toBe(true)
       expect(fakePublish).toHaveBeenCalledWith(
         expect.objectContaining({
-          type: 'GFValidées',
+          type: 'ProjectGFValidées',
           payload: { projetId, validéesPar: user.id },
         })
       )

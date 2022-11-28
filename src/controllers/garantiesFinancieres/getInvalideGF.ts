@@ -14,7 +14,7 @@ const schema = yup.object({
   }),
 })
 
-v1Router.post(
+v1Router.get(
   routes.INVALIDE_GF(),
   ensureRole(['dreal']),
   safeAsyncHandler(
@@ -35,7 +35,7 @@ v1Router.post(
         () =>
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: `Cette étape projet est bien considérée comme invalidée.`,
+              success: `Les garanties financières pour ce projet sont bien considérées comme à traiter.`,
               redirectUrl: routes.ADMIN_GARANTIES_FINANCIERES,
               redirectTitle: 'Retourner à la liste des garanties financières',
             })

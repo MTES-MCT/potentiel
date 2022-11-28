@@ -3,7 +3,7 @@ import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { userIs } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { GFValidées } from '../events/GFValidées'
+import { ProjectGFValidées } from '../events/ProjectGFValidées'
 
 interface ValideGFDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
@@ -30,7 +30,7 @@ export const makeValideGF =
         }
 
         return deps.publishToEventStore(
-          new GFValidées({
+          new ProjectGFValidées({
             payload: { projetId, validéesPar: validéesPar.id },
           })
         )
