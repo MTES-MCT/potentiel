@@ -56,6 +56,8 @@ import {
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
   makeRenseignerDonnéesDeRaccordement,
+  makeValideGF,
+  makeInvalideGF,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -207,6 +209,16 @@ export const withdrawGF = makeWithdrawGF({
 export const updateStepStatus = makeUpdateStepStatus({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+})
+
+export const valideGF = makeValideGF({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  publishToEventStore,
+})
+
+export const invalideGF = makeInvalideGF({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  publishToEventStore,
 })
 
 export const requestPuissanceModification = makeRequestPuissanceModification({
