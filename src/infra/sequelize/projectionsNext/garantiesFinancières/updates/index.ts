@@ -1,4 +1,5 @@
 export * from './onProjectGFDueDateSet'
+export * from './onProjectGFRemoved'
 export * from './onProjectGFSubmitted'
 export * from './onProjectGFUploaded'
 export * from './onProjectNotified'
