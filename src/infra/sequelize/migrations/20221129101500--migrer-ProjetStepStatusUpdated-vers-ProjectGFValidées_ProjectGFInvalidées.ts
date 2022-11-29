@@ -1,4 +1,4 @@
-import { ProjectGFInvalidées, ProjectGFValidées, ProjectStepStatusUpdated } from '@modules/project'
+import { ProjectGFInvalidées, ProjectGFValidées } from '@modules/project'
 import { QueryInterface } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
@@ -10,7 +10,7 @@ export default {
     try {
       const { EventStore, ProjectStep } = models
 
-      const evenementsAMigrer: ProjectStepStatusUpdated[] = await EventStore.findAll(
+      const evenementsAMigrer = await EventStore.findAll(
         {
           where: {
             type: 'ProjectStepStatusUpdated',

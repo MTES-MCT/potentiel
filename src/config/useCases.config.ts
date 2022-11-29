@@ -51,7 +51,6 @@ import {
   makeSubmitGF,
   makeSubmitPTF,
   makeChoisirCahierDesCharges,
-  makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
@@ -204,11 +203,6 @@ export const removeGF = makeRemoveGF({
 export const withdrawGF = makeWithdrawGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
-})
-
-export const updateStepStatus = makeUpdateStepStatus({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 })
 
 export const valideGF = makeValideGF({

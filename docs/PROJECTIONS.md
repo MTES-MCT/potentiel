@@ -195,8 +195,6 @@ Mise à jour par:
 
 - [ProjectPTFSubmitted](./Events.md#projectptfsubmitted)
 
-- [ProjectStepStatusUpdated](./Events.md#projectstepstatusupdated)
-
 - [ProjectClaimed](./Events.md#projectclaimed)
 
 - [LegacyModificationFileAttached](./Events.md#legacymodificationfileattached)
@@ -220,8 +218,6 @@ Mise à jour par:
 - [ProjectPTFRemoved](./Events.md#projectptfremoved)
 
 - [ProjectPTFSubmitted](./Events.md#projectptfsubmitted)
-
-- [ProjectStepStatusUpdated](./Events.md#projectstepstatusupdated)
 
 ### user
 
