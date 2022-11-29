@@ -28,7 +28,7 @@ module.exports = {
         if (projet) {
           await StatistiquesUtilisation.create(
             {
-              type: 'CertificatTéléchargé',
+              type: 'AttestationTéléchargée',
               date: new Date(entrée.occurredAt),
               données: {
                 utilisateur: { role: 'porteur-projet' },
