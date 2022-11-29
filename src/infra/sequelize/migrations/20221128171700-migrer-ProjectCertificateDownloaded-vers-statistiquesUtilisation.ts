@@ -17,10 +17,10 @@ module.exports = {
         { transaction }
       )
 
-      for (const entrée of évènementsÀMigrer) {
+      for (const évènement of évènementsÀMigrer) {
         const projet = await Project.findOne({
           where: {
-            id: entrée.payload.projectId,
+            id: évènement.payload.projectId,
           },
           attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
         })
@@ -28,8 +28,8 @@ module.exports = {
         if (projet) {
           await StatistiquesUtilisation.create(
             {
-              type: 'AttestationTéléchargée',
-              date: new Date(entrée.occurredAt),
+              type: 'attestationTéléchargée',
+              date: new Date(évènement.occurredAt),
               données: {
                 utilisateur: { role: 'porteur-projet' },
                 projet: {
