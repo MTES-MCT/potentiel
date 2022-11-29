@@ -23,7 +23,7 @@ describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières
         id,
         projetId,
         statut: 'en attente',
-        soumisALaCandidature: false,
+        soumisesALaCandidature: false,
       })
 
       const évènement = new ProjectGFDueDateSet({
@@ -41,7 +41,7 @@ describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières
 
       const GF = await GarantiesFinancières.findOne({ where: { projetId } })
 
-      expect(GF).toMatchObject({ id, dateLimiteEnvoi, soumisALaCandidature: false })
+      expect(GF).toMatchObject({ id, dateLimiteEnvoi, soumisesALaCandidature: false })
     })
   })
 
@@ -74,7 +74,7 @@ describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières
 
       const GF = await GarantiesFinancières.findOne({ where: { projetId } })
 
-      expect(GF).toMatchObject({ soumisALaCandidature: false, dateLimiteEnvoi })
+      expect(GF).toMatchObject({ soumisesALaCandidature: false, dateLimiteEnvoi })
     })
   })
 })

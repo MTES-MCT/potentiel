@@ -31,30 +31,30 @@ export default GarantiesFinancièresProjector.on(
       const {
         id,
         statut,
-        soumisALaCandidature,
+        soumisesALaCandidature,
         fichierId,
         dateEnvoi,
-        envoyéPar,
+        envoyéesPar,
         dateConstitution,
         dateEchéance,
-        validéLe,
-        validéPar,
+        validéesLe,
+        validéesPar,
       } = entréeExistante
       await GarantiesFinancières.create(
         {
           id,
           projetId,
           statut,
-          soumisALaCandidature,
-          ...(envoyéPar && { envoyéPar: envoyéPar }),
+          soumisesALaCandidature,
+          ...(envoyéesPar && { envoyéesPar: envoyéesPar }),
           ...(dateEchéance && { dateEchéance: dateEchéance }),
           ...(dateEnvoi && { dateEnvoi: dateEnvoi }),
           ...(dateConstitution && {
             dateConstitution: dateConstitution,
           }),
           ...(fichierId && { fichierId: fichierId }),
-          ...(validéLe && { validéLe: validéLe }),
-          ...(validéPar && { validéPar: validéPar }),
+          ...(validéesLe && { validéesLe: validéesLe }),
+          ...(validéesPar && { validéesPar: validéesPar }),
         },
         { transaction }
       )

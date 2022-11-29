@@ -14,7 +14,7 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
   const gfDate = new Date('2020-01-01')
   const fichierId = new UniqueEntityID().toString()
   const retiréPar = new UniqueEntityID().toString()
-  const envoyéPar = new UniqueEntityID().toString()
+  const envoyéesPar = new UniqueEntityID().toString()
   const dateExpiration = new Date('2020-01-01')
   const dateLimiteEnvoi = new Date()
 
@@ -37,8 +37,8 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
       id,
       projetId,
       statut: 'à traiter',
-      soumisALaCandidature: false,
-      envoyéPar,
+      soumisesALaCandidature: false,
+      envoyéesPar,
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,
@@ -53,7 +53,7 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
     expect(GF).toMatchObject({
       id,
       projetId,
-      soumisALaCandidature: false,
+      soumisesALaCandidature: false,
       statut: 'en attente',
       dateLimiteEnvoi,
     })

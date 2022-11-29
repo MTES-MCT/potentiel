@@ -32,7 +32,7 @@ export default GarantiesFinancièresProjector.on(
         {
           id: entréeExistante.id,
           projetId,
-          soumisALaCandidature: entréeExistante.soumisALaCandidature,
+          soumisesALaCandidature: entréeExistante.soumisesALaCandidature,
           ...(entréeExistante.dateLimiteEnvoi && {
             dateLimiteEnvoi: entréeExistante.dateLimiteEnvoi,
           }),

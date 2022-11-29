@@ -22,7 +22,7 @@ export default GarantiesFinancièresProjector.on(
           {
             fichierId: fileId,
             statut: 'validé',
-            envoyéPar: submittedBy,
+            envoyéesPar: submittedBy,
             ...(expirationDate && { dateEchéance: expirationDate }),
             dateEnvoi: occurredAt,
             dateConstitution: gfDate,
@@ -68,12 +68,12 @@ export default GarantiesFinancièresProjector.on(
         {
           id: new UniqueEntityID().toString(),
           projetId,
-          soumisALaCandidature:
+          soumisesALaCandidature:
             appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
             appelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature',
           fichierId: fileId,
           statut: 'validé',
-          envoyéPar: submittedBy,
+          envoyéesPar: submittedBy,
           ...(expirationDate && { dateEchéance: expirationDate }),
           dateEnvoi: occurredAt,
           dateConstitution: gfDate,

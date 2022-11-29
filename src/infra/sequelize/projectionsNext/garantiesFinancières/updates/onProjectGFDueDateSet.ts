@@ -62,7 +62,7 @@ export default GarantiesFinancièresProjector.on(
         {
           id: new UniqueEntityID().toString(),
           projetId,
-          soumisALaCandidature:
+          soumisesALaCandidature:
             appelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
             appelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature',
           dateLimiteEnvoi: new Date(garantiesFinancieresDueOn),

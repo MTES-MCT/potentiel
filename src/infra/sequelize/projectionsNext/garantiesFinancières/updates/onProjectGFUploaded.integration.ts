@@ -15,7 +15,7 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
   const occurredAt = new Date('2022-01-04')
   const gfDate = new Date('2020-01-01')
   const fichierId = new UniqueEntityID().toString()
-  const envoyéPar = new UniqueEntityID().toString()
+  const envoyéesPar = new UniqueEntityID().toString()
   const dateExpiration = new Date('2020-01-01')
 
   const évènement = new ProjectGFUploaded({
@@ -23,7 +23,7 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
       projectId: projetId,
       gfDate,
       fileId: fichierId,
-      submittedBy: envoyéPar,
+      submittedBy: envoyéesPar,
       expirationDate: dateExpiration,
     },
     original: {
@@ -40,7 +40,7 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
         id,
         projetId,
         statut: 'en attente',
-        soumisALaCandidature: true,
+        soumisesALaCandidature: true,
       })
 
       await onProjectGFUploaded(évènement)
@@ -49,9 +49,9 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
 
       expect(GF).toMatchObject({
         id,
-        soumisALaCandidature: true,
+        soumisesALaCandidature: true,
         statut: 'validé',
-        envoyéPar,
+        envoyéesPar,
         dateEchéance: dateExpiration,
         dateEnvoi: occurredAt,
         dateConstitution: gfDate,
@@ -78,9 +78,9 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
       const GF = await GarantiesFinancières.findOne({ where: { projetId } })
 
       expect(GF).toMatchObject({
-        soumisALaCandidature: true,
+        soumisesALaCandidature: true,
         statut: 'validé',
-        envoyéPar,
+        envoyéesPar,
         dateEchéance: dateExpiration,
         dateEnvoi: occurredAt,
         dateConstitution: gfDate,

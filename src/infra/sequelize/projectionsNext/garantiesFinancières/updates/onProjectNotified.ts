@@ -29,7 +29,7 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
     return
   }
 
-  const soumisALaCandidature =
+  const soumisesALaCandidature =
     appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
     appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature'
 
@@ -44,7 +44,7 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
         id: new UniqueEntityID().toString(),
         projetId,
         statut: 'en attente',
-        soumisALaCandidature,
+        soumisesALaCandidature,
       },
       { transaction }
     )

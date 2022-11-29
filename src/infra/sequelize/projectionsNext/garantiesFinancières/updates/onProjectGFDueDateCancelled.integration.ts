@@ -13,7 +13,7 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
   const occurredAt = new Date('2022-01-04')
   const gfDate = new Date('2020-01-01')
   const fichierId = new UniqueEntityID().toString()
-  const envoyéPar = new UniqueEntityID().toString()
+  const envoyéesPar = new UniqueEntityID().toString()
   const dateExpiration = new Date('2020-01-01')
   const dateLimiteEnvoi = new Date()
 
@@ -35,8 +35,8 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
       id,
       projetId,
       statut: 'à traiter',
-      soumisALaCandidature: true,
-      envoyéPar,
+      soumisesALaCandidature: true,
+      envoyéesPar,
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,
@@ -52,8 +52,8 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
       id,
       projetId,
       statut: 'à traiter',
-      soumisALaCandidature: true,
-      envoyéPar,
+      soumisesALaCandidature: true,
+      envoyéesPar,
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,

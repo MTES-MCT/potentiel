@@ -12,15 +12,15 @@ class GarantiesFinancières extends Model<
   id: string
   projetId: string
   statut: GarantiesFinancièresStatut
-  soumisALaCandidature: boolean
+  soumisesALaCandidature: boolean
   dateLimiteEnvoi?: Date
   fichierId?: string
   dateEnvoi?: Date
-  envoyéPar?: string
+  envoyéesPar?: string
   dateConstitution?: Date
   dateEchéance?: Date
-  validéPar?: string
-  validéLe?: Date
+  validéesPar?: string
+  validéesLe?: Date
 }
 
 const nomProjection = 'garantiesFinancières'
@@ -40,7 +40,7 @@ GarantiesFinancières.init(
       type: DataTypes.ENUM(...garantiesFinancièresStatuts),
       allowNull: false,
     },
-    soumisALaCandidature: {
+    soumisesALaCandidature: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
@@ -56,7 +56,7 @@ GarantiesFinancières.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    envoyéPar: {
+    envoyéesPar: {
       type: DataTypes.UUID,
       allowNull: true,
     },
@@ -68,11 +68,11 @@ GarantiesFinancières.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    validéPar: {
+    validéesPar: {
       type: DataTypes.UUID,
       allowNull: true,
     },
-    validéLe: {
+    validéesLe: {
       type: DataTypes.DATE,
       allowNull: true,
     },

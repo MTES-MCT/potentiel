@@ -16,7 +16,7 @@ module.exports = {
         type: DataTypes.ENUM('en attente', 'à traiter', 'validé'),
         allowNull: false,
       },
-      soumisALaCandidature: {
+      soumisesALaCandidature: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
@@ -32,7 +32,7 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      envoyéPar: {
+      envoyéesPar: {
         type: DataTypes.UUID,
         allowNull: true,
       },
@@ -44,11 +44,11 @@ module.exports = {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      validéPar: {
+      validéesPar: {
         type: DataTypes.UUID,
         allowNull: true,
       },
-      validéLe: {
+      validéesLe: {
         type: DataTypes.DATE,
         allowNull: true,
       },

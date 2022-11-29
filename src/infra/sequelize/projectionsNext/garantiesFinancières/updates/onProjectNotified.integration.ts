@@ -59,7 +59,7 @@ describe(`handler onProjectNotified pour la projection garantiesFinancières`, (
 
       const GF = await GarantiesFinancières.findOne({ where: { projetId } })
 
-      expect(GF).toMatchObject({ statut: 'en attente', soumisALaCandidature: true })
+      expect(GF).toMatchObject({ statut: 'en attente', soumisesALaCandidature: true })
     })
   })
 })
