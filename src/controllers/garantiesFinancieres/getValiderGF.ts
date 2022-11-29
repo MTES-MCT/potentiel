@@ -7,6 +7,7 @@ import { errorResponse, unauthorizedResponse } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { GFDéjàValidéesError } from '@modules/project'
 
 const schema = yup.object({
   params: yup.object({
@@ -40,9 +41,19 @@ v1Router.get(
               redirectTitle: 'Retourner à la liste des garanties financières',
             })
           ),
-        (error: Error) => {
+        (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (error instanceof GFDéjàValidéesError) {
+            return response.redirect(
+              routes.SUCCESS_OR_ERROR_PAGE({
+                redirectUrl: routes.ADMIN_GARANTIES_FINANCIERES,
+                redirectTitle: 'Retourner à la liste des garanties financières',
+                error: error.message,
+              })
+            )
           }
 
           logger.error(error)

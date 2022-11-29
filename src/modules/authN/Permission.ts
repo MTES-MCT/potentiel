@@ -8,9 +8,10 @@ export type Permission = {
 
 export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> => {
   switch (role) {
+    case 'dreal':
+      return [PermissionListerProjets]
     case 'admin':
     case 'dgec-validateur':
-    case 'dreal':
     case 'porteur-projet':
     case 'acheteur-obligé':
     case 'ademe':

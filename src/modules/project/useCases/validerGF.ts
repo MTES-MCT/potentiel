@@ -1,14 +1,17 @@
-import { EventStore } from '@core/domain'
+import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { userIs } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
 import { ProjectGFValidées } from '../events'
+import { Project } from '../Project'
+import { GFDéjàValidéesError } from '../errors'
 
 interface ValiderGFDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
 
   publishToEventStore: EventStore['publish']
+  projectRepo: Repository<Project>
 }
 
 type ValiderGFArgs = {
@@ -17,23 +20,28 @@ type ValiderGFArgs = {
 }
 
 export const makeValiderGF =
-  (deps: ValiderGFDeps) =>
+  ({ projectRepo, shouldUserAccessProject, publishToEventStore }: ValiderGFDeps) =>
   (args: ValiderGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { projetId, validéesPar } = args
 
-    return wrapInfra(
-      deps.shouldUserAccessProject({ projectId: projetId, user: validéesPar })
-    ).andThen(
-      (userHasRightsToProject): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+    return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: validéesPar })).andThen(
+      (
+        userHasRightsToProject
+      ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError | GFDéjàValidéesError> => {
         if (!userHasRightsToProject || !userIs('dreal')(validéesPar)) {
           return errAsync(new UnauthorizedError())
         }
 
-        return deps.publishToEventStore(
-          new ProjectGFValidées({
-            payload: { projetId, validéesPar: validéesPar.id },
-          })
-        )
+        return projectRepo.load(new UniqueEntityID(projetId)).andThen((projet) => {
+          if (projet.GFValidées) {
+            return errAsync(new GFDéjàValidéesError())
+          }
+          return publishToEventStore(
+            new ProjectGFValidées({
+              payload: { projetId, validéesPar: validéesPar.id },
+            })
+          )
+        })
       }
     )
   }

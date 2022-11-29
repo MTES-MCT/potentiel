@@ -208,11 +208,13 @@ export const withdrawGF = makeWithdrawGF({
 export const validerGF = makeValiderGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   publishToEventStore,
+  projectRepo,
 })
 
 export const invaliderGF = makeInvaliderGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   publishToEventStore,
+  projectRepo,
 })
 
 export const requestPuissanceModification = makeRequestPuissanceModification({

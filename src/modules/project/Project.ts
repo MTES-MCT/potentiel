@@ -87,6 +87,8 @@ import {
   NumeroGestionnaireSubmitted,
   DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
+  ProjectGFValidées,
+  ProjectGFInvalidées,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -238,6 +240,7 @@ export interface Project extends EventStoreAggregate {
   readonly dateMiseEnService?: Date
   readonly dateFileAttente?: Date
   readonly délaiCDC2022appliqué: boolean
+  readonly GFValidées: boolean
 }
 
 export interface ProjectDataProps {
@@ -294,6 +297,8 @@ export interface ProjectProps {
   dateMiseEnService: Date | undefined
   dateFileAttente: Date | undefined
   délaiCDC2022appliqué: boolean
+
+  GFValidées: boolean
 }
 
 const projectValidator = makePropertyValidator({
@@ -340,6 +345,7 @@ export const makeProject = (args: {
     dateMiseEnService: undefined,
     dateFileAttente: undefined,
     délaiCDC2022appliqué: false,
+    GFValidées: false,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1140,6 +1146,9 @@ export const makeProject = (args: {
     get délaiCDC2022appliqué() {
       return props.délaiCDC2022appliqué
     },
+    get GFValidées() {
+      return props.GFValidées
+    },
   })
 
   // private methods
@@ -1197,6 +1206,12 @@ export const makeProject = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
+      case ProjectGFValidées.type:
+        props.GFValidées = true
+        break
+      case ProjectGFInvalidées.type:
+        props.GFValidées = false
+        break
       case LegacyProjectSourced.type:
         props.data = event.payload.content
         props.notifiedOn = event.payload.content.notifiedOn
