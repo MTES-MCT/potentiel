@@ -46,15 +46,15 @@ export default GarantiesFinancièresProjector.on(
           projetId,
           statut,
           soumisesALaCandidature,
-          ...(envoyéesPar && { envoyéesPar: envoyéesPar }),
-          ...(dateEchéance && { dateEchéance: dateEchéance }),
-          ...(dateEnvoi && { dateEnvoi: dateEnvoi }),
+          ...(envoyéesPar && { envoyéesPar }),
+          ...(dateEchéance && { dateEchéance }),
+          ...(dateEnvoi && { dateEnvoi }),
           ...(dateConstitution && {
-            dateConstitution: dateConstitution,
+            dateConstitution,
           }),
-          ...(fichierId && { fichierId: fichierId }),
-          ...(validéesLe && { validéesLe: validéesLe }),
-          ...(validéesPar && { validéesPar: validéesPar }),
+          ...(fichierId && { fichierId }),
+          ...(validéesLe && { validéesLe }),
+          ...(validéesPar && { validéesPar }),
         },
         { transaction }
       )
