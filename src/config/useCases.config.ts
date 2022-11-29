@@ -107,7 +107,6 @@ import {
   makeDémarrerImportDonnéesRaccordement,
   makeMettreAJourDonnéesDeRaccordement,
 } from '@modules/imports/donnéesRaccordement'
-import { makeValiderGF } from '../modules/project/useCases/validerGF'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
