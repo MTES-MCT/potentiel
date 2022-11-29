@@ -49,7 +49,7 @@ const requestBodySchema = yup.object({
       .typeError(`La date saisie n'est pas valide`),
   }),
   notes: yup.string().optional(),
-  délaiCdc2022: yup.boolean().required(),
+  délaiCdc2022: yup.boolean().optional(),
 })
 
 v1Router.post(
