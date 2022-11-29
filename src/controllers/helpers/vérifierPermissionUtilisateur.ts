@@ -13,7 +13,7 @@ export const vérifierPermissionUtilisateur =
     }
 
     if (!user.permissions.includes(permission)) {
-      response.send(AccèsNonAutoriséPage({ request }))
+      response.send(AccèsNonAutoriséPage({ request, fonctionnalité: permission.description }))
       return
     }
 

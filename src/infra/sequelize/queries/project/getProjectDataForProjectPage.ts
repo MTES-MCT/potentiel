@@ -103,7 +103,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEnedis,
         } = projectRaw.get()
 
-        if (!notifiedOn && !['admin', 'dgec-validateur'].includes(user.role)) {
+        if (!notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role)) {
           return err(new EntityNotFoundError())
         }
 
