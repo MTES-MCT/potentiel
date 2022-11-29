@@ -1,4 +1,4 @@
-import { ensureRole, invalideGF } from '@config'
+import { ensureRole, validerGF } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
@@ -15,7 +15,7 @@ const schema = yup.object({
 })
 
 v1Router.get(
-  routes.INVALIDE_GF(),
+  routes.VALIDE_GF(),
   ensureRole(['dreal']),
   safeAsyncHandler(
     {
@@ -31,11 +31,11 @@ v1Router.get(
     async (request, response) => {
       const { projetId } = request.params
       const { user } = request
-      return invalideGF({ projetId, invalidéesPar: user }).match(
+      return validerGF({ projetId, validéesPar: user }).match(
         () =>
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
-              success: `Les garanties financières pour ce projet sont bien considérées comme à traiter.`,
+              success: `Les garanties financières pour ce projet sont bien considérées comme validées.`,
               redirectUrl: routes.ADMIN_GARANTIES_FINANCIERES,
               redirectTitle: 'Retourner à la liste des garanties financières',
             })

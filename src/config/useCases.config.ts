@@ -55,8 +55,8 @@ import {
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
   makeRenseignerDonnéesDeRaccordement,
-  makeValideGF,
-  makeInvalideGF,
+  makeValiderGF,
+  makeInvaliderGF,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -107,6 +107,7 @@ import {
   makeDémarrerImportDonnéesRaccordement,
   makeMettreAJourDonnéesDeRaccordement,
 } from '@modules/imports/donnéesRaccordement'
+import { makeValiderGF } from '../modules/project/useCases/validerGF'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -205,12 +206,12 @@ export const withdrawGF = makeWithdrawGF({
   projectRepo,
 })
 
-export const valideGF = makeValideGF({
+export const validerGF = makeValiderGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   publishToEventStore,
 })
 
-export const invalideGF = makeInvalideGF({
+export const invaliderGF = makeInvaliderGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   publishToEventStore,
 })

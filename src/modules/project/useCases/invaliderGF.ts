@@ -3,22 +3,22 @@ import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { userIs } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectGFInvalidées } from '../events/ProjectGFInvalidées'
+import { ProjectGFInvalidées } from '../events'
 
-interface InvalideGFDeps {
+interface InvaliderGFDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
 
   publishToEventStore: EventStore['publish']
 }
 
-type InvalideGFArgs = {
+type InvaliderGFArgs = {
   projetId: string
   invalidéesPar: User
 }
 
-export const makeInvalideGF =
-  (deps: InvalideGFDeps) =>
-  (args: InvalideGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
+export const makeInvaliderGF =
+  (deps: InvaliderGFDeps) =>
+  (args: InvaliderGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
     const { projetId, invalidéesPar } = args
 
     return wrapInfra(

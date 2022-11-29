@@ -4,12 +4,12 @@ import { UnwrapForTest } from '../../../types'
 import { makeUser } from '@entities'
 import makeFakeUser from '../../../__tests__/fixtures/user'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { makeValideGF } from './valideGF'
+import { makeValiderGF } from './validerGF'
 
 const fakePublish = jest.fn((event: DomainEvent) => okAsync<null, InfraNotAvailableError>(null))
 const projetId = new UniqueEntityID().toString()
 
-describe('ValideGF usecase', () => {
+describe('ValiderGF usecase', () => {
   describe(`Etant donné un projet avec garantie financières et que l'utilisateur n'a pas accès au projet
             Lorsque le usecase est invoqué`, () => {
     it('Alors une erreur UnauthorizedError devrait être retournée', async () => {
@@ -18,12 +18,12 @@ describe('ValideGF usecase', () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
       const shouldUserAccessProject = jest.fn(async () => false)
 
-      const valideGF = makeValideGF({
+      const validerGF = makeValiderGF({
         publishToEventStore: fakePublish,
         shouldUserAccessProject,
       })
 
-      const res = await valideGF({
+      const res = await validerGF({
         projetId,
         validéesPar: user,
       })
@@ -41,12 +41,12 @@ describe('ValideGF usecase', () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
       const shouldUserAccessProject = jest.fn(async () => false)
 
-      const valideGF = makeValideGF({
+      const validerGF = makeValiderGF({
         publishToEventStore: fakePublish,
         shouldUserAccessProject,
       })
 
-      const res = await valideGF({
+      const res = await validerGF({
         projetId,
         validéesPar: user,
       })
@@ -64,12 +64,12 @@ describe('ValideGF usecase', () => {
       const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
       const shouldUserAccessProject = jest.fn(async () => true)
 
-      const valideGF = makeValideGF({
+      const validerGF = makeValiderGF({
         publishToEventStore: fakePublish,
         shouldUserAccessProject,
       })
 
-      const res = await valideGF({
+      const res = await validerGF({
         projetId,
         validéesPar: user,
       })
