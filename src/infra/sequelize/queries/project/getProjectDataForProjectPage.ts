@@ -1,6 +1,6 @@
 import { err, ok, Result, wrapInfra } from '@core/utils'
 import { isPeriodeLegacy } from '@dataAccess/inMemory'
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'

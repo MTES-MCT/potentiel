@@ -1,6 +1,6 @@
 'use strict'
 
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { QueryInterface, Sequelize } from 'sequelize'
 import models from '../models'
 

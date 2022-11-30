@@ -1,5 +1,4 @@
-import { ensureRole } from '@config'
-import { getProjectAppelOffre } from '@config/queries.config'
+import { ensureRole, getProjectAppelOffre } from '@config'
 import { shouldUserAccessProject } from '@config/useCases.config'
 import { projectRepo } from '@dataAccess'
 

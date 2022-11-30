@@ -15,11 +15,8 @@ import {
 } from '@modules/project'
 import { subscribeToRedis } from '../eventBus.config'
 import { eventStore } from '../eventStore.config'
-import {
-  findProjectByIdentifiers,
-  getProjectAppelOffre,
-  getUnnotifiedProjectsForPeriode,
-} from '../queries.config'
+import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
 import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé'

@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '@core/utils'
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { GetProjectDataForChoisirCDCPage, ProjectDataForChoisirCDCPage } from '@modules/project'

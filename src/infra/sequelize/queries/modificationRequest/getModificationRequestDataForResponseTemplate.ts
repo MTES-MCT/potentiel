@@ -1,5 +1,5 @@
 import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse'
-import { getProjectAppelOffre } from '@config/queries.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { DREAL } from '@entities'

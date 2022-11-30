@@ -1,10 +1,5 @@
-import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { makeListProjects } from '@modules/project/queries'
 import { projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
-
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-
-export const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
 
 export { isPeriodeLegacy } from '@dataAccess/inMemory'
 export * from '@infra/sequelize/queries'
