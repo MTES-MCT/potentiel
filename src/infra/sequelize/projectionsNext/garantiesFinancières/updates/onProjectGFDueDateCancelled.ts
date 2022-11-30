@@ -28,33 +28,10 @@ export default GarantiesFinancièresProjector.on(
     await GarantiesFinancières.destroy({ where: { projetId }, transaction })
 
     try {
-      const {
-        id,
-        statut,
-        soumisesALaCandidature,
-        fichierId,
-        dateEnvoi,
-        envoyéesPar,
-        dateConstitution,
-        dateEchéance,
-        validéesLe,
-        validéesPar,
-      } = entréeExistante
+      delete entréeExistante.dataValues.dateLimiteEnvoi
       await GarantiesFinancières.create(
         {
-          id,
-          projetId,
-          statut,
-          soumisesALaCandidature,
-          ...(envoyéesPar && { envoyéesPar }),
-          ...(dateEchéance && { dateEchéance }),
-          ...(dateEnvoi && { dateEnvoi }),
-          ...(dateConstitution && {
-            dateConstitution,
-          }),
-          ...(fichierId && { fichierId }),
-          ...(validéesLe && { validéesLe }),
-          ...(validéesPar && { validéesPar }),
+          ...entréeExistante.dataValues,
         },
         { transaction }
       )
