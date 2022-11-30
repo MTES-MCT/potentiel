@@ -3,7 +3,7 @@ import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { userIs } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ProjectGFInvalidées } from '../events'
+import { GarantiesFinancièresInvalidées } from '../events'
 import { Project } from '../Project'
 import { GFDéjàInvalidéesError } from '../errors'
 
@@ -36,7 +36,7 @@ export const makeInvaliderGF =
           }
 
           return publishToEventStore(
-            new ProjectGFInvalidées({
+            new GarantiesFinancièresInvalidées({
               payload: { projetId, invalidéesPar: invalidéesPar.id },
             })
           )

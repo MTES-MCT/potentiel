@@ -1,4 +1,4 @@
-import { ProjectGFInvalidées, ProjectGFValidées } from '@modules/project'
+import { GarantiesFinancièresInvalidées, GarantiesFinancièresValidées } from '@modules/project'
 import { QueryInterface } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
@@ -35,7 +35,7 @@ export default {
             const { projectId } = projectStep
 
             if (newStatus === 'validé') {
-              return new ProjectGFValidées({
+              return new GarantiesFinancièresValidées({
                 payload: {
                   projetId: projectId,
                   validéesPar: statusUpdatedBy,
@@ -46,7 +46,7 @@ export default {
                 },
               })
             } else {
-              return new ProjectGFInvalidées({
+              return new GarantiesFinancièresInvalidées({
                 payload: {
                   projetId: projectId,
                   invalidéesPar: statusUpdatedBy,
@@ -62,7 +62,7 @@ export default {
       ).filter((item): item is Exclude<typeof item, undefined> => !!item)
 
       console.log(
-        `${nouveauxÉvénements.length} nouveaux événements ${ProjectGFInvalidées.type} ou ${ProjectGFValidées.type} vont être ajoutés`
+        `${nouveauxÉvénements.length} nouveaux événements ${GarantiesFinancièresInvalidées.type} ou ${GarantiesFinancièresValidées.type} vont être ajoutés`
       )
 
       await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })

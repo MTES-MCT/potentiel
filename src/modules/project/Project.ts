@@ -87,8 +87,8 @@ import {
   NumeroGestionnaireSubmitted,
   DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
-  ProjectGFValidées,
-  ProjectGFInvalidées,
+  GarantiesFinancièresValidées,
+  GarantiesFinancièresInvalidées,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -1206,10 +1206,10 @@ export const makeProject = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
-      case ProjectGFValidées.type:
+      case GarantiesFinancièresValidées.type:
         props.GFValidées = true
         break
-      case ProjectGFInvalidées.type:
+      case GarantiesFinancièresInvalidées.type:
         props.GFValidées = false
         break
       case LegacyProjectSourced.type:
