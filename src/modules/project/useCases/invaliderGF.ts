@@ -19,6 +19,11 @@ type InvaliderGFArgs = {
   invalidéesPar: User
 }
 
+export const PermissionInvaliderGF = {
+  nom: 'invalider-gf',
+  description: 'Invalider les garanties financières',
+}
+
 export const makeInvaliderGF =
   ({ projectRepo, shouldUserAccessProject, publishToEventStore }: InvaliderGFDeps) =>
   (args: InvaliderGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {

@@ -1,13 +1,13 @@
-import { ensureRole, invaliderGF } from '@config'
+import { invaliderGF } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
+import { errorResponse, unauthorizedResponse, vérifierPermissionUtilisateur } from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
-import { GFDéjàInvalidéesError } from '@modules/project'
+import { GFDéjàInvalidéesError, PermissionInvaliderGF } from '@modules/project'
 
 const schema = yup.object({
   params: yup.object({
@@ -17,7 +17,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.INVALIDER_GF(),
-  ensureRole(['dreal']),
+  vérifierPermissionUtilisateur(PermissionInvaliderGF),
   safeAsyncHandler(
     {
       schema,

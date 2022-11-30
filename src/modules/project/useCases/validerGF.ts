@@ -19,6 +19,11 @@ type ValiderGFArgs = {
   validéesPar: User
 }
 
+export const PermissionValiderGF = {
+  nom: 'valider-gf',
+  description: 'Valider les garanties financières',
+}
+
 export const makeValiderGF =
   ({ projectRepo, shouldUserAccessProject, publishToEventStore }: ValiderGFDeps) =>
   (args: ValiderGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
