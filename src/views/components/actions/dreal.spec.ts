@@ -10,7 +10,7 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme validée',
-        link: ROUTES.VALIDE_GF({
+        link: ROUTES.VALIDER_GF({
           projetId: fakeProject.id,
         }),
       })
@@ -23,7 +23,7 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme validée',
-        link: ROUTES.VALIDE_GF({
+        link: ROUTES.VALIDER_GF({
           projetId: fakeProject.id,
         }),
       })
@@ -36,7 +36,7 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme à traiter',
-        link: ROUTES.INVALIDE_GF({
+        link: ROUTES.INVALIDER_GF({
           projetId: fakeProject.id,
         }),
       })

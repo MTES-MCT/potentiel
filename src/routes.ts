@@ -323,7 +323,7 @@ class routes {
     } else return route
   }
 
-  static VALIDE_GF = (args?: { projetId: string }) => {
+  static VALIDER_GF = (args?: { projetId: string }) => {
     const route = '/projet/:projetId/valider/garanties-financieres'
     if (args) {
       const { projetId } = args
@@ -331,7 +331,7 @@ class routes {
     } else return route
   }
 
-  static INVALIDE_GF = (args?: { projetId: string }) => {
+  static INVALIDER_GF = (args?: { projetId: string }) => {
     const route = '/projet/:projetId/invalider/garanties-financieres'
     if (args) {
       const { projetId } = args

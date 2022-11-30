@@ -15,14 +15,14 @@ const drealActions = (project: {
   if (!gf.status || gf.status === 'à traiter') {
     actions.push({
       title: 'Marquer la garantie financière comme validée',
-      link: ROUTES.VALIDE_GF({
+      link: ROUTES.VALIDER_GF({
         projetId: project.id,
       }),
     })
   } else if (gf.status === 'validé') {
     actions.push({
       title: 'Marquer la garantie financière comme à traiter',
-      link: ROUTES.INVALIDE_GF({
+      link: ROUTES.INVALIDER_GF({
         projetId: project.id,
       }),
     })

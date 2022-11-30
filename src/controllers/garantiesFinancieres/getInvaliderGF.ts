@@ -16,7 +16,7 @@ const schema = yup.object({
 })
 
 v1Router.get(
-  routes.INVALIDE_GF(),
+  routes.INVALIDER_GF(),
   ensureRole(['dreal']),
   safeAsyncHandler(
     {
