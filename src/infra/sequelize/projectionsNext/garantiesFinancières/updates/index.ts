@@ -1,4 +1,6 @@
 export * from './onDateEchéanceGFAjoutée'
+export * from './onProjectAbandoned'
+export * from './onProjectClasseGranted'
 export * from './onProjectGFDueDateCancelled'
 export * from './onProjectGFDueDateSet'
 export * from './onProjectGFRemoved'
