@@ -1,8 +1,12 @@
-import { EventStore } from '@core/domain'
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { errAsync } from '@core/utils'
 import { UserRole } from '@modules/users'
+import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
+import { Utilisateur } from './Utilisateur'
 import { UtilisateurInvité } from './UtilisateurInvité'
 
 type Dépendances = {
+  utilisateurRepo: TransactionalRepository<Utilisateur>
   publishToEventStore: EventStore['publish']
 }
 
@@ -12,13 +16,19 @@ type Commande = {
 }
 
 export const makeInviterUtilisateur =
-  ({ publishToEventStore }: Dépendances) =>
+  ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
   ({ email, role }: Commande) =>
-    publishToEventStore(
-      new UtilisateurInvité({
-        payload: {
-          email,
-          role,
-        },
-      })
-    )
+    utilisateurRepo.transaction(new UniqueEntityID(email), (utilisateur) => {
+      if (utilisateur.statut === 'invité') {
+        return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
+      }
+
+      return publishToEventStore(
+        new UtilisateurInvité({
+          payload: {
+            email,
+            role,
+          },
+        })
+      )
+    })
