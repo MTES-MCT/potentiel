@@ -94,7 +94,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
   - [ProjectPuissanceUpdated](#projectpuissanceupdated)
   - [ProjectRawDataImported](#projectrawdataimported)
   - [ProjectReimported](#projectreimported)
-  - [ProjectStepStatusUpdated](#projectstepstatusupdated)
 
 - projectClaim
 
@@ -622,13 +621,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 | [Project.import](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectReimported.ts) de [project](./PROJECTIONS.md#project)          |
 |                                                     | authZ / [handleProjectImported](../src/modules/authZ/eventHandlers/handleProjectImported.ts)                                             |
 |                                                     | legacyCandidateNotification / [handleProjectImported](../src/modules/legacyCandidateNotification/eventHandlers/handleProjectImported.ts) |
-
-### [ProjectStepStatusUpdated](../src/modules/project/events/ProjectStepStatusUpdated.ts)
-
-| Emetteurs                                                               | Récepteurs                                                                                                                                                   |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [updateStepStatus](../src/modules/project/useCases/updateStepStatus.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepStatusUpdated.ts) de [projectStep](./PROJECTIONS.md#projectstep)           |
-|                                                                         | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectStepStatusUpdated.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ## projectClaim
 

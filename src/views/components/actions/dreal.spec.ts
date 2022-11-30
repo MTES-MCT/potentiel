@@ -10,10 +10,8 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme validée',
-        link: ROUTES.UPDATE_PROJECT_STEP_STATUS({
-          projectId: fakeProject.id,
-          projectStepId: fakeProject.gf.id,
-          newStatus: 'validé',
+        link: ROUTES.VALIDER_GF({
+          projetId: fakeProject.id,
         }),
       })
     })
@@ -25,10 +23,8 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme validée',
-        link: ROUTES.UPDATE_PROJECT_STEP_STATUS({
-          projectId: fakeProject.id,
-          projectStepId: fakeProject.gf.id,
-          newStatus: 'validé',
+        link: ROUTES.VALIDER_GF({
+          projetId: fakeProject.id,
         }),
       })
     })
@@ -40,10 +36,8 @@ describe('drealActions', () => {
       expect(result).toHaveLength(1)
       expect(result[0]).toMatchObject({
         title: 'Marquer la garantie financière comme à traiter',
-        link: ROUTES.UPDATE_PROJECT_STEP_STATUS({
-          projectId: fakeProject.id,
-          projectStepId: fakeProject.gf.id,
-          newStatus: 'à traiter',
+        link: ROUTES.INVALIDER_GF({
+          projetId: fakeProject.id,
         }),
       })
     })

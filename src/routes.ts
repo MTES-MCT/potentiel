@@ -323,6 +323,22 @@ class routes {
     } else return route
   }
 
+  static VALIDER_GF = (args?: { projetId: string }) => {
+    const route = '/projet/:projetId/valider/garanties-financieres'
+    if (args) {
+      const { projetId } = args
+      return route.replace(':projetId', projetId)
+    } else return route
+  }
+
+  static INVALIDER_GF = (args?: { projetId: string }) => {
+    const route = '/projet/:projetId/invalider/garanties-financieres'
+    if (args) {
+      const { projetId } = args
+      return route.replace(':projetId', projetId)
+    } else return route
+  }
+
   static UPDATE_PROJECT_STEP_STATUS = (args?: {
     projectId: string
     newStatus: 'à traiter' | 'validé'

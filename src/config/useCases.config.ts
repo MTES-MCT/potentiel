@@ -51,11 +51,12 @@ import {
   makeSubmitGF,
   makeSubmitPTF,
   makeChoisirCahierDesCharges,
-  makeUpdateStepStatus,
   makeUploadGF,
   makeWithdrawGF,
   makeRenseignerIdentifiantGestionnaireRéseau,
   makeRenseignerDonnéesDeRaccordement,
+  makeValiderGF,
+  makeInvaliderGF,
 } from '@modules/project'
 import { makeClaimProject } from '@modules/projectClaim'
 import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '@modules/users'
@@ -204,9 +205,16 @@ export const withdrawGF = makeWithdrawGF({
   projectRepo,
 })
 
-export const updateStepStatus = makeUpdateStepStatus({
-  eventBus: eventStore,
+export const validerGF = makeValiderGF({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  publishToEventStore,
+  projectRepo,
+})
+
+export const invaliderGF = makeInvaliderGF({
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  publishToEventStore,
+  projectRepo,
 })
 
 export const requestPuissanceModification = makeRequestPuissanceModification({
