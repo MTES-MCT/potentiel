@@ -41,11 +41,14 @@ v1Router.get(
               type: 'attestationTéléchargée',
               date: new Date(),
               données: {
+                utilisateur: {
+                  role: 'porteur-projet',
+                },
                 projet: {
-                  ...(projet.appelOffreId && { appelOffreId: projet.appelOffreId }),
-                  ...(projet.periodeId && { periodeId: projet.periodeId }),
-                  ...(projet.familleId && { familleId: projet.familleId }),
-                  ...(projet.numeroCRE && { numeroCRE: projet.numeroCRE }),
+                  appelOffreId: projet.appelOffreId,
+                  periodeId: projet.periodeId,
+                  familleId: projet.familleId,
+                  numeroCRE: projet.numeroCRE,
                 },
               },
             })
