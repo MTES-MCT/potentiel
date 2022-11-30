@@ -18,7 +18,7 @@ describe(`handler onGarantiesFinancièresValidées pour la projection garantiesF
   const dateExpiration = new Date('2020-01-01')
   const dateLimiteEnvoi = new Date('2020-01-01')
 
-  it(`Etant donné un projet existant dans la projection garantiesFinancières avec le statut,
+  it(`Etant donné un projet existant dans la projection garantiesFinancières avec le statut 'à traiter',
       lorsqu'un événement GarantiesFinancièresValidées est émis pour ce projet,
       alors le statut devrait passer à 'validé' et le reste de données devrait être conservé`, async () => {
     await GarantiesFinancières.create({

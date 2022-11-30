@@ -4,7 +4,7 @@ import { GarantiesFinancièresInvalidées } from '@modules/project'
 import { GarantiesFinancières } from '../garantiesFinancières.model'
 import onGarantiesFinancièresInvalidées from './onGarantiesFinancièresInvalidées'
 
-describe(`handler onGarantiesFinancièresValidées pour la projection garantiesFinancières`, () => {
+describe(`handler onGarantiesFinancièresInvalidées pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {
     await resetDatabase()
   })
@@ -19,7 +19,7 @@ describe(`handler onGarantiesFinancièresValidées pour la projection garantiesF
   const dateExpiration = new Date('2020-01-01')
   const dateLimiteEnvoi = new Date('2020-01-01')
 
-  it(`Etant donné un projet existant dans la projection garantiesFinancières,
+  it(`Etant donné un projet existant dans la projection garantiesFinancières avec le statut 'validé',
       lorsqu'un événement GarantiesFinancièresInvalidées est émis pour ce projet,
       alors le statut devrait passer à 'à traiter' et le reste de données devrait être conservé`, async () => {
     await GarantiesFinancières.create({
@@ -41,7 +41,7 @@ describe(`handler onGarantiesFinancièresValidées pour la projection garantiesF
       new GarantiesFinancièresInvalidées({
         payload: {
           projetId,
-          invalidéesPar: new Date().toISOString(),
+          invalidéesPar: new UniqueEntityID().toString(),
         },
         original: {
           version: 1,
