@@ -8,7 +8,6 @@ export default GarantiesFinancièresProjector.on(
   async (évènement, transaction) => {
     const {
       payload: { projetId },
-      occurredAt,
     } = évènement
 
     const entréeExistante = await GarantiesFinancières.findOne({
