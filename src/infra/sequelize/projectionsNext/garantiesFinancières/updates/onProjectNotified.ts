@@ -4,11 +4,20 @@ import { logger } from '@core/utils'
 import { ProjectNotified } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
+import { models } from '../../../models'
 
 export default GarantiesFinancièresProjector.on(ProjectNotified, async (évènement, transaction) => {
   const {
     payload: { projectId: projetId, appelOffreId, periodeId, familleId },
   } = évènement
+
+  const { Project } = models
+
+  const projet = await Project.findOne({ where: { id: projetId }, transaction })
+
+  if (projet.classe === 'Eliminé') {
+    return
+  }
 
   const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
