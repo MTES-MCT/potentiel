@@ -66,11 +66,11 @@ describe('InvaliderGF usecase', () => {
 
   describe(`Etant donné un projet avec garantie financières non validées
             Lorsque le usecase est invoqué`, () => {
-    it('Alors une erreur UnauthorizedError devrait être retournée', async () => {
+    it('Alors une erreur GFDéjàInvalidéesError devrait être retournée', async () => {
       fakePublish.mockClear()
 
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-      const shouldUserAccessProject = jest.fn(async () => false)
+      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'dreal' })))
+      const shouldUserAccessProject = jest.fn(async () => true)
       const projectRepo = fakeRepo({ ...fakeProject, GFValidées: false } as Project)
 
       const invaliderGF = makeInvaliderGF({
