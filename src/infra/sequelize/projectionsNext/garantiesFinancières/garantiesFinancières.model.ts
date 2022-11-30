@@ -19,8 +19,8 @@ class GarantiesFinancières extends Model<
   envoyéesPar?: string
   dateConstitution?: Date
   dateEchéance?: Date
-  validéesPar?: string
-  validéesLe?: Date
+  validéesPar: string | null
+  validéesLe: Date | null
 }
 
 const nomProjection = 'garantiesFinancières'
