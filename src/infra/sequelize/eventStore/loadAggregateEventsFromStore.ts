@@ -7,6 +7,7 @@ const évènementsIgnorés = [
   'ProjectNewRulesOptedIn',
   'NouveauCahierDesChargesChoisi',
   'ProjectGFInvalidated',
+  'ProjectCertificateDownloaded',
 ] as const
 
 const { EventStore } = models
