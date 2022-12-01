@@ -12,14 +12,7 @@ export type ProjectEventDTO =
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
-  | ProjectGFSubmittedDTO
-  | ProjectGFUploadedDTO
   | GarantiesFinancièresDTO
-  | ProjectGFRemovedDTO
-  | ProjectGFWithdrawnDTO
-  | ProjectGFDueDateSetDTO
-  | ProjectGFValidatedDTO
-  | ProjectGFInvalidatedDTO
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
@@ -119,23 +112,6 @@ export const isCertificateDTO = or(
   is('ProjectClaimed')
 )
 
-export type ProjectGFSubmittedDTO = {
-  type: 'ProjectGFSubmitted'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-  expirationDate?: number
-}
-
-export type ProjectGFUploadedDTO = {
-  type: 'ProjectGFUploaded'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-  expirationDate?: number
-  uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
-}
-
 export type GarantiesFinancièresDTO = {
   type: 'garanties-financieres'
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
@@ -160,37 +136,6 @@ export type GarantiesFinancièresDTO = {
       statut: 'submitted-with-application'
     }
 )
-
-export type ProjectGFDueDateSetDTO = {
-  type: 'ProjectGFDueDateSet'
-  date: number
-  variant: Exclude<UserRole, 'ademe'>
-  nomProjet: string
-}
-
-export type ProjectGFRemovedDTO = {
-  type: 'ProjectGFRemoved'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFWithdrawnDTO = {
-  type: 'ProjectGFWithdrawn'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFValidatedDTO = {
-  type: 'ProjectGFValidated'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFInvalidatedDTO = {
-  type: 'ProjectGFInvalidated'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
 
 export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
