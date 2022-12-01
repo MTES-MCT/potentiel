@@ -28,10 +28,10 @@ export default GarantiesFinancièresProjector.on(
     await GarantiesFinancières.destroy({ where: { projetId }, transaction })
 
     try {
-      delete entréeExistante.dataValues.dateLimiteEnvoi
       await GarantiesFinancières.create(
         {
           ...entréeExistante.dataValues,
+          dateLimiteEnvoi: null,
         },
         { transaction }
       )
