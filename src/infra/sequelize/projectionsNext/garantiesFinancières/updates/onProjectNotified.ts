@@ -11,6 +11,12 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
     payload: { projectId: projetId, appelOffreId, periodeId, familleId },
   } = évènement
 
+  const entréeExistance = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
+
+  if (entréeExistance) {
+    return
+  }
+
   const { Project } = models
 
   const projet = await Project.findOne({ where: { id: projetId }, transaction })
