@@ -20,7 +20,7 @@ describe(`handler onGarantiesFinancièresValidées pour la projection garantiesF
 
   it(`Etant donné un projet existant dans la projection garantiesFinancières avec le statut 'à traiter',
       lorsqu'un événement GarantiesFinancièresValidées est émis pour ce projet,
-      alors le statut devrait passer à 'validé' et le reste de données devrait être conservé`, async () => {
+      alors le statut devrait passer à 'validé' etles infos du contexte de validation (validéesLe, validéesPar) devrait être renseignées. Le reste des données devrait être conservé`, async () => {
     await GarantiesFinancières.create({
       id,
       projetId,
