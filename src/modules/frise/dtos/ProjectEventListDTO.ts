@@ -113,27 +113,23 @@ export const isCertificateDTO = or(
 )
 
 export type GarantiesFinancièresDTO = {
-  type: 'garanties-financieres'
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  type: 'garanties-financières'
   date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 } & (
+  | { statut: 'en attente' | 'en retard' }
   | {
-      statut: 'due' | 'past-due'
-      nomProjet: string
+      statut: 'à traiter'
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
+      dateEchéance?: number
+      url: string
     }
   | {
-      statut: 'pending-validation' | 'validated'
-      url: string | undefined
-      dateExpiration: number | undefined
-    }
-  | {
-      statut: 'uploaded'
-      url: string | undefined
-      dateExpiration: number | undefined
-      initiéParRole?: 'porteur-projet' | 'dreal' | 'admin'
-    }
-  | {
-      statut: 'submitted-with-application'
+      statut: 'validé'
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
+      dateEchéance?: number
+      url: string
+      retraitDépôtPossible?: true
     }
 )
 
@@ -401,6 +397,7 @@ export type ProjectEventListDTO = {
     id: Project['id']
     status: ProjectStatus
     garantieFinanciereEnMois?: number
+    nomProjet: string
   }
   events: ProjectEventDTO[]
 }

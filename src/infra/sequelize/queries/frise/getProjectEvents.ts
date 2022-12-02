@@ -5,9 +5,9 @@ import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
-import { is, isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
-import { getGarantiesFinancièresEvent } from './getGarantiesFinancièresEvent'
+import { isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
 import { ProjectAppelOffre } from '@entities'
+import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
 
 const { Project } = models
 
@@ -31,9 +31,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-      const isGarantiesFinancieresDeposeesALaCandidature =
-        projectAppelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-        projectAppelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature'
+      const garantiesFinancièresDTO = projectAppelOffre?.isSoumisAuxGF
+        ? await getGarantiesFinancièresDTO({ projetId: projectId, user })
+        : undefined
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&
@@ -42,24 +42,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
           projectData: details,
         })
 
-      const garantiesFinancièresEvent = rawEvents.find(
-        (event) => event.type === 'GarantiesFinancières'
-      )
-
-      const garantiesFinancières =
-        !garantiesFinancièresEvent || is('GarantiesFinancières')(garantiesFinancièresEvent)
-          ? getGarantiesFinancièresEvent({
-              user,
-              projectStatus: status,
-              isGarantiesFinancieresDeposeesALaCandidature,
-              isSoumisAuxGF: projectAppelOffre?.isSoumisAuxGF,
-              garantiesFinancièresEvent,
-            })
-          : undefined
-
       return {
         project: {
           id: projectId,
+          nomProjet,
           status,
           ...(garantieFinanciereEnMois && {
             garantieFinanciereEnMois,
@@ -568,12 +554,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
               }
-
               return Promise.resolve(events)
             },
             Promise.resolve([] as ProjectEventDTO[])
           )
-        ).concat(garantiesFinancières ? [garantiesFinancières] : []),
+        ).concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : []),
       }
     })
 }
