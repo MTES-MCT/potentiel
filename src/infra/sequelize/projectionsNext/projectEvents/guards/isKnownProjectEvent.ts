@@ -20,7 +20,6 @@ import {
   DateMiseEnServiceEvent,
   DateFileAttenteEvent,
 } from '../events'
-import { GarantiesFinancièresEvent } from '../events/GarantiesFinancièresEvent'
 
 export type KnownProjectEvents =
   | ProjectImportedEvent
@@ -30,7 +29,6 @@ export type KnownProjectEvents =
   | ProjectNotificationDateSetEvent
   | CovidDelayGrantedEvent
   | ProjectCertificateEvents
-  | GarantiesFinancièresEvent
   | ProjectDCREvents
   | ProjectPTFEvents
   | ModificationRequestEvents
@@ -60,7 +58,6 @@ export const isKnownProjectEvent = or(
   is('ProjectCertificateGenerated'),
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
-  is('GarantiesFinancières'),
   is('ProjectDCRSubmitted'),
   is('ProjectDCRRemoved'),
   is('ProjectDCRDueDateSet'),
