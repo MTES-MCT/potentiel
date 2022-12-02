@@ -90,21 +90,19 @@ type ItemProps =
 export const Timeline = ({
   projectEventList: {
     events,
-    project: { id: projectId, status, garantieFinanciereEnMois },
+    project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
   },
   now,
 }: TimelineProps) => {
   const PTFItemProps = extractPTFItemProps(events, { status })
-  const garantiesFinancières = events.find(is('garanties-financieres'))
+  const garantiesFinancières = events.find(is('garanties-financières'))
   const dateMiseEnService = events.find(is('DateMiseEnService'))
   const dateFileAttente = events.find(is('DateFileAttente'))
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
     extractImportItemProps(events),
-    garantiesFinancières?.statut !== 'submitted-with-application'
-      ? garantiesFinancières
-      : undefined,
+    garantiesFinancières?.date !== 0 ? garantiesFinancières : undefined,
     extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
     PTFItemProps?.status === 'submitted' ? PTFItemProps : undefined,
@@ -130,8 +128,7 @@ export const Timeline = ({
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
   dateMiseEnService?.statut === 'non-renseignée' &&
     insertAfter(itemProps, 'attestation-de-conformite', dateMiseEnService)
-  garantiesFinancières?.statut === 'submitted-with-application' &&
-    insertAfter(itemProps, 'designation', garantiesFinancières)
+  garantiesFinancières?.date === 0 && insertAfter(itemProps, 'designation', garantiesFinancières)
 
   const timelineItems = itemProps.map((props) => {
     const { type } = props
@@ -143,11 +140,11 @@ export const Timeline = ({
       case 'import':
         return <ImportItem {...props} />
 
-      case 'garanties-financieres':
+      case 'garanties-financières':
         return (
           <GFItem
             {...{
-              project: { id: projectId, status, garantieFinanciereEnMois },
+              project: { id: projectId, status, garantieFinanciereEnMois, nomProjet },
               ...props,
             }}
           />
