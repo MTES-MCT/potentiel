@@ -1,13 +1,11 @@
-'use strict'
-
-import { QueryInterface, Sequelize } from 'sequelize'
+import { QueryInterface } from 'sequelize'
 import { FonctionUtilisateurModifiée, RôleUtilisateurModifié } from '@modules/users'
 import { logger } from '@core/utils'
 import { toPersistance } from '../helpers'
 import models from '../models'
 
-module.exports = {
-  async up(queryInterface: QueryInterface, Sequelize: Sequelize) {
+export default {
+  async up(queryInterface: QueryInterface) {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
@@ -32,39 +30,38 @@ module.exports = {
 
       if (!utilisateurCible) {
         logger.error(`L'utilisateur cible avec l'id ${userId} n'a pas été trouvé`)
-        return
+      } else {
+        const {
+          dataValues: { email },
+        } = utilisateurCible
+
+        await EventStore.create(
+          toPersistance(
+            new RôleUtilisateurModifié({
+              payload: {
+                userId,
+                email,
+                role: 'dgec-validateur',
+              },
+            })
+          ),
+          { transaction }
+        )
+
+        await EventStore.create(
+          toPersistance(
+            new FonctionUtilisateurModifiée({
+              payload: {
+                userId,
+                email,
+                fonction:
+                  'Adjoint au sous-directeur du système électrique et des énergies renouvelables',
+              },
+            })
+          ),
+          { transaction }
+        )
       }
-
-      const {
-        dataValues: { email },
-      } = utilisateurCible
-
-      await EventStore.create(
-        toPersistance(
-          new RôleUtilisateurModifié({
-            payload: {
-              userId,
-              email,
-              role: 'dgec-validateur',
-            },
-          })
-        ),
-        { transaction }
-      )
-
-      await EventStore.create(
-        toPersistance(
-          new FonctionUtilisateurModifiée({
-            payload: {
-              userId,
-              email,
-              fonction:
-                'Adjoint au sous-directeur du système électrique et des énergies renouvelables',
-            },
-          })
-        ),
-        { transaction }
-      )
 
       await transaction.commit()
     } catch (error) {
@@ -73,12 +70,5 @@ module.exports = {
     }
   },
 
-  async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  },
+  async down(queryInterface, Sequelize) {},
 }
