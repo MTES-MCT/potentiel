@@ -63,7 +63,7 @@
     "@keycloak/keycloak-admin-client": "^17.0.1",
     "@react-icons/all-files": "^4.1.0",
     "@react-pdf/renderer": "^3.0.1",
-    "@sentry/node": "^7.20.0",
+    "@sentry/node": "^7.23.0",
     "@types/express": "^4.17.14",
     "@types/express-session": "^1.17.5",
     "@types/ioredis": "^4.28.10",
