@@ -6,7 +6,7 @@ module.exports = {
   async up(queryInterface: QueryInterface) {
     const transaction = await queryInterface.sequelize.transaction()
     try {
-      const { Project, EventStore } = models
+      const { Project } = models
 
       const projetsNotifierAvantLeComptageDesTéléchargementsDAttestation = await Project.findAll(
         {
@@ -48,15 +48,6 @@ module.exports = {
         {
           transaction,
         }
-      )
-
-      await EventStore.destroy(
-        {
-          where: {
-            type: 'ProjectCertificateDownloaded',
-          },
-        },
-        { transaction }
       )
 
       await transaction.commit()
