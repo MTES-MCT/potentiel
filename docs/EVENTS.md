@@ -61,7 +61,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
   - [PeriodeNotified](#periodenotified)
   - [ProjectAbandoned](#projectabandoned)
   - [ProjectActionnaireUpdated](#projectactionnaireupdated)
-  - [ProjectCertificateDownloaded](#projectcertificatedownloaded)
   - [ProjectCertificateGenerated](#projectcertificategenerated)
   - [ProjectCertificateGenerationFailed](#projectcertificategenerationfailed)
   - [ProjectCertificateObsolete](#projectcertificateobsolete)
@@ -387,7 +386,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | [Project.updateActionnaire](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectActionnaireUpdated.ts) de [project](./PROJECTIONS.md#project) |
 
-### [ProjectCertificateDownloaded](../src/modules/project/events/ProjectCertificateDownloaded.ts)
 
 | Emetteurs                                                                                          | Récepteurs |
 | -------------------------------------------------------------------------------------------------- | ---------- |
