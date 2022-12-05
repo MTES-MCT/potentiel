@@ -1,7 +1,7 @@
 import { UniqueEntityID, DomainEvent, EventStoreAggregate } from '@core/domain'
 import { ok } from '@core/utils'
 import { UserRole } from '@modules/users'
-import { UtilisateurInvité } from './UtilisateurInvité'
+import { UtilisateurInvité } from './events/UtilisateurInvité'
 
 type UtilisateurArgs = {
   id: UniqueEntityID

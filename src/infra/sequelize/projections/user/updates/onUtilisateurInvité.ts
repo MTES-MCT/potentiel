@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
-import { UtilisateurInvité } from '@modules/utilisateur'
+import { UtilisateurInvité } from '@modules/utilisateur/inviter'
 import { userProjector } from '../user.model'
 
 export const onUtilisateurInvité = userProjector

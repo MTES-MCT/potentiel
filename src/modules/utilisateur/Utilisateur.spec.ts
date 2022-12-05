@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain'
 import { makeUtilisateur } from './Utilisateur'
-import { UtilisateurInvité } from './UtilisateurInvité'
+import { UtilisateurInvité } from './events/UtilisateurInvité'
 
 describe(`Fabriquer l'agrégat Utilisateur`, () => {
   it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'UtilisateurInvité

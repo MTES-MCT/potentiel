@@ -1,5 +1,5 @@
-import { Utilisateur } from './Utilisateur'
-import { fakeTransactionalRepo } from '../../__tests__/fixtures/aggregates'
+import { Utilisateur } from '../Utilisateur'
+import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates'
 import { makeInviterUtilisateur } from './inviterUtilisateur'
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
 
