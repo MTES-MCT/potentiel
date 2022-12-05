@@ -1,7 +1,7 @@
 import { UniqueEntityID, DomainEvent, EventStoreAggregate } from '@core/domain'
 import { ok } from '@core/utils'
 import { UserRole } from '@modules/users'
-import { UtilisateurInvité } from './events/UtilisateurInvité'
+import { UtilisateurInvité, ProfilUtilisateurCréé } from './events'
 
 type UtilisateurArgs = {
   id: UniqueEntityID
@@ -30,9 +30,14 @@ export const makeUtilisateur = (args: UtilisateurArgs) => {
       case UtilisateurInvité.type:
         return {
           ...agregat,
+          ...event.payload,
           statut: 'invité',
-          email: event.payload.email,
-          role: event.payload.role,
+        }
+      case ProfilUtilisateurCréé.type:
+        return {
+          ...agregat,
+          ...event.payload,
+          statut: 'créé',
         }
       default:
         return agregat
