@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize'
 import { makeProjector } from '../../helpers'
 
+const étatsPossibles = ['invité'] as const
+
 export const userProjector = makeProjector()
 
 export const MakeUserModel = (sequelize) => {
@@ -33,6 +35,10 @@ export const MakeUserModel = (sequelize) => {
       },
       fonction: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      état: {
+        type: DataTypes.ENUM(...étatsPossibles),
         allowNull: true,
       },
     },
