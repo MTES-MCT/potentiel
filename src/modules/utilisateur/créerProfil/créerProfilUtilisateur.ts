@@ -2,6 +2,7 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { errAsync, ok } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { ProfilDéjàExistantError } from './ProfilDéjàExistantError'
+import { RoleIncorrectError } from './RoleIncorrectError'
 import { Utilisateur } from '../Utilisateur'
 
 type Dépendances = {
@@ -20,6 +21,10 @@ export const makeCréerProfilUtilisateur =
     utilisateurRepo.transaction(new UniqueEntityID(email), (utilisateur) => {
       if (utilisateur.statut === 'créé') {
         return errAsync(new ProfilDéjàExistantError({ email, role }))
+      }
+
+      if (utilisateur.role !== role) {
+        return errAsync(new RoleIncorrectError({ email, role }))
       }
 
       return ok(null)
