@@ -96,5 +96,35 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
   it(`Étant donné un utilisateur invité en tant que 'CRE'
       Lorsque l'on crée un profil pour ce même utilisateur avec le même rôle
-      Alors le profil de l'utilisateur devrait être créé avec toutes ces infomrations`, () => {})
+      Alors le profil de l'utilisateur devrait être créé avec toutes ces infomrations`, async () => {
+    const utilisateurRepo = fakeTransactionalRepo({ statut: 'invité', role: 'cre' } as Utilisateur)
+    const publishToEventStore = jest.fn()
+
+    const créerProfilUtilisateur = makeCréerProfilUtilisateur({
+      utilisateurRepo,
+      publishToEventStore,
+    })
+
+    await créerProfilUtilisateur({
+      email: 'utilisateur@email.com',
+      role: 'cre',
+      nom: 'Nom',
+      prénom: 'Prénom',
+      fonction: 'Ma fonction',
+    })
+
+    expect(publishToEventStore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        aggregateId: 'utilisateur@email.com',
+        type: 'ProfilUtilisateurCréé',
+        payload: {
+          email: 'utilisateur@email.com',
+          role: 'cre',
+          nom: 'Nom',
+          prénom: 'Prénom',
+          fonction: 'Ma fonction',
+        },
+      })
+    )
+  })
 })
