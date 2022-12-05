@@ -9,7 +9,7 @@ type UtilisateurArgs = {
 }
 
 export type Utilisateur = EventStoreAggregate & {
-  statut: 'invité' | undefined
+  statut: 'invité' | 'créé' | undefined
   email: string | undefined
   role: UserRole
 }
