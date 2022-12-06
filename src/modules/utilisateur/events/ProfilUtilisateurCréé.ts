@@ -6,7 +6,7 @@ type Payload = {
   role: UserRole
   nom: string
   prénom: string
-  fonction: string
+  fonction?: string
 }
 
 export class ProfilUtilisateurCréé extends BaseDomainEvent<Payload> implements DomainEvent {

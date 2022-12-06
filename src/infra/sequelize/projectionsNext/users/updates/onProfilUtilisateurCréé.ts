@@ -4,11 +4,16 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, transaction) => {
-  const { payload } = évènement
+  const {
+    payload: { email, role, prénom, nom, fonction },
+  } = évènement
   try {
     await Users.upsert(
       {
-        ...payload,
+        email,
+        role,
+        fullName: `${prénom} ${nom}`,
+        fonction,
         état: 'créé',
       },
       {

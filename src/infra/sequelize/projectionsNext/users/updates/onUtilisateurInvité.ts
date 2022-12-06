@@ -4,11 +4,14 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default UsersProjector.on(UtilisateurInvité, async (évènement, transaction) => {
-  const { payload } = évènement
+  const {
+    payload: { email, role },
+  } = évènement
   try {
     await Users.create(
       {
-        ...payload,
+        email,
+        role,
         état: 'invité',
       },
       {

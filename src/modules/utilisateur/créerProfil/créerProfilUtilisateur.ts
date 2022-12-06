@@ -16,7 +16,7 @@ type Commande = {
   role: UserRole
   nom: string
   prénom: string
-  fonction: string
+  fonction?: string
 }
 
 export const makeCréerProfilUtilisateur =
