@@ -57,6 +57,11 @@ Object.values(models).forEach((model) => {
   if (model.projector) model.projector.initModel(model)
 })
 
+projectionsNextModels.GarantiesFinancières.belongsTo(models.File, {
+  foreignKey: 'fichierId',
+  as: 'fichier',
+})
+
 const projections = { ...models, ...projectionsNextModels }
 export type Projections = typeof projections
 

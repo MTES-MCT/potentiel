@@ -5,14 +5,46 @@ import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
-import { isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
+import {
+  GarantiesFinancières,
+  isKnownProjectEvent,
+  KnownProjectEvents,
+  ProjectEvent,
+} from '../../projectionsNext'
 import { ProjectAppelOffre } from '@entities'
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
 
-const { Project } = models
+const { Project, File } = models
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
-  return wrapInfra(Project.findByPk(projectId))
+  return wrapInfra(
+    Project.findByPk(projectId, {
+      include: [
+        {
+          model: GarantiesFinancières,
+          as: 'garantiesFinancières',
+          required: false,
+          attributes: [
+            'statut',
+            'fichierId',
+            'envoyéesPar',
+            'dateConstitution',
+            'dateEchéance',
+            'validéesPar',
+            'dateLimiteEnvoi',
+          ],
+          include: [
+            {
+              model: File,
+              as: 'fichier',
+              required: false,
+              attributes: ['filename', 'id'],
+            },
+          ],
+        },
+      ],
+    })
+  )
     .andThen((rawProject: any) =>
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
@@ -27,13 +59,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         periodeId,
         familleId,
         details,
+        garantiesFinancières,
       } = rawProject.get()
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-      const garantiesFinancièresDTO = projectAppelOffre?.isSoumisAuxGF
-        ? await getGarantiesFinancièresDTO({ projetId: projectId, user })
-        : undefined
+      const garantiesFinancièresDTO = await getGarantiesFinancièresDTO({
+        garantiesFinancières,
+        user,
+      })
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&

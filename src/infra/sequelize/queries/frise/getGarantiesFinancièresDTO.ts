@@ -1,55 +1,64 @@
 import { User } from '@entities'
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext/garantiesFinancières'
+import { GarantiesFinancièresStatut } from '@infra/sequelize'
 import { GarantiesFinancièresDTO } from '@modules/frise'
 import { userIs } from '@modules/users'
 import routes from '@routes'
 import { models } from '../../models'
 
+type GarantiesFinancièresDonnéesPourDTO = {
+  statut: GarantiesFinancièresStatut
+  envoyéesPar: string | null
+  dateLimiteEnvoi: Date | null
+  dateConstitution: Date | null
+  dateEchéance: Date | null
+  validéesPar: string | null
+  fichier?: { filename: string; id: string }
+}
+
 export const getGarantiesFinancièresDTO = async ({
-  projetId,
+  garantiesFinancières,
   user,
 }: {
-  projetId: string
+  garantiesFinancières: GarantiesFinancièresDonnéesPourDTO | undefined
   user: User
 }): Promise<GarantiesFinancièresDTO | undefined> => {
-  const { File, User } = models
   if (!userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) return
+  if (!garantiesFinancières) return
 
-  const données = await GarantiesFinancières.findOne({ where: { projetId } })
+  const { User } = models
+  const {
+    statut,
+    envoyéesPar,
+    dateConstitution,
+    dateEchéance,
+    validéesPar,
+    dateLimiteEnvoi,
+    fichier,
+  } = garantiesFinancières
 
-  if (!données) {
-    return
-  }
-
-  if (données.statut === 'à traiter' || données.statut === 'validé') {
-    const nomFichier = await File.findOne({
-      where: { id: données.fichierId },
-      attributes: ['filename'],
-    })
+  if (statut === 'à traiter' || statut === 'validé') {
     const envoyéParRole = await User.findOne({
-      where: { id: données.envoyéesPar },
+      where: { id: envoyéesPar },
       attributes: ['role'],
     })
-    const retraitDépôtPossible = données.statut === 'validé' && données.validéesPar === null
+
     return {
       type: 'garanties-financières',
-      date: données.dateConstitution!.getTime(),
-      statut: données.statut,
-      url:
-        données.fichierId! && routes.DOWNLOAD_PROJECT_FILE(données.fichierId, nomFichier.filename),
-      ...(données.dateEchéance && { dateEchéance: données.dateEchéance?.getTime() }),
+      date: dateConstitution!.getTime(),
+      statut,
+      url: fichier!! && routes.DOWNLOAD_PROJECT_FILE(fichier.id, fichier.filename),
+      ...(dateEchéance && { dateEchéance: dateEchéance.getTime() }),
       envoyéesPar: envoyéParRole.role,
       variant: user.role,
-      ...(retraitDépôtPossible && { retraitDépôtPossible }),
+      ...(statut === 'validé' && validéesPar === null && { retraitDépôtPossible: true }),
     }
   }
 
-  if (données.statut === 'en attente') {
-    const dateLimiteDépassée =
-      (données.dateLimiteEnvoi && données.dateLimiteEnvoi <= new Date()) || false
+  if (statut === 'en attente') {
+    const dateLimiteDépassée = (dateLimiteEnvoi && dateLimiteEnvoi <= new Date()) || false
     return {
       type: 'garanties-financières',
-      date: données.dateLimiteEnvoi?.getTime() || 0,
+      date: dateLimiteEnvoi?.getTime() || 0,
       statut: dateLimiteDépassée ? 'en retard' : 'en attente',
       variant: user.role,
     }

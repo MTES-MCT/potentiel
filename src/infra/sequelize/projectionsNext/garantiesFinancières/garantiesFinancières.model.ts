@@ -3,7 +3,7 @@ import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
 export const garantiesFinancièresStatuts = ['en attente', 'à traiter', 'validé'] as const
-type GarantiesFinancièresStatut = typeof garantiesFinancièresStatuts[number]
+export type GarantiesFinancièresStatut = typeof garantiesFinancièresStatuts[number]
 
 class GarantiesFinancières extends Model<
   InferAttributes<GarantiesFinancières>,
