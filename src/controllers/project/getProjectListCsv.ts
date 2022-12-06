@@ -7,8 +7,6 @@ import { v1Router } from '../v1Router'
 import { listProjects } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { promises as fsPromises } from 'fs'
-import moment from 'moment'
-import { Project } from '@entities'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { vérifierPermissionUtilisateur } from '../helpers'
 import { PermissionListerProjets } from '@modules/project'
@@ -659,11 +657,11 @@ const orderedFields = [
   { dataField: 'Colonne concernée 5', visibility: ['*'] },
   { dataField: 'Ancienne valeur 5', visibility: ['*'] },
   {
-    dataField: 'garantiesFinancieresDate',
+    dataField: 'garantiesFinancières.dateConstitution',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
   {
-    dataField: 'garantiesFinancieresSubmittedOn',
+    dataField: 'garantiesFinancières.dateEnvoi',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
   {
@@ -713,11 +711,7 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
 
   try {
     const selectedFields = _selectFieldsForRole(request.user.role)
-
-    _convertTimestampToFrenchDateFormat(projects)
-
     const csv = await parseAsync(projects, { fields: selectedFields, delimiter: ';' })
-
     const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
 
     // Delete file when the client's download is complete
@@ -735,21 +729,6 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
       )
   }
 })
-
-function _convertTimestampToFrenchDateFormat(projects: Project[]): void {
-  const timestampsFields = [
-    'notifiedOn',
-    'garantiesFinancieresSubmittedOn',
-    'garantiesFinancieresDate',
-  ]
-
-  projects.forEach((project) => {
-    Object.entries(project).forEach(([key, value]) => {
-      if (timestampsFields.includes(key) && project[key] !== 0)
-        project[key] = moment(Number(value)).format('DD/MM/YYYY')
-    })
-  })
-}
 
 function _selectFieldsForRole(userRole: string): { label: string; value: string | Function }[] {
   return orderedFields

@@ -12,7 +12,7 @@ const drealActions = (project: {
 
   if (!garantiesFinancières) return actions
 
-  if (!garantiesFinancières.statut || garantiesFinancières.statut === 'à traiter') {
+  if (garantiesFinancières.statut === 'à traiter') {
     actions.push({
       title: 'Marquer la garantie financière comme validée',
       link: ROUTES.VALIDER_GF({

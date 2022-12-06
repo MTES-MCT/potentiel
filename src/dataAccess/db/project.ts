@@ -50,7 +50,6 @@ const deserialize = (item) => ({
   ...item,
   actionnaire: item.actionnaire || '',
   territoireProjet: item.territoireProjet || undefined,
-  garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
   dcrFile: item.dcrFile || '',
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
