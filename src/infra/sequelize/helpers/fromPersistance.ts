@@ -16,6 +16,8 @@ import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAband
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events'
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
 
+import { formatPayload } from '../../helpers'
+
 interface EventProps {
   payload: any
   requestId?: string
@@ -58,7 +60,7 @@ export const fromPersistance = (eventRaw: any): DomainEvent | null => {
   }
 
   return new EventClass({
-    payload: eventRaw.payload,
+    payload: formatPayload(eventRaw.payload),
     requestId: eventRaw.requestId?.toString(),
     original: {
       version: eventRaw.version,

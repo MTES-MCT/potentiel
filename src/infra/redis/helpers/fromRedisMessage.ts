@@ -17,6 +17,8 @@ import * as DemandeChangementDePuissanceEvents from '@modules/demandeModificatio
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
 import { RedisMessage } from './RedisMessage'
 
+import { formatPayload } from '../../helpers'
+
 interface EventProps {
   payload: any
   requestId?: string
@@ -59,8 +61,9 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   if (isNaN(occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp')
   }
+
   return new EventClass({
-    payload: message.payload,
+    payload: formatPayload(message.payload),
     original: {
       version: 1,
       occurredAt,
