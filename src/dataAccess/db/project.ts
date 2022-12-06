@@ -402,7 +402,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     searchAll,
     searchAllMissingOwner,
     countUnnotifiedProjects,
-    findProjectsWithGarantiesFinancieresPendingBefore,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -1020,45 +1019,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       })
 
       return familles.map((item) => item.get().familleId)
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
-    }
-  }
-
-  async function findProjectsWithGarantiesFinancieresPendingBefore(
-    beforeDate: number
-  ): Promise<Array<Project>> {
-    await _isDbReady
-
-    try {
-      const projectsRaw = (
-        await ProjectModel.findAll({
-          include: [
-            {
-              model: ProjectStep,
-              as: 'gf',
-            },
-          ],
-          where: {
-            garantiesFinancieresRelanceOn: 0,
-            garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
-            notifiedOn: { [Op.ne]: 0 },
-            classe: 'Classé',
-            $gf$: null, // With include, means "without a GF"
-          },
-        })
-      ).map((item) => item.get())
-
-      const deserializedItems = mapExceptError(
-        projectsRaw,
-        deserialize,
-        'Project.findProjectsWithGarantiesFinancieresPendingBefore.deserialize error'
-      )
-
-      const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
-
-      return projects
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return []

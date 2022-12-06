@@ -85,8 +85,6 @@ export type ProjectRepo = {
 
   countUnnotifiedProjects(appelOffreId: AppelOffre['id'], periodeId: Periode['id']): Promise<number>
 
-  findProjectsWithGarantiesFinancieresPendingBefore(beforeDate: number): Promise<Array<Project>>
-
   remove: (projectId: Project['id']) => ResultAsync<null>
   save: (project: Project) => ResultAsync<null>
   getUsers: (projectId: Project['id']) => Promise<Array<User>>
