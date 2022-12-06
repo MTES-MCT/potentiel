@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
 import { makeProjector } from '../../helpers'
 
-const étatsPossibles = ['invité'] as const
+const étatsPossibles = ['invité', 'créé'] as const
 
 export const userProjector = makeProjector()
 
