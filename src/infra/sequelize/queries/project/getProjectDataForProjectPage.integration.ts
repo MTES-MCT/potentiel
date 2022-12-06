@@ -124,13 +124,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     })
 
     expect(res).not.toHaveProperty([
-      'garantiesFinancieresSubmittedOn',
-      'garantiesFinancieresDueOn',
-      'garantiesFinancieresDate',
-      'garantiesFinancieresFile',
-    ])
-
-    expect(res).not.toHaveProperty([
       'dcrSubmittedOn',
       'dcrDueOn',
       'dcrDate',

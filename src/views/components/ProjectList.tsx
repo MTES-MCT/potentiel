@@ -238,51 +238,49 @@ export const ProjectList = ({
   )
 }
 
-const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => (
-  <div
-    className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
-    title="Garanties financières"
-  >
-    <div className="flex text-grey-200-base font-bold text-sm pt-0.5">GF</div>
-    {!project.garantiesFinancieresSubmittedOn && !GFPastDue && (
-      <div className="flex">Non Déposées</div>
-    )}
+const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
+  const gf = project.garantiesFinancières
+  return (
+    <div
+      className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
+      title="Garanties financières"
+    >
+      <div className="flex text-grey-200-base font-bold text-sm pt-0.5">GF</div>
+      {!gf?.dateEnvoi && !GFPastDue && <div className="flex">Non Déposées</div>}
 
-    {project.garantiesFinancieresSubmittedOn !== 0 && (
-      <div className="flex flex-col md:flex-row lg:flex-col items-center gap-1">
-        {project.gf?.status === 'validé' ? (
-          <Badge className="lg:self-center" type="success">
-            validé
-          </Badge>
-        ) : (
-          <Badge className="lg:self-center" type="warning">
-            à traiter
-          </Badge>
-        )}
-        {project.garantiesFinancieresFileRef && (
-          <DownloadLink
-            className="flex text-sm"
-            fileUrl={routes.DOWNLOAD_PROJECT_FILE(
-              project.garantiesFinancieresFileRef.id,
-              project.garantiesFinancieresFileRef.filename
-            )}
-          >
-            Déposées le {formatDate(project.garantiesFinancieresSubmittedOn)}
-          </DownloadLink>
-        )}
-      </div>
-    )}
+      {gf?.dateEnvoi && (
+        <div className="flex flex-col md:flex-row lg:flex-col items-center gap-1">
+          {gf.statut === 'validé' ? (
+            <Badge className="lg:self-center" type="success">
+              validé
+            </Badge>
+          ) : (
+            <Badge className="lg:self-center" type="warning">
+              à traiter
+            </Badge>
+          )}
+          {gf.fichier && (
+            <DownloadLink
+              className="flex text-sm"
+              fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
+            >
+              Déposées le {formatDate(gf.dateEnvoi)}
+            </DownloadLink>
+          )}
+        </div>
+      )}
 
-    {GFPastDue && (
-      <DownloadLink
-        className="text-sm"
-        fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
-          id: project.id,
-          nomProjet: project.nomProjet,
-        })}
-      >
-        Télécharger le modèle de mise de demeure
-      </DownloadLink>
-    )}
-  </div>
-)
+      {GFPastDue && (
+        <DownloadLink
+          className="text-sm"
+          fileUrl={routes.TELECHARGER_MODELE_MISE_EN_DEMEURE({
+            id: project.id,
+            nomProjet: project.nomProjet,
+          })}
+        >
+          Télécharger le modèle de mise de demeure
+        </DownloadLink>
+      )}
+    </div>
+  )
+}

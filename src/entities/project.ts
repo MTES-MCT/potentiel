@@ -52,13 +52,13 @@ const baseProjectSchema = SchemaRecord({
   motifsElimination: String,
   notifiedOn: Number,
   certificateFileId: String,
-  garantiesFinancieresDueOn: Number,
+  garantiesFinancieresDueOnOld: Number,
   garantiesFinancieresRelanceOn: Number,
-  garantiesFinancieresSubmittedOn: Number,
-  garantiesFinancieresSubmittedBy: String,
-  garantiesFinancieresFile: String,
-  garantiesFinancieresFileId: String,
-  garantiesFinancieresDate: Number,
+  garantiesFinancieresSubmittedOnOld: Number,
+  garantiesFinancieresSubmittedByOld: String,
+  garantiesFinancieresFileOld: String,
+  garantiesFinancieresFileIdOld: String,
+  garantiesFinancieresDateOld: Number,
   dcrDueOn: Number,
   dcrSubmittedOn: Number,
   dcrSubmittedBy: String,
@@ -111,7 +111,7 @@ const fields: string[] = [
 
 type BaseProject = Static<typeof projectSchema> & {
   details?: Record<string, any>
-  garantiesFinancieresFileRef?: {
+  garantiesFinancieresFileRefOld?: {
     id: string
     filename: string
   }
@@ -123,11 +123,28 @@ type BaseProject = Static<typeof projectSchema> & {
     id: string
     filename: string
   }
-  gf?: {
+  gfold?: {
     id: string
     status: 'à traiter' | 'validé'
     statusUpdatedOn: Date
     user: { fullName: string }
+  }
+  garantiesFinancières?: {
+    id: string
+    projetId: string
+    statut: 'en attente' | 'à traiter' | 'validé'
+    soumisesALaCandidature: boolean
+    dateLimiteEnvoi?: Date
+    fichier?: {
+      id: string
+      filename: string
+    }
+    dateEnvoi?: Date
+    envoyéesPar?: { fullName: string }
+    validéesPar?: { fullName: string }
+    dateConstitution?: Date
+    dateEchéance?: Date
+    validéesLe?: Date
   }
   cahierDesChargesActuel: CahierDesChargesRéférence
   readonly potentielIdentifier: string
@@ -269,13 +286,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
     certificateFileId: '',
-    garantiesFinancieresDueOn: 0,
     garantiesFinancieresRelanceOn: 0,
-    garantiesFinancieresSubmittedOn: 0,
-    garantiesFinancieresSubmittedBy: '',
-    garantiesFinancieresFile: '',
-    garantiesFinancieresFileId: '',
-    garantiesFinancieresDate: 0,
     dcrDueOn: 0,
     dcrSubmittedOn: 0,
     dcrSubmittedBy: '',

@@ -26,7 +26,7 @@ export type ContextSpecificProjectListFilter =
     }
 
 export type ProjectRepo = {
-  findById: (id: Project['id'], includeHistory?: boolean) => Promise<Project | undefined>
+  findById: (id: Project['id']) => Promise<Project | undefined>
   findOne(query: Record<string, any>): Promise<Project | undefined>
 
   searchForUser(

@@ -38,6 +38,24 @@ export const models = {
   UserProjectClaims: MakeUserProjectClaimsModel(sequelizeInstance),
 }
 
+projectionsNextModels.GarantiesFinancières.hasOne(models.File, {
+  foreignKey: 'id',
+  sourceKey: 'fichierId',
+  as: 'fichier',
+})
+
+projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'envoyéesPar',
+  as: 'envoyéesParRef',
+})
+
+projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'validéesPar',
+  as: 'validéesParRef',
+})
+
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {
   const initializedProjectors: string[] = []
