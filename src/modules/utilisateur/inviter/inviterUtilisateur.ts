@@ -2,8 +2,8 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { errAsync } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
-import { Utilisateur } from './Utilisateur'
-import { UtilisateurInvité } from './UtilisateurInvité'
+import { Utilisateur } from '../Utilisateur'
+import { UtilisateurInvité } from '../events/UtilisateurInvité'
 
 type Dépendances = {
   utilisateurRepo: TransactionalRepository<Utilisateur>
