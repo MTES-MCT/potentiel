@@ -13,7 +13,6 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'dreal-invitation': 1436254,
   'pp-gf-notification': 1463065,
   'dreal-gf-notification': 1528696,
-  'relance-gf': 1554449,
   'pp-certificate-updated': 1765851,
   'modification-request-status-update': 2046625,
   'user-invitation': 2814281,

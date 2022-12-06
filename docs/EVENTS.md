@@ -515,12 +515,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 | [Project.import](../src/modules/project/Project.ts)              | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFDueDateSet.ts) de [projectEvents](./PROJECTIONS.md#projectevents)       |
 | [Project.setNotificationDate](../src/modules/project/Project.ts) |                                                                                                                                                               |
 
-### [ProjectGFReminded](../src/modules/project/events/ProjectGFReminded.ts)
-
-| Emetteurs                                                                     | Récepteurs |
-| ----------------------------------------------------------------------------- | ---------- |
-| [relanceGarantiesFinancieres](../src/useCases/relanceGarantiesFinancieres.ts) |            |
-
 ### [ProjectGFRemoved](../src/modules/project/events/ProjectGFRemoved.ts)
 
 | Emetteurs                                                               | Récepteurs                                                                                                                                           |

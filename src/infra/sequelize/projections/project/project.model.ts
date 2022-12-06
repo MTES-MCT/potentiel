@@ -226,15 +226,6 @@ export const MakeProjectModel = (sequelize) => {
     })
 
     Project.hasOne(ProjectStep, {
-      as: 'gf',
-      foreignKey: 'projectId',
-      scope: {
-        type: 'garantie-financiere',
-        [Op.or]: [{ status: ['à traiter', 'validé'] }, { status: null }],
-      },
-    })
-
-    Project.hasOne(ProjectStep, {
       as: 'ptf',
       foreignKey: 'projectId',
       scope: {

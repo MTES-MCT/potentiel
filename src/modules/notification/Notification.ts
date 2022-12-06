@@ -1,7 +1,7 @@
 import { Optional } from 'utility-types'
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { DateParutionCahierDesChargesModifié, DREAL, Project, User } from '@entities'
+import { DateParutionCahierDesChargesModifié, DREAL } from '@entities'
 
 type BaseNotification = {
   message: {
@@ -96,22 +96,6 @@ type DREAL_GF_Notification = {
   variables: {
     nomProjet: string
     departementProjet: string
-    invitation_link: string
-  }
-}
-
-type RelanceGarantiesFinancieres = {
-  type: 'relance-gf'
-  context: {
-    projectId: Project['id']
-    userId: User['id']
-  }
-  variables: {
-    nom_projet: string
-    code_projet: string
-    date_designation: string
-    paragraphe_cdc: string
-    duree_garanties: string
     invitation_link: string
   }
 }
@@ -274,7 +258,6 @@ type NotificationVariants =
   | UserInvitation
   | PP_GF_Notification
   | DREAL_GF_Notification
-  | RelanceGarantiesFinancieres
   | PP_CertificateUpdated
   | ModificationRequestStatusUpdate
   | ModificationRequestConfirmedByPP
