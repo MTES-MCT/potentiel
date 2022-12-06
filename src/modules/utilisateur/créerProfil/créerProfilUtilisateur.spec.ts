@@ -62,7 +62,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
   })
 
   it(`Lorsque l'on crée un profil d'utilisateur inexistant
-      Alors le profil de l'utilisateur devrait être créé avec toutes ces infomrations`, async () => {
+      Alors le profil de l'utilisateur devrait être créé avec toutes ces informations`, async () => {
     const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur)
     const publishToEventStore = jest.fn()
 
@@ -96,7 +96,7 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
   it(`Étant donné un utilisateur invité en tant que 'CRE'
       Lorsque l'on crée un profil pour ce même utilisateur avec le même rôle
-      Alors le profil de l'utilisateur devrait être créé avec toutes ces infomrations`, async () => {
+      Alors le profil de l'utilisateur devrait être créé avec toutes ces informations`, async () => {
     const utilisateurRepo = fakeTransactionalRepo({ statut: 'invité', role: 'cre' } as Utilisateur)
     const publishToEventStore = jest.fn()
 
