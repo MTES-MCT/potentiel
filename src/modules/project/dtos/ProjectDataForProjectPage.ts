@@ -83,8 +83,7 @@ type IsClasse = {
   isClasse: true
   isAbandoned: false
   completionDueOn: Date
-} & GarantieFinanciere &
-  PTF
+} & PTF
 
 type IsElimine = {
   isClasse: false
@@ -112,32 +111,6 @@ type PTFSubmitted = {
 
 type PTFPending = {
   ptf: undefined
-}
-
-type GarantieFinanciere = RequiresGF | DoesNotRequireGF
-
-type DoesNotRequireGF = {
-  garantiesFinancieres: undefined
-}
-
-type RequiresGF = {
-  garantiesFinancieres: {
-    dueOn: Date
-  } & (GFSubmitted | GFPending)
-}
-
-type GFSubmitted = {
-  submittedOn: Date
-  gfDate: Date
-  file: {
-    id: string
-    filename: string
-  }
-  gfStatus: string
-}
-
-type GFPending = {
-  submittedOn: undefined
 }
 
 type Users = {

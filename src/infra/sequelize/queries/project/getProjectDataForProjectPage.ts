@@ -30,18 +30,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         },
         {
           model: ProjectStep,
-          as: 'gf',
-          required: false,
-          include: [
-            {
-              model: File,
-              as: 'file',
-              attributes: ['id', 'filename'],
-            },
-          ],
-        },
-        {
-          model: ProjectStep,
           as: 'ptf',
           required: false,
           include: [
@@ -91,9 +79,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           certificateFile,
           classe,
           motifsElimination,
-          garantiesFinancieresDueOn,
           users,
-          gf,
           ptf,
           completionDueOn,
           updatedAt,
@@ -165,7 +151,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
               email,
               fullName,
             })),
-          garantiesFinancieres: undefined,
           updatedAt,
           contratEDF,
           contratEnedis,
@@ -180,22 +165,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         if (user.role !== 'dreal') {
           result.certificateFile = certificateFile?.get()
-        }
-
-        if (garantiesFinancieresDueOn) {
-          result.garantiesFinancieres = { dueOn: new Date(garantiesFinancieresDueOn) }
-        }
-
-        if (gf) {
-          const { submittedOn, status, file, stepDate } = gf
-
-          result.garantiesFinancieres = {
-            ...result.garantiesFinancieres,
-            submittedOn,
-            file: file?.get(),
-            gfDate: stepDate,
-            gfStatus: status,
-          }
         }
 
         if (ptf) {
