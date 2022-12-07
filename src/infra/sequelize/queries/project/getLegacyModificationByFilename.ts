@@ -1,5 +1,5 @@
 import { Project } from '../../../../entities'
-import { ProjectEvent } from '../../projectionsNext'
+import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model'
 
 export const getLegacyModificationByFilename = async (
   filename: string

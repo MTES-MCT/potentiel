@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '../../../../core/domain'
 import { resetDatabase } from '../../helpers'
-import { ProjectEvent } from '../../projectionsNext'
+import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model'
 import { getLegacyModificationByFilename } from './getLegacyModificationByFilename'
 
 describe('getLegacyModificationByFilename', () => {
