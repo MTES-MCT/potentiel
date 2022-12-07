@@ -15,9 +15,6 @@ export class DateEchéanceGFAjoutée
 
   constructor(props: BaseDomainEventProps<DateEchéanceGFAjoutéePayload>) {
     super(props)
-
-    // convert to date (in case it is a string)
-    this.payload.expirationDate = new Date(this.payload.expirationDate)
   }
 
   aggregateIdFromPayload(payload: DateEchéanceGFAjoutéePayload) {
