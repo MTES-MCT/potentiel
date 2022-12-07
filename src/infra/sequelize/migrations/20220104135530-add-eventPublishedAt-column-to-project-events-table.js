@@ -1,6 +1,6 @@
 'use strict'
 
-const { ProjectEventProjector } = require('../projectionsNext')
+const { ProjectEventProjector } = require('../models').default
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
