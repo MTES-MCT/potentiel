@@ -79,7 +79,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: {
                 projetId: fakeProject.id.toString(),
-                dateMiseEnService: '31/12/2025',
+                dateMiseEnService: new Date('31/12/2025'),
               } as DonnéesDeRaccordementRenseignéesdPayload,
             })
 
@@ -98,7 +98,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: {
                 projetId: fakeProject.id.toString(),
-                dateMiseEnService: '01/08/2022',
+                dateMiseEnService: new Date('01/08/2022'),
               } as DonnéesDeRaccordementRenseignéesdPayload,
             })
 
@@ -138,7 +138,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: fakeProject.id.toString(),
-              dateMiseEnService: '01/05/2022',
+              dateMiseEnService: new Date('01/05/2022'),
             } as DonnéesDeRaccordementRenseignéesdPayload,
           })
 
@@ -157,7 +157,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: fakeProject.id.toString(),
-              dateMiseEnService: '30/10/2024',
+              dateMiseEnService: new Date('30/10/2024'),
             } as DonnéesDeRaccordementRenseignéesdPayload,
           })
 
@@ -204,7 +204,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: fakeProject.id.toString(),
-            dateMiseEnService: '01/01/2023',
+            dateMiseEnService: new Date('01/01/2023'),
           } as DonnéesDeRaccordementRenseignéesdPayload,
         })
         await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -251,7 +251,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: fakeProject.id.toString(),
-            dateMiseEnService: '01/01/2023',
+            dateMiseEnService: new Date('01/01/2023'),
           } as DonnéesDeRaccordementRenseignéesdPayload,
         })
         await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
@@ -302,7 +302,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
       const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId: fakeProject.id.toString(),
-          dateMiseEnService: '01/01/2023',
+          dateMiseEnService: new Date('01/01/2023'),
         } as DonnéesDeRaccordementRenseignéesdPayload,
       })
 

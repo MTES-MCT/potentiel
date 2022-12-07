@@ -19,8 +19,8 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
           dates: [
             {
               identifiantGestionnaireRéseau: 'gr01',
-              dateMiseEnService: new Date('2022-01-01').toISOString(),
-              dateFileAttente: new Date('2023-12-31').toISOString(),
+              dateMiseEnService: new Date('2022-01-01'),
+              dateFileAttente: new Date('2023-12-31'),
             },
           ],
         },

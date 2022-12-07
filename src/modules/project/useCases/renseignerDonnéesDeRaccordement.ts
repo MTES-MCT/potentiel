@@ -41,6 +41,8 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       return errAsync(new DateMiseEnServicePlusRécenteError())
     }
 
+    console.log('HERRRRREE OK')
+
     return okAsync({ projet, commande })
   }
 
@@ -56,17 +58,22 @@ export const makeRenseignerDonnéesDeRaccordement = ({
         return errAsync(new ImpossibleDeChangerLaDateDeFAError())
       }
     }
+
+    console.log('HERRRRREE2 OK')
+
     return okAsync({ projet, commande })
   }
 
   const enregistrerDonnéesDeRaccordement = (commande: Commande) => {
+    console.log('IM GOING TO FIRE DonnéesDeRaccordementRenseignées', commande)
+
     if ('dateMiseEnService' in commande && 'dateFileAttente' in commande) {
       return publishToEventStore(
         new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: commande.projetId,
-            dateMiseEnService: commande.dateMiseEnService.toISOString(),
-            dateFileAttente: commande.dateFileAttente.toISOString(),
+            dateMiseEnService: commande.dateMiseEnService,
+            dateFileAttente: commande.dateFileAttente,
           },
         })
       )
@@ -76,7 +83,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
         new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: commande.projetId,
-            dateMiseEnService: commande.dateMiseEnService.toISOString(),
+            dateMiseEnService: commande.dateMiseEnService,
           },
         })
       )
@@ -86,7 +93,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
         new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: commande.projetId,
-            dateFileAttente: commande.dateFileAttente.toISOString(),
+            dateFileAttente: commande.dateFileAttente,
           },
         })
       )

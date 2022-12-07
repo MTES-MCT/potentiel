@@ -12,7 +12,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
   })
 
   describe(`Date de mise en service`, () => {
-    const nouvelleDateMiseEnService = '01/01/2021'
+    const nouvelleDateMiseEnService = new Date('01/01/2021')
 
     describe(`Project event de type 'DateMiseEnService' sans date de mise en service`, () => {
       it(`Etant donné un project event de type 'DateMiseEnService sans date de mise en service,
@@ -42,7 +42,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateMiseEnService',
-          payload: { dateMiseEnService: nouvelleDateMiseEnService },
+          payload: { dateMiseEnService: nouvelleDateMiseEnService.toISOString() },
         })
       })
     })
@@ -75,7 +75,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateMiseEnService',
-          payload: { dateMiseEnService: nouvelleDateMiseEnService },
+          payload: { dateMiseEnService: nouvelleDateMiseEnService.toISOString() },
         })
       })
     })
@@ -99,14 +99,14 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateMiseEnService',
-          payload: { dateMiseEnService: nouvelleDateMiseEnService },
+          payload: { dateMiseEnService: nouvelleDateMiseEnService.toISOString() },
         })
       })
     })
   })
 
   describe(`Date en file d'attente`, () => {
-    const nouvelleDateFileAttente = '01/01/2022'
+    const nouvelleDateFileAttente = new Date('01/01/2022')
 
     describe(`Project event de type 'DateFileAttente' sans date en file d'attente`, () => {
       it(`Etant donné un project event de type 'DateFileAttente sans date en file d'attente,
@@ -124,7 +124,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId,
-              dateMiseEnService: new Date('2022-01-01').toISOString(),
+              dateMiseEnService: new Date('2022-01-01'),
               dateFileAttente: nouvelleDateFileAttente,
             },
             original: { version: 1, occurredAt: new Date() },
@@ -137,7 +137,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateFileAttente',
-          payload: { dateFileAttente: nouvelleDateFileAttente },
+          payload: { dateFileAttente: nouvelleDateFileAttente.toISOString() },
         })
       })
     })
@@ -158,7 +158,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId,
-              dateMiseEnService: new Date('2022-01-01').toISOString(),
+              dateMiseEnService: new Date('2022-01-01'),
               dateFileAttente: nouvelleDateFileAttente,
             },
             original: { version: 1, occurredAt: new Date() },
@@ -171,7 +171,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateFileAttente',
-          payload: { dateFileAttente: nouvelleDateFileAttente },
+          payload: { dateFileAttente: nouvelleDateFileAttente.toISOString() },
         })
       })
     })
@@ -183,7 +183,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
           new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId,
-              dateMiseEnService: new Date('2022-01-01').toISOString(),
+              dateMiseEnService: new Date('2022-01-01'),
               dateFileAttente: nouvelleDateFileAttente,
             },
             original: { version: 1, occurredAt: new Date() },
@@ -196,7 +196,7 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
 
         expect(projectEvent).toMatchObject({
           type: 'DateFileAttente',
-          payload: { dateFileAttente: nouvelleDateFileAttente },
+          payload: { dateFileAttente: nouvelleDateFileAttente.toISOString() },
         })
       })
     })

@@ -52,7 +52,7 @@ export const makeMettreAJourDonnéesDeRaccordement =
 
             const projetId =
               projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau][0].id
-
+            console.log('ligne', ligne)
             const result = await renseignerDonnéesDeRaccordement({
               projetId,
               ...ligne,

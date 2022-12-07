@@ -18,10 +18,12 @@ const modificationRequest = {
   status: 'envoyée',
 }
 
+beforeEach(async () => {
+  await resetDatabase()
+})
+
 describe('Sequelize getProjectDataForSignalerDemandeDelaiPage', () => {
   it('should return a ProjectDataForSignalerDemandeDelaiPage dto', async () => {
-    await resetDatabase()
-
     await Project.create(makeFakeProject(projectInfo))
     await ModificationRequest.create(modificationRequest)
 
@@ -43,8 +45,6 @@ describe('Sequelize getProjectDataForSignalerDemandeDelaiPage', () => {
       }
 
       it('should return ProjectDataForSignalerDemandeDelaiPage dto with hasPendingDemandeDelai to false', async () => {
-        await resetDatabase()
-
         await Project.create(projectInfo)
         await ModificationRequest.create(pendingModificationRequest)
 
