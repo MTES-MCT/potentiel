@@ -17,7 +17,7 @@ import * as DemandeChangementDePuissanceEvents from '@modules/demandeModificatio
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
 import { RedisMessage } from './RedisMessage'
 
-import { formatPayload } from '../../helpers'
+import { transformerISOStringEnDate } from '../../helpers'
 
 interface EventProps {
   payload: any
@@ -63,7 +63,7 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   }
 
   return new EventClass({
-    payload: formatPayload(message.payload),
+    payload: transformerISOStringEnDate(message.payload),
     original: {
       version: 1,
       occurredAt,
