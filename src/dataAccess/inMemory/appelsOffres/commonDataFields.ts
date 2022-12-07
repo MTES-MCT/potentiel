@@ -102,12 +102,12 @@ const additionalFields = [
   },
   {
     field: 'garantiesFinancières.dateConstitution',
-    value: (row) => dateFieldFormatter(row.garantiesFinancières.dateConstitution),
+    value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateConstitution),
     column: 'Date déclarée par le PP de dépôt des garanties financières',
   },
   {
     field: 'garantiesFinancières.dateEnvoi',
-    value: (row) => dateFieldFormatter(row.garantiesFinancières.dateEnvoi),
+    value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateEnvoi),
     column: 'Date de soumission sur Potentiel des garanties financières',
   },
 ]
