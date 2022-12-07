@@ -11,8 +11,8 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
       Lorsqu'une date de mise en service est renseignée
       Alors le projet devrait avoir cette date comme dateMiseEnService`, async () => {
     const projetId = new UniqueEntityID().toString()
-    const dateMiseEnService = new Date('2022-01-01').toISOString()
-    const dateFileAttente = new Date('2023-01-01').toISOString()
+    const dateMiseEnService = new Date('2022-01-01')
+    const dateFileAttente = new Date('2023-01-01')
 
     await Project.create(makeFakeProject({ id: projetId, dateMiseEnService: undefined }))
 
@@ -25,9 +25,8 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
         },
       })
     )
-
     const projetActuel = await Project.findByPk(projetId)
     expect(projetActuel.dateMiseEnService).toEqual(dateMiseEnService)
-    expect(projetActuel.dateFileAttente).toEqual(new Date(dateFileAttente))
+    expect(projetActuel.dateFileAttente).toEqual(dateFileAttente)
   })
 })

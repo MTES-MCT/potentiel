@@ -5,9 +5,9 @@ type Payload = {
   misAJourPar: string
   gestionnaire: string
   dates: ({ identifiantGestionnaireRéseau: string } & (
-    | { dateMiseEnService: string; dateFileAttente: string }
-    | { dateMiseEnService: string }
-    | { dateFileAttente: string }
+    | { dateMiseEnService: Date; dateFileAttente: Date }
+    | { dateMiseEnService: Date }
+    | { dateFileAttente: Date }
   ))[]
 }
 

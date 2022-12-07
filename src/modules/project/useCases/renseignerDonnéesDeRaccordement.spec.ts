@@ -101,8 +101,8 @@ describe('Renseigner des données de raccordement', () => {
             type: DonnéesDeRaccordementRenseignées.type,
             payload: expect.objectContaining({
               projetId,
-              dateMiseEnService: dateMiseEnService.toISOString(),
-              dateFileAttente: dateFileAttente.toISOString(),
+              dateMiseEnService,
+              dateFileAttente,
             }),
           })
         )
@@ -188,7 +188,7 @@ describe('Renseigner des données de raccordement', () => {
             type: DonnéesDeRaccordementRenseignées.type,
             payload: expect.objectContaining({
               projetId,
-              dateFileAttente: new Date('2023-01-01').toISOString(),
+              dateFileAttente: new Date('2023-01-01'),
             }),
           })
         )
@@ -220,7 +220,7 @@ describe('Renseigner des données de raccordement', () => {
             type: DonnéesDeRaccordementRenseignées.type,
             payload: expect.objectContaining({
               projetId,
-              dateFileAttente: new Date('2023-01-01').toISOString(),
+              dateFileAttente: new Date('2023-01-01'),
             }),
           })
         )

@@ -41,42 +41,44 @@ export const makeDémarrerImportDonnéesRaccordement =
           return errAsync(new DonnéesDeMiseAJourObligatoiresError(commande))
         }
 
+        const dates = données.reduce((donnéesFormatées, ligne) => {
+          if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateMiseEnService: ligne.dateMiseEnService,
+                dateFileAttente: ligne.dateFileAttente,
+              },
+            ]
+          }
+          if ('dateMiseEnService' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateMiseEnService: ligne.dateMiseEnService,
+              },
+            ]
+          }
+          if ('dateFileAttente' in ligne) {
+            return [
+              ...donnéesFormatées,
+              {
+                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
+                dateFileAttente: ligne.dateFileAttente,
+              },
+            ]
+          }
+          return donnéesFormatées
+        }, [])
+
         return publishToEventStore(
           new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.reduce((donnéesFormatées, ligne) => {
-                if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateMiseEnService: ligne.dateMiseEnService.toISOString(),
-                      dateFileAttente: ligne.dateFileAttente.toISOString(),
-                    },
-                  ]
-                }
-                if ('dateMiseEnService' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateMiseEnService: ligne.dateMiseEnService.toISOString(),
-                    },
-                  ]
-                }
-                if ('dateFileAttente' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateFileAttente: ligne.dateFileAttente.toISOString(),
-                    },
-                  ]
-                }
-                return donnéesFormatées
-              }, []),
+              dates,
             },
           })
         )

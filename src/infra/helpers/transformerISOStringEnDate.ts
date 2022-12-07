@@ -37,5 +37,5 @@ export const transformerISOStringEnDate = (payload: Payload) => {
       ...acc,
       [key]: isMatch(value, ISOStringFormat) ? parseISO(value) : value,
     }
-  }, {})
+  })
 }

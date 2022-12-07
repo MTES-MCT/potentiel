@@ -26,7 +26,6 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
       )
       return
     }
-
     try {
       await Project.update(
         {
