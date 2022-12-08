@@ -76,18 +76,6 @@ Object.values(models).forEach((model) => {
   if (model.projector) model.projector.initModel(model)
 })
 
-projectionsNextModels.GarantiesFinancières.hasOne(models.File, {
-  foreignKey: 'id',
-  sourceKey: 'fichierId',
-  as: 'fichier',
-})
-
-projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
-  foreignKey: 'id',
-  sourceKey: 'envoyéesPar',
-  as: 'envoyéesParRef',
-})
-
 const projections = { ...models, ...projectionsNextModels }
 export type Projections = typeof projections
 
