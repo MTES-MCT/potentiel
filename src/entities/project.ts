@@ -90,7 +90,6 @@ const fields: string[] = [
   'appelOffre',
   'history',
   'details',
-  'garantiesFinancieresFileRef',
   'dcrFileRef',
   'certificateFile',
   'famille',
@@ -104,10 +103,6 @@ const fields: string[] = [
 
 type BaseProject = Static<typeof projectSchema> & {
   details?: Record<string, any>
-  garantiesFinancieresFileRefOld?: {
-    id: string
-    filename: string
-  }
   dcrFileRef?: {
     id: string
     filename: string
@@ -115,12 +110,6 @@ type BaseProject = Static<typeof projectSchema> & {
   certificateFile?: {
     id: string
     filename: string
-  }
-  gfold?: {
-    id: string
-    status: 'à traiter' | 'validé'
-    statusUpdatedOn: Date
-    user: { fullName: string }
   }
   garantiesFinancières?: {
     id: string

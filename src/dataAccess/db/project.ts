@@ -195,11 +195,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: false,
       defaultValue: 0,
     },
-    garantiesFinancieresRelanceOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
     dcrDueOn: {
       type: DataTypes.BIGINT,
       allowNull: false,
@@ -877,13 +872,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         }
       } else {
         // TODO PA : est-ce qu'on garde cette partie telle quelle ou on l'améliore ?
-        ;[
-          'garantiesFinancieresFileId',
-          'garantiesFinancieresSubmittedBy',
-          'dcrFileId',
-          'dcrSubmittedBy',
-          'certificateFileId',
-        ].forEach((key) => {
+        ;['dcrFileId', 'dcrSubmittedBy', 'certificateFileId'].forEach((key) => {
           // If that property is falsy, remove it (UUIDs can't be falsy)
           if (!project[key]) delete project[key]
         })

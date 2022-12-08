@@ -122,11 +122,6 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      garantiesFinancieresRelanceOn: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
       dcrDueOn: {
         type: DataTypes.BIGINT,
         allowNull: false,

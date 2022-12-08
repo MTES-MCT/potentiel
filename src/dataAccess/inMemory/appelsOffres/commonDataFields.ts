@@ -97,10 +97,6 @@ const additionalFields = [
   },
   { field: 'regionProjet', column: 'Région' },
   {
-    field: 'garantiesFinancieresDate',
-    column: 'Date déclarée par le PP de dépôt des garanties financières',
-  },
-  {
     field: 'garantiesFinancières.dateConstitution',
     value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateConstitution),
     column: 'Date déclarée par le PP de dépôt des garanties financières',
