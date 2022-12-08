@@ -1,6 +1,14 @@
 import { transformerISOStringEnDate } from './transformerISOStringEnDate'
 
 describe('Fonction helper transformerISOStringEnDate', () => {
+  it(`Lorsque la valeur est undefined ou null
+      Alors le payload retourné doit être undefined ou null`, () => {
+    const résultat = transformerISOStringEnDate(undefined)
+    const résultat2 = transformerISOStringEnDate(null)
+    expect(résultat).toEqual(undefined)
+    expect(résultat2).toEqual(null)
+  })
+
   it(`Lorsque la valeur n'est pas une chaîne de caractères ou que celle-ci n'est pas une date au format ISOString
       Alors le payload retourné doit contenir la valeur initiale non formattée`, () => {
     const résultat = transformerISOStringEnDate({
@@ -30,6 +38,12 @@ describe('Fonction helper transformerISOStringEnDate', () => {
       ensembleDeDatesObject: {
         date,
       },
+      test: [
+        {
+          id: '2',
+          date,
+        },
+      ],
     })
 
     expect(résultat).toMatchObject({
@@ -38,6 +52,12 @@ describe('Fonction helper transformerISOStringEnDate', () => {
       ensembleDeDatesObject: {
         date: new Date(date),
       },
+      test: [
+        {
+          id: '2',
+          date: new Date(date),
+        },
+      ],
     })
   })
 })

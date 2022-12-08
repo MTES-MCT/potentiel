@@ -7,8 +7,12 @@ type Payload =
       [key: string]: any
     }
   | (string | Payload)[]
+  | null
+  | undefined
 
 export const transformerISOStringEnDate = (payload: Payload) => {
+  if (!payload) return payload
+
   // cas de payload ARRAY
   if (Array.isArray(payload)) {
     return payload.map((item) => {
