@@ -15,9 +15,7 @@ type MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (dépendances: {
 export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée =
 
     ({ mettreAJourDonnéesDeRaccordement }) =>
-    ({
-      payload: { gestionnaire, dates: données },
-    }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
+    ({ payload: { gestionnaire, données } }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
       return mettreAJourDonnéesDeRaccordement({
         gestionnaire,
         données,
