@@ -41,8 +41,6 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       return errAsync(new DateMiseEnServicePlusRécenteError())
     }
 
-    console.log('HERRRRREE OK')
-
     return okAsync({ projet, commande })
   }
 
@@ -59,46 +57,26 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       }
     }
 
-    console.log('HERRRRREE2 OK')
-
     return okAsync({ projet, commande })
   }
 
   const enregistrerDonnéesDeRaccordement = (commande: Commande) => {
-    console.log('IM GOING TO FIRE DonnéesDeRaccordementRenseignées', commande)
+    if (!('dateFileAttente' in commande) && !('dateMiseEnService' in commande)) {
+      return okAsync(null)
+    }
 
-    if ('dateMiseEnService' in commande && 'dateFileAttente' in commande) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
+    return publishToEventStore(
+      new DonnéesDeRaccordementRenseignées({
+        // @ts-ignore
+        payload: {
+          projetId: commande.projetId,
+          ...('dateMiseEnService' in commande && {
             dateMiseEnService: commande.dateMiseEnService,
-            dateFileAttente: commande.dateFileAttente,
-          },
-        })
-      )
-    }
-    if ('dateMiseEnService' in commande && !('dateFileAttente' in commande)) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
-            dateMiseEnService: commande.dateMiseEnService,
-          },
-        })
-      )
-    }
-    if (!('dateMiseEnService' in commande) && 'dateFileAttente' in commande) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
-            dateFileAttente: commande.dateFileAttente,
-          },
-        })
-      )
-    }
-    return okAsync(null)
+          }),
+          ...('dateFileAttente' in commande && { dateFileAttente: commande.dateFileAttente }),
+        },
+      })
+    )
   }
 
   return (commande: Commande) =>

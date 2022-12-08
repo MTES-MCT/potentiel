@@ -15,41 +15,9 @@ type MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (dépendances: {
 export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée =
 
     ({ mettreAJourDonnéesDeRaccordement }) =>
-    ({ payload: { gestionnaire, dates } }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
-      console.log('STEP 2 OK')
-      const données = dates.reduce((donnéesFormatées, ligne) => {
-        if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
-          return [
-            ...donnéesFormatées,
-            {
-              identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-              dateMiseEnService: ligne.dateMiseEnService,
-              dateFileAttente: ligne.dateFileAttente,
-            },
-          ]
-        }
-        if ('dateMiseEnService' in ligne) {
-          return [
-            ...donnéesFormatées,
-            {
-              identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-              dateMiseEnService: ligne.dateMiseEnService,
-            },
-          ]
-        }
-        if ('dateFileAttente' in ligne) {
-          return [
-            ...donnéesFormatées,
-            {
-              identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-              dateFileAttente: ligne.dateFileAttente,
-            },
-          ]
-        }
-        return donnéesFormatées
-      }, [])
-
-      console.log('DONNÉES', données)
+    ({
+      payload: { gestionnaire, dates: données },
+    }: TâcheMiseAJourDonnéesDeRaccordementDémarrée) => {
       return mettreAJourDonnéesDeRaccordement({
         gestionnaire,
         données,

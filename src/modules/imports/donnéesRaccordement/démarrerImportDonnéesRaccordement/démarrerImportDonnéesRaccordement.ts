@@ -6,9 +6,9 @@ import { errAsync } from '@core/utils'
 import { ImportDonnéesRaccordement } from '../ImportDonnéesRaccordement'
 import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
-import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 import { DonnéesRaccordement } from '../DonnéesRaccordement'
+import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 
 type MakeDémarrerImportDonnéesRaccordementDépendances = {
   importRepo: TransactionalRepository<ImportDonnéesRaccordement>
@@ -24,7 +24,7 @@ export type DémarrerImportDonnéesRaccordementCommande = {
 export const makeDémarrerImportDonnéesRaccordement =
   ({ importRepo, publishToEventStore }: MakeDémarrerImportDonnéesRaccordementDépendances) =>
   (commande: DémarrerImportDonnéesRaccordementCommande) => {
-    const { utilisateur, gestionnaire, données } = commande
+    const { utilisateur, gestionnaire, données: dates } = commande
 
     if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
@@ -37,41 +37,9 @@ export const makeDémarrerImportDonnéesRaccordement =
           return errAsync(new DémarrageImpossibleError(commande))
         }
 
-        if (données.length === 0) {
+        if (dates.length === 0) {
           return errAsync(new DonnéesDeMiseAJourObligatoiresError(commande))
         }
-
-        const dates = données.reduce((donnéesFormatées, ligne) => {
-          if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
-            return [
-              ...donnéesFormatées,
-              {
-                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                dateMiseEnService: ligne.dateMiseEnService,
-                dateFileAttente: ligne.dateFileAttente,
-              },
-            ]
-          }
-          if ('dateMiseEnService' in ligne) {
-            return [
-              ...donnéesFormatées,
-              {
-                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                dateMiseEnService: ligne.dateMiseEnService,
-              },
-            ]
-          }
-          if ('dateFileAttente' in ligne) {
-            return [
-              ...donnéesFormatées,
-              {
-                identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                dateFileAttente: ligne.dateFileAttente,
-              },
-            ]
-          }
-          return donnéesFormatées
-        }, [])
 
         return publishToEventStore(
           new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
