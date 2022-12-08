@@ -14,7 +14,7 @@ import {
 import { ProjectAppelOffre } from '@entities'
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
 
-const { Project, File } = models
+const { Project, File, User } = models
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(
@@ -40,6 +40,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
               required: false,
               attributes: ['filename', 'id'],
             },
+            { model: User, as: 'envoyéesParRef', required: false, attributes: ['role'] },
           ],
         },
       ],

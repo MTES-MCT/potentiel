@@ -1,12 +1,10 @@
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
-import { models } from '../../models'
 import { resetDatabase } from '@infra/sequelize/helpers'
 import { UniqueEntityID } from '@core/domain'
 import { User } from '@entities'
 import { GarantiesFinancièresStatut } from '@infra/sequelize/projectionsNext/garantiesFinancières'
 
 describe(`Requête getGarantiesFinancièresDTO`, () => {
-  const { User } = models
   const utilisateurAutorisé = { role: 'admin' } as User
   const dateLimiteEnvoi = new Date('2023-01-01')
   const dateEchéance = new Date()
@@ -80,13 +78,6 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   et dont les GF ne sont 'à traiter',
   alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'à traiter' et les données des GF soumises`, async () => {
-      await User.create({
-        id: envoyéesPar,
-        role: 'admin',
-        email: 'email@test.test',
-        fullName: 'user name',
-      })
-
       const garantiesFinancières = {
         statut: 'à traiter' as GarantiesFinancièresStatut,
         soumisesALaCandidature: false,
@@ -96,6 +87,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         dateEchéance,
         validéesPar: null,
         fichier: { id: fichierId, filename: 'nom-fichier' },
+        envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
       }
 
       const résultat = await getGarantiesFinancièresDTO({
@@ -109,7 +101,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         date: dateConstitution.getTime(),
         variant: 'admin',
         url: expect.anything(),
-        envoyéesPar: 'admin',
+        envoyéesPar: 'porteur-projet',
         dateEchéance: dateEchéance.getTime(),
       })
     })
@@ -120,13 +112,6 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   et dont les GF sont validées par un utilisateur dans Potentiel,
   alors la requête getGFItemProps devrait retourner les données des GF 
   sous forme d'un GarantiesFinancièresDTO avec un statut 'validé'`, async () => {
-      await User.create({
-        id: envoyéesPar,
-        role: 'admin',
-        email: 'email@test.test',
-        fullName: 'user name',
-      })
-
       const garantiesFinancières = {
         statut: 'validé' as GarantiesFinancièresStatut,
         soumisesALaCandidature: false,
@@ -136,6 +121,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         dateEchéance,
         validéesPar: new UniqueEntityID().toString(),
         fichier: { id: fichierId, filename: 'nom-fichier' },
+        envoyéesParRef: { role: 'admin' as 'admin' },
       }
 
       const résultat = await getGarantiesFinancièresDTO({
@@ -160,13 +146,6 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   et dont les GF sont validées à la candidature et non dans Potentiel,
   alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'validé'et retraitDépôtPossible à "true"`, async () => {
-      await User.create({
-        id: envoyéesPar,
-        role: 'admin',
-        email: 'email@test.test',
-        fullName: 'user name',
-      })
-
       const garantiesFinancières = {
         statut: 'validé' as GarantiesFinancièresStatut,
         soumisesALaCandidature: false,
@@ -176,6 +155,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         dateEchéance,
         validéesPar: null,
         fichier: { id: fichierId, filename: 'nom-fichier' },
+        envoyéesParRef: { role: 'admin' as 'admin' },
       }
 
       const résultat = await getGarantiesFinancièresDTO({
