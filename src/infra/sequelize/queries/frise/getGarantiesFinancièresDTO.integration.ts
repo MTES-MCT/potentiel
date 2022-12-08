@@ -2,7 +2,6 @@ import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
 import { resetDatabase } from '@infra/sequelize/helpers'
 import { UniqueEntityID } from '@core/domain'
 import { User } from '@entities'
-import { GarantiesFinancièresStatut } from '@infra/sequelize/projectionsNext/garantiesFinancières'
 
 describe(`Requête getGarantiesFinancièresDTO`, () => {
   const utilisateurAutorisé = { role: 'admin' } as User
@@ -18,17 +17,17 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
     it(`Etant donné un projet soumis à garanties financières,
   et dont les GF sont en attente avec une date limite d'envoi dépassée,
   alors la requête devrait retourner un GarantiesFinancièresDTO 
-  avec un statut 'en en retard'`, async () => {
+  avec un statut 'en retard'`, async () => {
       const dateLimiteDépassée = new Date('2021-01-01')
       const garantiesFinancières = {
-        statut: 'en attente' as GarantiesFinancièresStatut,
+        statut: 'en attente',
         soumisesALaCandidature: false,
         dateLimiteEnvoi: dateLimiteDépassée,
         envoyéesPar: new UniqueEntityID().toString(),
         dateConstitution: null,
         dateEchéance: null,
         validéesPar: null,
-      }
+      } as const
 
       const résultat = await getGarantiesFinancièresDTO({
         garantiesFinancières,
@@ -50,14 +49,14 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'en attente'`, async () => {
       const garantiesFinancières = {
-        statut: 'en attente' as GarantiesFinancièresStatut,
+        statut: 'en attente',
         soumisesALaCandidature: false,
         dateLimiteEnvoi,
         envoyéesPar: new UniqueEntityID().toString(),
         dateConstitution: null,
         dateEchéance: null,
         validéesPar: null,
-      }
+      } as const
 
       const résultat = await getGarantiesFinancièresDTO({
         garantiesFinancières,
@@ -79,7 +78,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'à traiter' et les données des GF soumises`, async () => {
       const garantiesFinancières = {
-        statut: 'à traiter' as GarantiesFinancièresStatut,
+        statut: 'à traiter',
         soumisesALaCandidature: false,
         dateLimiteEnvoi,
         envoyéesPar,
@@ -88,7 +87,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         validéesPar: null,
         fichier: { id: fichierId, filename: 'nom-fichier' },
         envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
-      }
+      } as const
 
       const résultat = await getGarantiesFinancièresDTO({
         garantiesFinancières,
@@ -113,7 +112,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   alors la requête getGFItemProps devrait retourner les données des GF 
   sous forme d'un GarantiesFinancièresDTO avec un statut 'validé'`, async () => {
       const garantiesFinancières = {
-        statut: 'validé' as GarantiesFinancièresStatut,
+        statut: 'validé',
         soumisesALaCandidature: false,
         dateLimiteEnvoi,
         envoyéesPar,
@@ -122,7 +121,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         validéesPar: new UniqueEntityID().toString(),
         fichier: { id: fichierId, filename: 'nom-fichier' },
         envoyéesParRef: { role: 'admin' as 'admin' },
-      }
+      } as const
 
       const résultat = await getGarantiesFinancièresDTO({
         garantiesFinancières,
@@ -147,7 +146,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   alors la requête getGFItemProps devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'validé'et retraitDépôtPossible à "true"`, async () => {
       const garantiesFinancières = {
-        statut: 'validé' as GarantiesFinancièresStatut,
+        statut: 'validé',
         soumisesALaCandidature: false,
         dateLimiteEnvoi,
         envoyéesPar,
@@ -156,7 +155,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
         validéesPar: null,
         fichier: { id: fichierId, filename: 'nom-fichier' },
         envoyéesParRef: { role: 'admin' as 'admin' },
-      }
+      } as const
 
       const résultat = await getGarantiesFinancièresDTO({
         garantiesFinancières,
