@@ -1,4 +1,4 @@
-import { ProjectEvent } from '../projectionsNext'
+import { ProjectEvent } from '../projectionsNext/projectEvents/projectEvent.model'
 
 export default {
   up: async (queryInterface) => {
