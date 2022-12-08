@@ -1,4 +1,5 @@
-import { col, DataTypes, literal, Op, where } from 'sequelize'
+import { models } from '../../infra/sequelize/models'
+import { Attributes, col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
 import {
@@ -16,25 +17,45 @@ import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { GarantiesFinancières } from '@infra/sequelize'
+
+const { File } = models
+
+const deserializeGarantiesFinancières = (
+  gf: Attributes<GarantiesFinancières> & {
+    fichier: any
+    envoyéesParRef: User
+    validéesParRef: User
+  }
+): Project['garantiesFinancières'] => {
+  if (!gf) return
+  return {
+    id: gf.id,
+    projetId: gf.projetId,
+    statut: gf.statut,
+    soumisesALaCandidature: gf.soumisesALaCandidature,
+    dateConstitution: gf.dateConstitution ?? undefined,
+    dateEchéance: gf.dateEchéance ?? undefined,
+    dateEnvoi: gf.dateEnvoi ?? undefined,
+    dateLimiteEnvoi: gf.dateLimiteEnvoi ?? undefined,
+    fichier: gf.fichier ?? undefined,
+    validéesLe: gf.validéesLe ?? undefined,
+    validéesPar: gf.validéesParRef ? { fullName: gf.validéesParRef.fullName } : undefined,
+    envoyéesPar: gf.envoyéesParRef ? { fullName: gf.envoyéesParRef.fullName } : undefined,
+  }
+}
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
   ...item,
   actionnaire: item.actionnaire || '',
   territoireProjet: item.territoireProjet || undefined,
-  garantiesFinancieresFile: item.garantiesFinancieresFile || '',
-  garantiesFinancieresFileId: item.garantiesFinancieresFileId || '',
-  garantiesFinancieresDueOn: item.garantiesFinancieresDueOn || 0,
-  garantiesFinancieresRelanceOn: item.garantiesFinancieresRelanceOn || 0,
   dcrFile: item.dcrFile || '',
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   certificateFileId: item.certificateFileId || '',
   numeroGestionnaire: item.numeroGestionnaire || '',
-  garantiesFinancieresDate: item.gf?.stepDate.getTime() || 0,
-  garantiesFinancieresSubmittedOn: item.gf?.submittedOn.getTime() || 0,
-  garantiesFinancieresSubmittedBy: item.gf?.submittedBy,
-  garantiesFinancieresFileRef: item.gf?.file,
+  garantiesFinancières: deserializeGarantiesFinancières(item.garantiesFinancières),
   dcrDate: item.dcr?.stepDate.getTime() || 0,
   dcrSubmittedOn: item.dcr?.submittedOn.getTime() || 0,
   dcrSubmittedBy: item.dcr?.submittedBy,
@@ -170,16 +191,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: false,
     },
     notifiedOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    garantiesFinancieresDueOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    garantiesFinancieresRelanceOn: {
       type: DataTypes.BIGINT,
       allowNull: false,
       defaultValue: 0,
@@ -341,15 +352,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   })
 
   ProjectModel.hasOne(ProjectStep, {
-    as: 'gf',
-    foreignKey: 'projectId',
-    scope: {
-      type: 'garantie-financiere',
-      [Op.or]: [{ status: ['à traiter', 'validé'] }, { status: null }],
-    },
-  })
-
-  ProjectModel.hasOne(ProjectStep, {
     as: 'ptf',
     foreignKey: 'projectId',
     scope: {
@@ -363,6 +365,11 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     scope: {
       type: 'attestation-designation-proof',
     },
+  })
+
+  ProjectModel.hasOne(GarantiesFinancières, {
+    as: 'garantiesFinancières',
+    foreignKey: 'projetId',
   })
 
   const _isDbReady = isDbReady({ sequelizeInstance })
@@ -384,7 +391,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     searchAll,
     searchAllMissingOwner,
     countUnnotifiedProjects,
-    findProjectsWithGarantiesFinancieresPendingBefore,
   })
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -399,16 +405,20 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     }
   }
 
-  async function findById(id: Project['id'], includeHistory?: true): Promise<Project | undefined> {
+  async function findById(id: Project['id']): Promise<Project | undefined> {
     await _isDbReady
 
     try {
       const projectInDb = await ProjectModel.findByPk(id, {
         include: [
           {
-            model: ProjectStep,
-            as: 'gf',
-            include: [{ model: FileModel, as: 'file' }],
+            model: GarantiesFinancières,
+            as: 'garantiesFinancières',
+            include: [
+              { model: File, as: 'fichier' },
+              { model: UserModel, as: 'envoyéesParRef' },
+              { model: UserModel, as: 'validéesParRef' },
+            ],
           },
           {
             model: ProjectStep,
@@ -456,11 +466,12 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
     opts.include = [
       {
-        model: ProjectStep,
-        as: 'gf',
+        model: GarantiesFinancières,
+        as: 'garantiesFinancières',
         include: [
-          { model: FileModel, as: 'file' },
-          { model: UserModel, as: 'user' },
+          { model: File, as: 'fichier' },
+          { model: UserModel, as: 'envoyéesParRef' },
+          { model: UserModel, as: 'validéesParRef' },
         ],
       },
       {
@@ -492,43 +503,18 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       if ('garantiesFinancieres' in query) {
         switch (query.garantiesFinancieres) {
           case 'submitted':
-            opts.include = [
-              ...opts.include.filter((item) => item.as !== 'gf'),
-              {
-                model: ProjectStep,
-                as: 'gf',
-                required: true,
-                include: [
-                  { model: FileModel, as: 'file' },
-                  { model: UserModel, as: 'user' },
-                ],
-              },
-            ]
+            opts.where['$garantiesFinancières.dateEnvoi$'] = { [Op.ne]: null }
             break
           case 'notSubmitted':
-            opts.where.garantiesFinancieresDueOn = { [Op.ne]: 0 }
-            opts.include = [
-              ...opts.include.filter((item) => item.as !== 'gf'),
-              {
-                model: ProjectStep,
-                as: 'gf',
-              },
-            ]
-            opts.where.$gf$ = null
+            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = { [Op.ne]: null }
+            opts.where['$garantiesFinancières.dateEnvoi$'] = null
             break
           case 'pastDue':
-            opts.where.garantiesFinancieresDueOn = {
-              [Op.lte]: Date.now(),
-              [Op.ne]: 0,
+            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = {
+              [Op.lte]: new Date(),
+              [Op.ne]: null,
             }
-            opts.include = [
-              ...opts.include.filter((item) => item.as !== 'gf'),
-              {
-                model: ProjectStep,
-                as: 'gf',
-              },
-            ]
-            opts.where.$gf$ = null
+            opts.where['$garantiesFinancières.dateEnvoi$'] = null
             break
         }
       }
@@ -886,13 +872,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         }
       } else {
         // TODO PA : est-ce qu'on garde cette partie telle quelle ou on l'améliore ?
-        ;[
-          'garantiesFinancieresFileId',
-          'garantiesFinancieresSubmittedBy',
-          'dcrFileId',
-          'dcrSubmittedBy',
-          'certificateFileId',
-        ].forEach((key) => {
+        ;['dcrFileId', 'dcrSubmittedBy', 'certificateFileId'].forEach((key) => {
           // If that property is falsy, remove it (UUIDs can't be falsy)
           if (!project[key]) delete project[key]
         })
@@ -1022,45 +1002,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       })
 
       return familles.map((item) => item.get().familleId)
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
-    }
-  }
-
-  async function findProjectsWithGarantiesFinancieresPendingBefore(
-    beforeDate: number
-  ): Promise<Array<Project>> {
-    await _isDbReady
-
-    try {
-      const projectsRaw = (
-        await ProjectModel.findAll({
-          include: [
-            {
-              model: ProjectStep,
-              as: 'gf',
-            },
-          ],
-          where: {
-            garantiesFinancieresRelanceOn: 0,
-            garantiesFinancieresDueOn: { [Op.ne]: 0, [Op.lte]: beforeDate },
-            notifiedOn: { [Op.ne]: 0 },
-            classe: 'Classé',
-            $gf$: null, // With include, means "without a GF"
-          },
-        })
-      ).map((item) => item.get())
-
-      const deserializedItems = mapExceptError(
-        projectsRaw,
-        deserialize,
-        'Project.findProjectsWithGarantiesFinancieresPendingBefore.deserialize error'
-      )
-
-      const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
-
-      return projects
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return []

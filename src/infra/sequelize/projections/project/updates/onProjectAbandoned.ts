@@ -15,7 +15,6 @@ export const onProjectAbandoned = (models) => async (event: ProjectAbandoned) =>
   const { occurredAt } = event
   Object.assign(projectInstance, {
     abandonedOn: occurredAt.getTime(),
-    garantiesFinancieresDueOn: 0,
     dcrDueOn: 0,
     completionDueOn: 0,
   })

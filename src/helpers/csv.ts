@@ -24,7 +24,5 @@ export function formatField(
 
   const dataField = field.dataField
 
-  return dataFieldsFlattened.has(dataField)
-    ? { label: dataFieldsFlattened.get(dataField) as string, value: dataField }
-    : { label: dataField, value: `details.${dataField}` }
+  return dataFieldsFlattened.get(dataField) ?? { label: dataField, value: `details.${dataField}` }
 }

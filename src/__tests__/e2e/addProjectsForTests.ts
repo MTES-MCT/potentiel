@@ -32,18 +32,6 @@ testRouter.post('/test/addProjects', async (request, response) => {
       if (project.note) {
         project.note = Number(project.note)
       }
-      if (project.garantiesFinancieresDate) {
-        project.garantiesFinancieresDate = Number(project.garantiesFinancieresDate)
-      }
-      if (project.garantiesFinancieresDueOn) {
-        project.garantiesFinancieresDueOn = Number(project.garantiesFinancieresDueOn)
-      }
-      if (project.garantiesFinancieresRelanceOn) {
-        project.garantiesFinancieresRelanceOn = Number(project.garantiesFinancieresRelanceOn)
-      }
-      if (project.garantiesFinancieresSubmittedOn) {
-        project.garantiesFinancieresSubmittedOn = Number(project.garantiesFinancieresSubmittedOn)
-      }
       if (project.dcrDate) {
         project.dcrDate = Number(project.dcrDate)
       }

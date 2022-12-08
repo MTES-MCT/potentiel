@@ -1,4 +1,8 @@
 import toTypeLiteral from './helpers/toTypeLiteral'
+import { Project } from '@entities'
+import { format } from 'date-fns'
+
+const dateFieldFormatter = (value) => value && format(new Date(), 'dd-mm-yyyy')
 
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
@@ -64,7 +68,12 @@ const commonDataFields = [
     column: 'Investissement ou financement participatif ?',
     value: 'Financement participatif (T2)',
   },
-  { field: 'notifiedOn', type: toTypeLiteral('date'), column: 'Notification' },
+  {
+    field: 'notifiedOn',
+    value: (row) => dateFieldFormatter(row.notifiedOn),
+    type: toTypeLiteral('date'),
+    column: 'Notification',
+  },
 ]
 
 const additionalFields = [
@@ -88,21 +97,26 @@ const additionalFields = [
   },
   { field: 'regionProjet', column: 'Région' },
   {
-    field: 'garantiesFinancieresDate',
+    field: 'garantiesFinancières.dateConstitution',
+    value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateConstitution),
     column: 'Date déclarée par le PP de dépôt des garanties financières',
   },
   {
-    field: 'garantiesFinancieresSubmittedOn',
+    field: 'garantiesFinancières.dateEnvoi',
+    value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateEnvoi),
     column: 'Date de soumission sur Potentiel des garanties financières',
   },
 ]
 
-const dataFieldsFlattened: Map<string, string> = [...commonDataFields, ...additionalFields].reduce(
-  (fields, currField) => {
-    fields.set(currField.field, currField.column)
-    return fields
-  },
-  new Map()
-)
+const dataFieldsFlattened: Map<
+  string,
+  { label: string; value: string | ((project: Project) => any) }
+> = [...commonDataFields, ...additionalFields].reduce((fields, currField) => {
+  fields.set(currField.field, {
+    label: currField.column,
+    value: currField.value ?? currField.field,
+  })
+  return fields
+}, new Map())
 
 export { commonDataFields, additionalFields, dataFieldsFlattened }

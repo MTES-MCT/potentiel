@@ -52,13 +52,6 @@ const baseProjectSchema = SchemaRecord({
   motifsElimination: String,
   notifiedOn: Number,
   certificateFileId: String,
-  garantiesFinancieresDueOn: Number,
-  garantiesFinancieresRelanceOn: Number,
-  garantiesFinancieresSubmittedOn: Number,
-  garantiesFinancieresSubmittedBy: String,
-  garantiesFinancieresFile: String,
-  garantiesFinancieresFileId: String,
-  garantiesFinancieresDate: Number,
   dcrDueOn: Number,
   dcrSubmittedOn: Number,
   dcrSubmittedBy: String,
@@ -97,7 +90,6 @@ const fields: string[] = [
   'appelOffre',
   'history',
   'details',
-  'garantiesFinancieresFileRef',
   'dcrFileRef',
   'certificateFile',
   'famille',
@@ -111,10 +103,6 @@ const fields: string[] = [
 
 type BaseProject = Static<typeof projectSchema> & {
   details?: Record<string, any>
-  garantiesFinancieresFileRef?: {
-    id: string
-    filename: string
-  }
   dcrFileRef?: {
     id: string
     filename: string
@@ -123,11 +111,22 @@ type BaseProject = Static<typeof projectSchema> & {
     id: string
     filename: string
   }
-  gf?: {
+  garantiesFinancières?: {
     id: string
-    status: 'à traiter' | 'validé'
-    statusUpdatedOn: Date
-    user: { fullName: string }
+    projetId: string
+    statut: 'en attente' | 'à traiter' | 'validé'
+    soumisesALaCandidature: boolean
+    dateLimiteEnvoi?: Date
+    fichier?: {
+      id: string
+      filename: string
+    }
+    dateEnvoi?: Date
+    envoyéesPar?: { fullName: string }
+    validéesPar?: { fullName: string }
+    dateConstitution?: Date
+    dateEchéance?: Date
+    validéesLe?: Date
   }
   cahierDesChargesActuel: CahierDesChargesRéférence
   readonly potentielIdentifier: string
@@ -269,13 +268,6 @@ export default ({ makeId }: MakeProjectDependencies) =>
     isFinancementParticipatif: false,
     engagementFournitureDePuissanceAlaPointe: false,
     certificateFileId: '',
-    garantiesFinancieresDueOn: 0,
-    garantiesFinancieresRelanceOn: 0,
-    garantiesFinancieresSubmittedOn: 0,
-    garantiesFinancieresSubmittedBy: '',
-    garantiesFinancieresFile: '',
-    garantiesFinancieresFileId: '',
-    garantiesFinancieresDate: 0,
     dcrDueOn: 0,
     dcrSubmittedOn: 0,
     dcrSubmittedBy: '',

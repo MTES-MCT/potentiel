@@ -26,7 +26,7 @@ export type ContextSpecificProjectListFilter =
     }
 
 export type ProjectRepo = {
-  findById: (id: Project['id'], includeHistory?: boolean) => Promise<Project | undefined>
+  findById: (id: Project['id']) => Promise<Project | undefined>
   findOne(query: Record<string, any>): Promise<Project | undefined>
 
   searchForUser(
@@ -84,8 +84,6 @@ export type ProjectRepo = {
   ): Promise<Array<Famille['id']>>
 
   countUnnotifiedProjects(appelOffreId: AppelOffre['id'], periodeId: Periode['id']): Promise<number>
-
-  findProjectsWithGarantiesFinancieresPendingBefore(beforeDate: number): Promise<Array<Project>>
 
   remove: (projectId: Project['id']) => ResultAsync<null>
   save: (project: Project) => ResultAsync<null>

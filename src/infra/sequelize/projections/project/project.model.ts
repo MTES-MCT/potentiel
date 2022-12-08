@@ -122,16 +122,6 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: false,
         defaultValue: 0,
       },
-      garantiesFinancieresDueOn: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      garantiesFinancieresRelanceOn: {
-        type: DataTypes.BIGINT,
-        allowNull: false,
-        defaultValue: 0,
-      },
       dcrDueOn: {
         type: DataTypes.BIGINT,
         allowNull: false,
@@ -206,10 +196,6 @@ export const MakeProjectModel = (sequelize) => {
 
   Project.associate = (models) => {
     const { File, UserProjects, ProjectStep, GarantiesFinancières } = models
-    Project.belongsTo(File, {
-      foreignKey: 'garantiesFinancieresFileId',
-      as: 'garantiesFinancieresFileRef',
-    })
 
     Project.belongsTo(File, {
       foreignKey: 'dcrFileId',
@@ -223,15 +209,6 @@ export const MakeProjectModel = (sequelize) => {
 
     Project.hasMany(UserProjects, {
       as: 'users',
-    })
-
-    Project.hasOne(ProjectStep, {
-      as: 'gf',
-      foreignKey: 'projectId',
-      scope: {
-        type: 'garantie-financiere',
-        [Op.or]: [{ status: ['à traiter', 'validé'] }, { status: null }],
-      },
     })
 
     Project.hasOne(ProjectStep, {

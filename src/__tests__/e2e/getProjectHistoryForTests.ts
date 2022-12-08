@@ -15,7 +15,7 @@ testRouter.get('/test/getProject', async (request, response) => {
     return response.status(500).send('No project with this nomProjet')
   }
 
-  const projectWithHistory = await projectRepo.findById(project.id, true)
+  const projectWithHistory = await projectRepo.findById(project.id)
   if (!projectWithHistory) {
     return response.status(500).send('No project history with this nomProjet')
   }

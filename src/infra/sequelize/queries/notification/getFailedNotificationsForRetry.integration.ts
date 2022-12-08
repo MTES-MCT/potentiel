@@ -2,7 +2,6 @@ import { getFailedNotificationsForRetry } from './getFailedNotificationsForRetry
 import models from '../../models'
 import { resetDatabase } from '../../helpers'
 import { UniqueEntityID } from '@core/domain'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
 
 const fakeNotificationArgs = {
   message: {},
@@ -96,64 +95,6 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
           { id: otherId, isObsolete: false },
           { id: stillCurrentId, isObsolete: false },
           { id: obsoleteId, isObsolete: true },
-        ])
-      })
-    })
-
-    describe('when type is relance-gf', () => {
-      const projectWithGFId = new UniqueEntityID()
-      const obsoleteRelanceId = new UniqueEntityID()
-
-      const projectWithoutGFId = new UniqueEntityID()
-      const stillCurrentRelanceId = new UniqueEntityID()
-
-      beforeAll(async () => {
-        await resetDatabase()
-
-        const { Project, ProjectStep } = models
-        await Project.create(
-          makeFakeProject({
-            id: projectWithGFId.toString(),
-          })
-        )
-        await ProjectStep.create({
-          id: new UniqueEntityID().toString(),
-          projectId: projectWithGFId.toString(),
-          type: 'garantie-financiere',
-          submittedOn: new Date(123),
-          submittedBy: new UniqueEntityID().toString(),
-          fileId: new UniqueEntityID().toString(),
-          stepDate: new Date(345),
-        })
-        await Project.create(
-          makeFakeProject({
-            id: projectWithoutGFId.toString(),
-          })
-        )
-
-        const NotificationModel = models.Notification
-        await NotificationModel.create({
-          ...fakeNotificationArgs,
-          id: obsoleteRelanceId.toString(),
-          type: 'relance-gf',
-          context: { projectId: projectWithGFId.toString() },
-          status: 'error',
-        })
-        await NotificationModel.create({
-          ...fakeNotificationArgs,
-          id: stillCurrentRelanceId.toString(),
-          type: 'relance-gf',
-          context: { projectId: projectWithoutGFId.toString() },
-          status: 'error',
-        })
-      })
-
-      it('should mark notifications for projects that have since submitted gf as obsolete', async () => {
-        const results = await getFailedNotificationsForRetry()
-
-        expect(results._unsafeUnwrap()).toEqual([
-          { id: obsoleteRelanceId, isObsolete: true },
-          { id: stillCurrentRelanceId, isObsolete: false },
         ])
       })
     })

@@ -3,7 +3,6 @@ import { appelOffreRepo, projectRepo as OldProjectRepo, userRepo } from '@dataAc
 import makeGetUserProject from './getUserProject'
 import makeListUnnotifiedProjects from './listUnnotifiedProjects'
 import makeListMissingOwnerProjects from './listMissingOwnerProjects'
-import makeRelanceGarantiesFinancieres from './relanceGarantiesFinancieres'
 import makeRequestModification from './requestModification'
 import makeShouldUserAccessProject from './shouldUserAccessProject'
 
@@ -39,15 +38,6 @@ const getUserProject = makeGetUserProject({
   shouldUserAccessProject,
 })
 
-const relanceGarantiesFinancieres = makeRelanceGarantiesFinancieres({
-  eventBus: eventStore,
-  findProjectsWithGarantiesFinancieresPendingBefore:
-    OldProjectRepo.findProjectsWithGarantiesFinancieresPendingBefore,
-  getUsersForProject: OldProjectRepo.getUsers,
-  saveProject: OldProjectRepo.save,
-  sendNotification,
-})
-
 const useCases = Object.freeze({
   sendNotification,
   requestModification,
@@ -55,7 +45,6 @@ const useCases = Object.freeze({
   listMissingOwnerProjects,
   getUserProject,
   shouldUserAccessProject,
-  relanceGarantiesFinancieres,
 })
 
 export default useCases
@@ -66,5 +55,4 @@ export {
   listMissingOwnerProjects,
   getUserProject,
   shouldUserAccessProject,
-  relanceGarantiesFinancieres,
 }

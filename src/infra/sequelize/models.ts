@@ -17,6 +17,7 @@ import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
+import { GarantiesFinancières } from './projectionsNext/garantiesFinancières'
 
 //
 // Legacy projections
@@ -38,6 +39,24 @@ export const models = {
   UserProjectClaims: MakeUserProjectClaimsModel(sequelizeInstance),
 }
 
+GarantiesFinancières.hasOne(models.File, {
+  foreignKey: 'id',
+  sourceKey: 'fichierId',
+  as: 'fichier',
+})
+
+GarantiesFinancières.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'envoyéesPar',
+  as: 'envoyéesParRef',
+})
+
+GarantiesFinancières.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'validéesPar',
+  as: 'validéesParRef',
+})
+
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {
   const initializedProjectors: string[] = []
@@ -55,18 +74,6 @@ export const initProjectors = (eventBus: EventBus) => {
 Object.values(models).forEach((model) => {
   model.associate({ ...models, ...projectionsNextModels })
   if (model.projector) model.projector.initModel(model)
-})
-
-projectionsNextModels.GarantiesFinancières.hasOne(models.File, {
-  foreignKey: 'id',
-  sourceKey: 'fichierId',
-  as: 'fichier',
-})
-
-projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
-  foreignKey: 'id',
-  sourceKey: 'envoyéesPar',
-  as: 'envoyéesParRef',
 })
 
 const projections = { ...models, ...projectionsNextModels }

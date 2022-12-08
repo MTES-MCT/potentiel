@@ -124,13 +124,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     })
 
     expect(res).not.toHaveProperty([
-      'garantiesFinancieresSubmittedOn',
-      'garantiesFinancieresDueOn',
-      'garantiesFinancieresDate',
-      'garantiesFinancieresFile',
-    ])
-
-    expect(res).not.toHaveProperty([
       'dcrSubmittedOn',
       'dcrDueOn',
       'dcrDate',
@@ -177,46 +170,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
         { id: userId, fullName: 'username', email: 'user@test.test' },
         { id: userId2, fullName: 'username', email: 'user2@test.test' },
       ],
-    })
-  })
-
-  describe('when garantie financiere has been submitted', () => {
-    const gfFileId = new UniqueEntityID().toString()
-
-    it('should include garantie financiere info', async () => {
-      await resetDatabase()
-
-      await Project.create(
-        makeFakeProject({
-          ...projectInfo,
-          garantiesFinancieresDueOn: 34,
-        })
-      )
-      await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'garantie-financiere',
-        submittedOn: new Date(345),
-        submittedBy: new UniqueEntityID().toString(),
-        stepDate: new Date(45),
-        fileId: gfFileId,
-      })
-      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
-      await File.create(makeFakeFile({ id: gfFileId, filename: 'filename' }))
-
-      const res = await getProjectDataForProjectPage({ projectId, user })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        garantiesFinancieres: {
-          dueOn: new Date(34),
-          gfDate: new Date(45),
-          submittedOn: new Date(345),
-          file: {
-            id: gfFileId,
-            filename: 'filename',
-          },
-        },
-      })
     })
   })
 

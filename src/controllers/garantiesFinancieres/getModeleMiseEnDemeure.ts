@@ -99,7 +99,10 @@ v1Router.get(
                   .getTime()
               )
             : '!!!FAMILLE NON DISPONIBLE!!!',
-        dateLimiteDepotGF: formatDate(project.garantiesFinancieresDueOn),
+        dateLimiteDepotGF:
+          (project.garantiesFinancières?.dateLimiteEnvoi &&
+            formatDate(project.garantiesFinancières?.dateLimiteEnvoi)) ??
+          '',
         nomRepresentantLegal: project.nomRepresentantLegal,
         adresseProjet: project.adresseProjet,
         codePostalProjet: project.codePostalProjet,
