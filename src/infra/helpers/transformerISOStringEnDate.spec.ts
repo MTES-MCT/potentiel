@@ -26,9 +26,18 @@ describe('Fonction helper transformerISOStringEnDate', () => {
     const date = '2022-09-28T22:00:00.000Z'
     const résultat = transformerISOStringEnDate({
       date,
+      ensembleDeDatesArray: [date, date, date],
+      ensembleDeDatesObject: {
+        date,
+      },
     })
+
     expect(résultat).toMatchObject({
       date: new Date(date),
+      ensembleDeDatesArray: [new Date(date), new Date(date), new Date(date)],
+      ensembleDeDatesObject: {
+        date: new Date(date),
+      },
     })
   })
 })
