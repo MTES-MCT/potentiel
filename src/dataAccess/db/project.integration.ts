@@ -3,7 +3,7 @@ import { Pagination } from '../../types'
 import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { projectRepo, resetDatabase, userRepo } from '.'
-import { sequelizeInstance } from '../../sequelize.config'
+import { GarantiesFinancières } from '@infra/sequelize'
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination
 
@@ -199,16 +199,12 @@ describe('projectRepo sequelize', () => {
               .map(projectRepo.save)
           )
 
-          // Add GF Step for the target project
-          const ProjectStepModel = sequelizeInstance.model('project_step')
-          await ProjectStepModel.create({
+          await GarantiesFinancières.create({
             id: uuid(),
-            type: 'garantie-financiere',
-            projectId: targetProjectId,
-            stepDate: new Date(123),
-            fileId: uuid(),
-            submittedOn: new Date(345),
-            submittedBy: uuid(),
+            projetId: targetProjectId,
+            statut: 'en attente',
+            dateEnvoi: new Date(),
+            soumisesALaCandidature: false,
           })
 
           const { itemCount, items } = await projectRepo.findAll({
@@ -253,16 +249,12 @@ describe('projectRepo sequelize', () => {
               .map(projectRepo.save)
           )
 
-          // Add GF Step for the other project (not targetted)
-          const ProjectStepModel = sequelizeInstance.model('project_step')
-          await ProjectStepModel.create({
+          await GarantiesFinancières.create({
             id: uuid(),
-            type: 'garantie-financiere',
-            projectId: projectWithGF,
-            stepDate: new Date(123),
-            fileId: uuid(),
-            submittedOn: new Date(345),
-            submittedBy: uuid(),
+            projetId: projectWithoutGF,
+            statut: 'en attente',
+            dateLimiteEnvoi: new Date('12-01-2020'),
+            soumisesALaCandidature: false,
           })
 
           const { itemCount, items } = await projectRepo.findAll({
@@ -313,16 +305,12 @@ describe('projectRepo sequelize', () => {
             .map(projectRepo.save)
         )
 
-        // Add GF Step for the other project (not targetted)
-        const ProjectStepModel = sequelizeInstance.model('project_step')
-        await ProjectStepModel.create({
+        await GarantiesFinancières.create({
           id: uuid(),
-          type: 'garantie-financiere',
-          projectId: projectWithGF,
-          stepDate: new Date(123),
-          fileId: uuid(),
-          submittedOn: new Date(345),
-          submittedBy: uuid(),
+          projetId: projectWithoutGF,
+          statut: 'en attente',
+          dateLimiteEnvoi: new Date('12-01-2020'),
+          soumisesALaCandidature: false,
         })
 
         const { itemCount, items } = await projectRepo.findAll({

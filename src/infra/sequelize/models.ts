@@ -17,6 +17,7 @@ import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
+import { GarantiesFinancières } from './projectionsNext/garantiesFinancières'
 
 //
 // Legacy projections
@@ -38,19 +39,19 @@ export const models = {
   UserProjectClaims: MakeUserProjectClaimsModel(sequelizeInstance),
 }
 
-projectionsNextModels.GarantiesFinancières.hasOne(models.File, {
+GarantiesFinancières.hasOne(models.File, {
   foreignKey: 'id',
   sourceKey: 'fichierId',
   as: 'fichier',
 })
 
-projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
+GarantiesFinancières.hasOne(models.User, {
   foreignKey: 'id',
   sourceKey: 'envoyéesPar',
   as: 'envoyéesParRef',
 })
 
-projectionsNextModels.GarantiesFinancières.hasOne(models.User, {
+GarantiesFinancières.hasOne(models.User, {
   foreignKey: 'id',
   sourceKey: 'validéesPar',
   as: 'validéesParRef',

@@ -1,3 +1,4 @@
+import { models } from '../../infra/sequelize/models'
 import { Attributes, col, DataTypes, literal, Op, where } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
@@ -17,7 +18,6 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { GarantiesFinancières } from '@infra/sequelize'
-import { models } from '@infra/sequelize/models'
 
 const { File } = models
 
