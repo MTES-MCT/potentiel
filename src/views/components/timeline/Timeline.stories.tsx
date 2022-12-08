@@ -4,29 +4,24 @@ import {
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
   ProjectClaimedDTO,
-  ProjectGFSubmittedDTO,
-  ProjectGFDueDateSetDTO,
   ProjectDCRDueDateSetDTO,
   ProjectDCRSubmittedDTO,
   ProjectDCRRemovedDTO,
   ProjectPTFSubmittedDTO,
-  ProjectGFInvalidatedDTO,
   ProjectNotificationDateSetDTO,
   ModificationRequestedDTO,
   ModificationRequestAcceptedDTO,
   ModificationRequestRejectedDTO,
   ModificationReceivedDTO,
-  ProjectGFUploadedDTO,
-  ProjectGFWithdrawnDTO,
   LegacyModificationImportedDTO,
   ProjectEventListDTO,
-  ProjectGFValidatedDTO,
   LegacyModificationFileAttachedDTO,
   CovidDelayGrantedDTO,
   ProjectCompletionDueDateSetDTO,
   DemandeAbandonDTO,
   DateMiseEnServiceDTO,
   DateFileAttenteDTO,
+  GarantiesFinancièresDTO,
 } from '@modules/frise'
 import { Timeline } from './Timeline'
 
@@ -37,6 +32,7 @@ const project = {
   status: 'Classé',
   isSoumisAuxGF: true,
   isGarantiesFinancieresDeposeesALaCandidature: false,
+  nomProjet: 'monProjet',
 } as ProjectEventListDTO['project']
 
 export const adminGarantiesFinancieresDues = () => (
@@ -64,10 +60,11 @@ export const adminGarantiesFinancieresDues = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectGFDueDateSet',
+          type: 'garanties-financières',
           variant: 'admin',
           date: new Date('2022-01-13').getTime(),
-        } as ProjectGFDueDateSetDTO,
+          statut: 'en attente',
+        } as GarantiesFinancièresDTO,
         {
           type: 'ProjectDCRDueDateSet',
           variant: 'admin',
@@ -99,10 +96,11 @@ export const PPGarantiesFinancieresDues = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectGFDueDateSet',
+          type: 'garanties-financières',
           variant: 'porteur-projet',
           date: new Date('2022-01-13').getTime(),
-        } as ProjectGFDueDateSetDTO,
+          statut: 'en attente',
+        } as GarantiesFinancièresDTO,
         {
           type: 'ProjectDCRDueDateSet',
           variant: 'porteur-projet',
@@ -134,10 +132,11 @@ export const PPGarantiesFinancieresEnRetard = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectGFDueDateSet',
+          type: 'garanties-financières',
           variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectGFDueDateSetDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'en attente',
+        } as GarantiesFinancièresDTO,
         {
           type: 'ProjectDCRDueDateSet',
           variant: 'porteur-projet',
@@ -169,10 +168,11 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
         {
-          type: 'ProjectGFDueDateSet',
+          type: 'garanties-financières',
           variant: 'porteur-projet',
-          date: new Date('2022-01-03').getTime(),
-        } as ProjectGFDueDateSetDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'en attente',
+        } as GarantiesFinancièresDTO,
         {
           type: 'ProjectDCRDueDateSet',
           variant: 'porteur-projet',
@@ -218,18 +218,13 @@ export const garantiesFinancieresConstituees = () => (
           claimedBy: 'someone',
         } as ProjectClaimedDTO,
         {
-          type: 'ProjectGFSubmitted',
+          type: 'garanties-financières',
           variant: 'admin',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          expirationDate: new Date('2025-01-17').getTime(),
-        } as ProjectGFSubmittedDTO,
-        {
-          type: 'ProjectGFInvalidated',
-          variant: 'admin',
-          date: new Date('2022-01-18').getTime(),
-        } as ProjectGFInvalidatedDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'à traiter',
+          envoyéesPar: 'porteur-projet',
+          url: 'url-fichier',
+        } as GarantiesFinancièresDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -271,59 +266,13 @@ export const garantiesFinancieresValidées = () => (
           claimedBy: 'someone',
         } as ProjectClaimedDTO,
         {
-          type: 'ProjectGFSubmitted',
+          type: 'garanties-financières',
           variant: 'admin',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          expirationDate: new Date('2025-01-17').getTime(),
-        } as ProjectGFSubmittedDTO,
-        {
-          type: 'ProjectGFValidated',
-          variant: 'admin',
-          date: new Date('2022-01-18').getTime(),
-        } as ProjectGFValidatedDTO,
-      ],
-    }}
-    now={new Date().getTime()}
-  />
-)
-
-export const GFConstitueesFichierManquant = () => (
-  <Timeline
-    projectEventList={{
-      project,
-      events: [
-        {
-          type: 'ProjectImported',
-          variant: 'admin',
-          date: new Date('2022-01-11').getTime(),
-        } as ProjectImportedDTO,
-        {
-          type: 'ProjectNotified',
-          variant: 'admin',
-          date: new Date('2022-01-12').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'admin',
-          date: new Date('2022-01-13').getTime(),
-          certificateFileId: 'file-id',
-          nomProjet: 'mon projet pv',
-          email: 'porteur@test.test',
-          potentielIdentifier: 'pot-id',
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectGFSubmitted',
-          variant: 'admin',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-        } as ProjectGFSubmittedDTO,
-        {
-          type: 'ProjectGFInvalidated',
-          variant: 'admin',
-          date: new Date('2022-01-18').getTime(),
-        } as ProjectGFInvalidatedDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'validé',
+          envoyéesPar: 'porteur-projet',
+          url: 'url-fichier',
+        } as GarantiesFinancièresDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -877,13 +826,13 @@ export const drealGarantiesFinancieresUploaded = () => (
           date: new Date('2022-02-13').getTime(),
         } as ProjectDCRDueDateSetDTO,
         {
-          type: 'ProjectGFUploaded',
+          type: 'garanties-financières',
           variant: 'dreal',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          uploadedByRole: 'porteur-projet',
-        } as ProjectGFUploadedDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'à traiter',
+          envoyéesPar: 'dreal',
+          url: 'url-fichier',
+        } as GarantiesFinancièresDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -915,48 +864,13 @@ export const PPGarantiesFinancieresUploaded = () => (
           date: new Date('2022-02-13').getTime(),
         } as ProjectDCRDueDateSetDTO,
         {
-          type: 'ProjectGFUploaded',
+          type: 'garanties-financières',
           variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
-          fileId: 'file-id',
-          filename: 'file-name',
-          uploadedByRole: 'dreal',
-        } as ProjectGFUploadedDTO,
-      ],
-    }}
-    now={new Date().getTime()}
-  />
-)
-
-export const PPGarantiesFinancieresWithdrawn = () => (
-  <Timeline
-    projectEventList={{
-      project: { ...project },
-      events: [
-        {
-          type: 'ProjectNotified',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-12').getTime(),
-        } as ProjectNotifiedDTO,
-        {
-          type: 'ProjectCertificateGenerated',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-13').getTime(),
-          certificateFileId: 'file-id',
-          nomProjet: 'mon projet pv',
-          email: undefined,
-          potentielIdentifier: 'pot-id',
-        } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectDCRDueDateSet',
-          variant: 'porteur-projet',
-          date: new Date('2022-02-13').getTime(),
-        } as ProjectDCRDueDateSetDTO,
-        {
-          type: 'ProjectGFWithdrawn',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-17').getTime(),
-        } as ProjectGFWithdrawnDTO,
+          date: new Date('2019-01-13').getTime(),
+          statut: 'validé',
+          envoyéesPar: 'porteur-projet',
+          url: 'url-fichier',
+        } as GarantiesFinancièresDTO,
       ],
     }}
     now={new Date().getTime()}
@@ -1160,11 +1074,6 @@ export const AdminDélaiCovid = () => (
           email: 'porteur@test.test',
           potentielIdentifier: 'pot-id',
         } as ProjectCertificateGeneratedDTO,
-        {
-          type: 'ProjectGFDueDateSet',
-          variant: 'admin',
-          date: new Date('2022-01-13').getTime(),
-        } as ProjectGFDueDateSetDTO,
         {
           type: 'ProjectDCRDueDateSet',
           variant: 'admin',

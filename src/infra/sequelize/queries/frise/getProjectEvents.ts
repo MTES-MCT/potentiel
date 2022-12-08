@@ -5,14 +5,47 @@ import { userIs, userIsNot } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
-import { is, isKnownProjectEvent, KnownProjectEvents, ProjectEvent } from '../../projectionsNext'
-import { getGarantiesFinancièresEvent } from './getGarantiesFinancièresEvent'
+import {
+  GarantiesFinancières,
+  isKnownProjectEvent,
+  KnownProjectEvents,
+  ProjectEvent,
+} from '../../projectionsNext'
 import { ProjectAppelOffre } from '@entities'
+import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
 
-const { Project } = models
+const { Project, File, User } = models
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
-  return wrapInfra(Project.findByPk(projectId))
+  return wrapInfra(
+    Project.findByPk(projectId, {
+      include: [
+        {
+          model: GarantiesFinancières,
+          as: 'garantiesFinancières',
+          required: false,
+          attributes: [
+            'statut',
+            'fichierId',
+            'envoyéesPar',
+            'dateConstitution',
+            'dateEchéance',
+            'validéesPar',
+            'dateLimiteEnvoi',
+          ],
+          include: [
+            {
+              model: File,
+              as: 'fichier',
+              required: false,
+              attributes: ['filename', 'id'],
+            },
+            { model: User, as: 'envoyéesParRef', required: false, attributes: ['role'] },
+          ],
+        },
+      ],
+    })
+  )
     .andThen((rawProject: any) =>
       getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
     )
@@ -27,13 +60,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         periodeId,
         familleId,
         details,
+        garantiesFinancières,
       } = rawProject.get()
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-      const isGarantiesFinancieresDeposeesALaCandidature =
-        projectAppelOffre?.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-        projectAppelOffre?.soumisAuxGarantiesFinancieres === 'à la candidature'
+      const garantiesFinancièresDTO = await getGarantiesFinancièresDTO({
+        garantiesFinancières,
+        user,
+      })
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&
@@ -42,24 +77,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
           projectData: details,
         })
 
-      const garantiesFinancièresEvent = rawEvents.find(
-        (event) => event.type === 'GarantiesFinancières'
-      )
-
-      const garantiesFinancières =
-        !garantiesFinancièresEvent || is('GarantiesFinancières')(garantiesFinancièresEvent)
-          ? getGarantiesFinancièresEvent({
-              user,
-              projectStatus: status,
-              isGarantiesFinancieresDeposeesALaCandidature,
-              isSoumisAuxGF: projectAppelOffre?.isSoumisAuxGF,
-              garantiesFinancièresEvent,
-            })
-          : undefined
-
       return {
         project: {
           id: projectId,
+          nomProjet,
           status,
           ...(garantieFinanciereEnMois && {
             garantieFinanciereEnMois,
@@ -568,12 +589,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
               }
-
               return Promise.resolve(events)
             },
             Promise.resolve([] as ProjectEventDTO[])
           )
-        ).concat(garantiesFinancières ? [garantiesFinancières] : []),
+        ).concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : []),
       }
     })
 }

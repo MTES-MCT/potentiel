@@ -1,6 +1,5 @@
 export * from './abandon'
 export * from './délai'
-export * from './garantiesFinancières'
 export * from './onCahierDesChargesChoisi'
 export * from './onCovidDelayGranted'
 export * from './onDonnéesDeRaccordementRenseignées'

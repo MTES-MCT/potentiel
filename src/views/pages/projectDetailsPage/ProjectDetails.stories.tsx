@@ -9,11 +9,11 @@ import {
   ProjectImportedDTO,
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
-  ProjectGFDueDateSetDTO,
   ProjectDCRDueDateSetDTO,
   ProjectPTFSubmittedDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
+  GarantiesFinancièresDTO,
 } from '@modules/frise'
 
 export default { title: 'Project page' }
@@ -24,7 +24,7 @@ const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
 if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
 
 const projectEventList: ProjectEventListDTO = {
-  project: { id: 'fake-project-id', status: 'Classé' },
+  project: { id: 'fake-project-id', status: 'Classé', nomProjet: 'mon-projet' },
   events: [
     {
       type: 'ProjectImported',
@@ -51,10 +51,11 @@ const projectEventList: ProjectEventListDTO = {
       potentielIdentifier: 'pot-id',
     } as ProjectCertificateGeneratedDTO,
     {
-      type: 'ProjectGFDueDateSet',
+      type: 'garanties-financières',
       variant: 'admin',
       date: new Date('2022-01-13').getTime(),
-    } as ProjectGFDueDateSetDTO,
+      statut: 'en attente',
+    } as GarantiesFinancièresDTO,
     {
       type: 'ProjectDCRDueDateSet',
       variant: 'admin',

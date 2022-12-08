@@ -12,14 +12,7 @@ export type ProjectEventDTO =
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
   | ProjectClaimedDTO
-  | ProjectGFSubmittedDTO
-  | ProjectGFUploadedDTO
   | GarantiesFinancièresDTO
-  | ProjectGFRemovedDTO
-  | ProjectGFWithdrawnDTO
-  | ProjectGFDueDateSetDTO
-  | ProjectGFValidatedDTO
-  | ProjectGFInvalidatedDTO
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
@@ -119,78 +112,26 @@ export const isCertificateDTO = or(
   is('ProjectClaimed')
 )
 
-export type ProjectGFSubmittedDTO = {
-  type: 'ProjectGFSubmitted'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-  expirationDate?: number
-}
-
-export type ProjectGFUploadedDTO = {
-  type: 'ProjectGFUploaded'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-  expirationDate?: number
-  uploadedByRole?: 'porteur-projet' | 'dreal' | 'admin'
-}
-
 export type GarantiesFinancièresDTO = {
-  type: 'garanties-financieres'
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  type: 'garanties-financières'
   date: number
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 } & (
+  | { statut: 'en attente' | 'en retard' }
   | {
-      statut: 'due' | 'past-due'
-      nomProjet: string
+      statut: 'à traiter'
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
+      dateEchéance?: number
+      url: string
     }
   | {
-      statut: 'pending-validation' | 'validated'
-      url: string | undefined
-      dateExpiration: number | undefined
-    }
-  | {
-      statut: 'uploaded'
-      url: string | undefined
-      dateExpiration: number | undefined
-      initiéParRole?: 'porteur-projet' | 'dreal' | 'admin'
-    }
-  | {
-      statut: 'submitted-with-application'
+      statut: 'validé'
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
+      dateEchéance?: number
+      url: string
+      retraitDépôtPossible?: true
     }
 )
-
-export type ProjectGFDueDateSetDTO = {
-  type: 'ProjectGFDueDateSet'
-  date: number
-  variant: Exclude<UserRole, 'ademe'>
-  nomProjet: string
-}
-
-export type ProjectGFRemovedDTO = {
-  type: 'ProjectGFRemoved'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFWithdrawnDTO = {
-  type: 'ProjectGFWithdrawn'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFValidatedDTO = {
-  type: 'ProjectGFValidated'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
-
-export type ProjectGFInvalidatedDTO = {
-  type: 'ProjectGFInvalidated'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
 
 export type ProjectDCRSubmittedDTO = {
   type: 'ProjectDCRSubmitted'
@@ -456,6 +397,7 @@ export type ProjectEventListDTO = {
     id: Project['id']
     status: ProjectStatus
     garantieFinanciereEnMois?: number
+    nomProjet: string
   }
   events: ProjectEventDTO[]
 }
