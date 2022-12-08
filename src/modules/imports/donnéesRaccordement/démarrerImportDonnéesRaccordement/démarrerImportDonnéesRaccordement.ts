@@ -24,7 +24,7 @@ export type DémarrerImportDonnéesRaccordementCommande = {
 export const makeDémarrerImportDonnéesRaccordement =
   ({ importRepo, publishToEventStore }: MakeDémarrerImportDonnéesRaccordementDépendances) =>
   (commande: DémarrerImportDonnéesRaccordementCommande) => {
-    const { utilisateur, gestionnaire, données: dates } = commande
+    const { utilisateur, gestionnaire, données } = commande
 
     if (userIsNot(['admin', 'dgec-validateur'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
@@ -37,7 +37,7 @@ export const makeDémarrerImportDonnéesRaccordement =
           return errAsync(new DémarrageImpossibleError(commande))
         }
 
-        if (dates.length === 0) {
+        if (données.length === 0) {
           return errAsync(new DonnéesDeMiseAJourObligatoiresError(commande))
         }
 
@@ -46,7 +46,7 @@ export const makeDémarrerImportDonnéesRaccordement =
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates,
+              données,
             },
           })
         )

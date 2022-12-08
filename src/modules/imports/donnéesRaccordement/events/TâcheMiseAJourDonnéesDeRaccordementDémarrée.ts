@@ -4,7 +4,7 @@ import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 type Payload = {
   misAJourPar: string
   gestionnaire: string
-  dates: ({ identifiantGestionnaireRéseau: string } & (
+  données: ({ identifiantGestionnaireRéseau: string } & (
     | { dateMiseEnService: Date; dateFileAttente: Date }
     | { dateMiseEnService: Date }
     | { dateFileAttente: Date }
