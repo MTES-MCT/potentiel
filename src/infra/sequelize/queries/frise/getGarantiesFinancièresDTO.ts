@@ -39,9 +39,9 @@ export const getGarantiesFinancièresDTO = async ({
       type: 'garanties-financières',
       date: dateConstitution!.getTime(),
       statut,
-      url: fichier!! && routes.DOWNLOAD_PROJECT_FILE(fichier.id, fichier.filename),
+      url: fichier! && routes.DOWNLOAD_PROJECT_FILE(fichier.id, fichier.filename),
       ...(dateEchéance && { dateEchéance: dateEchéance.getTime() }),
-      envoyéesPar: envoyéesParRef!! && envoyéesParRef.role,
+      envoyéesPar: envoyéesParRef! && envoyéesParRef.role,
       variant: user.role,
       ...(statut === 'validé' && validéesPar === null && { retraitDépôtPossible: true }),
     }
