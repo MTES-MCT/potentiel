@@ -6,7 +6,6 @@ const {
   onProjectNotificationDateSet,
 } = require('../projections/project/updates/onProjectNotificationDateSet')
 const { onProjectDCRDueDateSet } = require('../projections/project/updates/onProjectDCRDueDateSet')
-const { onProjectGFDueDateSet } = require('../projections/project/updates/onProjectGFDueDateSet')
 const {
   onProjectCompletionDueDateSet,
 } = require('../projections/project/updates/onProjectCompletionDueDateSet')
@@ -28,7 +27,6 @@ module.exports = {
         ['ProjectImported', onProjectImported],
         ['ProjectNotificationDateSet', onProjectNotificationDateSet],
         ['ProjectDCRDueDateSet', onProjectDCRDueDateSet],
-        ['ProjectGFDueDateSet', onProjectGFDueDateSet],
         ['ProjectCompletionDueDateSet', onProjectCompletionDueDateSet],
       ]
 
