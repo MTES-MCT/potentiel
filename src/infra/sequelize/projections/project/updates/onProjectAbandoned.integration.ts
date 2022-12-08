@@ -11,7 +11,6 @@ describe('project.onProjectAbandoned', () => {
   const fakeProjects = [
     {
       id: projectId,
-      garantiesFinancieresDueOn: 1,
       dcrDueOn: 1,
       completionDueOn: 1,
     },
@@ -45,9 +44,8 @@ describe('project.onProjectAbandoned', () => {
     expect(updatedProject.abandonedOn).toEqual(1234)
   })
 
-  it('should reset project garantiesFinancieresDueOn, dcrDueOn and completionDueOn', async () => {
+  it('should reset project dcrDueOn and completionDueOn', async () => {
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.garantiesFinancieresDueOn).toEqual(0)
     expect(updatedProject.dcrDueOn).toEqual(0)
     expect(updatedProject.completionDueOn).toEqual(0)
   })

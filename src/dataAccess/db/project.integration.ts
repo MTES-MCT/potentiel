@@ -225,7 +225,6 @@ describe('projectRepo sequelize', () => {
 
           const goodProperties = {
             notifiedOn: 1,
-            garantiesFinancieresDueOn: Date.now() + 1e6,
             classe: 'Classé',
           }
 
@@ -242,7 +241,6 @@ describe('projectRepo sequelize', () => {
               {
                 id: uuid(),
                 ...goodProperties,
-                garantiesFinancieresDueOn: 0,
               },
             ]
               .map(makeFakeProject)
@@ -276,7 +274,6 @@ describe('projectRepo sequelize', () => {
 
         const goodProperties = {
           notifiedOn: 1,
-          garantiesFinancieresDueOn: 1,
           classe: 'Classé',
         }
 
@@ -293,12 +290,10 @@ describe('projectRepo sequelize', () => {
             {
               id: uuid(),
               ...goodProperties,
-              garantiesFinancieresDueOn: Date.now() + 1e6,
             },
             {
               id: uuid(),
               ...goodProperties,
-              garantiesFinancieresDueOn: 0,
             },
           ]
             .map(makeFakeProject)

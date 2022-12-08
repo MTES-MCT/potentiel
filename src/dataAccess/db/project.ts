@@ -195,11 +195,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: false,
       defaultValue: 0,
     },
-    garantiesFinancieresDueOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
     garantiesFinancieresRelanceOn: {
       type: DataTypes.BIGINT,
       allowNull: false,

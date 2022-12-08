@@ -4,7 +4,7 @@ import { LegacyAbandonSupprimé } from '@modules/project'
 export const onLegacyAbandonSupprimé = (models) => async (event: LegacyAbandonSupprimé) => {
   const { Project } = models
   const {
-    payload: { garantiesFinancieresDueOn, dcrDueOn, completionDueOn, projetId },
+    payload: { dcrDueOn, completionDueOn, projetId },
   } = event
   const projectInstance = await Project.findByPk(projetId)
 
@@ -17,7 +17,6 @@ export const onLegacyAbandonSupprimé = (models) => async (event: LegacyAbandonS
 
   Object.assign(projectInstance, {
     abandonedOn: 0,
-    garantiesFinancieresDueOn,
     dcrDueOn,
     completionDueOn,
   })
