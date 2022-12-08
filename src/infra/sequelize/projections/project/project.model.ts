@@ -196,10 +196,6 @@ export const MakeProjectModel = (sequelize) => {
 
   Project.associate = (models) => {
     const { File, UserProjects, ProjectStep, GarantiesFinancières } = models
-    Project.belongsTo(File, {
-      foreignKey: 'garantiesFinancieresFileId',
-      as: 'garantiesFinancieresFileRef',
-    })
 
     Project.belongsTo(File, {
       foreignKey: 'dcrFileId',
