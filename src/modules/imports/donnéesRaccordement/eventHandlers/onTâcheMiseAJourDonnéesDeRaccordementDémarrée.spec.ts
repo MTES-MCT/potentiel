@@ -16,7 +16,7 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
         payload: {
           misAJourPar: 'utilisateur1',
           gestionnaire: 'Enedis',
-          dates: [
+          données: [
             {
               identifiantGestionnaireRéseau: 'gr01',
               dateMiseEnService: new Date('2022-01-01'),
