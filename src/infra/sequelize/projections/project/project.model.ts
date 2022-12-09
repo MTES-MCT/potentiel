@@ -176,7 +176,7 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: true,
       },
       dateMiseEnService: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: true,
       },
       dateFileAttente: {

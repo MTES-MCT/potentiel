@@ -67,14 +67,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
 
     return publishToEventStore(
       new DonnéesDeRaccordementRenseignées({
-        // @ts-ignore
-        payload: {
-          projetId: commande.projetId,
-          ...('dateMiseEnService' in commande && {
-            dateMiseEnService: commande.dateMiseEnService,
-          }),
-          ...('dateFileAttente' in commande && { dateFileAttente: commande.dateFileAttente }),
-        },
+        payload: commande,
       })
     )
   }

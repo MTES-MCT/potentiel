@@ -29,8 +29,12 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
     try {
       await Project.update(
         {
-          ...('dateMiseEnService' in payload && { dateMiseEnService: payload.dateMiseEnService }),
-          ...('dateFileAttente' in payload && { dateFileAttente: payload.dateFileAttente }),
+          ...('dateMiseEnService' in payload && {
+            dateMiseEnService: payload.dateMiseEnService.toISOString(),
+          }),
+          ...('dateFileAttente' in payload && {
+            dateFileAttente: payload.dateFileAttente.toISOString(),
+          }),
         },
         {
           where: { id: payload.projetId },
