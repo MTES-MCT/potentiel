@@ -1,13 +1,10 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
-
-//
-// This event is a value dump for items that were in the projects database table before the switch to event sourcing
-//
+import { UserRole } from '../UserRoles'
 
 export interface UserCreatedPayload {
   userId: string
   email: string
-  role: string
+  role: UserRole
   fullName?: string
   createdBy?: string
 }
