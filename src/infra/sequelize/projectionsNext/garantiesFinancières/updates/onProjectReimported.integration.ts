@@ -4,9 +4,9 @@ import { GarantiesFinancières } from '../garantiesFinancières.model'
 import onProjectReimported from './onProjectReimported'
 
 describe(`handler onProjectReimported pour la projection garantiesFinancières`, () => {
-  describe(`Cas d'un projet passant du statut 'Classé' au au statut 'Eliminé`, () => {
+  describe(`Cas d'un projet passant du statut 'Classé' au statut 'Eliminé`, () => {
     it(`Etant donné un projet classé ayant des garanties financières en attente,
-        lorsqu'un événement onProjectReimported est émis,
+        lorsqu'un événement ProjectReimported est émis,
         et que les données du payload contiennent un nouveau statut 'Eliminé',
         alors la ligne GF devrait être supprimée de la projection garantiesFinancières`, async () => {
       const projetId = new UniqueEntityID().toString()
