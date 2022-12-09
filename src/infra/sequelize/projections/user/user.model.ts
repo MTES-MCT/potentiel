@@ -16,6 +16,7 @@ export const MakeUserModel = (sequelize) => {
       fullName: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: '',
       },
       email: {
         type: DataTypes.STRING,
