@@ -16,9 +16,6 @@ export class ProjectPTFSubmitted
 
   constructor(props: BaseDomainEventProps<ProjectPTFSubmittedPayload>) {
     super(props)
-
-    // convert to date (in case it is a string)
-    this.payload.ptfDate = new Date(this.payload.ptfDate)
   }
 
   aggregateIdFromPayload(payload: ProjectPTFSubmittedPayload) {

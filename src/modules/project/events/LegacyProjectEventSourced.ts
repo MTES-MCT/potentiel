@@ -23,9 +23,6 @@ export class LegacyProjectEventSourced
 
   constructor(props: BaseDomainEventProps<LegacyProjectEventSourcedPayload>) {
     super(props)
-
-    // convert to date (in case it is a string)
-    this.payload.createdAt = new Date(this.payload.createdAt)
   }
 
   aggregateIdFromPayload(payload: LegacyProjectEventSourcedPayload) {
