@@ -18,7 +18,7 @@ describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
             autorité: 'dreal',
             fichierId: 'id-fichier',
             justification: 'en retard',
-            dateAchèvementDemandée: new Date('2022-06-25').toISOString(),
+            dateAchèvementDemandée: new Date('2022-06-25'),
             porteurId: new UniqueEntityID().toString(),
           } as DélaiDemandéPayload,
           original: {
@@ -68,7 +68,7 @@ describe('Projecteur de ProjectEvent onDélaiDemandé', () => {
             autorité: 'dreal',
             fichierId: 'id-fichier',
             justification: 'en retard',
-            dateAchèvementDemandée: new Date('2022-06-25').toISOString(),
+            dateAchèvementDemandée: new Date('2022-06-25'),
             porteurId: new UniqueEntityID().toString(),
           } as DélaiDemandéPayload,
           original: {

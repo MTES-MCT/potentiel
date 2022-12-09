@@ -113,7 +113,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
               projetId: projectId,
               ...(fileId && { fichierId: fileId }),
               justification,
-              dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
+              dateAchèvementDemandée,
               autorité: appelOffre?.type === 'eolien' ? 'dgec' : 'dreal',
               porteurId: user.id,
               cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
