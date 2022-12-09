@@ -18,17 +18,21 @@ type Commande = {
 export const makeInviterUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
   ({ email, role }: Commande) =>
-    utilisateurRepo.transaction(new UniqueEntityID(email), (utilisateur) => {
-      if (utilisateur.statut === 'invité') {
-        return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
-      }
+    utilisateurRepo.transaction(
+      new UniqueEntityID(email),
+      (utilisateur) => {
+        if (utilisateur.statut === 'invité') {
+          return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
+        }
 
-      return publishToEventStore(
-        new UtilisateurInvité({
-          payload: {
-            email,
-            role,
-          },
-        })
-      )
-    })
+        return publishToEventStore(
+          new UtilisateurInvité({
+            payload: {
+              email,
+              role,
+            },
+          })
+        )
+      },
+      { acceptNew: true }
+    )
