@@ -1,4 +1,4 @@
-import { ProjectGFRemoved } from '@modules/project'
+import { EtapeGFSupprimée } from '@modules/project'
 import { QueryInterface, QueryTypes } from 'sequelize'
 import { GarantiesFinancières } from '..'
 import { toPersistance } from '../helpers/toPersistance'
@@ -20,29 +20,29 @@ and "eventStores"."type" = 'ProjectGFDueDateSet';`,
         { type: QueryTypes.SELECT, transaction }
       )
 
-      if (!projetsACorriger.length) {
+      if (projetsACorriger.length === 0) {
         console.log(`aucun projet trouvé`)
       } else {
         console.log(`${projetsACorriger.length} projets à corriger`)
-        let projetsCorrigés = 0
-        for (const projet of projetsACorriger) {
-          await EventStore.create(
+
+        await EventStore.bulkCreate(
+          projetsACorriger.map((projet) =>
             toPersistance(
-              new ProjectGFRemoved({
-                payload: { projectId: projet['id'] },
+              new EtapeGFSupprimée({
+                payload: { projetId: projet['id'] },
                 original: {
                   occurredAt: new Date(),
                   version: 1,
                 },
               })
-            ),
-            { transaction }
-          )
+            )
+          ),
+          transaction
+        )
 
+        for (const projet of projetsACorriger) {
           await GarantiesFinancières.destroy({ where: { projetId: projet['id'] }, transaction })
-          projetsCorrigés++
         }
-        console.log(`${projetsCorrigés} projets corrigés`)
       }
       await transaction.commit()
     } catch (e) {
