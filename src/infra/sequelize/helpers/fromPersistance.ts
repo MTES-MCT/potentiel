@@ -15,6 +15,7 @@ import * as DemandeDelaiEvents from '@modules/demandeModification/demandeDélai/
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events'
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events'
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
+import * as UtilisateurEvents from '@modules/utilisateur/events'
 
 import { transformerISOStringEnDate } from '../../helpers'
 
@@ -47,6 +48,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
+  ...UtilisateurEvents,
 }
 
 export const fromPersistance = (eventRaw: any): DomainEvent | null => {
