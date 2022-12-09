@@ -145,9 +145,6 @@ v1Router.post(
             .toDate(),
         }
         break
-      case 'delai':
-        acceptanceParams = { type, delayInMonths }
-        break
       case 'puissance':
         acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
         break
