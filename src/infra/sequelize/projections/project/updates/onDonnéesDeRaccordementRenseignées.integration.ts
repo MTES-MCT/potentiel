@@ -26,7 +26,7 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
       })
     )
     const projetActuel = await Project.findByPk(projetId)
-    expect(projetActuel.dateMiseEnService).toEqual(dateMiseEnService)
+    expect(projetActuel.dateMiseEnService).toEqual(dateMiseEnService.toISOString())
     expect(projetActuel.dateFileAttente).toEqual(dateFileAttente)
   })
 })
