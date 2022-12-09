@@ -39,9 +39,9 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
           payload: {
             demandeDélaiId: 'la-demande',
             projetId: 'le-projet',
-            dateAchèvementAccordée: '2022-07-13',
+            dateAchèvementAccordée: new Date('2022-07-13'),
             accordéPar: 'la-dreal',
-            ancienneDateThéoriqueAchèvement: '2022-01-13',
+            ancienneDateThéoriqueAchèvement: new Date('2022-01-13'),
           },
         })
       )

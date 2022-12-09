@@ -85,12 +85,10 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
                         payload: {
                           accordéPar: user.id,
                           projetId,
-                          dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+                          dateAchèvementAccordée,
                           demandeDélaiId,
                           fichierRéponseId,
-                          ancienneDateThéoriqueAchèvement: new Date(
-                            project.completionDueOn
-                          ).toISOString(),
+                          ancienneDateThéoriqueAchèvement: new Date(project.completionDueOn),
                         },
                       })
                     )
