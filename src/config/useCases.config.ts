@@ -96,6 +96,7 @@ import {
   projectRepo,
   userRepo,
   importRepo,
+  utilisateurRepo,
 } from './repos.config'
 import { sendNotification } from '@config/emails.config'
 import {
@@ -107,6 +108,7 @@ import {
   makeDémarrerImportDonnéesRaccordement,
   makeMettreAJourDonnéesDeRaccordement,
 } from '@modules/imports/donnéesRaccordement'
+import { makeInviterUtilisateur } from '@modules/utilisateur'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -474,4 +476,9 @@ export const mettreAJourDonnéesDeRaccordement = makeMettreAJourDonnéesDeRaccor
   getProjetsParIdentifiantGestionnaireRéseau,
   publishToEventStore,
   renseignerDonnéesDeRaccordement,
+})
+
+export const inviterUtilisateur = makeInviterUtilisateur({
+  utilisateurRepo,
+  publishToEventStore,
 })
