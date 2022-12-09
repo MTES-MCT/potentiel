@@ -51,10 +51,7 @@ type DrealInvitation = {
 
 type UserInvitation = {
   type: 'user-invitation'
-  context: {
-    projectAdmissionKeyId: string
-    forRole: string
-  }
+  context: {}
   variables: {
     invitation_link: string
   }

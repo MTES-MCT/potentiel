@@ -16,12 +16,13 @@ import { hydrateOnClient } from '../helpers'
 
 type SignupProps = {
   request: Request
+  email?: string
   validationErrors?: Array<{ [fieldName: string]: string }>
   error?: string
   success?: string
 }
 
-export const Signup = ({ validationErrors, error, success }: SignupProps) => (
+export const Signup = ({ email, validationErrors, error, success }: SignupProps) => (
   <>
     <Header />
 
@@ -32,7 +33,7 @@ export const Signup = ({ validationErrors, error, success }: SignupProps) => (
         ) : error ? (
           <SignupFailed error={error} />
         ) : (
-          <SignupForm {...{ validationErrors }} />
+          <SignupForm {...{ email, validationErrors }} />
         )}
       </section>
     </main>
@@ -42,17 +43,20 @@ export const Signup = ({ validationErrors, error, success }: SignupProps) => (
 )
 
 type SignupFormProps = {
+  email?: string
   validationErrors?: Array<{ [fieldName: string]: string }>
   error?: string
 }
-const SignupForm = ({ validationErrors, error }: SignupFormProps) => (
+const SignupForm = ({ email, validationErrors, error }: SignupFormProps) => (
   <Container className="flex flex-col md:flex-row">
     <h1
       className="flex items-center w-full md:w-1/2 lg:w-3/5 m-0 p-4 text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold"
       style={{ fontFamily: 'Marianne, arial, sans-serif' }}
     >
-      Porteur de projet, inscrivez-vous sur Potentiel pour suivre vos projets, transmettre vos
-      documents et déposer des demandes.
+      {email
+        ? `Inscrivez-vous sur Potentiel pour suivre des projets d'EnR électriques soumis à appel d'offres en France.`
+        : `Porteur de projet, inscrivez-vous sur Potentiel pour suivre vos projets, transmettre vos
+      documents et déposer des demandes.`}
     </h1>
 
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
@@ -100,6 +104,7 @@ const SignupForm = ({ validationErrors, error }: SignupFormProps) => (
             name="email"
             required
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            {...(email && { value: email, disabled: true })}
             {...(validationErrors && { error: validationErrors['email']?.toString() })}
           />
         </div>
