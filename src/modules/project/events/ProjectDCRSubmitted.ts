@@ -17,9 +17,6 @@ export class ProjectDCRSubmitted
 
   constructor(props: BaseDomainEventProps<ProjectDCRSubmittedPayload>) {
     super(props)
-
-    // convert to date (in case it is a string)
-    this.payload.dcrDate = new Date(this.payload.dcrDate)
   }
 
   aggregateIdFromPayload(payload: ProjectDCRSubmittedPayload) {

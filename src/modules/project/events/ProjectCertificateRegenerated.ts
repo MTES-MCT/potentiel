@@ -17,9 +17,6 @@ export class ProjectCertificateRegenerated
 
   constructor(props: BaseDomainEventProps<ProjectCertificateRegeneratedPayload>) {
     super(props)
-
-    // convert to date (in case it is a string)
-    this.payload.projectVersionDate = new Date(this.payload.projectVersionDate)
   }
 
   aggregateIdFromPayload(payload: ProjectCertificateRegeneratedPayload) {
