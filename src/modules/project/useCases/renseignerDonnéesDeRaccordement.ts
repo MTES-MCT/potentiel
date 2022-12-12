@@ -56,42 +56,20 @@ export const makeRenseignerDonnéesDeRaccordement = ({
         return errAsync(new ImpossibleDeChangerLaDateDeFAError())
       }
     }
+
     return okAsync({ projet, commande })
   }
 
   const enregistrerDonnéesDeRaccordement = (commande: Commande) => {
-    if ('dateMiseEnService' in commande && 'dateFileAttente' in commande) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
-            dateMiseEnService: commande.dateMiseEnService.toISOString(),
-            dateFileAttente: commande.dateFileAttente.toISOString(),
-          },
-        })
-      )
+    if (!('dateFileAttente' in commande) && !('dateMiseEnService' in commande)) {
+      return okAsync(null)
     }
-    if ('dateMiseEnService' in commande && !('dateFileAttente' in commande)) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
-            dateMiseEnService: commande.dateMiseEnService.toISOString(),
-          },
-        })
-      )
-    }
-    if (!('dateMiseEnService' in commande) && 'dateFileAttente' in commande) {
-      return publishToEventStore(
-        new DonnéesDeRaccordementRenseignées({
-          payload: {
-            projetId: commande.projetId,
-            dateFileAttente: commande.dateFileAttente.toISOString(),
-          },
-        })
-      )
-    }
-    return okAsync(null)
+
+    return publishToEventStore(
+      new DonnéesDeRaccordementRenseignées({
+        payload: commande,
+      })
+    )
   }
 
   return (commande: Commande) =>

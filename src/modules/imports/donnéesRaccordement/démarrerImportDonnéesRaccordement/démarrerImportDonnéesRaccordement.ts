@@ -6,9 +6,9 @@ import { errAsync } from '@core/utils'
 import { ImportDonnéesRaccordement } from '../ImportDonnéesRaccordement'
 import ImportDonnéesRaccordementId from '../ImportDonnéesRaccordementId'
 import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
-import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 import { DonnéesDeMiseAJourObligatoiresError } from './DonnéesDeMiseAJourObligatoiresError'
 import { DonnéesRaccordement } from '../DonnéesRaccordement'
+import { DémarrageImpossibleError } from './DémarrageImpossibleError'
 
 type MakeDémarrerImportDonnéesRaccordementDépendances = {
   importRepo: TransactionalRepository<ImportDonnéesRaccordement>
@@ -46,37 +46,7 @@ export const makeDémarrerImportDonnéesRaccordement =
             payload: {
               misAJourPar: utilisateur.id,
               gestionnaire,
-              dates: données.reduce((donnéesFormatées, ligne) => {
-                if ('dateMiseEnService' in ligne && 'dateFileAttente' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateMiseEnService: ligne.dateMiseEnService.toISOString(),
-                      dateFileAttente: ligne.dateFileAttente.toISOString(),
-                    },
-                  ]
-                }
-                if ('dateMiseEnService' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateMiseEnService: ligne.dateMiseEnService.toISOString(),
-                    },
-                  ]
-                }
-                if ('dateFileAttente' in ligne) {
-                  return [
-                    ...donnéesFormatées,
-                    {
-                      identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
-                      dateFileAttente: ligne.dateFileAttente.toISOString(),
-                    },
-                  ]
-                }
-                return donnéesFormatées
-              }, []),
+              données,
             },
           })
         )

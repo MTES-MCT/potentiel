@@ -3,9 +3,9 @@ import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain
 export type DonnéesDeRaccordementRenseignéesdPayload = {
   projetId: string
 } & (
-  | { dateMiseEnService: string; dateFileAttente: string }
-  | { dateMiseEnService: string }
-  | { dateFileAttente: string }
+  | { dateMiseEnService: Date; dateFileAttente: Date }
+  | { dateMiseEnService: Date }
+  | { dateFileAttente: Date }
 )
 
 export class DonnéesDeRaccordementRenseignées

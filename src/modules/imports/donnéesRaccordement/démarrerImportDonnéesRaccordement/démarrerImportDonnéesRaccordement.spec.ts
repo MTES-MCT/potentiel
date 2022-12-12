@@ -122,15 +122,15 @@ describe(`Démarrer un import de données de raccordement`, () => {
             payload: expect.objectContaining({
               misAJourPar: utilisateurAutorisé.id,
               gestionnaire: 'Enedis',
-              dates: [
+              données: [
                 {
                   identifiantGestionnaireRéseau: 'NUM-GEST-1',
-                  dateMiseEnService: new Date('2024-01-20').toISOString(),
-                  dateFileAttente: new Date('2023-01-20').toISOString(),
+                  dateMiseEnService: new Date('2024-01-20'),
+                  dateFileAttente: new Date('2023-01-20'),
                 },
                 {
                   identifiantGestionnaireRéseau: 'NUM-GEST-2',
-                  dateMiseEnService: new Date('2024-02-20').toISOString(),
+                  dateMiseEnService: new Date('2024-02-20'),
                 },
               ],
             }),

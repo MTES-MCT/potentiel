@@ -109,8 +109,8 @@ describe(`Fabriquer l'aggregat projet`, () => {
           new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: projectId.toString(),
-              dateMiseEnService: dateMiseEnService.toISOString(),
-              dateFileAttente: dateFileAttente.toISOString(),
+              dateMiseEnService,
+              dateFileAttente,
             },
           }),
         ],

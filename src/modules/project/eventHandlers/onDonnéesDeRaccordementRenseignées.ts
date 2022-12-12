@@ -60,9 +60,9 @@ export const makeOnDonnéesDeRaccordementRenseignées =
           return okAsync(null)
         }
         if (
-          new Date(payload.dateMiseEnService).getTime() <
+          payload.dateMiseEnService.getTime() <
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.min).getTime() ||
-          new Date(payload.dateMiseEnService).getTime() >
+          payload.dateMiseEnService.getTime() >
             new Date(donnéesCDC.délaiApplicable.intervaleDateMiseEnService.max).getTime()
         ) {
           return okAsync(null)

@@ -61,7 +61,6 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   if (isNaN(occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp')
   }
-
   return new EventClass({
     payload: transformerISOStringEnDate(message.payload),
     original: {

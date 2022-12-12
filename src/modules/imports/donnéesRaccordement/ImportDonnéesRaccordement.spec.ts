@@ -16,11 +16,11 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
           payload: {
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
-            dates: [
+            données: [
               {
                 identifiantGestionnaireRéseau: 'Enedis',
-                dateMiseEnService: new Date('2024-01-20').toISOString(),
-                dateFileAttente: new Date('2023-12-31').toISOString(),
+                dateMiseEnService: new Date('2024-01-20'),
+                dateFileAttente: new Date('2023-12-31'),
               },
             ],
           },
@@ -43,11 +43,11 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
           payload: {
             misAJourPar: 'admin',
             gestionnaire: 'Enedis',
-            dates: [
+            données: [
               {
                 identifiantGestionnaireRéseau: 'Enedis',
-                dateMiseEnService: new Date('2024-01-20').toISOString(),
-                dateFileAttente: new Date('2023-12-31').toISOString(),
+                dateMiseEnService: new Date('2024-01-20'),
+                dateFileAttente: new Date('2023-12-31'),
               },
             ],
           },
