@@ -261,10 +261,11 @@ const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) =
           )}
           {gf.fichier && (
             <DownloadLink
-              className="flex text-sm"
+              className="flex text-sm items-center"
               fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
             >
-              Déposées le {formatDate(gf.dateEnvoi)}
+              Déposées le <br />
+              {formatDate(gf.dateEnvoi)}
             </DownloadLink>
           )}
         </div>
