@@ -17,6 +17,7 @@ describe('project.onContratEDFRapprochéAutomatiquement', () => {
   })
 
   it('should set the project contratEDF', async () => {
+    const dateMiseEnService = new Date('2022-01-01')
     await onContratEDFRapprochéAutomatiquement(models)(
       new ContratEDFRapprochéAutomatiquement({
         payload: {
@@ -25,7 +26,7 @@ describe('project.onContratEDFRapprochéAutomatiquement', () => {
           type: 'type',
           dateEffet: '3/23/21',
           dateSignature: '5/2/20',
-          dateMiseEnService: '1/1/22',
+          dateMiseEnService,
           duree: '1234',
           statut: 'SIGNE',
           rawValues: {},
@@ -40,7 +41,7 @@ describe('project.onContratEDFRapprochéAutomatiquement', () => {
       type: 'type',
       dateEffet: '3/23/21',
       dateSignature: '5/2/20',
-      dateMiseEnService: '1/1/22',
+      dateMiseEnService,
       duree: 1234,
       statut: 'SIGNE',
     })

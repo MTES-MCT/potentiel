@@ -25,7 +25,7 @@ export default ProjectEventProjector.on(
             projectId: projetId,
             payload: {
               statut: 'renseignée',
-              dateMiseEnService: payload.dateMiseEnService,
+              dateMiseEnService: payload.dateMiseEnService.toISOString(),
             },
           },
           { transaction }

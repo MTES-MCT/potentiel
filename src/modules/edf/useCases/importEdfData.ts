@@ -81,12 +81,14 @@ export const makeImportEdfData =
 
         // grab info for this contract
         if (changes) {
+          const { dateMiseEnService, ...rest } = changes
           await publish(
             new ContratEDFMisAJour({
               payload: {
                 numero,
                 projectId,
-                ...changes,
+                ...rest,
+                ...(dateMiseEnService && { dateMiseEnService: new Date(dateMiseEnService) }),
               },
             })
           )
@@ -134,7 +136,7 @@ export const makeImportEdfData =
             numero,
             dateEffet,
             dateSignature,
-            dateMiseEnService,
+            dateMiseEnService: new Date(dateMiseEnService),
             duree,
             statut,
             rawValues: line,

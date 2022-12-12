@@ -198,7 +198,7 @@ describe('importEdfData', () => {
           type: typeContrat,
           dateSignature,
           dateEffet,
-          dateMiseEnService,
+          dateMiseEnService: new Date('2022-02-28'),
           duree,
           statut,
           rawValues: line,

@@ -27,6 +27,7 @@ describe('project.onContratEDFMisAJour', () => {
   })
 
   it('should set the project contratEDF', async () => {
+    const dateMiseEnService = new Date('2022-01-01')
     await onContratEDFMisAJour(models)(
       new ContratEDFMisAJour({
         payload: {
@@ -34,7 +35,7 @@ describe('project.onContratEDFMisAJour', () => {
           numero: '123',
           dateEffet: '3/23/21',
           dateSignature: '5/2/20',
-          dateMiseEnService: '1/1/22',
+          dateMiseEnService,
           duree: '1234',
           statut: 'ACTIF',
         },
@@ -47,7 +48,7 @@ describe('project.onContratEDFMisAJour', () => {
       type: 'type inchangé',
       dateEffet: '3/23/21',
       dateSignature: '5/2/20',
-      dateMiseEnService: '1/1/22',
+      dateMiseEnService,
       duree: 1234,
       statut: 'ACTIF',
     })
