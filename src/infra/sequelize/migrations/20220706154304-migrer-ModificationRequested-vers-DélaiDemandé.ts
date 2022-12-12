@@ -1,13 +1,13 @@
 import { DélaiDemandé } from '@modules/demandeModification'
 import { ModificationRequested } from '@modules/modificationRequest'
-import { Op, QueryInterface, Sequelize } from 'sequelize'
+import { Op, QueryInterface } from 'sequelize'
 import { toPersistance } from '../helpers'
 import { models } from '../models'
 import { ProjectEvent } from '../projectionsNext'
 import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé'
 
 export default {
-  up: async (queryInterface: QueryInterface, Sequelize: Sequelize) => {
+  up: async (queryInterface: QueryInterface) => {
     const transaction = await queryInterface.sequelize.transaction()
 
     try {
@@ -60,7 +60,7 @@ export default {
                 dateThéoriqueDAchèvement.setMonth(
                   dateThéoriqueDAchèvement.getMonth() + payload.delayInMonths
                 )
-              ).toISOString()
+              )
 
               return new DélaiDemandé({
                 payload: {

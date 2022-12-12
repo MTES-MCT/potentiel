@@ -29,7 +29,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             projetId: 'le-projet',
             porteurId: 'le-porteur',
             autorité: 'dgec',
-            dateAchèvementDemandée: '2022-07-12',
+            dateAchèvementDemandée: new Date('2022-07-12'),
           },
         })
       )
@@ -95,7 +95,7 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             projetId: 'le-projet',
             porteurId: 'le-porteur',
             autorité: 'dreal',
-            dateAchèvementDemandée: '2022-07-12',
+            dateAchèvementDemandée: new Date('2022-07-12'),
           },
         })
       )

@@ -53,6 +53,8 @@ describe('Commande demanderDélai', () => {
     publishToEventStore.mockClear()
   })
 
+  const dateAchèvementDemandée = new Date('2022-01-01')
+
   describe(`Demande de délai impossible si le porteur n'a pas les droits sur le projet`, () => {
     describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {
       const shouldUserAccessProject = jest.fn(async () => false)
@@ -69,7 +71,7 @@ describe('Commande demanderDélai', () => {
 
         const requestResult = await demandeDelai({
           justification: 'justification',
-          dateAchèvementDemandée: new Date('2022-01-01'),
+          dateAchèvementDemandée,
           file: fakeFileContents,
           user,
           projectId: fakeProject.id.toString(),
@@ -108,7 +110,7 @@ describe('Commande demanderDélai', () => {
     it(`Lorsque la date limite d'achèvement souhaitée est antérieure à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
       const resultat = await demandeDelai({
         justification: 'justification',
-        dateAchèvementDemandée: new Date('2021-01-01'),
+        dateAchèvementDemandée,
         file: fakeFileContents,
         user,
         projectId: fakeProject.id.toString(),
@@ -124,7 +126,7 @@ describe('Commande demanderDélai', () => {
     it(`Lorsque la date limite d'achèvement souhaitée est égale à la date théorique d'achèvement, alors une erreur est retournée`, async () => {
       const resultat = await demandeDelai({
         justification: 'justification',
-        dateAchèvementDemandée: new Date('2022-01-01'),
+        dateAchèvementDemandée,
         file: fakeFileContents,
         user,
         projectId: fakeProject.id.toString(),
@@ -155,7 +157,7 @@ describe('Commande demanderDélai', () => {
 
             await demandeDelai({
               justification: 'justification',
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée,
               user,
               projectId: fakeProject.id.toString(),
             })
@@ -165,7 +167,7 @@ describe('Commande demanderDélai', () => {
               expect.objectContaining({
                 type: 'DélaiDemandé',
                 payload: expect.objectContaining({
-                  dateAchèvementDemandée: new Date('2022-01-01').toISOString(),
+                  dateAchèvementDemandée,
                   projetId: fakeProject.id.toString(),
                   cahierDesCharges: '30/07/2021',
                 }),
@@ -188,7 +190,7 @@ describe('Commande demanderDélai', () => {
 
             await demandeDelai({
               justification: 'justification',
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée,
               user,
               projectId: fakeProject.id.toString(),
               file: fakeFileContents,
@@ -213,7 +215,7 @@ describe('Commande demanderDélai', () => {
             })
             await demandeDelai({
               justification: 'justification',
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée,
               user,
               projectId: fakeProject.id.toString(),
               numeroGestionnaire: 'IdGestionnaire',
@@ -254,7 +256,7 @@ describe('Commande demanderDélai', () => {
 
             const res = await demandeDelai({
               justification: 'justification',
-              dateAchèvementDemandée: new Date('2022-01-01'),
+              dateAchèvementDemandée,
               user,
               projectId: fakeProject.id.toString(),
             })

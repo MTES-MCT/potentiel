@@ -7,7 +7,7 @@ export type DélaiDemandéPayload = {
   autorité: 'dgec' | 'dreal'
   fichierId?: string
   justification?: string
-  dateAchèvementDemandée: string
+  dateAchèvementDemandée: Date
   porteurId: string
   cahierDesCharges?: CahierDesChargesRéférence
 }

@@ -21,7 +21,7 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
           payload: {
             statut: 'envoyée',
             autorité,
-            dateAchèvementDemandée,
+            dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
             demandeur: porteurId,
           },
         },
@@ -53,7 +53,7 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
         payload: {
           statut: 'envoyée',
           autorité,
-          dateAchèvementDemandée,
+          dateAchèvementDemandée: dateAchèvementDemandée.toISOString(),
           demandeur: porteurId,
         },
       },
