@@ -46,7 +46,6 @@ v1Router.post(
         submitConfirm,
         statusUpdateOnly,
         newNotificationDate,
-        delayInMonths,
         puissance,
         isDecisionJustice,
         actionnaire,

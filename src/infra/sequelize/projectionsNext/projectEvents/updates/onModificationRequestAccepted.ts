@@ -10,7 +10,7 @@ export default ProjectEventProjector.on(
   ModificationRequestAccepted,
   async (évènement, transaction) => {
     const {
-      payload: { modificationRequestId, responseFileId, acceptedBy, params },
+      payload: { modificationRequestId, responseFileId, params },
       occurredAt,
     } = évènement
 
