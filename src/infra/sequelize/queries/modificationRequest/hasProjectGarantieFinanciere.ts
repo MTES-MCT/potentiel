@@ -2,12 +2,12 @@ import { wrapInfra } from '@core/utils'
 import { HasProjectGarantieFinanciere } from '@modules/modificationRequest'
 import models from '../../models'
 
-const { ProjectStep } = models
+const { GarantiesFinancières } = models
 
-export const hasProjectGarantieFinanciere: HasProjectGarantieFinanciere = (projectId) => {
+export const hasProjectGarantieFinanciere: HasProjectGarantieFinanciere = (projetId) => {
   return wrapInfra(
-    ProjectStep.findOne({
-      where: { projectId, type: 'garantie-financiere' },
+    GarantiesFinancières.findOne({
+      where: { projetId, statut: ['à traiter', 'validé'] },
     })
   ).map((garantieFinanciere: any) => !!garantieFinanciere)
 }
