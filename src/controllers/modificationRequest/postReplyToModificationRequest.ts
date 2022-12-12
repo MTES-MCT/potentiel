@@ -101,15 +101,6 @@ v1Router.post(
       )
     }
 
-    if (type === 'delai' && !isStrictlyPositiveNumber(delayInMonths)) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error:
-            "La réponse n'a pas pu être envoyée: le délai accordé doit être un nombre supérieur à 0.",
-        })
-      )
-    }
-
     if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {

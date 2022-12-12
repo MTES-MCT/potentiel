@@ -62,7 +62,6 @@ export type ModificationRequestType =
   | 'puissance'
   | 'recours'
   | 'abandon'
-  | 'delai'
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date
