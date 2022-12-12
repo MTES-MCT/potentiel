@@ -1,4 +1,5 @@
 export * from './onDateEchéanceGFAjoutée'
+export * from './onEtapeGFSupprimée'
 export * from './onGarantiesFinancièresInvalidées'
 export * from './onGarantiesFinancièresValidées'
 export * from './onProjectAbandoned'
