@@ -3,10 +3,10 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain'
 export type DélaiAccordéPayload = {
   demandeDélaiId: string
   projetId: string
-  dateAchèvementAccordée: string
+  dateAchèvementAccordée: Date
   fichierRéponseId?: string
   accordéPar: string
-  ancienneDateThéoriqueAchèvement: string
+  ancienneDateThéoriqueAchèvement: Date
 }
 
 export class DélaiAccordé extends BaseDomainEvent<DélaiAccordéPayload> implements DomainEvent {

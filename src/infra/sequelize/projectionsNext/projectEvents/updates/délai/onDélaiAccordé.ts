@@ -35,8 +35,8 @@ export default ProjectEventProjector.on(DélaiAccordé, async (évènement, tran
           ...projectEvent.payload,
           statut: 'accordée',
           accordéPar,
-          dateAchèvementAccordée,
-          ancienneDateThéoriqueAchèvement,
+          dateAchèvementAccordée: dateAchèvementAccordée.toISOString(),
+          ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
         },
       },
       { where: { id: demandeDélaiId }, transaction }

@@ -24,8 +24,8 @@ describe(`Mettre à jour la date d'achèvement lorsque un délai est accordé`, 
           accordéPar: 'admin',
           demandeDélaiId: 'la-demande',
           projetId: 'le-projet',
-          dateAchèvementAccordée: new Date('2025-06-30').toISOString(),
-          ancienneDateThéoriqueAchèvement: new Date().toISOString(),
+          dateAchèvementAccordée: new Date('2025-06-30'),
+          ancienneDateThéoriqueAchèvement: new Date(),
         },
       })
     )
