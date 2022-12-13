@@ -9,5 +9,5 @@ export const hasGarantiesFinancières: HasGarantiesFinancières = (projetId) => 
     GarantiesFinancières.findOne({
       where: { projetId, statut: ['à traiter', 'validé'] },
     })
-  ).map((garantieFinanciere: any) => !!garantieFinanciere)
+  ).map((garantiesFinancières) => !!garantiesFinancières)
 }
