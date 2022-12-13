@@ -13,8 +13,8 @@ describe('Raccordements.onProjectPTFSubmitted', () => {
   beforeEach(async () => await resetDatabase())
 
   it(`Etant donné un projet avec une entrée dans la projection raccordements,
-        Lorsque l'event ProjectPTFRemoved survient, 
-        Alors les champs associés à la ptf doivent être définit aux valeurs de l'évènements`, async () => {
+        Lorsque l'event ProjectPTFSubmitted survient, 
+        Alors les champs associés à la ptf doivent être définis aux valeurs de l'évènement`, async () => {
     await Raccordements.create({
       id: new UniqueEntityID().toString(),
       projetId,
