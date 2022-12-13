@@ -1,20 +1,19 @@
 import { ProjectPTFSubmitted } from '@modules/project'
 import { Raccordements, RaccordementsProjector } from '../raccordements.model'
-import { UniqueEntityID } from '@core/domain'
 
 export default RaccordementsProjector.on(ProjectPTFSubmitted, async (évènement, transaction) => {
   const {
     payload: { projectId, fileId, submittedBy, ptfDate },
   } = évènement
 
-  await Raccordements.create(
+  const raccordement = await Raccordements.findOne({ where: { projetId: projectId }, transaction })
+
+  await Raccordements.update(
     {
-      id: new UniqueEntityID().toString(),
-      projetId: projectId,
-      fichierId: fileId,
-      dateEnvoi: ptfDate,
-      envoyéesPar: submittedBy,
+      ptfFichierId: fileId,
+      ptfDateDeSignature: ptfDate,
+      ptfEnvoyéePar: submittedBy,
     },
-    { transaction }
+    { where: { projetId: projectId }, transaction }
   )
 })

@@ -6,5 +6,8 @@ export default RaccordementsProjector.on(ProjectPTFRemoved, async (évènement, 
     payload: { projectId },
   } = évènement
 
-  await Raccordements.destroy({ where: { projetId: projectId }, transaction })
+  await Raccordements.update(
+    { ptfDateDeSignature: null, ptfEnvoyéePar: null, ptfFichierId: null },
+    { where: { projetId: projectId }, transaction }
+  )
 })

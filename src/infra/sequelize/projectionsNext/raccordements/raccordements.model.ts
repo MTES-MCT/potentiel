@@ -8,9 +8,9 @@ class Raccordements extends Model<
 > {
   id: string
   projetId: string
-  fichierId: string | null
-  dateEnvoi: Date | null
-  envoyéesPar: string | null
+  ptfFichierId: string | null
+  ptfDateDeSignature: Date | null
+  ptfEnvoyéePar: string | null
 }
 
 const nomProjection = 'raccordements'
@@ -26,15 +26,15 @@ Raccordements.init(
       type: DataTypes.UUID,
       allowNull: false,
     },
-    fichierId: {
+    ptfFichierId: {
       type: DataTypes.UUID,
       allowNull: true,
     },
-    dateEnvoi: {
+    ptfDateDeSignature: {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    envoyéesPar: {
+    ptfEnvoyéePar: {
       type: DataTypes.UUID,
       allowNull: true,
     },
