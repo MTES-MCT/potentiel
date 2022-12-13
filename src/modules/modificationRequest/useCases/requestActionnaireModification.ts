@@ -10,11 +10,7 @@ import {
   UnauthorizedError,
 } from '../../shared'
 import { ModificationReceived, ModificationRequested } from '../events'
-import {
-  GetProjectAppelOffreId,
-  HasProjectGarantieFinanciere,
-  IsProjectParticipatif,
-} from '../queries'
+import { GetProjectAppelOffreId, HasGarantiesFinancières, IsProjectParticipatif } from '../queries'
 
 interface RequestActionnaireModificationDeps {
   eventBus: EventBus
@@ -22,7 +18,7 @@ interface RequestActionnaireModificationDeps {
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
   isProjectParticipatif: IsProjectParticipatif
-  hasProjectGarantieFinanciere: HasProjectGarantieFinanciere
+  hasGarantiesFinancières: HasGarantiesFinancières
   getProjectAppelOffreId: GetProjectAppelOffreId
 }
 
@@ -75,7 +71,7 @@ export const makeRequestActionnaireModification =
         deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
           if (appelOffreId === 'Eolien') {
             return ResultAsync.combine([
-              deps.hasProjectGarantieFinanciere(projectId.toString()),
+              deps.hasGarantiesFinancières(projectId.toString()),
               deps.isProjectParticipatif(projectId.toString()),
             ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
               requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,

@@ -34,7 +34,7 @@ describe('requestActionnaireModification use-case', () => {
     okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
   )
   const isProjectParticipatif = jest.fn()
-  const hasProjectGarantieFinanciere = jest.fn()
+  const hasGarantiesFinancières = jest.fn()
 
   const fakeFileContents = Readable.from('test-content')
   const fakeFileName = 'myfilename.pdf'
@@ -45,7 +45,7 @@ describe('requestActionnaireModification use-case', () => {
     describe('when project is not Eolien', () => {
       const requestActionnaireModification = makeRequestActionnaireModification({
         isProjectParticipatif,
-        hasProjectGarantieFinanciere,
+        hasGarantiesFinancières,
         getProjectAppelOffreId,
         projectRepo,
         eventBus,
@@ -103,7 +103,7 @@ describe('requestActionnaireModification use-case', () => {
       )
 
       describe('when project does not have Garantie Financiere', () => {
-        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+        const hasGarantiesFinancières = jest.fn((projectId: string) =>
           okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(false)
         )
         const isProjectParticipatif = jest.fn((projectId: string) =>
@@ -112,7 +112,7 @@ describe('requestActionnaireModification use-case', () => {
 
         const requestActionnaireModification = makeRequestActionnaireModification({
           isProjectParticipatif,
-          hasProjectGarantieFinanciere,
+          hasGarantiesFinancières,
           getProjectAppelOffreId,
           projectRepo,
           eventBus,
@@ -159,7 +159,7 @@ describe('requestActionnaireModification use-case', () => {
       })
 
       describe('when project is participatif', () => {
-        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+        const hasGarantiesFinancières = jest.fn((projectId: string) =>
           okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(true)
         )
         const isProjectParticipatif = jest.fn((projectId: string) =>
@@ -168,7 +168,7 @@ describe('requestActionnaireModification use-case', () => {
 
         const requestActionnaireModification = makeRequestActionnaireModification({
           isProjectParticipatif,
-          hasProjectGarantieFinanciere,
+          hasGarantiesFinancières,
           getProjectAppelOffreId,
           projectRepo,
           eventBus,
@@ -212,7 +212,7 @@ describe('requestActionnaireModification use-case', () => {
       })
 
       describe('when project is not participatif and has a GF', () => {
-        const hasProjectGarantieFinanciere = jest.fn((projectId: string) =>
+        const hasGarantiesFinancières = jest.fn((projectId: string) =>
           okAsync<boolean, EntityNotFoundError | InfraNotAvailableError>(true)
         )
         const isProjectParticipatif = jest.fn((projectId: string) =>
@@ -221,7 +221,7 @@ describe('requestActionnaireModification use-case', () => {
 
         const requestActionnaireModification = makeRequestActionnaireModification({
           isProjectParticipatif,
-          hasProjectGarantieFinanciere,
+          hasGarantiesFinancières,
           getProjectAppelOffreId,
           projectRepo,
           eventBus,
@@ -279,7 +279,7 @@ describe('requestActionnaireModification use-case', () => {
 
       const requestActionnaireModification = makeRequestActionnaireModification({
         isProjectParticipatif,
-        hasProjectGarantieFinanciere,
+        hasGarantiesFinancières,
         getProjectAppelOffreId,
         projectRepo,
         eventBus,
