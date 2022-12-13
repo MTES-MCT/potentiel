@@ -79,7 +79,7 @@ import {
   getUserByEmail,
   getUserById,
   hasDemandeDeMêmeTypeOuverte,
-  hasProjectGarantieFinanciere,
+  hasGarantiesFinancières,
   isProjectParticipatif,
   trouverProjetsParIdentifiantGestionnaireRéseau,
 } from './queries.config'
@@ -233,7 +233,7 @@ export const requestActionnaireModification = makeRequestActionnaireModification
   projectRepo,
   fileRepo,
   isProjectParticipatif,
-  hasProjectGarantieFinanciere,
+  hasGarantiesFinancières,
   getProjectAppelOffreId,
 })
 

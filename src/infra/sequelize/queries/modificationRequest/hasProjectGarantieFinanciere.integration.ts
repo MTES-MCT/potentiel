@@ -1,14 +1,14 @@
 import { UniqueEntityID } from '@core/domain'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
-import { hasProjectGarantieFinanciere } from './hasProjectGarantieFinanciere'
+import { hasGarantiesFinancières } from './hasGarantiesFinancières'
 import { v4 as uuid } from 'uuid'
 
 const { GarantiesFinancières } = models
 
 const projetId = new UniqueEntityID().toString()
 
-describe('Sequelize hasProjectGarantieFinanciere', () => {
+describe('Sequelize hasGarantiesFinancières', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
@@ -22,7 +22,7 @@ describe('Sequelize hasProjectGarantieFinanciere', () => {
       statut: 'à traiter',
     })
 
-    expect((await hasProjectGarantieFinanciere(projetId))._unsafeUnwrap()).toEqual(true)
+    expect((await hasGarantiesFinancières(projetId))._unsafeUnwrap()).toEqual(true)
   })
 
   it(`Etant donné un projet avec garanties financières avec statut 'validé'
@@ -34,7 +34,7 @@ describe('Sequelize hasProjectGarantieFinanciere', () => {
       statut: 'validé',
     })
 
-    expect((await hasProjectGarantieFinanciere(projetId))._unsafeUnwrap()).toEqual(true)
+    expect((await hasGarantiesFinancières(projetId))._unsafeUnwrap()).toEqual(true)
   })
 
   it(`Etant donné un projet avec garanties financières avec statut 'en attente'
@@ -46,11 +46,11 @@ describe('Sequelize hasProjectGarantieFinanciere', () => {
       statut: 'en attente',
     })
 
-    expect((await hasProjectGarantieFinanciere(projetId))._unsafeUnwrap()).toEqual(false)
+    expect((await hasGarantiesFinancières(projetId))._unsafeUnwrap()).toEqual(false)
   })
 
   it(`Etant donné un projet sans garanties financières
-      Alors la fonction devrait retourner true`, async () => {
-    expect((await hasProjectGarantieFinanciere(projetId))._unsafeUnwrap()).toEqual(false)
+      Alors la fonction devrait retourner false`, async () => {
+    expect((await hasGarantiesFinancières(projetId))._unsafeUnwrap()).toEqual(false)
   })
 })
