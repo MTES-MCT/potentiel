@@ -7,12 +7,12 @@ import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges'
 import { CahierDesChargesInitial } from './CahierDesChargesInitial'
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible'
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable'
-import { TypeDeModificationCDC } from '../../../../../controllers/project/postChoisirCahierDesCharges'
+import { TypeDeModification } from '../../../../../controllers/project/postChoisirCahierDesCharges'
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
   redirectUrl?: string
-  type?: TypeDeModificationCDC
+  type?: TypeDeModification
 }
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<
