@@ -14,7 +14,7 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
     const dateMiseEnService = new Date('2022-01-01')
     const dateFileAttente = new Date('2023-01-01')
 
-    await Project.create(makeFakeProject({ id: projetId, dateMiseEnService: undefined }))
+    await Project.create(makeFakeProject({ id: projetId }))
 
     await onDonnéesDeRaccordementRenseignées(models)(
       new DonnéesDeRaccordementRenseignées({
@@ -25,8 +25,9 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
         },
       })
     )
+
     const projetActuel = await Project.findByPk(projetId)
-    expect(projetActuel.dateMiseEnService).toEqual(dateMiseEnService.toISOString())
+    expect(projetActuel.dateMiseEnService).toEqual(dateMiseEnService)
     expect(projetActuel.dateFileAttente).toEqual(dateFileAttente)
   })
 })

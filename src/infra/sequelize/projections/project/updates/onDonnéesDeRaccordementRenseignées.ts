@@ -30,10 +30,10 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
       await Project.update(
         {
           ...('dateMiseEnService' in payload && {
-            dateMiseEnService: payload.dateMiseEnService.toISOString(),
+            dateMiseEnService: payload.dateMiseEnService,
           }),
           ...('dateFileAttente' in payload && {
-            dateFileAttente: payload.dateFileAttente.toISOString(),
+            dateFileAttente: payload.dateFileAttente,
           }),
         },
         {
