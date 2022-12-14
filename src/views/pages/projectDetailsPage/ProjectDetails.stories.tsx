@@ -253,14 +253,6 @@ export const forPorteurProjetWithPTF = () => (
       {
         ...fakeProjectData,
         isClasse: true,
-        ptf: {
-          submittedOn: new Date(),
-          ptfDate: new Date(),
-          file: {
-            id: 'fileId',
-            filename: 'filename.pdf',
-          },
-        },
       } as ProjectDataForProjectPage
     }
     projectEventList={{
