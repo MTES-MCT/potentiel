@@ -14,6 +14,9 @@ describe('Raccordements.onProjectPTFRemoved', () => {
     await Raccordements.create({
       id: new UniqueEntityID().toString(),
       projetId,
+      ptfDateDeSignature: new Date(),
+      ptfEnvoyéePar: 'user-id',
+      ptfFichierId: 'fichier-id',
     })
 
     await onProjectPTFRemoved(

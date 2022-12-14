@@ -1,5 +1,6 @@
 import {
   GarantiesFinancièresProjector,
+  RaccordementsProjector,
   initProjections,
   initProjectors,
   ProjectEventProjector,
@@ -15,14 +16,17 @@ initProjections(eventStore)
 const projectors = initProjectors(eventStore)
 console.log(`Initialized projectors: ${projectors.join(', ')}`)
 
-const projectorsNext = [ProjectEventProjector, TâchesProjector, GarantiesFinancièresProjector].map(
-  (projector) => {
-    projector.initEventStream({
-      subscribe: subscribeToRedis,
-    })
-    return projector.name
-  }
-)
+const projectorsNext = [
+  ProjectEventProjector,
+  TâchesProjector,
+  GarantiesFinancièresProjector,
+  RaccordementsProjector,
+].map((projector) => {
+  projector.initEventStream({
+    subscribe: subscribeToRedis,
+  })
+  return projector.name
+})
 
 console.log(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`)
 
