@@ -20,7 +20,6 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
       const création = await créerProfilUtilisateur({
         email: 'utilisateur@email.com',
-        role: 'cre',
         nom: 'Nom',
         prénom: 'Prénom',
         fonction: 'Ma fonction',
@@ -49,7 +48,6 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
       const création = await créerProfilUtilisateur({
         email: 'utilisateur@email.com',
-        role: 'admin',
         nom: 'Nom',
         prénom: 'Prénom',
         fonction: 'Ma fonction',
@@ -73,7 +71,6 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
     await créerProfilUtilisateur({
       email: 'utilisateur@email.com',
-      role: 'cre',
       nom: 'Nom',
       prénom: 'Prénom',
       fonction: 'Ma fonction',
@@ -107,7 +104,6 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
     await créerProfilUtilisateur({
       email: 'utilisateur@email.com',
-      role: 'cre',
       nom: 'Nom',
       prénom: 'Prénom',
       fonction: 'Ma fonction',
