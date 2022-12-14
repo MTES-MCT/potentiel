@@ -28,7 +28,7 @@ export const makeCréerProfilUtilisateur =
         new ProfilUtilisateurCréé({
           payload: {
             email,
-            role: utilisateur.role,
+            role: utilisateur.role || 'porteur-projet',
             nom,
             prénom,
             fonction,
