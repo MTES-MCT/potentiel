@@ -23,10 +23,12 @@ v1Router.get(
     return response.send(
       SignupPage({
         request,
-        email: query.email?.toString(),
         ...(validationErrors.length > 0 && { validationErrors }),
         error: query['error']?.toString(),
         success: query['success']?.toString(),
+        ...(query.email
+          ? { utilisateurInvité: true, email: query.email.toString() }
+          : { utilisateurInvité: false }),
       })
     )
   })
