@@ -60,7 +60,11 @@ const SignupForm = ({ email, validationErrors, error }: SignupFormProps) => (
     </h1>
 
     <div className="w-full md:w-1/2 lg:w-2/5 md:p-8 lg:p-10 xl:p-14">
-      <form action={routes.SIGNUP} method="POST" className="flex flex-col gap-3 p-4 mx-0 bg-white">
+      <form
+        action={routes.POST_SIGNUP}
+        method="POST"
+        className="flex flex-col gap-3 p-4 mx-0 bg-white"
+      >
         {error && (
           <div className="flex flex-row border border-solid border-red-marianne-main-472-base">
             <div className="bg-red-marianne-main-472-base p-3">
@@ -104,7 +108,7 @@ const SignupForm = ({ email, validationErrors, error }: SignupFormProps) => (
             name="email"
             required
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            {...(email && { value: email, disabled: true })}
+            {...(email && { value: email, readOnly: true })}
             {...(validationErrors && { error: validationErrors['email']?.toString() })}
           />
         </div>

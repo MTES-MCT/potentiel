@@ -17,7 +17,7 @@ const requestBodySchema = yup.object({
 })
 
 v1Router.post(
-  routes.SIGNUP,
+  routes.POST_SIGNUP,
   asyncHandler(async (request, response) => {
     try {
       requestBodySchema.validateSync(request.body, { abortEarly: false })
