@@ -25,12 +25,14 @@ import {
   parseCahierDesChargesRéférence,
 } from '@entities'
 
+export type TypeDeModification = ModificationRequestType | 'delai'
+
 const schema = yup.object({
   body: yup.object({
     projectId: yup.string().uuid().required(),
     redirectUrl: yup.string().required(),
     type: yup
-      .mixed<ModificationRequestType>()
+      .mixed<TypeDeModification>()
       .oneOf([
         'actionnaire',
         'fournisseur',
@@ -49,11 +51,11 @@ const schema = yup.object({
   }),
 })
 
-const getRedirectTitle = (type: ModificationRequestType) => {
+const getRedirectTitle = (type: TypeDeModification) => {
   switch (type) {
     case 'delai':
     case 'recours':
-      return `Retourner sur la demande de ${type === 'delai' ? 'délai' : type}`
+      return `Retourner sur la demande de ${type}`
     case 'abandon':
       return `Retourner sur la demande d'${type}`
     case 'puissance':

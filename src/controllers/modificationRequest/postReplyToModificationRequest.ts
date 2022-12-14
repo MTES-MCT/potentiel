@@ -46,7 +46,6 @@ v1Router.post(
         submitConfirm,
         statusUpdateOnly,
         newNotificationDate,
-        delayInMonths,
         puissance,
         isDecisionJustice,
         actionnaire,
@@ -101,15 +100,6 @@ v1Router.post(
       )
     }
 
-    if (type === 'delai' && !isStrictlyPositiveNumber(delayInMonths)) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error:
-            "La réponse n'a pas pu être envoyée: le délai accordé doit être un nombre supérieur à 0.",
-        })
-      )
-    }
-
     if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
@@ -144,9 +134,6 @@ v1Router.post(
             .tz('Europe/London')
             .toDate(),
         }
-        break
-      case 'delai':
-        acceptanceParams = { type, delayInMonths }
         break
       case 'puissance':
         acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }

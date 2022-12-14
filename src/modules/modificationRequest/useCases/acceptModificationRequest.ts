@@ -128,10 +128,6 @@ export const makeAcceptModificationRequest =
                   )
                 )
             break
-          case 'delai':
-            if (acceptanceParams?.type === 'delai')
-              action = project.moveCompletionDueDate(submittedBy, acceptanceParams.delayInMonths)
-            break
           case 'puissance':
             if (acceptanceParams?.type === 'puissance')
               action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)

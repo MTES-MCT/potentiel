@@ -78,62 +78,6 @@ describe('Handler onModificationRequestAccepted', () => {
     })
   })
 
-  describe('Cas des demandes de délai', () => {
-    describe(`Etant donné un événement de type ModificationRequestAccepted pour un délai`, () => {
-      const nouvelEvénement = new ModificationRequestAccepted({
-        payload: {
-          modificationRequestId,
-          acceptedBy: adminId,
-          responseFileId: fileId,
-          params: { type: 'delai', delayInMonths: 5 },
-        } as ModificationRequestAcceptedPayload,
-        original: {
-          version: 1,
-          occurredAt: new Date('2022-02-09'),
-        },
-      })
-      describe(`S'il y a déjà un événement de type DemandeDélai correspondant au même id dans ProjectEvent`, () => {
-        it(`Alors le statut de l'événement devrait être mis à jour`, async () => {
-          await ProjectEvent.create({
-            id: modificationRequestId,
-            projectId,
-            type: 'DemandeDélai',
-            valueDate: new Date('2022-08-08').getTime(),
-            eventPublishedAt: new Date('2022-08-08').getTime(),
-            payload: {
-              statut: 'envoyée',
-              autorité: 'dreal',
-              délaiEnMoisDemandé: 10,
-              demandeur: 'id-porteur',
-            },
-          })
-
-          await onModificationRequestAccepted(nouvelEvénement)
-
-          const projectEvent = await ProjectEvent.findOne({ where: { id: modificationRequestId } })
-          expect(projectEvent).toMatchObject({
-            id: modificationRequestId,
-            type: 'DemandeDélai',
-            projectId,
-            payload: {
-              statut: 'accordée',
-              délaiEnMoisAccordé: 5, // délai accordé différent du délai demandé
-            },
-          })
-        })
-      })
-
-      describe(`S'il n'y a pas d'événement de type DemandeDélai correspondant au même id dans ProjectEvent`, () => {
-        it(`Alors aucun événement ne doit être ajouté`, async () => {
-          await onModificationRequestAccepted(nouvelEvénement)
-
-          const projectEvent = await ProjectEvent.findOne({ where: { id: modificationRequestId } })
-          expect(projectEvent).toBeNull()
-        })
-      })
-    })
-  })
-
   describe(`Cas d'un recours`, () => {
     it(`Etant donnée une demande de recours acceptée,
     alors un item 'DateMiseEnService' avec le statut 'non-renseignée' devrait être ajouté`, async () => {

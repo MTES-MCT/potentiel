@@ -10,47 +10,9 @@ export default ProjectEventProjector.on(
   ModificationRequestAccepted,
   async (évènement, transaction) => {
     const {
-      payload: { modificationRequestId, responseFileId, acceptedBy, params },
+      payload: { modificationRequestId, responseFileId, params },
       occurredAt,
     } = évènement
-
-    if (params?.type === 'delai') {
-      const demandeDélai = await ProjectEvent.findOne({
-        where: { id: modificationRequestId, type: 'DemandeDélai' },
-        transaction,
-      })
-
-      if (demandeDélai) {
-        try {
-          await ProjectEvent.update(
-            {
-              valueDate: occurredAt.getTime(),
-              eventPublishedAt: occurredAt.getTime(),
-              payload: {
-                //@ts-ignore
-                ...demandeDélai.payload,
-                statut: 'accordée',
-                accordéPar: acceptedBy,
-                délaiEnMoisAccordé: params.delayInMonths,
-              },
-            },
-            { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
-          )
-        } catch (e) {
-          logger.error(
-            new ProjectionEnEchec(
-              `Erreur lors du traitement de l'événement ModificationRequestAccepted`,
-              {
-                évènement,
-                nomProjection: 'ProjectEvent.onModificationRequestAccepted',
-              },
-              e
-            )
-          )
-        }
-        return
-      }
-    }
 
     const { ModificationRequest } = models
 

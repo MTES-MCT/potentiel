@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Button, Input, Link, SecondaryLinkButton } from '@components'
 import { ProjectDataForChoisirCDCPage } from '@modules/project'
-import { ModificationRequestType } from '@modules/modificationRequest'
 import routes from '@routes'
 import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges'
 
@@ -12,7 +11,14 @@ import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnabl
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage
   redirectUrl?: string
-  type?: ModificationRequestType
+  type?:
+    | 'actionnaire'
+    | 'fournisseur'
+    | 'producteur'
+    | 'puissance'
+    | 'recours'
+    | 'abandon'
+    | 'delai'
 }
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<
