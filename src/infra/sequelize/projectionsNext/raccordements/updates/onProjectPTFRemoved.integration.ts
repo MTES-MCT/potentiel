@@ -15,8 +15,8 @@ describe('Raccordements.onProjectPTFRemoved', () => {
       id: new UniqueEntityID().toString(),
       projetId,
       ptfDateDeSignature: new Date(),
-      ptfEnvoyéePar: 'user-id',
-      ptfFichierId: 'fichier-id',
+      ptfEnvoyéePar: new UniqueEntityID().toString(),
+      ptfFichierId: new UniqueEntityID().toString(),
     })
 
     await onProjectPTFRemoved(
