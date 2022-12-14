@@ -1,9 +1,9 @@
 import { DataTypes, Op, QueryInterface } from 'sequelize'
 import models from '../models'
+const { Project } = models
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    const { Project } = models
     const transaction = await queryInterface.sequelize.transaction()
     const entréesÀModifier = await Project.findAll(
       {
@@ -16,13 +16,13 @@ export default {
       },
       { transaction }
     )
-    await queryInterface.removeColumn('projects', 'dateMiseEnService')
-    await queryInterface.addColumn('projects', 'dateMiseEnService', {
-      type: DataTypes.DATE,
-      allowNull: true,
-    })
 
     if (entréesÀModifier.length > 0) {
+      await queryInterface.removeColumn('projects', 'dateMiseEnService')
+      await queryInterface.addColumn('projects', 'dateMiseEnService', {
+        type: DataTypes.DATE,
+        allowNull: true,
+      })
       for (const { id, dateMiseEnService } of entréesÀModifier) {
         try {
           await Project.update(
@@ -40,18 +40,21 @@ export default {
           )
         } catch (e) {
           console.error(e)
+          transaction.rollback()
         }
       }
-      console.log(`${entréesÀModifier.length} projets mis à jour`)
+      console.log(`${entréesÀModifier.length} projets ont une dateMiseEnService mis à jour`)
+
+      transaction.commit()
+    } else {
+      await queryInterface.removeColumn('projects', 'dateMiseEnService')
+      await queryInterface.addColumn('projects', 'dateMiseEnService', {
+        type: DataTypes.DATE,
+        allowNull: true,
+      })
+      transaction.commit()
     }
-
-    transaction.commit()
   },
 
-  down: async (queryInterface: QueryInterface) => {
-    await queryInterface.changeColumn('projects', 'dateMiseEnService', {
-      type: DataTypes.STRING,
-      allowNull: true,
-    })
-  },
+  down: async () => {},
 }
