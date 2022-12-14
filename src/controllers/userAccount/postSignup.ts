@@ -38,7 +38,7 @@ v1Router.post(
 
     const { firstname, lastname, email, utilisateurInvité } = request.body
 
-    if (utilisateurInvité) {
+    if (utilisateurInvité === true) {
       return créerProfilUtilisateur({ email, nom: lastname, prénom: firstname }).match(
         () =>
           response.redirect(
