@@ -147,7 +147,6 @@ type ProjectEvent = {
     | 'garanties-financieres-submission'
     | 'garanties-financieres-file-move'
     | 'garanties-financieres-removal'
-    | 'relance-gf'
     | 'manual-edition'
     | 'dcr-submission'
     | 'dcr-removal'

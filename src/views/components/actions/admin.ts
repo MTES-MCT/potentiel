@@ -14,7 +14,6 @@ const adminActions = (project: {
   email: string
   nomProjet: string
   potentielIdentifier: string
-  attestationDesignationProof: { file: { id: string; filename: string } }
   isLegacy: boolean
 }) => {
   const canDownloadCertificate = !!project.certificateFile
