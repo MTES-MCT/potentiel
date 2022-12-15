@@ -67,8 +67,10 @@ describe(`Créer le profil d'un utilisateur`, () => {
 
   describe(`Création d'un profil invité`, () => {
     it(`Étant donné un utilisateur invité en tant que 'CRE'
-      Lorsque l'on crée un profil pour ce même utilisateur avec le même rôle
-      Alors le profil de l'utilisateur devrait être créé avec toutes ces informations`, async () => {
+      Lorsque qu'il créé son profil
+      Alors un événement ProfilUtilisateurCréé devrait être publié
+      avec le rôle défini à l'invitation,
+      et les données de création de profil`, async () => {
       const utilisateurRepo = fakeTransactionalRepo({
         statut: 'invité',
         role: 'cre',
