@@ -10,10 +10,10 @@ import {
   ProjectNotifiedDTO,
   ProjectCertificateGeneratedDTO,
   ProjectDCRDueDateSetDTO,
-  ProjectPTFSubmittedDTO,
   ProjectCompletionDueDateSetDTO,
   ProjectEventListDTO,
   GarantiesFinancièresDTO,
+  PtfDTO,
 } from '@modules/frise'
 
 export default { title: 'Project page' }
@@ -193,8 +193,6 @@ export const forAdminsAbandonné = () => (
   />
 )
 
-const MONTHS = 1000 * 3600 * 24 * 30
-
 export const forPorteurProjet = () => (
   <ProjectDetails
     projectEventList={projectEventList}
@@ -260,10 +258,12 @@ export const forPorteurProjetWithPTF = () => (
       events: [
         ...projectEventList.events,
         {
-          type: 'ProjectPTFSubmitted',
-          variant: 'porteur-projet',
+          type: 'proposition-technique-et-financiere',
+          role: 'porteur-projet',
           date: new Date('2022-02-13').getTime(),
-        } as ProjectPTFSubmittedDTO,
+          status: 'submitted',
+          url: 'file-url',
+        } as PtfDTO,
       ],
     }}
   />

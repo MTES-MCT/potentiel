@@ -16,8 +16,6 @@ export type ProjectEventDTO =
   | ProjectDCRSubmittedDTO
   | ProjectDCRRemovedDTO
   | ProjectDCRDueDateSetDTO
-  | ProjectPTFSubmittedDTO
-  | ProjectPTFRemovedDTO
   | ProjectNotificationDateSetDTO
   | ProjectCompletionDueDateSetDTO
   | ModificationRequestedDTO
@@ -38,6 +36,7 @@ export type ProjectEventDTO =
   | CahierDesChargesChoisiDTO
   | DateMiseEnServiceDTO
   | DateFileAttenteDTO
+  | PtfDTO
 
 type File = {
   id: string
@@ -153,17 +152,25 @@ export type ProjectDCRDueDateSetDTO = {
   variant: Exclude<UserRole, 'ademe'>
 }
 
+export type PtfDTO = {
+  type: 'proposition-technique-et-financiere'
+  role: UserRole
+} & (
+  | {
+      status: 'not-submitted'
+      date: undefined
+    }
+  | {
+      status: 'submitted'
+      date: number
+      url: string
+    }
+)
 export type ProjectPTFSubmittedDTO = {
   type: 'ProjectPTFSubmitted'
   date: number
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
   file?: File
-}
-
-export type ProjectPTFRemovedDTO = {
-  type: 'ProjectPTFRemoved'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 }
 
 export type ProjectCompletionDueDateSetDTO = {

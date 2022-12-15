@@ -7,7 +7,6 @@ import {
   ProjectDCRDueDateSetDTO,
   ProjectDCRSubmittedDTO,
   ProjectDCRRemovedDTO,
-  ProjectPTFSubmittedDTO,
   ProjectNotificationDateSetDTO,
   ModificationRequestedDTO,
   ModificationRequestAcceptedDTO,
@@ -335,13 +334,6 @@ export const PPDCRConstituée = () => (
           submittedBy: 'someone',
           numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
-        {
-          type: 'ProjectPTFSubmitted',
-          variant: 'porteur-projet',
-          date: new Date('2022-01-16').getTime(),
-          fileId: 'file-id',
-          // filename: 'file-name',
-        } as ProjectPTFSubmittedDTO,
       ],
     }}
     now={new Date('2022-01-03').getTime()}

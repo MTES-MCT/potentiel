@@ -17,6 +17,7 @@ import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
 import { GarantiesFinancières } from './projectionsNext/garantiesFinancières'
+import { Raccordements } from './projectionsNext'
 
 //
 // Legacy projections
@@ -53,6 +54,18 @@ GarantiesFinancières.hasOne(models.User, {
   foreignKey: 'id',
   sourceKey: 'validéesPar',
   as: 'validéesParRef',
+})
+
+Raccordements.hasOne(models.File, {
+  foreignKey: 'id',
+  sourceKey: 'ptfFichierId',
+  as: 'ptfFichier',
+})
+
+Raccordements.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'ptfEnvoyéePar',
+  as: 'ptfEnvoyéeParRef',
 })
 
 // Link projectors with the eventBus (called by the application config)

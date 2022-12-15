@@ -47,9 +47,7 @@ import {
   extractDCRItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
-  extractPTFItemProps,
   ImportItemProps,
-  PTFItemProps,
   extractModificationRequestsItemProps,
   ModificationRequestItemProps,
   ModificationReceivedItemProps,
@@ -59,6 +57,7 @@ import {
   AttachedFileItemProps,
   extractAttachedFileItemProps,
 } from './helpers'
+import { PtfDTO } from '../../../modules/frise/dtos/ProjectEventListDTO'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
@@ -70,7 +69,7 @@ type ItemProps =
   | DesignationItemProps
   | DCRItemProps
   | ACItemProps
-  | PTFItemProps
+  | PtfDTO
   | CRItemProps
   | CAItemProps
   | ModificationRequestItemProps
@@ -94,8 +93,8 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const PTFItemProps = extractPTFItemProps(events, { status })
   const garantiesFinancières = events.find(is('garanties-financières'))
+  const ptf = events.find(is('proposition-technique-et-financiere'))
   const dateMiseEnService = events.find(is('DateMiseEnService'))
   const dateFileAttente = events.find(is('DateFileAttente'))
 
@@ -105,7 +104,7 @@ export const Timeline = ({
     garantiesFinancières?.date !== 0 ? garantiesFinancières : undefined,
     extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
-    PTFItemProps?.status === 'submitted' ? PTFItemProps : undefined,
+    ptf?.status === 'submitted' ? ptf : undefined,
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -122,8 +121,7 @@ export const Timeline = ({
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
 
-  PTFItemProps?.status === 'not-submitted' &&
-    insertBefore(itemProps, 'attestation-de-conformite', PTFItemProps)
+  ptf?.status === 'not-submitted' && insertBefore(itemProps, 'attestation-de-conformite', ptf)
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
   dateMiseEnService?.statut === 'non-renseignée' &&

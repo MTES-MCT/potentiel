@@ -10,9 +10,11 @@ import {
   isKnownProjectEvent,
   KnownProjectEvents,
   ProjectEvent,
+  Raccordements,
 } from '../../projectionsNext'
 import { ProjectAppelOffre } from '@entities'
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
+import { getPtfDTO } from './getPtfDTO'
 
 const { Project, File, User } = models
 
@@ -43,6 +45,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
             { model: User, as: 'envoyéesParRef', required: false, attributes: ['role'] },
           ],
         },
+        {
+          model: Raccordements,
+          as: 'raccordement',
+          include: [{ model: File, as: 'ptfFichier' }],
+        },
       ],
     })
   )
@@ -61,6 +68,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         familleId,
         details,
         garantiesFinancières,
+        raccordement,
       } = rawProject.get()
       const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
       const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
@@ -69,6 +77,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         garantiesFinancières,
         user,
       })
+
+      const ptfDTO = getPtfDTO({ ptf: raccordement, projetStatus: status, user })
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&
@@ -164,21 +174,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     }
                   }
                   break
-                case 'ProjectPTFSubmitted':
-                  if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                    const { file } = payload
-                    if (type === 'ProjectPTFSubmitted') {
-                      events.push({
-                        type,
-                        date: valueDate,
-                        variant: user.role,
-                        file: file && { id: file.id, name: file.name },
-                      })
-                    }
-                  }
-                  break
                 case 'ProjectDCRRemoved':
-                case 'ProjectPTFRemoved':
                   if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                     events.push({
                       type,
@@ -593,7 +589,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
             },
             Promise.resolve([] as ProjectEventDTO[])
           )
-        ).concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : []),
+        )
+          .concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : [])
+          .concat(ptfDTO ? [ptfDTO] : []),
       }
     })
 }
