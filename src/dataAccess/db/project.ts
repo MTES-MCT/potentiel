@@ -1,5 +1,5 @@
 import { models } from '../../infra/sequelize/models'
-import { Attributes, col, DataTypes, literal, Op, where } from 'sequelize'
+import { Attributes, DataTypes, literal, Op } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
 import {
@@ -285,88 +285,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     as: 'certificateFile',
   })
 
-  const ProjectStep = sequelizeInstance.define(
-    'project_step',
-    {
-      id: {
-        type: DataTypes.UUID,
-        primaryKey: true,
-        allowNull: false,
-      },
-      type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      projectId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      stepDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      fileId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      submittedOn: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
-      submittedBy: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
-      details: {
-        type: DataTypes.JSON,
-        allowNull: true,
-      },
-      status: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      statusUpdatedOn: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      statusUpdatedBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-    },
-    {
-      timestamps: true,
-    }
-  )
-
-  ProjectStep.hasOne(FileModel, {
-    foreignKey: 'id',
-    sourceKey: 'fileId',
-    as: 'file',
-  })
-
-  ProjectStep.hasOne(UserModel, {
-    foreignKey: 'id',
-    sourceKey: 'statusUpdatedBy',
-    attributes: 'fullName',
-  })
-
-  ProjectModel.hasOne(ProjectStep, {
-    as: 'ptf',
-    foreignKey: 'projectId',
-    scope: {
-      [Op.and]: where(col('ptf.type'), Op.eq, 'ptf'),
-    },
-  })
-
-  ProjectModel.hasOne(ProjectStep, {
-    as: 'attestationDesignationProof',
-    foreignKey: 'projectId',
-    scope: {
-      type: 'attestation-designation-proof',
-    },
-  })
-
   ProjectModel.hasOne(GarantiesFinancières, {
     as: 'garantiesFinancières',
     foreignKey: 'projetId',
@@ -421,11 +339,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
             ],
           },
           {
-            model: ProjectStep,
-            as: 'ptf',
-            include: [{ model: FileModel, as: 'file' }],
-          },
-          {
             model: FileModel,
             as: 'certificateFile',
             attributes: ['id', 'filename'],
@@ -473,16 +386,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           { model: UserModel, as: 'envoyéesParRef' },
           { model: UserModel, as: 'validéesParRef' },
         ],
-      },
-      {
-        model: ProjectStep,
-        as: 'ptf',
-        include: [{ model: FileModel, as: 'file' }],
-      },
-      {
-        model: ProjectStep,
-        as: 'attestationDesignationProof',
-        include: [{ model: FileModel, as: 'file' }],
       },
       {
         model: FileModel,

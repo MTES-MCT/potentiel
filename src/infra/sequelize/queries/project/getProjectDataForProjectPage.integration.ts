@@ -7,7 +7,7 @@ import { resetDatabase } from '../../helpers'
 import models from '../../models'
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage'
 
-const { Project, File, User, UserProjects, ProjectStep } = models
+const { Project, File, User, UserProjects } = models
 const certificateFileId = new UniqueEntityID().toString()
 
 const projectId = new UniqueEntityID().toString()
