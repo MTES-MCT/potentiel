@@ -376,18 +376,18 @@ class routes {
   ) => {
     const route = '/projet/:projectId/demande/:modificationRequestId/telecharger-reponse/:filename'
     if (project && modificationRequestId) {
-      const now = new Date()
       return route
         .replace(':projectId', project.id)
         .replace(':modificationRequestId', modificationRequestId)
-        .replace(
-          ':filename',
-          sanitize(
-            `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} - Réponse demande - ${
-              project.potentielIdentifier
-            }.docx`
-          )
-        )
+        .replace(':filename', 'fichier')
+      // .replace(
+      //   ':filename',
+      //   sanitize(
+      //     `${new Date().getFullYear()}-XXX - TEST - Réponse demande - ${
+      //       project.potentielIdentifier
+      //     }.docx`
+      //   )
+      // )
     } else return route
   }
 

@@ -54,6 +54,8 @@ v1Router.get(
           )
         }
 
+        console.log(await makeResponseTemplate(data, request.user))
+
         return response.sendFile(
           path.resolve(process.cwd(), await makeResponseTemplate(data, request.user))
         )
