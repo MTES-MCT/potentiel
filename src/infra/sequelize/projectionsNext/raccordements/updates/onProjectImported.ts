@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain'
 import { logger } from '@core/utils'
-import { ProjectNotified } from '@modules/project'
+import { ProjectImported } from '@modules/project'
 import { ProjectionEnEchec } from '@modules/shared'
 import { Raccordements, RaccordementsProjector } from '../raccordements.model'
 
-export default RaccordementsProjector.on(ProjectNotified, async (évènement, transaction) => {
+export default RaccordementsProjector.on(ProjectImported, async (évènement, transaction) => {
   const {
     payload: { projectId: projetId },
   } = évènement
@@ -26,7 +26,7 @@ export default RaccordementsProjector.on(ProjectNotified, async (évènement, tr
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
-        `Erreur lors du traitement de l'évènement ProjectNotified`,
+        `Erreur lors du traitement de l'évènement ProjectImported`,
         {
           évènement,
           nomProjection: 'Raccordements',
