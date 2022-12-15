@@ -23,8 +23,9 @@ export default {
         type: DataTypes.DATE,
         allowNull: true,
       })
-      for (const { id, dateMiseEnService } of entréesÀModifier) {
-        try {
+
+      try {
+        for (const { id, dateMiseEnService } of entréesÀModifier) {
           await Project.update(
             {
               dateMiseEnService: new Date(dateMiseEnService),
@@ -38,14 +39,13 @@ export default {
               transaction,
             }
           )
-        } catch (e) {
-          console.error(e)
-          transaction.rollback()
         }
+        console.log(`${entréesÀModifier.length} projets ont une dateMiseEnService mis à jour`)
+        transaction.commit()
+      } catch (e) {
+        console.error(e)
+        transaction.rollback()
       }
-      console.log(`${entréesÀModifier.length} projets ont une dateMiseEnService mis à jour`)
-
-      transaction.commit()
     } else {
       await queryInterface.removeColumn('projects', 'dateMiseEnService')
       await queryInterface.addColumn('projects', 'dateMiseEnService', {
