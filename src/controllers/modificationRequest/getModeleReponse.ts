@@ -42,7 +42,12 @@ v1Router.get(
       request.user,
       dgecEmail
     ).match(
-      async (data) => {
+      async (
+        data: ModificationRequestDataForResponseTemplateDTO & {
+          appelOffreId: string
+          periodeId: string
+        }
+      ) => {
         if (data.status === 'envoyée' && data.type !== 'delai') {
           await eventStore.publish(
             new ResponseTemplateDownloaded({
@@ -54,9 +59,7 @@ v1Router.get(
           )
         }
 
-        console.log(await makeResponseTemplate(data, request.user))
-
-        return response.sendFile(
+        return response.download(
           path.resolve(process.cwd(), await makeResponseTemplate(data, request.user))
         )
       },
@@ -70,16 +73,6 @@ v1Router.get(
     )
   })
 )
-
-const TitleByType: Record<ModificationRequest['type'], string> = {
-  actionnaire: 'Changement d‘actionnaire',
-  fournisseur: 'Changement de fournisseur',
-  producteur: 'Changement de producteur',
-  puissance: 'Changement de puissance',
-  recours: 'Recours gracieux',
-  abandon: 'Abandon',
-  delai: 'Delai',
-}
 
 const TemplateByType: Record<ModificationRequest['type'], string> = {
   actionnaire: 'Modèle réponse Changement Actionnaire - dynamique.docx',
@@ -100,31 +93,38 @@ const getTemplate = ({ type, status }: ModificationRequestDataForResponseTemplat
 }
 
 async function makeResponseTemplate(
-  data: ModificationRequestDataForResponseTemplateDTO,
+  data: ModificationRequestDataForResponseTemplateDTO & { appelOffreId: string; periodeId: string },
   user: User
 ): Promise<string> {
-  const now = new Date()
-  const filepath = path.join(
-    os.tmpdir(),
-    sanitize(
-      `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDay() + 1} - ${
-        TitleByType[data.type]
-      } - ${data.refPotentiel}.docx`
-    )
-  )
+  const { appelOffreId, periodeId, ...données } = data
 
-  const templatePath = path.resolve(__dirname, '..', '..', 'views', 'template', getTemplate(data))
+  const initials = user.fullName
+    .split(' ')
+    .map((n) => n.slice(0, 1))
+    .join('')
+  const type = données.type.charAt(0).toUpperCase() + données.type.slice(1)
+
+  const nomDeFichier = `${new Date().getFullYear()}-XXX - ${initials} - ${type} ${appelOffreId.toUpperCase()} ${periodeId.toUpperCase()} - ${données.nomCandidat.toUpperCase()} - ${données.nomProjet.toUpperCase()}.docx `
+
+  const filepath = path.join(os.tmpdir(), sanitize(nomDeFichier))
+
+  const templatePath = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'views',
+    'template',
+    getTemplate(données)
+  )
 
   let imageToInject = ''
   if (user.role === 'dreal') {
     const userDreals = await oldUserRepo.findDrealsForUser(user.id)
     if (userDreals.length) {
-      const dreal = userDreals[0]
+      const [dreal] = userDreals
       imageToInject = path.resolve(__dirname, '../../public/images/dreals', `${dreal}.png`)
-      // @ts-ignore
-      data.suiviParEmail = user.email
-      // @ts-ignore
-      data.dreal = dreal
+      données.suiviParEmail = user.email
+      données.dreal = dreal
     }
   }
 
@@ -133,7 +133,7 @@ async function makeResponseTemplate(
     templatePath,
     outputPath: filepath,
     injectImage: imageToInject,
-    variables: data,
+    variables: données,
   })
 
   return filepath
