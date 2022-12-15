@@ -127,7 +127,6 @@ async function makeResponseTemplate(
   }
 
   // If there are multiple, use the first to coincide with the project
-
   await fillDocxTemplate({
     templatePath,
     outputPath: filepath,

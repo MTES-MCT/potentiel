@@ -19,7 +19,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User)
       return errAsync(new InfraNotAvailableError())
-
     return _getModificationRequestById(modificationRequestId, models)
       .andThen(
         (
@@ -108,6 +107,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           prixReference,
           evaluationCarbone,
           isFinancementParticipatif,
+          actionnariat,
           isInvestissementParticipatif,
           engagementFournitureDePuissanceAlaPointe,
           notifiedOn,
@@ -235,6 +235,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               paragrapheEngagementIPFPGPFC,
               renvoiModification,
               delaiRealisationTexte,
+              isFinancementCollectif: actionnariat === 'financement-collectif' ? 'yes' : '',
+              isGouvernancePartagée: actionnariat === 'gouvernance-partagee' ? 'yes' : '',
             } as ModificationRequestDataForResponseTemplateDTO)
 
           case 'puissance':
