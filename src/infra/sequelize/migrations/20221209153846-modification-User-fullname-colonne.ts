@@ -13,7 +13,6 @@ export default {
     await queryInterface.changeColumn('users', 'fullName', {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: '',
     })
   },
 }
