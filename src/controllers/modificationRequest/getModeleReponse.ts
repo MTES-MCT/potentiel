@@ -127,7 +127,6 @@ async function makeResponseTemplate(
   }
 
   // If there are multiple, use the first to coincide with the project
-  console.log('EVERYTHING IS HERE', templatePath, data)
   await fillDocxTemplate({
     templatePath,
     outputPath: filepath,

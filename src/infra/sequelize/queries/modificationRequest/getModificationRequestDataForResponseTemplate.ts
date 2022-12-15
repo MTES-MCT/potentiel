@@ -19,7 +19,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User)
       return errAsync(new InfraNotAvailableError())
-    // console.log('MODIFCIATION REQUEST ID', modificationRequestId)
     return _getModificationRequestById(modificationRequestId, models)
       .andThen(
         (
