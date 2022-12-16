@@ -158,7 +158,6 @@ export type PtfDTO = {
 } & (
   | {
       status: 'not-submitted'
-      date: undefined
     }
   | {
       status: 'submitted'

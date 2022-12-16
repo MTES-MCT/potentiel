@@ -2,17 +2,23 @@ import { User } from '@entities'
 import { PtfDTO, ProjectStatus } from '@modules/frise'
 import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/makeDocumentUrl'
 
-type PtfDonnéesPourDTO = {
-  ptfDateDeSignature: Date
-  ptfFichier?: { filename: string; id: string }
-}
+type PtfDonnéesPourDTO =
+  | {
+      ptfDateDeSignature: Date
+      ptfFichier: { filename: string; id: string }
+    }
+  | {
+      ptfDateDeSignature: null
+      ptfFichier: null
+    }
+  | null
 
 export const getPtfDTO = ({
   ptf,
   user,
   projetStatus,
 }: {
-  ptf: PtfDonnéesPourDTO | undefined
+  ptf: PtfDonnéesPourDTO
   user: User
   projetStatus: ProjectStatus
 }): PtfDTO | undefined => {
@@ -32,7 +38,6 @@ export const getPtfDTO = ({
   } else {
     return {
       type: 'proposition-technique-et-financiere',
-      date: undefined,
       role: user.role,
       status: 'not-submitted',
     }
