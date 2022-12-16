@@ -34,7 +34,7 @@ export const getPtfDTO = ({
       status: 'submitted',
       url: makeDocumentUrl(ptfFichier.id, ptfFichier.filename),
     }
-  } 
+  }
   return {
     type: 'proposition-technique-et-financiere',
     role: user.role,
