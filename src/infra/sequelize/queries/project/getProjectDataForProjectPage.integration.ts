@@ -7,7 +7,7 @@ import { resetDatabase } from '../../helpers'
 import models from '../../models'
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage'
 
-const { Project, File, User, UserProjects, ProjectStep } = models
+const { Project, File, User, UserProjects } = models
 const certificateFileId = new UniqueEntityID().toString()
 
 const projectId = new UniqueEntityID().toString()
@@ -170,40 +170,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
         { id: userId, fullName: 'username', email: 'user@test.test' },
         { id: userId2, fullName: 'username', email: 'user2@test.test' },
       ],
-    })
-  })
-
-  describe('when ptf has been submitted', () => {
-    const ptfFileId = new UniqueEntityID().toString()
-
-    it('should include ptf info', async () => {
-      await resetDatabase()
-
-      await Project.create(makeFakeProject(projectInfo))
-      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
-      await File.create(makeFakeFile({ id: ptfFileId, filename: 'filename' }))
-      await ProjectStep.create({
-        id: new UniqueEntityID().toString(),
-        type: 'ptf',
-        projectId,
-        stepDate: new Date(56),
-        fileId: ptfFileId,
-        submittedOn: new Date(567),
-        submittedBy: user.id,
-      })
-
-      const res = await getProjectDataForProjectPage({ projectId, user })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        ptf: {
-          submittedOn: new Date(567),
-          ptfDate: new Date(56),
-          file: {
-            id: ptfFileId,
-            filename: 'filename',
-          },
-        },
-      })
     })
   })
 

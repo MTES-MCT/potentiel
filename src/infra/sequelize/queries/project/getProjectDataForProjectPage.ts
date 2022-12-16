@@ -6,7 +6,7 @@ import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { parseCahierDesChargesRéférence } from '@entities'
 
-const { Project, File, User, UserProjects, ProjectStep } = models
+const { Project, File, User, UserProjects } = models
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   return wrapInfra(
     Project.findByPk(projectId, {
@@ -25,18 +25,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             {
               model: User,
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
-            },
-          ],
-        },
-        {
-          model: ProjectStep,
-          as: 'ptf',
-          required: false,
-          include: [
-            {
-              model: File,
-              as: 'file',
-              attributes: ['id', 'filename'],
             },
           ],
         },
@@ -80,7 +68,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           classe,
           motifsElimination,
           users,
-          ptf,
           completionDueOn,
           updatedAt,
           cahierDesChargesActuel: cahierDesChargesActuelRaw,
@@ -165,16 +152,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         if (user.role !== 'dreal') {
           result.certificateFile = certificateFile?.get()
-        }
-
-        if (ptf) {
-          const { submittedOn, file, stepDate } = ptf
-          result.ptf = {
-            ...result.ptf,
-            submittedOn,
-            file: file?.get(),
-            ptfDate: stepDate,
-          }
         }
 
         return ok(result)

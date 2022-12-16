@@ -1,4 +1,4 @@
-import { DataTypes, Op, where, col } from 'sequelize'
+import { DataTypes } from 'sequelize'
 import { cahiersDesChargesRéférences } from '@entities'
 
 export const MakeProjectModel = (sequelize) => {
@@ -195,7 +195,7 @@ export const MakeProjectModel = (sequelize) => {
   )
 
   Project.associate = (models) => {
-    const { File, UserProjects, ProjectStep, GarantiesFinancières } = models
+    const { File, UserProjects, GarantiesFinancières, Raccordements } = models
 
     Project.belongsTo(File, {
       foreignKey: 'dcrFileId',
@@ -211,24 +211,13 @@ export const MakeProjectModel = (sequelize) => {
       as: 'users',
     })
 
-    Project.hasOne(ProjectStep, {
-      as: 'ptf',
-      foreignKey: 'projectId',
-      scope: {
-        [Op.and]: where(col('ptf.type'), Op.eq, 'ptf'),
-      },
-    })
-
-    Project.hasOne(ProjectStep, {
-      as: 'attestationDesignationProof',
-      foreignKey: 'projectId',
-      scope: {
-        type: 'attestation-designation-proof',
-      },
-    })
-
     Project.hasOne(GarantiesFinancières, {
       as: 'garantiesFinancières',
+      foreignKey: 'projetId',
+    })
+
+    Project.hasOne(Raccordements, {
+      as: 'raccordement',
       foreignKey: 'projetId',
     })
   }

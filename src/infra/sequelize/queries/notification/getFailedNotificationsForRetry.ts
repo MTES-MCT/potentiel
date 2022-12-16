@@ -3,7 +3,7 @@ import { wrapInfra } from '@core/utils'
 import { FailedNotification, GetFailedNotificationsForRetry } from '@modules/notification'
 import models from '../../models'
 
-const { ProjectStep, Notification, Project } = models
+const { Notification } = models
 export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = () => {
   return wrapInfra<FailedNotification[]>(
     Notification.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] })
@@ -16,14 +16,6 @@ export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = ()
           return true
         }
         passwordResetEmails.add(notification.message.email)
-      } else if (notification.type === 'relance-gf') {
-        const { projectId } = notification.context
-        const project = await Project.findByPk(projectId, {
-          include: [{ model: ProjectStep, as: 'gf', require: false }],
-        })
-        if (!project || project.get().gf?.submittedOn) {
-          return true
-        }
       }
       return false
     }

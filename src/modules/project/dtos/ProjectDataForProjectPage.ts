@@ -83,7 +83,7 @@ type IsClasse = {
   isClasse: true
   isAbandoned: false
   completionDueOn: Date
-} & PTF
+}
 
 type IsElimine = {
   isClasse: false
@@ -94,23 +94,6 @@ type IsElimine = {
 type IsAbandoned = {
   isAbandoned: true
   isClasse: false
-}
-
-type PTF = PTFSubmitted | PTFPending
-
-type PTFSubmitted = {
-  ptf: {
-    submittedOn: Date
-    ptfDate: Date
-    file: {
-      id: string
-      filename: string
-    }
-  }
-}
-
-type PTFPending = {
-  ptf: undefined
 }
 
 type Users = {

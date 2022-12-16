@@ -11,7 +11,6 @@ Les données qui sont affichées dans les vues sont issues de ces projections.
 - [modificationRequest](#modificationrequest)
 - [project](#project)
 - [projectEvents](#projectevents)
-- [projectStep](#projectstep)
 - [user](#user)
 - [userDreal](#userdreal)
 - [userProjectClaims](#userprojectclaims)
@@ -198,26 +197,6 @@ Mise à jour par:
 - [ProjectClaimed](./Events.md#projectclaimed)
 
 - [LegacyModificationFileAttached](./Events.md#legacymodificationfileattached)
-
-### projectStep
-
-Mise à jour par:
-
-- [ProjectDCRRemoved](./Events.md#projectdcrremoved)
-
-- [ProjectDCRSubmitted](./Events.md#projectdcrsubmitted)
-
-- [ProjectGFRemoved](./Events.md#projectgfremoved)
-
-- [ProjectGFSubmitted](./Events.md#projectgfsubmitted)
-
-- [ProjectGFUploaded](./Events.md#projectgfuploaded)
-
-- [ProjectGFWithdrawn](./Events.md#projectgfwithdrawn)
-
-- [ProjectPTFRemoved](./Events.md#projectptfremoved)
-
-- [ProjectPTFSubmitted](./Events.md#projectptfsubmitted)
 
 ### user
 

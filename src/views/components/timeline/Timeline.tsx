@@ -11,6 +11,7 @@ import {
   GarantiesFinancièresDTO,
   DateMiseEnServiceDTO,
   DateFileAttenteDTO,
+  PtfDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -47,9 +48,7 @@ import {
   extractDCRItemProps,
   extractDesignationItemProps,
   extractImportItemProps,
-  extractPTFItemProps,
   ImportItemProps,
-  PTFItemProps,
   extractModificationRequestsItemProps,
   ModificationRequestItemProps,
   ModificationReceivedItemProps,
@@ -70,7 +69,7 @@ type ItemProps =
   | DesignationItemProps
   | DCRItemProps
   | ACItemProps
-  | PTFItemProps
+  | PtfDTO
   | CRItemProps
   | CAItemProps
   | ModificationRequestItemProps
@@ -94,8 +93,8 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const PTFItemProps = extractPTFItemProps(events, { status })
   const garantiesFinancières = events.find(is('garanties-financières'))
+  const ptf = events.find(is('proposition-technique-et-financière'))
   const dateMiseEnService = events.find(is('DateMiseEnService'))
   const dateFileAttente = events.find(is('DateFileAttente'))
 
@@ -105,7 +104,7 @@ export const Timeline = ({
     garantiesFinancières?.date !== 0 ? garantiesFinancières : undefined,
     extractDCRItemProps(events, now, { status }),
     extractACItemProps(events, { status }),
-    PTFItemProps?.status === 'submitted' ? PTFItemProps : undefined,
+    ptf?.statut === 'envoyée' ? ptf : undefined,
     ...extractModificationRequestsItemProps(events),
     ...events.filter(is('DemandeDelaiSignaled')),
     ...events.filter(is('DemandeAbandonSignaled')),
@@ -122,8 +121,7 @@ export const Timeline = ({
     .filter(isNotNil)
     .sort((a, b) => a.date - b.date)
 
-  PTFItemProps?.status === 'not-submitted' &&
-    insertBefore(itemProps, 'attestation-de-conformite', PTFItemProps)
+  ptf?.statut === 'en-attente' && insertBefore(itemProps, 'attestation-de-conformite', ptf)
   insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
   insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
   dateMiseEnService?.statut === 'non-renseignée' &&
@@ -153,7 +151,7 @@ export const Timeline = ({
       case 'demande-complete-de-raccordement':
         return <DCRItem {...{ ...props, projectId }} />
 
-      case 'proposition-technique-et-financiere':
+      case 'proposition-technique-et-financière':
         return <PTFItem {...{ ...props, projectId }} />
 
       case 'convention-de-raccordement':

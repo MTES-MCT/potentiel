@@ -5,7 +5,6 @@ import { MakeFileModel } from './projections/file/file.model'
 import { MakeNotificationModel } from './projections/notification/notification.model'
 import { MakeEventStoreModel } from './eventStore/eventStore.model'
 import { MakeUserModel } from './projections/user/user.model'
-import { MakeProjectStepModel } from './projections/projectStep/projectStep.model'
 
 import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
 import { MakeUserDrealModel } from './projections/userDreal/userDreal.model'
@@ -18,6 +17,7 @@ import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
 import { GarantiesFinancières } from './projectionsNext/garantiesFinancières'
+import { Raccordements } from './projectionsNext'
 
 //
 // Legacy projections
@@ -31,7 +31,6 @@ export const models = {
   ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
   User: MakeUserModel(sequelizeInstance),
   UserProjects: MakeUserProjectsModel(sequelizeInstance),
-  ProjectStep: MakeProjectStepModel(sequelizeInstance),
   AppelOffre: MakeAppelOffreModel(sequelizeInstance),
   Periode: MakePeriodeModel(sequelizeInstance),
   UserDreal: MakeUserDrealModel(sequelizeInstance),
@@ -55,6 +54,18 @@ GarantiesFinancières.hasOne(models.User, {
   foreignKey: 'id',
   sourceKey: 'validéesPar',
   as: 'validéesParRef',
+})
+
+Raccordements.hasOne(models.File, {
+  foreignKey: 'id',
+  sourceKey: 'ptfFichierId',
+  as: 'ptfFichier',
+})
+
+Raccordements.hasOne(models.User, {
+  foreignKey: 'id',
+  sourceKey: 'ptfEnvoyéePar',
+  as: 'ptfEnvoyéeParRef',
 })
 
 // Link projectors with the eventBus (called by the application config)

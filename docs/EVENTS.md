@@ -386,7 +386,6 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | [Project.updateActionnaire](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectActionnaireUpdated.ts) de [project](./PROJECTIONS.md#project) |
 
-
 | Emetteurs                                                                                          | Récepteurs |
 | -------------------------------------------------------------------------------------------------- | ---------- |
 | [getProjectCertificateFile](../src/controllers/candidateNotification/getProjectCertificateFile.ts) |            |
@@ -476,15 +475,14 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 
 | Emetteurs                                                   | Récepteurs                                                                                                                                            |
 | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [removeStep](../src/modules/project/useCases/removeStep.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)          |
-|                                                             | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+| [removeStep](../src/modules/project/useCases/removeStep.ts) | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+|                                                             |
 
 ### [ProjectDCRSubmitted](../src/modules/project/events/ProjectDCRSubmitted.ts)
 
 | Emetteurs                                                   | Récepteurs                                                                                                                                              |
 | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [submitStep](../src/modules/project/useCases/submitStep.ts) | [Mise à jour](../src/infra/sequelize/projections/project/updates/onProjectDCRSubmitted.ts) de [project](./PROJECTIONS.md#project)                       |
-|                                                             | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)          |
 |                                                             | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectDCRSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectDataCorrected](../src/modules/project/events/ProjectDataCorrected.ts)
@@ -519,14 +517,14 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 
 | Emetteurs                                                               | Récepteurs                                                                                                                                           |
 | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Project.removeGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)         |
+| [Project.removeGarantiesFinancieres](../src/modules/project/Project.ts) |
 |                                                                         | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectGFSubmitted](../src/modules/project/events/ProjectGFSubmitted.ts)
 
 | Emetteurs                                                               | Récepteurs                                                                                                                                             |
 | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Project.submitGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)         |
+| [Project.submitGarantiesFinancieres](../src/modules/project/Project.ts) |
 |                                                                         | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 |                                                                         | notification / [handleProjectGFSubmitted](../src/modules/notification/eventHandlers/handleProjectGFSubmitted.ts)                                       |
 
@@ -534,15 +532,13 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 
 | Emetteurs                                                               | Récepteurs                                                                                                                                            |
 | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Project.uploadGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)        |
-|                                                                         | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFUploaded.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+| [Project.uploadGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFUploaded.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectGFWithdrawn](../src/modules/project/events/ProjectGFWithdrawn.ts)
 
 | Emetteurs                                                                 | Récepteurs                                                                                                                                             |
 | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Project.withdrawGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)           |
-|                                                                           | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFWithdrawn.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+| [Project.withdrawGarantiesFinancieres](../src/modules/project/Project.ts) | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectGFWithdrawn.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectImported](../src/modules/project/events/ProjectImported.ts)
 
@@ -576,17 +572,15 @@ Ils peuvent également être écoutés pour le déclenchement d'effets (ex: envo
 
 ### [ProjectPTFRemoved](../src/modules/project/events/ProjectPTFRemoved.ts)
 
-| Emetteurs                                                   | Récepteurs                                                                                                                                            |
-| ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [removeStep](../src/modules/project/useCases/removeStep.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepRemoved.ts) de [projectStep](./PROJECTIONS.md#projectstep)          |
-|                                                             | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+| Emetteurs | Récepteurs                                                                                                                                            |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+|           | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFRemoved.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectPTFSubmitted](../src/modules/project/events/ProjectPTFSubmitted.ts)
 
-| Emetteurs                                                   | Récepteurs                                                                                                                                              |
-| ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [submitStep](../src/modules/project/useCases/submitStep.ts) | [Mise à jour](../src/infra/sequelize/projections/projectStep/updates/onProjectStepSubmitted.ts) de [projectStep](./PROJECTIONS.md#projectstep)          |
-|                                                             | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
+| Emetteurs | Récepteurs                                                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|           | [Mise à jour](../src/infra/sequelize/projectionsNext/projectEvents/updates/onProjectPTFSubmitted.ts) de [projectEvents](./PROJECTIONS.md#projectevents) |
 
 ### [ProjectProducteurUpdated](../src/modules/project/events/ProjectProducteurUpdated.ts)
 

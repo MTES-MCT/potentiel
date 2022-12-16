@@ -13,13 +13,13 @@ import {
   Link,
   ExclamationIcon,
 } from '@components'
-import { PTFItemProps } from '../helpers/extractPTFItemProps'
 import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
+import { PtfDTO } from '@modules/frise'
 
-export const PTFItem = (props: PTFItemProps & { projectId: string }) => {
-  const { projectId, status } = props
+export const PTFItem = (props: PtfDTO & { projectId: string }) => {
+  const { projectId, statut } = props
 
-  return status === 'submitted' ? (
+  return statut === 'envoyée' ? (
     <Submitted {...{ ...props, projectId }} />
   ) : (
     <NotSubmitted {...{ ...props, projectId }} />

@@ -1,0 +1,43 @@
+import { User } from '@entities'
+import { PtfDTO, ProjectStatus } from '@modules/frise'
+import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/makeDocumentUrl'
+
+type PtfDonnéesPourDTO =
+  | {
+      ptfDateDeSignature: Date
+      ptfFichier: { filename: string; id: string }
+    }
+  | {
+      ptfDateDeSignature: null
+      ptfFichier: null
+    }
+  | null
+
+export const getPtfDTO = ({
+  ptf,
+  user,
+  projetStatus,
+}: {
+  ptf: PtfDonnéesPourDTO
+  user: User
+  projetStatus: ProjectStatus
+}): PtfDTO | undefined => {
+  if (!ptf || projetStatus !== 'Classé') return
+
+  const { ptfDateDeSignature, ptfFichier } = ptf
+
+  if (ptfFichier) {
+    return {
+      type: 'proposition-technique-et-financière',
+      date: ptfDateDeSignature.getTime(),
+      role: user.role,
+      statut: 'envoyée',
+      url: makeDocumentUrl(ptfFichier.id, ptfFichier.filename),
+    }
+  }
+  return {
+    type: 'proposition-technique-et-financière',
+    role: user.role,
+    statut: 'en-attente',
+  }
+}
