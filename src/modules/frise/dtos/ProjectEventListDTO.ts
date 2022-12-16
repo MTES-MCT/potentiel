@@ -153,24 +153,18 @@ export type ProjectDCRDueDateSetDTO = {
 }
 
 export type PtfDTO = {
-  type: 'proposition-technique-et-financiere'
+  type: 'proposition-technique-et-financière'
   role: UserRole
 } & (
   | {
-      status: 'not-submitted'
+      statut: 'en-attente'
     }
   | {
-      status: 'submitted'
+      statut: 'envoyée'
       date: number
       url: string
     }
 )
-export type ProjectPTFSubmittedDTO = {
-  type: 'ProjectPTFSubmitted'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-}
 
 export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet'

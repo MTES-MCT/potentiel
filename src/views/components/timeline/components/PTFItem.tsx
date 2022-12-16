@@ -17,9 +17,9 @@ import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
 import { PtfDTO } from '@modules/frise'
 
 export const PTFItem = (props: PtfDTO & { projectId: string }) => {
-  const { projectId, status } = props
+  const { projectId, statut } = props
 
-  return status === 'submitted' ? (
+  return statut === 'envoyée' ? (
     <Submitted {...{ ...props, projectId }} />
   ) : (
     <NotSubmitted {...{ ...props, projectId }} />

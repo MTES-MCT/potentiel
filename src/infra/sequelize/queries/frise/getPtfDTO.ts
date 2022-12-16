@@ -28,16 +28,16 @@ export const getPtfDTO = ({
 
   if (ptfFichier) {
     return {
-      type: 'proposition-technique-et-financiere',
+      type: 'proposition-technique-et-financière',
       date: ptfDateDeSignature.getTime(),
       role: user.role,
-      status: 'submitted',
+      statut: 'envoyée',
       url: makeDocumentUrl(ptfFichier.id, ptfFichier.filename),
     }
   }
   return {
-    type: 'proposition-technique-et-financiere',
+    type: 'proposition-technique-et-financière',
     role: user.role,
-    status: 'not-submitted',
+    statut: 'en-attente',
   }
 }

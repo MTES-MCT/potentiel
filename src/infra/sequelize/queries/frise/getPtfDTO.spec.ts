@@ -45,8 +45,8 @@ describe(`Requête getPtfDTO`, () => {
     })
 
     expect(résultat).toMatchObject({
-      type: 'proposition-technique-et-financiere',
-      status: 'not-submitted',
+      type: 'proposition-technique-et-financière',
+      statut: 'en-attente',
       role: utilisateur.role,
     })
   })
@@ -65,8 +65,8 @@ describe(`Requête getPtfDTO`, () => {
     })
 
     expect(résultat).toMatchObject({
-      type: 'proposition-technique-et-financiere',
-      status: 'submitted',
+      type: 'proposition-technique-et-financière',
+      statut: 'envoyée',
       role: utilisateur.role,
       date: ptf.ptfDateDeSignature.getTime(),
       url: makeDocumentUrl(ptf.ptfFichier.id, ptf.ptfFichier.filename),

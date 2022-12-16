@@ -258,10 +258,10 @@ export const forPorteurProjetWithPTF = () => (
       events: [
         ...projectEventList.events,
         {
-          type: 'proposition-technique-et-financiere',
+          type: 'proposition-technique-et-financière',
           role: 'porteur-projet',
           date: new Date('2022-02-13').getTime(),
-          status: 'submitted',
+          statut: 'envoyée',
           url: 'file-url',
         } as PtfDTO,
       ],
