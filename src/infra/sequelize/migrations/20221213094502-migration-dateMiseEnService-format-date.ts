@@ -24,12 +24,12 @@ export default {
 
     try {
       for (const { id, dateMiseEnService } of entréesÀModifier) {
-        console.log(dateMiseEnService)
         await queryInterface.sequelize.query(
-          `UPDATE "projects" SET "newDateMiseEnService" = '${dateMiseEnService.toISOString()}' where "id" = '${id}'`,
+          `UPDATE "projects" SET "newDateMiseEnService" = ? where "id" = ?`,
           {
             transaction,
             type: QueryTypes.UPDATE,
+            replacements: [dateMiseEnService.toISOString(), id],
           }
         )
       }
