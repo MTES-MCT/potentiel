@@ -22,8 +22,7 @@ export const getPtfDTO = ({
   user: User
   projetStatus: ProjectStatus
 }): PtfDTO | undefined => {
-  if (!ptf) return
-  if (projetStatus !== 'Classé') return
+  if (!ptf || projetStatus !== 'Classé') return
 
   const { ptfDateDeSignature, ptfFichier } = ptf
 
