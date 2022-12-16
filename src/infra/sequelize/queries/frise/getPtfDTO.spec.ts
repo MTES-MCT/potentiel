@@ -1,12 +1,9 @@
-import { resetDatabase } from '@infra/sequelize/helpers'
 import { User } from '@entities'
 import { getPtfDTO } from './getPtfDTO'
 import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/makeDocumentUrl'
 
 describe(`Requête getPtfDTO`, () => {
   const utilisateur = { role: 'porteur-projet' } as User
-
-  beforeEach(async () => await resetDatabase())
 
   it(`Etant donné un projet éliminé avec une PTF
       alors la requête devrait retourner undefined`, async () => {
