@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
+import { LegacyUserCreated, UserCreated } from '@modules/users'
 import { makeUtilisateur } from './Utilisateur'
 import { ProfilUtilisateurCréé, UtilisateurInvité } from './events'
 
@@ -50,9 +51,58 @@ describe(`Fabriquer l'agrégat Utilisateur`, () => {
         email: 'email@utilisateur.com',
         role: 'cre',
         statut: 'créé',
-        nom: 'Nom',
-        prénom: 'Prénom',
-        fonction: 'Ma fonction',
+      })
+  })
+  it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'UserCreated'
+      Alors l'Utilisateur devrait avoir un statut 'créé'
+      Et devrait avoir un email, rôle, nom et prénom`, () => {
+    const utilisateur = makeUtilisateur({
+      id: new UniqueEntityID('email@utilisateur.com'),
+      events: [
+        new UserCreated({
+          payload: {
+            userId: 'email@utilisateur.com',
+            email: 'email@utilisateur.com',
+            role: 'cre',
+            fullName: 'Nom Prénom',
+          },
+        }),
+      ],
+    })
+
+    expect(utilisateur.isOk()).toBe(true)
+    utilisateur.isOk() &&
+      expect(utilisateur.value).toMatchObject({
+        email: 'email@utilisateur.com',
+        role: 'cre',
+        statut: 'créé',
+      })
+  })
+
+  it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'LegacyUserCreated'
+      Alors l'Utilisateur devrait avoir un statut 'créé'
+      Et devrait avoir un email, rôle, nom et prénom`, () => {
+    const utilisateur = makeUtilisateur({
+      id: new UniqueEntityID('email@utilisateur.com'),
+      events: [
+        new LegacyUserCreated({
+          payload: {
+            userId: 'email@utilisateur.com',
+            keycloakId: 'email@utilisateur.com',
+            email: 'email@utilisateur.com',
+            role: 'cre',
+            fullName: 'Nom Prénom',
+          },
+        }),
+      ],
+    })
+
+    expect(utilisateur.isOk()).toBe(true)
+    utilisateur.isOk() &&
+      expect(utilisateur.value).toMatchObject({
+        email: 'email@utilisateur.com',
+        role: 'cre',
+        statut: 'créé',
       })
   })
 })
