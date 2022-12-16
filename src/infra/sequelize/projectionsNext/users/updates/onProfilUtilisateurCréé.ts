@@ -7,9 +7,11 @@ export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, tr
   const {
     payload: { email, role, prénom, nom, fonction },
   } = évènement
+  const utilisateurExistant = await Users.findOne({ where: { email }, transaction })
   try {
     await Users.upsert(
       {
+        ...(utilisateurExistant && { id: utilisateurExistant.id }),
         email,
         role,
         fullName: `${prénom} ${nom}`,

@@ -1,20 +1,19 @@
-import { createUser, eventStore, ensureRole } from '@config'
+import { ensureRole, inviterUtilisateur } from '@config'
 import asyncHandler from '../../helpers/asyncHandler'
 import { addQueryParams } from '../../../helpers/addQueryParams'
-import { PartnerUserInvited } from '@modules/authZ'
 import routes from '@routes'
 import { v1Router } from '../../v1Router'
 import * as yup from 'yup'
 import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers'
 import { logger } from '@core/utils'
-import { EmailAlreadyUsedError } from '../../../modules/shared/errors'
+import { InvitationUniqueParUtilisateurError } from '@modules/utilisateur'
 
 const requestBodySchema = yup.object({
   role: yup
-    .mixed<'acheteur-obligé' | 'ademe'>()
+    .mixed<'acheteur-obligé' | 'ademe' | 'cre'>()
     .oneOf(
-      ['acheteur-obligé', 'ademe'],
-      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME'
+      ['acheteur-obligé', 'ademe', 'cre'],
+      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME, CRE'
     )
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
@@ -26,27 +25,7 @@ v1Router.post(
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
-      .asyncAndThen((body) => {
-        const { email, role } = body
-
-        return createUser({
-          email: email.toLowerCase(),
-          role,
-          createdBy: request.user,
-        }).andThen(({ id: userId }) => {
-          return eventStore
-            .publish(
-              new PartnerUserInvited({
-                payload: {
-                  userId,
-                  role,
-                  invitedBy: request.user.id,
-                },
-              })
-            )
-            .map(() => ({ email }))
-        })
-      })
+      .asyncAndThen(({ email, role }) => inviterUtilisateur({ email, role }).map(() => ({ email })))
       .match(
         ({ email }) =>
           response.redirect(
@@ -65,12 +44,11 @@ v1Router.post(
               })
             )
           }
-          if (error instanceof EmailAlreadyUsedError) {
+          if (error instanceof InvitationUniqueParUtilisateurError) {
             return response.redirect(
               addQueryParams(routes.ADMIN_PARTNER_USERS, {
                 ...request.body,
-                error:
-                  "L'invitation n'a pas pu être envoyée car l'adresse email est déjà associée à un compte Potentiel.",
+                error: error.message,
               })
             )
           }

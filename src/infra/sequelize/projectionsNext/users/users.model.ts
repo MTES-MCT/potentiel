@@ -6,7 +6,7 @@ import {
   InferCreationAttributes,
   Model,
 } from 'sequelize'
-import { sequelizeInstance } from 'src/sequelize.config'
+import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
 const étatsPossibles = ['invité', 'créé'] as const
@@ -35,6 +35,7 @@ Users.init(
     fullName: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: '',
     },
     email: {
       type: DataTypes.STRING,
