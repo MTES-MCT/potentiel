@@ -2,6 +2,7 @@ import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domai
 import { errAsync } from '@core/utils'
 import { UserRole } from '@modules/users'
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
+import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
 import { Utilisateur } from '../Utilisateur'
 import { UtilisateurInvité } from '../events/UtilisateurInvité'
 
@@ -23,6 +24,9 @@ export const makeInviterUtilisateur =
       (utilisateur) => {
         if (utilisateur.statut === 'invité') {
           return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
+        }
+        if (utilisateur.statut === 'créé') {
+          return errAsync(new InvitationUtilisateurExistantError({ email, role }))
         }
 
         return publishToEventStore(
