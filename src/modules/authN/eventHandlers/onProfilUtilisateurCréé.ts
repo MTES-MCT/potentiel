@@ -1,7 +1,6 @@
 import { logger } from '@core/utils'
-import { CreateUserCredentials } from '@modules/authN/queries'
 import { ProfilUtilisateurCréé } from '@modules/utilisateur'
-import { UserRole } from '../../users'
+import { CreateUserCredentials } from '../queries'
 
 type OnProfilUtilisateurCréé = (évènement: ProfilUtilisateurCréé) => Promise<void>
 
@@ -15,7 +14,7 @@ export const makeOnProfilUtilisateurCréé: MakeOnProfilUtilisateurCréé =
     try {
       const res = await createUserCredentials({
         email,
-        role: role as UserRole,
+        role,
         fullName: `${prénom} ${nom}`,
       })
       if (res.isErr()) {
