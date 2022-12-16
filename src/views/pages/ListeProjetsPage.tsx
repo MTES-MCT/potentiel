@@ -335,6 +335,7 @@ export const ListeProjets = ({
                 </SecondaryLinkButton>
               )}
             </div>
+
             <ProjectList
               displaySelection={displaySelection}
               selectedIds={selectedProjectIds}

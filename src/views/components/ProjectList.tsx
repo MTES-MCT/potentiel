@@ -90,6 +90,14 @@ export const ProjectList = ({
     onSelectedIdsChanged?.(newSelectedIds)
   }
 
+  const toggleSelectAllPage = (value: boolean) => {
+    if (value) {
+      onSelectedIdsChanged?.(items.map((projet) => projet.id))
+    } else {
+      onSelectedIdsChanged?.([])
+    }
+  }
+
   return (
     <>
       <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm" aria-hidden>
@@ -128,6 +136,21 @@ export const ProjectList = ({
         )}
       </legend>
 
+      <div className="p-5 flex items-center">
+        {displaySelection && (
+          <>
+            <input
+              onChange={(e) => toggleSelectAllPage(e.target.checked)}
+              type="checkbox"
+              checked={selectedIds.length === items.length}
+            />
+            <span className="text-sm">
+              Séléctioner tous les projets de la page ({items.length})
+            </span>
+          </>
+        )}
+      </div>
+
       {items.map((project) => (
         <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
           <div className="flex flex-col gap-2 mb-4">
@@ -137,6 +160,7 @@ export const ProjectList = ({
                   onChange={(e) => toggleSelected(project.id, e.target.checked)}
                   type="checkbox"
                   value={project.id}
+                  checked={selectedIds.indexOf(project.id) > -1}
                 />
               )}
               <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
