@@ -153,7 +153,7 @@ export type ProjectDCRDueDateSetDTO = {
 
 export type PtfDTO = {
   type: 'proposition-technique-et-financière'
-  role: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 } & (
   | {
       statut: 'en-attente'
