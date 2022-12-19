@@ -55,10 +55,29 @@ conditions ou du prélèvement d’une part de la garantie financière. L’acco
     },
     texteDélaisDAchèvement: {
       référenceParagraphe: '6.3',
-      dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+      dispositions: `
+      
+      Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
 - trente (30) mois à compter de la Date de désignation ;
 - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
-En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la  durée de dépassement.`,
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la  durée de dépassement.
+      
+      
+      
+      
+      
+      
+      Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
+- trente (30) mois à compter de la Date de désignation ;
+- deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
+
+
+
+
+
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la  durée de dépassement. Des dérogations au délai d’Achèvement sont toutefois accordées dans le cas où des contentieux administratifs effectués à l’encontre de l’autorisation d’urbanisme liée à l’installation ou à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’Achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date de recours initial et la date de décision ayant autorité de la chose jugée est alors accordé.
+Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès du Cocontractant.
+Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
     },
   },
   periodes: [
@@ -142,10 +161,13 @@ En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 e
         texteDélaisDAchèvement: {
           référenceParagraphe: '6.3',
           dispositions: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :
-    - trente (30) mois à compter de la Date de désignation ;
-    deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement.
-    Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
-    En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.`,
+- trente (30) mois à compter de la Date de désignation ; 
+deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en œuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement matérialisée par la date de la facture de solde à acquitter par le producteur pour sa contribution au coût du raccordement. 
+Pour les installations dont la mise en service a lieu entre le 1er septembre 2022 et le 31 décembre 2024inclus, cette date limite est repoussée de dix-huit (18) mois supplémentaires.
+En cas de dépassement de ce délai, la durée de contrat mentionnée au 7.1.1 est réduite de la durée de dépassement.
+Des dérogations au délai d’Achèvement sont toutefois accordées dans le cas où des contentieux administratifs effectués à l’encontre de l’autorisation d’urbanisme liée à l’installation ou à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’Achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date de recours initial et la date de décision ayant autorité de la chose jugée est alors accordé. 
+Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès du Cocontractant. 
+Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’échéance du 31 décembre 2024 mentionnée au présent 6.3 et au 7.1, pour la mise en service peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.`,
         },
       },
       délaiApplicable: {
