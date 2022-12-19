@@ -102,9 +102,10 @@ async function makeResponseTemplate(
     .split(' ')
     .map((n) => n.slice(0, 1))
     .join('')
+    .toUpperCase()
   const type = données.type.charAt(0).toUpperCase() + données.type.slice(1)
 
-  const nomDeFichier = `${new Date().getFullYear()}-XXX - ${initials} - ${type} ${appelOffreId.toUpperCase()} ${periodeId.toUpperCase()} - ${données.nomCandidat.toUpperCase()} - ${données.nomProjet.toUpperCase()}.docx`
+  const nomDeFichier = `${new Date().getFullYear()}-XXX - ${initials} - ${type} ${appelOffreId.toUpperCase()} T${periodeId.toUpperCase()} - ${données.nomCandidat.toUpperCase()} - ${données.nomProjet.toUpperCase()}.docx`
 
   const filepath = path.join(os.tmpdir(), sanitize(nomDeFichier))
 
