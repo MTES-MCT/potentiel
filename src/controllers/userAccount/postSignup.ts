@@ -4,6 +4,7 @@ import { créerProfilUtilisateur } from '@config'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { logger } from '@core/utils'
 
 const schema = yup.object({
   body: yup.object({
@@ -42,7 +43,7 @@ v1Router.post(
             })
           ),
         (e) => {
-          console.error(e)
+          logger.error(e)
           response.redirect(
             addQueryParams(routes.SIGNUP, {
               error:
