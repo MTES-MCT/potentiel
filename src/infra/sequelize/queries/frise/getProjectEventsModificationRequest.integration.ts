@@ -7,366 +7,209 @@ import { resetDatabase } from '../../helpers'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
-describe('getProjectEvents for ModificationRequested events', () => {
+describe('getProjectEvents pour les événements ModificationRequest*', () => {
   const { Project } = models
-  const projectId = new UniqueEntityID().toString()
+  const projetId = new UniqueEntityID().toString()
   const modificationRequestId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
+  const date = new Date()
 
   beforeEach(async () => {
     await resetDatabase()
-    await Project.create(fakeProject)
+    await Project.create(projet)
   })
-  describe('when there are modifications requested of type delai, recours and puissance', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
 
-          it('should return modification requested events', async () => {
-            const date = new Date('2022-02-09')
+  // événements à tester
 
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationRequested',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'delai',
-                modificationRequestId,
-                delayInMonths: 10,
-                authority: 'dreal',
-              },
-            })
+  const demandeRecoursEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequested',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'recours',
+      modificationRequestId,
+      authority: 'dgec',
+    },
+  }
 
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationRequested',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'recours',
-                modificationRequestId,
-                authority: 'dgec',
-              },
-            })
+  const demandePuissanceEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequested',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'puissance',
+      modificationRequestId,
+      authority: 'dgec',
+      puissance: 100,
+    },
+  }
 
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationRequested',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'puissance',
-                modificationRequestId,
-                authority: 'dgec',
-                puissance: 100,
-              },
-            })
+  const demandeAcceptéeEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequestAccepted',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
+  }
 
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationRequested',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'delai',
-                  modificationRequestId,
-                  delayInMonths: 10,
-                  authority: 'dreal',
-                },
-                {
-                  type: 'ModificationRequested',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'recours',
-                  modificationRequestId,
-                  authority: 'dgec',
-                },
-                {
-                  type: 'ModificationRequested',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'puissance',
-                  modificationRequestId,
-                  authority: 'dgec',
-                  puissance: 100,
-                  unitePuissance: 'MWc',
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the modification requested event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequested',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'delai',
-            modificationRequestId,
-            delayInMonths: 10,
-            authority: 'dgec',
-          },
-        })
+  const demandeRejetéeEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequestRejected',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
+  }
 
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequested',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'recours',
-            modificationRequestId,
-            authority: 'dgec',
-          },
-        })
+  const demandeAnnuléeEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequestCancelled',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: { modificationRequestId },
+  }
 
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequested',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'puissance',
-            modificationRequestId,
-            authority: 'dgec',
-            puissance: 100,
-          },
-        })
+  const demandeEnInstructionEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ModificationRequestInstructionStarted',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: { modificationRequestId },
+  }
 
-        const result = await getProjectEvents({ projectId, user: fakeUser })
+  describe(`Utilisateurs autorisés à visualiser les demandes de modifications`, () => {
+    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+      const utilisateur = { role } as User
+      it(`Etant donné un utilisateur ${role}, 
+      alors les demandes de modification devraient être retournées`, async () => {
+        await ProjectEvent.bulkCreate([demandeRecoursEvent, demandePuissanceEvent])
+
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
+          events: [
+            {
+              type: 'ModificationRequested',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'recours',
+              modificationRequestId,
+              authority: 'dgec',
+            },
+            {
+              type: 'ModificationRequested',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'puissance',
+              modificationRequestId,
+              authority: 'dgec',
+              puissance: 100,
+              unitePuissance: 'MWc',
+            },
+          ],
         })
       })
-    })
-  })
 
-  describe('when there is a modification request accepted', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+      it(`Etant donné un utilisateur ${role}, 
+      alors les demandes de modification acceptées devraient être retournées`, async () => {
+        await ProjectEvent.create(demandeAcceptéeEvent)
 
-          it('should return a modification request accepted event', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
               type: 'ModificationRequestAccepted',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationRequestAccepted',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationRequestId,
-                  file: { id: 'file-id', name: 'filename' },
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the modification request accepted event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequestAccepted',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-        })
-        const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
+              date: date.getTime(),
+              variant: role,
+              modificationRequestId,
+              file: { id: 'file-id', name: 'filename' },
+            },
+          ],
         })
       })
-    })
-  })
 
-  describe('when there is a modification request rejected', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+      it(`Etant donné un utilisateur ${role}, 
+      alors les demandes de modification rejetées devraient être retournées`, async () => {
+        await ProjectEvent.create(demandeRejetéeEvent)
 
-          it('should return a modification request rejected event', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
               type: 'ModificationRequestRejected',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationRequestRejected',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationRequestId,
-                  file: { id: 'file-id', name: 'filename' },
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the modification request rejected event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequestRejected',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-        })
-        const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
+              date: date.getTime(),
+              variant: role,
+              modificationRequestId,
+              file: { id: 'file-id', name: 'filename' },
+            },
+          ],
         })
       })
-    })
-  })
 
-  describe('when there is a modification request cancelled', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+      it(`Etant donné un utilisateur ${role}, 
+      alors les demandes de modification annulées devraient être retournées`, async () => {
+        await ProjectEvent.create(demandeAnnuléeEvent)
 
-          it('should return a modification request cancelled event', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
               type: 'ModificationRequestCancelled',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: { modificationRequestId },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationRequestCancelled',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationRequestId,
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the modification request cancelled event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequestCancelled',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: { modificationRequestId },
-        })
-        const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
+              date: date.getTime(),
+              variant: role,
+              modificationRequestId,
+            },
+          ],
         })
       })
-    })
+
+      it(`Etant donné un utilisateur ${role}, 
+      alors les demandes de modification en instruction devraient être retournées`, async () => {
+        await ProjectEvent.create(demandeEnInstructionEvent)
+
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
+              type: 'ModificationRequestInstructionStarted',
+              date: date.getTime(),
+              variant: role,
+              modificationRequestId,
+            },
+          ],
+        })
+      })
+    }
   })
 
-  describe('when there is a modification request instruction started', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+  describe(`Utilisateurs non-autorisés à visualiser les demandes de modifications`, () => {
+    for (const role of USER_ROLES.filter(
+      (role) =>
+        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
+    )) {
+      it(`Etant donné un utilisateur ${role},
+      alors les demandes de modification ne devraient pas être retournées`, async () => {
+        const utilisateur = { role } as User
+        await ProjectEvent.bulkCreate([
+          demandeRecoursEvent,
+          demandePuissanceEvent,
+          demandeAcceptéeEvent,
+          demandeRejetéeEvent,
+          demandeAnnuléeEvent,
+          demandeEnInstructionEvent,
+        ])
 
-          it('should return a modification instruction started event', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationRequestInstructionStarted',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: { modificationRequestId },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationRequestInstructionStarted',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationRequestId,
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the modification instruction started event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationRequestInstructionStarted',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: { modificationRequestId },
-        })
-        const result = await getProjectEvents({ projectId, user: fakeUser })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
         })
       })
-    })
+    }
   })
 })

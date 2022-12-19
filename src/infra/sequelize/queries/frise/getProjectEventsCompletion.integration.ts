@@ -6,55 +6,56 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { models } from '../../models'
 import { USER_ROLES } from '@modules/users'
 import { User } from '@entities'
+import { ProjectCompletionDueDateSetEvent } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
-describe('getProjectEvents', () => {
+describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', () => {
   const { Project } = models
-  const projectId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+  const projetId = new UniqueEntityID().toString()
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
   const valueDate = new Date('2024-01-01').getTime()
   const eventPublishedAt = new Date('2022-01-01').getTime()
 
   beforeEach(async () => {
     await resetDatabase()
-    await Project.create(fakeProject)
+    await Project.create(projet)
   })
 
-  describe('When there is a ProjectCompletionDueDateSet event in ProjectEvent projection', () => {
-    describe('when user is NOT ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when user role is ${role}`, () => {
-          it('should return this ProjectCompletionDueDateSet event', async () => {
-            const fakeUser = { role } as User
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              type: 'ProjectCompletionDueDateSet',
-              valueDate,
-              eventPublishedAt,
-              projectId,
-            })
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [{ type: 'ProjectCompletionDueDateSet', date: valueDate, variant: role }],
-            })
-          })
+  const projectCompletionDueDateSetEvent = {
+    id: new UniqueEntityID().toString(),
+    type: 'ProjectCompletionDueDateSet',
+    valueDate,
+    eventPublishedAt,
+    projectId: projetId,
+  } as ProjectCompletionDueDateSetEvent
+
+  describe(`Utilisateurs autorisés à visualiser la date d'achèvement des projets`, () => {
+    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+      it(`Etant donné un utilisateur ${role},
+        alors les événements ProjectCompletionDueDateSet devraient être retournés`, async () => {
+        const utilisateur = { role } as User
+        await ProjectEvent.create(projectCompletionDueDateSetEvent)
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        expect(result._unsafeUnwrap()).toMatchObject({
+          events: [{ type: 'ProjectCompletionDueDateSet', date: valueDate, variant: role }],
         })
-      }
-    })
-    describe('when user is ademe', () => {
-      it('should not return this event', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          type: 'ProjectCompletionDueDateSet',
-          valueDate,
-          eventPublishedAt,
-          projectId,
-        })
-        const result = await getProjectEvents({ projectId, user: fakeUser })
+      })
+    }
+  })
+
+  describe(`Utilisateurs non-autorisés à visualiser la date d'achèvement des projets`, () => {
+    for (const role of USER_ROLES.filter(
+      (role) =>
+        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
+    )) {
+      it(`Etant donné un utilisateur ${role},
+        alors les événements ProjectCompletionDueDateSet ne devraient pas être retournés`, async () => {
+        const utilisateur = { role } as User
+        await ProjectEvent.create(projectCompletionDueDateSetEvent)
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
         })
       })
-    })
+    }
   })
 })

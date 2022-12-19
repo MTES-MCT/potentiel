@@ -6,6 +6,7 @@ import { ProjectEvent } from '../../projectionsNext'
 import { resetDatabase } from '../../helpers'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
+import { ModificationRequestEvents } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
 describe('getProjectEvents for ModificationReceived events', () => {
   const { Project } = models
@@ -14,275 +15,149 @@ describe('getProjectEvents for ModificationReceived events', () => {
     id: projectId,
     potentielIdentifier: 'pot-id',
   })
+  const date = new Date()
 
   beforeEach(async () => {
     await resetDatabase()
     await Project.create(fakeProject)
   })
 
-  describe('when there is a modification received of type "producteur"', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+  // événements à tester
 
-          it('should return the "producteur" modification', async () => {
-            const date = new Date('2022-02-09')
+  const producteurModificationReceivedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId,
+    type: 'ModificationReceived',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'producteur',
+      producteur: 'nom producteur',
+      modificationRequestId: 'id',
+    },
+  } as ModificationRequestEvents
 
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationReceived',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'producteur',
-                producteur: 'nom producteur',
-                modificationRequestId: 'id',
-              },
-            })
+  const actionnaireModificationReceivedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId,
+    type: 'ModificationReceived',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'actionnaire',
+      actionnaire: 'nom actionnaire',
+      modificationRequestId: 'id',
+    },
+  } as ModificationRequestEvents
 
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationReceived',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'producteur',
-                  producteur: 'nom producteur',
-                  modificationRequestId: 'id',
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the producteur modification', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationReceived',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'producteur',
-            producteur: 'nom producteur',
-            modificationRequestId: 'id',
-          },
-        })
+  const fournisseurModificationReceivedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId,
+    type: 'ModificationReceived',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'fournisseur',
+      fournisseurs: [
+        { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
+        { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
+      ],
+      modificationRequestId: 'id',
+    },
+  } as ModificationRequestEvents
 
-        const result = await getProjectEvents({ projectId, user: fakeUser })
+  const puissanceModificationReceivedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId,
+    type: 'ModificationReceived',
+    valueDate: date.getTime(),
+    eventPublishedAt: date.getTime(),
+    payload: {
+      modificationType: 'puissance',
+      puissance: 2,
+      modificationRequestId: 'id',
+    },
+  } as ModificationRequestEvents
+
+  describe(`Utilisateurs autorisés à visualiser les informations de modification de projet`, () => {
+    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+      it(`Etant donné un utlisateur ${role},
+      alors les événements de type ModificationReceived devraient être retournés`, async () => {
+        const utlisateur = { role } as User
+
+        await ProjectEvent.bulkCreate([
+          producteurModificationReceivedEvent,
+          actionnaireModificationReceivedEvent,
+          fournisseurModificationReceivedEvent,
+          puissanceModificationReceivedEvent,
+        ])
+
+        const result = await getProjectEvents({ projectId, user: utlisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
+          events: [
+            {
+              type: 'ModificationReceived',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'producteur',
+              producteur: 'nom producteur',
+              modificationRequestId: 'id',
+            },
+            {
+              type: 'ModificationReceived',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'actionnaire',
+              actionnaire: 'nom actionnaire',
+              modificationRequestId: 'id',
+            },
+            {
+              type: 'ModificationReceived',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'fournisseur',
+              fournisseurs: [
+                { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
+                { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
+              ],
+              modificationRequestId: 'id',
+            },
+            {
+              type: 'ModificationReceived',
+              date: date.getTime(),
+              variant: role,
+              modificationType: 'puissance',
+              puissance: 2,
+              unitePuissance: 'MWc', // unitePuissance for Fessenheim AO
+              modificationRequestId: 'id',
+            },
+          ],
         })
       })
-    })
+    }
   })
 
-  describe('when there is a modification received of type "actionnaire"', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
+  describe(`Utilisateurs non-autorisés à visualiser les informations de modification de projet`, () => {
+    for (const role of USER_ROLES.filter(
+      (role) =>
+        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
+    )) {
+      it(`Etant donné un utlisateur ${role},
+      alors les événements de type ModificationReceived ne devraient pas être retournés`, async () => {
+        const utlisateur = { role } as User
 
-          it('should return the "actionnaire" modification', async () => {
-            const date = new Date('2022-02-09')
+        await ProjectEvent.bulkCreate([
+          producteurModificationReceivedEvent,
+          actionnaireModificationReceivedEvent,
+          fournisseurModificationReceivedEvent,
+          puissanceModificationReceivedEvent,
+        ])
 
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationReceived',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'actionnaire',
-                actionnaire: 'nom actionnaire',
-                modificationRequestId: 'id',
-              },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationReceived',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'actionnaire',
-                  actionnaire: 'nom actionnaire',
-                  modificationRequestId: 'id',
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the actionnaire modification', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationReceived',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'actionnaire',
-            actionnaire: 'nom actionnaire',
-            modificationRequestId: 'id',
-          },
-        })
-
-        const result = await getProjectEvents({ projectId, user: fakeUser })
+        const result = await getProjectEvents({ projectId, user: utlisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
         })
       })
-    })
-  })
-
-  describe('when there is a modification received of type "fournisseur"', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
-
-          it('should return the "fournisseur" modification', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationReceived',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'fournisseur',
-                fournisseurs: [
-                  { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
-                  { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
-                ],
-                modificationRequestId: 'id',
-              },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationReceived',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'fournisseur',
-                  fournisseurs: [
-                    { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
-                    { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
-                  ],
-                  modificationRequestId: 'id',
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the fournisseur modification', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationReceived',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'fournisseur',
-            fournisseurs: [
-              { kind: 'Nom du fabricant \n(Modules ou films)', name: 'name1' },
-              { kind: 'Nom du fabricant \n(Polysilicium)', name: 'name2' },
-            ],
-            modificationRequestId: 'id',
-          },
-        })
-
-        const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
-        })
-      })
-    })
-  })
-
-  describe('when there is a modification received of type "puissance"', () => {
-    describe('when user is not ademe', () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
-
-          it('should return the "puissance" modification', async () => {
-            const date = new Date('2022-02-09')
-
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ModificationReceived',
-              valueDate: date.getTime(),
-              eventPublishedAt: date.getTime(),
-              payload: {
-                modificationType: 'puissance',
-                puissance: 2,
-                modificationRequestId: 'id',
-              },
-            })
-
-            const result = await getProjectEvents({ projectId, user: fakeUser })
-            expect(result._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ModificationReceived',
-                  date: date.getTime(),
-                  variant: role,
-                  modificationType: 'puissance',
-                  puissance: 2,
-                  unitePuissance: 'MWc', // unitePuissance for Fessenheim AO
-                  modificationRequestId: 'id',
-                },
-              ],
-            })
-          })
-        })
-      }
-    })
-    describe('when the user is ademe', () => {
-      it('should not return the producteur modification', async () => {
-        const fakeUser = { role: 'ademe' } as User
-        const date = new Date('2022-02-09')
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ModificationReceived',
-          valueDate: date.getTime(),
-          eventPublishedAt: date.getTime(),
-          payload: {
-            modificationType: 'producteur',
-            producteur: 2,
-            modificationRequestId: 'id',
-          },
-        })
-
-        const result = await getProjectEvents({ projectId, user: fakeUser })
-        expect(result._unsafeUnwrap()).toMatchObject({
-          events: [],
-        })
-      })
-    })
+    }
   })
 })

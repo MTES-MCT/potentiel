@@ -1,5 +1,6 @@
 import { User } from '@entities'
 import { PtfDTO, ProjectStatus } from '@modules/frise'
+import { userIs } from '@modules/users'
 import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/makeDocumentUrl'
 
 type PtfDonnéesPourDTO =
@@ -23,6 +24,7 @@ export const getPtfDTO = ({
   projetStatus: ProjectStatus
 }): PtfDTO | undefined => {
   if (!ptf || projetStatus !== 'Classé') return
+  if (!userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) return
 
   const { ptfDateDeSignature, ptfFichier } = ptf
 

@@ -1,7 +1,7 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ResultAsync, wrapInfra } from '@core/utils'
 import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
-import { userIs, userIsNot } from '@modules/users'
+import { userIs } from '@modules/users'
 import { InfraNotAvailableError } from '@modules/shared'
 import routes from '../../../../routes'
 import { models } from '../../models'
@@ -111,7 +111,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                     })
                   }
-                  if (userIsNot('ademe')(user) && payload.notifiedOn > 0) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user) &&
+                    payload.notifiedOn > 0
+                  ) {
                     events.push({
                       type: 'ProjectNotified',
                       date: payload.notifiedOn,
@@ -123,7 +132,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectNotified':
                 case 'ProjectNotificationDateSet':
                 case 'CovidDelayGranted':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -132,7 +149,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ProjectClaimed':
-                  if (userIsNot(['ademe'])(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       potentielIdentifier,
@@ -148,7 +173,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                 case 'ProjectCertificateGenerated':
                 case 'ProjectCertificateRegenerated':
                 case 'ProjectCertificateUpdated':
-                  if (userIsNot(['ademe'])(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       potentielIdentifier,
@@ -184,7 +217,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ProjectCompletionDueDateSet':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -194,7 +235,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ProjectDCRDueDateSet':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -203,7 +252,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ModificationRequested':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const { modificationType } = payload
 
                     switch (modificationType) {
@@ -244,7 +301,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ModificationRequestAccepted':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -258,7 +323,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ModificationRequestRejected':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -270,7 +343,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
                 case 'ModificationRequestCancelled':
                 case 'ModificationRequestInstructionStarted':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       date: valueDate,
@@ -280,7 +361,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'ModificationReceived':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const { modificationType } = payload
 
                     switch (modificationType) {
@@ -329,7 +418,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'LegacyModificationImported':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const modificationType = payload.modificationType
                     const status = payload.status
 
@@ -424,19 +521,37 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'LegacyModificationFileAttached':
-                  const { fileId, filename } = payload
-                  events.push({
-                    type: 'LegacyModificationFileAttached',
-                    variant: user.role,
-                    file: {
-                      id: fileId,
-                      name: filename,
-                    },
-                  })
+                  if (
+                    userIs([
+                      'porteur-projet',
+                      'admin',
+                      'dgec-validateur',
+                      'dreal',
+                      'acheteur-obligé',
+                    ])(user)
+                  ) {
+                    const { fileId, filename } = payload
+                    events.push({
+                      type: 'LegacyModificationFileAttached',
+                      variant: user.role,
+                      file: {
+                        id: fileId,
+                        name: filename,
+                      },
+                    })
+                  }
                   break
 
                 case 'DemandeDelaiSignaled':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const {
                       signaledBy,
                       status,
@@ -465,7 +580,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
 
                 case 'DemandeAbandonSignaled':
                 case 'DemandeRecoursSignaled':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const { signaledBy, status, attachment, notes } = payload
                     events.push({
                       type,
@@ -480,7 +603,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
 
                 case 'DemandeDélai':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const { statut, autorité } = payload
                     if (payload.dateAchèvementDemandée) {
                       const { dateAchèvementDemandée } = payload
@@ -526,7 +657,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'DemandeAbandon':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     const { statut } = payload
                     events.push({
                       type,
@@ -544,7 +683,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'CahierDesChargesChoisi':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       variant: user.role,
@@ -562,7 +709,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'DateMiseEnService':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       variant: user.role,
@@ -576,7 +731,15 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
                 case 'DateFileAttente':
-                  if (userIsNot('ademe')(user)) {
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                    ])(user)
+                  ) {
                     events.push({
                       type,
                       variant: user.role,
