@@ -26,8 +26,15 @@ describe('getProjectEvents pour les événements CovidDelayGranted', () => {
     await Project.create(projet)
   })
 
-  describe(`Utilisateur ayant les droits pour visualiser le délai`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+  describe(`Utilisateur ayant les droits pour visualiser le délai covid`, () => {
+    for (const role of [
+      'admin',
+      'porteur-projet',
+      'dreal',
+      'acheteur-obligé',
+      'dgec-validateur',
+      'cre',
+    ]) {
       describe(`Si l'utlisateur est '${role}'`, () => {
         it(`Alors les événements CovidDelayGranted devraient être retournés`, async () => {
           const utilisateur = { role } as User
@@ -53,7 +60,9 @@ describe('getProjectEvents pour les événements CovidDelayGranted', () => {
   describe(`Utilisateur n'ayant pas les droits`, () => {
     for (const role of USER_ROLES.filter(
       (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
+        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur', 'cre'].includes(
+          role
+        )
     )) {
       it(`Etant donné un utlisateur ayant le rôle '${role}',
       alors aucun événement ne devrait être retourné pour le délai covid`, async () => {
