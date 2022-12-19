@@ -1,75 +1,101 @@
 import { User } from '@entities'
 import { getPtfDTO } from './getPtfDTO'
 import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/makeDocumentUrl'
+import { USER_ROLES } from '@modules/users'
 
 describe(`Requête getPtfDTO`, () => {
-  const utilisateur = { role: 'porteur-projet' } as User
+  const rolesAutorisés = ['porteur-projet', 'admin', 'dgec-validateur', 'dreal']
+  describe(`Ne rien retourner si l'utlisateur n'a pas les droits`, () => {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
+      it(`Etant donné un utilisateur ${role}, 
+      alors la pft ne devrait pas être retournée`, async () => {
+        const utilisateur = { role } as User
+        const ptf = {
+          ptfDateDeSignature: new Date(),
+          ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
+        } as const
 
-  it(`Etant donné un projet éliminé avec une PTF
-      alors la requête devrait retourner undefined`, async () => {
-    const résultat = await getPtfDTO({
-      ptf: {
-        ptfDateDeSignature: new Date(),
-        ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
-      },
-      user: utilisateur,
-      projetStatus: 'Eliminé',
-    })
+        const résultat = await getPtfDTO({
+          ptf: ptf,
+          user: utilisateur,
+          projetStatus: 'Classé',
+        })
 
-    expect(résultat).toBeUndefined()
+        expect(résultat).toBeUndefined()
+      })
+    }
   })
 
-  it(`Etant donné un projet abandonné avec une PTF
+  describe(`Utilisateur ayant les droits pour visualiser les PTF`, () => {
+    for (const role of rolesAutorisés) {
+      const utilisateur = { role } as User
+      it(`Etant donné un projet éliminé avec une PTF
       alors la requête devrait retourner undefined`, async () => {
-    const résultat = await getPtfDTO({
-      ptf: {
-        ptfDateDeSignature: new Date(),
-        ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
-      },
-      user: utilisateur,
-      projetStatus: 'Abandonné',
-    })
+        const résultat = await getPtfDTO({
+          ptf: {
+            ptfDateDeSignature: new Date(),
+            ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
+          },
+          user: utilisateur,
+          projetStatus: 'Eliminé',
+        })
 
-    expect(résultat).toBeUndefined()
-  })
+        expect(résultat).toBeUndefined()
+      })
 
-  it(`Etant donné un projet classé sans PTF
+      it(`Etant donné un projet abandonné avec une PTF
+      alors la requête devrait retourner undefined`, async () => {
+        const résultat = await getPtfDTO({
+          ptf: {
+            ptfDateDeSignature: new Date(),
+            ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
+          },
+          user: utilisateur,
+          projetStatus: 'Abandonné',
+        })
+
+        expect(résultat).toBeUndefined()
+      })
+
+      it(`Etant donné un projet classé sans PTF
       alors la requête devrait retourner un PtfDTO avec statut 'not-submitted'`, async () => {
-    const résultat = await getPtfDTO({
-      ptf: {
-        ptfDateDeSignature: null,
-        ptfFichier: null,
-      },
-      user: utilisateur,
-      projetStatus: 'Classé',
-    })
+        const résultat = await getPtfDTO({
+          ptf: {
+            ptfDateDeSignature: null,
+            ptfFichier: null,
+          },
+          user: utilisateur,
+          projetStatus: 'Classé',
+        })
 
-    expect(résultat).toMatchObject({
-      type: 'proposition-technique-et-financière',
-      statut: 'en-attente',
-      role: utilisateur.role,
-    })
-  })
+        expect(résultat).toMatchObject({
+          type: 'proposition-technique-et-financière',
+          statut: 'en-attente',
+          role: utilisateur.role,
+        })
+      })
 
-  it(`Etant donné un projet classé avec une PTF
+      it(`Etant donné un projet classé avec une PTF
       alors la requête devrait retourner un PtfDTO avec statut 'submitted'`, async () => {
-    const ptf = {
-      ptfDateDeSignature: new Date(),
-      ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
-    } as const
+        const ptf = {
+          ptfDateDeSignature: new Date(),
+          ptfFichier: { filename: 'ptf-filename', id: 'file-id' },
+        } as const
 
-    const résultat = await getPtfDTO({
-      ptf: ptf,
-      user: utilisateur,
-      projetStatus: 'Classé',
-    })
+        const résultat = await getPtfDTO({
+          ptf: ptf,
+          user: utilisateur,
+          projetStatus: 'Classé',
+        })
 
-    expect(résultat).toMatchObject({
-      type: 'proposition-technique-et-financière',
-      statut: 'envoyée',
-      role: utilisateur.role,
-      date: ptf.ptfDateDeSignature.getTime(),
-      url: makeDocumentUrl(ptf.ptfFichier.id, ptf.ptfFichier.filename),
-    })
+        expect(résultat).toMatchObject({
+          type: 'proposition-technique-et-financière',
+          statut: 'envoyée',
+          role: utilisateur.role,
+          date: ptf.ptfDateDeSignature.getTime(),
+          url: makeDocumentUrl(ptf.ptfFichier.id, ptf.ptfFichier.filename),
+        })
+      })
+    }
   })
 })

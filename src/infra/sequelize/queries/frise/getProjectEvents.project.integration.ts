@@ -5,7 +5,7 @@ import { getProjectEvents } from './getProjectEvents'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
-describe('getProjectEvents project property', () => {
+describe('getProjectEvents : statut du projet', () => {
   const { Project } = models
   const projectId = new UniqueEntityID().toString()
 
@@ -13,57 +13,52 @@ describe('getProjectEvents project property', () => {
     await resetDatabase()
   })
 
-  describe(`when the project classe is 'Classé'`, () => {
+  it(`Etant donné un projet lauréat, 
+ alors le projet retourné devrait avoir le statut "Classé"`, async () => {
     const fakeProject = makeFakeProject({ id: projectId, classe: 'Classé' })
+    await Project.create(fakeProject)
 
-    it('should return a project which is "Classé"', async () => {
-      await Project.create(fakeProject)
+    const fakeUser = { role: 'porteur-projet' } as User
+    const res = await getProjectEvents({ projectId, user: fakeUser })
 
-      const fakeUser = { role: 'porteur-projet' } as User
-      const res = await getProjectEvents({ projectId, user: fakeUser })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        project: {
-          id: projectId,
-          status: 'Classé',
-        },
-      })
+    expect(res._unsafeUnwrap()).toMatchObject({
+      project: {
+        id: projectId,
+        status: 'Classé',
+      },
     })
   })
 
-  describe(`when the project classe is 'Eliminé'`, () => {
+  it(`Etant donné un projet éliminé, 
+ alors le projet retourné devrait avoir le statut "Eliminé"`, async () => {
     const fakeProject = makeFakeProject({ id: projectId, classe: 'Eliminé' })
+    await Project.create(fakeProject)
 
-    it('should return a project which is "Eliminé"', async () => {
-      await Project.create(fakeProject)
+    const fakeUser = { role: 'porteur-projet' } as User
+    const res = await getProjectEvents({ projectId, user: fakeUser })
 
-      const fakeUser = { role: 'porteur-projet' } as User
-      const res = await getProjectEvents({ projectId, user: fakeUser })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        project: {
-          id: projectId,
-          status: 'Eliminé',
-        },
-      })
+    expect(res._unsafeUnwrap()).toMatchObject({
+      project: {
+        id: projectId,
+        status: 'Eliminé',
+      },
     })
   })
 
-  describe(`when the project abandonedOn date is set`, () => {
-    it('should return a project which is "Abandonné"', async () => {
-      const abandonedOn = new Date('2021-01-01').getTime()
-      const fakeProject = makeFakeProject({ id: projectId, classe: 'Classé', abandonedOn })
-      await Project.create(fakeProject)
-      const fakeUser = { role: 'porteur-projet' } as User
+  it(`Etant donné un projet avec une date d'abandon,
+  alors le projet retourné devrait avoir le statut "Abandonné"`, async () => {
+    const abandonedOn = new Date('2021-01-01').getTime()
+    const fakeProject = makeFakeProject({ id: projectId, classe: 'Classé', abandonedOn })
+    await Project.create(fakeProject)
+    const fakeUser = { role: 'porteur-projet' } as User
 
-      const res = await getProjectEvents({ projectId, user: fakeUser })
+    const res = await getProjectEvents({ projectId, user: fakeUser })
 
-      expect(res._unsafeUnwrap()).toMatchObject({
-        project: {
-          id: projectId,
-          status: 'Abandonné',
-        },
-      })
+    expect(res._unsafeUnwrap()).toMatchObject({
+      project: {
+        id: projectId,
+        status: 'Abandonné',
+      },
     })
   })
 })

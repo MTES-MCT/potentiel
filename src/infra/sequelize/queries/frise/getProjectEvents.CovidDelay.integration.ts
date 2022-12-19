@@ -6,62 +6,67 @@ import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.m
 import { getProjectEvents } from './getProjectEvents'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
+import { CovidDelayGrantedEvent } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
-describe('frise.getProjectEvents', () => {
-  const eventTimestamp = new Date('2022-01-04').getTime()
-
+describe('getProjectEvents pour les événements CovidDelayGranted', () => {
   const { Project } = models
-  const projectId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+  const projetId = new UniqueEntityID().toString()
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
+
+  const covidDelayGrantedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'CovidDelayGranted',
+    valueDate: new Date('2022-01-01').getTime(),
+    eventPublishedAt: new Date('2022-01-02').getTime(),
+  } as CovidDelayGrantedEvent
 
   beforeEach(async () => {
     await resetDatabase()
-    await Project.create(fakeProject)
+    await Project.create(projet)
   })
 
-  for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-    describe(`when the user is ${role}`, () => {
-      it('should return the CovidDelayGranted event', async () => {
-        const fakeUser = { role } as User
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'CovidDelayGranted',
-          valueDate: eventTimestamp,
-          eventPublishedAt: eventTimestamp,
-        })
+  describe(`Utilisateur ayant les droits pour visualiser le délai`, () => {
+    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+      describe(`Si l'utlisateur est '${role}'`, () => {
+        it(`Alors les événements CovidDelayGranted devraient être retournés`, async () => {
+          const utilisateur = { role } as User
 
-        const res = await getProjectEvents({ projectId, user: fakeUser })
+          await ProjectEvent.create(covidDelayGrantedEvent)
+
+          const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
+
+          expect(res._unsafeUnwrap()).toMatchObject({
+            events: [
+              {
+                type: 'CovidDelayGranted',
+                date: covidDelayGrantedEvent.valueDate,
+                variant: role,
+              },
+            ],
+          })
+        })
+      })
+    }
+  })
+
+  describe(`Utilisateur n'ayant pas les droits`, () => {
+    for (const role of USER_ROLES.filter(
+      (role) =>
+        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
+    )) {
+      it(`Etant donné un utlisateur ayant le rôle '${role}',
+      alors aucun événement ne devrait être retourné pour le délai covid`, async () => {
+        const utilisateur = { role } as User
+
+        await ProjectEvent.create(covidDelayGrantedEvent)
+
+        const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
 
         expect(res._unsafeUnwrap()).toMatchObject({
-          events: [
-            {
-              type: 'CovidDelayGranted',
-              date: eventTimestamp,
-              variant: role,
-            },
-          ],
+          events: [],
         })
       })
-    })
-  }
-
-  describe(`when the user is ademe`, () => {
-    it('should NOT return the CovidDelayGranted event', async () => {
-      const fakeUser = { role: 'ademe' } as User
-      await ProjectEvent.create({
-        id: new UniqueEntityID().toString(),
-        projectId,
-        type: 'CovidDelayGranted',
-        valueDate: eventTimestamp,
-        eventPublishedAt: eventTimestamp,
-      })
-
-      const res = await getProjectEvents({ projectId, user: fakeUser })
-
-      expect(res._unsafeUnwrap()).toMatchObject({
-        events: [],
-      })
-    })
+    }
   })
 })

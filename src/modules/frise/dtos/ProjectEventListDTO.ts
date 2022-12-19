@@ -3,7 +3,6 @@ import { Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
 import { DemandeAbandonEventStatus } from '@infra/sequelize/projectionsNext/projectEvents/events'
-import { UserRole } from '../../users'
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
@@ -54,7 +53,7 @@ export const is =
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   isLegacy?: true
 }
@@ -67,7 +66,7 @@ export type ProjectImportedDTO = {
 
 export type ProjectNotificationDateSetDTO = {
   type: 'ProjectNotificationDateSet'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
 }
 
@@ -78,7 +77,7 @@ type ProjectCertificateBase = {
   nomProjet: string
 } & (
   | { variant: 'admin' | 'dgec-validateur'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'; email: undefined }
+  | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal'; email: undefined }
 )
 
 export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
@@ -149,12 +148,12 @@ export type ProjectDCRRemovedDTO = {
 export type ProjectDCRDueDateSetDTO = {
   type: 'ProjectDCRDueDateSet'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'acheteur-obligé'
 }
 
 export type PtfDTO = {
   type: 'proposition-technique-et-financière'
-  role: UserRole
+  role: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
 } & (
   | {
       statut: 'en-attente'
@@ -169,14 +168,14 @@ export type PtfDTO = {
 export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   délaiCDC2022Appliqué?: true
 }
 
 export type ModificationRequestedDTO = {
   type: 'ModificationRequested'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
   authority: 'dgec' | 'dreal'
 } & (
@@ -195,7 +194,7 @@ export type ModificationRequestedDTO = {
 export type ModificationRequestAcceptedDTO = {
   type: 'ModificationRequestAccepted'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
   file?: File
   delayInMonthsGranted?: number
@@ -204,7 +203,7 @@ export type ModificationRequestAcceptedDTO = {
 export type ModificationRequestRejectedDTO = {
   type: 'ModificationRequestRejected'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
   file?: File
 }
@@ -212,14 +211,14 @@ export type ModificationRequestRejectedDTO = {
 export type ModificationRequestInstructionStartedDTO = {
   type: 'ModificationRequestInstructionStarted'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
 }
 
 export type ModificationRequestCancelledDTO = {
   type: 'ModificationRequestCancelled'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
 }
 
@@ -233,7 +232,7 @@ export type ModificationRequestDTO =
 export type ModificationReceivedDTO = {
   type: 'ModificationReceived'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   modificationRequestId: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
@@ -245,7 +244,7 @@ export type ModificationReceivedDTO = {
 export type LegacyModificationImportedDTO = {
   type: 'LegacyModificationImported'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   status: LegacyModificationStatus
   filename?: string
 } & (
@@ -268,13 +267,13 @@ export type LegacyModificationImportedDTO = {
 
 export type LegacyModificationFileAttachedDTO = {
   type: 'LegacyModificationFileAttached'
-  variant: UserRole
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   file: File
 }
 
 export type FileAttachedToProjectDTO = {
   type: 'FileAttachedToProject'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'dgec-validateur'
   date: number
   title: string
   description?: string
@@ -292,12 +291,12 @@ export type FileAttachedToProjectDTO = {
 export type CovidDelayGrantedDTO = {
   type: 'CovidDelayGranted'
   date: number
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
 }
 
 export type DemandeDelaiSignaledDTO = {
   type: 'DemandeDelaiSignaled'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   signaledBy: string
   attachment?: File
@@ -315,7 +314,7 @@ export type DemandeDelaiSignaledDTO = {
 
 export type DemandeAbandonSignaledDTO = {
   type: 'DemandeAbandonSignaled'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée' | 'à accorder'
@@ -325,7 +324,7 @@ export type DemandeAbandonSignaledDTO = {
 
 export type DemandeRecoursSignaledDTO = {
   type: 'DemandeRecoursSignaled'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée'
@@ -335,7 +334,7 @@ export type DemandeRecoursSignaledDTO = {
 
 export type DemandeDélaiDTO = {
   type: 'DemandeDélai'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   demandeUrl?: string
   actionRequise?: 'à traiter' | 'réponse à envoyer'
@@ -359,7 +358,7 @@ export type DemandeDélaiDTO = {
 
 export type DemandeAbandonDTO = {
   type: 'DemandeAbandon'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
   statut: DemandeAbandonEventStatus
   demandeUrl?: string
@@ -368,7 +367,7 @@ export type DemandeAbandonDTO = {
 
 export type CahierDesChargesChoisiDTO = {
   type: 'CahierDesChargesChoisi'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
 } & (
   | {
@@ -383,12 +382,12 @@ export type CahierDesChargesChoisiDTO = {
 
 export type DateMiseEnServiceDTO = {
   type: 'DateMiseEnService'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
 } & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' })
 
 export type DateFileAttenteDTO = {
   type: 'DateFileAttente'
-  variant: Exclude<UserRole, 'ademe'>
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
   date: number
 }
 

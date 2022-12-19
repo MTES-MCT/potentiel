@@ -6,173 +6,131 @@ import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.m
 import { getProjectEvents } from './getProjectEvents'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
+import { ProjectDCREvents } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
-describe('getProjectEvents for DCR events', () => {
-  const eventTimestamp = new Date('2022-01-04').getTime()
-  const dcrDateTimestamp = new Date('2022-03-05').getTime()
-
+describe('getProjectEvents pour les événements DCR', () => {
   const { Project } = models
-  const projectId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
+  const projetId = new UniqueEntityID().toString()
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
+
+  //événements à tester
+  const projectDCRDueDateSetEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ProjectDCRDueDateSet',
+    valueDate: new Date('2022-02-01').getTime(),
+    eventPublishedAt: new Date('2022-01-01').getTime(),
+  } as ProjectDCREvents
+
+  const projectDCRSubmittedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ProjectDCRSubmitted',
+    valueDate: new Date('2022-03-01').getTime(),
+    eventPublishedAt: new Date('2022-03-01').getTime(),
+    payload: {
+      file: { id: 'file-id', name: 'my-file-name' },
+      numeroDossier: 'DOSSIER-1',
+    },
+  } as ProjectDCREvents
+
+  const projectDCRRemovedEvent = {
+    id: new UniqueEntityID().toString(),
+    projectId: projetId,
+    type: 'ProjectDCRRemoved',
+    valueDate: new Date('2022-03-01').getTime(),
+    eventPublishedAt: new Date('2022-03-01').getTime(),
+  } as ProjectDCREvents
 
   beforeEach(async () => {
     await resetDatabase()
-    await Project.create(fakeProject)
+    await Project.create(projet)
   })
 
-  describe(`when there are some ProjectDCRDueDateSet events`, () => {
-    describe(`when the user is NOT ademe`, () => {
-      for (const role of USER_ROLES.filter((role) => role !== 'ademe')) {
-        describe(`when the user is ${role}`, () => {
-          const fakeUser = { role } as User
-          it('should return the ProjectDCRDueDateSet events', async () => {
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
+  describe(`Utilisateur autorisé à visualiser la date limite d'envoi d'une DCR`, () => {
+    for (const role of rolesAutorisés) {
+      const utilisateur = { role } as User
+      it(`Etant donné un utilisateur ${role}
+        alors les événements ProjectDCRDueDateSet devraient être retournés`, async () => {
+        await ProjectEvent.create(projectDCRDueDateSetEvent)
+
+        const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
+
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
               type: 'ProjectDCRDueDateSet',
-              valueDate: dcrDateTimestamp,
-              eventPublishedAt: eventTimestamp,
-            })
-
-            const res = await getProjectEvents({ projectId, user: fakeUser })
-
-            expect(res._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ProjectDCRDueDateSet',
-                  date: dcrDateTimestamp,
-                  variant: role,
-                },
-              ],
-            })
-          })
+              date: projectDCRDueDateSetEvent.valueDate,
+              variant: role,
+            },
+          ],
         })
-      }
-    })
+      })
+    }
+  })
 
-    describe(`when the user is ademe`, () => {
-      const fakeUser = { role: 'ademe' } as User
-      it('should not return the ProjectDCRDueDateSet events', async () => {
-        await ProjectEvent.create({
-          id: new UniqueEntityID().toString(),
-          projectId,
-          type: 'ProjectDCRDueDateSet',
-          valueDate: dcrDateTimestamp,
-          eventPublishedAt: eventTimestamp,
-        })
+  describe(`Utilisateur non autorisé à visualiser la date limite d'envoi d'une DCR`, () => {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
+      const utilisateur = { role } as User
+      it(`Etant donné un utilisateur ${role}
+        alors les événements ProjectDCRDueDateSet ne devraient pas être retournés`, async () => {
+        await ProjectEvent.create(projectDCRDueDateSetEvent)
 
-        const res = await getProjectEvents({ projectId, user: fakeUser })
+        const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
 
         expect(res._unsafeUnwrap()).toMatchObject({
           events: [],
         })
       })
-    })
+    }
   })
 
-  describe(`when there are some ProjectDCRSubmitted events`, () => {
-    describe(`when the user is NOT ademe or acheteur-obligé`, () => {
-      for (const role of USER_ROLES.filter(
-        (role) =>
-          role === 'porteur-projet' ||
-          role === 'admin' ||
-          role === 'dgec-validateur' ||
-          role === 'dreal'
-      )) {
-        const fakeUser = { role } as User
-        describe(`when user is ${role}`, () => {
-          it('should return ProjectDCRSubmitted events', async () => {
-            const dcrDate = new Date('2021-12-26').getTime()
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
+  describe(`Utilisateur autorisé à visualiser les DCR`, () => {
+    for (const role of ['admin', 'porteur-projet', 'dreal', 'dgec-validateur']) {
+      const utilisateur = { role } as User
+      it(`Etant donné un utilisateur ${role}
+        alors les événements ProjectDCRSubmitted et ProjectDCRRemoved devraient être retournés`, async () => {
+        await ProjectEvent.bulkCreate([projectDCRSubmittedEvent, projectDCRRemovedEvent])
+
+        const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
+
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [
+            {
               type: 'ProjectDCRSubmitted',
-              valueDate: dcrDate,
-              eventPublishedAt: eventTimestamp,
-              payload: {
-                file: { id: 'file-id', name: 'my-file-name' },
-                numeroDossier: 'DOSSIER-1',
-              },
-            })
-            const res = await getProjectEvents({ projectId, user: fakeUser })
-            expect(res._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ProjectDCRSubmitted',
-                  date: dcrDate,
-                  variant: role,
-                  file: { id: 'file-id', name: 'my-file-name' },
-                  numeroDossier: 'DOSSIER-1',
-                },
-              ],
-            })
-          })
-          describe('when the payload has no file', () => {
-            it('should return a new ProjectDCRSubmitted event without file property', async () => {
-              const dcrDate = new Date('2021-12-26').getTime()
-              await ProjectEvent.create({
-                id: new UniqueEntityID().toString(),
-                projectId,
-                type: 'ProjectDCRSubmitted',
-                valueDate: dcrDate,
-                eventPublishedAt: eventTimestamp,
-                payload: {
-                  numeroDossier: 'DOSSIER-1',
-                },
-              })
-              const res = await getProjectEvents({ projectId, user: fakeUser })
-              expect(res._unsafeUnwrap()).toMatchObject({
-                events: [
-                  {
-                    type: 'ProjectDCRSubmitted',
-                    date: dcrDate,
-                    variant: role,
-                    numeroDossier: 'DOSSIER-1',
-                  },
-                ],
-              })
-            })
-          })
+              date: projectDCRSubmittedEvent.valueDate,
+              variant: role,
+              file: { id: 'file-id', name: 'my-file-name' },
+              numeroDossier: 'DOSSIER-1',
+            },
+            {
+              type: 'ProjectDCRRemoved',
+              date: projectDCRRemovedEvent.valueDate,
+              variant: role,
+            },
+          ],
         })
-      }
-    })
+      })
+    }
   })
 
-  describe(`when there are some ProjectDCRRemoved events`, () => {
-    describe(`when the user is NOT ademe or acheteur-obligé`, () => {
-      for (const role of USER_ROLES.filter(
-        (role) =>
-          role === 'porteur-projet' ||
-          role === 'admin' ||
-          role === 'dgec-validateur' ||
-          role === 'dreal'
-      )) {
-        const fakeUser = { role } as User
-        describe(`when user is ${role}`, () => {
-          it('should return ProjectDCRRemoved events', async () => {
-            const dcrDate = new Date('2021-12-26').getTime()
-            await ProjectEvent.create({
-              id: new UniqueEntityID().toString(),
-              projectId,
-              type: 'ProjectDCRRemoved',
-              valueDate: dcrDate,
-              eventPublishedAt: eventTimestamp,
-            })
+  describe(`Utilisateur non autorisé à visualiser les DCR`, () => {
+    for (const role of USER_ROLES.filter(
+      (role) => !['admin', 'porteur-projet', 'dreal', 'dgec-validateur'].includes(role)
+    )) {
+      const utilisateur = { role } as User
+      it(`Etant donné un utilisateur ${role}
+        alors les événements ProjectDCRSubmitted et ProjectDCRRemoved ne devraient pas être retournés`, async () => {
+        await ProjectEvent.bulkCreate([projectDCRSubmittedEvent, projectDCRRemovedEvent])
 
-            const res = await getProjectEvents({ projectId, user: fakeUser })
+        const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
 
-            expect(res._unsafeUnwrap()).toMatchObject({
-              events: [
-                {
-                  type: 'ProjectDCRRemoved',
-                  date: dcrDate,
-                  variant: role,
-                },
-              ],
-            })
-          })
+        expect(res._unsafeUnwrap()).toMatchObject({
+          events: [],
         })
-      }
-    })
+      })
+    }
   })
 })
