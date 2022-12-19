@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from 'express'
 import { logger, ok } from '@core/utils'
-import { CreateUser, GetUserByEmail, USER_ROLES } from '@modules/users'
+import { GetUserByEmail, USER_ROLES } from '@modules/users'
 import { getPermissions } from '@modules/authN'
+import { CréerProfilUtilisateur } from '@modules/utilisateur'
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail
-  createUser: CreateUser
+  créerProfilUtilisateur: CréerProfilUtilisateur
 }
 
 const makeAttachUserToRequestMiddleware =
-  ({ getUserByEmail, createUser }: AttachUserToRequestMiddlewareDependencies) =>
+  ({ getUserByEmail, créerProfilUtilisateur }: AttachUserToRequestMiddlewareDependencies) =>
   async (request: Request, response: Response, next: NextFunction) => {
     if (
       // Theses paths should be prefixed with /static in the future
@@ -37,15 +38,19 @@ const makeAttachUserToRequestMiddleware =
             })
           }
 
-          const fullName = token?.content?.name
-          const createUserArgs = { email: userEmail, role: kRole, fullName }
+          const [nom, prénom] = token?.content?.name.split(' ')
+          const créerProfileUtilisateurArgs = {
+            email: userEmail,
+            nom,
+            prénom,
+          }
 
-          return createUser(createUserArgs).andThen(({ id, role }) => {
+          return créerProfilUtilisateur(créerProfileUtilisateurArgs).andThen(({ id }) => {
             if (!kRole) {
               request.session.destroy(() => {})
             }
 
-            return ok({ ...createUserArgs, id, role })
+            return ok({ ...créerProfileUtilisateurArgs, id, role: kRole })
           })
         })
         .match(

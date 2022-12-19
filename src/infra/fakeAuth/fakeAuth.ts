@@ -3,13 +3,12 @@ import QueryString from 'querystring'
 import { logger } from '@core/utils'
 import { User } from '@entities'
 import { EnsureRole, getPermissions, RegisterAuth } from '@modules/authN'
-import { CreateUser, GetUserByEmail } from '@modules/users'
+import { GetUserByEmail } from '@modules/users'
 import routes from '@routes'
 import { FakeLoginPage } from '@views'
 
 export interface FakeAuthDeps {
   getUserByEmail: GetUserByEmail
-  createUser: CreateUser
 }
 
 const FAKE_AUTH_COOKIE = 'fake_auth_cookie'
