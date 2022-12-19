@@ -1,10 +1,10 @@
 import routes from '@routes'
 import { v1Router } from '../v1Router'
-import { createUser, créerProfilUtilisateur } from '@config'
-import { logger } from '../../core/utils'
+import { créerProfilUtilisateur } from '@config'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { logger } from '@core/utils'
 
 const schema = yup.object({
   body: yup.object({
@@ -34,52 +34,26 @@ v1Router.post(
         ),
     },
     async (request, response) => {
-      const { firstname, lastname, email, utilisateurInvité } = request.body
-
-      if (utilisateurInvité) {
-        return créerProfilUtilisateur({ email, nom: lastname, prénom: firstname }).match(
-          () =>
-            response.redirect(
-              addQueryParams(routes.SIGNUP, {
-                success: true,
-              })
-            ),
-          (e) =>
-            response.redirect(
-              addQueryParams(routes.SIGNUP, {
-                error:
-                  e.message ||
-                  `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
-                ...request.body,
-              })
-            )
-        )
-      } else {
-        const res = await createUser({
-          email,
-          fullName: `${firstname} ${lastname}`,
-          role: 'porteur-projet',
-        })
-
-        if (res.isErr()) {
-          logger.error(res.error)
-
-          return response.redirect(
+      const { firstname, lastname, email } = request.body
+      return créerProfilUtilisateur({ email, nom: lastname, prénom: firstname }).match(
+        () =>
+          response.redirect(
+            addQueryParams(routes.SIGNUP, {
+              success: true,
+            })
+          ),
+        (e) => {
+          logger.error(e)
+          response.redirect(
             addQueryParams(routes.SIGNUP, {
               error:
-                res.error.message ||
+                e.message ||
                 `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
               ...request.body,
             })
           )
         }
-
-        return response.redirect(
-          addQueryParams(routes.SIGNUP, {
-            success: true,
-          })
-        )
-      }
+      )
     }
   )
 )
