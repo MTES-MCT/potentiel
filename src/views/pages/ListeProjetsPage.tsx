@@ -183,20 +183,24 @@ export const ListeProjets = ({
                     </select>
                   ) : null}
                 </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Garanties Financières</div>
-                  <select
-                    name="garantiesFinancieres"
-                    className={garantiesFinancieres ? 'active' : ''}
-                    {...dataId('garantiesFinancieresSelector')}
-                    defaultValue={garantiesFinancieres || ''}
-                  >
-                    <option value="">Toutes</option>
-                    <option value="submitted">Déposées</option>
-                    <option value="notSubmitted">Non-déposées</option>
-                    <option value="pastDue">En retard</option>
-                  </select>
-                </div>
+                {['admin', 'dreal', 'dgec-validateur', 'porteur-projet'].includes(
+                  request.user.role
+                ) && (
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Garanties Financières</div>
+                    <select
+                      name="garantiesFinancieres"
+                      className={garantiesFinancieres ? 'active' : ''}
+                      {...dataId('garantiesFinancieresSelector')}
+                      defaultValue={garantiesFinancieres || ''}
+                    >
+                      <option value="">Toutes</option>
+                      <option value="submitted">Déposées</option>
+                      <option value="notSubmitted">Non-déposées</option>
+                      <option value="pastDue">En retard</option>
+                    </select>
+                  </div>
+                )}
                 <div style={{ marginTop: 15 }}>
                   <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
                   <select
