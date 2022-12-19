@@ -79,8 +79,10 @@ describe('getProjectEvents for ModificationReceived events', () => {
     },
   } as ModificationRequestEvents
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser les informations de modification de projet`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       it(`Etant donné un utlisateur ${role},
       alors les événements de type ModificationReceived devraient être retournés`, async () => {
         const utlisateur = { role } as User
@@ -138,10 +140,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
   })
 
   describe(`Utilisateurs non-autorisés à visualiser les informations de modification de projet`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur ${role},
       alors les événements de type ModificationReceived ne devraient pas être retournés`, async () => {
         const utlisateur = { role } as User

@@ -47,8 +47,10 @@ describe('getProjectEvents pour les événements DCR', () => {
     await Project.create(projet)
   })
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateur autorisé à visualiser la date limite d'envoi d'une DCR`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       const utilisateur = { role } as User
       it(`Etant donné un utilisateur ${role}
         alors les événements ProjectDCRDueDateSet devraient être retournés`, async () => {
@@ -70,10 +72,7 @@ describe('getProjectEvents pour les événements DCR', () => {
   })
 
   describe(`Utilisateur non autorisé à visualiser la date limite d'envoi d'une DCR`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       const utilisateur = { role } as User
       it(`Etant donné un utilisateur ${role}
         alors les événements ProjectDCRDueDateSet ne devraient pas être retournés`, async () => {

@@ -28,8 +28,10 @@ describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', (
     projectId: projetId,
   } as ProjectCompletionDueDateSetEvent
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser la date d'achèvement des projets`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       it(`Etant donné un utilisateur ${role},
         alors les événements ProjectCompletionDueDateSet devraient être retournés`, async () => {
         const utilisateur = { role } as User
@@ -43,10 +45,7 @@ describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', (
   })
 
   describe(`Utilisateurs non-autorisés à visualiser la date d'achèvement des projets`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utilisateur ${role},
         alors les événements ProjectCompletionDueDateSet ne devraient pas être retournés`, async () => {
         const utilisateur = { role } as User

@@ -29,8 +29,10 @@ describe('getProjectEvents pour les événements de désignation', () => {
     await Project.create(projet)
   })
 
+  const rolesAutorisés = ['admin', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser les données de désignation`, () => {
-    for (const role of ['admin', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
   alors les événements de désignation devraient être retournés`, async () => {
@@ -52,7 +54,7 @@ describe('getProjectEvents pour les événements de désignation', () => {
   })
 
   describe(`Utilisateurs non-autorisés à visualiser les données de désignation`, () => {
-    for (const role of USER_ROLES.filter((role) => !['admin', 'dgec-validateur'].includes(role))) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
   alors les événements de désignation ne devraient pas être retournés`, async () => {

@@ -19,7 +19,7 @@ describe('getProjectEvents en général', () => {
     await Project.create(fakeProject)
   })
 
-  it(`Les événements deraient être retournés triés par eventPublishedAt`, async () => {
+  it(`Les événements devraient être retournés triés par eventPublishedAt`, async () => {
     const fakeUser = { role: 'porteur-projet' } as User
 
     await ProjectEvent.create({

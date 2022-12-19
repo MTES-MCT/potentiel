@@ -4,10 +4,9 @@ import { makeDocumentUrl } from '../../../../views/components/timeline/helpers/m
 import { USER_ROLES } from '@modules/users'
 
 describe(`Requête getPtfDTO`, () => {
+  const rolesAutorisés = ['porteur-projet', 'admin', 'dgec-validateur', 'dreal']
   describe(`Ne rien retourner si l'utlisateur n'a pas les droits`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) => !['porteur-projet', 'admin', 'dgec-validateur', 'dreal'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utilisateur ${role}, 
       alors la pft ne devrait pas être retournée`, async () => {
         const utilisateur = { role } as User
@@ -28,7 +27,7 @@ describe(`Requête getPtfDTO`, () => {
   })
 
   describe(`Utilisateur ayant les droits pour visualiser les PTF`, () => {
-    for (const role of ['porteur-projet', 'admin', 'dgec-validateur', 'dreal']) {
+    for (const role of rolesAutorisés) {
       const utilisateur = { role } as User
       it(`Etant donné un projet éliminé avec une PTF
       alors la requête devrait retourner undefined`, async () => {

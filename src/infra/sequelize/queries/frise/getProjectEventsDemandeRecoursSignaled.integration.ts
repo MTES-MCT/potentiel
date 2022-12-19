@@ -32,8 +32,10 @@ describe('getProjectEvents pour les événements DemandeRecoursSignaled', () => 
     },
   } as DemandeSignaledEvents
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser les demandes de recours faites hors Potentiel et ajoutées aux projets`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       const utilisateur = { role } as User
 
       it(`Etant donné un utilisateur ${role},
@@ -60,10 +62,7 @@ describe('getProjectEvents pour les événements DemandeRecoursSignaled', () => 
   })
 
   describe(`Utilisateurs non-autorisés à visualiser les demandes de recours faites hors Potentiel et ajoutées aux projets`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       const utilisateur = { role } as User
 
       it(`Etant donné un utilisateur ${role},

@@ -85,10 +85,10 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     await Project.create(fakeProject)
   })
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés`, () => {
-    for (const role of USER_ROLES.filter((role) =>
-      ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur '${role}',
         alors les modifications historiques devraient être retournées`, async () => {
         const utilisateur = { role } as User
@@ -153,10 +153,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     }
   })
   describe(`Utilisateurs non-autorisés`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur '${role}',
         alors les modifications historiques ne devraient pas être retournées`, async () => {
         const utilisateur = { role } as User

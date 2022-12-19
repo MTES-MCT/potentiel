@@ -33,8 +33,10 @@ describe('getProjectEvents pour les événements de désignation', () => {
     await Project.create(fakeProject)
   })
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser les fichiers attachés`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
   alors les données des fichiers attachées devraient être affichées`, async () => {
@@ -63,9 +65,7 @@ describe('getProjectEvents pour les événements de désignation', () => {
   })
 
   describe(`Utilisateurs non autorisés à visualiser les fichiers attachés`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) => !['admin', 'porteur-projet', 'dreal', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
   alors les données des fichiers attachées ne devraient pas affichées`, async () => {

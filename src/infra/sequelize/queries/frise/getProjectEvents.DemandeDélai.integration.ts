@@ -62,8 +62,10 @@ describe(`getProjectEvents`, () => {
     },
   }
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateur ayant les droits pour visualiser les demandes de délai`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       const user = { role } as User
       it(`Etant donné un utilisateur '${role}',
           alors les événements de type "DemandeDélai" devraient être retournés`, async () => {
@@ -102,10 +104,7 @@ describe(`getProjectEvents`, () => {
     }
   })
   describe(`Utilisateur n'ayant pas les droits pour visualiser les demandes de délai`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       const user = { role } as User
       it(`Etant donné un utilisateur '${role}',
         alors les événements de type "DemandeDélai" ne devraient pas être retournés`, async () => {

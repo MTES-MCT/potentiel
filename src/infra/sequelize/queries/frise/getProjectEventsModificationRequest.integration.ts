@@ -84,8 +84,10 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     payload: { modificationRequestId },
   }
 
+  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+
   describe(`Utilisateurs autorisés à visualiser les demandes de modifications`, () => {
-    for (const role of ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']) {
+    for (const role of rolesAutorisés) {
       const utilisateur = { role } as User
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification devraient être retournées`, async () => {
@@ -189,10 +191,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
   })
 
   describe(`Utilisateurs non-autorisés à visualiser les demandes de modifications`, () => {
-    for (const role of USER_ROLES.filter(
-      (role) =>
-        !['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur'].includes(role)
-    )) {
+    for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utilisateur ${role},
       alors les demandes de modification ne devraient pas être retournées`, async () => {
         const utilisateur = { role } as User
