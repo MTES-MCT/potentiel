@@ -27,12 +27,12 @@ export const PTFItem = (props: PtfDTO & { projectId: string }) => {
 }
 
 type SubmittedProps = {
-  role: UserRole
+  variant: UserRole
   date: number
   url?: string
   projectId: string
 }
-const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
+const Submitted = ({ variant, date, url, projectId }: SubmittedProps) => (
   <>
     <PastIcon />
     <ContentArea>
@@ -49,23 +49,23 @@ const Submitted = ({ role, date, url, projectId }: SubmittedProps) => (
       ) : (
         <div>Pièce-jointe introuvable</div>
       )}
-      {isPorteurProjet(role) && <CancelDeposit {...{ projectId }} />}
+      {isPorteurProjet(variant) && <CancelDeposit {...{ projectId }} />}
     </ContentArea>
   </>
 )
 
 type NotSubmittedProps = {
-  role: UserRole
+  variant: UserRole
   projectId: string
 }
-const NotSubmitted = ({ role, projectId }: NotSubmittedProps) => (
+const NotSubmitted = ({ variant, projectId }: NotSubmittedProps) => (
   <>
     <CurrentIcon />
     <ContentArea>
       <ItemTitle title="Proposition technique et financière" />
       <div>
         <p className="mt-0 mb-0">Proposition technique et financière en attente</p>
-        {isPorteurProjet(role) && <UploadForm projectId={projectId} />}
+        {isPorteurProjet(variant) && <UploadForm projectId={projectId} />}
       </div>
     </ContentArea>
   </>
@@ -138,4 +138,4 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
     </Dropdown>
   )
 }
-const isPorteurProjet = (role: UserRole) => role === 'porteur-projet'
+const isPorteurProjet = (variant: UserRole) => variant === 'porteur-projet'

@@ -28,7 +28,14 @@ describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', (
     projectId: projetId,
   } as ProjectCompletionDueDateSetEvent
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'cre',
+  ]
 
   describe(`Utilisateurs autorisés à visualiser la date d'achèvement des projets`, () => {
     for (const role of rolesAutorisés) {

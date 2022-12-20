@@ -118,6 +118,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user) &&
                     payload.notifiedOn > 0
                   ) {
@@ -139,6 +140,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -156,6 +158,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -180,6 +183,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -224,6 +228,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -690,6 +695,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({

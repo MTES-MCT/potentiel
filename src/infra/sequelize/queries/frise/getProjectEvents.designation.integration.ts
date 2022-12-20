@@ -80,7 +80,14 @@ describe('getProjectEvents pour les événements de désignation', () => {
     await Project.create(projet)
   })
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'cre',
+  ]
 
   describe(`Utilisateurs autorisés à visualiser les données de désignation`, () => {
     for (const role of rolesAutorisés) {

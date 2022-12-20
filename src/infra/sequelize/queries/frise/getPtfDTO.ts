@@ -32,14 +32,14 @@ export const getPtfDTO = ({
     return {
       type: 'proposition-technique-et-financière',
       date: ptfDateDeSignature.getTime(),
-      role: user.role,
+      variant: user.role,
       statut: 'envoyée',
       url: makeDocumentUrl(ptfFichier.id, ptfFichier.filename),
     }
   }
   return {
     type: 'proposition-technique-et-financière',
-    role: user.role,
+    variant: user.role,
     statut: 'en-attente',
   }
 }
