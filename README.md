@@ -43,7 +43,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
     - [Restaurer un dump de la base de données locale](#restaurer-un-dump-de-la-base-de-données-locale)
     - [Avoir un aperçu des pages ou composants visuels avec Storybook](#avoir-un-aperçu-des-pages-ou-composants-visuels-avec-storybook)
   - [Lancer les tests automatisés](#lancer-les-tests-automatisés)
-  - [Keycloak](#keycloak)
+  - [Système d'authentification avec Keycloak](#système-dauthentification-avec-keycloak)
 - [Environnements et Déploiement](#environnements-et-déploiement)
   - [Les environnements](#les-environnements)
     - [Local](#local)
@@ -53,7 +53,9 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
   - [Déploiement](#déploiement)
     - [Déployer sur Production](#déployer-sur-production)
   - [Déployer sur Staging / Démo](#déployer-sur-staging--démo)
-    - [Déploiement](#déploiement-1)
+  - [Accès à la base de données distantes](#accès-à-la-base-de-données-distantes)
+  - [Créer un dump de base de données](#créer-un-dump-de-base-de-données)
+  - [Restaurer un dump de base de données](#restaurer-un-dump-de-base-de-données)
 
 # Développement en local
 
@@ -228,13 +230,16 @@ Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le 
 
    _NB: Si le schéma de base de données a changé, il faut relancer `npm run test-db`._
 
-## Keycloak
+## Système d'authentification avec Keycloak
 
-L'authentification de Potentiel se fait via un service autonome, sous la forme d'une instance [Keycloak](https://www.keycloak.org). Cette instance est déployée sur Clever Cloud et est partagée entre les environnements de `staging` et `production`.
+Keycloak est un service open source d'identité et de gestion d'accès.
 
-Dans les autres environnements (ex: `development`), l'authentification est géré par un servie `fakeAuth`. Il n'est donc pas nécessaire d'avoir une instance keycloak en local ou en démo.
+Il existe deux environnements pour keycloak : 
+- Une version "legacy" est situé dans ce repo; cet environnement est utilisé à des fins de tests en local uniquement
+- Une version de production utilisé pour les environnements **staging** et **production** est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak)
 
-Une documentation plus poussée de keycloak est disponible dans [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md).
+Pour en savoir plus sur l'utilisation en local, veuillez vous rendre sur la page [`docs/KEYCLOAK.md`](/docs/KEYCLOAK.md)
+Pour en savoir plus sur l'utilisation en production, veuillez vous rendre sur le repo [potentiel-keycloak](https://github.com/MTES-MCT/potentiel-keycloak)
 
 # Environnements et Déploiement
 

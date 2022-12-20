@@ -1,40 +1,8 @@
-# Authentification avec Keycloak
+# Utiliser keycloak en local (pour tests)
 
-Keycloak est un service open source d'identité et de gestion d'accès.
+⚠️ Le dossier `keycloak-legacy` est une copie legacy du repo [potentiel-keycloak](https://github.com/MTES-MCT/potentiel-keycloak) qui sert lui de production. Il doit toujours être au même niveau que celui de production ⚠️
 
-Cette page a pour but d'expliquer la configuration et l'usage de keycloak dans le cadre de Potentiel.
-
-Vous pouvez aussi lire la [documentation officielle de Keycloak](https://www.keycloak.org/documentation).
-
-## Usage dans Potentiel
-
-Une instance Keycloak est utilisée par Potentiel pour la gestion de l'authentification (login à partir d'email et mot de passe) et d'une partie de la gestion des autorisations (le rôle de chaque utilisateur).
-
-Il existe deux environnements pour keycloak : 
-- Une version "legacy" est situé dans ce repo; cet environnement est utilisé à des fins de tests en local uniquement
-- Une version de production utilisé pour les environnements **staging** et **production** est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak)
-
-Les autorisation plus fines (comme par exemple, les projets affectés à un utilisateur) sont gérés par le serveur d'application Potentiel lui-même (cf le domaine [`AuthZ`](../src/modules/authZ)).
-
-Il ne concerne que les environnements `staging` et `production`. Dans les autres environnements, c'est un faux qui est utilisé pour simplifier (cf configuration dans [authN.config.ts](../src/config/authN.config.ts)).
-
-## Mise en oeuvre
-
-Keycloak tourne sur un serveur séparé. L'application peut le requêter pour les besoins d'authentification via le middleware `keycloak-connect` et la lib `keycloak-admin`.
-
-`keycloak-connect` vérifie la présence et la validité d'un token de session Keycloak. S'il est manquant ou invalide, l'utilisateur est redirigé vers la page d'authentification du serveur keycloak. Après identification, l'utilisateur est redirigé sur Potentiel avec le bon token de session.
-Le token de session contient l'email de l'utilisateur ainsi que son role. L'email de l'utilisateur est utilisé pour retrouver l'identifiant interne de celui-ci. L'objet `Request` de express est enrichi avec un `User`.
-
-Ce mécanisme est mis en oeuvre via l'adaptateur [`makeKeycloakAuth`](../src/infra/keycloak-legacy/makeKeycloakAuth.ts).
-
-La création d'un utilisateur peut être faite soit par inscription de l'utilisateur (qui se fait via des écrans gérés par le serveur Keycloak lui-même), soit par création de compte initié par l'application (invitation d'un utilisateur lors d'une désignation ou parrainage par un autre porteur de projet).
-Dans ce dernier cas, l'application utilise `keycloak-admin` pour demander la création de l'utilisateur à Keycloak (cf [`createUserCredentials`](../src/infra/keycloak-legacy/createUserCredentials.ts))
-
-Tous les mails d'authentification (invitation initiale, récupération de mot de passe) sont envoyés par Keycloak directement.
-
-## Test en local: application locale et keycloak local
-
-### Lancer keycloak
+## Lancer keycloak
 ****
 Il est possible de lancer Keycloak en local via un conteneur Docker:
 
@@ -112,16 +80,6 @@ cd keycloak-legacy && node cloneRealm.js realm-export.json > realm-export2.json
 ```
 
 Celui-ci pourra être importé pour faire un realm clone.
-
-## Déployer keycloak en production
-
-Keycloak est déployé comme une application Docker sur Clever Cloud. Son déploiement est manuel:
-
-```bash
-clever deploy -a keycloak-vanilla --force
-```
-
-C'est la variable d'environnement `CC_DOCKERFILE` qui pointe sur `keycloak-legacy/Dockerfile` (coté clever cloud, pas en local) et permet de bien déployer la bonne partie du repo.
 
 ## Configuration de l'authentification à double facteur pour un role précis
 
