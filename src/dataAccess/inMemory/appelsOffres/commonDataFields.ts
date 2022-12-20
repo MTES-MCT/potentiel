@@ -1,8 +1,7 @@
 import toTypeLiteral from './helpers/toTypeLiteral'
 import { Project } from '@entities'
-import { format } from 'date-fns'
 
-const dateFieldFormatter = (value) => value && format(new Date(), 'dd-mm-yyyy')
+const dateFieldFormatter = (value) => value && new Date(value).toLocaleDateString()
 
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
