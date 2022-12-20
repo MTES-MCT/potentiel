@@ -5,6 +5,7 @@ import { addQueryParams } from '../../helpers/addQueryParams'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
 import { logger } from '@core/utils'
+import { ProfilDéjàExistantError } from '@modules/utilisateur'
 
 const schema = yup.object({
   body: yup.object({
@@ -43,12 +44,18 @@ v1Router.post(
             })
           ),
         (e) => {
+          if (e instanceof ProfilDéjàExistantError) {
+            return response.redirect(
+              addQueryParams(routes.SIGNUP, {
+                error: e.message,
+                ...request.body,
+              })
+            )
+          }
           logger.error(e)
           response.redirect(
             addQueryParams(routes.SIGNUP, {
-              error:
-                e.message ||
-                `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
+              error: `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
               ...request.body,
             })
           )
