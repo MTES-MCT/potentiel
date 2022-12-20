@@ -42,6 +42,7 @@ import {
   ProjectCannotBeUpdatedIfUnnotifiedError,
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
+  SuppressionGFValidéeImpossibleError,
 } from './errors'
 import {
   AppelOffreProjetModifié,
@@ -174,7 +175,12 @@ export interface Project extends EventStoreAggregate {
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
   removeGarantiesFinancieres: (
     removedBy: User
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+  ) => Result<
+    null,
+    | ProjectCannotBeUpdatedIfUnnotifiedError
+    | NoGFCertificateToDeleteError
+    | SuppressionGFValidéeImpossibleError
+  >
   withdrawGarantiesFinancieres: (
     removedBy: User
   ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
@@ -899,6 +905,9 @@ export const makeProject = (args: {
       if (!props.hasCurrentGf) {
         return err(new NoGFCertificateToDeleteError())
       }
+      if (props.GFValidées) {
+        return err(new SuppressionGFValidéeImpossibleError())
+      }
       _publishEvent(
         new ProjectGFRemoved({
           payload: {
@@ -1335,6 +1344,7 @@ export const makeProject = (args: {
       case ProjectGFRemoved.type:
       case ProjectGFWithdrawn.type:
         props.hasCurrentGf = false
+        props.GFValidées = false
         break
       case ProjectAbandoned.type:
         props.abandonedOn = event.occurredAt.getTime()
