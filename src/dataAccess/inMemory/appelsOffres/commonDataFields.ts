@@ -106,6 +106,11 @@ const additionalFields = [
     value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateEnvoi),
     column: 'Date de soumission sur Potentiel des garanties financières',
   },
+  {
+    field: 'technologie',
+    value: (row) => row.technologie,
+    column: 'Technologie\n(dispositif de production)',
+  },
 ]
 
 const dataFieldsFlattened: Map<

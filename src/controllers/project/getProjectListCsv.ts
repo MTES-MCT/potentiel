@@ -665,7 +665,7 @@ const orderedFields = [
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
   {
-    dataField: 'Technologie\n(dispositif de production)',
+    dataField: 'technologie',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe'],
   },
 ]
