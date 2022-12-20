@@ -8,6 +8,10 @@ import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import { UnauthorizedError } from '@modules/shared'
+import {
+  NoGFCertificateToDeleteError,
+  SuppressionGFValidéeImpossibleError,
+} from '@modules/project/errors'
 
 v1Router.get(
   routes.REMOVE_GARANTIES_FINANCIERES(),
@@ -33,6 +37,17 @@ v1Router.get(
           })
         ),
       (e) => {
+        if (
+          e instanceof SuppressionGFValidéeImpossibleError ||
+          e instanceof NoGFCertificateToDeleteError
+        ) {
+          return response.redirect(
+            addQueryParams(routes.PROJECT_DETAILS(projectId), {
+              error: e.message,
+            })
+          )
+        }
+
         if (e instanceof UnauthorizedError) {
           return unauthorizedResponse({ request, response })
         }

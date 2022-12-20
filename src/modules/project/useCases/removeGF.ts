@@ -2,7 +2,11 @@ import { TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { User } from '@entities'
 import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { NoGFCertificateToDeleteError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
+import {
+  NoGFCertificateToDeleteError,
+  ProjectCannotBeUpdatedIfUnnotifiedError,
+  SuppressionGFValidéeImpossibleError,
+} from '../errors'
 import { Project } from '../Project'
 
 interface RemoveGFDeps {
@@ -30,7 +34,9 @@ export const makeRemoveGF =
             project: Project
           ): ResultAsync<
             null,
-            ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError
+            | ProjectCannotBeUpdatedIfUnnotifiedError
+            | NoGFCertificateToDeleteError
+            | SuppressionGFValidéeImpossibleError
           > => {
             return project.removeGarantiesFinancieres(removedBy).asyncMap(async () => null)
           }
