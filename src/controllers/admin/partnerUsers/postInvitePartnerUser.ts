@@ -10,10 +10,10 @@ import { InvitationUniqueParUtilisateurError } from '@modules/utilisateur'
 
 const requestBodySchema = yup.object({
   role: yup
-    .mixed<'acheteur-obligé' | 'ademe' | 'cre'>()
+    .mixed<'acheteur-obligé' | 'ademe' | 'cre' | 'caisse-des-dépôts'>()
     .oneOf(
-      ['acheteur-obligé', 'ademe', 'cre'],
-      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME, CRE'
+      ['acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'],
+      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME, CRE et Caisse des dépôts'
     )
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
