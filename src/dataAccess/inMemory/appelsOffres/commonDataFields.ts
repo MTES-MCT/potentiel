@@ -73,6 +73,16 @@ const commonDataFields = [
     type: toTypeLiteral('date'),
     column: 'Notification',
   },
+  {
+    field: 'financementCollectif',
+    value: (row) => (row.actionnariat === 'financement-collectif' ? 'Oui' : ''),
+    column: 'Financement collectif',
+  },
+  {
+    field: 'gouvernancePartagée',
+    value: (row) => (row.actionnariat === 'gouvernance-partagee' ? 'Oui' : ''),
+    column: 'Gouvernance partagée',
+  },
 ]
 
 const additionalFields = [
