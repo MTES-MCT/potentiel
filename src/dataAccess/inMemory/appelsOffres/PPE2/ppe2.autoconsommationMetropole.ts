@@ -55,10 +55,7 @@ Par exception, le Candidat est délié de cette obligation :
 - en cas de retrait de l’autorisation mentionnée au 2.3 par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés ;
 - en cas de non obtention de toute autre autorisation administrative nécessaire à la réalisation du projet.
 Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
-Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de conditions. L’accord du Ministre et les conditions imposées ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2. Des dérogations au délai d’Achèvement sont toutefois accordées dans le cas ou des contentieux administratifs effectués à l’encontre d’une autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder la construction de l’installation ou sa mise en service. Dans ce cas, un délai supplémentaire égal à la durée entre la date de recours initial et la date de décision ayant autorité de la chose jugée est alors accordé.
-Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
-Des délais supplémentaires peuvent être accordés par le Préfet, à son appréciation, en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
-`,
+Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. Le Ministre peut accompagner son accord de conditions. L’accord du Ministre et les conditions imposées ne limitent pas la possibilité de recours de l’Etat aux sanctions du 8.2.`,
     },
     texteChangementDePuissance: {
       référenceParagraphe: '5.2.4',

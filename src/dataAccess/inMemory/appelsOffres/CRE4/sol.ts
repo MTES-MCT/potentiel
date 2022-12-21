@@ -75,7 +75,11 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
 En cas de dépassement de ce délai, la durée de contrat de rémunération mentionnée au 6.4 est amputée d’un raccourcissement R égal à la durée T de dépassement: R= T.
 !!!!!OPTION : PERIODE 4 à 10!!!!! - deux mois à compter de la fin des travaux de raccordement, sous réserve que le Producteur ait mis en oeuvre toutes les démarches dans le respect des exigences du gestionnaire de réseau pour que les
 travaux de raccordement soient réalisés dans les délais. Dans ce cas, l’attestation de conformité doit être transmise au Cocontractant dans un délai de 2 mois à compter de la fin des travaux de raccordement (date déclarée par le gestionnaire de réseau).
-En cas de dépassement de ce délai, le prix de référence T0 proposé au C du formulaire de candidature est diminué de 0,25euros/MWh par mois de retard pendant les 6 premiers mois, puis de 0,50euros/MWh par mois de retard à partir du 7ème mois.`,
+En cas de dépassement de ce délai, le prix de référence T0 proposé au C du formulaire de candidature est diminué de 0,25euros/MWh par mois de retard pendant les 6 premiers mois, puis de 0,50euros/MWh par mois de retard à partir du 7ème mois.
+Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas où des contentieux administratifs effectués à l’encontre de toute autorisation administrative nécessaire à la réalisation du projet ont pour effet de retarder l’achèvement de l’installation. Dans ce cas, un délai supplémentaire égal à la durée entre la date du recours initial et la date de la décision définitive attestée par la décision ayant autorité de la chose jugée est alors accordé dans le cadre de contentieux.
+Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
+Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
+`,
     },
   },
   periodes: [
