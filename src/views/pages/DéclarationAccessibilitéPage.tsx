@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { PageTemplate } from '@components'
+import { Link, PageTemplate, ExternalLink } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type DéclarationAccessibilitéProps = {
@@ -19,7 +19,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
         </p>
         <p>
           Cette déclaration d’accessibilité s’applique à{' '}
-          <a href="https://potentiel.beta.gouv.fr/">Potentiel</a>.
+          <Link href="https://potentiel.beta.gouv.fr/">Potentiel</Link>.
         </p>
         <h2>État de conformité</h2>
         <p>
@@ -46,15 +46,15 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
           <ul>
             <li>
               Écrire un message au{' '}
-              <a href="https://formulaire.defenseurdesdroits.fr/code/afficher.php?ETAPE=accueil_2016">
+              <ExternalLink href="https://formulaire.defenseurdesdroits.fr/code/afficher.php?ETAPE=accueil_2016">
                 Défenseur des droits
-              </a>
+              </ExternalLink>
             </li>
             <li>
               Contacter le{' '}
-              <a href="https://www.defenseurdesdroits.fr/saisir/delegues">
+              <ExternalLink href="https://www.defenseurdesdroits.fr/saisir/delegues">
                 délégué du Défenseur des droits dans votre région
-              </a>
+              </ExternalLink>
             </li>
             <li>
               Envoyer un courrier par la poste (gratuit, ne pas mettre de timbre) :
