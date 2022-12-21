@@ -14,7 +14,11 @@ export class BaseShouldUserAccessProject implements ShouldUserAccessProject {
   constructor(private userRepo: UserRepo, private findProjectById: ProjectRepo['findById']) {}
 
   async check({ projectId, user }: CheckProps): Promise<boolean> {
-    if (['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre'].includes(user.role)) {
+    if (
+      ['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'].includes(
+        user.role
+      )
+    ) {
       return true
     }
 
