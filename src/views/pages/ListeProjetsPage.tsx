@@ -183,9 +183,13 @@ export const ListeProjets = ({
                     </select>
                   ) : null}
                 </div>
-                {['admin', 'dreal', 'dgec-validateur', 'porteur-projet'].includes(
-                  request.user.role
-                ) && (
+                {[
+                  'admin',
+                  'dreal',
+                  'dgec-validateur',
+                  'porteur-projet',
+                  'caisse-des-dépôts',
+                ].includes(request.user.role) && (
                   <div style={{ marginTop: 15 }}>
                     <div style={{ marginLeft: 2 }}>Garanties Financières</div>
                     <select
