@@ -1,3 +1,4 @@
+import routes from '@routes'
 import React from 'react'
 
 const Footer = () => {
@@ -76,8 +77,13 @@ const Footer = () => {
           </div>
           <div className="mt-4 flex flex-wrap items-center border-0 border-t border-solid border-grey-925-base">
             <ul className="p-0 m-0 list-none w-full flex flex-wrap items-center px-0 pt-2 pb-4">
-              <li className="text-xs ">
-                <span className="text-grey-425-base">Accessibilité: non conforme</span>
+              <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
+                <a
+                  className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
+                  href={routes.DECLARATION_ACCESSIBILITE}
+                >
+                  Accessibilité: non conforme
+                </a>
               </li>
               <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
                 <a

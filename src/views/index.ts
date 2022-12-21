@@ -39,6 +39,7 @@ import {
   ProjetsÀRéclamer,
   LienInvitationPérimé,
   AccèsNonAutorisé,
+  DéclarationAccessibilité,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -151,6 +152,13 @@ export const HomePage = (props: Parameters<typeof Home>[0]) =>
     Component: Home,
     props,
     title: 'Accueil',
+  })
+
+export const DéclarationAccessibilitéPage = (props: Parameters<typeof Home>[0]) =>
+  makeHtml({
+    Component: DéclarationAccessibilité,
+    props,
+    title: `Déclaration d'accessibilité`,
   })
 
 export const UploadLegacyModificationFilesPage = (
