@@ -9,6 +9,7 @@ export const USER_ROLES = [
   'ademe',
   'dgec-validateur',
   'cre',
+  'caisse-des-dépôts',
 ] as const
 
 export type UserRole = typeof USER_ROLES[number]

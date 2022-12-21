@@ -14,7 +14,8 @@ const userSchema = Record({
     Literal('acheteur-obligé'),
     Literal('ademe'),
     Literal('dgec-validateur'),
-    Literal('cre')
+    Literal('cre'),
+    Literal('caisse-des-dépôts')
   ),
 })
 
