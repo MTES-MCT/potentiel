@@ -1,4 +1,4 @@
-import { FormulaireChampsObligatoireLégende, Button } from '@components'
+import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -47,7 +47,7 @@ export const AdminResponseForm = ({
       {role !== 'dreal' && (
         <div className="form__group" style={{ marginBottom: 20 }}>
           <label htmlFor="statusUpdateOnly">
-            <input
+            <InputCheckbox
               type="checkbox"
               name="statusUpdateOnly"
               defaultChecked={false}

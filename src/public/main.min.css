@@ -311,10 +311,6 @@ input[type='checkbox'] {
   padding: 0;
 }
 input[type='checkbox']:checked {
-  background-color: #0053b3;
-  background-color: var(--theme-primary);
-  border-color: #0053b3;
-  border-color: var(--theme-primary);
   opacity: 1;
   transition: border-color 0.2s ease-in, background-color 0.2s ease-out;
 }

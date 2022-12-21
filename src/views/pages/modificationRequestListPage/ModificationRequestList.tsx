@@ -5,7 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { RequestList, PageTemplate, SuccessBox, ErrorBox } from '@components'
+import { RequestList, PageTemplate, SuccessBox, ErrorBox, InputCheckbox } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
 
@@ -212,7 +212,7 @@ export const ModificationRequestList = ({
 
             {userIs(['admin', 'dgec-validateur'])(request.user) && (
               <div className="flex flex-row mt-5">
-                <input
+                <InputCheckbox
                   id="showOnlyDGEC"
                   name="showOnlyDGEC"
                   type="checkbox"

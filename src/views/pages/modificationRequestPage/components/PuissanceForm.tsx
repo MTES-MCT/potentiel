@@ -7,6 +7,7 @@ import {
   getRatiosChangementPuissance,
   getVolumeReserve,
 } from '@modules/modificationRequest'
+import { InputCheckbox } from '@components'
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
@@ -54,7 +55,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
 
       <div className="form__group mb-4">
         <label htmlFor="statusUpdateOnly">
-          <input
+          <InputCheckbox
             type="checkbox"
             name="isDecisionJustice"
             {...dataId('modificationRequest-isDecisionJustice')}

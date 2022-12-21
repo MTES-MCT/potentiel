@@ -1,11 +1,19 @@
-import { PaginationPanel, ProjectActions } from '@components'
+import {
+  PaginationPanel,
+  ProjectActions,
+  InputCheckbox,
+  Link,
+  Tile,
+  DownloadLink,
+  Badge,
+  LinkButton,
+} from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
 import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { PaginatedList } from '../../types'
-import { Badge, DownloadLink, Link, LinkButton, Tile } from './UI'
 import {
   PowerIcon,
   EuroIcon,
@@ -139,7 +147,7 @@ export const ProjectList = ({
       <div className="p-5 flex items-center">
         {displaySelection && (
           <>
-            <input
+            <InputCheckbox
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               type="checkbox"
               checked={selectedIds.length === items.length}
@@ -156,7 +164,7 @@ export const ProjectList = ({
           <div className="flex flex-col gap-2 mb-4">
             <div className="flex flex-col md:flex-row gap-2">
               {displaySelection && (
-                <input
+                <InputCheckbox
                   onChange={(e) => toggleSelected(project.id, e.target.checked)}
                   type="checkbox"
                   value={project.id}

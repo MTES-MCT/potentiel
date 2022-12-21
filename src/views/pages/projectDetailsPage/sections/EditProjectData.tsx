@@ -6,7 +6,7 @@ import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '@routes'
 import { Section } from '../components'
-import { Button } from '@components'
+import { Button, InputCheckbox } from '@components'
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage
@@ -182,7 +182,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         </div>
         <div className="form__group">
           <label>Engagement de fourniture de puissance à la pointe</label>
-          <input
+          <InputCheckbox
             type="checkbox"
             name="engagementFournitureDePuissanceAlaPointe"
             defaultChecked={

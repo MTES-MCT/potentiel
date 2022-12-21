@@ -7,6 +7,7 @@ import {
   Astérisque,
   FormulaireChampsObligatoireLégende,
   ErrorBox,
+  InputCheckbox,
 } from '@components'
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
 import routes from '@routes'
@@ -139,7 +140,7 @@ export const SignalerDemandeDelai = ({
             <div>
               {ajoutDélaiCdc2022Possible && (
                 <label htmlFor="délaiCdc2022" className="mt-4 mb-2">
-                  <input
+                  <InputCheckbox
                     type="checkbox"
                     name="délaiCdc2022"
                     value={appliquerCDC2022Délai ? 'true' : 'false'}
