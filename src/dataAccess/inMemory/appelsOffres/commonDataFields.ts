@@ -1,8 +1,7 @@
 import toTypeLiteral from './helpers/toTypeLiteral'
 import { Project } from '@entities'
-import { format } from 'date-fns'
 
-const dateFieldFormatter = (value) => value && format(new Date(), 'dd-mm-yyyy')
+const dateFieldFormatter = (value) => value && new Date(value).toLocaleDateString()
 
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
@@ -74,6 +73,16 @@ const commonDataFields = [
     type: toTypeLiteral('date'),
     column: 'Notification',
   },
+  {
+    field: 'financementCollectif',
+    value: (row) => (row.actionnariat === 'financement-collectif' ? 'Oui' : ''),
+    column: 'Financement collectif',
+  },
+  {
+    field: 'gouvernancePartagée',
+    value: (row) => (row.actionnariat === 'gouvernance-partagee' ? 'Oui' : ''),
+    column: 'Gouvernance partagée',
+  },
 ]
 
 const additionalFields = [
@@ -105,6 +114,11 @@ const additionalFields = [
     field: 'garantiesFinancières.dateEnvoi',
     value: (row) => dateFieldFormatter(row.garantiesFinancières?.dateEnvoi),
     column: 'Date de soumission sur Potentiel des garanties financières',
+  },
+  {
+    field: 'technologie',
+    value: (row) => row.technologie,
+    column: 'Technologie\n(dispositif de production)',
   },
 ]
 

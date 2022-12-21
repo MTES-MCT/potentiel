@@ -491,13 +491,11 @@ const orderedFields = [
     visibility: ['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé', 'ademe'],
   },
   {
-    dataField: 'Financement collectif (Oui/Non)',
-    fn: (row) => row.actionnariat === 'financement-collectif',
+    dataField: 'financementCollectif',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé', 'ademe'],
   },
   {
-    dataField: 'Gouvernance partagée (Oui/Non)',
-    fn: (row) => row.actionnariat === 'gouvernance-partagee',
+    dataField: 'gouvernancePartagée',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé', 'ademe'],
   },
   {
@@ -665,7 +663,7 @@ const orderedFields = [
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé'],
   },
   {
-    dataField: 'Technologie\n(dispositif de production)',
+    dataField: 'technologie',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé', 'ademe'],
   },
 ]
