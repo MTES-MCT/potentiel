@@ -137,6 +137,7 @@ export const makeListProjects = ({
       case 'acheteur-obligé':
       case 'ademe':
       case 'cre':
+      case 'caisse-des-dépôts':
         result.projects =
           recherche && recherche.length
             ? await searchAll(recherche, query, pagination)
