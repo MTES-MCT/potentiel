@@ -46,8 +46,19 @@ const getUserNavigation = ({
       return MenuAdmin(currentPage)
     case 'cre':
       return MenuCre(currentPage)
+    case 'caisse-des-dépôts':
+      return MenuCaisseDesDépôts(currentPage)
   }
 }
+
+const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
+  <Header.MenuItem
+    href={routes.LISTE_PROJETS}
+    {...(currentPage === 'list-projects' && { isCurrent: true })}
+  >
+    Projets
+  </Header.MenuItem>
+)
 
 const MenuCre = (currentPage: CurrentPage) => (
   <Header.MenuItem
