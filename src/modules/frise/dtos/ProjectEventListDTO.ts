@@ -476,7 +476,14 @@ export type DemandeAbandonDTO = {
 
 export type CahierDesChargesChoisiDTO = {
   type: 'CahierDesChargesChoisi'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
 } & (
   | {

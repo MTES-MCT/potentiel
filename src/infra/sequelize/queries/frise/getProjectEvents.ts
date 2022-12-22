@@ -715,6 +715,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'cre',
+                      'caisse-des-dépôts',
                     ])(user)
                   ) {
                     events.push({
