@@ -116,13 +116,17 @@ export const ProjectList = ({
           />{' '}
           Puissance
         </div>
-        <div className="flex items-center">
-          <EuroIcon
-            className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-            aria-label="Prix de référence"
-          />{' '}
-          Prix de référence
-        </div>
+        {['admin', 'dgec-validateur', 'porteur-projet', 'acheteur-obligé', 'ademe', 'cre'].includes(
+          role
+        ) && (
+          <div className="flex items-center">
+            <EuroIcon
+              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+              aria-label="Prix de référence"
+            />{' '}
+            Prix de référence
+          </div>
+        )}
         {displayGF ? (
           <div className="flex items-center">
             <div
@@ -208,18 +212,27 @@ export const ProjectList = ({
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
-              <div
-                className="flex lg:flex-1 lg:flex-col items-center gap-2"
-                title="Prix de référence"
-              >
-                <EuroIcon
-                  className="text-orange-terre-battue-main-645-base"
-                  aria-label="Prix de référence"
-                />
-                <div className="lg:flex lg:flex-col items-center">
-                  {project.prixReference} <Unit>€/MWh</Unit>
+              {[
+                'admin',
+                'dgec-validateur',
+                'porteur-projet',
+                'acheteur-obligé',
+                'ademe',
+                'cre',
+              ].includes(role) && (
+                <div
+                  className="flex lg:flex-1 lg:flex-col items-center gap-2"
+                  title="Prix de référence"
+                >
+                  <EuroIcon
+                    className="text-orange-terre-battue-main-645-base"
+                    aria-label="Prix de référence"
+                  />
+                  <div className="lg:flex lg:flex-col items-center">
+                    {project.prixReference} <Unit>€/MWh</Unit>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {displayGF ? (
                 <GF project={project} GFPastDue={GFPastDue} />
