@@ -451,7 +451,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           date: valueDate,
                           variant: user.role,
                           status,
-                          filename: payload.filename,
+                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                         })
                         break
@@ -461,7 +461,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           date: valueDate,
                           variant: user.role,
                           status,
-                          filename: payload.filename,
+                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           column: payload.column,
                           value: payload.value,
@@ -473,7 +473,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           date: valueDate,
                           variant: user.role,
                           status,
-                          filename: payload.filename,
+                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           actionnairePrecedent: payload.actionnairePrecedent,
                         })
@@ -485,7 +485,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             date: valueDate,
                             variant: user.role,
                             status,
-                            filename: payload.filename,
+                            ...(user.role !== 'caisse-des-dépôts' && {
+                              filename: payload.filename,
+                            }),
                             modificationType,
                             ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
                             nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
@@ -498,7 +500,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           date: valueDate,
                           variant: user.role,
                           status,
-                          filename: payload.filename,
+                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           producteurPrecedent: payload.producteurPrecedent,
                         })
@@ -509,7 +511,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           date: valueDate,
                           variant: user.role,
                           status,
-                          filename: payload.filename,
+                          ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           motifElimination: payload.motifElimination,
                         })
@@ -647,7 +649,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             }
                           : { statut }),
                         ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
-                          (userIs('dreal') && autorité === 'dreal')) && {
+                          (userIs('dreal')(user) && autorité === 'dreal')) && {
                           demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                         }),
                       })
@@ -667,7 +669,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             }
                           : { statut }),
                         ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
-                          (userIs('dreal') && autorité === 'dreal')) && {
+                          (userIs('dreal')(user) && autorité === 'dreal')) && {
                           demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                         }),
                       })
@@ -768,6 +770,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
               }
+              console.log(Promise.resolve(events))
+              console.log('user role', user.role)
               return Promise.resolve(events)
             },
             Promise.resolve([] as ProjectEventDTO[])

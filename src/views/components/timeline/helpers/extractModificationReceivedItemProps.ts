@@ -5,7 +5,7 @@ import ROUTES from '@routes'
 export type ModificationReceivedItemProps = {
   type: 'modification-information'
   date: number
-  detailsUrl: string
+  detailsUrl?: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }
@@ -36,7 +36,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'actionnaire',
           actionnaire: event.actionnaire,
-          detailsUrl,
+          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
         })
         break
       case 'producteur':
@@ -45,7 +45,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'producteur',
           producteur: event.producteur,
-          detailsUrl,
+          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
         })
         break
       case 'fournisseur':
@@ -54,7 +54,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'fournisseur',
           fournisseurs: event.fournisseurs,
-          detailsUrl,
+          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
         })
         break
       case 'puissance':
@@ -64,7 +64,7 @@ export const extractModificationReceivedItemProps = (
           modificationType: 'puissance',
           puissance: event.puissance,
           unitePuissance: event.unitePuissance || '??',
-          detailsUrl,
+          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
         })
         break
     }
