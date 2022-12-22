@@ -1,11 +1,13 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
-import { Pagination } from '../../types'
 import { Link } from '@components'
 
 interface PaginationProps {
   pageCount: number
-  pagination: Pagination
+  pagination: {
+    page: number
+    pageSize: number
+  }
   itemTitle: string
 }
 

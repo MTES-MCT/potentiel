@@ -40,7 +40,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
         ) : (
           <a
             data-pagevalue={page - 1}
-            className={`flex items-center no-underline hover:no-underline focus:no-underline text-black hover:text-black`}
+            className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
           >
             <ChevronLeftIcon className="mr-2" />
             Précédent
@@ -59,10 +59,10 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
             className={`mx-1 ${pageNumber >= nombreDePage ? 'disabled' : ''}`}
           >
             <a
-              className={`bg-white py-1 px-3 inline-flex items-center no-underline text-black text-center ${
+              className={`bg-white py-1 px-3 inline-flex items-center no-underline text-center ${
                 pageNumber === page
-                  ? 'bg-blue-france-sun-base text-white cursor-default'
-                  : 'cursor-pointer'
+                  ? 'bg-blue-france-sun-base text-white cursor-default hover:text-white focus:text-white'
+                  : 'cursor-pointer text-black hover:bg-grey-975-base focus:bg-hrey-975-base hover:text-black focus:text-black'
               }`}
               data-pagevalue={pageNumber}
             >
@@ -81,7 +81,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
         ) : (
           <a
             data-pagevalue={page - 1}
-            className={`flex items-center no-underline hover:no-underline focus:no-underline text-black hover:text-black`}
+            className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
           >
             Suivant
             <ChevronRightIcon className="ml-2" />
