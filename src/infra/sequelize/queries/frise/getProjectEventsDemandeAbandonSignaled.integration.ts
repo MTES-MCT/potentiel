@@ -59,8 +59,10 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
               date: new Date('2022-02-09').getTime(),
               signaledBy: 'user-id',
               status: 'acceptée',
-              attachment: { id: 'file-id', name: 'file-name' },
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
+              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'].includes(role) && {
+                attachment: { id: 'file-id', name: 'file-name' },
+              }),
             },
           ]),
         })

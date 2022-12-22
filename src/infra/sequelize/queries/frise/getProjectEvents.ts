@@ -590,7 +590,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           }
                         : { status }),
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      attachment,
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                        attachment,
+                      }),
                     })
                   }
                   break
@@ -615,7 +617,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       signaledBy,
                       status,
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      attachment,
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                        attachment,
+                      }),
                     })
                   }
                   break
