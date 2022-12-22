@@ -113,7 +113,7 @@ export const isCertificateDTO = or(
 export type GarantiesFinancièresDTO = {
   type: 'garanties-financières'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts'
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
