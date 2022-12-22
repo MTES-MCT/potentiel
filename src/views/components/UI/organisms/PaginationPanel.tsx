@@ -40,7 +40,7 @@ export function PaginationPanel({
   }
 
   return (
-    <nav className="flex justify-between items-center flex-wrap mt-6">
+    <div className="flex justify-between items-center flex-wrap mt-6">
       <div className="m-2">
         <label htmlFor="pagination__display" className="inline">
           {limiteParPage.toString()} {titreItems.toLowerCase()} par page
@@ -63,9 +63,11 @@ export function PaginationPanel({
           <div className="m-2">
             Page <strong>{page + 1}</strong> sur <strong>{nombreDePage}</strong>
           </div>
-          <Pagination nombreDePage={nombreDePage} page={page} />
+          <nav role="navigation" aria-label="Pagination">
+            <Pagination nombreDePage={nombreDePage} page={page} />
+          </nav>
         </>
       )}
-    </nav>
+    </div>
   )
 }

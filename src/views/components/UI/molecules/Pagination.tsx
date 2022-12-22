@@ -34,18 +34,22 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
     <ul className={`m-0 p-0 list-none overflow-hidden flex items-center ${className}`} {...props}>
       <li>
         {page <= 0 ? (
-          <p className="flex items-center cursor-not-allowed text-grey-625-base mr-4">
+          <p
+            className="flex items-center cursor-not-allowed text-grey-625-base mr-4"
+            aria-disabled="true"
+          >
             <ChevronLeftIcon className="mr-2" />
-            Précédent
+            <span className="hidden md:block">Précédent</span>
           </p>
         ) : (
           <a
             {...dataId('goToPage')}
             data-pagevalue={page - 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
+            title="Page précédente"
           >
             <ChevronLeftIcon className="mr-2" />
-            Précédent
+            <span className="hidden md:block">Précédent</span>
           </a>
         )}
       </li>
@@ -66,6 +70,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
                   ? 'bg-blue-france-sun-base text-white cursor-default hover:text-white focus:text-white'
                   : 'cursor-pointer text-black hover:bg-grey-975-base focus:bg-hrey-975-base hover:text-black focus:text-black'
               }`}
+              {...(pageNumber === page && { 'aria-current': 'page' })}
               {...dataId('goToPage')}
               data-pagevalue={pageNumber}
             >
@@ -77,8 +82,11 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
 
       <li>
         {page + 1 >= nombreDePage ? (
-          <p className="flex items-center cursor-not-allowed text-grey-625-base ml-4">
-            Suivant
+          <p
+            className="flex items-center cursor-not-allowed text-grey-625-base ml-4"
+            aria-disabled="true"
+          >
+            <span className="hidden md:block">Suivant</span>
             <ChevronRightIcon className="ml-2" />
           </p>
         ) : (
@@ -86,8 +94,9 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
             {...dataId('goToPage')}
             data-pagevalue={page + 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
+            title="Page suivante"
           >
-            Suivant
+            <span className="hidden md:block">Suivant</span>
             <ChevronRightIcon className="ml-2" />
           </a>
         )}
