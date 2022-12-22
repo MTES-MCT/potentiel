@@ -48,7 +48,7 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      <Link href={detailsUrl}>Voir la demande</Link>
+      {detailsUrl && <Link href={detailsUrl}>Voir la demande</Link>}
     </>
   )
 }
