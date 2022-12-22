@@ -53,7 +53,14 @@ export const is =
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
   isLegacy?: true
 }
@@ -66,7 +73,14 @@ export type ProjectImportedDTO = {
 
 export type ProjectNotificationDateSetDTO = {
   type: 'ProjectNotificationDateSet'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
 }
 
@@ -77,7 +91,10 @@ type ProjectCertificateBase = {
   nomProjet: string
 } & (
   | { variant: 'admin' | 'dgec-validateur'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'; email: undefined }
+  | {
+      variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'
+      email: undefined
+    }
 )
 
 export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
@@ -168,7 +185,14 @@ export type PtfDTO = {
 export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   délaiCDC2022Appliqué?: true
 }
 
@@ -291,7 +315,14 @@ export type FileAttachedToProjectDTO = {
 export type CovidDelayGrantedDTO = {
   type: 'CovidDelayGranted'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
 }
 
 export type DemandeDelaiSignaledDTO = {

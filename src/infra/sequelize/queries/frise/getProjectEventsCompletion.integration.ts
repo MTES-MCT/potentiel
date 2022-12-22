@@ -35,6 +35,7 @@ describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', (
     'acheteur-obligé',
     'dgec-validateur',
     'cre',
+    'caisse-des-dépôts',
   ]
 
   describe(`Utilisateurs autorisés à visualiser la date d'achèvement des projets`, () => {
