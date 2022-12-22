@@ -12,7 +12,6 @@ import {
   MenuIcon,
   LogoutBoxIcon,
   CloseIcon,
-  InputCheckbox,
 } from '@components'
 
 type HeaderProps = {
@@ -172,7 +171,7 @@ type MainMenuProps = {
 }
 const MainMenu = ({ children }: MainMenuProps) => (
   <>
-    <InputCheckbox id="menu-toggle" className="hidden" type="checkbox" />
+    <input id="menu-toggle" className="hidden" type="checkbox" />
     <label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
       <MenuIcon className="menu-open" />
       <CloseIcon className="menu-close hidden" />
