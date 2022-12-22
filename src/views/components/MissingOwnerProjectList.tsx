@@ -1,4 +1,4 @@
-import { PaginationPanel } from '@components'
+import { InputCheckbox, PaginationPanel } from '@components'
 import { logger } from '@core/utils'
 import { Project, User } from '@entities'
 import routes from '@routes'
@@ -158,7 +158,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           <thead>
             <tr>
               <th {...dataId('missingOwnerProjectList-checkbox')}>
-                <input type="checkbox" {...dataId('missingOwnerProjectList-selectAll-checkbox')} />
+                <InputCheckbox
+                  type="checkbox"
+                  {...dataId('missingOwnerProjectList-selectAll-checkbox')}
+                />
               </th>
               {displayColumns?.map((column) =>
                 column === 'N° CRE' ? (
@@ -182,7 +185,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               return (
                 <tr key={'project_' + project.id} {...dataId('missingOwnerProjectList-item')}>
                   <td {...dataId('missingOwnerProjectList-checkbox')}>
-                    <input
+                    <InputCheckbox
                       type="checkbox"
                       {...dataId('missingOwnerProjectList-item-checkbox')}
                       data-projectid={project.id}
@@ -212,7 +215,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <div className="my-8">
           <label className="notification align-middle inline-block" htmlFor="swornStatement">
-            <input
+            <InputCheckbox
               type="checkbox"
               name="swornStatement"
               id="swornStatement"

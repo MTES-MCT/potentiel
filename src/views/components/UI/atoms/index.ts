@@ -1,6 +1,7 @@
 export * from './Badge'
 export * from './Button'
 export * from './Callout'
+export * from './InputCheckbox'
 export * from './Link'
 export * from './LinkButton'
 export * from './RichRadio'
