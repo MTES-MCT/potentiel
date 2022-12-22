@@ -774,8 +774,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
               }
-              console.log(Promise.resolve(events))
-              console.log('user role', user.role)
               return Promise.resolve(events)
             },
             Promise.resolve([] as ProjectEventDTO[])
