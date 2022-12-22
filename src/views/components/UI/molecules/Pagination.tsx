@@ -1,5 +1,6 @@
 import React, { ComponentProps, FC } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@components'
+import { dataId } from '../../../../helpers/testId'
 
 type Props = ComponentProps<'ul'> & {
   nombreDePage: number
@@ -39,6 +40,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
+            {...dataId('goToPage')}
             data-pagevalue={page - 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
           >
@@ -64,6 +66,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
                   ? 'bg-blue-france-sun-base text-white cursor-default hover:text-white focus:text-white'
                   : 'cursor-pointer text-black hover:bg-grey-975-base focus:bg-hrey-975-base hover:text-black focus:text-black'
               }`}
+              {...dataId('goToPage')}
               data-pagevalue={pageNumber}
             >
               {pageNumber + 1}
@@ -80,7 +83,8 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
-            data-pagevalue={page - 1}
+            {...dataId('goToPage')}
+            data-pagevalue={page + 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
           >
             Suivant

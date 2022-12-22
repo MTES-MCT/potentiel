@@ -10,6 +10,7 @@ export default {
       limiteParPage: { control: 'number', default: 25 },
       page: { control: 'number', default: 1 },
     },
+    titreItems: { control: 'text' },
   },
 }
 
@@ -22,4 +23,5 @@ Default.args = {
     limiteParPage: 25,
     page: 1,
   },
+  titreItems: 'Projets',
 }

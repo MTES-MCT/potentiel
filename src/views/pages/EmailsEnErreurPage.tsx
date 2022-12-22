@@ -98,14 +98,15 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                 })}
               </tbody>
             </table>
-            {!Array.isArray(notifications) ? (
+            {!Array.isArray(notifications) && (
               <PaginationPanel
-                pagination={notifications.pagination}
-                pageCount={notifications.pageCount}
-                itemTitle="Notifications"
+                nombreDePage={notifications.pageCount}
+                pagination={{
+                  limiteParPage: notifications.pagination.pageSize,
+                  page: notifications.pagination.page,
+                }}
+                titreItems="Notifications"
               />
-            ) : (
-              ''
             )}
           </>
         )}
