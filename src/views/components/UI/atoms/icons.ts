@@ -10,6 +10,7 @@ export { RiLogoutBoxLine as LogoutBoxIcon } from '@react-icons/all-files/ri/RiLo
 export { RiExternalLinkLine as ExternalLinkIcon } from '@react-icons/all-files/ri/RiExternalLinkLine'
 export { FiChevronUp as ChevronUpIcon } from '@react-icons/all-files/fi/FiChevronUp'
 export { FiChevronLeft as ChevronLeftIcon } from '@react-icons/all-files/fi/FiChevronLeft'
+export { FiChevronRight as ChevronRightIcon } from '@react-icons/all-files/fi/FiChevronRight'
 export { FiChevronDown as ChevronDownIcon } from '@react-icons/all-files/fi/FiChevronDown'
 export { IoIosWarning as WarningIcon } from '@react-icons/all-files/io/IoIosWarning'
 export { BsInfoSquareFill as InfoIcon } from '@react-icons/all-files/bs/BsInfoSquareFill'
