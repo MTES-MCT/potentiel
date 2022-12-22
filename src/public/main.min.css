@@ -1234,8 +1234,8 @@ select.pagination__display {
   justify-content: flex-end;
 }
 .pagination__pages li a {
-  color: #0053b3;
-  color: var(--theme-primary);
+  /* color: #0053b3;
+  color: var(--theme-primary); */
   background-color: #fff;
   background-color: var(--theme-background-white);
   margin: 0 0.25em;

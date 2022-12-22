@@ -1,6 +1,7 @@
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import { Pagination } from '../../types'
+import { Link } from '@components'
 
 interface PaginationProps {
   pageCount: number
@@ -59,9 +60,9 @@ export function PaginationPanel({
       <ul className="pagination__pages">
         {page > 0 ? (
           <li>
-            <a {...dataId('goToPage')} data-pagevalue={page - 1}>
+            <Link {...dataId('goToPage')} data-pagevalue={page - 1}>
               ❮ Précédent
-            </a>
+            </Link>
           </li>
         ) : (
           ''
@@ -73,11 +74,12 @@ export function PaginationPanel({
               ...
             </li>
           ) : (
-            <li
-              key={'goToPage_' + index}
-              className={pageNumber === page ? 'active' : pageNumber >= pageCount ? 'disabled' : ''}
-            >
-              <a {...dataId('goToPage')} data-pagevalue={pageNumber}>
+            <li key={'goToPage_' + index} className={pageNumber >= pageCount ? 'disabled' : ''}>
+              <a
+                className={pageNumber === page ? `bg-blue-france-sun-base text-white` : ''}
+                {...dataId('goToPage')}
+                data-pagevalue={pageNumber}
+              >
                 {pageNumber + 1}
               </a>
             </li>
@@ -85,9 +87,9 @@ export function PaginationPanel({
         )}
         {page + 1 < pageCount ? (
           <li>
-            <a {...dataId('goToPage')} data-pagevalue={page + 1}>
+            <Link {...dataId('goToPage')} data-pagevalue={page + 1}>
               Suivant ❯
-            </a>
+            </Link>
           </li>
         ) : (
           ''
