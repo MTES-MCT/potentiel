@@ -94,7 +94,7 @@
     "ioredis": "^4.28.5",
     "isemail": "^3.2.0",
     "json2csv": "^5.0.7",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "keycloak-connect": "^17.0.1",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
