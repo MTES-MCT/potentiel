@@ -26,6 +26,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
     case 'acheteur-obligé':
     case 'ademe':
     case 'cre':
+    case 'caisse-des-dépôts':
       return [PermissionListerProjets, PermissionConsulterProjet]
 
     default:

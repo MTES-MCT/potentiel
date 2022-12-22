@@ -34,7 +34,14 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
     },
   } as DemandeSignaledEvents
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+  ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de délai faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of rolesAutorisés) {
@@ -56,7 +63,9 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
               status: 'acceptée',
               oldCompletionDueOn: new Date('2024-09-31').getTime(),
               newCompletionDueOn: new Date('2025-01-31').getTime(),
-              attachment: { id: 'file-id', name: 'file-name' },
+              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'].includes(role) && {
+                attachment: { id: 'file-id', name: 'file-name' },
+              }),
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
             },
           ]),

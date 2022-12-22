@@ -129,6 +129,9 @@ const getRequestEvent = (events: ModificationRequestDTO[]) => {
 }
 
 const getResponseUrl = (latestEvent: ModificationRequestDTO) => {
+  if (!['porteur-projet', 'dreal', 'admin', 'dgec-validateur'].includes(latestEvent.variant)) {
+    return
+  }
   if (
     or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(latestEvent) &&
     latestEvent.file?.name

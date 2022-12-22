@@ -55,6 +55,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 <option value="acheteur-obligé">Acheteur obligé</option>
                 <option value="ademe">ADEME</option>
                 <option value="cre">CRE</option>
+                <option value="caisse-des-dépôts">Caisse des dépôts</option>
               </Select>
             </div>
             <Button className="m-auto" type="submit" id="submit" {...dataId('submit-button')}>

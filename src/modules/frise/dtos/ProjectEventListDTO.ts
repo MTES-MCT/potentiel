@@ -53,7 +53,14 @@ export const is =
 
 export type ProjectNotifiedDTO = {
   type: 'ProjectNotified'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
   isLegacy?: true
 }
@@ -66,7 +73,14 @@ export type ProjectImportedDTO = {
 
 export type ProjectNotificationDateSetDTO = {
   type: 'ProjectNotificationDateSet'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
 }
 
@@ -77,7 +91,10 @@ type ProjectCertificateBase = {
   nomProjet: string
 } & (
   | { variant: 'admin' | 'dgec-validateur'; email: string }
-  | { variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'; email: undefined }
+  | {
+      variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'
+      email: undefined
+    }
 )
 
 export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
@@ -113,7 +130,7 @@ export const isCertificateDTO = or(
 export type GarantiesFinancièresDTO = {
   type: 'garanties-financières'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts'
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
@@ -168,14 +185,27 @@ export type PtfDTO = {
 export type ProjectCompletionDueDateSetDTO = {
   type: 'ProjectCompletionDueDateSet'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   délaiCDC2022Appliqué?: true
 }
 
 export type ModificationRequestedDTO = {
   type: 'ModificationRequested'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
   authority: 'dgec' | 'dreal'
 } & (
@@ -194,7 +224,13 @@ export type ModificationRequestedDTO = {
 export type ModificationRequestAcceptedDTO = {
   type: 'ModificationRequestAccepted'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
   file?: File
   delayInMonthsGranted?: number
@@ -203,7 +239,13 @@ export type ModificationRequestAcceptedDTO = {
 export type ModificationRequestRejectedDTO = {
   type: 'ModificationRequestRejected'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
   file?: File
 }
@@ -211,14 +253,26 @@ export type ModificationRequestRejectedDTO = {
 export type ModificationRequestInstructionStartedDTO = {
   type: 'ModificationRequestInstructionStarted'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
 }
 
 export type ModificationRequestCancelledDTO = {
   type: 'ModificationRequestCancelled'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
 }
 
@@ -232,7 +286,13 @@ export type ModificationRequestDTO =
 export type ModificationReceivedDTO = {
   type: 'ModificationReceived'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   modificationRequestId: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
@@ -244,7 +304,13 @@ export type ModificationReceivedDTO = {
 export type LegacyModificationImportedDTO = {
   type: 'LegacyModificationImported'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   status: LegacyModificationStatus
   filename?: string
 } & (
@@ -267,7 +333,13 @@ export type LegacyModificationImportedDTO = {
 
 export type LegacyModificationFileAttachedDTO = {
   type: 'LegacyModificationFileAttached'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   file: File
 }
 
@@ -291,12 +363,25 @@ export type FileAttachedToProjectDTO = {
 export type CovidDelayGrantedDTO = {
   type: 'CovidDelayGranted'
   date: number
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
 }
 
 export type DemandeDelaiSignaledDTO = {
   type: 'DemandeDelaiSignaled'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   date: number
   signaledBy: string
   attachment?: File
@@ -314,7 +399,13 @@ export type DemandeDelaiSignaledDTO = {
 
 export type DemandeAbandonSignaledDTO = {
   type: 'DemandeAbandonSignaled'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée' | 'à accorder'
@@ -324,7 +415,13 @@ export type DemandeAbandonSignaledDTO = {
 
 export type DemandeRecoursSignaledDTO = {
   type: 'DemandeRecoursSignaled'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée'
@@ -334,7 +431,13 @@ export type DemandeRecoursSignaledDTO = {
 
 export type DemandeDélaiDTO = {
   type: 'DemandeDélai'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   date: number
   demandeUrl?: string
   actionRequise?: 'à traiter' | 'réponse à envoyer'
@@ -358,7 +461,13 @@ export type DemandeDélaiDTO = {
 
 export type DemandeAbandonDTO = {
   type: 'DemandeAbandon'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
   date: number
   statut: DemandeAbandonEventStatus
   demandeUrl?: string
@@ -367,7 +476,14 @@ export type DemandeAbandonDTO = {
 
 export type CahierDesChargesChoisiDTO = {
   type: 'CahierDesChargesChoisi'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur' | 'cre'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'cre'
+    | 'caisse-des-dépôts'
   date: number
 } & (
   | {

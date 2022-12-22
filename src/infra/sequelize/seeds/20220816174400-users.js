@@ -61,6 +61,12 @@ module.exports = {
           fonction: 'Intitulé de la fonction du CRE',
           role: 'cre',
         },
+        {
+          id: '5c3c3cd4-95f1-11ea-b350-bb5aa5faa999',
+          fullName: 'Caisse des dépôts test',
+          email: 'caissedesdepots@test.test',
+          role: 'caisse-des-dépôts',
+        },
       ]
 
       await queryInterface.bulkInsert(

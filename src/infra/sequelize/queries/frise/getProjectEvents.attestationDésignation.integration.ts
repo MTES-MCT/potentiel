@@ -9,32 +9,14 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 import {
   ProjectCertificateEvents,
   ProjectClaimedEvent,
-  ProjectNotificationDateSetEvent,
-  ProjectNotifiedEvent,
 } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
-describe('getProjectEvents pour les événements de désignation', () => {
+describe('getProjectEvents pour les attestations de désignation', () => {
   const { Project } = models
   const projetId = new UniqueEntityID().toString()
   const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
 
   // liste des événements à tester
-
-  const projectNotifiedEvent = {
-    id: new UniqueEntityID().toString(),
-    projectId: projetId,
-    type: 'ProjectNotified',
-    valueDate: new Date('2020-01-02').getTime(),
-    eventPublishedAt: new Date('2020-01-02').getTime(),
-  } as ProjectNotifiedEvent
-
-  const projectNotificationDateSetEvent = {
-    id: new UniqueEntityID().toString(),
-    projectId: projetId,
-    type: 'ProjectNotificationDateSet',
-    valueDate: new Date('2020-01-03').getTime(),
-    eventPublishedAt: new Date('2020-01-03').getTime(),
-  } as ProjectNotificationDateSetEvent
 
   const projectCertificateGeneratedEvent = {
     id: new UniqueEntityID().toString(),
@@ -89,16 +71,14 @@ describe('getProjectEvents pour les événements de désignation', () => {
     'cre',
   ]
 
-  describe(`Utilisateurs autorisés à visualiser les données de désignation`, () => {
+  describe(`Utilisateurs autorisés à visualiser les attestations de désignation`, () => {
     for (const role of rolesAutorisés) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
-  alors les événements de désignation devraient être retournés`, async () => {
+  alors les attestations de désignation devraient être retournées`, async () => {
         const utilisateur = { role } as User
 
         await ProjectEvent.bulkCreate([
-          projectNotifiedEvent,
-          projectNotificationDateSetEvent,
           projectCertificateGeneratedEvent,
           projectCertificateRegeneratedEvent,
           projectCertificateUpdatedEvent,
@@ -108,16 +88,6 @@ describe('getProjectEvents pour les événements de désignation', () => {
         const res = await getProjectEvents({ projectId: projetId, user: utilisateur })
 
         expect(res._unsafeUnwrap().events).toEqual([
-          {
-            type: 'ProjectNotified',
-            date: projectNotifiedEvent.valueDate,
-            variant: utilisateur.role,
-          },
-          {
-            type: 'ProjectNotificationDateSet',
-            date: projectNotificationDateSetEvent.valueDate,
-            variant: utilisateur.role,
-          },
           {
             type: 'ProjectCertificateGenerated',
             potentielIdentifier: projet.potentielIdentifier,
@@ -160,16 +130,14 @@ describe('getProjectEvents pour les événements de désignation', () => {
     }
   })
 
-  describe(`Utilisateurs non-autorisés à visualiser les données de désignation`, () => {
+  describe(`Utilisateurs non-autorisés à visualiser les attestations de désignation`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné une utlisateur ${role}, 
   lorsqu'il visualise la frise d'un projet, 
-  alors les événements de désignation ne devraient pas être retournés`, async () => {
+  alors les attestations de désignation ne devraient pas être retournées`, async () => {
         const utilisateur = { role } as User
 
         await ProjectEvent.bulkCreate([
-          projectNotifiedEvent,
-          projectNotificationDateSetEvent,
           projectCertificateGeneratedEvent,
           projectCertificateRegeneratedEvent,
           projectCertificateUpdatedEvent,

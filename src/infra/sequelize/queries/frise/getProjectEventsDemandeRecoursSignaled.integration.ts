@@ -32,7 +32,14 @@ describe('getProjectEvents pour les événements DemandeRecoursSignaled', () => 
     },
   } as DemandeSignaledEvents
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+  ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de recours faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of rolesAutorisés) {
@@ -52,7 +59,9 @@ describe('getProjectEvents pour les événements DemandeRecoursSignaled', () => 
               date: new Date('2022-02-09').getTime(),
               signaledBy: 'user-id',
               status: 'acceptée',
-              attachment: { id: 'file-id', name: 'file-name' },
+              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'].includes(role) && {
+                attachment: { id: 'file-id', name: 'file-name' },
+              }),
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
             },
           ]),
