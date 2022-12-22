@@ -62,7 +62,14 @@ describe(`getProjectEvents`, () => {
     },
   }
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+  ]
 
   describe(`Utilisateur ayant les droits pour visualiser les demandes de délai`, () => {
     for (const role of rolesAutorisés) {

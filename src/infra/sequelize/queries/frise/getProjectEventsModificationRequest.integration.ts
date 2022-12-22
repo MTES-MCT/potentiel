@@ -84,7 +84,14 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     payload: { modificationRequestId },
   }
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+  ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de modifications`, () => {
     for (const role of rolesAutorisés) {

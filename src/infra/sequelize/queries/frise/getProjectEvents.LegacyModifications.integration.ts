@@ -85,7 +85,14 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     await Project.create(fakeProject)
   })
 
-  const rolesAutorisés = ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'dgec-validateur']
+  const rolesAutorisés = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+  ]
 
   describe(`Utilisateurs autorisés`, () => {
     for (const role of USER_ROLES.filter((role) => rolesAutorisés.includes(role))) {
