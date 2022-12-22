@@ -11,4 +11,5 @@ export const ACTION_BY_ROLE: Record<UserRole, (project: any) => any[]> = {
   'acheteur-obligé': () => [],
   ademe: () => [],
   cre: () => [],
+  'caisse-des-dépôts': () => [],
 }
