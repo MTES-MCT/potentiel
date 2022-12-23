@@ -196,7 +196,7 @@ const ATraiter = ({
   project,
   dateEchéance,
 }: ATraiterProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet'
+  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant)
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
 
@@ -228,7 +228,7 @@ const ATraiter = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {utilisateurEstPorteur && <AnnulerDépôt projetId={project.id} />}
+        {utilisateurPeutAnnulerDépôt && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
   )

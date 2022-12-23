@@ -19,6 +19,11 @@ type RemoveGFArgs = {
   removedBy: User
 }
 
+export const PermissionAnnulerGF = {
+  nom: 'annuler-gf',
+  description: 'Annuler les garanties financières',
+}
+
 export const makeRemoveGF =
   (deps: RemoveGFDeps) =>
   (args: RemoveGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {

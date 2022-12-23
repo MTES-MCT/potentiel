@@ -7,6 +7,7 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeRemoveGF } from './removeGF'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
+import { USER_ROLES } from '@modules/users'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -16,58 +17,71 @@ const fakeProject = makeFakeProject()
 
 const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
-describe('removeGF use-case', () => {
-  describe('when the user has rights on this project', () => {
-    const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-
-    beforeAll(async () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
-      fakePublish.mockClear()
-
-      const removeGF = makeRemoveGF({
-        shouldUserAccessProject,
-        projectRepo,
-      })
-
-      const res = await removeGF({
-        projectId,
-        removedBy: user,
-      })
-
-      expect(res.isOk()).toBe(true)
-
-      expect(shouldUserAccessProject).toHaveBeenCalledWith({
-        user,
-        projectId,
-      })
-    })
-
-    it('should remove the GF', () => {
-      expect(fakeProject.removeGarantiesFinancieres).toHaveBeenCalledWith(user)
-    })
+describe('Supprimer une garantie financière', () => {
+  beforeEach(() => {
+    return fakePublish.mockClear()
   })
 
-  describe('When the user doesnt have rights on the project', () => {
-    it('should return an UnauthorizedError', async () => {
-      fakePublish.mockClear()
+  describe(`Suppression impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
+    const rolesNonAutorisés = USER_ROLES.filter(
+      (u) => !['porteur-projet', 'caisse-des-dépôts'].includes(u)
+    )
 
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+    for (const role of rolesNonAutorisés) {
+      it(`Étant donné un utilisateur ayant le role ${role}
+          Lorsqu'il supprime une garantie financière
+          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
 
-      const shouldUserAccessProject = jest.fn(async () => false)
+        const shouldUserAccessProject = jest.fn(async () => false)
 
-      const removeGF = makeRemoveGF({
-        shouldUserAccessProject,
-        projectRepo,
+        const removeGF = makeRemoveGF({
+          shouldUserAccessProject,
+          projectRepo,
+        })
+
+        const res = await removeGF({
+          projectId,
+          removedBy: user,
+        })
+
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+        expect(fakePublish).not.toHaveBeenCalled()
       })
+    }
+  })
 
-      const res = await removeGF({
-        projectId,
-        removedBy: user,
+  describe(`Suppression possible si l'utilisateur a les droits sur le projet`, () => {
+    const rolesAutorisés = USER_ROLES.filter((u) =>
+      ['porteur-projet', 'caisse-des-dépôts'].includes(u)
+    )
+
+    for (const role of rolesAutorisés) {
+      it(`Étant donné un utilisateur ayant le role ${role}
+          Lorsqu'il supprime une garantie financière
+          Alors la garantie financière devrait être supprimée`, async () => {
+        const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
+        const shouldUserAccessProject = jest.fn(async () => true)
+
+        const removeGF = makeRemoveGF({
+          shouldUserAccessProject,
+          projectRepo,
+        })
+
+        const res = await removeGF({
+          projectId,
+          removedBy: user,
+        })
+        expect(res.isOk()).toBe(true)
+
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId,
+        })
+
+        expect(fakeProject.removeGarantiesFinancieres).toHaveBeenCalledWith(user)
       })
-
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-
-      expect(fakePublish).not.toHaveBeenCalled()
-    })
+    }
   })
 })
