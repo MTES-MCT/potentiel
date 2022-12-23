@@ -106,6 +106,26 @@ export const ProjectList = ({
     }
   }
 
+  const afficherPrix = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
+  const afficherEvaluationCarbone = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
   return (
     <>
       <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm" aria-hidden>
@@ -116,9 +136,7 @@ export const ProjectList = ({
           />{' '}
           Puissance
         </div>
-        {['admin', 'dgec-validateur', 'porteur-projet', 'acheteur-obligé', 'ademe', 'cre'].includes(
-          role
-        ) && (
+        {afficherPrix && (
           <div className="flex items-center">
             <EuroIcon
               className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
@@ -127,7 +145,7 @@ export const ProjectList = ({
             Prix de référence
           </div>
         )}
-        {displayGF ? (
+        {displayGF && (
           <div className="flex items-center">
             <div
               className="flex text-grey-200-base font-bold text-sm mr-1"
@@ -137,7 +155,8 @@ export const ProjectList = ({
             </div>
             Garanties Financières
           </div>
-        ) : (
+        )}
+        {afficherEvaluationCarbone && !displayGF && (
           <div className="flex items-center">
             <CloudIcon
               className="text-grey-425-active mr-1 shrink-0"
@@ -212,14 +231,7 @@ export const ProjectList = ({
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
-              {[
-                'admin',
-                'dgec-validateur',
-                'porteur-projet',
-                'acheteur-obligé',
-                'ademe',
-                'cre',
-              ].includes(role) && (
+              {afficherPrix && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2"
                   title="Prix de référence"
@@ -234,9 +246,8 @@ export const ProjectList = ({
                 </div>
               )}
 
-              {displayGF ? (
-                <GF project={project} GFPastDue={GFPastDue} />
-              ) : (
+              {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
+              {afficherEvaluationCarbone && !displayGF && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
                   title="Évaluation carbone"
