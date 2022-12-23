@@ -11,11 +11,6 @@ import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { vérifierPermissionUtilisateur } from '../helpers'
 import { PermissionListerProjets } from '@modules/project'
 
-/// A SUPPRIMER
-// tous : ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'ademe', 'dgec-validateur', 'cre', 'caisse-des-dépôts']
-
-// tout sauf caisse : ['admin', 'porteur-projet', 'dreal', 'acheteur-obligé', 'ademe', 'dgec-validateur', 'cre']
-
 const orderedFields = [
   {
     dataField: 'numeroCRE',
