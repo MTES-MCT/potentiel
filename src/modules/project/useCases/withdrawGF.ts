@@ -15,6 +15,11 @@ type WithdrawGFArgs = {
   removedBy: User
 }
 
+export const PermissionRetirerGF = {
+  nom: 'retirer-gf',
+  description: 'Retirer les garanties financières',
+}
+
 export const makeWithdrawGF =
   (deps: WithdrawGFDeps) =>
   (args: WithdrawGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {

@@ -329,6 +329,7 @@ const Validé = ({
   project,
 }: ValidéProps) => {
   const utilisateurEstPorteur = variant === 'porteur-projet'
+  const utilisateurEstCaisseDesDépôts = variant === 'caisse-des-dépôts'
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
 
@@ -361,7 +362,9 @@ const Validé = ({
           )}
         </div>
         {retraitDépôtPossible &&
-          ((utilisateurEstPorteur && envoyéesPar === 'porteur-projet') || utilisateurEstAdmin) && (
+          ((utilisateurEstPorteur && envoyéesPar === 'porteur-projet') ||
+            utilisateurEstAdmin ||
+            utilisateurEstCaisseDesDépôts) && (
             <RetirerDocument projetId={project.id} envoyéesPar={envoyéesPar} />
           )}
         {envoyéesPar === 'dreal' && (
