@@ -1,14 +1,18 @@
 import fs from 'fs'
-import { ensureRole } from '@config'
 import { uploadGF } from '@config/useCases.config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
-import { errorResponse, unauthorizedResponse, iso8601DateToDateYupTransformation } from '../helpers'
+import {
+  errorResponse,
+  unauthorizedResponse,
+  iso8601DateToDateYupTransformation,
+  vérifierPermissionUtilisateur,
+} from '../helpers'
 import { upload } from '../upload'
 import { v1Router } from '../v1Router'
-import { GFCertificateHasAlreadyBeenSentError } from '../../modules/project'
+import { GFCertificateHasAlreadyBeenSentError, PermissionUploaderGF } from '../../modules/project'
 import { format } from 'date-fns'
 import * as yup from 'yup'
 import { pathExists } from '../../helpers/pathExists'
@@ -37,7 +41,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.UPLOAD_GARANTIES_FINANCIERES(),
-  ensureRole(['porteur-projet', 'dreal', 'admin']),
+  vérifierPermissionUtilisateur(PermissionUploaderGF),
   upload.single('file'),
   safeAsyncHandler(
     {
