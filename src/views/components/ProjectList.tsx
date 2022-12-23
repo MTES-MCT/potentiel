@@ -27,7 +27,7 @@ const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project }: { project: Project }) => {
+const StatutBadge = ({ project, role }: { project: Project; role: UserRole }) => {
   if (project.abandonedOn) {
     return <Badge type="warning">Abandonné</Badge>
   }
@@ -46,7 +46,17 @@ const StatutBadge = ({ project }: { project: Project }) => {
     ? 'GP'
     : ''
 
-  return <Badge type="success">Classé {type ? `(${type})` : ''}</Badge>
+  const afficherIPFPGPFC = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
+  return <Badge type="success">Classé {type && afficherIPFPGPFC ? `(${type})` : ''}</Badge>
 }
 
 type Props = {
@@ -87,25 +97,6 @@ export const ProjectList = ({
     )
   }
 
-  const toggleSelected = (projectId: string, value: boolean) => {
-    const newSelectedIds = selectedIds.slice()
-    if (value) {
-      newSelectedIds.push(projectId)
-    } else {
-      const index = newSelectedIds.indexOf(projectId)
-      newSelectedIds.splice(index, 1)
-    }
-    onSelectedIdsChanged?.(newSelectedIds)
-  }
-
-  const toggleSelectAllPage = (value: boolean) => {
-    if (value) {
-      onSelectedIdsChanged?.(items.map((projet) => projet.id))
-    } else {
-      onSelectedIdsChanged?.([])
-    }
-  }
-
   const afficherPrix = [
     'admin',
     'dgec-validateur',
@@ -125,6 +116,25 @@ export const ProjectList = ({
     'cre',
     'dreal',
   ].includes(role)
+
+  const toggleSelected = (projectId: string, value: boolean) => {
+    const newSelectedIds = selectedIds.slice()
+    if (value) {
+      newSelectedIds.push(projectId)
+    } else {
+      const index = newSelectedIds.indexOf(projectId)
+      newSelectedIds.splice(index, 1)
+    }
+    onSelectedIdsChanged?.(newSelectedIds)
+  }
+
+  const toggleSelectAllPage = (value: boolean) => {
+    if (value) {
+      onSelectedIdsChanged?.(items.map((projet) => projet.id))
+    } else {
+      onSelectedIdsChanged?.([])
+    }
+  }
 
   return (
     <>
@@ -195,7 +205,7 @@ export const ProjectList = ({
                 />
               )}
               <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-              <StatutBadge project={project} />
+              <StatutBadge project={project} role={role} />
             </div>
             <div className="italic text-xs text-grey-425-base">{project.potentielIdentifier}</div>
           </div>
