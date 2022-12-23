@@ -25,7 +25,7 @@ const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project }: { project: Project }) => {
+const StatutBadge = ({ project, role }: { project: Project; role: UserRole }) => {
   if (project.abandonedOn) {
     return <Badge type="warning">Abandonné</Badge>
   }
@@ -44,7 +44,17 @@ const StatutBadge = ({ project }: { project: Project }) => {
     ? 'GP'
     : ''
 
-  return <Badge type="success">Classé {type ? `(${type})` : ''}</Badge>
+  const afficherIPFPGPFC = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
+  return <Badge type="success">Classé {type && afficherIPFPGPFC ? `(${type})` : ''}</Badge>
 }
 
 type Props = {
@@ -85,6 +95,26 @@ export const ProjectList = ({
     )
   }
 
+  const afficherPrix = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
+  const afficherEvaluationCarbone = [
+    'admin',
+    'dgec-validateur',
+    'porteur-projet',
+    'acheteur-obligé',
+    'ademe',
+    'cre',
+    'dreal',
+  ].includes(role)
+
   const toggleSelected = (projectId: string, value: boolean) => {
     const newSelectedIds = selectedIds.slice()
     if (value) {
@@ -114,14 +144,16 @@ export const ProjectList = ({
           />{' '}
           Puissance
         </div>
-        <div className="flex items-center">
-          <EuroIcon
-            className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
-            aria-label="Prix de référence"
-          />{' '}
-          Prix de référence
-        </div>
-        {displayGF ? (
+        {afficherPrix && (
+          <div className="flex items-center">
+            <EuroIcon
+              className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
+              aria-label="Prix de référence"
+            />{' '}
+            Prix de référence
+          </div>
+        )}
+        {displayGF && (
           <div className="flex items-center">
             <div
               className="flex text-grey-200-base font-bold text-sm mr-1"
@@ -131,7 +163,8 @@ export const ProjectList = ({
             </div>
             Garanties Financières
           </div>
-        ) : (
+        )}
+        {afficherEvaluationCarbone && !displayGF && (
           <div className="flex items-center">
             <CloudIcon
               className="text-grey-425-active mr-1 shrink-0"
@@ -170,7 +203,7 @@ export const ProjectList = ({
                 />
               )}
               <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-              <StatutBadge project={project} />
+              <StatutBadge project={project} role={role} />
             </div>
             <div className="italic text-xs text-grey-425-base">{project.potentielIdentifier}</div>
           </div>
@@ -206,22 +239,23 @@ export const ProjectList = ({
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
-              <div
-                className="flex lg:flex-1 lg:flex-col items-center gap-2"
-                title="Prix de référence"
-              >
-                <EuroIcon
-                  className="text-orange-terre-battue-main-645-base"
-                  aria-label="Prix de référence"
-                />
-                <div className="lg:flex lg:flex-col items-center">
-                  {project.prixReference} <Unit>€/MWh</Unit>
+              {afficherPrix && (
+                <div
+                  className="flex lg:flex-1 lg:flex-col items-center gap-2"
+                  title="Prix de référence"
+                >
+                  <EuroIcon
+                    className="text-orange-terre-battue-main-645-base"
+                    aria-label="Prix de référence"
+                  />
+                  <div className="lg:flex lg:flex-col items-center">
+                    {project.prixReference} <Unit>€/MWh</Unit>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {displayGF ? (
-                <GF project={project} GFPastDue={GFPastDue} />
-              ) : (
+              {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
+              {afficherEvaluationCarbone && !displayGF && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
                   title="Évaluation carbone"

@@ -6,9 +6,16 @@ type MaterielsEtTechnologiesProps = {
   project: ProjectDataForProjectPage
 }
 
-export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProps) => (
-  <Section title="Matériels et technologies" icon="cog">
-    <div>Fournisseur: {project.fournisseur}</div>
-    <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
-  </Section>
-)
+export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProps) => {
+  if (!project.fournisseur && !project.evaluationCarbone) {
+    return null
+  }
+  return (
+    <Section title="Matériels et technologies" icon="cog">
+      {project.fournisseur && <div>Fournisseur: {project.fournisseur}</div>}
+      {project.evaluationCarbone && (
+        <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
+      )}
+    </Section>
+  )
+}
