@@ -1,7 +1,7 @@
 import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import { ProjectStatusLabel } from '@components'
+import { Badge } from '@components'
 import { ProjectActions } from './ProjectActions'
 
 type ProjectHeaderProps = {
@@ -12,19 +12,28 @@ type ProjectHeaderProps = {
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 mb-3">
-      <div className="flex justify-start items-center">
+      <div
+        className="flex justify-start items-center
+      "
+      >
         <h1 className="text-2xl font-bold text-gray-900 mb-0 pb-0">{project.nomProjet}</h1>
-        <ProjectStatusLabel
-          status={
-            !project.notifiedOn
-              ? 'non-notifié'
-              : project.isAbandoned
-              ? 'abandonné'
-              : project.isClasse
-              ? 'lauréat'
-              : 'éliminé'
-          }
-        />
+        {!project.notifiedOn ? (
+          <Badge type="info" className="ml-2 self-center">
+            Non-notifié
+          </Badge>
+        ) : project.isAbandoned ? (
+          <Badge type="warning" className="ml-2 self-center">
+            Abandonné
+          </Badge>
+        ) : project.isClasse ? (
+          <Badge type="success" className="ml-2 self-center">
+            Classé
+          </Badge>
+        ) : (
+          <Badge type="error" className="ml-2 self-center">
+            Éliminé
+          </Badge>
+        )}
       </div>
       <p className="text-sm font-medium text-gray-500 p-0 m-0">
         {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
