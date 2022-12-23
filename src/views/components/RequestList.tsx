@@ -199,9 +199,12 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
         </tbody>
       </table>
       <PaginationPanel
-        pagination={modificationRequests.pagination}
-        pageCount={modificationRequests.pageCount}
-        itemTitle="Demandes"
+        nombreDePage={modificationRequests.pageCount}
+        pagination={{
+          limiteParPage: modificationRequests.pagination.pageSize,
+          page: modificationRequests.pagination.page,
+        }}
+        titreItems="Demandes"
       />
     </>
   )

@@ -240,9 +240,12 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
       {!Array.isArray(projects) && (
         <PaginationPanel
-          pagination={projects.pagination}
-          pageCount={projects.pageCount}
-          itemTitle="Projets"
+          pagination={{
+            limiteParPage: projects.pagination.pageSize,
+            page: projects.pagination.page,
+          }}
+          nombreDePage={projects.pageCount}
+          titreItems="Projets"
         />
       )}
     </>

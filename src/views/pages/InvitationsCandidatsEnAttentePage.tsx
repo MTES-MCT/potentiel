@@ -32,7 +32,7 @@ export const InvitationsCandidatsEnAttente = ({
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
 
-        <div className="pagination__count">
+        <div className="m-2">
           <strong>{invitations.itemCount}</strong> invitations en attente{' '}
         </div>
         {!invitations.items.length ? (
@@ -97,9 +97,12 @@ export const InvitationsCandidatsEnAttente = ({
             </table>
             {!Array.isArray(invitations) ? (
               <PaginationPanel
-                pagination={invitations.pagination}
-                pageCount={invitations.pageCount}
-                itemTitle="Invitations"
+                nombreDePage={invitations.pageCount}
+                pagination={{
+                  limiteParPage: invitations.pagination.pageSize,
+                  page: invitations.pagination.page,
+                }}
+                titreItems="Invitations"
               />
             ) : (
               ''

@@ -1,13 +1,3 @@
-import {
-  PaginationPanel,
-  ProjectActions,
-  InputCheckbox,
-  Link,
-  Tile,
-  DownloadLink,
-  Badge,
-  LinkButton,
-} from '@components'
 import { Project } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
@@ -15,13 +5,21 @@ import React, { ReactNode } from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { PaginatedList } from '../../types'
 import {
+  ProjectActions,
   PowerIcon,
   EuroIcon,
   CloudIcon,
   MapPinIcon,
   BuildingHouseIcon,
   UserIcon,
-} from './UI/atoms/icons'
+  Badge,
+  DownloadLink,
+  Link,
+  LinkButton,
+  Tile,
+  PaginationPanel,
+  InputCheckbox,
+} from '@components'
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -261,9 +259,12 @@ export const ProjectList = ({
       ))}
       {!Array.isArray(projects) && (
         <PaginationPanel
-          pagination={projects.pagination}
-          pageCount={projects.pageCount}
-          itemTitle="Projets"
+          nombreDePage={projects.pageCount}
+          pagination={{
+            limiteParPage: projects.pagination.pageSize,
+            page: projects.pagination.page,
+          }}
+          titreItems="Projets"
         />
       )}
     </>
