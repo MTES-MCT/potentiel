@@ -161,7 +161,7 @@ export const GarantiesFinancieres = ({
         {error && <ErrorBox title={error} />}
         {projects ? (
           <>
-            <div className="pagination__count">
+            <div className="m-2">
               <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
               projets
               <a

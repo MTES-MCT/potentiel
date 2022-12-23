@@ -46,7 +46,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
           {error && <ErrorBox title={error} />}
         </div>
 
-        <div className="pagination__count">
+        <div className="m-2">
           <strong>{notifications.itemCount}</strong> notifications{' '}
         </div>
         {!notifications.items.length ? (

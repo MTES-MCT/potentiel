@@ -56,12 +56,12 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
 
       {pageNumbers.map((pageNumber, index) =>
         pageNumber === -1 ? (
-          <li key={'goToPage_' + index} className="disabled mx-2">
+          <li key={`goToPage_${index}`} className="disabled mx-2">
             ...
           </li>
         ) : (
           <li
-            key={'goToPage_' + index}
+            key={`goToPage_${index}`}
             className={`mx-1 ${pageNumber >= nombreDePage ? 'disabled' : ''}`}
           >
             <a

@@ -32,7 +32,7 @@ export const InvitationsCandidatsEnAttente = ({
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
 
-        <div className="pagination__count">
+        <div className="m-2">
           <strong>{invitations.itemCount}</strong> invitations en attente{' '}
         </div>
         {!invitations.items.length ? (
