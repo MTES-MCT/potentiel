@@ -44,7 +44,7 @@ export const GFItem = (props: ComponentProps) => {
   }
 }
 
-const rolesAutorisés = ['porteur-projet', 'dreal', 'admin'] as const
+const rolesAutorisés = ['porteur-projet', 'dreal', 'admin', 'caisse-des-dépôts'] as const
 const utilisateurPeutModifierLesGF = (role: UserRole): role is typeof rolesAutorisés[number] => {
   return (rolesAutorisés as readonly string[]).includes(role)
 }

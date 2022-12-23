@@ -4,6 +4,7 @@ import {
   PermissionListerProjets,
   PermissionValiderGF,
   PermissionAnnulerGF,
+  PermissionAjouterDateExpirationGF,
 } from '@modules/project'
 import { UserRole } from '@modules/users'
 
@@ -20,12 +21,19 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionValiderGF,
         PermissionInvaliderGF,
+        PermissionAjouterDateExpirationGF,
       ]
     case 'porteur-projet':
     case 'caisse-des-dépôts':
-      return [PermissionListerProjets, PermissionConsulterProjet, PermissionAnnulerGF]
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionAnnulerGF,
+        PermissionAjouterDateExpirationGF,
+      ]
     case 'admin':
     case 'dgec-validateur':
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionAjouterDateExpirationGF]
     case 'acheteur-obligé':
     case 'ademe':
     case 'cre':
