@@ -59,7 +59,7 @@ export const DemanderChangementPuissance = ({
                   cahierDesChargesActuel: 'initial',
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
-                redirectUrl: routes.CHANGER_PUISSANCE(project.id),
+                redirectUrl: routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
                 type: action,
               }}
             />

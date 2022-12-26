@@ -44,7 +44,6 @@ v1Router.get(
     if (!appelOffre) {
       return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
     }
-    console.log('coucou')
     return response.send(
       DemanderChangementPuissancePage({
         request,
