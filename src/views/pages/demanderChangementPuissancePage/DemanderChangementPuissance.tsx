@@ -4,7 +4,6 @@ import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
 import {
-  ModificationRequestActionTitles,
   ProjectInfo,
   Button,
   FormulaireChampsObligatoireLégende,
@@ -17,44 +16,31 @@ import {
   ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import { ChangementActionnaire, DemandeRecours } from './components'
+import { ChangementPuissance } from '.'
 import routes from '@routes'
 
-type NewModificationRequestProps = {
+type DemanderChangementPuissanceProps = {
   request: Request
   project: Project
   appelOffre: ProjectAppelOffre
 }
 
-export const NewModificationRequest = ({
+export const DemanderChangementPuissance = ({
   request,
   project,
   appelOffre,
-}: NewModificationRequestProps) => {
-  const { action, error, success, actionnaire, justification } = (request.query as any) || {}
+}: DemanderChangementPuissanceProps) => {
+  const { action, error, success, puissance, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges &&
     project.cahierDesChargesActuel === 'initial'
 
-  const redirectionRoute = (action) => {
-    switch (action) {
-      case 'actionnaire':
-        return routes.CHANGER_ACTIONNAIRE(project.id)
-      case 'recours':
-        return routes.DEPOSER_RECOURS(project.id)
-      default:
-        return routes.LISTE_PROJETS
-    }
-  }
-
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>
-            <ModificationRequestActionTitles action={action} />
-          </h3>
+          <h3>Je signale un changement de puissance</h3>
         </div>
         {doitChoisirCahierDesCharges ? (
           <div className="flex flex-col max-w-2xl mx-auto">
@@ -73,7 +59,7 @@ export const NewModificationRequest = ({
                   cahierDesChargesActuel: 'initial',
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
-                redirectUrl: redirectionRoute(action),
+                redirectUrl: routes.CHANGER_PUISSANCE(project.id),
                 type: action,
               }}
             />
@@ -81,19 +67,22 @@ export const NewModificationRequest = ({
         ) : (
           <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value={action} />
+            <input type="hidden" name="type" value="puissance" />
 
             <div className="form__group">
               {success && <SuccessBox title={success} />}
               {error && <ErrorBox title={error} />}
               <FormulaireChampsObligatoireLégende className="text-right" />
               <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3"></ProjectInfo>
+              <ProjectInfo project={project} className="mb-3" />
               <div {...dataId('modificationRequest-demandesInputs')}>
-                {action === 'actionnaire' && (
-                  <ChangementActionnaire {...{ project, actionnaire, justification }} />
-                )}
-                {action === 'recours' && <DemandeRecours {...{ justification }} />}
+                <ChangementPuissance
+                  {...{
+                    project,
+                    puissance,
+                    justification,
+                  }}
+                />
 
                 <Button
                   className="mt-3 mr-1"
@@ -113,4 +102,4 @@ export const NewModificationRequest = ({
   )
 }
 
-hydrateOnClient(NewModificationRequest)
+hydrateOnClient(DemanderChangementPuissance)

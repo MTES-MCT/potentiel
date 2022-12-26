@@ -178,7 +178,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             </Menu.Item>
             <Menu.Item key={`action_changer_puissance`}>
               <a
-                href={routes.CHANGER_PUISSANCE(project.id)}
+                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div
@@ -192,7 +192,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             </Menu.Item>
             <Menu.Item key={`action_demande_abandon`}>
               <a
-                href={routes.DEMANDER_ABANDON(project.id)}
+                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
                 <div

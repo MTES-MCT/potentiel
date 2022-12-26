@@ -68,7 +68,7 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Changer de puissance',
-            link: ROUTES.CHANGER_PUISSANCE(fakeProject.id),
+            link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(fakeProject.id),
           },
           {
             title: 'Demander un abandon',
@@ -125,7 +125,7 @@ describe('porteurProjetActions', () => {
             },
             {
               title: 'Changer de puissance',
-              link: ROUTES.CHANGER_PUISSANCE(fakeProject.id),
+              link: ROUTES.DEMANDER_CHANGEMENT_PUISSANCE(fakeProject.id),
             },
             {
               title: 'Demander un abandon',

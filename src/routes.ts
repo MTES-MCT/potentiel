@@ -224,6 +224,11 @@ class routes {
     return projectId ? route.replace(':projectId', projectId) : route
   }
 
+  static DEMANDER_CHANGEMENT_PUISSANCE = (projectId?: Project['id']) => {
+    const route = '/projet/:projectId/demander-changement-puissance.html'
+    return projectId ? route.replace(':projectId', projectId) : route
+  }
+
   static CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/changer-producteur.html'
     if (projectId) {
