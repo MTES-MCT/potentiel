@@ -29,7 +29,7 @@ interface RequestPuissanceModificationDeps {
 }
 
 interface RequestPuissanceModificationArgs {
-  projectId: UniqueEntityID
+  projectId: string
   requestedBy: User
   newPuissance: number
   justification?: string
@@ -57,9 +57,7 @@ export const makeRequestPuissanceModification =
       exceedsRatiosChangementPuissance,
     } = deps
 
-    return wrapInfra(
-      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
-    )
+    return wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
       .andThen(
         (
           userHasRightsToProject
@@ -73,7 +71,7 @@ export const makeRequestPuissanceModification =
           return makeAndSaveFile({
             file: {
               designation: 'modification-request',
-              forProject: projectId,
+              forProject: new UniqueEntityID(projectId),
               createdBy: new UniqueEntityID(requestedBy.id),
               filename: file.filename,
               contents: file.contents,
@@ -88,7 +86,7 @@ export const makeRequestPuissanceModification =
         }
       )
       .andThen((fileId: string) => {
-        return projectRepo.transaction(projectId, (project: Project) => {
+        return projectRepo.transaction(new UniqueEntityID(projectId), (project: Project) => {
           const exceedsRatios = exceedsRatiosChangementPuissance({
             nouvellePuissance: newPuissance,
             project: { ...project, technologie: project.data?.technologie ?? 'N/A' },

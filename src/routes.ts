@@ -264,6 +264,7 @@ class routes {
 
   static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur'
+  static CHANGEMENT_PUISSANCE_ACTION = '/soumettre-changement-puissance'
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename'

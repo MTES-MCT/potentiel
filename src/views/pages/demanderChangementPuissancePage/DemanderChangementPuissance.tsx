@@ -65,9 +65,12 @@ export const DemanderChangementPuissance = ({
             />
           </div>
         ) : (
-          <form action={routes.DEMANDE_ACTION} method="post" encType="multipart/form-data">
+          <form
+            action={routes.CHANGEMENT_PUISSANCE_ACTION}
+            method="post"
+            encType="multipart/form-data"
+          >
             <input type="hidden" name="projectId" value={project.id} />
-            <input type="hidden" name="type" value="puissance" />
 
             <div className="form__group">
               {success && <SuccessBox title={success} />}
