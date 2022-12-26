@@ -16,12 +16,8 @@ type EditProjectDataProps = {
 export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
   const { query } = request as any
 
-  if (!project.notifiedOn) {
-    return <div>Projet non-notifié</div>
-  }
-
-  if (project.isAbandoned) {
-    return <div>Projet abandonné</div>
+  if (!project.notifiedOn || project.isAbandoned) {
+    return null
   }
 
   const [uploadIsDisabled, disableUpload] = useState(true)
