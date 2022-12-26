@@ -1,16 +1,16 @@
 import { Readable } from 'stream'
-import { PuissanceJustificationEtCourrierManquantError } from '..'
+import { PuissanceJustificationEtCourrierManquantError } from './PuissanceJustificationEtCourrierManquantError'
 import { DomainEvent, Repository } from '@core/domain'
 import { okAsync } from '@core/utils'
 import { makeUser } from '@entities'
-import { UnwrapForTest } from '../../../types'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { FileObject } from '../../file'
-import { Project } from '../../project'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { ModificationReceived, ModificationRequested } from '../events'
-import { makeRequestPuissanceModification } from './requestPuissanceModification'
+import { UnwrapForTest } from '../../../../types'
+import { fakeTransactionalRepo, makeFakeProject } from '../../../../__tests__/fixtures/aggregates'
+import makeFakeUser from '../../../../__tests__/fixtures/user'
+import { FileObject } from '@modules/file'
+import { Project } from '@modules/project'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
+import { ModificationReceived, ModificationRequested } from '@modules/modificationRequest/events'
+import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance'
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -39,7 +39,7 @@ describe('Commande requestPuissanceModification', () => {
 
   describe(`Lorsque le porteur n'a pas les droits sur le projet`, () => {
     const shouldUserAccessProject = jest.fn(async () => false)
-    const requestPuissanceModification = makeRequestPuissanceModification({
+    const requestPuissanceModification = makeDemanderChangementDePuissance({
       projectRepo,
       eventBus,
       getPuissanceProjet,
@@ -75,7 +75,7 @@ describe('Commande requestPuissanceModification', () => {
         describe(`Etant donné un projet dont le CDC applicable est le CDC initial`, () => {
           it(`Lorsque le porteur fait une demande de changement puissance sans courrier ni justification,
         alors une erreur devrait être retournée et le changement ne devrait pas être enregistré`, async () => {
-            const requestPuissanceModification = makeRequestPuissanceModification({
+            const requestPuissanceModification = makeDemanderChangementDePuissance({
               projectRepo,
               eventBus,
               getPuissanceProjet,
@@ -110,7 +110,7 @@ describe('Commande requestPuissanceModification', () => {
               cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
             }
             const projectRepo = fakeTransactionalRepo(fakeProject as Project)
-            const requestPuissanceModification = makeRequestPuissanceModification({
+            const requestPuissanceModification = makeDemanderChangementDePuissance({
               projectRepo,
               eventBus,
               getPuissanceProjet,
@@ -152,7 +152,7 @@ describe('Commande requestPuissanceModification', () => {
         alors la demande devrait être envoyée,
         le fichier devrait être enregistré
         et le projet ne devrait pas être modifié`, async () => {
-            const requestPuissanceModification = makeRequestPuissanceModification({
+            const requestPuissanceModification = makeDemanderChangementDePuissance({
               projectRepo,
               eventBus,
               getPuissanceProjet,
@@ -203,7 +203,7 @@ describe('Commande requestPuissanceModification', () => {
       alors la demande devrait être envoyée,
       le projet devrait être modifié
       et le fichier devrait être sauvegardé`, async () => {
-        const requestPuissanceModification = makeRequestPuissanceModification({
+        const requestPuissanceModification = makeDemanderChangementDePuissance({
           projectRepo,
           eventBus,
           getPuissanceProjet,

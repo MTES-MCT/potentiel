@@ -1,22 +1,34 @@
-import {
-  ExceedsPuissanceMaxDuVolumeReserve,
-  ExceedsRatiosChangementPuissance,
-  PuissanceJustificationEtCourrierManquantError,
-} from '..'
 import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils'
 import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { Project } from '@modules/project'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationRequested, ModificationReceived } from '../events'
+} from '@modules/shared'
+import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events'
 
-interface RequestPuissanceModificationDeps {
+import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers'
+import { PuissanceJustificationEtCourrierManquantError } from '.'
+
+type DemanderChangementDePuissance = (commande: {
+  projectId: string
+  requestedBy: User
+  newPuissance: number
+  justification?: string
+  fichier?: { contents: FileContents; filename: string }
+}) => ResultAsync<
+  null,
+  | PuissanceJustificationEtCourrierManquantError
+  | AggregateHasBeenUpdatedSinceError
+  | EntityNotFoundError
+  | UnauthorizedError
+>
+
+type MakeDemanderChangementDePuissance = (dépendances: {
   eventBus: EventBus
   exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance
   exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve
@@ -26,37 +38,19 @@ interface RequestPuissanceModificationDeps {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
   projectRepo: TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
-}
+}) => DemanderChangementDePuissance
 
-interface RequestPuissanceModificationArgs {
-  projectId: string
-  requestedBy: User
-  newPuissance: number
-  justification?: string
-  file?: { contents: FileContents; filename: string }
-}
-
-export const makeRequestPuissanceModification =
-  (deps: RequestPuissanceModificationDeps) =>
-  (
-    args: RequestPuissanceModificationArgs
-  ): ResultAsync<
-    null,
-    | AggregateHasBeenUpdatedSinceError
-    | InfraNotAvailableError
-    | EntityNotFoundError
-    | UnauthorizedError
-  > => {
-    const { projectId, requestedBy, newPuissance, justification, file } = args
-    const {
-      eventBus,
-      shouldUserAccessProject,
-      projectRepo,
-      fileRepo,
-      exceedsPuissanceMaxDuVolumeReserve,
-      exceedsRatiosChangementPuissance,
-    } = deps
-
+export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissance =
+  ({
+    eventBus,
+    exceedsRatiosChangementPuissance,
+    exceedsPuissanceMaxDuVolumeReserve,
+    getPuissanceProjet,
+    shouldUserAccessProject,
+    projectRepo,
+    fileRepo,
+  }) =>
+  ({ projectId, requestedBy, newPuissance, justification, fichier }) => {
     return wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
       .andThen(
         (
@@ -66,15 +60,15 @@ export const makeRequestPuissanceModification =
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
         > => {
           if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!file) return okAsync(null)
+          if (!fichier) return okAsync(null)
 
           return makeAndSaveFile({
             file: {
               designation: 'modification-request',
               forProject: new UniqueEntityID(projectId),
               createdBy: new UniqueEntityID(requestedBy.id),
-              filename: file.filename,
-              contents: file.contents,
+              filename: fichier.filename,
+              contents: fichier.contents,
             },
             fileRepo,
           })
@@ -127,8 +121,7 @@ export const makeRequestPuissanceModification =
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
           const modificationRequestId = new UniqueEntityID().toString()
 
-          return deps
-            .getPuissanceProjet(projectId.toString())
+          return getPuissanceProjet(projectId.toString())
             .orElse(() => ok(-1))
             .andThen((puissanceActuelle) => {
               const puissanceAuMomentDuDepot =
