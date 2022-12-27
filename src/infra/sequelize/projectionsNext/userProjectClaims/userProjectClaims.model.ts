@@ -1,6 +1,6 @@
 import { Users } from '../users'
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
-import { sequelizeInstance } from 'src/sequelize.config'
+import { sequelizeInstance } from '../../../../sequelize.config'
 import { makeSequelizeProjector } from '../../helpers'
 
 class UserProjectClaims extends Model<
