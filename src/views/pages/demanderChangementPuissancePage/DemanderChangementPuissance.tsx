@@ -16,7 +16,7 @@ import {
   ErrorBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import { ChangementPuissance } from '.'
+import { ChangementPuissance } from './components/ChangementPuissance'
 import routes from '@routes'
 
 type DemanderChangementPuissanceProps = {

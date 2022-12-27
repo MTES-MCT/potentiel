@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { Project, ProjectAppelOffre, Technologie } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import toNumber from '../../../helpers/toNumber'
-import { isStrictlyPositiveNumber } from '../../../helpers/formValidators'
+import { Project } from '@entities'
+import { dataId } from '../../../../helpers/testId'
+import toNumber from '../../../../helpers/toNumber'
+import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators'
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
-  getVolumeReserve,
-  getRatiosChangementPuissance,
 } from '@modules/modificationRequest'
 import { Astérisque, ErrorBox, Label } from '@components'
+import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee'
+import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -81,7 +81,7 @@ export const ChangementPuissance = ({
       {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 
       {displayAlertOnPuissanceType && (
-        <ErrorBox title="Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal." />
+        <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
       )}
 
       <div className="mt-4">
@@ -112,46 +112,5 @@ export const ChangementPuissance = ({
         />
       </div>
     </>
-  )
-}
-
-type AlertOnPuissanceExceedMaxProps = {
-  project: {
-    appelOffre?: ProjectAppelOffre
-  }
-}
-export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMaxProps) => {
-  if (!project.appelOffre) {
-    return null
-  }
-
-  const { appelOffre } = project
-  const reservedVolume = getVolumeReserve(appelOffre)
-
-  return reservedVolume ? (
-    <div className="notification warning mt-4">
-      Une autorisation est nécessaire si la modification de puissance dépasse la puissance maximum
-      de {reservedVolume.puissanceMax} {appelOffre.unitePuissance} du volume reservé de l'appel
-      d'offre. Dans ce cas{' '}
-      <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
-    </div>
-  ) : null
-}
-
-type AlertOnPuissanceOutsideRatiosProps = {
-  project: {
-    appelOffre?: ProjectAppelOffre
-    technologie: Technologie
-  }
-}
-export const AlertePuissanceHorsRatios = ({ project }: AlertOnPuissanceOutsideRatiosProps) => {
-  const { min, max } = getRatiosChangementPuissance(project)
-
-  return (
-    <div className="notification warning mt-4">
-      Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
-      {Math.round(min * 100)}% de la puissance initiale ou supérieure à {Math.round(max * 100)}%.
-      Dans ces cas <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
-    </div>
   )
 }
