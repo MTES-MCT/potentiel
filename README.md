@@ -234,7 +234,8 @@ Storybook est configuré pour inclure tous les fichiers avec ce suffixe dans le 
 
 Keycloak est un service open source d'identité et de gestion d'accès.
 
-Il existe deux environnements pour keycloak : 
+Il existe deux environnements pour keycloak :
+
 - Une version "legacy" est situé dans ce repo; cet environnement est utilisé à des fins de tests en local uniquement
 - Une version de production utilisé pour les environnements **staging** et **production** est disponible sur ce [repo](https://github.com/MTES-MCT/potentiel-keycloak)
 
@@ -257,7 +258,15 @@ Pour installer et utiliser cet environnement, il faut suivre cette [documentatio
 
 Cet environnement est dédié à la démonstration de l'outil, que ce soit à des fins commerciales ou démonstratives.
 La base de donnée de cet environnement est falsifié, afin d'éviter de présenter des vrais données projets.
-Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. Les comptes tests permettent un accès rapide en tant qu'un certain type d'utilisateur, ils sont disponible [ici](#lancement-de-lapplication-locale)
+Il dispose d'un système de connexion simplifié qui ne nécessite pas de renseigner de mot de passe mais uniquement une adresse email d'un compte utilisateur pour se connecter avec son compte. Les comptes tests permettent un accès rapide en tant qu'un certain type d'utilisateur.
+
+- Déploiement de l'application : [Voici la démarche à suivre pour faire un déploiement manuel](docs/DEPLOY.md)
+- Pour réinitialiser la base de données il suffit d'utiliser le dump disponible dans ce dépôt (`./demo/demo.dump`)
+- Pour créer un nouveau dump de démo, il faut :
+  - Partir d'une base de donnée vierge (`npm run dev-db`)
+  - Executer les migrations (`npm run migrate`)
+  - Créer les faux utilisateurs (`npm run seed`)
+  - [Produire un dump de la base de données locale](#produire-un-dump-de-la-base-de-données-locale) et le remplacer ici : `./demo/demo.dump`
 
 ### [Staging](https://staging.potentiel.incubateur.net/)
 
@@ -280,37 +289,6 @@ L'environnement de production est encore hébergé sur Clever Cloud. Le déploie
 ## Déployer sur Staging / Démo
 
 Ces deux environnements sont hébergés sur Scalingo. [Voici la démarche à suivre pour faire un déploiement manuel](docs/DEPLOY.md)
-
-<!--nstallation des clever-tools
-
-```
-npm install -g clever-tools
-clever login
-```
-
-_NB: il faut avoir créé un compte sur clever cloud et avoir les droits d'accès à l'orga._
-
-### Déploiement
-
-Il faut se rendre sur la console Clever Cloud, se rendre sur la page de l'application qui nous intéresse (par exemple `potentiel-staging` et copier l'identifiant de l'application situé en haut de page (ex: app_ed751dc6-8ede-4c00-aa44-8f82a7f51efa)).
-
-Vous pourrez ensuite lier cette application avec `clever-tools`
-
-```
-# l'option -a permet de nommer cette application
-clever link -a staging app_ed751dc6-8ede-4c00-aa44-8f82a7f51efa
-```
-
-_**NB: ne jamais lier l'application de production**_
-
-Nous pouvons ensuite déployer la branche locale via
-
-```
-clever deploy -a staging
-
-# S'il y a un message d'erreur par rapport à la branche (non fast-forward)
-clever deploy -a staging --force
- ``` -->
 
 ## Accès à la base de données distantes
 
