@@ -1,13 +1,14 @@
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
 import {
-  ModificationRequestPageDTO,
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
   getRatiosChangementPuissance,
   getVolumeReserve,
-} from '@modules/modificationRequest'
+} from '@modules/demandeModification/demandeChangementDePuissance'
+
 import { InputCheckbox } from '@components'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos'
 
 type PuissanceFormProps = {
   modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }

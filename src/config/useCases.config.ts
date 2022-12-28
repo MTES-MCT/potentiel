@@ -18,12 +18,15 @@ import {
   makeAnnulerRejetAbandon,
 } from '@modules/demandeModification/demandeAbandon'
 import { makeAnnulerRejetRecours } from '@modules/demandeModification/demandeRecours'
-import { makeAnnulerRejetChangementDePuissance } from '@modules/demandeModification/demandeChangementDePuissance'
+import {
+  makeAnnulerRejetChangementDePuissance,
+  makeDemanderChangementDePuissance,
+  exceedsPuissanceMaxDuVolumeReserve,
+  exceedsRatiosChangementPuissance,
+} from '@modules/demandeModification/demandeChangementDePuissance'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
 import {
-  exceedsPuissanceMaxDuVolumeReserve,
-  exceedsRatiosChangementPuissance,
   makeAcceptModificationRequest,
   makeAttachLegacyModificationFile,
   makeCancelModificationRequest,
@@ -33,7 +36,6 @@ import {
   makeRequestConfirmation,
   makeRequestFournisseursModification,
   makeChangerProducteur,
-  makeRequestPuissanceModification,
   makeUpdateModificationRequestStatus,
 } from '@modules/modificationRequest'
 import {
@@ -219,7 +221,7 @@ export const invaliderGF = makeInvaliderGF({
   projectRepo,
 })
 
-export const requestPuissanceModification = makeRequestPuissanceModification({
+export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   exceedsRatiosChangementPuissance,

@@ -1,5 +1,5 @@
 export * from './ProjetDéjàClasséError'
-export * from './PuissanceJustificationEtCourrierManquantError'
+export * from '../../demandeModification/demandeChangementDePuissance/demander/PuissanceJustificationEtCourrierManquantError'
 export * from './PuissanceVariationError'
 export * from './StatusPreventsAcceptingError'
 export * from './StatusPreventsCancellingError'

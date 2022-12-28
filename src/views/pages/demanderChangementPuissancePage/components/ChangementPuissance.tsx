@@ -6,7 +6,7 @@ import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators'
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
-} from '@modules/modificationRequest'
+} from '@modules/demandeModification'
 import { Astérisque, ErrorBox, Label } from '@components'
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee'
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios'

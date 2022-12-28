@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-import { ensureRole, requestPuissanceModification } from '@config'
+import { ensureRole, demanderChangementDePuissance } from '@config'
 import { logger } from '@core/utils'
 import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest'
 import {
@@ -62,7 +62,7 @@ v1Router.post(
         )
       }
 
-      await requestPuissanceModification({
+      await demanderChangementDePuissance({
         projectId,
         requestedBy: user,
         newPuissance: puissance && toNumber(puissance),
