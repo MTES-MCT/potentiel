@@ -1,5 +1,5 @@
 import React from 'react'
-import { getVolumeReserve } from '@modules/modificationRequest'
+import { getVolumeReserve } from '@modules/demandeModification'
 import { ProjectAppelOffre } from '@entities'
 
 type AlertOnPuissanceExceedMaxProps = {

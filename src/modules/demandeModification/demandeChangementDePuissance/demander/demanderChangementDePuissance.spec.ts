@@ -165,7 +165,7 @@ describe('Commande requestPuissanceModification', () => {
               projectId: fakeProject.id.toString(),
               requestedBy: fakeUser,
               newPuissance: 90,
-              file,
+              fichier: file,
             })
 
             expect(res.isOk()).toBe(true)
@@ -218,7 +218,7 @@ describe('Commande requestPuissanceModification', () => {
           projectId: fakeProject.id.toString(),
           requestedBy: fakeUser,
           newPuissance,
-          file,
+          fichier: file,
         })
 
         expect(res.isOk()).toBe(true)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProjectAppelOffre, Technologie } from '@entities'
-import { getRatiosChangementPuissance } from '@modules/modificationRequest'
+import { getRatiosChangementPuissance } from '@modules/demandeModification'
 
 type AlertOnPuissanceOutsideRatiosProps = {
   project: {
