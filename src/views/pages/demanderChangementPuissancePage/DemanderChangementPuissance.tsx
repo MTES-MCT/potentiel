@@ -30,7 +30,7 @@ export const DemanderChangementPuissance = ({
   project,
   appelOffre,
 }: DemanderChangementPuissanceProps) => {
-  const { action, error, success, puissance, justification } = (request.query as any) || {}
+  const { error, success, puissance, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
     project.appelOffre?.choisirNouveauCahierDesCharges &&
@@ -60,7 +60,7 @@ export const DemanderChangementPuissance = ({
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
                 redirectUrl: routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
-                type: action,
+                type: 'puissance',
               }}
             />
           </div>
