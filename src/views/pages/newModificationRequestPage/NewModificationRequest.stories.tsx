@@ -5,19 +5,8 @@ import makeFakeProject from '../../../__tests__/fixtures/project'
 import makeFakeRequest from '../../../__tests__/fixtures/request'
 
 import { NewModificationRequest } from './NewModificationRequest'
-import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
 
 export default { title: 'Modification Request' }
-
-// export const empty = () => <ModificationRequestPage />
-
-// export const withError = () => (
-//   <ModificationRequestPage error="This is an error message!" />
-// )
-
-// export const withSuccess = () => (
-//   <ModificationRequestPage success="This is a success message!" />
-// )
 
 export const Fournisseur = () => (
   <NewModificationRequest
@@ -34,30 +23,6 @@ export const Actionnaire = () => (
     {...{
       request: makeFakeRequest({ query: { action: 'actionnaire' } }),
       project: makeFakeProject(),
-      appelOffre: {} as ProjectAppelOffre,
-    }}
-  />
-)
-
-export const Puissance = () => (
-  <NewModificationRequest
-    {...{
-      request: makeFakeRequest({ query: { action: 'puissance' } }),
-      project: makeFakeProject(),
-      appelOffre: {} as ProjectAppelOffre,
-    }}
-  />
-)
-
-export const PuissanceMaxVolumeReserve1MW = () => (
-  <NewModificationRequest
-    {...{
-      request: makeFakeRequest({ query: { action: 'puissance' } }),
-      project: makeFakeProject({
-        appelOffre: { ...batimentPPE2, periode: batimentPPE2.periodes[0] },
-        puissance: 0.6,
-        puissanceInitiale: 0.6,
-      }),
       appelOffre: {} as ProjectAppelOffre,
     }}
   />

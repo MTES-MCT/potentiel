@@ -24,6 +24,7 @@ import {
   ChangerProducteur,
   DemanderAbandon,
   DemandeAbandon,
+  DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ImportDonneesRaccordement,
@@ -117,6 +118,15 @@ export const DemanderAbandonPage = (props: Parameters<typeof DemanderAbandon>[0]
     Component: DemanderAbandon,
     props,
     title: 'Demander abandon',
+  })
+
+export const DemanderChangementPuissancePage = (
+  props: Parameters<typeof DemanderChangementPuissance>[0]
+) =>
+  makeHtml({
+    Component: DemanderChangementPuissance,
+    props,
+    title: 'Demander changement de puissance',
   })
 
 export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur>[0]) =>

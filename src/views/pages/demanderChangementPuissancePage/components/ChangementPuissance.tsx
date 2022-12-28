@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import { Project } from '@entities'
-import { dataId } from '../../../../../helpers/testId'
-import toNumber from '../../../../../helpers/toNumber'
-import { isStrictlyPositiveNumber } from '../../../../../helpers/formValidators'
-import { AlertePuissanceHorsRatios, AlertePuissanceMaxDepassee } from './AlerteNouvellePuissance'
+import { dataId } from '../../../../helpers/testId'
+import toNumber from '../../../../helpers/toNumber'
+import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators'
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/modificationRequest'
 import { Astérisque, ErrorBox, Label } from '@components'
+import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee'
+import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios'
 
 type ChangementPuissanceProps = {
   project: Project
@@ -80,7 +81,7 @@ export const ChangementPuissance = ({
       {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
 
       {displayAlertOnPuissanceType && (
-        <ErrorBox title="Le format saisi n’est pas conforme, veuillez renseigner un nombre décimal." />
+        <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />
       )}
 
       <div className="mt-4">
