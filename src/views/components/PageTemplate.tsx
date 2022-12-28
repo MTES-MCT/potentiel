@@ -22,6 +22,7 @@ type CurrentPage =
   | 'admin-ao'
   | 'admin-users'
   | 'admin-statistiques'
+  | 'inviter-dgec-validateur'
   | undefined
 
 const getUserNavigation = ({
@@ -144,6 +145,12 @@ const MenuAdmin = (currentPage: CurrentPage) => (
         {...(currentPage === 'admin-users' && { isCurrent: true })}
       >
         Partenaires
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.ADMIN_INVITATION_DGEC_VALIDATEUR}
+        {...(currentPage === 'inviter-dgec-validateur' && { isCurrent: true })}
+      >
+        Dgec validateurs
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
 

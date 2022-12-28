@@ -9,6 +9,10 @@ import {
   PermissionRetirerGF,
 } from '@modules/project'
 import { UserRole } from '@modules/users'
+import {
+  PermissionConsulterPageInvitationDgecValidateur,
+  PermissionInviterDgecValidateur,
+} from '@modules/inviterDgecValidateur'
 
 export type Permission = {
   nom: string
@@ -45,6 +49,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
         PermissionRetirerGF,
+        PermissionConsulterPageInvitationDgecValidateur,
+        PermissionInviterDgecValidateur,
       ]
     case 'acheteur-obligé':
     case 'ademe':
