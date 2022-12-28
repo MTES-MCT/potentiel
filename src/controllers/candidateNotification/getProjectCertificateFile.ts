@@ -39,7 +39,6 @@ v1Router.get(
           if (projet) {
             miseAJourStatistiquesUtilisation({
               type: 'attestationTéléchargée',
-              date: new Date(),
               données: {
                 utilisateur: {
                   role: 'porteur-projet',
