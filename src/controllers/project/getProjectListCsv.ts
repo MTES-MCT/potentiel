@@ -8,7 +8,7 @@ import { listProjects } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { promises as fsPromises } from 'fs'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
-import { vérifierPermissionUtilisateur } from '../helpers'
+import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
 import { PermissionListerProjets } from '@modules/project'
 
 const orderedFields = [
@@ -1549,6 +1549,14 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
     // Delete file when the client's download is complete
     response.on('finish', async () => {
       await fsPromises.unlink(csvFilePath)
+    })
+
+    miseAJourStatistiquesUtilisation({
+      type: 'exportProjetsTéléchargé',
+      date: new Date(),
+      données: {
+        utilisateur: { role: request.user.role },
+      },
     })
 
     return response.type('text/csv').sendFile(csvFilePath)
