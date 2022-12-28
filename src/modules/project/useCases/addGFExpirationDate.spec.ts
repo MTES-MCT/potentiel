@@ -16,15 +16,16 @@ const fakeProject = makeFakeProject()
 
 const projectRepo = fakeTransactionalRepo(fakeProject as Project)
 
-describe('addExpirationDate use-case', () => {
-  describe("when the user doesn't have rights on the project", () => {
-    it('should return an UnauthorizedError', async () => {
-      fakePublish.mockClear()
-
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-
+describe(`Ajouter une date d'expiration à une garantie financière`, () => {
+  beforeEach(() => {
+    return fakePublish.mockClear()
+  })
+  describe("Ajout impossible si l'utilisateur n'a pas les droits sur le projet", () => {
+    it(`Étant donné un utilisateur n'ayant pas accès au projet
+          Lorsqu'il ajoute une date d'expiration à une garantie financière
+          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
+      const user = UnwrapForTest(makeUser(makeFakeUser()))
       const shouldUserAccessProject = jest.fn(async () => false)
-
       const addGFExpirationDate = makeAddGFExpirationDate({
         shouldUserAccessProject,
         projectRepo,
@@ -42,12 +43,11 @@ describe('addExpirationDate use-case', () => {
     })
   })
 
-  describe('when the user has rights on the project', () => {
-    it('should call project.addGFExpirationDate method', async () => {
-      fakePublish.mockClear()
-
-      const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
-
+  describe("Suppression possible si l'utilisateur a les droits sur le projet", () => {
+    it(`Étant donné un utilisateur ayant accès au projet
+          Lorsqu'il ajoute une date d'expiration à une garantie financière
+          Alors la date d'expiration devrait être ajouté à garantie financière`, async () => {
+      const user = UnwrapForTest(makeUser(makeFakeUser()))
       const shouldUserAccessProject = jest.fn(async () => true)
 
       const addGFExpirationDate = makeAddGFExpirationDate({

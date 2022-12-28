@@ -24,6 +24,11 @@ type UploadGFArgs = {
   submittedBy: User
 }
 
+export const PermissionUploaderGF = {
+  nom: 'uploader-gf',
+  description: `Uploader une garantie financière`,
+}
+
 export const makeUploadGF =
   (deps: UploadGFDeps) =>
   (args: UploadGFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {

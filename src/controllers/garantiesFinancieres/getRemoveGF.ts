@@ -2,12 +2,17 @@ import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import routes from '@routes'
 import { removeGF } from '@config/useCases.config'
-import { ensureRole } from '@config'
+import { UnauthorizedError } from '@modules/shared'
+import { PermissionAnnulerGF } from '@modules/project/useCases'
 import { v1Router } from '../v1Router'
 import asyncHandler from '../helpers/asyncHandler'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import { UnauthorizedError } from '@modules/shared'
+import {
+  errorResponse,
+  notFoundResponse,
+  unauthorizedResponse,
+  vérifierPermissionUtilisateur,
+} from '../helpers'
 import {
   NoGFCertificateToDeleteError,
   SuppressionGFValidéeImpossibleError,
@@ -15,7 +20,7 @@ import {
 
 v1Router.get(
   routes.REMOVE_GARANTIES_FINANCIERES(),
-  ensureRole(['porteur-projet']),
+  vérifierPermissionUtilisateur(PermissionAnnulerGF),
   asyncHandler(async (request, response) => {
     const { user } = request
     const { projectId } = request.params

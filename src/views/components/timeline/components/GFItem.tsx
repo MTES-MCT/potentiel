@@ -44,7 +44,7 @@ export const GFItem = (props: ComponentProps) => {
   }
 }
 
-const rolesAutorisés = ['porteur-projet', 'dreal', 'admin'] as const
+const rolesAutorisés = ['porteur-projet', 'dreal', 'admin', 'caisse-des-dépôts'] as const
 const utilisateurPeutModifierLesGF = (role: UserRole): role is typeof rolesAutorisés[number] => {
   return (rolesAutorisés as readonly string[]).includes(role)
 }
@@ -196,7 +196,7 @@ const ATraiter = ({
   project,
   dateEchéance,
 }: ATraiterProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet'
+  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant)
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
 
@@ -228,7 +228,7 @@ const ATraiter = ({
             <span>Pièce-jointe introuvable</span>
           )}
         </div>
-        {utilisateurEstPorteur && <AnnulerDépôt projetId={project.id} />}
+        {utilisateurPeutAnnulerDépôt && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
   )
@@ -329,6 +329,7 @@ const Validé = ({
   project,
 }: ValidéProps) => {
   const utilisateurEstPorteur = variant === 'porteur-projet'
+  const utilisateurEstCaisseDesDépôts = variant === 'caisse-des-dépôts'
   const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
   const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
 
@@ -361,7 +362,9 @@ const Validé = ({
           )}
         </div>
         {retraitDépôtPossible &&
-          ((utilisateurEstPorteur && envoyéesPar === 'porteur-projet') || utilisateurEstAdmin) && (
+          ((utilisateurEstPorteur && envoyéesPar === 'porteur-projet') ||
+            utilisateurEstAdmin ||
+            utilisateurEstCaisseDesDépôts) && (
             <RetirerDocument projetId={project.id} envoyéesPar={envoyéesPar} />
           )}
         {envoyéesPar === 'dreal' && (

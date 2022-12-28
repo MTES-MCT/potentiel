@@ -1,12 +1,18 @@
-import { addGFExpirationDate, ensureRole } from '@config'
 import { logger } from '@core/utils'
 import { addQueryParams } from '../../helpers/addQueryParams'
 import { UnauthorizedError } from '@modules/shared'
 import routes from '@routes'
-import { errorResponse, unauthorizedResponse, iso8601DateToDateYupTransformation } from '../helpers'
+import {
+  errorResponse,
+  unauthorizedResponse,
+  iso8601DateToDateYupTransformation,
+  vérifierPermissionUtilisateur,
+} from '../helpers'
 import { v1Router } from '../v1Router'
 import * as yup from 'yup'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
+import { PermissionAjouterDateExpirationGF } from '@modules/project/useCases'
+import { addGFExpirationDate } from '@config/useCases.config'
 
 const schema = yup.object({
   body: yup.object({
@@ -22,7 +28,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.ADD_GF_EXPIRATION_DATE(),
-  ensureRole(['porteur-projet', 'dreal', 'admin']),
+  vérifierPermissionUtilisateur(PermissionAjouterDateExpirationGF),
   safeAsyncHandler(
     {
       schema,

@@ -19,7 +19,11 @@ export default function makeShouldUserAccessProject({
     projectId,
     user,
   }: CallUseCaseProps): Promise<boolean> {
-    if (['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre'].includes(user.role)) {
+    if (
+      ['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'].includes(
+        user.role
+      )
+    ) {
       return true
     }
 
