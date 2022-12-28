@@ -1553,7 +1553,6 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
 
     miseAJourStatistiquesUtilisation({
       type: 'exportProjetsTéléchargé',
-      date: new Date(),
       données: {
         utilisateur: { role: request.user.role },
       },
