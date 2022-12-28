@@ -17,7 +17,7 @@ import toNumber from '../../../helpers/toNumber'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
 import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
-import safeAsyncHandler from 'src/controllers/helpers/safeAsyncHandler'
+import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 
 const schema = yup.object({
   body: yup.object({
