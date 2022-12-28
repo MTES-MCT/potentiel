@@ -1,4 +1,4 @@
-import { ensureRole, requestActionnaireModification, requestPuissanceModification } from '@config'
+import { ensureRole, requestActionnaireModification } from '@config'
 import { logger } from '@core/utils'
 import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest'
 import {
@@ -12,9 +12,7 @@ import fs from 'fs'
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { isStrictlyPositiveNumber } from '../../helpers/formValidators'
 import { pathExists } from '../../helpers/pathExists'
-import toNumber from '../../helpers/toNumber'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
@@ -26,9 +24,6 @@ const routeRedirection = (type, projectId) => {
   switch (type) {
     case 'actionnaire':
       returnRoute = routes.CHANGER_ACTIONNAIRE(projectId)
-      break
-    case 'puissance':
-      returnRoute = routes.CHANGER_PUISSANCE(projectId)
       break
     case 'recours':
       returnRoute = routes.DEPOSER_RECOURS(projectId)
@@ -63,21 +58,11 @@ v1Router.post(
     const data = pick(request.body, [
       'type',
       'actionnaire',
-      'puissance',
       'justification',
       'projectId',
       'numeroGestionnaire',
       'evaluationCarbone',
     ])
-
-    if (data.type === 'puissance' && !isStrictlyPositiveNumber(data.puissance)) {
-      const { projectId, type } = data
-      return response.redirect(
-        addQueryParams(routeRedirection(type, projectId), {
-          error: 'Erreur: la puissance n‘est pas valide.',
-        })
-      )
-    }
 
     data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined
 
@@ -145,15 +130,6 @@ v1Router.post(
     }
 
     switch (data.type) {
-      case 'puissance':
-        await requestPuissanceModification({
-          projectId: data.projectId,
-          requestedBy: request.user,
-          newPuissance: data.puissance && toNumber(data.puissance),
-          justification: data.justification,
-          file,
-        }).match(handleSuccess, handleError)
-        break
       case 'actionnaire':
         await requestActionnaireModification({
           projectId: data.projectId,

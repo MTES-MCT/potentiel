@@ -57,7 +57,7 @@ describe('Commande requestPuissanceModification', () => {
       fileRepo.save.mockClear()
 
       const res = await requestPuissanceModification({
-        projectId: fakeProject.id,
+        projectId: fakeProject.id.toString(),
         requestedBy: fakeUser,
         newPuissance,
       })
@@ -88,7 +88,7 @@ describe('Commande requestPuissanceModification', () => {
             const newPuissance = 89
 
             const res = await requestPuissanceModification({
-              projectId: fakeProject.id,
+              projectId: fakeProject.id.toString(),
               requestedBy: fakeUser,
               newPuissance,
             })
@@ -123,7 +123,7 @@ describe('Commande requestPuissanceModification', () => {
             const newPuissance = 89
 
             const res = await requestPuissanceModification({
-              projectId: fakeProject.id,
+              projectId: fakeProject.id.toString(),
               requestedBy: fakeUser,
               newPuissance,
             })
@@ -162,7 +162,7 @@ describe('Commande requestPuissanceModification', () => {
               fileRepo: fileRepo as Repository<FileObject>,
             })
             const res = await requestPuissanceModification({
-              projectId: fakeProject.id,
+              projectId: fakeProject.id.toString(),
               requestedBy: fakeUser,
               newPuissance: 90,
               file,
@@ -215,7 +215,7 @@ describe('Commande requestPuissanceModification', () => {
         const newPuissance = 105
 
         const res = await requestPuissanceModification({
-          projectId: fakeProject.id,
+          projectId: fakeProject.id.toString(),
           requestedBy: fakeUser,
           newPuissance,
           file,
