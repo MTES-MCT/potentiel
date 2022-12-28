@@ -9,7 +9,6 @@ import makeFakeUser from '../../../__tests__/fixtures/user'
 import { makeUploadGF } from './uploadGF'
 import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
 import { Project } from '../Project'
-import { USER_ROLES } from '@modules/users'
 
 const projectId = new UniqueEntityID().toString()
 
@@ -30,100 +29,88 @@ describe('Uploader une garantie financière', () => {
   })
 
   describe(`Upload impossible si l'utilisateur n'a pas les droits sur le projet`, () => {
-    const rolesNonAutorisés = USER_ROLES.filter(
-      (u) =>
-        !['dreal', 'porteur-projet', 'caisse-des-dépôts', 'admin', 'dgec-validateur'].includes(u)
-    )
-
-    for (const role of rolesNonAutorisés) {
-      it(`Étant donné un utilisateur ayant le role ${role}
+    it(`Étant donné un utilisateur n'ayant pas accès au projet
           Lorsqu'il upload une garantie financière
           Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
+      const user = UnwrapForTest(makeUser(makeFakeUser()))
 
-        const shouldUserAccessProject = jest.fn(async () => false)
+      const shouldUserAccessProject = jest.fn(async () => false)
 
-        const fileRepo = {
-          save: jest.fn(),
-          load: jest.fn(),
-        }
+      const fileRepo = {
+        save: jest.fn(),
+        load: jest.fn(),
+      }
 
+      const uploadGF = makeUploadGF({
+        fileRepo,
+        shouldUserAccessProject,
+        projectRepo,
+      })
+
+      const res = await uploadGF({
+        file: fakeFileContents,
+        stepDate: new Date(123),
+        projectId,
+        submittedBy: user,
+        expirationDate: new Date(456),
+      })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+
+      expect(fakePublish).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Upload possible si l'utilisateur a les droits sur le projet`, () => {
+    const shouldUserAccessProject = jest.fn(async () => true)
+
+    describe(`Étant donné un utilisateur ayant accès au projet
+          Lorsqu'il upload une garantie financière`, () => {
+      const user = UnwrapForTest(makeUser(makeFakeUser()))
+      const fileRepo = {
+        save: jest.fn((file: FileObject) => okAsync(null)),
+        load: jest.fn(),
+      }
+      const gfDate = new Date(123)
+      const expirationDate = new Date(456)
+
+      it(`Alors l'utilisateur devrait être autorisé à uploader`, async () => {
         const uploadGF = makeUploadGF({
-          fileRepo,
+          fileRepo: fileRepo as Repository<FileObject>,
           shouldUserAccessProject,
           projectRepo,
         })
 
         const res = await uploadGF({
           file: fakeFileContents,
-          stepDate: new Date(123),
+          stepDate: gfDate,
           projectId,
           submittedBy: user,
-          expirationDate: new Date(456),
+          expirationDate,
         })
 
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+        expect(res.isOk()).toBe(true)
 
-        expect(fakePublish).not.toHaveBeenCalled()
-      })
-    }
-  })
-
-  describe(`Upload possible si l'utilisateur a les droits sur le projet`, () => {
-    const rolesAutorisés = USER_ROLES.filter((u) =>
-      ['dreal', 'porteur-projet', 'caisse-des-dépôts', 'admin', 'dgec-validateur'].includes(u)
-    )
-    const shouldUserAccessProject = jest.fn(async () => true)
-
-    for (const role of rolesAutorisés) {
-      describe(`Étant donné un utilisateur ayant le role ${role}
-          Lorsqu'il upload une garantie financière`, () => {
-        const user = UnwrapForTest(makeUser(makeFakeUser({ role })))
-        const fileRepo = {
-          save: jest.fn((file: FileObject) => okAsync(null)),
-          load: jest.fn(),
-        }
-        const gfDate = new Date(123)
-        const expirationDate = new Date(456)
-
-        it(`Alors l'utilisateur devrait être autorisé à uploader`, async () => {
-          const uploadGF = makeUploadGF({
-            fileRepo: fileRepo as Repository<FileObject>,
-            shouldUserAccessProject,
-            projectRepo,
-          })
-
-          const res = await uploadGF({
-            file: fakeFileContents,
-            stepDate: gfDate,
-            projectId,
-            submittedBy: user,
-            expirationDate,
-          })
-
-          expect(res.isOk()).toBe(true)
-
-          expect(shouldUserAccessProject).toHaveBeenCalledWith({
-            user,
-            projectId,
-          })
-        })
-
-        it(`Le fichier devrait être sauvegardé`, async () => {
-          expect(fileRepo.save).toHaveBeenCalled()
-          expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
-        })
-
-        it('La garantie financière devrait être ajoutée', () => {
-          const fakeFile = fileRepo.save.mock.calls[0][0]
-          expect(fakeProject.uploadGarantiesFinancieres).toHaveBeenCalledWith(
-            gfDate,
-            fakeFile.id.toString(),
-            user,
-            expirationDate
-          )
+        expect(shouldUserAccessProject).toHaveBeenCalledWith({
+          user,
+          projectId,
         })
       })
-    }
+
+      it(`Le fichier devrait être sauvegardé`, async () => {
+        expect(fileRepo.save).toHaveBeenCalled()
+        expect(fileRepo.save.mock.calls[0][0].contents).toEqual(fakeFileContents.contents)
+      })
+
+      it('La garantie financière devrait être ajoutée', () => {
+        const fakeFile = fileRepo.save.mock.calls[0][0]
+        expect(fakeProject.uploadGarantiesFinancieres).toHaveBeenCalledWith(
+          gfDate,
+          fakeFile.id.toString(),
+          user,
+          expirationDate
+        )
+      })
+    })
   })
 })
