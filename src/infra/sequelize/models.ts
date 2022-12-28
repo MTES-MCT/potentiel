@@ -11,7 +11,6 @@ import { MakeUserDrealModel } from './projections/userDreal/userDreal.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
-import { MakeUserProjectClaimsModel } from './projections'
 import { EventBus } from '@core/domain'
 
 import * as projectionsNextModels from './projectionsNext'
@@ -33,7 +32,6 @@ export const models = {
   AppelOffre: MakeAppelOffreModel(sequelizeInstance),
   Periode: MakePeriodeModel(sequelizeInstance),
   UserDreal: MakeUserDrealModel(sequelizeInstance),
-  UserProjectClaims: MakeUserProjectClaimsModel(sequelizeInstance),
 }
 
 GarantiesFinancières.hasOne(models.File, {
