@@ -1188,8 +1188,11 @@ const orderedFields = [
     visibility: ['admin', 'dgec-validateur', 'dreal', 'cre'],
   },
   {
-    dataField: 'Investissement ou financement participatif ?',
-    fn: (row) => row.isInvestissementParticipatif || row.isFinancementParticipatif,
+    dataField: 'isFinancementParticipatif',
+    visibility: ['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé', 'ademe', 'cre'],
+  },
+  {
+    dataField: 'isInvestissementParticipatif',
     visibility: ['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé', 'ademe', 'cre'],
   },
   {

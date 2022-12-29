@@ -57,15 +57,13 @@ const commonDataFields = [
   },
   {
     field: 'isInvestissementParticipatif',
-    type: toTypeLiteral('stringEquals'),
-    column: 'Investissement ou financement participatif ?',
-    value: 'Investissement participatif (T1)',
+    column: 'Investissement participatif',
+    value: (row) => (row.isInvestissementParticipatif === true ? 'Oui' : ''),
   },
   {
     field: 'isFinancementParticipatif',
-    type: toTypeLiteral('stringEquals'),
-    column: 'Investissement ou financement participatif ?',
-    value: 'Financement participatif (T2)',
+    column: 'Financement participatif',
+    value: (row) => (row.isFinancementParticipatif === true ? 'Oui' : ''),
   },
   {
     field: 'notifiedOn',
