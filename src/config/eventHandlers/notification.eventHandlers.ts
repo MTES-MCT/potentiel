@@ -1,4 +1,5 @@
 import { UserInvitedToProject } from '@modules/authZ'
+import { ChangementDePuissanceDemandé } from '@modules/demandeModification/demandeChangementDePuissance/events/ChangementDePuissanceDemandé'
 import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
 import {
   ConfirmationRequested,
@@ -15,11 +16,12 @@ import {
   handleModificationRequestCancelled,
   handleModificationRequested,
   handleModificationRequestStatusChanged,
-  onCahierDesChargesChoisi,
   handleProjectCertificateUpdatedOrRegenerated,
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
+  onCahierDesChargesChoisi,
+  onChangementDePuissanceDemandé,
 } from '@modules/notification'
 import {
   ProjectCertificateRegenerated,
@@ -28,6 +30,7 @@ import {
   CahierDesChargesChoisi,
   ProjectCompletionDueDateSet,
 } from '@modules/project'
+
 import { sendNotification } from '../emails.config'
 import { eventStore } from '../eventStore.config'
 import {
@@ -98,6 +101,16 @@ eventStore.subscribe(
 eventStore.subscribe(
   ModificationReceived.type,
   handleModificationReceived({
+    sendNotification,
+    findUsersForDreal: oldUserRepo.findUsersForDreal,
+    findUserById: oldUserRepo.findById,
+    findProjectById: oldProjectRepo.findById,
+  })
+)
+
+eventStore.subscribe(
+  ChangementDePuissanceDemandé.type,
+  onChangementDePuissanceDemandé({
     sendNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findUserById: oldUserRepo.findById,
