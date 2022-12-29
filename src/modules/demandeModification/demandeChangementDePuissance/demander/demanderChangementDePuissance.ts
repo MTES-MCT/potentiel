@@ -9,10 +9,11 @@ import {
   InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
-import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events'
+import { ModificationRequested } from '@modules/modificationRequest/events'
 
 import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers'
 import { PuissanceJustificationEtCourrierManquantError } from '.'
+import { ChangementDePuissanceDemandé } from '../events/ChangementDePuissanceDemandé'
 
 type DemanderChangementDePuissance = (commande: {
   projectId: string
@@ -50,8 +51,8 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
     projectRepo,
     fileRepo,
   }) =>
-  ({ projectId, requestedBy, newPuissance, justification, fichier }) => {
-    return wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
+  ({ projectId, requestedBy, newPuissance, justification, fichier }) =>
+    wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
       .andThen(
         (
           userHasRightsToProject
@@ -79,8 +80,8 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             })
         }
       )
-      .andThen((fileId: string) => {
-        return projectRepo.transaction(new UniqueEntityID(projectId), (project: Project) => {
+      .andThen((fileId: string) =>
+        projectRepo.transaction(new UniqueEntityID(projectId), (project: Project) => {
           const exceedsRatios = exceedsRatiosChangementPuissance({
             nouvellePuissance: newPuissance,
             project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
@@ -112,7 +113,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
 
           return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project })
         })
-      })
+      )
       .andThen(
         ({
           newPuissanceIsAutoAccepted,
@@ -128,17 +129,16 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
                 puissanceActuelle !== -1 ? puissanceActuelle : undefined
               return eventBus.publish(
                 newPuissanceIsAutoAccepted
-                  ? new ModificationReceived({
+                  ? new ChangementDePuissanceDemandé({
                       payload: {
-                        modificationRequestId,
-                        projectId: projectId.toString(),
-                        requestedBy: requestedBy.id,
-                        type: 'puissance',
+                        demandeId: modificationRequestId,
+                        projetId: projectId.toString(),
+                        demandéPar: requestedBy.id,
                         puissance: newPuissance,
                         puissanceAuMomentDuDepot,
                         justification,
                         fileId,
-                        authority: 'dreal',
+                        authorité: 'dreal',
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })
@@ -160,4 +160,3 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             })
         }
       )
-  }

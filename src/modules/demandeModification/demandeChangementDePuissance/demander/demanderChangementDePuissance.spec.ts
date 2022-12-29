@@ -9,8 +9,9 @@ import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { FileObject } from '@modules/file'
 import { Project } from '@modules/project'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { ModificationReceived, ModificationRequested } from '@modules/modificationRequest/events'
+import { ModificationRequested } from '@modules/modificationRequest/events'
 import { makeDemanderChangementDePuissance } from './demanderChangementDePuissance'
+import { ChangementDePuissanceDemandé } from '@modules/demandeModification/demandeChangementDePuissance/events/ChangementDePuissanceDemandé'
 
 describe('Commande requestPuissanceModification', () => {
   const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -230,7 +231,7 @@ describe('Commande requestPuissanceModification', () => {
 
         expect(eventBus.publish).toHaveBeenCalledTimes(1)
         const event = eventBus.publish.mock.calls[0][0]
-        expect(event).toBeInstanceOf(ModificationReceived)
+        expect(event).toBeInstanceOf(ChangementDePuissanceDemandé)
         expect(event).toMatchObject({
           payload: {
             type: 'puissance',
