@@ -41,6 +41,7 @@ import {
   LienInvitationPérimé,
   AccèsNonAutorisé,
   DéclarationAccessibilité,
+  InviterDgecValidateur,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -339,4 +340,11 @@ export const AccèsNonAutoriséPage = (props: Parameters<typeof AccèsNonAutoris
   makeHtml({
     Component: AccèsNonAutorisé,
     props,
+  })
+
+export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecValidateur>[0]) =>
+  makeHtml({
+    Component: InviterDgecValidateur,
+    props,
+    title: 'Inviter un utilisateur DGEC validateur',
   })

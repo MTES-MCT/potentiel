@@ -3,6 +3,7 @@ import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates'
 import { makeInviterUtilisateur } from './inviterUtilisateur'
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
+import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError'
 
 describe(`Inviter un utilisateur`, () => {
   it(`Lorsqu'on invite un utilisateur avec un role
@@ -15,6 +16,7 @@ describe(`Inviter un utilisateur`, () => {
     await inviterUtilisateur({
       email: 'utilisateur@email.com',
       role: 'cre',
+      invitéPar: { permissions: [] },
     })
 
     expect(publishToEventStore).toHaveBeenCalledWith(
@@ -45,6 +47,7 @@ describe(`Inviter un utilisateur`, () => {
       const invitation = await inviterUtilisateur({
         email: 'utilisateur@email.com',
         role: 'cre',
+        invitéPar: { permissions: [] },
       })
 
       expect(invitation.isErr()).toBe(true)
@@ -70,10 +73,38 @@ describe(`Inviter un utilisateur`, () => {
       const invitation = await inviterUtilisateur({
         email: 'utilisateur@email.com',
         role: 'cre',
+        invitéPar: { permissions: [] },
       })
 
       expect(invitation.isErr()).toBe(true)
       expect(invitation._unsafeUnwrapErr()).toBeInstanceOf(InvitationUtilisateurExistantError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    })
+  })
+
+  describe(`Un utilisateur sans la permission ne peut pas inviter un dgec-validateur`, () => {
+    it(`Étant donné un utilisateur sans la permission d'inviter un dgec-validateur
+          Lorsqu'il invite un utilisateur avec le rôle dgec-validateur
+          Alors aucun évènement ne devrait être émis
+          Et il devrait être averti qu'il n'est pas autorisé à faire cette invitation`, async () => {
+      const utilisateurRepo = fakeTransactionalRepo({} as Utilisateur)
+      const publishToEventStore = jest.fn()
+
+      const inviterUtilisateur = makeInviterUtilisateur({
+        utilisateurRepo,
+        publishToEventStore,
+      })
+
+      const invitation = await inviterUtilisateur({
+        email: 'utilisateur@email.com',
+        role: 'dgec-validateur',
+        invitéPar: {
+          permissions: [{ nom: 'une-autre-permission', description: 'Une autre permission' }],
+        },
+      })
+
+      expect(invitation.isErr()).toBe(true)
+      expect(invitation._unsafeUnwrapErr()).toBeInstanceOf(InvitationUtilisateurNonAutoriséeError)
       expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })

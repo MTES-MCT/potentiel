@@ -5,6 +5,13 @@ import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilis
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
 import { Utilisateur } from '../Utilisateur'
 import { UtilisateurInvité } from '../events/UtilisateurInvité'
+import { Permission } from '@modules/authN'
+import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError'
+
+export const PermissionInviterDgecValidateur: Permission = {
+  nom: 'inviter-dgec-validateur-action',
+  description: 'Inviter un utilisateur dgec-validateur',
+}
 
 type Dépendances = {
   utilisateurRepo: TransactionalRepository<Utilisateur>
@@ -14,14 +21,22 @@ type Dépendances = {
 type Commande = {
   email: string
   role: UserRole
+  invitéPar: { permissions: Array<Permission> }
 }
 
 export const makeInviterUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
-  ({ email, role }: Commande) =>
+  ({ email, role, invitéPar }: Commande) =>
     utilisateurRepo.transaction(
       new UniqueEntityID(email),
       (utilisateur) => {
+        if (
+          role === 'dgec-validateur' &&
+          !invitéPar.permissions.includes(PermissionInviterDgecValidateur)
+        ) {
+          return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }))
+        }
+
         if (utilisateur.statut === 'invité') {
           return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
         }

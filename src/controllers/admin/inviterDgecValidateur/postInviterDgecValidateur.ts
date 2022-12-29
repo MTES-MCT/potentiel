@@ -1,30 +1,35 @@
-import { ensureRole, inviterUtilisateur } from '@config'
-import asyncHandler from '../../helpers/asyncHandler'
-import { addQueryParams } from '../../../helpers/addQueryParams'
 import routes from '@routes'
-import { v1Router } from '../../v1Router'
 import * as yup from 'yup'
-import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers'
+import { v1Router } from '../../v1Router'
+import { addQueryParams } from '../../../helpers/addQueryParams'
+import {
+  errorResponse,
+  RequestValidationError,
+  validateRequestBody,
+  vérifierPermissionUtilisateur,
+} from '../../helpers'
+import { inviterUtilisateur } from '@config'
+import {
+  InvitationUniqueParUtilisateurError,
+  PermissionInviterDgecValidateur,
+} from '@modules/utilisateur'
 import { logger } from '@core/utils'
-import { InvitationUniqueParUtilisateurError } from '@modules/utilisateur'
+import asyncHandler from '../../helpers/asyncHandler'
 
-const requestBodySchema = yup.object({
+const schema = yup.object({
   role: yup
-    .mixed<'acheteur-obligé' | 'ademe' | 'cre' | 'caisse-des-dépôts'>()
-    .oneOf(
-      ['acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'],
-      'Seules les valeurs suivantes sont acceptées : Acheteur obligé, ADEME, CRE et Caisse des dépôts'
-    )
+    .mixed<'dgec-validateur'>()
+    .oneOf(['dgec-validateur'])
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
   email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
 })
 
 v1Router.post(
-  routes.ADMIN_INVITE_USER_ACTION,
-  ensureRole(['admin', 'dgec-validateur']),
+  routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
+  vérifierPermissionUtilisateur(PermissionInviterDgecValidateur),
   asyncHandler(async (request, response) => {
-    validateRequestBody(request.body, requestBodySchema)
+    validateRequestBody(request.body, schema)
       .asyncAndThen(({ email, role }) =>
         inviterUtilisateur({ email, role, invitéPar: request.user }).map(() => ({ email }))
       )
@@ -33,14 +38,14 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success: `Une invitation a bien été envoyée à ${email}.`,
-              redirectUrl: routes.ADMIN_PARTNER_USERS,
-              redirectTitle: 'Retourner à la liste des utilisateurs partenaires',
+              redirectUrl: routes.ADMIN_INVITATION_DGEC_VALIDATEUR,
+              redirectTitle: "Retourner à la page d'ajout de DGEC validateur",
             })
           ),
         (error: Error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_PARTNER_USERS, {
+              addQueryParams(routes.ADMIN_INVITATION_DGEC_VALIDATEUR, {
                 ...request.body,
                 ...error.errors,
               })
@@ -48,7 +53,7 @@ v1Router.post(
           }
           if (error instanceof InvitationUniqueParUtilisateurError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_PARTNER_USERS, {
+              addQueryParams(routes.ADMIN_INVITATION_DGEC_VALIDATEUR, {
                 ...request.body,
                 error: error.message,
               })
