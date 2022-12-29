@@ -9,10 +9,12 @@ import {
   vérifierPermissionUtilisateur,
 } from '../../helpers'
 import { inviterUtilisateur } from '@config'
-import { InvitationUniqueParUtilisateurError } from '@modules/utilisateur'
+import {
+  InvitationUniqueParUtilisateurError,
+  PermissionInviterDgecValidateur,
+} from '@modules/utilisateur'
 import { logger } from '@core/utils'
 import asyncHandler from '../../helpers/asyncHandler'
-import { PermissionInviterDgecValidateur } from '@modules/inviterDgecValidateur/permissions'
 
 const schema = yup.object({
   role: yup

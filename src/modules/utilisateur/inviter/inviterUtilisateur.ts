@@ -5,6 +5,12 @@ import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilis
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
 import { Utilisateur } from '../Utilisateur'
 import { UtilisateurInvité } from '../events/UtilisateurInvité'
+import { Permission } from '@modules/authN'
+
+export const PermissionInviterDgecValidateur: Permission = {
+  nom: 'inviter-dgec-validateur-action',
+  description: 'Inviter un utilisateur dgec-validateur',
+}
 
 type Dépendances = {
   utilisateurRepo: TransactionalRepository<Utilisateur>
