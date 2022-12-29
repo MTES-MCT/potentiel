@@ -16,6 +16,7 @@ import {
   ConfirmationAbandonDemandée,
   AbandonConfirmé,
   RejetAbandonAnnulé,
+  ChangementDePuissanceDemandé,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -38,7 +39,7 @@ import { onModificationRequestInstructionStarted } from './onModificationRequest
 import { onModificationRequestRejected } from './onModificationRequestRejected'
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated'
 import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé'
-import { onRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé'
+import { onRejetChangementDePuissanceAnnulé } from './puissance/onRejetChangementDePuissanceAnnulé'
 import {
   onDélaiAccordé,
   onDélaiAnnulé,
@@ -58,6 +59,7 @@ import {
   onLegacyAbandonSupprimé,
 } from './abandon'
 import { LegacyAbandonSupprimé } from '@modules/project'
+import { onChangementDePuissanceDemandé } from './puissance/onChangementDePuissanceDemandé'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -84,11 +86,14 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé(models))
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
 
-  eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé(models))
+  eventBus.subscribe(ChangementDePuissanceDemandé.type, onChangementDePuissanceDemandé(models))
   eventBus.subscribe(
     RejetChangementDePuissanceAnnulé.type,
     onRejetChangementDePuissanceAnnulé(models)
   )
+
+  eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé(models))
+
   eventBus.subscribe(AbandonDemandé.type, onAbandonDemandé(models))
   eventBus.subscribe(AbandonAnnulé.type, onAbandonAnnulé(models))
   eventBus.subscribe(AbandonConfirmé.type, onAbandonConfirmé(models))
@@ -97,6 +102,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(LegacyAbandonSupprimé.type, onLegacyAbandonSupprimé(models))
   eventBus.subscribe(ConfirmationAbandonDemandée.type, onConfirmationAbandonDemandée(models))
   eventBus.subscribe(RejetAbandonAnnulé.type, onRejetAbandonAnnulé(models))
+
   logger.info('Initialized ModificationRequest projections')
 }
 
