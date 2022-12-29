@@ -573,6 +573,46 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
+                    const {
+                      signaledBy,
+                      status,
+                      oldCompletionDueOn,
+                      newCompletionDueOn,
+                      attachment,
+                      notes,
+                    } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      signaledBy,
+                      ...(status === 'acceptée'
+                        ? {
+                            status,
+                            oldCompletionDueOn,
+                            newCompletionDueOn,
+                          }
+                        : { status }),
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                        attachment,
+                      }),
+                    })
+                  }
+                  break
+
+                case 'DemandeAbandonSignaled':
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                      'caisse-des-dépôts',
+                      'cre',
+                    ])(user)
+                  ) {
                     const { signaledBy, status, attachment, notes } = payload
                     events.push({
                       type,
@@ -588,7 +628,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   }
                   break
 
-                case 'DemandeAbandonSignaled':
                 case 'DemandeRecoursSignaled':
                   if (
                     userIs([
