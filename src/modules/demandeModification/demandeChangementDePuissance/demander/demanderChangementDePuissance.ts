@@ -138,7 +138,7 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
                         puissanceAuMomentDuDepot,
                         justification,
                         fileId,
-                        authorité: 'dreal',
+                        autorité: 'dreal',
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })

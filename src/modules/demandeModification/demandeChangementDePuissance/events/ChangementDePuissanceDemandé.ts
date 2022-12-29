@@ -5,7 +5,7 @@ export type ChangementDePuissanceDemandéPayload = {
   demandeId: string
   projetId: string
   demandéPar: string
-  authorité: 'dgec' | 'dreal'
+  autorité: 'dgec' | 'dreal'
   justification?: string
   fileId?: string
   cahierDesCharges?: CahierDesChargesRéférence
