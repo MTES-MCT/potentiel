@@ -76,8 +76,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       noteThresholdBy: 'family',
       noteThreshold: [
-        { familleId: '1', noteThreshold: 65.0577559404841 },
-        { familleId: '2', noteThreshold: 61.7634076111006 },
+        { familleId: '1', noteThreshold: 65.05 },
+        { familleId: '2', noteThreshold: 61.76 },
       ],
     },
   ],
