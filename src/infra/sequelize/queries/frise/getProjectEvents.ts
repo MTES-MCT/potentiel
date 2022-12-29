@@ -267,6 +267,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                       'caisse-des-dépôts',
                     ])(user)
                   ) {
@@ -317,6 +318,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                       'caisse-des-dépôts',
                     ])(user)
                   ) {
@@ -340,6 +342,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                       'caisse-des-dépôts',
                     ])(user)
                   ) {
@@ -567,28 +570,16 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
-                    const {
-                      signaledBy,
-                      status,
-                      oldCompletionDueOn,
-                      newCompletionDueOn,
-                      attachment,
-                      notes,
-                    } = payload
+                    const { signaledBy, status, attachment, notes } = payload
                     events.push({
                       type,
                       variant: user.role,
                       date: valueDate,
                       signaledBy,
-                      ...(status === 'acceptée'
-                        ? {
-                            status,
-                            oldCompletionDueOn,
-                            newCompletionDueOn,
-                          }
-                        : { status }),
+                      status,
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
                       ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
                         attachment,
@@ -607,6 +598,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { signaledBy, status, attachment, notes } = payload
@@ -687,6 +679,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dreal',
                       'acheteur-obligé',
                       'dgec-validateur',
+                      'cre',
                       'caisse-des-dépôts',
                     ])(user)
                   ) {
