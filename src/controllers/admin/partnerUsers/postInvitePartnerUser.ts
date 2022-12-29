@@ -25,7 +25,9 @@ v1Router.post(
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
-      .asyncAndThen(({ email, role }) => inviterUtilisateur({ email, role }).map(() => ({ email })))
+      .asyncAndThen(({ email, role }) =>
+        inviterUtilisateur({ email, role, invitéPar: request.user }).map(() => ({ email }))
+      )
       .match(
         ({ email }) =>
           response.redirect(

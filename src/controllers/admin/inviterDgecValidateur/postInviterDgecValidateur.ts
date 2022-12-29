@@ -30,7 +30,9 @@ v1Router.post(
   vérifierPermissionUtilisateur(PermissionInviterDgecValidateur),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, schema)
-      .asyncAndThen(({ email, role }) => inviterUtilisateur({ email, role }).map(() => ({ email })))
+      .asyncAndThen(({ email, role }) =>
+        inviterUtilisateur({ email, role, invitéPar: request.user }).map(() => ({ email }))
+      )
       .match(
         ({ email }) =>
           response.redirect(
