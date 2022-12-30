@@ -418,7 +418,7 @@ export type DemandeAbandonSignaledDTO = {
     | 'cre'
   date: number
   signaledBy: string
-  status: 'acceptée' | 'rejetée' | 'à accorder'
+  status: 'acceptée' | 'rejetée'
   attachment?: File
   notes?: string
 }

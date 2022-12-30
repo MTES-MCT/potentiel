@@ -12,12 +12,14 @@ import {
   ModificationRequestEvents,
   FileAttachedToProjectEvent,
   LegacyModificationFileAttachedEvent,
-  DemandeSignaledEvents,
   DemandeDélaiEvent,
   DemandeAbandonEvent,
   CahierDesChargesEvent,
   DateMiseEnServiceEvent,
   DateFileAttenteEvent,
+  DemandeDelaiSignaledEvent,
+  DemandeAbandonSignaledEvent,
+  DemandeRecoursSignaledEvent,
 } from '../events'
 
 export type KnownProjectEvents =
@@ -32,12 +34,14 @@ export type KnownProjectEvents =
   | ModificationRequestEvents
   | FileAttachedToProjectEvent
   | LegacyModificationFileAttachedEvent
-  | DemandeSignaledEvents
   | DemandeDélaiEvent
   | DemandeAbandonEvent
   | CahierDesChargesEvent
   | DateMiseEnServiceEvent
   | DateFileAttenteEvent
+  | DemandeDelaiSignaledEvent
+  | DemandeRecoursSignaledEvent
+  | DemandeAbandonSignaledEvent
 
 type NarrowType<T, N> = T extends { type: N } ? T : never
 
@@ -68,12 +72,14 @@ export const isKnownProjectEvent = or(
   is('LegacyModificationImported'),
   is('FileAttachedToProject'),
   is('LegacyModificationFileAttached'),
-  is('DemandeDelaiSignaled'),
   is('DemandeAbandonSignaled'),
   is('DemandeRecoursSignaled'),
   is('DemandeDélai'),
   is('DemandeAbandon'),
   is('CahierDesChargesChoisi'),
   is('DateMiseEnService'),
-  is('DateFileAttente')
+  is('DateFileAttente'),
+  is('DemandeDelaiSignaled'),
+  is('DemandeAbandonSignaled'),
+  is('DemandeRecoursSignaled')
 )
