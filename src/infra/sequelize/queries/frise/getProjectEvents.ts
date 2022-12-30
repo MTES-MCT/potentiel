@@ -385,6 +385,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { modificationType } = payload
@@ -443,6 +444,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const modificationType = payload.modificationType
@@ -571,6 +573,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const {
@@ -602,6 +605,31 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                   break
 
                 case 'DemandeAbandonSignaled':
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                      'caisse-des-dépôts',
+                      'cre',
+                    ])(user)
+                  ) {
+                    const { signaledBy, status, attachment, notes } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      signaledBy,
+                      status,
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                        attachment,
+                      }),
+                    })
+                  }
+                  break
                 case 'DemandeRecoursSignaled':
                   if (
                     userIs([
@@ -611,6 +639,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { signaledBy, status, attachment, notes } = payload
@@ -637,6 +666,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { statut, autorité } = payload
