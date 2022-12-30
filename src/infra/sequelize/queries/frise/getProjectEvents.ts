@@ -632,7 +632,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
-
                 case 'DemandeRecoursSignaled':
                   if (
                     userIs([
