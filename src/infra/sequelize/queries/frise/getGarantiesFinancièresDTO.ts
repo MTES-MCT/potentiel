@@ -21,7 +21,11 @@ export const getGarantiesFinancièresDTO = async ({
   garantiesFinancières: GarantiesFinancièresDonnéesPourDTO | undefined
   user: User
 }): Promise<GarantiesFinancièresDTO | undefined> => {
-  if (!userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts'])(user))
+  if (
+    !userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts', 'cre'])(
+      user
+    )
+  )
     return
   if (!garantiesFinancières) return
 

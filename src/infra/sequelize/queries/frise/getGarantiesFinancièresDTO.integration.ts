@@ -16,7 +16,14 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
   describe(`Ne rien retourner si l'utlisateur n'a pas les droits`, () => {
     for (const role of USER_ROLES.filter(
       (role) =>
-        !['porteur-projet', 'admin', 'dgec-validateur', 'dreal', 'caisse-des-dépôts'].includes(role)
+        ![
+          'porteur-projet',
+          'admin',
+          'dgec-validateur',
+          'dreal',
+          'caisse-des-dépôts',
+          'cre',
+        ].includes(role)
     )) {
       it(`Etant donné un projet soumis à garanties financières,
   si l'utlisateur a le rôle ${role},
