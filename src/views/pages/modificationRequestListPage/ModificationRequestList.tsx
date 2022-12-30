@@ -56,7 +56,7 @@ export const ModificationRequestList = ({
           <h3>{request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}</h3>
           <form
             action={`${
-              request.user?.role === 'porteur-projet'
+              ['porteur-projet', 'cre'].includes(request.user?.role)
                 ? ROUTES.USER_LIST_REQUESTS
                 : ROUTES.ADMIN_LIST_REQUESTS
             }?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`}
@@ -116,8 +116,8 @@ export const ModificationRequestList = ({
                 </svg>
               </div>
               <div className="filter-panel">
-                <div className="periode-panel" style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
+                <div className="periode-panel mt-[15px]">
+                  <div className="ml-[2px]">Par appel d'offre, période et famille</div>
                   <select
                     name="appelOffreId"
                     className={'appelOffre ' + (appelOffreId ? 'active' : '')}

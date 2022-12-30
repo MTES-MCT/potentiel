@@ -11,7 +11,7 @@ const ACTIONS = ['actionnaire', 'puissance', 'recours']
 
 v1Router.get(
   routes.DEMANDE_GENERIQUE,
-  ensureRole('porteur-projet'),
+  ensureRole(['porteur-projet', 'cre']),
   asyncHandler(async (request, response) => {
     const { action, projectId } = request.query as any
 

@@ -62,12 +62,20 @@ const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
 )
 
 const MenuCre = (currentPage: CurrentPage) => (
-  <Header.MenuItem
-    href={routes.LISTE_PROJETS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>
+  <>
+    <Header.MenuItem
+      href={routes.LISTE_PROJETS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.USER_LIST_REQUESTS}
+      {...(currentPage === 'list-requests' && { isCurrent: true })}
+    >
+      Demandes
+    </Header.MenuItem>
+  </>
 )
 
 const MenuAdmin = (currentPage: CurrentPage) => (

@@ -11,7 +11,7 @@ import { v1Router } from '../v1Router'
 
 v1Router.get(
   routes.USER_LIST_REQUESTS,
-  ensureRole(['porteur-projet']),
+  ensureRole(['porteur-projet', 'cre']),
   asyncHandler(async (request, response) => {
     const { user, cookies, query } = request
 

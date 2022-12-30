@@ -11,7 +11,7 @@ import { DemanderAbandonPage } from '@views'
 
 v1Router.get(
   routes.DEMANDER_ABANDON(),
-  ensureRole(['porteur-projet']),
+  ensureRole(['porteur-projet', 'cre']),
   asyncHandler(async (request, response) => {
     const {
       user,
