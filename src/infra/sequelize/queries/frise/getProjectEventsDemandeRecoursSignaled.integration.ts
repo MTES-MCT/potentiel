@@ -39,6 +39,7 @@ describe('getProjectEvents pour les événements DemandeRecoursSignaled', () => 
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de recours faites hors Potentiel et ajoutées aux projets`, () => {

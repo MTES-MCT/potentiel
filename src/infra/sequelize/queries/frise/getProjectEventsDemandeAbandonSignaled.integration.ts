@@ -39,6 +39,7 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes d'abandon faites hors Potentiel et ajoutées aux projets`, () => {

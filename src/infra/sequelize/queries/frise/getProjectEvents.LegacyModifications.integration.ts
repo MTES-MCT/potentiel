@@ -92,6 +92,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés`, () => {

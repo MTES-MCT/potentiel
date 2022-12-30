@@ -268,6 +268,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { modificationType } = payload
@@ -318,6 +319,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -341,6 +343,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({
@@ -362,6 +365,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'acheteur-obligé',
                       'dgec-validateur',
                       'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     events.push({

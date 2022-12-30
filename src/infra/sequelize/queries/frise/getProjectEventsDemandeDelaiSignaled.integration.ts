@@ -41,6 +41,7 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de délai faites hors Potentiel et ajoutées aux projets`, () => {
