@@ -6,7 +6,7 @@ import { ProjectEvent } from '../../projectionsNext'
 import { resetDatabase } from '../../helpers'
 import { models } from '../../models'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { DemandeSignaledEvents } from '@infra/sequelize/projectionsNext/projectEvents/events'
+import { DemandeAbandonSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events'
 
 describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => {
   const { Project } = models
@@ -30,7 +30,7 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
       attachment: { id: 'file-id', name: 'file-name' },
       notes: 'notes',
     },
-  } as DemandeSignaledEvents
+  } as DemandeAbandonSignaledEvent
 
   const rolesAutorisés = [
     'admin',
