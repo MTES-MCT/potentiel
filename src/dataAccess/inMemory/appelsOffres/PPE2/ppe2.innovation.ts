@@ -67,15 +67,19 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
-      type: 'not-yet-notified',
-      certificateTemplate: 'ppe2.v1',
+      type: 'notified',
+      certificateTemplate: 'ppe2.v2',
       cahierDesCharges: {
         référence: '2021 S 203-530267',
         url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/ppe2-innovant-telecharger-le-cahier-des-charges-en-vigueur-dans-sa-version-modifiee-le-19-octobre-2021',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'family',
+      noteThreshold: [
+        { familleId: '1', noteThreshold: 65.05 },
+        { familleId: '2', noteThreshold: 61.76 },
+      ],
     },
-    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
   ],
   familles: [
     {

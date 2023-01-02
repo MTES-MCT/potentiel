@@ -16,7 +16,10 @@ export const MotifElimination = ({ project }: MotifProps) => {
     return <Competitivite {...{ project }} />
   }
 
-  if (motifsElimination.includes('note obtenue')) {
+  if (
+    motifsElimination.includes('note obtenue') ||
+    motifsElimination.toLowerCase().includes('pcible')
+  ) {
     return <AuDessusDePcible {...{ project }} />
   }
 
