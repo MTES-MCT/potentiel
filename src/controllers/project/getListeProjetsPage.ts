@@ -7,14 +7,8 @@ import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
-import { vérifierPermissionUtilisateur } from '../helpers'
-import {
-  projectRepo,
-  appelOffreRepo,
-  ContextSpecificProjectListFilter,
-  userRepo,
-} from '@dataAccess'
-import { Request } from 'express'
+import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
+import { appelOffreRepo } from '@dataAccess'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -65,52 +59,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     ? await listerProjetsPourAdmin(filtres)
     : await listProjects(filtres)
 
-  const getUserSpecificProjectListFilter = async (
-    user: Request['user']
-  ): Promise<ContextSpecificProjectListFilter> => {
-    switch (user.role) {
-      case 'dreal':
-        const regions = await userRepo.findDrealsForUser(user.id)
-
-        return {
-          regions,
-        }
-      case 'porteur-projet':
-        return {
-          userId: user.id,
-        }
-      case 'admin':
-      case 'dgec-validateur':
-      case 'acheteur-obligé':
-      case 'ademe':
-      case 'cre':
-      case 'caisse-des-dépôts':
-        return {
-          isNotified: true,
-        }
-    }
-  }
-
-  const userSpecificProjectListFilter = await getUserSpecificProjectListFilter(user)
-
-  const existingAppelsOffres = await projectRepo.findExistingAppelsOffres(
-    userSpecificProjectListFilter
-  )
-
-  const existingPeriodes =
-    appelOffreId &&
-    (await projectRepo.findExistingPeriodesForAppelOffre(
-      appelOffreId,
-      userSpecificProjectListFilter
-    ))
-
-  const existingFamilles =
-    appelOffreId &&
-    (await projectRepo.findExistingFamillesForAppelOffre(
-      appelOffreId,
-      userSpecificProjectListFilter
-    ))
-
   if (pageSize) {
     // Save the pageSize in a cookie
     response.cookie('pageSize', pageSize, {
@@ -121,14 +69,14 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
+  const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId })
+
   response.send(
     ListeProjetsPage({
       request,
       projects,
-      existingAppelsOffres,
-      existingPeriodes,
-      existingFamilles,
       appelsOffre,
+      ...optionsFiltresParAOs,
     })
   )
 })
