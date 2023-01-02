@@ -5,7 +5,7 @@ import { User } from '@entities'
 import { USER_ROLES } from '@modules/users'
 
 describe(`Requête getGarantiesFinancièresDTO`, () => {
-  const dateLimiteEnvoi = new Date('2023-01-01')
+  const dateLimiteEnvoi = new Date('2050-01-01')
   const dateEchéance = new Date()
   const envoyéesPar = new UniqueEntityID().toString()
   const dateConstitution = new Date()
