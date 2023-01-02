@@ -1,11 +1,17 @@
-import { appelOffreRepo } from '@dataAccess'
+import {
+  appelOffreRepo,
+  ContextSpecificProjectListFilter,
+  projectRepo,
+  userRepo,
+} from '@dataAccess'
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { ensureRole, listProjects } from '@config'
+import { ensureRole, listerProjetsPourAdmin, listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
+import { Request } from 'express'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
@@ -20,19 +26,65 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const results = await listProjects({
+  const filtres = {
     user,
     appelOffreId,
-    periodeId: appelOffreId ? periodeId : undefined,
-    familleId: appelOffreId ? familleId : undefined,
+    periodeId,
+    familleId,
     pagination,
     recherche,
-    classement: 'classés',
-    reclames: undefined,
     garantiesFinancieres,
-  })
+  }
 
-  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
+  const projects = ['admin', 'dgec-validateur'].includes(user.role)
+    ? await listerProjetsPourAdmin(filtres)
+    : await listProjects(filtres)
+
+  const getUserSpecificProjectListFilter = async (
+    user: Request['user']
+  ): Promise<ContextSpecificProjectListFilter> => {
+    switch (user.role) {
+      case 'dreal':
+        const regions = await userRepo.findDrealsForUser(user.id)
+
+        return {
+          regions,
+        }
+      case 'porteur-projet':
+        return {
+          userId: user.id,
+        }
+      case 'admin':
+      case 'dgec-validateur':
+      case 'acheteur-obligé':
+      case 'ademe':
+      case 'cre':
+      case 'caisse-des-dépôts':
+        return {
+          isNotified: true,
+        }
+    }
+  }
+
+  const userSpecificProjectListFilter = await getUserSpecificProjectListFilter(user)
+
+  const existingAppelsOffres = await projectRepo.findExistingAppelsOffres(
+    userSpecificProjectListFilter
+  )
+
+  const existingPeriodes =
+    appelOffreId &&
+    (await projectRepo.findExistingPeriodesForAppelOffre(
+      appelOffreId,
+      userSpecificProjectListFilter
+    ))
+
+  const existingFamilles =
+    appelOffreId &&
+    (await projectRepo.findExistingFamillesForAppelOffre(
+      appelOffreId,
+      userSpecificProjectListFilter
+    ))
 
   if (pageSize) {
     // Save the pageSize in a cookie

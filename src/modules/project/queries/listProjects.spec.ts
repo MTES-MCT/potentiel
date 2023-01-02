@@ -42,9 +42,6 @@ const listProjects = makeListProjects({
   findAllForUser,
   searchAll,
   findAll,
-  findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre,
   findDrealsForUser,
 })
 

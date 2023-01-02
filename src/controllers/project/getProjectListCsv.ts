@@ -1531,9 +1531,7 @@ const getProjectListCsv = asyncHandler(async (request, response) => {
     familleId = undefined
   }
 
-  const {
-    projects: { items: projects },
-  } = await listProjects({
+  const { items: projects } = await listProjects({
     user: request.user,
     appelOffreId,
     periodeId,
