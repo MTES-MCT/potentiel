@@ -550,6 +550,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'dgec-validateur',
                       'dreal',
                       'acheteur-obligé',
+                      'caisse-des-dépôts',
+                      'cre',
                     ])(user)
                   ) {
                     const { fileId, filename } = payload
