@@ -191,7 +191,7 @@ export const makeLaureat: MakeLaureat = (project) => {
                 }}
               >
                 Toute demande de modification substantielle de l’innovation sera notamment refusée{' '}
-                {addFootNote('5.4.4')}
+                {addFootNote('5.2.3')}
               </Text>
             </>
           )}
