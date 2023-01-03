@@ -7,15 +7,12 @@ import {
   Tile,
   SecondaryLinkButton,
   RefreshIcon,
+  RésultatSoumissionFormulaire,
+  RésultatSoumissionFormulaireProps,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
 import { hydrateOnClient } from '@views/helpers'
-
-import {
-  RésultatSoumissionFormulaire,
-  RésultatSoumissionFormulaireProps,
-} from './components/RésultatSoumissionFormulaire'
 import { Tâche, TâcheProps } from './components/Tâche'
 
 type ImportDonnéesRaccordementProps = {

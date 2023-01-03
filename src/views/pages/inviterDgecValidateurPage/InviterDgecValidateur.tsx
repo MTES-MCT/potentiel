@@ -1,21 +1,24 @@
 import React from 'react'
 import { Request } from 'express'
 import routes from '@routes'
-import { Button, ErrorBox, Input, PageTemplate, SuccessBox } from '@components'
+import {
+  Button,
+  Input,
+  PageTemplate,
+  RésultatSoumissionFormulaire,
+  RésultatSoumissionFormulaireProps,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
-import { dataId } from '../../../helpers/testId'
 
 type InviterDgecValidateurProps = {
   request: Request
-  validationErrors?: Array<{ [fieldName: string]: string }>
+  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
 }
 
 export const InviterDgecValidateur = ({
   request,
-  validationErrors,
+  résultatSoumissionFormulaire,
 }: InviterDgecValidateurProps) => {
-  const { error, success } = request.query as any
-  console.log(validationErrors)
   return (
     <PageTemplate user={request.user} currentPage="inviter-dgec-validateur">
       <div className="panel">
@@ -24,13 +27,15 @@ export const InviterDgecValidateur = ({
         </div>
         <div className="panel__header">
           <h2 className="text-lg">Ajouter un utilisateur DGEC-VALIDATEUR</h2>
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
+          {résultatSoumissionFormulaire && (
+            <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
+          )}
           <form
             action={routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION}
             method="post"
             className="flex flex-col gap-4"
           >
+            <p className="text-sm italic">Tous les champs sont obligatoires</p>
             <input type="hidden" name="role" value="dgec-validateur" />
             <div>
               <label htmlFor="email">Adresse email :</label>
@@ -38,12 +43,26 @@ export const InviterDgecValidateur = ({
                 type="email"
                 name="email"
                 id="email"
-                {...dataId('email-field')}
                 required
-                {...(validationErrors && { error: validationErrors['email']?.toString() })}
+                className="mb-2"
+                {...(résultatSoumissionFormulaire?.type === 'échec' &&
+                  résultatSoumissionFormulaire.erreursDeValidation && {
+                    error: résultatSoumissionFormulaire.erreursDeValidation['email'],
+                  })}
+              />
+              <label htmlFor="fonction">Fonction :</label>
+              <Input
+                type="text"
+                name="fonction"
+                id="fonction"
+                required
+                {...(résultatSoumissionFormulaire?.type === 'échec' &&
+                  résultatSoumissionFormulaire.erreursDeValidation && {
+                    error: résultatSoumissionFormulaire.erreursDeValidation['fonction'],
+                  })}
               />
             </div>
-            <Button type="submit" id="submit" {...dataId('submit-button')} className="m-auto">
+            <Button type="submit" id="submit" className="m-auto">
               Inviter
             </Button>
           </form>

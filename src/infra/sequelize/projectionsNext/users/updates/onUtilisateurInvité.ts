@@ -4,15 +4,16 @@ import { logger } from '@core/utils'
 import { ProjectionEnEchec } from '@modules/shared'
 
 export default UsersProjector.on(UtilisateurInvité, async (évènement, transaction) => {
-  const {
-    payload: { email, role },
-  } = évènement
+  const { payload } = évènement
+  const { email, role } = payload
+
   try {
     await Users.create(
       {
         email,
         role,
         état: 'invité',
+        ...(role === 'dgec-validateur' && { fonction: payload.fonction }),
       },
       {
         transaction,

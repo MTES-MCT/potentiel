@@ -20,16 +20,24 @@ type Dépendances = {
 
 type Commande = {
   email: string
-  role: UserRole
   invitéPar: { permissions: Array<Permission> }
-}
+} & (
+  | {
+      role: Exclude<UserRole, 'dgec-validateur'>
+    }
+  | {
+      role: 'dgec-validateur'
+      fonction: string
+    }
+)
 
 export const makeInviterUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
-  ({ email, role, invitéPar }: Commande) =>
+  (commande: Commande) =>
     utilisateurRepo.transaction(
-      new UniqueEntityID(email),
+      new UniqueEntityID(commande.email),
       (utilisateur) => {
+        const { email, role, invitéPar } = commande
         if (
           role === 'dgec-validateur' &&
           !invitéPar.permissions.includes(PermissionInviterDgecValidateur)
@@ -48,7 +56,7 @@ export const makeInviterUtilisateur =
           new UtilisateurInvité({
             payload: {
               email,
-              role,
+              ...(role === 'dgec-validateur' ? { role, fonction: commande.fonction } : { role }),
             },
           })
         )

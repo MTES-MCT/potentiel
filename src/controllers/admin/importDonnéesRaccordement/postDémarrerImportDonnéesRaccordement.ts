@@ -12,8 +12,6 @@ import {
   mapYupValidationErrorToCsvValidationError,
 } from '../../helpers'
 import { InferType, ValidationError } from 'yup'
-import { Request } from 'express'
-import { RésultatSoumissionFormulaire } from 'express-session'
 import {
   DonnéesDeMiseAJourObligatoiresError,
   DonnéesRaccordement,
@@ -21,6 +19,7 @@ import {
 } from '@modules/imports/donnéesRaccordement'
 import { CsvError } from 'csv-parse'
 import { parse } from 'date-fns'
+import { sauvegarderRésultatFormulaire } from '../../helpers/formulaires'
 
 const csvDataSchema = yup
   .array()
@@ -101,22 +100,6 @@ const formaterDonnées = (
     return donnéesFormatées
   }, [])
 
-const setFormResult = (
-  request: Request,
-  formId: string,
-  formResult: RésultatSoumissionFormulaire | undefined
-) => {
-  const form = request.session.forms?.[formId]
-
-  request.session.forms = {
-    ...request.session.forms,
-    [formId]: {
-      ...form,
-      résultatSoumissionFormulaire: formResult,
-    },
-  }
-}
-
 if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.post(
     routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
@@ -124,7 +107,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
     upload.single('fichier-donnees-raccordement'),
     asyncHandler(async (request, response) => {
       if (!request.file || !request.file.path) {
-        setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+        sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
           type: 'échec',
           raison: 'Le fichier est obligatoire',
         })
@@ -154,14 +137,15 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
         })
         .match(
           () => {
-            setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+            sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
               type: 'succès',
+              message: "L'import du fichier a démarré. Actualisez la page pour afficher son état.",
             })
             return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
           },
           (error) => {
             if (error instanceof CsvValidationError) {
-              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: error.message,
                 erreursDeValidationCsv: error.détails,
@@ -173,7 +157,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
               error instanceof DémarrageImpossibleError ||
               error instanceof DonnéesDeMiseAJourObligatoiresError
             ) {
-              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: error.message,
               })
@@ -181,7 +165,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
             }
 
             if (error instanceof CsvError) {
-              setFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
                 type: 'échec',
                 raison: 'Le fichier csv est mal formaté',
               })

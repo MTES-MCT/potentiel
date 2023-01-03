@@ -1,10 +1,10 @@
-import { Request } from 'express'
 import asyncHandler from '../../helpers/asyncHandler'
 import routes from '@routes'
 import { ensureRole } from '@config'
 import { v1Router } from '../../v1Router'
 import { ImportDonneesRaccordementPage } from '@views'
 import { Tâches } from '@infra/sequelize/projectionsNext'
+import { récupérerRésultatFormulaire } from '../../helpers/formulaires'
 
 if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
   v1Router.get(
@@ -36,23 +36,12 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
                   }),
             }
           }),
-          résultatSoumissionFormulaire: getFormResult(request, routes.IMPORT_DONNEES_RACCORDEMENT),
+          résultatSoumissionFormulaire: récupérerRésultatFormulaire(
+            request,
+            routes.IMPORT_DONNEES_RACCORDEMENT
+          ),
         })
       )
     })
   )
-}
-
-const getFormResult = (request: Request, formId: string) => {
-  const {
-    session: { forms },
-  } = request
-
-  if (forms) {
-    const { [formId]: form, ...clearedForms } = forms
-
-    request.session.forms = clearedForms
-
-    return form?.résultatSoumissionFormulaire
-  }
 }

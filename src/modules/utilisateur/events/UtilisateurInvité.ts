@@ -3,8 +3,15 @@ import { UserRole } from '@modules/users'
 
 type Payload = {
   email: string
-  role: UserRole
-}
+} & (
+  | {
+      role: Exclude<UserRole, 'dgec-validateur'>
+    }
+  | {
+      role: 'dgec-validateur'
+      fonction: string
+    }
+)
 
 export class UtilisateurInvité extends BaseDomainEvent<Payload> implements DomainEvent {
   public static type: 'UtilisateurInvité' = 'UtilisateurInvité'
