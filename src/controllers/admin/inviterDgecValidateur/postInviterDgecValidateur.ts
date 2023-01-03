@@ -15,6 +15,7 @@ import {
 } from '@modules/utilisateur'
 import { logger } from '@core/utils'
 import asyncHandler from '../../helpers/asyncHandler'
+import { sauvegarderRésultatFormulaire } from '../../helpers/formulaires'
 
 const schema = yup.object({
   role: yup
@@ -40,14 +41,12 @@ v1Router.post(
         }))
       )
       .match(
-        ({ email }) =>
-          response.redirect(
-            routes.SUCCESS_OR_ERROR_PAGE({
-              success: `Une invitation a bien été envoyée à ${email}.`,
-              redirectUrl: routes.ADMIN_INVITATION_DGEC_VALIDATEUR,
-              redirectTitle: "Retourner à la page d'ajout de DGEC validateur",
-            })
-          ),
+        () => {
+          sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
+            type: 'succès',
+          })
+          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
+        },
         (error: Error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
