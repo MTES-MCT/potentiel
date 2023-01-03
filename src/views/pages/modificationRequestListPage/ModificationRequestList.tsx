@@ -56,7 +56,7 @@ export const ModificationRequestList = ({
           <h3>{request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}</h3>
           <form
             action={`${
-              ['porteur-projet', 'cre'].includes(request.user?.role)
+              request.user?.role === 'porteur-projet'
                 ? ROUTES.USER_LIST_REQUESTS
                 : ROUTES.ADMIN_LIST_REQUESTS
             }?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`}
