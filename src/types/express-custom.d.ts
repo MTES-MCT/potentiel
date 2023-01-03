@@ -13,6 +13,7 @@ declare module 'express-session' {
   type RésultatSoumissionFormulaire =
     | {
         type: 'succès'
+        message: string
       }
     | {
         type: 'échec'
@@ -22,6 +23,7 @@ declare module 'express-session' {
           valeurInvalide?: string
           raison: string
         }>
+        erreursDeValidation?: Record<string, string>
       }
 
   interface SessionData {

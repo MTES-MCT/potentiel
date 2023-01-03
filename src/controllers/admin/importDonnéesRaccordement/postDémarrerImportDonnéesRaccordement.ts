@@ -139,6 +139,7 @@ if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
           () => {
             sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
               type: 'succès',
+              message: "L'import du fichier a démarré. Actualisez la page pour afficher son état.",
             })
             return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
           },

@@ -5,11 +5,13 @@ export type RésultatSoumissionFormulaireProps = {
   résultatSoumissionFormulaire:
     | {
         type: 'succès'
+        message: string
       }
     | {
         type: 'échec'
         raison: string
         erreursDeValidationCsv?: Array<ErreurValidationCsv>
+        erreursDeValidation?: Record<string, string>
       }
 }
 
@@ -18,9 +20,7 @@ export const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProp
 }) => {
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
-      return (
-        <SuccessBox title="L'import du fichier a démarré. Actualisez la page pour afficher son état." />
-      )
+      return <SuccessBox title={résultatSoumissionFormulaire.message} />
     case 'échec':
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&
         résultatSoumissionFormulaire.erreursDeValidationCsv?.length > 0 ? (

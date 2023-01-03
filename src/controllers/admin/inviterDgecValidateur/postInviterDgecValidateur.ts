@@ -1,9 +1,7 @@
 import routes from '@routes'
 import * as yup from 'yup'
 import { v1Router } from '../../v1Router'
-import { addQueryParams } from '../../../helpers/addQueryParams'
 import {
-  errorResponse,
   RequestValidationError,
   validateRequestBody,
   vérifierPermissionUtilisateur,
@@ -44,33 +42,38 @@ v1Router.post(
         () => {
           sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
             type: 'succès',
+            message: "L'invitation a bien été envoyée",
           })
           return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
         },
         (error: Error) => {
           if (error instanceof RequestValidationError) {
-            return response.redirect(
-              addQueryParams(routes.ADMIN_INVITATION_DGEC_VALIDATEUR, {
-                ...request.body,
-                ...error.errors,
-              })
-            )
+            sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
+              type: 'échec',
+              raison: 'Le formulaire contient des erreurs',
+              erreursDeValidation: Object.entries(error.errors).reduce((prev, [key, value]) => {
+                return {
+                  ...prev,
+                  [key.replace('error-', '')]: value,
+                }
+              }, {}),
+            })
+            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
           }
           if (error instanceof InvitationUniqueParUtilisateurError) {
-            return response.redirect(
-              addQueryParams(routes.ADMIN_INVITATION_DGEC_VALIDATEUR, {
-                ...request.body,
-                error: error.message,
-              })
-            )
+            sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
+              type: 'échec',
+              raison: error.message,
+            })
+            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
           }
           logger.error(error)
-          return errorResponse({
-            request,
-            response,
-            customMessage:
+          sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
+            type: 'échec',
+            raison:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
           })
+          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
         }
       )
   })
