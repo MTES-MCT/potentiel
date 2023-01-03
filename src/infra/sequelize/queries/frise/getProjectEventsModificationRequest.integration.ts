@@ -91,6 +91,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser les demandes de modifications`, () => {

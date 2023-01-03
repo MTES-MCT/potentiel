@@ -32,8 +32,8 @@ describe('getProjectEvents pour les événements CovidDelayGranted', () => {
     'dreal',
     'acheteur-obligé',
     'dgec-validateur',
-    'cre',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateur ayant les droits pour visualiser le délai covid`, () => {

@@ -86,6 +86,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser les informations de modification de projet`, () => {

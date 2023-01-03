@@ -34,8 +34,8 @@ describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', (
     'dreal',
     'acheteur-obligé',
     'dgec-validateur',
-    'cre',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateurs autorisés à visualiser la date d'achèvement des projets`, () => {

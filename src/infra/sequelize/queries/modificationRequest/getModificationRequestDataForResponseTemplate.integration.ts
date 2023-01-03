@@ -891,7 +891,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
         if (modificationRequestResult.isErr()) return
 
         const modificationRequestDTO = modificationRequestResult.value
-        console.log(modificationRequestDTO)
         expect(modificationRequestDTO).toMatchObject({
           referenceParagrapheAchevement: '6.4',
           contenuParagrapheAchevement: `Le Candidat dont l’offre a été retenue s’engage à ce que l’Achèvement de son Installation intervienne avant une limite définie par la date la plus tardive des deux dates suivantes :

@@ -69,6 +69,7 @@ describe(`getProjectEvents`, () => {
     'acheteur-obligé',
     'dgec-validateur',
     'caisse-des-dépôts',
+    'cre',
   ]
 
   describe(`Utilisateur ayant les droits pour visualiser les demandes de délai`, () => {

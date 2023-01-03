@@ -130,7 +130,7 @@ export const isCertificateDTO = or(
 export type GarantiesFinancièresDTO = {
   type: 'garanties-financières'
   date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts'
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts' | 'cre'
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
@@ -206,6 +206,7 @@ export type ModificationRequestedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
   authority: 'dgec' | 'dreal'
 } & (
@@ -231,6 +232,7 @@ export type ModificationRequestAcceptedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
   file?: File
   delayInMonthsGranted?: number
@@ -246,6 +248,7 @@ export type ModificationRequestRejectedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
   file?: File
 }
@@ -260,6 +263,7 @@ export type ModificationRequestInstructionStartedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
 }
 
@@ -273,6 +277,7 @@ export type ModificationRequestCancelledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
 }
 
@@ -293,6 +298,7 @@ export type ModificationReceivedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   modificationRequestId: string
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
@@ -311,6 +317,7 @@ export type LegacyModificationImportedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   status: LegacyModificationStatus
   filename?: string
 } & (
@@ -340,6 +347,7 @@ export type LegacyModificationFileAttachedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   file: File
 }
 
@@ -369,8 +377,8 @@ export type CovidDelayGrantedDTO = {
     | 'dreal'
     | 'acheteur-obligé'
     | 'dgec-validateur'
-    | 'cre'
     | 'caisse-des-dépôts'
+    | 'cre'
 }
 
 export type DemandeDelaiSignaledDTO = {
@@ -382,6 +390,7 @@ export type DemandeDelaiSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
   signaledBy: string
   attachment?: File
@@ -406,9 +415,10 @@ export type DemandeAbandonSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
   signaledBy: string
-  status: 'acceptée' | 'rejetée' | 'à accorder'
+  status: 'acceptée' | 'rejetée'
   attachment?: File
   notes?: string
 }
@@ -422,6 +432,7 @@ export type DemandeRecoursSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
   signaledBy: string
   status: 'acceptée' | 'rejetée'
@@ -438,6 +449,7 @@ export type DemandeDélaiDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
   demandeUrl?: string
   actionRequise?: 'à traiter' | 'réponse à envoyer'
@@ -468,6 +480,7 @@ export type DemandeAbandonDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
   statut: DemandeAbandonEventStatus
   demandeUrl?: string
@@ -482,8 +495,8 @@ export type CahierDesChargesChoisiDTO = {
     | 'dreal'
     | 'acheteur-obligé'
     | 'dgec-validateur'
-    | 'cre'
     | 'caisse-des-dépôts'
+    | 'cre'
   date: number
 } & (
   | {
