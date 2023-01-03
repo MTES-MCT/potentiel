@@ -599,7 +599,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           }
                         : { status }),
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre'])(
+                        user
+                      ) && {
                         attachment,
                       }),
                     })
@@ -626,7 +628,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       signaledBy,
                       status,
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre'])(
+                        user
+                      ) && {
                         attachment,
                       }),
                     })
@@ -652,7 +656,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       signaledBy,
                       status,
                       ...(userIs(['admin', 'dgec-validateur', 'dreal'])(user) && { notes }),
-                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'])(user) && {
+                      ...(userIs(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre'])(
+                        user
+                      ) && {
                         attachment,
                       }),
                     })
@@ -687,7 +693,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                                 payload.ancienneDateThéoriqueAchèvement,
                             }
                           : { statut }),
-                        ...((userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) ||
+                        ...((userIs(['porteur-projet', 'admin', 'dgec-validateur', 'cre'])(user) ||
                           (userIs('dreal')(user) && autorité === 'dreal')) && {
                           demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                         }),
@@ -733,7 +739,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       date: valueDate,
                       statut,
-                      ...(userIs(['porteur-projet', 'admin', 'dgec-validateur'])(user) && {
+                      ...(userIs(['porteur-projet', 'admin', 'dgec-validateur', 'cre'])(user) && {
                         demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                       }),
                       ...(userIs(['admin', 'dgec-validateur'])(user) &&

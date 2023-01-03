@@ -28,7 +28,9 @@ export const extractModificationReceivedItemProps = (
   let propsArray: ModificationReceivedItemProps[] = []
 
   for (const event of modificationReceivedEvents) {
-    const detailsUrl = ROUTES.DEMANDE_PAGE_DETAILS(event.modificationRequestId)
+    const detailsUrl =
+      ['admin', 'porteur-projet', 'dreal', 'dgec-validateur', 'cre'].includes(event.variant) &&
+      ROUTES.DEMANDE_PAGE_DETAILS(event.modificationRequestId)
     switch (event.modificationType) {
       case 'actionnaire':
         propsArray.push({
@@ -36,7 +38,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'actionnaire',
           actionnaire: event.actionnaire,
-          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
+          ...(detailsUrl && { detailsUrl }),
         })
         break
       case 'producteur':
@@ -45,7 +47,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'producteur',
           producteur: event.producteur,
-          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
+          ...(detailsUrl && { detailsUrl }),
         })
         break
       case 'fournisseur':
@@ -54,7 +56,7 @@ export const extractModificationReceivedItemProps = (
           date: event.date,
           modificationType: 'fournisseur',
           fournisseurs: event.fournisseurs,
-          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
+          ...(detailsUrl && { detailsUrl }),
         })
         break
       case 'puissance':
@@ -64,7 +66,7 @@ export const extractModificationReceivedItemProps = (
           modificationType: 'puissance',
           puissance: event.puissance,
           unitePuissance: event.unitePuissance || '??',
-          ...(event.variant !== 'caisse-des-dépôts' && { detailsUrl }),
+          ...(detailsUrl && { detailsUrl }),
         })
         break
     }
