@@ -12,7 +12,7 @@ import { ChangerFournisseurPage } from '@views'
 
 v1Router.get(
   routes.CHANGER_FOURNISSEUR(),
-  ensureRole(['porteur-projet', 'cre']),
+  ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {
       user,

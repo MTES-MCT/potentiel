@@ -11,7 +11,7 @@ import { DemanderDelaiPage } from '@views'
 
 v1Router.get(
   routes.DEMANDER_DELAI(),
-  ensureRole(['porteur-projet', 'cre']),
+  ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {
       user,

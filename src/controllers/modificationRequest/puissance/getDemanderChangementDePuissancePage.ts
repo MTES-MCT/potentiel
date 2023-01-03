@@ -9,7 +9,7 @@ import { DemanderChangementPuissancePage } from '@views'
 
 v1Router.get(
   routes.DEMANDER_CHANGEMENT_PUISSANCE(),
-  ensureRole(['porteur-projet', 'cre']),
+  ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {
       user,
