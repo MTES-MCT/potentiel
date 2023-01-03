@@ -1,15 +1,7 @@
 import React from 'react'
 import { Request } from 'express'
 import routes from '@routes'
-import {
-  Astérisque,
-  Button,
-  ErrorBox,
-  FormulaireChampsObligatoireLégende,
-  Input,
-  PageTemplate,
-  SuccessBox,
-} from '@components'
+import { Button, ErrorBox, Input, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { dataId } from '../../../helpers/testId'
 
@@ -39,12 +31,10 @@ export const InviterDgecValidateur = ({
             method="post"
             className="flex flex-col gap-4"
           >
-            <FormulaireChampsObligatoireLégende className="text-right" />
+            <p className="text-sm italic">Tous les champs sont obligatoires</p>
             <input type="hidden" name="role" value="dgec-validateur" />
             <div>
-              <label htmlFor="email">
-                Adresse email :<Astérisque />
-              </label>
+              <label htmlFor="email">Adresse email :</label>
               <Input
                 type="email"
                 name="email"
@@ -54,9 +44,7 @@ export const InviterDgecValidateur = ({
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
                 className="mb-2"
               />
-              <label htmlFor="fonction">
-                Fonction :<Astérisque />
-              </label>
+              <label htmlFor="fonction">Fonction :</label>
               <Input
                 type="text"
                 name="fonction"
