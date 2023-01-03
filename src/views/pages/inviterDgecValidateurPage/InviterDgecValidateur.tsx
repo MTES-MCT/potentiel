@@ -1,7 +1,15 @@
 import React from 'react'
 import { Request } from 'express'
 import routes from '@routes'
-import { Button, ErrorBox, Input, PageTemplate, SuccessBox } from '@components'
+import {
+  Astérisque,
+  Button,
+  ErrorBox,
+  FormulaireChampsObligatoireLégende,
+  Input,
+  PageTemplate,
+  SuccessBox,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { dataId } from '../../../helpers/testId'
 
@@ -31,9 +39,12 @@ export const InviterDgecValidateur = ({
             method="post"
             className="flex flex-col gap-4"
           >
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <input type="hidden" name="role" value="dgec-validateur" />
             <div>
-              <label htmlFor="email">Adresse email :</label>
+              <label htmlFor="email">
+                Adresse email :<Astérisque />
+              </label>
               <Input
                 type="email"
                 name="email"
@@ -41,6 +52,17 @@ export const InviterDgecValidateur = ({
                 {...dataId('email-field')}
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
+                className="mb-2"
+              />
+              <label htmlFor="fonction">
+                Fonction :<Astérisque />
+              </label>
+              <Input
+                type="text"
+                name="fonction"
+                id="fonction"
+                required
+                {...(validationErrors && { error: validationErrors['fonction']?.toString() })}
               />
             </div>
             <Button type="submit" id="submit" {...dataId('submit-button')} className="m-auto">

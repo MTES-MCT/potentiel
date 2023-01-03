@@ -23,6 +23,10 @@ const schema = yup.object({
     .required('Ce champ est obligatoire')
     .typeError(`Le rôle n'est pas valide`),
   email: yup.string().email("L'email saisi est invalide").required('Ce champ est obligatoire'),
+  fonction: yup
+    .string()
+    .required('Ce champ est obligatoire')
+    .typeError("La fonction renseignée n'est pas valide"),
 })
 
 v1Router.post(
@@ -30,8 +34,10 @@ v1Router.post(
   vérifierPermissionUtilisateur(PermissionInviterDgecValidateur),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, schema)
-      .asyncAndThen(({ email, role }) =>
-        inviterUtilisateur({ email, role, invitéPar: request.user }).map(() => ({ email }))
+      .asyncAndThen(({ email, role, fonction }) =>
+        inviterUtilisateur({ email, role, invitéPar: request.user, fonction }).map(() => ({
+          email,
+        }))
       )
       .match(
         ({ email }) =>

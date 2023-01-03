@@ -4,6 +4,7 @@ import { UserRole } from '@modules/users'
 type Payload = {
   email: string
   role: UserRole
+  fonction?: string
 }
 
 export class UtilisateurInvité extends BaseDomainEvent<Payload> implements DomainEvent {

@@ -5,7 +5,7 @@ import { ProjectionEnEchec } from '@modules/shared'
 
 export default UsersProjector.on(UtilisateurInvité, async (évènement, transaction) => {
   const {
-    payload: { email, role },
+    payload: { email, role, fonction },
   } = évènement
   try {
     await Users.create(
@@ -13,6 +13,7 @@ export default UsersProjector.on(UtilisateurInvité, async (évènement, transac
         email,
         role,
         état: 'invité',
+        ...(fonction && { fonction }),
       },
       {
         transaction,

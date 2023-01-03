@@ -22,11 +22,12 @@ type Commande = {
   email: string
   role: UserRole
   invitéPar: { permissions: Array<Permission> }
+  fonction: string
 }
 
 export const makeInviterUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
-  ({ email, role, invitéPar }: Commande) =>
+  ({ email, role, invitéPar, fonction }: Commande) =>
     utilisateurRepo.transaction(
       new UniqueEntityID(email),
       (utilisateur) => {
@@ -49,6 +50,7 @@ export const makeInviterUtilisateur =
             payload: {
               email,
               role,
+              fonction,
             },
           })
         )
