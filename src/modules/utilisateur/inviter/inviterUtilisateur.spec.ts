@@ -1,35 +1,67 @@
 import { Utilisateur } from '../Utilisateur'
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates'
-import { makeInviterUtilisateur } from './inviterUtilisateur'
+import { makeInviterUtilisateur, PermissionInviterDgecValidateur } from './inviterUtilisateur'
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError'
 
 describe(`Inviter un utilisateur`, () => {
-  it(`Lorsqu'on invite un utilisateur avec un role
+  describe(`Inviter un utilisateur`, () => {
+    it(`Lorsqu'on invite un utilisateur avec un role
       Alors l'utilisateur devrait être invité`, async () => {
-    const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur)
-    const publishToEventStore = jest.fn()
+      const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur)
+      const publishToEventStore = jest.fn()
 
-    const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore })
+      const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore })
 
-    await inviterUtilisateur({
-      email: 'utilisateur@email.com',
-      role: 'cre',
-      invitéPar: { permissions: [] },
-    })
-
-    expect(publishToEventStore).toHaveBeenCalledWith(
-      expect.objectContaining({
-        aggregateId: 'utilisateur@email.com',
-        type: 'UtilisateurInvité',
-        payload: {
-          email: 'utilisateur@email.com',
-          role: 'cre',
-        },
+      await inviterUtilisateur({
+        email: 'utilisateur@email.com',
+        role: 'cre',
+        invitéPar: { permissions: [] },
       })
-    )
+
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          aggregateId: 'utilisateur@email.com',
+          type: 'UtilisateurInvité',
+          payload: {
+            email: 'utilisateur@email.com',
+            role: 'cre',
+          },
+        })
+      )
+    })
   })
+
+  describe(`Inviter un validateur du bureau de la DGEC`, () => {
+    it(`Lorsqu'on invite un utilisateur avec un role 'dgec-validateur
+        Alors l'utilisateur devrait être invité avec une fonction`, async () => {
+      const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur)
+      const publishToEventStore = jest.fn()
+
+      const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore })
+
+      await inviterUtilisateur({
+        email: 'utilisateur@email.com',
+        role: 'dgec-validateur',
+        fonction: 'La fonction du validateur',
+        invitéPar: { permissions: [PermissionInviterDgecValidateur] },
+      })
+
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          aggregateId: 'utilisateur@email.com',
+          type: 'UtilisateurInvité',
+          payload: {
+            email: 'utilisateur@email.com',
+            role: 'dgec-validateur',
+            fonction: 'La fonction du validateur',
+          },
+        })
+      )
+    })
+  })
+
   describe(`Impossible d'inviter 2 fois le même utilisateur`, () => {
     it(`Lorsqu'on invite un utilisateur déjà invité
       Alors aucun évènement ne devrait être émis
@@ -98,6 +130,7 @@ describe(`Inviter un utilisateur`, () => {
       const invitation = await inviterUtilisateur({
         email: 'utilisateur@email.com',
         role: 'dgec-validateur',
+        fonction: 'La fonction',
         invitéPar: {
           permissions: [{ nom: 'une-autre-permission', description: 'Une autre permission' }],
         },
