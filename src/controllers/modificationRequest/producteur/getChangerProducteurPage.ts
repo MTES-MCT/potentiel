@@ -12,7 +12,7 @@ import { ChangerProducteurPage } from '@views'
 
 v1Router.get(
   routes.CHANGER_PRODUCTEUR(),
-  ensureRole(['porteur-projet']),
+  ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
     const {
       user,

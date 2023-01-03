@@ -134,14 +134,8 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                       ? modificationRequest?.justification
                       : null}
                   </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    {modificationRequest.attachmentFile ? (
+                  <div className="italic leading-normal text-xs">
+                    {modificationRequest.attachmentFile && (
                       <a
                         href={ROUTES.DOWNLOAD_PROJECT_FILE(
                           modificationRequest.attachmentFile.id,
@@ -152,7 +146,7 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                       >
                         Télécharger la pièce-jointe
                       </a>
-                    ) : null}
+                    )}
                   </div>
                 </td>
                 <td

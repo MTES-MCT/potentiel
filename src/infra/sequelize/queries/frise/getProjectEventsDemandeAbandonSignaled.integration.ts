@@ -61,7 +61,7 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
               signaledBy: 'user-id',
               status: 'acceptée',
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
-              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'].includes(role) && {
+              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre'].includes(role) && {
                 attachment: { id: 'file-id', name: 'file-name' },
               }),
             },

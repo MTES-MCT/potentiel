@@ -64,7 +64,7 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
               status: 'acceptée',
               oldCompletionDueOn: new Date('2024-09-31').getTime(),
               newCompletionDueOn: new Date('2025-01-31').getTime(),
-              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet'].includes(role) && {
+              ...(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre'].includes(role) && {
                 attachment: { id: 'file-id', name: 'file-name' },
               }),
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),

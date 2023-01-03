@@ -151,7 +151,7 @@ const Details = (
   }
 
   function showDemandeButton() {
-    if (!authority || ['admin', 'dgec-validateur', 'porteur-projet'].includes(role)) {
+    if (!authority || ['admin', 'dgec-validateur', 'porteur-projet', 'cre'].includes(role)) {
       return true
     }
 
