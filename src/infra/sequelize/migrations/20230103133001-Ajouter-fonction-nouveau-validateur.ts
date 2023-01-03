@@ -13,9 +13,8 @@ module.exports = {
     try {
       const { User, EventStore } = models
 
-      const userId = 'e3b6e352-da66-493a-9bef-9a4bd172bf79'
+      const userId = '1a51e953-9f2a-4d36-8feb-4a0c180fe6e2'
 
-      // Ajout des événements dans l'EventStore
       const utilisateurCible = await User.findOne(
         { where: { id: userId }, attributes: ['email'] },
         { transaction }
@@ -24,10 +23,10 @@ module.exports = {
       if (!utilisateurCible) {
         logger.error(`L'utilisateur cible avec l'id ${userId} n'a pas été trouvé`)
       } else {
-        // Mise à jour de la projection Users
         await User.update(
           {
-            fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
+            fonction:
+              'Adjointe au sous-directeur du système électrique et des énergies renouvelables',
           },
           { where: { id: userId }, transaction }
         )
@@ -42,7 +41,8 @@ module.exports = {
               payload: {
                 userId,
                 email,
-                fonction: 'Sous-directeur du système électrique et des énergies renouvelables',
+                fonction:
+                  'Adjointe au sous-directeur du système électrique et des énergies renouvelables',
               },
             })
           ),
@@ -57,12 +57,5 @@ module.exports = {
     }
   },
 
-  async down(queryInterface, Sequelize) {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  },
+  async down(queryInterface, Sequelize) {},
 }
