@@ -9,7 +9,6 @@ import {
   RésultatSoumissionFormulaireProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
-import { dataId } from '../../../helpers/testId'
 
 type InviterDgecValidateurProps = {
   request: Request
@@ -44,14 +43,26 @@ export const InviterDgecValidateur = ({
                 type="email"
                 name="email"
                 id="email"
-                {...dataId('email-field')}
                 required
                 className="mb-2"
+                {...(résultatSoumissionFormulaire?.type === 'échec' &&
+                  résultatSoumissionFormulaire.erreursDeValidation && {
+                    error: résultatSoumissionFormulaire.erreursDeValidation['email'],
+                  })}
               />
               <label htmlFor="fonction">Fonction :</label>
-              <Input type="text" name="fonction" id="fonction" required />
+              <Input
+                type="text"
+                name="fonction"
+                id="fonction"
+                required
+                {...(résultatSoumissionFormulaire?.type === 'échec' &&
+                  résultatSoumissionFormulaire.erreursDeValidation && {
+                    error: résultatSoumissionFormulaire.erreursDeValidation['fonction'],
+                  })}
+              />
             </div>
-            <Button type="submit" id="submit" {...dataId('submit-button')} className="m-auto">
+            <Button type="submit" id="submit" className="m-auto">
               Inviter
             </Button>
           </form>
