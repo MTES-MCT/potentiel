@@ -1,6 +1,7 @@
 import {
   Button,
   ErrorBox,
+  Link,
   ModificationRequestActionTitles,
   PageTemplate,
   ProjectInfo,
@@ -60,13 +61,12 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
             {responseFile && status !== 'demande confirmée' && (
               <div>
-                <a
+                <Link
                   href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
                   download={true}
-                  {...dataId('requestList-item-download-link')}
                 >
                   Télécharger le courrier de réponse
-                </a>
+                </Link>
               </div>
             )}
             {status === 'en attente de confirmation' && user.role === 'porteur-projet' && (

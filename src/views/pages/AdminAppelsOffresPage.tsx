@@ -2,7 +2,7 @@ import { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
-import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
+import { Button, ErrorBox, Link, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminAppelOffreProps = {
@@ -30,9 +30,9 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
             style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
           >
             <h4>Mettre à jour les appels d'offres</h4>
-            <a href={routes.EXPORT_AO_CSV} download>
+            <Link href={routes.EXPORT_AO_CSV} download>
               Télécharger les données actuelles
-            </a>
+            </Link>
             <div className="form__group">
               <label htmlFor="appelsOffresFile">Fichier des appels d'offres</label>
               <input type="file" name="appelsOffresFile" id="appelsOffresFile" />
@@ -50,9 +50,9 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
           <h4>Mettre à jour les périodes</h4>
-          <a href={routes.EXPORT_PERIODE_CSV} download>
+          <Link href={routes.EXPORT_PERIODE_CSV} download>
             Télécharger les données actuelles
-          </a>
+          </Link>
           <div className="form__group">
             <label htmlFor="periodesFile">Fichier des périodes</label>
             <input type="file" name="periodesFile" id="periodesFile" />

@@ -8,6 +8,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Astérisque,
   PaperClipIcon,
+  Link,
 } from '@components'
 
 type AttachFileProps = {
@@ -63,7 +64,7 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
               <input key={`file_${i}`} type="file" name="file" id="file" />
             ))}
-            <a onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</a>
+            <Link onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</Link>
           </div>
           <div className="text-sm mt-4">
             Les fichiers attachés sont visibles de l'administration et du porteur de projet.
@@ -71,14 +72,14 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           <Button className="mt-2 mr-2" type="submit" name="submit">
             Envoyer
           </Button>
-          <a
+          <Link
             onClick={() => {
               setFormVisible(false)
               setFileCount(1)
             }}
           >
             Annuler
-          </a>
+          </Link>
         </form>
       )}
     </div>

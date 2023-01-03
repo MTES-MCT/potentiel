@@ -5,7 +5,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox } from '@components'
+import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
@@ -145,11 +145,11 @@ export const GarantiesFinancieres = ({
                 </div>
               </div>
             </div>
-            {hasFilters ? (
-              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+            {hasFilters && (
+              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
-              </a>
-            ) : null}
+              </Link>
+            )}
 
             <GarantiesFinancieresFilter
               defaultValue={garantiesFinancieres}

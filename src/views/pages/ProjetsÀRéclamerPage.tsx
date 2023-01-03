@@ -4,7 +4,7 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { ErrorBox, MissingOwnerProjectList, PageTemplate, SuccessBox } from '@components'
+import { ErrorBox, Link, MissingOwnerProjectList, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface ProjetsÀRéclamerProps {
@@ -169,11 +169,11 @@ export const ProjetsÀRéclamer = ({
                 </div>
               </div>
             </div>
-            {hasFilters ? (
-              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+            {hasFilters && (
+              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
-              </a>
-            ) : null}
+              </Link>
+            )}
           </form>
         </div>
         {success && <SuccessBox title={success} />}

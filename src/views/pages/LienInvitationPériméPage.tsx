@@ -1,4 +1,4 @@
-import { PageTemplate } from '@components'
+import { Link, PageTemplate } from '@components'
 import React from 'react'
 import { Request } from 'express'
 import { hydrateOnClient } from '../helpers'
@@ -21,7 +21,10 @@ export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps)
             <p>
               N'hésitez pas à demander à la personne qui vous a invité de vous envoyer une nouvelle
               invitation ou à nous contacter sur{' '}
-              <a href="mailto:contact@potentiel.beta.gouv.fr">contact@potentiel.beta.gouv.fr</a>.
+              <Link href="mailto:contact@potentiel.beta.gouv.fr">
+                contact@potentiel.beta.gouv.fr
+              </Link>
+              .
             </p>
           </div>
         </section>

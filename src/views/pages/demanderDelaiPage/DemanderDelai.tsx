@@ -12,6 +12,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  ExternalLink,
 } from '@components'
 import routes from '@routes'
 import { Project, ProjectAppelOffre } from '@entities'
@@ -130,9 +131,9 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                       <label htmlFor="numeroGestionnaire">Identifiant gestionnaire de réseau</label>
                       <div className="italic">
                         Cette indication permettra un traitement plus rapide de votre demande.{' '}
-                        <a href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                        <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
                           Où trouver mon numéro ?
-                        </a>
+                        </ExternalLink>
                       </div>
                       <input
                         type="text"

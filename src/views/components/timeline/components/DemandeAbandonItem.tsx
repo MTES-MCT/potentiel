@@ -10,6 +10,7 @@ import {
   PastIcon,
   UnvalidatedStepIcon,
 } from '.'
+import { Link } from '@components'
 
 type DemandeAbandonItemProps = DemandeAbandonDTO
 
@@ -43,7 +44,7 @@ export const DemandeAbandonItem = (props: DemandeAbandonItemProps) => {
         </div>
         <>
           <ItemTitle title={titre} />
-          <p className="p-0 m-0">{demandeUrl && <a href={demandeUrl}>Voir la demande</a>}</p>
+          <p className="p-0 m-0">{demandeUrl && <Link href={demandeUrl}>Voir la demande</Link>}</p>
         </>
       </ContentArea>
     </>

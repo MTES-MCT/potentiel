@@ -17,6 +17,7 @@ import {
   Button,
   Input,
   Label,
+  Link,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
@@ -253,11 +254,11 @@ export const ListeProjets = ({
                   )}
               </div>
             </div>
-            {hasFilters ? (
-              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+            {hasFilters && (
+              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
-              </a>
-            ) : null}
+              </Link>
+            )}
           </form>
           {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
             <div>

@@ -5,7 +5,7 @@ import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { RequestList, PageTemplate, SuccessBox, ErrorBox, InputCheckbox } from '@components'
+import { RequestList, PageTemplate, SuccessBox, ErrorBox, InputCheckbox, Link } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
 
@@ -204,11 +204,11 @@ export const ModificationRequestList = ({
               </div>
             </div>
 
-            {hasFilters ? (
-              <a style={{ marginTop: 10 }} href="#" {...dataId('resetSelectors')}>
+            {hasFilters && (
+              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
-              </a>
-            ) : null}
+              </Link>
+            )}
 
             {userIs(['admin', 'dgec-validateur'])(request.user) && (
               <div className="flex flex-row mt-5">

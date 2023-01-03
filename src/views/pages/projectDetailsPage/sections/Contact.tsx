@@ -2,7 +2,7 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button, Input, Label } from '@components'
+import { Button, Input, Label, Link } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Section } from '../components'
@@ -47,7 +47,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
           {fullName && `${fullName} - `}
           {email}
           {id !== user.id && (
-            <a
+            <Link
               href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
                 projectId: project.id,
                 userId: id,
@@ -56,7 +56,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
               data-confirm={`Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
             >
               retirer
-            </a>
+            </Link>
           )}
         </li>
       ))}
@@ -70,9 +70,9 @@ type InvitationFormProps = {
 }
 const InvitationForm = ({ project }: InvitationFormProps) => (
   <div {...dataId('invitation-form')}>
-    <a href="#" {...dataId('invitation-form-show-button')} className="invitationFormToggle">
+    <Link href="#" {...dataId('invitation-form-show-button')} className="invitationFormToggle">
       Donner accès à un autre utilisateur
-    </a>
+    </Link>
     <form
       action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
       method="post"
@@ -94,9 +94,9 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
       >
         Accorder les droits sur ce projet
       </Button>
-      <a href="#" {...dataId('invitation-form-hide-button')}>
+      <Link href="#" {...dataId('invitation-form-hide-button')}>
         Annuler
-      </a>
+      </Link>
     </form>
   </div>
 )

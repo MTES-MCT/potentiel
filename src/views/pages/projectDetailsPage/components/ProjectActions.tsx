@@ -1,4 +1,4 @@
-import { DownloadLinkButton, SecondaryLinkButton, InboxInIcon } from '@components'
+import { DownloadLinkButton, SecondaryLinkButton, InboxInIcon, Link } from '@components'
 import { User } from '@entities'
 import { Menu, Transition } from '@headlessui/react'
 import { ProjectDataForProjectPage } from '@modules/project'
@@ -31,7 +31,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
     >
       <Menu.Items className="absolute w-full z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0">
         <Menu.Item key={`signaler_demande_delai`}>
-          <a
+          <Link
             href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
@@ -42,10 +42,10 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
             >
               Demande de délai
             </div>
-          </a>
+          </Link>
         </Menu.Item>
         <Menu.Item key={`signaler_demande_abandon`}>
-          <a
+          <Link
             href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
@@ -56,11 +56,11 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
             >
               Demande d'abandon
             </div>
-          </a>
+          </Link>
         </Menu.Item>
         {getProjectStatus(project) === 'éliminé' && (
           <Menu.Item key={`signaler_demande_recours`}>
-            <a
+            <Link
               href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
               className="no-underline bg-none hover:bg-none"
             >
@@ -71,7 +71,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
               >
                 Demande de recours
               </div>
-            </a>
+            </Link>
           </Menu.Item>
         )}
       </Menu.Items>
@@ -119,7 +119,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             className="absolute xs:left-0 lg:right-0 z-10 lg:origin-top-right origin-top-left bg-white divide-y divide-gray-400 border-solid border border-blue-france-sun-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border-t-0"
           >
             <Menu.Item key={`action_demande_delai`}>
-              <a
+              <Link
                 href={routes.DEMANDER_DELAI(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
@@ -130,11 +130,11 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                 >
                   Demander un délai
                 </div>
-              </a>
+              </Link>
             </Menu.Item>
             {project.appelOffre.type !== 'eolien' && (
               <Menu.Item key={`action_changer_producteur`}>
-                <a
+                <Link
                   href={routes.CHANGER_PRODUCTEUR(project.id)}
                   className="no-underline bg-none hover:bg-none"
                 >
@@ -145,11 +145,11 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                   >
                     Changer de producteur
                   </div>
-                </a>
+                </Link>
               </Menu.Item>
             )}
             <Menu.Item key={`action_changer_fournisseur`}>
-              <a
+              <Link
                 href={routes.CHANGER_FOURNISSEUR(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
@@ -160,10 +160,10 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                 >
                   Changer de fournisseur
                 </div>
-              </a>
+              </Link>
             </Menu.Item>
             <Menu.Item key={`action_changer_actionnaire`}>
-              <a
+              <Link
                 href={routes.CHANGER_ACTIONNAIRE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
@@ -174,10 +174,10 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                 >
                   Changer d'actionnaire
                 </div>
-              </a>
+              </Link>
             </Menu.Item>
             <Menu.Item key={`action_changer_puissance`}>
-              <a
+              <Link
                 href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
@@ -188,10 +188,10 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                 >
                   Changer de puissance
                 </div>
-              </a>
+              </Link>
             </Menu.Item>
             <Menu.Item key={`action_demande_abandon`}>
-              <a
+              <Link
                 href={routes.DEMANDER_ABANDON(project.id)}
                 className="no-underline bg-none hover:bg-none"
               >
@@ -202,7 +202,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
                 >
                   Demander un abandon
                 </div>
-              </a>
+              </Link>
             </Menu.Item>
           </Menu.Items>
         </Transition>
