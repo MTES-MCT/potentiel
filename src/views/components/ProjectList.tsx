@@ -77,7 +77,8 @@ type ProjectListItem = {
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
-  garantiesFinancières: {
+  garantiesFinancières?: {
+    id: string
     dateEnvoi?: Date
     statut: 'en attente' | 'à traiter' | 'validé'
     fichier?: {
