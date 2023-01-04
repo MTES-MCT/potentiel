@@ -9,7 +9,11 @@ import { ProjectAppelOffre } from '@entities'
 type Props = {
   project: {
     id: string
-    appelOffre: ProjectAppelOffre
+    appelOffre: {
+      type: ProjectAppelOffre['type']
+      unitePuissance: ProjectAppelOffre['unitePuissance']
+      periode: { type: ProjectAppelOffre['periode']['type'] }
+    }
     isClasse: boolean
     isAbandoned: boolean
     isLegacy: boolean

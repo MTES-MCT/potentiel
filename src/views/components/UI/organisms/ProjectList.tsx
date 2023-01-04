@@ -32,7 +32,11 @@ export type ProjectListItem = {
   nomRepresentantLegal: string
   email: string
   puissance: string
-  appelOffre: ProjectAppelOffre
+  appelOffre: {
+    type: ProjectAppelOffre['type']
+    unitePuissance: ProjectAppelOffre['unitePuissance']
+    periode: { type: ProjectAppelOffre['periode']['type'] }
+  }
   prixReference: number
   evaluationCarbone: number
   classe: 'Classé' | 'Eliminé'
