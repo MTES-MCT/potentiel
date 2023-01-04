@@ -6,7 +6,7 @@ import { ChevronDownIcon, SecondaryButton } from './UI'
 import { Link } from '@components'
 import { ProjectAppelOffre } from '@entities'
 
-interface Props {
+type Props = {
   project: {
     id: string
     appelOffre: ProjectAppelOffre

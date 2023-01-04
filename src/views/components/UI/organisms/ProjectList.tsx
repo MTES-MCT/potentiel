@@ -2,8 +2,8 @@ import { ProjectAppelOffre } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
 import React, { ReactNode } from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { PaginatedList } from '../../types'
+import { formatDate } from '../../../../helpers/formatDate'
+import { PaginatedList } from '../../../../types'
 import {
   ProjectActions,
   PowerIcon,
@@ -20,6 +20,37 @@ import {
   PaginationPanel,
   InputCheckbox,
 } from '@components'
+
+export type ProjectListItem = {
+  id: string
+  nomProjet: string
+  potentielIdentifier: string
+  communeProjet: string
+  departementProjet: string
+  regionProjet: string
+  nomCandidat: string
+  nomRepresentantLegal: string
+  email: string
+  puissance: string
+  appelOffre: ProjectAppelOffre
+  prixReference: number
+  evaluationCarbone: number
+  classe: 'Classé' | 'Eliminé'
+  abandonedOn: number
+  notifiedOn: number
+  isFinancementParticipatif: boolean
+  isInvestissementParticipatif: boolean
+  actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
+  garantiesFinancières?: {
+    id: string
+    dateEnvoi?: Date
+    statut: 'en attente' | 'à traiter' | 'validé'
+    fichier?: {
+      id: string
+      filename: string
+    }
+  }
+}
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -55,37 +86,6 @@ const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRo
   ].includes(role)
 
   return <Badge type="success">Classé {type && afficherIPFPGPFC ? `(${type})` : ''}</Badge>
-}
-
-type ProjectListItem = {
-  id: string
-  nomProjet: string
-  potentielIdentifier: string
-  communeProjet: string
-  departementProjet: string
-  regionProjet: string
-  nomCandidat: string
-  nomRepresentantLegal: string
-  email: string
-  puissance: string
-  appelOffre: ProjectAppelOffre
-  prixReference: number
-  evaluationCarbone: number
-  classe: 'Classé' | 'Eliminé'
-  abandonedOn: number
-  notifiedOn: number
-  isFinancementParticipatif: boolean
-  isInvestissementParticipatif: boolean
-  actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
-  garantiesFinancières?: {
-    id: string
-    dateEnvoi?: Date
-    statut: 'en attente' | 'à traiter' | 'validé'
-    fichier?: {
-      id: string
-      filename: string
-    }
-  }
 }
 
 type Props = {

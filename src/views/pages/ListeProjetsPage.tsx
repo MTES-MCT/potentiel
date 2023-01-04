@@ -18,12 +18,13 @@ import {
   Input,
   Label,
   Link,
+  ProjectListItem,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type ListeProjetsProps = {
   request: Request
-  projects: PaginatedList<Project>
+  projects: PaginatedList<ProjectListItem>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>
@@ -362,7 +363,7 @@ export const ListeProjets = ({
   )
 }
 
-const getProjectsCount = (projects: PaginatedList<Project>): number =>
+const getProjectsCount = (projects: PaginatedList<ProjectListItem>): number =>
   Array.isArray(projects) ? projects.length : projects.itemCount
 
 hydrateOnClient(ListeProjets)
