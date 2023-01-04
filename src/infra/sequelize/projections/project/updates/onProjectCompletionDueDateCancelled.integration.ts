@@ -32,6 +32,6 @@ describe('project.onProjectCompletionDueDateCancelled', () => {
     )
 
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.completionDueOn).toEqual(0)
+    expect(updatedProject?.completionDueOn).toEqual(0)
   })
 })

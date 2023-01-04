@@ -26,6 +26,6 @@ describe('project.onCovidDelayGranted', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.completionDueOn).toEqual(newCompletionDueOn)
+    expect(updatedProject?.completionDueOn).toEqual(newCompletionDueOn)
   })
 })

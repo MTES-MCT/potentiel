@@ -32,7 +32,7 @@ describe('project.onContratEnedisMisAJour', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.contratEnedis).toMatchObject({
+    expect(updatedProject?.contratEnedis).toMatchObject({
       numero: '123',
     })
   })

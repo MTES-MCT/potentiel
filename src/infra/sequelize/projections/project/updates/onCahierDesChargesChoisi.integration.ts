@@ -64,7 +64,7 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
       )
 
       const projetActuel = await Project.findByPk(projetId)
-      expect(projetActuel.cahierDesChargesActuel).toEqual(cahierDesChargesAttendu)
+      expect(projetActuel?.cahierDesChargesActuel).toEqual(cahierDesChargesAttendu)
     })
   }
 })

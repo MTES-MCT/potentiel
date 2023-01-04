@@ -23,7 +23,7 @@ describe('project.onProjectDCRSubmitted', () => {
 
   it('should update project.numeroGestionnaire with numeroDossier if provided', async () => {
     const originalProject = await ProjectModel.findByPk(projectId)
-    expect(originalProject.numeroGestionnaire).toEqual(null)
+    expect(originalProject?.numeroGestionnaire).toEqual(null)
 
     await onProjectDCRSubmitted(models)(
       new ProjectDCRSubmitted({
@@ -38,6 +38,6 @@ describe('project.onProjectDCRSubmitted', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.numeroGestionnaire).toEqual('numero dossier')
+    expect(updatedProject?.numeroGestionnaire).toEqual('numero dossier')
   })
 })

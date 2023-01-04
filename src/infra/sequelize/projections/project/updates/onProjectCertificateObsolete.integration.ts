@@ -35,6 +35,6 @@ describe('project.onProjectCertificateObsolete', () => {
     )
 
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.certificateFileId).toBeNull()
+    expect(updatedProject?.certificateFileId).toBeNull()
   })
 })

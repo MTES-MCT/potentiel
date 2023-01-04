@@ -23,7 +23,7 @@ describe('project.onProjectAbandoned', () => {
     await Project.bulkCreate(fakeProjects)
 
     const originalProject = await Project.findByPk(projectId)
-    expect(originalProject.abandonedOn).toEqual(0)
+    expect(originalProject?.abandonedOn).toEqual(0)
 
     await onProjectAbandoned(models)(
       new ProjectAbandoned({
@@ -41,12 +41,12 @@ describe('project.onProjectAbandoned', () => {
 
   it('should set project.abandonedOn', async () => {
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.abandonedOn).toEqual(1234)
+    expect(updatedProject?.abandonedOn).toEqual(1234)
   })
 
   it('should reset project dcrDueOn and completionDueOn', async () => {
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.dcrDueOn).toEqual(0)
-    expect(updatedProject.completionDueOn).toEqual(0)
+    expect(updatedProject?.dcrDueOn).toEqual(0)
+    expect(updatedProject?.completionDueOn).toEqual(0)
   })
 })

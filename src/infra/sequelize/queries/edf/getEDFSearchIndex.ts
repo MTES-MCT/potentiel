@@ -4,7 +4,7 @@ import models from '../../models'
 const { Project } = models
 
 export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
-  const projects = await Project.findAll({
+  const projectsWithoutSiret = await Project.findAll({
     attributes: [
       ...METADATA_FIELDS.filter((field) => field !== 'siret'),
       ...INDEXED_FIELDS,
@@ -14,7 +14,9 @@ export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
   })
 
   const findByNumeroContrat: SearchIndex['findByNumeroContrat'] = (numeroContratEDF) => {
-    const result = projects.find((project) => project.contratEDF?.numero === numeroContratEDF)
+    const result = projectsWithoutSiret.find(
+      (project) => project.contratEDF?.numero === numeroContratEDF
+    )
 
     if (!result) return null
 
@@ -25,9 +27,15 @@ export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
     }
   }
 
-  for (const project of projects) {
-    project.siret = project.details?.['Numéro SIREN ou SIRET*']?.replace(/ /g, '').slice(0, 6)
-  }
+  const projects = projectsWithoutSiret.reduce((prev, current) => {
+    return [
+      ...prev,
+      {
+        ...current,
+        siret: current.details?.['Numéro SIREN ou SIRET*']?.replace(/ /g, '').slice(0, 6),
+      },
+    ]
+  }, [])
 
   const index = new MiniSearch({
     fields: [...INDEXED_FIELDS], // fields to index for full-text search

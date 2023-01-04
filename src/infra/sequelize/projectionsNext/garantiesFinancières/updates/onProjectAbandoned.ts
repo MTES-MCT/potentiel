@@ -13,7 +13,7 @@ export default GarantiesFinancièresProjector.on(
 
     const projet = await Project.findOne({ where: { id: projetId }, transaction })
 
-    if (projet.abandonedOn === 0) {
+    if (projet?.abandonedOn === 0) {
       return
     }
 

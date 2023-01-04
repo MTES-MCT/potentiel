@@ -56,13 +56,11 @@ describe('project.onProjectCertificate', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.certificateFileId).toEqual(certificateFile2)
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile2)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
   })
 
   it('should update project.certificateFileId on ProjectCertificateRegenerated', async () => {
@@ -77,13 +75,11 @@ describe('project.onProjectCertificate', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.certificateFileId).toEqual(certificateFile1)
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile1)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
   })
 
   it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
@@ -98,12 +94,10 @@ describe('project.onProjectCertificate', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.certificateFileId).toEqual(certificateFile1)
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile1)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.certificateFileId).toEqual(null)
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
   })
 })

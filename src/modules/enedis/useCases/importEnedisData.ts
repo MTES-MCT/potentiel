@@ -15,7 +15,7 @@ type SearchResult = {
 }
 
 export type ContratEnedis = {
-  numero: string
+  numero?: string
 }
 
 export type SearchIndex = {
@@ -56,7 +56,10 @@ export const makeImportEnedisData =
       if (projectForNumeroContrat) {
         const { projectId } = projectForNumeroContrat
 
-        const changes = shallowDelta(projectForNumeroContrat, contractDataFromLine)
+        const changes = shallowDelta(projectForNumeroContrat, {
+          ...contractDataFromLine,
+          projectId,
+        })
 
         // grab info for this contract
         if (changes) {

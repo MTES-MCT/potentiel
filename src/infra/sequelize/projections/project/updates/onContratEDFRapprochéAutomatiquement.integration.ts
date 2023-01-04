@@ -35,7 +35,7 @@ describe('project.onContratEDFRapprochéAutomatiquement', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.contratEDF).toMatchObject({
+    expect(updatedProject?.contratEDF).toMatchObject({
       numero: '123',
       type: 'type',
       dateEffet: '3/23/21',

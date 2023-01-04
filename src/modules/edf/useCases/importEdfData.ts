@@ -15,13 +15,13 @@ type SearchResult = {
 }
 
 export type ContratEDF = {
-  numero: string
-  type: string
-  dateEffet: string
-  dateSignature: string
-  dateMiseEnService: string
-  duree: string
-  statut: string
+  numero?: string
+  type?: string
+  dateEffet?: string
+  dateSignature?: string
+  dateMiseEnService?: string
+  duree?: string
+  statut?: string
 }
 
 export type SearchIndex = {
@@ -77,7 +77,10 @@ export const makeImportEdfData =
       if (projectForNumeroContrat) {
         const { projectId } = projectForNumeroContrat
 
-        const changes = shallowDelta(projectForNumeroContrat, contractDataFromLine)
+        const changes = shallowDelta(projectForNumeroContrat, {
+          ...contractDataFromLine,
+          projectId,
+        })
 
         // grab info for this contract
         if (changes) {

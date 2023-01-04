@@ -26,7 +26,7 @@ describe('project.onProjectPuissanceUpdated', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.puissance).toEqual(newPuissance)
-    expect(updatedProject.puissanceInitiale).toEqual(100)
+    expect(updatedProject?.puissance).toEqual(newPuissance)
+    expect(updatedProject?.puissanceInitiale).toEqual(100)
   })
 })

@@ -38,12 +38,10 @@ describe('project.onProjectDCRDueDateSet', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.dcrDueOn).toEqual(12345)
+    expect(updatedProject?.dcrDueOn).toEqual(12345)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.dcrDueOn).toEqual(0)
+    expect(nonUpdatedProject?.dcrDueOn).toEqual(0)
   })
 })

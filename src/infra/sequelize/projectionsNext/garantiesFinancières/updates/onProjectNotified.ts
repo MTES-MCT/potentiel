@@ -21,7 +21,7 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
 
   const projet = await Project.findOne({ where: { id: projetId }, transaction })
 
-  if (projet.classe === 'Eliminé') {
+  if (projet?.classe === 'Eliminé') {
     return
   }
 

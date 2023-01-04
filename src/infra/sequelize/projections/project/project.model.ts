@@ -6,6 +6,8 @@ import {
   Model,
 } from 'sequelize'
 import { CahierDesChargesRéférence, cahiersDesChargesRéférences, Technologie } from '@entities'
+import { ContratEDF } from '@modules/edf'
+import { ContratEnedis } from '@modules/enedis'
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: CreationOptional<string>
@@ -47,8 +49,8 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   potentielIdentifier: string
   technologie?: Technologie
   actionnariat: string
-  contratEDF?: JSON
-  contratEnedis?: JSON
+  contratEDF?: ContratEDF
+  contratEnedis?: ContratEnedis
   dateMiseEnService?: Date
   dateFileAttente?: Date
   soumisAuxGF: boolean
