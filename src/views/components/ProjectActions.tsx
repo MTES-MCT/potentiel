@@ -22,7 +22,7 @@ interface Props {
     numeroCRE: string
     email: string
     nomProjet: string
-    gf?: {
+    garantiesFinancières?: {
       id: string
       status: 'à traiter' | 'validé'
     }
