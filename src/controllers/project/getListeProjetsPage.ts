@@ -2,7 +2,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listerProjetsPourAdmin, listProjects } from '@config'
+import { listerProjetsPourAdmin, listerProjetsPourDreal, listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
@@ -55,9 +55,19 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     garantiesFinancieres,
   }
 
-  const projects = ['admin', 'dgec-validateur'].includes(user.role)
-    ? await listerProjetsPourAdmin(filtres)
-    : await listProjects(filtres)
+  let projects
+
+  switch (user.role) {
+    case 'admin':
+    case 'dgec-validateur':
+      projects = await listerProjetsPourAdmin(filtres)
+      break
+    case 'dreal':
+      projects = await listerProjetsPourDreal(filtres)
+      break
+    default:
+      projects = await listProjects(filtres)
+  }
 
   if (pageSize) {
     // Save the pageSize in a cookie
