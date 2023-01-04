@@ -55,60 +55,57 @@ type ProjectListItem = {
   }
 }
 
-export const makeListerProjetsPourDreal = ({
-  searchForRegions,
-  findAllForRegions,
-  findDrealsForUser,
-}: Dépendances) => {
-  return async function listProjects({
+const construireQuery = (filtres) => {
+  const query: ProjectFilters = {
+    isNotified: true,
+  }
+
+  if (filtres.appelOffreId) {
+    query.appelOffreId = filtres.appelOffreId
+
+    if (filtres.periodeId) {
+      query.periodeId = filtres.periodeId
+    }
+
+    if (filtres.familleId) {
+      query.familleId = filtres.familleId
+    }
+  }
+
+  switch (filtres.classement) {
+    case 'classés':
+      query.isClasse = true
+      query.isAbandoned = false
+      break
+    case 'éliminés':
+      query.isClasse = false
+      query.isAbandoned = false
+      break
+    case 'abandons':
+      query.isAbandoned = true
+      break
+  }
+
+  if (filtres.reclames) {
+    query.isClaimed = filtres.reclames === 'réclamés'
+  }
+
+  if (filtres.garantiesFinancieres) {
+    query.garantiesFinancieres = filtres.garantiesFinancieres
+  }
+
+  return query
+}
+
+export const makeListerProjetsPourDreal =
+  ({ searchForRegions, findAllForRegions, findDrealsForUser }: Dépendances) =>
+  async ({
     user,
-    appelOffreId,
-    periodeId,
-    familleId,
     pagination,
     recherche,
-    classement,
-    reclames,
-    garantiesFinancieres,
-  }: Filtres): Promise<PaginatedList<ProjectListItem>> {
-    const query: ProjectFilters = {
-      isNotified: true,
-    }
-
-    if (appelOffreId) {
-      query.appelOffreId = appelOffreId
-
-      if (periodeId) {
-        query.periodeId = periodeId
-      }
-
-      if (familleId) {
-        query.familleId = familleId
-      }
-    }
-
-    switch (classement) {
-      case 'classés':
-        query.isClasse = true
-        query.isAbandoned = false
-        break
-      case 'éliminés':
-        query.isClasse = false
-        query.isAbandoned = false
-        break
-      case 'abandons':
-        query.isAbandoned = true
-        break
-    }
-
-    if (reclames) {
-      query.isClaimed = reclames === 'réclamés'
-    }
-
-    if (garantiesFinancieres) {
-      query.garantiesFinancieres = garantiesFinancieres
-    }
-
+    ...filtresPourQuery
+  }: Filtres): Promise<PaginatedList<ProjectListItem>> => {
+    const query = construireQuery(filtresPourQuery)
     const regions = await findDrealsForUser(user.id)
 
     const résultatRequête =
@@ -162,4 +159,3 @@ export const makeListerProjetsPourDreal = ({
       })),
     }
   }
-}
