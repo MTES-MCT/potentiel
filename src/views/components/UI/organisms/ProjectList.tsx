@@ -31,11 +31,11 @@ export type ProjectListItem = {
   nomCandidat: string
   nomRepresentantLegal: string
   email: string
-  puissance: string
-  appelOffre: {
+  puissance: number
+  appelOffre?: {
     type: ProjectAppelOffre['type']
     unitePuissance: ProjectAppelOffre['unitePuissance']
-    periode: { type: ProjectAppelOffre['periode']['type'] }
+    periode: ProjectAppelOffre['periode']
   }
   prixReference: number
   evaluationCarbone: number
@@ -44,7 +44,7 @@ export type ProjectListItem = {
   notifiedOn: number
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
-  actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
   garantiesFinancières?: {
     id: string
     dateEnvoi?: Date

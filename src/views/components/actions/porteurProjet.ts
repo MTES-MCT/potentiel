@@ -3,7 +3,11 @@ import ROUTES from '@routes'
 
 const porteurProjetActions = (project: {
   id: string
-  appelOffre: ProjectAppelOffre
+  appelOffre?: {
+    type: ProjectAppelOffre['type']
+    unitePuissance: ProjectAppelOffre['unitePuissance']
+    periode: { type: ProjectAppelOffre['periode']['type'] }
+  }
   isClasse: boolean
   isAbandoned: boolean
   certificateFile?: {
@@ -14,7 +18,7 @@ const porteurProjetActions = (project: {
   potentielIdentifier: string
 }) => {
   const canDownloadCertificate = !!project.certificateFile
-  const isEolien = project.appelOffre.type === 'eolien'
+  const isEolien = project.appelOffre?.type === 'eolien'
 
   if (project.isAbandoned) return []
 
