@@ -1,4 +1,4 @@
-import { ModificationRequestActionTitles, PaginationPanel } from '@components'
+import { Link, ModificationRequestActionTitles, PaginationPanel } from '@components'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
@@ -91,9 +91,10 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                     </span>
                     ,{' '}
                     <span {...dataId('requestList-item-regionProjet')}>{project.regionProjet}</span>
-                    <div {...dataId('requestList-item-email')}>
-                      Déposé par <a href={'mailto:' + requestedBy.email}>{requestedBy.fullName}</a>{' '}
-                      le {formatDate(requestedOn)}
+                    <div>
+                      Déposé par{' '}
+                      <Link href={`mailto:${requestedBy.email}`}>{requestedBy.fullName}</Link> le{' '}
+                      {formatDate(requestedOn)}
                     </div>
                   </div>
                 </td>
@@ -136,16 +137,15 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                   </div>
                   <div className="italic leading-normal text-xs">
                     {modificationRequest.attachmentFile && (
-                      <a
+                      <Link
                         href={ROUTES.DOWNLOAD_PROJECT_FILE(
                           modificationRequest.attachmentFile.id,
                           modificationRequest.attachmentFile.filename
                         )}
                         download={true}
-                        {...dataId('requestList-item-download-link')}
                       >
                         Télécharger la pièce-jointe
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </td>
@@ -177,9 +177,9 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                             {disabled ? (
                               <i>{title}</i>
                             ) : (
-                              <a href={link} {...dataId('requestList-item-action')}>
+                              <Link href={link} {...dataId('requestList-item-action')}>
                                 {title}
-                              </a>
+                              </Link>
                             )}
                           </li>
                         )

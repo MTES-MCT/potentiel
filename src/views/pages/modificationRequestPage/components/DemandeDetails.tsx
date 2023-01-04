@@ -5,7 +5,7 @@ import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '@routes'
-import { DownloadIcon, ExternalLink } from '@components'
+import { DownloadIcon, ExternalLink, Link } from '@components'
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO
@@ -36,13 +36,13 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       {attachmentFile && (
         <div className="mt-4">
           <DownloadIcon />
-          <a
+          <Link
             href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
             download={true}
             {...dataId('requestList-item-download-link')}
           >
             Télécharger la pièce-jointe
-          </a>
+          </Link>
         </div>
       )}
     </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { DownloadIcon } from '../../../components'
+import { DownloadIcon, Link } from '@components'
 import ROUTES from '@routes'
 
 interface DownloadResponseTemplateProps {
@@ -11,8 +11,8 @@ export const DownloadResponseTemplate = ({
 }: DownloadResponseTemplateProps) => (
   <div className="mb-4">
     <DownloadIcon />
-    <a href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download={true}>
+    <Link href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download={true}>
       Télécharger un modèle de réponse
-    </a>
+    </Link>
   </div>
 )

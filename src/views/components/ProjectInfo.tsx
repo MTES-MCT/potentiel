@@ -3,6 +3,7 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import routes from '@routes'
+import { Link } from '@components'
 
 type ProjectInfoProps = {
   project: {
@@ -48,7 +49,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       className={`${className} p-4 bg-gray-100 border-solid border-l-4 border-y-0 border-r-0 border-blue-france-main-525-base`}
     >
       <div {...dataId('modificationRequest-item-nomProjet')}>
-        <a href={routes.PROJECT_DETAILS(id)}>{nomProjet}</a>
+        <Link href={routes.PROJECT_DETAILS(id)}>{nomProjet}</Link>
       </div>
       <div
         style={{

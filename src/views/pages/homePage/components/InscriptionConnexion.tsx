@@ -5,7 +5,7 @@ import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLi
 import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
 import { User } from '@entities'
 import routes from '@routes'
-import { LinkButton, Container, SecondaryLinkButton } from '@components'
+import { LinkButton, Container, SecondaryLinkButton, Link } from '@components'
 
 type InscriptionConnexionProps = {
   user: User
@@ -97,7 +97,7 @@ const SignupBox = () => {
         </p>
       )}
       <p className="m-0">
-        <a href={routes.LOGIN}>Vous avez déjà un compte ?</a>
+        <Link href={routes.LOGIN}>Vous avez déjà un compte ?</Link>
       </p>
     </div>
   )

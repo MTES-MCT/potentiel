@@ -3,6 +3,7 @@ import { dataId } from '../../helpers/testId'
 import { UserRole } from '@modules/users'
 import { ACTION_BY_ROLE } from './actions'
 import { ChevronDownIcon, SecondaryButton } from './UI'
+import { Link } from '@components'
 
 interface Props {
   project: {
@@ -45,7 +46,7 @@ export const ProjectActions = ({ project, role }: Props) => {
             {disabled ? (
               <i>{title}</i>
             ) : (
-              <a
+              <Link
                 href={link}
                 download={isDownload}
                 data-actionid={actionId}
@@ -53,7 +54,7 @@ export const ProjectActions = ({ project, role }: Props) => {
                 {...dataId('item-action')}
               >
                 {title}
-              </a>
+              </Link>
             )}
           </li>
         ))}
