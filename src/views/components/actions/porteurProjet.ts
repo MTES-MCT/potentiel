@@ -10,12 +10,6 @@ const porteurProjetActions = (project: {
     id: string
     filename: string
   }
-  notifiedOn: Date | null
-  appelOffreId: string
-  periodeId: string
-  familleId: string | undefined
-  numeroCRE: string
-  email: string
   nomProjet: string
   potentielIdentifier: string
 }) => {
