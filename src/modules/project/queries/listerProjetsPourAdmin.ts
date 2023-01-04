@@ -95,7 +95,39 @@ export const makeListerProjetsPourAdmin =
       filtres.garantiesFinancieres = garantiesFinancieres
     }
 
-    return recherche && recherche.length
-      ? await searchAll(recherche, filtres, pagination)
-      : await findAll(filtres, pagination)
+    const résultatRequête =
+      recherche && recherche.length
+        ? await searchAll(recherche, filtres, pagination)
+        : await findAll(filtres, pagination)
+
+    return {
+      ...résultatRequête,
+      items: résultatRequête.items.map((projet) => ({
+        id: projet.id,
+        nomProjet: projet.nomProjet,
+        potentielIdentifier: projet.potentielIdentifier,
+        communeProjet: projet.communeProjet,
+        departementProjet: projet.departementProjet,
+        regionProjet: projet.regionProjet,
+        nomCandidat: projet.nomCandidat,
+        nomRepresentantLegal: projet.nomRepresentantLegal,
+        email: projet.email,
+        puissance: projet.puissance,
+        prixReference: projet.prixReference,
+        evaluationCarbone: projet.evaluationCarbone,
+        classe: projet.classe,
+        abandonedOn: projet.abandonedOn,
+        notifiedOn: projet.notifiedOn,
+        isFinancementParticipatif: projet.isFinancementParticipatif,
+        isInvestissementParticipatif: projet.isInvestissementParticipatif,
+        ...(projet.actionnariat && { actionnariat: projet.actionnariat }),
+        ...(projet.appelOffre && {
+          appelOffre: {
+            type: projet.appelOffre.type,
+            unitePuissance: projet.appelOffre.unitePuissance,
+            periode: projet.appelOffre.periode,
+          },
+        }),
+      })),
+    }
   }
