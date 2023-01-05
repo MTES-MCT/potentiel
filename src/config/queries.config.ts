@@ -1,4 +1,5 @@
 import {
+  makeListerProjetsPourAdeme,
   makeListerProjetsPourAdmin,
   makeListerProjetsPourDreal,
   makeListProjects,
@@ -27,4 +28,9 @@ export const listerProjetsPourDreal = makeListerProjetsPourDreal({
   searchForRegions: OldProjectRepo.searchForRegions,
   findAllForRegions: OldProjectRepo.findAllForRegions,
   findDrealsForUser: userRepo.findDrealsForUser,
+})
+
+export const listerProjetsPourAdeme = makeListerProjetsPourAdeme({
+  searchAll: OldProjectRepo.searchAll,
+  findAll: OldProjectRepo.findAll,
 })

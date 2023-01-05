@@ -2,7 +2,12 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listerProjetsPourAdmin, listerProjetsPourDreal, listProjects } from '@config'
+import {
+  listerProjetsPourAdeme,
+  listerProjetsPourAdmin,
+  listerProjetsPourDreal,
+  listProjects,
+} from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
@@ -64,6 +69,9 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       break
     case 'dreal':
       projects = await listerProjetsPourDreal(filtres)
+      break
+    case 'ademe':
+      projects = await listerProjetsPourAdeme(filtres)
       break
     default:
       projects = await listProjects(filtres)

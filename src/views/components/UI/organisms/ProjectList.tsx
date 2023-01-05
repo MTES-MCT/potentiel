@@ -37,7 +37,7 @@ export type ProjectListItem = {
     unitePuissance: ProjectAppelOffre['unitePuissance']
     periode: ProjectAppelOffre['periode']
   }
-  prixReference: number
+  prixReference?: number
   evaluationCarbone: number
   classe: 'Classé' | 'Eliminé'
   abandonedOn: number
@@ -128,15 +128,7 @@ export const ProjectList = ({
     )
   }
 
-  const afficherPrix = [
-    'admin',
-    'dgec-validateur',
-    'porteur-projet',
-    'acheteur-obligé',
-    'ademe',
-    'cre',
-    'dreal',
-  ].includes(role)
+  const prixDisponible = projects.items.some((project) => project.prixReference)
 
   const afficherEvaluationCarbone = [
     'admin',
@@ -177,7 +169,7 @@ export const ProjectList = ({
           />{' '}
           Puissance
         </div>
-        {afficherPrix && (
+        {prixDisponible && (
           <div className="flex items-center">
             <EuroIcon
               className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
@@ -272,7 +264,7 @@ export const ProjectList = ({
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
-              {afficherPrix && (
+              {project.prixReference && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2"
                   title="Prix de référence"
