@@ -41,11 +41,6 @@ function _getDrealRegionsForUser(user: User, models) {
 
 const { ModificationRequest, Project, User, File } = models
 
-export const PermissionListerDemandesAdmin = {
-  nom: 'lister-demandes',
-  description: 'Lister les demandes de modification',
-}
-
 export const getModificationRequestListForAdmin: GetModificationRequestListForAdmin = ({
   user,
   appelOffreId,

@@ -1,7 +1,4 @@
-import {
-  getModificationRequestListForAdmin,
-  PermissionListerDemandesAdmin,
-} from '@config/queries.config'
+import { getModificationRequestListForAdmin } from '@config/queries.config'
 import { logger } from '@core/utils'
 import { appelOffreRepo } from '@dataAccess/inMemory'
 import asyncHandler from '../helpers/asyncHandler'
@@ -12,6 +9,7 @@ import { ModificationRequestListPage } from '@views'
 import { v1Router } from '../v1Router'
 import { userIs } from '@modules/users'
 import { vérifierPermissionUtilisateur } from '../helpers'
+import { PermissionListerDemandesAdmin } from '@modules/authN'
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
