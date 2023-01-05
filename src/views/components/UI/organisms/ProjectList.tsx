@@ -60,7 +60,7 @@ const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRole }) => {
+const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) => {
   if (project.abandonedOn) {
     return <Badge type="warning">Abandonné</Badge>
   }

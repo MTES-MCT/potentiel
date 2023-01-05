@@ -1,14 +1,13 @@
 import asyncHandler from '../helpers/asyncHandler'
-import { makePagination } from '../../helpers/paginate'
+import { makePaginatedList, makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import {
   listerProjetsPourAdeme,
-  listerProjetsPourAdmin,
+  listerProjetsAccèsComplet,
   listerProjetsPourCaisseDesDépôts,
   listerProjetsPourDreal,
   listerProjetsPourPorteur,
-  listProjects,
 } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
@@ -67,7 +66,9 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   switch (user.role) {
     case 'admin':
     case 'dgec-validateur':
-      projects = await listerProjetsPourAdmin(filtres)
+    case 'acheteur-obligé':
+    case 'cre':
+      projects = await listerProjetsAccèsComplet(filtres)
       break
     case 'dreal':
       projects = await listerProjetsPourDreal(filtres)
@@ -82,7 +83,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       projects = await listerProjetsPourPorteur(filtres)
       break
     default:
-      projects = await listProjects(filtres)
+      projects = makePaginatedList([], 0, pagination)
   }
 
   if (pageSize) {

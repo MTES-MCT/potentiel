@@ -39,7 +39,7 @@ type ProjectListItem = {
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
 }
 
-export const makeListerProjetsPourAdmin =
+export const makeListerProjetsAccèsComplet =
   ({ searchAll, findAll }: Dépendances) =>
   async ({
     pagination,
