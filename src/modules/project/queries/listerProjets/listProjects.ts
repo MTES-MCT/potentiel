@@ -1,6 +1,6 @@
 import { Project, AppelOffre, Periode, Famille, User } from '@entities'
 import { ProjectRepo, UserRepo, ProjectFilters } from '@dataAccess'
-import { Pagination, PaginatedList } from '../../../types'
+import { Pagination, PaginatedList } from '../../../../types'
 
 type Dépendances = {
   searchForRegions: ProjectRepo['searchForRegions']

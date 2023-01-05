@@ -1,8 +1,7 @@
-import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { DREAL, makeProject, makeUser, Project } from '@entities'
-import { UnwrapForTest } from '../../../types'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../__tests__/fixtures/user'
+import { UnwrapForTest } from '../../../../types'
+import makeFakeProject from '../../../../__tests__/fixtures/project'
+import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeListProjects } from './listProjects'
 
 const pagination = {
@@ -19,9 +18,6 @@ const makePaginatedProjectList = (projects: Project[]) => ({
 
 const project = UnwrapForTest(makeProject(makeFakeProject()))
 const projectList = makePaginatedProjectList([project])
-const appelsOffres = appelsOffreStatic.map((item) => item.id).slice(0, 2)
-const periodes = appelsOffreStatic[0].periodes.map((item) => item.id)
-const familles = appelsOffreStatic[0].familles.map((item) => item.id)
 const DREALs: DREAL[] = ['Bretagne', 'Corse']
 
 const searchForRegions = jest.fn(async () => projectList)

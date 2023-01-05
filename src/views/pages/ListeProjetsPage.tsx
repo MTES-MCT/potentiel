@@ -1,7 +1,7 @@
 import { Request } from 'express'
 import querystring from 'querystring'
 import React, { useState } from 'react'
-import { AppelOffre, Famille, Periode } from '@entities'
+import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
@@ -24,7 +24,7 @@ import { hydrateOnClient } from '../helpers'
 
 type ListeProjetsProps = {
   request: Request
-  projects: PaginatedList<ProjectListItem>
+  projects: PaginatedList<ProjectListItem> | PaginatedList<Project>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>

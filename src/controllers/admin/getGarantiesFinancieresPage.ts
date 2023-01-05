@@ -3,7 +3,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { ensureRole, listProjects } from '@config'
+import { ensureRole, listerProjetsPourDreal } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 import { getOptionsFiltresParAOs } from '../helpers'
@@ -21,7 +21,7 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const projects = await listProjects({
+  const projects = await listerProjetsPourDreal({
     user,
     appelOffreId,
     periodeId: appelOffreId ? periodeId : undefined,
