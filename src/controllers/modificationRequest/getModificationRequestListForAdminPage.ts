@@ -1,4 +1,7 @@
-import { getModificationRequestListForAdmin } from '@config/queries.config'
+import {
+  getModificationRequestListForAdmin,
+  PermissionListerDemandesAdmin,
+} from '@config/queries.config'
 import { logger } from '@core/utils'
 import { appelOffreRepo } from '@dataAccess/inMemory'
 import asyncHandler from '../helpers/asyncHandler'
@@ -6,13 +9,13 @@ import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { ModificationRequestListPage } from '@views'
-import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { userIs } from '@modules/users'
+import { vérifierPermissionUtilisateur } from '../helpers'
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,
-  ensureRole(['admin', 'dgec-validateur', 'dreal', 'acheteur-obligé']),
+  vérifierPermissionUtilisateur(PermissionListerDemandesAdmin),
   asyncHandler(async (request, response) => {
     const { user, cookies, query } = request
 
