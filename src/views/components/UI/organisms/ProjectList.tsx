@@ -37,13 +37,13 @@ export type ProjectListItem = {
     unitePuissance: ProjectAppelOffre['unitePuissance']
     periode: ProjectAppelOffre['periode']
   }
-  prixReference: number
-  evaluationCarbone: number
+  prixReference?: number
+  evaluationCarbone?: number
   classe: 'Classé' | 'Eliminé'
   abandonedOn: number
   notifiedOn: number
-  isFinancementParticipatif: boolean
-  isInvestissementParticipatif: boolean
+  isFinancementParticipatif?: boolean
+  isInvestissementParticipatif?: boolean
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
   garantiesFinancières?: {
     id: string
@@ -60,7 +60,7 @@ const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRole }) => {
+const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) => {
   if (project.abandonedOn) {
     return <Badge type="warning">Abandonné</Badge>
   }
@@ -78,19 +78,9 @@ const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRo
     return null
   }
 
-  const afficherIPFPGPFC = [
-    'admin',
-    'dgec-validateur',
-    'porteur-projet',
-    'acheteur-obligé',
-    'ademe',
-    'cre',
-    'dreal',
-  ].includes(role)
-
   return (
     <Badge type="success">
-      Classé {getFinancementType(project) && afficherIPFPGPFC && `(${getFinancementType(project)})`}
+      Classé {getFinancementType(project) && `(${getFinancementType(project)})`}
     </Badge>
   )
 }
@@ -128,25 +118,9 @@ export const ProjectList = ({
     )
   }
 
-  const afficherPrix = [
-    'admin',
-    'dgec-validateur',
-    'porteur-projet',
-    'acheteur-obligé',
-    'ademe',
-    'cre',
-    'dreal',
-  ].includes(role)
+  const prixDisponible = projects.items.some((project) => project.prixReference)
 
-  const afficherEvaluationCarbone = [
-    'admin',
-    'dgec-validateur',
-    'porteur-projet',
-    'acheteur-obligé',
-    'ademe',
-    'cre',
-    'dreal',
-  ].includes(role)
+  const évaluationCarboneDisponible = projects.items.some((project) => project.evaluationCarbone)
 
   const toggleSelected = (projectId: string, value: boolean) => {
     const newSelectedIds = selectedIds.slice()
@@ -177,7 +151,7 @@ export const ProjectList = ({
           />{' '}
           Puissance
         </div>
-        {afficherPrix && (
+        {prixDisponible && (
           <div className="flex items-center">
             <EuroIcon
               className="text-orange-terre-battue-main-645-base mr-1 shrink-0"
@@ -197,7 +171,7 @@ export const ProjectList = ({
             Garanties Financières
           </div>
         )}
-        {afficherEvaluationCarbone && !displayGF && (
+        {évaluationCarboneDisponible && !displayGF && (
           <div className="flex items-center">
             <CloudIcon
               className="text-grey-425-active mr-1 shrink-0"
@@ -272,7 +246,7 @@ export const ProjectList = ({
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
-              {afficherPrix && (
+              {project.prixReference && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2"
                   title="Prix de référence"
@@ -288,7 +262,7 @@ export const ProjectList = ({
               )}
 
               {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
-              {afficherEvaluationCarbone && !displayGF && (
+              {project.evaluationCarbone && !displayGF && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
                   title="Évaluation carbone"

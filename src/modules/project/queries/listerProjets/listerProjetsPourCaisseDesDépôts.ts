@@ -1,4 +1,4 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, User } from '@entities'
 import { ProjectRepo } from '@dataAccess'
 import { PaginatedList, Pagination } from '../../../../types'
 
@@ -9,6 +9,7 @@ type Dépendances = {
 }
 
 type Filtres = {
+  user: User
   pagination?: Pagination
   recherche?: string
 } & FiltresConstruireQuery
@@ -29,17 +30,12 @@ type ProjectListItem = {
     unitePuissance: ProjectAppelOffre['unitePuissance']
     periode: ProjectAppelOffre['periode']
   }
-  prixReference: number
-  evaluationCarbone: number
   classe: 'Classé' | 'Eliminé'
   abandonedOn: number
   notifiedOn: number
-  isFinancementParticipatif: boolean
-  isInvestissementParticipatif: boolean
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
 }
 
-export const makeListerProjetsAccèsComplet =
+export const makeListerProjetsPourCaisseDesDépôts =
   ({ searchAll, findAll }: Dépendances) =>
   async ({
     pagination,
@@ -66,14 +62,9 @@ export const makeListerProjetsAccèsComplet =
         nomRepresentantLegal: projet.nomRepresentantLegal,
         email: projet.email,
         puissance: projet.puissance,
-        prixReference: projet.prixReference,
-        evaluationCarbone: projet.evaluationCarbone,
         classe: projet.classe,
         abandonedOn: projet.abandonedOn,
         notifiedOn: projet.notifiedOn,
-        isFinancementParticipatif: projet.isFinancementParticipatif,
-        isInvestissementParticipatif: projet.isInvestissementParticipatif,
-        ...(projet.actionnariat && { actionnariat: projet.actionnariat }),
         ...(projet.appelOffre && {
           appelOffre: {
             type: projet.appelOffre.type,
