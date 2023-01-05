@@ -69,7 +69,7 @@ const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRo
     return <Badge type="error">Eliminé</Badge>
   }
 
-  const getFinancementType = (project) => {
+  const getFinancementType = (project: ProjectListItem) => {
     if (project.isFinancementParticipatif) return 'FP'
     if (project.isInvestissementParticipatif) return 'IP'
     if (project.actionnariat === 'financement-collectif') return 'FC'
