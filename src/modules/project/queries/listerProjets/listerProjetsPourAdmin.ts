@@ -1,11 +1,11 @@
 import { AppelOffre, Periode, Famille, User, ProjectAppelOffre } from '@entities'
-import { ProjectRepo, UserRepo, ProjectFilters } from '@dataAccess'
-import { PaginatedList, Pagination } from '../../../types'
+import { ProjectRepo } from '@dataAccess'
+import { Pagination, PaginatedList } from '../../../../types'
 
+import { construireQuery } from './helpers/construireQuery'
 type Dépendances = {
-  searchForRegions: ProjectRepo['searchForRegions']
-  findAllForRegions: ProjectRepo['findAllForRegions']
-  findDrealsForUser: UserRepo['findDrealsForUser']
+  searchAll: ProjectRepo['searchAll']
+  findAll: ProjectRepo['findAll']
 }
 
 type Filtres = {
@@ -44,74 +44,21 @@ type ProjectListItem = {
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
-  garantiesFinancières?: {
-    id: string
-    dateEnvoi?: Date
-    statut: 'en attente' | 'à traiter' | 'validé'
-    fichier?: {
-      id: string
-      filename: string
-    }
-  }
 }
 
-const construireQuery = (filtres) => {
-  const query: ProjectFilters = {
-    isNotified: true,
-  }
-
-  if (filtres.appelOffreId) {
-    query.appelOffreId = filtres.appelOffreId
-
-    if (filtres.periodeId) {
-      query.periodeId = filtres.periodeId
-    }
-
-    if (filtres.familleId) {
-      query.familleId = filtres.familleId
-    }
-  }
-
-  switch (filtres.classement) {
-    case 'classés':
-      query.isClasse = true
-      query.isAbandoned = false
-      break
-    case 'éliminés':
-      query.isClasse = false
-      query.isAbandoned = false
-      break
-    case 'abandons':
-      query.isAbandoned = true
-      break
-  }
-
-  if (filtres.reclames) {
-    query.isClaimed = filtres.reclames === 'réclamés'
-  }
-
-  if (filtres.garantiesFinancieres) {
-    query.garantiesFinancieres = filtres.garantiesFinancieres
-  }
-
-  return query
-}
-
-export const makeListerProjetsPourDreal =
-  ({ searchForRegions, findAllForRegions, findDrealsForUser }: Dépendances) =>
+export const makeListerProjetsPourAdmin =
+  ({ searchAll, findAll }: Dépendances) =>
   async ({
-    user,
     pagination,
     recherche,
     ...filtresPourQuery
   }: Filtres): Promise<PaginatedList<ProjectListItem>> => {
     const query = construireQuery(filtresPourQuery)
-    const regions = await findDrealsForUser(user.id)
 
     const résultatRequête =
       recherche && recherche.length
-        ? await searchForRegions(regions, recherche, query, pagination)
-        : await findAllForRegions(regions, query, pagination)
+        ? await searchAll(recherche, query, pagination)
+        : await findAll(query, pagination)
 
     return {
       ...résultatRequête,
@@ -139,21 +86,6 @@ export const makeListerProjetsPourDreal =
             type: projet.appelOffre.type,
             unitePuissance: projet.appelOffre.unitePuissance,
             periode: projet.appelOffre.periode,
-          },
-        }),
-        ...(projet.garantiesFinancières && {
-          garantiesFinancières: {
-            id: projet.garantiesFinancières.id,
-            statut: projet.garantiesFinancières.statut,
-            ...(projet.garantiesFinancières.dateEnvoi && {
-              dateEnvoi: projet.garantiesFinancières.dateEnvoi,
-            }),
-            ...(projet.garantiesFinancières.fichier && {
-              fichier: {
-                id: projet.garantiesFinancières.fichier.id,
-                filename: projet.garantiesFinancières.fichier.filename,
-              },
-            }),
           },
         }),
       })),

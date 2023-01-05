@@ -1,10 +1,11 @@
 import { AppelOffre, Periode, Famille, User, ProjectAppelOffre } from '@entities'
-import { ProjectRepo, ProjectFilters } from '@dataAccess'
-import { Pagination, PaginatedList } from '../../../types'
-
+import { ProjectRepo, UserRepo } from '@dataAccess'
+import { PaginatedList, Pagination } from '../../../../types'
+import { construireQuery } from './helpers/construireQuery'
 type Dépendances = {
-  searchAll: ProjectRepo['searchAll']
-  findAll: ProjectRepo['findAll']
+  searchForRegions: ProjectRepo['searchForRegions']
+  findAllForRegions: ProjectRepo['findAllForRegions']
+  findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
 type Filtres = {
@@ -43,62 +44,32 @@ type ProjectListItem = {
   isFinancementParticipatif: boolean
   isInvestissementParticipatif: boolean
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
+  garantiesFinancières?: {
+    id: string
+    dateEnvoi?: Date
+    statut: 'en attente' | 'à traiter' | 'validé'
+    fichier?: {
+      id: string
+      filename: string
+    }
+  }
 }
 
-export const makeListerProjetsPourAdmin =
-  ({ searchAll, findAll }: Dépendances) =>
+export const makeListerProjetsPourDreal =
+  ({ searchForRegions, findAllForRegions, findDrealsForUser }: Dépendances) =>
   async ({
-    appelOffreId,
-    periodeId,
-    familleId,
+    user,
     pagination,
     recherche,
-    classement,
-    reclames,
-    garantiesFinancieres,
+    ...filtresPourQuery
   }: Filtres): Promise<PaginatedList<ProjectListItem>> => {
-    const filtres: ProjectFilters = {
-      isNotified: true,
-    }
-
-    if (appelOffreId) {
-      filtres.appelOffreId = appelOffreId
-
-      if (periodeId) {
-        filtres.periodeId = periodeId
-      }
-
-      if (familleId) {
-        filtres.familleId = familleId
-      }
-    }
-
-    switch (classement) {
-      case 'classés':
-        filtres.isClasse = true
-        filtres.isAbandoned = false
-        break
-      case 'éliminés':
-        filtres.isClasse = false
-        filtres.isAbandoned = false
-        break
-      case 'abandons':
-        filtres.isAbandoned = true
-        break
-    }
-
-    if (reclames) {
-      filtres.isClaimed = reclames === 'réclamés'
-    }
-
-    if (garantiesFinancieres) {
-      filtres.garantiesFinancieres = garantiesFinancieres
-    }
+    const query = construireQuery(filtresPourQuery)
+    const regions = await findDrealsForUser(user.id)
 
     const résultatRequête =
       recherche && recherche.length
-        ? await searchAll(recherche, filtres, pagination)
-        : await findAll(filtres, pagination)
+        ? await searchForRegions(regions, recherche, query, pagination)
+        : await findAllForRegions(regions, query, pagination)
 
     return {
       ...résultatRequête,
@@ -126,6 +97,21 @@ export const makeListerProjetsPourAdmin =
             type: projet.appelOffre.type,
             unitePuissance: projet.appelOffre.unitePuissance,
             periode: projet.appelOffre.periode,
+          },
+        }),
+        ...(projet.garantiesFinancières && {
+          garantiesFinancières: {
+            id: projet.garantiesFinancières.id,
+            statut: projet.garantiesFinancières.statut,
+            ...(projet.garantiesFinancières.dateEnvoi && {
+              dateEnvoi: projet.garantiesFinancières.dateEnvoi,
+            }),
+            ...(projet.garantiesFinancières.fichier && {
+              fichier: {
+                id: projet.garantiesFinancières.fichier.id,
+                filename: projet.garantiesFinancières.fichier.filename,
+              },
+            }),
           },
         }),
       })),
