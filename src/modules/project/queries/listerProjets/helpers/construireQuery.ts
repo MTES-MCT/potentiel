@@ -1,13 +1,10 @@
 import { ProjectFilters } from '@dataAccess'
 import { AppelOffre, Famille, Periode } from '@entities'
-import { Pagination } from '../../../../../types'
 
 export type FiltresConstruireQuery = {
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   familleId?: Famille['id']
-  pagination?: Pagination
-  recherche?: string
   classement?: 'classés' | 'éliminés' | 'abandons'
   reclames?: 'réclamés' | 'non-réclamés'
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'

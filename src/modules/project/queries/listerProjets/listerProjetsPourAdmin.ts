@@ -1,12 +1,18 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, User } from '@entities'
 import { ProjectRepo } from '@dataAccess'
-import { PaginatedList } from '../../../../types'
+import { PaginatedList, Pagination } from '../../../../types'
 
 import { construireQuery, FiltresConstruireQuery } from './helpers/construireQuery'
 type Dépendances = {
   searchAll: ProjectRepo['searchAll']
   findAll: ProjectRepo['findAll']
 }
+
+type Filtres = {
+  user: User
+  pagination?: Pagination
+  recherche?: string
+} & FiltresConstruireQuery
 
 type ProjectListItem = {
   id: string
@@ -40,7 +46,7 @@ export const makeListerProjetsPourAdmin =
     pagination,
     recherche,
     ...filtresPourQuery
-  }: FiltresConstruireQuery): Promise<PaginatedList<ProjectListItem>> => {
+  }: Filtres): Promise<PaginatedList<ProjectListItem>> => {
     const query = construireQuery(filtresPourQuery)
 
     const résultatRequête =

@@ -1,6 +1,6 @@
 import { User, ProjectAppelOffre } from '@entities'
 import { ProjectRepo, UserRepo } from '@dataAccess'
-import { PaginatedList } from '../../../../types'
+import { PaginatedList, Pagination } from '../../../../types'
 import { construireQuery, FiltresConstruireQuery } from './helpers/construireQuery'
 type Dépendances = {
   searchForRegions: ProjectRepo['searchForRegions']
@@ -10,6 +10,8 @@ type Dépendances = {
 
 type Filtres = {
   user: User
+  pagination?: Pagination
+  recherche?: string
 } & FiltresConstruireQuery
 
 type ProjectListItem = {
