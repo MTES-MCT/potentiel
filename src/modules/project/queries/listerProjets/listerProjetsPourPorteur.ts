@@ -1,14 +1,15 @@
-import { ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, User } from '@entities'
 import { ProjectRepo } from '@dataAccess'
 import { PaginatedList, Pagination } from '../../../../types'
 
 import { construireQuery, FiltresConstruireQuery } from './helpers/construireQuery'
 type Dépendances = {
-  searchAll: ProjectRepo['searchAll']
-  findAll: ProjectRepo['findAll']
+  searchForUser: ProjectRepo['searchForUser']
+  findAllForUser: ProjectRepo['findAllForUser']
 }
 
 type Filtres = {
+  user: User
   pagination?: Pagination
   recherche?: string
 } & FiltresConstruireQuery
@@ -39,19 +40,20 @@ type ProjectListItem = {
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
 }
 
-export const makeListerProjetsPourAdmin =
-  ({ searchAll, findAll }: Dépendances) =>
+export const makeListerProjetsPourPorteur =
+  ({ findAllForUser, searchForUser }: Dépendances) =>
   async ({
     pagination,
     recherche,
+    user,
     ...filtresPourQuery
   }: Filtres): Promise<PaginatedList<ProjectListItem>> => {
     const query = construireQuery(filtresPourQuery)
 
     const résultatRequête =
       recherche && recherche.length
-        ? await searchAll(recherche, query, pagination)
-        : await findAll(query, pagination)
+        ? await searchForUser(user.id, recherche, query, pagination)
+        : await findAllForUser(user.id, query, pagination)
 
     return {
       ...résultatRequête,

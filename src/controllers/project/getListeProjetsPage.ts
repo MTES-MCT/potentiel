@@ -7,6 +7,7 @@ import {
   listerProjetsPourAdmin,
   listerProjetsPourCaisseDesDépôts,
   listerProjetsPourDreal,
+  listerProjetsPourPorteur,
   listProjects,
 } from '@config'
 import { v1Router } from '../v1Router'
@@ -76,6 +77,9 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       break
     case 'caisse-des-dépôts':
       projects = await listerProjetsPourCaisseDesDépôts(filtres)
+      break
+    case 'porteur-projet':
+      projects = await listerProjetsPourPorteur(filtres)
       break
     default:
       projects = await listProjects(filtres)

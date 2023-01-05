@@ -4,6 +4,7 @@ import {
   makeListerProjetsPourCaisseDesDépôts,
   makeListerProjetsPourDreal,
   makeListProjects,
+  makeListerProjetsPourPorteur,
 } from '@modules/project/queries'
 import { projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
 
@@ -39,4 +40,9 @@ export const listerProjetsPourAdeme = makeListerProjetsPourAdeme({
 export const listerProjetsPourCaisseDesDépôts = makeListerProjetsPourCaisseDesDépôts({
   searchAll: OldProjectRepo.searchAll,
   findAll: OldProjectRepo.findAll,
+})
+
+export const listerProjetsPourPorteur = makeListerProjetsPourPorteur({
+  searchForUser: OldProjectRepo.searchForUser,
+  findAllForUser: OldProjectRepo.findAllForUser,
 })
