@@ -15,6 +15,7 @@ import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils
 import { makeDemandeDélai, makeDemandeAbandon } from '@modules/demandeModification'
 import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
 import { makeUtilisateur } from '@modules/utilisateur'
+import { makeDemandeChangementDePuissance } from '@modules/demandeModification/demandeChangementDePuissance/DemandeChangementDePuissance'
 
 export const fileRepo = makeFileRepo({ models, fileStorageService })
 export const notificationRepo = new NotificationRepo(models)
@@ -56,6 +57,17 @@ export const demandeAbandonRepo = {
   ...makeEventStoreRepo({
     eventStore,
     makeAggregate: makeDemandeAbandon,
+  }),
+}
+
+export const demandeChangementDePuissanceRepo = {
+  ...makeEventStoreTransactionalRepo({
+    eventStore,
+    makeAggregate: makeDemandeChangementDePuissance,
+  }),
+  ...makeEventStoreRepo({
+    eventStore,
+    makeAggregate: makeDemandeChangementDePuissance,
   }),
 }
 
