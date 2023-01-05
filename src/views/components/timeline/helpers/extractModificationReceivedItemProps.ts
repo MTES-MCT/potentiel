@@ -29,8 +29,9 @@ export const extractModificationReceivedItemProps = (
 
   for (const event of modificationReceivedEvents) {
     const detailsUrl =
-      ['admin', 'porteur-projet', 'dreal', 'dgec-validateur', 'cre'].includes(event.variant) &&
-      ROUTES.DEMANDE_PAGE_DETAILS(event.modificationRequestId)
+      ['admin', 'porteur-projet', 'dreal', 'dgec-validateur', 'cre', 'acheteur-obligé'].includes(
+        event.variant
+      ) && ROUTES.DEMANDE_PAGE_DETAILS(event.modificationRequestId)
     switch (event.modificationType) {
       case 'actionnaire':
         propsArray.push({
