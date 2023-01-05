@@ -69,15 +69,14 @@ const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRo
     return <Badge type="error">Eliminé</Badge>
   }
 
-  const type = project.isFinancementParticipatif
-    ? 'FP'
-    : project.isInvestissementParticipatif
-    ? 'IP'
-    : project.actionnariat === 'financement-collectif'
-    ? 'FC'
-    : project.actionnariat === 'gouvernance-partagee'
-    ? 'GP'
-    : ''
+  const getFinancementType = (project) => {
+    if (project.isFinancementParticipatif) return 'FP'
+    if (project.isInvestissementParticipatif) return 'IP'
+    if (project.actionnariat === 'financement-collectif') return 'FC'
+    if (project.actionnariat === 'gouvernance-partagee') return 'GP'
+
+    return null
+  }
 
   const afficherIPFPGPFC = [
     'admin',
@@ -89,7 +88,11 @@ const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRo
     'dreal',
   ].includes(role)
 
-  return <Badge type="success">Classé {type && afficherIPFPGPFC ? `(${type})` : ''}</Badge>
+  return (
+    <Badge type="success">
+      Classé {getFinancementType(project) && afficherIPFPGPFC && `(${getFinancementType(project)})`}
+    </Badge>
+  )
 }
 
 type Props = {
