@@ -1,6 +1,7 @@
 import {
   makeListerProjetsPourAdeme,
   makeListerProjetsPourAdmin,
+  makeListerProjetsPourCaisseDesDépôts,
   makeListerProjetsPourDreal,
   makeListProjects,
 } from '@modules/project/queries'
@@ -31,6 +32,11 @@ export const listerProjetsPourDreal = makeListerProjetsPourDreal({
 })
 
 export const listerProjetsPourAdeme = makeListerProjetsPourAdeme({
+  searchAll: OldProjectRepo.searchAll,
+  findAll: OldProjectRepo.findAll,
+})
+
+export const listerProjetsPourCaisseDesDépôts = makeListerProjetsPourCaisseDesDépôts({
   searchAll: OldProjectRepo.searchAll,
   findAll: OldProjectRepo.findAll,
 })

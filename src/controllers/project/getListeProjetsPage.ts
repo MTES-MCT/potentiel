@@ -5,6 +5,7 @@ import { Pagination } from '../../types'
 import {
   listerProjetsPourAdeme,
   listerProjetsPourAdmin,
+  listerProjetsPourCaisseDesDépôts,
   listerProjetsPourDreal,
   listProjects,
 } from '@config'
@@ -72,6 +73,9 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       break
     case 'ademe':
       projects = await listerProjetsPourAdeme(filtres)
+      break
+    case 'caisse-des-dépôts':
+      projects = await listerProjetsPourCaisseDesDépôts(filtres)
       break
     default:
       projects = await listProjects(filtres)
