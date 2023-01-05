@@ -195,20 +195,12 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
 )
 
 const MenuAcheteurObligé = (currentPage: CurrentPage) => (
-  <>
-    <Header.MenuItem
-      href={routes.LISTE_PROJETS}
-      {...(currentPage === 'list-projects' && { isCurrent: true })}
-    >
-      Projets
-    </Header.MenuItem>
-    <Header.MenuItem
-      href={routes.ADMIN_LIST_REQUESTS}
-      {...(currentPage === 'list-requests' && { isCurrent: true })}
-    >
-      Demandes
-    </Header.MenuItem>
-  </>
+  <Header.MenuItem
+    href={routes.LISTE_PROJETS}
+    {...(currentPage === 'list-projects' && { isCurrent: true })}
+  >
+    Projets
+  </Header.MenuItem>
 )
 
 const MenuAdeme = (currentPage: CurrentPage) => (

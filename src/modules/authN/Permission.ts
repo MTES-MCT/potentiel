@@ -16,6 +16,11 @@ export type Permission = {
   description: string
 }
 
+export const PermissionListerDemandesAdmin = {
+  nom: 'lister-demandes',
+  description: 'Lister les demandes de modification',
+}
+
 export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> => {
   switch (role) {
     case 'dreal':
@@ -27,6 +32,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
         PermissionRetirerGF,
+        PermissionListerDemandesAdmin,
       ]
     case 'porteur-projet':
     case 'caisse-des-dépôts':
@@ -41,6 +47,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
     case 'admin':
       return [
         PermissionListerProjets,
+        PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,
@@ -50,6 +57,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
     case 'dgec-validateur':
       return [
         PermissionListerProjets,
+        PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
         PermissionAjouterDateExpirationGF,
         PermissionUploaderGF,

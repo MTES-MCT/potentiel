@@ -40,6 +40,7 @@ function _getDrealRegionsForUser(user: User, models) {
 }
 
 const { ModificationRequest, Project, User, File } = models
+
 export const getModificationRequestListForAdmin: GetModificationRequestListForAdmin = ({
   user,
   appelOffreId,

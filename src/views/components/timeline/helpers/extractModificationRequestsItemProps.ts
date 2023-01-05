@@ -130,7 +130,9 @@ const getRequestEvent = (events: ModificationRequestDTO[]) => {
 
 const getResponseUrl = (latestEvent: ModificationRequestDTO) => {
   if (
-    !['porteur-projet', 'dreal', 'admin', 'dgec-validateur', 'cre'].includes(latestEvent.variant)
+    !['porteur-projet', 'dreal', 'admin', 'dgec-validateur', 'cre', 'acheteur-obligé'].includes(
+      latestEvent.variant
+    )
   ) {
     return
   }
