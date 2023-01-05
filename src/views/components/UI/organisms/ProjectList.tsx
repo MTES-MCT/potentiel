@@ -1,9 +1,9 @@
-import { Project } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
 import React, { ReactNode } from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { PaginatedList } from '../../types'
+import { formatDate } from '../../../../helpers/formatDate'
+import { PaginatedList } from '../../../../types'
 import {
   ProjectActions,
   PowerIcon,
@@ -21,11 +21,46 @@ import {
   InputCheckbox,
 } from '@components'
 
+export type ProjectListItem = {
+  id: string
+  nomProjet: string
+  potentielIdentifier: string
+  communeProjet: string
+  departementProjet: string
+  regionProjet: string
+  nomCandidat: string
+  nomRepresentantLegal: string
+  email: string
+  puissance: number
+  appelOffre?: {
+    type: ProjectAppelOffre['type']
+    unitePuissance: ProjectAppelOffre['unitePuissance']
+    periode: ProjectAppelOffre['periode']
+  }
+  prixReference: number
+  evaluationCarbone: number
+  classe: 'Classé' | 'Eliminé'
+  abandonedOn: number
+  notifiedOn: number
+  isFinancementParticipatif: boolean
+  isInvestissementParticipatif: boolean
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
+  garantiesFinancières?: {
+    id: string
+    dateEnvoi?: Date
+    statut: 'en attente' | 'à traiter' | 'validé'
+    fichier?: {
+      id: string
+      filename: string
+    }
+  }
+}
+
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
 )
 
-const StatutBadge = ({ project, role }: { project: Project; role: UserRole }) => {
+const StatutBadge = ({ project, role }: { project: ProjectListItem; role: UserRole }) => {
   if (project.abandonedOn) {
     return <Badge type="warning">Abandonné</Badge>
   }
@@ -34,15 +69,14 @@ const StatutBadge = ({ project, role }: { project: Project; role: UserRole }) =>
     return <Badge type="error">Eliminé</Badge>
   }
 
-  const type = project.isFinancementParticipatif
-    ? 'FP'
-    : project.isInvestissementParticipatif
-    ? 'IP'
-    : project.actionnariat === 'financement-collectif'
-    ? 'FC'
-    : project.actionnariat === 'gouvernance-partagee'
-    ? 'GP'
-    : ''
+  const getFinancementType = (project: ProjectListItem) => {
+    if (project.isFinancementParticipatif) return 'FP'
+    if (project.isInvestissementParticipatif) return 'IP'
+    if (project.actionnariat === 'financement-collectif') return 'FC'
+    if (project.actionnariat === 'gouvernance-partagee') return 'GP'
+
+    return null
+  }
 
   const afficherIPFPGPFC = [
     'admin',
@@ -54,11 +88,15 @@ const StatutBadge = ({ project, role }: { project: Project; role: UserRole }) =>
     'dreal',
   ].includes(role)
 
-  return <Badge type="success">Classé {type && afficherIPFPGPFC ? `(${type})` : ''}</Badge>
+  return (
+    <Badge type="success">
+      Classé {getFinancementType(project) && afficherIPFPGPFC && `(${getFinancementType(project)})`}
+    </Badge>
+  )
 }
 
 type Props = {
-  projects: PaginatedList<Project> | Array<Project>
+  projects: PaginatedList<ProjectListItem>
   displayGF?: true
   role: UserRole
   GFPastDue?: boolean
@@ -76,12 +114,7 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
 }: Props) => {
-  let items: Array<Project>
-  if (Array.isArray(projects)) {
-    items = projects
-  } else {
-    items = projects.items
-  }
+  const { items } = projects
 
   if (!items.length) {
     return (
@@ -305,7 +338,7 @@ export const ProjectList = ({
   )
 }
 
-const GF = ({ project, GFPastDue }: { project: Project; GFPastDue?: boolean }) => {
+const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: boolean }) => {
   const gf = project.garantiesFinancières
   return (
     <div

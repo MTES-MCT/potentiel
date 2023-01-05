@@ -1,10 +1,5 @@
-import { Project, AppelOffre, Periode, Famille, User, DREAL } from '@entities'
-import {
-  ProjectRepo,
-  UserRepo,
-  ProjectFilters,
-  ContextSpecificProjectListFilter,
-} from '@dataAccess'
+import { Project, AppelOffre, Periode, Famille, User } from '@entities'
+import { ProjectRepo, UserRepo, ProjectFilters } from '@dataAccess'
 import { Pagination, PaginatedList } from '../../../types'
 
 type Dépendances = {
@@ -14,9 +9,6 @@ type Dépendances = {
   findAllForUser: ProjectRepo['findAllForUser']
   searchAll: ProjectRepo['searchAll']
   findAll: ProjectRepo['findAll']
-  findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
-  findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
-  findExistingFamillesForAppelOffre: ProjectRepo['findExistingFamillesForAppelOffre']
   findDrealsForUser: UserRepo['findDrealsForUser']
 }
 
@@ -32,13 +24,6 @@ type Filtres = {
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
-type Résultat = {
-  projects: PaginatedList<Project>
-  existingAppelsOffres: Array<AppelOffre['id']>
-  existingPeriodes?: Array<Periode['id']>
-  existingFamilles?: Array<Famille['id']>
-}
-
 export const PermissionListerProjets = {
   nom: 'lister-projets',
   description: 'Lister les projets',
@@ -51,9 +36,6 @@ export const makeListProjects = ({
   findAllForUser,
   searchAll,
   findAll,
-  findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre,
   findDrealsForUser,
 }: Dépendances) => {
   return async function listProjects({
@@ -66,7 +48,7 @@ export const makeListProjects = ({
     classement,
     reclames,
     garantiesFinancieres,
-  }: Filtres): Promise<Résultat> {
+  }: Filtres): Promise<PaginatedList<Project>> {
     const query: ProjectFilters = {
       isNotified: true,
     }
@@ -105,63 +87,25 @@ export const makeListProjects = ({
       query.garantiesFinancieres = garantiesFinancieres
     }
 
-    const result: any = {}
-
-    let userSpecificProjectListFilter: ContextSpecificProjectListFilter | undefined = undefined
-    let regions: DREAL[]
-
     switch (user.role) {
       case 'dreal':
-        regions = await findDrealsForUser(user.id)
-        result.projects =
-          recherche && recherche.length
-            ? await searchForRegions(regions, recherche, query, pagination)
-            : await findAllForRegions(regions, query, pagination)
-
-        userSpecificProjectListFilter = {
-          regions,
-        }
-        break
+        const regions = await findDrealsForUser(user.id)
+        return recherche && recherche.length
+          ? await searchForRegions(regions, recherche, query, pagination)
+          : await findAllForRegions(regions, query, pagination)
       case 'porteur-projet':
-        result.projects =
-          recherche && recherche.length
-            ? await searchForUser(user.id, recherche, query, pagination)
-            : await findAllForUser(user.id, query, pagination)
-
-        userSpecificProjectListFilter = {
-          userId: user.id,
-        }
-        break
+        return recherche && recherche.length
+          ? await searchForUser(user.id, recherche, query, pagination)
+          : await findAllForUser(user.id, query, pagination)
       case 'admin':
       case 'dgec-validateur':
       case 'acheteur-obligé':
       case 'ademe':
       case 'cre':
       case 'caisse-des-dépôts':
-        result.projects =
-          recherche && recherche.length
-            ? await searchAll(recherche, query, pagination)
-            : await findAll(query, pagination)
-
-        userSpecificProjectListFilter = {
-          isNotified: true,
-        }
-        break
+        return recherche && recherche.length
+          ? await searchAll(recherche, query, pagination)
+          : await findAll(query, pagination)
     }
-
-    result.existingAppelsOffres = await findExistingAppelsOffres(userSpecificProjectListFilter)
-
-    if (appelOffreId && userSpecificProjectListFilter) {
-      result.existingPeriodes = await findExistingPeriodesForAppelOffre(
-        appelOffreId,
-        userSpecificProjectListFilter
-      )
-      result.existingFamilles = await findExistingFamillesForAppelOffre(
-        appelOffreId,
-        userSpecificProjectListFilter
-      )
-    }
-
-    return result as Résultat
   }
 }

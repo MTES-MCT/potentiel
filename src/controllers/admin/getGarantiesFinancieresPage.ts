@@ -6,6 +6,7 @@ import { Pagination } from '../../types'
 import { ensureRole, listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
+import { getOptionsFiltresParAOs } from '../helpers'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
@@ -20,7 +21,7 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const results = await listProjects({
+  const projects = await listProjects({
     user,
     appelOffreId,
     periodeId: appelOffreId ? periodeId : undefined,
@@ -32,8 +33,6 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
     garantiesFinancieres,
   })
 
-  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
-
   if (pageSize) {
     // Save the pageSize in a cookie
     response.cookie('pageSize', pageSize, {
@@ -42,14 +41,14 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
     })
   }
 
+  const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId })
+
   response.send(
     GarantiesFinancieresPage({
       request,
       projects,
-      existingAppelsOffres,
-      existingPeriodes,
-      existingFamilles,
       appelsOffre,
+      ...optionsFiltresParAOs,
     })
   )
 })

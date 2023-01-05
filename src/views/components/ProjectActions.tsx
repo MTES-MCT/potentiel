@@ -4,10 +4,16 @@ import { UserRole } from '@modules/users'
 import { ACTION_BY_ROLE } from './actions'
 import { ChevronDownIcon, SecondaryButton } from './UI'
 import { Link } from '@components'
+import { ProjectAppelOffre } from '@entities'
 
-interface Props {
+type Props = {
   project: {
     id: string
+    appelOffre?: {
+      type: ProjectAppelOffre['type']
+      unitePuissance: ProjectAppelOffre['unitePuissance']
+      periode: ProjectAppelOffre['periode']
+    }
     isClasse: boolean
     isAbandoned: boolean
     isLegacy: boolean
@@ -16,15 +22,11 @@ interface Props {
       id: string
       filename: string
     }
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    numeroCRE: string
     email: string
     nomProjet: string
-    gf?: {
+    garantiesFinancières?: {
       id: string
-      status: 'à traiter' | 'validé'
+      statut: 'à traiter' | 'validé' | 'en attente'
     }
   }
   role: UserRole

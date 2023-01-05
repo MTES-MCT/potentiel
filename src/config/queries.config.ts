@@ -1,4 +1,4 @@
-import { makeListProjects } from '@modules/project/queries'
+import { makeListerProjetsPourAdmin, makeListProjects } from '@modules/project/queries'
 import { projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
 
 export { isPeriodeLegacy } from '@dataAccess/inMemory'
@@ -11,8 +11,10 @@ export const listProjects = makeListProjects({
   findAllForUser: OldProjectRepo.findAllForUser,
   searchAll: OldProjectRepo.searchAll,
   findAll: OldProjectRepo.findAll,
-  findExistingAppelsOffres: OldProjectRepo.findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre: OldProjectRepo.findExistingPeriodesForAppelOffre,
-  findExistingFamillesForAppelOffre: OldProjectRepo.findExistingFamillesForAppelOffre,
   findDrealsForUser: userRepo.findDrealsForUser,
+})
+
+export const listerProjetsPourAdmin = makeListerProjetsPourAdmin({
+  searchAll: OldProjectRepo.searchAll,
+  findAll: OldProjectRepo.findAll,
 })

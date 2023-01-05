@@ -1,17 +1,25 @@
 import { Request } from 'express'
 import querystring from 'querystring'
 import React from 'react'
-import { AppelOffre, Famille, Periode, Project } from '@entities'
+import { AppelOffre, Famille, Periode } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
+import {
+  ProjectList,
+  DownloadIcon,
+  PageTemplate,
+  SuccessBox,
+  ErrorBox,
+  Link,
+  ProjectListItem,
+} from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 
 export type GarantiesFinancieresProps = {
   request: Request
-  projects?: PaginatedList<Project>
+  projects: PaginatedList<ProjectListItem>
   appelsOffre: Array<AppelOffre>
   existingAppelsOffres: Array<AppelOffre['id']>
   existingPeriodes?: Array<Periode['id']>

@@ -1,6 +1,7 @@
 export * from './errors'
 export * from './asyncHandler'
 export * from './errorResponse'
+export * from './getOptionsFiltresParAOs'
 export * from './mapYupValidationErrorToCsvValidationError'
 export * from './miseAJourStatistiquesUtilisation'
 export * from './notFoundResponse'

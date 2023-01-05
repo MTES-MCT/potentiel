@@ -1,14 +1,14 @@
-import { appelOffreRepo } from '@dataAccess'
 import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listProjects } from '@config'
+import { listerProjetsPourAdmin, listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
-import { vérifierPermissionUtilisateur } from '../helpers'
+import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
+import { appelOffreRepo } from '@dataAccess'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -43,7 +43,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     familleId = undefined
   }
 
-  const results = await listProjects({
+  const filtres = {
     user,
     appelOffreId,
     periodeId,
@@ -53,9 +53,11 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     classement,
     reclames,
     garantiesFinancieres,
-  })
+  }
 
-  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
+  const projects = ['admin', 'dgec-validateur'].includes(user.role)
+    ? await listerProjetsPourAdmin(filtres)
+    : await listProjects(filtres)
 
   if (pageSize) {
     // Save the pageSize in a cookie
@@ -67,14 +69,14 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
+  const optionsFiltresParAOs = await getOptionsFiltresParAOs({ user, appelOffreId })
+
   response.send(
     ListeProjetsPage({
       request,
       projects,
-      existingAppelsOffres,
-      existingPeriodes,
-      existingFamilles,
       appelsOffre,
+      ...optionsFiltresParAOs,
     })
   )
 })

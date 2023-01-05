@@ -2,7 +2,10 @@ import ROUTES from '@routes'
 
 const drealActions = (project: {
   id: string
-  garantiesFinancières: { id: string; statut: 'en attente' | 'à traiter' | 'validé' }
+  garantiesFinancières: {
+    id: string
+    statut: 'à traiter' | 'validé' | 'en attente'
+  }
   isAbandoned: boolean
 }) => {
   const actions: any = []

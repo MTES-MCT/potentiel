@@ -1,5 +1,13 @@
-import { Button, DownloadIcon, ErrorBox, PageTemplate, ProjectList, SuccessBox } from '@components'
-import { AppelOffre, Periode, Project } from '@entities'
+import {
+  Button,
+  DownloadIcon,
+  ErrorBox,
+  PageTemplate,
+  ProjectList,
+  ProjectListItem,
+  SuccessBox,
+} from '@components'
+import { AppelOffre, Periode } from '@entities'
 import ROUTES from '@routes'
 import { Request } from 'express'
 import querystring from 'querystring'
@@ -13,7 +21,7 @@ import { hydrateOnClient } from '../helpers'
 type AdminNotificationCandidatsProps = {
   request: Request
   results?: {
-    projects: PaginatedList<Project>
+    projects: PaginatedList<ProjectListItem>
     projectsInPeriodCount: number
     selectedAppelOffreId: AppelOffre['id']
     selectedPeriodeId: Periode['id']
