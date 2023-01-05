@@ -1,7 +1,7 @@
-import { AppelOffre, Periode, Famille, User, ProjectAppelOffre } from '@entities'
+import { User, ProjectAppelOffre } from '@entities'
 import { ProjectRepo, UserRepo } from '@dataAccess'
-import { PaginatedList, Pagination } from '../../../../types'
-import { construireQuery } from './helpers/construireQuery'
+import { PaginatedList } from '../../../../types'
+import { construireQuery, FiltresConstruireQuery } from './helpers/construireQuery'
 type Dépendances = {
   searchForRegions: ProjectRepo['searchForRegions']
   findAllForRegions: ProjectRepo['findAllForRegions']
@@ -10,15 +10,7 @@ type Dépendances = {
 
 type Filtres = {
   user: User
-  appelOffreId?: AppelOffre['id']
-  periodeId?: Periode['id']
-  familleId?: Famille['id']
-  pagination?: Pagination
-  recherche?: string
-  classement?: 'classés' | 'éliminés' | 'abandons'
-  reclames?: 'réclamés' | 'non-réclamés'
-  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
-}
+} & FiltresConstruireQuery
 
 type ProjectListItem = {
   id: string

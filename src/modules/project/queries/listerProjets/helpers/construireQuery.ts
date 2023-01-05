@@ -1,6 +1,19 @@
 import { ProjectFilters } from '@dataAccess'
+import { AppelOffre, Famille, Periode } from '@entities'
+import { Pagination } from '../../../../../types'
 
-export const construireQuery = (filtres) => {
+export type FiltresConstruireQuery = {
+  appelOffreId?: AppelOffre['id']
+  periodeId?: Periode['id']
+  familleId?: Famille['id']
+  pagination?: Pagination
+  recherche?: string
+  classement?: 'classés' | 'éliminés' | 'abandons'
+  reclames?: 'réclamés' | 'non-réclamés'
+  garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
+}
+
+export const construireQuery = (filtres: FiltresConstruireQuery) => {
   const query: ProjectFilters = {
     isNotified: true,
   }
