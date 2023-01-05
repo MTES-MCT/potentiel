@@ -3,7 +3,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { ensureRole, listerProjetsPourAdmin, listProjects } from '@config'
+import { ensureRole, listProjects } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 import { getOptionsFiltresParAOs } from '../helpers'
@@ -21,19 +21,17 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const filtres = {
+  const projects = await listProjects({
     user,
     appelOffreId,
-    periodeId,
-    familleId,
+    periodeId: appelOffreId ? periodeId : undefined,
+    familleId: appelOffreId ? familleId : undefined,
     pagination,
     recherche,
+    classement: 'classés',
+    reclames: undefined,
     garantiesFinancieres,
-  }
-
-  const projects = ['admin', 'dgec-validateur'].includes(user.role)
-    ? await listerProjetsPourAdmin(filtres)
-    : await listProjects(filtres)
+  })
 
   if (pageSize) {
     // Save the pageSize in a cookie
