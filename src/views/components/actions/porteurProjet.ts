@@ -6,7 +6,7 @@ const porteurProjetActions = (project: {
   appelOffre?: {
     type: ProjectAppelOffre['type']
     unitePuissance: ProjectAppelOffre['unitePuissance']
-    periode: { type: ProjectAppelOffre['periode']['type'] }
+    periode: { type: ProjectAppelOffre['periode'] }
   }
   isClasse: boolean
   isAbandoned: boolean

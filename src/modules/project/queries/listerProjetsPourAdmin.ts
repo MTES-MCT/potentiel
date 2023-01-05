@@ -19,7 +19,7 @@ type Filtres = {
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
-export type ProjectListItem = {
+type ProjectListItem = {
   id: string
   nomProjet: string
   potentielIdentifier: string
