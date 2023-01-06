@@ -16,7 +16,7 @@ interface AdminResponseFormProps {
 function getAdminRouteBasedOnType(type) {
   switch (type) {
     case 'delai':
-      return ROUTES.ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI
+      return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI
     case 'abandon':
       return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON
     default:
@@ -55,7 +55,7 @@ export const AdminResponseForm = ({
             />
             Demande traitée hors Potentiel
           </label>
-          <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
+          <div className="text-xs leading-6 mt-1">
             En cochant cette case, seul le statut de la demande sera mis à jour. La réponse n‘aura
             pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
           </div>
@@ -69,7 +69,6 @@ export const AdminResponseForm = ({
         type="submit"
         name="submitAccept"
         data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
-        {...dataId('submit-button')}
         className="mt-4"
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
@@ -79,8 +78,6 @@ export const AdminResponseForm = ({
         type="submit"
         data-confirm={`Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
         name="submitRefuse"
-        // name="submitRefuse"
-        {...dataId('submit-button-alt')}
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
       </button>
