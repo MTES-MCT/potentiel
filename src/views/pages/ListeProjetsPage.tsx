@@ -319,9 +319,15 @@ export const ListeProjets = ({
               {projects.itemCount > 0 && (
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                    request.query as any
-                  )}`}
+                  href={
+                    request.user.role === 'admin'
+                      ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                          request.query as any
+                        )}`
+                      : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                          request.query as any
+                        )}`
+                  }
                   download
                 >
                   <ExcelFileIcon className="mr-2" />

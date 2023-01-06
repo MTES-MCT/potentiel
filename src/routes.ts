@@ -79,6 +79,7 @@ class routes {
   }
 
   static DOWNLOAD_PROJECTS_CSV = '/export-projets.csv'
+  static EXPORTER_LISTE_PROJETS_CSV = '/export-liste-projets.csv'
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv'
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html'
