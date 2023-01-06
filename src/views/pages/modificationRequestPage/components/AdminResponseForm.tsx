@@ -13,7 +13,16 @@ interface AdminResponseFormProps {
   children?: React.ReactNode
 }
 
-function getAdminRouteBasedOnType(type) {
+type TypeDeModification =
+  | 'actionnaire'
+  | 'fournisseur'
+  | 'producteur'
+  | 'puissance'
+  | 'recours'
+  | 'abandon'
+  | 'delai'
+
+function getAdminRouteBasedOnType(type: TypeDeModification) {
   switch (type) {
     case 'delai':
       return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI
@@ -21,6 +30,8 @@ function getAdminRouteBasedOnType(type) {
       return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON
     case 'annulation abandon':
       return ROUTES.POST_REPONDRE_DEMANDE_ANNULATION_ABANDON
+    case 'puissance':
+      return ROUTES.ADMIN_REPONDRE_DEMANDE_CHANGEMENT_PUISSANCE
     default:
       return ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
   }
