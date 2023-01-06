@@ -14,9 +14,17 @@ export const onProjectFournisseursUpdated =
       return
     }
 
-    newFournisseurs.forEach(({ kind, name }) => {
-      projectInstance.details[kind] = name
-    })
+    const newProjectDetails = newFournisseurs.reduce((prev, { kind, name }) => {
+      return {
+        ...prev,
+        [kind]: name,
+      }
+    }, {})
+
+    projectInstance.details = {
+      ...projectInstance.details,
+      ...newProjectDetails,
+    }
 
     if (newEvaluationCarbone) projectInstance.evaluationCarbone = newEvaluationCarbone
     projectInstance.changed('details', true)
