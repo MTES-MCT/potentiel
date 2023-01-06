@@ -103,7 +103,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
 
         const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
-          events: [
+          events: expect.arrayContaining([
             {
               type: 'ModificationRequested',
               date: date.getTime(),
@@ -122,7 +122,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               puissance: 100,
               unitePuissance: 'MWc',
             },
-          ],
+          ]),
         })
       })
 

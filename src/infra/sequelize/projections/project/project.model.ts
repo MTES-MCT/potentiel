@@ -1,16 +1,10 @@
-import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 import { CahierDesChargesRéférence, cahiersDesChargesRéférences, Technologie } from '@entities'
 import { ContratEDF } from '@modules/edf'
 import { ContratEnedis } from '@modules/enedis'
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
-  id: CreationOptional<string>
+  id: string
   appelOffreId: string
   periodeId: string
   numeroCRE: string
@@ -54,34 +48,6 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   dateMiseEnService?: Date
   dateFileAttente?: Date
   soumisAuxGF: boolean
-
-  associate(models: any) {
-    const { File, UserProjects, GarantiesFinancières, Raccordements } = models
-
-    Project.belongsTo(File, {
-      foreignKey: 'dcrFileId',
-      as: 'dcrFileRef',
-    })
-
-    Project.belongsTo(File, {
-      foreignKey: 'certificateFileId',
-      as: 'certificateFile',
-    })
-
-    Project.hasMany(UserProjects, {
-      as: 'users',
-    })
-
-    Project.hasOne(GarantiesFinancières, {
-      as: 'garantiesFinancières',
-      foreignKey: 'projetId',
-    })
-
-    Project.hasOne(Raccordements, {
-      as: 'raccordement',
-      foreignKey: 'projetId',
-    })
-  }
 }
 
 export const MakeProjectModel = (sequelize) => {
@@ -273,9 +239,9 @@ export const MakeProjectModel = (sequelize) => {
     },
     {
       sequelize,
-      tableName: 'project',
-      timestamps: true,
-      freezeTableName: true,
+      tableName: 'projects',
+      timestamps: false,
+      // freezeTableName: true,
     }
   )
   return Project

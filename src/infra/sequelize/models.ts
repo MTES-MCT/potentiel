@@ -64,6 +64,31 @@ Raccordements.hasOne(models.User, {
   as: 'ptfEnvoyéeParRef',
 })
 
+models.Project.belongsTo(models.File, {
+  foreignKey: 'dcrFileId',
+  as: 'dcrFileRef',
+})
+
+models.Project.belongsTo(models.File, {
+  foreignKey: 'certificateFileId',
+  as: 'certificateFile',
+})
+
+models.Project.hasMany(models.UserProjects, {
+  as: 'users',
+  foreignKey: 'projectId',
+})
+
+models.Project.hasOne(GarantiesFinancières, {
+  as: 'garantiesFinancières',
+  foreignKey: 'projetId',
+})
+
+models.Project.hasOne(Raccordements, {
+  as: 'raccordement',
+  foreignKey: 'projetId',
+})
+
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {
   const initializedProjectors: string[] = []
@@ -79,7 +104,7 @@ export const initProjectors = (eventBus: EventBus) => {
 
 // Create associations and link projectors to their model
 Object.values(models).forEach((model) => {
-  model.associate({ ...models, ...projectionsNextModels })
+  if (model.associate) model.associate({ ...models, ...projectionsNextModels })
   if (model.projector) model.projector.initModel(model)
 })
 

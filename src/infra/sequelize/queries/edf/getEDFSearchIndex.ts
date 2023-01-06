@@ -11,6 +11,7 @@ export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
       'details',
       'contratEDF',
     ],
+    raw: true,
   })
 
   const findByNumeroContrat: SearchIndex['findByNumeroContrat'] = (numeroContratEDF) => {
