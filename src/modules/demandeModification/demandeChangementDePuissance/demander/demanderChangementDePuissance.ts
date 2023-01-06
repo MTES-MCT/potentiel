@@ -9,10 +9,11 @@ import {
   InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
-import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events'
+import { ModificationReceived } from '@modules/modificationRequest/events'
 
 import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers'
 import { PuissanceJustificationEtCourrierManquantError } from '.'
+import { ChangementDePuissanceDemandé } from '../events'
 
 type DemanderChangementDePuissance = (commande: {
   projectId: string
@@ -142,17 +143,16 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })
-                  : new ModificationRequested({
+                  : new ChangementDePuissanceDemandé({
                       payload: {
-                        modificationRequestId,
-                        projectId: projectId.toString(),
-                        requestedBy: requestedBy.id,
-                        type: 'puissance',
+                        demandeChangementDePuissanceId: new UniqueEntityID().toString(),
+                        projetId: projectId.toString(),
+                        demandéPar: requestedBy.id,
                         puissance: newPuissance,
                         puissanceAuMomentDuDepot,
                         justification,
-                        fileId,
-                        authority: 'dreal',
+                        fichierId: fileId,
+                        autorité: 'dreal',
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
                     })

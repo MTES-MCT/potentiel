@@ -16,6 +16,7 @@ import {
   ConfirmationAbandonDemandée,
   AbandonConfirmé,
   RejetAbandonAnnulé,
+  ChangementDePuissanceDemandé,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -58,6 +59,7 @@ import {
   onLegacyAbandonSupprimé,
 } from './abandon'
 import { LegacyAbandonSupprimé } from '@modules/project'
+import { onChangementDePuissanceDemandé } from './puissance'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -85,6 +87,8 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction(models))
 
   eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé(models))
+
+  eventBus.subscribe(ChangementDePuissanceDemandé.type, onChangementDePuissanceDemandé(models))
   eventBus.subscribe(
     RejetChangementDePuissanceAnnulé.type,
     onRejetChangementDePuissanceAnnulé(models)
