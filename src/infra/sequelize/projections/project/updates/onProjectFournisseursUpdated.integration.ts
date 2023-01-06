@@ -73,10 +73,10 @@ describe('project.onProjectFournisseursUpdated', () => {
     )
 
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.details).toMatchObject({
+    expect(updatedProject?.details).toMatchObject({
       'Nom du fabricant \n(Modules ou films)': 'newFabricant1',
       'Nom du fabricant (Cellules)': 'newFabricant2',
     })
-    expect(updatedProject.evaluationCarbone).toEqual(newEvaluationCarbone)
+    expect(updatedProject?.evaluationCarbone).toEqual(newEvaluationCarbone)
   })
 })
