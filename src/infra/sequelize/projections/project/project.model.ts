@@ -241,7 +241,6 @@ export const MakeProjectModel = (sequelize) => {
       sequelize,
       tableName: 'projects',
       timestamps: false,
-      // freezeTableName: true,
     }
   )
   return Project
