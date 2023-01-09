@@ -1,7 +1,7 @@
-import { ProjectAppelOffre } from '@entities'
+import React, { ReactNode } from 'react'
+import { ProjectListItem } from '@modules/project'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
-import React, { ReactNode } from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PaginatedList } from '../../../../types'
 import {
@@ -20,41 +20,6 @@ import {
   PaginationPanel,
   InputCheckbox,
 } from '@components'
-
-export type ProjectListItem = {
-  id: string
-  nomProjet: string
-  potentielIdentifier: string
-  communeProjet: string
-  departementProjet: string
-  regionProjet: string
-  nomCandidat: string
-  nomRepresentantLegal: string
-  email: string
-  puissance: number
-  appelOffre?: {
-    type: ProjectAppelOffre['type']
-    unitePuissance: ProjectAppelOffre['unitePuissance']
-    periode: ProjectAppelOffre['periode']
-  }
-  prixReference?: number
-  evaluationCarbone?: number
-  classe: 'Classé' | 'Eliminé'
-  abandonedOn: number
-  notifiedOn: number
-  isFinancementParticipatif?: boolean
-  isInvestissementParticipatif?: boolean
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
-  garantiesFinancières?: {
-    id: string
-    dateEnvoi?: Date
-    statut: 'en attente' | 'à traiter' | 'validé'
-    fichier?: {
-      id: string
-      filename: string
-    }
-  }
-}
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>

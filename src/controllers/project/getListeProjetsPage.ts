@@ -4,7 +4,6 @@ import routes from '@routes'
 import { Pagination } from '../../types'
 import {
   listerProjetsPourAdeme,
-  listerProjetsAccèsComplet,
   listerProjetsPourCaisseDesDépôts,
   listerProjetsPourDreal,
   listerProjetsPourPorteur,
@@ -15,6 +14,7 @@ import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
+import { listerProjetsAccèsComplet } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -60,31 +60,40 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     reclames,
     garantiesFinancieres,
   }
-
-  let projects
-
-  switch (user.role) {
-    case 'admin':
-    case 'dgec-validateur':
-    case 'acheteur-obligé':
-    case 'cre':
-      projects = await listerProjetsAccèsComplet(filtres)
-      break
-    case 'dreal':
-      projects = await listerProjetsPourDreal(filtres)
-      break
-    case 'ademe':
-      projects = await listerProjetsPourAdeme(filtres)
-      break
-    case 'caisse-des-dépôts':
-      projects = await listerProjetsPourCaisseDesDépôts(filtres)
-      break
-    case 'porteur-projet':
-      projects = await listerProjetsPourPorteur(filtres)
-      break
-    default:
-      projects = makePaginatedList([], 0, pagination)
+  const nouveauxFiltres = {
+    recherche,
+    user,
+    appelOffre: {
+      appelOffreId,
+      periodeId,
+      familleId,
+    },
+    classement,
+    reclames,
+    garantiesFinancieres,
   }
+
+  const listerProjetsParRole = async () => {
+    switch (user.role) {
+      case 'admin':
+      case 'dgec-validateur':
+      case 'acheteur-obligé':
+      case 'cre':
+        return await listerProjetsAccèsComplet(pagination, nouveauxFiltres)
+      case 'dreal':
+        return await listerProjetsPourDreal(filtres)
+      case 'ademe':
+        return await listerProjetsPourAdeme(filtres)
+      case 'caisse-des-dépôts':
+        return await listerProjetsPourCaisseDesDépôts(filtres)
+      case 'porteur-projet':
+        return await listerProjetsPourPorteur(filtres)
+      default:
+        return makePaginatedList([], 0, pagination)
+    }
+  }
+
+  const projects = await listerProjetsParRole()
 
   if (pageSize) {
     // Save the pageSize in a cookie
