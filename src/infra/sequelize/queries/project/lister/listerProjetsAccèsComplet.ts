@@ -1,3 +1,4 @@
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ListerProjets } from '@modules/project'
 import { models } from '../../../models'
 import { makePaginatedList, paginate } from '../../../../../helpers/paginate'
@@ -31,8 +32,32 @@ export const listerProjetsAccèsComplet: ListerProjets<typeof attributes[number]
   const résultat = await models.Project.findAndCountAll({
     ...(filtres && mapToFindOptions(filtres)),
     ...paginate(pagination),
-    attributes: attributes.concat(),
+    attributes: [...attributes.concat(), 'appelOffreId', 'periodeId', 'familleId'],
+    raw: true,
   })
 
-  return makePaginatedList(résultat.rows, résultat.count, pagination)
+  const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
+    const { appelOffreId, periodeId, familleId, ...projet } = current
+    const appelOffre = getProjectAppelOffre({
+      appelOffreId,
+      periodeId,
+      familleId,
+    })
+
+    return [
+      ...prev,
+      {
+        ...projet,
+        ...(appelOffre && {
+          appelOffre: {
+            type: appelOffre?.type,
+            unitePuissance: appelOffre?.unitePuissance,
+            periode: appelOffre?.periode,
+          },
+        }),
+      },
+    ]
+  }, [])
+
+  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
 }

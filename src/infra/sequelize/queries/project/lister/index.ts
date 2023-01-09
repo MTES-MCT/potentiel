@@ -1,1 +1,1 @@
-export * from './listerProjetsPourAdmin'
+export * from './listerProjetsAccèsComplet'
