@@ -23,7 +23,7 @@ describe('project.onProjectClaimed', () => {
       await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
-      expect(originalProject.email).toEqual('old@test.test')
+      expect(originalProject?.email).toEqual('old@test.test')
 
       await onProjectClaimed(models)(
         new ProjectClaimed({
@@ -39,12 +39,12 @@ describe('project.onProjectClaimed', () => {
 
     it('should udpdate the project email', async () => {
       const updatedProject = await Project.findByPk(projectId)
-      expect(updatedProject.email).toEqual('new@test.test')
+      expect(updatedProject?.email).toEqual('new@test.test')
     })
 
     it('should udpdate the project certificateFile', async () => {
       const updatedProject = await Project.findByPk(projectId)
-      expect(updatedProject.certificateFileId).toEqual(attestationDesignationFileId)
+      expect(updatedProject?.certificateFileId).toEqual(attestationDesignationFileId)
     })
 
     describe('when the project already has a certificate', () => {
@@ -55,7 +55,7 @@ describe('project.onProjectClaimed', () => {
         await Project.create({ ...fakeProject, certificateFileId: originalCertificateFileId })
 
         const originalProject = await Project.findByPk(projectId)
-        expect(originalProject.certificateFileId).toEqual(originalCertificateFileId)
+        expect(originalProject?.certificateFileId).toEqual(originalCertificateFileId)
 
         await onProjectClaimed(models)(
           new ProjectClaimed({
@@ -71,7 +71,7 @@ describe('project.onProjectClaimed', () => {
 
       it('should not udpdate the project certificateFile', async () => {
         const updatedProject = await Project.findByPk(projectId)
-        expect(updatedProject.certificateFileId).toEqual(originalCertificateFileId)
+        expect(updatedProject?.certificateFileId).toEqual(originalCertificateFileId)
       })
     })
   })
@@ -82,7 +82,7 @@ describe('project.onProjectClaimed', () => {
       await Project.create(fakeProject)
 
       const originalProject = await Project.findByPk(projectId)
-      expect(originalProject.email).toEqual('old@test.test')
+      expect(originalProject?.email).toEqual('old@test.test')
 
       await onProjectClaimed(models)(
         new ProjectClaimedByOwner({
@@ -97,7 +97,7 @@ describe('project.onProjectClaimed', () => {
 
     it('should udpdate the project email', async () => {
       const updatedProject = await Project.findByPk(projectId)
-      expect(updatedProject.email).toEqual('new@test.test')
+      expect(updatedProject?.email).toEqual('new@test.test')
     })
   })
 })

@@ -34,6 +34,6 @@ describe('project.onProjectClasseGranted', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.classe).toEqual('Classé')
+    expect(updatedProject?.classe).toEqual('Classé')
   })
 })

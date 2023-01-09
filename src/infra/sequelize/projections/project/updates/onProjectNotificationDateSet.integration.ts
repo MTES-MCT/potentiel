@@ -39,13 +39,11 @@ describe('project.onProjectNotificationDateSet', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.notifiedOn).toEqual(12345)
+    expect(updatedProject?.notifiedOn).toEqual(12345)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.notifiedOn).toEqual(0)
+    expect(nonUpdatedProject?.notifiedOn).toEqual(0)
   })
 
   it('should update project.notifiedOn on ProjectNotified', async () => {
@@ -64,12 +62,10 @@ describe('project.onProjectNotificationDateSet', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.notifiedOn).toEqual(56789)
+    expect(updatedProject?.notifiedOn).toEqual(56789)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.notifiedOn).toEqual(0)
+    expect(nonUpdatedProject?.notifiedOn).toEqual(0)
   })
 })

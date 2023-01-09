@@ -16,14 +16,14 @@ export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifia
         },
         attributes: ['id', 'numeroGestionnaire'],
       })
-    ).andThen((projetIds: Array<{ id: string; numeroGestionnaire: string }>) => {
+    ).andThen((projets) => {
       return okAsync(
         identifiantsGestionnaireRéseau.reduce((acc, identifiantGR) => {
           return {
             ...acc,
-            [identifiantGR]: projetIds
+            [identifiantGR]: projets
               .filter((p) =>
-                p.numeroGestionnaire.toLowerCase().includes(identifiantGR.toLowerCase())
+                p.numeroGestionnaire?.toLowerCase().includes(identifiantGR.toLowerCase())
               )
               .map(({ id }) => ({ id })),
           }

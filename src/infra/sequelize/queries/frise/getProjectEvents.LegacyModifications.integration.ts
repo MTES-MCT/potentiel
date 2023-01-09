@@ -112,7 +112,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
         const result = await getProjectEvents({ projectId, user: utilisateur })
         expect(result._unsafeUnwrap().events).toHaveLength(5)
         expect(result._unsafeUnwrap()).toMatchObject({
-          events: [
+          events: expect.arrayContaining([
             {
               type: 'LegacyModificationImported',
               date: date.getTime(),
@@ -155,7 +155,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
               producteurPrecedent: 'nom producteur précédent',
               status: 'acceptée',
             },
-          ],
+          ]),
         })
       })
     }

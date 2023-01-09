@@ -46,11 +46,18 @@ export default GarantiesFinancièresProjector.on(
 
     try {
       const { Project } = models
-      const { appelOffreId, periodeId, familleId } = await Project.findOne({
+      const project = await Project.findOne({
         where: { id: projetId },
         transaction,
       })
-      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+      const appelOffre =
+        project &&
+        getProjectAppelOffre({
+          appelOffreId: project.appelOffreId,
+          periodeId: project.periodeId,
+          familleId: project.familleId,
+        })
 
       if (!appelOffre) {
         logger.error(

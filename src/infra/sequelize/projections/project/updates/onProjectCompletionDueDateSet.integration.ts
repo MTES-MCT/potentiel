@@ -38,12 +38,10 @@ describe('project.onProjectCompletionDueDateSet', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.completionDueOn).toEqual(12345)
+    expect(updatedProject?.completionDueOn).toEqual(12345)
 
     const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
     expect(nonUpdatedProject).toBeDefined()
-    if (nonUpdatedProject) return
-
-    expect(nonUpdatedProject.completionDueOn).toEqual(0)
+    expect(nonUpdatedProject?.completionDueOn).toEqual(0)
   })
 })

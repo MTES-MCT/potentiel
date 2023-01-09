@@ -1,9 +1,57 @@
-import { DataTypes } from 'sequelize'
-import { cahiersDesChargesRéférences } from '@entities'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { CahierDesChargesRéférence, cahiersDesChargesRéférences, Technologie } from '@entities'
+import { ContratEDF } from '@modules/edf'
+import { ContratEnedis } from '@modules/enedis'
+
+class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
+  id: string
+  appelOffreId: string
+  periodeId: string
+  numeroCRE: string
+  familleId: string
+  nomCandidat: string
+  nomProjet: string
+  puissanceInitiale: number
+  puissance: number
+  prixReference: number
+  evaluationCarbone: number
+  evaluationCarboneDeRéférence: number
+  note: number
+  nomRepresentantLegal: string
+  email: string
+  adresseProjet: string
+  codePostalProjet: string
+  communeProjet: string
+  departementProjet: string
+  territoireProjet?: string
+  regionProjet: string
+  classe: 'Classé' | 'Eliminé'
+  fournisseur?: string
+  actionnaire?: string
+  motifsElimination?: string
+  isFinancementParticipatif: boolean
+  isInvestissementParticipatif: boolean
+  engagementFournitureDePuissanceAlaPointe: boolean
+  notifiedOn: number
+  dcrDueOn: number
+  completionDueOn: number
+  abandonedOn: number
+  details?: JSON
+  certificateFileId?: string
+  numeroGestionnaire?: string
+  cahierDesChargesActuel: CahierDesChargesRéférence
+  potentielIdentifier: string
+  technologie?: Technologie
+  actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
+  contratEDF?: ContratEDF
+  contratEnedis?: ContratEnedis
+  dateMiseEnService?: Date
+  dateFileAttente?: Date
+  soumisAuxGF: boolean
+}
 
 export const MakeProjectModel = (sequelize) => {
-  const Project = sequelize.define(
-    'project',
+  Project.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -190,37 +238,10 @@ export const MakeProjectModel = (sequelize) => {
       },
     },
     {
-      timestamps: true,
+      sequelize,
+      tableName: 'projects',
+      timestamps: false,
     }
   )
-
-  Project.associate = (models) => {
-    const { File, UserProjects, GarantiesFinancières, Raccordements } = models
-
-    Project.belongsTo(File, {
-      foreignKey: 'dcrFileId',
-      as: 'dcrFileRef',
-    })
-
-    Project.belongsTo(File, {
-      foreignKey: 'certificateFileId',
-      as: 'certificateFile',
-    })
-
-    Project.hasMany(UserProjects, {
-      as: 'users',
-    })
-
-    Project.hasOne(GarantiesFinancières, {
-      as: 'garantiesFinancières',
-      foreignKey: 'projetId',
-    })
-
-    Project.hasOne(Raccordements, {
-      as: 'raccordement',
-      foreignKey: 'projetId',
-    })
-  }
-
   return Project
 }

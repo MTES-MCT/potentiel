@@ -26,6 +26,6 @@ describe('project.onProjectActionnaireUpdated', () => {
     )
 
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.actionnaire).toEqual(newActionnaire)
+    expect(updatedProject?.actionnaire).toEqual(newActionnaire)
   })
 })

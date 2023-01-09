@@ -24,7 +24,7 @@ describe('project.onNumeroGestionnaireSubmitted', () => {
 
   it('should update project.classe to Classé', async () => {
     const originalProject = await ProjectModel.findByPk(projectId)
-    expect(originalProject.numeroGestionnaire).toEqual(null)
+    expect(originalProject?.numeroGestionnaire).toEqual(null)
 
     await onNumeroGestionnaireSubmitted(models)(
       new NumeroGestionnaireSubmitted({
@@ -37,6 +37,6 @@ describe('project.onNumeroGestionnaireSubmitted', () => {
     )
 
     const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject.numeroGestionnaire).toEqual('numero gestionnaire')
+    expect(updatedProject?.numeroGestionnaire).toEqual('numero gestionnaire')
   })
 })

@@ -32,6 +32,6 @@ describe('project.onProjectDCRDueDateCancelled', () => {
     )
 
     const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject.dcrDueOn).toEqual(0)
+    expect(updatedProject?.dcrDueOn).toEqual(0)
   })
 })
