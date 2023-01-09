@@ -25,7 +25,7 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   departementProjet: string
   territoireProjet?: string
   regionProjet: string
-  classe: string
+  classe: 'Classé' | 'Eliminé'
   fournisseur?: string
   actionnaire?: string
   motifsElimination?: string
@@ -42,7 +42,7 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   cahierDesChargesActuel: CahierDesChargesRéférence
   potentielIdentifier: string
   technologie?: Technologie
-  actionnariat: string
+  actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
   contratEDF?: ContratEDF
   contratEnedis?: ContratEnedis
   dateMiseEnService?: Date
