@@ -3,7 +3,6 @@ import { makePaginatedList, makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import {
-  listerProjetsPourAdeme,
   listerProjetsPourCaisseDesDépôts,
   listerProjetsPourDreal,
   listerProjetsPourPorteur,
@@ -14,7 +13,7 @@ import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
-import { listerProjetsAccèsComplet } from '@infra/sequelize/queries'
+import { listerProjetsAccèsComplet, listerProjetsPourAdeme } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -83,7 +82,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       case 'dreal':
         return await listerProjetsPourDreal(filtres)
       case 'ademe':
-        return await listerProjetsPourAdeme(filtres)
+        return await listerProjetsPourAdeme(pagination, nouveauxFiltres)
       case 'caisse-des-dépôts':
         return await listerProjetsPourCaisseDesDépôts(filtres)
       case 'porteur-projet':

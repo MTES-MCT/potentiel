@@ -1,7 +1,6 @@
 export * from './helpers'
 export * from './ListerProjets'
 export * from './listProjects'
-export * from './listerProjetsPourAdeme'
 export * from './listerProjetsPourCaisseDesDépôts'
 export * from './listerProjetsPourDreal'
 export * from './listerProjetsPourPorteur'
