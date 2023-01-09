@@ -1,5 +1,5 @@
 import { GarantiesFinancières } from '@infra/sequelize/projectionsNext'
-import { Op, literal, FindOptions } from 'sequelize'
+import { Op, literal } from 'sequelize'
 import { FiltreListeProjets } from '../../../../../modules/project/queries/listerProjets/ListerProjets'
 
 export const mapToFindOptions = ({
@@ -8,7 +8,7 @@ export const mapToFindOptions = ({
   classement,
   reclames,
   garantiesFinancieres,
-}: FiltreListeProjets): FindOptions => {
+}: FiltreListeProjets) => {
   const filtreRecherche = recherche ? construireFiltreRecherche(recherche) : undefined
   const filtreAO = appelOffre && construireFiltreAppelOffre(appelOffre)
   const filtreClassement = classement && construireFiltreClassement(classement)

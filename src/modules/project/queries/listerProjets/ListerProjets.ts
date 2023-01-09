@@ -50,5 +50,6 @@ export type FiltreListeProjets = {
 
 export type ListerProjets<Attributes extends keyof ProjectListItem> = (
   pagination: Pagination,
-  filtres?: FiltreListeProjets
+  filtres?: FiltreListeProjets,
+  userId?: string
 ) => Promise<PaginatedList<Pick<ProjectListItem, Attributes>>>

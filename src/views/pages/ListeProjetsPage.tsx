@@ -18,9 +18,10 @@ import {
   Input,
   Label,
   Link,
-  ProjectListItem,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
+import { ProjectListItem } from '@modules/project'
+import { userIsNot } from '@modules/users'
 
 type ListeProjetsProps = {
   request: Request
@@ -222,18 +223,20 @@ export const ListeProjets = ({
                   </select>
                 </div>
 
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                  <select
-                    name="reclames"
-                    {...dataId('reclamesSelector')}
-                    defaultValue={reclames || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="réclamés">Réclamés</option>
-                    <option value="non-réclamés">Non réclamés</option>
-                  </select>
-                </div>
+                {userIsNot('porteur-projet')(request.user) && (
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
+                    <select
+                      name="reclames"
+                      {...dataId('reclamesSelector')}
+                      defaultValue={reclames || ''}
+                    >
+                      <option value="">Tous</option>
+                      <option value="réclamés">Réclamés</option>
+                      <option value="non-réclamés">Non réclamés</option>
+                    </select>
+                  </div>
+                )}
 
                 {['admin', 'dgec-validateur'].includes(request.user.role) &&
                   appelOffreId &&

@@ -2,7 +2,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePaginatedList, makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listerProjetsPourDreal, listerProjetsPourPorteur } from '@config'
+import { listerProjetsPourDreal } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
@@ -13,6 +13,7 @@ import {
   listerProjetsAccèsComplet,
   listerProjetsPourAdeme,
   listerProjetsPourCaisseDesDépôts,
+  listerProjetsPourPorteur,
 } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
@@ -86,7 +87,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       case 'caisse-des-dépôts':
         return await listerProjetsPourCaisseDesDépôts(pagination, nouveauxFiltres)
       case 'porteur-projet':
-        return await listerProjetsPourPorteur(filtres)
+        return await listerProjetsPourPorteur(pagination, nouveauxFiltres, user.id)
       default:
         return makePaginatedList([], 0, pagination)
     }
