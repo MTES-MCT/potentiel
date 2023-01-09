@@ -2,18 +2,18 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePaginatedList, makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import {
-  listerProjetsPourCaisseDesDépôts,
-  listerProjetsPourDreal,
-  listerProjetsPourPorteur,
-} from '@config'
+import { listerProjetsPourDreal, listerProjetsPourPorteur } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
-import { listerProjetsAccèsComplet, listerProjetsPourAdeme } from '@infra/sequelize/queries'
+import {
+  listerProjetsAccèsComplet,
+  listerProjetsPourAdeme,
+  listerProjetsPourCaisseDesDépôts,
+} from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -84,7 +84,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       case 'ademe':
         return await listerProjetsPourAdeme(pagination, nouveauxFiltres)
       case 'caisse-des-dépôts':
-        return await listerProjetsPourCaisseDesDépôts(filtres)
+        return await listerProjetsPourCaisseDesDépôts(pagination, nouveauxFiltres)
       case 'porteur-projet':
         return await listerProjetsPourPorteur(filtres)
       default:
