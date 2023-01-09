@@ -227,14 +227,14 @@ export const ProjectList = ({
               )}
 
               {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
-              {project.evaluationCarbone && !displayGF && (
+              {!displayGF && (
                 <div
                   className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
                   title="Évaluation carbone"
                 >
                   <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
                   <div>
-                    {project.evaluationCarbone > 0 ? (
+                    {project?.evaluationCarbone && project.evaluationCarbone > 0 ? (
                       <div className="lg:flex lg:flex-col items-center text-center">
                         {project.evaluationCarbone}
                         <Unit> kg eq CO2/kWc</Unit>
