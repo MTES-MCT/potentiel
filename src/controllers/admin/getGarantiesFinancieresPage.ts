@@ -7,7 +7,7 @@ import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 import { getOptionsFiltresParAOs } from '../helpers'
-import { listerProjetsPourDreal } from '@infra/sequelize/queries'
+import { listerProjets } from '@infra/sequelize/queries'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
@@ -22,21 +22,23 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const projects = await listerProjetsPourDreal(
-    pagination,
-    {
-      appelOffre: {
-        appelOffreId,
-        periodeId: appelOffreId ? periodeId : undefined,
-        familleId: appelOffreId ? familleId : undefined,
-      },
-      recherche,
-      classement: 'classés',
-      reclames: undefined,
-      garantiesFinancieres,
+  const filtres = {
+    appelOffre: {
+      appelOffreId,
+      periodeId: appelOffreId ? periodeId : undefined,
+      familleId: appelOffreId ? familleId : undefined,
     },
-    user.id
-  )
+    recherche,
+    classement: 'classés' as const,
+    reclames: undefined,
+    garantiesFinancieres,
+  }
+
+  const projects = await listerProjets({
+    pagination,
+    user,
+    filtres,
+  })
 
   if (pageSize) {
     // Save the pageSize in a cookie

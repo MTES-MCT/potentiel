@@ -1,4 +1,4 @@
-import { AppelOffre, Periode, Famille, ProjectAppelOffre } from '@entities'
+import { AppelOffre, Periode, Famille, ProjectAppelOffre, User } from '@entities'
 import { PaginatedList, Pagination } from '../../../../types'
 
 export type ProjectListItem = {
@@ -48,8 +48,8 @@ export type FiltreListeProjets = {
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
 }
 
-export type ListerProjets<Attributes extends keyof ProjectListItem> = (
-  pagination: Pagination,
-  filtres?: FiltreListeProjets,
-  userId?: string
-) => Promise<PaginatedList<Pick<ProjectListItem, Attributes>>>
+export type ListerProjets = (args: {
+  user: User
+  pagination: Pagination
+  filtres?: FiltreListeProjets
+}) => Promise<PaginatedList<ProjectListItem>>

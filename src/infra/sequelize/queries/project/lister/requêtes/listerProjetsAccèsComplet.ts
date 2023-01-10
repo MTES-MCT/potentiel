@@ -1,7 +1,7 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ListerProjets } from '@modules/project'
-import { models } from '../../../models'
-import { makePaginatedList, paginate } from '../../../../../helpers/paginate'
+import { ListerProjets } from '@modules/project/queries'
+import { models } from '../../../../models'
+import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from './mapToFindOptions'
 
 const attributes = [
@@ -15,6 +15,7 @@ const attributes = [
   'nomRepresentantLegal',
   'email',
   'puissance',
+  'prixReference',
   'evaluationCarbone',
   'classe',
   'abandonedOn',
@@ -22,15 +23,13 @@ const attributes = [
   'isFinancementParticipatif',
   'isInvestissementParticipatif',
   'actionnariat',
-] as const
+]
 
-export const listerProjetsPourAdeme: ListerProjets<
-  typeof attributes[number] | 'appelOffre'
-> = async (pagination, filtres) => {
+export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
   const résultat = await models.Project.findAndCountAll({
     ...(filtres && mapToFindOptions(filtres)),
     ...paginate(pagination),
-    attributes: [...attributes.concat(), 'appelOffreId', 'periodeId', 'familleId'],
+    attributes: [...attributes, 'appelOffreId', 'periodeId', 'familleId'],
   })
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {

@@ -1,5 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler'
-import { makePaginatedList, makePagination } from '../../helpers/paginate'
+import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
 import { v1Router } from '../v1Router'
@@ -8,13 +8,7 @@ import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
-import {
-  listerProjetsAccèsComplet,
-  listerProjetsPourAdeme,
-  listerProjetsPourCaisseDesDépôts,
-  listerProjetsPourPorteur,
-  listerProjetsPourDreal,
-} from '@infra/sequelize/queries'
+import { listerProjets } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -62,27 +56,7 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     garantiesFinancieres,
   }
 
-  const listerProjetsParRole = async () => {
-    switch (user.role) {
-      case 'admin':
-      case 'dgec-validateur':
-      case 'acheteur-obligé':
-      case 'cre':
-        return await listerProjetsAccèsComplet(pagination, filtres)
-      case 'dreal':
-        return await listerProjetsPourDreal(pagination, filtres, user.id)
-      case 'ademe':
-        return await listerProjetsPourAdeme(pagination, filtres)
-      case 'caisse-des-dépôts':
-        return await listerProjetsPourCaisseDesDépôts(pagination, filtres)
-      case 'porteur-projet':
-        return await listerProjetsPourPorteur(pagination, filtres, user.id)
-      default:
-        return makePaginatedList([], 0, pagination)
-    }
-  }
-
-  const projects = await listerProjetsParRole()
+  const projects = await listerProjets({ user, filtres, pagination })
 
   if (pageSize) {
     // Save the pageSize in a cookie
