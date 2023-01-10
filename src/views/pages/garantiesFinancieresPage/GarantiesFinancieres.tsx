@@ -63,7 +63,7 @@ export const GarantiesFinancieres = ({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
-                placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
+                placeholder="Rechercher par nom du projet"
               />
               <button
                 className="overlay-button"
