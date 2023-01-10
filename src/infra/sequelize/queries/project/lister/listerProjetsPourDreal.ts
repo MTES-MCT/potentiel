@@ -4,7 +4,7 @@ import { models } from '../../../models'
 import { makePaginatedList, paginate } from '../../../../../helpers/paginate'
 import { mapToFindOptions } from './mapToFindOptions'
 import { GarantiesFinancières } from '../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
-import { Op, literal } from 'sequelize'
+import { Op } from 'sequelize'
 
 const attributes = [
   'id',
@@ -31,11 +31,13 @@ export const listerProjetsPourDreal: ListerProjets<
 > = async (pagination, filtres, userId) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
+  const régionsDreal = await models.UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
+
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       regionProjet: {
-        [Op.substring]: literal(`(SELECT "dreal" FROM "userDreals" where "userId" = '${userId}')`),
+        [Op.substring]: régionsDreal.dreal,
       },
     },
     include: [

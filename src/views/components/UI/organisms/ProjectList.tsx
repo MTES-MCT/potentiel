@@ -69,20 +69,6 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
 }: Props) => {
-  const { items } = projects
-
-  if (!items.length) {
-    return (
-      <table className="table">
-        <tbody>
-          <tr>
-            <td>Aucun projet à lister</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
-
   const prixDisponible = projects.items.some((project) => project.prixReference)
 
   const évaluationCarboneDisponible = projects.items.some((project) => project.evaluationCarbone)
@@ -100,7 +86,7 @@ export const ProjectList = ({
 
   const toggleSelectAllPage = (value: boolean) => {
     if (value) {
-      onSelectedIdsChanged?.(items.map((projet) => projet.id))
+      onSelectedIdsChanged?.(projects.items.map((projet) => projet.id))
     } else {
       onSelectedIdsChanged?.([])
     }
@@ -153,16 +139,16 @@ export const ProjectList = ({
             <InputCheckbox
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               type="checkbox"
-              checked={selectedIds.length === items.length}
+              checked={selectedIds.length === projects.items.length}
             />
             <span className="text-sm">
-              Séléctioner tous les projets de la page ({items.length})
+              Séléctioner tous les projets de la page ({projects.items.length})
             </span>
           </>
         )}
       </div>
 
-      {items.map((project) => (
+      {projects.items.map((project) => (
         <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
           <div className="flex flex-col gap-2 mb-4">
             <div className="flex flex-col md:flex-row gap-2">

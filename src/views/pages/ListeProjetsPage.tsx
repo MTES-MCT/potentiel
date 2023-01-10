@@ -78,6 +78,9 @@ export const ListeProjets = ({
       <div className="panel">
         <div className="panel__header">
           <h3>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</h3>
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
+
           <form
             action={ROUTES.LISTE_PROJETS}
             method="GET"
@@ -324,18 +327,15 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success && <SuccessBox title={success} />}
-        {error && <ErrorBox title={error} />}
-        {projects ? (
+
+        {projects.itemCount > 0 ? (
           <>
             <div className="flex flex-col md:flex-row md:items-center py-2">
-              {request.user.role !== 'dreal' && (
-                <span>
-                  <strong>{getProjectsCount(projects)}</strong> projets
-                </span>
-              )}
+              <span>
+                <strong>{projects.itemCount}</strong> projets
+              </span>
 
-              {getProjectsCount(projects) > 0 && (
+              {projects.itemCount > 0 && (
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
                   href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
@@ -365,8 +365,5 @@ export const ListeProjets = ({
     </PageTemplate>
   )
 }
-
-const getProjectsCount = (projects: PaginatedList<ProjectListItem>): number =>
-  Array.isArray(projects) ? projects.length : projects.itemCount
 
 hydrateOnClient(ListeProjets)
