@@ -138,7 +138,7 @@ class routes {
   static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
-  static ADMIN_ACCORDER_OU_REJETER_DEMANDE_DELAI = '/admin/accorder-ou-rejeter-demande-delai'
+  static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai'
   static ADMIN_REPONDRE_DEMANDE_ABANDON = '/admin/repondre-demande-abandon'
 
   static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
