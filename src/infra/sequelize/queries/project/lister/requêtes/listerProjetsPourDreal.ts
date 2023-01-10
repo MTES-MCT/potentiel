@@ -33,13 +33,13 @@ export const listerProjetsPourDreal: ListerProjets = async ({
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
-  const régionsDreal = await models.UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
+  const régionDreal = await models.UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
 
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       regionProjet: {
-        [Op.substring]: régionsDreal.dreal,
+        [Op.substring]: régionDreal.dreal,
       },
     },
     include: [

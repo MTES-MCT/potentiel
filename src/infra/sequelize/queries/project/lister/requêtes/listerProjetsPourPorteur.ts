@@ -38,17 +38,13 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
     },
     include: [
       ...(findOptions?.include ? findOptions.include : []),
-      ...(userId
-        ? [
-            {
-              model: models.UserProjects,
-              as: 'users',
-              where: {
-                userId: userId,
-              },
-            },
-          ]
-        : []),
+      {
+        model: models.UserProjects,
+        as: 'users',
+        where: {
+          userId: userId,
+        },
+      },
     ],
     ...paginate(pagination),
     attributes: [...attributes, 'appelOffreId', 'periodeId', 'familleId'],

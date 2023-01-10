@@ -1,10 +1,10 @@
+import { ListerProjets } from '@modules/project'
+import { makePaginatedList } from '../../../../../helpers/paginate'
 import { listerProjetsAccèsComplet } from './requêtes/listerProjetsAccèsComplet'
 import { listerProjetsPourDreal } from './requêtes/listerProjetsPourDreal'
 import { listerProjetsPourAdeme } from './requêtes/listerProjetsPourAdeme'
 import { listerProjetsPourCaisseDesDépôts } from './requêtes/listerProjetsPourCaisseDesDépôts'
 import { listerProjetsPourPorteur } from './requêtes/listerProjetsPourPorteur'
-import { ListerProjets } from '@modules/project'
-import { makePaginatedList } from '../../../../../helpers/paginate'
 
 export const listerProjets: ListerProjets = async (args) => {
   const { user, pagination } = args
