@@ -33,11 +33,10 @@ export const listerProjetsAccèsComplet: ListerProjets<typeof attributes[number]
     ...(filtres && mapToFindOptions(filtres)),
     ...paginate(pagination),
     attributes: [...attributes.concat(), 'appelOffreId', 'periodeId', 'familleId'],
-    raw: true,
   })
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current
+    const { appelOffreId, periodeId, familleId, ...projet } = current.get()
     const appelOffre = getProjectAppelOffre({
       appelOffreId,
       periodeId,

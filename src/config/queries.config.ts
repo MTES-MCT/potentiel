@@ -1,4 +1,4 @@
-import { makeListerProjetsPourDreal, makeListProjects } from '@modules/project/queries'
+import { makeListProjects } from '@modules/project/queries'
 import { projectRepo as OldProjectRepo, userRepo } from '@dataAccess'
 
 export { isPeriodeLegacy } from '@dataAccess/inMemory'
@@ -11,11 +11,5 @@ export const listProjects = makeListProjects({
   findAllForUser: OldProjectRepo.findAllForUser,
   searchAll: OldProjectRepo.searchAll,
   findAll: OldProjectRepo.findAll,
-  findDrealsForUser: userRepo.findDrealsForUser,
-})
-
-export const listerProjetsPourDreal = makeListerProjetsPourDreal({
-  searchForRegions: OldProjectRepo.searchForRegions,
-  findAllForRegions: OldProjectRepo.findAllForRegions,
   findDrealsForUser: userRepo.findDrealsForUser,
 })

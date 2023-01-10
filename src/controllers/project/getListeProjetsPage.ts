@@ -2,7 +2,6 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePaginatedList, makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listerProjetsPourDreal } from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
@@ -14,6 +13,7 @@ import {
   listerProjetsPourAdeme,
   listerProjetsPourCaisseDesDépôts,
   listerProjetsPourPorteur,
+  listerProjetsPourDreal,
 } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
@@ -50,17 +50,6 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   }
 
   const filtres = {
-    user,
-    appelOffreId,
-    periodeId,
-    familleId,
-    pagination,
-    recherche,
-    classement,
-    reclames,
-    garantiesFinancieres,
-  }
-  const nouveauxFiltres = {
     recherche,
     user,
     appelOffre: {
@@ -79,15 +68,15 @@ const getProjectListPage = asyncHandler(async (request, response) => {
       case 'dgec-validateur':
       case 'acheteur-obligé':
       case 'cre':
-        return await listerProjetsAccèsComplet(pagination, nouveauxFiltres)
+        return await listerProjetsAccèsComplet(pagination, filtres)
       case 'dreal':
-        return await listerProjetsPourDreal(filtres)
+        return await listerProjetsPourDreal(pagination, filtres, user.id)
       case 'ademe':
-        return await listerProjetsPourAdeme(pagination, nouveauxFiltres)
+        return await listerProjetsPourAdeme(pagination, filtres)
       case 'caisse-des-dépôts':
-        return await listerProjetsPourCaisseDesDépôts(pagination, nouveauxFiltres)
+        return await listerProjetsPourCaisseDesDépôts(pagination, filtres)
       case 'porteur-projet':
-        return await listerProjetsPourPorteur(pagination, nouveauxFiltres, user.id)
+        return await listerProjetsPourPorteur(pagination, filtres, user.id)
       default:
         return makePaginatedList([], 0, pagination)
     }
