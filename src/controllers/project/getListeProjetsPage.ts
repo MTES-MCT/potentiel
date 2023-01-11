@@ -1,20 +1,14 @@
 import asyncHandler from '../helpers/asyncHandler'
-import { makePaginatedList, makePagination } from '../../helpers/paginate'
+import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import {
-  listerProjetsPourAdeme,
-  listerProjetsAccèsComplet,
-  listerProjetsPourCaisseDesDépôts,
-  listerProjetsPourDreal,
-  listerProjetsPourPorteur,
-} from '@config'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
 import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
+import { listerProjets } from '@infra/sequelize/queries'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
@@ -50,41 +44,19 @@ const getProjectListPage = asyncHandler(async (request, response) => {
   }
 
   const filtres = {
-    user,
-    appelOffreId,
-    periodeId,
-    familleId,
-    pagination,
     recherche,
+    user,
+    appelOffre: {
+      appelOffreId,
+      periodeId,
+      familleId,
+    },
     classement,
     reclames,
     garantiesFinancieres,
   }
 
-  let projects
-
-  switch (user.role) {
-    case 'admin':
-    case 'dgec-validateur':
-    case 'acheteur-obligé':
-    case 'cre':
-      projects = await listerProjetsAccèsComplet(filtres)
-      break
-    case 'dreal':
-      projects = await listerProjetsPourDreal(filtres)
-      break
-    case 'ademe':
-      projects = await listerProjetsPourAdeme(filtres)
-      break
-    case 'caisse-des-dépôts':
-      projects = await listerProjetsPourCaisseDesDépôts(filtres)
-      break
-    case 'porteur-projet':
-      projects = await listerProjetsPourPorteur(filtres)
-      break
-    default:
-      projects = makePaginatedList([], 0, pagination)
-  }
+  const projects = await listerProjets({ user, filtres, pagination })
 
   if (pageSize) {
     // Save the pageSize in a cookie

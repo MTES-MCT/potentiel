@@ -18,9 +18,10 @@ import {
   Input,
   Label,
   Link,
-  ProjectListItem,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
+import { ProjectListItem } from '@modules/project'
+import { userIsNot } from '@modules/users'
 
 type ListeProjetsProps = {
   request: Request
@@ -77,6 +78,9 @@ export const ListeProjets = ({
       <div className="panel">
         <div className="panel__header">
           <h3>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</h3>
+          {success && <SuccessBox title={success} />}
+          {error && <ErrorBox title={error} />}
+
           <form
             action={ROUTES.LISTE_PROJETS}
             method="GET"
@@ -89,7 +93,7 @@ export const ListeProjets = ({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
-                placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
+                placeholder="Rechercher par nom du projet"
               />
               <button
                 className="overlay-button"
@@ -222,18 +226,20 @@ export const ListeProjets = ({
                   </select>
                 </div>
 
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                  <select
-                    name="reclames"
-                    {...dataId('reclamesSelector')}
-                    defaultValue={reclames || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="réclamés">Réclamés</option>
-                    <option value="non-réclamés">Non réclamés</option>
-                  </select>
-                </div>
+                {userIsNot('porteur-projet')(request.user) && (
+                  <div style={{ marginTop: 15 }}>
+                    <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
+                    <select
+                      name="reclames"
+                      {...dataId('reclamesSelector')}
+                      defaultValue={reclames || ''}
+                    >
+                      <option value="">Tous</option>
+                      <option value="réclamés">Réclamés</option>
+                      <option value="non-réclamés">Non réclamés</option>
+                    </select>
+                  </div>
+                )}
 
                 {['admin', 'dgec-validateur'].includes(request.user.role) &&
                   appelOffreId &&
@@ -321,18 +327,15 @@ export const ListeProjets = ({
             </div>
           )}
         </div>
-        {success && <SuccessBox title={success} />}
-        {error && <ErrorBox title={error} />}
-        {projects ? (
+
+        {projects.itemCount > 0 ? (
           <>
             <div className="flex flex-col md:flex-row md:items-center py-2">
-              {request.user.role !== 'dreal' && (
-                <span>
-                  <strong>{getProjectsCount(projects)}</strong> projets
-                </span>
-              )}
+              <span>
+                <strong>{projects.itemCount}</strong> projets
+              </span>
 
-              {getProjectsCount(projects) > 0 && (
+              {projects.itemCount > 0 && (
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
                   href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
@@ -362,8 +365,5 @@ export const ListeProjets = ({
     </PageTemplate>
   )
 }
-
-const getProjectsCount = (projects: PaginatedList<ProjectListItem>): number =>
-  Array.isArray(projects) ? projects.length : projects.itemCount
 
 hydrateOnClient(ListeProjets)

@@ -1,7 +1,8 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize'
 import { CahierDesChargesRéférence, cahiersDesChargesRéférences, Technologie } from '@entities'
 import { ContratEDF } from '@modules/edf'
 import { ContratEnedis } from '@modules/enedis'
+import { GarantiesFinancières } from '../../projectionsNext'
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string
@@ -48,6 +49,7 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   dateMiseEnService?: Date
   dateFileAttente?: Date
   soumisAuxGF: boolean
+  garantiesFinancières?: NonAttribute<GarantiesFinancières>
 }
 
 export const MakeProjectModel = (sequelize) => {

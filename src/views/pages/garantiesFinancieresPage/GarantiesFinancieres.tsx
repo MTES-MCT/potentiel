@@ -5,17 +5,10 @@ import { AppelOffre, Famille, Periode } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import {
-  ProjectList,
-  DownloadIcon,
-  PageTemplate,
-  SuccessBox,
-  ErrorBox,
-  Link,
-  ProjectListItem,
-} from '@components'
+import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
+import { ProjectListItem } from '@modules/project/queries'
 
 export type GarantiesFinancieresProps = {
   request: Request
@@ -70,7 +63,7 @@ export const GarantiesFinancieres = ({
                 {...dataId('recherche-field')}
                 style={{ paddingRight: 40 }}
                 defaultValue={recherche || ''}
-                placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
+                placeholder="Rechercher par nom du projet"
               />
               <button
                 className="overlay-button"

@@ -1,13 +1,6 @@
-import {
-  Button,
-  DownloadIcon,
-  ErrorBox,
-  PageTemplate,
-  ProjectList,
-  ProjectListItem,
-  SuccessBox,
-} from '@components'
+import { Button, DownloadIcon, ErrorBox, PageTemplate, ProjectList, SuccessBox } from '@components'
 import { AppelOffre, Periode } from '@entities'
+import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
 import { Request } from 'express'
 import querystring from 'querystring'

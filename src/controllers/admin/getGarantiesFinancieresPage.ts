@@ -3,10 +3,11 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { ensureRole, listerProjetsPourDreal } from '@config'
+import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { GarantiesFinancieresPage } from '@views'
 import { getOptionsFiltresParAOs } from '../helpers'
+import { listerProjets } from '@infra/sequelize/queries'
 
 const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, familleId, recherche, garantiesFinancieres, pageSize } =
@@ -21,16 +22,22 @@ const getGarantiesFinancieresPage = asyncHandler(async (request, response) => {
 
   const appelsOffre = await appelOffreRepo.findAll()
 
-  const projects = await listerProjetsPourDreal({
-    user,
-    appelOffreId,
-    periodeId: appelOffreId ? periodeId : undefined,
-    familleId: appelOffreId ? familleId : undefined,
-    pagination,
+  const filtres = {
+    appelOffre: {
+      appelOffreId,
+      periodeId: appelOffreId ? periodeId : undefined,
+      familleId: appelOffreId ? familleId : undefined,
+    },
     recherche,
-    classement: 'classés',
+    classement: 'classés' as const,
     reclames: undefined,
     garantiesFinancieres,
+  }
+
+  const projects = await listerProjets({
+    pagination,
+    user,
+    filtres,
   })
 
   if (pageSize) {

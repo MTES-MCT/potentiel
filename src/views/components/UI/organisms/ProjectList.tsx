@@ -1,7 +1,7 @@
-import { ProjectAppelOffre } from '@entities'
+import React, { ReactNode } from 'react'
+import { ProjectListItem } from '@modules/project'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
-import React, { ReactNode } from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { PaginatedList } from '../../../../types'
 import {
@@ -20,41 +20,6 @@ import {
   PaginationPanel,
   InputCheckbox,
 } from '@components'
-
-export type ProjectListItem = {
-  id: string
-  nomProjet: string
-  potentielIdentifier: string
-  communeProjet: string
-  departementProjet: string
-  regionProjet: string
-  nomCandidat: string
-  nomRepresentantLegal: string
-  email: string
-  puissance: number
-  appelOffre?: {
-    type: ProjectAppelOffre['type']
-    unitePuissance: ProjectAppelOffre['unitePuissance']
-    periode: ProjectAppelOffre['periode']
-  }
-  prixReference?: number
-  evaluationCarbone?: number
-  classe: 'Classé' | 'Eliminé'
-  abandonedOn: number
-  notifiedOn: number
-  isFinancementParticipatif?: boolean
-  isInvestissementParticipatif?: boolean
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | ''
-  garantiesFinancières?: {
-    id: string
-    dateEnvoi?: Date
-    statut: 'en attente' | 'à traiter' | 'validé'
-    fichier?: {
-      id: string
-      filename: string
-    }
-  }
-}
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -104,20 +69,6 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
 }: Props) => {
-  const { items } = projects
-
-  if (!items.length) {
-    return (
-      <table className="table">
-        <tbody>
-          <tr>
-            <td>Aucun projet à lister</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
-
   const prixDisponible = projects.items.some((project) => project.prixReference)
 
   const évaluationCarboneDisponible = projects.items.some((project) => project.evaluationCarbone)
@@ -135,7 +86,7 @@ export const ProjectList = ({
 
   const toggleSelectAllPage = (value: boolean) => {
     if (value) {
-      onSelectedIdsChanged?.(items.map((projet) => projet.id))
+      onSelectedIdsChanged?.(projects.items.map((projet) => projet.id))
     } else {
       onSelectedIdsChanged?.([])
     }
@@ -188,16 +139,16 @@ export const ProjectList = ({
             <InputCheckbox
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
               type="checkbox"
-              checked={selectedIds.length === items.length}
+              checked={selectedIds.length === projects.items.length}
             />
             <span className="text-sm">
-              Séléctioner tous les projets de la page ({items.length})
+              Séléctioner tous les projets de la page ({projects.items.length})
             </span>
           </>
         )}
       </div>
 
-      {items.map((project) => (
+      {projects.items.map((project) => (
         <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
           <div className="flex flex-col gap-2 mb-4">
             <div className="flex flex-col md:flex-row gap-2">
@@ -261,24 +212,27 @@ export const ProjectList = ({
                 </div>
               )}
 
-              {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
-              {project.evaluationCarbone && !displayGF && (
-                <div
-                  className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
-                  title="Évaluation carbone"
-                >
-                  <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
-                  <div>
-                    {project.evaluationCarbone > 0 ? (
-                      <div className="lg:flex lg:flex-col items-center text-center">
-                        {project.evaluationCarbone}
-                        <Unit> kg eq CO2/kWc</Unit>
-                      </div>
-                    ) : (
-                      '- - -'
-                    )}
+              {displayGF ? (
+                <GF project={project} GFPastDue={GFPastDue} />
+              ) : (
+                project.evaluationCarbone !== undefined && (
+                  <div
+                    className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
+                    title="Évaluation carbone"
+                  >
+                    <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
+                    <div>
+                      {project.evaluationCarbone > 0 ? (
+                        <div className="lg:flex lg:flex-col items-center text-center">
+                          {project.evaluationCarbone}
+                          <Unit> kg eq CO2/kWc</Unit>
+                        </div>
+                      ) : (
+                        '- - -'
+                      )}
+                    </div>
                   </div>
-                </div>
+                )
               )}
             </div>
 
