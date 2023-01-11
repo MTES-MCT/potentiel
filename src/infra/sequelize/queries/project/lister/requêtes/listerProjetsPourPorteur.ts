@@ -47,6 +47,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
         where: {
           userId: userId,
         },
+        attributes: [],
       },
     ],
     ...paginate(pagination),
@@ -75,6 +76,8 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
       },
     ]
   }, [])
+
+  console.log(projetsAvecAppelOffre)
 
   return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
 }
