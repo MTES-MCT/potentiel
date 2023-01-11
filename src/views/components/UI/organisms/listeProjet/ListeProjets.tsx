@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react'
 import { ProjectListItem } from '@modules/project'
 import { UserRole } from '@modules/users'
 import routes from '@routes'
-import { formatDate } from '../../../../helpers/formatDate'
-import { PaginatedList } from '../../../../types'
+import { formatDate } from '../../../../../helpers/formatDate'
+import { PaginatedList } from '../../../../../types'
 import {
   ProjectActions,
   PowerIcon,
@@ -60,7 +60,7 @@ type Props = {
   onSelectedIdsChanged?: (projectIds: string[]) => void
 }
 
-export const ProjectList = ({
+export const ListeProjets = ({
   projects,
   displayGF,
   role,

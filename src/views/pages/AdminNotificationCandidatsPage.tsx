@@ -1,4 +1,4 @@
-import { Button, DownloadIcon, ErrorBox, PageTemplate, ProjectList, SuccessBox } from '@components'
+import { Button, DownloadIcon, ErrorBox, PageTemplate, ListeProjets, SuccessBox } from '@components'
 import { AppelOffre, Periode } from '@entities'
 import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
@@ -206,7 +206,7 @@ export const AdminNotificationCandidats = ({
 
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-        <ProjectList projects={projects} role={request.user?.role} />
+        <ListeProjets projects={projects} role={request.user?.role} />
       </div>
     </PageTemplate>
   )

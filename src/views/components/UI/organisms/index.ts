@@ -1,3 +1,3 @@
 export * from './choisirCahierDesCharges'
+export * from './listeProjet'
 export * from './PaginationPanel'
-export * from './ProjectList'

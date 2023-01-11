@@ -5,7 +5,7 @@ import { AppelOffre, Famille, Periode } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
+import { ListeProjets, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 import { ProjectListItem } from '@modules/project/queries'
@@ -174,7 +174,7 @@ export const GarantiesFinancieres = ({
                 <DownloadIcon />
               </a>
             </div>
-            <ProjectList
+            <ListeProjets
               displayGF={true}
               projects={projects}
               role={request.user?.role}

@@ -5,7 +5,7 @@ import makeFakeRequest from '../../__tests__/fixtures/request'
 export default { title: 'List Projects' }
 
 import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { ListeProjets } from './ListeProjetsPage'
+import { ListeProjetsPage } from './ListeProjetsPage'
 
 const projects = {
   itemCount: 3,
@@ -33,7 +33,7 @@ const projects = {
 }
 
 export const withFilters = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest(
       {
         query: {
@@ -51,7 +51,7 @@ export const withFilters = () => (
 )
 
 export const withError = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest({
       query: { error: 'This is an error message!' },
     })}
@@ -70,7 +70,7 @@ export const withError = () => (
 )
 
 export const withSuccess = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest({
       query: { success: 'This is a success message!' },
     })}
@@ -81,7 +81,7 @@ export const withSuccess = () => (
 )
 
 export const adminWithProjects = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest({}, { role: 'admin' })}
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}
@@ -90,7 +90,7 @@ export const adminWithProjects = () => (
 )
 
 export const drealWithProjects = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest({}, { role: 'dreal' })}
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}
@@ -99,7 +99,7 @@ export const drealWithProjects = () => (
 )
 
 export const porteurProjetWithProjects = () => (
-  <ListeProjets
+  <ListeProjetsPage
     request={makeFakeRequest({}, { role: 'porteur-projet' })}
     appelsOffre={appelsOffreStatic}
     existingAppelsOffres={[appelsOffreStatic[0].id]}

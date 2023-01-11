@@ -32,7 +32,7 @@ import {
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
   AdminImporterCandidats,
-  ListeProjets,
+  ListeProjetsPage as ListeProjets,
   SuccèsOuErreur,
   FakeLogin,
   InvitationsCandidatsEnAttente,

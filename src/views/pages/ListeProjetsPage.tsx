@@ -7,7 +7,7 @@ import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 
 import {
-  ProjectList,
+  ListeProjets,
   DownloadIcon,
   ExcelFileIcon,
   SecondaryLinkButton,
@@ -32,7 +32,7 @@ type ListeProjetsProps = {
   existingFamilles?: Array<Famille['id']>
 }
 
-export const ListeProjets = ({
+export const ListeProjetsPage = ({
   request,
   projects,
   appelsOffre,
@@ -349,7 +349,7 @@ export const ListeProjets = ({
               )}
             </div>
 
-            <ProjectList
+            <ListeProjets
               displaySelection={displaySelection}
               selectedIds={selectedProjectIds}
               onSelectedIdsChanged={setSelectedProjectIds}
