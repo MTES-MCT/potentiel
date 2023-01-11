@@ -212,24 +212,27 @@ export const ProjectList = ({
                 </div>
               )}
 
-              {displayGF && <GF project={project} GFPastDue={GFPastDue} />}
-              {!displayGF && (
-                <div
-                  className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
-                  title="Évaluation carbone"
-                >
-                  <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
-                  <div>
-                    {project?.evaluationCarbone && project.evaluationCarbone > 0 ? (
-                      <div className="lg:flex lg:flex-col items-center text-center">
-                        {project.evaluationCarbone}
-                        <Unit> kg eq CO2/kWc</Unit>
-                      </div>
-                    ) : (
-                      '- - -'
-                    )}
+              {displayGF ? (
+                <GF project={project} GFPastDue={GFPastDue} />
+              ) : (
+                project.evaluationCarbone !== undefined && (
+                  <div
+                    className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
+                    title="Évaluation carbone"
+                  >
+                    <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
+                    <div>
+                      {project.evaluationCarbone > 0 ? (
+                        <div className="lg:flex lg:flex-col items-center text-center">
+                          {project.evaluationCarbone}
+                          <Unit> kg eq CO2/kWc</Unit>
+                        </div>
+                      ) : (
+                        '- - -'
+                      )}
+                    </div>
                   </div>
-                </div>
+                )
               )}
             </div>
 
