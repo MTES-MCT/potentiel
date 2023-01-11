@@ -1,15 +1,16 @@
-import { UserRole } from '@modules/users'
-import { getProjetsListePourAdmin } from './getListeProjetsPourAdmin'
+import { RolesPourCatégoriesPermission } from '@modules/project/queries/exporterProjets'
+import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
 
 export const getListeProjetsPourExport = ({
   role,
   listeColonnes,
 }: {
-  role: UserRole
+  role: RolesPourCatégoriesPermission
   listeColonnes: string[]
 }) => {
   switch (role) {
     case 'admin':
-      return getProjetsListePourAdmin(listeColonnes)
+    case 'dgec-validateur':
+      return getProjetsListePourDGEC(listeColonnes)
   }
 }

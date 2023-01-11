@@ -1,2 +1,2 @@
-export * from './getListeProjetsPourAdmin'
+export * from './getListeProjetsPourDGEC'
 export * from './getListeProjetsPourExport'

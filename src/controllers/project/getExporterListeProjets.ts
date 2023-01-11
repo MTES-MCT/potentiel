@@ -14,6 +14,7 @@ import {
   getListeColonnesExportParRole,
 } from '@modules/project/queries/exporterProjets'
 import { InfraNotAvailableError } from '@modules/shared'
+import { addQueryParams } from 'src/helpers/addQueryParams'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
@@ -23,12 +24,18 @@ v1Router.get(
       user: { role },
     } = request
 
+    if (!['admin', 'dgec-validateur'].includes(role)) {
+      return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
+    }
+
     const listeColonnes = getListeColonnesExportParRole({
+      //@ts-ignore
       role,
       donnéesProjetParCatégorie,
       catégoriesPermissionsParRôle,
     })
 
+    //@ts-ignore
     const projets = await getListeProjetsPourExport({ role, listeColonnes })
 
     if ((projets && projets.isErr()) || projets === undefined) {

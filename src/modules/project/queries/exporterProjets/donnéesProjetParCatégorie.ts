@@ -1,5 +1,3 @@
-import { UserRole } from '@modules/users'
-
 export const donnéesProjetParCatégorie: Record<string, string[]> = {
   'identification projet': [
     'numeroCRE',
@@ -12,15 +10,13 @@ export const donnéesProjetParCatégorie: Record<string, string[]> = {
   'résultat instruction': ['classe', 'statut', 'motifElimination'],
 }
 
-const permissionsAdmin = ['identification projet', 'candidat']
+const permissionsDGEC = ['identification projet', 'candidat']
 
-export const catégoriesPermissionsParRôle: Record<UserRole, string[]> = {
-  admin: permissionsAdmin,
-  'dgec-validateur': permissionsAdmin,
-  dreal: [''],
-  'porteur-projet': [''],
-  'acheteur-obligé': [''],
-  ademe: [''],
-  cre: [''],
-  'caisse-des-dépôts': [''],
+const rolesPourCatégoriesPermission = ['admin', 'dgec-validateur'] as const
+export type RolesPourCatégoriesPermission = typeof rolesPourCatégoriesPermission[number]
+// à terme 'Roles' sera remplace par le type existant UserRoles
+
+export const catégoriesPermissionsParRôle: Record<RolesPourCatégoriesPermission, string[]> = {
+  admin: permissionsDGEC,
+  'dgec-validateur': permissionsDGEC,
 }

@@ -1,14 +1,13 @@
-import { User } from '@entities'
-import { UserRole } from '@modules/users'
+import { RolesPourCatégoriesPermission } from './donnéesProjetParCatégorie'
 
 export const getListeColonnesExportParRole = ({
   role,
   donnéesProjetParCatégorie,
   catégoriesPermissionsParRôle,
 }: {
-  role: User['role']
+  role: RolesPourCatégoriesPermission
   donnéesProjetParCatégorie: Record<string, string[]>
-  catégoriesPermissionsParRôle: Record<UserRole, string[]>
+  catégoriesPermissionsParRôle: Record<RolesPourCatégoriesPermission, string[]>
 }) => {
   const catégoriesDuRôle = catégoriesPermissionsParRôle[role]
 

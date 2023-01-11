@@ -6,21 +6,11 @@ describe(`getListeColonnesExportParRole`, () => {
     candidat: ['nomProjet', 'actionnaire'],
   }
 
-  const permissionsAdmin = ['identification projet', 'candidat']
-
-  const permissionDreal = ['identification projet']
-
-  const permissionDéfaut = ['']
+  const permissionsDGEC = ['identification projet', 'candidat']
 
   const catégoriesPermissionsParRôle = {
-    admin: permissionsAdmin,
-    dreal: permissionDreal,
-    'dgec-validateur': permissionsAdmin,
-    'porteur-projet': permissionDéfaut,
-    'acheteur-obligé': permissionDéfaut,
-    ademe: permissionDéfaut,
-    cre: permissionDéfaut,
-    'caisse-des-dépôts': permissionDéfaut,
+    admin: permissionsDGEC,
+    'dgec-validateur': permissionsDGEC,
   }
 
   it(`Etant donné un role admin,

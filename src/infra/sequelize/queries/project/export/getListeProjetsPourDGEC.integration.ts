@@ -1,9 +1,9 @@
 import { resetDatabase } from '@infra/sequelize/helpers'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { getProjetsListePourAdmin } from './getListeProjetsPourAdmin'
+import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
 import models from '../../../models'
 
-describe(`Requête getProjectsListeCsvPourAdmin`, () => {
+describe(`Requête getProjectsListeCsvPourDGEC`, () => {
   const { Project } = models
 
   beforeEach(async () => {
@@ -33,7 +33,7 @@ describe(`Requête getProjectsListeCsvPourAdmin`, () => {
 
       const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
 
-      const résultat = await getProjetsListePourAdmin(listeColonnes)
+      const résultat = await getProjetsListePourDGEC(listeColonnes)
       expect(résultat._unsafeUnwrap()).toHaveLength(2)
 
       expect(résultat._unsafeUnwrap()).toEqual([
@@ -64,7 +64,7 @@ describe(`Requête getProjectsListeCsvPourAdmin`, () => {
 
       const listeColonnes = ['nouvelleDonnée', 'numeroCRE']
 
-      const résultat = await getProjetsListePourAdmin(listeColonnes)
+      const résultat = await getProjetsListePourDGEC(listeColonnes)
 
       expect(résultat._unsafeUnwrap()).toEqual([
         {

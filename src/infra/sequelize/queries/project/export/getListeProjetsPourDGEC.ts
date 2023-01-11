@@ -4,7 +4,7 @@ import { Project } from '@infra/sequelize/projections'
 
 const { Project: ProjectModel } = models
 
-export const getProjetsListePourAdmin = (listeColonnes: string[]) => {
+export const getProjetsListePourDGEC = (listeColonnes: string[]) => {
   return wrapInfra(ProjectModel.findAll()).map((projets: any) =>
     projets.map((projet: Project) =>
       listeColonnes.reduce(
