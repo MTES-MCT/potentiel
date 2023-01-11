@@ -286,6 +286,7 @@ export const donnéesProjetParCatégorie: Record<string, string[]> = {
     'Colonne concernée 5',
     'Ancienne valeur 5',
   ],
+  'garanties financières': ['dateEnvoi', 'dateConstitution'],
 }
 
 const permissionsDGEC = [
@@ -309,6 +310,7 @@ const permissionsDGEC = [
   'note innovation',
   'notes',
   'modifications avant import',
+  'garanties financières',
 ]
 
 const rolesPourCatégoriesPermission = ['admin', 'dgec-validateur'] as const
