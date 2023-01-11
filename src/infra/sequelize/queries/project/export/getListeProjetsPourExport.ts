@@ -1,6 +1,6 @@
 import { RolesPourCatégoriesPermission } from '@modules/project/queries/exporterProjets'
+import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
 import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
-import { FiltreListeProjets } from './mapToFindOptions'
 
 export const getListeProjetsPourExport = ({
   role,

@@ -1,7 +1,8 @@
 import models from '../../../models'
 import { wrapInfra } from '@core/utils'
 import { Project } from '@infra/sequelize/projections'
-import { FiltreListeProjets, mapToFindOptions } from './mapToFindOptions'
+import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
+import { mapToFindOptions } from '../lister/requêtes/mapToFindOptions'
 
 const { Project: ProjectModel } = models
 
