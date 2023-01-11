@@ -108,8 +108,17 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
     },
-    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
-    // A partir de la période 3 le délai DCR passe à trois mois
+    {
+      id: '3',
+      title: 'troisième',
+      certificateTemplate: 'ppe2.v2',
+      noteThreshold: 72.13,
+      cahierDesCharges: {
+        référence: '2022 S 150-427955',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-autoconsommation-telecharger-le-cahier-des-charges-en-vigueur',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
