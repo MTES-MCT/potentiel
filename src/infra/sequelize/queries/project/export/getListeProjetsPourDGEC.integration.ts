@@ -33,7 +33,7 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
 
-      const résultat = await getProjetsListePourDGEC(listeColonnes)
+      const résultat = await getProjetsListePourDGEC({ listeColonnes })
       expect(résultat._unsafeUnwrap()).toHaveLength(2)
 
       expect(résultat._unsafeUnwrap()).toEqual([
@@ -64,13 +64,45 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       const listeColonnes = ['nouvelleDonnée', 'numeroCRE']
 
-      const résultat = await getProjetsListePourDGEC(listeColonnes)
+      const résultat = await getProjetsListePourDGEC({ listeColonnes })
 
       expect(résultat._unsafeUnwrap()).toEqual([
         {
           nouvelleDonnée: 'valeurAttendue',
           numeroCRE: '200',
         },
+      ])
+    })
+  })
+
+  describe(`Requête avec filtres`, () => {
+    it(`Etant donné une requête avec filtre sur l'appel d'offre Id, 
+    alors les seuls les projets correspondant à ce filtre devraient être retournés`, async () => {
+      const projet1 = makeFakeProject({
+        appelOffreId: 'Innovation',
+        periodeId: '1',
+        numeroCRE: '200',
+        familleId: '1',
+      })
+
+      const projet2 = makeFakeProject({
+        appelOffreId: 'CRE4 - Bâtiment',
+        periodeId: '1',
+        numeroCRE: '201',
+        familleId: '2',
+      })
+
+      await Project.bulkCreate([projet1, projet2])
+
+      const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
+      const filtres = { appelOffre: { appelOffreId: 'Innovation' } }
+
+      const résultat = await getProjetsListePourDGEC({ listeColonnes, filtres })
+
+      expect(résultat._unsafeUnwrap()).toHaveLength(1)
+
+      expect(résultat._unsafeUnwrap()).toEqual([
+        { numeroCRE: '200', appelOffreId: 'Innovation', periodeId: '1' },
       ])
     })
   })

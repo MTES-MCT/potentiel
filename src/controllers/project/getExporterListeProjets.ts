@@ -24,6 +24,16 @@ v1Router.get(
       user: { role },
     } = request
 
+    let {
+      appelOffreId,
+      periodeId,
+      familleId,
+      recherche,
+      classement,
+      reclames,
+      garantiesFinancieres,
+    } = request.query as any
+
     if (!['admin', 'dgec-validateur'].includes(role)) {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }
@@ -35,8 +45,27 @@ v1Router.get(
       catégoriesPermissionsParRôle,
     })
 
+    if (!appelOffreId) {
+      // Reset the periodId and familleId if there is no appelOffreId
+      periodeId = undefined
+      familleId = undefined
+    }
+
+    const filtres = {
+      recherche,
+      user: request.user,
+      appelOffre: {
+        appelOffreId,
+        periodeId,
+        familleId,
+      },
+      classement,
+      reclames,
+      garantiesFinancieres,
+    }
+
     //@ts-ignore
-    const projets = await getListeProjetsPourExport({ role, listeColonnes })
+    const projets = await getListeProjetsPourExport({ role, listeColonnes, filtres })
 
     if ((projets && projets.isErr()) || projets === undefined) {
       return new InfraNotAvailableError()
