@@ -1,4 +1,4 @@
-name: Deploy to Production on Version Bump
+name: Deploy to Scalingo (production)
 
 on:
   push:
@@ -10,21 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Pre-requise for the clever-cloud deployment
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          # SPECIAL_GH_ACTIONS_TOKEN is a personal access token for an admin user
-          # It is required to have write rights when increasing version number
-          token: ${{ secrets.SPECIAL_GH_ACTIONS_TOKEN }}
+      - name: Checkout repository 📥
+        uses: actions/checkout@v3
 
-      - run: git fetch --prune --unshallow
-
-      - name: Deploy to Clever Cloud 🚀
-        uses: 47ng/actions-clever-cloud@v1.1
-        with:
-          appID: app_01c01a7d-783f-42a6-8d10-db9167ae056b
-          timeout: 1800
-        env:
-          CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
-          CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
+      - name: Deploy to Scalingo 🚀
+        run: |
+          curl -O https://cli-dl.scalingo.com/install && bash install
+          scalingo login --api-token ${{ secrets.SCALINGO_TOKEN }}
+          scalingo --app ${{ secrets.SCALINGO_PRODUCTION_APP }} --region ${{ secrets.SCALINGO_PRODUCTION_REGION }} integration-link-manual-deploy HEAD
