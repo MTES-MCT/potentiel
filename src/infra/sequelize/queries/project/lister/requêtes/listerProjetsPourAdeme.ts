@@ -6,6 +6,9 @@ import { mapToFindOptions } from './mapToFindOptions'
 
 const attributes = [
   'id',
+  'appelOffreId',
+  'periodeId',
+  'familleId',
   'nomProjet',
   'potentielIdentifier',
   'communeProjet',
@@ -28,7 +31,7 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
   const résultat = await models.Project.findAndCountAll({
     ...(filtres && mapToFindOptions(filtres)),
     ...paginate(pagination),
-    attributes: [...attributes, 'appelOffreId', 'periodeId', 'familleId'],
+    attributes,
   })
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {

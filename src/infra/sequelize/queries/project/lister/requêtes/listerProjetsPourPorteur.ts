@@ -6,6 +6,9 @@ import { mapToFindOptions } from './mapToFindOptions'
 
 const attributes = [
   'id',
+  'appelOffreId',
+  'periodeId',
+  'familleId',
   'nomProjet',
   'potentielIdentifier',
   'communeProjet',
@@ -47,7 +50,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
       },
     ],
     ...paginate(pagination),
-    attributes: [...attributes, 'appelOffreId', 'periodeId', 'familleId'],
+    attributes,
   })
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {

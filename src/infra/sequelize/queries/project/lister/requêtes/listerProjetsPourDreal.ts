@@ -8,6 +8,9 @@ import { Op } from 'sequelize'
 
 const attributes = [
   'id',
+  'appelOffreId',
+  'periodeId',
+  'familleId',
   'nomProjet',
   'potentielIdentifier',
   'communeProjet',
@@ -51,7 +54,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
       },
     ],
     ...paginate(pagination),
-    attributes: [...attributes, 'appelOffreId', 'periodeId', 'familleId'],
+    attributes,
   })
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
