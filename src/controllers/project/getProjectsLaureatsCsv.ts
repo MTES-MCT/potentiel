@@ -1,4 +1,4 @@
-import { Pagination } from '../../types'
+import { PaginatedList, Pagination } from '../../types'
 import { listUnnotifiedProjects } from '@useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
@@ -30,27 +30,26 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const pagination = makePagination(request.query, defaultPagination)
 
   const projetsCandidats = [
+    { dataField: 'appelOffreId' },
+    { dataField: 'periodeId' },
+    { dataField: 'familleId' },
+    { dataField: 'classe' },
     { dataField: 'nomCandidat' },
     { dataField: 'nomProjet' },
     { dataField: 'puissance' },
-    { dataField: 'familleId' },
     { dataField: 'departementProjet' },
     { dataField: 'regionProjet' },
   ]
 
   try {
-    const {
-      projects: { items: projects },
-    }: any =
-      beforeNotification === 'true'
-        ? await listUnnotifiedProjects({
-            appelOffreId,
-            periodeId,
-            pagination,
-            recherche,
-            classement: 'classés',
-          })
-        : await listProjects({
+    const getProjects = async ({
+      appelOffreId,
+      periodeId,
+      recherche,
+      beforeNotification,
+    }): Promise<PaginatedList<Project> | null> => {
+      return beforeNotification === 'false'
+        ? await listProjects({
             user: request.user,
             appelOffreId,
             periodeId,
@@ -60,14 +59,23 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
             classement: 'classés',
             garantiesFinancieres: undefined,
           })
+        : await listUnnotifiedProjects({
+            appelOffreId,
+            periodeId,
+            pagination,
+            recherche,
+            classement: 'classés',
+          })
+    }
 
-    if (!projects?.length) return response.send('Aucun projet lauréat sur cette période')
+    const projects = await getProjects({ appelOffreId, periodeId, recherche, beforeNotification })
 
-    const sortedProjects = _sortProjectsByRegionsAndDepartements(projects)
+    if (!projects || projects?.itemCount === 0)
+      return response.send('Aucun projet lauréat sur cette période')
+
+    const sortedProjects = _sortProjectsByRegionsAndDepartements(projects?.items)
 
     const fields = projetsCandidats.map((field) => formatField(field))
-    const title = `Liste des lauréats de la ${projects[0].appelOffre.periode.title} période d'appel d'offres portant sur ${projects[0].appelOffre.title}`
-    fields.unshift({ label: 'Titre', value: () => title })
 
     const csv = await parseAsync(sortedProjects, { fields, delimiter: ';' })
     const csvFilePath = await writeCsvOnDisk(csv, '/tmp')

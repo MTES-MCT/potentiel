@@ -29,14 +29,7 @@ export type PeriodeDTO = {
   title: Periode['title']
 }
 
-type UseCaseReturnType = {
-  projects: PaginatedList<Project>
-  projectsInPeriodCount: number
-  selectedAppelOffreId: AppelOffre['id']
-  selectedPeriodeId: Periode['id']
-  existingAppelsOffres: Array<AppelOffreDTO>
-  existingPeriodes?: Array<PeriodeDTO>
-} | null
+type UseCaseReturnType = PaginatedList<Project> | null
 
 export default function makeListUnnotifiedProjects({
   findExistingAppelsOffres,
@@ -142,10 +135,8 @@ export default function makeListUnnotifiedProjects({
       if (classement === 'éliminés') query.isClasse = false
     }
 
-    result.projects = recherche
+    return recherche
       ? await searchAllProjects(recherche, query, pagination)
       : await findAllProjects(query, pagination)
-
-    return result as UseCaseReturnType
   }
 }
