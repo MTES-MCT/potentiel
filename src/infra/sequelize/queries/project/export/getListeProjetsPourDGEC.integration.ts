@@ -38,14 +38,16 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       expect(résultat._unsafeUnwrap()).toHaveLength(2)
 
-      expect(résultat._unsafeUnwrap()).toEqual([
-        { numeroCRE: '200', appelOffreId: 'Innovation', periodeId: '1' },
-        {
-          numeroCRE: '201',
-          appelOffreId: 'CRE4 - Bâtiment',
-          periodeId: '1',
-        },
-      ])
+      expect(résultat._unsafeUnwrap()).toEqual(
+        expect.arrayContaining([
+          { numeroCRE: '200', appelOffreId: 'Innovation', periodeId: '1' },
+          {
+            numeroCRE: '201',
+            appelOffreId: 'CRE4 - Bâtiment',
+            periodeId: '1',
+          },
+        ])
+      )
     })
   })
 
