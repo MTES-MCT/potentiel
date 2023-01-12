@@ -13,8 +13,8 @@ describe(`getListeColonnesExportParRole`, () => {
     'dgec-validateur': permissionsDGEC,
   }
 
-  it(`Etant donné un role admin,
-  alors un tableau de données devrait être retourné`, () => {
+  it(`Etant donné un rôle admin ayant accès aux données 'identification projet' et 'candidat',
+  alors un tableau des données de ces catégories devrait être retourné`, () => {
     const result = getListeColonnesExportParRole({
       role: 'admin',
       donnéesProjetParCatégorie,

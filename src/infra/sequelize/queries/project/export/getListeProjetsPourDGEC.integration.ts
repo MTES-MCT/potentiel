@@ -11,11 +11,11 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
     await resetDatabase()
   })
 
-  describe(`Données accessibles à la racine de la table`, () => {
+  describe(`Données ayant une colonne dans la table Project`, () => {
     it(`Etant donné un utilisateur admin ayant la permission pour afficher les données suivantes
-    pour tous les projets :
+    pour tous les projets (2):
     'numeroCRE', 'appelOffreId', 'periodeId',
-  alors ces données pour tous les projets devraient être retournées.`, async () => {
+    alors ces données devraient être retournées pour tous les projets`, async () => {
       const projet1 = makeFakeProject({
         appelOffreId: 'Innovation',
         periodeId: '1',
@@ -35,6 +35,7 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
       const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes })
+
       expect(résultat._unsafeUnwrap()).toHaveLength(2)
 
       expect(résultat._unsafeUnwrap()).toEqual([
@@ -48,7 +49,7 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
     })
   })
 
-  describe(`Données accessibles dans la colonne "details"`, () => {
+  describe(`Données accessibles dans la colonne "details" de la table Project`, () => {
     it(`Etant donné un utilisateur admin ayant la permission pour accéder à la donnée
     "nouvelleDonnées" imbriquée dans "details"
     de tous les projets,
