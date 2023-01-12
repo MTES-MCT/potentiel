@@ -8,7 +8,6 @@ import { PaginatedList } from '../../types'
 
 import {
   ProjectList,
-  DownloadIcon,
   ExcelFileIcon,
   SecondaryLinkButton,
   PageTemplate,
@@ -240,25 +239,6 @@ export const ListeProjets = ({
                     </select>
                   </div>
                 )}
-
-                {['admin', 'dgec-validateur'].includes(request.user.role) &&
-                  appelOffreId &&
-                  periodeId && (
-                    <div style={{ marginTop: 15 }}>
-                      <a
-                        href={`${
-                          ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV
-                        }?${querystring.stringify({
-                          ...request.query,
-                          beforeNotification: false,
-                        })}`}
-                        download
-                      >
-                        Liste des lauréats
-                        <DownloadIcon color="red" />
-                      </a>
-                    </div>
-                  )}
               </div>
             </div>
             {hasFilters && (
