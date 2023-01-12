@@ -72,10 +72,19 @@ v1Router.get(
     }
 
     const selectedFields = listeColonnes.reduce((acc, current) => {
+      if (current === 'dateEnvoi') {
+        return [
+          ...acc,
+          { label: 'Date de soumission sur Potentiel des garanties financières', value: current },
+        ]
+      }
+      if (current === 'dateConstitution') {
+        return [
+          ...acc,
+          { label: 'Date déclarée par le PP de dépôt des garanties financières', value: current },
+        ]
+      }
       return [...acc, { label: current, value: current }]
-      // TO DO :
-      // A voir si on remet ici des noms de colonnes iso à cettes de l'import
-      // (sachant que certaines ont pu changer)
     }, [])
 
     try {
