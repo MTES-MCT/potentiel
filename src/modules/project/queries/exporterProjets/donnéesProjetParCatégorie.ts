@@ -184,11 +184,7 @@ export const donnéesProjetParCatégorie: Record<string, string[]> = {
     'Codes cas 2\n(AO sol)',
     'Codes cas 3\n(AO sol)',
   ],
-  prix: [
-    'Prix Majoré',
-    'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
-    'Prix de référence (€/MWh)',
-  ],
+  prix: ['Prix Majoré', 'prixReference', 'Prix de référence (€/MWh)'],
   'références candidature': [
     'date\n(candidature)',
     'heure\n(candidature)',
@@ -240,7 +236,7 @@ export const donnéesProjetParCatégorie: Record<string, string[]> = {
     'Commentaires',
     'Puissance cumulée',
   ],
-  'résultat instruction sensible': ["Motif d'élimination"],
+  'résultat instruction sensible': ['motifsElimination'],
   'note innovation': [
     'Note degré d’innovation (/20pt)\n(AO innovation)',
     'Commentaire final sur note degré d’innovation\n(AO innovation)',
@@ -262,7 +258,7 @@ export const donnéesProjetParCatégorie: Record<string, string[]> = {
     'Note carbone',
     'Note environnementale',
     'Note innovation\n(AO innovation)',
-    'Note totale',
+    'note',
   ],
   'modifications avant import': [
     'Type de modification 1',
