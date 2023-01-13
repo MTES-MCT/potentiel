@@ -51,6 +51,7 @@ export type ModificationRequestStatus =
 
 export type ModificationRequestAcceptanceParams =
   | { type: 'recours'; newNotificationDate: Date }
+  | { type: 'delai'; delayInMonths: number }
   | { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
   | { type: 'actionnaire'; newActionnaire: string }
   | { type: 'producteur'; newProducteur: string }
@@ -62,6 +63,7 @@ export type ModificationRequestType =
   | 'puissance'
   | 'recours'
   | 'abandon'
+  | 'delai'
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date
