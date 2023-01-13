@@ -36,17 +36,16 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
   const findOptions = filtres && mapToFindOptions(filtres)
 
   const résultat = await models.Project.findAndCountAll({
+    subQuery: false,
     where: {
       ...findOptions?.where,
+      '$users.userId$': userId,
     },
     include: [
       ...(findOptions?.include ? findOptions.include : []),
       {
         model: models.UserProjects,
         as: 'users',
-        where: {
-          userId: userId,
-        },
         attributes: [],
       },
     ],
@@ -76,8 +75,6 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
       },
     ]
   }, [])
-
-  console.log(projetsAvecAppelOffre)
 
   return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
 }
