@@ -1,4 +1,11 @@
-export const donnéesProjetParCatégorie: Record<string, string[]> = {
+import { Json } from 'sequelize/types/utils'
+
+type Colonne = {
+  champ: string | Json
+  intitulé: string
+}
+
+export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
   'identification projet': [
     'numeroCRE',
     'appelOffreId',
