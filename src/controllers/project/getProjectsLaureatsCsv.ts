@@ -5,7 +5,7 @@ import routes from '@routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
-import { ensureRole, listProjects } from '@config'
+import { ensureRole } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
@@ -42,24 +42,14 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
     const {
       projects: { items: projects },
     }: any =
-      beforeNotification === 'true'
-        ? await listUnnotifiedProjects({
-            appelOffreId,
-            periodeId,
-            pagination,
-            recherche,
-            classement: 'classés',
-          })
-        : await listProjects({
-            user: request.user,
-            appelOffreId,
-            periodeId,
-            familleId: undefined,
-            pagination,
-            recherche: undefined,
-            classement: 'classés',
-            garantiesFinancieres: undefined,
-          })
+      beforeNotification === 'true' &&
+      (await listUnnotifiedProjects({
+        appelOffreId,
+        periodeId,
+        pagination,
+        recherche,
+        classement: 'classés',
+      }))
 
     if (!projects?.length) return response.send('Aucun projet lauréat sur cette période')
 
