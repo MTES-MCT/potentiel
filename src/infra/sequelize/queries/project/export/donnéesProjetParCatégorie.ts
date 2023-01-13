@@ -1,3 +1,4 @@
+import { json } from 'sequelize'
 import { Json } from 'sequelize/types/utils'
 
 type Colonne = {
@@ -7,30 +8,44 @@ type Colonne = {
 
 export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
   'identification projet': [
-    'numeroCRE',
-    'appelOffreId',
-    'periodeId',
-    'familleId',
-    'nomProjet',
-    'nomCandidat',
-    'actionnaire',
-    'territoireProjet',
-    'nomCandidat',
-    'Numéro SIREN ou SIRET*',
-    'Code NACE',
-    'Nature du candidat',
-    'Type entreprise',
-    'technologie',
-    'Typologie de projet',
-    'puissance',
-    'Puissance installée (MWc)',
-    'engagementFournitureDePuissanceAlaPointe',
-    'Diamètre du rotor (m)\n(AO éolien)',
-    'Hauteur bout de pâle (m)\n(AO éolien)',
-    "Nb d'aérogénérateurs\n(AO éolien)",
-    'notifiedOn',
-    'cahierDesChargesActuel',
-    'classe',
+    { champ: 'numeroCRE', intitulé: 'N°CRE' },
+    { champ: 'appelOffreId', intitulé: "Appel d'offres" },
+    { champ: 'periodeId', intitulé: 'Période' },
+    { champ: 'familleId', intitulé: 'Famille' },
+    { champ: 'nomProjet', intitulé: 'Nom projet' },
+    { champ: 'nomCandidat', intitulé: 'Candidat' },
+    { champ: 'actionnaire', intitulé: 'Société mère' },
+    { champ: 'territoireProjet', intitulé: '"Territoire\n(AO ZNI)"' },
+    { champ: json(`details->>'Numéro SIREN ou SIRET*'`), intitulé: 'Numéro SIREN ou SIRET' },
+    { champ: json(`details->>'Code NACE'`), intitulé: 'Code NACE' },
+    { champ: json(`details->>'Nature du candidat'`), intitulé: 'Nature du candidat' },
+    { champ: json(`details->>'Type entreprise'`), intitulé: 'Type entreprise' },
+    { champ: 'technologie', intitulé: 'Technologie\n(dispositif de production)' },
+    { champ: json(`details->>'Typologie de projet'`), intitulé: 'Typologie de projet' },
+    {
+      champ: 'puissance',
+      intitulé: 'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
+    },
+    { champ: json(`details->>'Puissance installée (MWc)'`), intitulé: 'Puissance installée (MWc)' },
+    {
+      champ: 'engagementFournitureDePuissanceAlaPointe',
+      intitulé: '"Engagement de fourniture de puissance à la pointe\n(AO ZNI)"',
+    },
+    {
+      champ: json(`details->>'Diamètre du rotor (m)\n(AO éolien)'`),
+      intitulé: 'Diamètre du rotor (m)\n(AO éolien)',
+    },
+    {
+      champ: json(`details->>'Hauteur bout de pâle (m)\n(AO éolien)'`),
+      intitulé: 'Hauteur bout de pâle (m)\n(AO éolien)',
+    },
+    {
+      champ: json(`details->>"Nb d'aérogénérateurs\n(AO éolien)"`),
+      intitulé: "Nb d'aérogénérateurs\n(AO éolien)",
+    },
+    { champ: 'notifiedOn', intitulé: 'Notification' },
+    { champ: 'cahierDesChargesActuel', intitulé: 'cahier des charges choisi' },
+    { champ: 'classe', intitulé: 'Classé ?' },
   ],
   'coordonnées candidat': [
     "Région d'implantation",
