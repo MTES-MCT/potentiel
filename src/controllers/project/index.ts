@@ -1,5 +1,5 @@
 export * from './getChoisirCahierDesChargesPage'
-export * from './getExporterListeProjets'
+export * from './getExportProjets'
 export * from './getListeProjetsPage'
 export * from './getProjectFile'
 export * from './getProjectListCsv'

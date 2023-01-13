@@ -1,4 +1,4 @@
-import { getListeProjetsPourExport } from '@infra/sequelize/queries/project/export'
+import { exporterProjets } from '@infra/sequelize/queries/project/export'
 import { PermissionListerProjets } from '@modules/project'
 import routes from '@routes'
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
@@ -8,11 +8,6 @@ import { parseAsync } from 'json2csv'
 import { writeCsvOnDisk } from 'src/helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
-import {
-  catégoriesPermissionsParRôle,
-  donnéesProjetParCatégorie,
-  getListeColonnesExportParRole,
-} from '@modules/project/queries/exporterProjets'
 import { InfraNotAvailableError } from '@modules/shared'
 import { addQueryParams } from 'src/helpers/addQueryParams'
 
@@ -34,16 +29,9 @@ v1Router.get(
       garantiesFinancieres,
     } = request.query as any
 
-    if (!['admin', 'dgec-validateur'].includes(role)) {
+    if (role !== 'admin' && role !== 'dgec-validateur') {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }
-
-    const listeColonnes = getListeColonnesExportParRole({
-      //@ts-ignore
-      role,
-      donnéesProjetParCatégorie,
-      catégoriesPermissionsParRôle,
-    })
 
     if (!appelOffreId) {
       // Reset the periodId and familleId if there is no appelOffreId
@@ -64,8 +52,7 @@ v1Router.get(
       garantiesFinancieres,
     }
 
-    //@ts-ignore
-    const projets = await getListeProjetsPourExport({ role, listeColonnes, filtres })
+    const projets = await exporterProjets({ role, filtres })
 
     if ((projets && projets.isErr()) || projets === undefined) {
       return new InfraNotAvailableError()
