@@ -4,6 +4,7 @@ import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
 import models from '../../../models'
 import { UniqueEntityID } from '@core/domain'
 import { GarantiesFinancières } from '../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
+import { json, literal } from 'sequelize'
 describe(`Requête getProjectsListeCsvPourDGEC`, () => {
   const { Project } = models
 
@@ -13,9 +14,10 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
   describe(`Données ayant une colonne dans la table Project`, () => {
     it(`Etant donné un utilisateur admin ayant la permission pour afficher les données suivantes
-    pour tous les projets (2):
+    pour tous les projets (2 projets):
     'numeroCRE', 'appelOffreId', 'periodeId',
-    alors ces données devraient être retournées pour tous les projets`, async () => {
+    alors ces données devraient être retournées pour tous les projets
+    avec l'intitulé de colonne associé`, async () => {
       const projet1 = makeFakeProject({
         appelOffreId: 'Innovation',
         periodeId: '1',
@@ -32,7 +34,11 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       await Project.bulkCreate([projet1, projet2])
 
-      const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
+      const listeColonnes = [
+        { champ: 'numeroCRE', intitulé: 'N°CRE' },
+        { champ: 'appelOffreId', intitulé: "Appel d'offres" },
+        { champ: 'periodeId', intitulé: 'Période' },
+      ]
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes })
 
@@ -40,11 +46,11 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       expect(résultat._unsafeUnwrap()).toEqual(
         expect.arrayContaining([
-          { numeroCRE: '200', appelOffreId: 'Innovation', periodeId: '1' },
+          { 'N°CRE': '200', "Appel d'offres": 'Innovation', Période: '1' },
           {
-            numeroCRE: '201',
-            appelOffreId: 'CRE4 - Bâtiment',
-            periodeId: '1',
+            'N°CRE': '201',
+            "Appel d'offres": 'CRE4 - Bâtiment',
+            Période: '1',
           },
         ])
       )
@@ -53,7 +59,7 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
   describe(`Données accessibles dans la colonne "details" de la table Project`, () => {
     it(`Etant donné un utilisateur admin ayant la permission pour accéder à la donnée
-    "nouvelleDonnées" imbriquée dans "details"
+    'Typologie de projet' imbriquée dans "details"
     de tous les projets,
     alors cette donnée devrait être retournée au même niveau que les autres données`, async () => {
       const projet = makeFakeProject({
@@ -61,19 +67,22 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
         periodeId: '1',
         numeroCRE: '200',
         familleId: '1',
-        details: { nouvelleDonnée: 'valeurAttendue' },
+        details: { 'Typologie de projet': 'ombrière' },
       })
 
       await Project.create(projet)
 
-      const listeColonnes = ['nouvelleDonnée', 'numeroCRE']
+      const listeColonnes = [
+        { champ: 'numeroCRE', intitulé: 'N°CRE' },
+        { champ: json(`details->>'Typologie de projet'`), intitulé: 'Typologie de projet' },
+      ]
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes })
 
       expect(résultat._unsafeUnwrap()).toEqual([
         {
-          nouvelleDonnée: 'valeurAttendue',
-          numeroCRE: '200',
+          'Typologie de projet': 'ombrière',
+          'N°CRE': '200',
         },
       ])
     })
@@ -98,7 +107,12 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       await Project.bulkCreate([projet1, projet2])
 
-      const listeColonnes = ['numeroCRE', 'appelOffreId', 'periodeId']
+      const listeColonnes = [
+        { champ: 'numeroCRE', intitulé: 'N°CRE' },
+        { champ: 'appelOffreId', intitulé: "Appel d'offres" },
+        { champ: 'periodeId', intitulé: 'Période' },
+      ]
+
       const filtres = { appelOffre: { appelOffreId: 'Innovation' } }
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes, filtres })
@@ -106,7 +120,7 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
       expect(résultat._unsafeUnwrap()).toHaveLength(1)
 
       expect(résultat._unsafeUnwrap()).toEqual([
-        { numeroCRE: '200', appelOffreId: 'Innovation', periodeId: '1' },
+        { 'N°CRE': '200', "Appel d'offres": 'Innovation', Période: '1' },
       ])
     })
   })
@@ -144,14 +158,23 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
         validéesLe: null,
       })
 
-      const listeColonnes = ['dateEnvoi', 'dateConstitution']
+      const listeColonnes = [
+        {
+          champ: literal(`TO_CHAR("garantiesFinancières"."dateEnvoi", 'DD/MM/YYYY')`),
+          intitulé: `Date de soumission sur Potentiel des garanties financières`,
+        },
+        {
+          champ: literal(`TO_CHAR("garantiesFinancières"."dateConstitution", 'DD/MM/YYYY')`),
+          intitulé: `Date déclarée par le porteur de dépôt des garanties financières`,
+        },
+      ]
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes })
 
       expect(résultat._unsafeUnwrap()).toEqual([
         {
-          dateEnvoi: dateEnvoi.toLocaleDateString(),
-          dateConstitution: dateConstitution.toLocaleDateString(),
+          'Date de soumission sur Potentiel des garanties financières': '01/01/2023',
+          'Date déclarée par le porteur de dépôt des garanties financi': '01/12/2023',
         },
       ])
     })
