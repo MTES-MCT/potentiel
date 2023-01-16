@@ -51,19 +51,25 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
     { champ: 'classe', intitulé: 'Classé ?' },
   ],
   'coordonnées candidat': [
-    { champ: `details->>'Région d''implantation'`, intitulé: `Région d'implantation` },
-    { champ: `details->>'Adresse'`, intitulé: 'Adresse' },
+    { champ: json(`details->>'Région d''implantation'`), intitulé: `Région d'implantation` },
+    { champ: json(`details->>'Adresse'`), intitulé: 'Adresse' },
     { champ: 'nomRepresentantLegal', intitulé: 'Nom et prénom du représentant légal' },
-    { champ: `details->>'Titre du représentant légal'`, intitulé: 'Titre du représentant légal' },
     {
-      champ: `details->>'Nom et prénom du signataire du formulaire'`,
+      champ: json(`details->>'Titre du représentant légal'`),
+      intitulé: 'Titre du représentant légal',
+    },
+    {
+      champ: json(`details->>'Nom et prénom du signataire du formulaire'`),
       intitulé: 'Nom et prénom du signataire du formulaire',
     },
-    { champ: `details->>'Nom et prénom du contact'`, intitulé: 'Nom et prénom du contact' },
-    { champ: `details->>'Titre du contact'`, intitulé: 'Titre du contact' },
-    { champ: `details->>'Adresse postale du contact'`, intitulé: 'Adresse postale du contact' },
+    { champ: json(`details->>'Nom et prénom du contact'`), intitulé: 'Nom et prénom du contact' },
+    { champ: json(`details->>'Titre du contact'`), intitulé: 'Titre du contact' },
+    {
+      champ: json(`details->>'Adresse postale du contact'`),
+      intitulé: 'Adresse postale du contact',
+    },
     { champ: 'email', intitulé: 'Adresse électronique du contact' },
-    { champ: `details->>'Téléphone'`, intitulé: 'Téléphone' },
+    { champ: json(`details->>'Téléphone'`), intitulé: 'Téléphone' },
   ],
   'financement citoyen': [
     {
@@ -74,7 +80,7 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
       champ: literal(`CASE WHEN "isFinancementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
       intitulé: 'Financement participatif (Oui/Non)',
     },
-    { champ: '€/MWh bonus participatif', intitulé: '€/MWh bonus participatif' },
+    { champ: json(`details->>'€/MWh bonus participatif'`), intitulé: '€/MWh bonus participatif' },
     {
       champ: literal(`CASE WHEN "actionnariat" = 'financement-collectif' THEN 'Oui' ELSE '' END`),
       intitulé: 'Financement collectif (Oui/Non)',
