@@ -1,9 +1,9 @@
 import models from '../../../models'
 import { wrapInfra } from '@core/utils'
-import { Project } from '@infra/sequelize/projections'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
 import { mapToFindOptions } from '../lister/requêtes/mapToFindOptions'
 import { GarantiesFinancières } from '../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
+import { Colonne } from './donnéesProjetParCatégorie'
 
 const { Project: ProjectModel } = models
 
@@ -11,7 +11,7 @@ export const getProjetsListePourDGEC = ({
   listeColonnes,
   filtres,
 }: {
-  listeColonnes: string[]
+  listeColonnes: Colonne[]
   filtres?: FiltreListeProjets
 }) => {
   return wrapInfra(
@@ -24,21 +24,8 @@ export const getProjetsListePourDGEC = ({
           attributes: ['dateEnvoi', 'dateConstitution'],
         },
       ],
+      //@ts-ignore
+      attributes: listeColonnes.map((c) => [c.champ, c.intitulé]),
     })
-  ).map((projets: Project[]) =>
-    projets.map((projet: Project) =>
-      listeColonnes.reduce(
-        (liste, colonne) => ({
-          ...liste,
-          [colonne]:
-            projet[colonne] ||
-            (projet['details'] && projet['details'][colonne]) ||
-            (projet['garantiesFinancières'] &&
-              projet['garantiesFinancières'][colonne] &&
-              new Date(projet['garantiesFinancières'][colonne]).toLocaleDateString()),
-        }),
-        {}
-      )
-    )
   )
 }

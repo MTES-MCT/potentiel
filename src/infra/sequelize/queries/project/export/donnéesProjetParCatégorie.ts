@@ -1,7 +1,7 @@
 import { json } from 'sequelize'
 import { Json } from 'sequelize/types/utils'
 
-type Colonne = {
+export type Colonne = {
   champ: string | Json
   intitulé: string
 }
@@ -29,7 +29,7 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
     { champ: json(`details->>'Puissance installée (MWc)'`), intitulé: 'Puissance installée (MWc)' },
     {
       champ: 'engagementFournitureDePuissanceAlaPointe',
-      intitulé: '"Engagement de fourniture de puissance à la pointe\n(AO ZNI)"',
+      intitulé: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
     },
     {
       champ: json(`details->>'Diamètre du rotor (m)\n(AO éolien)'`),
@@ -40,7 +40,7 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
       intitulé: 'Hauteur bout de pâle (m)\n(AO éolien)',
     },
     {
-      champ: json(`details->>"Nb d'aérogénérateurs\n(AO éolien)"`),
+      champ: json(`details->>'Nb d''aérogénérateurs\n(AO éolien)'`),
       intitulé: "Nb d'aérogénérateurs\n(AO éolien)",
     },
     { champ: 'notifiedOn', intitulé: 'Notification' },

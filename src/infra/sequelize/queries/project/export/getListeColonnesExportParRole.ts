@@ -1,13 +1,13 @@
-import { RolesPourCatégoriesPermission } from './donnéesProjetParCatégorie'
+import {
+  catégoriesPermissionsParRôle,
+  donnéesProjetParCatégorie,
+  RolesPourCatégoriesPermission,
+} from './donnéesProjetParCatégorie'
 
 export const getListeColonnesExportParRole = ({
   role,
-  donnéesProjetParCatégorie,
-  catégoriesPermissionsParRôle,
 }: {
   role: RolesPourCatégoriesPermission
-  donnéesProjetParCatégorie: Record<string, string[]>
-  catégoriesPermissionsParRôle: Record<RolesPourCatégoriesPermission, string[]>
 }) => {
   const catégoriesDuRôle = catégoriesPermissionsParRôle[role]
 

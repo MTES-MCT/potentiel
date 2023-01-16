@@ -58,24 +58,8 @@ v1Router.get(
       return new InfraNotAvailableError()
     }
 
-    const selectedFields = listeColonnes.reduce((acc, current) => {
-      if (current === 'dateEnvoi') {
-        return [
-          ...acc,
-          { label: 'Date de soumission sur Potentiel des garanties financières', value: current },
-        ]
-      }
-      if (current === 'dateConstitution') {
-        return [
-          ...acc,
-          { label: 'Date déclarée par le PP de dépôt des garanties financières', value: current },
-        ]
-      }
-      return [...acc, { label: current, value: current }]
-    }, [])
-
     try {
-      const csv = await parseAsync(projets.value, { fields: selectedFields, delimiter: ';' })
+      const csv = await parseAsync(projets.value, { delimiter: ';' })
       const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
 
       // Delete file when the client's download is complete
