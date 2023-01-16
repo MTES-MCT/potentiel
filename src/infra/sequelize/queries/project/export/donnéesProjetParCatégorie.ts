@@ -326,14 +326,61 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     { champ: json(`details->>'Région'`), intitulé: 'Région' },
   ],
   'coordonnées géodésiques': [
-    'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)',
-    'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)',
-    'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)',
-    'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)',
-    'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)',
-    'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)',
-    'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)',
-    'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)',
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)'`
+      ),
+      intitulé: 'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)',
+    },
+    {
+      champ: json(
+        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)'`
+      ),
+      intitulé:
+        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)',
+    },
   ],
   "coût d'investissement": [
     'Raccordement € / kWc',
