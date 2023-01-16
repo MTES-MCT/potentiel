@@ -405,10 +405,22 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     { champ: json(`details->>'CAPEX Moyen\n(k€ / MWc)'`), intitulé: 'CAPEX Moyen\n(k€ / MWc)' },
   ],
   'données autoconsommation': [
-    "Taux d'autoconsommation \n(AO autoconsommation)",
-    'Type de consommateur associé\n(AO autoconsommation)',
-    'Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)',
-    'Taux occupation toiture\n(AO autoconsommation)',
+    {
+      champ: json(`details->>'Taux d''autoconsommation \n(AO autoconsommation)'`),
+      intitulé: "Taux d'autoconsommation \n(AO autoconsommation)",
+    },
+    {
+      champ: json(`details->>'Type de consommateur associé\n(AO autoconsommation)'`),
+      intitulé: 'Type de consommateur associé\n(AO autoconsommation)',
+    },
+    {
+      champ: json(`details->>'Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)'`),
+      intitulé: 'Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)',
+    },
+    {
+      champ: json(`details->>'Taux occupation toiture\n(AO autoconsommation)'`),
+      intitulé: 'Taux occupation toiture\n(AO autoconsommation)',
+    },
   ],
   'données de raccordement': [
     'Référence du dossier de raccordement*',
