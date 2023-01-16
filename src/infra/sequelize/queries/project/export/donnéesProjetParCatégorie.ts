@@ -113,52 +113,210 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     },
   ],
   'contenu local': [
-    'Contenu local français (%)\n(Cellules)',
-    'Contenu local européen (%)\n(Cellules)',
-    'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))',
-    'Contenu local français (%)\n(Plaquettes de silicium (wafers))',
-    'Contenu local européen (%)\n(Plaquettes de silicium (wafers))',
-    'Coût total du lot (M€)\n(Polysilicium)',
-    'Contenu local français (%)\n(Polysilicium)',
-    'Contenu local européen (%)\n(Polysilicium)',
-    'Coût total du lot (M€)\n(Postes de conversion)',
-    'Contenu local français (%)\n(Postes de conversion)',
-    'Contenu local européen (%)\n(Postes de conversion)',
-    'Coût total du lot (M€)\n(Structure)',
-    'Contenu local français (%)\n(Structure)',
-    'Contenu local européen (%)\n(Structure)',
-    'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)',
-    'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)',
-    'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)',
-    'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)',
-    'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)',
-    'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)',
-    'Coût total du lot (M€)\n(Autres technologies)',
-    'Contenu local français (%)\n(Autres technologies)',
-    'Contenu local européen (%)\n(Autres technologies)',
-    'Coût total du lot (M€)\n(Installation et mise en service )',
-    'Contenu local français (%)\n(Installation et mise en service)',
-    'Contenu local européen (%)\n(Installation et mise en service)',
-    'Commentaires contenu local\n(Installation et mise en service)',
-    'Coût total du lot (M€)\n(raccordement)',
-    'Contenu local français (%)\n(raccordement)',
-    'Contenu local européen (%)\n(raccordement)',
-    'Contenu local TOTAL :\ncoût total (M€)',
-    'Contenu local TOTAL français (%)',
-    'Contenu local TOTAL européen (%)',
-    'Contenu local TOTAL :\nCommentaires',
-    'Coût total du lot (M€)\n(Modules ou films)',
-    'Contenu local français (%)\n(Modules ou films)',
-    'Contenu local européen (%)\n(Modules ou films)',
-    'Coût total du lot (M€)\n(Cellules)',
-    'Coût total du lot (M€)\n(Développement)',
-    'Contenu local français (%)\n(Développement)',
-    'Contenu local européen (%)\n(Développement)',
-    'Contenu local développement :\nCommentaires',
-    'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)',
-    'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)',
-    'Contenu local Fabrication de composants et assemblage :`nPourcentage de contenu local européen (%)',
-    'Contenu local Fabrication de composants et assemblage :\nCommentaires',
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Cellules)'`),
+      intitulé: 'Contenu local français (%)\n(Cellules)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Cellules)'`),
+      intitulé: 'Contenu local européen (%)\n(Cellules)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Contenu local français (%)\n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Contenu local européen (%)\n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Polysilicium)'`),
+      intitulé: 'Coût total du lot (M€)\n(Polysilicium)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Polysilicium)'`),
+      intitulé: 'Contenu local français (%)\n(Polysilicium)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Polysilicium)'`),
+      intitulé: 'Contenu local européen (%)\n(Polysilicium)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Postes de conversion)'`),
+      intitulé: 'Coût total du lot (M€)\n(Postes de conversion)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Postes de conversion)'`),
+      intitulé: 'Contenu local français (%)\n(Postes de conversion)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Postes de conversion)'`),
+      intitulé: 'Contenu local européen (%)\n(Postes de conversion)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Structure)'`),
+      intitulé: 'Coût total du lot (M€)\n(Structure)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Structure)'`),
+      intitulé: 'Contenu local français (%)\n(Structure)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Structure)'`),
+      intitulé: 'Contenu local européen (%)\n(Structure)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)'`),
+      intitulé: 'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)'`
+      ),
+      intitulé: 'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)'`
+      ),
+      intitulé: 'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(
+        `details->>'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)'`
+      ),
+      intitulé: 'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)'`
+      ),
+      intitulé: 'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)'`
+      ),
+      intitulé: 'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Autres technologies)'`),
+      intitulé: 'Coût total du lot (M€)\n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Autres technologies)'`),
+      intitulé: 'Contenu local français (%)\n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Autres technologies)'`),
+      intitulé: 'Contenu local européen (%)\n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Installation et mise en service )'`),
+      intitulé: 'Coût total du lot (M€)\n(Installation et mise en service )',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Installation et mise en service)'`),
+      intitulé: 'Contenu local français (%)\n(Installation et mise en service)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Installation et mise en service)'`),
+      intitulé: 'Contenu local européen (%)\n(Installation et mise en service)',
+    },
+    {
+      champ: json(`details->>'Commentaires contenu local\n(Installation et mise en service)'`),
+      intitulé: 'Commentaires contenu local\n(Installation et mise en service)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(raccordement)'`),
+      intitulé: 'Coût total du lot (M€)\n(raccordement)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(raccordement)'`),
+      intitulé: 'Contenu local français (%)\n(raccordement)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(raccordement)'`),
+      intitulé: 'Contenu local européen (%)\n(raccordement)',
+    },
+    {
+      champ: json(`details->>'Contenu local TOTAL :\ncoût total (M€)'`),
+      intitulé: 'Contenu local TOTAL :\ncoût total (M€)',
+    },
+    {
+      champ: json(`details->>'Contenu local TOTAL français (%)'`),
+      intitulé: 'Contenu local TOTAL français (%)',
+    },
+    {
+      champ: json(`details->>'Contenu local TOTAL européen (%)'`),
+      intitulé: 'Contenu local TOTAL européen (%)',
+    },
+    {
+      champ: json(`details->>'Contenu local TOTAL :\nCommentaires'`),
+      intitulé: 'Contenu local TOTAL :\nCommentaires',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Modules ou films)'`),
+      intitulé: 'Coût total du lot (M€)\n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Modules ou films)'`),
+      intitulé: 'Contenu local français (%)\n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Modules ou films)'`),
+      intitulé: 'Contenu local européen (%)\n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Cellules)'`),
+      intitulé: 'Coût total du lot (M€)\n(Cellules)',
+    },
+    {
+      champ: json(`details->>'Coût total du lot (M€)\n(Développement)'`),
+      intitulé: 'Coût total du lot (M€)\n(Développement)',
+    },
+    {
+      champ: json(`details->>'Contenu local français (%)\n(Développement)'`),
+      intitulé: 'Contenu local français (%)\n(Développement)',
+    },
+    {
+      champ: json(`details->>'Contenu local européen (%)\n(Développement)'`),
+      intitulé: 'Contenu local européen (%)\n(Développement)',
+    },
+    {
+      champ: json(`details->>'Contenu local développement :\nCommentaires'`),
+      intitulé: 'Contenu local développement :\nCommentaires',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)'`
+      ),
+      intitulé: 'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)'`
+      ),
+      intitulé:
+        'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)'`
+      ),
+      intitulé:
+        'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)',
+    },
+    {
+      champ: json(
+        `details->>'Contenu local Fabrication de composants et assemblage :\nCommentaires'`
+      ),
+      intitulé: 'Contenu local Fabrication de composants et assemblage :\nCommentaires',
+    },
   ],
   'localisation projet': [
     'adresseProjet',
