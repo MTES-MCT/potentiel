@@ -319,11 +319,11 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     },
   ],
   'localisation projet': [
-    'adresseProjet',
-    'codePostalProjet',
-    'communeProjet',
-    'Département',
-    'Région',
+    { champ: 'adresseProjet', intitulé: 'N°, voie, lieu-dit' },
+    { champ: 'codePostalProjet', intitulé: 'CP' },
+    { champ: 'communeProjet', intitulé: 'Commune' },
+    { champ: json(`details->>'Département'`), intitulé: 'Département' },
+    { champ: json(`details->>'Région'`), intitulé: 'Région' },
   ],
   'coordonnées géodésiques': [
     'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)',
