@@ -6,7 +6,29 @@ export type Colonne = {
   intitulé: string
 }
 
-export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
+type Catégories =
+  | 'identification projet'
+  | 'coordonnées candidat'
+  | 'financement citoyen'
+  | 'contenu local'
+  | 'localisation projet'
+  | 'coordonnées géodésiques'
+  | "coût d'investissement"
+  | 'données autoconsommation'
+  | 'données de raccordement'
+  | 'données fournisseurs'
+  | 'évaluation carbone'
+  | 'potentiel solaire'
+  | 'implantation'
+  | 'prix'
+  | 'instruction'
+  | 'résultat instruction sensible'
+  | 'note innovation'
+  | 'notes'
+  | 'modifications avant import'
+  | 'garanties financières'
+
+export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
   'identification projet': [
     { champ: 'numeroCRE', intitulé: 'N°CRE' },
     { champ: 'appelOffreId', intitulé: "Appel d'offres" },
@@ -413,20 +435,23 @@ const permissionsDGEC = [
   'potentiel solaire',
   'implantation',
   'prix',
-  'références candidature',
+  // 'références candidature',
   'instruction',
   'résultat instruction sensible',
   'note innovation',
   'notes',
   'modifications avant import',
   'garanties financières',
-]
+] as const
 
 const rolesPourCatégoriesPermission = ['admin', 'dgec-validateur'] as const
 export type RolesPourCatégoriesPermission = typeof rolesPourCatégoriesPermission[number]
 // à terme 'Roles' sera remplace par le type existant UserRoles
 
-export const catégoriesPermissionsParRôle: Record<RolesPourCatégoriesPermission, string[]> = {
+export const catégoriesPermissionsParRôle: Record<
+  RolesPourCatégoriesPermission,
+  Readonly<Array<Catégories>>
+> = {
   admin: permissionsDGEC,
   'dgec-validateur': permissionsDGEC,
 }
