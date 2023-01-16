@@ -423,43 +423,148 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
       intitulé: 'Taux occupation toiture\n(AO autoconsommation)',
     },
   ],
-  // 'données de raccordement': [
-  //   'Référence du dossier de raccordement*',
-  //   'Date de mise en service du raccordement attendue (mm/aaaa)',
-  //   'Capacité du raccordement (kW)',
-  //   'Montant estimé du raccordement (k€)',
-  //   'dateFileAttente',
-  //   'dateMiseEnService',
-  //   'numeroGestionnaire',
-  // ],
-  // 'données fournisseurs': [
-  //   'Technologie (Modules ou films)',
-  //   'Référence commerciale \n(Modules ou films)',
-  //   'Nom du fabricant \n(Modules ou films)',
-  //   'Lieu(x) de fabrication \n(Modules ou films)',
-  //   'Puissance crête (Wc) \n(Modules ou films)',
-  //   'Rendement nominal \n(Modules ou films)',
-  //   'Nom du fabricant (Cellules)',
-  //   'Lieu(x) de fabrication (Cellules)',
-  //   'Nom du fabricant \n(Polysilicium)',
-  //   'Lieu(x) de fabrication \n(Polysilicium)',
-  //   'Nom du fabricant (Structure)',
-  //   'Lieu(x) de fabrication \n(Structure)',
-  //   'Technologie \n(Dispositifs de stockage de l’énergie *)',
-  //   'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
-  //   'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)',
-  //   'Technologie \n(Dispositifs de suivi de la course du soleil *)',
-  //   'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
-  //   'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)',
-  //   'Référence commerciale \n(Autres technologies)',
-  //   'Nom du fabricant \n(Autres technologies)',
-  //   'Lieu(x) de fabrication \n(Autres technologies)',
-  //   'Coût des modules €/Wc',
-  //   'Nom du fabricant \n(Plaquettes de silicium (wafers))',
-  //   'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
-  //   'Nom du fabricant \n(Postes de conversion)',
-  //   'Lieu(x) de fabrication \n(Postes de conversion)',
-  // ],
+  'données de raccordement': [
+    {
+      champ: json(`details->>'Référence du dossier de raccordement*'`),
+      intitulé: 'Référence du dossier de raccordement*',
+    },
+    {
+      champ: json(`details->>'Date de mise en service du raccordement attendue (mm/aaaa)'`),
+      intitulé: 'Date de mise en service du raccordement attendue (mm/aaaa)',
+    },
+    {
+      champ: json(`details->>'Capacité du raccordement (kW)'`),
+      intitulé: 'Capacité du raccordement (kW)',
+    },
+    {
+      champ: json(`details->>'Montant estimé du raccordement (k€)'`),
+      intitulé: 'Montant estimé du raccordement (k€)',
+    },
+    {
+      champ: 'dateFileAttente',
+      intitulé: "Date d'entrée en file d'attente",
+    },
+    {
+      champ: 'dateMiseEnService',
+      intitulé: 'Date de mise en service',
+    },
+    {
+      champ: 'numeroGestionnaire',
+      intitulé: 'Numéro de gestionnaire réseau',
+    },
+  ],
+  'données fournisseurs': [
+    {
+      champ: json(`details->>'Technologie (Modules ou films)'`),
+      intitulé: 'Technologie (Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Référence commerciale \n(Modules ou films)'`),
+      intitulé: 'Référence commerciale \n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Modules ou films)'`),
+      intitulé: 'Nom du fabricant \n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Modules ou films)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Puissance crête (Wc) \n(Modules ou films)'`),
+      intitulé: 'Puissance crête (Wc) \n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Rendement nominal \n(Modules ou films)'`),
+      intitulé: 'Rendement nominal \n(Modules ou films)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant (Cellules)'`),
+      intitulé: 'Nom du fabricant (Cellules)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication (Cellules)'`),
+      intitulé: 'Lieu(x) de fabrication (Cellules)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Polysilicium)'`),
+      intitulé: 'Nom du fabricant \n(Polysilicium)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Polysilicium)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Polysilicium)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant (Structure)'`),
+      intitulé: 'Nom du fabricant (Structure)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Structure)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Structure)',
+    },
+    {
+      champ: json(`details->>'Technologie \n(Dispositifs de stockage de l’énergie *)'`),
+      intitulé: 'Technologie \n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)'`),
+      intitulé: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)',
+    },
+    {
+      champ: json(`details->>'Technologie \n(Dispositifs de suivi de la course du soleil *)'`),
+      intitulé: 'Technologie \n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)'`),
+      intitulé: 'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(
+        `details->>'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)'`
+      ),
+      intitulé: 'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)',
+    },
+    {
+      champ: json(`details->>'Référence commerciale \n(Autres technologies)'`),
+      intitulé: 'Référence commerciale \n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Autres technologies)'`),
+      intitulé: 'Nom du fabricant \n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Autres technologies)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Autres technologies)',
+    },
+    {
+      champ: json(`details->>'Coût des modules €/Wc'`),
+      intitulé: 'Coût des modules €/Wc',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))'`),
+      intitulé: 'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
+    },
+    {
+      champ: json(`details->>'Nom du fabricant \n(Postes de conversion)'`),
+      intitulé: 'Nom du fabricant \n(Postes de conversion)',
+    },
+    {
+      champ: json(`details->>'Lieu(x) de fabrication \n(Postes de conversion)'`),
+      intitulé: 'Lieu(x) de fabrication \n(Postes de conversion)',
+    },
+  ],
   'évaluation carbone': [
     {
       champ: 'evaluationCarbone',
@@ -500,7 +605,7 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     },
     {
       champ: json(
-        `details->> 'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6'`
+        `details->>'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6'`
       ),
       intitulé: 'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6',
     },
@@ -587,7 +692,7 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
       intitulé: 'Dépôt 1ère périodes précédentes ?',
     },
     { champ: json(`details->>'Comm 1 \n(pièce n°1)'`), intitulé: 'Comm 1 \n(pièce n°1)' },
-    { champ: json(`details->> 'Comm 2 \n(pièce n°1)'`), intitulé: 'Comm 2 \n(pièce n°1)' },
+    { champ: json(`details->>'Comm 2 \n(pièce n°1)'`), intitulé: 'Comm 2 \n(pièce n°1)' },
     { champ: json(`details->>'Avis \n(pièce n°1)'`), intitulé: 'Avis \n(pièce n°1)' },
     { champ: json(`details->>'Comm 1 \n(pièce n°2)'`), intitulé: 'Comm 1 \n(pièce n°2)' },
     { champ: json(`details->>'Comm 2 \n(pièce n°2)'`), intitulé: 'Comm 2 \n(pièce n°2)' },
@@ -622,7 +727,7 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
       intitulé: 'Comm 2\n(pièce n°5 AO innovation)',
     },
     {
-      champ: json(`details->> 'Avis\n(pièce n°5 AO innovation)'`),
+      champ: json(`details->>'Avis\n(pièce n°5 AO innovation)'`),
       intitulé: 'Avis\n(pièce n°5 AO innovation)',
     },
     { champ: json(`details->>'Date \n(pièce n°4)'`), intitulé: 'Date \n(pièce n°4)' },
@@ -650,7 +755,7 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     { champ: json(`details->>'Commentaire final'`), intitulé: 'Commentaire final' },
     { champ: json(`details->>'Avis final'`), intitulé: 'Avis final' },
     { champ: json(`details->>'Avis final CRE + ADEME'`), intitulé: 'Avis final CRE + ADEME' },
-    { champ: json(`details->> 'Nom projet (doublon)'`), intitulé: 'Nom projet (doublon)' },
+    { champ: json(`details->>'Nom projet (doublon)'`), intitulé: 'Nom projet (doublon)' },
     { champ: json(`details->>'CP (doublon)'`), intitulé: 'CP (doublon)' },
     { champ: json(`details->>'Commune (doublon)'`), intitulé: 'Commune (doublon)' },
     { champ: json(`details->>'Commentaires'`), intitulé: 'Commentaires' },
