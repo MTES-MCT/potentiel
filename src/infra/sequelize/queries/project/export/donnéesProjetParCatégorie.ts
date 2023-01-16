@@ -66,10 +66,23 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
     { champ: `details->>'Téléphone'`, intitulé: 'Téléphone' },
   ],
   'financement citoyen': [
-    'isInvestissementParticipatif',
-    'isFinancementParticipatif',
-    '€/MWh bonus participatif',
-    'actionnariat',
+    {
+      champ: literal(`CASE WHEN "isInvestissementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
+      intitulé: 'Investissement participatif (Oui/Non)',
+    },
+    {
+      champ: literal(`CASE WHEN "isFinancementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
+      intitulé: 'Financement participatif (Oui/Non)',
+    },
+    { champ: '€/MWh bonus participatif', intitulé: '€/MWh bonus participatif' },
+    {
+      champ: literal(`CASE WHEN "actionnariat" = 'financement-collectif' THEN 'Oui' ELSE '' END`),
+      intitulé: 'Financement collectif (Oui/Non)',
+    },
+    {
+      champ: literal(`CASE WHEN "actionnariat" = 'gouvernance-partagee' THEN 'Oui' ELSE '' END`),
+      intitulé: 'Gouvernance partagée (Oui/Non)',
+    },
   ],
   'contenu local': [
     'Contenu local français (%)\n(Cellules)',
