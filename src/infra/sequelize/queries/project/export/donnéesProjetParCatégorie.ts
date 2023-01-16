@@ -383,14 +383,26 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     },
   ],
   "coût d'investissement": [
-    'Raccordement € / kWc',
-    'Investissement total (k€)',
-    'dont quantité de fonds propres (k€)',
-    "dont quantité d'endettement  (k€)",
-    "dont quantité de subventions à l'investissement  (k€)",
-    "dont quantité d'autres avantages financiers  (k€)",
-    'Location (€/an/MWc)',
-    'CAPEX Moyen\n(k€ / MWc)',
+    { champ: json(`details->>'Raccordement € / kWc'`), intitulé: 'Raccordement € / kWc' },
+    { champ: json(`details->>'Investissement total (k€)'`), intitulé: 'Investissement total (k€)' },
+    {
+      champ: json(`details->>'dont quantité de fonds propres (k€)'`),
+      intitulé: 'dont quantité de fonds propres (k€)',
+    },
+    {
+      champ: json(`details->>'dont quantité d''endettement  (k€)'`),
+      intitulé: "dont quantité d'endettement  (k€)",
+    },
+    {
+      champ: json(`details->>'dont quantité de subventions à l''investissement  (k€)'`),
+      intitulé: "dont quantité de subventions à l'investissement  (k€)",
+    },
+    {
+      champ: json(`details->>'dont quantité d''autres avantages financiers  (k€)'`),
+      intitulé: "dont quantité d'autres avantages financiers  (k€)",
+    },
+    { champ: json(`details->>'Location (€/an/MWc)'`), intitulé: 'Location (€/an/MWc)' },
+    { champ: json(`details->>'CAPEX Moyen\n(k€ / MWc)'`), intitulé: 'CAPEX Moyen\n(k€ / MWc)' },
   ],
   'données autoconsommation': [
     "Taux d'autoconsommation \n(AO autoconsommation)",
