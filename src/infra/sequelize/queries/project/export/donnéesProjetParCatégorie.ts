@@ -470,18 +470,56 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     'Facteur de charges (kWh/kWc)',
   ],
   implantation: [
-    'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
-    'Surface du Terrain d’implantation (ha)',
-    'Terrain d’implantation est dégradé au sens du cas 3 du 2.6',
-    'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6',
-    'Détention de l’Autorisation d’Urbanisme',
-    "Type d'utorisation d'Urbanisme (pièce n°3)",
-    "Type de terrain d'implantation \n(pièce n°3)",
-    'Types Cas 3 \n(pièce n°3)',
-    "Type d'AU \n(pièce n°4)",
-    'Codes cas 1\n(AO sol)',
-    'Codes cas 2\n(AO sol)',
-    'Codes cas 3\n(AO sol)',
+    {
+      champ: json(`details->>'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)'`),
+      intitulé: 'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+    },
+    {
+      champ: json(`details->>'Surface du Terrain d’implantation (ha)'`),
+      intitulé: 'Surface du Terrain d’implantation (ha)',
+    },
+    {
+      champ: json(`details->>'Terrain d’implantation est dégradé au sens du cas 3 du 2.6'`),
+      intitulé: 'Terrain d’implantation est dégradé au sens du cas 3 du 2.6',
+    },
+    {
+      champ: json(
+        `details->> 'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6'`
+      ),
+      intitulé: 'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6',
+    },
+    {
+      champ: json(`details->>'Détention de l’Autorisation d’Urbanisme'`),
+      intitulé: 'Détention de l’Autorisation d’Urbanisme',
+    },
+    {
+      champ: json(`details->>'Type d''utorisation d''Urbanisme (pièce n°3)'`),
+      intitulé: "Type d'utorisation d'Urbanisme (pièce n°3)",
+    },
+    {
+      champ: json(`details->>'Type de terrain d''implantation \n(pièce n°3)'`),
+      intitulé: "Type de terrain d'implantation \n(pièce n°3)",
+    },
+    {
+      champ: json(`details->>'Types Cas 3 \n(pièce n°3)'`),
+      intitulé: 'Types Cas 3 \n(pièce n°3)',
+    },
+    {
+      champ: json(`details->>'Type d''AU \n(pièce n°4)'`),
+      intitulé: "Type d'AU \n(pièce n°4)",
+    },
+    {
+      champ: json(`details->>'Codes cas 1\n(AO sol)'`),
+      intitulé: 'Codes cas 1\n(AO sol)',
+    },
+    {
+      champ: json(`details->>'Codes cas 2\n(AO sol)'`),
+      intitulé: 'Codes cas 2\n(AO sol)',
+    },
+    {
+      champ: json(`details->>'Codes cas 3\n(AO sol)'`),
+      intitulé: 'Codes cas 3\n(AO sol)',
+    },
   ],
   prix: [
     {
