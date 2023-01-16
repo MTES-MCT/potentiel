@@ -43,7 +43,10 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
       champ: json(`details->>'Nb d''aérogénérateurs\n(AO éolien)'`),
       intitulé: "Nb d'aérogénérateurs\n(AO éolien)",
     },
-    { champ: 'notifiedOn', intitulé: 'Notification' },
+    {
+      champ: literal(`TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY')`),
+      intitulé: 'Notification',
+    },
     { champ: 'cahierDesChargesActuel', intitulé: 'cahier des charges choisi' },
     { champ: 'classe', intitulé: 'Classé ?' },
   ],
