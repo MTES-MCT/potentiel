@@ -1,25 +1,24 @@
+import { json } from 'sequelize'
 import { getListeColonnesExportParRole } from './getListeColonnesExportParRole'
 
 describe(`getListeColonnesExportParRole`, () => {
-  const donnéesProjetParCatégorie: Record<string, string[]> = {
-    'identification projet': ['numeroCre', 'appelOffreId'],
-    candidat: ['nomProjet', 'actionnaire'],
-  }
-
-  const permissionsDGEC = ['identification projet', 'candidat']
-
-  const catégoriesPermissionsParRôle = {
-    admin: permissionsDGEC,
-    'dgec-validateur': permissionsDGEC,
-  }
-
-  it(`Etant donné un rôle admin ayant accès aux données 'identification projet' et 'candidat',
-  alors un tableau des données de ces catégories devrait être retourné`, () => {
+  it(`Etant donné un rôle admin,
+  alors un tableau des données devrait être retourné`, () => {
     const result = getListeColonnesExportParRole({
       role: 'admin',
-      donnéesProjetParCatégorie,
-      catégoriesPermissionsParRôle,
     })
-    expect(result).toEqual(['numeroCre', 'appelOffreId', 'nomProjet', 'actionnaire'])
+    expect(result).toEqual(
+      expect.arrayContaining([
+        { champ: 'numeroCRE', intitulé: 'N°CRE' },
+        { champ: 'appelOffreId', intitulé: "Appel d'offres" },
+        { champ: 'periodeId', intitulé: 'Période' },
+        { champ: 'familleId', intitulé: 'Famille' },
+        {
+          champ: json(`details->>'Nom et prénom du contact'`),
+          intitulé: 'Nom et prénom du contact',
+        },
+        { champ: json(`details->>'Titre du contact'`), intitulé: 'Titre du contact' },
+      ])
+    )
   })
 })
