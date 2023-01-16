@@ -285,20 +285,74 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
   ],
   'résultat instruction sensible': ['motifsElimination'],
   'note innovation': [
-    'Note degré d’innovation (/20pt)\n(AO innovation)',
-    'Commentaire final sur note degré d’innovation\n(AO innovation)',
-    "Nom de l'innovation (ADEME)\n(AO innovation)",
-    "Type de l'innovation (ADEME)\n(AO innovation)",
-    "Note synergie avec l'usage agricole (/10pt)\n(AO Innovation)",
-    "Commentaire final sur note synergie avec l'usage agricole \n(AO Innovation)",
-    'Note positionnement sur le marché (/10pt)\n(AO innovation)',
-    'Commentaire final sur note positionnement sur le marché \n(AO innovation)',
-    'Note qualité technique (/5pt)\n(AO innovation)',
-    'Commentaire final sur note qualité technique\n(AO innovation)',
-    'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)',
-    'Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)',
-    'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)',
-    'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)',
+    {
+      champ: json(`details->>'Note degré d’innovation (/20pt)\n(AO innovation)'`),
+      intitulé: 'Note degré d’innovation (/20pt)\n(AO innovation)',
+    },
+    {
+      champ: json(`details->>'Commentaire final sur note degré d’innovation\n(AO innovation)'`),
+      intitulé: 'Commentaire final sur note degré d’innovation\n(AO innovation)',
+    },
+    {
+      champ: json(`details->>'Nom de l''innovation (ADEME)\n(AO innovation)'`),
+      intitulé: "Nom de l'innovation (ADEME)\n(AO innovation)",
+    },
+    {
+      champ: json(`details->>'Type de l''innovation (ADEME)\n(AO innovation)'`),
+      intitulé: "Type de l'innovation (ADEME)\n(AO innovation)",
+    },
+    {
+      champ: json(`details->>'Note synergie avec l''usage agricole (/10pt)\n(AO Innovation)'`),
+      intitulé: "Note synergie avec l'usage agricole (/10pt)\n(AO Innovation)",
+    },
+    {
+      champ: json(
+        `details->>'Commentaire final sur note synergie avec l''usage agricole \n(AO Innovation)'`
+      ),
+      intitulé: "Commentaire final sur note synergie avec l'usage agricole \n(AO Innovation)",
+    },
+    {
+      champ: json(`details->>'Note positionnement sur le marché (/10pt)\n(AO innovation)'`),
+      intitulé: 'Note positionnement sur le marché (/10pt)\n(AO innovation)',
+    },
+    {
+      champ: json(
+        `details->>'Commentaire final sur note positionnement sur le marché \n(AO innovation)'`
+      ),
+      intitulé: 'Commentaire final sur note positionnement sur le marché \n(AO innovation)',
+    },
+    {
+      champ: json(`details->>'Note qualité technique (/5pt)\n(AO innovation)'`),
+      intitulé: 'Note qualité technique (/5pt)\n(AO innovation)',
+    },
+    {
+      champ: json(`details->>'Commentaire final sur note qualité technique\n(AO innovation)'`),
+      intitulé: 'Commentaire final sur note qualité technique\n(AO innovation)',
+    },
+    {
+      champ: json(
+        `details->>'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'`
+      ),
+      intitulé:
+        'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)',
+    },
+    {
+      champ: json(
+        `details->>'Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)'`
+      ),
+      intitulé:
+        'Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)',
+    },
+    {
+      champ: json(`details->>'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'`),
+      intitulé: 'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)',
+    },
+    {
+      champ: json(
+        `details->>'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)'`
+      ),
+      intitulé: 'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)',
+    },
   ],
   notes: [
     { champ: json(`details->>'Note prix'`), intitulé: 'Note prix' },
