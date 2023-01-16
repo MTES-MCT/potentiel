@@ -27,6 +27,7 @@ type Catégories =
   | 'notes'
   | 'modifications avant import'
   | 'garanties financières'
+  | 'références candidature'
 
 export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
   'identification projet': [
@@ -482,11 +483,34 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     'Codes cas 2\n(AO sol)',
     'Codes cas 3\n(AO sol)',
   ],
-  prix: ['Prix Majoré', 'prixReference', 'Prix de référence (€/MWh)'],
+  prix: [
+    {
+      champ: json(`details->>'Prix Majoré'`),
+      intitulé: 'Prix Majoré',
+    },
+    {
+      champ: 'prixReference',
+      intitulé:
+        'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
+    },
+    {
+      champ: json(`details->>'Prix de référence (€/MWh)'`),
+      intitulé: 'Prix de référence (€/MWh)',
+    },
+  ],
   'références candidature': [
-    'date\n(candidature)',
-    'heure\n(candidature)',
-    'Reference Pli\n(candidature)',
+    {
+      champ: json(`details->>'date\n(candidature)'`),
+      intitulé: 'date\n(candidature)',
+    },
+    {
+      champ: json(`details->>'heure\n(candidature)'`),
+      intitulé: 'heure\n(candidature)',
+    },
+    {
+      champ: json(`details->>'Reference Pli\n(candidature)'`),
+      intitulé: 'Reference Pli\n(candidature)',
+    },
   ],
   instruction: [
     {
@@ -710,7 +734,7 @@ const permissionsDGEC = [
   'potentiel solaire',
   'implantation',
   'prix',
-  // 'références candidature',
+  'références candidature',
   'instruction',
   'résultat instruction sensible',
   'note innovation',
