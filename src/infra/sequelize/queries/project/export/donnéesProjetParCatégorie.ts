@@ -301,11 +301,14 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
     'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)',
   ],
   notes: [
-    'Note prix',
-    'Note carbone',
-    'Note environnementale',
-    'Note innovation\n(AO innovation)',
-    'note',
+    { champ: json(`details->>'Note prix'`), intitulé: 'Note prix' },
+    { champ: json(`details->>'Note carbone'`), intitulé: 'Note carbone' },
+    { champ: json(`details->>'Note environnementale'`), intitulé: 'Note environnementale' },
+    {
+      champ: json(`details->>'Note innovation\n(AO innovation)'`),
+      intitulé: 'Note innovation\n(AO innovation)',
+    },
+    { champ: 'note', intitulé: 'Note totale' },
   ],
   'modifications avant import': [
     { champ: json(`details->>'Type de modification 1'`), intitulé: 'Type de modification 1' },
