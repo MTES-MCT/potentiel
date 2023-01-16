@@ -1,8 +1,8 @@
-import { json } from 'sequelize'
-import { Json } from 'sequelize/types/utils'
+import { json, literal } from 'sequelize'
+import { Json, Literal } from 'sequelize/types/utils'
 
 export type Colonne = {
-  champ: string | Json
+  champ: string | Json | Literal
   intitulé: string
 }
 
@@ -304,7 +304,16 @@ export const donnéesProjetParCatégorie: Record<string, Colonne[]> = {
     'Colonne concernée 5',
     'Ancienne valeur 5',
   ],
-  'garanties financières': ['dateEnvoi', 'dateConstitution'],
+  'garanties financières': [
+    {
+      champ: literal(`TO_CHAR("garantiesFinancières"."dateEnvoi", 'DD/MM/YYYY')`),
+      intitulé: `Date de soumission sur Potentiel des garanties financières`,
+    },
+    {
+      champ: literal(`TO_CHAR("garantiesFinancières"."dateConstitution", 'DD/MM/YYYY')`),
+      intitulé: `Date déclarée par le porteur de dépôt des garanties financières`,
+    },
+  ],
 }
 
 const permissionsDGEC = [
