@@ -14,18 +14,23 @@ export const getProjetsListePourDGEC = ({
   listeColonnes: Colonne[]
   filtres?: FiltreListeProjets
 }) => {
+  const attributes = listeColonnes.map((c) => [c.champ, c.intitulé])
+  const findOptions = filtres && mapToFindOptions(filtres)
+
   return wrapInfra(
     ProjectModel.findAll({
-      ...(filtres && mapToFindOptions(filtres)),
+      where: findOptions?.where,
       include: [
+        ...(findOptions ? findOptions.include : []),
         {
           model: GarantiesFinancières,
           as: 'garantiesFinancières',
-          attributes: ['dateEnvoi', 'dateConstitution'],
+          attributes: [],
         },
       ],
       //@ts-ignore
-      attributes: listeColonnes.map((c) => [c.champ, c.intitulé]),
+      attributes,
+      raw: true,
     })
   )
 }
