@@ -1,4 +1,3 @@
-import { Readable } from 'stream'
 import { Project } from '@modules/project'
 import { okAsync } from '@core/utils'
 import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
@@ -9,6 +8,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { AppelOffre } from '@entities'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon'
+import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -25,19 +25,11 @@ describe(`Demander une annulation d'abandon`, () => {
 
   const fakeProject = makeFakeProject()
 
-  const fakeFileContents = {
-    filename: 'fakeFile.pdf',
-    contents: Readable.from('test-content'),
-  }
-
-  const shouldUserAccessProject = jest.fn(async () => true)
-
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
   beforeEach(() => publishToEventStore.mockClear())
 
   describe(`Demande impossible si le porteur n'a pas les droits sur le projet`, () => {
-    const shouldUserAccessProject = jest.fn(async () => false)
     it(`Etant donné un porteur n'ayant pas les droits sur le projet
           Lorsque le porteur fait une demande d'annulation d'abandon,
           Alors le porteur est informé qu'il n'a pas l'accès à ce projet`, async () => {
@@ -64,43 +56,37 @@ describe(`Demander une annulation d'abandon`, () => {
         expect(demandeAnnulationAbandon.error).toBeInstanceOf(UnauthorizedError)
     })
   })
+
+  describe(`Demande impossible si le projet n'est pas abandonné`, () => {
+    it(`
+      Étant donné un porteur ayant les droits sur le projet
+      Lorsqu'il fait une demande d'annulation d'abandon pour un projet non abandonné,
+      Alors le porteur est informé que cette action est impossible`, async () => {
+      const fakeProject = makeFakeProject()
+      const projectRepo = fakeRepo({
+        ...fakeProject,
+        isClasse: true,
+        abandonedOn: 0,
+      } as Project)
+
+      const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
+        findAppelOffreById,
+        publishToEventStore,
+        shouldUserAccessProject: jest.fn(async () => true),
+        getProjectAppelOffreId,
+        projectRepo,
+      })
+
+      const demande = await demanderAnnulationAbandon({
+        user,
+        projetId: fakeProject.id.toString(),
+      })
+
+      expect(demande.isErr()).toEqual(true)
+      demande.isErr() && expect(demande.error).toBeInstanceOf(ProjetNonAbandonnéError)
+    })
+  })
 })
-
-//   describe(`Demande impossible si le projet n'est pas abandonné`, () => {
-//     describe(`Etant donnée un porteur ayant les droits sur un projet`, () => {
-//       it(`Lorsque le porteur fait une demande d'abandon,
-//           et que le projet abandoné,
-//           alors une erreur de type DemanderAbandonError devrait être émise`, async () => {
-//         const fakeProject = makeFakeProject()
-//         const projectRepo = fakeRepo({
-//           ...fakeProject,
-//           isClasse: true,
-//           abandonedOn: new Date('2022-01-01').getTime(),
-//         } as Project)
-
-//         const demanderAbandon = makeDemanderAbandon({
-//           fileRepo,
-//           findAppelOffreById,
-//           publishToEventStore,
-//           shouldUserAccessProject: jest.fn(async () => true),
-//           getProjectAppelOffreId,
-//           projectRepo,
-//         })
-
-//         const requestResult = await demanderAbandon({
-//           justification: 'justification',
-//           user,
-//           projectId: fakeProject.id.toString(),
-//         })
-
-//         expect(requestResult.isErr()).toEqual(true)
-//         if (requestResult.isOk()) return
-//         expect(requestResult.error).toBeInstanceOf(DemanderAbandonError)
-
-//         expect(fileRepo.save).not.toHaveBeenCalled()
-//       })
-//     })
-//   })
 
 //   describe(`Demande impossible si le CDC du projet autorise l'annulation`, () => {
 //     describe(`Étant donné un projet avec un AO requérant un CDC modifié pour effectuer des changements sur Potentiel,
