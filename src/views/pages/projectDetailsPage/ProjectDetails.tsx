@@ -115,7 +115,7 @@ const AlerteAnnulationAbandonPossible = ({
   id: ProjectDataForProjectPage['id']
   cahierDesChargesActuel: ProjectDataForProjectPage['cahierDesChargesActuel']
 }) => (
-  <AlertBox title="Annulation demande abandon">
+  <AlertBox title="Annulation abandon">
     <p className="m-0">
       Vous avez la possibilité d'annuler l'abandon de votre projet avant le 3 février 2023.
     </p>
