@@ -9,6 +9,7 @@ import { AppelOffre } from '@entities'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon'
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
+import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError'
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
@@ -86,47 +87,40 @@ describe(`Demander une annulation d'abandon`, () => {
       demande.isErr() && expect(demande.error).toBeInstanceOf(ProjetNonAbandonnéError)
     })
   })
+
+  describe(`Demande impossible si le CDC du projet n'autorise pas l'annulation d'un abandon`, () => {
+    it(`Etant donné un porteur ayant accès au projet,
+      lorsqu'il fait une demande d'annulation d'abandon pour un projet dont le CDC ne permet cette action,
+      alors le porteur devrait être informé qu'il doit d'abord changer de CDC`, async () => {
+      const projectRepo = fakeRepo({
+        ...fakeProject,
+        cahierDesCharges: {
+          type: 'modifié',
+          paruLe: '30/08/2022',
+          annulationAbandonPossible: undefined,
+        },
+        isClasse: true,
+      } as Project)
+
+      const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
+        findAppelOffreById,
+        publishToEventStore,
+        shouldUserAccessProject: jest.fn(async () => true),
+        getProjectAppelOffreId,
+        projectRepo,
+      })
+
+      const demande = await demanderAnnulationAbandon({
+        user,
+        projetId: fakeProject.id.toString(),
+      })
+
+      expect(demande.isErr()).toEqual(true)
+      demande.isErr() &&
+        expect(demande.error).toBeInstanceOf(CDCIncompatibleAvecAnnulationAbandonError)
+    })
+  })
 })
-
-//   describe(`Demande impossible si le CDC du projet autorise l'annulation`, () => {
-//     describe(`Étant donné un projet avec un AO requérant un CDC modifié pour effectuer des changements sur Potentiel,
-//               Lorsque le porteur fait une demande d'abandon
-//               et qu'il n'a pas encore souscrit au cahier des charges modifié`, () => {
-//       it(`Alors aucun une erreur NouveauCahierDesChargesNonChoisiError devrait être retournée`, async () => {
-//         const projectRepo = fakeRepo({
-//           ...fakeProject,
-//           cahierDesCharges: { type: 'initial' },
-//           isClasse: true,
-//         } as Project)
-
-//         const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-//           ({
-//             id: 'appelOffreId',
-//             periodes: [{ id: 'periodeId', type: 'notified' }],
-//             familles: [{ id: 'familleId' }],
-//             choisirNouveauCahierDesCharges: true,
-//           } as AppelOffre)
-
-//         const demanderAbandon = makeDemanderAbandon({
-//           fileRepo,
-//           findAppelOffreById,
-//           publishToEventStore,
-//           shouldUserAccessProject,
-//           getProjectAppelOffreId,
-//           projectRepo,
-//         })
-
-//         const res = await demanderAbandon({
-//           user,
-//           projectId: fakeProject.id.toString(),
-//         })
-
-//         expect(res.isErr()).toEqual(true)
-//         if (res.isOk()) return
-//         expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError)
-//       })
-//     })
-//   })
 
 //   describe(`Demande possible si le porteur a les droits sur le projet`, () => {
 //     describe(`Etant donné un porteur ayant les droits sur le projet`, () => {

@@ -6,6 +6,7 @@ import { Project } from '@modules/project'
 import { wrapInfra, errAsync, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
+import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError'
 
 type Commande = {
   user: User
@@ -42,6 +43,12 @@ export const makeDemanderAnnulationAbandon =
       .andThen((projet) => {
         if (projet.abandonedOn === 0) {
           return errAsync(new ProjetNonAbandonnéError(projet.id.toString()))
+        }
+        if (
+          projet.cahierDesCharges.type === 'modifié' &&
+          !projet.cahierDesCharges.annulationAbandonPossible
+        ) {
+          return errAsync(new CDCIncompatibleAvecAnnulationAbandonError(projet.id.toString()))
         }
         return okAsync(projet)
       })

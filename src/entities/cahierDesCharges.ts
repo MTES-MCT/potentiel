@@ -36,7 +36,12 @@ export type DateParutionCahierDesChargesModifié =
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }
-  | { type: 'modifié'; paruLe: DateParutionCahierDesChargesModifié; alternatif?: true }
+  | {
+      type: 'modifié'
+      paruLe: DateParutionCahierDesChargesModifié
+      alternatif?: true
+      annulationAbandonPossible?: true
+    }
 
 export const parseCahierDesChargesRéférence = (
   référence: CahierDesChargesRéférence
