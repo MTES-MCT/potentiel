@@ -25,6 +25,7 @@ import {
   ContratEnedis,
 } from './sections'
 import { ProjectHeader } from './components'
+import routes from '@routes'
 
 type ProjectDetailsProps = {
   request: Request
@@ -108,8 +109,10 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
 )
 
 const AlerteAnnulationAbandonPossible = ({
+  id: projetId,
   cahierDesChargesActuel,
 }: {
+  id: ProjectDataForProjectPage['id']
   cahierDesChargesActuel: ProjectDataForProjectPage['cahierDesChargesActuel']
 }) => (
   <AlertBox title="Annulation demande abandon">
@@ -119,8 +122,16 @@ const AlerteAnnulationAbandonPossible = ({
     {cahierDesChargesActuel.type === 'modifié' &&
     cahierDesChargesActuel.annulationAbandonPossible ? (
       <>
-        <form action="">
-          <Button type="submit" name="" id="">
+        <form method="post" action={routes.POST_DEMANDER_ANNULATION_ABANDON}>
+          <input type="hidden" name="projetId" value={projetId} />
+          <Button
+            type="submit"
+            onClick={(event) =>
+              confirm(
+                `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`
+              ) || event.preventDefault()
+            }
+          >
             Demander l'annulation
           </Button>
         </form>
