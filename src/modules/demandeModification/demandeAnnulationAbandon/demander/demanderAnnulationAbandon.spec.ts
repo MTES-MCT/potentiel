@@ -1,11 +1,9 @@
 import { Project } from '@modules/project'
 import { okAsync } from '@core/utils'
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { AppelOffreRepo } from '@dataAccess/inMemory'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 
-import { AppelOffre } from '@entities'
 import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon'
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
@@ -13,16 +11,6 @@ import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvec
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
-
-  const getProjectAppelOffreId = jest.fn(() =>
-    okAsync<string, EntityNotFoundError | InfraNotAvailableError>('appelOffreId')
-  )
-  const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-    ({
-      id: 'appelOffreId',
-      periodes: [{ id: 'periodeId', type: 'notified' }],
-      familles: [{ id: 'familleId' }],
-    } as AppelOffre)
 
   const fakeProject = makeFakeProject()
 
@@ -40,10 +28,8 @@ describe(`Demander une annulation d'abandon`, () => {
       } as Project)
 
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
-        findAppelOffreById,
         publishToEventStore,
         shouldUserAccessProject: async () => false,
-        getProjectAppelOffreId,
         projectRepo,
       })
 
@@ -71,10 +57,8 @@ describe(`Demander une annulation d'abandon`, () => {
       } as Project)
 
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
-        findAppelOffreById,
         publishToEventStore,
         shouldUserAccessProject: jest.fn(async () => true),
-        getProjectAppelOffreId,
         projectRepo,
       })
 
@@ -103,10 +87,8 @@ describe(`Demander une annulation d'abandon`, () => {
       } as Project)
 
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
-        findAppelOffreById,
         publishToEventStore,
         shouldUserAccessProject: jest.fn(async () => true),
-        getProjectAppelOffreId,
         projectRepo,
       })
 
@@ -120,70 +102,43 @@ describe(`Demander une annulation d'abandon`, () => {
         expect(demande.error).toBeInstanceOf(CDCIncompatibleAvecAnnulationAbandonError)
     })
   })
+
+  describe(`Demande possible`, () => {
+    it(`Etant donné un porteur ayant accès à un projet abandonné,
+      et ayant souscri à un CDC compatible avec une annulation d'abandon,
+      alors une demande devrait être envoyée`, async () => {
+      const projectRepo = fakeRepo({
+        ...fakeProject,
+        cahierDesCharges: {
+          type: 'modifié',
+          paruLe: '30/08/2022',
+          annulationAbandonPossible: true,
+        },
+        abandonedOn: 123,
+      } as Project)
+
+      const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
+        publishToEventStore,
+        shouldUserAccessProject: jest.fn(async () => true),
+        projectRepo,
+      })
+
+      const demande = await demanderAnnulationAbandon({
+        user,
+        projetId: fakeProject.id.toString(),
+      })
+
+      expect(demande.isOk()).toEqual(true)
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'AnnulationAbandonDemandée',
+          payload: {
+            demandeId: expect.any(String),
+            projetId: fakeProject.id.toString(),
+            demandéPar: user.id,
+          },
+        })
+      )
+    })
+  })
 })
-
-//   describe(`Demande possible si le porteur a les droits sur le projet`, () => {
-//     describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
-//       const projectRepo = fakeRepo({
-//         ...fakeProject,
-//         cahierDesCharges: { paruLe: '30/07/2021' },
-//         isClasse: true,
-//       } as Project)
-//       describe(`Enregistrer la demande d'abandon'`, () => {
-//         describe(`Lorsque le porteur fait une demande d'abandon'`, () => {
-//           it(`Alors un événement AbandonDemandé devrait être émis`, async () => {
-//             const demanderAbandon = makeDemanderAbandon({
-//               fileRepo: fileRepo as Repository<FileObject>,
-//               findAppelOffreById,
-//               publishToEventStore,
-//               shouldUserAccessProject,
-//               getProjectAppelOffreId,
-//               projectRepo,
-//             })
-
-//             await demanderAbandon({
-//               justification: 'justification',
-//               user,
-//               projectId: fakeProject.id.toString(),
-//             })
-
-//             expect(publishToEventStore).toHaveBeenNthCalledWith(
-//               1,
-//               expect.objectContaining({
-//                 type: 'AbandonDemandé',
-//                 payload: expect.objectContaining({
-//                   projetId: fakeProject.id.toString(),
-//                   cahierDesCharges: '30/07/2021',
-//                 }),
-//               })
-//             )
-//           })
-//         })
-//       })
-//       describe(`Enregistrer le fichier joint à la demande`, () => {
-//         describe(`Lorsque le porteur fait une demande d'abandon avec fichier joint`, () => {
-//           it(`Alors le fichier doit être enregistré`, async () => {
-//             const demanderAbandon = makeDemanderAbandon({
-//               fileRepo: fileRepo as Repository<FileObject>,
-//               findAppelOffreById,
-//               publishToEventStore,
-//               shouldUserAccessProject,
-//               getProjectAppelOffreId,
-//               projectRepo,
-//             })
-
-//             await demanderAbandon({
-//               justification: 'justification',
-//               user,
-//               projectId: fakeProject.id.toString(),
-//               file: fakeFileContents,
-//             })
-
-//             expect(fileRepo.save).toHaveBeenCalledWith(
-//               expect.objectContaining({ contents: fakeFileContents.contents })
-//             )
-//           })
-//         })
-//       })
-//     })
-//   })
