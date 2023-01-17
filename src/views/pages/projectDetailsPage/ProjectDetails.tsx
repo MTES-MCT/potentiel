@@ -122,7 +122,7 @@ const AlerteAnnulationAbandonPossible = ({
     {cahierDesChargesActuel.type === 'modifié' &&
     cahierDesChargesActuel.annulationAbandonPossible ? (
       <>
-        <form method="post" action={routes.POST_DEMANDER_ANNULATION_ABANDON}>
+        <form method="post" action={routes.POST_DEMANDER_ANNULATION_ABANDON} className="m-0 p-0">
           <input type="hidden" name="projetId" value={projetId} />
           <Button
             type="submit"
@@ -131,8 +131,9 @@ const AlerteAnnulationAbandonPossible = ({
                 `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`
               ) || event.preventDefault()
             }
+            className="mt-4"
           >
-            Demander l'annulation
+            Demander l'annulation de l'abandon
           </Button>
         </form>
       </>
