@@ -111,6 +111,7 @@ import {
   makeMettreAJourDonnéesDeRaccordement,
 } from '@modules/imports/donnéesRaccordement'
 import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '@modules/utilisateur'
+import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/demander'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -488,4 +489,10 @@ export const inviterUtilisateur = makeInviterUtilisateur({
 export const créerProfilUtilisateur = makeCréerProfilUtilisateur({
   utilisateurRepo,
   publishToEventStore,
+})
+
+export const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
+  publishToEventStore,
+  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+  projectRepo,
 })
