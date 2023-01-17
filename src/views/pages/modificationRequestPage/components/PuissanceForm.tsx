@@ -63,7 +63,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
           />
           La demande de changement de puissance fait suite à une décision de justice
         </label>
-        <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
+        <div className="text-xs leading-6 mt-1">
           En cochant cette case, vous n'aurez pas à joindre de courrier de réponse en cas
           d'acceptation de la demande. <br />
           Un refus quant à lui devra être accompagné d'un courrier.
