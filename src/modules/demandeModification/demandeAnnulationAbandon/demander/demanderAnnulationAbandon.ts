@@ -1,5 +1,5 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { User } from '@entities'
+import { formatCahierDesChargesRéférence, User } from '@entities'
 import { Project } from '@modules/project'
 import { wrapInfra, errAsync, okAsync } from '@core/utils'
 import { UnauthorizedError } from '@modules/shared'
@@ -47,6 +47,7 @@ export const makeDemanderAnnulationAbandon =
               demandeId: new UniqueEntityID().toString(),
               projetId: projetId,
               demandéPar: user.id,
+              cahierDesCharges: formatCahierDesChargesRéférence(projet.cahierDesCharges),
             },
           })
         )

@@ -136,6 +136,7 @@ describe(`Demander une annulation d'abandon`, () => {
             demandeId: expect.any(String),
             projetId: fakeProject.id.toString(),
             demandéPar: user.id,
+            cahierDesCharges: '30/08/2022',
           },
         })
       )
