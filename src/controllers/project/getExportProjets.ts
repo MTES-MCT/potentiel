@@ -5,11 +5,11 @@ import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
 import { parseAsync } from 'json2csv'
-import { writeCsvOnDisk } from 'src/helpers/csv'
+import { writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
-import { addQueryParams } from 'src/helpers/addQueryParams'
+import { addQueryParams } from '../../helpers/addQueryParams'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
