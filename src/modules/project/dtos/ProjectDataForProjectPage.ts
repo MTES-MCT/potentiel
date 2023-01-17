@@ -20,6 +20,7 @@ export type ProjectDataForProjectPage = {
         type: 'modifié'
         paruLe: string
         alternatif?: true
+        annulationAbandonPossible?: true
       }
   )
 
