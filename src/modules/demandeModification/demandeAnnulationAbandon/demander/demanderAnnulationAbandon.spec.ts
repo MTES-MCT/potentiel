@@ -8,13 +8,29 @@ import { fakeRepo } from '../../../../__tests__/fixtures/aggregates'
 import { makeDemanderAnnulationAbandon } from './demanderAnnulationAbandon'
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError'
+import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
 
 describe(`Demander une annulation d'abandon`, () => {
   const user = makeFakeUser({ role: 'porteur-projet' })
 
-  const fakeProject = makeFakeProject()
+  const fakeProject = makeFakeProject({
+    cahierDesCharges: {
+      type: 'modifié',
+      paruLe: '30/08/2022',
+    },
+  })
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+  const getProjectAppelOffre = () =>
+    ({
+      cahiersDesChargesModifiésDisponibles: [
+        {
+          type: 'modifié',
+          paruLe: '30/08/2022',
+          délaiAnnulationAbandon: new Date(),
+        } as CahierDesChargesModifié,
+      ] as Readonly<Array<CahierDesChargesModifié>>,
+    } as ProjectAppelOffre)
 
   beforeEach(() => publishToEventStore.mockClear())
 
@@ -30,6 +46,7 @@ describe(`Demander une annulation d'abandon`, () => {
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
         publishToEventStore,
         shouldUserAccessProject: async () => false,
+        getProjectAppelOffre,
         projectRepo,
       })
 
@@ -59,6 +76,7 @@ describe(`Demander une annulation d'abandon`, () => {
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
         publishToEventStore,
         shouldUserAccessProject: jest.fn(async () => true),
+        getProjectAppelOffre,
         projectRepo,
       })
 
@@ -78,17 +96,22 @@ describe(`Demander une annulation d'abandon`, () => {
       alors le porteur devrait être informé qu'il doit d'abord changer de CDC`, async () => {
       const projectRepo = fakeRepo({
         ...fakeProject,
-        cahierDesCharges: {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          annulationAbandonPossible: undefined,
-        },
         isClasse: true,
       } as Project)
 
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
         publishToEventStore,
         shouldUserAccessProject: jest.fn(async () => true),
+        getProjectAppelOffre: () =>
+          ({
+            cahiersDesChargesModifiésDisponibles: [
+              {
+                type: 'modifié',
+                paruLe: '30/08/2022',
+                délaiAnnulationAbandon: undefined,
+              } as CahierDesChargesModifié,
+            ] as Readonly<Array<CahierDesChargesModifié>>,
+          } as ProjectAppelOffre),
         projectRepo,
       })
 
@@ -109,17 +132,13 @@ describe(`Demander une annulation d'abandon`, () => {
       alors une demande devrait être envoyée`, async () => {
       const projectRepo = fakeRepo({
         ...fakeProject,
-        cahierDesCharges: {
-          type: 'modifié',
-          paruLe: '30/08/2022',
-          annulationAbandonPossible: true,
-        },
         abandonedOn: 123,
       } as Project)
 
       const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
         publishToEventStore,
         shouldUserAccessProject: jest.fn(async () => true),
+        getProjectAppelOffre,
         projectRepo,
       })
 

@@ -6,6 +6,7 @@ import { UnauthorizedError } from '@modules/shared'
 import { ProjetNonAbandonnéError } from './ProjetNonAbandonnéError'
 import { CDCIncompatibleAvecAnnulationAbandonError } from './CDCIncompatibleAvecAnnulationAbandonError'
 import { AnnulationAbandonDemandée } from '../events'
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 
 type Commande = {
   user: User
@@ -15,11 +16,17 @@ type Commande = {
 type Dépendances = {
   publishToEventStore: EventStore['publish']
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  getProjectAppelOffre: GetProjectAppelOffre
   projectRepo: Repository<Project>
 }
 
 export const makeDemanderAnnulationAbandon =
-  ({ publishToEventStore, shouldUserAccessProject, projectRepo }: Dépendances) =>
+  ({
+    publishToEventStore,
+    shouldUserAccessProject,
+    getProjectAppelOffre,
+    projectRepo,
+  }: Dépendances) =>
   ({ user, projetId }: Commande) => {
     return wrapInfra(shouldUserAccessProject({ user, projectId: projetId }))
       .andThen((utilisateurALesDroits) => {
@@ -35,9 +42,19 @@ export const makeDemanderAnnulationAbandon =
         if (projet.abandonedOn === 0) {
           return errAsync(new ProjetNonAbandonnéError(projet.id.toString()))
         }
+
+        const ao = getProjectAppelOffre({ ...projet })
+        const cahierDesCharges = ao?.cahiersDesChargesModifiésDisponibles.find(
+          (c) =>
+            c.type === projet.cahierDesCharges.type &&
+            c.paruLe === projet.cahierDesCharges.paruLe &&
+            c.alternatif === projet.cahierDesCharges.alternatif
+        )
+
         if (
           projet.cahierDesCharges.type === 'modifié' &&
-          !projet.cahierDesCharges.annulationAbandonPossible
+          cahierDesCharges &&
+          !cahierDesCharges.délaiAnnulationAbandon
         ) {
           return errAsync(new CDCIncompatibleAvecAnnulationAbandonError(projet.id.toString()))
         }
