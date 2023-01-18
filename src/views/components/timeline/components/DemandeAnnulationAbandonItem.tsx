@@ -17,10 +17,7 @@ type DemandeAnnulationAbandonItemProps = DemandeAnnulationAbandonDTO
 export const DemandeAnnulationAbandonItem = (props: DemandeAnnulationAbandonItemProps) => {
   const { date, demandeUrl, statut, actionRequise } = props
 
-  const titre =
-    statut === 'demande confirmée'
-      ? `Demande d'annulation d'abandon confirmée par le porteur`
-      : `Demande d'annulation d'abandon ${statut}`
+  const titre = `Demande d'annulation d'abandon ${statut}`
 
   return (
     <>
