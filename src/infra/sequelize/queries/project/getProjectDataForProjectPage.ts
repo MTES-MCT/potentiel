@@ -83,6 +83,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
         const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
+
         const cahierDesCharges =
           cahierDesChargesActuel.type === 'initial'
             ? {
@@ -99,6 +100,21 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                 paruLe: cahierDesChargesActuel.paruLe,
                 alternatif: cahierDesChargesActuel.alternatif,
               }
+
+        const optionAnnulationAbandonExistante =
+          appelOffre?.cahiersDesChargesModifiésDisponibles.some(
+            (cdc) =>
+              cdc.délaiAnnulationAbandon &&
+              new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
+          )
+
+        const cdcActuelCompatibleAvecAnnulationAbandon =
+          cahierDesChargesActuel.type === 'modifié' &&
+          !!appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+            (cdc) =>
+              cdc.paruLe === cahierDesChargesActuel.paruLe &&
+              cdc.alternatif === cahierDesChargesActuel.alternatif
+          )?.délaiAnnulationAbandon
 
         const result: any = {
           id,
@@ -142,6 +158,14 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
           cahierDesChargesActuel: cahierDesCharges,
+          ...(abandonedOn !== 0 &&
+            optionAnnulationAbandonExistante && {
+              afficherAlerteAnnulationAbandon: optionAnnulationAbandonExistante,
+            }),
+          ...(abandonedOn !== 0 &&
+            cdcActuelCompatibleAvecAnnulationAbandon && {
+              afficherBoutonAnnulerAbandon: cdcActuelCompatibleAvecAnnulationAbandon,
+            }),
         }
 
         if (user.role !== 'dreal') {

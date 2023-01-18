@@ -48,9 +48,9 @@ export const ProjectDetails = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       <main className="flex flex-col gap-3 mt-5">
-        {project.appelOffreId === 'CRE4 - ZNI' &&
-          project.isAbandoned &&
-          userIs('porteur-projet')(user) && <AlerteAnnulationAbandonPossible {...{ ...project }} />}
+        {project.afficherAlerteAnnulationAbandon && userIs('porteur-projet')(user) && (
+          <AlerteAnnulationAbandonPossible {...{ ...project }} />
+        )}
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
@@ -110,17 +110,16 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
 
 const AlerteAnnulationAbandonPossible = ({
   id: projetId,
-  cahierDesChargesActuel,
+  afficherBoutonAnnulerAbandon,
 }: {
   id: ProjectDataForProjectPage['id']
-  cahierDesChargesActuel: ProjectDataForProjectPage['cahierDesChargesActuel']
+  afficherBoutonAnnulerAbandon?: ProjectDataForProjectPage['afficherBoutonAnnulerAbandon']
 }) => (
   <AlertBox title="Annulation abandon">
     <p className="m-0">
       Vous avez la possibilité d'annuler l'abandon de votre projet avant le 3 février 2023.
     </p>
-    {cahierDesChargesActuel.type === 'modifié' &&
-    cahierDesChargesActuel.annulationAbandonPossible ? (
+    {afficherBoutonAnnulerAbandon ? (
       <>
         <form method="post" action={routes.POST_DEMANDER_ANNULATION_ABANDON} className="m-0 p-0">
           <input type="hidden" name="projetId" value={projetId} />
