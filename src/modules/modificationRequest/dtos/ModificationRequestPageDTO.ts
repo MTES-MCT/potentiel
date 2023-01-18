@@ -72,6 +72,7 @@ type Variant =
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }
   | { type: 'recours' }
   | { type: 'abandon' }
+  | { type: 'annulation abandon' }
   | ({
       type: 'delai'
       acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string }
@@ -84,3 +85,6 @@ type Variant =
     ))
 
 export type DemandeAbandonPageDTO = ModificationRequestPageDTO & { type: 'abandon' }
+export type DemandeAnnulationAbandonPageDTO = ModificationRequestPageDTO & {
+  type: 'annulation abandon'
+}

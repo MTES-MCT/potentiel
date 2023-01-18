@@ -24,6 +24,7 @@ import {
   ChangerProducteur,
   DemanderAbandon,
   DemandeAbandon,
+  DemandeAnnulationAbandon,
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
@@ -149,6 +150,15 @@ export const DemandeAbandonPage = (props: Parameters<typeof DemandeAbandon>[0]) 
     Component: DemandeAbandon,
     props,
     title: 'Demande abandon',
+  })
+
+export const DemandeAnnulationAbandonPage = (
+  props: Parameters<typeof DemandeAnnulationAbandon>[0]
+) =>
+  makeHtml({
+    Component: DemandeAnnulationAbandon,
+    props,
+    title: 'Demande annulation abandon',
   })
 
 export const ModificationRequestListPage = (props: Parameters<typeof ModificationRequestList>[0]) =>
