@@ -8,6 +8,7 @@ import routes from '../../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
 import { v1Router } from '../../v1Router'
 import { addQueryParams } from 'src/helpers/addQueryParams'
+import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification'
 
 const schema = yup.object({
   body: yup.object({
@@ -21,7 +22,7 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response, error }) =>
+      onError: ({ response, error }) =>
         response.redirect(
           addQueryParams(routes.USER_LIST_REQUESTS, {
             ...error.errors,
@@ -46,6 +47,11 @@ v1Router.post(
           )
         },
         (error) => {
+          if (error instanceof StatutRéponseIncompatibleAvecAnnulationError) {
+            return response.redirect(
+              addQueryParams(routes.DEMANDE_PAGE_DETAILS(demandeId), { error: error.message })
+            )
+          }
           if (error instanceof EntityNotFoundError) {
             return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
           } else if (error instanceof UnauthorizedError) {
