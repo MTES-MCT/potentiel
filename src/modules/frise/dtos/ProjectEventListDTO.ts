@@ -2,7 +2,10 @@ import { or } from '@core/utils'
 import { Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
-import { DemandeAbandonEventStatus } from '@infra/sequelize/projectionsNext/projectEvents/events'
+import {
+  DemandeAbandonEventStatus,
+  DemandeAnnulationAbandonEventStatus,
+} from '@infra/sequelize/projectionsNext/projectEvents/events'
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
@@ -36,6 +39,7 @@ export type ProjectEventDTO =
   | DateMiseEnServiceDTO
   | DateFileAttenteDTO
   | PtfDTO
+  | DemandeAnnulationAbandonDTO
 
 type File = {
   id: string
@@ -483,6 +487,22 @@ export type DemandeAbandonDTO = {
     | 'cre'
   date: number
   statut: DemandeAbandonEventStatus
+  demandeUrl?: string
+  actionRequise?: 'à traiter'
+}
+
+export type DemandeAnnulationAbandonDTO = {
+  type: 'DemandeAnnulationAbandon'
+  variant:
+    | 'admin'
+    | 'porteur-projet'
+    | 'dreal'
+    | 'acheteur-obligé'
+    | 'dgec-validateur'
+    | 'caisse-des-dépôts'
+    | 'cre'
+  date: number
+  statut: DemandeAnnulationAbandonEventStatus
   demandeUrl?: string
   actionRequise?: 'à traiter'
 }
