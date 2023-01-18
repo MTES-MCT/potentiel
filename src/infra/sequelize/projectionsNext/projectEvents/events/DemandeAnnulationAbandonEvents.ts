@@ -5,7 +5,6 @@ export type DemandeAnnulationAbandonEventStatus = 'envoyée' | 'annulée' | 'rej
 export type DemandeAnnulationAbandonEvent = ProjectEvent & {
   type: 'DemandeAnnulationAbandon'
   payload: {
-    autorité: 'dgec'
     statut: DemandeAnnulationAbandonEventStatus
   }
 }
