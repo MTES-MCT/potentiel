@@ -32,7 +32,7 @@ export const makeAnnulerDemandeAnnulationAbandon =
             }
 
             if (statut !== 'envoyée') {
-              return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(statut || 'inconnu'))
+              return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(statut))
             }
 
             return publishToEventStore(

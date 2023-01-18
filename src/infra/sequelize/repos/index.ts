@@ -12,7 +12,11 @@ import { makeProjectRepo } from './projectRepo'
 import { makeProjectClaimRepo } from './projectClaimRepo'
 import { makeLegacyCandidateNotification } from '@modules/legacyCandidateNotification'
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
-import { makeDemandeDélai, makeDemandeAbandon } from '@modules/demandeModification'
+import {
+  makeDemandeDélai,
+  makeDemandeAbandon,
+  makeDemandeAnnulationAbandon,
+} from '@modules/demandeModification'
 import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
 import { makeUtilisateur } from '@modules/utilisateur'
 
@@ -56,6 +60,17 @@ export const demandeAbandonRepo = {
   ...makeEventStoreRepo({
     eventStore,
     makeAggregate: makeDemandeAbandon,
+  }),
+}
+
+export const demandeAnnulationAbandonRepo = {
+  ...makeEventStoreTransactionalRepo({
+    eventStore,
+    makeAggregate: makeDemandeAnnulationAbandon,
+  }),
+  ...makeEventStoreRepo({
+    eventStore,
+    makeAggregate: makeDemandeAnnulationAbandon,
   }),
 }
 

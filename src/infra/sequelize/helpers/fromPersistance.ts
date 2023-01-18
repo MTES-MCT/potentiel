@@ -13,6 +13,7 @@ import * as LegacyCandidateNotificationEvents from '@modules/legacyCandidateNoti
 import * as DemandeRecoursModificationEvents from '@modules/demandeModification/demandeRecours/events'
 import * as DemandeDelaiEvents from '@modules/demandeModification/demandeDélai/events'
 import * as DemandeAbandonEvents from '@modules/demandeModification/demandeAbandon/events'
+import * as DemandeAnnulationAbandonEvents from '@modules/demandeModification/demandeAnnulationAbandon/events'
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events'
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events'
 import * as UtilisateurEvents from '@modules/utilisateur/events'
@@ -46,6 +47,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeRecoursModificationEvents,
   ...DemandeDelaiEvents,
   ...DemandeAbandonEvents,
+  ...DemandeAnnulationAbandonEvents,
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
