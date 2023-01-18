@@ -21,9 +21,7 @@ export const DemandeAnnulationAbandonItem = (props: DemandeAnnulationAbandonItem
 
   return (
     <>
-      {['envoyée', 'demande confirmée', 'en attente de confirmation'].includes(statut) && (
-        <CurrentIcon />
-      )}
+      {statut === 'envoyée' && <CurrentIcon />}
       {statut === 'annulée' && <CancelledStepIcon />}
       {statut === 'rejetée' && <UnvalidatedStepIcon />}
       {statut === 'accordée' && <PastIcon />}
