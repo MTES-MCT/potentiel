@@ -9,6 +9,10 @@ import { addQueryParams } from '../../../helpers/addQueryParams'
 import { errorResponse, unauthorizedResponse } from '../../helpers'
 import { v1Router } from '../../v1Router'
 import safeAsyncHandler from '../../helpers/safeAsyncHandler'
+import {
+  CDCIncompatibleAvecAnnulationAbandonError,
+  ProjetNonAbandonnéError,
+} from '@modules/demandeModification'
 
 const schema = yup.object({
   body: yup.object({
@@ -49,6 +53,17 @@ v1Router.post(
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (
+            error instanceof CDCIncompatibleAvecAnnulationAbandonError ||
+            error instanceof ProjetNonAbandonnéError
+          ) {
+            return response.redirect(
+              addQueryParams(routes.PROJECT_DETAILS(request.body.projetId), {
+                error: error.message,
+              })
+            )
           }
 
           logger.error(error)
