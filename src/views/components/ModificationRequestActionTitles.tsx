@@ -9,6 +9,7 @@ export const ModificationRequestActionTitles = ({ action }) => {
     producteur: 'Je signale un changement de producteur',
     abandon: 'Je demande un abandon de mon projet',
     recours: 'Je demande un recours',
+    'annulation abandon': "Je demande une annulation d'abandon de mon projet",
   }
   return <span>{titlePerAction[action]}</span>
 }

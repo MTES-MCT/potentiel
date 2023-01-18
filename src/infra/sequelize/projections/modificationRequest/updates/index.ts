@@ -16,6 +16,7 @@ import {
   ConfirmationAbandonDemandée,
   AbandonConfirmé,
   RejetAbandonAnnulé,
+  AnnulationAbandonDemandée,
 } from '@modules/demandeModification'
 import {
   ConfirmationRequested,
@@ -58,6 +59,7 @@ import {
   onLegacyAbandonSupprimé,
 } from './abandon'
 import { LegacyAbandonSupprimé } from '@modules/project'
+import { onAnnulationAbandonDemandée } from './annulationAbandon'
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested(models))
@@ -97,6 +99,7 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(LegacyAbandonSupprimé.type, onLegacyAbandonSupprimé(models))
   eventBus.subscribe(ConfirmationAbandonDemandée.type, onConfirmationAbandonDemandée(models))
   eventBus.subscribe(RejetAbandonAnnulé.type, onRejetAbandonAnnulé(models))
+  eventBus.subscribe(AnnulationAbandonDemandée.type, onAnnulationAbandonDemandée(models))
   logger.info('Initialized ModificationRequest projections')
 }
 

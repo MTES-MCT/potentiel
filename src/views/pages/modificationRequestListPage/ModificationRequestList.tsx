@@ -180,6 +180,7 @@ export const ModificationRequestList = ({
                     <option value="recours">Recours</option>
                     <option value="delai">Délai</option>
                     <option value="abandon">Abandon</option>
+                    <option value="annulation abandon">Annulation abandon</option>
                   </select>
                 </div>
                 <div style={{ marginTop: 15 }}>

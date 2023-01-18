@@ -6,6 +6,7 @@ export type ModificationRequestVariants =
   | { type: 'recours'; justification: string }
   | { type: 'abandon'; justification: string }
   | { type: 'delai'; justification: string }
+  | { type: 'annulation abandon' }
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'
