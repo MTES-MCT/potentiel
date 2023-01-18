@@ -5,12 +5,17 @@ import { User } from '@entities'
 import { USER_ROLES } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 
-import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
-import { makeRejeterDemandeAbandon } from './rejeterDemandeAnnulationAbandon'
-import { makeFakeDemandeAbandon } from '../../../../__tests__/fixtures/aggregates/makeFakeDemandeAbandon'
+import {
+  fakeRepo,
+  fakeTransactionalRepo,
+  makeFakeDemandeAnnulationAbandon,
+} from '../../../../__tests__/fixtures/aggregates'
+import { makeRejeterDemandeAnnulationAbandon } from './rejeterDemandeAnnulationAbandon'
+import { statutsDemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
+import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
 
 describe(`Rejeter une annulation d'abandon`, () => {
-  const demandeAbandonId = 'id-demande'
+  const demandeId = 'id-demande'
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' }
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
@@ -26,15 +31,15 @@ describe(`Rejeter une annulation d'abandon`, () => {
           Alors l'utilisateur est informé qu'il n'a pas le droit de faire cette action
       `, async () => {
         const user = { role } as User
-        const rejeterDemande = makeRejeterDemandeAbandon({
-          demandeAbandonRepo: fakeTransactionalRepo(makeFakeDemandeAbandon()),
+        const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
+          demandeAnnulationAbandonRepo: fakeTransactionalRepo(makeFakeDemandeAnnulationAbandon()),
           publishToEventStore,
           fileRepo: fakeRepo(),
         })
 
         const rejet = await rejeterDemande({
           user,
-          demandeAbandonId,
+          demandeId,
           fichierRéponse,
         })
         expect(rejet.isErr()).toEqual(true)
@@ -46,42 +51,72 @@ describe(`Rejeter une annulation d'abandon`, () => {
     }
   })
 
-  // describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
-  //   describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
-  //     const user = { role: 'admin' } as User
+  describe(`Impossible si le statut de la demande est autre que 'envoyée'`, () => {
+    const statutsNePouvantPasÊtreRefusé = statutsDemandeAnnulationAbandon.filter(
+      (statut) => statut !== 'envoyée'
+    )
 
-  //     const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-  //       (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
-  //     )
+    for (const statut of statutsNePouvantPasÊtreRefusé) {
+      it(`Étant donné un autre admin ou dgec-validateur
+        Lorsqu'il rejette une demande ayant comme statut ${statut}
+        Alors l'utilisateur devrait être informé qu'il est impossible de rejeter la demande,
+        aucun fichier ne devrait être sauvegardé, et aucun évènement ne devrait être émis`, async () => {
+        const user = { role: 'admin' } as User
 
-  //     for (const statut of statutsNePouvantPasÊtreRefusé) {
-  //       it(`
-  //     Lorsqu'il rejette une demande avec comme statut '${statut}'
-  //     Alors une erreur RefuserDemandeAbandonError devrait être retournée
-  //     Et aucun évènement ne devrait être publié dans le store`, async () => {
-  //         const fileRepo = fakeRepo()
-  //         const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
-  //           demandeAbandonRepo: fakeTransactionalRepo(
-  //             makeFakeDemandeAbandon({ id: demandeAbandonId, statut })
-  //           ),
-  //           publishToEventStore,
-  //           fileRepo,
-  //         })
+        const fileRepo = fakeRepo()
+        const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
+          demandeAnnulationAbandonRepo: fakeTransactionalRepo(
+            makeFakeDemandeAnnulationAbandon({ id: demandeId, statut })
+          ),
+          publishToEventStore,
+          fileRepo,
+        })
+        const rejet = await rejeterDemande({
+          user,
+          demandeId,
+          fichierRéponse,
+        })
 
-  //         const res = await rejeterDemandeAbandon({
-  //           user,
-  //           demandeAbandonId,
-  //           fichierRéponse,
-  //         })
+        expect(rejet.isErr()).toBe(true)
+        if (rejet.isErr()) {
+          expect(rejet._unsafeUnwrapErr()).toBeInstanceOf(RejeterDemandeAnnulationAbandonError)
+          expect(publishToEventStore).not.toHaveBeenCalled()
+          expect(fileRepo.save).not.toHaveBeenCalled()
+        }
+      })
+    }
 
-  //         const erreurActuelle = res._unsafeUnwrapErr()
-  //         expect(erreurActuelle).toBeInstanceOf(RejeterDemandeAbandonError)
-  //         expect(publishToEventStore).not.toHaveBeenCalled()
-  //         expect(fileRepo.save).not.toHaveBeenCalled()
-  //       })
-  //     }
-  //   })
-  // })
+    //   describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
+    //     const user = { role: 'admin' } as User
+    //     const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
+    // //       (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+    //     )
+    //     for (const statut of statutsNePouvantPasÊtreRefusé) {
+    //       it(`
+    //     Lorsqu'il rejette une demande avec comme statut '${statut}'
+    //     Alors une erreur RefuserDemandeAbandonError devrait être retournée
+    //     Et aucun évènement ne devrait être publié dans le store`, async () => {
+    //         const fileRepo = fakeRepo()
+    //         const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
+    //           demandeAbandonRepo: fakeTransactionalRepo(
+    //             makeFakeDemandeAbandon({ id: demandeAbandonId, statut })
+    //           ),
+    //           publishToEventStore,
+    //           fileRepo,
+    //         })
+    //         const res = await rejeterDemandeAbandon({
+    //           user,
+    //           demandeAbandonId,
+    //           fichierRéponse,
+    //         })
+    //         const erreurActuelle = res._unsafeUnwrapErr()
+    //         expect(erreurActuelle).toBeInstanceOf(RejeterDemandeAbandonError)
+    //         expect(publishToEventStore).not.toHaveBeenCalled()
+    //         expect(fileRepo.save).not.toHaveBeenCalled()
+    //       })
+    //     }
+    //   })
+  })
 
   // describe(`Possible de rejeter un abandon si Admin/DGEC`, () => {
   //   describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
