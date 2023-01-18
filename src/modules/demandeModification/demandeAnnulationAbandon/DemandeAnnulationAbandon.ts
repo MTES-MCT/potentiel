@@ -1,6 +1,7 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
 import { EntityNotFoundError } from '../../shared'
+import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events'
 
 export const statutsDemandeAnnulationAbandon = [
   'envoyée',
@@ -34,28 +35,20 @@ export const makeDemandeAnnulationAbandon = (
   }
 
   const agregat = events.reduce((agregat, event) => {
-    // switch (event.type) {
-    //   case AbandonDemandé.type:
-    //     return {
-    //       ...agregat,
-    //       statut: 'envoyée',
-    //       projetId: event.payload.projetId,
-    //     }
-    //   case AbandonAnnulé.type:
-    //     return { ...agregat, statut: 'annulée' }
-    //   case AbandonConfirmé.type:
-    //     return { ...agregat, statut: 'demande confirmée' }
-    //   case AbandonAccordé.type:
-    //     return { ...agregat, statut: 'accordée' }
-    //   case AbandonRejeté.type:
-    //     return { ...agregat, statut: 'refusée' }
-    //   case ConfirmationAbandonDemandée.type:
-    //     return { ...agregat, statut: 'en attente de confirmation' }
-    //   case RejetAbandonAnnulé.type:
-    //     return { ...agregat, statut: 'envoyée' }
-    // default:
-    return agregat
-    // }
+    switch (event.type) {
+      case AnnulationAbandonDemandée.type:
+        return {
+          ...agregat,
+          statut: 'envoyée',
+          projetId: event.payload.projetId,
+        }
+
+      case AnnulationAbandonAnnulée.type:
+        return { ...agregat, statut: 'annulée' }
+
+      default:
+        return agregat
+    }
   }, agregatParDefaut) as DemandeAnnulationAbandon
 
   return ok(agregat)
