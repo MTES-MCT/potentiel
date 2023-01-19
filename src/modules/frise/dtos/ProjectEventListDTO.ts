@@ -1,5 +1,5 @@
 import { or } from '@core/utils'
-import { Project } from '@entities'
+import { DateParutionCahierDesChargesModifié, Project } from '@entities'
 import { LegacyModificationStatus } from '@modules/modificationRequest'
 import { Fournisseur } from '@modules/project'
 import {
@@ -524,7 +524,7 @@ export type CahierDesChargesChoisiDTO = {
     }
   | {
       cahierDesCharges: 'modifié'
-      paruLe: '30/07/2021' | '30/08/2022'
+      paruLe: DateParutionCahierDesChargesModifié
       alternatif?: true
     }
 )
