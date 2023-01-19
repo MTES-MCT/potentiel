@@ -45,6 +45,8 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
       ] as Readonly<Array<CahierDesChargesModifié>>,
     } as ProjectAppelOffre)
 
+  beforeEach(() => publishToEventStore.mockClear())
+
   describe(`Cas d'une demande qui n'est pas en statut "envoyée"`, () => {
     for (const statut of statutsDemandeAnnulationAbandon.filter((statut) => statut !== 'envoyée')) {
       it(`Etant donné un projet abandonné,
@@ -68,6 +70,7 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
           expect(accord.error).toBeInstanceOf(
             StatutDemandeIncompatibleAvecAccordAnnulationAbandonError
           )
+        expect(publishToEventStore).not.toHaveBeenCalled()
       })
     }
   })
@@ -92,6 +95,7 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         expect(accord.error).toBeInstanceOf(
           StatutProjetIncompatibleAvecAccordAnnulationAbandonError
         )
+      expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
 
@@ -123,6 +127,7 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
       expect(accord.isErr()).toEqual(true)
       accord.isErr() &&
         expect(accord.error).toBeInstanceOf(CDCProjetIncompatibleAvecAccordAnnulationAbandonError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
     })
   })
 
@@ -130,8 +135,21 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
     it(`Etant donné un projet abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon en statut "envoyée",
         et que le CDC actuel du projet prévoit l'annulation d'abandon,
-        alors la demande devrait être accordée`, () => {
-      //...
+        alors la demande devrait être accordée`, async () => {
+      const accorder = makeAccorderAnnulationAbandon({
+        publishToEventStore,
+        projectRepo,
+        demandeAnnulationAbandonRepo,
+        getProjectAppelOffre,
+      })
+
+      await accorder({ utilisateur, demandeId })
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'AnnulationAbandonAccordée',
+          payload: { accordéPar: utilisateur.id, demandeId, projetId: projet.id },
+        })
+      )
     })
   })
 })

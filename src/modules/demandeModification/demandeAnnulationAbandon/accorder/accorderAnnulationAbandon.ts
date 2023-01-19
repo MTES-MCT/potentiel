@@ -1,5 +1,5 @@
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync } from '@core/utils'
+import { errAsync } from '@core/utils'
 import { User } from '@entities'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre/queries'
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
@@ -7,6 +7,7 @@ import { Project } from '@modules/project'
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
+import { AnnulationAbandonAccordée } from '../events'
 
 type Commande = { utilisateur: User; demandeId: string }
 
@@ -54,6 +55,10 @@ export const makeAccorderAnnulationAbandon =
           )
         }
 
-        return okAsync(null)
+        return publishToEventStore(
+          new AnnulationAbandonAccordée({
+            payload: { accordéPar: utilisateur.id, projetId: projet.id.toString(), demandeId },
+          })
+        )
       })
     })
