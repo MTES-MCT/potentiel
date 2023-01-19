@@ -34,7 +34,10 @@ v1Router.post(
         ),
     },
     async (request, response) => {
-const {user, body: { projetId }} = request
+      const {
+        user,
+        body: { projetId },
+      } = request
 
       return demanderAnnulationAbandon({
         user,
