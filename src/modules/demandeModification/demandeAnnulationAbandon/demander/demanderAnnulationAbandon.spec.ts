@@ -62,8 +62,7 @@ describe(`Demander une annulation d'abandon`, () => {
   })
 
   describe(`Demande impossible si le projet n'est pas abandonné`, () => {
-    it(`
-      Étant donné un porteur ayant les droits sur le projet
+    it(`Étant donné un porteur ayant les droits sur le projet
       Lorsqu'il fait une demande d'annulation d'abandon pour un projet non abandonné,
       Alors le porteur est informé que cette action est impossible`, async () => {
       const fakeProject = makeFakeProject()

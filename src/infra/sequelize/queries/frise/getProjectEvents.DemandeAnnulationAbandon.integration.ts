@@ -90,7 +90,7 @@ describe(`getProjectEvents`, () => {
     for (const role of rolesAutorisés) {
       const user = { role } as User
       it(`Etant donné un utilisateur '${role}',
-          alors les événements de type "DemandeAbandon" devraient être retournés`, async () => {
+          alors les événements de type "DemandeAnnulationAbandon" devraient être retournés`, async () => {
         await ProjectEvent.bulkCreate([
           demandeEnvoyéeÉvènement,
           demandeAnnuléeÉvènement,

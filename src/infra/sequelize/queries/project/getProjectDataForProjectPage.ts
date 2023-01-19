@@ -101,7 +101,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                 alternatif: cahierDesChargesActuel.alternatif,
               }
 
-        const optionAnnulationAbandonExistante =
+        const optionAnnulationAbandonDisponible =
           appelOffre?.cahiersDesChargesModifiésDisponibles.some(
             (cdc) =>
               cdc.délaiAnnulationAbandon &&
@@ -159,8 +159,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEnedis,
           cahierDesChargesActuel: cahierDesCharges,
           ...(abandonedOn !== 0 &&
-            optionAnnulationAbandonExistante && {
-              afficherAlerteAnnulationAbandon: optionAnnulationAbandonExistante,
+            optionAnnulationAbandonDisponible && {
+              afficherAlerteAnnulationAbandon: optionAnnulationAbandonDisponible,
             }),
           ...(abandonedOn !== 0 &&
             cdcActuelCompatibleAvecAnnulationAbandon && {

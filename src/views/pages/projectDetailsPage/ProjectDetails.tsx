@@ -138,7 +138,8 @@ const AlerteAnnulationAbandonPossible = ({
       </>
     ) : (
       <p className="m-0">
-        Pour cela vous devez d'abord choisir le dernier cahier des charges modifié (voir ci-dessous)
+        Pour cela vous devez d'abord choisir le dernier cahier des charges modifié publié (voir
+        encart ci-dessous).
       </p>
     )}
   </AlertBox>
