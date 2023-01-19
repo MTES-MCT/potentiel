@@ -8,14 +8,20 @@ import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './Sta
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
 import { AnnulationAbandonAccordée } from '../events'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
-type Commande = { utilisateur: User; demandeId: string }
+type Commande = {
+  utilisateur: User
+  demandeId: string
+  fichierRéponse: { contents: FileContents; filename: string }
+}
 
 type Dépendances = {
   demandeAnnulationAbandonRepo: TransactionalRepository<DemandeAnnulationAbandon>
   publishToEventStore: EventStore['publish']
   getProjectAppelOffre: GetProjectAppelOffre
   projectRepo: Repository<Project>
+  fileRepo: Repository<FileObject>
 }
 
 export const makeAccorderAnnulationAbandon =
@@ -24,8 +30,9 @@ export const makeAccorderAnnulationAbandon =
     publishToEventStore,
     getProjectAppelOffre,
     projectRepo,
+    fileRepo,
   }: Dépendances) =>
-  ({ utilisateur, demandeId }: Commande) =>
+  ({ utilisateur, demandeId, fichierRéponse }: Commande) =>
     demandeAnnulationAbandonRepo.transaction(new UniqueEntityID(demandeId), (demande) => {
       if (demande.statut !== 'envoyée') {
         return errAsync(new StatutDemandeIncompatibleAvecAccordAnnulationAbandonError(demandeId))
@@ -55,10 +62,26 @@ export const makeAccorderAnnulationAbandon =
           )
         }
 
-        return publishToEventStore(
-          new AnnulationAbandonAccordée({
-            payload: { accordéPar: utilisateur.id, projetId: projet.id.toString(), demandeId },
-          })
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request-response',
+            forProject: projet.id,
+            createdBy: new UniqueEntityID(utilisateur.id),
+            filename: fichierRéponse.filename,
+            contents: fichierRéponse.contents,
+          },
+          fileRepo,
+        }).andThen((fichierRéponseId) =>
+          publishToEventStore(
+            new AnnulationAbandonAccordée({
+              payload: {
+                accordéPar: utilisateur.id,
+                projetId: projet.id.toString(),
+                demandeId,
+                fichierRéponseId,
+              },
+            })
+          )
         )
       })
     })

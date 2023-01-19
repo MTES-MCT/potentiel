@@ -4,6 +4,7 @@ type Payload = {
   demandeId: string
   projetId: string
   accordéPar: string
+  fichierRéponseId: string
 }
 
 export class AnnulationAbandonAccordée extends BaseDomainEvent<Payload> implements DomainEvent {

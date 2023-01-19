@@ -13,12 +13,17 @@ import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
+import { Readable } from 'stream'
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande
   const utilisateur = { role: 'admin' } as User
   const demandeId = new UniqueEntityID().toString()
   const projet = makeFakeProject()
+  const fichierRéponse = {
+    contents: Readable.from('test-content'),
+    filename: 'fichier-réponse',
+  }
 
   // dépendances
   const projectRepo = fakeRepo({
@@ -45,6 +50,8 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
       ] as Readonly<Array<CahierDesChargesModifié>>,
     } as ProjectAppelOffre)
 
+  const fileRepo = fakeRepo()
+
   beforeEach(() => publishToEventStore.mockClear())
 
   describe(`Cas d'une demande qui n'est pas en statut "envoyée"`, () => {
@@ -61,9 +68,10 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
           projectRepo,
           demandeAnnulationAbandonRepo,
           getProjectAppelOffre,
+          fileRepo,
         })
 
-        const accord = await accorder({ utilisateur, demandeId })
+        const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
 
         expect(accord.isErr()).toEqual(true)
         accord.isErr() &&
@@ -86,9 +94,10 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         projectRepo,
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
+        fileRepo,
       })
 
-      const accord = await accorder({ utilisateur, demandeId })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
 
       expect(accord.isErr()).toEqual(true)
       accord.isErr() &&
@@ -120,9 +129,10 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         projectRepo,
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
+        fileRepo,
       })
 
-      const accord = await accorder({ utilisateur, demandeId })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
 
       expect(accord.isErr()).toEqual(true)
       accord.isErr() &&
@@ -135,19 +145,38 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
     it(`Etant donné un projet abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon en statut "envoyée",
         et que le CDC actuel du projet prévoit l'annulation d'abandon,
-        alors la demande devrait être accordée`, async () => {
+        alors la demande devrait être accordée
+        et le fichier sauvegardé`, async () => {
       const accorder = makeAccorderAnnulationAbandon({
         publishToEventStore,
         projectRepo,
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
+        fileRepo,
       })
 
-      await accorder({ utilisateur, demandeId })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
+
+      expect(accord.isOk()).toBe(true)
+
+      expect(fileRepo.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          designation: 'modification-request-response',
+          filename: fichierRéponse.filename,
+          path: `projects/${projet.id}/fichier-réponse`,
+          forProject: projet.id,
+        })
+      )
+
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'AnnulationAbandonAccordée',
-          payload: { accordéPar: utilisateur.id, demandeId, projetId: projet.id },
+          payload: {
+            accordéPar: utilisateur.id,
+            demandeId,
+            projetId: projet.id,
+            fichierRéponseId: expect.any(String),
+          },
         })
       )
     })
