@@ -6,6 +6,7 @@ import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
 import { Project } from '@modules/project'
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
+import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
 
 type Commande = { utilisateur: User; demandeId: string }
 
@@ -34,6 +35,25 @@ export const makeAccorderAnnulationAbandon =
             new StatutProjetIncompatibleAvecAccordAnnulationAbandonError(projet.id.toString())
           )
         }
+        const appelOffre = getProjectAppelOffre({ ...projet })
+
+        const cahierDesCharges = appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+          (cdc) =>
+            cdc.type === projet.cahierDesCharges.type &&
+            cdc.paruLe === projet.cahierDesCharges.paruLe &&
+            cdc.alternatif === projet.cahierDesCharges.alternatif
+        )
+
+        if (
+          cahierDesCharges &&
+          cahierDesCharges.type === 'modifié' &&
+          !cahierDesCharges.délaiAnnulationAbandon
+        ) {
+          return errAsync(
+            new CDCProjetIncompatibleAvecAccordAnnulationAbandonError(projet.id.toString())
+          )
+        }
+
         return okAsync(null)
       })
     })

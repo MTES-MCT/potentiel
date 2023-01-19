@@ -12,6 +12,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
 import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
+import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande
@@ -20,7 +21,12 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
   const projet = makeFakeProject()
 
   // dépendances
-  const projectRepo = fakeRepo({ ...projet, isClasse: true, abandonedOn: 123 } as Project)
+  const projectRepo = fakeRepo({
+    ...projet,
+    isClasse: true,
+    abandonedOn: 123,
+    cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
+  } as Project)
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
@@ -93,8 +99,30 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
     it(`Etant donné un projet abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon en statut "envoyée",
         mais que le CDC actuel du projet ne prévoit pas d'annulation d'abandon,
-        alors il devrait être notifié que l'action est impossible en raison du CDC incompatible`, () => {
-      //...
+        alors il devrait être notifié que l'action est impossible en raison du CDC incompatible`, async () => {
+      const getProjectAppelOffre = () =>
+        ({
+          cahiersDesChargesModifiésDisponibles: [
+            {
+              type: 'modifié',
+              paruLe: '30/08/2022',
+              délaiAnnulationAbandon: undefined,
+            } as CahierDesChargesModifié,
+          ] as Readonly<Array<CahierDesChargesModifié>>,
+        } as ProjectAppelOffre)
+
+      const accorder = makeAccorderAnnulationAbandon({
+        publishToEventStore,
+        projectRepo,
+        demandeAnnulationAbandonRepo,
+        getProjectAppelOffre,
+      })
+
+      const accord = await accorder({ utilisateur, demandeId })
+
+      expect(accord.isErr()).toEqual(true)
+      accord.isErr() &&
+        expect(accord.error).toBeInstanceOf(CDCProjetIncompatibleAvecAccordAnnulationAbandonError)
     })
   })
 
