@@ -1,5 +1,9 @@
 import { DomainEvent } from '@core/domain'
-import { DélaiAccordé, AbandonAccordé } from '@modules/demandeModification'
+import {
+  DélaiAccordé,
+  AbandonAccordé,
+  AnnulationAbandonAccordée,
+} from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
   DonnéesDeRaccordementRenseignées,
@@ -12,6 +16,7 @@ import {
   PeriodeNotified,
   ProjectCertificateObsolete,
   ProjectRawDataImported,
+  makeOnAnnulationAbandonAccordée,
 } from '@modules/project'
 import { subscribeToRedis } from '../eventBus.config'
 import { eventStore } from '../eventStore.config'
@@ -105,7 +110,26 @@ const onDonnéesDeRaccordementRenseignées = async (event: DomainEvent) => {
     (e) => Promise.reject(e)
   )
 }
+
 subscribeToRedis(onDonnéesDeRaccordementRenseignées, 'Project.onDonnéesDeRaccordementRenseignées')
+
+const onAnnulationAbandonAccordéeHandler = makeOnAnnulationAbandonAccordée({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+})
+
+const onAnnulationAbandonAccordée = async (event: DomainEvent) => {
+  if (!(event instanceof AnnulationAbandonAccordée)) {
+    return Promise.resolve()
+  }
+
+  return onAnnulationAbandonAccordéeHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
+}
+
+subscribeToRedis(onAnnulationAbandonAccordée, 'Project.onAnnulationAbandonAccordée')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true

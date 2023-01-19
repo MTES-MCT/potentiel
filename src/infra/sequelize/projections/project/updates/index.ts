@@ -28,6 +28,7 @@ import {
   IdentifiantPotentielPPE2Batiment2Corrigé,
   DonnéesDeRaccordementRenseignées,
   LegacyAbandonSupprimé,
+  AbandonProjetAnnulé,
 } from '@modules/project'
 import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@modules/edf'
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
@@ -66,6 +67,7 @@ import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordement
 
 import { Projections } from '@infra/sequelize/models'
 import { onLegacyAbandonSupprimé } from './onLegacyAbandonSupprimé'
+import { onAbandonProjetAnnulé } from './onAbandonProjetAnnulé'
 
 export const initProjectProjections = (eventBus: EventBus, models: Projections) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported(models))
@@ -126,6 +128,8 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
   )
 
   eventBus.subscribe(LegacyAbandonSupprimé.type, onLegacyAbandonSupprimé(models))
+
+  eventBus.subscribe(AbandonProjetAnnulé.type, onAbandonProjetAnnulé(models))
 
   logger.info('Initialized Project projections')
 }
