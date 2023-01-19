@@ -317,6 +317,21 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
       },
     },
+    {
+      type: 'modifié',
+      paruLe: '23/01/2023',
+      url: '',
+      numéroGestionnaireRequis: true,
+      délaiAnnulationAbandon: new Date('2023-02-03'),
+    },
+    {
+      type: 'modifié',
+      paruLe: '23/01/2023',
+      alternatif: true,
+      url: '',
+      numéroGestionnaireRequis: true,
+      délaiAnnulationAbandon: new Date('2023-02-03'),
+    },
   ],
 }
 
