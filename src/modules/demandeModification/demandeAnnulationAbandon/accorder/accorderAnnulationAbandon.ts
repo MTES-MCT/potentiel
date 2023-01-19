@@ -5,6 +5,7 @@ import { GetProjectAppelOffre } from '@modules/projectAppelOffre/queries'
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
 import { Project } from '@modules/project'
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
+import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 
 type Commande = { utilisateur: User; demandeId: string }
 
@@ -27,5 +28,12 @@ export const makeAccorderAnnulationAbandon =
       if (demande.statut !== 'envoyée') {
         return errAsync(new StatutDemandeIncompatibleAvecAccordAnnulationAbandonError(demandeId))
       }
-      return okAsync(null)
+      return projectRepo.load(demande.id).andThen((projet) => {
+        if (projet.abandonedOn === 0) {
+          return errAsync(
+            new StatutProjetIncompatibleAvecAccordAnnulationAbandonError(projet.id.toString())
+          )
+        }
+        return okAsync(null)
+      })
     })

@@ -11,6 +11,7 @@ import { Project } from '@modules/project'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
 import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
+import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande
@@ -69,7 +70,22 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
     it(`Etant donné un projet non abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon,
         alors il devrait être notifié que l'action est impossible car le projet n'est pas abandonné`, async () => {
-      //...
+      const projectRepo = fakeRepo({ ...projet, isClasse: true, abandonedOn: 0 } as Project)
+
+      const accorder = makeAccorderAnnulationAbandon({
+        publishToEventStore,
+        projectRepo,
+        demandeAnnulationAbandonRepo,
+        getProjectAppelOffre,
+      })
+
+      const accord = await accorder({ utilisateur, demandeId })
+
+      expect(accord.isErr()).toEqual(true)
+      accord.isErr() &&
+        expect(accord.error).toBeInstanceOf(
+          StatutProjetIncompatibleAvecAccordAnnulationAbandonError
+        )
     })
   })
 
