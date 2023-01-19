@@ -265,6 +265,10 @@ class routes {
   static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 
+  static POST_DEMANDER_ANNULATION_ABANDON = '/demander-annulation-abandon'
+  static POST_ANNULER_DEMANDE_ANNULATION_ABANDON = '/annuler-demande-annulation-abandon'
+  static POST_REPONDRE_DEMANDE_ANNULATION_ABANDON = '/repondre-demande-annulation-abandon'
+
   static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur'
   static CHANGEMENT_PUISSANCE_ACTION = '/soumettre-changement-puissance'

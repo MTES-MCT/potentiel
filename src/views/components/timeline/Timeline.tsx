@@ -12,6 +12,7 @@ import {
   DateMiseEnServiceDTO,
   DateFileAttenteDTO,
   PtfDTO,
+  DemandeAnnulationAbandonDTO,
 } from '@modules/frise'
 import {
   TimelineItem,
@@ -58,6 +59,7 @@ import {
   AttachedFileItemProps,
   extractAttachedFileItemProps,
 } from './helpers'
+import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAbandonItem'
 
 export type TimelineProps = {
   projectEventList: ProjectEventListDTO
@@ -81,6 +83,7 @@ type ItemProps =
   | DemandeRecoursSignaledDTO
   | DemandeDélaiDTO
   | DemandeAbandonDTO
+  | DemandeAnnulationAbandonDTO
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO
   | DateMiseEnServiceDTO
@@ -114,6 +117,7 @@ export const Timeline = ({
     ...extractAttachedFileItemProps(events),
     ...events.filter(is('DemandeDélai')),
     ...events.filter(is('DemandeAbandon')),
+    ...events.filter(is('DemandeAnnulationAbandon')),
     ...events.filter(is('CahierDesChargesChoisi')),
     dateMiseEnService?.statut === 'renseignée' ? dateMiseEnService : undefined,
     dateFileAttente ? dateFileAttente : undefined,
@@ -195,6 +199,9 @@ export const Timeline = ({
 
       case 'DemandeAbandon':
         return <DemandeAbandonItem {...props} />
+
+      case 'DemandeAnnulationAbandon':
+        return <DemandeAnnulationAbandonItem {...props} />
 
       case 'CahierDesChargesChoisi':
         return <CahierDesChargesChoisiItem {...props} />

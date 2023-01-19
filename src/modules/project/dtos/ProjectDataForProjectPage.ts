@@ -1,6 +1,8 @@
 import { ProjectAppelOffre } from '@entities'
 
 export type ProjectDataForProjectPage = {
+  afficherAlerteAnnulationAbandon?: true
+  afficherBoutonAnnulerAbandon?: true
   id: string
   potentielIdentifier: string
 

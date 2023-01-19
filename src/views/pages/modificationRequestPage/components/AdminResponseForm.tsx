@@ -10,7 +10,7 @@ import { ModificationRequestTitleByType } from '../../../helpers'
 interface AdminResponseFormProps {
   modificationRequest: ModificationRequestPageDTO
   role: UserRole
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 function getAdminRouteBasedOnType(type) {
@@ -19,6 +19,8 @@ function getAdminRouteBasedOnType(type) {
       return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI
     case 'abandon':
       return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON
+    case 'annulation abandon':
+      return ROUTES.POST_REPONDRE_DEMANDE_ANNULATION_ABANDON
     default:
       return ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
   }

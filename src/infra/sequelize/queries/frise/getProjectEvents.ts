@@ -782,6 +782,40 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                     })
                   }
                   break
+                case 'DemandeAnnulationAbandon':
+                  if (
+                    userIs([
+                      'admin',
+                      'porteur-projet',
+                      'dreal',
+                      'acheteur-obligé',
+                      'dgec-validateur',
+                      'caisse-des-dépôts',
+                      'cre',
+                    ])(user)
+                  ) {
+                    const { statut } = payload
+                    events.push({
+                      type,
+                      variant: user.role,
+                      date: valueDate,
+                      statut,
+                      ...(userIs([
+                        'porteur-projet',
+                        'admin',
+                        'dgec-validateur',
+                        'cre',
+                        'acheteur-obligé',
+                      ])(user) && {
+                        demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
+                      }),
+                      ...(userIs(['admin', 'dgec-validateur'])(user) &&
+                        statut === 'envoyée' && {
+                          actionRequise: 'à traiter',
+                        }),
+                    })
+                  }
+                  break
                 case 'CahierDesChargesChoisi':
                   if (
                     userIs([

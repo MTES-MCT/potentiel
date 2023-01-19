@@ -18,6 +18,7 @@ export type CahierDesChargesModifié = {
   numéroGestionnaireRequis?: true
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
   délaiApplicable?: DélaiApplicable
+  délaiAnnulationAbandon?: Date
 }
 
 export const cahiersDesChargesRéférences = [
@@ -36,7 +37,11 @@ export type DateParutionCahierDesChargesModifié =
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }
-  | { type: 'modifié'; paruLe: DateParutionCahierDesChargesModifié; alternatif?: true }
+  | {
+      type: 'modifié'
+      paruLe: DateParutionCahierDesChargesModifié
+      alternatif?: true
+    }
 
 export const parseCahierDesChargesRéférence = (
   référence: CahierDesChargesRéférence
