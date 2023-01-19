@@ -299,7 +299,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         délaiEnMois: 18,
         intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
       },
-      délaiAnnulationAbandon: new Date('2023-02-03'),
     },
     {
       type: 'modifié',

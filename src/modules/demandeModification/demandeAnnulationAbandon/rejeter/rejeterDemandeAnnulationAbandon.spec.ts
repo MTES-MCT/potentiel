@@ -92,7 +92,7 @@ describe(`Rejeter une annulation d'abandon`, () => {
     it(`Étant donné un utilisateur admin ou dgec-validateur
         Lorsqu'il rejette une demande d'abandon ayant le bon statut (envoyée)
         Alors l'utilisateur devrait être informé que la demande a bien été rejetée
-        Et son courrier de réponse devrait être sauvezgardé`, async () => {
+        Et son courrier de réponse devrait être sauvegardé`, async () => {
       const user = { role: 'admin', id: 'user-id' } as User
       const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
         demandeAnnulationAbandonRepo: fakeTransactionalRepo({

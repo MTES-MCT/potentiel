@@ -11,6 +11,7 @@ import { errAsync, logger } from '@core/utils'
 import { errorResponse, RequestValidationErrorArray, unauthorizedResponse } from '../../helpers'
 import { UnauthorizedError } from '@modules/shared'
 import safeAsyncHandler from '../../helpers/safeAsyncHandler'
+import { RejeterDemandeAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
 const schema = yup.object({
   body: yup.object({
     submitAccept: yup.string().nullable(),
@@ -53,7 +54,12 @@ v1Router.post(
       const estAccordé = typeof submitAccept === 'string'
 
       if (estAccordé) {
-        // use-case à rajouter
+        return errorResponse({
+          request,
+          response,
+          customMessage:
+            'Il y a eu une erreur lors de la soumission de votre réponse. Merci de recommencer.',
+        })
       }
 
       return rejeterDemandeAnnulationAbandon({
@@ -72,6 +78,15 @@ v1Router.post(
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response })
+          }
+
+          if (error instanceof RejeterDemandeAnnulationAbandonError) {
+            return errorResponse({
+              request,
+              response,
+              customStatus: 400,
+              customMessage: error.message,
+            })
           }
 
           logger.error(error)

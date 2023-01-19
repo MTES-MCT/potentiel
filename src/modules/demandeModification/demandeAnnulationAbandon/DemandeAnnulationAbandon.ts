@@ -5,7 +5,6 @@ import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events'
 
 export const statutsDemandeAnnulationAbandon = [
   'envoyée',
-  'en-instruction',
   'annulée',
   'accordée',
   'refusée',
