@@ -114,6 +114,7 @@ import {
 } from '@modules/imports/donnéesRaccordement'
 import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '@modules/utilisateur'
 import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/demander'
+import { getProjectAppelOffre } from './queryProjectAO.config'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -497,6 +498,7 @@ export const demanderAnnulationAbandon = makeDemanderAnnulationAbandon({
   publishToEventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   projectRepo,
+  getProjectAppelOffre,
 })
 
 export const annulerDemandeAnnulationAbandon = makeAnnulerDemandeAnnulationAbandon({
