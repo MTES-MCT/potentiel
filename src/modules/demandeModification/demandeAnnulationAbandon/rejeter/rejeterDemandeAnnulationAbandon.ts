@@ -1,11 +1,12 @@
 import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { errAsync } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject } from '@modules/file'
-import { UnauthorizedError } from '@modules/shared'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
 
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
+import { AnnulationAbandonRejetée } from '../events'
 import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
 
 type Dépendances = {
@@ -39,32 +40,30 @@ export const makeRejeterDemandeAnnulationAbandon =
         )
       }
 
-      // return okAsync(null)
+      if (!projetId) {
+        return errAsync(new InfraNotAvailableError())
+      }
 
-      // if (!projetId) {
-      //   return errAsync(new InfraNotAvailableError())
-      // }
-
-      // return makeAndSaveFile({
-      //   file: {
-      //     designation: 'modification-request-response',
-      //     forProject: new UniqueEntityID(projetId),
-      //     createdBy: new UniqueEntityID(user.id),
-      //     filename,
-      //     contents,
-      //   },
-      //   fileRepo,
-      // }).andThen((fichierRéponseId) => {
-      //   return publishToEventStore(
-      //     new AbandonRejeté({
-      //       payload: {
-      //         demandeAbandonId,
-      //         rejetéPar: user.id,
-      //         fichierRéponseId,
-      //         projetId,
-      //       },
-      //     })
-      //   )
-      // })
+      return makeAndSaveFile({
+        file: {
+          designation: 'modification-request-response',
+          forProject: new UniqueEntityID(projetId),
+          createdBy: new UniqueEntityID(user.id),
+          filename,
+          contents,
+        },
+        fileRepo,
+      }).andThen((fichierRéponseId) => {
+        return publishToEventStore(
+          new AnnulationAbandonRejetée({
+            payload: {
+              demandeId,
+              rejetéPar: user.id,
+              fichierRéponseId,
+              projetId,
+            },
+          })
+        )
+      })
     })
   }

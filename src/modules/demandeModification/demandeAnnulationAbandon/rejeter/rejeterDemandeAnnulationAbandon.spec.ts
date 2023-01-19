@@ -13,11 +13,13 @@ import {
 import { makeRejeterDemandeAnnulationAbandon } from './rejeterDemandeAnnulationAbandon'
 import { statutsDemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
 import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
+import { UniqueEntityID } from '@core/domain'
 
 describe(`Rejeter une annulation d'abandon`, () => {
   const demandeId = 'id-demande'
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' }
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+  const fileRepo = fakeRepo()
 
   beforeEach(() => publishToEventStore.mockClear())
 
@@ -34,7 +36,7 @@ describe(`Rejeter une annulation d'abandon`, () => {
         const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
           demandeAnnulationAbandonRepo: fakeTransactionalRepo(makeFakeDemandeAnnulationAbandon()),
           publishToEventStore,
-          fileRepo: fakeRepo(),
+          fileRepo,
         })
 
         const rejet = await rejeterDemande({
@@ -57,13 +59,11 @@ describe(`Rejeter une annulation d'abandon`, () => {
     )
 
     for (const statut of statutsNePouvantPasÊtreRefusé) {
-      it(`Étant donné un autre admin ou dgec-validateur
+      it(`Étant donné un utilisateur admin ou dgec-validateur
         Lorsqu'il rejette une demande ayant comme statut ${statut}
-        Alors l'utilisateur devrait être informé qu'il est impossible de rejeter la demande,
-        aucun fichier ne devrait être sauvegardé, et aucun évènement ne devrait être émis`, async () => {
+        Alors l'utilisateur devrait être informé qu'il est impossible de rejeter la demande`, async () => {
         const user = { role: 'admin' } as User
 
-        const fileRepo = fakeRepo()
         const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
           demandeAnnulationAbandonRepo: fakeTransactionalRepo(
             makeFakeDemandeAnnulationAbandon({ id: demandeId, statut })
@@ -85,95 +85,49 @@ describe(`Rejeter une annulation d'abandon`, () => {
         }
       })
     }
-
-    //   describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
-    //     const user = { role: 'admin' } as User
-    //     const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-    // //       (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
-    //     )
-    //     for (const statut of statutsNePouvantPasÊtreRefusé) {
-    //       it(`
-    //     Lorsqu'il rejette une demande avec comme statut '${statut}'
-    //     Alors une erreur RefuserDemandeAbandonError devrait être retournée
-    //     Et aucun évènement ne devrait être publié dans le store`, async () => {
-    //         const fileRepo = fakeRepo()
-    //         const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
-    //           demandeAbandonRepo: fakeTransactionalRepo(
-    //             makeFakeDemandeAbandon({ id: demandeAbandonId, statut })
-    //           ),
-    //           publishToEventStore,
-    //           fileRepo,
-    //         })
-    //         const res = await rejeterDemandeAbandon({
-    //           user,
-    //           demandeAbandonId,
-    //           fichierRéponse,
-    //         })
-    //         const erreurActuelle = res._unsafeUnwrapErr()
-    //         expect(erreurActuelle).toBeInstanceOf(RejeterDemandeAbandonError)
-    //         expect(publishToEventStore).not.toHaveBeenCalled()
-    //         expect(fileRepo.save).not.toHaveBeenCalled()
-    //       })
-    //     }
-    //   })
   })
 
-  // describe(`Possible de rejeter un abandon si Admin/DGEC`, () => {
-  //   describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
-  //     const user = { role: 'admin', id: 'user-id' } as User
+  describe(`Possible de rejeter une demande d'annulation d'abandon`, () => {
+    it(`Étant donné un utilisateur admin ou dgec-validateur
+        Lorsqu'il rejette une demande d'abandon ayant le bon statut (envoyée)
+        Alors l'utilisateur devrait être informé que la demande a bien été rejetée
+        Et son courrier de réponse devrait être sauvezgardé`, async () => {
+      const user = { role: 'admin', id: 'user-id' } as User
+      const projetId = 'le-projet-de-la-demande'
+      const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
+        demandeAnnulationAbandonRepo: fakeTransactionalRepo(
+          makeFakeDemandeAnnulationAbandon({ id: demandeId, statut: 'envoyée', projetId })
+        ),
+        publishToEventStore,
+        fileRepo,
+      })
+      const rejet = await rejeterDemande({
+        user,
+        demandeId,
+        fichierRéponse,
+      })
 
-  //     const statutsPouvantÊtreRejetés: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
+      expect(fileRepo.save).toHaveBeenCalledWith(
+        expect.objectContaining({
+          designation: 'modification-request-response',
+          forProject: new UniqueEntityID(projetId),
+          filename: fichierRéponse.filename,
+          path: `projects/${projetId.toString()}/${fichierRéponse.filename}`,
+        })
+      )
 
-  //     for (const statut of statutsPouvantÊtreRejetés) {
-  //       it(`
-  //     Lorsqu'il rejette une demande d'abandon avec comme statut '${statut}'
-  //     Alors le courrier de réponse devrait être sauvegardé
-  //     Et l'évenement 'AbandonRejeté' devrait être publié dans le store`, async () => {
-  //         const fileRepo = fakeRepo()
-
-  //         const projetId = 'le-projet-de-la-demande'
-
-  //         const rejeterDemandeAbandon = makeRejeterDemandeAbandon({
-  //           demandeAbandonRepo: fakeTransactionalRepo(
-  //             makeFakeDemandeAbandon({
-  //               id: demandeAbandonId,
-  //               statut,
-  //               projetId,
-  //             })
-  //           ),
-  //           publishToEventStore,
-  //           fileRepo,
-  //         })
-
-  //         const rejet = await rejeterDemandeAbandon({
-  //           user,
-  //           demandeAbandonId,
-  //           fichierRéponse,
-  //         })
-
-  //         expect(rejet.isOk()).toBe(true)
-  //         expect(publishToEventStore).toHaveBeenCalledWith(
-  //           expect.objectContaining({
-  //             type: 'AbandonRejeté',
-  //             payload: expect.objectContaining({
-  //               demandeAbandonId,
-  //               rejetéPar: user.id,
-  //               fichierRéponseId: expect.any(String),
-  //               projetId,
-  //             }),
-  //           })
-  //         )
-
-  //         expect(fileRepo.save).toHaveBeenCalledWith(
-  //           expect.objectContaining({
-  //             designation: 'modification-request-response',
-  //             forProject: new UniqueEntityID(projetId),
-  //             filename: fichierRéponse.filename,
-  //             path: `projects/${projetId.toString()}/${fichierRéponse.filename}`,
-  //           })
-  //         )
-  //       })
-  //     }
-  //   })
-  // })
+      expect(rejet.isOk()).toBe(true)
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'AnnulationAbandonRejetée',
+          payload: expect.objectContaining({
+            demandeId,
+            rejetéPar: user.id,
+            fichierRéponseId: expect.any(String),
+            projetId,
+          }),
+        })
+      )
+    })
+  })
 })
