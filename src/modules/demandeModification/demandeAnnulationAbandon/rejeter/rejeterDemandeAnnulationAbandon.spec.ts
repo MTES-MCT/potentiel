@@ -5,13 +5,12 @@ import { User } from '@entities'
 import { USER_ROLES } from '@modules/users'
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
 
-import {
-  fakeRepo,
-  fakeTransactionalRepo,
-  makeFakeDemandeAnnulationAbandon,
-} from '../../../../__tests__/fixtures/aggregates'
+import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
 import { makeRejeterDemandeAnnulationAbandon } from './rejeterDemandeAnnulationAbandon'
-import { statutsDemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
+import {
+  DemandeAnnulationAbandon,
+  statutsDemandeAnnulationAbandon,
+} from '../DemandeAnnulationAbandon'
 import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
 import { UniqueEntityID } from '@core/domain'
 
@@ -20,6 +19,7 @@ describe(`Rejeter une annulation d'abandon`, () => {
   const fichierRéponse = { contents: Readable.from('test-content'), filename: 'fichier-réponse' }
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
   const fileRepo = fakeRepo()
+  const projetId = 'le-projet-de-la-demande'
 
   beforeEach(() => publishToEventStore.mockClear())
 
@@ -34,7 +34,7 @@ describe(`Rejeter une annulation d'abandon`, () => {
       `, async () => {
         const user = { role } as User
         const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
-          demandeAnnulationAbandonRepo: fakeTransactionalRepo(makeFakeDemandeAnnulationAbandon()),
+          demandeAnnulationAbandonRepo: fakeTransactionalRepo(),
           publishToEventStore,
           fileRepo,
         })
@@ -65,9 +65,10 @@ describe(`Rejeter une annulation d'abandon`, () => {
         const user = { role: 'admin' } as User
 
         const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
-          demandeAnnulationAbandonRepo: fakeTransactionalRepo(
-            makeFakeDemandeAnnulationAbandon({ id: demandeId, statut })
-          ),
+          demandeAnnulationAbandonRepo: fakeTransactionalRepo({
+            statut,
+            projetId,
+          } as DemandeAnnulationAbandon),
           publishToEventStore,
           fileRepo,
         })
@@ -93,11 +94,11 @@ describe(`Rejeter une annulation d'abandon`, () => {
         Alors l'utilisateur devrait être informé que la demande a bien été rejetée
         Et son courrier de réponse devrait être sauvezgardé`, async () => {
       const user = { role: 'admin', id: 'user-id' } as User
-      const projetId = 'le-projet-de-la-demande'
       const rejeterDemande = makeRejeterDemandeAnnulationAbandon({
-        demandeAnnulationAbandonRepo: fakeTransactionalRepo(
-          makeFakeDemandeAnnulationAbandon({ id: demandeId, statut: 'envoyée', projetId })
-        ),
+        demandeAnnulationAbandonRepo: fakeTransactionalRepo({
+          statut: 'envoyée',
+          projetId,
+        } as DemandeAnnulationAbandon),
         publishToEventStore,
         fileRepo,
       })
