@@ -5,6 +5,7 @@ import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@module
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { parseCahierDesChargesRéférence } from '@entities'
+import routes from '@routes'
 
 const { Project, File, User, UserProjects, ModificationRequest } = models
 
@@ -180,26 +181,40 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         ModificationRequest.findOne({
           where: { projectId, type: 'annulation abandon', status: 'envoyée' },
         })
-      ).map((demande) => {
+      ).map((demande: { id: string }) => {
         if (demande) {
-          return dto
+          return {
+            ...dto,
+            alerteAnnulationAbandon: {
+              actionPossible: 'voir-demande-en-cours' as const,
+              urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
+            },
+          }
         }
+
+        const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.some(
+          (cdc) =>
+            cdc.délaiAnnulationAbandon &&
+            new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
+        )
+
+        const cdcActuelPermetAnnulationAbandon =
+          cahierDesChargesActuel.type === 'modifié' &&
+          !!appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+            (cdc) =>
+              cdc.paruLe === cahierDesChargesActuel.paruLe &&
+              cdc.alternatif === cahierDesChargesActuel.alternatif
+          )?.délaiAnnulationAbandon
 
         return {
           ...dto,
-          afficherAlerteAnnulationAbandon: appelOffre?.cahiersDesChargesModifiésDisponibles.some(
-            (cdc) =>
-              cdc.délaiAnnulationAbandon &&
-              new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
-          ),
-
-          afficherBoutonAnnulerAbandon:
-            cahierDesChargesActuel.type === 'modifié' &&
-            !!appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-              (cdc) =>
-                cdc.paruLe === cahierDesChargesActuel.paruLe &&
-                cdc.alternatif === cahierDesChargesActuel.alternatif
-            )?.délaiAnnulationAbandon,
+          ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon) && {
+            alerteAnnulationAbandon: {
+              actionPossible: cdcActuelPermetAnnulationAbandon
+                ? 'demander-annulation-abandon'
+                : 'choisir-nouveau-cdc',
+            },
+          }),
         } as ProjectDataForProjectPage
       })
     })

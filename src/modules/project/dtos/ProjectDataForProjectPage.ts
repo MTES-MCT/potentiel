@@ -1,8 +1,16 @@
 import { ProjectAppelOffre } from '@entities'
 
+type AlerteAnnulationAbandon =
+  | {
+      actionPossible: 'voir-demande-en-cours'
+      urlDemandeEnCours: string
+    }
+  | {
+      actionPossible: 'choisir-nouveau-cdc' | 'demander-annulation-abandon'
+    }
+
 export type ProjectDataForProjectPage = {
-  afficherAlerteAnnulationAbandon?: true
-  afficherBoutonAnnulerAbandon?: true
+  alerteAnnulationAbandon?: AlerteAnnulationAbandon
   id: string
   potentielIdentifier: string
 
