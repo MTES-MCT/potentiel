@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import fs from 'fs'
 
-import { ensureRole, rejeterDemandeAnnulationAbandon } from '@config'
+import { accorderAnnulationAbandon, ensureRole, rejeterDemandeAnnulationAbandon } from '@config'
 
 import routes from '../../../routes'
 import { upload } from '../../upload'
@@ -12,6 +12,9 @@ import { errorResponse, RequestValidationErrorArray, unauthorizedResponse } from
 import { UnauthorizedError } from '@modules/shared'
 import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
+import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
+import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
+import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
 const schema = yup.object({
   body: yup.object({
     submitAccept: yup.string().nullable(),
@@ -41,7 +44,7 @@ v1Router.post(
       if (!file) {
         return errAsync(
           new RequestValidationErrorArray([
-            "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
+            "La réponse n'a pas pu être envoyée car il manque le courrier de réponse.",
           ])
         )
       }
@@ -51,15 +54,48 @@ v1Router.post(
         filename: `${Date.now()}-${file.originalname}`,
       }
 
-      const estAccordé = typeof submitAccept === 'string'
+      const demandeAccordée = typeof submitAccept === 'string'
 
-      if (estAccordé) {
-        return errorResponse({
-          request,
-          response,
-          customMessage:
-            'Il y a eu une erreur lors de la soumission de votre réponse. Merci de recommencer.',
-        })
+      if (demandeAccordée) {
+        return accorderAnnulationAbandon({
+          utilisateur: user,
+          demandeId: modificationRequestId,
+          fichierRéponse,
+        }).match(
+          () =>
+            response.redirect(
+              routes.SUCCESS_OR_ERROR_PAGE({
+                success: 'La demande a bien été accordée',
+                redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
+                redirectTitle: 'Retourner sur la page de la demande',
+              })
+            ),
+          (error) => {
+            if (error instanceof UnauthorizedError) {
+              return unauthorizedResponse({ request, response })
+            }
+
+            if (
+              error instanceof StatutDemandeIncompatibleAvecAccordAnnulationAbandonError ||
+              error instanceof StatutProjetIncompatibleAvecAccordAnnulationAbandonError ||
+              error instanceof CDCProjetIncompatibleAvecAccordAnnulationAbandonError
+            ) {
+              return response.redirect(
+                addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+                  error: error.message,
+                })
+              )
+            }
+
+            logger.error(error)
+            return errorResponse({
+              request,
+              response,
+              customMessage:
+                'Il y a eu une erreur lors de la soumission de votre réponse. Merci de recommencer.',
+            })
+          }
+        )
       }
 
       return rejeterDemandeAnnulationAbandon({
