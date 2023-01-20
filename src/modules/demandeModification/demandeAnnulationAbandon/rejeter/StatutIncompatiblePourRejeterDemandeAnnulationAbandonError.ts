@@ -1,7 +1,7 @@
-import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
+import { DomainError } from '@core/domain'
 
-export class StatutIncompatiblePourRejeterDemandeAnnulationAbandonError extends Error {
-  constructor(public demande: DemandeAnnulationAbandon) {
-    super(`Seules les demandes avec le statut 'envoyée' peuvent être rejetées.`)
+export class StatutIncompatiblePourRejeterDemandeAnnulationAbandonError extends DomainError {
+  constructor(public statut: string) {
+    super(`Cette demande ne peut pas être rejetée car elle a le statut "${statut}"`)
   }
 }

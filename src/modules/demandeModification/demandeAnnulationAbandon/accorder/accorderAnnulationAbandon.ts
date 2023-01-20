@@ -49,7 +49,7 @@ export const makeAccorderAnnulationAbandon =
           (demande) => {
             if (demande.statut !== 'envoyée') {
               return errAsync(
-                new StatutDemandeIncompatibleAvecAccordAnnulationAbandonError(demandeId)
+                new StatutDemandeIncompatibleAvecAccordAnnulationAbandonError(demande.statut)
               )
             }
             const appelOffre = getProjectAppelOffre({ ...projet })

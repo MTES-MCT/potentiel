@@ -32,7 +32,7 @@ export const makeRejeterDemandeAnnulationAbandon =
       const { statut, projetId } = demande
 
       if (statut !== 'envoyée') {
-        return errAsync(new StatutIncompatiblePourRejeterDemandeAnnulationAbandonError(demande))
+        return errAsync(new StatutIncompatiblePourRejeterDemandeAnnulationAbandonError(statut))
       }
 
       if (!projetId) {
