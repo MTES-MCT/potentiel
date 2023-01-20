@@ -26,7 +26,6 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
     } else {
       pageNumbers.push(2, -1)
     }
-
     pageNumbers.push(nombreDePage - 2, nombreDePage - 1)
   }
 
@@ -44,12 +43,13 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
         ) : (
           <a
             {...dataId('goToPage')}
-            data-pagevalue={page - 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page précédente"
           >
             <ChevronLeftIcon className="mr-2" />
-            <span className="hidden md:block">Précédent</span>
+            <span className="hidden md:block" data-pagevalue={page - 1}>
+              Précédent
+            </span>
           </a>
         )}
       </li>
@@ -92,11 +92,12 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
         ) : (
           <a
             {...dataId('goToPage')}
-            data-pagevalue={page + 1}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page suivante"
           >
-            <span className="hidden md:block">Suivant</span>
+            <span className="hidden md:block" data-pagevalue={page + 1}>
+              Suivant
+            </span>
             <ChevronRightIcon className="ml-2" />
           </a>
         )}
