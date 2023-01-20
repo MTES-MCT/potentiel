@@ -140,8 +140,7 @@ class routes {
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai'
   static ADMIN_REPONDRE_DEMANDE_ABANDON = '/admin/repondre-demande-abandon'
-  static ADMIN_REPONDRE_DEMANDE_CHANGEMENT_PUISSANCE =
-    '/admin/repondre-demande-changement-puissance'
+  static POST_REPONDRE_DEMANDE_CHANGEMENT_PUISSANCE = '/repondre-demande-changement-puissance'
 
   static ADMIN_ANNULER_DELAI_REJETE = (args?: { modificationRequestId: string }) => {
     const route = '/admin/demande/:modificationRequestId/annuler-rejet-demande-delai'

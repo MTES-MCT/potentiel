@@ -27,7 +27,7 @@ import { upload } from '../../upload'
 import { v1Router } from '../../v1Router'
 
 v1Router.post(
-  routes.ADMIN_REPONDRE_DEMANDE_CHANGEMENT_PUISSANCE,
+  routes.POST_REPONDRE_DEMANDE_CHANGEMENT_PUISSANCE,
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   upload.single('file'),
   asyncHandler(async (request, response) => {
