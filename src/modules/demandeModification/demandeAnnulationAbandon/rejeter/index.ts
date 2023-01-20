@@ -1,2 +1,2 @@
-export * from './RejeterDemandeAnnulationAbandonError'
+export * from './StatutIncompatiblePourRejeterDemandeAnnulationAbandonError'
 export * from './rejeterDemandeAnnulationAbandon'

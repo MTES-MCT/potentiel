@@ -11,7 +11,7 @@ import { errAsync, logger } from '@core/utils'
 import { errorResponse, RequestValidationErrorArray, unauthorizedResponse } from '../../helpers'
 import { UnauthorizedError } from '@modules/shared'
 import safeAsyncHandler from '../../helpers/safeAsyncHandler'
-import { RejeterDemandeAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
+import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
 const schema = yup.object({
   body: yup.object({
     submitAccept: yup.string().nullable(),
@@ -80,13 +80,12 @@ v1Router.post(
             return unauthorizedResponse({ request, response })
           }
 
-          if (error instanceof RejeterDemandeAnnulationAbandonError) {
-            return errorResponse({
-              request,
-              response,
-              customStatus: 400,
-              customMessage: error.message,
-            })
+          if (error instanceof StatutIncompatiblePourRejeterDemandeAnnulationAbandonError) {
+            return response.redirect(
+              addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+                error: error.message,
+              })
+            )
           }
 
           logger.error(error)

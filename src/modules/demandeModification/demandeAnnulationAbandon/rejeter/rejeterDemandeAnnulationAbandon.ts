@@ -7,7 +7,7 @@ import { userIsNot } from '@modules/users'
 
 import { DemandeAnnulationAbandon } from '../DemandeAnnulationAbandon'
 import { AnnulationAbandonRejetée } from '../events'
-import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
+import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from './StatutIncompatiblePourRejeterDemandeAnnulationAbandonError'
 
 type Dépendances = {
   demandeAnnulationAbandonRepo: TransactionalRepository<DemandeAnnulationAbandon>
@@ -32,12 +32,7 @@ export const makeRejeterDemandeAnnulationAbandon =
       const { statut, projetId } = demande
 
       if (statut !== 'envoyée') {
-        return errAsync(
-          new RejeterDemandeAnnulationAbandonError(
-            demande,
-            'Seule une demande envoyée, en instruction ou en demande confirmée peut être rejetée.'
-          )
-        )
+        return errAsync(new StatutIncompatiblePourRejeterDemandeAnnulationAbandonError(demande))
       }
 
       if (!projetId) {

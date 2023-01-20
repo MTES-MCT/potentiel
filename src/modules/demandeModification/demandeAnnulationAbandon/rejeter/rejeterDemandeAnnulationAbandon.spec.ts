@@ -11,7 +11,7 @@ import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,
 } from '../DemandeAnnulationAbandon'
-import { RejeterDemandeAnnulationAbandonError } from './RejeterDemandeAnnulationAbandonError'
+import { StatutIncompatiblePourRejeterDemandeAnnulationAbandonError } from './StatutIncompatiblePourRejeterDemandeAnnulationAbandonError'
 import { UniqueEntityID } from '@core/domain'
 
 describe(`Rejeter une annulation d'abandon`, () => {
@@ -80,7 +80,9 @@ describe(`Rejeter une annulation d'abandon`, () => {
 
         expect(rejet.isErr()).toBe(true)
         if (rejet.isErr()) {
-          expect(rejet._unsafeUnwrapErr()).toBeInstanceOf(RejeterDemandeAnnulationAbandonError)
+          expect(rejet._unsafeUnwrapErr()).toBeInstanceOf(
+            StatutIncompatiblePourRejeterDemandeAnnulationAbandonError
+          )
           expect(publishToEventStore).not.toHaveBeenCalled()
           expect(fileRepo.save).not.toHaveBeenCalled()
         }

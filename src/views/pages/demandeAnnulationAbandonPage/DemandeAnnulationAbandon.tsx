@@ -30,7 +30,6 @@ export const DemandeAnnulationAbandon = ({
   const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
   const showFormulaireAdministrateur =
     isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
-
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
