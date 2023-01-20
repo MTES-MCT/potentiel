@@ -35,9 +35,12 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
 
   const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
-  const demandeAnnulationAbandonRepo = fakeTransactionalRepo({
-    statut: 'envoyée',
-  } as DemandeAnnulationAbandon)
+  const demande = { statut: 'envoyée', projetId: projet.id } as DemandeAnnulationAbandon
+
+  const demandeAnnulationAbandonRepo = {
+    ...fakeTransactionalRepo(demande),
+    ...fakeRepo(demande),
+  }
 
   const getProjectAppelOffre = () =>
     ({
@@ -59,9 +62,15 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
       it(`Etant donné un projet abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon en statut ${statut},
         alors il devrait être notifié que l'action est impossible en raison du statut incompatible de la demande`, async () => {
-        const demandeAnnulationAbandonRepo = fakeTransactionalRepo({
+        const demande = {
           statut: 'annulée',
-        } as DemandeAnnulationAbandon)
+          projetId: projet.id,
+        } as DemandeAnnulationAbandon
+
+        const demandeAnnulationAbandonRepo = {
+          ...fakeTransactionalRepo(demande),
+          ...fakeRepo(demande),
+        }
 
         const accorder = makeAccorderAnnulationAbandon({
           publishToEventStore,
