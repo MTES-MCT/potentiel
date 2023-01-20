@@ -129,7 +129,7 @@ const onAnnulationAbandonAccordée = async (event: DomainEvent) => {
   )
 }
 
-subscribeToRedis(onAnnulationAbandonAccordée, 'Project.onAnnulationAbandonAccordée')
+subscribeToRedis(onAnnulationAbandonAccordée, 'Project')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true
