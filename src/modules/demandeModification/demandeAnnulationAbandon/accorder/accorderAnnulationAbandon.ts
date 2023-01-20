@@ -37,7 +37,7 @@ export const makeAccorderAnnulationAbandon =
       if (demande.statut !== 'envoyée') {
         return errAsync(new StatutDemandeIncompatibleAvecAccordAnnulationAbandonError(demandeId))
       }
-      return projectRepo.load(demande.id).andThen((projet) => {
+      return projectRepo.load(new UniqueEntityID(demande.projetId)).andThen((projet) => {
         if (projet.abandonedOn === 0) {
           return errAsync(
             new StatutProjetIncompatibleAvecAccordAnnulationAbandonError(projet.id.toString())
