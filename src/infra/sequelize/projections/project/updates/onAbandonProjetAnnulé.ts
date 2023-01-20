@@ -1,31 +1,44 @@
 import { logger } from '@core/utils'
 import { AbandonProjetAnnulé } from '@modules/project'
+import { ProjectionEnEchec } from '@modules/shared'
 
-export const onAbandonProjetAnnulé = (models) => async (event: AbandonProjetAnnulé) => {
+export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonProjetAnnulé) => {
+  const {
+    payload: { dateAchèvement, dateLimiteEnvoiDcr, projetId },
+  } = évènement
+
   const { Project } = models
-  const projectInstance = await Project.findByPk(event.payload.projetId)
 
-  if (!projectInstance) {
+  const instanceDuProjet = await Project.findByPk(évènement.payload.projetId)
+
+  if (!instanceDuProjet) {
     logger.error(
-      `Error: onAbandonProjetAnnulé projection failed to retrieve project from db': ${event}`
+      `Error: onAbandonProjetAnnulé n'a pas pu retrouver le projet pour l'évènement : ${évènement}`
     )
     return
   }
 
-  const {
-    occurredAt,
-    payload: { dateAchèvement, dateLimiteEnvoiDcr },
-  } = event
-  Object.assign(projectInstance, {
-    abandonedOn: occurredAt.getTime(),
-    dcrDueOn: (dateLimiteEnvoiDcr && dateLimiteEnvoiDcr.getTime()) || 0,
-    completionDueOn: dateAchèvement.getTime(),
-  })
-
   try {
-    await projectInstance.save()
-  } catch (e) {
-    logger.error(e)
-    logger.info('Error: onAbandonProjetAnnulé projection failed to update project', event)
+    await Project.update(
+      {
+        abandonedOn: 0,
+        ...(dateLimiteEnvoiDcr && {
+          dcrDueOn: dateLimiteEnvoiDcr.getTime(),
+        }),
+        completionDueOn: dateAchèvement.getTime(),
+      },
+      { where: { id: projetId } }
+    )
+  } catch (cause) {
+    logger.error(
+      new ProjectionEnEchec(
+        'Erreur lors de la mise à jour du projet',
+        {
+          nomProjection: 'onAbandonProjetAnnulé',
+          évènement,
+        },
+        cause
+      )
+    )
   }
 }
