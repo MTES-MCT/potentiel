@@ -168,7 +168,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           texteEngagementRéalisationEtModalitésAbandon,
           texteIdentitéDuProducteur,
         } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre)
-
         switch (type) {
           case 'delai':
             return ok({
@@ -190,6 +189,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO)
           case 'abandon':
+          case 'annulation abandon':
             return ok({
               ...commonData,
               referenceParagrapheAbandon:

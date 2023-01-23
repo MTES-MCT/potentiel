@@ -43,6 +43,10 @@ const abandonSchema = Record({
   type: Literal('abandon'),
   justification: String,
 })
+const annulationAbandonSchema = Record({
+  type: Literal('annulation abandon'),
+  justification: String,
+})
 const recoursSchema = Record({
   type: Literal('recours'),
   justification: String,
@@ -62,7 +66,8 @@ const modificationRequestSchema = baseModificationRequestSchema
       puissanceSchema,
       abandonSchema,
       recoursSchema,
-      delaiSchema
+      delaiSchema,
+      annulationAbandonSchema
     )
   )
   .And(

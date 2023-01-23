@@ -11,7 +11,7 @@ export const DownloadResponseTemplate = ({
 }: DownloadResponseTemplateProps) => (
   <div className="mb-4">
     <DownloadIcon />
-    <Link href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download={true}>
+    <Link href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download>
       Télécharger un modèle de réponse
     </Link>
   </div>
