@@ -90,6 +90,7 @@ import {
   LegacyAbandonSupprimé,
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
+  AbandonProjetAnnulé,
 } from './events'
 import { toProjectDataForCertificate } from './mappers'
 
@@ -247,6 +248,7 @@ export interface Project extends EventStoreAggregate {
   readonly dateFileAttente?: Date
   readonly délaiCDC2022appliqué: boolean
   readonly GFValidées: boolean
+  readonly dcrDueOn?: Date
 }
 
 export interface ProjectDataProps {
@@ -303,8 +305,8 @@ export interface ProjectProps {
   dateMiseEnService: Date | undefined
   dateFileAttente: Date | undefined
   délaiCDC2022appliqué: boolean
-
   GFValidées: boolean
+  dcrDueOn: Date | undefined
 }
 
 const projectValidator = makePropertyValidator({
@@ -352,6 +354,7 @@ export const makeProject = (args: {
     dateFileAttente: undefined,
     délaiCDC2022appliqué: false,
     GFValidées: false,
+    dcrDueOn: undefined,
   }
 
   // Initialize aggregate by processing each event in history
@@ -1350,6 +1353,7 @@ export const makeProject = (args: {
         props.abandonedOn = event.occurredAt.getTime()
         break
       case LegacyAbandonSupprimé.type:
+      case AbandonProjetAnnulé.type:
         props.abandonedOn = 0
         break
       case AppelOffreProjetModifié.type:
@@ -1381,6 +1385,9 @@ export const makeProject = (args: {
         if (event.payload.dateFileAttente) {
           props.dateFileAttente = new Date(event.payload.dateFileAttente)
         }
+        break
+      case ProjectDCRDueDateSet.type:
+        props.dcrDueOn = new Date(event.payload.dcrDueOn)
         break
       default:
         // ignore other event types

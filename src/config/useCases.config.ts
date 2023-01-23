@@ -116,6 +116,7 @@ import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '@modules/ut
 import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/demander'
 import { getProjectAppelOffre } from './queryProjectAO.config'
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
+import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -512,4 +513,12 @@ export const rejeterDemandeAnnulationAbandon = makeRejeterDemandeAnnulationAband
   publishToEventStore,
   fileRepo,
   demandeAnnulationAbandonRepo,
+})
+
+export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
+  demandeAnnulationAbandonRepo,
+  publishToEventStore,
+  getProjectAppelOffre,
+  projectRepo,
+  fileRepo,
 })
