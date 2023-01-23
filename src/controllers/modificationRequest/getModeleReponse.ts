@@ -9,7 +9,7 @@ import {
   oldUserRepo,
   ensureRole,
 } from '@config'
-import { ModificationRequest, User } from '@entities'
+import { User } from '@entities'
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate'
 import {
   ModificationRequestDataForResponseTemplateDTO,
@@ -74,23 +74,33 @@ v1Router.get(
   })
 )
 
-const TemplateByType: Record<ModificationRequest['type'], string> = {
-  actionnaire: 'Modèle réponse Changement Actionnaire - dynamique.docx',
-  fournisseur: '',
-  producteur: 'Modèle réponse Changement Producteur - dynamique.docx',
-  puissance: 'Modèle réponse Puissance - dynamique.docx',
-  recours: 'Modèle réponse Recours gracieux - dynamique.docx',
-  abandon: 'Modèle réponse Abandon - dynamique.docx',
-  'annulation abandon': 'Modèle réponse Annulation Abandon - dynamique.docx',
-  delai: 'Modèle réponse Prolongation de délai - dynamique.docx',
-}
-
-const getTemplate = ({ type, status }: ModificationRequestDataForResponseTemplateDTO) => {
+const getTemplate = ({
+  type,
+  status,
+}: {
+  type: ModificationRequestDataForResponseTemplateDTO['type']
+  status: ModificationRequestDataForResponseTemplateDTO['status']
+}) => {
   if (type === 'abandon' && status === 'demande confirmée') {
     return 'Modèle réponse Abandon après confirmation - dynamique.docx'
   }
 
-  return TemplateByType[type]
+  switch (type) {
+    case 'abandon':
+      return 'Modèle réponse Abandon - dynamique.docx'
+    case 'actionnaire':
+      return 'Modèle réponse Changement Actionnaire - dynamique.docx'
+    case 'annulation abandon':
+      return 'Modèle réponse Annulation Abandon - dynamique.docx'
+    case 'delai':
+      return 'Modèle réponse Prolongation de délai - dynamique.docx'
+    case 'producteur':
+      return 'Modèle réponse Changement Producteur - dynamique.docx'
+    case 'puissance':
+      return 'Modèle réponse Puissance - dynamique.docx'
+    case 'recours':
+      return 'Modèle réponse Recours gracieux - dynamique.docx'
+  }
 }
 
 async function makeResponseTemplate(
@@ -116,7 +126,10 @@ async function makeResponseTemplate(
     '..',
     'views',
     'template',
-    getTemplate(données)
+    getTemplate({
+      type: données.type,
+      status: données.status,
+    })
   )
 
   let imageToInject = ''
