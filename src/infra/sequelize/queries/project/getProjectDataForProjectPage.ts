@@ -1,12 +1,15 @@
-import { err, ok, Result, wrapInfra } from '@core/utils'
+import { err, ok, okAsync, Result, wrapInfra } from '@core/utils'
 import { isPeriodeLegacy } from '@dataAccess/inMemory'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { parseCahierDesChargesRéférence } from '@entities'
+import routes from '@routes'
+import { format } from 'date-fns'
 
-const { Project, File, User, UserProjects } = models
+const { Project, File, User, UserProjects, ModificationRequest } = models
+
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   return wrapInfra(
     Project.findByPk(projectId, {
@@ -101,21 +104,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                 alternatif: cahierDesChargesActuel.alternatif,
               }
 
-        const optionAnnulationAbandonDisponible =
-          appelOffre?.cahiersDesChargesModifiésDisponibles.some(
-            (cdc) =>
-              cdc.délaiAnnulationAbandon &&
-              new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
-          )
-
-        const cdcActuelCompatibleAvecAnnulationAbandon =
-          cahierDesChargesActuel.type === 'modifié' &&
-          !!appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-            (cdc) =>
-              cdc.paruLe === cahierDesChargesActuel.paruLe &&
-              cdc.alternatif === cahierDesChargesActuel.alternatif
-          )?.délaiAnnulationAbandon
-
         const result: any = {
           id,
           potentielIdentifier,
@@ -158,14 +146,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
           cahierDesChargesActuel: cahierDesCharges,
-          ...(abandonedOn !== 0 &&
-            optionAnnulationAbandonDisponible && {
-              afficherAlerteAnnulationAbandon: optionAnnulationAbandonDisponible,
-            }),
-          ...(abandonedOn !== 0 &&
-            cdcActuelCompatibleAvecAnnulationAbandon && {
-              afficherBoutonAnnulerAbandon: cdcActuelCompatibleAvecAnnulationAbandon,
-            }),
         }
 
         if (user.role !== 'dreal') {
@@ -190,5 +170,59 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             isLegacy,
           } as ProjectDataForProjectPage)
       )
+    })
+    .andThen((dto) => {
+      if (!dto.isAbandoned) {
+        return okAsync(dto)
+      }
+
+      const { id: projectId, appelOffre, cahierDesChargesActuel } = dto
+
+      return wrapInfra(
+        ModificationRequest.findOne({
+          where: { projectId, type: 'annulation abandon', status: 'envoyée' },
+        })
+      ).map((demande: { id: string }) => {
+        if (demande) {
+          return {
+            ...dto,
+            alerteAnnulationAbandon: {
+              actionPossible: 'voir-demande-en-cours' as const,
+              urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
+            },
+          }
+        }
+
+        const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.some(
+          (cdc) =>
+            cdc.délaiAnnulationAbandon &&
+            new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
+        )
+
+        const dateLimite =
+          cahierDesChargesActuel.type === 'modifié'
+            ? appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+                (cdc) =>
+                  cdc.paruLe === cahierDesChargesActuel.paruLe &&
+                  cdc.alternatif === cahierDesChargesActuel.alternatif
+              )?.délaiAnnulationAbandon
+            : undefined
+
+        const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false
+
+        return {
+          ...dto,
+          ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon) && {
+            alerteAnnulationAbandon: {
+              ...(cdcActuelPermetAnnulationAbandon
+                ? {
+                    actionPossible: 'demander-annulation-abandon',
+                    dateLimite: format(dateLimite!, 'PPP'),
+                  }
+                : { actionPossible: 'choisir-nouveau-cdc' }),
+            },
+          }),
+        } as ProjectDataForProjectPage
+      })
     })
 }

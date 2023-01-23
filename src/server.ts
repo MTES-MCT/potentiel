@@ -1,3 +1,5 @@
+import { setDefaultOptions } from 'date-fns'
+import * as LOCALE from 'date-fns/locale'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 import express, { Request } from 'express'
@@ -8,6 +10,7 @@ import { isDevEnv, registerAuth } from './config'
 import { v1Router } from './controllers'
 import { logger } from './core/utils'
 
+setDefaultOptions({ locale: LOCALE.fr })
 dotenv.config()
 
 const FILE_SIZE_LIMIT_MB = 50

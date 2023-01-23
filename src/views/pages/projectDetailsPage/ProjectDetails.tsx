@@ -12,6 +12,7 @@ import {
   ErrorBox,
   AlertBox,
   Button,
+  InfoBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import {
@@ -48,8 +49,10 @@ export const ProjectDetails = ({
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
       <main className="flex flex-col gap-3 mt-5">
-        {project.afficherAlerteAnnulationAbandon && userIs('porteur-projet')(user) && (
-          <AlerteAnnulationAbandonPossible {...{ ...project }} />
+        {project.alerteAnnulationAbandon && userIs('porteur-projet')(user) && (
+          <AlerteAnnulationAbandonPossible
+            {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
+          />
         )}
         <Callout>
           <CDCInfo {...{ project, user }} />
@@ -110,39 +113,58 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
 
 const AlerteAnnulationAbandonPossible = ({
   id: projetId,
-  afficherBoutonAnnulerAbandon,
+  alerteAnnulationAbandon,
 }: {
   id: ProjectDataForProjectPage['id']
-  afficherBoutonAnnulerAbandon?: ProjectDataForProjectPage['afficherBoutonAnnulerAbandon']
+  alerteAnnulationAbandon: NonNullable<ProjectDataForProjectPage['alerteAnnulationAbandon']>
 }) => (
-  <AlertBox title="Annulation abandon">
-    <p className="m-0">
-      Vous avez la possibilité d'annuler l'abandon de votre projet avant le 3 février 2023.
-    </p>
-    {afficherBoutonAnnulerAbandon ? (
-      <>
-        <form method="post" action={routes.POST_DEMANDER_ANNULATION_ABANDON} className="m-0 p-0">
-          <input type="hidden" name="projetId" value={projetId} />
-          <Button
-            type="submit"
-            onClick={(event) =>
-              confirm(
-                `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`
-              ) || event.preventDefault()
-            }
-            className="mt-4"
-          >
-            Demander l'annulation de l'abandon
-          </Button>
-        </form>
-      </>
+  <>
+    {alerteAnnulationAbandon.actionPossible === 'voir-demande-en-cours' ? (
+      <InfoBox title="Annulation abandon">
+        <p>
+          Une demande d'annulation d'abandon est en cours pour ce projet.
+          <br />
+          <Link href={alerteAnnulationAbandon.urlDemandeEnCours}>Voir la demande</Link>
+        </p>
+      </InfoBox>
     ) : (
-      <p className="m-0">
-        Pour cela vous devez d'abord choisir le dernier cahier des charges modifié publié (voir
-        encart ci-dessous).
-      </p>
+      <AlertBox title="Annulation abandon">
+        {alerteAnnulationAbandon.actionPossible === 'demander-annulation-abandon' && (
+          <>
+            <p className="m-0">
+              Vous avez la possibilité d'annuler l'abandon de votre projet avant le{' '}
+              {alerteAnnulationAbandon.dateLimite}.
+            </p>
+            <form
+              method="post"
+              action={routes.POST_DEMANDER_ANNULATION_ABANDON}
+              className="m-0 p-0"
+            >
+              <input type="hidden" name="projetId" value={projetId} />
+              <Button
+                type="submit"
+                onClick={(event) =>
+                  confirm(
+                    `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`
+                  ) || event.preventDefault()
+                }
+                className="mt-4"
+              >
+                Demander l'annulation de l'abandon
+              </Button>
+            </form>
+          </>
+        )}
+
+        {alerteAnnulationAbandon.actionPossible === 'choisir-nouveau-cdc' && (
+          <p className="m-0">
+            Pour pouvoir faire une demande d'annulation d'abandon, vous devez d'abord choisir le
+            dernier cahier des charges modifié publié (voir encart ci-dessous).
+          </p>
+        )}
+      </AlertBox>
     )}
-  </AlertBox>
+  </>
 )
 
 hydrateOnClient(ProjectDetails)
