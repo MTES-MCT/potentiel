@@ -6,7 +6,11 @@ type AlerteAnnulationAbandon =
       urlDemandeEnCours: string
     }
   | {
-      actionPossible: 'choisir-nouveau-cdc' | 'demander-annulation-abandon'
+      actionPossible: 'choisir-nouveau-cdc'
+    }
+  | {
+      actionPossible: 'demander-annulation-abandon'
+      dateLimite: string
     }
 
 export type ProjectDataForProjectPage = {

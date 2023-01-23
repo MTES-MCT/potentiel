@@ -129,11 +129,12 @@ const AlerteAnnulationAbandonPossible = ({
       </InfoBox>
     ) : (
       <AlertBox title="Annulation abandon">
-        <p className="m-0">
-          Vous avez la possibilité d'annuler l'abandon de votre projet avant le 3 février 2023.
-        </p>
         {alerteAnnulationAbandon.actionPossible === 'demander-annulation-abandon' && (
           <>
+            <p className="m-0">
+              Vous avez la possibilité d'annuler l'abandon de votre projet avant le{' '}
+              {alerteAnnulationAbandon.dateLimite}.
+            </p>
             <form
               method="post"
               action={routes.POST_DEMANDER_ANNULATION_ABANDON}
@@ -157,8 +158,8 @@ const AlerteAnnulationAbandonPossible = ({
 
         {alerteAnnulationAbandon.actionPossible === 'choisir-nouveau-cdc' && (
           <p className="m-0">
-            Pour cela vous devez d'abord choisir le dernier cahier des charges modifié publié (voir
-            encart ci-dessous).
+            Pour pouvoir faire une demande d'annulation d'abandon, vous devez d'abord choisir le
+            dernier cahier des charges modifié publié (voir encart ci-dessous).
           </p>
         )}
       </AlertBox>

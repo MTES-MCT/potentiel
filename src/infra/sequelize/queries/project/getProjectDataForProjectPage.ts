@@ -6,6 +6,7 @@ import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { parseCahierDesChargesRéférence } from '@entities'
 import routes from '@routes'
+import { format } from 'date-fns'
 
 const { Project, File, User, UserProjects, ModificationRequest } = models
 
@@ -198,21 +199,27 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
         )
 
-        const cdcActuelPermetAnnulationAbandon =
-          cahierDesChargesActuel.type === 'modifié' &&
-          !!appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-            (cdc) =>
-              cdc.paruLe === cahierDesChargesActuel.paruLe &&
-              cdc.alternatif === cahierDesChargesActuel.alternatif
-          )?.délaiAnnulationAbandon
+        const dateLimite =
+          cahierDesChargesActuel.type === 'modifié'
+            ? appelOffre?.cahiersDesChargesModifiésDisponibles.find(
+                (cdc) =>
+                  cdc.paruLe === cahierDesChargesActuel.paruLe &&
+                  cdc.alternatif === cahierDesChargesActuel.alternatif
+              )?.délaiAnnulationAbandon
+            : undefined
+
+        const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false
 
         return {
           ...dto,
           ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon) && {
             alerteAnnulationAbandon: {
-              actionPossible: cdcActuelPermetAnnulationAbandon
-                ? 'demander-annulation-abandon'
-                : 'choisir-nouveau-cdc',
+              ...(cdcActuelPermetAnnulationAbandon
+                ? {
+                    actionPossible: 'demander-annulation-abandon',
+                    dateLimite: format(dateLimite!, 'PPPP'),
+                  }
+                : { actionPossible: 'choisir-nouveau-cdc' }),
             },
           }),
         } as ProjectDataForProjectPage
