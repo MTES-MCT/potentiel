@@ -26,7 +26,7 @@ describe(`Notifier le porteur d'un changement de statut de la demande`, () => {
         message: {
           email: 'porteur@test.test',
           name: 'Nom du porteur',
-          subject: `Votre demande de recours pour le projet Nom du projet`,
+          subject: `Votre demande de type recours pour le projet Nom du projet`,
         },
         context: {
           modificationRequestId: 'id-demande',
