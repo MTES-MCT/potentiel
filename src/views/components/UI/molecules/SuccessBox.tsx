@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC } from 'react'
-import { SuccessIcon } from '../atoms'
+import { Alerte } from './Alerte'
 
 type AlertBoxProps = ComponentProps<'div'> & { title?: string }
 
@@ -8,21 +8,4 @@ export const SuccessBox: FC<AlertBoxProps> = ({
   children,
   className = '',
   ...props
-}: AlertBoxProps) => {
-  return (
-    <div className={`flex mb-3 ${className}`} {...props}>
-      <div className="bg-success-425-base">
-        <SuccessIcon className="text-white text-3xl mx-2 mt-4" />
-      </div>
-      <div className="pl-5 pr-8 py-4 border-solid border-1 border-success-425-base">
-        {title && (
-          <>
-            <span className="text-base font-semibold mb-2 inline-block">{title}</span>
-            <br />
-          </>
-        )}
-        {children}
-      </div>
-    </div>
-  )
-}
+}: AlertBoxProps) => <Alerte {...{ ...props, type: 'Succès', title, className, children }} />
