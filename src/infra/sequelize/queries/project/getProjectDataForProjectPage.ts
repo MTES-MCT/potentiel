@@ -217,7 +217,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
               ...(cdcActuelPermetAnnulationAbandon
                 ? {
                     actionPossible: 'demander-annulation-abandon',
-                    dateLimite: format(dateLimite!, 'PPPP'),
+                    dateLimite: format(dateLimite!, 'PPP'),
                   }
                 : { actionPossible: 'choisir-nouveau-cdc' }),
             },
