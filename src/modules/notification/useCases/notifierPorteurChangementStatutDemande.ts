@@ -34,7 +34,7 @@ export const makeNotifierPorteurChangementStatutDemande: MakeNotifierPorteurChan
         message: {
           email,
           name: fullName,
-          subject: `Votre demande de ${typeDemande} pour le projet ${nomProjet}`,
+          subject: `Votre demande de type ${typeDemande} pour le projet ${nomProjet}`,
         },
         context: {
           modificationRequestId,
