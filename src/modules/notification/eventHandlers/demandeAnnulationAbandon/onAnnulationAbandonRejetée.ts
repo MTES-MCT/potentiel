@@ -3,7 +3,7 @@ import { AnnulationAbandonRejetée } from '@modules/demandeModification'
 import { NotifierPorteurChangementStatutDemande } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
 
-type Argument = AnnulationAbandonRejetée
+type Commande = AnnulationAbandonRejetée
 
 type Dépendances = {
   getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
@@ -15,10 +15,9 @@ export const makeOnAnnulationAbandonRejetée =
     notifierPorteurChangementStatutDemande,
     getModificationRequestInfoForStatusNotification,
   }: Dépendances) =>
-  async ({ payload }: Argument) => {
+  async ({ payload }: Commande) => {
     const { demandeId } = payload
 
-    console.log('handler')
     await getModificationRequestInfoForStatusNotification(demandeId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {

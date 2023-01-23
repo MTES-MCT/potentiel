@@ -3,7 +3,7 @@ import { AnnulationAbandonAccordée } from '@modules/demandeModification'
 import { NotifierPorteurChangementStatutDemande } from '../..'
 import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
 
-type Argument = AnnulationAbandonAccordée
+type Commande = AnnulationAbandonAccordée
 
 type Dépendances = {
   getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
@@ -15,7 +15,7 @@ export const makeOnAnnulationAbandonAccordée =
     notifierPorteurChangementStatutDemande,
     getModificationRequestInfoForStatusNotification,
   }: Dépendances) =>
-  async ({ payload }: Argument) => {
+  async ({ payload }: Commande) => {
     const { demandeId } = payload
 
     await getModificationRequestInfoForStatusNotification(demandeId).match(
