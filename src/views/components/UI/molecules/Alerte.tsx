@@ -52,14 +52,18 @@ export const Alerte: FC<AlerteProps> = ({
   ...props
 }: AlerteProps) => {
   const { backgroundColor, borderColor } = couleurs[type]
+  const petiteAlerte = !title
 
   return (
     <div className={`${className}`} {...props}>
       <div className={`flex border-solid border-[1px] border-l-0 ${borderColor}`}>
         <div className={backgroundColor}>
-          <PictoAlerte type={type} className="text-white text-2xl mx-2 mt-4" />
+          <PictoAlerte
+            type={type}
+            className={`text-white text-2xl align-top ${petiteAlerte ? 'm-2' : 'mx-2 mt-4'}`}
+          />
         </div>
-        <div className={`pl-5 pr-8 pt-4 pb-3`}>
+        <div className={petiteAlerte ? 'pl-4 pr-9 pt-2 pb-1' : 'pl-5 pr-8 pt-4 pb-3'}>
           {title && <div className="text-xl font-semibold mb-1">{title}</div>}
           {children}
         </div>
