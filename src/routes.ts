@@ -222,7 +222,7 @@ class routes {
     } else return route
   }
 
-  static DEMANDER_ABANDON = (projectId?: Project['id']) => {
+  static GET_DEMANDER_ABANDON = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-abandon.html'
     return projectId ? route.replace(':projectId', projectId) : route
   }
@@ -260,8 +260,7 @@ class routes {
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
-
-  static DEMANDE_ABANDON_ACTION = '/soumettre-demande-abandon'
+  static POST_DEMANDER_ABANDON = '/soumettre-demande-abandon'
   static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 

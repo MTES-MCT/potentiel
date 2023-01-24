@@ -10,7 +10,7 @@ import { v1Router } from '../../v1Router'
 import { DemanderAbandonPage } from '@views'
 
 v1Router.get(
-  routes.DEMANDER_ABANDON(),
+  routes.GET_DEMANDER_ABANDON(),
   ensureRole(['porteur-projet']),
   asyncHandler(async (request, response) => {
     const {

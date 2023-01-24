@@ -95,7 +95,7 @@ const porteurProjetActions = (project: {
       },
       {
         title: 'Demander un abandon',
-        link: ROUTES.DEMANDER_ABANDON(project.id),
+        link: ROUTES.GET_DEMANDER_ABANDON(project.id),
       },
     ]
   )

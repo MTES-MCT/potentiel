@@ -55,13 +55,13 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   cahierDesChargesActuel: 'initial',
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
-                redirectUrl: routes.DEMANDER_ABANDON(project.id),
+                redirectUrl: routes.GET_DEMANDER_ABANDON(project.id),
                 type: 'abandon',
               }}
             />
           </div>
         ) : (
-          <form action={routes.DEMANDE_ABANDON_ACTION} method="post" encType="multipart/form-data">
+          <form action={routes.POST_DEMANDER_ABANDON} method="post" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
               {success && <SuccessBox title={success} />}

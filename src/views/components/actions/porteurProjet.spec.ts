@@ -72,7 +72,7 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Demander un abandon',
-            link: ROUTES.DEMANDER_ABANDON(fakeProject.id),
+            link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
           },
         ])
       })
@@ -129,7 +129,7 @@ describe('porteurProjetActions', () => {
             },
             {
               title: 'Demander un abandon',
-              link: ROUTES.DEMANDER_ABANDON(fakeProject.id),
+              link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
             },
           ])
         })
