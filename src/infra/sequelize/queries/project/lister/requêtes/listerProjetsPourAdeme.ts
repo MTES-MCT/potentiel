@@ -3,6 +3,7 @@ import { ListerProjets } from '@modules/project'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from './mapToFindOptions'
+import { Op } from 'sequelize'
 
 const attributes = [
   'id',
@@ -28,8 +29,13 @@ const attributes = [
 ]
 
 export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtres }) => {
+  const findOptions = filtres && mapToFindOptions(filtres)
+
   const résultat = await models.Project.findAndCountAll({
-    ...(filtres && mapToFindOptions(filtres)),
+    where: {
+      ...findOptions?.where,
+      notifiedOn: { [Op.gt]: 0 },
+    },
     ...paginate(pagination),
     attributes,
   })
