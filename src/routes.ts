@@ -222,7 +222,7 @@ class routes {
     } else return route
   }
 
-  static DEMANDER_ABANDON = (projectId?: Project['id']) => {
+  static GET_DEMANDER_ABANDON = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-abandon.html'
     return projectId ? route.replace(':projectId', projectId) : route
   }

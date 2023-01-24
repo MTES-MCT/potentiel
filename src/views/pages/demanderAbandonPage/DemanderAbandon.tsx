@@ -55,7 +55,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   cahierDesChargesActuel: 'initial',
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
-                redirectUrl: routes.DEMANDER_ABANDON(project.id),
+                redirectUrl: routes.GET_DEMANDER_ABANDON(project.id),
                 type: 'abandon',
               }}
             />

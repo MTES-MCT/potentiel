@@ -29,7 +29,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.DEMANDER_ABANDON(request.body.projectId), {
+          addQueryParams(routes.GET_DEMANDER_ABANDON(request.body.projectId), {
             ...error.errors,
           })
         ),
