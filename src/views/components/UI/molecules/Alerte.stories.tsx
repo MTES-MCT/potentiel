@@ -2,7 +2,7 @@ import React from 'react'
 import { Alerte } from './Alerte'
 
 export default {
-  title: 'Components/Molecules/AlertBox',
+  title: 'Components/Molecules/Alerte',
   component: Alerte,
   argTypes: {
     type: { options: ['Attention', 'Erreur', 'Information', 'Succès'] },

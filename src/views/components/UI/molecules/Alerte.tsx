@@ -54,12 +54,12 @@ export const Alerte: FC<AlerteProps> = ({
   const { backgroundColor, borderColor } = couleurs[type]
 
   return (
-    <div className={`inline-block ${className}`} {...props}>
-      <div className="flex">
+    <div className={`${className}`} {...props}>
+      <div className={`flex border-solid border-[1px] border-l-0 ${borderColor}`}>
         <div className={backgroundColor}>
           <PictoAlerte type={type} className="text-white text-2xl mx-2 mt-4" />
         </div>
-        <div className={`pl-5 pr-8 pt-4 pb-3 border-solid border-[1px] border-l-0 ${borderColor}`}>
+        <div className={`pl-5 pr-8 pt-4 pb-3`}>
           {title && <div className="text-xl font-semibold mb-1">{title}</div>}
           {children}
         </div>
