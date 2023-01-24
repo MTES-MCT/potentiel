@@ -3,6 +3,8 @@ import { ListerProjets } from '@modules/project/queries'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from './mapToFindOptions'
+import { Op } from 'sequelize'
+import { userIsNot } from '@modules/users'
 
 const attributes = [
   'id',
@@ -28,9 +30,14 @@ const attributes = [
   'actionnariat',
 ]
 
-export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
+export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres, user }) => {
+  const findOptions = filtres && mapToFindOptions(filtres)
+
   const résultat = await models.Project.findAndCountAll({
-    ...(filtres && mapToFindOptions(filtres)),
+    where: {
+      ...findOptions?.where,
+      ...(userIsNot(['admin', 'dgec-validateur'])(user) && { notifiedOn: { [Op.gt]: 0 } }),
+    },
     ...paginate(pagination),
     attributes,
   })

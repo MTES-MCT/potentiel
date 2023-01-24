@@ -41,6 +41,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
+      notifiedOn: { [Op.gt]: 0 },
       regionProjet: {
         [Op.substring]: régionDreal.dreal,
       },

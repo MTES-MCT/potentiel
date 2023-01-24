@@ -3,6 +3,7 @@ import { ListerProjets } from '@modules/project'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from './mapToFindOptions'
+import { Op } from 'sequelize'
 
 const attributes = [
   'id',
@@ -40,6 +41,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
     where: {
       ...findOptions?.where,
       '$users.userId$': userId,
+      notifiedOn: { [Op.gt]: 0 },
     },
     include: [
       ...(findOptions?.include ? findOptions.include : []),
