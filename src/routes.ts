@@ -260,8 +260,7 @@ class routes {
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande'
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai'
-
-  static DEMANDE_ABANDON_ACTION = '/soumettre-demande-abandon'
+  static POST_DEMANDER_ABANDON = '/soumettre-demande-abandon'
   static ANNULER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
   static ACCORDER_DEMANDE_ABANDON_ACTION = '/annuler-demande-abandon'
 
