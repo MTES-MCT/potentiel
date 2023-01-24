@@ -7,7 +7,7 @@ import { EntityNotFoundError, UnauthorizedError } from '@modules/shared'
 import routes from '../../../routes'
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../../helpers'
 import { v1Router } from '../../v1Router'
-import { addQueryParams } from 'src/helpers/addQueryParams'
+import { addQueryParams } from '../../../helpers/addQueryParams'
 import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification'
 
 const schema = yup.object({
