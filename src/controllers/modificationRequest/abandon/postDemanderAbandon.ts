@@ -21,7 +21,7 @@ const schema = yup.object({
 })
 
 v1Router.post(
-  routes.DEMANDE_ABANDON_ACTION,
+  routes.POST_DEMANDER_ABANDON,
   ensureRole('porteur-projet'),
   upload.single('file'),
   safeAsyncHandler(
@@ -29,7 +29,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
+          addQueryParams(routes.DEMANDER_ABANDON(request.body.projectId), {
             ...error.errors,
           })
         ),
