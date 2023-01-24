@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC } from 'react'
-import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../atoms'
+import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../../atoms'
 
 type TypesAlerte = 'Erreur' | 'Succès' | 'Information' | 'Attention'
 
