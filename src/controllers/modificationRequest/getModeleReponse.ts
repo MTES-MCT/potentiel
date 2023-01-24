@@ -81,12 +81,11 @@ const getTemplate = ({
   type: ModificationRequestDataForResponseTemplateDTO['type']
   status: ModificationRequestDataForResponseTemplateDTO['status']
 }) => {
-  if (type === 'abandon' && status === 'demande confirmée') {
-    return 'Modèle réponse Abandon après confirmation - dynamique.docx'
-  }
-
   switch (type) {
     case 'abandon':
+      if (status === 'demande confirmée') {
+        return 'Modèle réponse Abandon après confirmation - dynamique.docx'
+      }
       return 'Modèle réponse Abandon - dynamique.docx'
     case 'actionnaire':
       return 'Modèle réponse Changement Actionnaire - dynamique.docx'
