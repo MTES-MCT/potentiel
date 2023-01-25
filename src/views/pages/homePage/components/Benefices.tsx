@@ -3,12 +3,12 @@ import { Container } from '../../../components'
 
 export const Benefices = () => (
   <section className="text-blue-france-sun-base mb-10">
-    <h1
+    <h2
       className="text-3xl lg:text-4xl xl:text-5xl font-semibold pb-5 pt-10 px-4 text-center mb-0 md:mb-10"
       style={{ fontFamily: 'Marianne, arial, sans-serif' }}
     >
       Producteurs d'énergies renouvelables électriques
-    </h1>
+    </h2>
     <Container className="flex flex-col lg:flex-row">
       <img
         className="flex-2 hidden md:block self-center w-full p-4 lg:w-3/5 object-scale-down"
