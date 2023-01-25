@@ -1,4 +1,12 @@
-import { Button, DownloadIcon, ErrorBox, PageTemplate, ProjectList, SuccessBox } from '@components'
+import {
+  Button,
+  DownloadIcon,
+  ErrorBox,
+  Heading1,
+  PageTemplate,
+  ProjectList,
+  SuccessBox,
+} from '@components'
 import { AppelOffre, Periode } from '@entities'
 import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
@@ -34,7 +42,7 @@ export const AdminNotificationCandidats = ({
       <PageTemplate user={request.user} currentPage="notify-candidates">
         <div className="panel">
           <div className="panel__header">
-            <h3>Notifier des candidats</h3>
+            <Heading1>Notifier des candidats</Heading1>
           </div>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
@@ -59,7 +67,7 @@ export const AdminNotificationCandidats = ({
     <PageTemplate user={request.user}>
       <div className="panel">
         <div className="panel__header">
-          <h3>Notifier les candidats</h3>
+          <Heading1>Notifier les candidats</Heading1>
           {request.user.role !== 'dgec-validateur' && (
             <p>
               Seules les personnes ayant délégation de signature sont habilitées à notifier un appel

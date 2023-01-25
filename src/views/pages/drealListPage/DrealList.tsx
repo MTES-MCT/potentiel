@@ -3,7 +3,16 @@ import React from 'react'
 import { DREAL, REGIONS } from '../../../entities/dreal'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, ErrorBox, Input, PageTemplate, Select, SuccessBox } from '@components'
+import {
+  Button,
+  ErrorBox,
+  Heading1,
+  Heading2,
+  Input,
+  PageTemplate,
+  Select,
+  SuccessBox,
+} from '@components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
 
 type DrealListProps = {
@@ -18,10 +27,10 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
     <PageTemplate user={request.user} currentPage="list-dreal">
       <div className="panel">
         <div className="panel__header">
-          <h1 className="text-2xl">Gérer les DREAL</h1>
+          <Heading1>Gérer les DREAL</Heading1>
         </div>
         <div className="panel__header">
-          <h2 className="text-lg">Ajouter un utilisateur DREAL</h2>
+          <Heading2>Ajouter un utilisateur DREAL</Heading2>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
@@ -69,7 +78,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         </div>
         {users && users.length && (
           <>
-            <h2 className="text-lg">Les utilisateurs rattachés à une DREAL</h2>
+            <Heading2>Les utilisateurs rattachés à une DREAL</Heading2>
             <table className="table" {...dataId('projectList-list')}>
               <thead>
                 <tr>

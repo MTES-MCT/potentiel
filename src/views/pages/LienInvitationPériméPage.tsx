@@ -1,4 +1,4 @@
-import { Link, PageTemplate } from '@components'
+import { Heading1, Link, PageTemplate } from '@components'
 import React from 'react'
 import { Request } from 'express'
 import { hydrateOnClient } from '../helpers'
@@ -13,7 +13,7 @@ export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps)
       <main role="main">
         <section className="section section-grey">
           <div className="container">
-            <h2>Lien d'invitation périmé</h2>
+            <Heading1>Lien d'invitation périmé</Heading1>
 
             <p>
               Malheureusement, le lien d'invitation que vous essayez d'utiliser n'est plus valable.

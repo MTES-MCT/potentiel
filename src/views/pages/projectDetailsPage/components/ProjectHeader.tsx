@@ -1,7 +1,7 @@
 import React from 'react'
 import { User } from '@entities'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
-import { Badge } from '@components'
+import { Badge, Heading1 } from '@components'
 import { ProjectActions } from './ProjectActions'
 
 type ProjectHeaderProps = {
@@ -16,7 +16,7 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
         className="flex justify-start items-center
       "
       >
-        <h1 className="text-2xl font-bold text-gray-900 mb-0 pb-0">{project.nomProjet}</h1>
+        <Heading1 className="mb-0 pb-0">{project.nomProjet}</Heading1>
         {!project.notifiedOn ? (
           <Badge type="info" className="ml-2 self-center">
             Non-notifié

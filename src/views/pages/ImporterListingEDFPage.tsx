@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox } from '@components'
+import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type ImporterListingEDFProps = {
@@ -18,7 +18,7 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
     <PageTemplate user={request.user}>
       <div className="panel">
         <div className="panel__header">
-          <h3>Importer des données producteurs</h3>
+          <Heading1>Importer des données producteurs</Heading1>
         </div>
 
         <form action={ROUTES.IMPORTER_LISTING_EDF} method="post" encType="multipart/form-data">

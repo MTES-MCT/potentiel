@@ -14,6 +14,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Heading1,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementPuissance } from './components/ChangementPuissance'
@@ -40,7 +41,7 @@ export const DemanderChangementPuissance = ({
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>Je signale un changement de puissance</h3>
+          <Heading1>Je signale un changement de puissance</Heading1>
         </div>
         {doitChoisirCahierDesCharges ? (
           <div className="flex flex-col max-w-2xl mx-auto">

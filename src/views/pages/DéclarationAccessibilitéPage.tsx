@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { Link, PageTemplate, ExternalLink } from '@components'
+import { Link, PageTemplate, ExternalLink, Heading1, Heading2 } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type DéclarationAccessibilitéProps = {
@@ -11,7 +11,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
   return (
     <PageTemplate user={request.user}>
       <main role="main">
-        <h1>Déclaration d’accessibilité</h1>
+        <Heading1>Déclaration d’accessibilité</Heading1>
         <p>Établie le 15 décembre 2022.</p>
         <p>
           Le ministère de la Transition Énergétique s’engage à rendre son service accessible,
@@ -21,13 +21,13 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
           Cette déclaration d’accessibilité s’applique à{' '}
           <Link href="https://potentiel.beta.gouv.fr/">Potentiel</Link>.
         </p>
-        <h2>État de conformité</h2>
+        <Heading2>État de conformité</Heading2>
         <p>
           Potentiel est non conforme avec le{' '}
           <abbr title="Référentiel général de l'amélioration de l'accessibilité">RGAA</abbr>. Le
           site n’a encore pas été audité.
         </p>
-        <h2>Amélioration et contact</h2>
+        <Heading2>Amélioration et contact</Heading2>
         <p>
           Si vous n’arrivez pas à accéder à un contenu ou à un service, vous pouvez contacter le
           responsable de Potentiel pour être orienté vers une alternative accessible ou obtenir le
@@ -37,7 +37,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
             <li>Adresse : Tour Séquoïa 1, place Carpeaux 92055 La Défense Cedex</li>
           </ul>
         </p>
-        <h2>Voie de recours</h2>
+        <Heading2>Voie de recours</Heading2>
         <p>
           Cette procédure est à utiliser dans le cas suivant : vous avez signalé au responsable du
           site internet un défaut d’accessibilité qui vous empêche d’accéder à un contenu ou à un

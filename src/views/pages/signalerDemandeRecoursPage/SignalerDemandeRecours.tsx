@@ -3,6 +3,7 @@ import { Request } from 'express'
 import {
   Button,
   ErrorBox,
+  Heading1,
   Input,
   PageTemplate,
   ProjectInfo,
@@ -28,7 +29,7 @@ export const SignalerDemandeRecours = ({
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
         <div className="panel__header">
-          <h1 className="text-2xl">Enregistrer une demande de recours traitée hors Potentiel</h1>
+          <Heading1>Enregistrer une demande de recours traitée hors Potentiel</Heading1>
         </div>
         {error && <ErrorBox title={error} />}
         <form

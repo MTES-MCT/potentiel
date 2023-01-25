@@ -3,6 +3,8 @@ import { Request } from 'express'
 import routes from '@routes'
 import {
   Button,
+  Heading1,
+  Heading2,
   Input,
   PageTemplate,
   RésultatSoumissionFormulaire,
@@ -23,10 +25,10 @@ export const InviterDgecValidateur = ({
     <PageTemplate user={request.user} currentPage="inviter-dgec-validateur">
       <div className="panel">
         <div className="panel__header">
-          <h1 className="text-2xl">Gérer les DGEC-VALIDATEUR</h1>
+          <Heading1>Gérer les DGEC-VALIDATEUR</Heading1>
         </div>
         <div className="panel__header">
-          <h2 className="text-lg">Ajouter un utilisateur DGEC-VALIDATEUR</h2>
+          <Heading2>Ajouter un utilisateur DGEC-VALIDATEUR</Heading2>
           {résultatSoumissionFormulaire && (
             <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
           )}

@@ -17,6 +17,7 @@ import {
   Input,
   Label,
   Link,
+  Heading1,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 import { ProjectListItem } from '@modules/project'
@@ -76,7 +77,7 @@ export const ListeProjets = ({
     <PageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</h3>
+          <Heading1>{request.user.role === 'porteur-projet' ? 'Mes Projets' : 'Projets'}</Heading1>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 

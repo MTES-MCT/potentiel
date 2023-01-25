@@ -15,6 +15,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Heading1,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, DemandeRecours } from './components'
@@ -52,9 +53,9 @@ export const NewModificationRequest = ({
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>
+          <Heading1>
             <ModificationRequestActionTitles action={action} />
-          </h3>
+          </Heading1>
         </div>
         {doitChoisirCahierDesCharges ? (
           <div className="flex flex-col max-w-2xl mx-auto">

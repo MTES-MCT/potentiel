@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { PageTemplate } from '@components'
+import { Heading1, PageTemplate } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type StatistiquesProps = {
@@ -15,7 +15,7 @@ export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: Statistiq
       <main role="main">
         <section className="section section-color">
           <div className="container">
-            <h2 className="section__title">Potentiel en chiffres</h2>
+            <Heading1 className="section__title">Potentiel en chiffres</Heading1>
             <p className="section__subtitle">Au service des porteurs de projets</p>
           </div>
         </section>

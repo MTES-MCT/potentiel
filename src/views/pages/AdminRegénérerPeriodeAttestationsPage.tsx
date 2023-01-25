@@ -3,7 +3,7 @@ import React from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
+import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminRegénérerPeriodeAttestationsProps = {
@@ -26,7 +26,7 @@ export const AdminRegénérerPeriodeAttestations = ({
     <PageTemplate user={request.user} currentPage="regenerate-certificates">
       <div className="panel">
         <div className="panel__header">
-          <h3>Regénérer des attestations</h3>
+          <Heading1>Regénérer des attestations</Heading1>
         </div>
 
         <p>

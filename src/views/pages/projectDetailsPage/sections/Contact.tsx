@@ -2,7 +2,7 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button, Input, Label, Link } from '@components'
+import { Button, Heading3, Input, Label, Link } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
 import { Section } from '../components'
@@ -18,7 +18,7 @@ export const Contact = ({ project, user }: ContactProps) => (
   <Section title="Contact" icon="user-circle">
     <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
     <div>
-      <h5 style={{ marginBottom: 5 }}>Représentant légal</h5>
+      <Heading3 style={{ marginBottom: 5 }}>Représentant légal</Heading3>
       <div>{project.nomRepresentantLegal}</div>
       <div>{project.email}</div>
     </div>
@@ -40,7 +40,7 @@ type ListComptesAvecAccesProps = {
 }
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>
-    <h5 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</h5>
+    <Heading3 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</Heading3>
     <ul style={{ marginTop: 5, marginBottom: 5 }}>
       {project.users.map(({ id, fullName, email }) => (
         <li key={'project_user_' + id}>
@@ -79,7 +79,7 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
       name="form"
       className="invitationForm"
     >
-      <h5 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</h5>
+      <Heading3 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</Heading3>
       <input type="hidden" name="projectId" id="projectId" value={project.id} />
       <Label htmlFor="email" required>
         Courrier électronique de la personne habilitée à suivre ce projet

@@ -5,7 +5,7 @@ import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import ROUTES from '@routes'
-import { DownloadIcon, ExternalLink, Link } from '@components'
+import { DownloadIcon, ExternalLink, Heading2, Link } from '@components'
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO
@@ -17,6 +17,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
 
   return (
     <div className="panel__header">
+      <Heading2>Détail de la demande</Heading2>
       <div>
         Déposée par {requestedBy} le {formatDate(requestedOn)}
       </div>

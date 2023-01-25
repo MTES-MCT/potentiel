@@ -5,7 +5,15 @@ import { dataId } from '../../../helpers/testId'
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { RequestList, PageTemplate, SuccessBox, ErrorBox, InputCheckbox, Link } from '@components'
+import {
+  RequestList,
+  PageTemplate,
+  SuccessBox,
+  ErrorBox,
+  InputCheckbox,
+  Link,
+  Heading1,
+} from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
 
@@ -53,7 +61,9 @@ export const ModificationRequestList = ({
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>{request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}</h3>
+          <Heading1>
+            {request.user.role === 'porteur-projet' ? 'Mes demandes' : 'Demandes'}
+          </Heading1>
           <form
             action={`${
               request.user?.role === 'porteur-projet'

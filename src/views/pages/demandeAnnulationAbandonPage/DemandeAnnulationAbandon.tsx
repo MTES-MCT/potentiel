@@ -1,4 +1,12 @@
-import { ErrorBox, Link, PageTemplate, ProjectInfo, SuccessBox } from '@components'
+import {
+  ErrorBox,
+  Heading1,
+  Heading2,
+  Link,
+  PageTemplate,
+  ProjectInfo,
+  SuccessBox,
+} from '@components'
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components'
 import ROUTES from '@routes'
 import React from 'react'
@@ -34,11 +42,11 @@ export const DemandeAnnulationAbandon = ({
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header" style={{ position: 'relative' }}>
-          <h3>Je demande une annulation de l'abandon accordé de mon projet</h3>
+          <Heading1>Je demande une annulation de l'abandon accordé de mon projet</Heading1>
         </div>
         <DemandeDetails modificationRequest={modificationRequest} />
 
-        <p className="m-0">Concernant le projet :</p>
+        <Heading2>Concernant le projet</Heading2>
         <ProjectInfo project={modificationRequest.project} className="mb-3" />
         {error && <ErrorBox title={error} />}
         {success && <SuccessBox title={success} />}
@@ -65,7 +73,7 @@ export const DemandeAnnulationAbandon = ({
         </div>
         {showFormulaireAdministrateur && (
           <div className="panel__header">
-            <h4>Répondre</h4>
+            <Heading2>Répondre</Heading2>
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest} />
           </div>
         )}

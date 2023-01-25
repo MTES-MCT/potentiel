@@ -5,6 +5,8 @@ import {
   SecondaryButton,
   PageTemplate,
   ErrorBox,
+  Heading1,
+  Heading2,
 } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { userIs } from '@modules/users'
@@ -52,15 +54,15 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
-        <div className="panel__header" style={{ position: 'relative' }}>
-          <h3>
+        <div className="panel__header">
+          <Heading1>
             <ModificationRequestActionTitles action={type} />
-          </h3>
+          </Heading1>
         </div>
 
         <DemandeDetails modificationRequest={modificationRequest} />
 
-        <p className="m-0">Concernant le projet :</p>
+        <Heading2>Concernant le projet</Heading2>
         <ProjectInfo project={modificationRequest.project} className="mb-3" />
 
         {error && <ErrorBox title={error} />}
@@ -98,7 +100,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
 
         {showFormulaireAdministrateur && (
           <div className="panel__header">
-            <h4>Répondre</h4>
+            <Heading2>Répondre</Heading2>
 
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
               {type === 'delai' && (

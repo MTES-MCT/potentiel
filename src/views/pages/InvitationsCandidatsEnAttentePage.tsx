@@ -1,4 +1,11 @@
-import { ErrorBox, PageTemplate, PaginationPanel, SecondaryButton, SuccessBox } from '@components'
+import {
+  ErrorBox,
+  Heading1,
+  PageTemplate,
+  PaginationPanel,
+  SecondaryButton,
+  SuccessBox,
+} from '@components'
 import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -23,7 +30,7 @@ export const InvitationsCandidatsEnAttente = ({
     <PageTemplate user={request.user} currentPage="list-invitations">
       <div className="panel">
         <div className="panel__header">
-          <h3>Invitations de candidats en attente</h3>
+          <Heading1>Invitations de candidats en attente</Heading1>
           <p>
             Sont listées uniquement les invitations de candidats qui n‘ont pas donné lieu à une
             inscription. Les parrainages ne sont pas inclus.

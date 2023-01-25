@@ -13,6 +13,7 @@ import {
   SuccessBox,
   ErrorBox,
   ExternalLink,
+  Heading1,
 } from '@components'
 import routes from '@routes'
 import { Project, ProjectAppelOffre } from '@entities'
@@ -45,10 +46,8 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
-        <div className="panel__header" style={{ position: 'relative' }}>
-          <h3>
-            <span>Je demande un délai supplémentaire</span>
-          </h3>
+        <div className="panel__header">
+          <Heading1>Je demande un délai supplémentaire</Heading1>
         </div>
 
         {doitChoisirCahierDesCharges ? (
