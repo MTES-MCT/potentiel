@@ -1,10 +1,16 @@
-import { json, literal } from 'sequelize'
-import { Json, Literal } from 'sequelize/types/utils'
+import { literal } from 'sequelize'
+import { Literal } from 'sequelize/types/utils'
 
-export type Colonne = {
-  champ: string | Json | Literal
-  intitulé: string
-}
+export type Colonne =
+  | {
+      details?: undefined
+      champ: string | Literal
+      intitulé: string
+    }
+  | {
+      details: true
+      champ: string
+    }
 
 type Catégories =
   | 'identification projet'
@@ -39,32 +45,32 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     { champ: 'nomCandidat', intitulé: 'Candidat' },
     { champ: 'actionnaire', intitulé: 'Société mère' },
     { champ: 'territoireProjet', intitulé: '"Territoire\n(AO ZNI)"' },
-    { champ: json(`details->>'Numéro SIREN ou SIRET*'`), intitulé: 'Numéro SIREN ou SIRET' },
-    { champ: json(`details->>'Code NACE'`), intitulé: 'Code NACE' },
-    { champ: json(`details->>'Nature du candidat'`), intitulé: 'Nature du candidat' },
-    { champ: json(`details->>'Type entreprise'`), intitulé: 'Type entreprise' },
+    { champ: `Numéro SIREN ou SIRET*`, details: true },
+    { champ: `Code NACE`, details: true },
+    { champ: `Nature du candidat`, details: true },
+    { champ: `Type entreprise`, details: true },
     { champ: 'technologie', intitulé: 'Technologie\n(dispositif de production)' },
-    { champ: json(`details->>'Typologie de projet'`), intitulé: 'Typologie de projet' },
+    { champ: `Typologie de projet`, details: true },
     {
       champ: 'puissance',
       intitulé: 'Puissance installé du projet indiquée au B. du formulaire de candidature (MWc)',
     },
-    { champ: json(`details->>'Puissance installée (MWc)'`), intitulé: 'Puissance installée (MWc)' },
+    { champ: `Puissance installée (MWc)`, details: true },
     {
       champ: 'engagementFournitureDePuissanceAlaPointe',
       intitulé: 'Engagement de fourniture de puissance à la pointe\n(AO ZNI)',
     },
     {
-      champ: json(`details->>'Diamètre du rotor (m)\n(AO éolien)'`),
-      intitulé: 'Diamètre du rotor (m)\n(AO éolien)',
+      champ: `Diamètre du rotor (m)\n(AO éolien)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Hauteur bout de pâle (m)\n(AO éolien)'`),
-      intitulé: 'Hauteur bout de pâle (m)\n(AO éolien)',
+      champ: `Hauteur bout de pâle (m)\n(AO éolien)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nb d''aérogénérateurs\n(AO éolien)'`),
-      intitulé: "Nb d'aérogénérateurs\n(AO éolien)",
+      champ: `Nb d'aérogénérateurs\n(AO éolien)`,
+      details: true,
     },
     {
       champ: literal(`TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY')`),
@@ -74,25 +80,25 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
     { champ: 'classe', intitulé: 'Classé ?' },
   ],
   'coordonnées candidat': [
-    { champ: json(`details->>'Région d''implantation'`), intitulé: `Région d'implantation` },
-    { champ: json(`details->>'Adresse'`), intitulé: 'Adresse' },
+    { champ: `Région d'implantation`, details: true },
+    { champ: `Adresse`, details: true },
     { champ: 'nomRepresentantLegal', intitulé: 'Nom et prénom du représentant légal' },
     {
-      champ: json(`details->>'Titre du représentant légal'`),
-      intitulé: 'Titre du représentant légal',
+      champ: `Titre du représentant légal`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom et prénom du signataire du formulaire'`),
-      intitulé: 'Nom et prénom du signataire du formulaire',
+      champ: `Nom et prénom du signataire du formulaire`,
+      details: true,
     },
-    { champ: json(`details->>'Nom et prénom du contact'`), intitulé: 'Nom et prénom du contact' },
-    { champ: json(`details->>'Titre du contact'`), intitulé: 'Titre du contact' },
+    { champ: `Nom et prénom du contact`, details: true },
+    { champ: `Titre du contact`, details: true },
     {
-      champ: json(`details->>'Adresse postale du contact'`),
-      intitulé: 'Adresse postale du contact',
+      champ: `Adresse postale du contact`,
+      details: true,
     },
     { champ: 'email', intitulé: 'Adresse électronique du contact' },
-    { champ: json(`details->>'Téléphone'`), intitulé: 'Téléphone' },
+    { champ: `Téléphone`, details: true },
   ],
   'financement citoyen': [
     {
@@ -103,7 +109,7 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
       champ: literal(`CASE WHEN "isFinancementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
       intitulé: 'Financement participatif (Oui/Non)',
     },
-    { champ: json(`details->>'€/MWh bonus participatif'`), intitulé: '€/MWh bonus participatif' },
+    { champ: `€/MWh bonus participatif`, details: true },
     {
       champ: literal(`CASE WHEN "actionnariat" = 'financement-collectif' THEN 'Oui' ELSE '' END`),
       intitulé: 'Financement collectif (Oui/Non)',
@@ -115,330 +121,287 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
   ],
   'contenu local': [
     {
-      champ: json(`details->>'Contenu local français (%)\n(Cellules)'`),
-      intitulé: 'Contenu local français (%)\n(Cellules)',
+      champ: `Contenu local français (%)\n(Cellules)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Cellules)'`),
-      intitulé: 'Contenu local européen (%)\n(Cellules)',
+      champ: `Contenu local européen (%)\n(Cellules)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Coût total du lot (M€)\n(Plaquettes de silicium (wafers))',
+      champ: `Coût total du lot (M€)\n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Contenu local français (%)\n(Plaquettes de silicium (wafers))',
+      champ: `Contenu local français (%)\n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Contenu local européen (%)\n(Plaquettes de silicium (wafers))',
+      champ: `Contenu local européen (%)\n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Polysilicium)'`),
-      intitulé: 'Coût total du lot (M€)\n(Polysilicium)',
+      champ: `Coût total du lot (M€)\n(Polysilicium)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Polysilicium)'`),
-      intitulé: 'Contenu local français (%)\n(Polysilicium)',
+      champ: `Contenu local français (%)\n(Polysilicium)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Polysilicium)'`),
-      intitulé: 'Contenu local européen (%)\n(Polysilicium)',
+      champ: `Contenu local européen (%)\n(Polysilicium)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Postes de conversion)'`),
-      intitulé: 'Coût total du lot (M€)\n(Postes de conversion)',
+      champ: `Coût total du lot (M€)\n(Postes de conversion)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Postes de conversion)'`),
-      intitulé: 'Contenu local français (%)\n(Postes de conversion)',
+      champ: `Contenu local français (%)\n(Postes de conversion)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Postes de conversion)'`),
-      intitulé: 'Contenu local européen (%)\n(Postes de conversion)',
+      champ: `Contenu local européen (%)\n(Postes de conversion)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Structure)'`),
-      intitulé: 'Coût total du lot (M€)\n(Structure)',
+      champ: `Coût total du lot (M€)\n(Structure)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Structure)'`),
-      intitulé: 'Contenu local français (%)\n(Structure)',
+      champ: `Contenu local français (%)\n(Structure)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Structure)'`),
-      intitulé: 'Contenu local européen (%)\n(Structure)',
+      champ: `Contenu local européen (%)\n(Structure)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)'`),
-      intitulé: 'Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)',
+      champ: `Coût total du lot (M€)\n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)'`
-      ),
-      intitulé: 'Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)',
+      champ: `Contenu local français (%)\n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)'`
-      ),
-      intitulé: 'Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)',
+      champ: `Contenu local européen (%)\n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)'`
-      ),
-      intitulé: 'Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Coût total du lot (M€)\n(Dispositifs de suivi de la course du soleil *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)'`
-      ),
-      intitulé: 'Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Contenu local français (%)\n(Dispositifs de suivi de la course du soleil *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)'`
-      ),
-      intitulé: 'Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Contenu local européen (%)\n(Dispositifs de suivi de la course du soleil *)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Autres technologies)'`),
-      intitulé: 'Coût total du lot (M€)\n(Autres technologies)',
+      champ: `Coût total du lot (M€)\n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Autres technologies)'`),
-      intitulé: 'Contenu local français (%)\n(Autres technologies)',
+      champ: `Contenu local français (%)\n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Autres technologies)'`),
-      intitulé: 'Contenu local européen (%)\n(Autres technologies)',
+      champ: `Contenu local européen (%)\n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Installation et mise en service )'`),
-      intitulé: 'Coût total du lot (M€)\n(Installation et mise en service )',
+      champ: `Coût total du lot (M€)\n(Installation et mise en service )`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Installation et mise en service)'`),
-      intitulé: 'Contenu local français (%)\n(Installation et mise en service)',
+      champ: `Contenu local français (%)\n(Installation et mise en service)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Installation et mise en service)'`),
-      intitulé: 'Contenu local européen (%)\n(Installation et mise en service)',
+      champ: `Contenu local européen (%)\n(Installation et mise en service)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Commentaires contenu local\n(Installation et mise en service)'`),
-      intitulé: 'Commentaires contenu local\n(Installation et mise en service)',
+      champ: `Commentaires contenu local\n(Installation et mise en service)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(raccordement)'`),
-      intitulé: 'Coût total du lot (M€)\n(raccordement)',
+      champ: `Coût total du lot (M€)\n(raccordement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(raccordement)'`),
-      intitulé: 'Contenu local français (%)\n(raccordement)',
+      champ: `Contenu local français (%)\n(raccordement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(raccordement)'`),
-      intitulé: 'Contenu local européen (%)\n(raccordement)',
+      champ: `Contenu local européen (%)\n(raccordement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local TOTAL :\ncoût total (M€)'`),
-      intitulé: 'Contenu local TOTAL :\ncoût total (M€)',
+      champ: `Contenu local TOTAL :\ncoût total (M€)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local TOTAL français (%)'`),
-      intitulé: 'Contenu local TOTAL français (%)',
+      champ: `Contenu local TOTAL français (%)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local TOTAL européen (%)'`),
-      intitulé: 'Contenu local TOTAL européen (%)',
+      champ: `Contenu local TOTAL européen (%)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local TOTAL :\nCommentaires'`),
-      intitulé: 'Contenu local TOTAL :\nCommentaires',
+      champ: `Contenu local TOTAL :\nCommentaires`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Modules ou films)'`),
-      intitulé: 'Coût total du lot (M€)\n(Modules ou films)',
+      champ: `Coût total du lot (M€)\n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Modules ou films)'`),
-      intitulé: 'Contenu local français (%)\n(Modules ou films)',
+      champ: `Contenu local français (%)\n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Modules ou films)'`),
-      intitulé: 'Contenu local européen (%)\n(Modules ou films)',
+      champ: `Contenu local européen (%)\n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Cellules)'`),
-      intitulé: 'Coût total du lot (M€)\n(Cellules)',
+      champ: `Coût total du lot (M€)\n(Cellules)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût total du lot (M€)\n(Développement)'`),
-      intitulé: 'Coût total du lot (M€)\n(Développement)',
+      champ: `Coût total du lot (M€)\n(Développement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local français (%)\n(Développement)'`),
-      intitulé: 'Contenu local français (%)\n(Développement)',
+      champ: `Contenu local français (%)\n(Développement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local européen (%)\n(Développement)'`),
-      intitulé: 'Contenu local européen (%)\n(Développement)',
+      champ: `Contenu local européen (%)\n(Développement)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Contenu local développement :\nCommentaires'`),
-      intitulé: 'Contenu local développement :\nCommentaires',
+      champ: `Contenu local développement :\nCommentaires`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)'`
-      ),
-      intitulé: 'Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)',
+      champ: `Contenu local Fabrication de composants et assemblage :\nTotal coût du lot (M€)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)'`
-      ),
-      intitulé:
-        'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)',
+      champ: `Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local français (%)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)'`
-      ),
-      intitulé:
-        'Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)',
+      champ: `Contenu local Fabrication de composants et assemblage :\nPourcentage de contenu local européen (%)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Contenu local Fabrication de composants et assemblage :\nCommentaires'`
-      ),
-      intitulé: 'Contenu local Fabrication de composants et assemblage :\nCommentaires',
+      champ: `Contenu local Fabrication de composants et assemblage :\nCommentaires`,
+      details: true,
     },
   ],
   'localisation projet': [
     { champ: 'adresseProjet', intitulé: 'N°, voie, lieu-dit' },
     { champ: 'codePostalProjet', intitulé: 'CP' },
     { champ: 'communeProjet', intitulé: 'Commune' },
-    { champ: json(`details->>'Département'`), intitulé: 'Département' },
-    { champ: json(`details->>'Région'`), intitulé: 'Région' },
+    { champ: `Département`, details: true },
+    { champ: `Région`, details: true },
   ],
   'coordonnées géodésiques': [
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)'`
-      ),
-      intitulé: 'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)',
+      champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)',
+      champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)',
+      champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)',
+      champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)',
+      champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)',
+      champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)',
+      champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)'`
-      ),
-      intitulé:
-        'Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)',
+      champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)`,
+      details: true,
     },
   ],
   "coût d'investissement": [
-    { champ: json(`details->>'Raccordement € / kWc'`), intitulé: 'Raccordement € / kWc' },
-    { champ: json(`details->>'Investissement total (k€)'`), intitulé: 'Investissement total (k€)' },
+    { champ: `Raccordement € / kWc`, details: true },
+    { champ: `Investissement total (k€)`, details: true },
     {
-      champ: json(`details->>'dont quantité de fonds propres (k€)'`),
-      intitulé: 'dont quantité de fonds propres (k€)',
+      champ: `dont quantité de fonds propres (k€)`,
+      details: true,
     },
     {
-      champ: json(`details->>'dont quantité d''endettement  (k€)'`),
-      intitulé: "dont quantité d'endettement  (k€)",
+      champ: `dont quantité d'endettement  (k€)`,
+      details: true,
     },
     {
-      champ: json(`details->>'dont quantité de subventions à l''investissement  (k€)'`),
-      intitulé: "dont quantité de subventions à l'investissement  (k€)",
+      champ: `dont quantité de subventions à l'investissement  (k€)`,
+      details: true,
     },
     {
-      champ: json(`details->>'dont quantité d''autres avantages financiers  (k€)'`),
-      intitulé: "dont quantité d'autres avantages financiers  (k€)",
+      champ: `dont quantité d'autres avantages financiers  (k€)`,
+      details: true,
     },
-    { champ: json(`details->>'Location (€/an/MWc)'`), intitulé: 'Location (€/an/MWc)' },
-    { champ: json(`details->>'CAPEX Moyen\n(k€ / MWc)'`), intitulé: 'CAPEX Moyen\n(k€ / MWc)' },
+    { champ: `Location (€/an/MWc)`, details: true },
+    { champ: `CAPEX Moyen\n(k€ / MWc)`, details: true },
   ],
   'données autoconsommation': [
     {
-      champ: json(`details->>'Taux d''autoconsommation \n(AO autoconsommation)'`),
-      intitulé: "Taux d'autoconsommation \n(AO autoconsommation)",
+      champ: `Taux d'autoconsommation \n(AO autoconsommation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Type de consommateur associé\n(AO autoconsommation)'`),
-      intitulé: 'Type de consommateur associé\n(AO autoconsommation)',
+      champ: `Type de consommateur associé\n(AO autoconsommation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)'`),
-      intitulé: 'Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)',
+      champ: `Nature et nombre du ou des consommateur(s)\n(AO autoconsommation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Taux occupation toiture\n(AO autoconsommation)'`),
-      intitulé: 'Taux occupation toiture\n(AO autoconsommation)',
+      champ: `Taux occupation toiture\n(AO autoconsommation)`,
+      details: true,
     },
   ],
   'données de raccordement': [
     {
-      champ: json(`details->>'Référence du dossier de raccordement*'`),
-      intitulé: 'Référence du dossier de raccordement*',
+      champ: `Référence du dossier de raccordement*`,
+      details: true,
     },
     {
-      champ: json(`details->>'Date de mise en service du raccordement attendue (mm/aaaa)'`),
-      intitulé: 'Date de mise en service du raccordement attendue (mm/aaaa)',
+      champ: `Date de mise en service du raccordement attendue (mm/aaaa)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Capacité du raccordement (kW)'`),
-      intitulé: 'Capacité du raccordement (kW)',
+      champ: `Capacité du raccordement (kW)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Montant estimé du raccordement (k€)'`),
-      intitulé: 'Montant estimé du raccordement (k€)',
+      champ: `Montant estimé du raccordement (k€)`,
+      details: true,
     },
     {
       champ: 'dateFileAttente',
@@ -455,114 +418,112 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
   ],
   'données fournisseurs': [
     {
-      champ: json(`details->>'Technologie (Modules ou films)'`),
-      intitulé: 'Technologie (Modules ou films)',
+      champ: `Technologie (Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Référence commerciale \n(Modules ou films)'`),
-      intitulé: 'Référence commerciale \n(Modules ou films)',
+      champ: `Référence commerciale \n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Modules ou films)'`),
-      intitulé: 'Nom du fabricant \n(Modules ou films)',
+      champ: `Nom du fabricant \n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Modules ou films)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Modules ou films)',
+      champ: `Lieu(x) de fabrication \n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Puissance crête (Wc) \n(Modules ou films)'`),
-      intitulé: 'Puissance crête (Wc) \n(Modules ou films)',
+      champ: `Puissance crête (Wc) \n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Rendement nominal \n(Modules ou films)'`),
-      intitulé: 'Rendement nominal \n(Modules ou films)',
+      champ: `Rendement nominal \n(Modules ou films)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant (Cellules)'`),
-      intitulé: 'Nom du fabricant (Cellules)',
+      champ: `Nom du fabricant (Cellules)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication (Cellules)'`),
-      intitulé: 'Lieu(x) de fabrication (Cellules)',
+      champ: `Lieu(x) de fabrication (Cellules)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Polysilicium)'`),
-      intitulé: 'Nom du fabricant \n(Polysilicium)',
+      champ: `Nom du fabricant \n(Polysilicium)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Polysilicium)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Polysilicium)',
+      champ: `Lieu(x) de fabrication \n(Polysilicium)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant (Structure)'`),
-      intitulé: 'Nom du fabricant (Structure)',
+      champ: `Nom du fabricant (Structure)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Structure)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Structure)',
+      champ: `Lieu(x) de fabrication \n(Structure)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Technologie \n(Dispositifs de stockage de l’énergie *)'`),
-      intitulé: 'Technologie \n(Dispositifs de stockage de l’énergie *)',
+      champ: `Technologie \n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)'`),
-      intitulé: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
+      champ: `Nom du fabricant \n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)',
+      champ: `Lieu(x) de fabrication \n(Dispositifs de stockage de l’énergie *)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Technologie \n(Dispositifs de suivi de la course du soleil *)'`),
-      intitulé: 'Technologie \n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Technologie \n(Dispositifs de suivi de la course du soleil *)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)'`),
-      intitulé: 'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)'`
-      ),
-      intitulé: 'Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *)',
+      champ: `Lieu(x) de fabrication \n(Dispositifs de suivi de la course du soleil *`,
+      details: true,
     },
     {
-      champ: json(`details->>'Référence commerciale \n(Autres technologies)'`),
-      intitulé: 'Référence commerciale \n(Autres technologies)',
+      champ: `Référence commerciale \n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Autres technologies)'`),
-      intitulé: 'Nom du fabricant \n(Autres technologies)',
+      champ: `Nom du fabricant \n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Autres technologies)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Autres technologies)',
+      champ: `Lieu(x) de fabrication \n(Autres technologies)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Coût des modules €/Wc'`),
-      intitulé: 'Coût des modules €/Wc',
+      champ: `Coût des modules €/Wc`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
+      champ: `Nom du fabricant \n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
+      champ: `Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))'`),
-      intitulé: 'Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))',
+      champ: `Lieu(x) de fabrication \n(Plaquettes de silicium (wafers))`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom du fabricant \n(Postes de conversion)'`),
-      intitulé: 'Nom du fabricant \n(Postes de conversion)',
+      champ: `Nom du fabricant \n(Postes de conversion)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Lieu(x) de fabrication \n(Postes de conversion)'`),
-      intitulé: 'Lieu(x) de fabrication \n(Postes de conversion)',
+      champ: `Lieu(x) de fabrication \n(Postes de conversion)`,
+      details: true,
     },
   ],
   'évaluation carbone': [
@@ -572,80 +533,78 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
         'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)',
     },
     {
-      champ: json(`details->>'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)'`),
-      intitulé: 'Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)',
+      champ: `Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)`,
+      details: true,
     },
   ],
   'potentiel solaire': [
     {
-      champ: json(`details->>'Ensoleillement de référence (kWh/m²/an)'`),
-      intitulé: 'Ensoleillement de référence (kWh/m²/an)',
+      champ: `Ensoleillement de référence (kWh/m²/an)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Productible annuel (MWh/an)'`),
-      intitulé: 'Productible annuel (MWh/an)',
+      champ: `Productible annuel (MWh/an)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Facteur de charges (kWh/kWc)'`),
-      intitulé: 'Facteur de charges (kWh/kWc)',
+      champ: `Facteur de charges (kWh/kWc)`,
+      details: true,
     },
   ],
   implantation: [
     {
-      champ: json(`details->>'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)'`),
-      intitulé: 'Surface projetée au sol de l’ensemble des Capteurs solaires (ha)',
+      champ: `Surface projetée au sol de l’ensemble des Capteurs solaires (ha)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Surface du Terrain d’implantation (ha)'`),
-      intitulé: 'Surface du Terrain d’implantation (ha)',
+      champ: `Surface du Terrain d’implantation (ha)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Terrain d’implantation est dégradé au sens du cas 3 du 2.6'`),
-      intitulé: 'Terrain d’implantation est dégradé au sens du cas 3 du 2.6',
+      champ: `Terrain d’implantation est dégradé au sens du cas 3 du 2.6`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6'`
-      ),
-      intitulé: 'Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6',
+      champ: `Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6`,
+      details: true,
     },
     {
-      champ: json(`details->>'Détention de l’Autorisation d’Urbanisme'`),
-      intitulé: 'Détention de l’Autorisation d’Urbanisme',
+      champ: `Détention de l’Autorisation d’Urbanisme`,
+      details: true,
     },
     {
-      champ: json(`details->>'Type d''utorisation d''Urbanisme (pièce n°3)'`),
-      intitulé: "Type d'utorisation d'Urbanisme (pièce n°3)",
+      champ: `Type d'utorisation d'Urbanisme (pièce n°3)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Type de terrain d''implantation \n(pièce n°3)'`),
-      intitulé: "Type de terrain d'implantation \n(pièce n°3)",
+      champ: `Type de terrain d'implantation \n(pièce n°3)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Types Cas 3 \n(pièce n°3)'`),
-      intitulé: 'Types Cas 3 \n(pièce n°3)',
+      champ: `Types Cas 3 \n(pièce n°3)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Type d''AU \n(pièce n°4)'`),
-      intitulé: "Type d'AU \n(pièce n°4)",
+      champ: `Type d'AU \n(pièce n°4)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Codes cas 1\n(AO sol)'`),
-      intitulé: 'Codes cas 1\n(AO sol)',
+      champ: `Codes cas 1\n(AO sol)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Codes cas 2\n(AO sol)'`),
-      intitulé: 'Codes cas 2\n(AO sol)',
+      champ: `Codes cas 2\n(AO sol)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Codes cas 3\n(AO sol)'`),
-      intitulé: 'Codes cas 3\n(AO sol)',
+      champ: `Codes cas 3\n(AO sol)`,
+      details: true,
     },
   ],
   prix: [
     {
-      champ: json(`details->>'Prix Majoré'`),
-      intitulé: 'Prix Majoré',
+      champ: `Prix Majoré`,
+      details: true,
     },
     {
       champ: 'prixReference',
@@ -653,218 +612,204 @@ export const donnéesProjetParCatégorie: Record<Catégories, Colonne[]> = {
         'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
     },
     {
-      champ: json(`details->>'Prix de référence (€/MWh)'`),
-      intitulé: 'Prix de référence (€/MWh)',
+      champ: `Prix de référence (€/MWh)`,
+      details: true,
     },
   ],
   'références candidature': [
     {
-      champ: json(`details->>'date\n(candidature)'`),
-      intitulé: 'date\n(candidature)',
+      champ: `date\n(candidature)`,
+      details: true,
     },
     {
-      champ: json(`details->>'heure\n(candidature)'`),
-      intitulé: 'heure\n(candidature)',
+      champ: `heure\n(candidature)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Reference Pli\n(candidature)'`),
-      intitulé: 'Reference Pli\n(candidature)',
+      champ: `Reference Pli\n(candidature)`,
+      details: true,
     },
   ],
   instruction: [
     {
-      champ: json(`details->>'Condition d''admissibilité ?\n(AO éolien)'`),
-      intitulé: "Condition d'admissibilité ?\n(AO éolien)",
+      champ: `Condition d'admissibilité ?\n(AO éolien)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Respect de toutes les conditions d''admissibilité ?'`),
-      intitulé: "Respect de toutes les conditions d'admissibilité ?",
+      champ: `Respect de toutes les conditions d'admissibilité ?`,
+      details: true,
     },
-    { champ: json(`details->>'Suspicion de doublon ?'`), intitulé: 'Suspicion de doublon ?' },
-    { champ: json(`details->>'Oui projet'`), intitulé: 'Oui projet' },
+    { champ: `Suspicion de doublon ?`, details: true },
+    { champ: `Oui projet`, details: true },
     {
-      champ: json(`details->>'Suspicion de 500m inter-famille ?'`),
-      intitulé: 'Suspicion de 500m inter-famille ?',
+      champ: `Suspicion de 500m inter-famille ?`,
+      details: true,
     },
-    { champ: json(`details->>'Avis admissibilité'`), intitulé: 'Avis admissibilité' },
+    { champ: `Avis admissibilité`, details: true },
     {
-      champ: json(`details->>'Dépôt 1ère périodes précédentes ?'`),
-      intitulé: 'Dépôt 1ère périodes précédentes ?',
+      champ: `Dépôt 1ère périodes précédentes ?`,
+      details: true,
     },
-    { champ: json(`details->>'Comm 1 \n(pièce n°1)'`), intitulé: 'Comm 1 \n(pièce n°1)' },
-    { champ: json(`details->>'Comm 2 \n(pièce n°1)'`), intitulé: 'Comm 2 \n(pièce n°1)' },
-    { champ: json(`details->>'Avis \n(pièce n°1)'`), intitulé: 'Avis \n(pièce n°1)' },
-    { champ: json(`details->>'Comm 1 \n(pièce n°2)'`), intitulé: 'Comm 1 \n(pièce n°2)' },
-    { champ: json(`details->>'Comm 2 \n(pièce n°2)'`), intitulé: 'Comm 2 \n(pièce n°2)' },
-    { champ: json(`details->>'Avis \n(pièce n°2)'`), intitulé: 'Avis \n(pièce n°2)' },
+    { champ: `Comm 1 \n(pièce n°1)`, details: true },
+    { champ: `Comm 2 \n(pièce n°1)`, details: true },
+    { champ: `Avis \n(pièce n°1)`, details: true },
+    { champ: `Comm 1 \n(pièce n°2)`, details: true },
+    { champ: `Comm 2 \n(pièce n°2)`, details: true },
+    { champ: `Avis \n(pièce n°2)`, details: true },
     {
-      champ: json(
-        `details->>'Période visée par certificat d''éligibilité du terrain \n(pièce n°3)'`
-      ),
-      intitulé: "Période visée par certificat d'éligibilité du terrain \n(pièce n°3)",
+      champ: `Période visée par certificat d'éligibilité du terrain \n(pièce n°3)'`,
+      details: true,
     },
-    { champ: json(`details->>'Comm 1 \n(pièce n°3)'`), intitulé: 'Comm 1 \n(pièce n°3)' },
-    { champ: json(`details->>'Comm 2\n(pièce n°3)'`), intitulé: 'Comm 2\n(pièce n°3)' },
-    { champ: json(`details->>'Avis \n(pièce n°3)'`), intitulé: 'Avis \n(pièce n°3)' },
+    { champ: `Comm 1 \n(pièce n°3)`, details: true },
+    { champ: `Comm 2\n(pièce n°3)`, details: true },
+    { champ: `Avis \n(pièce n°3)`, details: true },
     {
-      champ: json(`details->>'Comm 1\n(pièce n°4 AO innovation)'`),
-      intitulé: 'Comm 1\n(pièce n°4 AO innovation)',
+      champ: `Comm 1\n(pièce n°4 AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Comm 2\n(pièce n°4 AO innovation)'`),
-      intitulé: 'Comm 2\n(pièce n°4 AO innovation)',
+      champ: `Comm 2\n(pièce n°4 AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Avis\n(pièce n°4 AO innovation)'`),
-      intitulé: 'Avis\n(pièce n°4 AO innovation)',
+      champ: `Avis\n(pièce n°4 AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Comm 1\n(pièce n°5 AO innovation)'`),
-      intitulé: 'Comm 1\n(pièce n°5 AO innovation)',
+      champ: `Comm 1\n(pièce n°5 AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Comm 2\n(pièce n°5 AO innovation)'`),
-      intitulé: 'Comm 2\n(pièce n°5 AO innovation)',
+      champ: `Comm 2\n(pièce n°5 AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Avis\n(pièce n°5 AO innovation)'`),
-      intitulé: 'Avis\n(pièce n°5 AO innovation)',
+      champ: `Avis\n(pièce n°5 AO innovation)`,
+      details: true,
     },
-    { champ: json(`details->>'Date \n(pièce n°4)'`), intitulé: 'Date \n(pièce n°4)' },
-    { champ: json(`details->>'Comm 2 \n(pièce n°4)'`), intitulé: 'Comm 2 \n(pièce n°4)' },
-    { champ: json(`details->>'Avis \n(pièce n°4)'`), intitulé: 'Avis \n(pièce n°4)' },
-    { champ: json(`details->>'Comm 1 \n(pièce n°6)'`), intitulé: 'Comm 1 \n(pièce n°6)' },
-    { champ: json(`details->>'Comm 2 \n(pièce n°6)'`), intitulé: 'Comm 2 \n(pièce n°6)' },
-    { champ: json(`details->>'Avis \n(pièce n°6)'`), intitulé: 'Avis \n(pièce n°6)' },
-    { champ: json(`details->>'Oui/non ? \n(pièce n°7)'`), intitulé: 'Oui/non ? \n(pièce n°7)' },
-    { champ: json(`details->>'Comm 1 \n(pièce n°7)'`), intitulé: 'Comm 1 \n(pièce n°7)' },
-    { champ: json(`details->>'Comm 2 \n(pièce n°7)'`), intitulé: 'Comm 2 \n(pièce n°7)' },
-    { champ: json(`details->>'Avis \n(pièce n°7)'`), intitulé: 'Avis \n(pièce n°7)' },
+    { champ: `Date \n(pièce n°4)`, details: true },
+    { champ: `Comm 2 \n(pièce n°4)`, details: true },
+    { champ: `Avis \n(pièce n°4)`, details: true },
+    { champ: `Comm 1 \n(pièce n°6)`, details: true },
+    { champ: `Comm 2 \n(pièce n°6)`, details: true },
+    { champ: `Avis \n(pièce n°6)`, details: true },
+    { champ: `Oui/non ? \n(pièce n°7)`, details: true },
+    { champ: `Comm 1 \n(pièce n°7)`, details: true },
+    { champ: `Comm 2 \n(pièce n°7)`, details: true },
+    { champ: `Avis \n(pièce n°7)`, details: true },
     {
-      champ: json(`details->>'Comm 1 \n(Délégation de signature)'`),
-      intitulé: 'Comm 1 \n(Délégation de signature)',
-    },
-    {
-      champ: json(`details->>'Comm 2 \n(Délégation de signature)'`),
-      intitulé: 'Comm 2 \n(Délégation de signature)',
+      champ: `Comm 1 \n(Délégation de signature)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Avis \n(Délégation de signature)'`),
-      intitulé: 'Avis \n(Délégation de signature)',
+      champ: `Comm 2 \n(Délégation de signature)`,
+      details: true,
     },
-    { champ: json(`details->>'Commentaire final'`), intitulé: 'Commentaire final' },
-    { champ: json(`details->>'Avis final'`), intitulé: 'Avis final' },
-    { champ: json(`details->>'Avis final CRE + ADEME'`), intitulé: 'Avis final CRE + ADEME' },
-    { champ: json(`details->>'Nom projet (doublon)'`), intitulé: 'Nom projet (doublon)' },
-    { champ: json(`details->>'CP (doublon)'`), intitulé: 'CP (doublon)' },
-    { champ: json(`details->>'Commune (doublon)'`), intitulé: 'Commune (doublon)' },
-    { champ: json(`details->>'Commentaires'`), intitulé: 'Commentaires' },
-    { champ: json(`details->>'Puissance cumulée'`), intitulé: 'Puissance cumulée' },
+    {
+      champ: `Avis \n(Délégation de signature)`,
+      details: true,
+    },
+    { champ: `Commentaire final`, details: true },
+    { champ: `Avis final`, details: true },
+    { champ: `Avis final CRE + ADEME`, details: true },
+    { champ: `Nom projet (doublon)`, details: true },
+    { champ: `CP (doublon)`, details: true },
+    { champ: `Commune (doublon)`, details: true },
+    { champ: `Commentaires`, details: true },
+    { champ: `Puissance cumulée`, details: true },
   ],
   'résultat instruction sensible': [
     { champ: 'motifsElimination', intitulé: "Motif d'élimination" },
   ],
   'note innovation': [
     {
-      champ: json(`details->>'Note degré d’innovation (/20pt)\n(AO innovation)'`),
-      intitulé: 'Note degré d’innovation (/20pt)\n(AO innovation)',
+      champ: `Note degré d’innovation (/20pt)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Commentaire final sur note degré d’innovation\n(AO innovation)'`),
-      intitulé: 'Commentaire final sur note degré d’innovation\n(AO innovation)',
+      champ: `Commentaire final sur note degré d’innovation\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Nom de l''innovation (ADEME)\n(AO innovation)'`),
-      intitulé: "Nom de l'innovation (ADEME)\n(AO innovation)",
+      champ: `Nom de l'innovation (ADEME)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Type de l''innovation (ADEME)\n(AO innovation)'`),
-      intitulé: "Type de l'innovation (ADEME)\n(AO innovation)",
+      champ: `Type de l'innovation (ADEME)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Note synergie avec l''usage agricole (/10pt)\n(AO Innovation)'`),
-      intitulé: "Note synergie avec l'usage agricole (/10pt)\n(AO Innovation)",
+      champ: `Note synergie avec l'usage agricole (/10pt)\n(AO Innovation)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Commentaire final sur note synergie avec l''usage agricole \n(AO Innovation)'`
-      ),
-      intitulé: "Commentaire final sur note synergie avec l'usage agricole \n(AO Innovation)",
+      champ: `Commentaire final sur note synergie avec l'usage agricole \n(AO Innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Note positionnement sur le marché (/10pt)\n(AO innovation)'`),
-      intitulé: 'Note positionnement sur le marché (/10pt)\n(AO innovation)',
+      champ: `Note positionnement sur le marché (/10pt)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Commentaire final sur note positionnement sur le marché \n(AO innovation)'`
-      ),
-      intitulé: 'Commentaire final sur note positionnement sur le marché \n(AO innovation)',
+      champ: `Commentaire final sur note positionnement sur le marché \n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Note qualité technique (/5pt)\n(AO innovation)'`),
-      intitulé: 'Note qualité technique (/5pt)\n(AO innovation)',
+      champ: `Note qualité technique (/5pt)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Commentaire final sur note qualité technique\n(AO innovation)'`),
-      intitulé: 'Commentaire final sur note qualité technique\n(AO innovation)',
+      champ: `Commentaire final sur note qualité technique\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'`
-      ),
-      intitulé:
-        'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)',
+      champ: `Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)'`
-      ),
-      intitulé:
-        'Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)',
+      champ: `Commentaire final sur note adéquation du projet avec les ambitions industrielles\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(`details->>'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'`),
-      intitulé: 'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)',
+      champ: `Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)`,
+      details: true,
     },
     {
-      champ: json(
-        `details->>'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)'`
-      ),
-      intitulé: 'Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)',
+      champ: `Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)`,
+      details: true,
     },
   ],
   notes: [
-    { champ: json(`details->>'Note prix'`), intitulé: 'Note prix' },
-    { champ: json(`details->>'Note carbone'`), intitulé: 'Note carbone' },
-    { champ: json(`details->>'Note environnementale'`), intitulé: 'Note environnementale' },
+    { champ: `Note prix`, details: true },
+    { champ: `Note carbone`, details: true },
+    { champ: `Note environnementale`, details: true },
     {
-      champ: json(`details->>'Note innovation\n(AO innovation)'`),
-      intitulé: 'Note innovation\n(AO innovation)',
+      champ: `Note innovation\n(AO innovation)`,
+      details: true,
     },
     { champ: 'note', intitulé: 'Note totale' },
   ],
   'modifications avant import': [
-    { champ: json(`details->>'Type de modification 1'`), intitulé: 'Type de modification 1' },
-    { champ: json(`details->>'Date de modification 1'`), intitulé: 'Date de modification 1' },
-    { champ: json(`details->>'Colonne concernée 1'`), intitulé: 'Colonne concernée 1' },
-    { champ: json(`details->>'Ancienne valeur 1'`), intitulé: 'Ancienne valeur 1' },
-    { champ: json(`details->>'Type de modification 2'`), intitulé: 'Type de modification 2' },
-    { champ: json(`details->>'Date de modification 2'`), intitulé: 'Date de modification 2' },
-    { champ: json(`details->>'Colonne concernée 2'`), intitulé: 'Colonne concernée 2' },
-    { champ: json(`details->>'Ancienne valeur 2'`), intitulé: 'Ancienne valeur 2' },
-    { champ: json(`details->>'Type de modification 3'`), intitulé: 'Type de modification 3' },
-    { champ: json(`details->>'Date de modification 3'`), intitulé: 'Date de modification 3' },
-    { champ: json(`details->>'Colonne concernée 3'`), intitulé: 'Colonne concernée 3' },
-    { champ: json(`details->>'Ancienne valeur 3'`), intitulé: 'Ancienne valeur 3' },
-    { champ: json(`details->>'Type de modification 4'`), intitulé: 'Type de modification 4' },
-    { champ: json(`details->>'Date de modification 4'`), intitulé: 'Date de modification 4' },
-    { champ: json(`details->>'Colonne concernée 4'`), intitulé: 'Colonne concernée 4' },
-    { champ: json(`details->>'Ancienne valeur 4'`), intitulé: 'Ancienne valeur 4' },
-    { champ: json(`details->>'Type de modification 5'`), intitulé: 'Type de modification 5' },
-    { champ: json(`details->>'Date de modification 5'`), intitulé: 'Date de modification 5' },
-    { champ: json(`details->>'Colonne concernée 5'`), intitulé: 'Colonne concernée 5' },
-    { champ: json(`details->>'Ancienne valeur 5'`), intitulé: 'Ancienne valeur 5' },
+    { champ: `Type de modification 1`, details: true },
+    { champ: `Date de modification 1`, details: true },
+    { champ: `Colonne concernée 1`, details: true },
+    { champ: `Ancienne valeur 1`, details: true },
+    { champ: `Type de modification 2`, details: true },
+    { champ: `Date de modification 2`, details: true },
+    { champ: `Colonne concernée 2`, details: true },
+    { champ: `Ancienne valeur 2`, details: true },
+    { champ: `Type de modification 3`, details: true },
+    { champ: `Date de modification 3`, details: true },
+    { champ: `Colonne concernée 3`, details: true },
+    { champ: `Ancienne valeur 3`, details: true },
+    { champ: `Type de modification 4`, details: true },
+    { champ: `Date de modification 4`, details: true },
+    { champ: `Colonne concernée 4`, details: true },
+    { champ: `Ancienne valeur 4`, details: true },
+    { champ: `Type de modification 5`, details: true },
+    { champ: `Date de modification 5`, details: true },
+    { champ: `Colonne concernée 5`, details: true },
+    { champ: `Ancienne valeur 5`, details: true },
   ],
   'garanties financières': [
     {

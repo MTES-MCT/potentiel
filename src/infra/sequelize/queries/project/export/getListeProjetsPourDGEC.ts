@@ -14,7 +14,9 @@ export const getProjetsListePourDGEC = ({
   listeColonnes: Colonne[]
   filtres?: FiltreListeProjets
 }) => {
-  const attributes = listeColonnes.map((c) => [c.champ, c.intitulé])
+  const attributes = listeColonnes
+    .filter((c): c is Colonne & { details: undefined } => c.details !== true)
+    .map((c) => [c.champ, c.intitulé])
   const findOptions = filtres && mapToFindOptions(filtres)
 
   return wrapInfra(
@@ -29,8 +31,17 @@ export const getProjetsListePourDGEC = ({
         },
       ],
       //@ts-ignore
-      attributes,
+      attributes: [...attributes, 'details'],
       raw: true,
     })
-  )
+  ).map((projects) => {
+    const listeColonnesDetail = listeColonnes
+      .filter((c): c is Colonne & { details: true } => c.details === true)
+      .map((c) => c.champ)
+
+    return projects.map(({ details, ...project }) => ({
+      ...project,
+      ...(details && JSON.parse(JSON.stringify(details, listeColonnesDetail))),
+    }))
+  })
 }
