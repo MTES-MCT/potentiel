@@ -1,6 +1,6 @@
 import type { Request } from 'express'
 import React from 'react'
-import { PageTemplate } from '@components'
+import { Heading2, PageTemplate } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface Props {
@@ -15,7 +15,7 @@ export const Error = ({ errorTitle, errorMessage, request }: Props) => {
       <main role="main">
         <section className="section section-grey pt-10">
           <div className="container">
-            <h2>{errorTitle}</h2>
+            <Heading2>{errorTitle}</Heading2>
             <p>{errorMessage}</p>
           </div>
         </section>

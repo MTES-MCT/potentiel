@@ -4,7 +4,14 @@ import { AppelOffre, Famille, Periode, Project } from '@entities'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
-import { ErrorBox, Link, MissingOwnerProjectList, PageTemplate, SuccessBox } from '@components'
+import {
+  ErrorBox,
+  Heading1,
+  Link,
+  MissingOwnerProjectList,
+  PageTemplate,
+  SuccessBox,
+} from '@components'
 import { hydrateOnClient } from '../helpers'
 
 interface ProjetsÀRéclamerProps {
@@ -48,7 +55,7 @@ export const ProjetsÀRéclamer = ({
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Projets à réclamer</h3>
+          <Heading1>Projets à réclamer</Heading1>
           <div className="notification">
             <span>
               Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes

@@ -3,7 +3,16 @@ import React from 'react'
 import { User } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
-import { Button, Input, PageTemplate, Select, SuccessBox, ErrorBox } from '@components'
+import {
+  Button,
+  Input,
+  PageTemplate,
+  Select,
+  SuccessBox,
+  ErrorBox,
+  Heading1,
+  Heading2,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type PartnersListProps = {
@@ -19,10 +28,10 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
     <PageTemplate user={request.user} currentPage="admin-users">
       <div className="panel">
         <div className="panel__header">
-          <h1 className="text-2xl">Gérer les utilisateurs partenaires</h1>
+          <Heading1>Gérer les utilisateurs partenaires</Heading1>
         </div>
         <div className="panel__header">
-          <h2 className="text-lg">Ajouter un utilisateur</h2>
+          <Heading2>Ajouter un utilisateur</Heading2>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
           <form
@@ -65,7 +74,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         </div>
         {Boolean(users?.length) && (
           <>
-            <h2 className="text-lg">Liste des utilisateurs</h2>
+            <Heading2>Liste des utilisateurs</Heading2>
             <table className="table" {...dataId('projectList-list')}>
               <thead>
                 <tr>

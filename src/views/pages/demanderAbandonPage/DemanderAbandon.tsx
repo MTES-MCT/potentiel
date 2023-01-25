@@ -15,6 +15,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Heading1,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -35,7 +36,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>Je demande un abandon de mon projet</h3>
+          <Heading1>Je demande un abandon de mon projet</Heading1>
         </div>
 
         {doitChoisirCahierDesCharges ? (

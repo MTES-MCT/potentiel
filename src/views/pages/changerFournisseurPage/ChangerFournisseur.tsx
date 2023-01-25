@@ -16,6 +16,8 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Heading1,
+  Heading2,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
@@ -39,7 +41,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
         <div className="panel__header">
-          <h3>Je signale un changement de fournisseur</h3>
+          <Heading1>Je signale un changement de fournisseur</Heading1>
         </div>
 
         {doitChoisirCahierDesCharges ? (
@@ -80,9 +82,9 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               {CHAMPS_FOURNISSEURS.map((champ) => {
                 return (
                   <div key={champ}>
-                    <h3 style={{ marginTop: 15, marginBottom: 3 }}>
+                    <Heading2 style={{ marginTop: 15, marginBottom: 3 }}>
                       {CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}
-                    </h3>
+                    </Heading2>
                     <label>Ancien fournisseur</label>
                     <input type="text" disabled defaultValue={project.details?.[champ]} />
                     <label htmlFor={champ} className="mt-2">
@@ -94,7 +96,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               })}
               {project.evaluationCarbone > 0 && (
                 <div>
-                  <h3 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</h3>
+                  <Heading2 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</Heading2>
                   <label>Évaluation carbone initiale (kg eq CO2/kWc)</label>
                   <input
                     type="number"

@@ -1,3 +1,4 @@
+import { Heading2 } from '@views/components'
 import React from 'react'
 import { dataId } from '../../../../helpers/testId'
 
@@ -11,7 +12,7 @@ interface SectionProps {
 export const Section = ({ title, defaultOpen, children, icon }: SectionProps) => {
   return (
     <div className="panel p-4 flex-1 xs:w-full min-w-fit" {...dataId('projectDetails-section')}>
-      <h3 className={'section--title'} {...dataId('visibility-toggle')}>
+      <Heading2 className={'section--title text-2xl'} {...dataId('visibility-toggle')}>
         {icon ? (
           <svg className="icon section-icon">
             <use xlinkHref={'#' + icon}></use>
@@ -20,7 +21,7 @@ export const Section = ({ title, defaultOpen, children, icon }: SectionProps) =>
           ''
         )}
         {title}
-      </h3>
+      </Heading2>
       <div className="" {...dataId('projectDetails-section-content')}>
         {children}
       </div>

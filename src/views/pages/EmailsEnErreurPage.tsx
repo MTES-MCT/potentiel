@@ -1,4 +1,4 @@
-import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox } from '@components'
+import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components'
 import { FailedNotificationDTO } from '@modules/notification'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -19,7 +19,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
     <PageTemplate user={request.user} currentPage="list-notifications">
       <div className="panel">
         <div className="panel__header">
-          <h3>Emails en erreur</h3>
+          <Heading1>Emails en erreur</Heading1>
           <p>
             Sont listés uniquement les emails de notification qui ont un status &quot;erreur&quot;.
           </p>

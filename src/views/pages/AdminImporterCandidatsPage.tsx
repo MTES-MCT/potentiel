@@ -2,7 +2,7 @@ import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { Request } from 'express'
-import { Button, ErrorBox, PageTemplate, SuccessBox } from '@components'
+import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components'
 import { hydrateOnClient } from '../helpers'
 
 type AdminImporterCandidatsProps = {
@@ -22,7 +22,7 @@ export const AdminImporterCandidats = ({
     <PageTemplate user={request.user} currentPage="import-projects">
       <div className="panel">
         <div className="panel__header">
-          <h3>Importer des candidats</h3>
+          <Heading1>Importer des candidats</Heading1>
         </div>
         <form action={ROUTES.IMPORT_PROJECTS_ACTION} method="post" encType="multipart/form-data">
           {isSuccess && <SuccessBox title="Les projets ont bien été importés." />}

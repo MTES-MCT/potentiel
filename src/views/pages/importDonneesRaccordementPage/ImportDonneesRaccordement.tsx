@@ -9,6 +9,8 @@ import {
   RefreshIcon,
   RésultatSoumissionFormulaire,
   RésultatSoumissionFormulaireProps,
+  Heading1,
+  Heading2,
 } from '@components'
 import routes from '@routes'
 import { Request } from 'express'
@@ -29,7 +31,7 @@ export const ImportDonneesRaccordement = ({
   <PageTemplate user={request.user} currentPage="import-données-raccordement">
     <div className="panel">
       <div className="panel__header">
-        <h1 className="text-2xl">Import des données de raccordement</h1>
+        <Heading1>Import des données de raccordement</Heading1>
       </div>
       {résultatSoumissionFormulaire && (
         <RésultatSoumissionFormulaire {...{ résultatSoumissionFormulaire }} />
@@ -83,7 +85,7 @@ export const ImportDonneesRaccordement = ({
     </div>
     <div className="panel flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <h4 className="m-0 p-0">Liste des mises à jour :</h4>
+        <Heading2 className="m-0 p-0">Liste des mises à jour :</Heading2>
         <SecondaryLinkButton href={request.path}>
           <RefreshIcon className="h-4 w-4 mr-2" /> Actualiser
         </SecondaryLinkButton>

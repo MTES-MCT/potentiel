@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   ChoisirCahierDesChargesFormulaire,
+  Heading1,
   InfoBox,
   InfoLienGuideUtilisationCDC,
   PageTemplate,
@@ -17,8 +18,10 @@ type ChoisirCahierDesChargesProps = {
 export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesChargesProps) => {
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
-      <div className="panel p-4">
-        <h3 className="section--title">Cahier des charges</h3>
+      <div className="panel">
+        <div className="panel__header">
+          <Heading1>Cahier des charges</Heading1>
+        </div>
         <div className="flex flex-col max-w-2xl mx-auto">
           <InfoBox className="mb-5">
             <InfoLienGuideUtilisationCDC />

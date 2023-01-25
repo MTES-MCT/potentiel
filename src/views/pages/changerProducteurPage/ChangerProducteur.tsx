@@ -19,6 +19,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
+  Heading1,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
@@ -43,7 +44,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
       {' '}
       <div className="panel">
         <div className="panel__header">
-          <h3>Je signale un changement de producteur</h3>
+          <Heading1>Je signale un changement de producteur</Heading1>
         </div>
 
         {doitChoisirCahierDesCharges ? (

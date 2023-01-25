@@ -2,7 +2,7 @@ import type { Request } from 'express'
 import React from 'react'
 import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
-import { ErrorBox, Button, PageTemplate, SuccessBox } from '@components'
+import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1 } from '@components'
 import { hydrateOnClient } from '../helpers/hydrateOnClient'
 
 export type UploadLegacyModificationFileResult =
@@ -33,7 +33,7 @@ export const UploadLegacyModificationFiles = ({
     <PageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
       <div className="panel">
         <div className="panel__header">
-          <h3>Importer des courriers historiques</h3>
+          <Heading1>Importer des courriers historiques</Heading1>
         </div>
 
         {error && <ErrorBox title={error as string} />}

@@ -7,6 +7,7 @@ import {
   ProjectInfo,
   SecondaryLinkButton,
   ErrorBox,
+  Heading1,
 } from '@components'
 import routes from '@routes'
 import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project'
@@ -28,7 +29,7 @@ export const SignalerDemandeAbandon = ({
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
         <div className="panel__header">
-          <h1 className="text-2xl">Enregistrer une demande d'abandon traitée hors Potentiel</h1>
+          <Heading1>Enregistrer une demande d'abandon traitée hors Potentiel</Heading1>
         </div>
         {error && <ErrorBox title={error} />}
         <form

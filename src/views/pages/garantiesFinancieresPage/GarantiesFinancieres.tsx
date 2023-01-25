@@ -5,7 +5,15 @@ import { AppelOffre, Famille, Periode } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
-import { ProjectList, DownloadIcon, PageTemplate, SuccessBox, ErrorBox, Link } from '@components'
+import {
+  ProjectList,
+  DownloadIcon,
+  PageTemplate,
+  SuccessBox,
+  ErrorBox,
+  Link,
+  Heading1,
+} from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
 import { ProjectListItem } from '@modules/project/queries'
@@ -49,7 +57,7 @@ export const GarantiesFinancieres = ({
     <PageTemplate user={request.user} currentPage="list-garanties-financieres">
       <div className="panel">
         <div className="panel__header">
-          <h3>Garanties financières</h3>
+          <Heading1>Garanties financières</Heading1>
 
           <form
             action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
