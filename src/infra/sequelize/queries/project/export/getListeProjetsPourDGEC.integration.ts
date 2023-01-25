@@ -4,7 +4,9 @@ import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
 import models from '../../../models'
 import { UniqueEntityID } from '@core/domain'
 import { GarantiesFinancières } from '../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
-import { json, literal } from 'sequelize'
+import { literal } from 'sequelize'
+import { Colonne } from './donnéesProjetParCatégorie'
+
 describe(`Requête getProjectsListeCsvPourDGEC`, () => {
   const { Project } = models
 
@@ -72,9 +74,9 @@ describe(`Requête getProjectsListeCsvPourDGEC`, () => {
 
       await Project.create(projet)
 
-      const listeColonnes = [
+      const listeColonnes: Array<Colonne> = [
         { champ: 'numeroCRE', intitulé: 'N°CRE' },
-        { champ: json(`details->>'Typologie de projet'`), intitulé: 'Typologie de projet' },
+        { champ: 'Typologie de projet', details: true },
       ]
 
       const résultat = await getProjetsListePourDGEC({ listeColonnes })

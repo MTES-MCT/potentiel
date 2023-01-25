@@ -1,4 +1,3 @@
-import { json } from 'sequelize'
 import { getListeColonnesExportParRole } from './getListeColonnesExportParRole'
 
 describe(`getListeColonnesExportParRole`, () => {
@@ -14,10 +13,10 @@ describe(`getListeColonnesExportParRole`, () => {
         { champ: 'periodeId', intitulé: 'Période' },
         { champ: 'familleId', intitulé: 'Famille' },
         {
-          champ: json(`details->>'Nom et prénom du contact'`),
-          intitulé: 'Nom et prénom du contact',
+          champ: 'Nom et prénom du contact',
+          details: true,
         },
-        { champ: json(`details->>'Titre du contact'`), intitulé: 'Titre du contact' },
+        { champ: 'Titre du contact', details: true },
       ])
     )
   })
