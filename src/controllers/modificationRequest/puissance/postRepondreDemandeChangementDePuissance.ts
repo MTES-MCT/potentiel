@@ -103,14 +103,12 @@ v1Router.post(
         },
         response,
         error,
-      }) => {
-        console.log(error)
-        return response.redirect(
+      }) =>
+        response.redirect(
           addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
             ...error.errors,
           })
-        )
-      },
+        ),
     },
     async (request, response) => {
       const {
@@ -127,8 +125,6 @@ v1Router.post(
         },
       } = request
 
-      console.log('FINALLY')
-
       if (role === 'dreal') {
         const authority = await getModificationRequestAuthority(modificationRequestId)
         if (authority && authority !== role) {
@@ -139,11 +135,10 @@ v1Router.post(
       const estAccordé = typeof submitAccept === 'string'
 
       if (statusUpdateOnly) {
-        const newStatus = estAccordé ? 'acceptée' : 'rejetée'
         return await updateModificationRequestStatus({
           modificationRequestId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
-          newStatus,
+          newStatus: estAccordé ? 'acceptée' : 'rejetée',
           submittedBy: request.user,
         }).match(
           _handleSuccess(response, modificationRequestId),
