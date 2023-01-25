@@ -35,6 +35,7 @@ export type ModificationRequestDataForResponseTemplateDTO = {
   | PuissanceVariant
   | ActionnaireVariant
   | ProducteurVariant
+  | AnnulationAbandonVariant
 )
 
 type DelaiVariant = {
@@ -97,12 +98,9 @@ type RecoursVariant = {
 
 type AbandonVariant = {
   type: 'abandon'
-
   dateNotification: string
-
   referenceParagrapheAbandon: string
   contenuParagrapheAbandon: string
-
   dateDemandeConfirmation: string
   dateConfirmation: string
 }
@@ -127,4 +125,13 @@ type ProducteurVariant = {
   contenuParagrapheIdentiteProducteur: string
   referenceParagrapheChangementProducteur: string
   contenuParagrapheChangementProducteur: string
+}
+
+type AnnulationAbandonVariant = {
+  type: 'annulation abandon'
+  dateNotification: string
+  referenceParagrapheAbandon: string
+  contenuParagrapheAbandon: string
+  dateDemandeConfirmation: string
+  dateConfirmation: string
 }
