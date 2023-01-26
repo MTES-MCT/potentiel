@@ -1,6 +1,6 @@
 import { PuissanceVariationWithDecisionJusticeError } from '../../../modificationRequest'
 import { Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync } from '@core/utils'
+import { errAsync, logger, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '../../../file'
 
@@ -20,8 +20,8 @@ type Dépendances = {
 }
 
 type Commande = {
-  modificationRequestId: UniqueEntityID
-  acceptanceParams: { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
+  demandeId: UniqueEntityID
+  paramètres: { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
   versionDate: Date
   responseFile?: { contents: FileContents; filename: string }
   utilisateur: User
@@ -29,79 +29,70 @@ type Commande = {
 
 export const makeAccorderChangementDePuissance =
   ({ fileRepo, modificationRequestRepo, projectRepo }: Dépendances) =>
-  ({
-    modificationRequestId,
-    versionDate,
-    responseFile,
-    utilisateur,
-    acceptanceParams,
-  }: Commande) => {
+  ({ demandeId, versionDate, responseFile, utilisateur, paramètres }: Commande) => {
     if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
     }
 
     return modificationRequestRepo
-      .load(modificationRequestId)
-      .andThen((modificationRequest) => {
-        if (
-          modificationRequest.lastUpdatedOn &&
-          modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
-        ) {
+      .load(demandeId)
+      .andThen((demande) => {
+        if (demande.lastUpdatedOn && demande.lastUpdatedOn.getTime() !== versionDate.getTime()) {
           return errAsync(new AggregateHasBeenUpdatedSinceError())
         }
 
-        return okAsync(modificationRequest)
+        return okAsync(demande)
       })
-      .map((modificationRequest) => modificationRequest)
-      .andThen((modificationRequest) =>
+      .map((demande) => demande)
+      .andThen((demande) =>
         projectRepo
-          .load(modificationRequest.projectId)
-          .andThen((project): ResultAsync<Project, PuissanceVariationWithDecisionJusticeError> => {
-            const { isDecisionJustice, newPuissance } = acceptanceParams
-            const { puissanceInitiale } = project
+          .load(demande.projectId)
+          .andThen((projet) => {
+            const { isDecisionJustice, newPuissance } = paramètres
+            const { puissanceInitiale } = projet
             const newPuissanceVariationIsForbidden =
               isDecisionJustice && newPuissance / puissanceInitiale > 1.1
 
             if (newPuissanceVariationIsForbidden) {
               return errAsync(new PuissanceVariationWithDecisionJusticeError())
             }
-            return okAsync(project)
+            return okAsync(projet)
           })
-          .map((project) => ({ project, modificationRequest }))
+          .map((projet) => ({ projet, demande }))
       )
-      .andThen(({ project, modificationRequest }) => {
-        if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' })
+      .andThen(({ projet, demande }) => {
+        if (!responseFile) return okAsync({ projet, demande, responseFileId: '' })
 
         return makeAndSaveFile({
           file: {
             designation: 'modification-request-response',
-            forProject: modificationRequest.projectId,
+            forProject: demande.projectId,
             createdBy: new UniqueEntityID(utilisateur.id),
             filename: responseFile.filename,
             contents: responseFile.contents,
           },
           fileRepo,
         })
-          .map((responseFileId) => ({ project, modificationRequest, responseFileId }))
+          .map((responseFileId) => ({ projet, demande, responseFileId }))
           .mapErr((e) => {
             logger.error(e)
             return new InfraNotAvailableError()
           })
       })
-      .andThen(({ project, modificationRequest, responseFileId }) => {
-        return project
-          .updatePuissance(utilisateur, acceptanceParams.newPuissance)
-          .map(() => ({ project, modificationRequest, responseFileId }))
+      .andThen(({ projet, demande, responseFileId }) => {
+        return projet
+          .updatePuissance(utilisateur, paramètres.newPuissance)
+          .map(() => ({ projet, demande, responseFileId }))
       })
-      .andThen(({ project, modificationRequest, responseFileId }) => {
-        return modificationRequest
-          .accept({ acceptedBy: utilisateur, params: acceptanceParams, responseFileId })
-          .map(() => ({ project, modificationRequest }))
+      .andThen(({ projet, demande, responseFileId }) => {
+        return demande
+          .accept({ acceptedBy: utilisateur, params: paramètres, responseFileId })
+          .map(() => ({ projet, demande }))
       })
-      .andThen(({ project, modificationRequest }) => {
-        return projectRepo.save(project).map(() => modificationRequest)
+      .andThen(({ projet, demande }) => {
+        return projectRepo.save(projet).map(() => demande)
       })
-      .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
+      .andThen((demande) => {
+        return modificationRequestRepo.save(demande)
       })
   }

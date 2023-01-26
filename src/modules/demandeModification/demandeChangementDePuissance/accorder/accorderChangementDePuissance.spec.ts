@@ -21,34 +21,36 @@ import { ModificationRequestAcceptanceParams } from '@modules/modificationReques
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
 
 describe('Accorder une demande de changement de puissance', () => {
+  const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+  const fakeModificationRequest = {
+    ...makeFakeModificationRequest(),
+    type: 'puissance',
+  }
+  const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+  const fakeProject = {
+    ...makeFakeProject(),
+    id: fakeModificationRequest.projectId,
+    puissanceInitiale: 10,
+    puissance: 10,
+  }
+  const projectRepo = fakeRepo(fakeProject as Project)
+  const fileRepo = {
+    save: jest.fn((file: FileObject) => okAsync(null)),
+    load: jest.fn(),
+  }
+
+  const paramètres: ModificationRequestAcceptanceParams = {
+    type: 'puissance',
+    newPuissance: 1,
+  }
+
+  beforeEach(() => {
+    fakeProject.updatePuissance.mockClear()
+    projectRepo.save.mockClear()
+    fileRepo.save.mockClear()
+  })
+
   describe(`Impossible d'accorder un changement de puissance`, () => {
-    const fakeFileContents = Readable.from('test-content')
-    const fakeFileName = 'myfilename.pdf'
-    const fakeModificationRequest = {
-      ...makeFakeModificationRequest(),
-    }
-    const fakeProject = {
-      ...makeFakeProject(),
-      id: fakeModificationRequest.projectId,
-    }
-    const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
-    const projectRepo = fakeRepo(fakeProject as Project)
-
-    const fileRepo = {
-      save: jest.fn((file: FileObject) => okAsync(null)),
-      load: jest.fn(),
-    }
-
-    const acceptanceParams: ModificationRequestAcceptanceParams = {
-      type: 'puissance',
-      newPuissance: 1,
-    }
-
-    beforeEach(() => {
-      fakeProject.updatePuissance.mockClear()
-      projectRepo.save.mockClear()
-      fileRepo.save.mockClear()
-    })
     describe(`Cas d'un utilisateur n'ayant pas l'autorisation`, () => {
       const rolesNePouvantPasAccorderUnChangementDePuissance = USER_ROLES.filter(
         (role) => !['admin', 'dgec-validateur', 'dreal'].includes(role)
@@ -59,7 +61,7 @@ describe('Accorder une demande de changement de puissance', () => {
         Lorsqu'il accorde une demande de changement de puissance alors que son rôle ne le permet pas
         Alors il devrait-être informé qu'il n'a pas les droits nécessaire pour réaliser cette action
         `, async () => {
-          const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role })))
+          const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role })))
           const accorderChangementDePuissance = makeAccorderChangementDePuissance({
             modificationRequestRepo,
             projectRepo,
@@ -67,11 +69,10 @@ describe('Accorder une demande de changement de puissance', () => {
           })
 
           const résultat = await accorderChangementDePuissance({
-            modificationRequestId: fakeModificationRequest.id,
+            demandeId: fakeModificationRequest.id,
             versionDate: fakeModificationRequest.lastUpdatedOn,
-            acceptanceParams,
-            responseFile: { contents: fakeFileContents, filename: fakeFileName },
-            utilisateur: fakeUser,
+            paramètres,
+            utilisateur,
           })
 
           expect(résultat.isErr()).toEqual(true)
@@ -87,7 +88,6 @@ describe('Accorder une demande de changement de puissance', () => {
       Étant donné un utilisateur avec un rôle autorisé
       Lorsqu'il accorde une demande de changement de puissance mais que la date de modification est différente de la date de demande 
       Alors l'utilisateur devrait être alerté que l'action est impossible car il y a eu une mise à jour entre temps`, async () => {
-        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
@@ -95,11 +95,10 @@ describe('Accorder une demande de changement de puissance', () => {
         })
 
         const résultat = await accorderChangementDePuissance({
-          modificationRequestId: fakeModificationRequest.id,
+          demandeId: fakeModificationRequest.id,
           versionDate: new Date(1),
-          acceptanceParams,
-          responseFile: { contents: fakeFileContents, filename: fakeFileName },
-          utilisateur: fakeUser,
+          paramètres,
+          utilisateur,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -114,7 +113,6 @@ describe('Accorder une demande de changement de puissance', () => {
       Étant donné un utilisateur avec un rôle autorisé
       Lorsqu'il accorde une demande de changement de puissance mais que celle-ci fait suite à une décision de justice et que l'augmentation est supérieure au seuil toléré (10%)
       Alors l'utilisateur devrait être informé que l'augmentation de la puissance est impossible`, async () => {
-        const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
@@ -122,10 +120,10 @@ describe('Accorder une demande de changement de puissance', () => {
         })
 
         const résultat = await accorderChangementDePuissance({
-          modificationRequestId: fakeModificationRequest.id,
+          demandeId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
-          acceptanceParams: { ...acceptanceParams, isDecisionJustice: true },
-          utilisateur: fakeUser,
+          paramètres: { ...paramètres, newPuissance: 100, isDecisionJustice: true },
+          utilisateur,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -137,42 +135,13 @@ describe('Accorder une demande de changement de puissance', () => {
   })
 
   describe(`Possible d'accorder un changement de puissance`, () => {
-    const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
-    const fakeModificationRequest = {
-      ...makeFakeModificationRequest(),
-      type: 'puissance',
-    }
-
-    const fakeProject = {
-      ...makeFakeProject(),
-      id: fakeModificationRequest.projectId,
-      puissanceInitiale: 10,
-      puissance: 10,
-    }
-
-    const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
-    const projectRepo = fakeRepo(fakeProject as Project)
-    const fileRepo = {
-      save: jest.fn((file: FileObject) => okAsync(null)),
-      load: jest.fn(),
-    }
-
-    const fakeFileContents = Readable.from('test-content')
-    const fakeFileName = 'myfilename.pdf'
-
-    beforeEach(() => {
-      fakeProject.updatePuissance.mockClear()
-      projectRepo.save.mockClear()
-      fileRepo.save.mockClear()
-    })
-
     describe(`Cas d'une décision de justice`, () => {
       it(`
       Étant donné un utilisateur avec un rôle autorisé
       Lorsqu'il accorde une demande de changement de puissance et que celle-ci fait suite à une décision de justice et que l'augmentation est inférieure ou égale au seuil toléré (10%)
       Alors l'utilisateur devrait être informé que le changement de la puissance a bien été accepté
         `, async () => {
-        const acceptanceParams: ModificationRequestAcceptanceParams = {
+        const paramètres: ModificationRequestAcceptanceParams = {
           type: 'puissance',
           newPuissance: 1,
           isDecisionJustice: true,
@@ -185,10 +154,10 @@ describe('Accorder une demande de changement de puissance', () => {
         })
 
         const résultat = await accorderChangementDePuissance({
-          modificationRequestId: fakeModificationRequest.id,
+          demandeId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
-          acceptanceParams,
-          utilisateur: fakeUser,
+          paramètres: paramètres,
+          utilisateur,
         })
 
         expect(résultat.isOk()).toEqual(true)
@@ -205,10 +174,8 @@ describe('Accorder une demande de changement de puissance', () => {
       Lorsqu'il accorde une demande de changement en ayant
       Alors l'utilisateur devrait être informé que le changement de la puissance a bien été acceptée
       `, async () => {
-        const acceptanceParams: ModificationRequestAcceptanceParams = {
-          type: 'puissance',
-          newPuissance: 11,
-        }
+        const fakeFileContents = Readable.from('test-content')
+        const fakeFileName = 'myfilename.pdf'
 
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
@@ -217,11 +184,11 @@ describe('Accorder une demande de changement de puissance', () => {
         })
 
         const résultat = await accorderChangementDePuissance({
-          modificationRequestId: fakeModificationRequest.id,
+          demandeId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
-          acceptanceParams,
+          paramètres,
           responseFile: { contents: fakeFileContents, filename: fakeFileName },
-          utilisateur: fakeUser,
+          utilisateur,
         })
 
         expect(résultat.isOk()).toEqual(true)
@@ -230,7 +197,7 @@ describe('Accorder une demande de changement de puissance', () => {
           expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
 
           expect(fakeProject.updatePuissance).toHaveBeenCalledTimes(1)
-          expect(fakeProject.updatePuissance).toHaveBeenCalledWith(fakeUser, 11)
+          expect(fakeProject.updatePuissance).toHaveBeenCalledWith(utilisateur, 1)
 
           expect(fileRepo.save).toHaveBeenCalledTimes(1)
         }
