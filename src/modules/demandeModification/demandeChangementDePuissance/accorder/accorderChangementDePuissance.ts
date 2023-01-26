@@ -1,16 +1,18 @@
-import { PuissanceVariationWithDecisionJusticeError } from '../../../modificationRequest'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, logger, okAsync } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../../file'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
-import { Project } from '../../../project/Project'
+import { Project } from '@modules/project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../../shared'
-import { ModificationRequest } from '../../../ModificationRequest'
+} from '@modules/shared'
+import {
+  ModificationRequest,
+  PuissanceVariationWithDecisionJusticeError,
+} from '@modules/modificationRequest'
 import { userIsNot } from '@modules/users'
 
 type Dépendances = {

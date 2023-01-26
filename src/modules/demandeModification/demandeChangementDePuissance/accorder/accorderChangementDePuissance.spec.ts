@@ -1,23 +1,23 @@
 import {
   ModificationRequest,
   PuissanceVariationWithDecisionJusticeError,
-} from '../../../ModificationRequest'
+  ModificationRequestAcceptanceParams,
+} from '@modules/modificationRequest'
 import {
   fakeRepo,
   makeFakeModificationRequest,
   makeFakeProject,
 } from '../../../../__tests__/fixtures/aggregates'
 import { okAsync } from '@core/utils'
-import { FileObject } from '../../../file'
+import { FileObject } from '@modules/file'
 import { Repository } from '@core/domain'
 import { Readable } from 'stream'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
 import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
-import { Project } from '../../../project/Project'
+import { Project } from '@modules/project'
 import { USER_ROLES } from '@modules/users'
 import { makeAccorderChangementDePuissance } from './accorderChangementDePuissance'
-import { ModificationRequestAcceptanceParams } from '@modules/modificationRequest'
 import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
 
 describe('Accorder une demande de changement de puissance', () => {
