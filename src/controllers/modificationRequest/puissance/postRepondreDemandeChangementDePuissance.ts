@@ -1,7 +1,7 @@
 import * as yup from 'yup'
 import { createReadStream } from 'fs'
 import {
-  acceptModificationRequest,
+  accorderChangementDePuissance,
   ensureRole,
   getModificationRequestAuthority,
   rejectModificationRequest,
@@ -176,12 +176,12 @@ v1Router.post(
       }
 
       if (estAccordé) {
-        return await acceptModificationRequest({
+        return await accorderChangementDePuissance({
           responseFile: fichierRéponse,
-          modificationRequestId: new UniqueEntityID(modificationRequestId),
+          demandeId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
-          acceptanceParams,
-          submittedBy: request.user,
+          paramètres: acceptanceParams,
+          utilisateur: request.user,
         }).match(
           _handleSuccess(response, modificationRequestId),
           _handleErrors(request, response, modificationRequestId)

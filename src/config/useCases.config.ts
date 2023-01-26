@@ -117,6 +117,7 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config'
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon'
+import { makeAccorderChangementDePuissance } from '@modules/demandeModification/demandeChangementDePuissance/accorder/accorderChangementDePuissance'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -235,6 +236,12 @@ export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   projectRepo,
   fileRepo,
   getPuissanceProjet,
+})
+
+export const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+  fileRepo,
+  projectRepo,
+  modificationRequestRepo,
 })
 
 export const requestActionnaireModification = makeRequestActionnaireModification({
