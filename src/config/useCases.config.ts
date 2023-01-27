@@ -24,6 +24,7 @@ import {
   makeDemanderChangementDePuissance,
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
+  makeRejeterChangementDePuissance,
 } from '@modules/demandeModification/demandeChangementDePuissance'
 import { makeImportEdfData } from '@modules/edf'
 import { makeLoadFileForUser } from '@modules/file'
@@ -242,6 +243,11 @@ export const accorderChangementDePuissance = makeAccorderChangementDePuissance({
   fileRepo,
   projectRepo,
   modificationRequestRepo,
+})
+
+export const rejeterChangementDePuissance = makeRejeterChangementDePuissance({
+  modificationRequestRepo,
+  fileRepo,
 })
 
 export const requestActionnaireModification = makeRequestActionnaireModification({

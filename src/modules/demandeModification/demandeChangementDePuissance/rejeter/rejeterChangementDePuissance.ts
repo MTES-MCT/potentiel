@@ -17,7 +17,7 @@ interface Dépendances {
 interface Commande {
   demandeId: UniqueEntityID
   versionDate: Date
-  fichierRéponse: { contents: FileContents; filename: string }
+  fichierRéponse?: { contents: FileContents; filename: string }
   utilisateur: User
 }
 

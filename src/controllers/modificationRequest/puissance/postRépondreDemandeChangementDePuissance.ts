@@ -4,7 +4,7 @@ import {
   accorderChangementDePuissance,
   ensureRole,
   getModificationRequestAuthority,
-  rejectModificationRequest,
+  rejeterChangementDePuissance,
   updateModificationRequestStatus,
 } from '@config'
 import { isStrictlyPositiveNumber, logger } from '@core/utils'
@@ -188,11 +188,11 @@ v1Router.post(
         )
       }
 
-      return rejectModificationRequest({
-        responseFile: fichierRéponse,
-        modificationRequestId: new UniqueEntityID(modificationRequestId),
+      return rejeterChangementDePuissance({
+        demandeId: new UniqueEntityID(modificationRequestId),
+        fichierRéponse,
         versionDate: new Date(Number(versionDate)),
-        rejectedBy: request.user,
+        utilisateur: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
         _handleErrors(request, response, modificationRequestId)

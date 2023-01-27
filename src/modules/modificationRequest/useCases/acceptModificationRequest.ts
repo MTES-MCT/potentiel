@@ -128,10 +128,6 @@ export const makeAcceptModificationRequest =
                   )
                 )
             break
-          case 'puissance':
-            if (acceptanceParams?.type === 'puissance')
-              action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)
-            break
           case 'actionnaire':
             if (acceptanceParams?.type === 'actionnaire')
               action = project.updateActionnaire(submittedBy, acceptanceParams.newActionnaire)
