@@ -24,7 +24,10 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
     <div className="panel">
       {success && <SuccessBox title={success} />}
       {error && <ErrorBox title={error} />}
-      <LinkButton href={redirectUrl}> {redirectTitle}</LinkButton>
+      <br />
+      <LinkButton className="mt-4" href={redirectUrl}>
+        {redirectTitle}
+      </LinkButton>
     </div>
   )
 
