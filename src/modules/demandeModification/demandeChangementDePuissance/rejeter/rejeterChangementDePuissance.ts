@@ -1,10 +1,9 @@
 import { Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync, ResultAsync } from '@core/utils'
+import { errAsync, logger, okAsync } from '@core/utils'
 import { User } from '@entities'
-import { FileContents, FileObject } from '@modules/file'
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import {
   AggregateHasBeenUpdatedSinceError,
-  EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
@@ -24,63 +23,40 @@ interface Commande {
 
 export const makeRejeterChangementDePuissance =
   ({ modificationRequestRepo, fileRepo }: Dépendances) =>
-  ({
-    demandeId,
-    versionDate,
-    fichierRéponse,
-    utilisateur,
-  }: Commande): ResultAsync<
-    null,
-    | AggregateHasBeenUpdatedSinceError
-    | InfraNotAvailableError
-    | EntityNotFoundError
-    | UnauthorizedError
-  > => {
+  ({ demandeId, versionDate, fichierRéponse, utilisateur }: Commande) => {
     if (!['admin', 'dgec-validateur', 'dreal'].includes(utilisateur.role)) {
       return errAsync(new UnauthorizedError())
     }
 
-    return okAsync(null)
+    return modificationRequestRepo
+      .load(demandeId)
+      .andThen((demande) => {
+        if (demande.lastUpdatedOn && demande.lastUpdatedOn.getTime() !== versionDate.getTime()) {
+          return errAsync(new AggregateHasBeenUpdatedSinceError())
+        }
 
-    // modificationRequestRepo
-    //   .load(modificationRequestId)
-    //   .andThen(
-    //     (
-    //       modificationRequest
-    //     ): ResultAsync<
-    //       { modificationRequest: ModificationRequest; responseFileId: string },
-    //       AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
-    //     > => {
-    //       if (
-    //         modificationRequest.lastUpdatedOn &&
-    //         modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
-    //       ) {
-    //         return errAsync(new AggregateHasBeenUpdatedSinceError())
-    //       }
+        if (!fichierRéponse) return okAsync({ demande, fichierRéponseId: '' })
 
-    //       if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' })
-
-    //       return makeAndSaveFile({
-    //         file: {
-    //           designation: 'modification-request-response',
-    //           forProject: modificationRequest.projectId,
-    //           createdBy: new UniqueEntityID(rejectedBy.id),
-    //           filename: responseFile.filename,
-    //           contents: responseFile.contents,
-    //         },
-    //         fileRepo,
-    //       })
-    //         .map((responseFileId) => ({ modificationRequest, responseFileId }))
-    //         .mapErr((e: Error) => {
-    //           logger.error(e)
-    //           return new InfraNotAvailableError()
-    //         })
-    //     }
-    //   )
-    //   .andThen(({ modificationRequest, responseFileId }) => {
-    //     return modificationRequest.reject(rejectedBy, responseFileId).map(() => modificationRequest)
-    //   })
-    //   .andThen((modificationRequest) => {
-    //     return modificationRequestRepo.save(modificationRequest)
-    //   })
+        return makeAndSaveFile({
+          file: {
+            designation: 'modification-request-response',
+            forProject: demande.projectId,
+            createdBy: new UniqueEntityID(utilisateur.id),
+            filename: fichierRéponse.filename,
+            contents: fichierRéponse.contents,
+          },
+          fileRepo,
+        })
+          .map((fichierRéponseId) => ({ demande, fichierRéponseId }))
+          .mapErr((e: Error) => {
+            logger.error(e)
+            return new InfraNotAvailableError()
+          })
+      })
+      .andThen(({ demande, fichierRéponseId }) => {
+        return demande.reject(utilisateur, fichierRéponseId).map(() => demande)
+      })
+      .andThen((demande) => {
+        return modificationRequestRepo.save(demande)
+      })
   }
