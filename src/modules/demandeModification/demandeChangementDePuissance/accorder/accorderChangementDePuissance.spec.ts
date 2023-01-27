@@ -65,7 +65,7 @@ describe('Accorder une demande de changement de puissance', () => {
           const accorderChangementDePuissance = makeAccorderChangementDePuissance({
             modificationRequestRepo,
             projectRepo,
-            fileRepo: fileRepo as Repository<FileObject>,
+            fileRepo,
           })
 
           const résultat = await accorderChangementDePuissance({
@@ -91,7 +91,7 @@ describe('Accorder une demande de changement de puissance', () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
-          fileRepo: fileRepo as Repository<FileObject>,
+          fileRepo,
         })
 
         const résultat = await accorderChangementDePuissance({
@@ -116,7 +116,7 @@ describe('Accorder une demande de changement de puissance', () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
-          fileRepo: fileRepo as Repository<FileObject>,
+          fileRepo,
         })
 
         const résultat = await accorderChangementDePuissance({
@@ -150,7 +150,7 @@ describe('Accorder une demande de changement de puissance', () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
-          fileRepo: fileRepo as Repository<FileObject>,
+          fileRepo,
         })
 
         const résultat = await accorderChangementDePuissance({
