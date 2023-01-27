@@ -79,6 +79,7 @@ v1Router.get(
         type: 'exportProjetsTéléchargé',
         données: {
           utilisateur: { role },
+          nombreDeProjets: données.length,
         },
       })
 
