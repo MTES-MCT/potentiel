@@ -76,11 +76,6 @@ const _handleErrors = (request, response, modificationRequestId) => (e) => {
 const schema = yup.object({
   body: yup.object({
     modificationRequestId: yup.string().uuid().required(),
-    type: yup
-      .mixed()
-      .oneOf(['puissance'])
-      .required('Le type est obligatoire')
-      .typeError(`Le type n'est pas valide`),
     versionDate: yup.string().required(),
     submitAccept: yup.string().nullable(),
     submitRefuse: yup.string().nullable(),
@@ -116,7 +111,6 @@ v1Router.post(
         user: { role },
         body: {
           modificationRequestId,
-          type,
           versionDate,
           submitAccept,
           statusUpdateOnly,
@@ -170,17 +164,16 @@ v1Router.post(
         )
       }
 
-      const acceptanceParams = { type, newPuissance: Number(puissance), isDecisionJustice }
-      if (!acceptanceParams) {
-        return errorResponse({ request, response })
-      }
-
       if (estAccordé) {
         return await accorderChangementDePuissance({
           responseFile: fichierRéponse,
           demandeId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
-          paramètres: acceptanceParams,
+          paramètres: {
+            type: 'puissance',
+            newPuissance: Number(puissance),
+            isDecisionJustice,
+          },
           utilisateur: request.user,
         }).match(
           _handleSuccess(response, modificationRequestId),
