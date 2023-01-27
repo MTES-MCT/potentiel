@@ -52,15 +52,22 @@ v1Router.get(
       garantiesFinancieres,
     }
 
-    const projets = await exporterProjets({ role, filtres })
+    const exportProjets = await exporterProjets({ role, filtres })
 
-    if ((projets && projets.isErr()) || projets === undefined) {
+    if (exportProjets && exportProjets.isErr()) {
       return new InfraNotAvailableError()
     }
 
     try {
-      const parser = new Parser({ delimiter: ';' })
-      const csv = await parser.parse(projets.value)
+      const {
+        value: { colonnes, données },
+      } = exportProjets
+
+      const parser = new Parser({
+        fields: colonnes,
+        delimiter: ';',
+      })
+      const csv = await parser.parse(données)
       const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
 
       // Delete file when the client's download is complete

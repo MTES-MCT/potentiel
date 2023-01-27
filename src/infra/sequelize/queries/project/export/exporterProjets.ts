@@ -13,9 +13,13 @@ export const exporterProjets = ({
   const listeColonnes = getListeColonnesExportParRole({
     role,
   })
+
   switch (role) {
     case 'admin':
     case 'dgec-validateur':
-      return getProjetsListePourDGEC({ listeColonnes, filtres })
+      return getProjetsListePourDGEC({ listeColonnes, filtres }).map((données) => ({
+        colonnes: listeColonnes.map((c) => (c.details ? c.champ : c.intitulé)),
+        données,
+      }))
   }
 }
