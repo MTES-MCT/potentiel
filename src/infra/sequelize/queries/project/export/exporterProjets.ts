@@ -1,25 +1,19 @@
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { RolesPourCatégoriesPermission } from './donnéesProjetParCatégorie'
-import { getListeColonnesExportParRole } from './getListeColonnesExportParRole'
-import { getProjetsListePourDGEC } from './getListeProjetsPourDGEC'
+import { getListeProjetsPourDGEC } from './getListeProjetsPourDGEC'
+import { getListeProjetsPourCaisseDesDépôts } from './getListeProjetsPourCaisseDesDépôts'
 
 export const exporterProjets = ({
   role,
   filtres,
 }: {
-  role: RolesPourCatégoriesPermission
+  role: 'admin' | 'dgec-validateur' | 'caisse-des-dépôts'
   filtres?: FiltreListeProjets
 }) => {
-  const listeColonnes = getListeColonnesExportParRole({
-    role,
-  })
-
   switch (role) {
     case 'admin':
     case 'dgec-validateur':
-      return getProjetsListePourDGEC({ listeColonnes, filtres }).map((données) => ({
-        colonnes: listeColonnes.map((c) => (c.details ? c.champ : c.intitulé)),
-        données,
-      }))
+      return getListeProjetsPourDGEC({ filtres })
+    case 'caisse-des-dépôts':
+      return getListeProjetsPourCaisseDesDépôts({ filtres })
   }
 }
