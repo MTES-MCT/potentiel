@@ -10,14 +10,13 @@ import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
 import { addQueryParams } from '../../helpers/addQueryParams'
+import { userIsNot } from '@modules/users'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
   vérifierPermissionUtilisateur(PermissionListerProjets),
   asyncHandler(async (request, response) => {
-    const {
-      user: { role },
-    } = request
+    const { user } = request
 
     let {
       appelOffreId,
@@ -29,7 +28,7 @@ v1Router.get(
       garantiesFinancieres,
     } = request.query as any
 
-    if (role !== 'admin' && role !== 'dgec-validateur') {
+    if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(user)) {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }
 
@@ -52,7 +51,7 @@ v1Router.get(
       garantiesFinancieres,
     }
 
-    const exportProjets = await exporterProjets({ role, filtres })
+    const exportProjets = await exporterProjets({ user, filtres })
 
     if (exportProjets && exportProjets.isErr()) {
       return new InfraNotAvailableError()
@@ -78,7 +77,7 @@ v1Router.get(
       miseAJourStatistiquesUtilisation({
         type: 'exportProjetsTéléchargé',
         données: {
-          utilisateur: { role },
+          utilisateur: { role: user.role },
           nombreDeProjets: données.length,
         },
       })

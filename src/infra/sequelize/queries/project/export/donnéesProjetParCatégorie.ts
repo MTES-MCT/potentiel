@@ -847,7 +847,24 @@ const permissionsDGEC = [
   'garanties financières',
 ] as const
 
-const rolesPourCatégoriesPermission = ['admin', 'dgec-validateur'] as const
+const permissionsDREAL = [
+  'identification projet',
+  'coordonnées candidat',
+  'financement citoyen',
+  'localisation projet',
+  'coordonnées géodésiques',
+  'données autoconsommation',
+  'données de raccordement',
+  'évaluation carbone',
+  'implantation',
+  'prix',
+  'références candidature',
+  'résultat instruction sensible',
+  'modifications avant import',
+  'garanties financières',
+] as const
+
+const rolesPourCatégoriesPermission = ['admin', 'dgec-validateur', 'dreal'] as const
 export type RolesPourCatégoriesPermission = typeof rolesPourCatégoriesPermission[number]
 // à terme 'Roles' sera remplace par le type existant UserRoles
 
@@ -857,4 +874,5 @@ export const catégoriesPermissionsParRôle: Record<
 > = {
   admin: permissionsDGEC,
   'dgec-validateur': permissionsDGEC,
+  dreal: permissionsDREAL,
 }

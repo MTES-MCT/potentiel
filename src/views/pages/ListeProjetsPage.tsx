@@ -73,7 +73,7 @@ export const ListeProjets = ({
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
   const [displaySelection, setDisplaySelection] = useState(false)
 
-  const utilisateurEstDGEC = ['admin', 'dgec-validateur'].includes(request.user.role)
+  const utiliserNouvelExport = ['admin', 'dgec-validateur', 'dreal'].includes(request.user.role)
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -322,7 +322,7 @@ export const ListeProjets = ({
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
                   href={
-                    utilisateurEstDGEC
+                    utiliserNouvelExport
                       ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
                           request.query as any
                         )}`

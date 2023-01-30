@@ -1,14 +1,10 @@
+import { UserRole } from '@modules/users'
 import {
   catégoriesPermissionsParRôle,
   donnéesProjetParCatégorie,
-  RolesPourCatégoriesPermission,
 } from './donnéesProjetParCatégorie'
 
-export const getListeColonnesExportParRole = ({
-  role,
-}: {
-  role: RolesPourCatégoriesPermission
-}) => {
+export const getListeColonnesExportParRole = ({ role }: { role: UserRole }) => {
   const catégoriesDuRôle = catégoriesPermissionsParRôle[role]
 
   return catégoriesDuRôle.reduce((listeColonnes, catégorie) => {
