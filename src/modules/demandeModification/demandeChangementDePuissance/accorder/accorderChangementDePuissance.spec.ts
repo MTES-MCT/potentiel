@@ -18,7 +18,11 @@ import { UnwrapForTest } from '../../../../types'
 import { Project } from '@modules/project'
 import { USER_ROLES } from '@modules/users'
 import { makeAccorderChangementDePuissance } from './accorderChangementDePuissance'
-import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
+import {
+  AggregateHasBeenUpdatedSinceError,
+  FichierDeRéponseObligatoireError,
+  UnauthorizedError,
+} from '@modules/shared'
 
 describe('Accorder une demande de changement de puissance', () => {
   const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -43,6 +47,11 @@ describe('Accorder une demande de changement de puissance', () => {
     type: 'puissance',
     newPuissance: 1,
   }
+
+  const fakeFileContents = Readable.from('test-content')
+  const fakeFileName = 'myfilename.pdf'
+
+  const fichierRéponse = { contents: fakeFileContents, filename: fakeFileName }
 
   beforeEach(() => {
     fakeProject.updatePuissance.mockClear()
@@ -73,6 +82,7 @@ describe('Accorder une demande de changement de puissance', () => {
             versionDate: fakeModificationRequest.lastUpdatedOn,
             paramètres,
             utilisateur,
+            fichierRéponse,
           })
 
           expect(résultat.isErr()).toEqual(true)
@@ -81,6 +91,32 @@ describe('Accorder une demande de changement de puissance', () => {
           }
         })
       }
+    })
+
+    describe(`Cas d'une réponse sans fichier`, () => {
+      it(`
+      Étant donné un utilisateur avec un rôle autorisé
+      Lorsqu'il accorde une demande de changement de puissance sans mettre le fichier de réponse
+      Alors l'utilisateur devrait être alerté que l'action est impossible car le fichier est obligatoire
+      `, async () => {
+        const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+          modificationRequestRepo,
+          projectRepo,
+          fileRepo,
+        })
+
+        const résultat = await accorderChangementDePuissance({
+          demandeId: fakeModificationRequest.id,
+          versionDate: new Date(1),
+          paramètres,
+          utilisateur,
+        })
+
+        expect(résultat.isErr()).toEqual(true)
+        if (résultat.isErr()) {
+          expect(résultat.error).toBeInstanceOf(FichierDeRéponseObligatoireError)
+        }
+      })
     })
 
     describe(`Cas d'une date de modification différente de la date de la demande`, () => {
@@ -99,6 +135,7 @@ describe('Accorder une demande de changement de puissance', () => {
           versionDate: new Date(1),
           paramètres,
           utilisateur,
+          fichierRéponse,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -124,6 +161,7 @@ describe('Accorder une demande de changement de puissance', () => {
           versionDate: fakeModificationRequest.lastUpdatedOn,
           paramètres: { ...paramètres, newPuissance: 100, isDecisionJustice: true },
           utilisateur,
+          fichierRéponse,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -158,6 +196,7 @@ describe('Accorder une demande de changement de puissance', () => {
           versionDate: fakeModificationRequest.lastUpdatedOn,
           paramètres: paramètres,
           utilisateur,
+          fichierRéponse,
         })
 
         expect(résultat.isOk()).toEqual(true)
@@ -174,9 +213,6 @@ describe('Accorder une demande de changement de puissance', () => {
       Lorsqu'il accorde une demande de changement en ayant
       Alors l'utilisateur devrait être informé que le changement de la puissance a bien été acceptée
       `, async () => {
-        const fakeFileContents = Readable.from('test-content')
-        const fakeFileName = 'myfilename.pdf'
-
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
@@ -187,7 +223,7 @@ describe('Accorder une demande de changement de puissance', () => {
           demandeId: fakeModificationRequest.id,
           versionDate: fakeModificationRequest.lastUpdatedOn,
           paramètres,
-          responseFile: { contents: fakeFileContents, filename: fakeFileName },
+          fichierRéponse,
           utilisateur,
         })
 

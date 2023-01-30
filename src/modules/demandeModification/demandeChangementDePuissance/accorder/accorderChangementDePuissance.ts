@@ -6,6 +6,7 @@ import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { Project } from '@modules/project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,
+  FichierDeRéponseObligatoireError,
   InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
@@ -23,17 +24,21 @@ type Dépendances = {
 
 type Commande = {
   demandeId: UniqueEntityID
-  paramètres: { type: 'puissance'; newPuissance: number; isDecisionJustice?: boolean }
+  paramètres: { newPuissance: number; isDecisionJustice?: boolean }
   versionDate: Date
-  responseFile?: { contents: FileContents; filename: string }
+  fichierRéponse?: { contents: FileContents; filename: string }
   utilisateur: User
 }
 
 export const makeAccorderChangementDePuissance =
   ({ fileRepo, modificationRequestRepo, projectRepo }: Dépendances) =>
-  ({ demandeId, versionDate, responseFile, utilisateur, paramètres }: Commande) => {
+  ({ demandeId, versionDate, fichierRéponse, utilisateur, paramètres }: Commande) => {
     if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
+    }
+
+    if (!fichierRéponse) {
+      return errAsync(new FichierDeRéponseObligatoireError())
     }
 
     return modificationRequestRepo
@@ -63,32 +68,34 @@ export const makeAccorderChangementDePuissance =
           .map((projet) => ({ projet, demande }))
       )
       .andThen(({ projet, demande }) => {
-        if (!responseFile) return okAsync({ projet, demande, responseFileId: '' })
-
         return makeAndSaveFile({
           file: {
             designation: 'modification-request-response',
             forProject: demande.projectId,
             createdBy: new UniqueEntityID(utilisateur.id),
-            filename: responseFile.filename,
-            contents: responseFile.contents,
+            filename: fichierRéponse.filename,
+            contents: fichierRéponse.contents,
           },
           fileRepo,
         })
-          .map((responseFileId) => ({ projet, demande, responseFileId }))
+          .map((fichierRéponseId) => ({ projet, demande, fichierRéponseId }))
           .mapErr((e) => {
             logger.error(e)
             return new InfraNotAvailableError()
           })
       })
-      .andThen(({ projet, demande, responseFileId }) => {
+      .andThen(({ projet, demande, fichierRéponseId }) => {
         return projet
           .updatePuissance(utilisateur, paramètres.newPuissance)
-          .map(() => ({ projet, demande, responseFileId }))
+          .map(() => ({ projet, demande, fichierRéponseId }))
       })
-      .andThen(({ projet, demande, responseFileId }) => {
+      .andThen(({ projet, demande, fichierRéponseId }) => {
         return demande
-          .accept({ acceptedBy: utilisateur, params: paramètres, responseFileId })
+          .accept({
+            acceptedBy: utilisateur,
+            params: { ...paramètres, type: 'puissance' },
+            responseFileId: fichierRéponseId,
+          })
           .map(() => ({ projet, demande }))
       })
       .andThen(({ projet, demande }) => {
