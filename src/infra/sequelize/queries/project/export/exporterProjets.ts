@@ -1,6 +1,6 @@
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { getListeProjetsPourDGEC } from './requêtes/getListeProjetsPourDGEC'
-import { getListeProjetsPourCaisseDesDépôts } from './requêtes/getListeProjetsPourCaisseDesDépôts'
+import { exporterProjetsPourDGEC } from './requêtes/exporterProjetsPourDGEC'
+import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjetsPourCaisseDesDépôts'
 
 export const exporterProjets = ({
   role,
@@ -12,8 +12,8 @@ export const exporterProjets = ({
   switch (role) {
     case 'admin':
     case 'dgec-validateur':
-      return getListeProjetsPourDGEC({ filtres })
+      return exporterProjetsPourDGEC({ filtres })
     case 'caisse-des-dépôts':
-      return getListeProjetsPourCaisseDesDépôts({ filtres })
+      return exporterProjetsPourCaisseDesDépôts({ filtres })
   }
 }

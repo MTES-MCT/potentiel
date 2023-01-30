@@ -3,26 +3,20 @@ import { wrapInfra } from '@core/utils'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions'
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
-import { mapperVersAttributs, récupérerColonnesDétails, récupérerIntitulés } from '../Colonne'
 import {
-  coordonnéesCandidat,
-  garantiesFinancières,
-  identificationProjet,
-  localisationProjet,
-} from '../colonnes'
-
-const colonnesÀExporter = [
-  ...identificationProjet,
-  ...coordonnéesCandidat,
-  ...localisationProjet,
-  ...garantiesFinancières,
-]
+  Colonne,
+  mapperVersAttributs,
+  récupérerColonnesDétails,
+  récupérerIntitulés,
+} from '../Colonne'
 
 const { Project: ProjectModel } = models
 
-export const getListeProjetsPourCaisseDesDépôts = ({
+export const récupérerExportProjets = ({
+  colonnesÀExporter,
   filtres,
 }: {
+  colonnesÀExporter: Readonly<Array<Colonne>>
   filtres?: FiltreListeProjets
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
