@@ -1,6 +1,6 @@
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { getListeProjetsPourDGEC } from './getListeProjetsPourDGEC'
-import { getListeProjetsPourCaisseDesDépôts } from './getListeProjetsPourCaisseDesDépôts'
+import { getListeProjetsPourDGEC } from './requêtes/getListeProjetsPourDGEC'
+import { getListeProjetsPourCaisseDesDépôts } from './requêtes/getListeProjetsPourCaisseDesDépôts'
 
 export const exporterProjets = ({
   role,

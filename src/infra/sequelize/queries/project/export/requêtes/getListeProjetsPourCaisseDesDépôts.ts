@@ -1,15 +1,15 @@
-import models from '../../../models'
+import models from '../../../../models'
 import { wrapInfra } from '@core/utils'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { mapToFindOptions } from '../lister/requêtes/mapToFindOptions'
-import { GarantiesFinancières } from '../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
-import { mapperVersAttributs, récupérerColonnesDétails, récupérerIntitulés } from './Colonne'
+import { mapToFindOptions } from '../../helpers/mapToFindOptions'
+import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
+import { mapperVersAttributs, récupérerColonnesDétails, récupérerIntitulés } from '../Colonne'
 import {
   coordonnéesCandidat,
   garantiesFinancières,
   identificationProjet,
   localisationProjet,
-} from './catégories'
+} from '../colonnes'
 
 const colonnesÀExporter = [
   ...identificationProjet,
