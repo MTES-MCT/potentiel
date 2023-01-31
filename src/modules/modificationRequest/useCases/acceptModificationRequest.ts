@@ -67,19 +67,6 @@ export const makeAcceptModificationRequest =
       .andThen((modificationRequest) => {
         return projectRepo
           .load(modificationRequest.projectId)
-          .andThen((project): ResultAsync<Project, PuissanceVariationWithDecisionJusticeError> => {
-            if (acceptanceParams?.type === 'puissance') {
-              const { isDecisionJustice, newPuissance } = acceptanceParams
-              const { puissanceInitiale } = project
-              const newPuissanceVariationIsForbidden =
-                isDecisionJustice && newPuissance / puissanceInitiale > 1.1
-
-              if (newPuissanceVariationIsForbidden) {
-                return errAsync(new PuissanceVariationWithDecisionJusticeError())
-              }
-            }
-            return okAsync(project)
-          })
           .map((project) => ({ project, modificationRequest }))
       })
       .andThen(

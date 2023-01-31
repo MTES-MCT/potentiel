@@ -9,12 +9,11 @@ import {
 import { logger } from '@core/utils'
 import { getModificationRequestAuthority } from '@infra/sequelize/queries'
 import { addQueryParams } from '../../helpers/addQueryParams'
-import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
+import { isDateFormatValid } from '../../helpers/formValidators'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import {
   ModificationRequestAcceptanceParams,
   ProjetDéjàClasséError,
-  PuissanceVariationWithDecisionJusticeError,
 } from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -46,7 +45,6 @@ v1Router.post(
         submitConfirm,
         statusUpdateOnly,
         newNotificationDate,
-        puissance,
         isDecisionJustice,
         actionnaire,
         producteur,
@@ -100,15 +98,6 @@ v1Router.post(
       )
     }
 
-    if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error:
-            "La réponse n'a pas pu être envoyée: la puissance doit être un nombre supérieur à 0.",
-        })
-      )
-    }
-
     const responseFile = request.file && {
       contents: fs.createReadStream(request.file.path),
       filename: request.file.originalname,
@@ -134,9 +123,6 @@ v1Router.post(
             .tz('Europe/London')
             .toDate(),
         }
-        break
-      case 'puissance':
-        acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
         break
       case 'actionnaire':
         acceptanceParams = { type, newActionnaire: actionnaire }
@@ -205,14 +191,6 @@ function _handleErrors(request, response, modificationRequestId) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
-        })
-      )
-    }
-
-    if (e instanceof PuissanceVariationWithDecisionJusticeError) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: e.message,
         })
       )
     }
