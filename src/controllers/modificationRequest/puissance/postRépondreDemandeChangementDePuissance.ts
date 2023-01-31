@@ -9,10 +9,7 @@ import {
 } from '@config'
 import { isStrictlyPositiveNumber, logger } from '@core/utils'
 import { addQueryParams } from '../../../helpers/addQueryParams'
-import {
-  ProjetDéjàClasséError,
-  PuissanceVariationWithDecisionJusticeError,
-} from '@modules/modificationRequest'
+import { PuissanceVariationWithDecisionJusticeError } from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -48,14 +45,6 @@ const _handleErrors = (request, response, modificationRequestId) => (e) => {
     return response.redirect(
       addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
         error: e.message,
-      })
-    )
-  }
-
-  if (e instanceof ProjetDéjàClasséError) {
-    return response.redirect(
-      addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-        error: `Vous ne pouvez pas accepter cette demande de recours car le projet est déjà "classé". Le porteur a la possibilité d'annuler sa demande, ou bien vous pouvez la rejeter.`,
       })
     )
   }
@@ -129,7 +118,7 @@ v1Router.post(
       const estAccordé = typeof submitAccept === 'string'
 
       if (statusUpdateOnly) {
-        return await updateModificationRequestStatus({
+        return updateModificationRequestStatus({
           modificationRequestId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
           newStatus: estAccordé ? 'acceptée' : 'rejetée',
@@ -165,12 +154,11 @@ v1Router.post(
       }
 
       if (estAccordé) {
-        return await accorderChangementDePuissance({
-          responseFile: fichierRéponse,
+        return accorderChangementDePuissance({
+          fichierRéponse,
           demandeId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
           paramètres: {
-            type: 'puissance',
             newPuissance: Number(puissance),
             isDecisionJustice,
           },
