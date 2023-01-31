@@ -12,29 +12,39 @@ import {
   fakeRepo,
   fakeTransactionalRepo,
   makeFakeModificationRequest,
+  makeFakeProject,
 } from '../../../../__tests__/fixtures/aggregates'
-import { ModificationRequest } from '@modules/modificationRequest'
+import {
+  ModificationRequest,
+  PuissanceVariationWithDecisionJusticeError,
+} from '@modules/modificationRequest'
 import { Readable } from 'stream'
+import { Project } from '@modules/project'
 
 describe('Accorder une demande de changement de puissance', () => {
   const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+
   const demandeChangementDePuissance = {
     ...makeFakeModificationRequest(),
     lastUpdatedOn: new Date('2023-01-01'),
     type: 'puissance',
   } as ModificationRequest
+
+  const fakeProject = {
+    ...makeFakeProject(),
+    id: demandeChangementDePuissance.projectId,
+    puissanceInitiale: 10,
+  } as Project
+
   const modificationRequestRepo = {
     ...fakeRepo(demandeChangementDePuissance),
     ...fakeTransactionalRepo(demandeChangementDePuissance),
   }
 
-  // const fakeProject = {
-  //   ...makeFakeProject(),
-  //   id: fakeModificationRequest.projectId,
-  //   puissanceInitiale: 10,
-  //   puissance: 10,
-  // }
-  // const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+  const projectRepo = {
+    ...fakeRepo(fakeProject),
+    ...fakeTransactionalRepo(fakeProject),
+  }
   // const fileRepo = {
   //   save: jest.fn((file: FileObject) => okAsync(null)),
   //   load: jest.fn(),
@@ -49,6 +59,8 @@ describe('Accorder une demande de changement de puissance', () => {
   const fakeFileName = 'myfilename.pdf'
 
   const fichierRéponse = { contents: fakeFileContents, filename: fakeFileName }
+
+  const nouvellePuissance = 100
 
   // beforeEach(() => {
   //   fakeProject.updatePuissance.mockClear()
@@ -68,6 +80,7 @@ describe('Accorder une demande de changement de puissance', () => {
         const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role })))
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
+          projectRepo,
         })
 
         const résultat = await accorderChangementDePuissance({
@@ -76,6 +89,7 @@ describe('Accorder une demande de changement de puissance', () => {
           utilisateur,
           fichierRéponse,
           isDecisionJustice: false,
+          nouvellePuissance,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -94,13 +108,14 @@ describe('Accorder une demande de changement de puissance', () => {
     `, async () => {
       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
         modificationRequestRepo,
+        projectRepo,
       })
       const résultat = await accorderChangementDePuissance({
         demandeId: demandeChangementDePuissance.id,
         versionDate: new Date('2023-01-02'),
         utilisateur,
         isDecisionJustice: false,
-        fichierRéponse: undefined,
+        nouvellePuissance,
       })
 
       expect(résultat.isErr()).toEqual(true)
@@ -118,6 +133,7 @@ describe('Accorder une demande de changement de puissance', () => {
     `, async () => {
       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
         modificationRequestRepo,
+        projectRepo,
       })
 
       const résultat = await accorderChangementDePuissance({
@@ -126,6 +142,7 @@ describe('Accorder une demande de changement de puissance', () => {
         utilisateur,
         fichierRéponse,
         isDecisionJustice: false,
+        nouvellePuissance,
       })
 
       expect(résultat.isErr()).toEqual(true)
@@ -135,57 +152,30 @@ describe('Accorder une demande de changement de puissance', () => {
     })
   })
 
-  // describe(`Cas d'une réponse qui n'est pas une décision de justice et qui n'a pas de fichier de réponse`, () => {
-  //   it(`
-  //   Étant donné un utilisateur avec un rôle autorisé
-  //   Lorsqu'il accorde une demande de changement de puissance à une demande qui ne fait pas suite à une décisision de justice, et qui n'a pas de fichier de réponse fourni
-  //   Alors l'utilisateur devrait être alerté que l'action est impossible car le fichier est obligatoire
-  //   `, async () => {
-  //     const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  //       modificationRequestRepo,
-  //       projectRepo,
-  //       fileRepo,
-  //     })
+  describe(`Impossible d'accorder un changement de puissance si la demande est une décision de justice et que l'augmentation de puissance est supérieure au seuil toléré`, () => {
+    it(`
+    Étant donné un utilisateur avec un rôle autorisé
+    Lorsqu'il accorde une demande de changement de puissance qui est une décision de justice et qui a une augmentation de puissance supérieure au seuil toléré
+    Alors l'utilisateur devrait être informé que l'augmentation de la puissance est impossible
+    `, async () => {
+      const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+        modificationRequestRepo,
+        projectRepo,
+      })
+      const résultat = await accorderChangementDePuissance({
+        demandeId: demandeChangementDePuissance.id,
+        versionDate: new Date('2023-01-01'),
+        utilisateur,
+        isDecisionJustice: true,
+        nouvellePuissance: 100,
+      })
 
-  //     const résultat = await accorderChangementDePuissance({
-  //       demandeId: fakeModificationRequest.id,
-  //       versionDate: new Date(1),
-  //       paramètres,
-  //       utilisateur,
-  //     })
-
-  //     expect(résultat.isErr()).toEqual(true)
-  //     if (résultat.isErr()) {
-  //       expect(résultat.error).toBeInstanceOf(FichierDeRéponseObligatoireError)
-  //     }
-  //   })
-  // })
-
-  // describe(`Cas d'une date de modification différente de la date de la demande`, () => {
-  //   it(`
-  //   Étant donné un utilisateur avec un rôle autorisé
-  //   Lorsqu'il accorde une demande de changement de puissance mais que la date de modification est différente de la date de demande
-  //   Alors l'utilisateur devrait être alerté que l'action est impossible car il y a eu une mise à jour entre temps`, async () => {
-  //     const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  //       modificationRequestRepo,
-  //       projectRepo,
-  //       fileRepo,
-  //     })
-
-  //     const résultat = await accorderChangementDePuissance({
-  //       demandeId: fakeModificationRequest.id,
-  //       versionDate: new Date(1),
-  //       paramètres,
-  //       utilisateur,
-  //       fichierRéponse,
-  //     })
-
-  //     expect(résultat.isErr()).toEqual(true)
-  //     if (résultat.isErr()) {
-  //       expect(résultat.error).toBeInstanceOf(AggregateHasBeenUpdatedSinceError)
-  //     }
-  //   })
-  // })
+      expect(résultat.isErr()).toEqual(true)
+      if (résultat.isErr()) {
+        expect(résultat.error).toBeInstanceOf(PuissanceVariationWithDecisionJusticeError)
+      }
+    })
+  })
 
   // describe(`Cas d'une décision de justice`, () => {
   //   it(`

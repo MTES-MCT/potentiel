@@ -5,7 +5,10 @@
 //   UniqueEntityID,
 // } from '@core/domain'
 // import { errAsync, logger, okAsync } from '@core/utils'
-import { ModificationRequest } from '@modules/modificationRequest'
+import {
+  ModificationRequest,
+  PuissanceVariationWithDecisionJusticeError,
+} from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   FichierDeRéponseObligatoireError,
@@ -18,6 +21,7 @@ import { User } from '@entities'
 import { errAsync, okAsync } from '@core/utils'
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 import { FileContents } from '@modules/file'
+import { Project } from '@modules/project'
 
 type Commande = {
   demandeId: UniqueEntityID
@@ -25,16 +29,25 @@ type Commande = {
   utilisateur: User
   isDecisionJustice: boolean
   fichierRéponse?: { contents: FileContents; filename: string }
+  nouvellePuissance: number
 }
 
 type Dépendances = {
   modificationRequestRepo: Repository<ModificationRequest> &
     TransactionalRepository<ModificationRequest>
+  projectRepo: Repository<Project> & TransactionalRepository<Project>
 }
 
 export const makeAccorderChangementDePuissance =
-  ({ modificationRequestRepo }: Dépendances) =>
-  ({ demandeId, utilisateur, versionDate, isDecisionJustice, fichierRéponse }: Commande) => {
+  ({ modificationRequestRepo, projectRepo }: Dépendances) =>
+  ({
+    demandeId,
+    utilisateur,
+    versionDate,
+    isDecisionJustice,
+    fichierRéponse,
+    nouvellePuissance,
+  }: Commande) => {
     if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
     }
@@ -47,7 +60,17 @@ export const makeAccorderChangementDePuissance =
       if (demande.lastUpdatedOn && demande.lastUpdatedOn.getTime() !== versionDate.getTime()) {
         return errAsync(new AggregateHasBeenUpdatedSinceError())
       }
-      return okAsync(null)
+
+      return projectRepo.transaction(demande.projectId, (projet) => {
+        const variationNouvellePuissanceInterdite =
+          isDecisionJustice && nouvellePuissance / projet.puissanceInitiale > 1.1
+
+        if (variationNouvellePuissanceInterdite) {
+          return errAsync(new PuissanceVariationWithDecisionJusticeError())
+        }
+
+        return okAsync(null)
+      })
     })
   }
 
