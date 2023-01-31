@@ -1,4 +1,9 @@
-import { Repository, UniqueEntityID } from '@core/domain'
+import {
+  Repository,
+  TransactionalRepository,
+  TransactionalRepository,
+  UniqueEntityID,
+} from '@core/domain'
 import { errAsync, logger, okAsync } from '@core/utils'
 import { User } from '@entities'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
@@ -6,7 +11,6 @@ import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { Project } from '@modules/project/Project'
 import {
   AggregateHasBeenUpdatedSinceError,
-  FichierDeRéponseObligatoireError,
   InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
@@ -17,8 +21,9 @@ import {
 import { userIsNot } from '@modules/users'
 
 type Dépendances = {
-  modificationRequestRepo: Repository<ModificationRequest>
-  projectRepo: Repository<Project>
+  modificationRequestRepo: Repository<ModificationRequest> &
+    TransactionalRepository<ModificationRequest>
+  projectRepo: Repository<Project> & TransactionalRepository<Project>
   fileRepo: Repository<FileObject>
 }
 
@@ -37,10 +42,6 @@ export const makeAccorderChangementDePuissance =
       return errAsync(new UnauthorizedError())
     }
 
-    if (!fichierRéponse) {
-      return errAsync(new FichierDeRéponseObligatoireError())
-    }
-
     return modificationRequestRepo
       .load(demandeId)
       .andThen((demande) => {
@@ -50,7 +51,6 @@ export const makeAccorderChangementDePuissance =
 
         return okAsync(demande)
       })
-      .map((demande) => demande)
       .andThen((demande) =>
         projectRepo
           .load(demande.projectId)
@@ -68,6 +68,10 @@ export const makeAccorderChangementDePuissance =
           .map((projet) => ({ projet, demande }))
       )
       .andThen(({ projet, demande }) => {
+        if (paramètres.isDecisionJustice && !fichierRéponse) {
+          return okAsync({ projet, demande })
+        }
+
         return makeAndSaveFile({
           file: {
             designation: 'modification-request-response',

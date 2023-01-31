@@ -4,7 +4,7 @@ import {
   ModificationRequestAcceptanceParams,
 } from '@modules/modificationRequest'
 import {
-  fakeRepo,
+  fakeTransactionalRepo,
   makeFakeModificationRequest,
   makeFakeProject,
 } from '../../../../__tests__/fixtures/aggregates'
@@ -30,14 +30,16 @@ describe('Accorder une demande de changement de puissance', () => {
     ...makeFakeModificationRequest(),
     type: 'puissance',
   }
-  const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest)
+  const modificationRequestRepo = fakeTransactionalRepo(
+    fakeModificationRequest as ModificationRequest
+  )
   const fakeProject = {
     ...makeFakeProject(),
     id: fakeModificationRequest.projectId,
     puissanceInitiale: 10,
     puissance: 10,
   }
-  const projectRepo = fakeRepo(fakeProject as Project)
+  const projectRepo = fakeTransactionalRepo(fakeProject as Project)
   const fileRepo = {
     save: jest.fn((file: FileObject) => okAsync(null)),
     load: jest.fn(),
@@ -93,10 +95,10 @@ describe('Accorder une demande de changement de puissance', () => {
       }
     })
 
-    describe(`Cas d'une réponse sans fichier`, () => {
+    describe(`Cas d'une réponse qui n'est pas une décision de justice et qui n'a pas de fichier de réponse`, () => {
       it(`
       Étant donné un utilisateur avec un rôle autorisé
-      Lorsqu'il accorde une demande de changement de puissance sans mettre le fichier de réponse
+      Lorsqu'il accorde une demande de changement de puissance à une demande qui ne fait pas suite à une décisision de justice, et qui n'a pas de fichier de réponse fourni
       Alors l'utilisateur devrait être alerté que l'action est impossible car le fichier est obligatoire
       `, async () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
@@ -196,7 +198,6 @@ describe('Accorder une demande de changement de puissance', () => {
           versionDate: fakeModificationRequest.lastUpdatedOn,
           paramètres: paramètres,
           utilisateur,
-          fichierRéponse,
         })
 
         expect(résultat.isOk()).toEqual(true)
