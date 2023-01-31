@@ -6,18 +6,25 @@
 // } from '@core/domain'
 // import { errAsync, logger, okAsync } from '@core/utils'
 import { ModificationRequest } from '@modules/modificationRequest'
-import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
+import {
+  AggregateHasBeenUpdatedSinceError,
+  FichierDeRéponseObligatoireError,
+  UnauthorizedError,
+} from '@modules/shared'
 import { userIsNot } from '@modules/users'
 import { User } from '@entities'
 // import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
 import { errAsync, okAsync } from '@core/utils'
 import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { FileContents } from '@modules/file'
 
 type Commande = {
   demandeId: UniqueEntityID
   versionDate: Date
   utilisateur: User
+  isDecisionJustice: boolean
+  fichierRéponse?: { contents: FileContents; filename: string }
 }
 
 type Dépendances = {
@@ -27,9 +34,13 @@ type Dépendances = {
 
 export const makeAccorderChangementDePuissance =
   ({ modificationRequestRepo }: Dépendances) =>
-  ({ demandeId, utilisateur, versionDate }: Commande) => {
+  ({ demandeId, utilisateur, versionDate, isDecisionJustice, fichierRéponse }: Commande) => {
     if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
+    }
+
+    if (!isDecisionJustice && !fichierRéponse) {
+      return errAsync(new FichierDeRéponseObligatoireError())
     }
 
     return modificationRequestRepo.transaction(demandeId, (demande) => {

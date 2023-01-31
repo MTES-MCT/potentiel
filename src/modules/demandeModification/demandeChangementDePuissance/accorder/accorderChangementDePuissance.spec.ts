@@ -3,13 +3,18 @@ import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
 import { USER_ROLES } from '@modules/users'
 import { makeAccorderChangementDePuissance } from './accorderChangementDePuissance'
-import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
+import {
+  AggregateHasBeenUpdatedSinceError,
+  FichierDeRéponseObligatoireError,
+  UnauthorizedError,
+} from '@modules/shared'
 import {
   fakeRepo,
   fakeTransactionalRepo,
   makeFakeModificationRequest,
 } from '../../../../__tests__/fixtures/aggregates'
 import { ModificationRequest } from '@modules/modificationRequest'
+import { Readable } from 'stream'
 
 describe('Accorder une demande de changement de puissance', () => {
   const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -40,10 +45,10 @@ describe('Accorder une demande de changement de puissance', () => {
   //   newPuissance: 1,
   // }
 
-  // const fakeFileContents = Readable.from('test-content')
-  // const fakeFileName = 'myfilename.pdf'
+  const fakeFileContents = Readable.from('test-content')
+  const fakeFileName = 'myfilename.pdf'
 
-  // const fichierRéponse = { contents: fakeFileContents, filename: fakeFileName }
+  const fichierRéponse = { contents: fakeFileContents, filename: fakeFileName }
 
   // beforeEach(() => {
   //   fakeProject.updatePuissance.mockClear()
@@ -69,6 +74,8 @@ describe('Accorder une demande de changement de puissance', () => {
           demandeId: demandeChangementDePuissance.id,
           versionDate: new Date('2023-01-01'),
           utilisateur,
+          fichierRéponse,
+          isDecisionJustice: false,
         })
 
         expect(résultat.isErr()).toEqual(true)
@@ -77,6 +84,30 @@ describe('Accorder une demande de changement de puissance', () => {
         }
       })
     }
+  })
+
+  describe(`Impossible d'accorder un changement de puissance si la demande n'est pas une décision de justice et qu'elle ne contient pas de fichier de réponse`, () => {
+    it(`
+    Étant donné un utilisateur avec un rôle autorisé
+    Lorsqu'il accorde une demande de changement de puissance qui n'est pas une décision de justice et qui ne contient pas de fichier de réponse
+    Alors l'utilisateur devrait être alerté que l'action est impossible car le fichier est obligatoire
+    `, async () => {
+      const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+        modificationRequestRepo,
+      })
+      const résultat = await accorderChangementDePuissance({
+        demandeId: demandeChangementDePuissance.id,
+        versionDate: new Date('2023-01-02'),
+        utilisateur,
+        isDecisionJustice: false,
+        fichierRéponse: undefined,
+      })
+
+      expect(résultat.isErr()).toEqual(true)
+      if (résultat.isErr()) {
+        expect(résultat.error).toBeInstanceOf(FichierDeRéponseObligatoireError)
+      }
+    })
   })
 
   describe(`Impossible d'accorder un changement de puissance si la date de modification est différente de la date de la demande`, () => {
@@ -93,6 +124,8 @@ describe('Accorder une demande de changement de puissance', () => {
         demandeId: demandeChangementDePuissance.id,
         versionDate: new Date('2023-01-02'),
         utilisateur,
+        fichierRéponse,
+        isDecisionJustice: false,
       })
 
       expect(résultat.isErr()).toEqual(true)
