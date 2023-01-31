@@ -16,7 +16,7 @@ import {
 } from '../../../../__tests__/fixtures/aggregates'
 import {
   ModificationRequest,
-  PuissanceVariationWithDecisionJusticeError,
+  VariationPuissanceInterditDecisionJusticeError,
 } from '@modules/modificationRequest'
 import { Readable } from 'stream'
 import { Project } from '@modules/project'
@@ -172,7 +172,7 @@ describe('Accorder une demande de changement de puissance', () => {
 
       expect(résultat.isErr()).toEqual(true)
       if (résultat.isErr()) {
-        expect(résultat.error).toBeInstanceOf(PuissanceVariationWithDecisionJusticeError)
+        expect(résultat.error).toBeInstanceOf(VariationPuissanceInterditDecisionJusticeError)
       }
     })
   })

@@ -1,4 +1,4 @@
-import { ProjetDéjàClasséError, PuissanceVariationWithDecisionJusticeError } from '..'
+import { ProjetDéjàClasséError } from '..'
 import { Repository, UniqueEntityID } from '@core/domain'
 import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
 import { User } from '@entities'
@@ -40,7 +40,6 @@ export const makeAcceptModificationRequest =
     | InfraNotAvailableError
     | EntityNotFoundError
     | UnauthorizedError
-    | PuissanceVariationWithDecisionJusticeError
     | ProjetDéjàClasséError
   > => {
     const { fileRepo, modificationRequestRepo, projectRepo } = deps

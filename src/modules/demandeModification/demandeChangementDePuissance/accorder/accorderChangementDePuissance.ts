@@ -7,7 +7,7 @@
 // import { errAsync, logger, okAsync } from '@core/utils'
 import {
   ModificationRequest,
-  PuissanceVariationWithDecisionJusticeError,
+  VariationPuissanceInterditDecisionJusticeError,
 } from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
@@ -66,7 +66,7 @@ export const makeAccorderChangementDePuissance =
           isDecisionJustice && nouvellePuissance / projet.puissanceInitiale > 1.1
 
         if (variationNouvellePuissanceInterdite) {
-          return errAsync(new PuissanceVariationWithDecisionJusticeError())
+          return errAsync(new VariationPuissanceInterditDecisionJusticeError())
         }
 
         return okAsync(null)

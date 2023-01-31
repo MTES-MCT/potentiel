@@ -1,6 +1,6 @@
 export * from './ProjetDéjàClasséError'
 export * from '../../demandeModification/demandeChangementDePuissance/demander/PuissanceJustificationEtCourrierManquantError'
-export * from './PuissanceVariationError'
+export * from './VariationPuissanceInterditDecisionJusticeError'
 export * from './StatusPreventsAcceptingError'
 export * from './StatusPreventsCancellingError'
 export * from './StatusPreventsConfirmationError'

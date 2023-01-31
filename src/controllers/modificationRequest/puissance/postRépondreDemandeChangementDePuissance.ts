@@ -9,7 +9,7 @@ import {
 } from '@config'
 import { isStrictlyPositiveNumber, logger } from '@core/utils'
 import { addQueryParams } from '../../../helpers/addQueryParams'
-import { PuissanceVariationWithDecisionJusticeError } from '@modules/modificationRequest'
+import { VariationPuissanceInterditDecisionJusticeError } from '@modules/modificationRequest'
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
@@ -41,7 +41,7 @@ const _handleErrors = (request, response, modificationRequestId) => (e) => {
     )
   }
 
-  if (e instanceof PuissanceVariationWithDecisionJusticeError) {
+  if (e instanceof VariationPuissanceInterditDecisionJusticeError) {
     return response.redirect(
       addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
         error: e.message,
@@ -158,10 +158,8 @@ v1Router.post(
           fichierRéponse,
           demandeId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
-          paramètres: {
-            newPuissance: Number(puissance),
-            isDecisionJustice,
-          },
+          nouvellePuissance: Number(puissance),
+          isDecisionJustice: !!isDecisionJustice,
           utilisateur: request.user,
         }).match(
           _handleSuccess(response, modificationRequestId),

@@ -240,7 +240,7 @@ export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
 })
 
 export const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  fileRepo,
+  // fileRepo,
   projectRepo,
   modificationRequestRepo,
 })
