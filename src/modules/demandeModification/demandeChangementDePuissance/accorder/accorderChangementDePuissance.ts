@@ -5,25 +5,39 @@
 //   UniqueEntityID,
 // } from '@core/domain'
 // import { errAsync, logger, okAsync } from '@core/utils'
-import { User } from '@entities'
-import { UnauthorizedError } from '@modules/shared'
+import { ModificationRequest } from '@modules/modificationRequest'
+import { AggregateHasBeenUpdatedSinceError, UnauthorizedError } from '@modules/shared'
 import { userIsNot } from '@modules/users'
+import { User } from '@entities'
 // import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 
 import { errAsync, okAsync } from '@core/utils'
+import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
 
 type Commande = {
+  demandeId: UniqueEntityID
+  versionDate: Date
   utilisateur: User
 }
 
+type Dépendances = {
+  modificationRequestRepo: Repository<ModificationRequest> &
+    TransactionalRepository<ModificationRequest>
+}
+
 export const makeAccorderChangementDePuissance =
-  () =>
-  ({ utilisateur }: Commande) => {
+  ({ modificationRequestRepo }: Dépendances) =>
+  ({ demandeId, utilisateur, versionDate }: Commande) => {
     if (userIsNot(['admin', 'dgec-validateur', 'dreal'])(utilisateur)) {
       return errAsync(new UnauthorizedError())
     }
 
-    return okAsync(null)
+    return modificationRequestRepo.transaction(demandeId, (demande) => {
+      if (demande.lastUpdatedOn && demande.lastUpdatedOn.getTime() !== versionDate.getTime()) {
+        return errAsync(new AggregateHasBeenUpdatedSinceError())
+      }
+      return okAsync(null)
+    })
   }
 
 // import { Project } from '@modules/project/Project'
