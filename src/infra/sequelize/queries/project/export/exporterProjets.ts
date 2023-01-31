@@ -1,4 +1,4 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
+import { FiltreListeProjets } from '@modules/project'
 import { exporterProjetsPourDGEC } from './requêtes/exporterProjetsPourDGEC'
 import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjetsPourCaisseDesDépôts'
 

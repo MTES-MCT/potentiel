@@ -5,7 +5,7 @@ import {
   identificationProjet,
   localisationProjet,
 } from '../colonnesParCatégorie'
-import { récupérerExportProjets } from '@infra/sequelize/queries/project/export/requêtes/récupérerExportProjets'
+import { récupérerExportProjets } from './récupérerExportProjets'
 
 const colonnesÀExporter = [
   ...identificationProjet,
