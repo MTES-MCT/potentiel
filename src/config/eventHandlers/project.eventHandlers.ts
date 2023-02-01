@@ -3,6 +3,7 @@ import {
   DélaiAccordé,
   AbandonAccordé,
   AnnulationAbandonAccordée,
+  ChangementDePuissanceAccordé,
 } from '@modules/demandeModification'
 import { LegacyModificationImported } from '@modules/modificationRequest'
 import {
@@ -17,6 +18,8 @@ import {
   ProjectCertificateObsolete,
   ProjectRawDataImported,
   makeOnAnnulationAbandonAccordée,
+  makeOnAbandonAccordé,
+  makeOnChangementDePuissanceAccordé,
 } from '@modules/project'
 import { subscribeToRedis } from '../eventBus.config'
 import { eventStore } from '../eventStore.config'
@@ -24,7 +27,6 @@ import { findProjectByIdentifiers, getUnnotifiedProjectsForPeriode } from '../qu
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { projectRepo } from '../repos.config'
 import { generateCertificate } from '../useCases.config'
-import { makeOnAbandonAccordé } from '../../modules/project/eventHandlers/onAbandonAccordé'
 
 eventStore.subscribe(
   PeriodeNotified.type,
@@ -130,6 +132,24 @@ const onAnnulationAbandonAccordée = async (event: DomainEvent) => {
 }
 
 subscribeToRedis(onAnnulationAbandonAccordée, 'Project')
+
+const onChangementDePuissanceAccordéHandler = makeOnChangementDePuissanceAccordé({
+  projectRepo,
+  publishToEventStore: eventStore.publish,
+})
+
+const onChangementDePuissanceAccordé = async (event: DomainEvent) => {
+  if (!(event instanceof ChangementDePuissanceAccordé)) {
+    return Promise.resolve()
+  }
+
+  return onChangementDePuissanceAccordéHandler(event).match(
+    () => Promise.resolve(),
+    (e) => Promise.reject(e)
+  )
+}
+
+subscribeToRedis(onChangementDePuissanceAccordé, 'Project.onChangementDePuissanceAccordé')
 
 console.log('Project Event Handlers Initialized')
 export const projectHandlersOk = true
