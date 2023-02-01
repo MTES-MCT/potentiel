@@ -16,6 +16,7 @@ import {
   SuccessBox,
   ErrorBox,
   Heading1,
+  SecondaryLinkButton,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
@@ -99,13 +100,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                 >
                   Envoyer
                 </Button>
-                <a
-                  className="button-outline primary"
-                  {...dataId('cancel-button')}
-                  href={routes.LISTE_PROJETS}
-                >
-                  Annuler
-                </a>
+                <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
               </div>
             </div>
           </form>
