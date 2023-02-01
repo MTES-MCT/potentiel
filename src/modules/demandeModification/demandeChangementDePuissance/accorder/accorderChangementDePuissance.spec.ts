@@ -16,6 +16,8 @@ import {
 } from '../../../../__tests__/fixtures/aggregates'
 import {
   ModificationRequest,
+  MODIFICATION_REQUEST_STATUS,
+  StatusPreventsAcceptingError,
   VariationPuissanceInterditDecisionJusticeError,
 } from '@modules/modificationRequest'
 import { Readable } from 'stream'
@@ -152,6 +154,60 @@ describe('Accorder une demande de changement de puissance', () => {
     })
   })
 
+  describe(`Impossible d'accorder un changement de puissance si le statut de la demande n'est pas compatible`, () => {
+    const statutsIncompatible = MODIFICATION_REQUEST_STATUS.filter(
+      (statut) => !['envoyée', 'en attente de confirmation', 'demande confirmée'].includes(statut)
+    )
+    for (const statut of statutsIncompatible) {
+      it(`
+      Étant donné un utilisateur avec un rôle autorisé
+      Lorsqu'il accorde une demande de changement de puissance alors que celle-ci a un statut ${statut}
+      Alors l'utilisateur devrait être informé que l'action est impossible car le statut est incompatible
+      `, async () => {
+        const demandeChangementDePuissance = {
+          ...makeFakeModificationRequest(),
+          lastUpdatedOn: new Date('2023-01-01'),
+          type: 'puissance',
+          status: statut,
+        } as ModificationRequest
+
+        const fakeProject = {
+          ...makeFakeProject(),
+          id: demandeChangementDePuissance.projectId,
+          puissanceInitiale: 10,
+        } as Project
+
+        const modificationRequestRepo = {
+          ...fakeRepo(demandeChangementDePuissance),
+          ...fakeTransactionalRepo(demandeChangementDePuissance),
+        }
+
+        const projectRepo = {
+          ...fakeRepo(fakeProject),
+          ...fakeTransactionalRepo(fakeProject),
+        }
+
+        const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+          modificationRequestRepo,
+          projectRepo,
+        })
+        const résultat = await accorderChangementDePuissance({
+          demandeId: demandeChangementDePuissance.id,
+          versionDate: new Date('2023-01-01'),
+          utilisateur,
+          fichierRéponse,
+          isDecisionJustice: false,
+          nouvellePuissance,
+        })
+
+        expect(résultat.isErr()).toEqual(true)
+        if (résultat.isErr()) {
+          expect(résultat.error).toBeInstanceOf(StatusPreventsAcceptingError)
+        }
+      })
+    }
+  })
+
   describe(`Impossible d'accorder un changement de puissance si la demande est une décision de justice et que l'augmentation de puissance est supérieure au seuil toléré`, () => {
     it(`
     Étant donné un utilisateur avec un rôle autorisé
@@ -176,6 +232,13 @@ describe('Accorder une demande de changement de puissance', () => {
       }
     })
   })
+
+  // describe(`Possible d'accorder un changement de puissance`, () => {
+  //   it(`
+  //   Étant donné un utilisateur avec un rôle autorisé
+  //   Lorsqu'il accorde une demande de changement de puissance avec
+  //   `)
+  // })
 
   // describe(`Cas d'une décision de justice`, () => {
   //   it(`

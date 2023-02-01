@@ -7,6 +7,7 @@
 // import { errAsync, logger, okAsync } from '@core/utils'
 import {
   ModificationRequest,
+  StatusPreventsAcceptingError,
   VariationPuissanceInterditDecisionJusticeError,
 } from '@modules/modificationRequest'
 import {
@@ -61,6 +62,12 @@ export const makeAccorderChangementDePuissance =
         return errAsync(new AggregateHasBeenUpdatedSinceError())
       }
 
+      if (
+        !['envoyée', 'en attente de confirmation', 'demande confirmée'].includes(demande.status)
+      ) {
+        return errAsync(new StatusPreventsAcceptingError(demande.status))
+      }
+
       return projectRepo.transaction(demande.projectId, (projet) => {
         const variationNouvellePuissanceInterdite =
           isDecisionJustice && nouvellePuissance / projet.puissanceInitiale > 1.1
@@ -99,7 +106,6 @@ export const makeAccorderChangementDePuissance =
 // export const makeAccorderChangementDePuissance =
 //   ({ fileRepo, modificationRequestRepo, projectRepo }: Dépendances) =>
 //   ({ demandeId, versionDate, fichierRéponse, utilisateur, paramètres }: Commande) => {
-//     return okAsync(null)
 
 //     return modificationRequestRepo
 //       .load(demandeId)

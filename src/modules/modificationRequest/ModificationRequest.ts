@@ -41,13 +41,16 @@ export interface ModificationRequest extends EventStoreAggregate {
   readonly type: ModificationRequestType
 }
 
-export type ModificationRequestStatus =
-  | 'envoyée'
-  | 'acceptée'
-  | 'rejetée'
-  | 'annulée'
-  | 'en attente de confirmation'
-  | 'demande confirmée'
+export const MODIFICATION_REQUEST_STATUS = [
+  'envoyée',
+  'acceptée',
+  'rejetée',
+  'annulée',
+  'en attente de confirmation',
+  'demande confirmée',
+] as const
+
+export type ModificationRequestStatus = typeof MODIFICATION_REQUEST_STATUS[number]
 
 export type ModificationRequestAcceptanceParams =
   | { type: 'recours'; newNotificationDate: Date }
