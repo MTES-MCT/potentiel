@@ -249,6 +249,7 @@ export interface Project extends EventStoreAggregate {
   readonly délaiCDC2022appliqué: boolean
   readonly GFValidées: boolean
   readonly dcrDueOn?: Date
+  readonly notifiedOn: number
 }
 
 export interface ProjectDataProps {
@@ -1160,6 +1161,9 @@ export const makeProject = (args: {
     },
     get GFValidées() {
       return props.GFValidées
+    },
+    get notifiedOn() {
+      return props.notifiedOn
     },
   })
 
