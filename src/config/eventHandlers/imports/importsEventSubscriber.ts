@@ -3,7 +3,7 @@ import { DomainEvent, HasType } from '@core/domain'
 import { subscribeToRedis } from '@config/eventBus.config'
 
 class TachesImportError extends Error {
-  constructor(public événement: DomainEvent) {
+  constructor(public événement: DomainEvent, public erreur: Error) {
     super(`Une erreur est survenue lors du traitement de la tâche d'import`)
   }
 }
@@ -18,7 +18,7 @@ const handleEvent = async (event: DomainEvent) => {
     const result = await handlersByType[type](event)
 
     if (result.isErr()) {
-      logger.error(new TachesImportError(event))
+      logger.error(new TachesImportError(event, result.error))
     }
   }
 }

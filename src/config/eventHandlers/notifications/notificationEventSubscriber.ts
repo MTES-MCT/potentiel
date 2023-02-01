@@ -3,7 +3,7 @@ import { DomainEvent, HasType } from '@core/domain'
 import { subscribeToRedis } from '@config/eventBus.config'
 
 class NotificationError extends Error {
-  constructor(public événement: DomainEvent) {
+  constructor(public événement: DomainEvent, public erreur: Error) {
     super('Une erreur est survenue lors de la notification')
   }
 }
@@ -18,7 +18,7 @@ const handleEvent = async (event: DomainEvent) => {
     try {
       await handlersByType[type](event)
     } catch (error) {
-      logger.error(new NotificationError(event))
+      logger.error(new NotificationError(event, error))
     }
   }
 }

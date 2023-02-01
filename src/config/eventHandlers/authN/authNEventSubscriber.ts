@@ -3,7 +3,7 @@ import { DomainEvent, HasType } from '@core/domain'
 import { subscribeToRedis } from '@config/eventBus.config'
 
 class AuthNError extends Error {
-  constructor(public événement: DomainEvent) {
+  constructor(public événement: DomainEvent, public erreur: Error) {
     super(`Une erreur est survenue lors du traitement de l'évènement pour authN`)
   }
 }
@@ -18,7 +18,7 @@ const handleEvent = async (event: DomainEvent) => {
     try {
       await handlersByType[type](event)
     } catch (error) {
-      logger.error(new AuthNError(event))
+      logger.error(new AuthNError(event, error))
     }
   }
 }
