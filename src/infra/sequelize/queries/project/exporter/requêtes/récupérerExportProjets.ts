@@ -7,6 +7,7 @@ import {
   Colonne,
   mapperVersAttributs,
   récupérerColonnesDétails,
+  récupérerColonnesNonDétails,
   récupérerIntitulés,
 } from '../Colonne'
 
@@ -38,7 +39,12 @@ export const récupérerExportProjets = ({
   ).map((projects) => ({
     colonnes: récupérerIntitulés(colonnesÀExporter),
     données: projects.map(({ details, ...project }) => ({
-      ...project,
+      ...récupérerColonnesNonDétails(colonnesÀExporter).reduce((acc, c) => {
+        return {
+          ...acc,
+          [c.intitulé]: project[c.literal ? c.alias : c.champ],
+        }
+      }, {}),
       ...(details &&
         JSON.parse(JSON.stringify(details, récupérerColonnesDétails(colonnesÀExporter)))),
     })),

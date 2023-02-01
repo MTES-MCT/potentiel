@@ -1,4 +1,4 @@
-import { exporterProjets } from '@infra/sequelize/queries/project/export'
+import { exporterProjets } from '@infra/sequelize/queries/project/exporter'
 import { PermissionListerProjets } from '@modules/project'
 import routes from '@routes'
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'

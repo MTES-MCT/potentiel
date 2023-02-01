@@ -3,7 +3,14 @@ import { Literal } from 'sequelize/types/utils'
 export type Colonne =
   | {
       details?: undefined
-      champ: string | Literal
+      literal?: undefined
+      champ: string
+      intitulé: string
+    }
+  | {
+      details?: undefined
+      literal: Literal
+      alias: string
       intitulé: string
     }
   | {
@@ -16,8 +23,11 @@ const isColonneDétail = (c: Colonne): c is Colonne & { details: true } => c.det
 
 export const mapperVersAttributs = (
   colonnes: Readonly<Array<Colonne>>
-): Array<[string | Literal, string]> =>
-  colonnes.filter(isNotColonneDétail).map((c) => [c.champ, c.intitulé])
+): Array<[Literal, string] | string> =>
+  colonnes.filter(isNotColonneDétail).map((c) => (c.literal ? [c.literal, c.alias] : c.champ))
+
+export const récupérerColonnesNonDétails = (colonnes: Readonly<Array<Colonne>>) =>
+  colonnes.filter(isNotColonneDétail)
 
 export const récupérerColonnesDétails = (colonnes: Readonly<Array<Colonne>>) =>
   colonnes.filter(isColonneDétail).map((c) => c.champ)

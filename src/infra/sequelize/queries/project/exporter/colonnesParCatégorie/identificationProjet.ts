@@ -38,7 +38,10 @@ export const identificationProjet: Readonly<Array<Colonne>> = [
     details: true,
   },
   {
-    champ: literal(`TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY')`),
+    literal: literal(
+      `CASE WHEN "notifiedOn" > 0 THEN TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY') ELSE '' END`
+    ),
+    alias: 'notifiedOn',
     intitulé: 'Notification',
   },
   { champ: 'cahierDesChargesActuel', intitulé: 'cahier des charges choisi' },
