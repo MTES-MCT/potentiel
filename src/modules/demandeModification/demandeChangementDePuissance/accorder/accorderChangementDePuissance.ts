@@ -6,6 +6,7 @@ import {
 import {
   AggregateHasBeenUpdatedSinceError,
   FichierDeRéponseObligatoireError,
+  ProjetNonClasséError,
   UnauthorizedError,
 } from '@modules/shared'
 import { userIsNot } from '@modules/users'
@@ -60,6 +61,10 @@ export const makeAccorderChangementDePuissance =
       }
 
       return projectRepo.transaction(demande.projectId, (projet) => {
+        if (!projet.isClasse) {
+          return errAsync(new ProjetNonClasséError())
+        }
+
         const variationNouvellePuissanceInterdite =
           isDecisionJustice && nouvellePuissance / projet.puissanceInitiale > 1.1
 
@@ -72,6 +77,7 @@ export const makeAccorderChangementDePuissance =
             new ChangementDePuissanceAccordé({
               payload: {
                 demandeId: demande.id.toString(),
+                nouvellePuissance,
                 accordéPar: utilisateur.id,
                 projetId: projet.id.toString(),
                 fichierRéponseId: undefined,
@@ -98,6 +104,7 @@ export const makeAccorderChangementDePuissance =
             new ChangementDePuissanceAccordé({
               payload: {
                 demandeId: demande.id.toString(),
+                nouvellePuissance,
                 accordéPar: utilisateur.id,
                 projetId: projet.id.toString(),
                 fichierRéponseId,

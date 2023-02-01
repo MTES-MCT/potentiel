@@ -7,6 +7,7 @@ import {
   AggregateHasBeenUpdatedSinceError,
   FichierDeRéponseObligatoireError,
   InfraNotAvailableError,
+  ProjetNonClasséError,
   UnauthorizedError,
 } from '@modules/shared'
 import {
@@ -240,6 +241,57 @@ describe('Accorder une demande de changement de puissance', () => {
     })
   })
 
+  describe(`Impossible d'accorder un changement de puissance si le projet concerné n'est pas classé`, () => {
+    it(`
+    Étant donné un utilisateur avec un rôle autorisé
+    Lorsqu'il accorde une demande de changement de puissance mais que le projet n'a pas classé
+    Alors l'utilisateur devrait être alerté que l'action est impossible car le projet doit être classé pour pouvoir avoir sa puissance modifiée  
+    `, async () => {
+      const demandeChangementDePuissance = {
+        ...makeFakeModificationRequest(),
+        lastUpdatedOn: new Date('2023-01-01'),
+        type: 'puissance',
+        status: 'envoyée',
+      } as ModificationRequest
+
+      const fakeProject = {
+        ...makeFakeProject(),
+        id: demandeChangementDePuissance.projectId,
+        isClasse: false,
+      } as Project
+
+      const modificationRequestRepo = {
+        ...fakeRepo(demandeChangementDePuissance),
+        ...fakeTransactionalRepo(demandeChangementDePuissance),
+      }
+
+      const projectRepo = {
+        ...fakeRepo(fakeProject),
+        ...fakeTransactionalRepo(fakeProject),
+      }
+
+      const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+        modificationRequestRepo,
+        projectRepo,
+        fileRepo,
+        publishToEventStore,
+      })
+      const résultat = await accorderChangementDePuissance({
+        demandeId: demandeChangementDePuissance.id,
+        versionDate: new Date('2023-01-01'),
+        utilisateur,
+        fichierRéponse,
+        isDecisionJustice: false,
+        nouvellePuissance,
+      })
+
+      expect(résultat.isErr()).toEqual(true)
+      if (résultat.isErr()) {
+        expect(résultat.error).toBeInstanceOf(ProjetNonClasséError)
+      }
+    })
+  })
+
   describe(`Possible d'accorder un changement de puissance`, () => {
     it(`
     Étant donné un utilisateur avec un rôle autorisé
@@ -277,6 +329,7 @@ describe('Accorder une demande de changement de puissance', () => {
             type: 'ChangementDePuissanceAccordé',
             payload: expect.objectContaining({
               demandeId: demandeChangementDePuissance.id.toString(),
+              nouvellePuissance,
               projetId: demandeChangementDePuissance.projectId.toString(),
               accordéPar: utilisateur.id,
               fichierRéponseId: expect.any(String),

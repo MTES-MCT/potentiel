@@ -5,6 +5,7 @@ export type ChangementDePuissanceAccordéPayload = {
   projetId: string
   fichierRéponseId?: string
   accordéPar: string
+  nouvellePuissance: number
 }
 
 export class ChangementDePuissanceAccordé
