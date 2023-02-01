@@ -4,7 +4,7 @@ import { ContratEDF } from '@modules/edf'
 import { ContratEnedis } from '@modules/enedis'
 import { GarantiesFinancières } from '../../projectionsNext'
 
-class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
+export class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string
   appelOffreId: string
   periodeId: string

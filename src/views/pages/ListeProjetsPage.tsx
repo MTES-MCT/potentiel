@@ -73,6 +73,8 @@ export const ListeProjets = ({
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
   const [displaySelection, setDisplaySelection] = useState(false)
 
+  const utilisateurEstDGEC = ['admin', 'dgec-validateur'].includes(request.user.role)
+
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
@@ -319,9 +321,15 @@ export const ListeProjets = ({
               {projects.itemCount > 0 && (
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-                  href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                    request.query as any
-                  )}`}
+                  href={
+                    utilisateurEstDGEC
+                      ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                          request.query as any
+                        )}`
+                      : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                          request.query as any
+                        )}`
+                  }
                   download
                 >
                   <ExcelFileIcon className="mr-2" />
