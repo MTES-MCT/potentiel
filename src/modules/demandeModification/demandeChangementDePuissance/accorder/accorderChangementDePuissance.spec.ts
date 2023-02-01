@@ -6,6 +6,7 @@ import { makeAccorderChangementDePuissance } from './accorderChangementDePuissan
 import {
   AggregateHasBeenUpdatedSinceError,
   FichierDeRéponseObligatoireError,
+  InfraNotAvailableError,
   UnauthorizedError,
 } from '@modules/shared'
 import {
@@ -22,6 +23,8 @@ import {
 } from '@modules/modificationRequest'
 import { Readable } from 'stream'
 import { Project } from '@modules/project'
+import { okAsync } from '@core/utils'
+import { FileObject } from '@modules/file'
 
 describe('Accorder une demande de changement de puissance', () => {
   const utilisateur = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
@@ -47,15 +50,12 @@ describe('Accorder une demande de changement de puissance', () => {
     ...fakeRepo(fakeProject),
     ...fakeTransactionalRepo(fakeProject),
   }
-  // const fileRepo = {
-  //   save: jest.fn((file: FileObject) => okAsync(null)),
-  //   load: jest.fn(),
-  // }
+  const fileRepo = {
+    save: jest.fn((file: FileObject) => okAsync(null)),
+    load: jest.fn(),
+  }
 
-  // const paramètres: ModificationRequestAcceptanceParams = {
-  //   type: 'puissance',
-  //   newPuissance: 1,
-  // }
+  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
 
   const fakeFileContents = Readable.from('test-content')
   const fakeFileName = 'myfilename.pdf'
@@ -64,10 +64,7 @@ describe('Accorder une demande de changement de puissance', () => {
 
   const nouvellePuissance = 100
 
-  // beforeEach(() => {
-  //   fakeProject.updatePuissance.mockClear()
-  //   fileRepo.save.mockClear()
-  // })
+  beforeEach(() => publishToEventStore.mockClear())
 
   describe(`Impossible d'accorder un changement de puissance si l'utilisateur n'a pas l'autorisation`, () => {
     const rolesNePouvantPasAccorderUnChangementDePuissance = USER_ROLES.filter(
@@ -83,6 +80,8 @@ describe('Accorder une demande de changement de puissance', () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
+          fileRepo,
+          publishToEventStore,
         })
 
         const résultat = await accorderChangementDePuissance({
@@ -111,10 +110,12 @@ describe('Accorder une demande de changement de puissance', () => {
       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
         modificationRequestRepo,
         projectRepo,
+        fileRepo,
+        publishToEventStore,
       })
       const résultat = await accorderChangementDePuissance({
         demandeId: demandeChangementDePuissance.id,
-        versionDate: new Date('2023-01-02'),
+        versionDate: new Date('2023-01-01'),
         utilisateur,
         isDecisionJustice: false,
         nouvellePuissance,
@@ -136,6 +137,8 @@ describe('Accorder une demande de changement de puissance', () => {
       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
         modificationRequestRepo,
         projectRepo,
+        fileRepo,
+        publishToEventStore,
       })
 
       const résultat = await accorderChangementDePuissance({
@@ -190,6 +193,8 @@ describe('Accorder une demande de changement de puissance', () => {
         const accorderChangementDePuissance = makeAccorderChangementDePuissance({
           modificationRequestRepo,
           projectRepo,
+          fileRepo,
+          publishToEventStore,
         })
         const résultat = await accorderChangementDePuissance({
           demandeId: demandeChangementDePuissance.id,
@@ -217,6 +222,8 @@ describe('Accorder une demande de changement de puissance', () => {
       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
         modificationRequestRepo,
         projectRepo,
+        fileRepo,
+        publishToEventStore,
       })
       const résultat = await accorderChangementDePuissance({
         demandeId: demandeChangementDePuissance.id,
@@ -233,104 +240,50 @@ describe('Accorder une demande de changement de puissance', () => {
     })
   })
 
-  // describe(`Possible d'accorder un changement de puissance`, () => {
-  //   it(`
-  //   Étant donné un utilisateur avec un rôle autorisé
-  //   Lorsqu'il accorde une demande de changement de puissance avec
-  //   `)
-  // })
+  describe(`Possible d'accorder un changement de puissance`, () => {
+    it(`
+    Étant donné un utilisateur avec un rôle autorisé
+    Lorsqu'il accorde une demande de changement de puissance respectant les conditions de validation
+    Alors l'utilisateur devrait être informé que la demande a bien été acceptée
+    `, async () => {
+      const accorderChangementDePuissance = makeAccorderChangementDePuissance({
+        modificationRequestRepo,
+        projectRepo,
+        fileRepo,
+        publishToEventStore,
+      })
 
-  // describe(`Cas d'une décision de justice`, () => {
-  //   it(`
-  //   Étant donné un utilisateur avec un rôle autorisé
-  //   Lorsqu'il accorde une demande de changement de puissance mais que celle-ci fait suite à une décision de justice et que l'augmentation est supérieure au seuil toléré (10%)
-  //   Alors l'utilisateur devrait être informé que l'augmentation de la puissance est impossible`, async () => {
-  //     const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  //       modificationRequestRepo,
-  //       projectRepo,
-  //       fileRepo,
-  //     })
+      const résultat = await accorderChangementDePuissance({
+        demandeId: demandeChangementDePuissance.id,
+        versionDate: new Date('2023-01-01'),
+        utilisateur,
+        fichierRéponse,
+        isDecisionJustice: false,
+        nouvellePuissance,
+      })
 
-  //     const résultat = await accorderChangementDePuissance({
-  //       demandeId: fakeModificationRequest.id,
-  //       versionDate: fakeModificationRequest.lastUpdatedOn,
-  //       paramètres: { ...paramètres, newPuissance: 100, isDecisionJustice: true },
-  //       utilisateur,
-  //       fichierRéponse,
-  //     })
-
-  //     expect(résultat.isErr()).toEqual(true)
-  //     if (résultat.isErr()) {
-  //       expect(résultat.error).toBeInstanceOf(PuissanceVariationWithDecisionJusticeError)
-  //     }
-  //   })
-  // })
-
-  // describe(`Possible d'accorder un changement de puissance`, () => {
-  //   describe(`Cas d'une décision de justice`, () => {
-  //     it(`
-  //     Étant donné un utilisateur avec un rôle autorisé
-  //     Lorsqu'il accorde une demande de changement de puissance et que celle-ci fait suite à une décision de justice et que l'augmentation est inférieure ou égale au seuil toléré (10%)
-  //     Alors l'utilisateur devrait être informé que le changement de la puissance a bien été accepté
-  //       `, async () => {
-  //       const paramètres: ModificationRequestAcceptanceParams = {
-  //         type: 'puissance',
-  //         newPuissance: 1,
-  //         isDecisionJustice: true,
-  //       }
-
-  //       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  //         modificationRequestRepo,
-  //         projectRepo,
-  //         fileRepo,
-  //       })
-
-  //       const résultat = await accorderChangementDePuissance({
-  //         demandeId: fakeModificationRequest.id,
-  //         versionDate: fakeModificationRequest.lastUpdatedOn,
-  //         paramètres: paramètres,
-  //         utilisateur,
-  //       })
-
-  //       expect(résultat.isOk()).toEqual(true)
-  //       if (résultat.isOk()) {
-  //         expect(projectRepo.save).toHaveBeenCalled()
-  //         expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
-  //       }
-  //     })
-  //   })
-
-  //   describe(`Cas générique`, () => {
-  //     it(`
-  //     Étant donné un utilisateur avec un rôle autorisé
-  //     Lorsqu'il accorde une demande de changement en ayant
-  //     Alors l'utilisateur devrait être informé que le changement de la puissance a bien été acceptée
-  //     `, async () => {
-  //       const accorderChangementDePuissance = makeAccorderChangementDePuissance({
-  //         modificationRequestRepo,
-  //         projectRepo,
-  //         fileRepo: fileRepo as Repository<FileObject>,
-  //       })
-
-  //       const résultat = await accorderChangementDePuissance({
-  //         demandeId: fakeModificationRequest.id,
-  //         versionDate: fakeModificationRequest.lastUpdatedOn,
-  //         paramètres,
-  //         fichierRéponse,
-  //         utilisateur,
-  //       })
-
-  //       expect(résultat.isOk()).toEqual(true)
-  //       if (résultat.isOk()) {
-  //         expect(projectRepo.save).toHaveBeenCalled()
-  //         expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject)
-
-  //         expect(fakeProject.updatePuissance).toHaveBeenCalledTimes(1)
-  //         expect(fakeProject.updatePuissance).toHaveBeenCalledWith(utilisateur, 1)
-
-  //         expect(fileRepo.save).toHaveBeenCalledTimes(1)
-  //       }
-  //     })
-  //   })
-  // })
+      expect(résultat.isOk()).toEqual(true)
+      if (résultat.isOk()) {
+        expect(fileRepo.save).toHaveBeenCalledWith(
+          expect.objectContaining({
+            designation: 'modification-request-response',
+            forProject: demandeChangementDePuissance.projectId,
+            filename: fichierRéponse.filename,
+            path: `projects/${demandeChangementDePuissance.projectId}/${fakeFileName}`,
+          })
+        )
+        expect(publishToEventStore).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'ChangementDePuissanceAccordé',
+            payload: expect.objectContaining({
+              demandeId: demandeChangementDePuissance.id.toString(),
+              projetId: demandeChangementDePuissance.projectId.toString(),
+              accordéPar: utilisateur.id,
+              fichierRéponseId: expect.any(String),
+            }),
+          })
+        )
+      }
+    })
+  })
 })
