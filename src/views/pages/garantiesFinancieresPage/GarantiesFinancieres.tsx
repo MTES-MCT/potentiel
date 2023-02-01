@@ -7,12 +7,12 @@ import ROUTES from '@routes'
 import { PaginatedList } from '../../../types'
 import {
   ProjectList,
-  DownloadIcon,
   PageTemplate,
   SuccessBox,
   ErrorBox,
   Link,
   Heading1,
+  DownloadLink,
 } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
@@ -170,17 +170,16 @@ export const GarantiesFinancieres = ({
         {error && <ErrorBox title={error} />}
         {projects ? (
           <>
-            <div className="m-2">
-              <strong>{Array.isArray(projects) ? projects.length : projects.itemCount}</strong>{' '}
-              projets
-              <a
-                href={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+            <div className="mb-8">
+              <DownloadLink
+                fileUrl={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
                   request.query as any
                 )}`}
-                download
               >
-                <DownloadIcon />
-              </a>
+                Télécharger les{' '}
+                <span>{Array.isArray(projects) ? projects.length : projects.itemCount}</span>{' '}
+                projets (document csv)
+              </DownloadLink>
             </div>
             <ProjectList
               displayGF={true}
