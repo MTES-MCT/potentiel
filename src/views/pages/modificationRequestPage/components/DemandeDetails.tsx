@@ -3,9 +3,8 @@ import { format } from 'date-fns'
 import moment from 'moment'
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { dataId } from '../../../../helpers/testId'
 import ROUTES from '@routes'
-import { DownloadIcon, ExternalLink, Heading2, Link } from '@components'
+import { ExternalLink, FileDownloadIcon, Heading2, SecondaryLinkButton } from '@components'
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO
@@ -36,14 +35,13 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
       <DetailsByType modificationRequest={modificationRequest} />
       {attachmentFile && (
         <div className="mt-4">
-          <DownloadIcon />
-          <Link
+          <SecondaryLinkButton
             href={ROUTES.DOWNLOAD_PROJECT_FILE(attachmentFile.id, attachmentFile.filename)}
             download={true}
-            {...dataId('requestList-item-download-link')}
           >
+            <FileDownloadIcon className="text-lg mr-2" aria-hidden />
             Télécharger la pièce-jointe
-          </Link>
+          </SecondaryLinkButton>
         </div>
       )}
     </div>
