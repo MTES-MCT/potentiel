@@ -1,36 +1,27 @@
 import { Literal } from 'sequelize/types/utils'
 
-export type Colonne =
-  | {
-      details?: undefined
-      literal?: undefined
-      champ: string
-      intitulé: string
-    }
-  | {
-      details?: undefined
-      literal: Literal
-      alias: string
-      intitulé: string
-    }
-  | {
-      details: true
-      champ: string
-    }
+type PropriétéDeLaColonneDétail = {
+  source: 'propriété-colonne-détail'
+  nomPropriété: string
+}
+type ChampSimple = {
+  source: 'champ-simple'
+  nomColonneTableProjet: string
+  intitulé: string
+}
+type ExpressionSql = {
+  source: 'expression-sql'
+  expressionSql: Literal
+  aliasColonne: string
+  intitulé: string
+}
 
-const isNotColonneDétail = (c: Colonne): c is Colonne & { details: undefined } => c.details !== true
-const isColonneDétail = (c: Colonne): c is Colonne & { details: true } => c.details === true
+export type Colonne = PropriétéDeLaColonneDétail | ChampSimple | ExpressionSql
 
-export const mapperVersAttributs = (
-  colonnes: Readonly<Array<Colonne>>
-): Array<[Literal, string] | string> =>
-  colonnes.filter(isNotColonneDétail).map((c) => (c.literal ? [c.literal, c.alias] : c.champ))
+export const isPropriétéDeLaColonneDétail = (
+  colonne: Colonne
+): colonne is PropriétéDeLaColonneDétail => colonne.source === 'propriété-colonne-détail'
 
-export const récupérerColonnesNonDétails = (colonnes: Readonly<Array<Colonne>>) =>
-  colonnes.filter(isNotColonneDétail)
-
-export const récupérerColonnesDétails = (colonnes: Readonly<Array<Colonne>>) =>
-  colonnes.filter(isColonneDétail).map((c) => c.champ)
-
-export const récupérerIntitulés = (colonnes: Readonly<Array<Colonne>>) =>
-  colonnes.map((c) => (c.details ? c.champ : c.intitulé))
+export const isNotPropriétéDeLaColonneDétail = (
+  colonne: Colonne
+): colonne is ChampSimple | ExpressionSql => colonne.source !== 'propriété-colonne-détail'

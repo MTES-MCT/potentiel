@@ -1,12 +1,12 @@
 import { Colonne } from '../Colonne'
 
 export const notes: Readonly<Array<Colonne>> = [
-  { champ: `Note prix`, details: true },
-  { champ: `Note carbone`, details: true },
-  { champ: `Note environnementale`, details: true },
+  { nomPropriété: `Note prix`, source: 'propriété-colonne-détail' },
+  { nomPropriété: `Note carbone`, source: 'propriété-colonne-détail' },
+  { nomPropriété: `Note environnementale`, source: 'propriété-colonne-détail' },
   {
-    champ: `Note innovation\n(AO innovation)`,
-    details: true,
+    nomPropriété: `Note innovation\n(AO innovation)`,
+    source: 'propriété-colonne-détail',
   },
-  { champ: 'note', intitulé: 'Note totale' },
+  { source: 'champ-simple', nomColonneTableProjet: 'note', intitulé: 'Note totale' },
 ]

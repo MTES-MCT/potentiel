@@ -53,7 +53,7 @@ describe(`Export des projets`, () => {
     ...notes,
     ...modificationsAvantImport,
     ...garantiesFinancières,
-  ].map((c) => (c.details ? c.champ : c.intitulé))
+  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
 
   describe(`Exporter des projets`, () => {
     it(`Étant donné des projets notifiés et non notifiés avec des détails

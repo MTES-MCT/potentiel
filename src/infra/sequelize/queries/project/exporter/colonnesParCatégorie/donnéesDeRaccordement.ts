@@ -2,31 +2,34 @@ import { Colonne } from '../Colonne'
 
 export const donnéesDeRaccordement: Readonly<Array<Colonne>> = [
   {
-    champ: `Référence du dossier de raccordement*`,
-    details: true,
+    nomPropriété: `Référence du dossier de raccordement*`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Date de mise en service du raccordement attendue (mm/aaaa)`,
-    details: true,
+    nomPropriété: `Date de mise en service du raccordement attendue (mm/aaaa)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Capacité du raccordement (kW)`,
-    details: true,
+    nomPropriété: `Capacité du raccordement (kW)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Montant estimé du raccordement (k€)`,
-    details: true,
+    nomPropriété: `Montant estimé du raccordement (k€)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: 'dateFileAttente',
+    nomColonneTableProjet: 'dateFileAttente',
+    source: 'champ-simple',
     intitulé: "Date d'entrée en file d'attente",
   },
   {
-    champ: 'dateMiseEnService',
+    nomColonneTableProjet: 'dateMiseEnService',
+    source: 'champ-simple',
     intitulé: 'Date de mise en service',
   },
   {
-    champ: 'numeroGestionnaire',
+    nomColonneTableProjet: 'numeroGestionnaire',
+    source: 'champ-simple',
     intitulé: 'Numéro de gestionnaire réseau',
   },
 ]

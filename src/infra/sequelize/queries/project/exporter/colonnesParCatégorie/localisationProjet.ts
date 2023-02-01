@@ -1,9 +1,13 @@
 import { Colonne } from '../Colonne'
 
 export const localisationProjet: Readonly<Array<Colonne>> = [
-  { champ: 'adresseProjet', intitulé: 'N°, voie, lieu-dit' },
-  { champ: 'codePostalProjet', intitulé: 'CP' },
-  { champ: 'communeProjet', intitulé: 'Commune' },
-  { champ: `Département`, details: true },
-  { champ: `Région`, details: true },
+  {
+    source: 'champ-simple',
+    nomColonneTableProjet: 'adresseProjet',
+    intitulé: 'N°, voie, lieu-dit',
+  },
+  { source: 'champ-simple', nomColonneTableProjet: 'codePostalProjet', intitulé: 'CP' },
+  { source: 'champ-simple', nomColonneTableProjet: 'communeProjet', intitulé: 'Commune' },
+  { nomPropriété: `Département`, source: 'propriété-colonne-détail' },
+  { nomPropriété: `Région`, source: 'propriété-colonne-détail' },
 ]

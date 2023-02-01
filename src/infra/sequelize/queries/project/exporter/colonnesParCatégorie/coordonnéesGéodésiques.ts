@@ -2,35 +2,35 @@ import { Colonne } from '../Colonne'
 
 export const coordonnéesGéodésiques: Readonly<Array<Colonne>> = [
   {
-    champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (degrés)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (minutes)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (secondes)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84 du barycentre de l’Installation : Latitude (cardinal)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(degrés)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(minutes)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(secondes)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)`,
-    details: true,
+    nomPropriété: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)`,
+    source: 'propriété-colonne-détail',
   },
 ]

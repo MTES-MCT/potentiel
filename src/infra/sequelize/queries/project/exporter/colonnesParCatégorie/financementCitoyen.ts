@@ -3,24 +3,34 @@ import { Colonne } from '../Colonne'
 
 export const financementCitoyen: Readonly<Array<Colonne>> = [
   {
-    literal: literal(`CASE WHEN "isInvestissementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
-    alias: 'isInvestissementParticipatif',
+    source: 'expression-sql',
+    expressionSql: literal(
+      `CASE WHEN "isInvestissementParticipatif" = 'true' THEN 'Oui' ELSE '' END`
+    ),
+    aliasColonne: 'isInvestissementParticipatif',
     intitulé: 'Investissement participatif (Oui/Non)',
   },
   {
-    literal: literal(`CASE WHEN "isFinancementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
-    alias: 'isFinancementParticipatif',
+    source: 'expression-sql',
+    expressionSql: literal(`CASE WHEN "isFinancementParticipatif" = 'true' THEN 'Oui' ELSE '' END`),
+    aliasColonne: 'isFinancementParticipatif',
     intitulé: 'Financement participatif (Oui/Non)',
   },
-  { champ: `€/MWh bonus participatif`, details: true },
+  { source: 'propriété-colonne-détail', nomPropriété: `€/MWh bonus participatif` },
   {
-    literal: literal(`CASE WHEN "actionnariat" = 'financement-collectif' THEN 'Oui' ELSE '' END`),
-    alias: 'financementCollectif',
+    source: 'expression-sql',
+    expressionSql: literal(
+      `CASE WHEN "actionnariat" = 'financement-collectif' THEN 'Oui' ELSE '' END`
+    ),
+    aliasColonne: 'financementCollectif',
     intitulé: 'Financement collectif (Oui/Non)',
   },
   {
-    literal: literal(`CASE WHEN "actionnariat" = 'gouvernance-partagee' THEN 'Oui' ELSE '' END`),
-    alias: 'gouvernancePartagee',
+    source: 'expression-sql',
+    expressionSql: literal(
+      `CASE WHEN "actionnariat" = 'gouvernance-partagee' THEN 'Oui' ELSE '' END`
+    ),
+    aliasColonne: 'gouvernancePartagee',
     intitulé: 'Gouvernance partagée (Oui/Non)',
   },
 ]

@@ -2,15 +2,16 @@ import { Colonne } from '../Colonne'
 
 export const prix: Readonly<Array<Colonne>> = [
   {
-    champ: `Prix Majoré`,
-    details: true,
+    nomPropriété: `Prix Majoré`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: 'prixReference',
+    source: 'champ-simple',
+    nomColonneTableProjet: 'prixReference',
     intitulé: 'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
   },
   {
-    champ: `Prix de référence (€/MWh)`,
-    details: true,
+    nomPropriété: `Prix de référence (€/MWh)`,
+    source: 'propriété-colonne-détail',
   },
 ]

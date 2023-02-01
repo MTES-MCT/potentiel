@@ -3,13 +3,9 @@ import { wrapInfra } from '@core/utils'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions'
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
-import {
-  Colonne,
-  mapperVersAttributs,
-  récupérerColonnesDétails,
-  récupérerColonnesNonDétails,
-  récupérerIntitulés,
-} from '../Colonne'
+import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne'
+import { Literal } from 'sequelize/types/utils'
+import { Project } from '../../../../projections/project/project.model'
 
 const { Project: ProjectModel } = models
 
@@ -33,20 +29,44 @@ export const récupérerExportProjets = ({
           attributes: [],
         },
       ],
-      attributes: [...mapperVersAttributs(colonnesÀExporter), 'details'],
+      attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
       raw: true,
     })
   ).map((projects) => ({
     colonnes: récupérerIntitulés(colonnesÀExporter),
-    données: projects.map(({ details, ...project }) => ({
-      ...récupérerColonnesNonDétails(colonnesÀExporter).reduce((acc, c) => {
-        return {
-          ...acc,
-          [c.intitulé]: project[c.literal ? c.alias : c.champ],
-        }
-      }, {}),
-      ...(details &&
-        JSON.parse(JSON.stringify(details, récupérerColonnesDétails(colonnesÀExporter)))),
-    })),
+    données: projects.map((project) => formaterLesDonnées(colonnesÀExporter, project)),
   }))
 }
+
+const formaterLesDonnées = (
+  colonnesÀExporter: Readonly<Array<Colonne>>,
+  { details, ...project }: Project
+) => ({
+  ...colonnesÀExporter.filter(isNotPropriétéDeLaColonneDétail).reduce(
+    (acc, c) => ({
+      ...acc,
+      [c.intitulé]:
+        project[c.source === 'expression-sql' ? c.aliasColonne : c.nomColonneTableProjet],
+    }),
+    {}
+  ),
+  ...(details &&
+    JSON.parse(
+      JSON.stringify(
+        details,
+        colonnesÀExporter.filter(isPropriétéDeLaColonneDétail).map((c) => c.nomPropriété)
+      )
+    )),
+})
+
+const récupérerIntitulés = (colonnes: Readonly<Array<Colonne>>) =>
+  colonnes.map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
+
+const convertirEnAttributsSequelize = (
+  colonnes: Readonly<Array<Colonne>>
+): Array<[Literal, string] | string> =>
+  colonnes
+    .filter(isNotPropriétéDeLaColonneDétail)
+    .map((c) =>
+      c.source === 'expression-sql' ? [c.expressionSql, c.aliasColonne] : c.nomColonneTableProjet
+    )

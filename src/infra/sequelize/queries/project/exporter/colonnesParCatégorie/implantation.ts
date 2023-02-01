@@ -2,51 +2,51 @@ import { Colonne } from '../Colonne'
 
 export const implantation: Readonly<Array<Colonne>> = [
   {
-    champ: `Surface projetée au sol de l’ensemble des Capteurs solaires (ha)`,
-    details: true,
+    nomPropriété: `Surface projetée au sol de l’ensemble des Capteurs solaires (ha)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Surface du Terrain d’implantation (ha)`,
-    details: true,
+    nomPropriété: `Surface du Terrain d’implantation (ha)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Terrain d’implantation est dégradé au sens du cas 3 du 2.6`,
-    details: true,
+    nomPropriété: `Terrain d’implantation est dégradé au sens du cas 3 du 2.6`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6`,
-    details: true,
+    nomPropriété: `Terrain d’implantation bénéficie de la dérogation sur le c) du Cas 2 du 2.6`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Détention de l’Autorisation d’Urbanisme`,
-    details: true,
+    nomPropriété: `Détention de l’Autorisation d’Urbanisme`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Type d'utorisation d'Urbanisme (pièce n°3)`,
-    details: true,
+    nomPropriété: `Type d'utorisation d'Urbanisme (pièce n°3)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Type de terrain d'implantation \n(pièce n°3)`,
-    details: true,
+    nomPropriété: `Type de terrain d'implantation \n(pièce n°3)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Types Cas 3 \n(pièce n°3)`,
-    details: true,
+    nomPropriété: `Types Cas 3 \n(pièce n°3)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Type d'AU \n(pièce n°4)`,
-    details: true,
+    nomPropriété: `Type d'AU \n(pièce n°4)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Codes cas 1\n(AO sol)`,
-    details: true,
+    nomPropriété: `Codes cas 1\n(AO sol)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Codes cas 2\n(AO sol)`,
-    details: true,
+    nomPropriété: `Codes cas 2\n(AO sol)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Codes cas 3\n(AO sol)`,
-    details: true,
+    nomPropriété: `Codes cas 3\n(AO sol)`,
+    source: 'propriété-colonne-détail',
   },
 ]

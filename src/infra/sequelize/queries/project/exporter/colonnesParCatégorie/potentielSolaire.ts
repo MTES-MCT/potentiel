@@ -2,15 +2,15 @@ import { Colonne } from '../Colonne'
 
 export const potentielSolaire: Readonly<Array<Colonne>> = [
   {
-    champ: `Ensoleillement de référence (kWh/m²/an)`,
-    details: true,
+    nomPropriété: `Ensoleillement de référence (kWh/m²/an)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Productible annuel (MWh/an)`,
-    details: true,
+    nomPropriété: `Productible annuel (MWh/an)`,
+    source: 'propriété-colonne-détail',
   },
   {
-    champ: `Facteur de charges (kWh/kWc)`,
-    details: true,
+    nomPropriété: `Facteur de charges (kWh/kWc)`,
+    source: 'propriété-colonne-détail',
   },
 ]
