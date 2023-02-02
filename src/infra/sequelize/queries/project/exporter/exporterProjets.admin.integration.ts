@@ -1,4 +1,3 @@
-// import { Colonne } from './Colonne'
 import models from '../../../models'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { exporterProjets } from './exporterProjets'
@@ -28,7 +27,7 @@ import {
   évaluationCarbone,
 } from './colonnesParCatégorie'
 
-describe(`Export des projets`, () => {
+describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"`, () => {
   beforeEach(resetDatabase)
 
   const colonnesÀExporter = [
@@ -55,10 +54,11 @@ describe(`Export des projets`, () => {
     ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
 
-  describe(`Exporter des projets`, () => {
+  for (const role of ['admin', 'dgec-validateur'] as const) {
     it(`Étant donné des projets notifiés et non notifiés avec des détails
-        Lorsqu'un admin/dgec exporte tous les projets
-        Alors tous les projets devrait être récupérés avec la liste des intitulés des colonnes exportées`, async () => {
+        Lorsqu'un ${role} exporte tous les projets
+        Alors tous les projets devrait être récupérés avec la liste des intitulés des colonnes exportées
+        Et les donnèes formatées pour l'export devrait être récupérées`, async () => {
       await models.Project.bulkCreate([
         makeFakeProject({
           notifiedOn: new Date('2021-07-31').getTime(),
@@ -90,7 +90,7 @@ describe(`Export des projets`, () => {
         }),
       ])
 
-      const exportProjets = await exporterProjets({ role: 'admin' })
+      const exportProjets = await exporterProjets({ role })
 
       if (exportProjets.isErr()) {
         console.error(exportProjets.error)
@@ -126,58 +126,5 @@ describe(`Export des projets`, () => {
         ])
       )
     })
-  })
-
-  // describe(`Filtrer un export`, () => {
-  //   describe(`Filtrer un export de projets par nom de projet`, () => {
-  //     it(`Étant donné des projets avec des détails complets
-  //       Lorsque on récupère un export pour un projet nommé "Projet"
-  //       Alors un export devrait être récupéré avec seulement les données des projet dont le nom contient 'Projet'`, async () => {
-  //       await models.Project.bulkCreate([
-  //         makeFakeProject({
-  //           nomProjet: 'Projet Eolien',
-  //           prixReference: 12,
-  //           details: { 'Prix Majoré': '90', 'Prix de référence (€/MWh)': '42' },
-  //         }),
-  //         makeFakeProject({
-  //           nomProjet: 'Projet Photovoltaïque',
-  //           prixReference: 1,
-  //           details: { 'Prix Majoré': '2', 'Prix de référence (€/MWh)': '3' },
-  //         }),
-  //         makeFakeProject({
-  //           nomProjet: 'Autre',
-  //           prixReference: 24,
-  //           details: { 'Prix Majoré': '56', 'Prix de référence (€/MWh)': '876' },
-  //         }),
-  //       ])
-
-  //       const colonnesÀExporter: Readonly<Array<Colonne>> = [
-  //         {
-  //           champ: `Prix Majoré`,
-  //           details: true,
-  //         },
-  //         {
-  //           champ: 'prixReference',
-  //           intitulé: 'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)',
-  //         },
-  //         {
-  //           champ: `Prix de référence (€/MWh)`,
-  //           details: true,
-  //         },
-  //       ]
-
-  //       const exportProjets = (
-  //         await récupérerExportProjets({
-  //           colonnesÀExporter,
-  //           filtres: { recherche: 'Projet' },
-  //         })
-  //       )._unsafeUnwrap()
-
-  //       expect(exportProjets.données).toEqual([
-  //         { 'Prix Majoré': '90', 'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': 12, 'Prix de référence (€/MWh)': '42' },
-  //         { 'Prix Majoré': '2', 'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': 1, 'Prix de référence (€/MWh)': '3' },
-  //       ])
-  //     })
-  //   })
-  // })
+  }
 })
