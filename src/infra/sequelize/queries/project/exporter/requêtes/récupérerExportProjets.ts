@@ -40,11 +40,11 @@ export const récupérerExportProjets = ({
     })
   ).map((projects) => ({
     colonnes: récupérerIntitulés(colonnesÀExporter),
-    données: projects.map((project) => formaterLesDonnées(colonnesÀExporter, project)),
+    données: projects.map((project) => applatirEtChangerLesIntitulés(colonnesÀExporter, project)),
   }))
 }
 
-const formaterLesDonnées = (
+const applatirEtChangerLesIntitulés = (
   colonnesÀExporter: Readonly<Array<Colonne>>,
   { details, ...project }: Project
 ): { [key: string]: string | number } => ({

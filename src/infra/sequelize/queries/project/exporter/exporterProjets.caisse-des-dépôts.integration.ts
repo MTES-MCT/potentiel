@@ -21,7 +21,7 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
 
   it(`Étant donné des projets notifiés et non notifiés avec des détails
-        Lorsqu'un utilisateur avec le rôle "caisse des dépôts exporte tous les projets
+        Lorsqu'un utilisateur avec le rôle "caisse des dépôts" exporte tous les projets
         Alors seuls les projets notifiés devrait être récupérés avec la liste des intitulés des colonnes exportées`, async () => {
     await models.Project.bulkCreate([
       makeFakeProject({
@@ -43,14 +43,16 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
     expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
     expect(exportProjets.données).toHaveLength(2)
-    expect(exportProjets.données).toEqual([
-      expect.objectContaining({
-        'Nom projet': 'Projet Notifié Eolien',
-      }),
-      expect.objectContaining({
-        'Nom projet': 'Autre Notifié',
-      }),
-    ])
+    expect(exportProjets.données).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          'Nom projet': 'Projet Notifié Eolien',
+        }),
+        expect.objectContaining({
+          'Nom projet': 'Autre Notifié',
+        }),
+      ])
+    )
     expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': 'Projet Non Notifié Photovoltaïque',
