@@ -42,15 +42,10 @@ describe('Accorder une demande de changement de puissance', () => {
     puissanceInitiale: 10,
   } as Project
 
-  const modificationRequestRepo = {
-    ...fakeRepo(demandeChangementDePuissance),
-    ...fakeTransactionalRepo(demandeChangementDePuissance),
-  }
+  const modificationRequestRepo = fakeRepo(demandeChangementDePuissance)
 
-  const projectRepo = {
-    ...fakeRepo(fakeProject),
-    ...fakeTransactionalRepo(fakeProject),
-  }
+  const projectRepo = fakeRepo(fakeProject)
+
   const fileRepo = {
     save: jest.fn((file: FileObject) => okAsync(null)),
     load: jest.fn(),

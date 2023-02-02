@@ -6,6 +6,7 @@ export type ChangementDePuissanceAccordéPayload = {
   fichierRéponseId?: string
   accordéPar: string
   nouvellePuissance: number
+  isDecisionJustice: boolean
 }
 
 export class ChangementDePuissanceAccordé

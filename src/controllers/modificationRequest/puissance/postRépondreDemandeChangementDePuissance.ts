@@ -22,7 +22,7 @@ import { v1Router } from '../../v1Router'
 import safeAsyncHandler from '../../helpers/safeAsyncHandler'
 import { UniqueEntityID } from '@core/domain'
 
-const _handleSuccess = (response, modificationRequestId) => () => {
+const _handleSuccess = (response, modificationRequestId) => () =>
   response.redirect(
     routes.SUCCESS_OR_ERROR_PAGE({
       success: 'Votre réponse a bien été enregistrée.',
@@ -30,7 +30,6 @@ const _handleSuccess = (response, modificationRequestId) => () => {
       redirectTitle: 'Retourner à la demande',
     })
   )
-}
 
 const _handleErrors = (request, response, modificationRequestId) => (e) => {
   if (e instanceof AggregateHasBeenUpdatedSinceError) {
@@ -68,7 +67,7 @@ const schema = yup.object({
     versionDate: yup.string().required(),
     submitAccept: yup.string().nullable(),
     submitRefuse: yup.string().nullable(),
-    isDecisionJustice: yup.boolean(),
+    isDecisionJustice: yup.string(),
     statusUpdateOnly: yup.string().nullable(),
     puissance: yup.string().required('La puissance est obligatoire'),
   }),
@@ -81,15 +80,9 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({
-        request: {
-          body: { modificationRequestId },
-        },
-        response,
-        error,
-      }) =>
+      onError: ({ request, response, error }) =>
         response.redirect(
-          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
+          addQueryParams(routes.DEMANDE_PAGE_DETAILS(request.body.modificationRequestId), {
             ...error.errors,
           })
         ),
@@ -143,8 +136,9 @@ v1Router.post(
         filename: file.originalname,
       }
 
-      const courrierReponseIsOk = fichierRéponse || (estAccordé && isDecisionJustice)
-      if (!courrierReponseIsOk) {
+      const estAccordéMaisFichierManquant = estAccordé && !isDecisionJustice && !fichierRéponse
+
+      if (estAccordéMaisFichierManquant || !fichierRéponse) {
         return response.redirect(
           addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
             error:
@@ -159,7 +153,7 @@ v1Router.post(
           demandeId: new UniqueEntityID(modificationRequestId),
           versionDate: new Date(Number(versionDate)),
           nouvellePuissance: Number(puissance),
-          isDecisionJustice: !!isDecisionJustice,
+          isDecisionJustice: isDecisionJustice ? true : false,
           utilisateur: request.user,
         }).match(
           _handleSuccess(response, modificationRequestId),

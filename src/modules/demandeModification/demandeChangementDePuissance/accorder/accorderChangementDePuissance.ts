@@ -13,15 +13,14 @@ import { userIsNot } from '@modules/users'
 import { User } from '@entities'
 
 import { errAsync } from '@core/utils'
-import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
 import { Project } from '@modules/project'
 import { ChangementDePuissanceAccordé } from '../events'
 
 type Dépendances = {
-  modificationRequestRepo: Repository<ModificationRequest> &
-    TransactionalRepository<ModificationRequest>
-  projectRepo: Repository<Project> & TransactionalRepository<Project>
+  modificationRequestRepo: Repository<ModificationRequest>
+  projectRepo: Repository<Project>
   fileRepo: Repository<FileObject>
   publishToEventStore: EventStore['publish']
 }
@@ -49,7 +48,7 @@ export const makeAccorderChangementDePuissance =
       return errAsync(new UnauthorizedError())
     }
 
-    return modificationRequestRepo.transaction(demandeId, (demande) => {
+    return modificationRequestRepo.load(demandeId).andThen((demande) => {
       if (demande.lastUpdatedOn && demande.lastUpdatedOn.getTime() !== versionDate.getTime()) {
         return errAsync(new AggregateHasBeenUpdatedSinceError())
       }
@@ -60,7 +59,7 @@ export const makeAccorderChangementDePuissance =
         return errAsync(new StatusPreventsAcceptingError(demande.status))
       }
 
-      return projectRepo.transaction(demande.projectId, (projet) => {
+      return projectRepo.load(demande.projectId).andThen((projet) => {
         if (!projet.isClasse) {
           return errAsync(new ProjetNonClasséError())
         }
@@ -81,6 +80,7 @@ export const makeAccorderChangementDePuissance =
                 accordéPar: utilisateur.id,
                 projetId: projet.id.toString(),
                 fichierRéponseId: undefined,
+                isDecisionJustice,
               },
             })
           )
@@ -108,6 +108,7 @@ export const makeAccorderChangementDePuissance =
                 accordéPar: utilisateur.id,
                 projetId: projet.id.toString(),
                 fichierRéponseId,
+                isDecisionJustice,
               },
             })
           )
