@@ -21,7 +21,7 @@ import {
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 import { ProjectListItem } from '@modules/project'
-import { userIsNot } from '@modules/users'
+import { userIs, userIsNot } from '@modules/users'
 
 type ListeProjetsProps = {
   request: Request
@@ -73,7 +73,11 @@ export const ListeProjets = ({
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
   const [displaySelection, setDisplaySelection] = useState(false)
 
-  const utilisateurEstDGEC = ['admin', 'dgec-validateur'].includes(request.user.role)
+  const urlTéléchargerUnExport = userIs(['admin', 'dgec-validateur', 'caisse-des-dépôts'])(
+    request.user
+  )
+    ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(request.query as any)}`
+    : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query as any)}`
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -321,15 +325,7 @@ export const ListeProjets = ({
               {projects.itemCount > 0 && (
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
-                  href={
-                    utilisateurEstDGEC
-                      ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                          request.query as any
-                        )}`
-                      : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
-                          request.query as any
-                        )}`
-                  }
+                  href={urlTéléchargerUnExport}
                   download
                 >
                   <ExcelFileIcon className="mr-2" />
