@@ -26,6 +26,7 @@ import {
   résultatInstructionSensible,
   évaluationCarbone,
 } from './colonnesParCatégorie'
+import { User } from '@entities'
 
 describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
   beforeEach(resetDatabase)
@@ -72,7 +73,9 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
       }),
     ])
 
-    const exportProjets = (await exporterProjets({ role: 'cre' }))._unsafeUnwrap()
+    const exportProjets = (
+      await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
+    )._unsafeUnwrap()
 
     expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
