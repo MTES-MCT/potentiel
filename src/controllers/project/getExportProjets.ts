@@ -29,7 +29,12 @@ v1Router.get(
       garantiesFinancieres,
     } = request.query as any
 
-    if (role !== 'admin' && role !== 'dgec-validateur' && role !== 'caisse-des-dépôts') {
+    if (
+      role !== 'admin' &&
+      role !== 'dgec-validateur' &&
+      role !== 'caisse-des-dépôts' &&
+      role !== 'cre'
+    ) {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }
 
