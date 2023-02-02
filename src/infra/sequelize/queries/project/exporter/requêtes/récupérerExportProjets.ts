@@ -6,21 +6,27 @@ import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFina
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne'
 import { Literal } from 'sequelize/types/utils'
 import { Project } from '../../../../projections/project/project.model'
+import { Op } from 'sequelize'
 
 const { Project: ProjectModel } = models
 
 export const récupérerExportProjets = ({
   colonnesÀExporter,
   filtres,
+  seulementLesProjetsNotifiés,
 }: {
   colonnesÀExporter: Readonly<Array<Colonne>>
   filtres?: FiltreListeProjets
+  seulementLesProjetsNotifiés?: true
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
   return wrapInfra(
     ProjectModel.findAll({
-      where: findOptions?.where,
+      where: {
+        ...findOptions?.where,
+        ...(seulementLesProjetsNotifiés && { notifiedOn: { [Op.gt]: 0 } }),
+      },
       include: [
         ...(findOptions ? findOptions.include : []),
         {
@@ -41,7 +47,7 @@ export const récupérerExportProjets = ({
 const formaterLesDonnées = (
   colonnesÀExporter: Readonly<Array<Colonne>>,
   { details, ...project }: Project
-) => ({
+): { [key: string]: string | number } => ({
   ...colonnesÀExporter.filter(isNotPropriétéDeLaColonneDétail).reduce(
     (acc, c) => ({
       ...acc,

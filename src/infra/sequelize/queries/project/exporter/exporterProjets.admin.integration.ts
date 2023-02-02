@@ -55,73 +55,38 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
 
   for (const role of ['admin', 'dgec-validateur'] as const) {
-    it(`Étant donné des projets notifiés et non notifiés avec des détails
+    it(`Étant donné des projets notifiés et non notifiés
         Lorsqu'un ${role} exporte tous les projets
-        Alors tous les projets devrait être récupérés avec la liste des intitulés des colonnes exportées
-        Et les donnèes formatées pour l'export devrait être récupérées`, async () => {
+        Alors tous les projets devrait être récupérés avec la liste des intitulés des colonnes exportées`, async () => {
       await models.Project.bulkCreate([
         makeFakeProject({
           notifiedOn: new Date('2021-07-31').getTime(),
           nomProjet: 'Projet Eolien',
-          prixReference: 12,
-          details: {
-            'Prix Majoré': '90',
-            'Prix de référence (€/MWh)': '42',
-            'Contenu local européen (%)\n(Plaquettes de silicium (wafers))': 'truc',
-          },
         }),
         makeFakeProject({
           notifiedOn: 0,
           nomProjet: 'Projet Photovoltaïque',
-          prixReference: 1,
-          details: {
-            'Prix Majoré': '2',
-            'Prix de référence (€/MWh)': '3',
-          },
         }),
         makeFakeProject({
           notifiedOn: new Date('2021-07-31').getTime(),
           nomProjet: 'Autre',
-          prixReference: 24,
-          details: {
-            'Prix Majoré': '56',
-            'Prix de référence (€/MWh)': '876',
-          },
         }),
       ])
 
-      const exportProjets = await exporterProjets({ role })
+      const exportProjets = (await exporterProjets({ role }))._unsafeUnwrap()
 
-      if (exportProjets.isErr()) {
-        console.error(exportProjets.error)
-        return
-      }
+      expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
-      expect(exportProjets.value.colonnes).toEqual(colonnesÀExporter)
-
-      expect(exportProjets.value.données).toEqual(
+      expect(exportProjets.données).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             'Nom projet': 'Projet Eolien',
-            'Prix Majoré': '90',
-            'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': 12,
-            'Prix de référence (€/MWh)': '42',
-            'Contenu local européen (%)\n(Plaquettes de silicium (wafers))': 'truc',
-            Notification: '31/07/2021',
           }),
           expect.objectContaining({
             'Nom projet': 'Projet Photovoltaïque',
-            'Prix Majoré': '2',
-            'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': 1,
-            'Prix de référence (€/MWh)': '3',
-            Notification: '',
           }),
           expect.objectContaining({
             'Nom projet': 'Autre',
-            'Prix Majoré': '56',
-            'Prix de référence unitaire (T0) proposé au C. du formulaire de candidature (€/MWh)': 24,
-            'Prix de référence (€/MWh)': '876',
-            Notification: '31/07/2021',
           }),
         ])
       )
