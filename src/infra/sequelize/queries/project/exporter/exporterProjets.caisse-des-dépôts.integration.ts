@@ -9,6 +9,7 @@ import {
   identificationProjet,
   localisationProjet,
 } from './colonnesParCatégorie'
+import { User } from '@entities'
 
 describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () => {
   beforeEach(resetDatabase)
@@ -38,7 +39,9 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
       }),
     ])
 
-    const exportProjets = (await exporterProjets({ role: 'caisse-des-dépôts' }))._unsafeUnwrap()
+    const exportProjets = (
+      await exporterProjets({ user: { id: 'id-user', role: 'caisse-des-dépôts' } as User })
+    )._unsafeUnwrap()
 
     expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 

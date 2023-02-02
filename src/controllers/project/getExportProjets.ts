@@ -15,9 +15,7 @@ v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
   vérifierPermissionUtilisateur(PermissionListerProjets),
   asyncHandler(async (request, response) => {
-    const {
-      user: { role },
-    } = request
+    const { user } = request
 
     const {
       appelOffreId,
@@ -30,10 +28,11 @@ v1Router.get(
     } = request.query as any
 
     if (
-      role !== 'admin' &&
-      role !== 'dgec-validateur' &&
-      role !== 'caisse-des-dépôts' &&
-      role !== 'cre'
+      user.role !== 'admin' &&
+      user.role !== 'dgec-validateur' &&
+      user.role !== 'caisse-des-dépôts' &&
+      user.role !== 'cre' &&
+      user.role !== 'porteur-projet'
     ) {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }
@@ -51,7 +50,7 @@ v1Router.get(
       garantiesFinancieres,
     }
 
-    const exportProjets = await exporterProjets({ role, filtres })
+    const exportProjets = await exporterProjets({ user, filtres })
 
     if (exportProjets && exportProjets.isErr()) {
       return new InfraNotAvailableError()
@@ -77,7 +76,7 @@ v1Router.get(
       miseAJourStatistiquesUtilisation({
         type: 'exportProjetsTéléchargé',
         données: {
-          utilisateur: { role },
+          utilisateur: { role: user.role },
           nombreDeProjets: données.length,
         },
       })

@@ -73,9 +73,13 @@ export const ListeProjets = ({
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
   const [displaySelection, setDisplaySelection] = useState(false)
 
-  const urlTéléchargerUnExport = userIs(['admin', 'dgec-validateur', 'caisse-des-dépôts', 'cre'])(
-    request.user
-  )
+  const urlTéléchargerUnExport = userIs([
+    'admin',
+    'dgec-validateur',
+    'caisse-des-dépôts',
+    'cre',
+    'porteur-projet',
+  ])(request.user)
     ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(request.query as any)}`
     : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query as any)}`
 

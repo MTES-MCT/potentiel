@@ -26,6 +26,7 @@ import {
   résultatInstructionSensible,
   évaluationCarbone,
 } from './colonnesParCatégorie'
+import { User } from '@entities'
 
 describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"`, () => {
   beforeEach(resetDatabase)
@@ -73,7 +74,9 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
         }),
       ])
 
-      const exportProjets = (await exporterProjets({ role }))._unsafeUnwrap()
+      const exportProjets = (
+        await exporterProjets({ user: { id: 'id-user', role } as User })
+      )._unsafeUnwrap()
 
       expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 

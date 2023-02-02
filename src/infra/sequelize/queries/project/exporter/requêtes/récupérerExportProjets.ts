@@ -8,16 +8,18 @@ import { Literal } from 'sequelize/types/utils'
 import { Project } from '../../../../projections/project/project.model'
 import { Op } from 'sequelize'
 
-const { Project: ProjectModel } = models
+const { Project: ProjectModel, UserProjects } = models
 
 export const récupérerExportProjets = ({
   colonnesÀExporter,
   filtres,
   inclureLesProjetsNonNotifiés,
+  seulementLesProjetsAvecAccèsPour,
 }: {
   colonnesÀExporter: Readonly<Array<Colonne>>
   filtres?: FiltreListeProjets
   inclureLesProjetsNonNotifiés?: true
+  seulementLesProjetsAvecAccèsPour?: string
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
@@ -27,6 +29,9 @@ export const récupérerExportProjets = ({
         ...findOptions?.where,
         notifiedOn: { [Op.gt]: 0 },
         ...(inclureLesProjetsNonNotifiés && { notifiedOn: { [Op.gte]: 0 } }),
+        ...(seulementLesProjetsAvecAccèsPour && {
+          '$users.userId$': seulementLesProjetsAvecAccèsPour,
+        }),
       },
       include: [
         ...(findOptions ? findOptions.include : []),
@@ -35,6 +40,15 @@ export const récupérerExportProjets = ({
           as: 'garantiesFinancières',
           attributes: [],
         },
+        ...(seulementLesProjetsAvecAccèsPour
+          ? [
+              {
+                model: UserProjects,
+                as: 'users',
+                attributes: [],
+              },
+            ]
+          : []),
       ],
       attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
       raw: true,
