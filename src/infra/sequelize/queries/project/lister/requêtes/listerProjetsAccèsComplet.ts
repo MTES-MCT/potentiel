@@ -2,7 +2,7 @@ import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ListerProjets } from '@modules/project/queries'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
-import { mapToFindOptions } from './mapToFindOptions'
+import { mapToFindOptions } from '../../helpers/mapToFindOptions'
 import { Op } from 'sequelize'
 import { userIsNot } from '@modules/users'
 

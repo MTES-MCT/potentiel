@@ -1,4 +1,4 @@
-import { exporterProjets } from '@infra/sequelize/queries/project/export'
+import { exporterProjets } from '@infra/sequelize/queries/project/exporter'
 import { PermissionListerProjets } from '@modules/project'
 import routes from '@routes'
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
@@ -19,7 +19,7 @@ v1Router.get(
       user: { role },
     } = request
 
-    let {
+    const {
       appelOffreId,
       periodeId,
       familleId,
@@ -29,14 +29,8 @@ v1Router.get(
       garantiesFinancieres,
     } = request.query as any
 
-    if (role !== 'admin' && role !== 'dgec-validateur') {
+    if (role !== 'admin' && role !== 'dgec-validateur' && role !== 'caisse-des-dépôts') {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
-    }
-
-    if (!appelOffreId) {
-      // Reset the periodId and familleId if there is no appelOffreId
-      periodeId = undefined
-      familleId = undefined
     }
 
     const filtres = {
@@ -44,8 +38,8 @@ v1Router.get(
       user: request.user,
       appelOffre: {
         appelOffreId,
-        periodeId,
-        familleId,
+        periodeId: appelOffreId ? periodeId : undefined,
+        familleId: appelOffreId ? familleId : undefined,
       },
       classement,
       reclames,
