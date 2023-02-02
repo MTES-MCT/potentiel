@@ -49,4 +49,4 @@ const colonnesÀExporter = [
 ]
 
 export const exporterProjetsPourDGEC = ({ filtres }: { filtres?: FiltreListeProjets }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres })
+  récupérerExportProjets({ colonnesÀExporter, filtres, inclureLesProjetsNonNotifiés: true })

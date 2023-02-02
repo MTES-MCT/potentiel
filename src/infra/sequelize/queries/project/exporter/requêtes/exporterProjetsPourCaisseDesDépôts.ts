@@ -15,4 +15,4 @@ const colonnesÀExporter = [
 ]
 
 export const exporterProjetsPourCaisseDesDépôts = ({ filtres }: { filtres?: FiltreListeProjets }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres, seulementLesProjetsNotifiés: true })
+  récupérerExportProjets({ colonnesÀExporter, filtres })

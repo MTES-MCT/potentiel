@@ -13,11 +13,11 @@ const { Project: ProjectModel } = models
 export const récupérerExportProjets = ({
   colonnesÀExporter,
   filtres,
-  seulementLesProjetsNotifiés,
+  inclureLesProjetsNonNotifiés,
 }: {
   colonnesÀExporter: Readonly<Array<Colonne>>
   filtres?: FiltreListeProjets
-  seulementLesProjetsNotifiés?: true
+  inclureLesProjetsNonNotifiés?: true
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
@@ -25,7 +25,8 @@ export const récupérerExportProjets = ({
     ProjectModel.findAll({
       where: {
         ...findOptions?.where,
-        ...(seulementLesProjetsNotifiés && { notifiedOn: { [Op.gt]: 0 } }),
+        notifiedOn: { [Op.gt]: 0 },
+        ...(inclureLesProjetsNonNotifiés && { notifiedOn: { [Op.gte]: 0 } }),
       },
       include: [
         ...(findOptions ? findOptions.include : []),
