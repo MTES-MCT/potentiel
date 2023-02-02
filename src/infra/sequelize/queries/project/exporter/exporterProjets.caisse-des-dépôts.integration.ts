@@ -42,6 +42,7 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
 
     expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
+    expect(exportProjets.données).toHaveLength(2)
     expect(exportProjets.données).toEqual([
       expect.objectContaining({
         'Nom projet': 'Projet Notifié Eolien',
@@ -50,5 +51,10 @@ describe(`Export des projets en tant qu'utilisateur "Caisse des dépôts"`, () =
         'Nom projet': 'Autre Notifié',
       }),
     ])
+    expect(exportProjets.données).not.toContainEqual(
+      expect.objectContaining({
+        'Nom projet': 'Projet Non Notifié Photovoltaïque',
+      })
+    )
   })
 })

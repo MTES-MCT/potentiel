@@ -77,19 +77,18 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
 
       expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
-      expect(exportProjets.données).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            'Nom projet': 'Projet Eolien',
-          }),
-          expect.objectContaining({
-            'Nom projet': 'Projet Photovoltaïque',
-          }),
-          expect.objectContaining({
-            'Nom projet': 'Autre',
-          }),
-        ])
-      )
+      expect(exportProjets.données).toHaveLength(3)
+      expect(exportProjets.données).toEqual([
+        expect.objectContaining({
+          'Nom projet': 'Projet Eolien',
+        }),
+        expect.objectContaining({
+          'Nom projet': 'Projet Photovoltaïque',
+        }),
+        expect.objectContaining({
+          'Nom projet': 'Autre',
+        }),
+      ])
     })
   }
 })
