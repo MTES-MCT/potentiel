@@ -33,6 +33,7 @@ describe(`Possible de mettre à jour la puissance d'un projet lorsqu'une demande
           demandeId: 'la-demande',
           projetId: 'le-projet',
           nouvellePuissance,
+          isDecisionJustice: true,
         },
       })
     )
