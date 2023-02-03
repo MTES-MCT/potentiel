@@ -1,5 +1,4 @@
 import { exporterProjets } from '@infra/sequelize/queries/project/exporter'
-import { PermissionListerProjets } from '@modules/project'
 import routes from '@routes'
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
@@ -9,6 +8,7 @@ import { writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
+import { PermissionListerProjets } from '@modules/authN/Permission'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,

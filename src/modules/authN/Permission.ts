@@ -2,7 +2,6 @@ import { UserRole } from '@modules/users'
 import {
   PermissionConsulterProjet,
   PermissionInvaliderGF,
-  PermissionListerProjets,
   PermissionValiderGF,
   PermissionAnnulerGF,
   PermissionAjouterDateExpirationGF,
@@ -19,6 +18,11 @@ export type Permission = {
 export const PermissionListerDemandesAdmin = {
   nom: 'lister-demandes',
   description: 'Lister les demandes de modification',
+}
+
+export const PermissionListerProjets = {
+  nom: 'lister-projets',
+  description: 'Lister les projets',
 }
 
 export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> => {

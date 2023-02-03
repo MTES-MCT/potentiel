@@ -5,10 +5,10 @@ import { Pagination } from '../../types'
 import { v1Router } from '../v1Router'
 import { ListeProjetsPage } from '@views'
 import { userIs } from '@modules/users'
-import { PermissionListerProjets } from '@modules/project'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
 import { listerProjets } from '@infra/sequelize/queries'
+import { PermissionListerProjets } from '@modules/authN/Permission'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 
