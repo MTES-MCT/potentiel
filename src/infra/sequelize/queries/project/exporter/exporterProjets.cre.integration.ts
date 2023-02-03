@@ -26,6 +26,7 @@ import {
   résultatInstructionSensible,
   évaluationCarbone,
 } from './colonnesParCatégorie'
+import { User } from '@entities'
 
 describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
   beforeEach(resetDatabase)
@@ -64,7 +65,7 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
       }),
       makeFakeProject({
         notifiedOn: 0,
-        nomProjet: 'Projet Photovoltaïque',
+        nomProjet: 'Projet Non notifié Photovoltaïque',
       }),
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
@@ -72,7 +73,9 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
       }),
     ])
 
-    const exportProjets = (await exporterProjets({ role: 'cre' }))._unsafeUnwrap()
+    const exportProjets = (
+      await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
+    )._unsafeUnwrap()
 
     expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
 
@@ -83,7 +86,7 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
           'Nom projet': 'Projet Eolien',
         }),
         expect.objectContaining({
-          'Nom projet': 'Projet Photovoltaïque',
+          'Nom projet': 'Projet Non notifié Photovoltaïque',
         }),
         expect.objectContaining({
           'Nom projet': 'Autre',
