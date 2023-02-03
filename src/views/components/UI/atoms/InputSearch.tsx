@@ -5,6 +5,7 @@ type InputSearchProps = ComponentProps<'input'>
 export const InputSearch: FC<InputSearchProps> = ({
   className = '',
   placeholder = 'Rechercher',
+  defaultValue,
   name = 'champ-recherche',
   ...props
 }) => {
@@ -22,6 +23,7 @@ export const InputSearch: FC<InputSearchProps> = ({
         type="search"
         id={name}
         name={name}
+        defaultValue={defaultValue || ''}
         className="leading-none px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base bg-grey-950-base placeholder:italic"
       />
       <button
