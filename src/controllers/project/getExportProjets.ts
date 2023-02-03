@@ -9,7 +9,6 @@ import { writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
-import { addQueryParams } from '../../helpers/addQueryParams'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
@@ -26,18 +25,6 @@ v1Router.get(
       reclames,
       garantiesFinancieres,
     } = request.query as any
-
-    if (
-      user.role !== 'admin' &&
-      user.role !== 'dgec-validateur' &&
-      user.role !== 'caisse-des-dépôts' &&
-      user.role !== 'cre' &&
-      user.role !== 'porteur-projet' &&
-      user.role !== 'dreal' &&
-      user.role !== 'ademe'
-    ) {
-      return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
-    }
 
     const filtres = {
       recherche,
