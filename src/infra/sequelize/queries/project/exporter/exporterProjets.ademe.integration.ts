@@ -8,7 +8,6 @@ import {
   coûtInvestissement,
   donnéesAutoconsommation,
   donnéesFournisseurs,
-  évaluationCarbone,
   financementCitoyen,
   identificationProjet,
   implantation,
@@ -16,6 +15,7 @@ import {
   modificationsAvantImport,
   noteInnovation,
   potentielSolaire,
+  évaluationCarbone,
 } from './colonnesParCatégorie'
 import { User } from '@entities'
 
@@ -23,18 +23,18 @@ describe(`Export des projets en tant qu'utilisateur "ademe"`, () => {
   beforeEach(resetDatabase)
 
   const colonnesÀExporter = [
+    ...identificationProjet,
+    ...financementCitoyen,
     ...contenuLocal,
+    ...localisationProjet,
     ...coûtInvestissement,
     ...donnéesAutoconsommation,
     ...donnéesFournisseurs,
     ...évaluationCarbone,
-    ...financementCitoyen,
-    ...identificationProjet,
-    ...implantation,
-    ...localisationProjet,
-    ...modificationsAvantImport,
-    ...noteInnovation,
     ...potentielSolaire,
+    ...implantation,
+    ...noteInnovation,
+    ...modificationsAvantImport,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
 
   it(`
