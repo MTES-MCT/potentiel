@@ -48,4 +48,8 @@ export const exporterProjetsPourPorteurDeProjet = ({
   user: { id: string; role: UserRole }
   filtres?: FiltreListeProjets
 }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres, seulementLesProjetsAvecAccèsPour: user.id })
+  récupérerExportProjets({
+    colonnesÀExporter,
+    filtres,
+    seulementLesProjetsAvecAccèsPour: user.id,
+  })

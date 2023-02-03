@@ -110,17 +110,17 @@ describe(`Export des projets en tant que porteur de projet`, () => {
         }),
       ])
     )
-    expect(exportProjets.données).not.toContain(
+    expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': `Projet Non Notifié Photovoltaïque à quelqu'un d'autre`,
       })
     )
-    expect(exportProjets.données).not.toContain(
+    expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': `Projet Notifié Photovoltaïque à quelqu'un d'autre`,
       })
     )
-    expect(exportProjets.données).not.toContain(
+    expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': 'Autre Non Notifié du porteur',
       })
