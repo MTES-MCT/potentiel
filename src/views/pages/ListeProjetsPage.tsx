@@ -79,6 +79,7 @@ export const ListeProjets = ({
     'caisse-des-dépôts',
     'cre',
     'porteur-projet',
+    'dreal',
   ])(request.user)
     ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(request.query as any)}`
     : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query as any)}`
