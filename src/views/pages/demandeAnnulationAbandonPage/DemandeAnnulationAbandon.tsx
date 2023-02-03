@@ -1,8 +1,8 @@
 import {
+  DownloadLink,
   ErrorBox,
   Heading1,
   Heading2,
-  Link,
   PageTemplate,
   ProjectInfo,
   SuccessBox,
@@ -61,12 +61,11 @@ export const DemandeAnnulationAbandon = ({
             {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
             {responseFile && status !== 'demande confirmée' && (
               <div>
-                <Link
-                  href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
-                  download={true}
+                <DownloadLink
+                  fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
                 >
                   Télécharger le courrier de réponse
-                </Link>
+                </DownloadLink>
               </div>
             )}
           </div>

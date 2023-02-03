@@ -1,10 +1,9 @@
-import { SecondaryButton } from '@components'
+import { DownloadLink, SecondaryButton } from '@components'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
 import { UserRole } from '@modules/users'
 import ROUTES from '@routes'
 import React from 'react'
 import { formatDate } from '../../../../helpers/formatDate'
-import { dataId } from '../../../../helpers/testId'
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
@@ -95,13 +94,11 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && (
         <div className="mt-4">
-          <a
-            href={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
-            download={true}
-            {...dataId('requestList-item-download-link')}
+          <DownloadLink
+            fileUrl={ROUTES.DOWNLOAD_PROJECT_FILE(responseFile.id, responseFile.filename)}
           >
             Télécharger le courrier de réponse
-          </a>
+          </DownloadLink>
         </div>
       )}
     </div>

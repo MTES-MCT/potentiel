@@ -1,6 +1,6 @@
 import React from 'react'
 import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { DownloadIcon, Link } from '@components'
+import { DownloadLink } from '@components'
 import ROUTES from '@routes'
 
 interface DownloadResponseTemplateProps {
@@ -10,9 +10,8 @@ export const DownloadResponseTemplate = ({
   modificationRequest: { id, project },
 }: DownloadResponseTemplateProps) => (
   <div className="mb-4">
-    <DownloadIcon />
-    <Link href={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)} download>
-      Télécharger un modèle de réponse
-    </Link>
+    <DownloadLink fileUrl={ROUTES.TELECHARGER_MODELE_REPONSE(project, id)}>
+      Télécharger un modèle de réponse (document word/docx)
+    </DownloadLink>
   </div>
 )

@@ -1,10 +1,11 @@
 import {
   Button,
-  DownloadIcon,
   ErrorBox,
+  ExcelFileIcon,
   Heading1,
   PageTemplate,
   ProjectList,
+  SecondaryLinkButton,
   SuccessBox,
 } from '@components'
 import { AppelOffre, Periode } from '@entities'
@@ -168,7 +169,7 @@ export const AdminNotificationCandidats = ({
 
             {selectedAppelOffreId && selectedPeriodeId && (
               <div className="mt-4">
-                <a
+                <SecondaryLinkButton
                   href={`
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
                     ...request.query,
@@ -178,9 +179,9 @@ export const AdminNotificationCandidats = ({
                   })}`}
                   download
                 >
-                  Liste des lauréats
-                  <DownloadIcon color="red" />
-                </a>
+                  <ExcelFileIcon className="mr-2" />
+                  Télécharger la liste des lauréats (document csv)
+                </SecondaryLinkButton>
               </div>
             )}
           </div>
