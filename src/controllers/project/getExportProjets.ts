@@ -33,7 +33,8 @@ v1Router.get(
       user.role !== 'caisse-des-dépôts' &&
       user.role !== 'cre' &&
       user.role !== 'porteur-projet' &&
-      user.role !== 'dreal'
+      user.role !== 'dreal' &&
+      user.role !== 'ademe'
     ) {
       return response.redirect(addQueryParams(routes.DOWNLOAD_PROJECTS_CSV, { ...request.query }))
     }

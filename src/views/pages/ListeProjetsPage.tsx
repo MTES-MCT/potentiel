@@ -80,6 +80,7 @@ export const ListeProjets = ({
     'cre',
     'porteur-projet',
     'dreal',
+    'ademe',
   ])(request.user)
     ? `${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(request.query as any)}`
     : `${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(request.query as any)}`
