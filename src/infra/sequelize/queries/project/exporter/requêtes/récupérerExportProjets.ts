@@ -15,11 +15,13 @@ export const récupérerExportProjets = ({
   filtres,
   inclureLesProjetsNonNotifiés,
   seulementLesProjetsAvecAccèsPour,
+  seulementLesProjetsParRégion,
 }: {
   colonnesÀExporter: Readonly<Array<Colonne>>
   filtres?: FiltreListeProjets
   inclureLesProjetsNonNotifiés?: true
   seulementLesProjetsAvecAccèsPour?: string
+  seulementLesProjetsParRégion?: string
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
@@ -31,6 +33,9 @@ export const récupérerExportProjets = ({
         ...(inclureLesProjetsNonNotifiés && { notifiedOn: { [Op.gte]: 0 } }),
         ...(seulementLesProjetsAvecAccèsPour && {
           '$users.userId$': seulementLesProjetsAvecAccèsPour,
+        }),
+        ...(seulementLesProjetsParRégion && {
+          regionProjet: { [Op.substring]: seulementLesProjetsParRégion },
         }),
       },
       include: [

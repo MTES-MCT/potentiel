@@ -1,10 +1,8 @@
+import models from '../../../../models'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { UserRole } from '@modules/users'
 import {
-  contenuLocal,
   coordonnéesCandidat,
   coordonnéesGéodésiques,
-  coûtInvestissement,
   donnéesAutoconsommation,
   donnéesDeRaccordement,
   donnéesFournisseurs,
@@ -14,8 +12,8 @@ import {
   implantation,
   localisationProjet,
   modificationsAvantImport,
-  potentielSolaire,
   prix,
+  référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
 } from '../colonnesParCatégorie'
@@ -25,31 +23,35 @@ const colonnesÀExporter = [
   ...identificationProjet,
   ...coordonnéesCandidat,
   ...financementCitoyen,
-  ...contenuLocal,
   ...localisationProjet,
   ...coordonnéesGéodésiques,
-  ...coûtInvestissement,
   ...donnéesAutoconsommation,
   ...donnéesDeRaccordement,
   ...donnéesFournisseurs,
   ...évaluationCarbone,
-  ...potentielSolaire,
   ...implantation,
   ...prix,
+  ...référencesCandidature,
   ...résultatInstructionSensible,
   ...modificationsAvantImport,
   ...garantiesFinancières,
 ]
 
-export const exporterProjetsPourPorteurDeProjet = ({
-  user,
+export const exporterProjetsPourDREAL = async ({
   filtres,
+  userId,
 }: {
-  user: { id: string; role: UserRole }
+  userId: string
   filtres?: FiltreListeProjets
-}) =>
-  récupérerExportProjets({
+}) => {
+  const régionDreal = await models.UserDreal.findOne({
+    where: { userId },
+    attributes: ['dreal'],
+  })
+
+  return récupérerExportProjets({
     colonnesÀExporter,
     filtres,
-    seulementLesProjetsAvecAccèsPour: user.id,
+    seulementLesProjetsParRégion: régionDreal.dreal,
   })
+}
