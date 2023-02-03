@@ -5,6 +5,7 @@ import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjet
 import { exporterProjetsPourPorteurDeProjet } from './requêtes/exporterProjetsPourPorteurDeProjet'
 import { exporterProjetsPourDREAL } from './requêtes/exporterProjetsPourDREAL'
 import { exporterProjetsPourADEME } from './requêtes/exporterProjetsPourADEME'
+import { exporterProjetsPourAcheteurObligé } from './requêtes/exporterProjetsPourAcheteurObligé'
 import { User } from '@entities'
 import { errAsync } from 'neverthrow'
 import { UnauthorizedError } from '@modules/shared'
@@ -30,6 +31,8 @@ export const exporterProjets = ({
       return exporterProjetsPourDREAL({ userId: user.id, filtres })
     case 'ademe':
       return exporterProjetsPourADEME({ filtres })
+    case 'acheteur-obligé':
+      return exporterProjetsPourAcheteurObligé({ filtres })
     default:
       return errAsync(new UnauthorizedError())
   }
