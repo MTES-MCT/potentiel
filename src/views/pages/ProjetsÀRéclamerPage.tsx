@@ -7,6 +7,7 @@ import { PaginatedList } from '../../types'
 import {
   ErrorBox,
   Heading1,
+  InputSearch,
   Link,
   MissingOwnerProjectList,
   PageTemplate,
@@ -69,41 +70,15 @@ export const ProjetsÀRéclamer = ({
           <form
             action={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
             method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
+            className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
           >
             <div className="form__group" style={{ marginTop: 20 }}>
-              <input
-                type="text"
-                name="recherche"
-                {...dataId('recherche-field')}
-                style={{ paddingRight: 40 }}
-                defaultValue={recherche || ''}
+              <InputSearch
                 placeholder="Nom projet, nom candidat, appel d'offres, période, région"
+                name="recherche"
+                className="pr-10"
+                defaultValue={recherche || ''}
               />
-              <button
-                className="overlay-button"
-                style={{
-                  right: 10,
-                  top: 10,
-                  width: 30,
-                  height: 30,
-                }}
-                type="submit"
-                {...dataId('submit-button')}
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="var(--grey)"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </button>
             </div>
 
             <div className="form__group">
