@@ -1,6 +1,5 @@
 import models from '../../../../models'
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { UserRole } from '@modules/users/UserRoles'
 import {
   coordonnéesCandidat,
   coordonnéesGéodésiques,
@@ -40,13 +39,13 @@ const colonnesÀExporter = [
 
 export const exporterProjetsPourDREAL = async ({
   filtres,
-  user,
+  userId,
 }: {
-  user: { id: string; role: UserRole }
+  userId: string
   filtres?: FiltreListeProjets
 }) => {
   const régionDreal = await models.UserDreal.findOne({
-    where: { userId: user.id },
+    where: { userId },
     attributes: ['dreal'],
   })
 

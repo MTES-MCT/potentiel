@@ -26,7 +26,7 @@ export const exporterProjets = ({
     case 'porteur-projet':
       return exporterProjetsPourPorteurDeProjet({ user, filtres })
     case 'dreal':
-      return exporterProjetsPourDREAL({ user, filtres })
+      return exporterProjetsPourDREAL({ userId: user.id, filtres })
     default:
       return errAsync(new UnauthorizedError())
   }
