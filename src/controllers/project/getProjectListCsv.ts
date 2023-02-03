@@ -4,12 +4,11 @@ import routes from '@routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
-import { listProjects } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { promises as fsPromises } from 'fs'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
-import { PermissionListerProjets } from '@modules/project'
+import { PermissionListerProjets } from '@modules/authN/Permission'
 
 const orderedFields = [
   {
