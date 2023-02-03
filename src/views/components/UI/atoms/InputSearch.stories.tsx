@@ -6,6 +6,7 @@ export default {
   component: InputSearch,
   argTypes: {
     disabled: { control: 'boolean' },
+    placeholderTitle: { control: 'text' },
   },
 }
 
@@ -15,4 +16,5 @@ export const Default = Template.bind({})
 
 Default.args = {
   disabled: false,
+  placeholderTitle: 'Rechercher',
 }
