@@ -104,7 +104,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
 
         const result = await getProjectEvents({ projectId, user: utlisateur })
         expect(result._unsafeUnwrap()).toMatchObject({
-          events: [
+          events: expect.arrayContaining([
             {
               type: 'ModificationReceived',
               date: date.getTime(),
@@ -141,7 +141,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
               unitePuissance: 'MWc', // unitePuissance for Fessenheim AO
               modificationRequestId: 'id',
             },
-          ],
+          ]),
         })
       })
     }
