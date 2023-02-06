@@ -5,6 +5,7 @@ import { listerProjetsPourDreal } from './requêtes/listerProjetsPourDreal'
 import { listerProjetsPourAdeme } from './requêtes/listerProjetsPourAdeme'
 import { listerProjetsPourCaisseDesDépôts } from './requêtes/listerProjetsPourCaisseDesDépôts'
 import { listerProjetsPourPorteur } from './requêtes/listerProjetsPourPorteur'
+import { listerProjetsPourAcheteurObligé } from './requêtes/listerProjetsAcheteurObligé'
 
 export const listerProjets: ListerProjets = async (args) => {
   const { user, pagination } = args
@@ -12,9 +13,10 @@ export const listerProjets: ListerProjets = async (args) => {
   switch (user.role) {
     case 'admin':
     case 'dgec-validateur':
-    case 'acheteur-obligé':
     case 'cre':
       return await listerProjetsAccèsComplet(args)
+    case 'acheteur-obligé':
+      return await listerProjetsPourAcheteurObligé(args)
     case 'dreal':
       return await listerProjetsPourDreal(args)
     case 'ademe':

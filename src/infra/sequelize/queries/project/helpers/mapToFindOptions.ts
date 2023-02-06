@@ -8,6 +8,7 @@ export const mapToFindOptions = ({
   classement,
   reclames,
   garantiesFinancieres,
+  étatNotification,
 }: FiltreListeProjets) => {
   const filtreRecherche = recherche ? construireFiltreRecherche(recherche) : undefined
   const filtreAO = appelOffre && construireFiltreAppelOffre(appelOffre)
@@ -15,6 +16,7 @@ export const mapToFindOptions = ({
   const filtreReclames = reclames && construireFiltreRéclamé(reclames)
   const filtreGarantiesFinancieres =
     garantiesFinancieres && construireFiltreGarantiesFinancières(garantiesFinancieres)
+  const filtreEtat = étatNotification && construireFiltreEtatNotification(étatNotification)
 
   return {
     where: {
@@ -23,6 +25,7 @@ export const mapToFindOptions = ({
       ...filtreClassement?.where,
       ...filtreReclames?.where,
       ...filtreGarantiesFinancieres?.where,
+      ...filtreEtat?.where,
     },
     include: [...(filtreGarantiesFinancieres?.include ? filtreGarantiesFinancieres.include : [])],
   }
@@ -88,4 +91,13 @@ const construireFiltreGarantiesFinancières = (
       as: 'garantiesFinancières',
     },
   ],
+})
+
+const construireFiltreEtatNotification = (
+  étatNotification: NonNullable<FiltreListeProjets['étatNotification']>
+) => ({
+  where: {
+    ...(étatNotification === 'notifiés' && { notifiedOn: { [Op.gt]: 0 } }),
+    ...(étatNotification === 'non-notifiés' && { notifiedOn: 0 }),
+  },
 })

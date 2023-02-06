@@ -3,6 +3,7 @@ import { ListerProjets } from '@modules/project/queries'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions'
+import { Op } from 'sequelize'
 
 const attributes = [
   'id',
@@ -28,12 +29,13 @@ const attributes = [
   'actionnariat',
 ]
 
-export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres, user }) => {
+export const listerProjetsPourAcheteurObligé: ListerProjets = async ({ pagination, filtres }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
+      notifiedOn: { [Op.gt]: 0 },
     },
     ...paginate(pagination),
     attributes,
