@@ -1,4 +1,4 @@
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 
 type AlerteAnnulationAbandon =
   | {
@@ -7,7 +7,11 @@ type AlerteAnnulationAbandon =
     }
   | {
       actionPossible: 'choisir-nouveau-cdc'
-      cdcAvecOptionAnnulationAbandon: CahierDesChargesModifié[]
+      cdcAvecOptionAnnulationAbandon: Array<{
+        type: 'modifié'
+        paruLe: string
+        alternatif?: true
+      }>
     }
   | {
       actionPossible: 'demander-annulation-abandon'

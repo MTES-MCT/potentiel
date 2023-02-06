@@ -1,12 +1,12 @@
-import { err, ok, okAsync, Result, wrapInfra } from '@core/utils'
-import { isPeriodeLegacy } from '@dataAccess/inMemory'
+import { err, errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
-import { EntityNotFoundError } from '@modules/shared'
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
 import { parseCahierDesChargesRéférence } from '@entities'
 import routes from '@routes'
 import { format } from 'date-fns'
+import { userIsNot } from '@modules/users'
 
 const { Project, File, User, UserProjects, ModificationRequest } = models
 
@@ -34,12 +34,48 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       ],
     })
   )
-    .andThen(
-      (
-        projectRaw: any
-      ): Result<Omit<ProjectDataForProjectPage, 'isLegacy'>, EntityNotFoundError> => {
-        if (!projectRaw) return err(new EntityNotFoundError())
+    .andThen((project) => {
+      if (!project) return err(new EntityNotFoundError())
 
+      const { appelOffreId, periodeId, familleId } = project
+      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+      if (!appelOffre) {
+        return errAsync(new InfraNotAvailableError())
+      }
+
+      return okAsync({ project: project as any, appelOffre })
+    })
+    .andThen(({ appelOffre, project }) => {
+      const { cahierDesChargesActuelRaw } = project
+
+      const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
+
+      const cahierDesCharges =
+        cahierDesChargesActuel.type === 'initial'
+          ? {
+              type: 'initial',
+              url: appelOffre.periode.cahierDesCharges.url,
+            }
+          : {
+              type: 'modifié',
+              url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
+                (c) =>
+                  c.paruLe === cahierDesChargesActuel.paruLe &&
+                  c.alternatif === cahierDesChargesActuel.alternatif
+              )?.url,
+              paruLe: cahierDesChargesActuel.paruLe,
+              alternatif: cahierDesChargesActuel.alternatif,
+            }
+
+      return okAsync({ appelOffre, project, cahierDesCharges })
+    })
+    .andThen(
+      ({
+        appelOffre,
+        cahierDesCharges: cahierDesChargesActuel,
+        project: projectRaw,
+      }): Result<ProjectDataForProjectPage, EntityNotFoundError> => {
         const {
           id,
           appelOffreId,
@@ -73,7 +109,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           users,
           completionDueOn,
           updatedAt,
-          cahierDesChargesActuel: cahierDesChargesActuelRaw,
           potentielIdentifier,
           contratEDF,
           contratEnedis,
@@ -83,28 +118,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           return err(new EntityNotFoundError())
         }
 
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-
-        const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
-
-        const cahierDesCharges =
-          cahierDesChargesActuel.type === 'initial'
-            ? {
-                type: 'initial',
-                url: appelOffre?.periode.cahierDesCharges.url,
-              }
-            : {
-                type: 'modifié',
-                url: appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-                  (c) =>
-                    c.paruLe === cahierDesChargesActuel.paruLe &&
-                    c.alternatif === cahierDesChargesActuel.alternatif
-                )?.url,
-                paruLe: cahierDesChargesActuel.paruLe,
-                alternatif: cahierDesChargesActuel.alternatif,
-              }
-
-        const result: any = {
+        return ok({
           id,
           potentielIdentifier,
           appelOffreId,
@@ -126,14 +140,13 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           nomCandidat,
           nomRepresentantLegal,
           email,
-          ...(user.role !== 'caisse-des-dépôts' && { fournisseur }),
-          ...(user.role !== 'caisse-des-dépôts' && { evaluationCarbone }),
           note,
           details,
           notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
           completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
           isClasse: classe === 'Classé',
           isAbandoned: abandonedOn !== 0,
+          isLegacy: appelOffre.periode.type === 'legacy',
           motifsElimination,
           users: users
             ?.map(({ user }) => user.get())
@@ -145,94 +158,75 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           updatedAt,
           contratEDF,
           contratEnedis,
-          cahierDesChargesActuel: cahierDesCharges,
-        }
-
-        if (user.role !== 'dreal') {
-          result.prixReference = prixReference
-        }
-
-        if (!notifiedOn) return ok(result)
-
-        if (user.role !== 'dreal') {
-          result.certificateFile = certificateFile?.get()
-        }
-
-        return ok(result)
+          cahierDesChargesActuel,
+          ...(userIsNot('dreal')(user) && {
+            prixReference,
+            ...(notifiedOn && { certificateFile: certificateFile.get() }),
+          }),
+          ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
+        })
       }
     )
-    .andThen((dto) => {
-      const { appelOffreId, periodeId } = dto
-      return wrapInfra(isPeriodeLegacy({ appelOffreId, periodeId })).map(
-        (isLegacy) =>
-          ({
-            ...dto,
-            isLegacy,
-          } as ProjectDataForProjectPage)
-      )
+    .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)))
+}
+
+const ajouterInfosAlerteAnnulationAbandon = (
+  dto: ProjectDataForProjectPage
+): ResultAsync<ProjectDataForProjectPage, InfraNotAvailableError> => {
+  const { id: projectId, appelOffre, cahierDesChargesActuel } = dto
+
+  return wrapInfra(
+    ModificationRequest.findOne({
+      where: { projectId, type: 'annulation abandon', status: 'envoyée' },
     })
-    .andThen((dto) => {
-      if (!dto.isAbandoned) {
-        return okAsync(dto)
+  ).map((demande: { id: string }) => {
+    if (demande) {
+      return {
+        ...dto,
+        alerteAnnulationAbandon: {
+          actionPossible: 'voir-demande-en-cours' as const,
+          urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
+        },
       }
+    }
 
-      const { id: projectId, appelOffre, cahierDesChargesActuel } = dto
+    const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
+      (cdc) =>
+        cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
+    )
 
-      return wrapInfra(
-        ModificationRequest.findOne({
-          where: { projectId, type: 'annulation abandon', status: 'envoyée' },
-        })
-      ).map((demande: { id: string }) => {
-        if (demande) {
-          return {
-            ...dto,
-            alerteAnnulationAbandon: {
-              actionPossible: 'voir-demande-en-cours' as const,
-              urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
-            },
-          }
-        }
-
-        const cdcDispoPourAnnulationAbandon =
-          appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
+    const dateLimite =
+      cahierDesChargesActuel.type === 'modifié'
+        ? appelOffre.cahiersDesChargesModifiésDisponibles.find(
             (cdc) =>
-              cdc.délaiAnnulationAbandon &&
-              new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
-          )
+              cdc.paruLe === cahierDesChargesActuel.paruLe &&
+              cdc.alternatif === cahierDesChargesActuel.alternatif
+          )?.délaiAnnulationAbandon
+        : undefined
 
-        const dateLimite =
-          cahierDesChargesActuel.type === 'modifié'
-            ? appelOffre?.cahiersDesChargesModifiésDisponibles.find(
-                (cdc) =>
-                  cdc.paruLe === cahierDesChargesActuel.paruLe &&
-                  cdc.alternatif === cahierDesChargesActuel.alternatif
-              )?.délaiAnnulationAbandon
-            : undefined
+    const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false
 
-        const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false
-
-        return {
-          ...dto,
-          ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon.length > 0) && {
-            alerteAnnulationAbandon: {
-              ...(cdcActuelPermetAnnulationAbandon
-                ? {
-                    actionPossible: 'demander-annulation-abandon',
-                    dateLimite: format(dateLimite!, 'PPP'),
-                  }
-                : {
-                    actionPossible: 'choisir-nouveau-cdc',
-                    cdcAvecOptionAnnulationAbandon: cdcDispoPourAnnulationAbandon.map(
-                      ({ paruLe, alternatif, type }) => ({
-                        paruLe,
-                        alternatif,
-                        type,
-                      })
-                    ),
-                  }),
-            },
-          }),
-        } as ProjectDataForProjectPage
-      })
-    })
+    return {
+      ...dto,
+      ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon.length > 0) && {
+        alerteAnnulationAbandon: {
+          ...(cdcActuelPermetAnnulationAbandon
+            ? {
+                actionPossible: 'demander-annulation-abandon',
+                dateLimite: format(dateLimite!, 'PPP'),
+              }
+            : {
+                actionPossible: 'choisir-nouveau-cdc',
+                cdcAvecOptionAnnulationAbandon: cdcDispoPourAnnulationAbandon.map(
+                  ({ paruLe, alternatif, type }) => ({
+                    paruLe,
+                    alternatif,
+                    type,
+                  })
+                ),
+              }),
+        },
+      }),
+    }
+  })
 }
