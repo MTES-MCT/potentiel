@@ -5,8 +5,7 @@ export default {
   title: 'Components/Atoms/Inputs/Search',
   component: InputSearch,
   argTypes: {
-    disabled: { control: 'boolean' },
-    placeholderTitle: { control: 'text' },
+    placeholder: { control: 'text' },
   },
 }
 
@@ -15,6 +14,5 @@ const Template = (args) => <InputSearch {...args} />
 export const Default = Template.bind({})
 
 Default.args = {
-  disabled: false,
-  placeholderTitle: 'Rechercher',
+  placeholder: 'Rechercher',
 }
