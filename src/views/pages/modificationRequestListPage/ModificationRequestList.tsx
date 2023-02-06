@@ -74,16 +74,15 @@ export const ModificationRequestList = ({
             method="GET"
             className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
           >
-            <div className="mt-5 form__group">
+            <div className="mt-8">
               <BarreDeRecherche
                 placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
                 name="recherche"
-                className="pr-10"
                 defaultValue={recherche || ''}
               />
             </div>
 
-            <div className="form__group">
+            <div className="mt-8">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}

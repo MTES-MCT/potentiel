@@ -82,21 +82,16 @@ export const ListeProjets = ({
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <form
-            action={ROUTES.LISTE_PROJETS}
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
-          >
-            <div className="form__group" style={{ marginTop: 20 }}>
+          <form action={ROUTES.LISTE_PROJETS} method="GET" className="m-0 mb-6">
+            <div className="mt-8">
               <BarreDeRecherche
                 placeholder="Rechercher par nom du projet"
                 name="recherche"
-                className="pr-10"
                 defaultValue={recherche || ''}
               />
             </div>
 
-            <div className="form__group">
+            <div className="mt-8">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
@@ -113,7 +108,7 @@ export const ListeProjets = ({
                   <use xlinkHref="#expand"></use>
                 </svg>
               </div>
-              <div className="filter-panel">
+              <div className="filter-panel mt-8">
                 <div className="periode-panel">
                   <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
                   <select

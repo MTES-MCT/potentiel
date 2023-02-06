@@ -60,21 +60,15 @@ export const GarantiesFinancieres = ({
         <div className="panel__header">
           <Heading1>Garanties financières</Heading1>
 
-          <form
-            action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
-          >
-            <div className="mt-5 form__group">
-              <BarreDeRecherche
-                placeholder="Rechercher par nom du projet"
-                name="recherche"
-                className="pr-10"
-                defaultValue={recherche || ''}
-              />
-            </div>
+          <form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+            <BarreDeRecherche
+              placeholder="Rechercher par nom du projet"
+              name="recherche"
+              defaultValue={recherche || ''}
+              className="mt-8"
+            />
 
-            <div className="form__group">
+            <div className="mt-8">
               <div {...dataId('visibility-toggle')} className={'filter-toggle open'}></div>
               <div className="filter-panel">
                 <div className="periode-panel">
