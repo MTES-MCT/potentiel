@@ -7,6 +7,7 @@ export const BarreDeRecherche: FC<InputSearchProps> = ({
   placeholder = 'Rechercher',
   defaultValue,
   name = 'champ-recherche',
+  disabled,
   ...props
 }) => (
   <div
@@ -22,12 +23,14 @@ export const BarreDeRecherche: FC<InputSearchProps> = ({
       type="search"
       id={name}
       name={name}
+      disabled={disabled || false}
       defaultValue={defaultValue || ''}
-      className="leading-none px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base bg-grey-950-base placeholder:italic"
+      className="leading-none px-4 pt-2 pb-[5px] rounded-t-[4px] rounded-tr-[4px] rounded-b-none rounded-bl-none border-0 border-b-[3px] border-b-blue-france-sun-base focus:border-b-blue-france-sun-base placeholder:italic"
     />
     <Button
       type="submit"
       title={placeholder}
+      disabled={disabled || false}
       className="flex items-center py-2 px-2 lg:px-6 border-0 bg-blue-france-sun-base hover:bg-blue-france-sun-hover text-white"
     >
       <SearchIcon className="w-6 h-6 lg:mr-2" />

@@ -6,6 +6,7 @@ export default {
   component: BarreDeRecherche,
   argTypes: {
     placeholder: { control: 'text' },
+    disabled: { controle: 'boolean' },
   },
 }
 
@@ -15,4 +16,5 @@ export const Default = Template.bind({})
 
 Default.args = {
   placeholder: 'Rechercher',
+  disabled: false,
 }
