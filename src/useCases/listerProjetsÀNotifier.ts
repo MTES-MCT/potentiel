@@ -1,22 +1,23 @@
-import { Project, AppelOffre, Periode, isNotifiedPeriode } from '@entities'
+import { Project, AppelOffre, Periode, isNotifiedPeriode, User } from '@entities'
 import { Pagination, PaginatedList } from '../types'
-import { ProjectRepo, AppelOffreRepo, ProjectFilters } from '@dataAccess'
+import { ProjectRepo, AppelOffreRepo } from '@dataAccess'
+import { FiltreListeProjets, ListerProjets } from '@modules/project'
 
-interface MakeUseCaseProps {
+type Dépendances = {
   findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
   findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
   countUnnotifiedProjects: ProjectRepo['countUnnotifiedProjects']
-  findAllProjects: ProjectRepo['findAll']
-  searchAllProjects: ProjectRepo['searchAll']
   appelOffreRepo: AppelOffreRepo
+  listerProjets: ListerProjets
 }
 
-interface CallUseCaseProps {
+type Commande = {
   appelOffreId?: AppelOffre['id']
   periodeId?: Periode['id']
   pagination: Pagination
   recherche?: string
   classement?: 'classés' | 'éliminés'
+  user: User
 }
 
 export type AppelOffreDTO = {
@@ -29,7 +30,7 @@ export type PeriodeDTO = {
   title: Periode['title']
 }
 
-type UseCaseReturnType = {
+type Résultat = {
   projects: PaginatedList<Project>
   projectsInPeriodCount: number
   selectedAppelOffreId: AppelOffre['id']
@@ -38,37 +39,38 @@ type UseCaseReturnType = {
   existingPeriodes?: Array<PeriodeDTO>
 } | null
 
-export default function makeListUnnotifiedProjects({
-  findExistingAppelsOffres,
-  findExistingPeriodesForAppelOffre,
-  countUnnotifiedProjects,
-  findAllProjects,
-  searchAllProjects,
-  appelOffreRepo,
-}: MakeUseCaseProps) {
-  return async function listUnnotifiedProjects({
+export const makeListerProjetsÀNotifier =
+  ({
+    findExistingAppelsOffres,
+    findExistingPeriodesForAppelOffre,
+    countUnnotifiedProjects,
+    listerProjets,
+    appelOffreRepo,
+  }: Dépendances) =>
+  async ({
     appelOffreId,
     periodeId,
     pagination,
     recherche,
     classement,
-  }: CallUseCaseProps): Promise<UseCaseReturnType> {
-    const result: any = {}
+    user,
+  }: Commande): Promise<Résultat> => {
+    const résultat: any = {}
 
-    const appelsOffre = await appelOffreRepo.findAll()
+    const appelsOffres = await appelOffreRepo.findAll()
 
     // Get all appels offres that have at least one unnotified project
-    result.existingAppelsOffres = (
+    résultat.existingAppelsOffres = (
       await findExistingAppelsOffres({
         isNotified: false,
       })
     ).map((appelOffreId) => ({
       id: appelOffreId,
-      shortTitle: appelsOffre.find((item) => item.id === appelOffreId)?.shortTitle || appelOffreId,
+      shortTitle: appelsOffres.find((item) => item.id === appelOffreId)?.shortTitle || appelOffreId,
     }))
 
     // Not a single unnotified project, stop here
-    if (!result.existingAppelsOffres.length) return null
+    if (!résultat.existingAppelsOffres.length) return null
 
     const getPeriodesWithNotifiableProjectsForAppelOffre = async (_appelOffre: AppelOffre) =>
       (
@@ -92,60 +94,56 @@ export default function makeListUnnotifiedProjects({
         .filter((item) => !!item)
 
     if (appelOffreId) {
-      result.selectedAppelOffreId = appelOffreId
-      const selectedAppelOffre = appelsOffre.find(
-        (appelOffre) => appelOffre.id === result.selectedAppelOffreId
+      résultat.selectedAppelOffreId = appelOffreId
+      const selectedAppelOffre = appelsOffres.find(
+        (appelOffre) => appelOffre.id === résultat.selectedAppelOffreId
       )
       if (!selectedAppelOffre) return null
 
-      result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(
+      résultat.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(
         selectedAppelOffre
       )
     } else {
       // No appel offre given, look for one with a notifiable project
-      for (const appelOffreItem of result.existingAppelsOffres) {
-        const appelOffre = appelsOffre.find((appelOffre) => appelOffre.id === appelOffreItem.id)
+      for (const appelOffreItem of résultat.existingAppelsOffres) {
+        const appelOffre = appelsOffres.find((appelOffre) => appelOffre.id === appelOffreItem.id)
 
         if (!appelOffre) continue
-        result.selectedAppelOffreId = appelOffreItem.id
-        result.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(appelOffre)
+        résultat.selectedAppelOffreId = appelOffreItem.id
+        résultat.existingPeriodes = await getPeriodesWithNotifiableProjectsForAppelOffre(appelOffre)
 
-        if (result.existingPeriodes.length) break
+        if (résultat.existingPeriodes.length) break
       }
     }
 
     // Not a single unnotified project for which the admin can notify, stop here
-    if (!result.existingPeriodes.length) return null
+    if (!résultat.existingPeriodes.length) return null
 
     // Retained periode is either the one provided (if it's in the list) or the first of the existing ones
-    result.selectedPeriodeId =
+    résultat.selectedPeriodeId =
       (periodeId &&
-        result.existingPeriodes.map((item) => item.id).includes(periodeId) &&
+        résultat.existingPeriodes.map((item) => item.id).includes(periodeId) &&
         periodeId) ||
-      result.existingPeriodes[0].id
+      résultat.existingPeriodes[0].id
 
     // Count all projects for this appelOffre and periode
-    result.projectsInPeriodCount = await countUnnotifiedProjects(
-      result.selectedAppelOffreId,
-      result.selectedPeriodeId
+    résultat.projectsInPeriodCount = await countUnnotifiedProjects(
+      résultat.selectedAppelOffreId,
+      résultat.selectedPeriodeId
     )
 
     // Return all projects for this appelOffre, periode and search/filter params
-    const query: ProjectFilters = {
-      isNotified: false,
-      appelOffreId: result.selectedAppelOffreId,
-      periodeId: result.selectedPeriodeId,
+    const filtres: FiltreListeProjets = {
+      recherche,
+      classement,
+      appelOffre: {
+        appelOffreId: résultat.selectedAppelOffreId,
+        periodeId: résultat.selectedPeriodeId,
+      },
+      étatNotification: 'non-notifiés',
     }
 
-    if (classement) {
-      if (classement === 'classés') query.isClasse = true
-      if (classement === 'éliminés') query.isClasse = false
-    }
+    résultat.projects = await listerProjets({ user, filtres, pagination })
 
-    result.projects = recherche
-      ? await searchAllProjects(recherche, query, pagination)
-      : await findAllProjects(query, pagination)
-
-    return result as UseCaseReturnType
+    return résultat as Résultat
   }
-}

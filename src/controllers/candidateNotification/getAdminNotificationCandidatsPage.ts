@@ -2,10 +2,10 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listUnnotifiedProjects } from '@useCases'
 import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { AdminNotificationCandidatsPage } from '@views'
+import { listerProjetsÀNotifier } from '@useCases'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),
@@ -24,12 +24,13 @@ v1Router.get(
       periodeId = undefined
     }
 
-    const result = await listUnnotifiedProjects({
+    const result = await listerProjetsÀNotifier({
       appelOffreId,
       periodeId,
       pagination,
       recherche,
       classement,
+      user: request.user,
     })
 
     if (result === null) {
