@@ -29,69 +29,67 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
       fichierRéponseId: new UniqueEntityID().toString(),
     },
   })
-  describe(`Cas d'un projet soumis à garanties financières`, () => {
-    it(`Etant donné un événement AnnulationAbandonAccordée émis pour un projet soumis à GF, 
-  alors l'abandon du projet devrait être annulé, 
-  et le projet devrait être en attente de nouvelles garanties financières`, async () => {
-      const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: true } as ProjectAppelOffre))
-      const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
-        projectRepo,
-        publishToEventStore,
-        getProjectAppelOffre,
-      })
-
-      await onAnnulationAbandonAccordée(événemement)
-
-      expect(publishToEventStore).toHaveBeenCalledTimes(2)
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'AbandonProjetAnnulé',
-          payload: {
-            projetId,
-            dateAchèvement: new Date(completionDueOn),
-            dateLimiteEnvoiDcr: dcrDueOn,
-          },
-        })
-      )
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'ProjectGFDueDateSet',
-          payload: {
-            projectId: projetId,
-            garantiesFinancieresDueOn: new Date('2020-03-01').getTime(),
-          },
-        })
-      )
+  it(`Etant donné un projet soumis à garanties financières, 
+        lorsqu'un événement AnnulationAbandonAccordée émis pour ce projet, 
+        alors l'abandon du projet devrait être annulé, 
+        et le projet devrait être en attente de nouvelles garanties financières`, async () => {
+    const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: true } as ProjectAppelOffre))
+    const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
+      projectRepo,
+      publishToEventStore,
+      getProjectAppelOffre,
     })
+
+    await onAnnulationAbandonAccordée(événemement)
+
+    expect(publishToEventStore).toHaveBeenCalledTimes(2)
+
+    expect(publishToEventStore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'AbandonProjetAnnulé',
+        payload: {
+          projetId,
+          dateAchèvement: new Date(completionDueOn),
+          dateLimiteEnvoiDcr: dcrDueOn,
+        },
+      })
+    )
+
+    expect(publishToEventStore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'ProjectGFDueDateSet',
+        payload: {
+          projectId: projetId,
+          garantiesFinancieresDueOn: new Date('2020-03-01').getTime(),
+        },
+      })
+    )
   })
 
-  describe(`Cas d'un projet NON soumis à garanties financières`, () => {
-    it(`Etant donné un événement AnnulationAbandonAccordée émis pour un projet non soumis à GF, 
-  alors l'abandon du projet devrait être annulé, 
-  et le projet ne devrait pas être en attente de nouvelles garanties financières`, async () => {
-      const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: false } as ProjectAppelOffre))
-      const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
-        projectRepo,
-        publishToEventStore,
-        getProjectAppelOffre,
-      })
-
-      await onAnnulationAbandonAccordée(événemement)
-
-      expect(publishToEventStore).toHaveBeenCalledTimes(1)
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'AbandonProjetAnnulé',
-          payload: {
-            projetId,
-            dateAchèvement: new Date(completionDueOn),
-            dateLimiteEnvoiDcr: dcrDueOn,
-          },
-        })
-      )
+  it(`Etant donné un projet non soumis à garanties financières,
+        lorsqu'un événement AnnulationAbandonAccordée émis pour ce projet, 
+        alors l'abandon du projet devrait être annulé, 
+        et le projet ne devrait pas être en attente de nouvelles garanties financières`, async () => {
+    const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: false } as ProjectAppelOffre))
+    const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
+      projectRepo,
+      publishToEventStore,
+      getProjectAppelOffre,
     })
+
+    await onAnnulationAbandonAccordée(événemement)
+
+    expect(publishToEventStore).toHaveBeenCalledTimes(1)
+
+    expect(publishToEventStore).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'AbandonProjetAnnulé',
+        payload: {
+          projetId,
+          dateAchèvement: new Date(completionDueOn),
+          dateLimiteEnvoiDcr: dcrDueOn,
+        },
+      })
+    )
   })
 })
