@@ -72,13 +72,12 @@ export const ProjetsÀRéclamer = ({
             method="GET"
             className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
           >
-            <div className="mt-8">
-              <BarreDeRecherche
-                placeholder="Nom projet, nom candidat, appel d'offres, période, région"
-                name="recherche"
-                defaultValue={recherche || ''}
-              />
-            </div>
+            <BarreDeRecherche
+              placeholder="Nom projet, nom candidat, appel d'offres, période, région"
+              name="recherche"
+              defaultValue={recherche || ''}
+              className="mt-8"
+            />
 
             <div className="mt-8">
               <div

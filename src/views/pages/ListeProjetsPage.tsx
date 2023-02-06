@@ -83,13 +83,12 @@ export const ListeProjets = ({
           {error && <ErrorBox title={error} />}
 
           <form action={ROUTES.LISTE_PROJETS} method="GET" className="m-0 mb-6">
-            <div className="mt-8">
-              <BarreDeRecherche
-                placeholder="Rechercher par nom du projet"
-                name="recherche"
-                defaultValue={recherche || ''}
-              />
-            </div>
+            <BarreDeRecherche
+              placeholder="Rechercher par nom du projet"
+              name="recherche"
+              defaultValue={recherche || ''}
+              className="mt-8"
+            />
 
             <div className="mt-8">
               <div
