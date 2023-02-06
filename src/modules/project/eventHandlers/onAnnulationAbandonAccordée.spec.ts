@@ -30,7 +30,7 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
     },
   })
   it(`Etant donné un projet soumis à garanties financières, 
-        lorsqu'un événement AnnulationAbandonAccordée émis pour ce projet, 
+        lorsqu'un événement AnnulationAbandonAccordée est émis pour ce projet, 
         alors l'abandon du projet devrait être annulé, 
         et le projet devrait être en attente de nouvelles garanties financières`, async () => {
     const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: true } as ProjectAppelOffre))
@@ -67,7 +67,7 @@ describe(`Handler de projet onAnnulationAbandonAccordée`, () => {
   })
 
   it(`Etant donné un projet non soumis à garanties financières,
-        lorsqu'un événement AnnulationAbandonAccordée émis pour ce projet, 
+        lorsqu'un événement AnnulationAbandonAccordée est émis pour ce projet, 
         alors l'abandon du projet devrait être annulé, 
         et le projet ne devrait pas être en attente de nouvelles garanties financières`, async () => {
     const getProjectAppelOffre = jest.fn(() => ({ isSoumisAuxGF: false } as ProjectAppelOffre))
