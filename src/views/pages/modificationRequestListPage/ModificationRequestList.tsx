@@ -13,6 +13,7 @@ import {
   InputCheckbox,
   Link,
   Heading1,
+  BarreDeRecherche,
 } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { userIs } from '@modules/users'
@@ -74,7 +75,7 @@ export const ModificationRequestList = ({
             className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
           >
             <div className="mt-5 form__group">
-              <BarreRecherche
+              <BarreDeRecherche
                 placeholder="Nom projet, candidat, numéro CRE, commune, département, ..."
                 name="recherche"
                 className="pr-10"

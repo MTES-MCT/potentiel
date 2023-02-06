@@ -13,7 +13,7 @@ import {
   Link,
   Heading1,
   DownloadLink,
-  BarreRecherche,
+  BarreDeRecherche,
 } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
@@ -66,7 +66,7 @@ export const GarantiesFinancieres = ({
             style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
           >
             <div className="mt-5 form__group">
-              <BarreRecherche
+              <BarreDeRecherche
                 placeholder="Rechercher par nom du projet"
                 name="recherche"
                 className="pr-10"

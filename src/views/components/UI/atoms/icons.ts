@@ -31,4 +31,4 @@ export { MdEuroSymbol as EuroIcon } from '@react-icons/all-files/md/MdEuroSymbol
 export { AiFillCloud as CloudIcon } from '@react-icons/all-files/ai/AiFillCloud'
 export { RiMapPin2Line as MapPinIcon } from '@react-icons/all-files/ri/RiMapPin2Line'
 export { BiBuildingHouse as BuildingHouseIcon } from '@react-icons/all-files/bi/BiBuildingHouse'
-export { FiSearch as SearchIcon } from '@react-icons/all-files/fi/FiSearch'
+export { RiSearchLine as SearchIcon } from '@react-icons/all-files/ri/RiSearchLine'

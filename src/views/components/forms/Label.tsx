@@ -1,17 +1,16 @@
-import React from 'react'
-import { Astérisque } from './Astérisque'
+import React, { ComponentProps } from 'react'
 
-type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
-  required?: boolean
+type LabelProps = ComponentProps<'label'> & {
+  required?: true
 }
 
-export const Label = ({ required = false, children, ...props }: LabelProps) => (
+export const Label = ({ required, children, ...props }: LabelProps) => (
   <label {...props}>
     {children}
     {required && (
       <>
         {' '}
-        <Astérisque />
+        <span className="text-red-500">*</span>
       </>
     )}
   </label>

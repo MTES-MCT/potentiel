@@ -1,9 +1,9 @@
 import {
+  BarreDeRecherche,
   Button,
   ErrorBox,
   ExcelFileIcon,
   Heading1,
-  InputSearch,
   PageTemplate,
   ProjectList,
   SecondaryLinkButton,
@@ -80,7 +80,7 @@ export const AdminNotificationCandidats = ({
           )}
           <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
             <div className="form__group mt-5">
-              <InputSearch name="recherche" className="pr-10" defaultValue={recherche || ''} />
+              <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
             </div>
 
             <div className="form__group">
