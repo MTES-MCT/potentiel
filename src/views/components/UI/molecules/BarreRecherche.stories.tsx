@@ -1,15 +1,15 @@
 import React from 'react'
-import { InputSearch } from './InputSearch'
+import { BarreRecherche } from './BarreRecherche'
 
 export default {
-  title: 'Components/Atoms/Inputs/Search',
-  component: InputSearch,
+  title: 'Components/Molecules/BarreRecherche',
+  component: BarreRecherche,
   argTypes: {
     placeholder: { control: 'text' },
   },
 }
 
-const Template = (args) => <InputSearch {...args} />
+const Template = (args) => <BarreRecherche {...args} />
 
 export const Default = Template.bind({})
 

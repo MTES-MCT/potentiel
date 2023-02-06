@@ -5,9 +5,9 @@ import { dataId } from '../../helpers/testId'
 import ROUTES from '@routes'
 import { PaginatedList } from '../../types'
 import {
+  BarreRecherche,
   ErrorBox,
   Heading1,
-  InputSearch,
   Link,
   MissingOwnerProjectList,
   PageTemplate,
@@ -73,7 +73,7 @@ export const ProjetsÀRéclamer = ({
             className="max-w-2xl lg:max-w-3xl mx-0 mb-6"
           >
             <div className="form__group" style={{ marginTop: 20 }}>
-              <InputSearch
+              <BarreRecherche
                 placeholder="Nom projet, nom candidat, appel d'offres, période, région"
                 name="recherche"
                 className="pr-10"

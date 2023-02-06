@@ -1,4 +1,5 @@
 export * from './Alertes'
+export * from './BarreRecherche'
 export * from './DownloadLink'
 export * from './DownloadLinkButton'
 export * from './DropdownMenu'

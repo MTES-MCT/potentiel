@@ -18,7 +18,7 @@ import {
   Label,
   Link,
   Heading1,
-  InputSearch,
+  BarreRecherche,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 import { ProjectListItem } from '@modules/project'
@@ -88,14 +88,7 @@ export const ListeProjets = ({
             style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
           >
             <div className="form__group" style={{ marginTop: 20 }}>
-              {/* <input
-                type="text"
-                name="recherche"
-                style={{ paddingRight: 40 }}
-                defaultValue={recherche || ''}
-                placeholder="Rechercher par nom du projet"
-              /> */}
-              <InputSearch
+              <BarreRecherche
                 placeholder="Rechercher par nom du projet"
                 name="recherche"
                 className="pr-10"
