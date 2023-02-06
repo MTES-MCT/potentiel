@@ -5,14 +5,14 @@ type BarreDeRechercheProps = {
   className?: string
   placeholder?: string
   defaultValue?: string
-  name?: string
+  name: string
 }
 
 export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
   className = '',
   placeholder = 'Rechercher',
   defaultValue = '',
-  name = 'champ-recherche',
+  name,
 }) => (
   <div className={`flex ${className}`}>
     <Label className="hidden" htmlFor={name}>
