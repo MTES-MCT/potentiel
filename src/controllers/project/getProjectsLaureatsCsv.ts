@@ -9,7 +9,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { Project } from '@entities'
-import { listerProjetsÀNotifier } from '@useCases'
+import { listerProjetsÀNotifier } from '@config/useCases.config'
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any

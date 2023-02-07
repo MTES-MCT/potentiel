@@ -1,5 +1,5 @@
 import { wrapInfra } from '@core/utils'
-import { GetPendingCandidateInvitations } from '@modules/candidateNotification'
+import { GetPendingCandidateInvitations } from '@modules/notificationCandidats'
 import { models } from '../../models'
 import { paginate, makePaginatedList } from '../../../../helpers/paginate'
 import { Pagination } from '../../../../types'

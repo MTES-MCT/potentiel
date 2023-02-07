@@ -84,6 +84,7 @@ import {
   hasDemandeDeMêmeTypeOuverte,
   hasGarantiesFinancières,
   isProjectParticipatif,
+  listerProjets,
   trouverProjetsParIdentifiantGestionnaireRéseau,
 } from './queries.config'
 import {
@@ -117,6 +118,7 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config'
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter'
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon'
+import { makeListerProjetsÀNotifier } from '@modules/notificationCandidats'
 
 const publishToEventStore = eventStore.publish.bind(eventStore)
 
@@ -521,4 +523,12 @@ export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
   getProjectAppelOffre,
   projectRepo,
   fileRepo,
+})
+
+export const listerProjetsÀNotifier = makeListerProjetsÀNotifier({
+  findExistingAppelsOffres: oldProjectRepo.findExistingAppelsOffres,
+  findExistingPeriodesForAppelOffre: oldProjectRepo.findExistingPeriodesForAppelOffre,
+  countUnnotifiedProjects: oldProjectRepo.countUnnotifiedProjects,
+  appelOffreRepo: oldAppelOffreRepo,
+  listerProjets,
 })

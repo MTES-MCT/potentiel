@@ -4,9 +4,9 @@ import routes from '@routes'
 import { Pagination } from '../../types'
 import { v1Router } from '../v1Router'
 import { AdminNotificationCandidatsPage } from '@views'
-import { listerProjetsÀNotifier } from '@useCases'
 import { vérifierPermissionUtilisateur } from '../helpers'
-import { PermissionListerProjetsÀNotifier } from '../../useCases/listerProjetsÀNotifier'
+import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
+import { listerProjetsÀNotifier } from '@config/useCases.config'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),

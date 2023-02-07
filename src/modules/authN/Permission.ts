@@ -12,7 +12,7 @@ import {
 } from '@modules/project'
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur'
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest'
-import { PermissionListerProjetsÀNotifier } from '../../useCases/listerProjetsÀNotifier'
+import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
 
 export type Permission = {
   nom: string

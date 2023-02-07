@@ -1,5 +1,5 @@
 import { Project, AppelOffre, Periode, isNotifiedPeriode, User } from '@entities'
-import { Pagination, PaginatedList } from '../types'
+import { Pagination, PaginatedList } from '../../../types'
 import { ProjectRepo, AppelOffreRepo } from '@dataAccess'
 import { FiltreListeProjets, ListerProjets } from '@modules/project'
 

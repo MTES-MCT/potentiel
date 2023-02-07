@@ -17,7 +17,10 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listerProjetsÀNotifier'
+import {
+  AppelOffreDTO,
+  PeriodeDTO,
+} from '../../modules/notificationCandidats/useCases/listerProjetsÀNotifier'
 import { hydrateOnClient } from '../helpers'
 
 type AdminNotificationCandidatsProps = {
