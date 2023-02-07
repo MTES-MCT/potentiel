@@ -11,6 +11,7 @@ type CurrentPage =
   | 'list-garanties-financieres'
   | 'list-missing-owner-projects'
   | 'ademe-statistiques'
+  | 'acheteur-oblige-statistiques'
   | 'import-projects'
   | 'notify-candidates'
   | 'list-invitations'
@@ -195,12 +196,20 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
 )
 
 const MenuAcheteurObligé = (currentPage: CurrentPage) => (
-  <Header.MenuItem
-    href={routes.LISTE_PROJETS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>
+  <>
+    <Header.MenuItem
+      href={routes.LISTE_PROJETS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.ACHETEUR_OBLIGE_STATISTIQUES}
+      {...(currentPage === 'acheteur-oblige-statistiques' && { isCurrent: true })}
+    >
+      Tableau de bord
+    </Header.MenuItem>
+  </>
 )
 
 const MenuAdeme = (currentPage: CurrentPage) => (
