@@ -26,13 +26,13 @@ export const cahiersDesChargesRéférences = [
   '30/07/2021',
   '30/08/2022',
   '30/08/2022-alternatif',
-  '23/01/2023',
-  '23/01/2023-alternatif',
+  '07/02/2023',
+  '07/02/2023-alternatif',
 ] as const
 
 export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number]
 
-const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '23/01/2023'] as const
+const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const
 
 export type DateParutionCahierDesChargesModifié =
   typeof datesParutionCahiersDesChargesModifiés[number]
