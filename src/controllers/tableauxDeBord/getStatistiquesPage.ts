@@ -1,9 +1,9 @@
-import asyncHandler from './helpers/asyncHandler'
+import asyncHandler from '../helpers/asyncHandler'
 import jwt from 'jsonwebtoken'
 import { logger } from '@core/utils'
 import routes from '@routes'
 import { StatistiquesPage } from '@views'
-import { v1Router } from './v1Router'
+import { v1Router } from '../v1Router'
 
 const { METABASE_SECRET_KEY, METABASE_SITE_URL } = process.env
 
