@@ -18,12 +18,19 @@ type AlerteAnnulationAbandon =
       dateLimite: string
     }
 
+type DonnéesDeRaccordement = {
+  numeroGestionnaire: string
+  dateMiseEnService?: Date
+  dateFileAttente?: Date
+}
+
 export type ProjectDataForProjectPage = {
   alerteAnnulationAbandon?: AlerteAnnulationAbandon
   id: string
   potentielIdentifier: string
 
   appelOffre: ProjectAppelOffre
+  donnéesDeRaccordement?: DonnéesDeRaccordement
 
   appelOffreId: string
   periodeId: string
