@@ -1,65 +1,16 @@
-import { Project, AppelOffre, Periode, isNotifiedPeriode, User } from '@entities'
-import { Pagination, PaginatedList } from '../../../types'
-import { ProjectRepo, AppelOffreRepo } from '@dataAccess'
-import { FiltreListeProjets, ListerProjets } from '@modules/project'
+import { AppelOffre, isNotifiedPeriode } from '@entities'
+import { FiltreListeProjets } from '@modules/project'
+import { MakeListerProjetsÀNotifier } from '@modules/notificationCandidats/queries'
 
-export const PermissionListerProjetsÀNotifier = {
-  nom: 'lister-projets-à-notifier',
-  description: 'Lister les projets à notifier',
-}
-
-type Dépendances = {
-  findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
-  findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
-  countUnnotifiedProjects: ProjectRepo['countUnnotifiedProjects']
-  appelOffreRepo: AppelOffreRepo
-  listerProjets: ListerProjets
-}
-
-type Commande = {
-  appelOffreId?: AppelOffre['id']
-  periodeId?: Periode['id']
-  pagination: Pagination
-  recherche?: string
-  classement?: 'classés' | 'éliminés'
-  user: User
-}
-
-export type AppelOffreDTO = {
-  id: AppelOffre['id']
-  shortTitle: AppelOffre['shortTitle']
-}
-
-export type PeriodeDTO = {
-  id: Periode['id']
-  title: Periode['title']
-}
-
-type Résultat = {
-  projects: PaginatedList<Project>
-  projectsInPeriodCount: number
-  selectedAppelOffreId: AppelOffre['id']
-  selectedPeriodeId: Periode['id']
-  existingAppelsOffres: Array<AppelOffreDTO>
-  existingPeriodes?: Array<PeriodeDTO>
-} | null
-
-export const makeListerProjetsÀNotifier =
+export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
   ({
     findExistingAppelsOffres,
     findExistingPeriodesForAppelOffre,
     countUnnotifiedProjects,
     listerProjets,
     appelOffreRepo,
-  }: Dépendances) =>
-  async ({
-    appelOffreId,
-    periodeId,
-    pagination,
-    recherche,
-    classement,
-    user,
-  }: Commande): Promise<Résultat> => {
+  }) =>
+  async ({ appelOffreId, periodeId, pagination, recherche, classement, user }) => {
     const résultat: any = {}
 
     const appelsOffres = await appelOffreRepo.findAll()
@@ -150,5 +101,5 @@ export const makeListerProjetsÀNotifier =
 
     résultat.projects = await listerProjets({ user, filtres, pagination })
 
-    return résultat as Résultat
+    return résultat
   }

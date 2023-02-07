@@ -9,6 +9,7 @@ import {
   SuccessBox,
 } from '@components'
 import { AppelOffre, Periode } from '@entities'
+import { AppelOffreDTO, PeriodeDTO } from '@modules/notificationCandidats'
 import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -17,10 +18,6 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import {
-  AppelOffreDTO,
-  PeriodeDTO,
-} from '../../modules/notificationCandidats/useCases/listerProjetsÀNotifier'
 import { hydrateOnClient } from '../helpers'
 
 type AdminNotificationCandidatsProps = {

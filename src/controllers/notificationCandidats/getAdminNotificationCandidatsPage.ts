@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 import { AdminNotificationCandidatsPage } from '@views'
 import { vérifierPermissionUtilisateur } from '../helpers'
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
-import { listerProjetsÀNotifier } from '@config/useCases.config'
+import { listerProjetsÀNotifier } from '@config/queries.config'
 
 v1Router.get(
   routes.ADMIN_NOTIFY_CANDIDATES(),

@@ -1,6 +1,6 @@
 import { makeListerProjetsÀNotifier } from './listerProjetsÀNotifier'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import { UnwrapForTest } from '../../../types'
+import makeFakeProject from '../../../../../__tests__/fixtures/project'
+import { UnwrapForTest } from '../../../../../types'
 import { appelOffreRepo, appelsOffreStatic } from '@dataAccess/inMemory'
 import { isNotifiedPeriode, makeProject, Project, User } from '@entities'
 
