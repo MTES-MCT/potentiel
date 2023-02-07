@@ -9,7 +9,7 @@ import { ModificationRequestListPage } from '@views'
 import { v1Router } from '../v1Router'
 import { userIs } from '@modules/users'
 import { vérifierPermissionUtilisateur } from '../helpers'
-import { PermissionListerDemandesAdmin } from '@modules/authN'
+import { PermissionListerDemandesAdmin } from '@modules/modificationRequest/queries'
 
 v1Router.get(
   routes.ADMIN_LIST_REQUESTS,

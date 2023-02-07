@@ -11,15 +11,11 @@ import {
   PermissionExporterProjets,
 } from '@modules/project'
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur'
+import { PermissionListerDemandesAdmin } from '@modules/modificationRequest'
 
 export type Permission = {
   nom: string
   description: string
-}
-
-export const PermissionListerDemandesAdmin = {
-  nom: 'lister-demandes',
-  description: 'Lister les demandes de modification',
 }
 
 export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> => {
