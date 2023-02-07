@@ -37,17 +37,24 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
     .andThen((project) => {
       if (!project) return err(new EntityNotFoundError())
 
+      if (!project.notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role)) {
+        return err(new EntityNotFoundError())
+      }
+
+      return okAsync(project)
+    })
+    .andThen((project) => {
       const { appelOffreId, periodeId, familleId } = project
       const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
       if (!appelOffre) {
-        return errAsync(new InfraNotAvailableError())
+        return errAsync(new EntityNotFoundError())
       }
 
       return okAsync({ project: project as any, appelOffre })
     })
     .andThen(({ appelOffre, project }) => {
-      const { cahierDesChargesActuelRaw } = project
+      const { cahierDesChargesActuel: cahierDesChargesActuelRaw } = project
 
       const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
 
@@ -114,10 +121,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEnedis,
         } = projectRaw.get()
 
-        if (!notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role)) {
-          return err(new EntityNotFoundError())
-        }
-
         return ok({
           id,
           potentielIdentifier,
@@ -161,7 +164,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           cahierDesChargesActuel,
           ...(userIsNot('dreal')(user) && {
             prixReference,
-            ...(notifiedOn && { certificateFile: certificateFile.get() }),
+            ...(notifiedOn && { certificateFile }),
           }),
           ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
         })
