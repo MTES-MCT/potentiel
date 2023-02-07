@@ -8,7 +8,7 @@ import { userIs } from '@modules/users'
 import { getOptionsFiltresParAOs, vérifierPermissionUtilisateur } from '../helpers'
 import { appelOffreRepo } from '@dataAccess'
 import { listerProjets } from '@infra/sequelize/queries'
-import { PermissionListerProjets } from '@modules/authN/Permission'
+import { PermissionListerProjets } from '@modules/project/queries/listerProjets'
 
 const TROIS_MOIS = 1000 * 60 * 60 * 24 * 30 * 3
 

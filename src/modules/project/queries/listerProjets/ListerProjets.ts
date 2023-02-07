@@ -1,6 +1,11 @@
 import { AppelOffre, Periode, Famille, ProjectAppelOffre, User } from '@entities'
 import { PaginatedList, Pagination } from '../../../../types'
 
+export const PermissionListerProjets = {
+  nom: 'lister-projets',
+  description: 'Lister les projets',
+}
+
 export type ProjectListItem = {
   id: string
   nomProjet: string

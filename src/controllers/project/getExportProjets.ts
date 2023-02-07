@@ -8,11 +8,11 @@ import { writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { logger } from '@core/utils'
 import { InfraNotAvailableError } from '@modules/shared'
-import { PermissionListerProjets } from '@modules/authN/Permission'
+import { PermissionExporterProjets } from '@modules/project/queries'
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
-  vérifierPermissionUtilisateur(PermissionListerProjets),
+  vérifierPermissionUtilisateur(PermissionExporterProjets),
   asyncHandler(async (request, response) => {
     const { user } = request
 

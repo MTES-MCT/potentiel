@@ -18,6 +18,7 @@ import {
   évaluationCarbone,
 } from '../colonnesParCatégorie'
 import { récupérerExportProjets } from './récupérerExportProjets'
+import { wrapInfra } from '@core/utils'
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -37,21 +38,22 @@ const colonnesÀExporter = [
   ...garantiesFinancières,
 ]
 
-export const exporterProjetsPourDREAL = async ({
+export const exporterProjetsPourDREAL = ({
   filtres,
   userId,
 }: {
   userId: string
   filtres?: FiltreListeProjets
-}) => {
-  const régionDreal = await models.UserDreal.findOne({
-    where: { userId },
-    attributes: ['dreal'],
-  })
-
-  return récupérerExportProjets({
-    colonnesÀExporter,
-    filtres,
-    seulementLesProjetsParRégion: régionDreal.dreal,
-  })
-}
+}) =>
+  wrapInfra(
+    models.UserDreal.findOne({
+      where: { userId },
+      attributes: ['dreal'],
+    })
+  ).andThen((régionDreal: any) =>
+    récupérerExportProjets({
+      colonnesÀExporter,
+      filtres,
+      seulementLesProjetsParRégion: régionDreal.dreal,
+    })
+  )

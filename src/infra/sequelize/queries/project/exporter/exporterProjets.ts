@@ -1,4 +1,4 @@
-import { FiltreListeProjets } from '@modules/project'
+import { ExporterProjets, FiltreListeProjets } from '@modules/project'
 import { exporterProjetsPourDGEC } from './requêtes/exporterProjetsPourDGEC'
 import { exporterProjetsPourCRE } from './requêtes/exporterProjetsPourCRE'
 import { exporterProjetsPourCaisseDesDépôts } from './requêtes/exporterProjetsPourCaisseDesDépôts'
@@ -10,7 +10,7 @@ import { User } from '@entities'
 import { errAsync } from 'neverthrow'
 import { UnauthorizedError } from '@modules/shared'
 
-export const exporterProjets = ({
+export const exporterProjets: ExporterProjets = ({
   user,
   filtres,
 }: {
