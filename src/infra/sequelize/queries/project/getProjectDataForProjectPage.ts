@@ -3,16 +3,17 @@ import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../models'
-import { parseCahierDesChargesRéférence } from '@entities'
+import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { format } from 'date-fns'
 import { userIsNot } from '@modules/users'
+import { Project } from '../../projections/project/project.model'
 
-const { Project, File, User, UserProjects, ModificationRequest } = models
+const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
-  return wrapInfra(
-    Project.findByPk(projectId, {
+  const chargerProjet = wrapInfra(
+    ProjectTable.findByPk(projectId, {
       include: [
         {
           model: File,
@@ -34,50 +35,77 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       ],
     })
   )
-    .andThen((project) => {
-      if (
-        !project ||
-        (!project.notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role))
-      ) {
-        return errAsync(new EntityNotFoundError())
-      }
+  const vérifierAccèsProjet = (
+    project: Project | null
+  ): ResultAsync<Project, EntityNotFoundError> => {
+    if (!project || (!project.notifiedOn && userIsNot(['admin', 'dgec-validateur', 'cre'])(user))) {
+      return errAsync(new EntityNotFoundError())
+    }
 
-      return okAsync(project)
-    })
-    .andThen((project) => {
-      const { appelOffreId, periodeId, familleId } = project
-      const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    return okAsync(project)
+  }
 
-      if (!appelOffre) {
-        return errAsync(new EntityNotFoundError())
-      }
+  const récupérerAppelOffre = (
+    project: Project
+  ): ResultAsync<{ project: any; appelOffre: ProjectAppelOffre }, EntityNotFoundError> => {
+    const { appelOffreId, periodeId, familleId } = project
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
 
-      return okAsync({ project: project as any, appelOffre })
-    })
-    .andThen(({ appelOffre, project }) => {
-      const { cahierDesChargesActuel: cahierDesChargesActuelRaw } = project
+    if (!appelOffre) {
+      return errAsync(new EntityNotFoundError())
+    }
 
-      const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
+    return okAsync({ project: project as any, appelOffre })
+  }
 
-      const cahierDesCharges =
-        cahierDesChargesActuel.type === 'initial'
-          ? {
-              type: 'initial',
-              url: appelOffre.periode.cahierDesCharges.url,
-            }
-          : {
-              type: 'modifié',
-              url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
-                (c) =>
-                  c.paruLe === cahierDesChargesActuel.paruLe &&
-                  c.alternatif === cahierDesChargesActuel.alternatif
-              )?.url,
-              paruLe: cahierDesChargesActuel.paruLe,
-              alternatif: cahierDesChargesActuel.alternatif,
-            }
+  const récupérerCahierDesCharges = ({
+    appelOffre,
+    project,
+  }: {
+    project: any
+    appelOffre: ProjectAppelOffre
+  }): ResultAsync<
+    {
+      appelOffre: ProjectAppelOffre
+      project: any
+      cahierDesCharges:
+        | { type: string; url: string; paruLe?: undefined; alternatif?: undefined }
+        | {
+            type: string
+            url: string | undefined
+            paruLe: '30/07/2021' | '30/08/2022'
+            alternatif: true | undefined
+          }
+    },
+    never
+  > => {
+    const { cahierDesChargesActuel: cahierDesChargesActuelRaw } = project
 
-      return okAsync({ appelOffre, project, cahierDesCharges })
-    })
+    const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
+
+    const cahierDesCharges =
+      cahierDesChargesActuel.type === 'initial'
+        ? {
+            type: 'initial',
+            url: appelOffre.periode.cahierDesCharges.url,
+          }
+        : {
+            type: 'modifié',
+            url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
+              (c) =>
+                c.paruLe === cahierDesChargesActuel.paruLe &&
+                c.alternatif === cahierDesChargesActuel.alternatif
+            )?.url,
+            paruLe: cahierDesChargesActuel.paruLe,
+            alternatif: cahierDesChargesActuel.alternatif,
+          }
+
+    return okAsync({ appelOffre, project, cahierDesCharges })
+  }
+  return chargerProjet
+    .andThen(vérifierAccèsProjet)
+    .andThen(récupérerAppelOffre)
+    .andThen(récupérerCahierDesCharges)
     .andThen(
       ({
         appelOffre,
@@ -119,8 +147,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
         },
-      }): ResultAsync<ProjectDataForProjectPage, never> => {
-        return okAsync({
+      }): ResultAsync<ProjectDataForProjectPage, never> =>
+        okAsync({
           id,
           potentielIdentifier,
           appelOffreId,
@@ -167,7 +195,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }),
           ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
         })
-      }
     )
     .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)))
 }
