@@ -1,4 +1,4 @@
-import { err, errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { err, errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
@@ -35,9 +35,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
     })
   )
     .andThen((project) => {
-      if (!project) return err(new EntityNotFoundError())
-
-      if (!project.notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role)) {
+      if (
+        !project ||
+        (!project.notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role))
+      ) {
         return err(new EntityNotFoundError())
       }
 
@@ -81,9 +82,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       ({
         appelOffre,
         cahierDesCharges: cahierDesChargesActuel,
-        project: projectRaw,
-      }): Result<ProjectDataForProjectPage, EntityNotFoundError> => {
-        const {
+        project: {
           id,
           appelOffreId,
           periodeId,
@@ -119,9 +118,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           contratEDF,
           contratEnedis,
-        } = projectRaw.get()
-
-        return ok({
+        },
+      }): ResultAsync<ProjectDataForProjectPage, never> => {
+        return okAsync({
           id,
           potentielIdentifier,
           appelOffreId,
