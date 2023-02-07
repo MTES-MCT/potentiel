@@ -1,5 +1,4 @@
 import { Pagination } from '../../types'
-import { listUnnotifiedProjects } from '@useCases'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { parseAsync } from 'json2csv'
@@ -10,6 +9,7 @@ import asyncHandler from '../helpers/asyncHandler'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { Project } from '@entities'
+import { listerProjetsÀNotifier } from '@useCases'
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any
@@ -43,12 +43,13 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
       projects: { items: projects },
     }: any =
       beforeNotification === 'true' &&
-      (await listUnnotifiedProjects({
+      (await listerProjetsÀNotifier({
         appelOffreId,
         periodeId,
         pagination,
         recherche,
         classement: 'classés',
+        user: request.user,
       }))
 
     if (!projects?.length) return response.send('Aucun projet lauréat sur cette période')

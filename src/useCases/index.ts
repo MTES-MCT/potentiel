@@ -40,7 +40,7 @@ const getUserProject = makeGetUserProject({
 const useCases = Object.freeze({
   sendNotification,
   requestModification,
-  listUnnotifiedProjects: listerProjetsÀNotifier,
+  listerProjetsÀNotifier,
   listMissingOwnerProjects,
   getUserProject,
   shouldUserAccessProject,
