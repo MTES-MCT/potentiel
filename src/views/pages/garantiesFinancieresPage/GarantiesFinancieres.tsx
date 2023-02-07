@@ -172,7 +172,7 @@ export const GarantiesFinancieres = ({
           <>
             <div className="mb-8">
               <DownloadLink
-                fileUrl={`${ROUTES.DOWNLOAD_PROJECTS_CSV}?${querystring.stringify(
+                fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
                   request.query as any
                 )}`}
               >

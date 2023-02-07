@@ -8,6 +8,11 @@ import {
   ModificationRequestStatusDTO,
 } from '../dtos'
 
+export const PermissionListerDemandesAdmin = {
+  nom: 'lister-demandes',
+  description: 'Lister les demandes de modification',
+}
+
 type GetModificationRequestListForAdminFilter = {
   user: User & { role: 'dreal' | 'dgec-validateur' | 'admin' }
   appelOffreId?: AppelOffre['id']
