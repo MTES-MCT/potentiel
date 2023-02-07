@@ -3,6 +3,11 @@ import { Pagination, PaginatedList } from '../types'
 import { ProjectRepo, AppelOffreRepo } from '@dataAccess'
 import { FiltreListeProjets, ListerProjets } from '@modules/project'
 
+export const PermissionListerProjetsÀNotifier = {
+  nom: 'lister-projets-à-notifier',
+  description: 'Lister les projets à notifier',
+}
+
 type Dépendances = {
   findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
   findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']

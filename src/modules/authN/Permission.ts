@@ -12,6 +12,7 @@ import {
 } from '@modules/project'
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur'
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest'
+import { PermissionListerProjetsÀNotifier } from '../../useCases/listerProjetsÀNotifier'
 
 export type Permission = {
   nom: string
@@ -53,6 +54,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionInviterDgecValidateur,
         PermissionExporterProjets,
+        PermissionListerProjetsÀNotifier,
       ]
     case 'dgec-validateur':
       return [
@@ -63,11 +65,18 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
+        PermissionListerProjetsÀNotifier,
       ]
     case 'acheteur-obligé':
     case 'ademe':
-    case 'cre':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets]
+    case 'cre':
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionExporterProjets,
+        PermissionListerProjetsÀNotifier,
+      ]
     default:
       return []
   }
