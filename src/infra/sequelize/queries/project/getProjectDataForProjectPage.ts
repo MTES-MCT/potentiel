@@ -1,4 +1,4 @@
-import { err, errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
@@ -39,7 +39,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         !project ||
         (!project.notifiedOn && !['admin', 'dgec-validateur', 'cre'].includes(user.role))
       ) {
-        return err(new EntityNotFoundError())
+        return errAsync(new EntityNotFoundError())
       }
 
       return okAsync(project)
