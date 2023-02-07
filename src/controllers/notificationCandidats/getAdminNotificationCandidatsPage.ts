@@ -9,7 +9,7 @@ import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidat
 import { listerProjetsÀNotifier } from '@config/queries.config'
 
 v1Router.get(
-  routes.ADMIN_NOTIFY_CANDIDATES(),
+  routes.GET_NOTIFIER_CANDIDATS(),
   vérifierPermissionUtilisateur(PermissionListerProjetsÀNotifier),
   asyncHandler(async (request, response) => {
     let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any

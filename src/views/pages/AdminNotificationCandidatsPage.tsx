@@ -77,7 +77,7 @@ export const AdminNotificationCandidats = ({
               porteurs de projets.
             </p>
           )}
-          <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
+          <form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="ml-0 mb-4">
             <div className="form__group mt-5">
               <input
                 type="text"
@@ -137,7 +137,7 @@ export const AdminNotificationCandidats = ({
             </div>
           </form>
         </div>
-        <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION} method="post" className="ml-0 mb-4">
+        <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
           <div className="form__group">
             <select
               name="appelOffreId"
