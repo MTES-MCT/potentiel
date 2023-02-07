@@ -5,9 +5,9 @@ type InputProps = ComponentProps<'input'> & {
   error?: string
 }
 
-export const Input = ({ className = '', error, onChange, ...props }: InputProps) => {
+export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
   const [valueHasChanged, valueChanged] = useState(false)
-  const isOnError = error && !valueHasChanged
+  const isOnError = error !== '' && !valueHasChanged
 
   return (
     <>
