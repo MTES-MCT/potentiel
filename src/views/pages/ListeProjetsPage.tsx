@@ -18,6 +18,7 @@ import {
   Label,
   Link,
   Heading1,
+  BarreDeRecherche,
 } from '@components'
 import { hydrateOnClient } from '../helpers'
 import { ProjectListItem } from '@modules/project'
@@ -81,47 +82,15 @@ export const ListeProjets = ({
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
-          <form
-            action={ROUTES.LISTE_PROJETS}
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 25px 0' }}
-          >
-            <div className="form__group" style={{ marginTop: 20 }}>
-              <input
-                type="text"
-                name="recherche"
-                {...dataId('recherche-field')}
-                style={{ paddingRight: 40 }}
-                defaultValue={recherche || ''}
-                placeholder="Rechercher par nom du projet"
-              />
-              <button
-                className="overlay-button"
-                style={{
-                  right: 10,
-                  top: 10,
-                  width: 30,
-                  height: 30,
-                }}
-                type="submit"
-                {...dataId('submit-button')}
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="var(--grey)"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </button>
-            </div>
+          <form action={ROUTES.LISTE_PROJETS} method="GET" className="m-0 mb-6">
+            <BarreDeRecherche
+              placeholder="Rechercher par nom du projet"
+              name="recherche"
+              defaultValue={recherche || ''}
+              className="mt-8"
+            />
 
-            <div className="form__group">
+            <div className="mt-8">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
@@ -138,7 +107,7 @@ export const ListeProjets = ({
                   <use xlinkHref="#expand"></use>
                 </svg>
               </div>
-              <div className="filter-panel">
+              <div className="filter-panel mt-8">
                 <div className="periode-panel">
                   <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
                   <select

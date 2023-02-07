@@ -1,4 +1,5 @@
 import {
+  BarreDeRecherche,
   Button,
   ErrorBox,
   ExcelFileIcon,
@@ -79,31 +80,7 @@ export const AdminNotificationCandidats = ({
           )}
           <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
             <div className="form__group mt-5">
-              <input
-                type="text"
-                name="recherche"
-                {...dataId('recherche-field')}
-                className="pr-10"
-                defaultValue={recherche || ''}
-              />
-              <button
-                className="overlay-button top-2.5 right-2.5 w-8 h-8"
-                type="submit"
-                {...dataId('submit-button')}
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="var(--grey)"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </button>
+              <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
             </div>
 
             <div className="form__group">

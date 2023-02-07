@@ -13,6 +13,7 @@ import {
   Link,
   Heading1,
   DownloadLink,
+  BarreDeRecherche,
 } from '@components'
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
 import { GarantiesFinancieresFilter } from './components'
@@ -59,47 +60,15 @@ export const GarantiesFinancieres = ({
         <div className="panel__header">
           <Heading1>Garanties financières</Heading1>
 
-          <form
-            action={ROUTES.ADMIN_GARANTIES_FINANCIERES}
-            method="GET"
-            style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
-          >
-            <div className="form__group" style={{ marginTop: 20 }}>
-              <input
-                type="text"
-                name="recherche"
-                {...dataId('recherche-field')}
-                style={{ paddingRight: 40 }}
-                defaultValue={recherche || ''}
-                placeholder="Rechercher par nom du projet"
-              />
-              <button
-                className="overlay-button"
-                style={{
-                  right: 10,
-                  top: 10,
-                  width: 30,
-                  height: 30,
-                }}
-                type="submit"
-                {...dataId('submit-button')}
-              >
-                <svg
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="var(--grey)"
-                  width="20"
-                  height="20"
-                >
-                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-              </button>
-            </div>
+          <form action={ROUTES.ADMIN_GARANTIES_FINANCIERES} method="GET" className="m-0">
+            <BarreDeRecherche
+              placeholder="Rechercher par nom du projet"
+              name="recherche"
+              defaultValue={recherche || ''}
+              className="mt-8"
+            />
 
-            <div className="form__group">
+            <div className="mt-8">
               <div {...dataId('visibility-toggle')} className={'filter-toggle open'}></div>
               <div className="filter-panel">
                 <div className="periode-panel">

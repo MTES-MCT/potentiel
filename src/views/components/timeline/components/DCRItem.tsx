@@ -9,11 +9,11 @@ import {
   DownloadLink,
   Link,
   Dropdown,
-} from '../..'
+  Input,
+} from '@components'
 import { WarningItem } from './WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'
-import { Input } from '../../inputs'
 import { format } from 'date-fns'
 
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
