@@ -1,5 +1,5 @@
 import { ProjectEventListDTO } from '@modules/frise'
-import { ProjectDataForProjectPage } from '@modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/queries'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
