@@ -53,6 +53,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
         ...projet,
         ...(appelOffre && {
           appelOffre: {
+            title: appelOffre?.title,
             type: appelOffre?.type,
             unitePuissance: appelOffre?.unitePuissance,
             periode: appelOffre?.periode,

@@ -18,6 +18,7 @@ export type ProjectListItem = {
   email: string
   puissance: number
   appelOffre?: {
+    title?: ProjectAppelOffre['title']
     type: ProjectAppelOffre['type']
     unitePuissance: ProjectAppelOffre['unitePuissance']
     periode: ProjectAppelOffre['periode']
