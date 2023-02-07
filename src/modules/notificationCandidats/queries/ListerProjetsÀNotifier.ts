@@ -1,6 +1,6 @@
 import { AppelOffreRepo, ProjectRepo } from '@dataAccess'
-import { AppelOffre, Periode, Project, User } from '@entities'
-import { ListerProjets } from '@modules/project'
+import { AppelOffre, Periode, Project } from '@entities'
+import { FiltreListeProjets, ProjectListItem } from '@modules/project'
 import { PaginatedList, Pagination } from '../../../types'
 
 export const PermissionListerProjetsÀNotifier = {
@@ -18,12 +18,17 @@ export type PeriodeDTO = {
   title: Periode['title']
 }
 
+export type ListerProjetsNonNotifiés = (args: {
+  pagination: Pagination
+  filtres?: FiltreListeProjets
+}) => Promise<PaginatedList<ProjectListItem>>
+
 type Dépendances = {
   findExistingAppelsOffres: ProjectRepo['findExistingAppelsOffres']
   findExistingPeriodesForAppelOffre: ProjectRepo['findExistingPeriodesForAppelOffre']
   countUnnotifiedProjects: ProjectRepo['countUnnotifiedProjects']
   appelOffreRepo: AppelOffreRepo
-  listerProjets: ListerProjets
+  listerProjetsNonNotifiés: ListerProjetsNonNotifiés
 }
 
 type Commande = {
@@ -32,7 +37,6 @@ type Commande = {
   pagination: Pagination
   recherche?: string
   classement?: 'classés' | 'éliminés'
-  user: User
 }
 
 type Résultat = {

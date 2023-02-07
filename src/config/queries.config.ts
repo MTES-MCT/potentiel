@@ -1,4 +1,4 @@
-import { listerProjets } from '@infra/sequelize/queries/project/lister/listerProjets'
+import { listerProjetsNonNotifiés } from '@infra/sequelize/queries/project/lister/requêtes/listerProjetsNonNotifiés'
 import { makeListerProjetsÀNotifier } from '@infra/sequelize/queries/project/lister/listerProjetsÀNotifier'
 import { oldAppelOffreRepo, oldProjectRepo } from './repos.config'
 
@@ -10,5 +10,5 @@ export const listerProjetsÀNotifier = makeListerProjetsÀNotifier({
   findExistingPeriodesForAppelOffre: oldProjectRepo.findExistingPeriodesForAppelOffre,
   countUnnotifiedProjects: oldProjectRepo.countUnnotifiedProjects,
   appelOffreRepo: oldAppelOffreRepo,
-  listerProjets,
+  listerProjetsNonNotifiés,
 })

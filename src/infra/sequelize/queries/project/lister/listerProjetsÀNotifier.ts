@@ -7,15 +7,15 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
     findExistingAppelsOffres,
     findExistingPeriodesForAppelOffre,
     countUnnotifiedProjects,
-    listerProjets,
+    listerProjetsNonNotifiés,
     appelOffreRepo,
   }) =>
-  async ({ appelOffreId, periodeId, pagination, recherche, classement, user }) => {
+  async ({ appelOffreId, periodeId, pagination, recherche, classement }) => {
     const résultat: any = {}
 
     const appelsOffres = await appelOffreRepo.findAll()
 
-    // Get all appels offres that have at least one unnotified project
+    // Récupérer tous les AOs qui ont au moins un projet non-notifié
     résultat.existingAppelsOffres = (
       await findExistingAppelsOffres({
         isNotified: false,
@@ -25,7 +25,7 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
       shortTitle: appelsOffres.find((item) => item.id === appelOffreId)?.shortTitle || appelOffreId,
     }))
 
-    // Not a single unnotified project, stop here
+    // Arrêter ici s'il n'y a aucun projet à notifier
     if (!résultat.existingAppelsOffres.length) return null
 
     const getPeriodesWithNotifiableProjectsForAppelOffre = async (_appelOffre: AppelOffre) =>
@@ -35,8 +35,7 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
         })
       )
         .map((periodeId) => {
-          // Only include periodes for which we can generate a certificate
-          // The reverse means it's a period that isn't in our scope
+          // Seulement les périodes pour lesquelles on peut générer une attestation
           const periode = _appelOffre.periodes.find((periode) => periode.id === periodeId)
 
           return (
@@ -60,7 +59,7 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
         selectedAppelOffre
       )
     } else {
-      // No appel offre given, look for one with a notifiable project
+      // Si pas d'AO donné, rechercher un AO qui a des projets à notifier
       for (const appelOffreItem of résultat.existingAppelsOffres) {
         const appelOffre = appelsOffres.find((appelOffre) => appelOffre.id === appelOffreItem.id)
 
@@ -72,23 +71,23 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
       }
     }
 
-    // Not a single unnotified project for which the admin can notify, stop here
+    // Arrêter là s'il n'y a aucun projet à notifier
     if (!résultat.existingPeriodes.length) return null
 
-    // Retained periode is either the one provided (if it's in the list) or the first of the existing ones
+    // La période séléctionnée est soit celle donnée (doit être dans la liste), soit la première disponible de la liste
     résultat.selectedPeriodeId =
       (periodeId &&
         résultat.existingPeriodes.map((item) => item.id).includes(periodeId) &&
         periodeId) ||
       résultat.existingPeriodes[0].id
 
-    // Count all projects for this appelOffre and periode
+    // Compte de tous les projets de la période donnée
     résultat.projectsInPeriodCount = await countUnnotifiedProjects(
       résultat.selectedAppelOffreId,
       résultat.selectedPeriodeId
     )
 
-    // Return all projects for this appelOffre, periode and search/filter params
+    // Retourner tous les projets de l'AO, période, correspondant aux filtres donnés
     const filtres: FiltreListeProjets = {
       recherche,
       classement,
@@ -96,10 +95,9 @@ export const makeListerProjetsÀNotifier: MakeListerProjetsÀNotifier =
         appelOffreId: résultat.selectedAppelOffreId,
         periodeId: résultat.selectedPeriodeId,
       },
-      étatNotification: 'non-notifiés',
     }
 
-    résultat.projects = await listerProjets({ user, filtres, pagination })
+    résultat.projects = await listerProjetsNonNotifiés({ filtres, pagination })
 
     return résultat
   }

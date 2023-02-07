@@ -52,7 +52,6 @@ export type FiltreListeProjets = {
   classement?: 'classés' | 'éliminés' | 'abandons'
   reclames?: 'réclamés' | 'non-réclamés'
   garantiesFinancieres?: 'submitted' | 'notSubmitted' | 'pastDue'
-  étatNotification?: 'notifiés' | 'non-notifiés'
 }
 
 export type ListerProjets = (args: {

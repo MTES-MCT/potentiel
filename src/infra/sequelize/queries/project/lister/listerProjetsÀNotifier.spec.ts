@@ -2,7 +2,7 @@ import { makeListerProjetsÀNotifier } from './listerProjetsÀNotifier'
 import makeFakeProject from '../../../../../__tests__/fixtures/project'
 import { UnwrapForTest } from '../../../../../types'
 import { appelOffreRepo, appelsOffreStatic } from '@dataAccess/inMemory'
-import { isNotifiedPeriode, makeProject, Project, User } from '@entities'
+import { isNotifiedPeriode, makeProject, Project } from '@entities'
 
 const pagination = {
   page: 0,
@@ -15,8 +15,6 @@ const makePaginatedProjectList = (projects: Project[]) => ({
   pageCount: 1,
   itemCount: projects.length,
 })
-
-const user = { role: 'admin' } as User
 
 const project = UnwrapForTest(makeProject(makeFakeProject()))
 const projectList = makePaginatedProjectList([project])
@@ -43,7 +41,7 @@ const validFessenheimPeriodes = fessenheim.periodes
   .filter((periode) => !!isNotifiedPeriode(periode))
   .map(makePeriodeDTO)
 
-const listerProjets = jest.fn(async () => projectList)
+const listerProjetsNonNotifiés = jest.fn(async () => projectList)
 const countUnnotifiedProjects = jest.fn(async () => 42)
 const findExistingAppelsOffres = jest.fn(async () => appelsOffresDTOs.map((item) => item.id))
 const findExistingPeriodesForAppelOffre = jest.fn(async () =>
@@ -54,7 +52,7 @@ const listerProjetsÀNotifier = makeListerProjetsÀNotifier({
   findExistingAppelsOffres,
   findExistingPeriodesForAppelOffre,
   countUnnotifiedProjects,
-  listerProjets,
+  listerProjetsNonNotifiés,
   appelOffreRepo,
 })
 
@@ -66,17 +64,15 @@ describe('Commande listerProjetsÀNotifier', () => {
         appelOffreId: fessenheim.id,
         periodeId: '2',
         pagination,
-        user,
       })
 
       expect(res).toBeDefined()
 
-      expect(listerProjets).toHaveBeenCalledWith(
+      expect(listerProjetsNonNotifiés).toHaveBeenCalledWith(
         expect.objectContaining({
           pagination,
           filtres: {
             appelOffre: { appelOffreId: fessenheim.id, periodeId: '2' },
-            étatNotification: 'non-notifiés',
           },
         })
       )
@@ -91,7 +87,6 @@ describe('Commande listerProjetsÀNotifier', () => {
       const res = await listerProjetsÀNotifier({
         appelOffreId: fessenheim.id,
         pagination,
-        user,
       })
 
       expect(res).toBeDefined()
@@ -102,7 +97,7 @@ describe('Commande listerProjetsÀNotifier', () => {
         isNotified: false,
       })
 
-      // For fessenheim, only periode 2 can be notified on Potentiel
+      // Pour l'AO Fessenheim la première période notifiable est la période 2
       res && expect(res.selectedPeriodeId).toEqual('2')
     })
 
@@ -112,7 +107,6 @@ describe('Commande listerProjetsÀNotifier', () => {
         appelOffreId: fessenheim.id,
         periodeId: '1',
         pagination,
-        user,
       })
 
       expect(res).toBeDefined()
@@ -120,7 +114,7 @@ describe('Commande listerProjetsÀNotifier', () => {
         isNotified: false,
       })
 
-      // For fessenheim, only periode 2 can be notified on Potentiel
+      // Pour l'AO Fessenheim  il y a deux périodes notifiables
       res && expect(res.selectedPeriodeId).toEqual('2')
     })
 
@@ -129,7 +123,6 @@ describe('Commande listerProjetsÀNotifier', () => {
         et le premier appel d'offres de cette liste devrait être sélectionné`, async () => {
       const res = await listerProjetsÀNotifier({
         pagination,
-        user,
       })
 
       expect(res).toBeDefined()
@@ -151,15 +144,13 @@ describe('Commande listerProjetsÀNotifier', () => {
           periodeId: '2',
           classement: 'classés',
           pagination,
-          user,
         })
 
         expect(res).toBeDefined()
-        expect(listerProjets).toHaveBeenCalledWith(
+        expect(listerProjetsNonNotifiés).toHaveBeenCalledWith(
           expect.objectContaining({
             filtres: {
               appelOffre: { appelOffreId: fessenheim.id, periodeId: '2' },
-              étatNotification: 'non-notifiés',
               classement: 'classés',
             },
             pagination,
@@ -174,16 +165,14 @@ describe('Commande listerProjetsÀNotifier', () => {
           periodeId: '2',
           classement: 'éliminés',
           pagination,
-          user,
         })
 
         expect(res).toBeDefined()
 
-        expect(listerProjets).toHaveBeenCalledWith(
+        expect(listerProjetsNonNotifiés).toHaveBeenCalledWith(
           expect.objectContaining({
             filtres: {
               appelOffre: { appelOffreId: fessenheim.id, periodeId: '2' },
-              étatNotification: 'non-notifiés',
               classement: 'éliminés',
             },
             pagination,
@@ -197,7 +186,6 @@ describe('Commande listerProjetsÀNotifier', () => {
       const res = await listerProjetsÀNotifier({
         appelOffreId: 'invalid',
         pagination,
-        user,
       })
 
       expect(res).toBeDefined()
@@ -212,7 +200,6 @@ describe('Commande listerProjetsÀNotifier', () => {
 
       const res = await listerProjetsÀNotifier({
         pagination,
-        user,
       })
 
       expect(findExistingAppelsOffres).toHaveBeenCalledWith({

@@ -31,7 +31,6 @@ v1Router.get(
       pagination,
       recherche,
       classement,
-      user: request.user,
     })
 
     if (result === null) {

@@ -1,8 +1,8 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ListerProjets } from '@modules/project/queries'
 import { models } from '../../../../models'
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions'
+import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries'
 
 const attributes = [
   'id',
@@ -28,12 +28,16 @@ const attributes = [
   'actionnariat',
 ]
 
-export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
+export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
+  pagination,
+  filtres,
+}) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
+      notifiedOn: 0,
     },
     ...paginate(pagination),
     attributes,
@@ -53,6 +57,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
         ...projet,
         ...(appelOffre && {
           appelOffre: {
+            title: appelOffre?.title,
             type: appelOffre?.type,
             unitePuissance: appelOffre?.unitePuissance,
             periode: appelOffre?.periode,

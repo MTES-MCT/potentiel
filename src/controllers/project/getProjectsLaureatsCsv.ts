@@ -49,7 +49,6 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
         pagination,
         recherche,
         classement: 'classés',
-        user: request.user,
       }))
 
     if (!projects?.length) return response.send('Aucun projet lauréat sur cette période')
