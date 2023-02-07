@@ -69,14 +69,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
       ]
     case 'acheteur-obligé':
     case 'ademe':
-      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets]
     case 'cre':
-      return [
-        PermissionListerProjets,
-        PermissionConsulterProjet,
-        PermissionExporterProjets,
-        PermissionListerProjetsÀNotifier,
-      ]
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets]
     default:
       return []
   }
