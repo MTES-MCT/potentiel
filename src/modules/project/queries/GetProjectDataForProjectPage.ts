@@ -138,7 +138,7 @@ type AlerteAnnulationAbandon =
     }
 
 type DonnéesDeRaccordement = {
-  numeroGestionnaire: string
+  numeroGestionnaire?: string
   dateMiseEnService?: Date
   dateFileAttente?: Date
 }

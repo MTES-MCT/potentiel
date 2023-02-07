@@ -2,12 +2,12 @@ import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
-import models from '../../models'
+import models from '../../../models'
 import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { format } from 'date-fns'
 import { userIsNot } from '@modules/users'
-import { Project } from '../../projections/project/project.model'
+import { Project } from '../../../projections/project/project.model'
 
 const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models
 
@@ -146,6 +146,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           contratEDF,
           contratEnedis,
+          numeroGestionnaire,
+          dateMiseEnService,
+          dateFileAttente,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -194,6 +197,13 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             ...(notifiedOn && { certificateFile }),
           }),
           ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
+          ...(userIsNot(['ademe', 'caisse-des-dépôts'])(user) && {
+            donnéesDeRaccordement: {
+              numeroGestionnaire,
+              dateMiseEnService,
+              dateFileAttente,
+            },
+          }),
         })
     )
     .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)))
