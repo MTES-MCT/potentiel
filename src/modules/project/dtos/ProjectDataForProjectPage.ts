@@ -29,8 +29,8 @@ export type ProjectDataForProjectPage = {
   id: string
   potentielIdentifier: string
 
-  appelOffre: ProjectAppelOffre
   donnéesDeRaccordement?: DonnéesDeRaccordement
+  appelOffre: ProjectAppelOffre
 
   appelOffreId: string
   periodeId: string
