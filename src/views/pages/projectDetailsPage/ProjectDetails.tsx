@@ -25,6 +25,7 @@ import {
   ResultatsAppelOffre,
   ContratEDF,
   ContratEnedis,
+  DonnéesDeRaccordement,
 } from './sections'
 import { ProjectHeader } from './components'
 import routes from '@routes'
@@ -44,6 +45,15 @@ export const ProjectDetails = ({
 }: ProjectDetailsProps) => {
   const { user } = request
   const { error, success } = (request.query as any) || {}
+
+  const doitAfficherDonnéesDeRaccordement = !!(
+    project.donnéesDeRaccordement &&
+    (project.donnéesDeRaccordement.numeroGestionnaire ||
+      project.donnéesDeRaccordement.dateMiseEnService ||
+      project.donnéesDeRaccordement.dateFileAttente)
+  )
+
+  console.log('why', project.donnéesDeRaccordement)
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
@@ -64,6 +74,10 @@ export const ProjectDetails = ({
             <InfoGenerales {...{ project }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
+
+            {doitAfficherDonnéesDeRaccordement && (
+              <DonnéesDeRaccordement {...project.donnéesDeRaccordement} />
+            )}
 
             {project.appelOffre?.type === 'innovation' && userIs('dreal')(user) && (
               <ResultatsAppelOffre {...{ project }} />
