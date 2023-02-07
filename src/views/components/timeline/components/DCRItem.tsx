@@ -9,7 +9,7 @@ import {
   DownloadLink,
   Link,
   Dropdown,
-} from '../..'
+} from '@components'
 import { WarningItem } from './WarningItem'
 import { DCRItemProps } from '../helpers/extractDCRItemProps'
 import { WarningIcon } from './WarningIcon'

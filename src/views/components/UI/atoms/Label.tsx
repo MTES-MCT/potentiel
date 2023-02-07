@@ -10,7 +10,7 @@ export const Label = ({ required, children, ...props }: LabelProps) => (
     {required && (
       <>
         {' '}
-        <span className="text-red-500">*</span>
+        <span className="text-error-425-base">*</span>
       </>
     )}
   </label>
