@@ -6,7 +6,7 @@ type GestionnaireDeRéseauProps = {
 }
 
 export const GestionnaireDeRéseau = ({ numeroGestionnaire }: GestionnaireDeRéseauProps) => (
-  <Section title="Gestionnaire de réseau" icon="clipboard-check">
+  <Section title="Gestionnaire de réseau" icon="plug">
     <div className="mb-[10px]">Identifiant: {numeroGestionnaire}</div>
   </Section>
 )
