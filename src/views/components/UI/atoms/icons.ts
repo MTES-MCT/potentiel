@@ -34,3 +34,4 @@ export { BiBuildingHouse as BuildingHouseIcon } from '@react-icons/all-files/bi/
 export { RiSearchLine as SearchIcon } from '@react-icons/all-files/ri/RiSearchLine'
 export { RiBuilding4Line as BuildingIcon } from '@react-icons/all-files/ri/RiBuilding4Line'
 export { HiOutlineCog as CogIcon } from '@react-icons/all-files/hi/HiOutlineCog'
+export { HiOutlineClipboardCheck as ClipboardCheckIcon } from '@react-icons/all-files/hi/HiOutlineClipboardCheck'
