@@ -198,10 +198,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }),
           ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
           ...(userIsNot(['ademe', 'caisse-des-dépôts'])(user) && {
-            donnéesDeRaccordement: {
+            gestionnaireDeRéseau: {
               numeroGestionnaire,
-              dateMiseEnService,
-              dateFileAttente,
             },
           }),
         })
