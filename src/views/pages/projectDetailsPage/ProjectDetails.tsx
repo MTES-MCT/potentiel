@@ -60,9 +60,7 @@ export const ProjectDetails = ({
         </Callout>
         <div className="flex flex-col lg:flex-row gap-3">
           {projectEventList && <EtapesProjet {...{ project, user, projectEventList, now }} />}
-          <div
-            className={`flex flex-col ${!projectEventList ? 'xl:flex-row' : ''} gap-3 flex-grow`}
-          >
+          <div className={`flex-1 flex-col ${projectEventList && 'xl:flex-row'} gap-3 flex-grow`}>
             <InfoGenerales {...{ project }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />

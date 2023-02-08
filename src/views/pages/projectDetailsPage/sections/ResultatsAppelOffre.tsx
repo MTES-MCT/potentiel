@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { NoteElement, Section } from '../components'
-import { ClipboardCheckIcon } from '@components'
+import { NoteElement } from '../components'
+import { ClipboardCheckIcon, Section } from '@components'
 
 type ResultatsAppelOffreProps = {
   project: ProjectDataForProjectPage

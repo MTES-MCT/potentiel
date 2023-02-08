@@ -1,7 +1,6 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { Section } from '../components'
-import { BuildingIcon, Heading3 } from '@views/components'
+import { BuildingIcon, Heading3, Section } from '@components'
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage

@@ -2,10 +2,9 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button, Heading3, Input, Label, Link, UserIcon } from '@components'
+import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
-import { Section } from '../components'
 import { userIs } from '@modules/users'
 import { dataId } from '../../../../helpers/testId'
 

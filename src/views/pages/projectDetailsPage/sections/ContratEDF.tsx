@@ -1,7 +1,6 @@
-import { BuildingIcon } from '@views/components'
+import { BuildingIcon, Section } from '@components'
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { Section } from '../components'
 
 type ContratEDFProps = {
   contrat: Exclude<ProjectDataForProjectPage['contratEDF'], undefined>

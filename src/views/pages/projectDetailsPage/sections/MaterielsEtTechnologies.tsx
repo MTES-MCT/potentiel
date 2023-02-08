@@ -1,7 +1,6 @@
 import React from 'react'
-import { Section } from '../components'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { CogIcon } from '@components'
+import { CogIcon, Section } from '@components'
 
 type MaterielsEtTechnologiesProps = {
   project: ProjectDataForProjectPage

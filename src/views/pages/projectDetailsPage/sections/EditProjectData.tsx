@@ -5,8 +5,7 @@ import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '@routes'
-import { Section } from '../components'
-import { BuildingIcon, Button, InputCheckbox } from '@components'
+import { BuildingIcon, Button, InputCheckbox, Section } from '@components'
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage

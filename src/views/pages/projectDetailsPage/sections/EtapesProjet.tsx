@@ -13,8 +13,8 @@ type EtapesProjetProps = {
 }
 
 export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesProjetProps) => (
-  <div className="panel p-4 mt-0 flex-auto">
-    <Heading2 className="section--title text-2xl">
+  <div className="m-0 p-4 flex-auto border border-solid border-grey-900-base">
+    <Heading2 className="border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base text-2xl">
       <CalendarIcon className="w-5 h-5 mr-2" />
       Étapes du projet
     </Heading2>

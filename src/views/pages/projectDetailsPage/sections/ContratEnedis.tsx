@@ -1,7 +1,6 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { Section } from '../components'
-import { BuildingIcon } from '@components'
+import { BuildingIcon, Section } from '@components'
 
 type ContratEnedisProps = {
   contrat: Exclude<ProjectDataForProjectPage['contratEnedis'], undefined>
