@@ -18,7 +18,7 @@ export const AcheteurObligeStatistiques = ({
         <div className="panel__header">
           <Heading1>Tableau de bord</Heading1>
         </div>
-        <section className="section section-white" style={{ paddingTop: 0 }}>
+        <section className="section section-white pt-0">
           <script src="https://metabase.potentiel.beta.gouv.fr/app/iframeResizer.js"></script>
           <div
             className="container"
