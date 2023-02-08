@@ -84,7 +84,7 @@ class routes {
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html'
   static ADMIN_REGENERATE_CERTIFICATES = '/admin/regenerer-attestations.html'
   static ADMIN_REGENERATE_CERTIFICATES_ACTION = '/admin/regenerer-attestations'
-  static ADMIN_NOTIFY_CANDIDATES = withParams<{
+  static GET_NOTIFIER_CANDIDATS = withParams<{
     appelOffreId: string
     periodeId: string
   }>('/admin/notifier-candidats.html')
@@ -136,7 +136,7 @@ class routes {
       makeCertificateFilename({ ...project, forAdmin: false })
     )
 
-  static ADMIN_NOTIFY_CANDIDATES_ACTION = '/admin/sendCandidateNotifications'
+  static POST_NOTIFIER_CANDIDATS = '/admin/envoyer-les-notifications-aux-candidats'
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData'
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest'
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai'

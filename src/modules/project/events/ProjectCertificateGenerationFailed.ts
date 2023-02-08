@@ -1,5 +1,5 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
-import { makeCandidateNotificationId } from '../../candidateNotification/helpers'
+import { makeCandidateNotificationId } from '../../notificationCandidats/helpers'
 
 export interface ProjectCertificateGenerationFailedPayload {
   projectId: string

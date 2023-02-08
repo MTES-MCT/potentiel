@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
-import { getProjectDataForChoisirCDCPage } from '@infra/sequelize/queries/project'
+import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 
 const { Project } = models

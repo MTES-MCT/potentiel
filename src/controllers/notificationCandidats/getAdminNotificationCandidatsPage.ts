@@ -2,14 +2,15 @@ import asyncHandler from '../helpers/asyncHandler'
 import { makePagination } from '../../helpers/paginate'
 import routes from '@routes'
 import { Pagination } from '../../types'
-import { listUnnotifiedProjects } from '@useCases'
-import { ensureRole } from '@config'
 import { v1Router } from '../v1Router'
 import { AdminNotificationCandidatsPage } from '@views'
+import { vérifierPermissionUtilisateur } from '../helpers'
+import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
+import { listerProjetsÀNotifier } from '@config/queries.config'
 
 v1Router.get(
-  routes.ADMIN_NOTIFY_CANDIDATES(),
-  ensureRole(['admin', 'dgec-validateur']),
+  routes.GET_NOTIFIER_CANDIDATS(),
+  vérifierPermissionUtilisateur(PermissionListerProjetsÀNotifier),
   asyncHandler(async (request, response) => {
     let { appelOffreId, periodeId, recherche, classement, pageSize } = request.query as any
 
@@ -24,7 +25,7 @@ v1Router.get(
       periodeId = undefined
     }
 
-    const result = await listUnnotifiedProjects({
+    const result = await listerProjetsÀNotifier({
       appelOffreId,
       periodeId,
       pagination,

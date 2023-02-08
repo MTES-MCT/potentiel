@@ -1,4 +1,3 @@
-import { getDélaiCDC2022Applicable } from '@config/queries.config'
 import { err, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { parseCahierDesChargesRéférence } from '@entities'
 import {
@@ -8,6 +7,7 @@ import {
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import { Op } from 'sequelize'
 import models from '../../models'
+import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable'
 
 const { Project, ModificationRequest } = models
 

@@ -10,6 +10,7 @@ import {
   SuccessBox,
 } from '@components'
 import { AppelOffre, Periode } from '@entities'
+import { AppelOffreDTO, PeriodeDTO } from '@modules/notificationCandidats'
 import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -18,7 +19,6 @@ import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
 import { PaginatedList } from '../../types'
-import { AppelOffreDTO, PeriodeDTO } from '../../useCases/listUnnotifiedProjects'
 import { hydrateOnClient } from '../helpers'
 
 type AdminNotificationCandidatsProps = {
@@ -78,7 +78,7 @@ export const AdminNotificationCandidats = ({
               porteurs de projets.
             </p>
           )}
-          <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES()} method="GET" className="ml-0 mb-4">
+          <form action={ROUTES.GET_NOTIFIER_CANDIDATS()} method="GET" className="ml-0 mb-4">
             <div className="form__group mt-5">
               <BarreDeRecherche name="recherche" className="pr-10" defaultValue={recherche || ''} />
             </div>
@@ -114,7 +114,7 @@ export const AdminNotificationCandidats = ({
             </div>
           </form>
         </div>
-        <form action={ROUTES.ADMIN_NOTIFY_CANDIDATES_ACTION} method="post" className="ml-0 mb-4">
+        <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
           <div className="form__group">
             <select
               name="appelOffreId"

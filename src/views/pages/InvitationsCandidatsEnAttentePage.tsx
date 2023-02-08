@@ -6,7 +6,7 @@ import {
   SecondaryButton,
   SuccessBox,
 } from '@components'
-import { PendingCandidateInvitationDTO } from '@modules/candidateNotification'
+import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats'
 import ROUTES from '@routes'
 import { Request } from 'express'
 import React from 'react'

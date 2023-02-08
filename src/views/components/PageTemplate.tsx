@@ -109,7 +109,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem
-        href={routes.ADMIN_NOTIFY_CANDIDATES()}
+        href={routes.GET_NOTIFIER_CANDIDATS()}
         {...(currentPage === 'notify-candidates' && { isCurrent: true })}
       >
         Notifier des candidats
