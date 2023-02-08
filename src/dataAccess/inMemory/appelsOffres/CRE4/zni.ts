@@ -317,6 +317,21 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         intervaleDateMiseEnService: { min: new Date('2022-09-01'), max: new Date('2024-12-31') },
       },
     },
+    {
+      type: 'modifié',
+      paruLe: '07/02/2023',
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-07-02-2023',
+      numéroGestionnaireRequis: true,
+      délaiAnnulationAbandon: new Date('2023-02-22'),
+    },
+    {
+      type: 'modifié',
+      paruLe: '07/02/2023',
+      alternatif: true,
+      url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-alternatif-publie-le-07-02-2023',
+      numéroGestionnaireRequis: true,
+      délaiAnnulationAbandon: new Date('2023-02-22'),
+    },
   ],
 }
 

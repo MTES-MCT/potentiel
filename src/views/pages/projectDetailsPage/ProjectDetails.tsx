@@ -159,8 +159,19 @@ const AlerteAnnulationAbandonPossible = ({
 
         {alerteAnnulationAbandon.actionPossible === 'choisir-nouveau-cdc' && (
           <p className="m-0">
-            Pour pouvoir faire une demande d'annulation d'abandon, vous devez d'abord choisir le
-            dernier cahier des charges modifié publié (voir encart ci-dessous).
+            Pour pouvoir faire une demande d'annulation d'abandon, vous devez d'abord choisir l'un
+            des cahiers des charges suivants :
+            <ul>
+              {alerteAnnulationAbandon.cdcAvecOptionAnnulationAbandon.map(
+                ({ paruLe, type, alternatif }) => (
+                  <li>{`Cahier des charges ${
+                    alternatif ? `alternatif` : ''
+                  } ${type} paru le ${paruLe}`}</li>
+                )
+              )}
+            </ul>
+            Le lien vers le formulaire de changement de cahier des charges est disponible dans
+            l'encart ci-dessous.
           </p>
         )}
       </AlertBox>

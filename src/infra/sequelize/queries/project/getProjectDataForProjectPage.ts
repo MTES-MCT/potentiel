@@ -193,11 +193,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           }
         }
 
-        const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.some(
-          (cdc) =>
-            cdc.délaiAnnulationAbandon &&
-            new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
-        )
+        const cdcDispoPourAnnulationAbandon =
+          appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
+            (cdc) =>
+              cdc.délaiAnnulationAbandon &&
+              new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
+          )
 
         const dateLimite =
           cahierDesChargesActuel.type === 'modifié'
@@ -212,14 +213,23 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
 
         return {
           ...dto,
-          ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon) && {
+          ...((cdcActuelPermetAnnulationAbandon || cdcDispoPourAnnulationAbandon.length > 0) && {
             alerteAnnulationAbandon: {
               ...(cdcActuelPermetAnnulationAbandon
                 ? {
                     actionPossible: 'demander-annulation-abandon',
                     dateLimite: format(dateLimite!, 'PPP'),
                   }
-                : { actionPossible: 'choisir-nouveau-cdc' }),
+                : {
+                    actionPossible: 'choisir-nouveau-cdc',
+                    cdcAvecOptionAnnulationAbandon: cdcDispoPourAnnulationAbandon.map(
+                      ({ paruLe, alternatif, type }) => ({
+                        paruLe,
+                        alternatif,
+                        type,
+                      })
+                    ),
+                  }),
             },
           }),
         } as ProjectDataForProjectPage

@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize'
-import { CahierDesChargesRéférence, cahiersDesChargesRéférences, Technologie } from '@entities'
+import { Technologie } from '@entities'
 import { ContratEDF } from '@modules/edf'
 import { ContratEnedis } from '@modules/enedis'
 import { GarantiesFinancières } from '../../projectionsNext'
@@ -40,7 +40,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   details?: JSON
   certificateFileId?: string
   numeroGestionnaire?: string
-  cahierDesChargesActuel: CahierDesChargesRéférence
+  cahierDesChargesActuel: string
   potentielIdentifier: string
   technologie?: Technologie
   actionnariat: 'financement-collectif' | 'gouvernance-partagee' | ''
@@ -200,7 +200,7 @@ export const MakeProjectModel = (sequelize) => {
         allowNull: true,
       },
       cahierDesChargesActuel: {
-        type: DataTypes.ENUM(...cahiersDesChargesRéférences),
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: 'initial',
       },
