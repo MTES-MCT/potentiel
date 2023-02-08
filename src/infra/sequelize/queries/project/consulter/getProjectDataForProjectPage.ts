@@ -147,8 +147,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
           numeroGestionnaire,
-          dateMiseEnService,
-          dateFileAttente,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -197,11 +195,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             ...(notifiedOn && { certificateFile }),
           }),
           ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
-          ...(userIsNot(['ademe', 'caisse-des-dépôts'])(user) && {
-            gestionnaireDeRéseau: {
-              numeroGestionnaire,
-            },
-          }),
+          ...(userIsNot(['ademe', 'caisse-des-dépôts'])(user) &&
+            numeroGestionnaire && {
+              gestionnaireDeRéseau: {
+                numeroGestionnaire,
+              },
+            }),
         })
     )
     .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)))

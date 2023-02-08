@@ -38,10 +38,37 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
         })
       }
     })
+
+    describe(`Ne pas récupérer les données de gestionnaire de réseau si aucun identifiant n'est renseigné`, () => {
+      it(`Étant donné un projet sans identifiant de gestionnaire de réseau
+            Lorsqu'un porteur de projet récupère les donnèes d'un projet
+            Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
+        const idProjet = uuid()
+
+        await Project.create(
+          makeFakeProject({
+            id: idProjet,
+            appelOffreId: 'Fessenheim',
+            notifiedOn: 1234,
+            numeroGestionnaire: undefined,
+          })
+        )
+
+        const donnéesProjet = (
+          await getProjectDataForProjectPage({
+            projectId: idProjet,
+            user: { role: 'admin' } as User,
+          })
+        )._unsafeUnwrap()
+
+        expect(donnéesProjet.gestionnaireDeRéseau).toBeUndefined()
+      })
+    })
+
     describe(`Récupérer les données de gestionnaire de réseau pour tous les utilisateurs sauf les ademe et caisse des dépôts`, () => {
       for (const role of USER_ROLES.filter((ur) => !['ademe', 'caisse-des-dépôts'].includes(ur))) {
         it(`Lorsqu'un utilisateur ${role} récupère les donnèes d'un projet
-          Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
+            Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
           const idProjet = uuid()
 
           await Project.create(
