@@ -13,7 +13,7 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
   describe(`Données de gestionnaire de réseau`, () => {
     describe(`Ne pas récupérer les données de gestionnaire de réseau pour les ademe, caisse des dépôts`, () => {
       for (const role of ['ademe', 'caisse-des-dépôts']) {
-        it(`Lorsqu'un utilisateur ${role} récupère les donnèes d'un projet
+        it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
             Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
           const idProjet = uuid()
 
@@ -40,7 +40,7 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
 
     describe(`Ne pas récupérer les données de gestionnaire de réseau si aucun identifiant n'est renseigné`, () => {
       it(`Étant donné un projet sans identifiant de gestionnaire de réseau
-            Lorsqu'un porteur de projet récupère les donnèes d'un projet
+            Lorsqu'un porteur de projet récupère les données d'un projet
             Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
         const idProjet = uuid()
 
@@ -73,7 +73,7 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
         'dgec-validateur',
         'cre',
       ]) {
-        it(`Lorsqu'un utilisateur ${role} récupère les donnèes d'un projet
+        it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
             Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
           const idProjet = uuid()
 
