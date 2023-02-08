@@ -3,7 +3,7 @@ import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import models from '../../../models'
-import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
+import { CahierDesCharges, parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { format } from 'date-fns'
 import { userIsNot } from '@modules/users'
@@ -69,11 +69,12 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       appelOffre: ProjectAppelOffre
       project: any
       cahierDesCharges:
+        | CahierDesCharges
         | { type: string; url: string; paruLe?: undefined; alternatif?: undefined }
         | {
             type: string
             url: string | undefined
-            paruLe: '30/07/2021' | '30/08/2022'
+            paruLe: '30/07/2021' | '30/08/2022' | '07/02/2023'
             alternatif: true | undefined
           }
     },
