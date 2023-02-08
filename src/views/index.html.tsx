@@ -107,19 +107,6 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
                 d="M 28.265625 6.132812 L 16 18.398438 L 3.734375 6.132812 L 0 9.867188 L 16 25.867188 L 32 9.867188 Z M 28.265625 6.132812 "
               />
             </symbol>
-            <symbol
-              id="dots-vertical"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
-              ></path>
-            </symbol>
           </defs>
         </svg>
         <div id="root">${ReactDOMServer.renderToString(<Component {...props} />)}</div>
