@@ -63,6 +63,7 @@ class routes {
 
   static ADMIN_STATISTIQUES = '/admin/statistiques.html'
   static ADEME_STATISTIQUES = '/ademe/statistiques.html'
+  static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html'
 
   static PROJECT_DETAILS = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/details.html'

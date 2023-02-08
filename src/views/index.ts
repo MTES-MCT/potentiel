@@ -43,6 +43,7 @@ import {
   AccèsNonAutorisé,
   DéclarationAccessibilité,
   InviterDgecValidateur,
+  AcheteurObligeStatistiques,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -62,6 +63,15 @@ export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques
 export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
   makeHtml({
     Component: AdemeStatistiques,
+    props,
+    title: 'Tableau de bord',
+  })
+
+export const AcheteurObligeStatistiquesPage = (
+  props: Parameters<typeof AcheteurObligeStatistiques>[0]
+) =>
+  makeHtml({
+    Component: AcheteurObligeStatistiques,
     props,
     title: 'Tableau de bord',
   })
