@@ -6,7 +6,7 @@ import { dataId } from '../../../../helpers/testId'
 import { ProjectDataForProjectPage } from '@modules/project/dtos'
 import ROUTES from '@routes'
 import { Section } from '../components'
-import { Button, InputCheckbox } from '@components'
+import { BuildingIcon, Button, InputCheckbox } from '@components'
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage
@@ -27,7 +27,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
   }
 
   return (
-    <Section title="Modifier le projet" icon="building">
+    <Section title="Modifier le projet" Icon={BuildingIcon}>
       <form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
         method="post"
