@@ -9,8 +9,8 @@ type SectionProps = {
 }
 
 export const Section = ({ title, children, icon: Icon }: SectionProps) => (
-  <div className="panel p-4 flex-1 xs:w-full min-w-fit">
-    <Heading2 className="flex items-center section--title text-2xl">
+  <div className="m-0 p-4 flex-1 xs:w-full min-w-fit border border-solid border-grey-900-base">
+    <Heading2 className="flex items-center text-2xl border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base">
       {Icon && <Icon className="mr-[10px]" />}
       {title}
     </Heading2>
