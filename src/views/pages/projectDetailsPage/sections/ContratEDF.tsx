@@ -1,4 +1,4 @@
-import { BuildingIcon, Section } from '@components'
+import { BuildingIcon, Panel } from '@components'
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
 
@@ -9,7 +9,7 @@ type ContratEDFProps = {
 export const ContratEDF = ({
   contrat: { numero, dateEffet, dateSignature, dateMiseEnService, type, duree, statut },
 }: ContratEDFProps) => (
-  <Section title="Contrat EDF" icon={BuildingIcon}>
+  <Panel title="Contrat EDF" icon={BuildingIcon}>
     <Item title="Statut" value={statut} />
     <Item title="Numero de contrat" value={numero} />
     <Item title="Type" value={type} />
@@ -17,7 +17,7 @@ export const ContratEDF = ({
     <Item title="Date de signature" value={dateSignature} />
     <Item title="Date de mise en service" value={dateMiseEnService} />
     <Item title="duree" value={`${duree?.toLocaleString()} jours`} />
-  </Section>
+  </Panel>
 )
 
 type ItemProps = {

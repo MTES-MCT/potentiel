@@ -1,15 +1,15 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { BuildingIcon, Section } from '@components'
+import { BuildingIcon, Panel } from '@components'
 
 type ContratEnedisProps = {
   contrat: Exclude<ProjectDataForProjectPage['contratEnedis'], undefined>
 }
 
 export const ContratEnedis = ({ contrat: { numero } }: ContratEnedisProps) => (
-  <Section title="Contrat Enedis" icon={BuildingIcon}>
+  <Panel title="Contrat Enedis" icon={BuildingIcon}>
     <Item title="Numero de contrat" value={numero} />
-  </Section>
+  </Panel>
 )
 
 type ItemProps = {

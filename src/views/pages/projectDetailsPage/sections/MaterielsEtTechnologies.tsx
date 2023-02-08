@@ -1,6 +1,6 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { CogIcon, Section } from '@components'
+import { CogIcon, Panel } from '@components'
 
 type MaterielsEtTechnologiesProps = {
   project: ProjectDataForProjectPage
@@ -11,11 +11,11 @@ export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProp
     return null
   }
   return (
-    <Section title="Matériels et technologies" icon={CogIcon}>
+    <Panel title="Matériels et technologies" icon={CogIcon}>
       {project.fournisseur && <div>Fournisseur: {project.fournisseur}</div>}
       {project.evaluationCarbone && (
         <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
       )}
-    </Section>
+    </Panel>
   )
 }
