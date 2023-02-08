@@ -4,7 +4,6 @@ import models from '../../../models'
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage'
 import { v4 as uuid } from 'uuid'
 import { User } from '@entities'
-import { USER_ROLES } from '@modules/users'
 
 const { Project } = models
 
@@ -66,7 +65,14 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
     })
 
     describe(`Récupérer les données de gestionnaire de réseau pour tous les utilisateurs sauf les ademe et caisse des dépôts`, () => {
-      for (const role of USER_ROLES.filter((ur) => !['ademe', 'caisse-des-dépôts'].includes(ur))) {
+      for (const role of [
+        'admin',
+        'porteur-projet',
+        'dreal',
+        'acheteur-obligé',
+        'dgec-validateur',
+        'cre',
+      ]) {
         it(`Lorsqu'un utilisateur ${role} récupère les donnèes d'un projet
             Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
           const idProjet = uuid()

@@ -6,7 +6,7 @@ import models from '../../../models'
 import { CahierDesCharges, parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { format } from 'date-fns'
-import { userIsNot } from '@modules/users'
+import { userIs, userIsNot } from '@modules/users'
 import { Project } from '../../../projections/project/project.model'
 
 const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models
@@ -191,12 +191,35 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           contratEDF,
           contratEnedis,
           cahierDesChargesActuel,
-          ...(userIsNot('dreal')(user) && {
+          ...(userIs([
+            'admin',
+            'porteur-projet',
+            'acheteur-obligé',
+            'ademe',
+            'dgec-validateur',
+            'caisse-des-dépôts',
+            'cre',
+          ])(user) && {
             prixReference,
             ...(notifiedOn && { certificateFile }),
           }),
-          ...(userIsNot('caisse-des-dépôts')(user) && { fournisseur, evaluationCarbone }),
-          ...(userIsNot(['ademe', 'caisse-des-dépôts'])(user) &&
+          ...(userIs([
+            'admin',
+            'porteur-projet',
+            'dreal',
+            'acheteur-obligé',
+            'ademe',
+            'dgec-validateur',
+            'cre',
+          ])(user) && { fournisseur, evaluationCarbone }),
+          ...(userIs([
+            'admin',
+            'porteur-projet',
+            'dreal',
+            'acheteur-obligé',
+            'dgec-validateur',
+            'cre',
+          ])(user) &&
             numeroGestionnaire && {
               gestionnaireDeRéseau: {
                 numeroGestionnaire,
