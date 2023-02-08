@@ -19,7 +19,7 @@ export type ProjectDataForProjectPage = {
   potentielIdentifier: string
 
   appelOffre: ProjectAppelOffre
-  donnéesDeRaccordement?: DonnéesDeRaccordement
+  gestionnaireDeRéseau?: GestionnaireDeRéseau
 
   appelOffreId: string
   periodeId: string
@@ -137,8 +137,6 @@ type AlerteAnnulationAbandon =
       dateLimite: string
     }
 
-type DonnéesDeRaccordement = {
-  numeroGestionnaire?: string
-  dateMiseEnService?: Date
-  dateFileAttente?: Date
+type GestionnaireDeRéseau = {
+  numeroGestionnaire: string
 }
