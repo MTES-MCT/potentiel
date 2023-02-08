@@ -33,3 +33,4 @@ export { RiMapPin2Line as MapPinIcon } from '@react-icons/all-files/ri/RiMapPin2
 export { BiBuildingHouse as BuildingHouseIcon } from '@react-icons/all-files/bi/BiBuildingHouse'
 export { RiSearchLine as SearchIcon } from '@react-icons/all-files/ri/RiSearchLine'
 export { RiBuilding4Line as BuildingIcon } from '@react-icons/all-files/ri/RiBuilding4Line'
+export { HiOutlineCog as CogIcon } from '@react-icons/all-files/hi/HiOutlineCog'
