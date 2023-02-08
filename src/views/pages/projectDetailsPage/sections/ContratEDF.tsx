@@ -10,7 +10,7 @@ type ContratEDFProps = {
 export const ContratEDF = ({
   contrat: { numero, dateEffet, dateSignature, dateMiseEnService, type, duree, statut },
 }: ContratEDFProps) => (
-  <Section title="Contrat EDF" Icon={BuildingIcon}>
+  <Section title="Contrat EDF" icon={BuildingIcon}>
     <Item title="Statut" value={statut} />
     <Item title="Numero de contrat" value={numero} />
     <Item title="Type" value={type} />

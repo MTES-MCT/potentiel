@@ -8,7 +8,7 @@ type ResultatsAppelOffreProps = {
 }
 
 export const ResultatsAppelOffre = ({ project }: ResultatsAppelOffreProps) => (
-  <Section title="Résultats de l'appel d'offres" Icon={ClipboardCheckIcon} icon="clipboard-check">
+  <Section title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
     <div className="mb-3 text-lg">
       <b>Note totale</b>: {project.note || 'N/A'}
     </div>

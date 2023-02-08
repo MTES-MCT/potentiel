@@ -8,7 +8,7 @@ type InfoGeneralesProps = {
 }
 
 export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
-  <Section title="Projet" Icon={BuildingIcon}>
+  <Section title="Projet" icon={BuildingIcon}>
     <div>
       <Heading3 className="mb-1">Performances</Heading3>
       <div>

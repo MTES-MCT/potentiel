@@ -27,7 +27,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
   }
 
   return (
-    <Section title="Modifier le projet" Icon={BuildingIcon}>
+    <Section title="Modifier le projet" icon={BuildingIcon}>
       <form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}
         method="post"

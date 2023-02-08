@@ -8,7 +8,7 @@ type ContratEnedisProps = {
 }
 
 export const ContratEnedis = ({ contrat: { numero } }: ContratEnedisProps) => (
-  <Section title="Contrat Enedis" Icon={BuildingIcon}>
+  <Section title="Contrat Enedis" icon={BuildingIcon}>
     <Item title="Numero de contrat" value={numero} />
   </Section>
 )
