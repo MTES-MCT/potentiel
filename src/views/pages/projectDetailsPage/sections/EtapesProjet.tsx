@@ -1,6 +1,6 @@
 import React from 'react'
 import { Request } from 'express'
-import { Timeline, CalendarIcon, Heading2 } from '@components'
+import { Timeline, CalendarIcon, Section } from '@components'
 import { userIs } from '@modules/users'
 import { ProjectEventListDTO } from '@modules/frise'
 import { AttachFile } from '../components/AttachFile'
@@ -13,11 +13,11 @@ type EtapesProjetProps = {
 }
 
 export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesProjetProps) => (
-  <section className="m-0 p-4 flex-auto border border-solid border-grey-900-base rounded-[3px]">
-    <Heading2 className="border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base text-2xl">
-      <CalendarIcon className="w-5 h-5 mr-2" />
-      Étapes du projet
-    </Heading2>
+  <Section
+    title="Étapes du projet"
+    icon={CalendarIcon}
+    className="flex-auto min-w-0 lg:max-w-[60%]"
+  >
     <Timeline
       {...{
         projectEventList,
@@ -25,5 +25,5 @@ export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesPro
       }}
     />
     {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />}
-  </section>
+  </Section>
 )
