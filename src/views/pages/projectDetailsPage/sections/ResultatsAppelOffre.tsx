@@ -1,14 +1,14 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
 import { NoteElement } from '../components'
-import { ClipboardCheckIcon, Panel } from '@components'
+import { ClipboardCheckIcon, Section } from '@components'
 
 type ResultatsAppelOffreProps = {
   project: ProjectDataForProjectPage
 }
 
 export const ResultatsAppelOffre = ({ project }: ResultatsAppelOffreProps) => (
-  <Panel title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
+  <Section title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
     <div className="mb-3 text-lg">
       <b>Note totale</b>: {project.note || 'N/A'}
     </div>
@@ -37,5 +37,5 @@ export const ResultatsAppelOffre = ({ project }: ResultatsAppelOffreProps) => (
         />
       </ul>
     </ul>
-  </Panel>
+  </Section>
 )

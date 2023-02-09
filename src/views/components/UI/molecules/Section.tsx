@@ -8,8 +8,14 @@ type SectionProps = ComponentProps<'div'> & {
   children: React.ReactNode
 }
 
-export const Panel = ({ title, children, icon: Icon, className = '', ...props }: SectionProps) => (
-  <div
+export const Section = ({
+  title,
+  children,
+  icon: Icon,
+  className = '',
+  ...props
+}: SectionProps) => (
+  <section
     className={`m-0 p-4 flex-1 xs:w-full min-w-fit border border-solid border-grey-900-base rounded-[3px] ${className}`}
     {...props}
   >
@@ -18,5 +24,5 @@ export const Panel = ({ title, children, icon: Icon, className = '', ...props }:
       {title}
     </Heading2>
     {children}
-  </div>
+  </section>
 )

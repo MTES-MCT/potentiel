@@ -1,13 +1,13 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { BuildingIcon, Heading3, Panel } from '@components'
+import { BuildingIcon, Heading3, Section } from '@components'
 
 type InfoGeneralesProps = {
   project: ProjectDataForProjectPage
 }
 
 export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
-  <Panel title="Projet" icon={BuildingIcon}>
+  <Section title="Projet" icon={BuildingIcon}>
     <div>
       <Heading3 className="mb-1">Performances</Heading3>
       <div>
@@ -24,5 +24,5 @@ export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
         {project.departementProjet}, {project.regionProjet}
       </div>
     </div>
-  </Panel>
+  </Section>
 )

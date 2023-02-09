@@ -2,7 +2,7 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button, Heading3, Input, Label, Link, UserIcon, Panel } from '@components'
+import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
 import { userIs } from '@modules/users'
@@ -14,7 +14,7 @@ type ContactProps = {
 }
 
 export const Contact = ({ project, user }: ContactProps) => (
-  <Panel title="Contact" icon={UserIcon}>
+  <Section title="Contact" icon={UserIcon}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
       <Heading3 className="mb-1">Représentant légal</Heading3>
@@ -30,7 +30,7 @@ export const Contact = ({ project, user }: ContactProps) => (
     {userIs(['admin', 'dgec-validateur', 'porteur-projet'])(user) && (
       <InvitationForm {...{ project }} />
     )}
-  </Panel>
+  </Section>
 )
 
 type ListComptesAvecAccesProps = {

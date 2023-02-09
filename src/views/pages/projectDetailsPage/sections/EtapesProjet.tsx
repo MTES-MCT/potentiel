@@ -13,7 +13,7 @@ type EtapesProjetProps = {
 }
 
 export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesProjetProps) => (
-  <div className="m-0 p-4 flex-auto border border-solid border-grey-900-base rounded-[3px]">
+  <section className="m-0 p-4 flex-auto border border-solid border-grey-900-base rounded-[3px]">
     <Heading2 className="border-solid border-x-0 border-t-0 border-b-[1px] border-b-grey-900-base text-2xl">
       <CalendarIcon className="w-5 h-5 mr-2" />
       Étapes du projet
@@ -25,5 +25,5 @@ export const EtapesProjet = ({ user, projectEventList, now, project }: EtapesPro
       }}
     />
     {userIs(['admin', 'dgec-validateur', 'dreal'])(user) && <AttachFile projectId={project.id} />}
-  </div>
+  </section>
 )
