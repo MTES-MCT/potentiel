@@ -10,7 +10,6 @@ import {
   SuccessBox,
 } from '@components'
 import { AppelOffre, Periode } from '@entities'
-import { AppelOffreDTO, PeriodeDTO } from '@modules/notificationCandidats'
 import { ProjectListItem } from '@modules/project/queries'
 import ROUTES from '@routes'
 import { Request } from 'express'
@@ -23,22 +22,21 @@ import { hydrateOnClient } from '../helpers'
 
 type AdminNotificationCandidatsProps = {
   request: Request
-  results?: {
-    projects: PaginatedList<ProjectListItem>
-    projectsInPeriodCount: number
-    selectedAppelOffreId: AppelOffre['id']
-    selectedPeriodeId: Periode['id']
-    existingAppelsOffres: Array<AppelOffreDTO>
-    existingPeriodes?: Array<PeriodeDTO>
+  données?: {
+    projetsPériodeSélectionnée: PaginatedList<ProjectListItem>
+    AOSélectionné: AppelOffre['id']
+    périodeSélectionnée: Periode['id']
+    listeAOs: Array<AppelOffre['id']>
+    listePériodes?: Array<Periode['id']>
   }
 }
 
 export const AdminNotificationCandidats = ({
   request,
-  results,
+  données,
 }: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {}
-  if (!results) {
+  if (!données) {
     // All projects have been notified
     return (
       <PageTemplate user={request.user} currentPage="notify-candidates">
@@ -55,13 +53,12 @@ export const AdminNotificationCandidats = ({
   }
 
   const {
-    projects,
-    projectsInPeriodCount,
-    selectedAppelOffreId,
-    selectedPeriodeId,
-    existingAppelsOffres,
-    existingPeriodes,
-  } = results
+    projetsPériodeSélectionnée,
+    AOSélectionné,
+    périodeSélectionnée,
+    listeAOs,
+    listePériodes,
+  } = données
 
   const hasFilters = classement && classement !== ''
 
@@ -122,36 +119,36 @@ export const AdminNotificationCandidats = ({
               {...dataId('appelOffreIdSelector')}
               className="mr-1"
             >
-              {existingAppelsOffres.map((appelOffre) => (
+              {listeAOs.map((appelOffreId) => (
                 <option
-                  key={'appel_' + appelOffre.id}
-                  value={appelOffre.id}
-                  selected={appelOffre.id === selectedAppelOffreId}
+                  key={'appel_' + appelOffreId}
+                  value={appelOffreId}
+                  selected={appelOffreId === AOSélectionné}
                 >
-                  {appelOffre.shortTitle}
+                  Appel d'offres {appelOffreId}
                 </option>
               ))}
             </select>
             <select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
-              {existingPeriodes?.map((periode) => (
+              {listePériodes?.map((periodeId) => (
                 <option
-                  key={'appel_' + periode.id}
-                  value={periode.id}
-                  selected={periode.id === selectedPeriodeId}
+                  key={'appel_' + periodeId}
+                  value={periodeId}
+                  selected={periodeId === périodeSélectionnée}
                 >
-                  {periode.title}
+                  période {periodeId}
                 </option>
               ))}
             </select>
 
-            {selectedAppelOffreId && selectedPeriodeId && (
+            {AOSélectionné && périodeSélectionnée && (
               <div className="mt-4">
                 <SecondaryLinkButton
                   href={`
                 ${ROUTES.ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV}?${querystring.stringify({
                     ...request.query,
-                    appelOffreId: selectedAppelOffreId,
-                    periodeId: selectedPeriodeId,
+                    appelOffreId: AOSélectionné,
+                    periodeId: périodeSélectionnée,
                     beforeNotification: true,
                   })}`}
                   download
@@ -162,7 +159,7 @@ export const AdminNotificationCandidats = ({
               </div>
             )}
           </div>
-          {projectsInPeriodCount && !success ? (
+          {projetsPériodeSélectionnée.itemCount > 0 && !success ? (
             <div className="form__group">
               <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
               <input
@@ -181,7 +178,8 @@ export const AdminNotificationCandidats = ({
                   className="mt-4"
                   {...dataId('submit-button')}
                 >
-                  Envoyer la notification aux {projectsInPeriodCount} candidats de cette période
+                  Envoyer la notification aux {projetsPériodeSélectionnée.itemCount} candidats de
+                  cette période
                 </Button>
               )}
             </div>
@@ -192,7 +190,7 @@ export const AdminNotificationCandidats = ({
 
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-        <ProjectList projects={projects} role={request.user?.role} />
+        <ProjectList projects={projetsPériodeSélectionnée} role={request.user?.role} />
       </div>
     </PageTemplate>
   )
