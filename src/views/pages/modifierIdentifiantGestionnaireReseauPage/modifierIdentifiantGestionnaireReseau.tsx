@@ -1,20 +1,28 @@
 import React from 'react'
 import { Request } from 'express'
 
-import { PageTemplate } from '@components'
+import { Heading1, PageTemplate } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request
+  projet: {
+    id: string
+    numeroGestionnaire: string
+  }
 }
 
 export const ModifierIdentifiantGestionnaireReseau = ({
   request,
-}: ModifierIdentifiantGestionnaireReseauProps) => {
-  return (
-    <PageTemplate user={request.user} currentPage="list-projects">
-      WELCOME
-      {/* <div className="panel">
+  projet: { id, numeroGestionnaire },
+}: ModifierIdentifiantGestionnaireReseauProps) => (
+  <PageTemplate user={request.user} currentPage="list-projects">
+    <div className="panel__header">
+      <Heading1>Je modifie l'idenfiiant du numéro de gestionnaire réseau</Heading1>
+    </div>
+    <pre>id : {id}</pre>
+    <pre>numero : {numeroGestionnaire}</pre>
+    {/* <div className="panel">
         <div className="panel__header">
           <Heading1>Je signale un changement de fournisseur</Heading1>
         </div>
@@ -136,8 +144,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           </form>
         )}
       </div> */}
-    </PageTemplate>
-  )
-}
+  </PageTemplate>
+)
 
 hydrateOnClient(ModifierIdentifiantGestionnaireReseau)
