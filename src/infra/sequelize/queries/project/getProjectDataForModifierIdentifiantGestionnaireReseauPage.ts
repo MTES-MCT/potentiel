@@ -16,7 +16,6 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
       const { id, numeroGestionnaire } = projectRaw.get()
 
       if (!numeroGestionnaire) return err(new EntityNotFoundError())
-      console.log('here', id, numeroGestionnaire)
       const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
         id,
         numeroGestionnaire,
