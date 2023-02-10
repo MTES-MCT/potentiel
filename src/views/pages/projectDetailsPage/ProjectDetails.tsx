@@ -1,5 +1,5 @@
 import { ProjectEventListDTO } from '@modules/frise'
-import { ProjectDataForProjectPage } from '@modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/queries'
 import { Request } from 'express'
 import React from 'react'
 import { userIs } from '@modules/users'
@@ -25,6 +25,7 @@ import {
   ResultatsAppelOffre,
   ContratEDF,
   ContratEnedis,
+  GestionnaireDeRéseau,
 } from './sections'
 import { ProjectHeader } from './components'
 import routes from '@routes'
@@ -44,6 +45,7 @@ export const ProjectDetails = ({
 }: ProjectDetailsProps) => {
   const { user } = request
   const { error, success } = (request.query as any) || {}
+
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <ProjectHeader {...{ project, user }} />
@@ -64,6 +66,12 @@ export const ProjectDetails = ({
             <InfoGenerales {...{ project }} />
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
+
+            {project.gestionnaireDeRéseau && (
+              <GestionnaireDeRéseau
+                numeroGestionnaire={project.gestionnaireDeRéseau.numeroGestionnaire}
+              />
+            )}
 
             {project.appelOffre?.type === 'innovation' && userIs('dreal')(user) && (
               <ResultatsAppelOffre {...{ project }} />

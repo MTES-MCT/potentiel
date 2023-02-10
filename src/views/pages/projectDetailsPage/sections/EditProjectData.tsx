@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { appelsOffreStatic } from '@dataAccess/inMemory'
 import { formatDate } from '../../../../helpers/formatDate'
 import { dataId } from '../../../../helpers/testId'
-import { ProjectDataForProjectPage } from '@modules/project/dtos'
+import { ProjectDataForProjectPage } from '@modules/project/queries'
 import ROUTES from '@routes'
 import { BuildingIcon, Button, InputCheckbox, Section } from '@components'
 
