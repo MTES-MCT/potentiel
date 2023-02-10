@@ -12,26 +12,22 @@ export const newListerProjetsÀNotifier = async ({
 }) => {
   const projetsNonNotifiés = await models.Project.findAll({
     where: { notifiedOn: 0 },
-    attributes: ['notifiedOn', 'appelOffreId', 'periodeId'],
+    attributes: ['appelOffreId', 'periodeId'],
   })
 
   const listeAOs = projetsNonNotifiés.reduce(
-    (acc, current) =>
-      acc.some((element) => element === current.appelOffreId)
-        ? acc
-        : [...acc, current.appelOffreId],
+    (acc, projet) =>
+      acc.some((element) => element === projet.appelOffreId) ? acc : [...acc, projet.appelOffreId],
     []
   )
 
   const AOSélectionné = filtres?.appelOffre?.appelOffreId ?? listeAOs[0]
 
-  const projetsAOSélectionné = projetsNonNotifiés.filter(
-    (projet) => projet.appelOffreId === AOSélectionné
-  )
-
-  const listePériodes = projetsAOSélectionné.reduce(
-    (acc, current) =>
-      acc.some((element) => element === current.periodeId) ? acc : [...acc, current.periodeId],
+  const listePériodes = projetsNonNotifiés.reduce(
+    (acc, projet) =>
+      projet.appelOffreId === AOSélectionné && !acc.some((element) => element === projet.periodeId)
+        ? [...acc, projet.periodeId]
+        : acc,
     []
   )
 
