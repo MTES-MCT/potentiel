@@ -98,14 +98,12 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Courriers historiques
       </DropdownMenu.DropdownItem>
-      {!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT && (
-        <DropdownMenu.DropdownItem
-          href={routes.IMPORT_DONNEES_RACCORDEMENT}
-          {...(currentPage === 'import-données-raccordement' && { isCurrent: true })}
-        >
-          Données de raccordement
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem
+        href={routes.IMPORT_DONNEES_RACCORDEMENT}
+        {...(currentPage === 'import-données-raccordement' && { isCurrent: true })}
+      >
+        Données de raccordement
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Désignation'}>
       <DropdownMenu.DropdownItem

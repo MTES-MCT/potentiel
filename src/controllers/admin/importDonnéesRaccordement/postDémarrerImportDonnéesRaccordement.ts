@@ -100,87 +100,85 @@ const formaterDonnées = (
     return donnéesFormatées
   }, [])
 
-if (!!process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT) {
-  v1Router.post(
-    routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
-    ensureRole(['admin', 'dgec-validateur']),
-    upload.single('fichier-donnees-raccordement'),
-    asyncHandler(async (request, response) => {
-      if (!request.file || !request.file.path) {
-        sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
-          type: 'échec',
-          raison: 'Le fichier est obligatoire',
-        })
-        return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
-      }
-
-      await parseCsv(request.file.path, {
-        delimiter: ';',
-        encoding: 'utf8',
+v1Router.post(
+  routes.POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT,
+  ensureRole(['admin', 'dgec-validateur']),
+  upload.single('fichier-donnees-raccordement'),
+  asyncHandler(async (request, response) => {
+    if (!request.file || !request.file.path) {
+      sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+        type: 'échec',
+        raison: 'Le fichier est obligatoire',
       })
-        .andThen(validerLesDonnéesDuFichierCsv)
-        .andThen((données) => {
-          const donnéesFormatées = formaterDonnées(données)
-          if (donnéesFormatées.length === 0) {
-            return errAsync(
-              new DonnéesDeMiseAJourObligatoiresError({
-                utilisateur: request.user,
-                gestionnaire: 'Enedis',
-              })
-            )
-          }
-          return démarrerImportDonnéesRaccordement({
-            utilisateur: request.user,
-            gestionnaire: 'Enedis',
-            données: donnéesFormatées,
-          })
+      return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
+    }
+
+    await parseCsv(request.file.path, {
+      delimiter: ';',
+      encoding: 'utf8',
+    })
+      .andThen(validerLesDonnéesDuFichierCsv)
+      .andThen((données) => {
+        const donnéesFormatées = formaterDonnées(données)
+        if (donnéesFormatées.length === 0) {
+          return errAsync(
+            new DonnéesDeMiseAJourObligatoiresError({
+              utilisateur: request.user,
+              gestionnaire: 'Enedis',
+            })
+          )
+        }
+        return démarrerImportDonnéesRaccordement({
+          utilisateur: request.user,
+          gestionnaire: 'Enedis',
+          données: donnéesFormatées,
         })
-        .match(
-          () => {
+      })
+      .match(
+        () => {
+          sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+            type: 'succès',
+            message: "L'import du fichier a démarré. Actualisez la page pour afficher son état.",
+          })
+          return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
+        },
+        (error) => {
+          if (error instanceof CsvValidationError) {
             sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
-              type: 'succès',
-              message: "L'import du fichier a démarré. Actualisez la page pour afficher son état.",
+              type: 'échec',
+              raison: error.message,
+              erreursDeValidationCsv: error.détails,
             })
             return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
-          },
-          (error) => {
-            if (error instanceof CsvValidationError) {
-              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
-                type: 'échec',
-                raison: error.message,
-                erreursDeValidationCsv: error.détails,
-              })
-              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
-            }
-
-            if (
-              error instanceof DémarrageImpossibleError ||
-              error instanceof DonnéesDeMiseAJourObligatoiresError
-            ) {
-              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
-                type: 'échec',
-                raison: error.message,
-              })
-              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
-            }
-
-            if (error instanceof CsvError) {
-              sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
-                type: 'échec',
-                raison: 'Le fichier csv est mal formaté',
-              })
-              return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
-            }
-
-            logger.error(error)
-            return errorResponse({
-              request,
-              response,
-              customMessage:
-                'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-            })
           }
-        )
-    })
-  )
-}
+
+          if (
+            error instanceof DémarrageImpossibleError ||
+            error instanceof DonnéesDeMiseAJourObligatoiresError
+          ) {
+            sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+              type: 'échec',
+              raison: error.message,
+            })
+            return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
+          }
+
+          if (error instanceof CsvError) {
+            sauvegarderRésultatFormulaire(request, routes.IMPORT_DONNEES_RACCORDEMENT, {
+              type: 'échec',
+              raison: 'Le fichier csv est mal formaté',
+            })
+            return response.redirect(routes.IMPORT_DONNEES_RACCORDEMENT)
+          }
+
+          logger.error(error)
+          return errorResponse({
+            request,
+            response,
+            customMessage:
+              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          })
+        }
+      )
+  })
+)

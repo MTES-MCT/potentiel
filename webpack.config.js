@@ -47,9 +47,6 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.npm_package_version': JSON.stringify(process.env.npm_package_version),
-      'process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT': JSON.stringify(
-        process.env.ENABLE_IMPORT_DONNEES_RACCORDEMENT
-      ),
     }),
   ],
   module: {
