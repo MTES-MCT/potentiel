@@ -1,15 +1,15 @@
 import React from 'react'
 import { ProjectDataForProjectPage } from '@modules/project'
-import { NoteElement, Section } from '../components'
-import { dataId } from '../../../../helpers/testId'
+import { NoteElement } from '../components'
+import { ClipboardCheckIcon, Section } from '@components'
 
 type ResultatsAppelOffreProps = {
   project: ProjectDataForProjectPage
 }
 
 export const ResultatsAppelOffre = ({ project }: ResultatsAppelOffreProps) => (
-  <Section title="Résultats de l'appel d'offres" icon="clipboard-check">
-    <div style={{ marginBottom: 10, fontSize: 18 }} {...dataId('project-note')}>
+  <Section title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
+    <div className="mb-3 text-lg">
       <b>Note totale</b>: {project.note || 'N/A'}
     </div>
     <ul>

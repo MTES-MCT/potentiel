@@ -2,10 +2,9 @@ import React from 'react'
 import { Request } from 'express'
 
 import ROUTES from '@routes'
-import { Button, Heading3, Input, Label, Link } from '@components'
+import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components'
 
 import { ProjectDataForProjectPage } from '@modules/project'
-import { Section } from '../components'
 import { userIs } from '@modules/users'
 import { dataId } from '../../../../helpers/testId'
 
@@ -15,10 +14,10 @@ type ContactProps = {
 }
 
 export const Contact = ({ project, user }: ContactProps) => (
-  <Section title="Contact" icon="user-circle">
-    <div style={{ marginBottom: 10 }}>{project.nomCandidat}</div>
+  <Section title="Contact" icon={UserIcon}>
+    <div className="mb-3">{project.nomCandidat}</div>
     <div>
-      <Heading3 style={{ marginBottom: 5 }}>Représentant légal</Heading3>
+      <Heading3 className="mb-1">Représentant légal</Heading3>
       <div>{project.nomRepresentantLegal}</div>
       <div>{project.email}</div>
     </div>
