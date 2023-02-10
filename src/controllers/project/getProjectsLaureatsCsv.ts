@@ -4,12 +4,11 @@ import routes from '@routes'
 import { parseAsync } from 'json2csv'
 import { logger } from '@core/utils'
 import { v1Router } from '../v1Router'
-import { ensureRole } from '@config'
+import { ensureRole, getDonnéesPourPageNotificationCandidats } from '@config'
 import asyncHandler from '../helpers/asyncHandler'
 import { formatField, writeCsvOnDisk } from '../../helpers/csv'
 import { promises as fsPromises } from 'fs'
 import { Project } from '@entities'
-import { listerProjetsÀNotifier } from '@config/queries.config'
 
 const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
   const { appelOffreId, periodeId, recherche, beforeNotification } = request.query as any
@@ -40,10 +39,10 @@ const getProjectsLaureatsCsv = asyncHandler(async (request, response) => {
 
   try {
     const {
-      projects: { items: projects },
+      projetsPériodeSélectionnée: { items: projects },
     }: any =
       beforeNotification === 'true' &&
-      (await listerProjetsÀNotifier({
+      (await getDonnéesPourPageNotificationCandidats({
         appelOffreId,
         periodeId,
         pagination,
