@@ -1,7 +1,15 @@
+import { FiltreListeProjets } from '@modules/project'
+import { Pagination } from '../../../../../types'
 import models from '../../../models'
 import { listerProjetsNonNotifiés } from './requêtes/listerProjetsNonNotifiés'
 
-export const newListerProjetsÀNotifier = async ({ pagination }) => {
+export const newListerProjetsÀNotifier = async ({
+  pagination,
+  filtres,
+}: {
+  pagination: Pagination
+  filtres?: FiltreListeProjets
+}) => {
   const projetsNonNotifiés = await models.Project.findAll({
     where: { notifiedOn: 0 },
     attributes: ['notifiedOn', 'appelOffreId', 'periodeId'],
@@ -15,7 +23,7 @@ export const newListerProjetsÀNotifier = async ({ pagination }) => {
     []
   )
 
-  const AOSélectionné = listeAOs[0]
+  const AOSélectionné = filtres?.appelOffre?.appelOffreId ?? listeAOs[0]
 
   const projetsAOSélectionné = projetsNonNotifiés.filter(
     (projet) => projet.appelOffreId === AOSélectionné
@@ -27,7 +35,7 @@ export const newListerProjetsÀNotifier = async ({ pagination }) => {
     []
   )
 
-  const périodeSélectionnée = listePériodes[0]
+  const périodeSélectionnée = filtres?.appelOffre?.periodeId ?? listePériodes[0]
 
   const projetsPériodeSélectionnée = await listerProjetsNonNotifiés({
     pagination,
