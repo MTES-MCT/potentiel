@@ -1,6 +1,7 @@
 export * from './getChoisirCahierDesChargesPage'
 export * from './getExportProjets'
 export * from './getListeProjetsPage'
+export * from './getModifierIdentifiantGestionnaireReseau'
 export * from './getProjectFile'
 export * from './getProjectPage'
 export * from './getProjectsLaureatsCsv'

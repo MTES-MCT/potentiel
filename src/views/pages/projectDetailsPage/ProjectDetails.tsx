@@ -70,6 +70,8 @@ export const ProjectDetails = ({
             {project.gestionnaireDeRéseau && (
               <GestionnaireDeRéseau
                 numeroGestionnaire={project.gestionnaireDeRéseau.numeroGestionnaire}
+                projetId={project.id}
+                role={user.role}
               />
             )}
 

@@ -1,7 +1,7 @@
 import { makeCertificateFilename } from '@modules/project'
 import querystring from 'querystring'
 import sanitize from 'sanitize-filename'
-import type { Project } from './entities'
+import type { Project } from '@entities'
 
 const withParams =
   <T extends Record<string, any>>(url: string) =>
@@ -388,6 +388,13 @@ class routes {
 
   static IMPORT_DONNEES_RACCORDEMENT = '/admin/import-donnees-raccordement.html'
   static POST_DEMARRER_IMPORT_DONNEES_RACCORDEMENT = '/admin/demarrer-import-donnees-raccordement'
+
+  static GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = (projetId?: Project['id']) => {
+    const route = '/projet/:projetId/modifier-identifiant-gestionnaire-reseau.html'
+    if (projetId) {
+      return route.replace(':projetId', projetId)
+    } else return route
+  }
 }
 
 export default routes
