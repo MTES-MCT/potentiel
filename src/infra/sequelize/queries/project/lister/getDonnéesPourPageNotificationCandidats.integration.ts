@@ -10,9 +10,14 @@ describe(`listerProjetsÀNotifier`, () => {
     page: 0,
     pageSize: 10,
   }
+
+  beforeEach(async () => {
+    await resetDatabase()
+  })
+
   describe(`Etant donné une base de projets contenant des projets à notifier sur plusieurs AOs :
     - AO Eolien
-    - AO PV`, () => {
+    - AO CRE4 - Bâtiment`, () => {
     const projetÀNotifierAOEolienPériode1 = makeFakeProject({
       appelOffreId: 'Eolien',
       periodeId: '1',
@@ -38,7 +43,7 @@ describe(`listerProjetsÀNotifier`, () => {
     })
 
     const projetÀNotifierAOPVPériode1 = makeFakeProject({
-      appelOffreId: 'PV',
+      appelOffreId: 'CRE4 - Bâtiment',
       periodeId: '1',
       notifiedOn: 0,
     })
@@ -50,7 +55,6 @@ describe(`listerProjetsÀNotifier`, () => {
     })
 
     beforeEach(async () => {
-      await resetDatabase()
       await ProjectModel.bulkCreate([
         projetÀNotifierAOEolienPériode1,
         projetNotifiéAOEolienPeriode1,
@@ -71,7 +75,7 @@ describe(`listerProjetsÀNotifier`, () => {
           - la liste paginée des projets de cette période`, async () => {
         const résultat = await getDonnéesPourPageNotificationCandidats({ pagination })
         expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'PV'])
+        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
         expect(résultat?.AOSélectionné).toEqual('Eolien')
         expect(résultat?.listePériodes).toEqual(['1', '2'])
         expect(résultat?.périodeSélectionnée).toEqual('1')
@@ -92,11 +96,11 @@ describe(`listerProjetsÀNotifier`, () => {
           - la liste paginée des projets de cette période`, async () => {
         const résultat = await getDonnéesPourPageNotificationCandidats({
           pagination,
-          appelOffreId: 'PV',
+          appelOffreId: 'CRE4 - Bâtiment',
         })
         expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'PV'])
-        expect(résultat?.AOSélectionné).toEqual('PV')
+        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
+        expect(résultat?.AOSélectionné).toEqual('CRE4 - Bâtiment')
         expect(résultat?.listePériodes).toEqual(['1'])
         expect(résultat?.périodeSélectionnée).toEqual('1')
         expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
@@ -120,7 +124,7 @@ describe(`listerProjetsÀNotifier`, () => {
           periodeId: '2',
         })
         expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'PV'])
+        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
         expect(résultat?.AOSélectionné).toEqual('Eolien')
         expect(résultat?.listePériodes).toEqual(['1', '2'])
         expect(résultat?.périodeSélectionnée).toEqual('2')
@@ -129,6 +133,15 @@ describe(`listerProjetsÀNotifier`, () => {
           projetÀNotifierAOEolienPériode2.id
         )
       })
+    })
+  })
+
+  describe(`Etant donné une base ne contenant pas de projet à notifier`, () => {
+    it(`Lorsqu'un utilisateur affiche la page des projets à notifier,
+      alors le retour devrait être null`, async () => {
+      await ProjectModel.create(makeFakeProject({ notifiedOn: new Date('2021-01-02').getTime() }))
+      const résultat = await getDonnéesPourPageNotificationCandidats({ pagination })
+      expect(résultat).toEqual(null)
     })
   })
 })
