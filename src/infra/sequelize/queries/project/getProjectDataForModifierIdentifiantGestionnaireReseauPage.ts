@@ -10,14 +10,37 @@ const { Project } = models
 
 export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProjectDataForModifierIdentifiantGestionnaireReseauPage =
   (projectId) =>
-    wrapInfra(Project.findByPk(projectId)).andThen((projectRaw: any) => {
-      if (!projectRaw) return err(new EntityNotFoundError())
-
-      const { id, numeroGestionnaire } = projectRaw.get()
+    wrapInfra(
+      Project.findByPk(projectId, {
+        attributes: [
+          'id',
+          'numeroGestionnaire',
+          'appelOffreId',
+          'communeProjet',
+          'departementProjet',
+          'familleId',
+          'notifiedOn',
+          'nomProjet',
+          'nomCandidat',
+          'regionProjet',
+          'periodeId',
+        ],
+      })
+    ).andThen((projet) => {
+      if (!projet) return err(new EntityNotFoundError())
 
       const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
-        id,
-        ...(numeroGestionnaire && { numeroGestionnaire }),
+        id: projet.id,
+        appelOffreId: projet.appelOffreId,
+        communeProjet: projet.communeProjet,
+        departementProjet: projet.departementProjet,
+        familleId: projet.familleId,
+        notifiedOn: projet.notifiedOn,
+        nomCandidat: projet.nomCandidat,
+        nomProjet: projet.nomProjet,
+        regionProjet: projet.regionProjet,
+        periodeId: projet.periodeId,
+        ...(projet.numeroGestionnaire && { numeroGestionnaire: projet.numeroGestionnaire }),
       }
 
       return ok(pageProps)

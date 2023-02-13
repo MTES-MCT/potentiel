@@ -9,6 +9,15 @@ export const PermissionModifierIdentifiantGestionnaireReseau: Permission = {
 
 export type ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
   id: string
+  nomProjet: string
+  nomCandidat: string
+  communeProjet: string
+  regionProjet: string
+  departementProjet: string
+  periodeId: string
+  familleId: string
+  notifiedOn: number
+  appelOffreId: string
   numeroGestionnaire?: string
 }
 

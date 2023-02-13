@@ -5,7 +5,20 @@ import models from '../../models'
 import { getProjectDataForModifierIdentifiantGestionnaireReseauPage } from './getProjectDataForModifierIdentifiantGestionnaireReseauPage'
 
 const { Project } = models
-const projectId = new UniqueEntityID().toString()
+const projetId = new UniqueEntityID().toString()
+const notifiedOn = new Date('2023-02-01').getTime()
+const donnéesProjetAttendues = {
+  id: projetId,
+  nomProjet: 'Mon projet PV',
+  nomCandidat: 'Mr Porter',
+  communeProjet: 'communeProjet',
+  regionProjet: 'regionProjet',
+  departementProjet: 'departementProjet',
+  periodeId: '2',
+  familleId: '1',
+  notifiedOn,
+  appelOffreId: 'Fessenheim',
+}
 
 describe("Récupérer les données pour la page de modification de l'identifiant du gestionnaire de réseau", () => {
   beforeEach(async () => {
@@ -20,17 +33,18 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       `, async () => {
     await Project.create(
       makeFakeProject({
-        id: projectId,
+        id: projetId,
         numeroGestionnaire: 'identifiant',
+        notifiedOn,
       })
     )
 
     const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projectId)
+      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
     )._unsafeUnwrap()
 
     expect(résultat).toMatchObject({
-      id: projectId,
+      ...donnéesProjetAttendues,
       numeroGestionnaire: 'identifiant',
     })
   })
@@ -42,16 +56,15 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   `, async () => {
     await Project.create(
       makeFakeProject({
-        id: projectId,
+        id: projetId,
+        notifiedOn,
       })
     )
 
     const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projectId)
+      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
     )._unsafeUnwrap()
 
-    expect(résultat).toMatchObject({
-      id: projectId,
-    })
+    expect(résultat).toMatchObject(donnéesProjetAttendues)
   })
 })

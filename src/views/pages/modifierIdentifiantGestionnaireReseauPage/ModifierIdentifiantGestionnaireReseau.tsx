@@ -1,7 +1,16 @@
 import React from 'react'
 import { Request } from 'express'
 
-import { Button, Heading1, Input, Label, PageTemplate, SecondaryLinkButton } from '@components'
+import {
+  Button,
+  Heading1,
+  Heading2,
+  Input,
+  Label,
+  PageTemplate,
+  ProjectInfo,
+  SecondaryLinkButton,
+} from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
 
@@ -9,19 +18,28 @@ type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request
   projet: {
     id: string
+    nomProjet: string
+    nomCandidat: string
+    communeProjet: string
+    regionProjet: string
+    departementProjet: string
+    periodeId: string
+    familleId: string
+    notifiedOn: number
+    appelOffreId: string
     numeroGestionnaire?: string
   }
 }
 
 export const ModifierIdentifiantGestionnaireReseau = ({
   request,
-  projet: { id, numeroGestionnaire },
+  projet,
 }: ModifierIdentifiantGestionnaireReseauProps) => (
   <PageTemplate user={request.user} currentPage="list-projects">
     <div className="panel">
       <div className="panel__header">
         <Heading1>
-          {numeroGestionnaire
+          {projet.numeroGestionnaire
             ? "Je modifie l'identifiant du numéro gestionnaire réseau"
             : "J'ajoute un numéro de gestionnaire réseau"}
         </Heading1>
@@ -32,13 +50,15 @@ export const ModifierIdentifiantGestionnaireReseau = ({
         method="post"
         className="flex flex-col gap-5"
       >
-        <input type="hidden" name="projetId" value={id} />
-        {numeroGestionnaire && (
-          <p className="m-0">Identifiant du gestionnaire réseau actuel : {numeroGestionnaire}</p>
-        )}
+        <div>
+          <Heading2>Concernant le projet</Heading2>
+          <ProjectInfo project={projet} className="mb-3" />
+        </div>
+
+        <input type="hidden" name="projetId" value={projet.id} />
         <div>
           <Label required htmlFor="identifiantGestionnaireRéseau">
-            {numeroGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"}
+            {projet.numeroGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"}
           </Label>
           <Input
             type="text"
@@ -52,7 +72,9 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           <Button className="mr-1" type="submit">
             Envoyer
           </Button>
-          <SecondaryLinkButton href={routes.PROJECT_DETAILS(id)}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href={routes.PROJECT_DETAILS(projet.id)}>
+            Annuler
+          </SecondaryLinkButton>
         </div>
       </form>
     </div>
