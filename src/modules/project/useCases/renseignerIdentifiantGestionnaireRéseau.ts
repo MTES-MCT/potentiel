@@ -32,7 +32,7 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
       (utilisateurALesDroits) =>
         utilisateurALesDroits
-          ? projectRepo.load(new UniqueEntityID(commande.projetId)).map((projet) => ({
+          ? projectRepo.load(new UniqueEntityID(projetId)).map((projet) => ({
               commande,
               projet,
             }))

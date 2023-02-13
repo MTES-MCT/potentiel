@@ -48,7 +48,7 @@ v1Router.post(
           response.redirect(
             routes.SUCCESS_OR_ERROR_PAGE({
               success:
-                "Votre changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
+                "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
               redirectUrl: routes.PROJECT_DETAILS(projetId),
               redirectTitle: 'Retourner sur la page du projet',
             })
