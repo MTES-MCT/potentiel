@@ -3,7 +3,7 @@ import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain
 export interface NumeroGestionnaireSubmittedPayload {
   projectId: string
   numeroGestionnaire: string
-  submittedBy: string
+  submittedBy?: string
 }
 export class NumeroGestionnaireSubmitted
   extends BaseDomainEvent<NumeroGestionnaireSubmittedPayload>

@@ -5,7 +5,7 @@ import { InfraNotAvailableError } from '@modules/shared'
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates'
 import makeFakeProject from '../../../__tests__/fixtures/project'
 import { DateMiseEnServicePlusRécenteError, ImpossibleDeChangerLaDateDeFAError } from '../errors'
-import { DonnéesDeRaccordementRenseignées } from '../events'
+import { DonnéesDeRaccordementRenseignées, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
 import { makeRenseignerDonnéesDeRaccordement } from './renseignerDonnéesDeRaccordement'
 
@@ -39,7 +39,7 @@ describe('Renseigner des données de raccordement', () => {
         })
 
         expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(DateMiseEnServicePlusRécenteError)
-        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(publishToEventStore).not.toHaveBeenCalledWith(DonnéesDeRaccordementRenseignées)
       })
     })
 
@@ -64,7 +64,7 @@ describe('Renseigner des données de raccordement', () => {
         })
 
         expect(résultat.isOk()).toBe(true)
-        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(publishToEventStore).not.toHaveBeenCalledWith(DonnéesDeRaccordementRenseignées)
       })
     })
 
@@ -133,7 +133,7 @@ describe('Renseigner des données de raccordement', () => {
         })
 
         expect(résultat._unsafeUnwrapErr()).toBeInstanceOf(ImpossibleDeChangerLaDateDeFAError)
-        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(publishToEventStore).not.toHaveBeenCalledWith(DonnéesDeRaccordementRenseignées)
       })
     })
 
@@ -158,7 +158,7 @@ describe('Renseigner des données de raccordement', () => {
           identifiantGestionnaireRéseau,
         })
 
-        expect(publishToEventStore).not.toHaveBeenCalled()
+        expect(publishToEventStore).not.toHaveBeenCalledWith(DonnéesDeRaccordementRenseignées)
       })
     })
 
@@ -225,6 +225,41 @@ describe('Renseigner des données de raccordement', () => {
           })
         )
       })
+    })
+  })
+
+  describe(`Corriger l'identifiant de gestionnaire réseau du projet`, () => {
+    it(`Etant donné un identifiant de gestionaire réseau actuel 
+      qui n'est pas strictement égal à celui renseigné dans l'import des données de raccordement,
+      alors l'identifiant de gestionnaire réseau du projet devrait être corrigé`, async () => {
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        id: projetId,
+        identifiantGestionnaireRéseau: 'ENEDIS-Identifiant-gestionnaire',
+      } as Project)
+
+      const renseignerDonnéesDeRaccordement = makeRenseignerDonnéesDeRaccordement({
+        publishToEventStore,
+        projectRepo,
+      })
+
+      const résultat = await renseignerDonnéesDeRaccordement({
+        projetId,
+        dateMiseEnService: new Date('2024-01-01'),
+        dateFileAttente: new Date('2020-01-01'),
+        identifiantGestionnaireRéseau: 'Identifiant-gestionnaire',
+      })
+
+      expect(résultat.isOk()).toBe(true)
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: NumeroGestionnaireSubmitted.type,
+          payload: expect.objectContaining({
+            projectId: projetId,
+            numeroGestionnaire: 'Identifiant-gestionnaire',
+          }),
+        })
+      )
     })
   })
 })

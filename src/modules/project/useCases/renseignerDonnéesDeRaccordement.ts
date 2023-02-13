@@ -2,7 +2,7 @@ import { EventStore, Repository, UniqueEntityID } from '@core/domain'
 import { errAsync, okAsync } from '@core/utils'
 import { DonnéesRaccordement } from '@modules/imports/donnéesRaccordement'
 import { DateMiseEnServicePlusRécenteError, ImpossibleDeChangerLaDateDeFAError } from '../errors'
-import { DonnéesDeRaccordementRenseignées } from '../events'
+import { DonnéesDeRaccordementRenseignées, NumeroGestionnaireSubmitted } from '../events'
 import { Project } from '../Project'
 
 type Commande = {
@@ -25,6 +25,26 @@ export const makeRenseignerDonnéesDeRaccordement = ({
       commande,
       projet,
     }))
+
+  const mettreAJourIdentifiantGestionnaireRéseau = ({
+    commande,
+    projet,
+  }: {
+    commande: Commande
+    projet: Project
+  }) => {
+    if (projet.identifiantGestionnaireRéseau !== commande.identifiantGestionnaireRéseau) {
+      publishToEventStore(
+        new NumeroGestionnaireSubmitted({
+          payload: {
+            projectId: projet.id.toString(),
+            numeroGestionnaire: commande.identifiantGestionnaireRéseau,
+          },
+        })
+      )
+    }
+    return okAsync({ projet, commande })
+  }
 
   const vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet = ({
     commande,
@@ -74,6 +94,7 @@ export const makeRenseignerDonnéesDeRaccordement = ({
 
   return (commande: Commande) =>
     chargerProjet(commande)
+      .andThen(mettreAJourIdentifiantGestionnaireRéseau)
       .andThen(vérifierSiDateMiseEnServicePlusAncienneQueCelleDuProjet)
       .andThen(vérifierSiDateFAApplicableSansDateMeS)
       .andThen(({ projet, commande }) => {
