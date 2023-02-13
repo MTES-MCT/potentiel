@@ -35,6 +35,6 @@ describe('Sequelize getModificationRequestType', () => {
   it('Doit retourner le type de la modificationRequest', async () => {
     const type = await getModificationRequestType(modificationRequestId)
 
-    expect(type._unsafeUnwrap()).toEqual('délai')
+    expect(type._unsafeUnwrap()).toEqual('delai')
   })
 })

@@ -8,7 +8,6 @@ import {
   NOW,
 } from 'sequelize'
 import { Project } from '../project'
-import { makeProjector } from '../../helpers'
 
 export class ModificationRequest extends Model<
   InferAttributes<ModificationRequest>,
@@ -43,10 +42,12 @@ export class ModificationRequest extends Model<
   confirmedOn?: number
   cancelledBy?: string
   cancelledOn?: number
-  isLegacy: CreationOptional<boolean>
+  isLegacy: CreationOptional<boolean | null>
   cahierDesCharges?: string
 
   project: NonAttribute<Project>
+  requestedBy: NonAttribute<{ email: string; fullName: string }>
+  attachmentFile: NonAttribute<{ id: string; filename: string }>
 }
 
 export const MakeModificationRequestModel = (sequelize) => {
@@ -182,14 +183,10 @@ export const MakeModificationRequestModel = (sequelize) => {
     },
     {
       sequelize,
-      tableName: 'modificationRequest',
+      tableName: 'modificationRequests',
       timestamps: true,
     }
   )
 
-  // ModificationRequest.projector = modificationRequestProjector
-
   return ModificationRequest
 }
-
-export const modificationRequestProjector = makeProjector()

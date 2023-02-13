@@ -29,7 +29,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
         ModificationRequest.findAndCountAll({
           where: {
             isLegacy: {
-              [Op.or]: [false, undefined],
+              [Op.or]: [false, null],
             },
             projectId: {
               [Op.in]: projectIds,
@@ -77,11 +77,11 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
       )
     })
     .andThen(
-      (res: any): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
+      (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
         const { count, rows } = res
 
-        const modificationRequests: ModificationRequestListItemDTO[] = rows
-          .map((row) => row.get())
+        const modificationRequests = rows
+          // .map((row) => row.get())
           .map(
             ({
               id,
@@ -112,7 +112,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 email,
                 fullName,
               },
-              attachmentFile: attachmentFile && attachmentFile.get(),
+              attachmentFile,
               project: {
                 nomProjet,
                 communeProjet,

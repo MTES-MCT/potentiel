@@ -1,38 +1,51 @@
 import { UniqueEntityID } from '@core/domain'
-import { describeProjector } from '../../../__tests__/projections'
 import models from '../../../models'
 import { onModificationRequestCancelled } from './onModificationRequestCancelled'
 import { ModificationRequestCancelled } from '@modules/modificationRequest'
-import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest'
+import { resetDatabase } from '@dataAccess'
 
-const { ModificationRequest } = models
+describe(`Projection de l'annulation d'une demande`, () => {
+  const { ModificationRequest } = models
 
-const modificationRequestId = new UniqueEntityID().toString()
-const userId = new UniqueEntityID().toString()
+  const modificationRequestId = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString()
+  const userId = new UniqueEntityID().toString()
 
-const fakeItem = makeFakeModificationRequest({ id: modificationRequestId, status: 'envoyée' })
+  beforeEach(async () => {
+    // Create the tables and remove all data
+    await resetDatabase()
 
-describeProjector(onModificationRequestCancelled)
-  .onEvent(
-    new ModificationRequestCancelled({
-      payload: {
-        modificationRequestId,
-        cancelledBy: userId,
-      },
-      original: {
-        version: 1,
-        occurredAt: new Date(123),
-      },
+    await ModificationRequest.create({
+      id: modificationRequestId,
+      projectId,
+      userId,
+      type: 'abandon',
+      status: 'envoyée',
+      requestedOn: 1,
     })
-  )
-  .shouldUpdate({
-    model: ModificationRequest,
-    id: modificationRequestId,
-    before: fakeItem,
-    after: {
-      ...fakeItem,
-      status: 'annulée',
-      cancelledOn: 123,
-      cancelledBy: userId,
-    },
+
+    await onModificationRequestCancelled(models)(
+      new ModificationRequestCancelled({
+        payload: {
+          modificationRequestId,
+          cancelledBy: userId,
+        },
+        original: {
+          version: 1,
+          occurredAt: new Date(123),
+        },
+      })
+    )
   })
+
+  it('should update status to demande annulée', async () => {
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
+    expect(updatedModificationRequest?.status).toEqual('annulée')
+  })
+
+  it('should set cancelledBy and cancelledOn', async () => {
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
+    expect(updatedModificationRequest?.cancelledBy).toEqual(userId)
+    expect(updatedModificationRequest?.cancelledOn).toEqual(123)
+  })
+})
