@@ -14,6 +14,4 @@ export const trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParI
           numeroGestionnaire: identifiantGestionnaireRéseau,
         },
       })
-    ).andThen((projets: Array<{ id: string }>) => {
-      return okAsync(projets.map((p) => p.id))
-    })
+    ).andThen((projets: Array<{ id: string }>) => okAsync(projets.map((p) => p.id)))

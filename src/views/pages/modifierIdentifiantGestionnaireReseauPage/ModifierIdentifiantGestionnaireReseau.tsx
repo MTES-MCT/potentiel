@@ -26,13 +26,16 @@ export const ModifierIdentifiantGestionnaireReseau = ({
             : "J'ajoute un numéro de gestionnaire réseau"}
         </Heading1>
       </div>
-      <form action={'#'} method="post" className="flex flex-col gap-5">
+      <form
+        action={routes.POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU}
+        method="post"
+        className="flex flex-colgap-5"
+      >
         <input type="hidden" name="projetId" value={id} />
-        {/* {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />} */}
 
         <Input
           type="text"
+          name="identifiantGestionnaireRéseau"
           placeholder={
             numeroGestionnaire
               ? `Remplacer l'identifiant : ${numeroGestionnaire}`
@@ -41,7 +44,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
         />
 
         <div className="m-auto flex">
-          <Button className="mr-1" type="submit" id="submit" disabled>
+          <Button className="mr-1" type="submit">
             Envoyer
           </Button>
           <SecondaryLinkButton href={routes.PROJECT_DETAILS(id)}>Annuler</SecondaryLinkButton>

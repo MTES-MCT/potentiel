@@ -395,6 +395,7 @@ class routes {
       return route.replace(':projetId', projetId)
     } else return route
   }
+  static POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = '/modifier-identifant-gestionnaire-reseau'
 }
 
 export default routes

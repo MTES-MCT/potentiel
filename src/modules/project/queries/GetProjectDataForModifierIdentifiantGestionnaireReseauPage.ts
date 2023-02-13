@@ -9,7 +9,7 @@ export const PermissionModifierIdentifiantGestionnaireReseau: Permission = {
 
 export type ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
   id: string
-  numeroGestionnaire: string
+  numeroGestionnaire?: string
 }
 
 export type GetProjectDataForModifierIdentifiantGestionnaireReseauPage = (
