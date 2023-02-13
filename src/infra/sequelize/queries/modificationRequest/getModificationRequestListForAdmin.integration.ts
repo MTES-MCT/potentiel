@@ -121,7 +121,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       const baseRequest = {
         projectId,
-        type: 'actionnaire',
+        type: 'actionnaire' as const,
         userId: fakePorteur.id,
         fileId,
         requestedOn: 123,
@@ -221,7 +221,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
           // outside of scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'other',
+          type: 'abandon',
           authority: 'dgec',
         },
         {

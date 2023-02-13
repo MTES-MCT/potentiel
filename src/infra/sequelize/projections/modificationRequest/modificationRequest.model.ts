@@ -17,7 +17,7 @@ export class ModificationRequest extends Model<
   id: string
   projectId: string
   userId?: string
-  type: string
+  type: 'actionnaire' | 'fournisseur' | 'producteur' | 'puissance' | 'recours' | 'abandon' | 'delai'
   status: string
   requestedOn: number
   versionDate: CreationOptional<Date>
@@ -45,6 +45,7 @@ export class ModificationRequest extends Model<
   cancelledOn?: number
   isLegacy: CreationOptional<boolean>
   cahierDesCharges?: string
+
   project: NonAttribute<Project>
 }
 

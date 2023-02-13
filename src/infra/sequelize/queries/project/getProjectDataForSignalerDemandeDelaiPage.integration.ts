@@ -14,7 +14,7 @@ const projectInfo = makeFakeProject({
 const modificationRequest = {
   id: new UniqueEntityID().toString(),
   projectId,
-  type: 'delai',
+  type: 'delai' as const,
   status: 'envoyée',
   requestedOn: 1234,
 }

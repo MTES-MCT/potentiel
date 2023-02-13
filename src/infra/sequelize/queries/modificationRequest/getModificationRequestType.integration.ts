@@ -22,7 +22,7 @@ describe('Sequelize getModificationRequestType', () => {
       projectId,
       userId,
       fileId,
-      type: 'délai',
+      type: 'delai',
       requestedOn: 123,
       respondedOn: 321,
       respondedBy: userId2,

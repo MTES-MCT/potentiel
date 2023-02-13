@@ -29,7 +29,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
         ModificationRequest.findAndCountAll({
           where: {
             isLegacy: {
-              [Op.or]: [false, null],
+              [Op.or]: [false, undefined],
             },
             projectId: {
               [Op.in]: projectIds,
