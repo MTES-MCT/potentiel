@@ -64,8 +64,7 @@ describe(`listerProjetsÀNotifier`, () => {
         projetNotifiéAOHydroPeriode1,
       ])
     })
-    describe(`Affichage de la page sans filtres sur un AO et période spécifiques`, () => {
-      it(`Lorsqu'un utilisateur affiche la page des "projets à notifier",
+    it(`Lorsqu'un utilisateur affiche la page des "projets à notifier",
          sans avoir choisi d'appel d'offre ou de période, 
          alors devraient être retournés : 
           - la liste des AOs qui ont des projets non notifiés (sera affichée dans le filtres dans un menu déroulant), 
@@ -73,66 +72,61 @@ describe(`listerProjetsÀNotifier`, () => {
           - la liste des périodes de cet AO ayant des projets non notifiés (sera affichée dans le filtres dans un menu déroulant)
           - la première période de cette liste comme période sélectionnée par défaut à l'affichage de la page,
           - la liste paginée des projets de cette période`, async () => {
-        const résultat = await getDonnéesPourPageNotificationCandidats({ pagination })
-        expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
-        expect(résultat?.AOSélectionné).toEqual('Eolien')
-        expect(résultat?.listePériodes).toEqual(['1', '2'])
-        expect(résultat?.périodeSélectionnée).toEqual('1')
-        expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
-        expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
-          projetÀNotifierAOEolienPériode1.id
-        )
-      })
+      const résultat = await getDonnéesPourPageNotificationCandidats({ pagination })
+      expect(résultat).not.toBeNull()
+      expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
+      expect(résultat?.AOSélectionné).toEqual('Eolien')
+      expect(résultat?.listePériodes).toEqual(['1', '2'])
+      expect(résultat?.périodeSélectionnée).toEqual('1')
+      expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
+      expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
+        projetÀNotifierAOEolienPériode1.id
+      )
     })
 
-    describe(`Affichage de la page avec filtre sur l'AO`, () => {
-      it(`Lorsqu'un utilisateur filtre les "projets à notifier" avec un AO,
+    it(`Lorsqu'un utilisateur filtre les "projets à notifier" avec un AO,
          alors devraient être retournés : 
           - la liste des AOs qui ont des projets non notifiés (sera affichée dans le filtres dans un menu déroulant), 
           - l'appel d'offre choisi par l'utilisateur comme AO sélectionné,
           - la liste des périodes de cet AO ayant des projets non notifiés (sera affichée dans le filtres dans un menu déroulant)
           - la première période de cette liste comme période sélectionnée par défaut à l'affichage de la page,
           - la liste paginée des projets de cette période`, async () => {
-        const résultat = await getDonnéesPourPageNotificationCandidats({
-          pagination,
-          appelOffreId: 'CRE4 - Bâtiment',
-        })
-        expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
-        expect(résultat?.AOSélectionné).toEqual('CRE4 - Bâtiment')
-        expect(résultat?.listePériodes).toEqual(['1'])
-        expect(résultat?.périodeSélectionnée).toEqual('1')
-        expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
-        expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
-          projetÀNotifierAOPVPériode1.id
-        )
+      const résultat = await getDonnéesPourPageNotificationCandidats({
+        pagination,
+        appelOffreId: 'CRE4 - Bâtiment',
       })
+      expect(résultat).not.toBeNull()
+      expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
+      expect(résultat?.AOSélectionné).toEqual('CRE4 - Bâtiment')
+      expect(résultat?.listePériodes).toEqual(['1'])
+      expect(résultat?.périodeSélectionnée).toEqual('1')
+      expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
+      expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
+        projetÀNotifierAOPVPériode1.id
+      )
     })
 
-    describe(`Affichage de la page avec filtre sur l'AO et la période`, () => {
-      it(`Lorsqu'un utilisateur filtre les "projets à notifier" avec un AO et une période,
+    it(`Lorsqu'un utilisateur filtre les "projets à notifier" avec un AO et une période,
          alors devraient être retournés :
           - la liste des AOs qui ont des projets non notifiés (sera affichée dans le filtres dans un menu déroulant),
           - l'appel d'offre choisi par l'utilisateur comme AO sélectionné,
           - la liste des périodes de cet AO ayant des projets non notifiés (sera affichée dans le filtres dans un menu déroulant)
           - la période choisie par l'utilisateur comme période sélectionnée,
           - la liste paginée des projets de cette période`, async () => {
-        const résultat = await getDonnéesPourPageNotificationCandidats({
-          pagination,
-          appelOffreId: 'Eolien',
-          periodeId: '2',
-        })
-        expect(résultat).not.toBeNull()
-        expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
-        expect(résultat?.AOSélectionné).toEqual('Eolien')
-        expect(résultat?.listePériodes).toEqual(['1', '2'])
-        expect(résultat?.périodeSélectionnée).toEqual('2')
-        expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
-        expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
-          projetÀNotifierAOEolienPériode2.id
-        )
+      const résultat = await getDonnéesPourPageNotificationCandidats({
+        pagination,
+        appelOffreId: 'Eolien',
+        periodeId: '2',
       })
+      expect(résultat).not.toBeNull()
+      expect(résultat?.listeAOs).toEqual(['Eolien', 'CRE4 - Bâtiment'])
+      expect(résultat?.AOSélectionné).toEqual('Eolien')
+      expect(résultat?.listePériodes).toEqual(['1', '2'])
+      expect(résultat?.périodeSélectionnée).toEqual('2')
+      expect(résultat?.projetsPériodeSélectionnée.items).toHaveLength(1)
+      expect(résultat?.projetsPériodeSélectionnée.items[0].id).toEqual(
+        projetÀNotifierAOEolienPériode2.id
+      )
     })
   })
 
