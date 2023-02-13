@@ -92,7 +92,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
             >
-              <UserIcon />
+              <UserIcon aria-hidden />
               <span
                 className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -105,7 +105,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
               style={{ color: 'var(--text-default-grey)' }}
             >
-              <UserIcon />
+              <UserIcon aria-hidden />
               <span
                 className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -120,7 +120,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGOUT_ACTION}
           >
-            <LogoutBoxIcon className="text-blue-france-sun-base" />
+            <LogoutBoxIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
               Me déconnecter
             </span>
