@@ -6,7 +6,7 @@ import { Project } from '@entities'
 
 type GestionnaireDeRéseauProps = {
   projetId: Project['id']
-  numeroGestionnaire: string
+  numeroGestionnaire?: string
   role: UserRole
 }
 
@@ -16,9 +16,15 @@ export const GestionnaireDeRéseau = ({
   projetId,
 }: GestionnaireDeRéseauProps) => (
   <Section title="Gestionnaire de réseau" icon={PlugIcon}>
-    <div className="mb-[10px]">Identifiant : {numeroGestionnaire}</div>
+    <div className="mb-[10px]">
+      {numeroGestionnaire
+        ? `Identifiant : ${numeroGestionnaire}`
+        : `Aucun identifiant n'est rattaché au projet`}
+    </div>
     {['admin', 'dgec-validateur', 'porteur-projet'].includes(role) && (
-      <Link href={routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId)}>Modifier</Link>
+      <Link href={routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId)}>
+        {numeroGestionnaire ? 'Modifier' : 'Ajouter'}
+      </Link>
     )}
   </Section>
 )
