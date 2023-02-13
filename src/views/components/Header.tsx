@@ -159,7 +159,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <QuestionIcon className="lg:hidden text-blue-france-sun-base" />
         <span className="hidden lg:flex lg:items-center mx-1 text-blue-france-sun-base">
           <span className="pt-0.5">Aide</span>
-          <ExternalLinkIcon className="w-4 h-4 ml-1" />
+          <ExternalLinkIcon className="w-4 h-4 ml-1" title="(ouvrir dans un nouvel onglet)" />
         </span>
       </Link>
     </li>
