@@ -94,7 +94,8 @@ export const ProjectList = ({
 
   return (
     <>
-      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm" aria-hidden>
+      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic" aria-hidden>
+        Legende :
         <div className="flex items-center">
           <PowerIcon
             className="text-yellow-moutarde-850-base mr-1 shrink-0"
