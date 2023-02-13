@@ -8,12 +8,16 @@ const { Project } = models
 const projectId = new UniqueEntityID().toString()
 
 describe("Récupérer les données pour la page de modification de l'identifiant du gestionnaire de réseau", () => {
-  it(`Lorsqu'on récupère les données pour la page de modification de gestionnaire réseau et que le projet dispose d'un numéro de gestionnaire
-      Alors l'identifiant du projet devrait être retourné
-      Et l'identifiant du gestionnaire de réseau devrait être retourné
-      `, async () => {
+  beforeEach(async () => {
     await resetDatabase()
+  })
 
+  it(`
+  Étant donné un projet ayant déjà un identifiant de gestionnaire de réseau
+  Lorsqu'on récupère les données pour la page de modification de gestionnaire réseau
+  Alors l'identifiant du projet devrait être retourné
+  Et l'identifiant du gestionnaire de réseau devrait être retourné
+      `, async () => {
     await Project.create(
       makeFakeProject({
         id: projectId,
@@ -31,11 +35,11 @@ describe("Récupérer les données pour la page de modification de l'identifiant
     })
   })
 
-  it(`Lorsqu'on récupère les données pour la page de modification de gestionnaire réseau et que le projet ne dispose pas d'un numéro de gestionnaire
-      Alors uniquement l'identifiant du projet devrait être retourné
-      `, async () => {
-    await resetDatabase()
-
+  it(`
+  Étant donné un projet sans identifiant de gestionnaire de réseau
+  Lorsqu'on récupère les données pour la page de modification de gestionnaire réseau
+  Alors uniquement l'identifiant du projet devrait être retourné
+  `, async () => {
     await Project.create(
       makeFakeProject({
         id: projectId,
