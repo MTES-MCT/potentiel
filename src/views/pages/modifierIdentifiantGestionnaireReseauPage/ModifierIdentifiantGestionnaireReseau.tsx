@@ -29,7 +29,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
       <form
         action={routes.POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU}
         method="post"
-        className="flex flex-colgap-5"
+        className="flex flex-col gap-5"
       >
         <input type="hidden" name="projetId" value={id} />
 
