@@ -28,8 +28,7 @@ v1Router.post(
         errorResponse({
           request,
           response,
-          customMessage:
-            'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
+          customMessage: `L'identifiant de gestionnaire de réseau est obligatoire.`,
         })
       },
     },
