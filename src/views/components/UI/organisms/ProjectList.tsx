@@ -170,18 +170,18 @@ export const ProjectList = ({
           <div className="flex flex-col md:flex-row gap-4 md:items-center">
             <div className="flex md:flex-1 flex-col gap-1 text-sm">
               <div className="flex items-center">
-                <MapPinIcon className="mr-2 shrink-0" />
+                <MapPinIcon className="mr-2 shrink-0" title="Localisation du projet" />
                 <span className="italic">
                   {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
                 </span>
               </div>
 
               <div className="flex  items-center">
-                <BuildingHouseIcon className="mr-2 shrink-0" />
+                <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du candidat" />
                 {project.nomCandidat}
               </div>
               <div className="flex items-center">
-                <UserIcon className="mr-2 shrink-0" />
+                <UserIcon className="mr-2 shrink-0" title="Représentant légal" />
                 <div className="flex flex-col overflow-hidden">
                   <div>{project.nomRepresentantLegal}</div>
                   <div className="truncate" title={project.email}>
