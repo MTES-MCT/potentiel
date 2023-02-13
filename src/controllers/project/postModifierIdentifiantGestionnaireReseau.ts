@@ -6,6 +6,7 @@ import {
   PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project'
 import routes from '@routes'
+import { addQueryParams } from 'src/helpers/addQueryParams'
 import { object, string } from 'yup'
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
@@ -24,13 +25,15 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError({ request, response }) {
-        errorResponse({
-          request,
-          response,
-          customMessage: `L'identifiant de gestionnaire de réseau est obligatoire.`,
-        })
-      },
+      onError: ({ request, response, error }) =>
+        response.redirect(
+          addQueryParams(
+            routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(request.body.projetId),
+            {
+              error: error.errors.join(''),
+            }
+          )
+        ),
     },
     async (request, response) => {
       const {
@@ -45,22 +48,21 @@ v1Router.post(
       }).match(
         () =>
           response.redirect(
-            routes.SUCCESS_OR_ERROR_PAGE({
-              success:
-                "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
-              redirectUrl: routes.PROJECT_DETAILS(projetId),
-              redirectTitle: 'Retourner sur la page du projet',
-            })
+            addQueryParams(
+              routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(request.body.projetId),
+              {
+                success:
+                  "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
+              }
+            )
           ),
         (error) => {
           if (
             error instanceof IdentifiantGestionnaireRéseauExistantError ||
             error instanceof IdentifiantGestionnaireRéseauObligatoireError
           ) {
-            return errorResponse({
-              request,
-              response,
-              customMessage: error.message,
+            return addQueryParams(routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId), {
+              error,
             })
           }
           logger.error(error)
