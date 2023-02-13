@@ -19,7 +19,7 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           },
         ],
       })
-    ).andThen((modificationRequestRaw: any) => {
+    ).andThen((modificationRequestRaw) => {
       const {
         type,
         projectId,

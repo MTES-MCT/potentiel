@@ -229,7 +229,7 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
           status: 'acceptée',
           justification: 'justification',
           versionDate,
-          delayInMonths: null,
+          delayInMonths: undefined,
           isLegacy: true,
           acceptanceParams: {
             ancienneDateLimiteAchevement: new Date('2020-01-01').getTime(),
@@ -421,7 +421,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           status: 'envoyée',
           justification: 'justification',
           versionDate,
-          dateAchèvementDemandée: new Date('2022-01-01').getTime(),
+          dateAchèvementDemandée: new Date('2022-01-01'),
         })
       })
 
@@ -481,7 +481,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           status: 'envoyée',
           justification: 'justification',
           versionDate,
-          dateAchèvementDemandée: new Date('2022-01-01').getTime(),
+          dateAchèvementDemandée: new Date('2022-01-01'),
         })
 
         // Add a previous request that is accepted
@@ -497,7 +497,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           status: 'acceptée',
           justification: 'justification',
           versionDate,
-          dateAchèvementDemandée: new Date('2021-10-01').getTime(),
+          dateAchèvementDemandée: new Date('2021-10-01'),
           acceptanceParams: {
             dateAchèvementAccordée: new Date('2021-01-01').getTime(),
           },

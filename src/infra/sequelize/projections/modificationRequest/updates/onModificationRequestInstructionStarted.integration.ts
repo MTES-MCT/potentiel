@@ -22,7 +22,6 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
-      requestedBy: userId,
     })
   })
 
@@ -38,6 +37,6 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
     const updatedModificationRequest = await ModificationRequestModel.findByPk(
       modificationRequestId
     )
-    expect(updatedModificationRequest.status).toEqual('en instruction')
+    expect(updatedModificationRequest?.status).toEqual('en instruction')
   })
 })

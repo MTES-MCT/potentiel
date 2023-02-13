@@ -1,11 +1,55 @@
-import { DataTypes, NOW } from 'sequelize'
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  NonAttribute,
+  NOW,
+} from 'sequelize'
+import { Project } from '../project'
 import { makeProjector } from '../../helpers'
 
-export const modificationRequestProjector = makeProjector()
+export class ModificationRequest extends Model<
+  InferAttributes<ModificationRequest>,
+  InferCreationAttributes<ModificationRequest>
+> {
+  id: string
+  projectId: string
+  userId?: string
+  type: string
+  status: string
+  requestedOn: number
+  versionDate: CreationOptional<Date>
+  respondedOn?: number
+  respondedBy?: string
+  responseFileId?: string
+  acceptanceParams?: { [key: string]: string | number }
+  authority?: 'dreal' | 'dgec'
+  filename?: string
+  fileId?: string
+  justification?: string
+  actionnaire?: string
+  producteur?: string
+  fournisseurs?: JSON
+  puissance?: number
+  puissanceAuMomentDuDepot?: number
+  evaluationCarbone?: number
+  delayInMonths?: number
+  dateAchèvementDemandée?: Date
+  confirmationRequestedBy?: string
+  confirmationRequestedOn?: number
+  confirmedBy?: string
+  confirmedOn?: number
+  cancelledBy?: string
+  cancelledOn?: number
+  isLegacy: CreationOptional<boolean>
+  cahierDesCharges?: string
+  project: NonAttribute<Project>
+}
 
 export const MakeModificationRequestModel = (sequelize) => {
-  const ModificationRequest = sequelize.define(
-    'modificationRequest',
+  ModificationRequest.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -128,7 +172,7 @@ export const MakeModificationRequestModel = (sequelize) => {
       isLegacy: {
         type: DataTypes.BOOLEAN,
         allowNull: true,
-        default: false,
+        defaultValue: false,
       },
       cahierDesCharges: {
         type: DataTypes.STRING,
@@ -136,55 +180,15 @@ export const MakeModificationRequestModel = (sequelize) => {
       },
     },
     {
+      sequelize,
+      tableName: 'modificationRequest',
       timestamps: true,
     }
   )
 
-  ModificationRequest.associate = (models) => {
-    const FileModel = models.File
-    ModificationRequest.belongsTo(FileModel, {
-      foreignKey: 'fileId',
-      as: 'attachmentFile',
-      constraints: false,
-    })
-
-    ModificationRequest.belongsTo(FileModel, {
-      foreignKey: 'responseFileId',
-      as: 'responseFile',
-      constraints: false,
-    })
-
-    const ProjectModel = models.Project
-    ModificationRequest.belongsTo(ProjectModel, {
-      foreignKey: 'projectId',
-      as: 'project',
-      constraints: false,
-    })
-
-    const UserModel = models.User
-    ModificationRequest.belongsTo(UserModel, {
-      foreignKey: 'userId',
-      as: 'requestedBy',
-      constraints: false,
-    })
-    ModificationRequest.belongsTo(UserModel, {
-      foreignKey: 'respondedBy',
-      as: 'respondedByUser',
-      constraints: false,
-    })
-    ModificationRequest.belongsTo(UserModel, {
-      foreignKey: 'confirmationRequestedBy',
-      as: 'confirmationRequestedByUser',
-      constraints: false,
-    })
-    ModificationRequest.belongsTo(UserModel, {
-      foreignKey: 'cancelledBy',
-      as: 'cancelledByUser',
-      constraints: false,
-    })
-  }
-
-  ModificationRequest.projector = modificationRequestProjector
+  // ModificationRequest.projector = modificationRequestProjector
 
   return ModificationRequest
 }
+
+export const modificationRequestProjector = makeProjector()

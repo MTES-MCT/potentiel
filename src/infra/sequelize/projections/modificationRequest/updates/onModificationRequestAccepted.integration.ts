@@ -26,7 +26,6 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
-      requestedBy: userId,
     })
   })
 
@@ -50,10 +49,10 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
     const updatedModificationRequest = await ModificationRequestModel.findByPk(
       modificationRequestId
     )
-    expect(updatedModificationRequest.status).toEqual('acceptée')
-    expect(updatedModificationRequest.responseFileId).toEqual(responseFileId)
-    expect(updatedModificationRequest.acceptanceParams.type).toEqual('recours')
-    expect(updatedModificationRequest.acceptanceParams.newNotificationDate).toEqual(
+    expect(updatedModificationRequest?.status).toEqual('acceptée')
+    expect(updatedModificationRequest?.responseFileId).toEqual(responseFileId)
+    expect(updatedModificationRequest?.acceptanceParams?.type).toEqual('recours')
+    expect(updatedModificationRequest?.acceptanceParams?.newNotificationDate).toEqual(
       new Date('2022-06-20').toISOString()
     )
   })

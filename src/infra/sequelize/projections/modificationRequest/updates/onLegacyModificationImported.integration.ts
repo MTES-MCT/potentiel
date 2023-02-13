@@ -26,7 +26,6 @@ describe('modificationRequest.onLegacyModificationImported', () => {
           type: 'recours',
           status: 'envoyée',
           requestedOn: 1,
-          requestedBy: userId,
         },
         {
           id: legacyModificationId,
@@ -35,7 +34,6 @@ describe('modificationRequest.onLegacyModificationImported', () => {
           type: 'recours',
           status: 'acceptée',
           requestedOn: 1,
-          requestedBy: userId,
           isLegacy: true,
         },
       ])

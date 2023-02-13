@@ -16,6 +16,7 @@ const modificationRequest = {
   projectId,
   type: 'delai',
   status: 'envoyée',
+  requestedOn: 1234,
 }
 
 beforeEach(async () => {

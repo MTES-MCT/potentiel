@@ -6,5 +6,5 @@ const { ModificationRequest } = models
 export const getModificationRequestStatus: GetModificationRequestStatus = (
   modificationRequestId: string
 ) => {
-  return wrapInfra(ModificationRequest.findByPk(modificationRequestId)).map(({ status }) => status)
+  return wrapInfra(ModificationRequest.findByPk(modificationRequestId)).map((mr) => mr?.status)
 }
