@@ -192,20 +192,17 @@ export const ProjectList = ({
             </div>
 
             <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
-              <div className="flex lg:flex-1 lg:flex-col items-center gap-2" title="Puissance">
-                <PowerIcon className="text-yellow-moutarde-850-base" aria-label="Puissance" />
+              <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                <PowerIcon className="text-yellow-moutarde-850-base" title="Puissance" />
                 <div className="lg:flex lg:flex-col items-center">
                   {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                 </div>
               </div>
               {project.prixReference && (
-                <div
-                  className="flex lg:flex-1 lg:flex-col items-center gap-2"
-                  title="Prix de référence"
-                >
+                <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
                   <EuroIcon
                     className="text-orange-terre-battue-main-645-base"
-                    aria-label="Prix de référence"
+                    title="Prix de référence"
                   />
                   <div className="lg:flex lg:flex-col items-center">
                     {project.prixReference} <Unit>€/MWh</Unit>
@@ -217,11 +214,8 @@ export const ProjectList = ({
                 <GF project={project} GFPastDue={GFPastDue} />
               ) : (
                 project.evaluationCarbone !== undefined && (
-                  <div
-                    className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
-                    title="Évaluation carbone"
-                  >
-                    <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
+                  <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+                    <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
                     <div>
                       {project.evaluationCarbone > 0 ? (
                         <div className="lg:flex lg:flex-col items-center text-center">
@@ -270,11 +264,13 @@ export const ProjectList = ({
 const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: boolean }) => {
   const gf = project.garantiesFinancières
   return (
-    <div
-      className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
-      title="Garanties financières"
-    >
-      <div className="flex text-grey-200-base font-bold text-sm pt-0.5">GF</div>
+    <div className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center">
+      <div
+        className="flex text-grey-200-base font-bold text-sm pt-0.5"
+        title="Garanties financières"
+      >
+        GF
+      </div>
       {!gf?.dateEnvoi && !GFPastDue && <div className="flex">Non Déposées</div>}
 
       {gf?.dateEnvoi && (
