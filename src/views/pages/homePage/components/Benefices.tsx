@@ -13,6 +13,7 @@ export const Benefices = () => (
       <img
         className="flex-2 hidden md:block self-center w-full p-4 lg:w-3/5 object-scale-down"
         src="/images/home/enr-illustration.png"
+        aria-hidden
       />
       <div className="bg-blue-france-975-base lg:p-10 w-full lg:w-2/5">
         <ul className="flex flex-col text-lg xl:text-xl font-medium md:font-semibold w-fit md:mx-auto m-0 p-4">
@@ -33,7 +34,7 @@ type BeneficeProps = {
 }
 const Benefice = ({ title }: BeneficeProps) => (
   <li className="flex flex-row items-center leading-loose list-none">
-    <img src="/images/home/check.png" className="align-bottom mr-2"></img>
+    <img src="/images/home/check.png" className="align-bottom mr-2" aria-hidden></img>
     {title}
   </li>
 )
