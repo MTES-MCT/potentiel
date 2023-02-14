@@ -32,7 +32,7 @@
     "watch:front": "webpack --config=webpack.config.js --watch",
     "watch:css": "npm run build:css -- --watch",
     "configure-dev-env-variables": "cp -n ./.env.template ./.env",
-    "configure-pre-commit": "npx husky install && npx husky add .husky/pre-commit \"npx lint-staged\"",
+    "configure-pre-commit": "npx husky install && npx husky add .husky/pre-commit \"npm exec lint-staged\"",
     "configure-prepare-commit-msg": "npx gitmoji -i",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
     "build-storybook": "build-storybook"
@@ -163,10 +163,6 @@
     "storybook-addon-turbo-build": "^1.1.0",
     "ts-jest": "^29.0.3",
     "wait-for-expect": "^3.0.2"
-  },
-  "lint-staged": {
-    "*.{js,ts,css,jsx,tsx}": "prettier --write --ignore-unknown",
-    "*.{js,ts,jsx,tsx}": "eslint --fix"
   },
   "engines": {
     "node": "^18.0.0"
