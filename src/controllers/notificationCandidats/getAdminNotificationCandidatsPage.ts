@@ -6,7 +6,7 @@ import { v1Router } from '../v1Router'
 import { AdminNotificationCandidatsPage } from '@views'
 import { vérifierPermissionUtilisateur } from '../helpers'
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
-import { listerProjetsÀNotifier } from '@config/queries.config'
+import { getDonnéesPourPageNotificationCandidats } from '@config/queries.config'
 
 v1Router.get(
   routes.GET_NOTIFIER_CANDIDATS(),
@@ -25,7 +25,7 @@ v1Router.get(
       periodeId = undefined
     }
 
-    const result = await listerProjetsÀNotifier({
+    const données = await getDonnéesPourPageNotificationCandidats({
       appelOffreId,
       periodeId,
       pagination,
@@ -33,7 +33,7 @@ v1Router.get(
       classement,
     })
 
-    if (result === null) {
+    if (données === null) {
       return response.send(
         AdminNotificationCandidatsPage({
           request,
@@ -42,13 +42,12 @@ v1Router.get(
     }
 
     const {
-      projects,
-      projectsInPeriodCount,
-      selectedAppelOffreId,
-      selectedPeriodeId,
-      existingAppelsOffres,
-      existingPeriodes,
-    } = result
+      projetsPériodeSélectionnée,
+      AOSélectionné,
+      périodeSélectionnée,
+      listeAOs,
+      listePériodes,
+    } = données
 
     if (pageSize) {
       // Save the pageSize in a cookie
@@ -61,13 +60,12 @@ v1Router.get(
     response.send(
       AdminNotificationCandidatsPage({
         request,
-        results: {
-          projects,
-          projectsInPeriodCount,
-          selectedAppelOffreId,
-          selectedPeriodeId,
-          existingAppelsOffres,
-          existingPeriodes,
+        données: {
+          projetsPériodeSélectionnée,
+          AOSélectionné,
+          périodeSélectionnée,
+          listeAOs,
+          listePériodes,
         },
       })
     )

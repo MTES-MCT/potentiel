@@ -9,7 +9,7 @@ import { AdminNotificationCandidats } from './AdminNotificationCandidatsPage'
 
 export default { title: 'Notifier les candidats' }
 
-const selectedAppelOffreId = appelsOffreStatic[0].id
+const AOSélectionné = appelsOffreStatic[0].id
 const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id
 
 export const withError = () => (
@@ -29,17 +29,11 @@ export const withSuccess = () => (
 export const withProjects = () => (
   <AdminNotificationCandidats
     request={makeFakeRequest()}
-    results={{
-      selectedAppelOffreId: selectedAppelOffreId,
-      projectsInPeriodCount: 3,
-      existingAppelsOffres: [
-        {
-          id: appelsOffreStatic[0].id,
-          shortTitle: appelsOffreStatic[0].shortTitle,
-        },
-      ],
-      selectedPeriodeId: selectedPeriodeId,
-      projects: {
+    données={{
+      AOSélectionné,
+      listeAOs: [appelsOffreStatic[0].id],
+      périodeSélectionnée: selectedPeriodeId,
+      projetsPériodeSélectionnée: {
         itemCount: 3,
         pagination: {
           page: 0,
