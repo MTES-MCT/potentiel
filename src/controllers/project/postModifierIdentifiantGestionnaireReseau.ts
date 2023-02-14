@@ -48,13 +48,10 @@ v1Router.post(
       }).match(
         () =>
           response.redirect(
-            addQueryParams(
-              routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(request.body.projetId),
-              {
-                success:
-                  "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
-              }
-            )
+            addQueryParams(routes.PROJECT_DETAILS(request.body.projetId), {
+              success:
+                "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
+            })
           ),
         (error) => {
           if (
