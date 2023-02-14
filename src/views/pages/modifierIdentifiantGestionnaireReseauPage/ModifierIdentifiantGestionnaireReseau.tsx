@@ -63,14 +63,16 @@ export const ModifierIdentifiantGestionnaireReseau = ({
 
           <input type="hidden" name="projetId" value={projet.id} />
           <div>
-            <Label required htmlFor="identifiantGestionnaireRéseau">
-              {projet.numeroGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"}
+            <Label htmlFor="identifiantGestionnaireRéseau">
+              {projet.numeroGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"} du
+              numéro de gestionnaire (obligatoire)
             </Label>
             <Input
               type="text"
               id="identifiantGestionnaireRéseau"
               name="identifiantGestionnaireRéseau"
               placeholder="Saisir un nouvel identifiant"
+              required
             />
           </div>
 
