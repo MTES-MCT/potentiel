@@ -7,18 +7,8 @@ import { getProjectDataForModifierIdentifiantGestionnaireReseauPage } from './ge
 const { Project } = models
 const projetId = new UniqueEntityID().toString()
 const notifiedOn = new Date('2023-02-01').getTime()
-const donnéesProjetAttendues = {
-  id: projetId,
-  nomProjet: 'Mon projet PV',
-  nomCandidat: 'Mr Porter',
-  communeProjet: 'communeProjet',
-  regionProjet: 'regionProjet',
-  departementProjet: 'departementProjet',
-  periodeId: '2',
-  familleId: '1',
-  notifiedOn,
-  appelOffreId: 'Fessenheim',
-}
+
+const fakeProjet = makeFakeProject({ id: projetId, notifiedOn })
 
 describe("Récupérer les données pour la page de modification de l'identifiant du gestionnaire de réseau", () => {
   beforeEach(async () => {
@@ -31,20 +21,23 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   Alors l'identifiant du projet devrait être retourné
   Et l'identifiant du gestionnaire de réseau devrait être retourné
       `, async () => {
-    await Project.create(
-      makeFakeProject({
-        id: projetId,
-        numeroGestionnaire: 'identifiant',
-        notifiedOn,
-      })
-    )
+    await Project.create({ ...fakeProjet, numeroGestionnaire: 'identifiant' })
 
     const résultat = (
       await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
     )._unsafeUnwrap()
 
     expect(résultat).toMatchObject({
-      ...donnéesProjetAttendues,
+      id: fakeProjet.id,
+      nomProjet: fakeProjet.nomProjet,
+      nomCandidat: fakeProjet.nomCandidat,
+      communeProjet: fakeProjet.communeProjet,
+      regionProjet: fakeProjet.regionProjet,
+      departementProjet: fakeProjet.departementProjet,
+      periodeId: fakeProjet.periodeId,
+      familleId: fakeProjet.familleId,
+      notifiedOn,
+      appelOffreId: fakeProjet.appelOffreId,
       numeroGestionnaire: 'identifiant',
     })
   })
@@ -54,17 +47,23 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   Lorsqu'on récupère les données pour la page de modification de gestionnaire réseau
   Alors uniquement l'identifiant du projet devrait être retourné
   `, async () => {
-    await Project.create(
-      makeFakeProject({
-        id: projetId,
-        notifiedOn,
-      })
-    )
+    await Project.create(fakeProjet)
 
     const résultat = (
       await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
     )._unsafeUnwrap()
 
-    expect(résultat).toMatchObject(donnéesProjetAttendues)
+    expect(résultat).toMatchObject({
+      id: fakeProjet.id,
+      nomProjet: fakeProjet.nomProjet,
+      nomCandidat: fakeProjet.nomCandidat,
+      communeProjet: fakeProjet.communeProjet,
+      regionProjet: fakeProjet.regionProjet,
+      departementProjet: fakeProjet.departementProjet,
+      periodeId: fakeProjet.periodeId,
+      familleId: fakeProjet.familleId,
+      notifiedOn,
+      appelOffreId: fakeProjet.appelOffreId,
+    })
   })
 })
