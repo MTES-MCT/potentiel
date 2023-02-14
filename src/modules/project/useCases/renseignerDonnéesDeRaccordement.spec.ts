@@ -229,9 +229,9 @@ describe('Renseigner des données de raccordement', () => {
   })
 
   describe(`Corriger l'identifiant de gestionnaire réseau du projet`, () => {
-    it(`Etant donné un identifiant de gestionaire réseau actuel 
-      qui n'est pas strictement égal à celui renseigné dans l'import des données de raccordement,
-      alors l'identifiant de gestionnaire réseau du projet devrait être corrigé`, async () => {
+    it(`Etant donné un projet avec un identifiant de gestionnaire réseau actuel contenant le préfixe "ENEDIS" : "ENEDIS-Identifiant-gestionnaire",
+      lorsqu'on importe des données de raccordement avec un identifiant "nettoyé" (préfixe "ENEDIS" retiré) : "Identifiant-gestionnaire",
+      alors l'identifiant de gestionnaire réseau du projet devrait être corrigé avec la version importée`, async () => {
       const projectRepo = fakeRepo({
         ...makeFakeProject(),
         id: projetId,
