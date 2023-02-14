@@ -58,7 +58,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             className={'notification ' + (status ? ModificationRequestColorByStatus[status] : '')}
             style={{ color: ModificationRequestTitleColorByStatus[status] }}
           >
-            <span style={{ fontWeight: 'bold' }}>{ModificationRequestStatusTitle[status]}</span>{' '}
+            <span className="font-bold">{ModificationRequestStatusTitle[status]}</span>{' '}
             {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
             {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
             {responseFile && status !== 'demande confirmée' && (
