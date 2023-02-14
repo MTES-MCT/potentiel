@@ -65,27 +65,35 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ### Pré-requis
 
-- <a href="https://nodejs.org/en/" target="_blank">Node</a> v14 ou plus
-- <a href="https://docs.npmjs.com/downloading-and-installing-node-js-and-npm" target="_blank">NPM</a> v7 ou plus
-- <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
+* <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
+* <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
 ### Installation
 
-1.  Dupliquer le fichier `.env.template` et le renommer en `.env` (les valeurs par défaut doivent suffire pour le travail local)
+1.  Installer Node.js via la commande **nvm** à la racine du projet (**nvm** utilisera la configuration contenue dans le fichier **[.nvmrc](/.nvmrc)**) :
+    ```
+    nvm install
+    ```
 
-2.  Installer les dépendances
-
+2.  Installer les dépendances :
     ```
     npm install
     ```
 
-3.  Pour contribuer: installer `commitizen` en global pour formatter les messages de commit
-
+3. Pour contribuer, installer le package **[gitmoji-cli](https://github.com/carloscuesta/gitmoji-cli)** :
     ```
-    npm i -g commitizen
+    npm i -g gitmoji-cli
+    ```
+  
+4. Installer le commit hook de Gitmoji :
+    ```
+    gitmoji -i
     ```
 
-    Par la suite, utiliser la commande `git cz` à la place de `git commit`
+5. Configurer Gitmoji pour l'utilisation des Emojis (♻️) plutôt que des Emoji codes (*:recycle:*) :
+    ```
+    gitmoji -g
+    ```
 
 ## Lancement de l'application locale
 
