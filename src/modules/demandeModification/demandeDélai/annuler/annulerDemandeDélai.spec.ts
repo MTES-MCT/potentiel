@@ -6,7 +6,7 @@ import {
   makeFakeDemandeDélai,
 } from '../../../../__tests__/fixtures/aggregates'
 import { makeAnnulerDemandeDélai } from './annulerDemandeDélai'
-import { StatutDemandeDélai } from '../DemandeDélai'
+import { StatutDemandeDélai, statutsDemandeDélai } from '../DemandeDélai'
 import { makeUser } from '@entities'
 import { UnwrapForTest } from '../../../../types'
 import makeFakeUser from '../../../../__tests__/fixtures/user'
@@ -22,108 +22,97 @@ describe(`Commande annuler demande délai`, () => {
     publishToEventStore.mockClear()
   })
 
-  describe(`Annulation impossible si le porteur n'a pas les droits sur le projet`, () => {
-    describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {
-      const shouldUserAccessProject = jest.fn(async () => false)
-      it(`Lorsqu'il annule une demande de délai,
-          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const demandeDélaiRepo = fakeTransactionalRepo(
-          makeFakeDemandeDélai({ projetId: 'le-projet-de-la-demande' })
-        )
+  it(`Etant donné un porteur n'ayant pas les droits sur le projet
+      Lorsqu'il annule une demande de délai,
+      Alors il devrait être informé qu'il n'est pas autorisé à faire cette action`, async () => {
+    const shouldUserAccessProject = jest.fn(async () => false)
+    const demandeDélaiRepo = fakeTransactionalRepo(
+      makeFakeDemandeDélai({ projetId: 'le-projet-de-la-demande' })
+    )
 
-        const annulerDemandéDélai = makeAnnulerDemandeDélai({
-          shouldUserAccessProject,
-          demandeDélaiRepo,
-          publishToEventStore,
-        })
-
-        const res = await annulerDemandéDélai({
-          user,
-          demandeDélaiId: 'la-demande-a-annuler',
-        })
-
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-        expect(publishToEventStore).not.toHaveBeenCalled()
-      })
+    const annulerDemandéDélai = makeAnnulerDemandeDélai({
+      shouldUserAccessProject,
+      demandeDélaiRepo,
+      publishToEventStore,
     })
+
+    const res = await annulerDemandéDélai({
+      user,
+      demandeDélaiId: 'la-demande-a-annuler',
+    })
+
+    expect(res.isErr()).toBe(true)
+    if (res.isErr()) {
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
+    }
   })
 
-  describe(`Annulation possible si le porteur a les droits sur le projet`, () => {
-    describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
-      const shouldUserAccessProject = jest.fn(async () => true)
+  const shouldUserAccessProject = jest.fn(async () => true)
+  const statutsIncompatiblesAvecAnnulation: StatutDemandeDélai[] = statutsDemandeDélai.filter(
+    (statut) => !['envoyée', 'en-instruction'].includes(statut)
+  )
+  for (const statut of statutsIncompatiblesAvecAnnulation) {
+    it(`Etant donné un porteur ayant les droits sur le projet
+        Lorsqu'il annule une demande de délai en statut ${statut},
+        Alors il devrait être informé que le statut ${statut} est incompatible avec une annulation de demande`, async () => {
+      const demandeDélaiId = 'la-demande-a-annuler'
 
-      describe(`Etant donnée une demande de délai dont le statut est n'est pas compatible avec une annulation`, () => {
-        const statutsIncompatiblesAvecAnnulation = [
-          'accordée',
-          'rejetée',
-          'annulée',
-        ] as StatutDemandeDélai[]
+      const demandeDélaiRepo = fakeTransactionalRepo(
+        makeFakeDemandeDélai({
+          id: demandeDélaiId,
+          statut,
+          projetId: 'le-projet-de-la-demande',
+        })
+      )
 
-        for (const statut of statutsIncompatiblesAvecAnnulation) {
-          it(`Lorsque le porteur annule une demande de délai en statut ${statut},
-              Alors une erreur StatusPreventsCancellingError devrait être émise`, async () => {
-            const demandeDélaiId = 'la-demande-a-annuler'
-
-            const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({
-                id: demandeDélaiId,
-                statut,
-                projetId: 'le-projet-de-la-demande',
-              })
-            )
-
-            const annulerDemandéDélai = makeAnnulerDemandeDélai({
-              shouldUserAccessProject,
-              demandeDélaiRepo,
-              publishToEventStore,
-            })
-
-            const res = await annulerDemandéDélai({
-              user,
-              demandeDélaiId,
-            })
-
-            expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatusPreventsCancellingError)
-            expect(publishToEventStore).not.toHaveBeenCalled()
-          })
-        }
+      const annulerDemandéDélai = makeAnnulerDemandeDélai({
+        shouldUserAccessProject,
+        demandeDélaiRepo,
+        publishToEventStore,
       })
 
-      describe(`Etant donnée une demande de délai dont le statut est compatible avec une annulation`, () => {
-        const statutsCompatiblesAvecAnnulation = [
-          'envoyée',
-          'en-instruction',
-        ] as StatutDemandeDélai[]
-        for (const statut of statutsCompatiblesAvecAnnulation) {
-          it(`Lorsque le porteur annule une demande de délai en statut ${statut},
-              Alors une événement "DélaiAnnulé" devrait être émis`, async () => {
-            const demandeDélaiId = 'la-demande-a-annuler'
-
-            const demandeDélaiRepo = fakeTransactionalRepo(
-              makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId: 'identifiant-projet' })
-            )
-
-            const annulerDemandéDélai = makeAnnulerDemandeDélai({
-              shouldUserAccessProject,
-              demandeDélaiRepo,
-              publishToEventStore,
-            })
-
-            await annulerDemandéDélai({ user, demandeDélaiId })
-
-            expect(publishToEventStore).toHaveBeenCalledWith(
-              expect.objectContaining({
-                type: 'DélaiAnnulé',
-                payload: expect.objectContaining({
-                  demandeDélaiId,
-                  annuléPar: user.id,
-                  projetId: 'identifiant-projet',
-                }),
-              })
-            )
-          })
-        }
+      const res = await annulerDemandéDélai({
+        user,
+        demandeDélaiId,
       })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatusPreventsCancellingError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
     })
-  })
+  }
+
+  const statutsCompatiblesAvecAnnulation: StatutDemandeDélai[] = statutsDemandeDélai.filter(
+    (statut) => ['envoyée', 'en-instruction'].includes(statut)
+  )
+  for (const statut of statutsCompatiblesAvecAnnulation) {
+    it(`Etant donné un porteur ayant les droits sur le projet
+          Lorsqu'il annule une demande de délai en statut ${statut},
+          Alors il devrait être informé que l'action a bien été prise en compte`, async () => {
+      const demandeDélaiId = 'la-demande-a-annuler'
+
+      const demandeDélaiRepo = fakeTransactionalRepo(
+        makeFakeDemandeDélai({ id: demandeDélaiId, statut, projetId: 'identifiant-projet' })
+      )
+
+      const annulerDemandéDélai = makeAnnulerDemandeDélai({
+        shouldUserAccessProject,
+        demandeDélaiRepo,
+        publishToEventStore,
+      })
+
+      await annulerDemandéDélai({ user, demandeDélaiId })
+
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'DélaiAnnulé',
+          payload: expect.objectContaining({
+            demandeDélaiId,
+            annuléPar: user.id,
+            projetId: 'identifiant-projet',
+          }),
+        })
+      )
+    })
+  }
 })

@@ -15,7 +15,9 @@ export const AnnulerDemandeDélaiBouton = ({ status, id, route }: CancelButtonPr
         className="button-outline warning"
         type="submit"
         name="submit"
-        data-confirm={`Etes-vous sur de vouloir annuler cette demande ?`}
+        onClick={(event) =>
+          confirm(`Êtes-vous sur de vouloir annuler cette demande ?`) || event.preventDefault()
+        }
       >
         Annuler la demande
       </button>

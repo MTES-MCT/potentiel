@@ -18,7 +18,15 @@ import {
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../shared'
 
-export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
+export const statutsDemandeDélai = [
+  'envoyée',
+  'annulée',
+  'accordée',
+  'refusée',
+  'en-instruction',
+] as const
+
+export type StatutDemandeDélai = typeof statutsDemandeDélai[number]
 
 type DemandeDélaiArgs = {
   id: UniqueEntityID

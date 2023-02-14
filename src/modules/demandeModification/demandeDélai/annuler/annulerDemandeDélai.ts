@@ -31,14 +31,16 @@ export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())
           }
-          if (statut === 'envoyée' || statut === 'en-instruction') {
-            return publishToEventStore(
-              new DélaiAnnulé({
-                payload: { demandeDélaiId, projetId, annuléPar: user.id },
-              })
-            )
+
+          if (!statut || !['envoyée', 'en-instruction'].includes(statut)) {
+            return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
           }
-          return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
+
+          return publishToEventStore(
+            new DélaiAnnulé({
+              payload: { demandeDélaiId, projetId, annuléPar: user.id },
+            })
+          )
         }
       )
     })
