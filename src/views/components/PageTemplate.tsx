@@ -23,6 +23,7 @@ type CurrentPage =
   | 'admin-ao'
   | 'admin-users'
   | 'admin-statistiques'
+  | 'cre-statistiques'
   | 'inviter-dgec-validateur'
   | undefined
 
@@ -63,12 +64,20 @@ const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
 )
 
 const MenuCre = (currentPage: CurrentPage) => (
-  <Header.MenuItem
-    href={routes.LISTE_PROJETS}
-    {...(currentPage === 'list-projects' && { isCurrent: true })}
-  >
-    Projets
-  </Header.MenuItem>
+  <>
+    <Header.MenuItem
+      href={routes.LISTE_PROJETS}
+      {...(currentPage === 'list-projects' && { isCurrent: true })}
+    >
+      Projets
+    </Header.MenuItem>
+    <Header.MenuItem
+      href={routes.GET_CRE_STATISTIQUES}
+      {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
+    >
+      Tableau de bord
+    </Header.MenuItem>
+  </>
 )
 
 const MenuAdmin = (currentPage: CurrentPage) => (
