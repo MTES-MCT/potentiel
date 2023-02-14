@@ -35,6 +35,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
     where: {
       ...findOptions?.where,
     },
+    include: [...(findOptions?.include ? findOptions.include : [])],
     ...paginate(pagination),
     attributes,
   })

@@ -32,6 +32,7 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },
     },
+    include: [...(findOptions?.include ? findOptions.include : [])],
     ...paginate(pagination),
     attributes,
   })
