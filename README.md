@@ -65,7 +65,7 @@ La suite de ce document explique comment lancer l'application sur sa machine et 
 
 ### Pré-requis
 
-* [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
+* <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 * <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
 ### Installation
