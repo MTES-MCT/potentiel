@@ -44,6 +44,7 @@ import {
   DéclarationAccessibilité,
   InviterDgecValidateur,
   AcheteurObligeStatistiques,
+  ModifierIdentifiantGestionnaireReseau,
 } from './pages'
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -367,4 +368,13 @@ export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecVa
     Component: InviterDgecValidateur,
     props,
     title: 'Inviter un utilisateur DGEC validateur',
+  })
+
+export const ModifierIdentifiantGestionnaireReseauPage = (
+  props: Parameters<typeof ModifierIdentifiantGestionnaireReseau>[0]
+) =>
+  makeHtml({
+    Component: ModifierIdentifiantGestionnaireReseau,
+    props,
+    title: "Modifier l'identifiant du gestionnaire de réseau",
   })

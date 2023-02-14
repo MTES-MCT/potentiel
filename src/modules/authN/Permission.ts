@@ -9,6 +9,7 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
+  PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project'
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur'
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest'
@@ -34,6 +35,16 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
       ]
     case 'porteur-projet':
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionAnnulerGF,
+        PermissionAjouterDateExpirationGF,
+        PermissionUploaderGF,
+        PermissionRetirerGF,
+        PermissionExporterProjets,
+        PermissionModifierIdentifiantGestionnaireReseau,
+      ]
     case 'caisse-des-dépôts':
       return [
         PermissionListerProjets,
@@ -55,6 +66,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionInviterDgecValidateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
+        PermissionModifierIdentifiantGestionnaireReseau,
       ]
     case 'dgec-validateur':
       return [
@@ -66,6 +78,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
+        PermissionModifierIdentifiantGestionnaireReseau,
       ]
     case 'acheteur-obligé':
     case 'ademe':

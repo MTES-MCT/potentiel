@@ -67,11 +67,11 @@ export const ProjectDetails = ({
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
-            {project.gestionnaireDeRéseau && (
-              <GestionnaireDeRéseau
-                numeroGestionnaire={project.gestionnaireDeRéseau.numeroGestionnaire}
-              />
-            )}
+            <GestionnaireDeRéseau
+              numeroGestionnaire={project.gestionnaireDeRéseau?.numeroGestionnaire}
+              projetId={project.id}
+              role={user.role}
+            />
 
             {project.appelOffre?.type === 'innovation' && userIs('dreal')(user) && (
               <ResultatsAppelOffre {...{ project }} />
