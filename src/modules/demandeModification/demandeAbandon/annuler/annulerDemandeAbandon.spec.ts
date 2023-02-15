@@ -34,7 +34,7 @@ describe(`Commande annuler demande d'abandon`, () => {
   })
 
   const statutsIncompatiblesAvecAnnulation: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-    (statut) => !['envoyée', 'en instruction', 'demande confirmée'].includes(statut)
+    (statut) => !['envoyée', 'en instruction', 'en attente de confirmation'].includes(statut)
   )
 
   for (const statut of statutsIncompatiblesAvecAnnulation) {
@@ -67,7 +67,7 @@ describe(`Commande annuler demande d'abandon`, () => {
   const statutsCompatiblesAvecAnnulation = [
     'envoyée',
     'en instruction',
-    'demande confirmée',
+    'en attente de confirmation',
   ] as StatutDemandeAbandon[]
   for (const statut of statutsCompatiblesAvecAnnulation) {
     it(`Étant donné un porteur ayant les droits sur le projet
