@@ -35,7 +35,7 @@ export const makeDemanderConfirmationAbandon =
 
         const { statut } = demandeAbandon
 
-        if (statut !== 'envoyée' && statut !== 'en-instruction') {
+        if (statut !== 'envoyée' && statut !== 'en instruction') {
           return errAsync(
             new DemanderConfirmationAbandonError(
               demandeAbandon,

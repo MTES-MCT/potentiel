@@ -49,12 +49,12 @@ describe(`Rejeter une demande d'abandon`, () => {
     })
   })
 
-  describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
+  describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en instruction'`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
       const statutsNePouvantPasÊtreRefusé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-        (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+        (statut) => !['envoyée', 'en instruction', 'demande confirmée'].includes(statut)
       )
 
       for (const statut of statutsNePouvantPasÊtreRefusé) {
@@ -90,7 +90,7 @@ describe(`Rejeter une demande d'abandon`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
 
-      const statutsPouvantÊtreRejetés: StatutDemandeAbandon[] = ['envoyée', 'en-instruction']
+      const statutsPouvantÊtreRejetés: StatutDemandeAbandon[] = ['envoyée', 'en instruction']
 
       for (const statut of statutsPouvantÊtreRejetés) {
         it(`

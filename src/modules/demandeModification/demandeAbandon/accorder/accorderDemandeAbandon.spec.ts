@@ -60,12 +60,12 @@ describe(`Accorder une demande d'abandon`, () => {
   })
 
   describe(`Impossible d'accorder une demande avec un statut autre que 
-          'envoyée', en-instruction, ou 'demande confirmée'`, () => {
+          'envoyée', en instruction, ou 'demande confirmée'`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
       const statutsNePouvantPasÊtreAccordé: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-        (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+        (statut) => !['envoyée', 'en instruction', 'demande confirmée'].includes(statut)
       )
 
       for (const statut of statutsNePouvantPasÊtreAccordé) {
@@ -109,7 +109,7 @@ describe(`Accorder une demande d'abandon`, () => {
       const user = { role: 'admin' } as User
       const statutsPouvantÊtreAccordé: StatutDemandeAbandon[] = [
         'envoyée',
-        'en-instruction',
+        'en instruction',
         'demande confirmée',
       ]
 
