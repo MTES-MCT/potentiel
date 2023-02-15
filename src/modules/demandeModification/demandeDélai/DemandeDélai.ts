@@ -18,7 +18,15 @@ import {
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../shared'
 
-export type StatutDemandeDélai = 'envoyée' | 'annulée' | 'accordée' | 'refusée' | 'en-instruction'
+export const statutsDemandeDélai = [
+  'envoyée',
+  'annulée',
+  'accordée',
+  'refusée',
+  'en instruction',
+] as const
+
+export type StatutDemandeDélai = typeof statutsDemandeDélai[number]
 
 type DemandeDélaiArgs = {
   id: UniqueEntityID
@@ -80,7 +88,7 @@ export const makeDemandeDélai = (
 
       case DélaiEnInstruction.type:
       case ModificationRequestInstructionStarted.type:
-        return { ...agregat, statut: 'en-instruction' }
+        return { ...agregat, statut: 'en instruction' }
       case RejetDélaiAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
       default:

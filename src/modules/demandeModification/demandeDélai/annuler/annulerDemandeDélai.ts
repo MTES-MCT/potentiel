@@ -31,7 +31,7 @@ export const makeAnnulerDemandeDélai: MakeAnnulerDemandeDélai =
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())
           }
-          if (statut === 'envoyée' || statut === 'en-instruction') {
+          if (statut === 'envoyée' || statut === 'en instruction') {
             return publishToEventStore(
               new DélaiAnnulé({
                 payload: { demandeDélaiId, projetId, annuléPar: user.id },

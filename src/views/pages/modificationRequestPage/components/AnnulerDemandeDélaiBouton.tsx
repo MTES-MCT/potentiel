@@ -7,15 +7,18 @@ interface CancelButtonProps {
   route: any
 }
 export const AnnulerDemandeDélaiBouton = ({ status, id, route }: CancelButtonProps) =>
-  (['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
-    <form action={route} method="post" style={{ margin: 0 }}>
+  (['envoyée', 'en instruction'].includes(status) && (
+    <form action={route} method="post" className="m-0">
       <input type="hidden" name="modificationRequestId" value={id} />
 
       <button
         className="button-outline warning"
         type="submit"
         name="submit"
-        data-confirm={`Etes-vous sur de vouloir annuler cette demande ?`}
+        onClick={(event) =>
+          confirm(`Êtes-vous sûr de vouloir annuler cette demande de délai ?`) ||
+          event.preventDefault()
+        }
       >
         Annuler la demande
       </button>
