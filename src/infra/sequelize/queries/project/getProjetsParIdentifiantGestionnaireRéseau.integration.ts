@@ -1,50 +1,58 @@
-import models from '../../models'
+import { Raccordements } from '../../projectionsNext/raccordements'
 import { resetDatabase } from '../../helpers'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { getProjetsParIdentifiantGestionnaireRéseau } from './getProjetsParIdentifiantGestionnaireRéseau'
 import { UniqueEntityID } from '@core/domain'
-
-const ProjectModel = models.Project
+import * as uuid from 'uuid'
 
 describe('Trouver les identifiants des projets depuis leur identifiant de gestionnaire de réseau', () => {
   beforeEach(async () => {
     await resetDatabase()
   })
 
-  const fixtures = [
+  const fixtures: Array<{ identifiantsGR: string; raccordements: Raccordements }> = [
     {
       identifiantsGR: 'OUE-RP-2022-000137',
-      projet: makeFakeProject({
+      raccordements: {
         id: new UniqueEntityID().toString(),
-        numeroGestionnaire: 'OUE-RP-2022-000137',
-      }),
+        projetId: new UniqueEntityID().toString(),
+        identifiantGestionnaire: 'OUE-RP-2022-000137',
+      } as Raccordements,
     },
     {
       identifiantsGR: 'OUE-RP-2022-000137',
-      projet: makeFakeProject({
+      raccordements: {
         id: new UniqueEntityID().toString(),
-        numeroGestionnaire: 'Enedis OUE-RP-2022-000137',
-      }),
+        projetId: new UniqueEntityID().toString(),
+        identifiantGestionnaire: 'Enedis OUE-RP-2022-000137',
+      } as Raccordements,
     },
     {
       identifiantsGR: 'OUE-RP-2022-000137',
-      projet: makeFakeProject({
+      raccordements: {
         id: new UniqueEntityID().toString(),
-        numeroGestionnaire: 'oue-rp-2022-000137',
-      }),
+        projetId: new UniqueEntityID().toString(),
+        identifiantGestionnaire: 'oue-rp-2022-000137',
+      } as Raccordements,
     },
   ]
 
-  for (const { identifiantsGR, projet } of fixtures) {
-    it(`Étant donné un projet avec l'identifiant gestionnaire de réseau "${projet.numeroGestionnaire}"
+  for (const {
+    identifiantsGR,
+    raccordements: { id, projetId, identifiantGestionnaire },
+  } of fixtures) {
+    it(`Étant donné un projet avec l'identifiant gestionnaire de réseau "${identifiantGestionnaire}"
         Lorsqu'on récupère les projets pour l'identifiant gestionnaire de réseau ${identifiantsGR}
         Alors l'id du dit projet devrait être récupéré pour l'identifiant gestionnaire de réseau ${identifiantsGR}`, async () => {
-      await ProjectModel.bulkCreate([makeFakeProject(projet)])
+      await Raccordements.create({
+        id,
+        projetId,
+        identifiantGestionnaire,
+      })
 
       const résultat = await getProjetsParIdentifiantGestionnaireRéseau([identifiantsGR])
-
+      expect(résultat.isOk()).toBe(true)
       expect(résultat._unsafeUnwrap()).toStrictEqual({
-        [identifiantsGR]: expect.arrayContaining([{ id: projet.id }]),
+        [identifiantsGR]: expect.arrayContaining([{ projetId }]),
       })
     })
   }
@@ -58,22 +66,22 @@ describe('Trouver les identifiants des projets depuis leur identifiant de gestio
     const projet2Id = new UniqueEntityID().toString()
     const projet3Id = new UniqueEntityID().toString()
 
-    await ProjectModel.bulkCreate([
-      makeFakeProject({ id: projet1Id, numeroGestionnaire: 'OUE-RP-2022-000137' }),
-      makeFakeProject({ id: projet2Id, numeroGestionnaire: 'Enedis OUE-RP-2022-000137' }),
-      makeFakeProject({ id: projet3Id, numeroGestionnaire: 'oue-rp-2022-000137' }),
+    await Raccordements.bulkCreate([
+      { id: uuid.v4(), projetId: projet1Id, identifiantGestionnaire: 'OUE-RP-2022-000137' },
+      { id: uuid.v4(), projetId: projet2Id, identifiantGestionnaire: 'Enedis OUE-RP-2022-000137' },
+      { id: uuid.v4(), projetId: projet3Id, identifiantGestionnaire: 'oue-rp-2022-000137' },
     ])
 
     const résultat = await getProjetsParIdentifiantGestionnaireRéseau([
       'OUE-RP-2022-000137',
       'Autre-Numéro',
     ])
-
+    expect(résultat.isOk()).toBe(true)
     expect(résultat._unsafeUnwrap()).toMatchObject({
       'OUE-RP-2022-000137': expect.arrayContaining([
-        { id: projet2Id },
-        { id: projet3Id },
-        { id: projet1Id },
+        { projetId: projet2Id },
+        { projetId: projet3Id },
+        { projetId: projet1Id },
       ]),
       'Autre-Numéro': [],
     })

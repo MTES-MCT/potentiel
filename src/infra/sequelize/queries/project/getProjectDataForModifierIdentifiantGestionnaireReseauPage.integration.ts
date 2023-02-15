@@ -1,8 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
+import { Raccordements } from '@infra/sequelize'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
+import * as uuid from 'uuid'
 import { getProjectDataForModifierIdentifiantGestionnaireReseauPage } from './getProjectDataForModifierIdentifiantGestionnaireReseauPage'
+import { ProjectDataForModifierIdentifiantGestionnaireReseauPage } from '@modules/project'
 
 const { Project } = models
 const projetId = new UniqueEntityID().toString()
@@ -21,13 +24,23 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   Alors l'identifiant du projet devrait être retourné
   Et l'identifiant du gestionnaire de réseau devrait être retourné
       `, async () => {
-    await Project.create({ ...fakeProjet, numeroGestionnaire: 'identifiant' })
+    // Arrange
+    await Project.create(fakeProjet)
+    const identifiantGestionnaire = 'indentifiant'
 
+    await Raccordements.create({
+      projetId: fakeProjet.id,
+      id: uuid.v4(),
+      identifiantGestionnaire,
+    })
+
+    // Act
     const résultat = (
       await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
     )._unsafeUnwrap()
 
-    expect(résultat).toMatchObject({
+    // Assert
+    const expected: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
       id: fakeProjet.id,
       nomProjet: fakeProjet.nomProjet,
       nomCandidat: fakeProjet.nomCandidat,
@@ -39,7 +52,9 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       notifiedOn,
       appelOffreId: fakeProjet.appelOffreId,
       numeroGestionnaire: 'identifiant',
-    })
+    }
+
+    expect(résultat).toEqual(expected)
   })
 
   it(`

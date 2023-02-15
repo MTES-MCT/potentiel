@@ -21,12 +21,12 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           okAsync({
             'NUM-GEST-1': [
               {
-                id: 'projet-1',
+                projetId: 'projet-1',
               },
             ],
             'NUM-GEST-2': [
               {
-                id: 'projet-2',
+                projetId: 'projet-2',
               },
             ],
           }),
@@ -101,15 +101,15 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           okAsync({
             Enedis: [
               {
-                id: 'projet-1',
+                projetId: 'projet-1',
               },
               {
-                id: 'projet-2',
+                projetId: 'projet-2',
               },
             ],
             'AAA-BB-2022-000001': [
               {
-                id: 'Projet Test',
+                projetId: 'Projet Test',
               },
             ],
           }),
@@ -184,7 +184,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
             Enedis: [],
             'AAA-BB-2022-000001': [
               {
-                id: 'Projet Test',
+                projetId: 'Projet Test',
               },
             ],
           }),
@@ -256,7 +256,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           okAsync({
             'AAA-BB-2022-000001': [
               {
-                id: 'Projet Test',
+                projetId: 'Projet Test',
               },
             ],
           }),
@@ -309,7 +309,7 @@ describe(`Mettre à jour les dates de mise en service`, () => {
           okAsync({
             'AAA-BB-2022-000001': [
               {
-                id: 'Projet Test',
+                projetId: 'Projet Test',
               },
             ],
           }),

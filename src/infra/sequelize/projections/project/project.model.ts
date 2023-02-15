@@ -39,7 +39,6 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   abandonedOn: number
   details?: JSON
   certificateFileId?: string
-  numeroGestionnaire?: string
   cahierDesChargesActuel: string
   potentielIdentifier: string
   technologie?: Technologie
@@ -193,10 +192,6 @@ export const MakeProjectModel = (sequelize) => {
       },
       certificateFileId: {
         type: DataTypes.UUID,
-        allowNull: true,
-      },
-      numeroGestionnaire: {
-        type: DataTypes.STRING,
         allowNull: true,
       },
       cahierDesChargesActuel: {

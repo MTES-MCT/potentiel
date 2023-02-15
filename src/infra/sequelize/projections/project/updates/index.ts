@@ -3,7 +3,6 @@ import { logger } from '@core/utils'
 import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
-  NumeroGestionnaireSubmitted,
   ProjectAbandoned,
   ProjectActionnaireUpdated,
   ProjectCertificateGenerated,
@@ -16,7 +15,6 @@ import {
   ProjectDataCorrected,
   ProjectDCRDueDateCancelled,
   ProjectDCRDueDateSet,
-  ProjectDCRSubmitted,
   ProjectFournisseursUpdated,
   ProjectImported,
   CahierDesChargesChoisi,
@@ -34,7 +32,6 @@ import { ContratEDFRapprochéAutomatiquement, ContratEDFMisAJour } from '@module
 import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim'
 import { onAppelOffreProjetModifié } from './onAppelOffreProjetModifié'
 import { onCovidDelayGranted } from './onCovidDelayGranted'
-import { onNumeroGestionnaireSubmitted } from './onNumeroGestionnaireSubmitted'
 import { onProjectAbandoned } from './onProjectAbandoned'
 import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated'
 import { onProjectCertificate } from './onProjectCertificate'
@@ -46,7 +43,6 @@ import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'
 import { onProjectDataCorrected } from './onProjectDataCorrected'
 import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled'
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet'
-import { onProjectDCRSubmitted } from './onProjectDCRSubmitted'
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated'
 import { onProjectImported } from './onProjectImported'
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
@@ -88,9 +84,6 @@ export const initProjectProjections = (eventBus: EventBus, models: Projections) 
 
   eventBus.subscribe(ProjectClasseGranted.type, onProjectClasseGranted(models))
 
-  eventBus.subscribe(NumeroGestionnaireSubmitted.type, onNumeroGestionnaireSubmitted(models))
-
-  eventBus.subscribe(ProjectDCRSubmitted.type, onProjectDCRSubmitted(models))
   eventBus.subscribe(ProjectAbandoned.type, onProjectAbandoned(models))
   eventBus.subscribe(ProjectPuissanceUpdated.type, onProjectPuissanceUpdated(models))
   eventBus.subscribe(ProjectActionnaireUpdated.type, onProjectActionnaireUpdated(models))

@@ -1,17 +1,17 @@
 import { wrapInfra } from '@core/utils'
 import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '@modules/project'
+import { Raccordements } from '../../projectionsNext'
 import { okAsync } from 'neverthrow'
-import models from '../../models'
-
-const { Project } = models
 
 export const trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau =
-  (identifiantGestionnaireRéseau) =>
+  (identifiantGestionnaire) =>
     wrapInfra(
-      Project.findAll({
-        attributes: ['id'],
+      Raccordements.findAll({
+        attributes: ['projetId'],
         where: {
-          numeroGestionnaire: identifiantGestionnaireRéseau,
+          identifiantGestionnaire,
         },
       })
-    ).andThen((projets: Array<{ id: string }>) => okAsync(projets.map((p) => p.id)))
+    ).andThen((raccordements) =>
+      okAsync(raccordements.map((raccordement) => raccordement.projetId))
+    )

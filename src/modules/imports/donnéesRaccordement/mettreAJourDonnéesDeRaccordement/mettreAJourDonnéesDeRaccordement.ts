@@ -32,7 +32,7 @@ export const makeMettreAJourDonnéesDeRaccordement =
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
     const lancementDesMiseAJourPourChaqueProjet = (
-      projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ id: string }>>
+      projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ projetId: string }>>
     ) => {
       return ResultAsync.fromPromise(
         Promise.all(
@@ -51,7 +51,8 @@ export const makeMettreAJourDonnéesDeRaccordement =
             }
 
             const projetId =
-              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau][0].id
+              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau][0]
+                .projetId
 
             const result = await renseignerDonnéesDeRaccordement({
               projetId,

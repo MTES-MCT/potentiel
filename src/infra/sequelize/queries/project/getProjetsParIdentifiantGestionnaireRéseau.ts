@@ -1,20 +1,21 @@
 import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/donnéesRaccordement'
 import { okAsync, wrapInfra } from '@core/utils'
 import models from '../../models'
+import { Raccordements } from '../../projectionsNext'
 import { Op } from 'sequelize'
 
-const ProjectModel = models.Project
+const ProjectModel = models.Raccordements
 
 export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau =
   (identifiantsGestionnaireRéseau) => {
     return wrapInfra(
-      ProjectModel.findAll({
+      Raccordements.findAll({
         where: {
-          numeroGestionnaire: {
+          identifiantGestionnaire: {
             [Op.iLike]: { [Op.any]: identifiantsGestionnaireRéseau.map((id) => `%${id}%`) },
           },
         },
-        attributes: ['id', 'numeroGestionnaire'],
+        attributes: ['projetId', 'identifiantGestionnaire'],
       })
     ).andThen((projets) => {
       return okAsync(
@@ -22,10 +23,12 @@ export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifia
           return {
             ...acc,
             [identifiantGR]: projets
-              .filter((p) =>
-                p.numeroGestionnaire?.toLowerCase().includes(identifiantGR.toLowerCase())
+              .filter((raccordement) =>
+                raccordement.identifiantGestionnaire
+                  ?.toLowerCase()
+                  .includes(identifiantGR.toLowerCase())
               )
-              .map(({ id }) => ({ id })),
+              .map(({ projetId }) => ({ projetId })),
           }
         }, {})
       )
