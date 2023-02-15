@@ -61,7 +61,7 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
                 (demandeDélai) => {
                   const { statut } = demandeDélai
 
-                  if (statut !== 'envoyée' && statut !== 'en-instruction') {
+                  if (statut !== 'envoyée' && statut !== 'en instruction') {
                     return errAsync(
                       new AccorderDemandeDélaiError(
                         demandeDélai,

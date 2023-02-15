@@ -81,7 +81,7 @@ describe(`Rejeter une demande de délai`, () => {
     })
   })
 
-  describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en-instruction'`, () => {
+  describe(`Impossible de rejeter une demande avec un statut autre que 'envoyée' ou 'en instruction'`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
       const statutsNePouvantPasÊtreRefusé: StatutDemandeDélai[] = ['accordée', 'refusée', 'annulée']
@@ -130,7 +130,7 @@ describe(`Rejeter une demande de délai`, () => {
   describe(`Possible de rejeter un délai si Admin/DGEC/DREAL`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin', id: 'user-id' } as User
-      const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en-instruction']
+      const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en instruction']
 
       for (const statut of statutsPouvantÊtreAccordé) {
         it(`Lorsqu'il rejette une demande de délai avec comme statut '${statut}'
