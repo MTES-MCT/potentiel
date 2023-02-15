@@ -99,7 +99,7 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
             unitePuissance: 'MWc', // see fessenheim.ts
           },
           type: 'recours',
-          justification: 'justification',
+          description: 'justification',
         })
       })
     })

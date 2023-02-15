@@ -99,7 +99,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
           unitePuissance: 'MWc', // see fessenheim.ts
         },
         type: 'recours',
-        justification: 'justification',
+        description: 'justification',
       })
     })
   })
@@ -154,7 +154,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res._unsafeUnwrap().itemCount).toEqual(1)
 
-      expect(res._unsafeUnwrap().items[0]).toMatchObject({ actionnaire: 'target' })
+      expect(res._unsafeUnwrap().items[0]).toMatchObject({ description: 'target' })
     })
 
     describe('when the noAuthority filter is true', () => {
