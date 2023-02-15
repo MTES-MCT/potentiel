@@ -7,7 +7,7 @@ interface CancelButtonProps {
   route: any
 }
 export const AnnulerDemandeDélaiBouton = ({ status, id, route }: CancelButtonProps) =>
-  (['envoyée', 'en instruction', 'en attente π confirmation'].includes(status) && (
+  (['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
     <form action={route} method="post" style={{ margin: 0 }}>
       <input type="hidden" name="modificationRequestId" value={id} />
 
