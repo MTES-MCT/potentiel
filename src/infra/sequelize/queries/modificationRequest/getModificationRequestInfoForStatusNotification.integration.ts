@@ -36,7 +36,6 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       userId,
       type: 'recours',
       requestedOn: 123,
-      requestedBy: userId,
       status: 'envoyée',
     })
 

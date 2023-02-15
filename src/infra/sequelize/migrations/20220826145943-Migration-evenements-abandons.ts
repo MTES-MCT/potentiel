@@ -26,16 +26,14 @@ export default {
       const { ModificationRequest, EventStore } = models
 
       const eventsAbandonAMigrer: Array<{ id: string; projectId: string }> =
-        await ModificationRequest.findAll(
-          {
-            where: {
-              type: 'abandon',
-              isLegacy: { [Op.not]: true },
-            },
-            attributes: ['id', 'projectId'],
+        await ModificationRequest.findAll({
+          where: {
+            type: 'abandon',
+            isLegacy: { [Op.not]: true },
           },
-          { transaction }
-        )
+          attributes: ['id', 'projectId'],
+          transaction,
+        })
 
       console.log(`${eventsAbandonAMigrer.length} demandes d'abandon à migrer`)
 

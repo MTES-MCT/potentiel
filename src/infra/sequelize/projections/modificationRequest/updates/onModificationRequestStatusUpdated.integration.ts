@@ -22,7 +22,6 @@ describe('modificationRequest.onModificationRequestStatusUpdated', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
-      requestedBy: userId,
     })
   })
 
@@ -44,8 +43,8 @@ describe('modificationRequest.onModificationRequestStatusUpdated', () => {
     const updatedModificationRequest = await ModificationRequestModel.findByPk(
       modificationRequestId
     )
-    expect(updatedModificationRequest.status).toEqual('acceptée')
-    expect(updatedModificationRequest.respondedBy).toEqual(userId)
-    expect(updatedModificationRequest.respondedOn).toEqual(123)
+    expect(updatedModificationRequest?.status).toEqual('acceptée')
+    expect(updatedModificationRequest?.respondedBy).toEqual(userId)
+    expect(updatedModificationRequest?.respondedOn).toEqual(123)
   })
 })

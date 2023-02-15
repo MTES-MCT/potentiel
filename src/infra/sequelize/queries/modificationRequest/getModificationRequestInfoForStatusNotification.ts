@@ -1,8 +1,9 @@
-import { wrapInfra } from '@core/utils'
+import { errAsync, wrapInfra } from '@core/utils'
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
 } from '@modules/modificationRequest'
+import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 
 const { ModificationRequest, Project, User, UserProjects } = models
@@ -19,12 +20,16 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           },
         ],
       })
-    ).andThen((modificationRequestRaw: any) => {
+    ).andThen((modificationRequestRaw) => {
+      if (!modificationRequestRaw) {
+        return errAsync(new EntityNotFoundError())
+      }
+
       const {
         type,
         projectId,
         project: { nomProjet, departementProjet, regionProjet },
-      } = modificationRequestRaw.get()
+      } = modificationRequestRaw
 
       return wrapInfra(
         UserProjects.findAll({

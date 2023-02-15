@@ -115,34 +115,54 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
       )
     })
     .andThen(
-      (res: any): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
+      (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
         const { count, rows } = res
 
-        const modificationRequests: ModificationRequestListItemDTO[] = rows
-          .map((row) => row.get())
-          .map(
-            ({
-              id,
-              status,
-              requestedOn,
-              type,
-              justification,
-              actionnaire,
-              fournisseur,
-              producteur,
-              puissance,
-              requestedBy: { email, fullName },
-              project: {
-                nomProjet,
-                communeProjet,
-                departementProjet,
-                regionProjet,
-                appelOffreId,
-                periodeId,
-                familleId,
-              },
-              attachmentFile,
-            }) => ({
+        const modificationRequests = rows.map(
+          ({
+            id,
+            status,
+            requestedOn,
+            type,
+            justification,
+            actionnaire,
+            producteur,
+            puissance,
+            requestedBy: { email, fullName },
+            project: {
+              nomProjet,
+              communeProjet,
+              departementProjet,
+              regionProjet,
+              appelOffreId,
+              periodeId,
+              familleId,
+            },
+            attachmentFile,
+          }) => {
+            const getDescription = (): string => {
+              switch (type) {
+                case 'abandon':
+                case 'recours':
+                case 'fournisseur':
+                case 'delai':
+                case 'annulation abandon':
+                  return justification || ''
+                case 'actionnaire':
+                  return actionnaire || ''
+                case 'producteur':
+                  return producteur || ''
+                case 'puissance':
+                  return puissance
+                    ? `${puissance} ${_getPuissanceForAppelOffre({
+                        appelOffreId,
+                        periodeId,
+                      })}`
+                    : ''
+              }
+            }
+
+            return {
               id,
               status,
               requestedOn: new Date(requestedOn),
@@ -150,7 +170,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 email,
                 fullName,
               },
-              attachmentFile: attachmentFile && attachmentFile.get(),
+              attachmentFile,
               project: {
                 nomProjet,
                 communeProjet,
@@ -162,13 +182,10 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
               },
               type,
-              justification,
-              actionnaire,
-              fournisseur,
-              producteur,
-              puissance: puissance && Number(puissance),
-            })
-          )
+              description: getDescription(),
+            }
+          }
+        )
 
         return ok(makePaginatedList(modificationRequests, count, pagination))
       }

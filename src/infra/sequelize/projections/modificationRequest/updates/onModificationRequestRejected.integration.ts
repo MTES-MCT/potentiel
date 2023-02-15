@@ -23,7 +23,6 @@ describe('modificationRequest.onModificationRequestRejected', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
-      requestedBy: userId,
     })
   })
 
@@ -41,7 +40,7 @@ describe('modificationRequest.onModificationRequestRejected', () => {
     const updatedModificationRequest = await ModificationRequestModel.findByPk(
       modificationRequestId
     )
-    expect(updatedModificationRequest.status).toEqual('rejetée')
-    expect(updatedModificationRequest.responseFileId).toEqual(fileId)
+    expect(updatedModificationRequest?.status).toEqual('rejetée')
+    expect(updatedModificationRequest?.responseFileId).toEqual(fileId)
   })
 })

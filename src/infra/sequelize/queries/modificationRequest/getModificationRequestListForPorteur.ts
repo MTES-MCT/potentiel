@@ -13,6 +13,7 @@ import { PaginatedList } from '../../../../types'
 import models from '../../models'
 
 const { ModificationRequest, Project, User, File, UserProjects } = models
+
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
   appelOffreId,
@@ -77,34 +78,54 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
       )
     })
     .andThen(
-      (res: any): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
+      (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
         const { count, rows } = res
 
-        const modificationRequests: ModificationRequestListItemDTO[] = rows
-          .map((row) => row.get())
-          .map(
-            ({
-              id,
-              status,
-              requestedOn,
-              type,
-              justification,
-              actionnaire,
-              fournisseur,
-              producteur,
-              puissance,
-              requestedBy: { email, fullName },
-              project: {
-                nomProjet,
-                communeProjet,
-                departementProjet,
-                regionProjet,
-                appelOffreId,
-                periodeId,
-                familleId,
-              },
-              attachmentFile,
-            }) => ({
+        const modificationRequests = rows.map(
+          ({
+            id,
+            status,
+            requestedOn,
+            type,
+            justification,
+            actionnaire,
+            producteur,
+            puissance,
+            requestedBy: { email, fullName },
+            project: {
+              nomProjet,
+              communeProjet,
+              departementProjet,
+              regionProjet,
+              appelOffreId,
+              periodeId,
+              familleId,
+            },
+            attachmentFile,
+          }) => {
+            const getDescription = (): string => {
+              switch (type) {
+                case 'abandon':
+                case 'recours':
+                case 'fournisseur':
+                case 'delai':
+                case 'annulation abandon':
+                  return justification || ''
+                case 'actionnaire':
+                  return actionnaire || ''
+                case 'producteur':
+                  return producteur || ''
+                case 'puissance':
+                  return puissance
+                    ? `${puissance} ${_getPuissanceForAppelOffre({
+                        appelOffreId,
+                        periodeId,
+                      })}`
+                    : ''
+              }
+            }
+
+            return {
               id,
               status,
               requestedOn: new Date(requestedOn),
@@ -112,7 +133,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 email,
                 fullName,
               },
-              attachmentFile: attachmentFile && attachmentFile.get(),
+              attachmentFile,
               project: {
                 nomProjet,
                 communeProjet,
@@ -124,20 +145,17 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
               },
               type,
-              justification,
-              actionnaire,
-              fournisseur,
-              producteur,
-              puissance: puissance && Number(puissance),
-            })
-          )
+              description: getDescription(),
+            }
+          }
+        )
 
         return ok(makePaginatedList(modificationRequests, count, pagination))
       }
     )
 }
 
-const _getPuissanceForAppelOffre = (args: { appelOffreId; periodeId }): string => {
+const _getPuissanceForAppelOffre = (args: { appelOffreId: string; periodeId: string }): string => {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
 }
 

@@ -99,7 +99,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
           unitePuissance: 'MWc', // see fessenheim.ts
         },
         type: 'recours',
-        justification: 'justification',
+        description: 'justification',
       })
     })
   })
@@ -121,7 +121,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       const baseRequest = {
         projectId,
-        type: 'actionnaire',
+        type: 'actionnaire' as const,
         userId: fakePorteur.id,
         fileId,
         requestedOn: 123,
@@ -154,7 +154,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       expect(res._unsafeUnwrap().itemCount).toEqual(1)
 
-      expect(res._unsafeUnwrap().items[0]).toMatchObject({ actionnaire: 'target' })
+      expect(res._unsafeUnwrap().items[0]).toMatchObject({ description: 'target' })
     })
 
     describe('when the noAuthority filter is true', () => {
@@ -221,7 +221,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
           // outside of scope because of authority
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          type: 'other',
+          type: 'abandon',
           authority: 'dgec',
         },
         {

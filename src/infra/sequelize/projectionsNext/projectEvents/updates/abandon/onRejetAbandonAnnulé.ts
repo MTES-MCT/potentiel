@@ -28,6 +28,7 @@ export default ProjectEventProjector.on(RejetAbandonAnnulé, async (évènement,
           évènement,
         })
       )
+      return
     }
 
     try {

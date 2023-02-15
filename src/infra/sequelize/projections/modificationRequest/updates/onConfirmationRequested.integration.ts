@@ -23,7 +23,6 @@ describe('modificationRequest.onConfirmationRequested', () => {
       type: 'recours',
       status: 'envoyée',
       requestedOn: 1,
-      requestedBy: userId,
     })
 
     await onConfirmationRequested(models)(
@@ -43,17 +42,17 @@ describe('modificationRequest.onConfirmationRequested', () => {
 
   it('should update status to en attente de confirmation', async () => {
     const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest.status).toEqual('en attente de confirmation')
+    expect(updatedModificationRequest?.status).toEqual('en attente de confirmation')
   })
 
   it('should add response file', async () => {
     const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest.responseFileId).toEqual(fileId)
+    expect(updatedModificationRequest?.responseFileId).toEqual(fileId)
   })
 
   it('should set confirmationRequestedBy and confirmationRequestedOn', async () => {
     const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest.confirmationRequestedBy).toEqual(userId)
-    expect(updatedModificationRequest.confirmationRequestedOn).toEqual(123)
+    expect(updatedModificationRequest?.confirmationRequestedBy).toEqual(userId)
+    expect(updatedModificationRequest?.confirmationRequestedOn).toEqual(123)
   })
 })

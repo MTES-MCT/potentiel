@@ -54,12 +54,13 @@ export default ProjectEventProjector.on(
 
     const { ModificationRequest } = models
 
-    const { projectId } = await ModificationRequest.findByPk(modificationRequestId, {
+    const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],
       transaction,
     })
 
-    if (projectId) {
+    if (modificationRequest) {
+      const { projectId } = modificationRequest
       const file = responseFileId && (await getFile(responseFileId, transaction))
 
       try {

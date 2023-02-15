@@ -13,26 +13,23 @@ export default {
     try {
       const { ModificationRequest, Project, EventStore } = models
 
-      const demandesDélaiAMigrer: Array<{ id: string; project: { completionDueOn: number } }> =
-        await ModificationRequest.findAll(
+      const demandesDélaiAMigrer = await ModificationRequest.findAll({
+        include: [
           {
-            include: [
-              {
-                model: Project,
-                as: 'project',
-                attributes: ['completionDueOn'],
-                required: true,
-              },
-            ],
-            where: {
-              type: 'delai',
-              status: ['envoyée', 'en instruction'],
-              delayInMonths: { [Op.ne]: null },
-            },
-            attributes: ['id'],
+            model: Project,
+            as: 'project',
+            attributes: ['completionDueOn'],
+            required: true,
           },
-          { transaction }
-        )
+        ],
+        where: {
+          type: 'delai',
+          status: { [Op.in]: ['envoyée', 'en instruction'] },
+          delayInMonths: { [Op.ne]: undefined },
+        },
+        attributes: ['id'],
+        transaction,
+      })
 
       console.log(`${demandesDélaiAMigrer.length} demandes de délai envoyées à migrer`)
 

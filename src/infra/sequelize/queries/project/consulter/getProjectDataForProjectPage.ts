@@ -239,7 +239,7 @@ const ajouterInfosAlerteAnnulationAbandon = (
     ModificationRequest.findOne({
       where: { projectId, type: 'annulation abandon', status: 'envoyée' },
     })
-  ).map((demande: { id: string }) => {
+  ).map((demande) => {
     if (demande) {
       return {
         ...dto,

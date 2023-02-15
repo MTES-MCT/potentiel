@@ -1,12 +1,12 @@
-export type ModificationRequestVariants =
-  | { type: 'actionnaire'; actionnaire: string }
-  | { type: 'fournisseur'; fournisseur: string; justification: string }
-  | { type: 'producteur'; producteur: string }
-  | { type: 'puissance'; puissance: number }
-  | { type: 'recours'; justification: string }
-  | { type: 'abandon'; justification: string }
-  | { type: 'delai'; justification: string }
-  | { type: 'annulation abandon' }
+export type ModificationRequestTypes =
+  | 'actionnaire'
+  | 'fournisseur'
+  | 'producteur'
+  | 'puissance'
+  | 'recours'
+  | 'abandon'
+  | 'delai'
+  | 'annulation abandon'
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'
@@ -20,7 +20,9 @@ export type ModificationRequestStatusDTO =
 
 export type ModificationRequestListItemDTO = {
   id: string
+  type: ModificationRequestTypes
   status: string
+  description: string
 
   requestedOn: Date
   requestedBy: {
@@ -43,4 +45,4 @@ export type ModificationRequestListItemDTO = {
     regionProjet: string
     unitePuissance: string
   }
-} & ModificationRequestVariants
+}

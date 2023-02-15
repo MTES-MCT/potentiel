@@ -23,7 +23,6 @@ describe('modificationRequest.onModificationRequestConfirmed', () => {
       type: 'abandon',
       status: 'en attente de confirmation',
       requestedOn: 1,
-      requestedBy: userId,
     })
 
     await onModificationRequestConfirmed(models)(
@@ -42,12 +41,12 @@ describe('modificationRequest.onModificationRequestConfirmed', () => {
 
   it('should update status to demande confirmée', async () => {
     const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest.status).toEqual('demande confirmée')
+    expect(updatedModificationRequest?.status).toEqual('demande confirmée')
   })
 
   it('should set confirmedBy and confirmedOn', async () => {
     const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest.confirmedBy).toEqual(userId)
-    expect(updatedModificationRequest.confirmedOn).toEqual(123)
+    expect(updatedModificationRequest?.confirmedBy).toEqual(userId)
+    expect(updatedModificationRequest?.confirmedOn).toEqual(123)
   })
 })

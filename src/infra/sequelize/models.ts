@@ -89,6 +89,45 @@ models.Project.hasOne(Raccordements, {
   foreignKey: 'projetId',
 })
 
+models.ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'fileId',
+  as: 'attachmentFile',
+  constraints: false,
+})
+
+models.ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'responseFileId',
+  as: 'responseFile',
+  constraints: false,
+})
+
+models.ModificationRequest.belongsTo(models.Project, {
+  foreignKey: 'projectId',
+  as: 'project',
+  constraints: false,
+})
+
+models.ModificationRequest.belongsTo(models.User, {
+  foreignKey: 'userId',
+  as: 'requestedBy',
+  constraints: false,
+})
+models.ModificationRequest.belongsTo(models.User, {
+  foreignKey: 'respondedBy',
+  as: 'respondedByUser',
+  constraints: false,
+})
+models.ModificationRequest.belongsTo(models.User, {
+  foreignKey: 'confirmationRequestedBy',
+  as: 'confirmationRequestedByUser',
+  constraints: false,
+})
+models.ModificationRequest.belongsTo(models.User, {
+  foreignKey: 'cancelledBy',
+  as: 'cancelledByUser',
+  constraints: false,
+})
+
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {
   const initializedProjectors: string[] = []

@@ -33,7 +33,6 @@ describe('Sequelize getModificationRequestInfoForConfirmedNotification', () => {
       userId,
       type: 'abandon',
       requestedOn: 123,
-      requestedBy: userId,
       status: 'demande confirmée',
       confirmationRequestedBy: adminId,
       authority: 'dreal',
