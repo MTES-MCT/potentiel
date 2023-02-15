@@ -16,7 +16,15 @@ export class ModificationRequest extends Model<
   id: string
   projectId: string
   userId?: string
-  type: 'actionnaire' | 'fournisseur' | 'producteur' | 'puissance' | 'recours' | 'abandon' | 'delai'
+  type:
+    | 'actionnaire'
+    | 'fournisseur'
+    | 'producteur'
+    | 'puissance'
+    | 'recours'
+    | 'abandon'
+    | 'delai'
+    | 'annulation abandon'
   status: string
   requestedOn: number
   versionDate: CreationOptional<Date>

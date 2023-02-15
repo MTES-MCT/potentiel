@@ -109,6 +109,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 case 'recours':
                 case 'fournisseur':
                 case 'delai':
+                case 'annulation abandon':
                   return justification || ''
                 case 'actionnaire':
                   return actionnaire || ''
