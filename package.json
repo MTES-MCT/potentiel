@@ -12,7 +12,6 @@
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "prebuild:migrations": "rimraf dist/migrations",
     "build:migrations": "ttsc --build tsconfig.migrations.json",
-    "generate:doc": "ts-node ./devtools/generateEventsDoc",
     "install": "ts-node ./scripts/postInstall.ts",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format:check": "prettier '**/*.{ts,tsx,css}' --check",
