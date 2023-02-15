@@ -11,6 +11,7 @@ class Raccordements extends Model<
   ptfFichierId: string | null
   ptfDateDeSignature: Date | null
   ptfEnvoyéePar: string | null
+  identifiantGestionnaire: string | null
 }
 
 const nomProjection = 'raccordements'
@@ -36,6 +37,10 @@ Raccordements.init(
     },
     ptfEnvoyéePar: {
       type: DataTypes.UUID,
+      allowNull: true,
+    },
+    identifiantGestionnaire: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },
