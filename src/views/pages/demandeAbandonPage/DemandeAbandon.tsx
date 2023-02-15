@@ -120,7 +120,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
           </div>
         )}
         {userIs('porteur-projet')(user) &&
-          ['envoyée', 'en-instruction', 'en attente de confirmation'].includes(status) && (
+          ['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
             <form action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION} method="post" className="m-0">
               <input type="hidden" name="modificationRequestId" value={id} />
 

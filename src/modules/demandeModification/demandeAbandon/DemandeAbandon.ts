@@ -16,7 +16,7 @@ export const statutsDemandeAbandon = [
   'annulée',
   'accordée',
   'refusée',
-  'en-instruction',
+  'en instruction',
   'en attente de confirmation',
   'demande confirmée',
 ] as const

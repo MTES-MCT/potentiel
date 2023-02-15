@@ -34,12 +34,12 @@ describe(`Commande annuler demande d'abandon`, () => {
   })
 
   const statutsIncompatiblesAvecAnnulation: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
-    (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
+    (statut) => !['envoyée', 'en instruction', 'demande confirmée'].includes(statut)
   )
 
   for (const statut of statutsIncompatiblesAvecAnnulation) {
     it(`Étant donné un porteur ayant les droits sur le projet
-            Lorsqu'il porteur annule une demande d'abandon en statut ${statut},
+            Lorsqu'il annule une demande d'abandon en statut ${statut},
             Alors il devrait être prévenu que le statut est incompatible pour une annulation`, async () => {
       const demandeAbandonId = 'la-demande-a-annuler'
 
@@ -66,13 +66,13 @@ describe(`Commande annuler demande d'abandon`, () => {
 
   const statutsCompatiblesAvecAnnulation = [
     'envoyée',
-    'en-instruction',
+    'en instruction',
     'demande confirmée',
   ] as StatutDemandeAbandon[]
   for (const statut of statutsCompatiblesAvecAnnulation) {
     it(`Étant donné un porteur ayant les droits sur le projet
         Lorsqu'il annule une demande d'abandon en statut ${statut},
-        Alors il devrait être informé que l'action a bien été prise en compte`, async () => {
+        Alors la demande d'abandon devrait être annulé`, async () => {
       const demandeAbandonId = 'la-demande-a-annuler'
 
       const demandeAbandonRepo = fakeTransactionalRepo(
