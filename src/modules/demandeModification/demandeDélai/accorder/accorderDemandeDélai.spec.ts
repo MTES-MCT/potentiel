@@ -204,7 +204,7 @@ describe(`Accorder une demande de délai`, () => {
     describe(`Etant donné un utilisateur Admin, DGEC ou DREAL`, () => {
       const user = { role: 'admin' } as User
 
-      const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en-instruction']
+      const statutsPouvantÊtreAccordé: StatutDemandeDélai[] = ['envoyée', 'en instruction']
 
       for (const statut of statutsPouvantÊtreAccordé) {
         it(`Lorsqu'il accorde une demande de délai avec comme statut '${statut}'

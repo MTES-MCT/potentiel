@@ -33,7 +33,7 @@ describe(`Passer une demande de délai en instruction`, () => {
         'accordée',
         'refusée',
         'annulée',
-        'en-instruction',
+        'en instruction',
       ]
 
       for (const statut of statutsNePouvantPasPasserLaDemandeEnInstruction) {

@@ -36,7 +36,7 @@ export const makeRejeterDemandeDélai: MakeRejeterDemandeDélai =
         (userHasRightsToProject) => {
           if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
 
-          if (statut !== 'envoyée' && statut !== 'en-instruction') {
+          if (statut !== 'envoyée' && statut !== 'en instruction') {
             return errAsync(
               new RejeterDemandeDélaiError(
                 demandeDélai,
