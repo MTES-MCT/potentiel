@@ -109,31 +109,7 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                       fontSize: 12,
                     }}
                   >
-                    {modificationRequest.type === 'actionnaire' ? (
-                      <span>{modificationRequest.actionnaire}</span>
-                    ) : modificationRequest.type === 'fournisseur' ? (
-                      <span>{modificationRequest.fournisseur}</span>
-                    ) : modificationRequest.type === 'producteur' ? (
-                      <span>{modificationRequest.producteur}</span>
-                    ) : modificationRequest.type === 'puissance' ? (
-                      <span>
-                        {modificationRequest.puissance} {project.unitePuissance}
-                      </span>
-                    ) : null}
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    {modificationRequest.type === 'recours' ||
-                    modificationRequest.type === 'abandon' ||
-                    modificationRequest.type === 'fournisseur' ||
-                    modificationRequest.type === 'delai'
-                      ? modificationRequest?.justification
-                      : null}
+                    {modificationRequest.description}
                   </div>
                   <div className="italic leading-normal text-xs">
                     {modificationRequest.attachmentFile && (

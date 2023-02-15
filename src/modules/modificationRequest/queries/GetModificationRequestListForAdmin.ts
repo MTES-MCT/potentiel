@@ -4,7 +4,7 @@ import { PaginatedList, Pagination } from '../../../types'
 import { InfraNotAvailableError } from '../../shared'
 import {
   ModificationRequestListItemDTO,
-  ModificationRequestVariants,
+  ModificationRequestTypes,
   ModificationRequestStatusDTO,
 } from '../dtos'
 
@@ -21,7 +21,7 @@ type GetModificationRequestListForAdminFilter = {
   pagination?: Pagination
   recherche?: string
   modificationRequestStatus?: ModificationRequestStatusDTO
-  modificationRequestType?: ModificationRequestVariants['type']
+  modificationRequestType?: ModificationRequestTypes
   forceNoAuthority?: true
 }
 
