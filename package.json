@@ -13,7 +13,6 @@
     "generate:doc": "ts-node ./devtools/generateEventsDoc",
     "install": "ts-node ./scripts/postInstall.ts",
     "lint": "eslint ./src --ext .ts,.tsx",
-    "lint:write": "eslint ./src --ext .ts,.tsx --fix",
     "prettier:check": "prettier '**/*.{ts,tsx,css}' --check",
     "prettier:write": "prettier '**/*.{ts,tsx,css}' --write",
     "test": "NODE_ENV=unit-test jest --config=jest.unit.config.js --detectOpenHandles",
