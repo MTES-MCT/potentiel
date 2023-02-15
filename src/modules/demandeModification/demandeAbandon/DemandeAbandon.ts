@@ -1,5 +1,6 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '../../shared'
 import {
   AbandonDemandé,
@@ -16,7 +17,7 @@ export const statutsDemandeAbandon = [
   'annulée',
   'accordée',
   'refusée',
-  'en-instruction',
+  'en instruction',
   'en attente de confirmation',
   'demande confirmée',
 ] as const
@@ -65,6 +66,8 @@ export const makeDemandeAbandon = (
         return { ...agregat, statut: 'en attente de confirmation' }
       case RejetAbandonAnnulé.type:
         return { ...agregat, statut: 'envoyée' }
+      case ModificationRequestInstructionStarted.type:
+        return { ...agregat, statut: 'en instruction' }
       default:
         return agregat
     }

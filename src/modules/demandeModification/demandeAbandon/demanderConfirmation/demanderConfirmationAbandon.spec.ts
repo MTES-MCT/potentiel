@@ -99,11 +99,11 @@ describe(`Demander une confirmation d'abandon`, () => {
   })
 
   describe(`Possible de demander une confirmation d'abandon avec le statut 
-            'envoyée' ou 'en-instruction' et le role admin`, () => {
+            'envoyée' ou 'en instruction' et le role admin`, () => {
     describe(`Etant donné un utilisateur Admin ou DGEC`, () => {
       const user = { role: 'admin' } as User
 
-      for (const statut of ['envoyée', 'en-instruction']) {
+      for (const statut of ['envoyée', 'en instruction']) {
         it(`
             Lorsqu'il accorde une demande de confirmation d'abandon avec comme statut '${statut}'
             Alors le courrier de réponse devrait être sauvegardé

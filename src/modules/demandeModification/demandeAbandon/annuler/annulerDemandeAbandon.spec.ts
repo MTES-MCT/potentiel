@@ -14,102 +14,93 @@ describe(`Commande annuler demande d'abandon`, () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
   beforeEach(() => publishToEventStore.mockClear())
 
-  describe(`Annulation impossible si le porteur n'a pas les droits sur le projet`, () => {
-    describe(`Etant donné un porteur n'ayant pas les droits sur le projet`, () => {
-      it(`Lorsqu'il annule une demande d'abandon,
-          Alors une erreur UnauthorizedError devrait être retournée`, async () => {
-        const demandeAbandonRepo = fakeTransactionalRepo(
-          makeFakeDemandeAbandon({ projetId: 'le-projet-de-la-demande' })
-        )
+  it(`Etant donné un porteur n'ayant pas les droits sur le projet,
+      Lorsqu'il souhaite annuler une demande d'abandon,
+      Alors il devrait être informé qu'il n'a pas les droits nécessaire pour réaliser cette action`, async () => {
+    const demandeAbandonRepo = fakeTransactionalRepo(
+      makeFakeDemandeAbandon({ projetId: 'le-projet-de-la-demande' })
+    )
 
-        const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
-          shouldUserAccessProject: jest.fn(async () => false),
-          demandeAbandonRepo,
-          publishToEventStore,
+    const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
+      shouldUserAccessProject: jest.fn(async () => false),
+      demandeAbandonRepo,
+      publishToEventStore,
+    })
+
+    const res = await annulerDemandeAbandon({ user, demandeAbandonId: 'la-demande-a-annuler' })
+
+    expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
+    expect(publishToEventStore).not.toHaveBeenCalled()
+  })
+
+  const statutsIncompatiblesAvecAnnulation: StatutDemandeAbandon[] = statutsDemandeAbandon.filter(
+    (statut) => !['envoyée', 'en instruction', 'en attente de confirmation'].includes(statut)
+  )
+
+  for (const statut of statutsIncompatiblesAvecAnnulation) {
+    it(`Étant donné un porteur ayant les droits sur le projet
+            Lorsqu'il annule une demande d'abandon en statut ${statut},
+            Alors il devrait être prévenu que le statut est incompatible pour une annulation`, async () => {
+      const demandeAbandonId = 'la-demande-a-annuler'
+
+      const demandeAbandonRepo = fakeTransactionalRepo(
+        makeFakeDemandeAbandon({
+          id: demandeAbandonId,
+          statut,
+          projetId: 'le-projet-de-la-demande',
         })
+      )
 
-        const res = await annulerDemandeAbandon({ user, demandeAbandonId: 'la-demande-a-annuler' })
-
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-        expect(publishToEventStore).not.toHaveBeenCalled()
+      const annulerDemandéAbandon = makeAnnulerDemandeAbandon({
+        shouldUserAccessProject: jest.fn(async () => true),
+        demandeAbandonRepo,
+        publishToEventStore,
       })
+
+      const res = await annulerDemandéAbandon({ user, demandeAbandonId })
+
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatusPreventsCancellingError)
+      expect(publishToEventStore).not.toHaveBeenCalled()
     })
-  })
+  }
 
-  describe(`Annulation possible si le porteur a les droits sur le projet`, () => {
-    describe(`Etant donné un porteur ayant les droits sur le projet`, () => {
-      describe(`Etant donnée une demande d'abandon dont le statut n'est pas compatible avec une annulation`, () => {
-        const statutsIncompatiblesAvecAnnulation: StatutDemandeAbandon[] =
-          statutsDemandeAbandon.filter(
-            (statut) => !['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)
-          )
+  const statutsCompatiblesAvecAnnulation = [
+    'envoyée',
+    'en instruction',
+    'en attente de confirmation',
+  ] as StatutDemandeAbandon[]
+  for (const statut of statutsCompatiblesAvecAnnulation) {
+    it(`Étant donné un porteur ayant les droits sur le projet
+        Lorsqu'il annule une demande d'abandon en statut ${statut},
+        Alors la demande d'abandon devrait être annulé`, async () => {
+      const demandeAbandonId = 'la-demande-a-annuler'
 
-        for (const statut of statutsIncompatiblesAvecAnnulation) {
-          it(`Lorsque le porteur annule une demande d'abandon en statut ${statut},
-              Alors une erreur StatusPreventsCancellingError devrait être émise`, async () => {
-            const demandeAbandonId = 'la-demande-a-annuler'
+      const demandeAbandonRepo = fakeTransactionalRepo(
+        makeFakeDemandeAbandon({
+          id: demandeAbandonId,
+          statut,
+          projetId: 'identifiant-projet',
+        })
+      )
 
-            const demandeAbandonRepo = fakeTransactionalRepo(
-              makeFakeDemandeAbandon({
-                id: demandeAbandonId,
-                statut,
-                projetId: 'le-projet-de-la-demande',
-              })
-            )
-
-            const annulerDemandéAbandon = makeAnnulerDemandeAbandon({
-              shouldUserAccessProject: jest.fn(async () => true),
-              demandeAbandonRepo,
-              publishToEventStore,
-            })
-
-            const res = await annulerDemandéAbandon({ user, demandeAbandonId })
-
-            expect(res._unsafeUnwrapErr()).toBeInstanceOf(StatusPreventsCancellingError)
-            expect(publishToEventStore).not.toHaveBeenCalled()
-          })
-        }
+      const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
+        shouldUserAccessProject: jest.fn(async () => true),
+        demandeAbandonRepo,
+        publishToEventStore,
       })
 
-      describe(`Etant donnée une demande d'abandon dont le statut est compatible avec une annulation`, () => {
-        const statutsCompatiblesAvecAnnulation = [
-          'envoyée',
-          'en-instruction',
-        ] as StatutDemandeAbandon[]
-        for (const statut of statutsCompatiblesAvecAnnulation) {
-          it(`Lorsque le porteur annule une demande d'abandon en statut ${statut},
-              Alors une événement "AbandonAnnulé" devrait être émis`, async () => {
-            const demandeAbandonId = 'la-demande-a-annuler'
+      await annulerDemandeAbandon({ user, demandeAbandonId })
 
-            const demandeAbandonRepo = fakeTransactionalRepo(
-              makeFakeDemandeAbandon({
-                id: demandeAbandonId,
-                statut,
-                projetId: 'identifiant-projet',
-              })
-            )
-
-            const annulerDemandeAbandon = makeAnnulerDemandeAbandon({
-              shouldUserAccessProject: jest.fn(async () => true),
-              demandeAbandonRepo,
-              publishToEventStore,
-            })
-
-            await annulerDemandeAbandon({ user, demandeAbandonId })
-
-            expect(publishToEventStore).toHaveBeenCalledWith(
-              expect.objectContaining({
-                type: 'AbandonAnnulé',
-                payload: expect.objectContaining({
-                  demandeAbandonId,
-                  annuléPar: user.id,
-                  projetId: 'identifiant-projet',
-                }),
-              })
-            )
-          })
-        }
-      })
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'AbandonAnnulé',
+          payload: expect.objectContaining({
+            demandeAbandonId,
+            annuléPar: user.id,
+            projetId: 'identifiant-projet',
+          }),
+        })
+      )
     })
-  })
+  }
 })

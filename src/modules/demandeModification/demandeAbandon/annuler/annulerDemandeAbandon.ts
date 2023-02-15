@@ -35,7 +35,7 @@ export const makeAnnulerDemandeAbandon =
           if (!userHasRightsToProject) {
             return errAsync(new UnauthorizedError())
           }
-          if (statut !== 'envoyée' && statut !== 'en-instruction') {
+          if (!['envoyée', 'en instruction', 'en attente de confirmation'].includes(statut)) {
             return errAsync(new StatusPreventsCancellingError(statut || 'inconnu'))
           }
           return publishToEventStore(

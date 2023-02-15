@@ -37,7 +37,7 @@ export const makeRejeterDemandeAbandon =
       (demandeAbandon) => {
         const { statut, projetId } = demandeAbandon
 
-        if (!['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)) {
+        if (!['envoyée', 'en instruction', 'demande confirmée'].includes(statut)) {
           return errAsync(
             new RejeterDemandeAbandonError(
               demandeAbandon,

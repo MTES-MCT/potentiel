@@ -34,7 +34,7 @@ export const makeAccorderDemandeAbandon =
         const { projetId, statut } = demandeAbandon
         if (!projetId) return errAsync(new InfraNotAvailableError())
 
-        if (!['envoyée', 'en-instruction', 'demande confirmée'].includes(statut)) {
+        if (!['envoyée', 'en instruction', 'demande confirmée'].includes(statut)) {
           return errAsync(
             new AccorderDemandeAbandonError(
               demandeAbandon,

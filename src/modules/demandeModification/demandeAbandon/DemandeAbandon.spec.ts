@@ -1,4 +1,5 @@
 import { UniqueEntityID } from '@core/domain'
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest'
 
 import { makeDemandeAbandon } from './DemandeAbandon'
 import {
@@ -188,6 +189,26 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'envoyée',
+      })
+  })
+
+  it(`Quand on fabrique la demande d'abandon avec un événement 'ModificationRequestInstructionStarted'
+      Alors la demande a un statut 'en instruction'`, () => {
+    const demandeAbandon = makeDemandeAbandon({
+      id: new UniqueEntityID('la-demande'),
+      events: [
+        new ModificationRequestInstructionStarted({
+          payload: {
+            modificationRequestId: 'la-demande',
+          },
+        }),
+      ],
+    })
+
+    expect(demandeAbandon.isOk()).toBe(true)
+    demandeAbandon.isOk() &&
+      expect(demandeAbandon.value).toMatchObject({
+        statut: 'en instruction',
       })
   })
 })
