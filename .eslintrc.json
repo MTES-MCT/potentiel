@@ -3,26 +3,38 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["prettier"],
+  "extends": [
+    "prettier"
+  ],
   // Prevent ESLint from yelling at chai assertions (e.g : expect(undefined).to.be.undefined)
   "overrides": [
     {
-      "files": ["cypress/**/*.js"],
+      "files": [
+        "cypress/**/*.js"
+      ],
       "rules": {
         "no-unused-expressions": "off"
       }
     },
     {
-      "files": ["src/config/**/*.ts}"],
+      "files": [
+        "src/config/**/*.ts}"
+      ],
       "rules": {
         "no-console": "off"
       }
     }
   ],
-  "plugins": ["import", "unused-imports"],
+  "plugins": [
+    "import",
+    "unused-imports"
+  ],
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
     },
     "import/resolver": {
       "typescript": true
@@ -36,16 +48,30 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-
   "rules": {
+    "no-console": "warn",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
       "warn",
-      { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
     ],
-    "import/no-useless-path-segments": ["error"],
-    "import/no-duplicates": ["error", { "considerQueryString": true }],
-    "import/no-unassigned-import": ["error"]
+    "import/no-useless-path-segments": [
+      "error"
+    ],
+    "import/no-duplicates": [
+      "error",
+      {
+        "considerQueryString": true
+      }
+    ],
+    "import/no-unassigned-import": [
+      "error"
+    ]
   }
 }
