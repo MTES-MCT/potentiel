@@ -9,7 +9,7 @@
     "build": "npm run build:front && npm run build:css && npm run build:back",
     "build:back": "ttsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:front": "webpack --config=webpack.config.js",
-    "build:css": "npx tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
+    "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "prebuild:migrations": "rimraf dist/migrations",
     "build:migrations": "ttsc --build tsconfig.migrations.json",
     "generate:doc": "ts-node ./devtools/generateEventsDoc",
