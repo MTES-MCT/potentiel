@@ -6,7 +6,7 @@ import {
   PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project'
 import routes from '@routes'
-import { addQueryParams } from 'src/helpers/addQueryParams'
+import { addQueryParams } from '../../helpers/addQueryParams'
 import { object, string } from 'yup'
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers'
 import safeAsyncHandler from '../helpers/safeAsyncHandler'
