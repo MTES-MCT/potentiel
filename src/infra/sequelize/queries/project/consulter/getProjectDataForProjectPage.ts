@@ -8,6 +8,7 @@ import routes from '@routes'
 import { format } from 'date-fns'
 import { userIs, userIsNot } from '@modules/users'
 import { Project } from '../../../projections/project/project.model'
+import { Raccordements } from '@infra/sequelize'
 
 const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models
 
@@ -19,6 +20,11 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: File,
           as: 'certificateFile',
           attributes: ['id', 'filename'],
+        },
+        {
+          model: Raccordements,
+          as: 'raccordements',
+          attributes: ['identifiantGestionnaire'],
         },
         {
           model: UserProjects,
@@ -147,7 +153,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           contratEDF,
           contratEnedis,
-          numeroGestionnaire,
+          raccordements,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -220,9 +226,10 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'dgec-validateur',
             'cre',
           ])(user) &&
-            numeroGestionnaire && {
+            raccordements &&
+            raccordements.identifiantGestionnaire && {
               gestionnaireDeRéseau: {
-                numeroGestionnaire,
+                identifiantGestionnaire: raccordements.identifiantGestionnaire,
               },
             }),
         })

@@ -68,7 +68,7 @@ export const ProjectDetails = ({
             <MaterielsEtTechnologies {...{ project }} />
 
             <GestionnaireDeRéseau
-              numeroGestionnaire={project.gestionnaireDeRéseau?.numeroGestionnaire}
+              identifiantGestionnaire={project.gestionnaireDeRéseau?.identifiantGestionnaire}
               projetId={project.id}
               role={user.role}
             />
