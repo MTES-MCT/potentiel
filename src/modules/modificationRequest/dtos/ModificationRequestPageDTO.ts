@@ -56,7 +56,7 @@ export type ModificationRequestPageDTO = {
     appelOffreId: string
     periodeId: string
     familleId: string | undefined
-    numeroGestionnaire: string | undefined
+    identifiantGestionnaire: string | undefined
     actionnaire: string
     potentielIdentifier: string
     technologie: Technologie

@@ -17,7 +17,7 @@ type ProjectInfoProps = {
     familleId: string | undefined
     notifiedOn: number
     appelOffreId: string
-    numeroGestionnaire?: string
+    identifiantGestionnaire?: string
     puissance?: number
     appelOffre?: AppelOffre
     unitePuissance?: string
@@ -38,7 +38,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
     familleId,
     notifiedOn,
     appelOffreId,
-    numeroGestionnaire,
+    identifiantGestionnaire,
     puissance,
     appelOffre,
     unitePuissance,
@@ -82,7 +82,9 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
           <span {...dataId('modificationRequest-item-famille')}>famille {familleId}</span>
         )}
       </p>
-      {numeroGestionnaire && <div>Identifiant gestionnaire de réseau : {numeroGestionnaire}</div>}
+      {identifiantGestionnaire && (
+        <div>Identifiant gestionnaire de réseau : {identifiantGestionnaire}</div>
+      )}
       {children}
     </div>
   )
