@@ -1,4 +1,5 @@
 export * from './onLegacyProjectSourced'
+export * from './onNumeroGestionnaireSubmitted'
 export * from './onProjectImported'
 export * from './onProjectPTFRemoved'
 export * from './onProjectPTFSubmitted'
