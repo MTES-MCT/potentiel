@@ -74,7 +74,6 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
     ])
 
     const exportProjets = await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
-    console.log(exportProjets)
     expect(exportProjets.isOk()).toBe(true)
 
     expect(exportProjets._unsafeUnwrap().colonnes).toEqual(colonnesÀExporter)

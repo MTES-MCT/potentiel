@@ -35,7 +35,6 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
       })
     ).andThen((projet) => {
       if (!projet) return err(new EntityNotFoundError())
-      console.log(projet.raccordements)
       const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
         id: projet.id,
         appelOffreId: projet.appelOffreId,
