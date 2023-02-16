@@ -85,7 +85,7 @@ models.Project.hasOne(GarantiesFinancières, {
 })
 
 models.Project.hasOne(Raccordements, {
-  as: 'raccordement',
+  as: 'raccordements',
   foreignKey: 'projetId',
 })
 

@@ -26,7 +26,7 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       `, async () => {
     // Arrange
     await Project.create(fakeProjet)
-    const identifiantGestionnaire = 'indentifiant'
+    const identifiantGestionnaire = 'identifiant'
 
     await Raccordements.create({
       projetId: fakeProjet.id,
@@ -35,9 +35,9 @@ describe("Récupérer les données pour la page de modification de l'identifiant
     })
 
     // Act
-    const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
-    )._unsafeUnwrap()
+    const résultat = await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
+    console.log(résultat)
+    expect(résultat.isOk()).toBe(true)
 
     // Assert
     const expected: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
@@ -51,10 +51,10 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       familleId: fakeProjet.familleId,
       notifiedOn,
       appelOffreId: fakeProjet.appelOffreId,
-      numeroGestionnaire: 'identifiant',
+      identifiantGestionnaire,
     }
 
-    expect(résultat).toEqual(expected)
+    expect(résultat._unsafeUnwrap()).toEqual(expected)
   })
 
   it(`
@@ -64,11 +64,11 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   `, async () => {
     await Project.create(fakeProjet)
 
-    const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
-    )._unsafeUnwrap()
+    const résultat = await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
 
-    expect(résultat).toMatchObject({
+    expect(résultat.isOk()).toBe(true)
+
+    expect(résultat._unsafeUnwrap()).toMatchObject({
       id: fakeProjet.id,
       nomProjet: fakeProjet.nomProjet,
       nomCandidat: fakeProjet.nomCandidat,

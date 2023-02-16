@@ -2,7 +2,7 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribut
 import { Technologie } from '@entities'
 import { ContratEDF } from '@modules/edf'
 import { ContratEnedis } from '@modules/enedis'
-import { GarantiesFinancières } from '../../projectionsNext'
+import { GarantiesFinancières, Raccordements } from '../../projectionsNext'
 
 export class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string
@@ -49,6 +49,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   dateFileAttente?: Date
   soumisAuxGF: boolean
   garantiesFinancières?: NonAttribute<GarantiesFinancières>
+  raccordements?: NonAttribute<Raccordements>
 }
 
 export const MakeProjectModel = (sequelize) => {
