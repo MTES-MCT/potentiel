@@ -200,10 +200,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           ...(userIs([
             'admin',
             'porteur-projet',
+            'dreal',
             'acheteur-obligé',
-            'ademe',
             'dgec-validateur',
-            'caisse-des-dépôts',
             'cre',
           ])(user) && {
             prixReference,
