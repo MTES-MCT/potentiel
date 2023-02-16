@@ -36,7 +36,6 @@ describe("Récupérer les données pour la page de modification de l'identifiant
 
     // Act
     const résultat = await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
-    console.log(résultat)
     expect(résultat.isOk()).toBe(true)
 
     // Assert

@@ -54,7 +54,6 @@ const deserialize = (item) => ({
   dcrFileId: item.dcrFileId || '',
   dcrDueOn: item.dcrDueOn || 0,
   certificateFileId: item.certificateFileId || '',
-  numeroGestionnaire: item.numeroGestionnaire || '',
   garantiesFinancières: deserializeGarantiesFinancières(item.garantiesFinancières),
   dcrDate: item.dcr?.stepDate.getTime() || 0,
   dcrSubmittedOn: item.dcr?.submittedOn.getTime() || 0,
@@ -216,10 +215,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     },
     certificateFileId: {
       type: DataTypes.UUID,
-      allowNull: true,
-    },
-    numeroGestionnaire: {
-      type: DataTypes.STRING,
       allowNull: true,
     },
     cahierDesChargesActuel: {
