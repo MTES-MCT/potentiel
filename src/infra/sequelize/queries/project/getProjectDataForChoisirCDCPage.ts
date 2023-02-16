@@ -4,15 +4,29 @@ import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import { GetProjectDataForChoisirCDCPage, ProjectDataForChoisirCDCPage } from '@modules/project'
 import { CahierDesChargesRéférence } from '@entities'
+import { Raccordements } from '../../projectionsNext/raccordements/raccordements.model'
 
 const { Project } = models
 
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) => {
-  return wrapInfra(Project.findByPk(projectId)).andThen((projectRaw) => {
-    if (!projectRaw) return err(new EntityNotFoundError())
+  return wrapInfra(
+    Project.findOne({
+      where: {
+        id: projectId,
+      },
+      include: [
+        {
+          model: Raccordements,
+          as: 'raccordements',
+          attributes: ['identifiantGestionnaire'],
+        },
+      ],
+    })
+  ).andThen((project) => {
+    if (!project) return err(new EntityNotFoundError())
 
-    const { id, appelOffreId, periodeId, familleId, cahierDesChargesActuel, numeroGestionnaire } =
-      projectRaw.get()
+    const { id, appelOffreId, periodeId, familleId, cahierDesChargesActuel, raccordements } =
+      project
 
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
     if (!appelOffre) return err(new EntityNotFoundError())
@@ -21,7 +35,10 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
       id,
       appelOffre,
       cahierDesChargesActuel: cahierDesChargesActuel as CahierDesChargesRéférence,
-      identifiantGestionnaireRéseau: numeroGestionnaire,
+      ...(raccordements &&
+        raccordements.identifiantGestionnaire && {
+          identifiantGestionnaireRéseau: raccordements.identifiantGestionnaire,
+        }),
     }
 
     return ok(pageProps)

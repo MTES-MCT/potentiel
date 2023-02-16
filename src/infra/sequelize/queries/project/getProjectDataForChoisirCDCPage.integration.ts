@@ -4,9 +4,12 @@ import { resetDatabase } from '../../helpers'
 import models from '../../models'
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage'
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { Raccordements } from '@infra/sequelize'
+import { ProjectDataForChoisirCDCPage } from '@modules/project'
 
 const { Project } = models
-const projectId = new UniqueEntityID().toString()
+const projetId = new UniqueEntityID().toString()
+const identifiantGestionnaire = 'identifiant'
 
 describe('Récupérer les données pour la page du choix du cahier des charges', () => {
   it(`Lorsqu'on récupère les données pour la page du choix des CDC
@@ -17,7 +20,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
 
     await Project.create(
       makeFakeProject({
-        id: projectId,
+        id: projetId,
         appelOffreId: 'Fessenheim',
         periodeId: '1',
         familleId: 'familleId',
@@ -26,12 +29,21 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       })
     )
 
-    const res = (await getProjectDataForChoisirCDCPage(projectId))._unsafeUnwrap()
+    await Raccordements.create({
+      projetId,
+      id: new UniqueEntityID().toString(),
+      identifiantGestionnaire,
+    })
 
-    expect(res).toMatchObject({
-      id: projectId,
+    const res = (await getProjectDataForChoisirCDCPage(projetId))._unsafeUnwrap()
+
+    const expected: Partial<ProjectDataForChoisirCDCPage> = {
+      id: projetId,
       appelOffre: getProjectAppelOffre({ appelOffreId: 'Fessenheim', periodeId: '1' }),
       cahierDesChargesActuel: '30/07/2021',
-    })
+      identifiantGestionnaireRéseau: identifiantGestionnaire,
+    }
+
+    expect(res).toMatchObject(expected)
   })
 })
