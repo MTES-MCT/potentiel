@@ -7,6 +7,7 @@ import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneD�
 import { Literal } from 'sequelize/types/utils'
 import { Project } from '../../../../projections/project/project.model'
 import { Op } from 'sequelize'
+import { Raccordements } from '@infra/sequelize'
 
 const { Project: ProjectModel, UserProjects } = models
 
@@ -43,6 +44,11 @@ export const récupérerExportProjets = ({
         {
           model: GarantiesFinancières,
           as: 'garantiesFinancières',
+          attributes: [],
+        },
+        {
+          model: Raccordements,
+          as: 'raccordements',
           attributes: [],
         },
         ...(seulementLesProjetsAvecAccèsPour

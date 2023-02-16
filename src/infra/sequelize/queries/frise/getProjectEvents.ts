@@ -47,7 +47,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         },
         {
           model: Raccordements,
-          as: 'raccordement',
+          as: 'raccordements',
           include: [{ model: File, as: 'ptfFichier' }],
         },
       ],

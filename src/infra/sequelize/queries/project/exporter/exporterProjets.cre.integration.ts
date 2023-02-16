@@ -73,14 +73,14 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
       }),
     ])
 
-    const exportProjets = (
-      await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
-    )._unsafeUnwrap()
+    const exportProjets = await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
+    console.log(exportProjets)
+    expect(exportProjets.isOk()).toBe(true)
 
-    expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
+    expect(exportProjets._unsafeUnwrap().colonnes).toEqual(colonnesÀExporter)
 
-    expect(exportProjets.données).toHaveLength(3)
-    expect(exportProjets.données).toEqual(
+    expect(exportProjets._unsafeUnwrap().données).toHaveLength(3)
+    expect(exportProjets._unsafeUnwrap().données).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           'Nom projet': 'Projet Eolien',
