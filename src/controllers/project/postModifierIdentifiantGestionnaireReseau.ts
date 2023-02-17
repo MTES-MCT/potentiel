@@ -58,9 +58,11 @@ v1Router.post(
             error instanceof IdentifiantGestionnaireRéseauExistantError ||
             error instanceof IdentifiantGestionnaireRéseauObligatoireError
           ) {
-            return addQueryParams(routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId), {
-              error,
-            })
+            return response.redirect(
+              addQueryParams(routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId), {
+                error: error.message,
+              })
+            )
           }
           logger.error(error)
           return errorResponse({
