@@ -1,7 +1,9 @@
 import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/donnéesRaccordement'
 import { okAsync, wrapInfra } from '@core/utils'
-import { Raccordements } from '../../projectionsNext'
+import models from '../../models'
 import { Op } from 'sequelize'
+
+const Raccordements = models.Raccordements
 
 export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau =
   (identifiantsGestionnaireRéseau) => {
