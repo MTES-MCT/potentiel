@@ -155,9 +155,9 @@ describe('Requête getModificationRequestDetails', () => {
 
   describe(`Données de raccordement attendues`, () => {
     it(`Etant donné un projet ayant un identifiant de gestionnaire réseau,
-      et une demande, 
+      et une demande de modification, 
       lorsqu'un utilisateur affiche le détail de la demande,
-      alors la requête devrait l'identifiant de gestionnnaire réseau`, async () => {
+      alors la requête devrait retourner l'identifiant de gestionnnaire réseau`, async () => {
       const identifiantGestionnaire = 'identifiant-du-gestionnaire'
       await Raccordements.create({
         id: new UniqueEntityID().toString(),
