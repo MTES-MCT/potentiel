@@ -4,102 +4,66 @@ import models from '../../../models'
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage'
 import { v4 as uuid } from 'uuid'
 import { User } from '@entities'
+import { UserRole } from '@modules/users'
 
 const { Project } = models
 
-describe(`Récupérer les données de consultation d'un projet`, () => {
-  beforeEach(resetDatabase)
+describe(`Récupérer les données relatives au prix de référence d'un projet`, () => {
+  const projetId = uuid()
+  const roleAutorisés: Array<UserRole> = [
+    'admin',
+    'porteur-projet',
+    'dreal',
+    'acheteur-obligé',
+    'dgec-validateur',
+    'cre',
+  ]
+  const roleNonAutorisés: Array<UserRole> = ['ademe', 'caisse-des-dépôts']
 
-  describe(`Données sur le prix`, () => {
-    describe(`Ne pas récupérer les données sur le prix pour les utilisateurs autres que admin/dgec`, () => {
-      for (const role of ['ademe', 'caisse-des-dépôts']) {
-        it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
-            Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
-          const idProjet = uuid()
+  beforeEach(async () => {
+    await resetDatabase()
 
-          await Project.create(
-            makeFakeProject({
-              id: idProjet,
-              appelOffreId: 'Fessenheim',
-              notifiedOn: 1234,
-              numeroGestionnaire: 'NUM-GEST-RESEAU',
-            })
-          )
+    await Project.create(
+      makeFakeProject({
+        id: projetId,
+        appelOffreId: 'Fessenheim',
+        notifiedOn: 1234,
+        prixReference: 90,
+      })
+    )
+  })
 
-          const donnéesProjet = (
-            await getProjectDataForProjectPage({
-              projectId: idProjet,
-              user: { role } as User,
-            })
-          )._unsafeUnwrap()
-
-          expect(donnéesProjet.gestionnaireDeRéseau).toBeUndefined()
-        })
-      }
-    })
-
-    describe(`Ne pas récupérer les données de gestionnaire de réseau si aucun identifiant n'est renseigné`, () => {
-      it(`Étant donné un projet sans identifiant de gestionnaire de réseau
-            Lorsqu'un porteur de projet récupère les données d'un projet
-            Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
-        const idProjet = uuid()
-
-        await Project.create(
-          makeFakeProject({
-            id: idProjet,
-            appelOffreId: 'Fessenheim',
-            notifiedOn: 1234,
-            numeroGestionnaire: undefined,
-          })
-        )
-
+  describe(`Ne pas récupérer les données sur le prix de référence pour les utilisateurs non autorisés`, () => {
+    for (const role of roleNonAutorisés) {
+      it(`Étant donné un projet avec un prix de référence
+            Quand un utilisateur ${role} récupère les données d'un projet
+            Alors le prix de référence ne devrait pas être récupéré`, async () => {
         const donnéesProjet = (
           await getProjectDataForProjectPage({
-            projectId: idProjet,
-            user: { role: 'admin' } as User,
+            projectId: projetId,
+            user: { role } as User,
           })
         )._unsafeUnwrap()
 
-        expect(donnéesProjet.gestionnaireDeRéseau).toBeUndefined()
+        expect(donnéesProjet.prixReference).toBeUndefined()
       })
-    })
+    }
+  })
 
-    describe(`Récupérer les données de gestionnaire de réseau pour tous les utilisateurs sauf les ademe et caisse des dépôts`, () => {
-      for (const role of [
-        'admin',
-        'porteur-projet',
-        'dreal',
-        'acheteur-obligé',
-        'dgec-validateur',
-        'cre',
-      ]) {
-        it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
-            Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
-          const idProjet = uuid()
-
-          await Project.create(
-            makeFakeProject({
-              id: idProjet,
-              appelOffreId: 'Fessenheim',
-              notifiedOn: 1234,
-              numeroGestionnaire: 'NUM-GEST-RESEAU',
-              dateMiseEnService: new Date('2023-12-31'),
-              dateFileAttente: new Date('2022-06-30'),
-            })
-          )
-
-          const donnéesProjet = (
-            await getProjectDataForProjectPage({
-              projectId: idProjet,
-              user: { role } as User,
-            })
-          )._unsafeUnwrap()
-
-          expect(donnéesProjet.gestionnaireDeRéseau).toEqual({
-            numeroGestionnaire: 'NUM-GEST-RESEAU',
+  describe(`Récupérer les données sur le prix de référence pour les utilisateurs autorisés`, () => {
+    for (const role of roleAutorisés) {
+      it(`Étant donné un projet avec un prix de référence
+            Quand un utilisateur ${role} récupère les données d'un projet
+            Alors le prix de référence devrait être récupéré`, async () => {
+        const donnéesProjet = (
+          await getProjectDataForProjectPage({
+            projectId: projetId,
+            user: { role } as User,
           })
-        })
-      }
-    })
+        )._unsafeUnwrap()
+
+        expect(donnéesProjet.prixReference).toEqual(90)
+      })
+    }
   })
 })

@@ -6,7 +6,7 @@ export type ProjectDataForChoisirCDCPage = {
   id: string
   appelOffre: ProjectAppelOffre
   cahierDesChargesActuel: CahierDesChargesRéférence
-  identifiantGestionnaireRéseau: string
+  identifiantGestionnaireRéseau?: string
 }
 
 export type GetProjectDataForChoisirCDCPage = (

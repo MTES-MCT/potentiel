@@ -18,7 +18,7 @@ export type ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
   familleId: string
   notifiedOn: number
   appelOffreId: string
-  numeroGestionnaire?: string
+  identifiantGestionnaire?: string
 }
 
 export type GetProjectDataForModifierIdentifiantGestionnaireReseauPage = (

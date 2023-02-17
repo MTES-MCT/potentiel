@@ -174,28 +174,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     })
   })
 
-  describe('when user is dreal', () => {
-    const user = makeFakeUser({ role: 'dreal' })
-
-    beforeAll(async () => {
-      await resetDatabase()
-
-      await Project.create(makeFakeProject(projectInfo))
-      await File.create(makeFakeFile({ id: certificateFileId, filename: 'filename' }))
-    })
-
-    it('should not include the prixReference', async () => {
-      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
-
-      expect(res).not.toHaveProperty('prixReference')
-    })
-    it('should not include the certificate', async () => {
-      const res = (await getProjectDataForProjectPage({ projectId, user }))._unsafeUnwrap()
-
-      expect(res).not.toHaveProperty('certificateFile')
-    })
-  })
-
   describe('when project is legacy', () => {
     it('should include isLegacy: true', async () => {
       await resetDatabase()

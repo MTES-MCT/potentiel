@@ -138,5 +138,5 @@ type AlerteAnnulationAbandon =
     }
 
 type GestionnaireDeRéseau = {
-  numeroGestionnaire: string
+  identifiantGestionnaire: string
 }

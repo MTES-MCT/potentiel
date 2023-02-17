@@ -3,4 +3,4 @@ import { InfraNotAvailableError } from '@modules/shared'
 
 export type GetProjetsParIdentifiantGestionnaireRéseau = (
   identifiantsGestionnaireRéseau: Array<string>
-) => ResultAsync<Record<string, Array<{ id: string }>>, InfraNotAvailableError>
+) => ResultAsync<Record<string, Array<{ projetId: string }>>, InfraNotAvailableError>

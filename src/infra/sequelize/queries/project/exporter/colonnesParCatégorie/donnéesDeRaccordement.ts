@@ -1,3 +1,4 @@
+import { literal } from 'sequelize'
 import { Colonne } from '../Colonne'
 
 export const donnéesDeRaccordement: Readonly<Array<Colonne>> = [
@@ -28,8 +29,9 @@ export const donnéesDeRaccordement: Readonly<Array<Colonne>> = [
     intitulé: 'Date de mise en service',
   },
   {
-    nomColonneTableProjet: 'numeroGestionnaire',
-    source: 'champ-simple',
+    aliasColonne: 'identifiantGestionnaire',
+    source: 'expression-sql',
     intitulé: 'Numéro de gestionnaire réseau',
+    expressionSql: literal(`"raccordements"."identifiantGestionnaire"`),
   },
 ]

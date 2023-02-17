@@ -11,6 +11,7 @@ import {
   CahierDesChargesRéférence,
   ProjectAppelOffre,
 } from '@entities'
+import { Raccordements } from '@infra/sequelize'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -47,11 +48,13 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
             'appelOffreId',
             'periodeId',
             'familleId',
-            'numeroGestionnaire',
             'completionDueOn',
             'potentielIdentifier',
             'technologie',
             'cahierDesChargesActuel',
+          ],
+          include: [
+            { model: Raccordements, as: 'raccordements', attributes: ['identifiantGestionnaire'] },
           ],
         },
         {
@@ -73,7 +76,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
     })
   ).andThen((modificationRequestRaw: any) => {
     if (!modificationRequestRaw) return err(new EntityNotFoundError())
-
     const {
       id,
       type,
@@ -102,7 +104,8 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       cahierDesCharges: cahierDesChargesRéférence,
     } = modificationRequestRaw.get()
 
-    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get()
+    const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie, raccordements } =
+      project.get()
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
 
     return ok<ModificationRequestPageDTO>({
@@ -133,6 +136,10 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         completionDueOn: new Date(completionDueOn).getTime(),
         unitePuissance: appelOffre?.unitePuissance || '??',
         technologie: technologie || 'N/A',
+        ...(raccordements &&
+          raccordements.identifiantGestionnaire && {
+            identifiantGestionnaire: raccordements.identifiantGestionnaire,
+          }),
       },
       ...(type === 'puissance' && {
         puissanceAuMomentDuDepot,

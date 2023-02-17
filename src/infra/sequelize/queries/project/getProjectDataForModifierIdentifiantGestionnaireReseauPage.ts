@@ -5,6 +5,7 @@ import {
   GetProjectDataForModifierIdentifiantGestionnaireReseauPage,
   ProjectDataForModifierIdentifiantGestionnaireReseauPage,
 } from '@modules/project'
+import { Raccordements } from '@infra/sequelize/projectionsNext'
 
 const { Project } = models
 
@@ -14,7 +15,6 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
       Project.findByPk(projectId, {
         attributes: [
           'id',
-          'numeroGestionnaire',
           'appelOffreId',
           'communeProjet',
           'departementProjet',
@@ -25,10 +25,16 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
           'regionProjet',
           'periodeId',
         ],
+        include: [
+          {
+            model: Raccordements,
+            as: 'raccordements',
+            attributes: ['identifiantGestionnaire'],
+          },
+        ],
       })
     ).andThen((projet) => {
       if (!projet) return err(new EntityNotFoundError())
-
       const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
         id: projet.id,
         appelOffreId: projet.appelOffreId,
@@ -40,7 +46,10 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
         nomProjet: projet.nomProjet,
         regionProjet: projet.regionProjet,
         periodeId: projet.periodeId,
-        ...(projet.numeroGestionnaire && { numeroGestionnaire: projet.numeroGestionnaire }),
+        ...(projet.raccordements &&
+          projet.raccordements.identifiantGestionnaire && {
+            identifiantGestionnaire: projet.raccordements.identifiantGestionnaire,
+          }),
       }
 
       return ok(pageProps)

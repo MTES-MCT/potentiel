@@ -1,8 +1,11 @@
 import { UniqueEntityID } from '@core/domain'
+import { Raccordements } from '@infra/sequelize'
 import makeFakeProject from '../../../../__tests__/fixtures/project'
 import { resetDatabase } from '../../helpers'
 import models from '../../models'
+import * as uuid from 'uuid'
 import { getProjectDataForModifierIdentifiantGestionnaireReseauPage } from './getProjectDataForModifierIdentifiantGestionnaireReseauPage'
+import { ProjectDataForModifierIdentifiantGestionnaireReseauPage } from '@modules/project'
 
 const { Project } = models
 const projetId = new UniqueEntityID().toString()
@@ -21,13 +24,22 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   Alors l'identifiant du projet devrait être retourné
   Et l'identifiant du gestionnaire de réseau devrait être retourné
       `, async () => {
-    await Project.create({ ...fakeProjet, numeroGestionnaire: 'identifiant' })
+    // Arrange
+    await Project.create(fakeProjet)
+    const identifiantGestionnaire = 'identifiant'
 
-    const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
-    )._unsafeUnwrap()
+    await Raccordements.create({
+      projetId: fakeProjet.id,
+      id: uuid.v4(),
+      identifiantGestionnaire,
+    })
 
-    expect(résultat).toMatchObject({
+    // Act
+    const résultat = await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
+    expect(résultat.isOk()).toBe(true)
+
+    // Assert
+    const expected: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
       id: fakeProjet.id,
       nomProjet: fakeProjet.nomProjet,
       nomCandidat: fakeProjet.nomCandidat,
@@ -38,8 +50,10 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       familleId: fakeProjet.familleId,
       notifiedOn,
       appelOffreId: fakeProjet.appelOffreId,
-      numeroGestionnaire: 'identifiant',
-    })
+      identifiantGestionnaire,
+    }
+
+    expect(résultat._unsafeUnwrap()).toEqual(expected)
   })
 
   it(`
@@ -49,11 +63,11 @@ describe("Récupérer les données pour la page de modification de l'identifiant
   `, async () => {
     await Project.create(fakeProjet)
 
-    const résultat = (
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
-    )._unsafeUnwrap()
+    const résultat = await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId)
 
-    expect(résultat).toMatchObject({
+    expect(résultat.isOk()).toBe(true)
+
+    expect(résultat._unsafeUnwrap()).toMatchObject({
       id: fakeProjet.id,
       nomProjet: fakeProjet.nomProjet,
       nomCandidat: fakeProjet.nomCandidat,
