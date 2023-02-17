@@ -20,7 +20,7 @@
     "test:watch": "NODE_ENV=test TEST=unit jest --config=jest.unit.config.js --detectOpenHandles --watch",
     "test-int": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --runInBand",
     "test-int:watch": "NODE_ENV=test jest --config=jest.integration.config.js --detectOpenHandles --watch",
-    "launch-test-db": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker-compose down --remove-orphans && docker-compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
+    "launch-test-db": "export NODE_ENV=test && export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose down --remove-orphans && docker compose -f ./docker-compose-integration.yml up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
     "premigrate": "npm run build:migrations",
     "migrate": "sequelize-cli db:migrate",
     "premigrate:undo": "npm run build:migrations",
