@@ -12,7 +12,7 @@
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "prebuild:migrations": "rimraf dist/migrations",
     "build:migrations": "ttsc --build tsconfig.migrations.json",
-    "prepare": "husky install && cp -n ./.env.template ./.env",
+    "prepare": "husky install",
     "install": "ts-node ./scripts/postInstall.ts",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format:check": "prettier '**/*.{ts,tsx,css}' --check",
