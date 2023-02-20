@@ -22,9 +22,12 @@ if (isProdEnv) {
     console.info(...args)
   })
 
-  logger.on('warningLog', (message: string) => {
+  logger.on('warningLog', (message: string, context?: Record<string, unknown>) => {
     console.warn(message)
     Sentry.captureMessage(message)
+    if (context) {
+      Sentry.setExtra('context', context)
+    }
   })
 
   logger.on('errorLog', (exception: Error | string) => {
