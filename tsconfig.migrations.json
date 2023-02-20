@@ -5,13 +5,7 @@
     "sourceMap": false,
     "inlineSourceMap": true
   },
-  "include": [
-    "src/sequelize.config.ts",
-    "src/infra/sequelize/migrations/*.js",
-    "src/infra/sequelize/migrations/*.ts",
-    "src/infra/sequelize/seeds/*.js",
-    "src/infra/sequelize/seeds/*.ts",
-  ],
+  "include": ["src/sequelize.config.ts", "src/infra/sequelize/migrations/*.js", "src/infra/sequelize/migrations/*.ts"],
   "exclude": [
     "node_modules",
     "features",
