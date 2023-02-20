@@ -38,9 +38,9 @@ export const listerProjetsPourDreal: ListerProjets = async ({
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
-  const régionDreal = await UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
+  const utilisateur = await UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
 
-  if (!régionDreal) {
+  if (!utilisateur?.dreal) {
     logger.warning('Utilisateur DREAL sans région', { userId })
     return makePaginatedList([], 0, pagination)
   }
@@ -50,7 +50,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },
       regionProjet: {
-        [Op.substring]: régionDreal.dreal,
+        [Op.substring]: utilisateur.dreal,
       },
     },
     include: [
