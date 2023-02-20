@@ -1,9 +1,10 @@
 import { DrealUserInvited } from '@modules/authZ'
-import { userDrealProjector } from '../userDreal.model'
+import { UserDrealProjector } from '../userDreal.model'
 
-export const onDrealUserInvited = userDrealProjector
-  .on(DrealUserInvited)
-  .create(({ payload: { region, userId } }) => ({
-    userId,
-    dreal: region,
-  }))
+export default UserDrealProjector.on(DrealUserInvited, async (event) => {
+  return Promise.reject()
+})
+// .create(({ payload: { region, userId } }) => ({
+//   userId,
+//   dreal: region,
+// }))
