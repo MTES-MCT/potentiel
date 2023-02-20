@@ -159,7 +159,7 @@ export const AdminNotificationCandidats = ({
               </div>
             )}
           </div>
-          {projetsPériodeSélectionnée.itemCount > 0 && !success ? (
+          {projetsPériodeSélectionnée.itemCount > 0 && !success && (
             <div className="form__group">
               <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
               <input
@@ -183,8 +183,6 @@ export const AdminNotificationCandidats = ({
                 </Button>
               )}
             </div>
-          ) : (
-            ''
           )}
         </form>
 
