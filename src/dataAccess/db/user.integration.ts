@@ -3,6 +3,7 @@ import makeFakeProject from '../../__tests__/fixtures/project'
 import makeFakeUser from '../../__tests__/fixtures/user'
 import { userRepo, projectRepo, resetDatabase } from '.'
 import { sequelizeInstance } from '../../sequelize.config'
+import { UserDreal, Users } from '@infra/sequelize/projectionsNext'
 
 describe('userRepo sequelizeInstance', () => {
   beforeEach(async () => {
@@ -12,9 +13,7 @@ describe('userRepo sequelizeInstance', () => {
   describe('addToDreal', () => {
     const userId = uuid()
     beforeAll(async () => {
-      const UserModel = sequelizeInstance.model('user')
-
-      await UserModel.create({
+      await Users.create({
         id: userId,
         fullName: '',
         email: '',
@@ -25,9 +24,7 @@ describe('userRepo sequelizeInstance', () => {
     it('should add the dreal to the user', async () => {
       await userRepo.addToDreal(userId, 'Corse')
 
-      const UserDrealModel = sequelizeInstance.model('userDreal')
-
-      const userDreals = await UserDrealModel.findAll({ where: { userId } })
+      const userDreals = await UserDreal.findAll({ where: { userId } })
 
       expect(userDreals).toHaveLength(1)
       //@ts-ignore
@@ -39,17 +36,14 @@ describe('userRepo sequelizeInstance', () => {
     const userId = uuid()
 
     it('return the users associated to the dreal', async () => {
-      const UserModel = sequelizeInstance.model('user')
-      const UserDrealModel = sequelizeInstance.model('userDreal')
-
-      await UserModel.create({
+      await Users.create({
         id: userId,
         fullName: 'fullName',
         email: 'email@test.test',
         role: 'dreal',
       })
 
-      await UserDrealModel.create({
+      await UserDreal.create({
         userId,
         dreal: 'Corse',
       })
@@ -67,17 +61,14 @@ describe('userRepo sequelizeInstance', () => {
     const userId = uuid()
 
     it('return the dreals associated to the user', async () => {
-      const UserModel = sequelizeInstance.model('user')
-      const UserDrealModel = sequelizeInstance.model('userDreal')
-
-      await UserModel.create({
+      await Users.create({
         id: userId,
         fullName: 'fullName',
         email: 'email@test.test',
         role: 'dreal',
       })
 
-      await UserDrealModel.create({
+      await UserDreal.create({
         userId,
         dreal: 'Corse',
       })

@@ -102,7 +102,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     try {
       const userDreals = await UserDreal.findAll({ where: { userId } })
 
-      return userDreals.map((item) => item.get().dreal)
+      return userDreals.map((item) => item.dreal)
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
       return []
