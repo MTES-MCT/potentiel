@@ -6,6 +6,7 @@ import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
+import { UserDreal } from '@infra/sequelize/projectionsNext/userDreal'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -46,23 +47,6 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     },
   })
 
-  const UserDrealModel = sequelizeInstance.define('userDreal', {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.INTEGER,
-    },
-    dreal: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    userId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-  })
-
   const _isDbReady = isDbReady({ sequelizeInstance })
 
   return Object.freeze({
@@ -90,7 +74,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
       if (!dreal) return []
 
       const drealUsersIds: string[] = (
-        await UserDrealModel.findAll({
+        await UserDreal.findAll({
           where: { dreal },
         })
       ).map((item) => item.get().userId)
@@ -116,7 +100,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     await _isDbReady
 
     try {
-      const userDreals = await UserDrealModel.findAll({ where: { userId } })
+      const userDreals = await UserDreal.findAll({ where: { userId } })
 
       return userDreals.map((item) => item.get().dreal)
     } catch (error) {
@@ -129,7 +113,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     await _isDbReady
 
     try {
-      await UserDrealModel.create({ userId, dreal })
+      await UserDreal.create({ userId, dreal })
 
       return Ok(null)
     } catch (error) {
