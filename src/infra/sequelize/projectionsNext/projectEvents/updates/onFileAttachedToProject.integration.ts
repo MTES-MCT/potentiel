@@ -58,7 +58,7 @@ describe('onFileAttachedToProject', () => {
     beforeAll(async () => {
       await resetDatabase()
       await User.create(makeFakeUser({ id: attachedBy, role: 'dreal', fullName: 'John Doe' }))
-      await UserDreal.create({ dreal: 'PACA', userId: attachedBy })
+      await UserDreal.create({ dreal: `Provence-Alpes-Côte d'Azur`, userId: attachedBy })
 
       await onFileAttachedToProject(event)
     })
@@ -72,7 +72,7 @@ describe('onFileAttachedToProject', () => {
           attachedBy: {
             id: attachedBy,
             name: 'John Doe',
-            administration: 'DREAL PACA',
+            administration: `DREAL Provence-Alpes-Côte d'Azur`,
           },
         },
       })

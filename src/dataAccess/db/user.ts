@@ -1,12 +1,13 @@
 import { DataTypes } from 'sequelize'
 import { UserRepo } from '..'
 import { logger } from '@core/utils'
-import { DREAL, makeUser, Project, User } from '@entities'
+import { makeUser, Project, User } from '@entities'
 import { mapExceptError } from '../../helpers/results'
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
 import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import { UserDreal } from '@infra/sequelize/projectionsNext/userDreal'
+import { Région } from '@modules/dreal/région'
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -64,8 +65,8 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     addProjectToUserWithEmail,
   })
 
-  // findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
-  // addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<null>
+  // findDrealsForUser: (userId: User['id']) => Promise<Array<Région>>
+  // addToDreal: (userId: User['id'], dreal: Région) => ResultAsync<null>
 
   async function findUsersForDreal(dreal: string): Promise<Array<User>> {
     await _isDbReady
@@ -96,7 +97,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     }
   }
 
-  async function findDrealsForUser(userId: User['id']): Promise<Array<DREAL>> {
+  async function findDrealsForUser(userId: User['id']): Promise<Array<Région>> {
     await _isDbReady
 
     try {
@@ -109,7 +110,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     }
   }
 
-  async function addToDreal(userId: User['id'], dreal: DREAL): ResultAsync<null> {
+  async function addToDreal(userId: User['id'], dreal: Région): ResultAsync<null> {
     await _isDbReady
 
     try {

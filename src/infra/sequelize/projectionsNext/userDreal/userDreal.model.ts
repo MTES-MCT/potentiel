@@ -8,11 +8,11 @@ import {
 import { makeSequelizeProjector } from '../../helpers'
 import { sequelizeInstance } from '../../../../sequelize.config'
 import { Users } from '../users'
-import { DREAL } from '@entities'
+import { Région } from '@modules/dreal/région'
 
 class UserDreal extends Model<InferAttributes<UserDreal>, InferCreationAttributes<UserDreal>> {
   id: CreationOptional<number>
-  dreal: DREAL
+  dreal: Région
   userId: string
 }
 

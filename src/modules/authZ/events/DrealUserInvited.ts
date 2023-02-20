@@ -1,8 +1,9 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { Région } from '@modules/dreal/région'
 
 export interface DrealUserInvitedPayload {
   userId: string
-  region: string
+  region: Région
   invitedBy: string
 }
 export class DrealUserInvited

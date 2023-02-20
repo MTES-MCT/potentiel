@@ -46,7 +46,7 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
 
   beforeEach(async () => {
     await resetDatabase()
-    await models.UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Région de la Dreal' })
+    await models.UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Auvergne-Rhône-Alpes' })
   })
 
   it(`Étant donné des projets notifiés et non notifiés,
@@ -56,17 +56,17 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Eolien notifié',
-        regionProjet: 'Région de la Dreal',
+        regionProjet: 'Auvergne-Rhône-Alpes',
       }),
       makeFakeProject({
         notifiedOn: 0,
         nomProjet: 'Projet Non notifié Photovoltaïque',
-        regionProjet: 'Région de la Dreal',
+        regionProjet: 'Auvergne-Rhône-Alpes',
       }),
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Autre projet notifié',
-        regionProjet: 'Région de la Dreal',
+        regionProjet: 'Auvergne-Rhône-Alpes',
       }),
     ])
 
@@ -102,17 +102,17 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Eolien de la Dreal',
-        regionProjet: 'Région de la Dreal',
+        regionProjet: 'Auvergne-Rhône-Alpes',
       }),
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Photovoltaïque de la Dreal',
-        regionProjet: 'Région de la Dreal',
+        regionProjet: 'Auvergne-Rhône-Alpes',
       }),
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet autre région',
-        regionProjet: 'Autre région',
+        regionProjet: 'Normandie',
       }),
     ])
 

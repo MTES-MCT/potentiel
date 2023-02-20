@@ -1,4 +1,5 @@
-import { User, Project, DREAL } from '@entities'
+import { User, Project } from '@entities'
+import { Région } from '@modules/dreal/région'
 import { ResultAsync, OptionAsync } from '../types'
 
 export type UserRepo = {
@@ -18,6 +19,6 @@ export type UserRepo = {
   hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
   remove: (userId: User['id']) => ResultAsync<null>
   findUsersForDreal: (dreal: string) => Promise<Array<User>>
-  findDrealsForUser: (userId: User['id']) => Promise<Array<DREAL>>
-  addToDreal: (userId: User['id'], dreal: DREAL) => ResultAsync<null>
+  findDrealsForUser: (userId: User['id']) => Promise<Array<Région>>
+  addToDreal: (userId: User['id'], dreal: Région) => ResultAsync<null>
 }

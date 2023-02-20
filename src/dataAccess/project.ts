@@ -1,4 +1,5 @@
-import { Project, User, AppelOffre, Famille, Periode, DREAL } from '@entities'
+import { Project, User, AppelOffre, Famille, Periode } from '@entities'
+import { Région } from '@modules/dreal/région'
 import { ResultAsync, Pagination, PaginatedList } from '../types'
 
 export interface ProjectFilters {
@@ -22,7 +23,7 @@ export type ContextSpecificProjectListFilter =
       userId: User['id']
     }
   | {
-      regions: DREAL | DREAL[]
+      regions: Région | Région[]
     }
 
 export type ProjectRepo = {
@@ -42,13 +43,13 @@ export type ProjectRepo = {
   ): Promise<PaginatedList<Project>>
 
   searchForRegions(
-    regions: DREAL | DREAL[],
+    regions: Région | Région[],
     terms: string,
     filters?: ProjectFilters,
     pagination?: Pagination
   ): Promise<PaginatedList<Project>>
   findAllForRegions(
-    regions: DREAL | DREAL[],
+    regions: Région | Région[],
     filters?: ProjectFilters,
     pagination?: Pagination
   ): Promise<PaginatedList<Project>>

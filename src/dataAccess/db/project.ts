@@ -2,15 +2,7 @@ import { models } from '../../infra/sequelize/models'
 import { Attributes, DataTypes, literal, Op } from 'sequelize'
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
 import { logger } from '@core/utils'
-import {
-  AppelOffre,
-  DREAL,
-  Famille,
-  Periode,
-  Project,
-  User,
-  cahiersDesChargesRéférences,
-} from '@entities'
+import { AppelOffre, Famille, Periode, Project, User, cahiersDesChargesRéférences } from '@entities'
 import { makePaginatedList, paginate } from '../../helpers/paginate'
 import { mapExceptError } from '../../helpers/results'
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
@@ -18,6 +10,7 @@ import CONFIG from '../config'
 import isDbReady from './helpers/isDbReady'
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
 import { GarantiesFinancières } from '@infra/sequelize'
+import { Région } from '@modules/dreal/région'
 
 const { File } = models
 
@@ -575,7 +568,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
   async function _searchWithinRegions(
     terms: string,
-    regions: DREAL | DREAL[]
+    regions: Région | Région[]
   ): Promise<Project['id'][]> {
     const formattedRegions = Array.isArray(regions) ? regions.join('|') : regions
 
@@ -596,7 +589,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   }
 
   async function searchForRegions(
-    regions: DREAL | DREAL[],
+    regions: Région | Région[],
     terms: string,
     filters?: ProjectFilters,
     pagination?: Pagination
@@ -612,7 +605,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       opts.where.id = searchedRegionProjectIds
 
       return _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet.split(' / ').some((region) => regions.includes(region as DREAL))
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région))
       )
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error)
@@ -620,7 +613,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     }
   }
 
-  function _makeRegionSelector(regions: DREAL | DREAL[]) {
+  function _makeRegionSelector(regions: Région | Région[]) {
     // Region can be of shape 'region1 / region2' so simple equality does not work
     if (Array.isArray(regions) && regions.length) {
       return {
@@ -636,7 +629,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
   }
 
   async function findAllForRegions(
-    regions: DREAL | DREAL[],
+    regions: Région | Région[],
     filters?: ProjectFilters,
     pagination?: Pagination
   ): Promise<PaginatedList<Project>> {
@@ -647,7 +640,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       opts.where.regionProjet = _makeRegionSelector(regions)
 
       const res = await _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet.split(' / ').some((region) => regions.includes(region as DREAL))
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région))
       )
       return res
     } catch (error) {
