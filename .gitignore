@@ -144,3 +144,6 @@ storybook-static/
 
 # LibreOffice
 .~lock.*
+
+# Husky hooks folder
+.husky
