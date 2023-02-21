@@ -12,8 +12,9 @@ export type ProjectDataForSignalerDemandeRecoursPage = {
   periodeId: string
   familleId: string
   notifiedOn: number
-  abandonedOn?: number
   appelOffreId: string
+  puissance: number
+  unitePuissance: string
 }
 
 export type GetProjectDataForSignalerDemandeRecoursPage = (filtre: {

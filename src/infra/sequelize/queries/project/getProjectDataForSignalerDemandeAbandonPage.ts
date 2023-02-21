@@ -1,4 +1,4 @@
-import { getProjectAppelOffre } from '@config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { errAsync, ok, okAsync, Result, wrapInfra } from '@core/utils'
 import {
   GetProjectDataForSignalerDemandeAbandonPage,

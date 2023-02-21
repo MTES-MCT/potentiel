@@ -1,4 +1,5 @@
-import { err, ok, Result, wrapInfra } from '@core/utils'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { errAsync, ok, okAsync, Result, wrapInfra } from '@core/utils'
 import {
   GetProjectDataForSignalerDemandeRecoursPage,
   ProjectDataForSignalerDemandeRecoursPage,
@@ -10,49 +11,67 @@ const { Project } = models
 
 export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSignalerDemandeRecoursPage =
   ({ projectId }) => {
-    return wrapInfra(Project.findByPk(projectId)).andThen(
-      (projectRaw: any): Result<ProjectDataForSignalerDemandeRecoursPage, EntityNotFoundError> => {
-        if (!projectRaw) return err(new EntityNotFoundError())
-
-        const {
-          id,
-          nomProjet,
-          classe,
-          nomCandidat,
-          communeProjet,
-          regionProjet,
-          departementProjet,
-          notifiedOn,
-          abandonedOn,
-          periodeId,
-          familleId,
-          appelOffreId,
-        } = projectRaw.get()
-
-        const status = !notifiedOn
-          ? 'non-notifié'
-          : abandonedOn
-          ? 'abandonné'
-          : classe === 'Classé'
-          ? 'lauréat'
-          : 'éliminé'
-
-        const project: ProjectDataForSignalerDemandeRecoursPage = {
-          id,
-          nomProjet,
-          status,
-          nomCandidat,
-          communeProjet,
-          regionProjet,
-          departementProjet,
-          notifiedOn,
-          ...(abandonedOn > 0 && { abandonedOn }),
-          periodeId,
-          familleId,
-          appelOffreId,
+    return wrapInfra(Project.findByPk(projectId))
+      .andThen((projet) => {
+        if (!projet) {
+          return errAsync(new EntityNotFoundError())
         }
 
-        return ok(project)
-      }
-    )
+        const { appelOffreId, periodeId, familleId } = projet
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+        if (!appelOffre) {
+          return errAsync(new EntityNotFoundError())
+        }
+
+        return okAsync({ projet, appelOffre })
+      })
+      .andThen(
+        ({
+          projet,
+          appelOffre,
+        }): Result<ProjectDataForSignalerDemandeRecoursPage, EntityNotFoundError> => {
+          const {
+            id,
+            nomProjet,
+            classe,
+            nomCandidat,
+            communeProjet,
+            regionProjet,
+            departementProjet,
+            notifiedOn,
+            abandonedOn,
+            periodeId,
+            familleId,
+            appelOffreId,
+            puissance,
+          } = projet
+
+          const status = !notifiedOn
+            ? 'non-notifié'
+            : abandonedOn
+            ? 'abandonné'
+            : classe === 'Classé'
+            ? 'lauréat'
+            : 'éliminé'
+
+          const project: ProjectDataForSignalerDemandeRecoursPage = {
+            id,
+            nomProjet,
+            status,
+            nomCandidat,
+            communeProjet,
+            regionProjet,
+            departementProjet,
+            notifiedOn,
+            periodeId,
+            familleId,
+            appelOffreId,
+            puissance,
+            unitePuissance: appelOffre.unitePuissance,
+          }
+
+          return ok(project)
+        }
+      )
   }

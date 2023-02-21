@@ -46,7 +46,7 @@ export type CahierDesChargesRéférenceParsed =
     }
 
 export const parseCahierDesChargesRéférence = (
-  référence: CahierDesChargesRéférence
+  référence: string
 ): CahierDesChargesRéférenceParsed => {
   if (référence === 'initial') {
     return { type: 'initial' }

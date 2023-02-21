@@ -1,4 +1,5 @@
-import { err, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
 import { parseCahierDesChargesRéférence } from '@entities'
 import {
   GetProjectDataForSignalerDemandeDelaiPage,
@@ -14,14 +15,28 @@ const { Project, ModificationRequest } = models
 export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignalerDemandeDelaiPage =
   ({ projectId }) => {
     return wrapInfra(Project.findByPk(projectId))
+      .andThen((projet) => {
+        if (!projet) {
+          return errAsync(new EntityNotFoundError())
+        }
+
+        const { appelOffreId, periodeId, familleId } = projet
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+        if (!appelOffre) {
+          return errAsync(new EntityNotFoundError())
+        }
+
+        return okAsync({ projet, appelOffre })
+      })
       .andThen(
-        (
-          projectRaw: any
-        ): Result<
+        ({
+          projet,
+          appelOffre,
+        }): Result<
           Omit<ProjectDataForSignalerDemandeDelaiPage, 'hasPendingDemandeDelai'>,
           EntityNotFoundError
         > => {
-          if (!projectRaw) return err(new EntityNotFoundError())
           const {
             id,
             completionDueOn,
@@ -35,7 +50,8 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             familleId,
             appelOffreId,
             cahierDesChargesActuel,
-          } = projectRaw.get()
+            puissance,
+          } = projet
 
           const project = {
             id,
@@ -50,6 +66,8 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             familleId,
             appelOffreId,
             cahierDesChargesActuel,
+            puissance,
+            unitePuissance: appelOffre.unitePuissance,
           }
 
           const cahierDesChargesParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel)
