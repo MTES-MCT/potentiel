@@ -11,7 +11,7 @@ import { ChangerProducteurPage } from '@views'
 import { Project } from '@infra/sequelize/projections'
 
 v1Router.get(
-  routes.CHANGER_PRODUCTEUR(),
+  routes.GET_CHANGER_PRODUCTEUR(),
   ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
     const {

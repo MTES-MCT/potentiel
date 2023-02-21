@@ -77,7 +77,7 @@ const porteurProjetActions = (project: {
         ? [
             {
               title: 'Changer de producteur',
-              link: ROUTES.CHANGER_PRODUCTEUR(project.id),
+              link: ROUTES.GET_CHANGER_PRODUCTEUR(project.id),
             },
           ]
         : []),

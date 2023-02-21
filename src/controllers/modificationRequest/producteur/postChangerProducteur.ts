@@ -24,7 +24,7 @@ const schema = yup.object({
 })
 
 v1Router.post(
-  routes.CHANGEMENT_PRODUCTEUR_ACTION,
+  routes.POST_CHANGER_PRODUCTEUR,
   upload.single('file'),
   ensureRole('porteur-projet'),
   safeAsyncHandler(
@@ -32,7 +32,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, error }) => {
         return response.redirect(
-          addQueryParams(routes.DEMANDER_DELAI(request.body.projetId), {
+          addQueryParams(routes.GET_CHANGER_PRODUCTEUR(request.body.projetId), {
             ...omit(request.body, 'projectId'),
             error: `${error.errors.join(' ')}`,
           })
