@@ -1,17 +1,14 @@
 import { UniqueEntityID } from '@core/domain'
-import models from '../../../models'
-import { onDrealUserInvited } from './onDrealUserInvited'
+import onDrealUserInvited from './onDrealUserInvited'
 import { DrealUserInvited } from '@modules/authZ'
 import { resetDatabase } from '../../../helpers'
-
-const { UserDreal } = models
+import { UserDreal } from '../userDreal.model'
 
 const userId = new UniqueEntityID().toString()
 describe('userDreal.onDrealUserInvited', () => {
-  beforeAll(async () => {
-    // Create the tables and remove all data
-    await resetDatabase()
+  beforeEach(resetDatabase)
 
+  it('should create the user dreal link', async () => {
     await onDrealUserInvited(
       new DrealUserInvited({
         payload: {
@@ -21,9 +18,6 @@ describe('userDreal.onDrealUserInvited', () => {
         },
       })
     )
-  })
-
-  it('should create the user dreal link', async () => {
     const result = await UserDreal.findOne({ where: { userId, dreal: 'Bretagne' } })
     expect(result).not.toEqual(null)
   })

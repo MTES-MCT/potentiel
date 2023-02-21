@@ -1,6 +1,6 @@
 import { logger } from '@core/utils'
 import { userRepo } from '@dataAccess'
-import { DREAL } from '@entities'
+import { Région } from '@modules/dreal/région'
 import { testRouter } from './testRouter'
 
 testRouter.post('/test/addUserToDreal', async (request, response) => {
@@ -18,7 +18,7 @@ testRouter.post('/test/addUserToDreal', async (request, response) => {
     return response.status(500).send('cant find dreal user with this email')
   }
 
-  const additionRes = await userRepo.addToDreal(user.id, region as DREAL)
+  const additionRes = await userRepo.addToDreal(user.id, region as Région)
 
   if (additionRes.isErr()) {
     logger.error(additionRes.unwrapErr())

@@ -19,6 +19,6 @@ const REGIONS = [
   'Corse',
 ] as const
 
-type DREAL = typeof REGIONS[number]
+type Région = typeof REGIONS[number]
 
-export { DREAL, REGIONS }
+export { Région, REGIONS }

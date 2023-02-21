@@ -1,6 +1,5 @@
 import { Request } from 'express'
 import React from 'react'
-import { DREAL, REGIONS } from '../../../entities/dreal'
 import { dataId } from '../../../helpers/testId'
 import ROUTES from '@routes'
 import {
@@ -14,10 +13,11 @@ import {
   SuccessBox,
 } from '@components'
 import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+import { REGIONS, Région } from '@modules/dreal/région'
 
 type DrealListProps = {
   request: Request
-  users: Array<{ user: { email: string; fullName: string }; dreals: Array<DREAL> }>
+  users: Array<{ user: { email: string; fullName: string }; dreals: Array<Région> }>
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
 
@@ -27,10 +27,10 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
     <PageTemplate user={request.user} currentPage="list-dreal">
       <div className="panel">
         <div className="panel__header">
-          <Heading1>Gérer les DREAL</Heading1>
+          <Heading1>Gérer les Région</Heading1>
         </div>
         <div className="panel__header">
-          <Heading2>Ajouter un utilisateur DREAL</Heading2>
+          <Heading2>Ajouter un utilisateur Région</Heading2>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
 
@@ -78,12 +78,12 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         </div>
         {users && users.length && (
           <>
-            <Heading2>Les utilisateurs rattachés à une DREAL</Heading2>
+            <Heading2>Les utilisateurs rattachés à une Région</Heading2>
             <table className="table" {...dataId('projectList-list')}>
               <thead>
                 <tr>
                   <th>Utilisateur</th>
-                  <th>DREAL(s)</th>
+                  <th>Région(s)</th>
                 </tr>
               </thead>
               <tbody>

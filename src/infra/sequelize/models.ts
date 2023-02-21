@@ -7,7 +7,6 @@ import { MakeEventStoreModel } from './eventStore/eventStore.model'
 import { MakeUserModel } from './projections/user/user.model'
 
 import { MakeUserProjectsModel } from './projections/userProjects/userProjects.model'
-import { MakeUserDrealModel } from './projections/userDreal/userDreal.model'
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model'
 import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model'
 import { MakePeriodeModel } from './projections/appelOffre/periode.model'
@@ -31,7 +30,6 @@ export const models = {
   UserProjects: MakeUserProjectsModel(sequelizeInstance),
   AppelOffre: MakeAppelOffreModel(sequelizeInstance),
   Periode: MakePeriodeModel(sequelizeInstance),
-  UserDreal: MakeUserDrealModel(sequelizeInstance),
 }
 
 GarantiesFinancières.hasOne(models.File, {

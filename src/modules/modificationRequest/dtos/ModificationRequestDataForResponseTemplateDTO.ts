@@ -1,4 +1,4 @@
-import { DREAL } from '@entities'
+import { Région } from '@modules/dreal/région'
 import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
 
 export type ModificationRequestDataForResponseTemplateDTO = {
@@ -6,7 +6,7 @@ export type ModificationRequestDataForResponseTemplateDTO = {
   suiviParEmail: string
   refPotentiel: string
 
-  dreal: DREAL | ''
+  dreal: Région | ''
 
   status: ModificationRequestStatusDTO
 

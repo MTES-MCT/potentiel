@@ -2,7 +2,6 @@ import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRépons
 import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 import { oldUserRepo } from '@config/repos.config'
 import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { DREAL } from '@entities'
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
@@ -12,6 +11,7 @@ import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
 import moment from 'moment'
 import { formatDate } from '../../../../helpers/formatDate'
 import models from '../../models'
+import { Région } from '@modules/dreal/région'
 
 const { ModificationRequest, Project, File, User } = models
 
@@ -44,7 +44,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           modificationRequest,
           previousRequest,
         }): ResultAsync<
-          { dreal: DREAL | ''; modificationRequest; previousRequest },
+          { dreal: Région | ''; modificationRequest; previousRequest },
           InfraNotAvailableError
         > => {
           if (user.role === 'dreal') {

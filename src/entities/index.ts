@@ -11,7 +11,6 @@ const applyProjectUpdate = buildApplyProjectUpdate(makeId)
 const makeModificationRequest = buildMakeModificationRequest({ makeId })
 
 export * from './appelOffre'
-export * from './dreal'
 export * from './famille'
 export * from './modificationRequest'
 export * from './periode'

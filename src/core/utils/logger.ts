@@ -8,8 +8,8 @@ export const logger = Object.freeze({
   info(...args: any) {
     emitter.emit('infoLog', ...args)
   },
-  warning(message: string) {
-    emitter.emit('warningLog', message)
+  warning(message: string, context?: Record<string, unknown>) {
+    emitter.emit('warningLog', message, context)
   },
   error(error: Error | string) {
     emitter.emit('errorLog', error)

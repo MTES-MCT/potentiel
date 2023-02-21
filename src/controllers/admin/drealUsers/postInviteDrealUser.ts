@@ -1,5 +1,4 @@
 import { createUser, eventStore, ensureRole } from '@config'
-import { REGIONS } from '@entities'
 import asyncHandler from '../../helpers/asyncHandler'
 import { addQueryParams } from '../../../helpers/addQueryParams'
 import { DrealUserInvited } from '@modules/authZ'
@@ -9,6 +8,7 @@ import * as yup from 'yup'
 import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers'
 import { logger } from '../../../core/utils'
 import { EmailAlreadyUsedError } from '../../../modules/shared/errors'
+import { REGIONS } from '@modules/dreal/région'
 
 const requestBodySchema = yup.object({
   role: yup

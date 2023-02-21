@@ -7,6 +7,7 @@ import {
   TâchesProjector,
   UsersProjector,
   UserProjectClaimsProjector,
+  UserDrealProjector,
 } from '@infra/sequelize'
 import { subscribeToRedis } from './eventBus.config'
 import { eventStore } from './eventStore.config'
@@ -25,6 +26,7 @@ const projectorsNext = [
   RaccordementsProjector,
   UsersProjector,
   UserProjectClaimsProjector,
+  UserDrealProjector,
 ].map((projector) => {
   projector.initEventStream({
     subscribe: subscribeToRedis,

@@ -5,6 +5,8 @@ import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions'
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model'
 import { Op } from 'sequelize'
+import { UserDreal } from '@infra/sequelize/projectionsNext'
+import { logger } from '@core/utils'
 
 const attributes = [
   'id',
@@ -36,14 +38,19 @@ export const listerProjetsPourDreal: ListerProjets = async ({
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres)
 
-  const régionDreal = await models.UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
+  const utilisateur = await UserDreal.findOne({ where: { userId }, attributes: ['dreal'] })
+
+  if (!utilisateur?.dreal) {
+    logger.warning('Utilisateur DREAL sans région', { userId })
+    return makePaginatedList([], 0, pagination)
+  }
 
   const résultat = await models.Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },
       regionProjet: {
-        [Op.substring]: régionDreal.dreal,
+        [Op.substring]: utilisateur.dreal,
       },
     },
     include: [

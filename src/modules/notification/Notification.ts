@@ -1,7 +1,8 @@
 import { Optional } from 'utility-types'
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '@core/domain'
 import { ok, Result } from '@core/utils'
-import { DateParutionCahierDesChargesModifié, DREAL } from '@entities'
+import { DateParutionCahierDesChargesModifié } from '@entities'
+import { Région } from '@modules/dreal/région'
 
 type BaseNotification = {
   message: {
@@ -42,7 +43,7 @@ type DrealInvitation = {
   type: 'dreal-invitation'
   context: {
     projectAdmissionKeyId: string
-    dreal: DREAL
+    dreal: Région
   }
   variables: {
     invitation_link: string
