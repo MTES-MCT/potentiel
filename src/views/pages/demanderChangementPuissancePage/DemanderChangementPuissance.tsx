@@ -37,7 +37,7 @@ export const DemanderChangementPuissance = ({
   project,
   appelOffre,
 }: DemanderChangementPuissanceProps) => {
-  const { error, success, puissance, justification } = (request.query as any) || {}
+  const { error, success, puissance: puissanceSaisie, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
     appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
@@ -90,6 +90,7 @@ export const DemanderChangementPuissance = ({
                     ...project,
                     justification,
                     appelOffre,
+                    puissanceSaisie,
                   }}
                 />
 

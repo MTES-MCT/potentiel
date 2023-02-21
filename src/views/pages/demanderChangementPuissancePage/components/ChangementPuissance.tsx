@@ -19,6 +19,7 @@ type ChangementPuissanceProps = {
   cahierDesChargesActuel: string
   appelOffre: ProjectAppelOffre
   technologie: Technologie
+  puissanceSaisie?: number
 }
 
 export const ChangementPuissance = ({
@@ -28,6 +29,7 @@ export const ChangementPuissance = ({
   cahierDesChargesActuel,
   appelOffre,
   technologie,
+  puissanceSaisie,
 }: ChangementPuissanceProps) => {
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false)
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false)
@@ -79,7 +81,7 @@ export const ChangementPuissance = ({
         pattern="[0-9]+([\.,][0-9]+)?"
         name="puissance"
         id="puissance"
-        defaultValue={puissance || ''}
+        defaultValue={puissanceSaisie || ''}
         {...dataId('modificationRequest-puissanceField')}
         onChange={handlePuissanceOnChange}
         required={true}
