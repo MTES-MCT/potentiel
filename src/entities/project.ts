@@ -61,7 +61,6 @@ const baseProjectSchema = SchemaRecord({
   dcrDate: Number,
   completionDueOn: Number,
   abandonedOn: Number,
-  numeroGestionnaire: String,
   cahierDesChargesActuel: Union(
     Literal('initial'),
     Literal('30/07/2021'),
@@ -276,7 +275,6 @@ export default ({ makeId }: MakeProjectDependencies) =>
     dcrDate: 0,
     completionDueOn: 0,
     abandonedOn: 0,
-    numeroGestionnaire: '',
     cahierDesChargesActuel: 'initial',
     potentielIdentifier: '',
     technologie: 'N/A',
