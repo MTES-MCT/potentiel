@@ -1,4 +1,4 @@
-import { err, ok, wrapInfra } from '@core/utils'
+import { errAsync, ok, okAsync, wrapInfra } from '@core/utils'
 import { EntityNotFoundError } from '@modules/shared'
 import models from '../../models'
 import {
@@ -6,6 +6,7 @@ import {
   ProjectDataForModifierIdentifiantGestionnaireReseauPage,
 } from '@modules/project'
 import { Raccordements } from '@infra/sequelize/projectionsNext'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config'
 
 const { Project } = models
 
@@ -24,6 +25,7 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
           'nomCandidat',
           'regionProjet',
           'periodeId',
+          'puissance',
         ],
         include: [
           {
@@ -33,24 +35,39 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
           },
         ],
       })
-    ).andThen((projet) => {
-      if (!projet) return err(new EntityNotFoundError())
-      const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
-        id: projet.id,
-        appelOffreId: projet.appelOffreId,
-        communeProjet: projet.communeProjet,
-        departementProjet: projet.departementProjet,
-        familleId: projet.familleId,
-        notifiedOn: projet.notifiedOn,
-        nomCandidat: projet.nomCandidat,
-        nomProjet: projet.nomProjet,
-        regionProjet: projet.regionProjet,
-        periodeId: projet.periodeId,
-        ...(projet.raccordements &&
-          projet.raccordements.identifiantGestionnaire && {
+    )
+      .andThen((projet) => {
+        if (!projet) {
+          return errAsync(new EntityNotFoundError())
+        }
+
+        const { appelOffreId, periodeId, familleId } = projet
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+
+        if (!appelOffre) {
+          return errAsync(new EntityNotFoundError())
+        }
+
+        return okAsync({ projet, appelOffre })
+      })
+      .andThen(({ projet, appelOffre }) => {
+        const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
+          id: projet.id,
+          appelOffreId: projet.appelOffreId,
+          communeProjet: projet.communeProjet,
+          departementProjet: projet.departementProjet,
+          familleId: projet.familleId,
+          notifiedOn: projet.notifiedOn,
+          nomCandidat: projet.nomCandidat,
+          nomProjet: projet.nomProjet,
+          regionProjet: projet.regionProjet,
+          periodeId: projet.periodeId,
+          puissance: projet.puissance,
+          unitePuissance: appelOffre.unitePuissance,
+          ...(projet.raccordements?.identifiantGestionnaire && {
             identifiantGestionnaire: projet.raccordements.identifiantGestionnaire,
           }),
-      }
+        }
 
-      return ok(pageProps)
-    })
+        return ok(pageProps)
+      })

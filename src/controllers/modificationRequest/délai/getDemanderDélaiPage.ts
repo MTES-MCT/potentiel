@@ -1,5 +1,4 @@
 import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '@config'
-import { projectRepo } from '@dataAccess'
 
 import routes from '@routes'
 import { validateUniqueId } from '../../../helpers/validateUniqueId'
@@ -8,6 +7,7 @@ import asyncHandler from '../../helpers/asyncHandler'
 import { v1Router } from '../../v1Router'
 
 import { DemanderDelaiPage } from '@views'
+import { Project } from '@infra/sequelize/projections'
 
 v1Router.get(
   routes.DEMANDER_DELAI(),
@@ -22,7 +22,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const project = await projectRepo.findById(projectId)
+    const project = await Project.findByPk(projectId)
 
     if (!project) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
@@ -50,7 +50,7 @@ v1Router.get(
     return response.send(
       DemanderDelaiPage({
         request,
-        project,
+        project: { ...project, unitePuissance: appelOffre.unitePuissance },
         appelOffre,
       })
     )

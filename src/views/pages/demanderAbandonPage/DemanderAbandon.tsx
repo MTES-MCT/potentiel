@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -17,12 +17,13 @@ import {
   ErrorBox,
   Heading1,
   SecondaryLinkButton,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 
 type DemanderAbandonProps = {
   request: Request
-  project: Project
+  project: ProjectProps & { cahierDesChargesActuel: string }
   appelOffre: ProjectAppelOffre
 }
 
@@ -30,8 +31,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
   const { error, success, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -55,7 +55,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.GET_DEMANDER_ABANDON(project.id),
                 type: 'abandon',

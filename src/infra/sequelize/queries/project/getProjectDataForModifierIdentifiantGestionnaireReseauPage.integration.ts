@@ -51,6 +51,8 @@ describe("Récupérer les données pour la page de modification de l'identifiant
       notifiedOn,
       appelOffreId: fakeProjet.appelOffreId,
       identifiantGestionnaire,
+      puissance: fakeProjet.puissance,
+      unitePuissance: 'MWc',
     }
 
     expect(résultat._unsafeUnwrap()).toEqual(expected)
