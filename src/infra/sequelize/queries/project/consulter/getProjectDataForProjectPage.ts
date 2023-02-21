@@ -28,12 +28,13 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
         },
         {
           model: UserProjects,
-          as: 'users',
+          as: 'UserProjects',
           where: { projectId },
           required: false,
           include: [
             {
               model: User,
+              as: 'users',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },
           ],

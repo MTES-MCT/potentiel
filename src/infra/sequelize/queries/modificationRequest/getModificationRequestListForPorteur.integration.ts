@@ -169,7 +169,7 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
             id: projectId,
           })
         )
-        await UserProjects.bulkCreate({ projectId, userId: userA.id })
+        await UserProjects.create({ projectId, userId: userA.id })
 
         const modificationId = new UniqueEntityID().toString()
         await ModificationRequest.create({

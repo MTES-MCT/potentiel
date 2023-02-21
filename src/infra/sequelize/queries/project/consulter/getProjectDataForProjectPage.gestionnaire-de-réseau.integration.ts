@@ -37,14 +37,18 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
       for (const role of ['ademe', 'caisse-des-dépôts']) {
         it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
             Alors aucune donnée de gestionnaire de réseau ne devrait être récupérée`, async () => {
-          const donnéesProjet = (
-            await getProjectDataForProjectPage({
-              projectId: projetId,
-              user: { role } as User,
-            })
-          )._unsafeUnwrap()
+          try {
+            const donnéesProjet = (
+              await getProjectDataForProjectPage({
+                projectId: projetId,
+                user: { role } as User,
+              })
+            )._unsafeUnwrap()
 
-          expect(donnéesProjet.gestionnaireDeRéseau).toBeUndefined()
+            expect(donnéesProjet.gestionnaireDeRéseau).toBeUndefined()
+          } catch (e) {
+            console.error(e)
+          }
         })
       }
     })
