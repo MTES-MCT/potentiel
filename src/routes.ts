@@ -234,7 +234,7 @@ class routes {
     return projectId ? route.replace(':projectId', projectId) : route
   }
 
-  static CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
+  static GET_CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/changer-producteur.html'
     if (projectId) {
       return route.replace(':projectId', projectId)
@@ -270,7 +270,7 @@ class routes {
   static POST_ANNULER_DEMANDE_ANNULATION_ABANDON = '/annuler-demande-annulation-abandon'
   static POST_REPONDRE_DEMANDE_ANNULATION_ABANDON = '/repondre-demande-annulation-abandon'
 
-  static CHANGEMENT_PRODUCTEUR_ACTION = '/soumettre-changement-producteur'
+  static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur'
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur'
   static CHANGEMENT_PUISSANCE_ACTION = '/soumettre-changement-puissance'
 

@@ -135,7 +135,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
             {project.appelOffre.type !== 'eolien' && (
               <Menu.Item key={`action_changer_producteur`}>
                 <Link
-                  href={routes.CHANGER_PRODUCTEUR(project.id)}
+                  href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
                   className="no-underline bg-none hover:bg-none"
                 >
                   <div

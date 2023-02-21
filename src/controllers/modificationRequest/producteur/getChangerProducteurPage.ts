@@ -11,7 +11,7 @@ import { v1Router } from '../../v1Router'
 import { ChangerProducteurPage } from '@views'
 
 v1Router.get(
-  routes.CHANGER_PRODUCTEUR(),
+  routes.GET_CHANGER_PRODUCTEUR(),
   ensureRole('porteur-projet'),
   asyncHandler(async (request, response) => {
     const {

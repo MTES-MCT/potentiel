@@ -64,17 +64,13 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   cahierDesChargesActuel: 'initial',
                   identifiantGestionnaireRéseau: project.numeroGestionnaire,
                 },
-                redirectUrl: routes.CHANGER_PRODUCTEUR(project.id),
+                redirectUrl: routes.GET_CHANGER_PRODUCTEUR(project.id),
                 type: 'producteur',
               }}
             />
           </div>
         ) : (
-          <form
-            action={routes.CHANGEMENT_PRODUCTEUR_ACTION}
-            method="post"
-            encType="multipart/form-data"
-          >
+          <form action={routes.POST_CHANGER_PRODUCTEUR} method="post" encType="multipart/form-data">
             <input type="hidden" name="projetId" value={project.id} />
             <div className="form__group">
               {success && <SuccessBox title={success} />}

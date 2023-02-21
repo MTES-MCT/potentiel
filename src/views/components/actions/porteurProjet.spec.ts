@@ -56,7 +56,7 @@ describe('porteurProjetActions', () => {
           },
           {
             title: 'Changer de producteur',
-            link: ROUTES.CHANGER_PRODUCTEUR(fakeProject.id),
+            link: ROUTES.GET_CHANGER_PRODUCTEUR(fakeProject.id),
           },
           {
             title: 'Changer de fournisseur',
