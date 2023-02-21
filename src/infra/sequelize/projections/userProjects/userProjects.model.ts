@@ -1,4 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize'
+import { Users } from '../../projectionsNext'
 
 class UserProjects extends Model<
   InferAttributes<UserProjects>,

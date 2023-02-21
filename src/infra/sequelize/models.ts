@@ -128,6 +128,12 @@ models.ModificationRequest.belongsTo(models.User, {
   constraints: false,
 })
 
+models.UserProjects.belongsTo(models.User, {
+  foreignKey: 'userId',
+  as: 'user',
+  constraints: false,
+})
+
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {
   const initializedProjectors: string[] = []

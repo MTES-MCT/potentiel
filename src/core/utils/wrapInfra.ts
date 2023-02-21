@@ -8,7 +8,6 @@ import { logger } from './logger'
  */
 export const wrapInfra = <T>(infraPromise: Promise<T>): ResultAsync<T, InfraNotAvailableError> =>
   ResultAsync.fromPromise(infraPromise, (e: any) => {
-    console.log(e)
     logger.error(e)
     return new InfraNotAvailableError()
   })

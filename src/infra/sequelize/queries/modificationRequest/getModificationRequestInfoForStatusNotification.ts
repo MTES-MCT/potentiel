@@ -4,6 +4,9 @@ import {
   ModificationRequestInfoForStatusNotificationDTO,
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
+import { models } from '../../models'
+
+const { ModificationRequest, Project, User, UserProjects } = models
 
 export const getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification =
   (modificationRequestId: string) => {
