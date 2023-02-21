@@ -55,11 +55,11 @@ v1Router.post(
       }
 
       if (!isStrictlyPositiveNumber(puissance)) {
-        return response.redirect(
-          addQueryParams(routes.PROJECT_DETAILS(projectId), {
-            error: 'Erreur: la puissance n‘est pas valide.',
-          })
-        )
+        return errorResponse({
+          request,
+          response,
+          customMessage: `La puissance saisie n'est pa valide.`,
+        })
       }
 
       await demanderChangementDePuissance({
@@ -79,22 +79,20 @@ v1Router.post(
           ),
         (error) => {
           if (error instanceof PuissanceJustificationEtCourrierManquantError) {
-            return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(projectId), {
-                ...omit(request.body, 'projectId'),
-                error: error.message,
-              })
-            )
+            return errorResponse({
+              request,
+              response,
+              customMessage: error.message,
+            })
           }
 
           if (error instanceof AggregateHasBeenUpdatedSinceError) {
-            return response.redirect(
-              addQueryParams(routes.PROJECT_DETAILS(projectId), {
-                ...omit(request.body, 'projectId'),
-                error:
-                  'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
-              })
-            )
+            return errorResponse({
+              request,
+              response,
+              customMessage:
+                'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
+            })
           }
 
           if (error instanceof EntityNotFoundError) {
