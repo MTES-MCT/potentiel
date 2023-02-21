@@ -1,4 +1,3 @@
-import { AppelOffre } from '@entities'
 import React from 'react'
 import { formatDate } from '../../helpers/formatDate'
 import { dataId } from '../../helpers/testId'
@@ -18,9 +17,8 @@ type ProjectInfoProps = {
     notifiedOn: number
     appelOffreId: string
     identifiantGestionnaire?: string
-    puissance?: number
-    appelOffre?: AppelOffre
-    unitePuissance?: string
+    puissance: number
+    unitePuissance: string
   }
   children?: React.ReactNode
   className?: string
@@ -40,10 +38,9 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
     appelOffreId,
     identifiantGestionnaire,
     puissance,
-    appelOffre,
     unitePuissance,
   } = project
-  const displayPuissance = puissance && (appelOffre || unitePuissance)
+
   return (
     <div
       className={`${className} p-4 bg-gray-100 border-solid border-l-4 border-y-0 border-r-0 border-blue-france-main-525-base`}
@@ -64,11 +61,9 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
         <span {...dataId('modificationRequest-item-departementProjet')}>{departementProjet}</span>,{' '}
         <span {...dataId('modificationRequest-item-regionProjet')}>{regionProjet}</span>
       </div>
-      {displayPuissance && (
-        <div {...dataId('modificationRequest-item-puissance')}>
-          {puissance} {appelOffre?.unitePuissance || unitePuissance}
-        </div>
-      )}
+      <div {...dataId('modificationRequest-item-puissance')}>
+        {puissance} {unitePuissance}
+      </div>
       <p className="m-0">
         Désigné le{' '}
         <span {...dataId('modificationRequest-item-designationDate')}>

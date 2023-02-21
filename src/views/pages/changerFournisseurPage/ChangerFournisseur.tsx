@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -24,7 +24,24 @@ import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@module
 
 type ChangerFournisseurProps = {
   request: Request
-  project: Project
+  project: {
+    id: string
+    nomProjet: string
+    nomCandidat: string
+    communeProjet: string
+    regionProjet: string
+    departementProjet: string
+    periodeId: string
+    familleId: string | undefined
+    notifiedOn: number
+    appelOffreId: string
+    identifiantGestionnaire?: string
+    puissance: number
+    cahierDesChargesActuel: string
+    evaluationCarbone: number
+    evaluationCarboneDeRéférence: number
+    details?: { [key: string]: string }
+  }
   appelOffre: ProjectAppelOffre
 }
 
@@ -32,8 +49,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
   const { error, success, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
 
@@ -59,7 +75,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.CHANGER_FOURNISSEUR(project.id),
                 type: 'fournisseur',
@@ -75,7 +91,10 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo project={project} className="mb-3" />
+              <ProjectInfo
+                project={{ ...project, unitePuissance: appelOffre.unitePuissance }}
+                className="mb-3"
+              />
               {success && <SuccessBox title={success} />}
               {error && <ErrorBox title={error} />}
 
