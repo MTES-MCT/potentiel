@@ -61,7 +61,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
               id="identifiantGestionnaireRéseau"
               name="identifiantGestionnaireRéseau"
               placeholder="Saisir un nouvel identifiant"
-              defaultValue={projet.numeroGestionnaire || ''}
+              defaultValue={projet.identifiantGestionnaire || ''}
               required
             />
           </div>
