@@ -34,6 +34,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           include: [
             {
               model: User,
+              as: 'user',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },
           ],

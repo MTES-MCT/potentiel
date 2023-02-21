@@ -4,7 +4,7 @@ import {
   ModificationRequestInfoForStatusNotificationDTO,
 } from '@modules/modificationRequest'
 import { EntityNotFoundError } from '@modules/shared'
-import models from '../../models'
+import { models } from '../../models'
 
 const { ModificationRequest, Project, User, UserProjects } = models
 
@@ -44,17 +44,15 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           ],
         })
       ).map(
-        (
-          porteursProjets: { user: { id: string; email: string; fullName: string } }[]
-        ): ModificationRequestInfoForStatusNotificationDTO => ({
+        (porteursProjets): ModificationRequestInfoForStatusNotificationDTO => ({
           type,
           nomProjet,
           departementProjet,
           regionProjet,
-          porteursProjet: porteursProjets.map(({ user }) => ({
-            id: user.id,
-            email: user.email,
-            fullName: user.fullName,
+          porteursProjet: porteursProjets.map(({ user: { id, email, fullName } }) => ({
+            id,
+            email,
+            fullName,
           })),
         })
       )

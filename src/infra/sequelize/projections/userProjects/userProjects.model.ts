@@ -1,11 +1,19 @@
-import { DataTypes } from 'sequelize'
-import { makeProjector } from '../../helpers'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize'
+import { Users } from '../../projectionsNext'
 
-export const userProjectsProjector = makeProjector()
+class UserProjects extends Model<
+  InferAttributes<UserProjects>,
+  InferCreationAttributes<UserProjects>
+> {
+  userId: string
+  projectId: string
+  user: NonAttribute<Users>
+}
+
+const nomProjection = 'UserProjects'
 
 export const MakeUserProjectsModel = (sequelize) => {
-  const UserProjects = sequelize.define(
-    'UserProjects',
+  UserProjects.init(
     {
       userId: {
         type: DataTypes.UUID,
@@ -20,16 +28,11 @@ export const MakeUserProjectsModel = (sequelize) => {
     },
     {
       timestamps: true,
+      sequelize,
+      tableName: nomProjection,
+      freezeTableName: true,
     }
   )
-
-  UserProjects.associate = (models) => {
-    const { User } = models
-
-    UserProjects.belongsTo(User, { foreignKey: 'userId' })
-  }
-
-  UserProjects.projector = userProjectsProjector
 
   return UserProjects
 }
