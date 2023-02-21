@@ -1,8 +1,27 @@
-import { DataTypes } from 'sequelize'
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize'
+
+export class Notification extends Model<
+  InferAttributes<Notification>,
+  InferCreationAttributes<Notification>
+> {
+  id: string
+  type: string
+  message: Record<string, string>
+  context: Record<string, string>
+  variables: Record<string, string>
+  status: string
+  error?: string
+  createdAt: CreationOptional<Date>
+}
 
 export const MakeNotificationModel = (sequelize) => {
-  const Notification = sequelize.define(
-    'notification',
+  Notification.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -32,15 +51,14 @@ export const MakeNotificationModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      createdAt: DataTypes.DATE,
     },
     {
+      sequelize,
+      tableName: 'notifications',
       timestamps: true,
     }
   )
-
-  Notification.associate = (models) => {
-    // Add belongsTo etc. statements here
-  }
 
   return Notification
 }

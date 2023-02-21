@@ -7,7 +7,7 @@ const fakeNotificationArgs = {
   message: {},
   context: {},
   variables: {},
-  createdAt: Date.now(),
+  createdAt: new Date(),
   status: 'sent',
 }
 

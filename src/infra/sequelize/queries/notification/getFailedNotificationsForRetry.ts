@@ -1,16 +1,16 @@
 import { UniqueEntityID } from '@core/domain'
 import { wrapInfra } from '@core/utils'
-import { FailedNotification, GetFailedNotificationsForRetry } from '@modules/notification'
+import { GetFailedNotificationsForRetry } from '@modules/notification'
 import models from '../../models'
 
 const { Notification } = models
 export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = () => {
-  return wrapInfra<FailedNotification[]>(
+  return wrapInfra(
     Notification.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] })
-  ).andThen((notifications: any) => {
+  ).andThen((notifications) => {
     const passwordResetEmails: Set<string> = new Set()
 
-    async function _isObsolete(notification): Promise<boolean> {
+    async function _isObsolete(notification) {
       if (notification.type === 'password-reset') {
         if (passwordResetEmails.has(notification.message.email)) {
           return true
@@ -20,7 +20,7 @@ export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = ()
       return false
     }
 
-    return wrapInfra<FailedNotification[]>(
+    return wrapInfra(
       Promise.all(
         notifications
           .map((notification) => notification.get())
