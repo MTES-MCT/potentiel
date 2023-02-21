@@ -18,25 +18,14 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
 
 type ChangerFournisseurProps = {
   request: Request
-  project: {
-    id: string
-    nomProjet: string
-    nomCandidat: string
-    communeProjet: string
-    regionProjet: string
-    departementProjet: string
-    periodeId: string
-    familleId: string | undefined
-    notifiedOn: number
-    appelOffreId: string
-    identifiantGestionnaire?: string
-    puissance: number
+  project: ProjectProps & {
     cahierDesChargesActuel: string
     evaluationCarbone: number
     evaluationCarboneDeRéférence: number
@@ -91,10 +80,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
             <input type="hidden" name="projectId" value={project.id} />
             <div className="form__group">
               <div className="mb-2">Concernant le projet:</div>
-              <ProjectInfo
-                project={{ ...project, unitePuissance: appelOffre.unitePuissance }}
-                className="mb-3"
-              />
+              <ProjectInfo project={project} className="mb-3" />
               {success && <SuccessBox title={success} />}
               {error && <ErrorBox title={error} />}
 

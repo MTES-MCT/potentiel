@@ -1,6 +1,5 @@
 import { ensureRole, getProjectAppelOffre } from '@config'
 import { shouldUserAccessProject } from '@config/useCases.config'
-import { projectRepo } from '@dataAccess'
 
 import routes from '@routes'
 import { validateUniqueId } from '../../../helpers/validateUniqueId'
@@ -9,6 +8,7 @@ import asyncHandler from '../../helpers/asyncHandler'
 import { v1Router } from '../../v1Router'
 
 import { ChangerProducteurPage } from '@views'
+import { Project } from '@infra/sequelize/projections'
 
 v1Router.get(
   routes.CHANGER_PRODUCTEUR(),
@@ -23,15 +23,21 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const project = await projectRepo.findById(projectId)
+    const project = await Project.findByPk(projectId)
 
     if (!project) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
+    const { appelOffreId, periodeId, familleId } = project
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    if (!appelOffre) {
+      return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
+    }
+
     // Changement de producteur interdit avant la date d'achèvement
     // La date d'achèvement n'est pas encore une information à saisir dans Potentiel
-    if (project.appelOffre?.type === 'eolien') {
+    if (appelOffre.type === 'eolien') {
       return unauthorizedResponse({
         request,
         response,
@@ -52,16 +58,10 @@ v1Router.get(
       })
     }
 
-    const { appelOffreId, periodeId, familleId } = project
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
-    if (!appelOffre) {
-      return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
-    }
-
     return response.send(
       ChangerProducteurPage({
         request,
-        project,
+        project: { ...project, unitePuissance: appelOffre.unitePuissance },
         appelOffre,
       })
     )
