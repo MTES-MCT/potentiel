@@ -151,7 +151,7 @@ export const ProjectList = ({
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => (
-          <li className="list-none p-0 m-0">
+          <li className="list-none p-0 m-0" key={project.id}>
             <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
               <div className="flex flex-col gap-2 mb-4">
                 <div className="flex flex-col md:flex-row gap-2">

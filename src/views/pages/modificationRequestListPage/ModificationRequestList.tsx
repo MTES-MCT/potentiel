@@ -58,6 +58,8 @@ export const ModificationRequestList = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
 
+  const [afficherFiltres, setAfficherFiltres] = useState(false)
+
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
@@ -85,6 +87,7 @@ export const ModificationRequestList = ({
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
+                onClick={() => setAfficherFiltres(!afficherFiltres)}
               >
                 <span
                   style={{
@@ -96,6 +99,7 @@ export const ModificationRequestList = ({
                 </span>
                 <svg className="icon filter-icon">
                   <use xlinkHref="#expand"></use>
+                  <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
               <div className="filter-panel">
