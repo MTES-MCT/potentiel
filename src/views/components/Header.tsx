@@ -23,6 +23,7 @@ const LogoAndTitle = () => (
   <Link
     className="flex items-center no-underline hover:no-underline focus:no-underline visited:no-underline"
     href={routes.HOME}
+    title="Retour à l'accueil"
   >
     <div className="flex flex-col">
       <div className="lg:mb-1 logo-before" />
