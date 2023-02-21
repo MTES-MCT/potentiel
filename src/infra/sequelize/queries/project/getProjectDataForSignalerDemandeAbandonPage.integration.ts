@@ -16,7 +16,6 @@ const projectInfo = makeFakeProject({
   periodeId: 'periodeId',
   familleId: 'familleId',
   appelOffreId: 'appelOffreId',
-  abandonedOn: undefined,
 })
 
 describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
@@ -70,7 +69,6 @@ describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
           periodeId: 'periodeId',
           familleId: 'familleId',
           appelOffreId: 'appelOffreId',
-          abandonedOn: new Date('2021-02-01').getTime(),
         })
       })
     })
