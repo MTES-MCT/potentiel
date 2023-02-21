@@ -1,11 +1,11 @@
 import { ensureRole, getProjectAppelOffre } from '@config'
-import { projectRepo } from '@dataAccess'
 import { NewModificationRequestPage } from '@views'
 import { validateUniqueId } from '../../helpers/validateUniqueId'
 import routes from '@routes'
 import { errorResponse, notFoundResponse } from '../helpers'
 import asyncHandler from '../helpers/asyncHandler'
 import { v1Router } from '../v1Router'
+import { Project } from '@infra/sequelize/projections'
 
 const ACTIONS = ['actionnaire', 'puissance', 'recours']
 
@@ -23,7 +23,7 @@ v1Router.get(
       return errorResponse({ request, response, customMessage: 'Le type de demande est erronné.' })
     }
 
-    const project = await projectRepo.findById(projectId)
+    const project = await Project.findByPk(projectId)
 
     if (!project) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
@@ -38,7 +38,7 @@ v1Router.get(
     return response.send(
       NewModificationRequestPage({
         request,
-        project,
+        project: { ...project, unitePuissance: appelOffre.unitePuissance },
         appelOffre,
       })
     )

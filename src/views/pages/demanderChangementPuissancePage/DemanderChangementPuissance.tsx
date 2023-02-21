@@ -27,6 +27,7 @@ type DemanderChangementPuissanceProps = {
     cahierDesChargesActuel: string
     technologie: Technologie
     puissanceInitiale: number
+    puissance: number
   }
   appelOffre: ProjectAppelOffre
 }
@@ -88,7 +89,6 @@ export const DemanderChangementPuissance = ({
                   {...{
                     ...project,
                     justification,
-                    puissance,
                     appelOffre,
                   }}
                 />

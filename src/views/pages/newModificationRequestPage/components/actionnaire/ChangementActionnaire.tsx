@@ -1,10 +1,9 @@
 import { Astérisque, Label } from '@components'
-import { Project } from '@entities'
 import React from 'react'
 import { dataId } from '../../../../../helpers/testId'
 
 type ChangementActionnaireProps = {
-  project: Project
+  project: { actionnaire?: string }
   actionnaire: string
   justification: string
 }
@@ -15,8 +14,12 @@ export const ChangementActionnaire = ({
   justification,
 }: ChangementActionnaireProps) => (
   <>
-    <label>Ancien actionnaire</label>
-    <input type="text" disabled defaultValue={project.actionnaire} />
+    {project.actionnaire && (
+      <>
+        <label>Ancien actionnaire</label>
+        <input type="text" disabled defaultValue={project.actionnaire} />
+      </>
+    )}
     <label htmlFor="actionnaire" className="mt-4">
       Nouvel actionnaire <Astérisque />
     </label>
