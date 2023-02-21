@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
@@ -20,13 +20,14 @@ import {
   SuccessBox,
   ErrorBox,
   Heading1,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import routes from '@routes'
 
 type ChangerProducteurProps = {
   request: Request
-  project: Project
+  project: ProjectProps & { cahierDesChargesActuel: string }
   appelOffre: ProjectAppelOffre
 }
 
@@ -36,8 +37,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
   const isEolien = appelOffre?.type === 'eolien'
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -62,7 +62,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.CHANGER_PRODUCTEUR(project.id),
                 type: 'producteur',

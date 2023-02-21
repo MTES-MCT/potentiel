@@ -14,9 +14,10 @@ import {
   ErrorBox,
   ExternalLink,
   Heading1,
+  ProjectProps,
 } from '@components'
 import routes from '@routes'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 
 import { Request } from 'express'
 import React from 'react'
@@ -27,7 +28,10 @@ import { hydrateOnClient } from '../../helpers'
 
 type DemanderDelaiProps = {
   request: Request
-  project: Project
+  project: ProjectProps & {
+    cahierDesChargesActuel: string
+    completionDueOn: number
+  }
   appelOffre: ProjectAppelOffre
   validationErrors?: Array<{ [fieldName: string]: string }>
 }
@@ -36,8 +40,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
   const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1
@@ -65,7 +68,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.DEMANDER_DELAI(project.id),
                 type: 'delai',
@@ -125,7 +128,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                       {...dataId('modificationRequest-justificationField')}
                     />
                   </div>
-                  {!(project.dcrNumeroDossier || project.numeroGestionnaire) ? (
+                  {!project.identifiantGestionnaire ? (
                     <div>
                       <label htmlFor="numeroGestionnaire">Identifiant gestionnaire de réseau</label>
                       <div className="italic">

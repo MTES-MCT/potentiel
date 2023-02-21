@@ -13,10 +13,6 @@ const projectInfo = makeFakeProject({
   communeProjet: 'communeProjet',
   regionProjet: 'regionProjet',
   departementProjet: 'departementProjet',
-  periodeId: 'periodeId',
-  familleId: 'familleId',
-  appelOffreId: 'appelOffreId',
-  abandonedOn: undefined,
 })
 
 describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
@@ -38,9 +34,9 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
         communeProjet: 'communeProjet',
         regionProjet: 'regionProjet',
         departementProjet: 'departementProjet',
-        periodeId: 'periodeId',
-        familleId: 'familleId',
-        appelOffreId: 'appelOffreId',
+        periodeId: projectInfo.periodeId,
+        familleId: projectInfo.familleId,
+        appelOffreId: projectInfo.appelOffreId,
       })
     })
   })
@@ -67,10 +63,9 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
-          appelOffreId: 'appelOffreId',
-          abandonedOn: new Date('2021-02-01').getTime(),
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
         })
       })
     })
@@ -91,10 +86,10 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
           notifiedOn: new Date('2025-01-31').getTime(),
-          appelOffreId: 'appelOffreId',
         })
       })
     })
@@ -115,10 +110,10 @@ describe('Sequelize getProjectDataForSignalerDemandeRecoursPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
           notifiedOn: new Date('2025-01-31').getTime(),
-          appelOffreId: 'appelOffreId',
         })
       })
     })

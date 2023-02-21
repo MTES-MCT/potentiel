@@ -10,6 +10,7 @@ import {
   Label,
   PageTemplate,
   ProjectInfo,
+  ProjectProps,
   SecondaryLinkButton,
   SuccessBox,
 } from '@components'
@@ -18,19 +19,7 @@ import routes from '@routes'
 
 type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request
-  projet: {
-    id: string
-    nomProjet: string
-    nomCandidat: string
-    communeProjet: string
-    regionProjet: string
-    departementProjet: string
-    periodeId: string
-    familleId: string
-    notifiedOn: number
-    appelOffreId: string
-    numeroGestionnaire?: string
-  }
+  projet: ProjectProps
 }
 
 export const ModifierIdentifiantGestionnaireReseau = ({
@@ -43,7 +32,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
       <div className="panel">
         <div className="panel__header">
           <Heading1>
-            {projet.numeroGestionnaire
+            {projet.identifiantGestionnaire
               ? "Je modifie l'identifiant du numéro gestionnaire réseau"
               : "J'ajoute un numéro de gestionnaire réseau"}
           </Heading1>
@@ -64,15 +53,15 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           <input type="hidden" name="projetId" value={projet.id} />
           <div>
             <Label htmlFor="identifiantGestionnaireRéseau">
-              {projet.numeroGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"} du
-              numéro de gestionnaire (champ obligatoire)
+              {projet.identifiantGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"}{' '}
+              du numéro de gestionnaire (champ obligatoire)
             </Label>
             <Input
               type="text"
               id="identifiantGestionnaireRéseau"
               name="identifiantGestionnaireRéseau"
               placeholder="Saisir un nouvel identifiant"
-              defaultValue={projet.numeroGestionnaire || ''}
+              defaultValue={projet.identifiantGestionnaire || ''}
               required
             />
           </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
@@ -16,6 +16,7 @@ import {
   SuccessBox,
   ErrorBox,
   Heading1,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementActionnaire, DemandeRecours } from './components'
@@ -23,7 +24,7 @@ import routes from '@routes'
 
 type NewModificationRequestProps = {
   request: Request
-  project: Project
+  project: ProjectProps & { cahierDesChargesActuel: string; actionnaire?: string }
   appelOffre: ProjectAppelOffre
 }
 
@@ -35,8 +36,7 @@ export const NewModificationRequest = ({
   const { action, error, success, actionnaire, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   const redirectionRoute = (action) => {
     switch (action) {
@@ -72,7 +72,7 @@ export const NewModificationRequest = ({
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: redirectionRoute(action),
                 type: action,

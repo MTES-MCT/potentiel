@@ -1,6 +1,5 @@
 import { ensureRole, getProjectAppelOffre } from '@config'
 import { shouldUserAccessProject } from '@config/useCases.config'
-import { projectRepo } from '@dataAccess'
 
 import routes from '@routes'
 import { validateUniqueId } from '../../../helpers/validateUniqueId'
@@ -9,6 +8,7 @@ import asyncHandler from '../../helpers/asyncHandler'
 import { v1Router } from '../../v1Router'
 
 import { ChangerFournisseurPage } from '@views'
+import { Project } from '@infra/sequelize/projections'
 
 v1Router.get(
   routes.CHANGER_FOURNISSEUR(),
@@ -23,7 +23,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const project = await projectRepo.findById(projectId)
+    const project = await Project.findByPk(projectId)
 
     if (!project) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
@@ -51,7 +51,7 @@ v1Router.get(
     return response.send(
       ChangerFournisseurPage({
         request,
-        project,
+        project: { ...project.get(), unitePuissance: appelOffre.unitePuissance },
         appelOffre,
       })
     )

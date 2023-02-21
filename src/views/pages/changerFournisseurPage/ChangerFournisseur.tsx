@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre } from '@entities'
 import routes from '@routes'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
@@ -18,13 +18,19 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
 
 type ChangerFournisseurProps = {
   request: Request
-  project: Project
+  project: ProjectProps & {
+    cahierDesChargesActuel: string
+    evaluationCarbone: number
+    evaluationCarboneDeRéférence: number
+    details?: { [key: string]: string }
+  }
   appelOffre: ProjectAppelOffre
 }
 
@@ -32,8 +38,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
   const { error, success, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
 
@@ -59,7 +64,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.CHANGER_FOURNISSEUR(project.id),
                 type: 'fournisseur',

@@ -16,6 +16,8 @@ export type ProjectDataForSignalerDemandeDelaiPage = {
   appelOffreId: string
   cahierDesChargesActuel: string
   délaiCDC2022Applicable?: number
+  puissance: number
+  unitePuissance: string
 }
 
 export type GetProjectDataForSignalerDemandeDelaiPage = (filtre: {

@@ -37,7 +37,7 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   dcrDueOn: number
   completionDueOn: number
   abandonedOn: number
-  details?: JSON
+  details?: { [key: string]: string }
   certificateFileId?: string
   cahierDesChargesActuel: string
   potentielIdentifier: string
