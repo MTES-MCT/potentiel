@@ -13,9 +13,6 @@ const projectInfo = makeFakeProject({
   communeProjet: 'communeProjet',
   regionProjet: 'regionProjet',
   departementProjet: 'departementProjet',
-  periodeId: 'periodeId',
-  familleId: 'familleId',
-  appelOffreId: 'appelOffreId',
 })
 
 describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
@@ -37,9 +34,9 @@ describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
         communeProjet: 'communeProjet',
         regionProjet: 'regionProjet',
         departementProjet: 'departementProjet',
-        periodeId: 'periodeId',
-        familleId: 'familleId',
-        appelOffreId: 'appelOffreId',
+        periodeId: projectInfo.periodeId,
+        familleId: projectInfo.familleId,
+        appelOffreId: projectInfo.appelOffreId,
       })
     })
   })
@@ -66,9 +63,9 @@ describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
-          appelOffreId: 'appelOffreId',
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
         })
       })
     })
@@ -89,10 +86,10 @@ describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
           notifiedOn: new Date('2025-01-31').getTime(),
-          appelOffreId: 'appelOffreId',
         })
       })
     })
@@ -113,10 +110,10 @@ describe('Sequelize getProjectDataForSignalerDemandeAbandonPage', () => {
           communeProjet: 'communeProjet',
           regionProjet: 'regionProjet',
           departementProjet: 'departementProjet',
-          periodeId: 'periodeId',
-          familleId: 'familleId',
+          periodeId: projectInfo.periodeId,
+          familleId: projectInfo.familleId,
+          appelOffreId: projectInfo.appelOffreId,
           notifiedOn: new Date('2025-01-31').getTime(),
-          appelOffreId: 'appelOffreId',
         })
       })
     })
