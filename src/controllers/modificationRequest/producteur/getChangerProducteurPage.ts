@@ -61,7 +61,7 @@ v1Router.get(
     return response.send(
       ChangerProducteurPage({
         request,
-        project: { ...project, unitePuissance: appelOffre.unitePuissance },
+        project: { ...project.get(), unitePuissance: appelOffre.unitePuissance },
         appelOffre,
       })
     )

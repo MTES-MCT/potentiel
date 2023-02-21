@@ -44,11 +44,12 @@ v1Router.get(
     if (!appelOffre) {
       return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
     }
+
     return response.send(
       DemanderChangementPuissancePage({
         request,
         project: {
-          ...project,
+          ...project.get(),
           unitePuissance: appelOffre.unitePuissance,
           technologie: project.technologie || 'N/A',
         },
