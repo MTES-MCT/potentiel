@@ -4,7 +4,7 @@ import { getRatiosChangementPuissance } from './getRatiosChangementPuissance'
 export type ExceedsRatiosChangementPuissance = (arg: {
   project: {
     puissanceInitiale: number
-    appelOffre?: ProjectAppelOffre
+    appelOffre: ProjectAppelOffre
     technologie: Technologie
   }
   nouvellePuissance: number

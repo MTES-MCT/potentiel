@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Project } from '@entities'
 import { dataId } from '../../../../helpers/testId'
 import toNumber from '../../../../helpers/toNumber'
 import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators'
@@ -10,20 +9,26 @@ import {
 import { Astérisque, ErrorBox, Label } from '@components'
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee'
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios'
+import { ProjectAppelOffre, Technologie } from '@entities'
 
 type ChangementPuissanceProps = {
-  project: Project
+  unitePuissance: string
   puissance: number
+  puissanceInitiale: number
   justification: string
+  cahierDesChargesActuel: string
+  appelOffre: ProjectAppelOffre
+  technologie: Technologie
 }
 
 export const ChangementPuissance = ({
-  project,
   puissance,
   justification,
+  puissanceInitiale,
+  cahierDesChargesActuel,
+  appelOffre,
+  technologie,
 }: ChangementPuissanceProps) => {
-  const { appelOffre } = project
-
   const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false)
   const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false)
   const [displayAlertPuissanceMaxVolumeReserve, setDisplayAlertPuissanceMaxVolumeReserve] =
@@ -33,8 +38,14 @@ export const ChangementPuissance = ({
   const handlePuissanceOnChange = (e) => {
     const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
     const nouvellePuissance = toNumber(e.target.value)
-    const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
-    const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
+    const exceedsRatios = exceedsRatiosChangementPuissance({
+      project: { puissanceInitiale, appelOffre, technologie },
+      nouvellePuissance,
+    })
+    const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
+      project: { puissanceInitiale, appelOffre },
+      nouvellePuissance,
+    })
 
     setDisplayAlertOnPuissanceType(!isNewValueCorrect)
     setDisplayAlertHorsRatios(exceedsRatios)
@@ -42,23 +53,21 @@ export const ChangementPuissance = ({
     setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax)
   }
 
-  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(
-    project.cahierDesChargesActuel
-  )
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel)
 
   return (
     <>
-      <label>Puissance à la notification (en {appelOffre?.unitePuissance})</label>
+      <label>Puissance à la notification (en {appelOffre.unitePuissance})</label>
       <input
         type="text"
         disabled
-        value={project.puissanceInitiale}
+        value={puissanceInitiale}
         {...dataId('modificationRequest-presentPuissanceField')}
       />
-      {project.puissance !== project.puissanceInitiale && (
+      {puissance !== puissanceInitiale && (
         <>
           <label>Puissance actuelle ({appelOffre?.unitePuissance})</label>
-          <input type="text" disabled value={project.puissance} />
+          <input type="text" disabled value={puissance} />
         </>
       )}
       <label className="mt-4" htmlFor="puissance">
@@ -76,9 +85,13 @@ export const ChangementPuissance = ({
         required={true}
       />
 
-      {!CDC2022choisi && displayAlertHorsRatios && <AlertePuissanceHorsRatios {...{ project }} />}
+      {!CDC2022choisi && displayAlertHorsRatios && (
+        <AlertePuissanceHorsRatios {...{ project: { appelOffre, technologie } }} />
+      )}
 
-      {displayAlertPuissanceMaxVolumeReserve && <AlertePuissanceMaxDepassee {...{ project }} />}
+      {displayAlertPuissanceMaxVolumeReserve && (
+        <AlertePuissanceMaxDepassee {...{ project: { appelOffre } }} />
+      )}
 
       {displayAlertOnPuissanceType && (
         <ErrorBox title="Le format saisi n'est pas conforme, veuillez renseigner un nombre décimal." />

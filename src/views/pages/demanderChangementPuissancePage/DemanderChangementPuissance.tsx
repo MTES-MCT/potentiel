@@ -1,5 +1,5 @@
 import React from 'react'
-import { Project, ProjectAppelOffre } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities'
 import { dataId } from '../../../helpers/testId'
 import { Request } from 'express'
 
@@ -15,6 +15,7 @@ import {
   SuccessBox,
   ErrorBox,
   Heading1,
+  ProjectProps,
 } from '@components'
 import { hydrateOnClient } from '../../helpers'
 import { ChangementPuissance } from './components/ChangementPuissance'
@@ -22,7 +23,11 @@ import routes from '@routes'
 
 type DemanderChangementPuissanceProps = {
   request: Request
-  project: Project
+  project: ProjectProps & {
+    cahierDesChargesActuel: string
+    technologie: Technologie
+    puissanceInitiale: number
+  }
   appelOffre: ProjectAppelOffre
 }
 
@@ -34,8 +39,7 @@ export const DemanderChangementPuissance = ({
   const { error, success, puissance, justification } = (request.query as any) || {}
 
   const doitChoisirCahierDesCharges =
-    project.appelOffre?.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -58,7 +62,7 @@ export const DemanderChangementPuissance = ({
                   id: project.id,
                   appelOffre,
                   cahierDesChargesActuel: 'initial',
-                  identifiantGestionnaireRéseau: project.numeroGestionnaire,
+                  identifiantGestionnaireRéseau: project.identifiantGestionnaire,
                 },
                 redirectUrl: routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id),
                 type: 'puissance',
@@ -82,9 +86,10 @@ export const DemanderChangementPuissance = ({
               <div {...dataId('modificationRequest-demandesInputs')}>
                 <ChangementPuissance
                   {...{
-                    project,
-                    puissance,
+                    ...project,
                     justification,
+                    puissance,
+                    appelOffre,
                   }}
                 />
 

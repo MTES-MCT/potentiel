@@ -1,11 +1,11 @@
 import { ensureRole, getProjectAppelOffre, shouldUserAccessProject } from '@config'
-import { projectRepo } from '@dataAccess'
 import { validateUniqueId } from '../../../helpers/validateUniqueId'
 import routes from '@routes'
 import { notFoundResponse, unauthorizedResponse } from '../../helpers'
 import asyncHandler from '../../helpers/asyncHandler'
 import { v1Router } from '../../v1Router'
 import { DemanderChangementPuissancePage } from '@views'
+import { Project } from '@infra/sequelize/projections'
 
 v1Router.get(
   routes.DEMANDER_CHANGEMENT_PUISSANCE(),
@@ -20,7 +20,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
     }
 
-    const project = await projectRepo.findById(projectId)
+    const project = await Project.findByPk(projectId)
 
     if (!project) {
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
@@ -47,7 +47,11 @@ v1Router.get(
     return response.send(
       DemanderChangementPuissancePage({
         request,
-        project,
+        project: {
+          ...project,
+          unitePuissance: appelOffre.unitePuissance,
+          technologie: project.technologie || 'N/A',
+        },
         appelOffre,
       })
     )

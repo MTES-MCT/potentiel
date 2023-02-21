@@ -4,7 +4,7 @@ import { getRatiosChangementPuissance } from '@modules/demandeModification'
 
 type AlertOnPuissanceOutsideRatiosProps = {
   project: {
-    appelOffre?: ProjectAppelOffre
+    appelOffre: ProjectAppelOffre
     technologie: Technologie
   }
 }
