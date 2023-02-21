@@ -49,7 +49,7 @@ describe('Sequelize NotificationRepo', () => {
       const retrievedNotification = await NotificationModel.findByPk(notification.id.toString())
 
       expect(retrievedNotification).toBeDefined()
-      expect(retrievedNotification.type).toEqual('designation')
+      expect(retrievedNotification?.type).toEqual('designation')
     })
   })
 
@@ -74,7 +74,7 @@ describe('Sequelize NotificationRepo', () => {
           variables: {
             invitation_link: 'invitation_link',
           },
-          createdAt: Date.now(),
+          createdAt: new Date(),
           status: 'sent',
         })
       })
