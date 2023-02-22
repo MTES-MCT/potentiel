@@ -27,7 +27,7 @@ GestionnairesRéseauListe.init(
   {
     sequelize: sequelizeInstance,
     tableName: nomProjection,
-    timestamps: true,
+    timestamps: false,
     freezeTableName: true,
   },
 );
