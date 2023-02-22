@@ -60,12 +60,12 @@ describe('Sequelize FileRepo', () => {
       const retrievedFile = await FileModel.findByPk(file.id.toString())
 
       expect(retrievedFile).toBeDefined()
-      expect(retrievedFile.filename).toEqual(file.filename)
-      expect(retrievedFile.forProject).toEqual(projectId.toString())
-      expect(retrievedFile.createdBy).toEqual(userId.toString())
-      expect(retrievedFile.createdAt).toEqual(file.createdAt)
-      expect(retrievedFile.designation).toEqual(file.designation)
-      expect(retrievedFile.storedAt).toEqual('storageLocation')
+      expect(retrievedFile?.filename).toEqual(file.filename)
+      expect(retrievedFile?.forProject).toEqual(projectId.toString())
+      expect(retrievedFile?.createdBy).toEqual(userId.toString())
+      expect(retrievedFile?.createdAt).toEqual(file.createdAt)
+      expect(retrievedFile?.designation).toEqual(file.designation)
+      expect(retrievedFile?.storedAt).toEqual('storageLocation')
     })
   })
 

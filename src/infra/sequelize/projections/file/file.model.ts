@@ -1,8 +1,23 @@
-import { DataTypes } from 'sequelize'
+import {
+  CreationOptional,
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+} from 'sequelize'
+
+export class File extends Model<InferAttributes<File>, InferCreationAttributes<File>> {
+  id: string
+  filename: string
+  forProject?: string
+  createdBy?: string
+  designation: string
+  storedAt?: string
+  createdAt: CreationOptional<Date>
+}
 
 export const MakeFileModel = (sequelize) => {
-  const File = sequelize.define(
-    'file',
+  File.init(
     {
       id: {
         type: DataTypes.UUID,
@@ -29,15 +44,13 @@ export const MakeFileModel = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      createdAt: DataTypes.DATE,
     },
     {
       timestamps: true,
+      tableName: 'files',
+      sequelize,
     }
   )
-
-  File.associate = (models) => {
-    // Add belongsTo etc. statements here
-  }
-
   return File
 }
