@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { ConnexionsParRoleEtParJour, StatistiquesUtilisation } from '../tableModels';
+import { ConnexionsParRoleEtParJour, StatistiquesUtilisation } from '../tables';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {

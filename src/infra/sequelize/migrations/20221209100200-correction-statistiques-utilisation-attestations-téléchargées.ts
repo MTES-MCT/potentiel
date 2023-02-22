@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { StatistiquesUtilisation } from '../tableModels';
+import { StatistiquesUtilisation } from '../tables';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
