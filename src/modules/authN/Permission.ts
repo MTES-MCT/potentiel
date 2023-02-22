@@ -14,7 +14,7 @@ import {
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
-import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau';
 
 export type Permission = {
   nom: string;
