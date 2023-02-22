@@ -4,11 +4,11 @@ import { resetDatabase } from '../../../helpers';
 import { UserProjects } from '../userProjects.model';
 import onProjectClaimedByOwner from './onProjectClaimedByOwner';
 
-describe('userProjects.onProjectClaimed', () => {
+describe('userProjects.onProjectClaimedByOwner', () => {
   const projectId = new UniqueEntityID().toString();
   const claimedBy = new UniqueEntityID().toString();
 
-  describe('on ProjectClaimedByOwner', () => {
+  describe('on onProjectClaimedByOwner', () => {
     beforeAll(async () => {
       // Create the tables and remove all data
       await resetDatabase();

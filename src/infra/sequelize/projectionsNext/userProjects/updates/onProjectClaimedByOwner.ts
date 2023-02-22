@@ -8,7 +8,7 @@ export default UserProjectsProjector.on(ProjectClaimedByOwner, async (évènemen
     payload: { projectId, claimedBy },
   } = évènement;
   try {
-    await UserProjects.create({ userId: claimedBy, projectId });
+    await UserProjects.create({ userId: claimedBy, projectId }, { transaction });
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(

@@ -2,8 +2,8 @@
   "workbench.startupEditor": "newUntitledFile",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-  "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -11,7 +11,7 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.configPath": ".prettierrc.json",
+  "prettier.configPath": ".prettierrc",
   "barrelr.excludeFileRegex": "(\\.spec\\.|\\.test\\.|\\.integration\\.|\\.stories\\.)",
   "tailwindCSS.emmetCompletions": true,
   "gitpod.openInStable.neverPrompt": true,
