@@ -41,7 +41,7 @@ UserProjects.init(
   },
 );
 
-UserProjects.belongsTo(Users, { foreignKey: 'userId' });
+UserProjects.belongsTo(Users, { as: 'user', foreignKey: 'userId' });
 
 const UserProjectsProjector = makeSequelizeProjector(UserProjects, nomProjection);
 

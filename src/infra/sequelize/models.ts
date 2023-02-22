@@ -57,7 +57,7 @@ Raccordements.hasOne(models.File, {
 Raccordements.hasOne(models.User, {
   foreignKey: 'id',
   sourceKey: 'ptfEnvoyéePar',
-  as: 'ptfEnvoyéeParRef',
+  as: 'User',
 });
 
 models.Project.belongsTo(models.File, {

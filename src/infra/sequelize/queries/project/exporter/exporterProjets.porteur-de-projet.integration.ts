@@ -24,6 +24,7 @@ import {
   évaluationCarbone,
 } from './colonnesParCatégorie';
 import { User } from '@entities';
+import { UserProjects } from '@infra/sequelize/projectionsNext';
 
 describe(`Export des projets en tant que porteur de projet`, () => {
   beforeEach(resetDatabase);
@@ -85,7 +86,7 @@ describe(`Export des projets en tant que porteur de projet`, () => {
         nomProjet: 'Autre Non Notifié du porteur',
       }),
     ]);
-    await models.UserProjects.bulkCreate([
+    await UserProjects.bulkCreate([
       { userId, projectId: idProjet1DuPorteur },
       { userId, projectId: idProjet2DuPorteur },
       { userId, projectId: idProjet3DuPorteur },

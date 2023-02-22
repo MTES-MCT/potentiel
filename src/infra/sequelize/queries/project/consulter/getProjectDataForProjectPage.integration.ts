@@ -7,6 +7,7 @@ import { resetDatabase } from '../../../helpers';
 import models from '../../../models';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { User } from '@entities';
+import { Users } from '@infra/sequelize/projectionsNext';
 
 const { Project, File, User, UserProjects } = models;
 const certificateFileId = new UniqueEntityID().toString();
@@ -140,7 +141,7 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     await resetDatabase();
 
     await Project.create(makeFakeProject(projectInfo));
-    await User.create(
+    await Users.create(
       makeFakeUser({
         id: userId,
         fullName: 'username',
@@ -148,7 +149,7 @@ describe('Sequelize getProjectDataForProjectPage', () => {
         registeredOn: new Date(123),
       }),
     );
-    await User.create(
+    await Users.create(
       makeFakeUser({
         id: userId2,
         fullName: 'username',

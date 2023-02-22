@@ -8,9 +8,9 @@ import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
 import { Project } from '../../../projections/project/project.model';
-import { Raccordements } from '@infra/sequelize';
+import { Raccordements, UserProjects, Users } from '@infra/sequelize';
 
-const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models;
+const { Project: ProjectTable, File, ModificationRequest, User } = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -33,7 +33,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           required: false,
           include: [
             {
-              model: User,
+              model: Users,
               as: 'user',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },
@@ -42,6 +42,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       ],
     }),
   );
+
   const vérifierAccèsProjet = (
     project: Project | null,
   ): ResultAsync<Project, EntityNotFoundError> => {
