@@ -6,6 +6,7 @@ import {
   ProjectClaimedDTO,
   ProjectEventDTO,
   ProjectImportedDTO,
+  ProjectNotificationDateSetDTO,
   ProjectNotifiedDTO,
   ProjectStatus,
 } from '@modules/frise';
@@ -65,6 +66,28 @@ describe('extractDesignationItemProps', () => {
         certificate: undefined,
         role: 'admin',
         projectStatus: 'Classé',
+      });
+    });
+
+    describe('when the project a different notification date was set after the project was notified', () => {
+      const projectNotificationDateSetEvent = {
+        type: 'ProjectNotificationDateSet',
+        variant: 'admin',
+        date: 34,
+      } as ProjectNotificationDateSetDTO;
+      it('should return the latest notification date that was set', () => {
+        const result = extractDesignationItemProps(
+          [projectNotifiedEvent, projectNotificationDateSetEvent],
+          projectId,
+          status,
+        );
+        expect(result).toEqual({
+          type: 'designation',
+          date: 34,
+          certificate: undefined,
+          role: 'admin',
+          projectStatus: 'Classé',
+        });
       });
     });
 
