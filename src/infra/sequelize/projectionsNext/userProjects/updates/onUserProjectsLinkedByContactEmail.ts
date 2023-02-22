@@ -1,14 +1,30 @@
 import { logger } from '@core/utils';
-import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
+import { UserProjectsLinkedByContactEmail } from '@modules/authZ/events';
+import { ProjectionEnEchec } from '@modules/shared/errors';
+import { UserProjects, UserProjectsProjector } from '../userProjects.model';
 
-export const onUserProjectsLinkedByContactEmail =
-  (models) => async (event: UserProjectsLinkedByContactEmail) => {
-    const { UserProjects } = models;
-    const { userId, projectIds } = event.payload;
-
+export default UserProjectsProjector.on(
+  UserProjectsLinkedByContactEmail,
+  async (évènement, transaction) => {
+    const {
+      payload: { userId, projectIds },
+    } = évènement;
     try {
-      await UserProjects.bulkCreate(projectIds.map((projectId) => ({ userId, projectId })));
-    } catch (e) {
-      logger.error(e);
+      await UserProjects.bulkCreate(
+        projectIds.map((projectId) => ({ userId, projectId })),
+        { transaction },
+      );
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement UserInvitedToProject`,
+          {
+            évènement,
+            nomProjection: 'UserProjects.UserInvitedToProject',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);
