@@ -61,11 +61,7 @@ export const extractDesignationItemProps = (
   };
 };
 
-const isProjectDesignation = or(
-  is('ProjectNotificationDateSet'),
-  is('ProjectNotified'),
-  is('ProjectDCRRemoved'),
-);
+const isProjectDesignation = or(is('ProjectNotificationDateSet'), is('ProjectNotified'));
 
 const makeCertificateLink = (
   latestCertificateEvent: ProjectCertificateDTO,
