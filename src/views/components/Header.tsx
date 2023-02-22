@@ -23,6 +23,7 @@ const LogoAndTitle = () => (
   <Link
     className="flex items-center no-underline hover:no-underline focus:no-underline visited:no-underline"
     href={routes.HOME}
+    title="Retour à l'accueil"
   >
     <div className="flex flex-col">
       <div className="lg:mb-1 logo-before" />
@@ -92,7 +93,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
               href={user.accountUrl}
             >
-              <UserIcon />
+              <UserIcon aria-hidden />
               <span
                 className="hidden lg:block max-w-xs truncate pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -105,7 +106,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
               className="hidden lg:flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
               style={{ color: 'var(--text-default-grey)' }}
             >
-              <UserIcon />
+              <UserIcon aria-hidden />
               <span
                 className="max-w-xs whitespace-nowrap overflow-hidden overflow-ellipsis pt-0.5 mx-1"
                 title={user.fullName ? user.fullName : user.email}
@@ -120,7 +121,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.LOGOUT_ACTION}
           >
-            <LogoutBoxIcon className="text-blue-france-sun-base" />
+            <LogoutBoxIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
               Me déconnecter
             </span>
@@ -134,7 +135,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
             href={routes.SIGNUP}
           >
-            <RiAccountCircleLine className="text-blue-france-sun-base" />
+            <RiAccountCircleLine className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'inscrire</span>
           </Link>
         </li>
@@ -143,7 +144,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
             href={routes.LOGIN}
           >
-            <LockIcon className="text-blue-france-sun-base" />
+            <LockIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'identifier</span>
           </Link>
         </li>
@@ -159,7 +160,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <QuestionIcon className="lg:hidden text-blue-france-sun-base" />
         <span className="hidden lg:flex lg:items-center mx-1 text-blue-france-sun-base">
           <span className="pt-0.5">Aide</span>
-          <ExternalLinkIcon className="w-4 h-4 ml-1" />
+          <ExternalLinkIcon className="w-4 h-4 ml-1" title="(ouvrir dans un nouvel onglet)" />
         </span>
       </Link>
     </li>

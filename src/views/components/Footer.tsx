@@ -21,10 +21,7 @@ const Footer = () => {
                 className="no-underline hover:no-underline visited:no-underline outline-0"
               >
                 <div className="lg:mb-1 logo-before" />
-                <div
-                  className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5"
-                  title="Ministère de la transition énergétique"
-                >
+                <div className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5">
                   Ministère
                   <br />
                   de la transition

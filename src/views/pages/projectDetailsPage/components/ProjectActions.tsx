@@ -102,7 +102,7 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
     {project.isClasse && (
       <Menu as="div" className="m-auto self-stretch relative grow md:grow-0 text-left">
         <Menu.Button className="inline-flex items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
-          <InboxInIcon className="h-5 w-5 align-middle mr-2" />
+          <InboxInIcon className="h-5 w-5 align-middle mr-2" aria-hidden />
           Faire une demande
         </Menu.Button>
         <Transition

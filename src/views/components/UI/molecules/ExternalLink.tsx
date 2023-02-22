@@ -6,6 +6,6 @@ type ExternalLinkProps = ComponentProps<'a'>
 export const ExternalLink: FC<ExternalLinkProps> = ({ children, className = '', ...props }) => (
   <Link className={className} target="_blank" rel="noopener noreferrer" {...props}>
     {children}
-    <ExternalLinkIcon className="text-lg ml-1 -mb-1" />
+    <ExternalLinkIcon className="text-lg ml-1 -mb-1" title="(ouvrir dans un nouvel onglet)" />
   </Link>
 )

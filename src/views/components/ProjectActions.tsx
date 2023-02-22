@@ -40,7 +40,7 @@ export const ProjectActions = ({ project, role }: Props) => {
   return (
     <div style={{ position: 'relative' }} {...dataId('project-actions')}>
       <SecondaryButton className="ml-4" {...dataId('action-menu-trigger')}>
-        Actions <ChevronDownIcon className="ml-2" />
+        Actions <ChevronDownIcon className="ml-2" title="(menu)" />
       </SecondaryButton>
       <ul className="list--action-menu" {...dataId('action-menu')}>
         {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (

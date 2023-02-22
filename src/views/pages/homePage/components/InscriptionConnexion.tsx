@@ -45,14 +45,14 @@ const Bienvenue = ({ user }: BienvenueProps) => (
         className="inline-flex items-center lg:text-lg"
         href={routes.REDIRECT_BASED_ON_ROLE}
       >
-        <RiDashboardLine className="mr-4" />
+        <RiDashboardLine className="mr-4" aria-hidden />
         Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
       </LinkButton>
       <SecondaryLinkButton
         className="inline-flex items-center lg:text-lg"
         href={routes.LOGOUT_ACTION}
       >
-        <RiLogoutBoxLine className="mr-4" />
+        <RiLogoutBoxLine className="mr-4" aria-hidden />
         Me déconnecter
       </SecondaryLinkButton>
     </div>
@@ -86,7 +86,7 @@ const SignupBox = () => {
       </div>
       {active === 'porteur-projet' && (
         <SecondaryLinkButton href={routes.SIGNUP} className="inline-flex items-center mx-auto">
-          <RiAccountCircleLine className="mr-4" />
+          <RiAccountCircleLine className="mr-4" aria-hidden />
           M'inscrire
         </SecondaryLinkButton>
       )}
@@ -145,7 +145,7 @@ const LoginBox = () => {
         <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
       </div>
       <LinkButton href={routes.LOGIN} className="inline-flex items-center mx-auto">
-        <RiLockLine className="mr-4" />
+        <RiLockLine className="mr-4" aria-hidden />
         M'identifier
       </LinkButton>
     </div>

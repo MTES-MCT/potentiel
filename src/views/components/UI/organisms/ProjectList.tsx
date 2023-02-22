@@ -94,7 +94,8 @@ export const ProjectList = ({
 
   return (
     <>
-      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm" aria-hidden>
+      <legend className="flex flex-col md:flex-row gap-2 mb-2 text-sm italic" aria-hidden>
+        Légende :
         <div className="flex items-center">
           <PowerIcon
             className="text-yellow-moutarde-850-base mr-1 shrink-0"
@@ -148,110 +149,110 @@ export const ProjectList = ({
         )}
       </div>
 
-      {projects.items.map((project) => (
-        <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
-          <div className="flex flex-col gap-2 mb-4">
-            <div className="flex flex-col md:flex-row gap-2">
-              {displaySelection && (
-                <InputCheckbox
-                  onChange={(e) => toggleSelected(project.id, e.target.checked)}
-                  type="checkbox"
-                  value={project.id}
-                  checked={selectedIds.indexOf(project.id) > -1}
-                />
-              )}
-              <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-              <StatutBadge project={project} role={role} />
-            </div>
-            <div className="italic text-xs text-grey-425-base">{project.potentielIdentifier}</div>
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-4 md:items-center">
-            <div className="flex md:flex-1 flex-col gap-1 text-sm">
-              <div className="flex items-center">
-                <MapPinIcon className="mr-2 shrink-0" />
-                <span className="italic">
-                  {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
-                </span>
+      <ul className="p-0 m-0">
+        {projects.items.map((project) => (
+          <li className="list-none p-0 m-0" key={project.id}>
+            <Tile className="mb-4 flex md:relative flex-col" key={'project_' + project.id}>
+              <div className="flex flex-col gap-2 mb-4">
+                <div className="flex flex-col md:flex-row gap-2">
+                  {displaySelection && (
+                    <InputCheckbox
+                      onChange={(e) => toggleSelected(project.id, e.target.checked)}
+                      type="checkbox"
+                      value={project.id}
+                      checked={selectedIds.indexOf(project.id) > -1}
+                    />
+                  )}
+                  <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
+                  <StatutBadge project={project} role={role} />
+                </div>
+                <div className="italic text-xs text-grey-425-base">
+                  {project.potentielIdentifier}
+                </div>
               </div>
 
-              <div className="flex  items-center">
-                <BuildingHouseIcon className="mr-2 shrink-0" />
-                {project.nomCandidat}
-              </div>
-              <div className="flex items-center">
-                <UserIcon className="mr-2 shrink-0" />
-                <div className="flex flex-col overflow-hidden">
-                  <div>{project.nomRepresentantLegal}</div>
-                  <div className="truncate" title={project.email}>
-                    {project.email}
+              <div className="flex flex-col md:flex-row gap-4 md:items-center">
+                <div className="flex md:flex-1 flex-col gap-1 text-sm">
+                  <div className="flex items-center">
+                    <MapPinIcon className="mr-2 shrink-0" title="Localisation du projet" />
+                    <span className="italic">
+                      {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
+                    </span>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
-              <div className="flex lg:flex-1 lg:flex-col items-center gap-2" title="Puissance">
-                <PowerIcon className="text-yellow-moutarde-850-base" aria-label="Puissance" />
-                <div className="lg:flex lg:flex-col items-center">
-                  {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
-                </div>
-              </div>
-              {project.prixReference && (
-                <div
-                  className="flex lg:flex-1 lg:flex-col items-center gap-2"
-                  title="Prix de référence"
-                >
-                  <EuroIcon
-                    className="text-orange-terre-battue-main-645-base"
-                    aria-label="Prix de référence"
-                  />
-                  <div className="lg:flex lg:flex-col items-center">
-                    {project.prixReference} <Unit>€/MWh</Unit>
+                  <div className="flex  items-center">
+                    <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du candidat" />
+                    {project.nomCandidat}
                   </div>
-                </div>
-              )}
-
-              {displayGF ? (
-                <GF project={project} GFPastDue={GFPastDue} />
-              ) : (
-                project.evaluationCarbone !== undefined && (
-                  <div
-                    className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow"
-                    title="Évaluation carbone"
-                  >
-                    <CloudIcon className="text-grey-425-active" aria-label="Évaluation carbone" />
-                    <div>
-                      {project.evaluationCarbone > 0 ? (
-                        <div className="lg:flex lg:flex-col items-center text-center">
-                          {project.evaluationCarbone}
-                          <Unit> kg eq CO2/kWc</Unit>
-                        </div>
-                      ) : (
-                        '- - -'
-                      )}
+                  <div className="flex items-center">
+                    <UserIcon className="mr-2 shrink-0" title="Représentant légal" />
+                    <div className="flex flex-col overflow-hidden">
+                      <div>{project.nomRepresentantLegal}</div>
+                      <div className="truncate" title={project.email}>
+                        {project.email}
+                      </div>
                     </div>
                   </div>
-                )
-              )}
-            </div>
+                </div>
 
-            <div className="flex md:absolute md:top-4 md:right-5 gap-2">
-              <ProjectActions
-                role={role}
-                project={{
-                  ...project,
-                  isClasse: project.classe === 'Classé',
-                  isAbandoned: project.abandonedOn !== 0,
-                  isLegacy: project.appelOffre?.periode.type === 'legacy',
-                  notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
-                }}
-              />
-              <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Voir</LinkButton>
-            </div>
-          </div>
-        </Tile>
-      ))}
+                <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+                  <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                    <PowerIcon className="text-yellow-moutarde-850-base" title="Puissance" />
+                    <div className="lg:flex lg:flex-col items-center">
+                      {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
+                    </div>
+                  </div>
+                  {project.prixReference && (
+                    <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                      <EuroIcon
+                        className="text-orange-terre-battue-main-645-base"
+                        title="Prix de référence"
+                      />
+                      <div className="lg:flex lg:flex-col items-center">
+                        {project.prixReference} <Unit>€/MWh</Unit>
+                      </div>
+                    </div>
+                  )}
+
+                  {displayGF ? (
+                    <GF project={project} GFPastDue={GFPastDue} />
+                  ) : (
+                    project.evaluationCarbone !== undefined && (
+                      <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+                        <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
+                        <div>
+                          {project.evaluationCarbone > 0 ? (
+                            <div className="lg:flex lg:flex-col items-center text-center">
+                              {project.evaluationCarbone}
+                              <Unit> kg eq CO2/kWc</Unit>
+                            </div>
+                          ) : (
+                            '- - -'
+                          )}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+
+                <div className="flex md:absolute md:top-4 md:right-5 gap-2">
+                  <ProjectActions
+                    role={role}
+                    project={{
+                      ...project,
+                      isClasse: project.classe === 'Classé',
+                      isAbandoned: project.abandonedOn !== 0,
+                      isLegacy: project.appelOffre?.periode.type === 'legacy',
+                      notifiedOn: project.notifiedOn ? new Date(project.notifiedOn) : undefined,
+                    }}
+                  />
+                  <LinkButton href={routes.PROJECT_DETAILS(project.id)}>Voir</LinkButton>
+                </div>
+              </div>
+            </Tile>
+          </li>
+        ))}
+      </ul>
       {!Array.isArray(projects) && (
         <PaginationPanel
           nombreDePage={projects.pageCount}
@@ -269,11 +270,13 @@ export const ProjectList = ({
 const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: boolean }) => {
   const gf = project.garantiesFinancières
   return (
-    <div
-      className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center"
-      title="Garanties financières"
-    >
-      <div className="flex text-grey-200-base font-bold text-sm pt-0.5">GF</div>
+    <div className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center">
+      <div
+        className="flex text-grey-200-base font-bold text-sm pt-0.5"
+        title="Garanties financières"
+      >
+        GF
+      </div>
       {!gf?.dateEnvoi && !GFPastDue && <div className="flex">Non Déposées</div>}
 
       {gf?.dateEnvoi && (

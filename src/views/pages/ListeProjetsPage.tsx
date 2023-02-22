@@ -73,6 +73,7 @@ export const ListeProjets = ({
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
   const [displaySelection, setDisplaySelection] = useState(false)
+  const [afficherFiltres, setAfficherFiltres] = useState(false)
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -92,6 +93,7 @@ export const ListeProjets = ({
 
             <div className="mt-8">
               <div
+                onClick={() => setAfficherFiltres(!afficherFiltres)}
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
               >
@@ -105,6 +107,7 @@ export const ListeProjets = ({
                 </span>
                 <svg className="icon filter-icon">
                   <use xlinkHref="#expand"></use>
+                  <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
               <div className="filter-panel mt-8">
@@ -233,6 +236,7 @@ export const ListeProjets = ({
                   style={{ transform: displaySelection ? 'rotate(0deg)' : '' }}
                 >
                   <use xlinkHref="#expand"></use>
+                  <title>{displaySelection ? `Fermer` : `Ouvrir`} le formulaire</title>
                 </svg>
               </div>
               {displaySelection && (

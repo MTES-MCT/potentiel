@@ -30,9 +30,9 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       >
         {text}{' '}
         {isOpen ? (
-          <ChevronUpIcon className="w-5 h-5 ml-1 -mb-1" />
+          <ChevronUpIcon className="w-5 h-5 ml-1 -mb-1" title="Fermer le contenu" />
         ) : (
-          <ChevronDownIcon className="w-5 h-5 ml-1 -mb-1" />
+          <ChevronDownIcon className="w-5 h-5 ml-1 -mb-1" title="Ouvrir le contenu" />
         )}
       </Link>
     ) : (
@@ -42,9 +42,9 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       >
         {text}{' '}
         {isOpen ? (
-          <ChevronUpIcon className="w-5 h-5 ml-1" />
+          <ChevronUpIcon className="w-5 h-5 ml-1" title="Fermer le contenu" />
         ) : (
-          <ChevronDownIcon className="w-5 h-5 ml-1" />
+          <ChevronDownIcon className="w-5 h-5 ml-1" title="Ouvrir le contenu" />
         )}
       </Button>
     )

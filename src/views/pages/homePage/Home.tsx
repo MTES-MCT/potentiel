@@ -22,7 +22,7 @@ export const Home = (props: HomeProps) => {
           <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
             <div className="flex flex-row items-center">
               Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
-              <RiArrowRightCircleLine className="w-5 h-5 ml-2" />
+              <RiArrowRightCircleLine className="w-5 h-5 ml-2" aria-hidden />
             </div>
           </Header.MenuItem>
         )}

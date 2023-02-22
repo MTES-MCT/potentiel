@@ -15,13 +15,13 @@ type PictoAlerteProps = ComponentProps<'svg'> & {
 const PictoAlerte: FC<PictoAlerteProps> = ({ type, className = '' }) => {
   switch (type) {
     case 'Erreur':
-      return <ErrorIcon {...{ className }} />
+      return <ErrorIcon {...{ className }} title="Information erreur" />
     case 'Succès':
-      return <SuccessIcon {...{ className }} />
+      return <SuccessIcon {...{ className }} title="Information succès" />
     case 'Information':
-      return <InfoIcon {...{ className }} />
+      return <InfoIcon {...{ className }} title="Information" />
     case 'Attention':
-      return <WarningIcon {...{ className }} />
+      return <WarningIcon {...{ className }} title="Information alerte" />
   }
 }
 
