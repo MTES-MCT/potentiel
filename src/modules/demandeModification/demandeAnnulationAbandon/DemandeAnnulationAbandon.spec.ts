@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain'
+import { UniqueEntityID } from '@core/domain';
 
-import { makeDemandeAnnulationAbandon } from './DemandeAnnulationAbandon'
-import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events'
+import { makeDemandeAnnulationAbandon } from './DemandeAnnulationAbandon';
+import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events';
 
 describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
   it(`Quand on fabrique la demande d'abandon avec un événement 'AnnulationAbandonDemandée'
@@ -19,15 +19,15 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         projetId: 'le-projet-de-la-demande',
         statut: 'envoyée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AnnulationAbandonAnnulée'
       Alors la demande a un statut 'annulée'`, () => {
@@ -41,12 +41,12 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'annulée',
-      })
-  })
-})
+      });
+  });
+});

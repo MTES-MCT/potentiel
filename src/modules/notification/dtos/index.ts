@@ -1,1 +1,1 @@
-export * from './FailedNotificationDTO'
+export * from './FailedNotificationDTO';

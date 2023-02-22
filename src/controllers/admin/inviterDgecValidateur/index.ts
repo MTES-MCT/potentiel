@@ -1,2 +1,2 @@
-export * from './getInviterDgecValidateurPage'
-export * from './postInviterDgecValidateur'
+export * from './getInviterDgecValidateurPage';
+export * from './postInviterDgecValidateur';

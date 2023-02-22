@@ -1,21 +1,21 @@
-import models from '../../models'
-import { resetDatabase } from '../../helpers'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
+import models from '../../models';
+import { resetDatabase } from '../../helpers';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
 
-import { getProjectIdsForPeriode } from './getProjectIdsForPeriode'
-import { UniqueEntityID } from '@core/domain'
+import { getProjectIdsForPeriode } from './getProjectIdsForPeriode';
+import { UniqueEntityID } from '@core/domain';
 
 describe('Sequelize getProjectIdsForPeriode', () => {
-  const projectId = new UniqueEntityID().toString()
-  const appelOffreId = 'appelOffreId'
-  const periodeId = 'periodeId'
-  const familleId = 'familleId'
+  const projectId = new UniqueEntityID().toString();
+  const appelOffreId = 'appelOffreId';
+  const periodeId = 'periodeId';
+  const familleId = 'familleId';
 
-  const { Project } = models
+  const { Project } = models;
 
   describe('given an appelOffreId, periodeId and familleId', () => {
     beforeAll(async () => {
-      await resetDatabase()
+      await resetDatabase();
       await Project.bulkCreate([
         makeFakeProject({
           id: projectId,
@@ -45,19 +45,19 @@ describe('Sequelize getProjectIdsForPeriode', () => {
           periodeId,
           notifiedOn: 1,
         }),
-      ])
-    })
+      ]);
+    });
 
     it('should return a list of ids for notified projects for this appeloffre, periode and famille', async () => {
-      const res = await getProjectIdsForPeriode({ appelOffreId, periodeId, familleId })
+      const res = await getProjectIdsForPeriode({ appelOffreId, periodeId, familleId });
 
-      expect(res._unsafeUnwrap()).toEqual([projectId])
-    })
-  })
+      expect(res._unsafeUnwrap()).toEqual([projectId]);
+    });
+  });
 
   describe('given only an appelOffreId and periodeId', () => {
     beforeAll(async () => {
-      await resetDatabase()
+      await resetDatabase();
       await Project.bulkCreate([
         makeFakeProject({
           id: projectId,
@@ -80,13 +80,13 @@ describe('Sequelize getProjectIdsForPeriode', () => {
           periodeId,
           notifiedOn: 1,
         }),
-      ])
-    })
+      ]);
+    });
 
     it('should return a list of ids for notified projects for this appeloffre and periode', async () => {
-      const res = await getProjectIdsForPeriode({ appelOffreId, periodeId })
+      const res = await getProjectIdsForPeriode({ appelOffreId, periodeId });
 
-      expect(res._unsafeUnwrap()).toEqual([projectId])
-    })
-  })
-})
+      expect(res._unsafeUnwrap()).toEqual([projectId]);
+    });
+  });
+});

@@ -1,9 +1,9 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ListerProjets } from '@modules/project'
-import { models } from '../../../../models'
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
-import { mapToFindOptions } from '../../helpers/mapToFindOptions'
-import { Op } from 'sequelize'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { ListerProjets } from '@modules/project';
+import { models } from '../../../../models';
+import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { mapToFindOptions } from '../../helpers/mapToFindOptions';
+import { Op } from 'sequelize';
 
 const attributes = [
   'id',
@@ -22,10 +22,10 @@ const attributes = [
   'classe',
   'abandonedOn',
   'notifiedOn',
-]
+];
 
 export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagination, filtres }) => {
-  const findOptions = filtres && mapToFindOptions(filtres)
+  const findOptions = filtres && mapToFindOptions(filtres);
 
   const résultat = await models.Project.findAndCountAll({
     where: {
@@ -35,15 +35,15 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
     include: [...(findOptions?.include ? findOptions.include : [])],
     ...paginate(pagination),
     attributes,
-  })
+  });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get()
+    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
     const appelOffre = getProjectAppelOffre({
       appelOffreId,
       periodeId,
       familleId,
-    })
+    });
 
     return [
       ...prev,
@@ -57,8 +57,8 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
           },
         }),
       },
-    ]
-  }, [])
+    ];
+  }, []);
 
-  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
-}
+  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination);
+};

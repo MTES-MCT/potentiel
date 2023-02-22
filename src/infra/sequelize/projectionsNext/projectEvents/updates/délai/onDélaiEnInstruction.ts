@@ -1,24 +1,24 @@
-import { logger } from '@core/utils'
-import { DélaiEnInstruction } from '@modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { logger } from '@core/utils';
+import { DélaiEnInstruction } from '@modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 
 export default ProjectEventProjector.on(DélaiEnInstruction, async (évènement, transaction) => {
   const {
     payload: { demandeDélaiId, modifiéPar },
     occurredAt,
-  } = évènement
+  } = évènement;
 
-  const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
+  const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction });
 
   if (!instance) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
         évènement,
         nomProjection: 'ProjectEvent.onDélaiEnInstruction',
-      })
-    )
-    return
+      }),
+    );
+    return;
   }
 
   Object.assign(instance, {
@@ -29,10 +29,10 @@ export default ProjectEventProjector.on(DélaiEnInstruction, async (évènement,
       statut: 'en-instruction',
       modifiéPar,
     },
-  })
+  });
 
   try {
-    await instance.save({ transaction })
+    await instance.save({ transaction });
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -41,8 +41,8 @@ export default ProjectEventProjector.on(DélaiEnInstruction, async (évènement,
           évènement,
           nomProjection: 'ProjectEvent.onDélaiEnInstruction',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

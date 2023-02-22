@@ -1,3 +1,3 @@
 export interface HasType {
-  type: string
+  type: string;
 }

@@ -1,4 +1,4 @@
-export type Fournisseur = { kind: FournisseurKind; name: string }
+export type Fournisseur = { kind: FournisseurKind; name: string };
 
 export const CORRESPONDANCE_CHAMPS_FOURNISSEURS = {
   'Nom du fabricant \n(Modules ou films)': 'Modules ou films',
@@ -12,14 +12,14 @@ export const CORRESPONDANCE_CHAMPS_FOURNISSEURS = {
   'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)':
     'Dispositifs de suivi de la course du soleil',
   'Nom du fabricant \n(Autres technologies)': 'Autres technologies',
-}
+};
 
 export const CHAMPS_FOURNISSEURS: ReadonlyArray<string> = Object.keys(
-  CORRESPONDANCE_CHAMPS_FOURNISSEURS
-)
+  CORRESPONDANCE_CHAMPS_FOURNISSEURS,
+);
 
-export type FournisseurKind = keyof typeof CORRESPONDANCE_CHAMPS_FOURNISSEURS
+export type FournisseurKind = keyof typeof CORRESPONDANCE_CHAMPS_FOURNISSEURS;
 
 export const isFournisseurKind = (value: string): value is FournisseurKind => {
-  return CHAMPS_FOURNISSEURS.includes(value)
-}
+  return CHAMPS_FOURNISSEURS.includes(value);
+};

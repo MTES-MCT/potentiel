@@ -1,19 +1,19 @@
-import { UserProjectClaims, UserProjectClaimsProjector } from '../userProjectClaims.model'
-import { ProjectClaimFailed } from '@modules/projectClaim'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { UserProjectClaims, UserProjectClaimsProjector } from '../userProjectClaims.model';
+import { ProjectClaimFailed } from '@modules/projectClaim';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default UserProjectClaimsProjector.on(ProjectClaimFailed, async (évènement, transaction) => {
   const {
     payload: { claimedBy, projectId },
-  } = évènement
+  } = évènement;
   try {
     const userProjectClaim = await UserProjectClaims.findOne({
       where: { userId: claimedBy, projectId },
       transaction,
-    })
+    });
 
-    const previousFailedAttemps = userProjectClaim?.failedAttempts || 0
+    const previousFailedAttemps = userProjectClaim?.failedAttempts || 0;
 
     await UserProjectClaims.upsert(
       {
@@ -23,8 +23,8 @@ export default UserProjectClaimsProjector.on(ProjectClaimFailed, async (évènem
       },
       {
         transaction,
-      }
-    )
+      },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -33,8 +33,8 @@ export default UserProjectClaimsProjector.on(ProjectClaimFailed, async (évènem
           évènement,
           nomProjection: 'UserProjectClaims.ProjectClaimFailed',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

@@ -1,4 +1,4 @@
-import { DataTypes } from 'sequelize'
+import { DataTypes } from 'sequelize';
 
 export const MakeEventStoreModel = (sequelize) => {
   const EventStore = sequelize.define(
@@ -34,12 +34,12 @@ export const MakeEventStoreModel = (sequelize) => {
         allowNull: true,
       },
     },
-    { paranoid: true, timestamps: true }
-  )
+    { paranoid: true, timestamps: true },
+  );
 
   EventStore.associate = (models) => {
     // Add belongsTo etc. statements here
-  }
+  };
 
-  return EventStore
-}
+  return EventStore;
+};

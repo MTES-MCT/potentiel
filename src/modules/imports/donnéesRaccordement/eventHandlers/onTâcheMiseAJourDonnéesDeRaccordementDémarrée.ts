@@ -1,16 +1,16 @@
-import { ResultAsync } from '@core/utils'
-import { MettreAJourDonnéesDeRaccordement } from '@modules/imports/donnéesRaccordement'
-import { InfraNotAvailableError } from '@modules/shared'
+import { ResultAsync } from '@core/utils';
+import { MettreAJourDonnéesDeRaccordement } from '@modules/imports/donnéesRaccordement';
+import { InfraNotAvailableError } from '@modules/shared';
 
-import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
+import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events';
 
 type OnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (
-  évènement: TâcheMiseAJourDonnéesDeRaccordementDémarrée
-) => ResultAsync<null, InfraNotAvailableError>
+  évènement: TâcheMiseAJourDonnéesDeRaccordementDémarrée,
+) => ResultAsync<null, InfraNotAvailableError>;
 
 type MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée = (dépendances: {
-  mettreAJourDonnéesDeRaccordement: MettreAJourDonnéesDeRaccordement
-}) => OnTâcheMiseAJourDonnéesDeRaccordementDémarrée
+  mettreAJourDonnéesDeRaccordement: MettreAJourDonnéesDeRaccordement;
+}) => OnTâcheMiseAJourDonnéesDeRaccordementDémarrée;
 
 export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée =
 
@@ -19,5 +19,5 @@ export const makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée: MakeOnTâche
       return mettreAJourDonnéesDeRaccordement({
         gestionnaire,
         données,
-      })
-    }
+      });
+    };

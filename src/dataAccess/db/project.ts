@@ -1,27 +1,34 @@
-import { models } from '../../infra/sequelize/models'
-import { Attributes, DataTypes, literal, Op } from 'sequelize'
-import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..'
-import { logger } from '@core/utils'
-import { AppelOffre, Famille, Periode, Project, User, cahiersDesChargesRéférences } from '@entities'
-import { makePaginatedList, paginate } from '../../helpers/paginate'
-import { mapExceptError } from '../../helpers/results'
-import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types'
-import CONFIG from '../config'
-import isDbReady from './helpers/isDbReady'
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { GarantiesFinancières } from '@infra/sequelize'
-import { Région } from '@modules/dreal/région'
+import { models } from '../../infra/sequelize/models';
+import { Attributes, DataTypes, literal, Op } from 'sequelize';
+import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
+import { logger } from '@core/utils';
+import {
+  AppelOffre,
+  Famille,
+  Periode,
+  Project,
+  User,
+  cahiersDesChargesRéférences,
+} from '@entities';
+import { makePaginatedList, paginate } from '../../helpers/paginate';
+import { mapExceptError } from '../../helpers/results';
+import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types';
+import CONFIG from '../config';
+import isDbReady from './helpers/isDbReady';
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { GarantiesFinancières } from '@infra/sequelize';
+import { Région } from '@modules/dreal/région';
 
-const { File } = models
+const { File } = models;
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
-    fichier: any
-    envoyéesParRef: User
-    validéesParRef: User
-  }
+    fichier: any;
+    envoyéesParRef: User;
+    validéesParRef: User;
+  },
 ): Project['garantiesFinancières'] => {
-  if (!gf) return
+  if (!gf) return;
   return {
     id: gf.id,
     projetId: gf.projetId,
@@ -35,8 +42,8 @@ const deserializeGarantiesFinancières = (
     validéesLe: gf.validéesLe ?? undefined,
     validéesPar: gf.validéesParRef ? { fullName: gf.validéesParRef.fullName } : undefined,
     envoyéesPar: gf.envoyéesParRef ? { fullName: gf.envoyéesParRef.fullName } : undefined,
-  }
-}
+  };
+};
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -58,16 +65,16 @@ const deserialize = (item) => ({
   potentielIdentifier: item.potentielIdentifier || '',
   technologie: item.technologie || '',
   actionnariat: item.actionnariat || '',
-})
+});
 
 type MakeProjectRepoDeps = {
-  sequelizeInstance: any
-  getProjectAppelOffre: GetProjectAppelOffre
-}
-type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo
+  sequelizeInstance: any;
+  getProjectAppelOffre: GetProjectAppelOffre;
+};
+type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo;
 
 export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProjectAppelOffre }) => {
-  const UserModel = sequelizeInstance.model('user')
+  const UserModel = sequelizeInstance.model('user');
 
   const ProjectModel = sequelizeInstance.define('project', {
     id: {
@@ -232,7 +239,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       allowNull: false,
       defaultValue: false,
     },
-  })
+  });
 
   const FileModel = sequelizeInstance.define(
     'files',
@@ -265,20 +272,20 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     },
     {
       timestamps: true,
-    }
-  )
+    },
+  );
 
   ProjectModel.belongsTo(FileModel, {
     foreignKey: 'certificateFileId',
     as: 'certificateFile',
-  })
+  });
 
   ProjectModel.hasOne(GarantiesFinancières, {
     as: 'garantiesFinancières',
     foreignKey: 'projetId',
-  })
+  });
 
-  const _isDbReady = isDbReady({ sequelizeInstance })
+  const _isDbReady = isDbReady({ sequelizeInstance });
 
   return Object.freeze({
     findById,
@@ -297,10 +304,10 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     searchAll,
     searchAllMissingOwner,
     countUnnotifiedProjects,
-  })
+  });
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
-    const projectAppelOffre = await getProjectAppelOffre({ ...project })
+    const projectAppelOffre = await getProjectAppelOffre({ ...project });
 
     return {
       ...project,
@@ -308,11 +315,11 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         appelOffre: projectAppelOffre,
         famille: projectAppelOffre.famille,
       }),
-    }
+    };
   }
 
   async function findById(id: Project['id']): Promise<Project | undefined> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
       const projectInDb = await ProjectModel.findByPk(id, {
@@ -332,38 +339,38 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
             attributes: ['id', 'filename'],
           },
         ],
-      })
-      if (!projectInDb) return
+      });
+      if (!projectInDb) return;
 
       const projectWithAppelOffre = await addAppelOffreToProject(
-        deserialize(projectInDb.get({ plain: true }))
-      )
+        deserialize(projectInDb.get({ plain: true })),
+      );
 
-      return projectWithAppelOffre
+      return projectWithAppelOffre;
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
+      if (CONFIG.logDbErrors) logger.error(error);
     }
   }
 
   async function findOne(query: ProjectFilters): Promise<Project | undefined> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
       const projectInDb = await ProjectModel.findOne({
         where: query,
-      })
+      });
 
-      if (!projectInDb) return
+      if (!projectInDb) return;
 
-      const projectWithAppelOffre = await addAppelOffreToProject(deserialize(projectInDb.get()))
-      return projectWithAppelOffre
+      const projectWithAppelOffre = await addAppelOffreToProject(deserialize(projectInDb.get()));
+      return projectWithAppelOffre;
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
+      if (CONFIG.logDbErrors) logger.error(error);
     }
   }
 
   function _makeSelectorsForQuery(query?: ProjectFilters) {
-    const opts: any = { where: {} }
+    const opts: any = { where: {} };
 
     opts.include = [
       {
@@ -380,118 +387,118 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         as: 'certificateFile',
         attributes: ['id', 'filename'],
       },
-    ]
+    ];
 
     if (query) {
       if ('isNotified' in query) {
-        opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0
+        opts.where.notifiedOn = query.isNotified ? { [Op.ne]: 0 } : 0;
       }
 
       if ('isAbandoned' in query) {
-        opts.where.abandonedOn = query.isAbandoned ? { [Op.ne]: 0 } : 0
+        opts.where.abandonedOn = query.isAbandoned ? { [Op.ne]: 0 } : 0;
       }
 
       if ('garantiesFinancieres' in query) {
         switch (query.garantiesFinancieres) {
           case 'submitted':
-            opts.where['$garantiesFinancières.dateEnvoi$'] = { [Op.ne]: null }
-            break
+            opts.where['$garantiesFinancières.dateEnvoi$'] = { [Op.ne]: null };
+            break;
           case 'notSubmitted':
-            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = { [Op.ne]: null }
-            opts.where['$garantiesFinancières.dateEnvoi$'] = null
-            break
+            opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = { [Op.ne]: null };
+            opts.where['$garantiesFinancières.dateEnvoi$'] = null;
+            break;
           case 'pastDue':
             opts.where['$garantiesFinancières.dateLimiteEnvoi$'] = {
               [Op.lte]: new Date(),
               [Op.ne]: null,
-            }
-            opts.where['$garantiesFinancières.dateEnvoi$'] = null
-            break
+            };
+            opts.where['$garantiesFinancières.dateEnvoi$'] = null;
+            break;
         }
       }
 
       if ('isClasse' in query) {
-        opts.where.classe = query.isClasse ? 'Classé' : 'Eliminé'
+        opts.where.classe = query.isClasse ? 'Classé' : 'Eliminé';
       }
 
       if ('isClaimed' in query) {
         opts.where.id = {
           [query.isClaimed ? Op.in : Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`),
-        }
+        };
       }
 
       if ('appelOffreId' in query) {
-        opts.where.appelOffreId = query.appelOffreId
+        opts.where.appelOffreId = query.appelOffreId;
       }
 
       if ('periodeId' in query) {
-        opts.where.periodeId = query.periodeId
+        opts.where.periodeId = query.periodeId;
       }
 
       if ('familleId' in query) {
-        opts.where.familleId = query.familleId
+        opts.where.familleId = query.familleId;
       }
 
       if ('email' in query) {
-        opts.where.email = query.email
+        opts.where.email = query.email;
       }
 
       if ('nomProjet' in query) {
-        opts.where.nomProjet = query.nomProjet
+        opts.where.nomProjet = query.nomProjet;
       }
     }
 
-    return opts
+    return opts;
   }
 
   async function _findAndBuildProjectList(
     opts: Record<any, any>,
     pagination?: Pagination,
-    filterFn?: (project: Project) => boolean
+    filterFn?: (project: Project) => boolean,
   ): Promise<PaginatedList<Project>> {
     const { count, rows } = await ProjectModel.findAndCountAll({
       ...opts,
       ...paginate(pagination),
-    })
+    });
 
     const projectsRaw = rows
       .map((item) => item.get({ plain: true }))
       // Double check the list of projects if filterFn is given
-      .filter(filterFn || (() => true))
+      .filter(filterFn || (() => true));
 
     if (projectsRaw.length !== rows.length) {
       logger.warning(
-        'WARNING: searchForRegions had intermediate results that did not match region. Something must be wrong in the query.'
-      )
+        'WARNING: searchForRegions had intermediate results that did not match region. Something must be wrong in the query.',
+      );
     }
 
     const deserializedItems = mapExceptError(
       projectsRaw,
       deserialize,
-      'Project._getProjectsWithIds.deserialize error'
-    )
+      'Project._getProjectsWithIds.deserialize error',
+    );
 
-    const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject))
+    const projects = await Promise.all(deserializedItems.map(addAppelOffreToProject));
 
-    return makePaginatedList(projects, count, pagination)
+    return makePaginatedList(projects, count, pagination);
   }
 
   async function _getProjectIdsForUser(
     userId: User['id'],
-    filters?: ProjectFilters
+    filters?: ProjectFilters,
   ): Promise<Project['id'][]> {
-    await _isDbReady
+    await _isDbReady;
 
-    const userInstance = await UserModel.findByPk(userId)
+    const userInstance = await UserModel.findByPk(userId);
     if (!userInstance) {
-      if (CONFIG.logDbErrors) logger.error('Cannot find user to get projects from')
+      if (CONFIG.logDbErrors) logger.error('Cannot find user to get projects from');
 
-      return []
+      return [];
     }
 
     return (await userInstance.getProjects(_makeSelectorsForQuery(filters))).map(
-      (item) => item.get().id
-    )
+      (item) => item.get().id,
+    );
   }
 
   async function _searchWithinGivenIds(terms: string, projectIds: Project['id'][]) {
@@ -500,14 +507,14 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         id: { [Op.in]: projectIds },
         [Op.or]: { ...getFullTextSearchOptions(terms) },
       },
-    })
+    });
 
-    return projects.map(({ id }) => id)
+    return projects.map(({ id }) => id);
   }
 
   async function _getProjectsWithIds(
     projectIds: Project['id'][],
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
     const opts = {
       where: {
@@ -520,57 +527,57 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           attributes: ['id', 'filename'],
         },
       ],
-    }
+    };
 
-    return _findAndBuildProjectList(opts, pagination, (project) => projectIds.includes(project.id))
+    return _findAndBuildProjectList(opts, pagination, (project) => projectIds.includes(project.id));
   }
 
   async function searchForUser(
     userId: User['id'],
     terms: string,
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters)
+      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters);
 
-      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination)
+      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination);
 
-      const searchedUserProjectIds = await _searchWithinGivenIds(terms, filteredUserProjectIds)
+      const searchedUserProjectIds = await _searchWithinGivenIds(terms, filteredUserProjectIds);
 
-      if (!searchedUserProjectIds.length) return makePaginatedList([], 0, pagination)
+      if (!searchedUserProjectIds.length) return makePaginatedList([], 0, pagination);
 
-      return _getProjectsWithIds(searchedUserProjectIds, pagination)
+      return _getProjectsWithIds(searchedUserProjectIds, pagination);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
   async function findAllForUser(
     userId: User['id'],
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters)
+      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters);
 
-      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination)
+      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination);
 
-      return _getProjectsWithIds(filteredUserProjectIds, pagination)
+      return _getProjectsWithIds(filteredUserProjectIds, pagination);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
   async function _searchWithinRegions(
     terms: string,
-    regions: Région | Région[]
+    regions: Région | Région[],
   ): Promise<Project['id'][]> {
-    const formattedRegions = Array.isArray(regions) ? regions.join('|') : regions
+    const formattedRegions = Array.isArray(regions) ? regions.join('|') : regions;
 
     const projects = await ProjectModel.findAll({
       where: {
@@ -583,33 +590,33 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           },
         ],
       },
-    })
+    });
 
-    return projects.map((item) => item.id)
+    return projects.map((item) => item.id);
   }
 
   async function searchForRegions(
     regions: Région | Région[],
     terms: string,
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const searchedRegionProjectIds = await _searchWithinRegions(terms, regions)
+      const searchedRegionProjectIds = await _searchWithinRegions(terms, regions);
 
-      if (!searchedRegionProjectIds.length) return makePaginatedList([], 0, pagination)
+      if (!searchedRegionProjectIds.length) return makePaginatedList([], 0, pagination);
 
-      const opts = _makeSelectorsForQuery(filters)
+      const opts = _makeSelectorsForQuery(filters);
 
-      opts.where.id = searchedRegionProjectIds
+      opts.where.id = searchedRegionProjectIds;
 
       return _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région))
-      )
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région)),
+      );
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
@@ -620,50 +627,50 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         [Op.or]: regions.map((region) => ({
           [Op.substring]: region,
         })),
-      }
+      };
     } else {
       return {
         [Op.substring]: regions,
-      }
+      };
     }
   }
 
   async function findAllForRegions(
     regions: Région | Région[],
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const opts = _makeSelectorsForQuery(filters)
+      const opts = _makeSelectorsForQuery(filters);
 
-      opts.where.regionProjet = _makeRegionSelector(regions)
+      opts.where.regionProjet = _makeRegionSelector(regions);
 
       const res = await _findAndBuildProjectList(opts, pagination, (project) =>
-        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région))
-      )
-      return res
+        project.regionProjet.split(' / ').some((region) => regions.includes(region as Région)),
+      );
+      return res;
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
   async function searchAll(
     terms: string,
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const opts = _makeSelectorsForQuery(filters)
+      const opts = _makeSelectorsForQuery(filters);
 
-      opts.where[Op.or] = { ...getFullTextSearchOptions(terms) }
+      opts.where[Op.or] = { ...getFullTextSearchOptions(terms) };
 
-      return _findAndBuildProjectList(opts, pagination)
+      return _findAndBuildProjectList(opts, pagination);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
@@ -672,28 +679,28 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     userId: string,
     terms?: string,
     filters?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const opts = _makeSelectorsForQuery(filters)
+      const opts = _makeSelectorsForQuery(filters);
 
       opts.where.id = {
         [Op.and]: [
           { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
           {
             [Op.notIn]: literal(
-              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "failedAttempts" >= 3)`
+              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "failedAttempts" >= 3)`,
             ),
           },
         ],
-      }
+      };
 
       // Order by Projets pré-affectés then the rest ordered by nomProjet
       opts.order = [
         [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
         ['nomProjet'],
-      ]
+      ];
 
       const customSearchedProjectsColumns = [
         'nomCandidat',
@@ -701,208 +708,208 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         'regionProjet',
         'appelOffreId',
         'periodeId',
-      ]
+      ];
 
       if (terms)
-        opts.where[Op.or] = { ...getFullTextSearchOptions(terms, customSearchedProjectsColumns) }
+        opts.where[Op.or] = { ...getFullTextSearchOptions(terms, customSearchedProjectsColumns) };
 
-      return _findAndBuildProjectList(opts, pagination)
+      return _findAndBuildProjectList(opts, pagination);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
   async function findAll(
     query?: ProjectFilters,
-    pagination?: Pagination
+    pagination?: Pagination,
   ): Promise<PaginatedList<Project>> {
-    await _isDbReady
+    await _isDbReady;
     try {
-      const opts = _makeSelectorsForQuery(query)
+      const opts = _makeSelectorsForQuery(query);
 
-      return _findAndBuildProjectList(opts, pagination)
+      return _findAndBuildProjectList(opts, pagination);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return makePaginatedList([], 0, pagination)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return makePaginatedList([], 0, pagination);
     }
   }
 
   async function countUnnotifiedProjects(
     appelOffreId: AppelOffre['id'],
-    periodeId: Periode['id']
+    periodeId: Periode['id'],
   ): Promise<number> {
-    await _isDbReady
+    await _isDbReady;
     try {
       const opts = _makeSelectorsForQuery({
         appelOffreId,
         periodeId,
         isNotified: false,
-      })
+      });
 
-      return await ProjectModel.count(opts)
+      return await ProjectModel.count(opts);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return 0
+      if (CONFIG.logDbErrors) logger.error(error);
+      return 0;
     }
   }
 
   async function save(project: Project): ResultAsync<null> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      const existingProject = await ProjectModel.findByPk(project.id)
+      const existingProject = await ProjectModel.findByPk(project.id);
 
       if (existingProject) {
         const updates = project.history?.reduce(
           (delta, event) => ({ ...delta, ...event.after }),
-          {}
-        )
+          {},
+        );
         if (updates) {
-          await existingProject.update(updates)
+          await existingProject.update(updates);
         }
       } else {
         // TODO PA : est-ce qu'on garde cette partie telle quelle ou on l'améliore ?
-        ;['dcrFileId', 'dcrSubmittedBy', 'certificateFileId'].forEach((key) => {
+        ['dcrFileId', 'dcrSubmittedBy', 'certificateFileId'].forEach((key) => {
           // If that property is falsy, remove it (UUIDs can't be falsy)
-          if (!project[key]) delete project[key]
-        })
-        await ProjectModel.create(project)
+          if (!project[key]) delete project[key];
+        });
+        await ProjectModel.create(project);
       }
 
-      return Ok(null)
+      return Ok(null);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return Err(error)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return Err(error);
     }
   }
 
   async function remove(id: Project['id']): ResultAsync<null> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      await ProjectModel.destroy({ where: { id } })
-      return Ok(null)
+      await ProjectModel.destroy({ where: { id } });
+      return Ok(null);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return Err(error)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return Err(error);
     }
   }
 
   async function getUsers(projectId: Project['id']): Promise<Array<User>> {
-    await _isDbReady
+    await _isDbReady;
 
-    const projectInstance = await ProjectModel.findByPk(projectId)
+    const projectInstance = await ProjectModel.findByPk(projectId);
 
     if (!projectInstance) {
-      return []
+      return [];
     }
 
-    return (await projectInstance.getUsers()).map((item) => item.get())
+    return (await projectInstance.getUsers()).map((item) => item.get());
   }
 
   async function findExistingAppelsOffres(
-    options?: ContextSpecificProjectListFilter
+    options?: ContextSpecificProjectListFilter,
   ): Promise<Array<AppelOffre['id']>> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      const opts: any = { where: {} }
+      const opts: any = { where: {} };
 
       if (!options) {
       } else if ('userId' in options) {
-        opts.where.id = await _getProjectIdsForUser(options.userId)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.id = await _getProjectIdsForUser(options.userId);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('regions' in options) {
-        opts.where.regionProjet = _makeRegionSelector(options.regions)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.regionProjet = _makeRegionSelector(options.regions);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('isNotified' in options) {
-        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0;
       }
 
       const appelsOffres = await ProjectModel.findAll({
         attributes: ['appelOffreId'],
         group: ['appelOffreId'],
         ...opts,
-      })
+      });
 
-      return appelsOffres.map((item) => item.get().appelOffreId)
+      return appelsOffres.map((item) => item.get().appelOffreId);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
+      if (CONFIG.logDbErrors) logger.error(error);
+      return [];
     }
   }
 
   async function findExistingPeriodesForAppelOffre(
     appelOffreId: AppelOffre['id'],
-    options?: ContextSpecificProjectListFilter
+    options?: ContextSpecificProjectListFilter,
   ): Promise<Array<Periode['id']>> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      const opts: any = { where: { appelOffreId } }
+      const opts: any = { where: { appelOffreId } };
 
       if (!options) {
       } else if ('userId' in options) {
-        opts.where.id = await _getProjectIdsForUser(options.userId)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.id = await _getProjectIdsForUser(options.userId);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('regions' in options) {
-        opts.where.regionProjet = _makeRegionSelector(options.regions)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.regionProjet = _makeRegionSelector(options.regions);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('isNotified' in options) {
-        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0;
       }
 
       const periodes = await ProjectModel.findAll({
         attributes: ['periodeId'],
         group: ['periodeId'],
         ...opts,
-      })
+      });
 
-      return periodes.map((item) => item.get().periodeId)
+      return periodes.map((item) => item.get().periodeId);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
+      if (CONFIG.logDbErrors) logger.error(error);
+      return [];
     }
   }
 
   async function findExistingFamillesForAppelOffre(
     appelOffreId: AppelOffre['id'],
-    options?: ContextSpecificProjectListFilter
+    options?: ContextSpecificProjectListFilter,
   ): Promise<Array<Famille['id']>> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      const opts: any = { where: { appelOffreId } }
+      const opts: any = { where: { appelOffreId } };
 
       if (!options) {
       } else if ('userId' in options) {
-        opts.where.id = await _getProjectIdsForUser(options.userId)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.id = await _getProjectIdsForUser(options.userId);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('regions' in options) {
-        opts.where.regionProjet = _makeRegionSelector(options.regions)
-        opts.where.notifiedOn = { [Op.ne]: 0 }
+        opts.where.regionProjet = _makeRegionSelector(options.regions);
+        opts.where.notifiedOn = { [Op.ne]: 0 };
       } else if ('isNotified' in options) {
-        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0
+        opts.where.notifiedOn = options.isNotified ? { [Op.ne]: 0 } : 0;
       }
 
       const familles = await ProjectModel.findAll({
         attributes: ['familleId'],
         group: ['familleId'],
         ...opts,
-      })
+      });
 
-      return familles.map((item) => item.get().familleId)
+      return familles.map((item) => item.get().familleId);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
+      if (CONFIG.logDbErrors) logger.error(error);
+      return [];
     }
   }
-}
+};
 
 export const getFullTextSearchOptions = (
   terms: string,
-  customSearchedProjectsColumns?: string[]
+  customSearchedProjectsColumns?: string[],
 ): object => {
   const defaultSearchedProjectsColumns = [
     'nomCandidat',
@@ -918,21 +925,21 @@ export const getFullTextSearchOptions = (
     'details.Nom et prénom du signataire du formulaire',
     'details.Nom et prénom du contact',
     'potentielIdentifier',
-  ]
+  ];
 
-  const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns
+  const searchedProjectsColumns = customSearchedProjectsColumns || defaultSearchedProjectsColumns;
 
   const formattedTerms = terms
     .split(' ')
     .filter((term) => term.trim() !== '')
-    .map((term) => `%${term}%`)
+    .map((term) => `%${term}%`);
 
   const options = searchedProjectsColumns.reduce((opts, col) => {
     return {
       ...opts,
       [col]: { [Op.iLike]: { [Op.any]: [...formattedTerms] } },
-    }
-  }, {})
+    };
+  }, {});
 
-  return options
-}
+  return options;
+};

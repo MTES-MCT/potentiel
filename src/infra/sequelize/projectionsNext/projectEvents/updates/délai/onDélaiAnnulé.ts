@@ -1,24 +1,24 @@
-import { logger } from '@core/utils'
-import { DélaiAnnulé } from '@modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { logger } from '@core/utils';
+import { DélaiAnnulé } from '@modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 
 export default ProjectEventProjector.on(DélaiAnnulé, async (évènement, transaction) => {
   const {
     payload: { demandeDélaiId, annuléPar },
     occurredAt,
-  } = évènement
+  } = évènement;
 
-  const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
+  const instance = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction });
 
   if (!instance) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
         évènement,
         nomProjection: 'ProjectEvent.onDélaiAnnulé',
-      })
-    )
-    return
+      }),
+    );
+    return;
   }
 
   Object.assign(instance, {
@@ -29,10 +29,10 @@ export default ProjectEventProjector.on(DélaiAnnulé, async (évènement, trans
       statut: 'annulée',
       annuléPar,
     },
-  })
+  });
 
   try {
-    await instance.save({ transaction })
+    await instance.save({ transaction });
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -41,8 +41,8 @@ export default ProjectEventProjector.on(DélaiAnnulé, async (évènement, trans
           évènement,
           nomProjection: 'ProjectEvent.onDélaiAnnulé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

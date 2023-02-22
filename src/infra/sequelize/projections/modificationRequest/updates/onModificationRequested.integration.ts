@@ -1,23 +1,23 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequested } from '@modules/modificationRequest'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { onModificationRequested } from './onModificationRequested'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequested } from '@modules/modificationRequest';
+import { resetDatabase } from '../../../helpers';
+import models from '../../../models';
+import { onModificationRequested } from './onModificationRequested';
 
 describe('modificationRequest.onModificationRequested', () => {
-  const ModificationRequestModel = models.ModificationRequest
+  const ModificationRequestModel = models.ModificationRequest;
 
-  const projectId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
-  const fileId = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
+  const userId = new UniqueEntityID().toString();
+  const fileId = new UniqueEntityID().toString();
 
   beforeEach(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   it('should create a new modificationRequest', async () => {
-    const modificationRequestId = new UniqueEntityID().toString()
+    const modificationRequestId = new UniqueEntityID().toString();
 
     const event = new ModificationRequested({
       payload: {
@@ -30,15 +30,15 @@ describe('modificationRequest.onModificationRequested', () => {
         authority: 'dgec',
         cahierDesCharges: 'initial',
       },
-    })
-    await onModificationRequested(models)(event)
+    });
+    await onModificationRequested(models)(event);
 
-    const projection = await ModificationRequestModel.findByPk(modificationRequestId)
+    const projection = await ModificationRequestModel.findByPk(modificationRequestId);
 
-    expect(projection).toBeDefined()
-    if (!projection) return
+    expect(projection).toBeDefined();
+    if (!projection) return;
 
-    const { occurredAt } = event
+    const { occurredAt } = event;
 
     expect(projection.get()).toMatchObject({
       id: modificationRequestId,
@@ -51,6 +51,6 @@ describe('modificationRequest.onModificationRequested', () => {
       userId,
       authority: 'dgec',
       cahierDesCharges: 'initial',
-    })
-  })
-})
+    });
+  });
+});

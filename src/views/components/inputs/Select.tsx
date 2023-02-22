@@ -1,13 +1,13 @@
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
-import React, { useState } from 'react'
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
+import React, { useState } from 'react';
 
 type SelectProps = React.HTMLAttributes<HTMLSelectElement> & {
-  name?: string
-  id: string
-  required?: true
-  error?: string
-  children: React.ReactNode
-}
+  name?: string;
+  id: string;
+  required?: true;
+  error?: string;
+  children: React.ReactNode;
+};
 
 export const Select = ({
   className = '',
@@ -18,8 +18,8 @@ export const Select = ({
   required,
   children,
 }: SelectProps) => {
-  const [valueHasChanged, valueChanged] = useState(false)
-  const isOnError = error !== '' && !valueHasChanged
+  const [valueHasChanged, valueChanged] = useState(false);
+  const isOnError = error !== '' && !valueHasChanged;
   return (
     <>
       <select
@@ -30,8 +30,8 @@ export const Select = ({
         } rounded-none`}
         required={required}
         onChange={(e) => {
-          valueChanged(true)
-          onChange && onChange(e)
+          valueChanged(true);
+          onChange && onChange(e);
         }}
       >
         {children}
@@ -46,5 +46,5 @@ export const Select = ({
         </p>
       )}
     </>
-  )
-}
+  );
+};

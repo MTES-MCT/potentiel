@@ -1,1 +1,1 @@
-export * from './toProjectDataForCertificate'
+export * from './toProjectDataForCertificate';

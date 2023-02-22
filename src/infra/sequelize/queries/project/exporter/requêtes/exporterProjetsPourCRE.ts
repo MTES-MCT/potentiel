@@ -1,4 +1,4 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
+import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
 import {
   contenuLocal,
   coordonnéesCandidat,
@@ -21,8 +21,8 @@ import {
   référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
-} from '../colonnesParCatégorie'
-import { récupérerExportProjets } from './récupérerExportProjets'
+} from '../colonnesParCatégorie';
+import { récupérerExportProjets } from './récupérerExportProjets';
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -46,7 +46,7 @@ const colonnesÀExporter = [
   ...notes,
   ...modificationsAvantImport,
   ...garantiesFinancières,
-]
+];
 
 export const exporterProjetsPourCRE = ({ filtres }: { filtres?: FiltreListeProjets }) =>
-  récupérerExportProjets({ colonnesÀExporter, filtres, inclureLesProjetsNonNotifiés: true })
+  récupérerExportProjets({ colonnesÀExporter, filtres, inclureLesProjetsNonNotifiés: true });

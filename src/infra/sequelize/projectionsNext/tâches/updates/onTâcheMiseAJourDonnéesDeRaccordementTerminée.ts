@@ -1,7 +1,7 @@
-import { logger } from '@core/utils'
-import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
-import { ProjectionEnEchec } from '@modules/shared'
-import { TâchesProjector, Tâches } from '../tâches.model'
+import { logger } from '@core/utils';
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events';
+import { ProjectionEnEchec } from '@modules/shared';
+import { TâchesProjector, Tâches } from '../tâches.model';
 
 export default TâchesProjector.on(
   TâcheMiseAJourDonnéesDeRaccordementTerminée,
@@ -9,11 +9,11 @@ export default TâchesProjector.on(
     const {
       payload: { résultat, gestionnaire },
       occurredAt,
-    } = évènement
+    } = évènement;
 
-    const succès = résultat.filter((r): r is typeof r & { état: 'succès' } => r.état === 'succès')
-    const ignorés = résultat.filter((r): r is typeof r & { état: 'ignoré' } => r.état === 'ignoré')
-    const erreurs = résultat.filter((r): r is typeof r & { état: 'échec' } => r.état === 'échec')
+    const succès = résultat.filter((r): r is typeof r & { état: 'succès' } => r.état === 'succès');
+    const ignorés = résultat.filter((r): r is typeof r & { état: 'ignoré' } => r.état === 'ignoré');
+    const erreurs = résultat.filter((r): r is typeof r & { état: 'échec' } => r.état === 'échec');
 
     try {
       await Tâches.update(
@@ -33,8 +33,8 @@ export default TâchesProjector.on(
             type: 'maj-données-de-raccordement',
           },
           transaction,
-        }
-      )
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -43,9 +43,9 @@ export default TâchesProjector.on(
             évènement,
             nomProjection: 'ProjectEvent.onTâcheMiseAJourDonnéesDeRaccordementTerminée',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

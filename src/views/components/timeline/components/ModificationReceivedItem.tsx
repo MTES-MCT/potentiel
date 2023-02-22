@@ -1,9 +1,9 @@
-import { Link } from '@components'
-import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.'
-import { ModificationReceivedItemProps } from '../helpers'
+import { Link } from '@components';
+import React from 'react';
+import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.';
+import { ModificationReceivedItemProps } from '../helpers';
 export const ModificationReceivedItem = (props: ModificationReceivedItemProps) => {
-  const { date } = props
+  const { date } = props;
   return (
     <>
       <PastIcon />
@@ -12,18 +12,18 @@ export const ModificationReceivedItem = (props: ModificationReceivedItemProps) =
         <Details {...props} />
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 const Details = (props: ModificationReceivedItemProps) => {
-  const { modificationType, detailsUrl } = props
+  const { modificationType, detailsUrl } = props;
   const libelleTypeDemande: { [key in ModificationReceivedItemProps['modificationType']]: string } =
     {
       producteur: 'Changement de producteur',
       actionnaire: 'Modification de l’actionnariat',
       fournisseur: 'Changement de fournisseur(s) ou de produit',
       puissance: 'Modification de la puissance installée',
-    }
+    };
 
   return (
     <>
@@ -50,5 +50,5 @@ const Details = (props: ModificationReceivedItemProps) => {
       )}
       {detailsUrl && <Link href={detailsUrl}>Voir la demande</Link>}
     </>
-  )
-}
+  );
+};

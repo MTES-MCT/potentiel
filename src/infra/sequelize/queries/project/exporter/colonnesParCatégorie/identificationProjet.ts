@@ -1,5 +1,5 @@
-import { Colonne } from '../Colonne'
-import { literal } from 'sequelize'
+import { Colonne } from '../Colonne';
+import { literal } from 'sequelize';
 
 export const identificationProjet: Readonly<Array<Colonne>> = [
   { source: 'champ-simple', nomColonneTableProjet: 'numeroCRE', intitulé: 'N°CRE' },
@@ -50,7 +50,7 @@ export const identificationProjet: Readonly<Array<Colonne>> = [
   {
     source: 'expression-sql',
     expressionSql: literal(
-      `CASE WHEN "notifiedOn" > 0 THEN TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY') ELSE '' END`
+      `CASE WHEN "notifiedOn" > 0 THEN TO_CHAR(TO_TIMESTAMP("notifiedOn" / 1000), 'DD/MM/YYYY') ELSE '' END`,
     ),
     aliasColonne: 'notifiedOn',
     intitulé: 'Notification',
@@ -65,4 +65,4 @@ export const identificationProjet: Readonly<Array<Colonne>> = [
     nomColonneTableProjet: 'classe',
     intitulé: 'Classé ?',
   },
-]
+];

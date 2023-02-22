@@ -1,6 +1,6 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
-const garantieFinanciereEnMois = 36
+const garantieFinanciereEnMois = 36;
 
 const batiment: AppelOffre = {
   id: 'CRE4 - Bâtiment',
@@ -291,6 +291,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
     },
   ],
-}
+};
 
-export { batiment }
+export { batiment };

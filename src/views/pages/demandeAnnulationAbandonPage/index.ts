@@ -1,1 +1,1 @@
-export * from './DemandeAnnulationAbandon'
+export * from './DemandeAnnulationAbandon';

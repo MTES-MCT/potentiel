@@ -1,16 +1,16 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '../../helpers'
-import models from '../../models'
-import { getPeriodeList } from './getPeriodeList'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '../../helpers';
+import models from '../../models';
+import { getPeriodeList } from './getPeriodeList';
 
-const { Periode } = models
+const { Periode } = models;
 describe('Sequelize getPeriodeListList', () => {
-  const appelOffreId = new UniqueEntityID().toString()
-  const periodeId = new UniqueEntityID().toString()
+  const appelOffreId = new UniqueEntityID().toString();
+  const periodeId = new UniqueEntityID().toString();
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
+    await resetDatabase();
 
     await Periode.bulkCreate([
       {
@@ -18,11 +18,11 @@ describe('Sequelize getPeriodeListList', () => {
         periodeId,
         data: { param1: 'value1' },
       },
-    ])
-  })
+    ]);
+  });
 
   it('should return a list of periodes', async () => {
-    const res = await getPeriodeList()
+    const res = await getPeriodeList();
 
     expect(res._unsafeUnwrap()).toMatchObject([
       {
@@ -30,6 +30,6 @@ describe('Sequelize getPeriodeListList', () => {
         periodeId,
         param1: 'value1',
       },
-    ])
-  })
-})
+    ]);
+  });
+});

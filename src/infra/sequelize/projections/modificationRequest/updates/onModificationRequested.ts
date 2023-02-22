@@ -1,10 +1,10 @@
-import { logger } from '@core/utils'
-import { ModificationRequested } from '@modules/modificationRequest'
+import { logger } from '@core/utils';
+import { ModificationRequested } from '@modules/modificationRequest';
 
 export const onModificationRequested =
   (models) =>
   async ({ payload, occurredAt }: ModificationRequested) => {
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
 
     const {
       modificationRequestId,
@@ -15,7 +15,7 @@ export const onModificationRequested =
       requestedBy,
       authority,
       cahierDesCharges,
-    } = payload
+    } = payload;
     try {
       await ModificationRequestModel.create({
         id: modificationRequestId,
@@ -34,8 +34,8 @@ export const onModificationRequested =
         actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
         authority,
         cahierDesCharges,
-      })
+      });
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

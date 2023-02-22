@@ -1,31 +1,31 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ProjectNotified } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
-import { models } from '../../../models'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ProjectNotified } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { models } from '../../../models';
 
 export default GarantiesFinancièresProjector.on(ProjectNotified, async (évènement, transaction) => {
   const {
     payload: { projectId: projetId, appelOffreId, periodeId, familleId },
-  } = évènement
+  } = évènement;
 
-  const entréeExistance = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
+  const entréeExistance = await GarantiesFinancières.findOne({ where: { projetId }, transaction });
 
   if (entréeExistance) {
-    return
+    return;
   }
 
-  const { Project } = models
+  const { Project } = models;
 
-  const projet = await Project.findOne({ where: { id: projetId }, transaction })
+  const projet = await Project.findOne({ where: { id: projetId }, transaction });
 
   if (projet?.classe === 'Eliminé') {
-    return
+    return;
   }
 
-  const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+  const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
   if (!appelOffre) {
     logger.error(
@@ -34,24 +34,24 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
         {
           évènement,
           nomProjection: 'GarantiesFinancières',
-        }
-      )
-    )
-    return
+        },
+      ),
+    );
+    return;
   }
 
   if (!appelOffre.isSoumisAuxGF) {
-    return
+    return;
   }
 
   const soumisesALaCandidature =
     appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-    appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature'
+    appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
 
   await GarantiesFinancières.destroy({
     where: { projetId },
     transaction,
-  })
+  });
 
   try {
     await GarantiesFinancières.create(
@@ -61,8 +61,8 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
         statut: 'en attente',
         soumisesALaCandidature,
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -71,8 +71,8 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
           évènement,
           nomProjection: 'GarantiesFinancières',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

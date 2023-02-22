@@ -1,10 +1,10 @@
-import React from 'react'
-import { ExternalLink } from '@components'
-import { ProjectAppelOffre } from '@entities/appelOffre'
+import React from 'react';
+import { ExternalLink } from '@components';
+import { ProjectAppelOffre } from '@entities/appelOffre';
 
 type CahierDesChargesInitialProps = {
-  appelOffre: ProjectAppelOffre
-}
+  appelOffre: ProjectAppelOffre;
+};
 
 export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = ({ appelOffre }) => {
   return (
@@ -35,5 +35,5 @@ export const CahierDesChargesInitial: React.FC<CahierDesChargesInitialProps> = (
         </ul>
       )}
     </div>
-  )
-}
+  );
+};

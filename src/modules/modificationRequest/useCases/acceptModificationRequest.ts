@@ -1,39 +1,39 @@
-import { ProjetDéjàClasséError, PuissanceVariationWithDecisionJusticeError } from '..'
-import { Repository, UniqueEntityID } from '@core/domain'
-import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils'
-import { User } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { ProjetDéjàClasséError, PuissanceVariationWithDecisionJusticeError } from '..';
+import { Repository, UniqueEntityID } from '@core/domain';
+import { err, errAsync, logger, ok, okAsync, Result, ResultAsync } from '@core/utils';
+import { User } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../../file';
 import {
   IllegalProjectDataError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
-} from '../../project/errors'
-import { Project } from '../../project/Project'
+} from '../../project/errors';
+import { Project } from '../../project/Project';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationRequest, ModificationRequestAcceptanceParams } from '../ModificationRequest'
+} from '../../shared';
+import { ModificationRequest, ModificationRequestAcceptanceParams } from '../ModificationRequest';
 
 interface AcceptModificationRequestDeps {
-  modificationRequestRepo: Repository<ModificationRequest>
-  projectRepo: Repository<Project>
-  fileRepo: Repository<FileObject>
+  modificationRequestRepo: Repository<ModificationRequest>;
+  projectRepo: Repository<Project>;
+  fileRepo: Repository<FileObject>;
 }
 
 interface AcceptModificationRequestArgs {
-  modificationRequestId: UniqueEntityID
-  acceptanceParams?: ModificationRequestAcceptanceParams
-  versionDate: Date
-  responseFile?: { contents: FileContents; filename: string }
-  submittedBy: User
+  modificationRequestId: UniqueEntityID;
+  acceptanceParams?: ModificationRequestAcceptanceParams;
+  versionDate: Date;
+  responseFile?: { contents: FileContents; filename: string };
+  submittedBy: User;
 }
 
 export const makeAcceptModificationRequest =
   (deps: AcceptModificationRequestDeps) =>
   (
-    args: AcceptModificationRequestArgs
+    args: AcceptModificationRequestArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -43,11 +43,12 @@ export const makeAcceptModificationRequest =
     | PuissanceVariationWithDecisionJusticeError
     | ProjetDéjàClasséError
   > => {
-    const { fileRepo, modificationRequestRepo, projectRepo } = deps
-    const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } = args
+    const { fileRepo, modificationRequestRepo, projectRepo } = deps;
+    const { modificationRequestId, versionDate, responseFile, submittedBy, acceptanceParams } =
+      args;
 
     if (!['admin', 'dgec-validateur', 'dreal'].includes(submittedBy.role)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return modificationRequestRepo
@@ -58,29 +59,29 @@ export const makeAcceptModificationRequest =
             modificationRequest.lastUpdatedOn &&
             modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
           ) {
-            return err(new AggregateHasBeenUpdatedSinceError())
+            return err(new AggregateHasBeenUpdatedSinceError());
           }
 
-          return ok(modificationRequest)
-        }
+          return ok(modificationRequest);
+        },
       )
       .andThen((modificationRequest) => {
         return projectRepo
           .load(modificationRequest.projectId)
           .andThen((project): ResultAsync<Project, PuissanceVariationWithDecisionJusticeError> => {
             if (acceptanceParams?.type === 'puissance') {
-              const { isDecisionJustice, newPuissance } = acceptanceParams
-              const { puissanceInitiale } = project
+              const { isDecisionJustice, newPuissance } = acceptanceParams;
+              const { puissanceInitiale } = project;
               const newPuissanceVariationIsForbidden =
-                isDecisionJustice && newPuissance / puissanceInitiale > 1.1
+                isDecisionJustice && newPuissance / puissanceInitiale > 1.1;
 
               if (newPuissanceVariationIsForbidden) {
-                return errAsync(new PuissanceVariationWithDecisionJusticeError())
+                return errAsync(new PuissanceVariationWithDecisionJusticeError());
               }
             }
-            return okAsync(project)
+            return okAsync(project);
           })
-          .map((project) => ({ project, modificationRequest }))
+          .map((project) => ({ project, modificationRequest }));
       })
       .andThen(
         ({
@@ -90,7 +91,7 @@ export const makeAcceptModificationRequest =
           { project: Project; modificationRequest: ModificationRequest; responseFileId: string },
           InfraNotAvailableError
         > => {
-          if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' })
+          if (!responseFile) return okAsync({ project, modificationRequest, responseFileId: '' });
 
           return makeAndSaveFile({
             file: {
@@ -104,16 +105,16 @@ export const makeAcceptModificationRequest =
           })
             .map((responseFileId) => ({ project, modificationRequest, responseFileId }))
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
+        },
       )
       .andThen(({ project, modificationRequest, responseFileId }) => {
         let action: Result<
           null,
           ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectDataError | ProjetDéjàClasséError
-        > = ok(null)
+        > = ok(null);
 
         switch (modificationRequest.type) {
           case 'recours':
@@ -124,37 +125,37 @@ export const makeAcceptModificationRequest =
                 .andThen(() =>
                   project.setNotificationDate(
                     submittedBy,
-                    acceptanceParams.newNotificationDate.getTime()
-                  )
-                )
-            break
+                    acceptanceParams.newNotificationDate.getTime(),
+                  ),
+                );
+            break;
           case 'puissance':
             if (acceptanceParams?.type === 'puissance')
-              action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance)
-            break
+              action = project.updatePuissance(submittedBy, acceptanceParams.newPuissance);
+            break;
           case 'actionnaire':
             if (acceptanceParams?.type === 'actionnaire')
-              action = project.updateActionnaire(submittedBy, acceptanceParams.newActionnaire)
-            break
+              action = project.updateActionnaire(submittedBy, acceptanceParams.newActionnaire);
+            break;
           case 'abandon':
-            action = project.abandon(submittedBy)
-            break
+            action = project.abandon(submittedBy);
+            break;
           case 'producteur':
             if (acceptanceParams?.type === 'producteur')
-              action = project.updateProducteur(submittedBy, acceptanceParams.newProducteur)
-            break
+              action = project.updateProducteur(submittedBy, acceptanceParams.newProducteur);
+            break;
         }
-        return action.map(() => ({ project, modificationRequest, responseFileId }))
+        return action.map(() => ({ project, modificationRequest, responseFileId }));
       })
       .andThen(({ project, modificationRequest, responseFileId }) => {
         return modificationRequest
           .accept({ acceptedBy: submittedBy, params: acceptanceParams, responseFileId })
-          .map(() => ({ project, modificationRequest }))
+          .map(() => ({ project, modificationRequest }));
       })
       .andThen(({ project, modificationRequest }) => {
-        return projectRepo.save(project).map(() => modificationRequest)
+        return projectRepo.save(project).map(() => modificationRequest);
       })
       .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
-      })
-  }
+        return modificationRequestRepo.save(modificationRequest);
+      });
+  };

@@ -1,19 +1,19 @@
-import { NotificationService } from '../..'
-import { logger } from '@core/utils'
-import { ProjectRepo, UserRepo } from '@dataAccess'
-import routes from '@routes'
-import { ModificationRequested } from '../../../modificationRequest'
-import { GetInfoForModificationRequested } from '../../queries'
+import { NotificationService } from '../..';
+import { logger } from '@core/utils';
+import { ProjectRepo, UserRepo } from '@dataAccess';
+import routes from '@routes';
+import { ModificationRequested } from '../../../modificationRequest';
+import { GetInfoForModificationRequested } from '../../queries';
 
 export const handleModificationRequested =
   (deps: {
-    sendNotification: NotificationService['sendNotification']
-    getInfoForModificationRequested: GetInfoForModificationRequested
-    findUsersForDreal: UserRepo['findUsersForDreal']
-    findProjectById: ProjectRepo['findById']
+    sendNotification: NotificationService['sendNotification'];
+    getInfoForModificationRequested: GetInfoForModificationRequested;
+    findUsersForDreal: UserRepo['findUsersForDreal'];
+    findProjectById: ProjectRepo['findById'];
   }) =>
   async (event: ModificationRequested) => {
-    const { modificationRequestId, projectId, type, requestedBy, authority } = event.payload
+    const { modificationRequestId, projectId, type, requestedBy, authority } = event.payload;
 
     await deps.getInfoForModificationRequested({ projectId, userId: requestedBy }).match(
       async ({ nomProjet, porteurProjet: { fullName, email } }) => {
@@ -21,21 +21,21 @@ export const handleModificationRequested =
           email,
           fullName,
           nomProjet,
-        })
+        });
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
-    const project = await deps.findProjectById(projectId)
+    const project = await deps.findProjectById(projectId);
 
     if (project && authority === 'dreal') {
       // Send dreal email for each dreal of each region
-      const regions = project.regionProjet.split(' / ')
+      const regions = project.regionProjet.split(' / ');
       await Promise.all(
         regions.map(async (region) => {
-          const drealUsers = await deps.findUsersForDreal(region)
+          const drealUsers = await deps.findUsersForDreal(region);
 
           await Promise.all(
             drealUsers.map((drealUser) =>
@@ -58,19 +58,19 @@ export const handleModificationRequested =
                   type_demande: type,
                   modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
                 },
-              })
-            )
-          )
-        })
-      )
+              }),
+            ),
+          );
+        }),
+      );
     }
 
     function _sendPPUpdateNotification(args: {
-      email: string
-      fullName: string
-      nomProjet: string
+      email: string;
+      fullName: string;
+      nomProjet: string;
     }) {
-      const { email, fullName, nomProjet } = args
+      const { email, fullName, nomProjet } = args;
       return deps.sendNotification({
         type: 'modification-request-status-update',
         message: {
@@ -89,6 +89,6 @@ export const handleModificationRequested =
           modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
           document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
-      })
+      });
     }
-  }
+  };

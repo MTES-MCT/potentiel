@@ -1,35 +1,35 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync } from '@core/utils'
-import { UserRole } from '@modules/users'
-import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError'
-import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError'
-import { Utilisateur } from '../Utilisateur'
-import { UtilisateurInvité } from '../events/UtilisateurInvité'
-import { Permission } from '@modules/authN'
-import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError'
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync } from '@core/utils';
+import { UserRole } from '@modules/users';
+import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError';
+import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError';
+import { Utilisateur } from '../Utilisateur';
+import { UtilisateurInvité } from '../events/UtilisateurInvité';
+import { Permission } from '@modules/authN';
+import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
 
 export const PermissionInviterDgecValidateur: Permission = {
   nom: 'inviter-dgec-validateur-action',
   description: 'Inviter un utilisateur dgec-validateur',
-}
+};
 
 type Dépendances = {
-  utilisateurRepo: TransactionalRepository<Utilisateur>
-  publishToEventStore: EventStore['publish']
-}
+  utilisateurRepo: TransactionalRepository<Utilisateur>;
+  publishToEventStore: EventStore['publish'];
+};
 
 type Commande = {
-  email: string
-  invitéPar: { permissions: Array<Permission> }
+  email: string;
+  invitéPar: { permissions: Array<Permission> };
 } & (
   | {
-      role: Exclude<UserRole, 'dgec-validateur'>
+      role: Exclude<UserRole, 'dgec-validateur'>;
     }
   | {
-      role: 'dgec-validateur'
-      fonction: string
+      role: 'dgec-validateur';
+      fonction: string;
     }
-)
+);
 
 export const makeInviterUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
@@ -37,19 +37,19 @@ export const makeInviterUtilisateur =
     utilisateurRepo.transaction(
       new UniqueEntityID(commande.email),
       (utilisateur) => {
-        const { email, role, invitéPar } = commande
+        const { email, role, invitéPar } = commande;
         if (
           role === 'dgec-validateur' &&
           !invitéPar.permissions.includes(PermissionInviterDgecValidateur)
         ) {
-          return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }))
+          return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }));
         }
 
         if (utilisateur.statut === 'invité') {
-          return errAsync(new InvitationUniqueParUtilisateurError({ email, role }))
+          return errAsync(new InvitationUniqueParUtilisateurError({ email, role }));
         }
         if (utilisateur.statut === 'créé') {
-          return errAsync(new InvitationUtilisateurExistantError({ email, role }))
+          return errAsync(new InvitationUtilisateurExistantError({ email, role }));
         }
 
         return publishToEventStore(
@@ -58,8 +58,8 @@ export const makeInviterUtilisateur =
               email,
               ...(role === 'dgec-validateur' ? { role, fonction: commande.fonction } : { role }),
             },
-          })
-        )
+          }),
+        );
       },
-      { acceptNew: true }
-    )
+      { acceptNew: true },
+    );

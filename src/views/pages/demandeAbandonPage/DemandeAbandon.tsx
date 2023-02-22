@@ -9,36 +9,36 @@ import {
   ProjectInfo,
   SecondaryButton,
   SuccessBox,
-} from '@components'
-import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components'
-import ROUTES from '@routes'
-import React from 'react'
-import { Request } from 'express'
-import { DemandeAbandonPageDTO } from '@modules/modificationRequest'
-import { dataId } from '../../../helpers/testId'
+} from '@components';
+import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
+import ROUTES from '@routes';
+import React from 'react';
+import { Request } from 'express';
+import { DemandeAbandonPageDTO } from '@modules/modificationRequest';
+import { dataId } from '../../../helpers/testId';
 import {
   hydrateOnClient,
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
-} from '../../helpers'
-import { formatDate } from '../../../helpers/formatDate'
-import { userIs } from '@modules/users'
+} from '../../helpers';
+import { formatDate } from '../../../helpers/formatDate';
+import { userIs } from '@modules/users';
 
 type DemandeAbandonProps = {
-  request: Request
-  modificationRequest: DemandeAbandonPageDTO
-}
+  request: Request;
+  modificationRequest: DemandeAbandonPageDTO;
+};
 
 export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonProps) => {
-  const { user } = request
-  const { error, success } = request.query as any
+  const { user } = request;
+  const { error, success } = request.query as any;
   const { type, id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
-    modificationRequest
+    modificationRequest;
 
-  const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
+  const isAdmin = userIs(['admin', 'dgec-validateur'])(user);
   const showFormulaireAdministrateur =
-    isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
+    isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -92,7 +92,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
                 if (
                   !confirm('Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?')
                 ) {
-                  e.preventDefault()
+                  e.preventDefault();
                 }
               }}
             >
@@ -105,7 +105,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             <Heading2>Répondre</Heading2>
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
               {!['en attente de confirmation', 'demande confirmée'].includes(
-                modificationRequest.status
+                modificationRequest.status,
               ) && (
                 <Button
                   type="submit"
@@ -139,7 +139,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
           )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DemandeAbandon)
+hydrateOnClient(DemandeAbandon);

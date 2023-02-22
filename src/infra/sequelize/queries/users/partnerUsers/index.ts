@@ -1,1 +1,1 @@
-export * from './getPartnersList'
+export * from './getPartnersList';

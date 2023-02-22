@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes } from 'sequelize'
+import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -36,17 +36,17 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-    })
+    });
 
     queryInterface.addConstraint('taches', {
       fields: ['gestionnaire', 'type', 'dateDeDébut'],
       type: 'unique',
       name: 'tache_unique_gestionnaire_type_dateDeDébut',
-    })
+    });
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.removeConstraint('taches', 'tache_unique_gestionnaire_type_dateDeDébut')
-    await queryInterface.dropTable('taches')
+    await queryInterface.removeConstraint('taches', 'tache_unique_gestionnaire_type_dateDeDébut');
+    await queryInterface.dropTable('taches');
   },
-}
+};

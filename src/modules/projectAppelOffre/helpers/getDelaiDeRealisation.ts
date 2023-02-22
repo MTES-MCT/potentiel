@@ -1,16 +1,16 @@
-import { ProjectAppelOffre, Technologie } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities';
 
 export const getDelaiDeRealisation = (
   appelOffre: ProjectAppelOffre,
-  technologie: Technologie
+  technologie: Technologie,
 ): number | null => {
   if (appelOffre.decoupageParTechnologie) {
     if (technologie === 'N/A') {
-      return null
+      return null;
     }
 
-    return appelOffre.delaiRealisationEnMoisParTechnologie[technologie]
+    return appelOffre.delaiRealisationEnMoisParTechnologie[technologie];
   }
 
-  return appelOffre.delaiRealisationEnMois
-}
+  return appelOffre.delaiRealisationEnMois;
+};

@@ -1,53 +1,53 @@
-import { ProjectEventDTO, is, ProjectStatus } from '@modules/frise'
-import { or } from '@core/utils'
-import { UserRole } from '@modules/users'
-import { makeDocumentUrl } from './makeDocumentUrl'
+import { ProjectEventDTO, is, ProjectStatus } from '@modules/frise';
+import { or } from '@core/utils';
+import { UserRole } from '@modules/users';
+import { makeDocumentUrl } from './makeDocumentUrl';
 
 export type DCRItemProps = {
-  type: 'demande-complete-de-raccordement'
-  role: UserRole
-  date: number
+  type: 'demande-complete-de-raccordement';
+  role: UserRole;
+  date: number;
 } & (
   | {
-      status: 'due' | 'past-due'
+      status: 'due' | 'past-due';
     }
   | {
-      status: 'submitted'
-      url: string | undefined
-      numeroDossier: string
+      status: 'submitted';
+      url: string | undefined;
+      numeroDossier: string;
     }
-)
+);
 
 export const extractDCRItemProps = (
   events: ProjectEventDTO[],
   now: number,
   project: {
-    status: ProjectStatus
-  }
+    status: ProjectStatus;
+  },
 ): DCRItemProps | null => {
-  const projectDCREvents = events.filter(isProjectDCR)
+  const projectDCREvents = events.filter(isProjectDCR);
 
   if (!projectDCREvents.length || project.status === 'Eliminé') {
-    return null
+    return null;
   }
 
-  const lastProjectDCREvent = projectDCREvents.slice(-1)[0]
+  const lastProjectDCREvent = projectDCREvents.slice(-1)[0];
 
   const projectDCREvent = is('ProjectDCRRemoved')(lastProjectDCREvent)
     ? projectDCREvents.filter(is('ProjectDCRDueDateSet')).pop()
-    : projectDCREvents.pop()
+    : projectDCREvents.pop();
 
   if (!projectDCREvent) {
-    return null
+    return null;
   }
 
-  const { date, variant: role, type } = projectDCREvent
+  const { date, variant: role, type } = projectDCREvent;
 
   const props = {
     type: 'demande-complete-de-raccordement' as 'demande-complete-de-raccordement',
     date,
     role,
-  }
+  };
 
   return type === 'ProjectDCRSubmitted'
     ? {
@@ -63,11 +63,11 @@ export const extractDCRItemProps = (
         ...props,
         status: date < now ? 'past-due' : 'due',
       }
-    : null
-}
+    : null;
+};
 
 const isProjectDCR = or(
   is('ProjectDCRDueDateSet'),
   is('ProjectDCRSubmitted'),
-  is('ProjectDCRRemoved')
-)
+  is('ProjectDCRRemoved'),
+);

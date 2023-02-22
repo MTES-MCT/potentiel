@@ -8,16 +8,16 @@ import {
   UsersProjector,
   UserProjectClaimsProjector,
   UserDrealProjector,
-} from '@infra/sequelize'
-import { subscribeToRedis } from './eventBus.config'
-import { eventStore } from './eventStore.config'
+} from '@infra/sequelize';
+import { subscribeToRedis } from './eventBus.config';
+import { eventStore } from './eventStore.config';
 
 // This is legacy
-initProjections(eventStore)
+initProjections(eventStore);
 
 // This is initProjections replacement
-const projectors = initProjectors(eventStore)
-console.log(`Initialized projectors: ${projectors.join(', ')}`)
+const projectors = initProjectors(eventStore);
+console.log(`Initialized projectors: ${projectors.join(', ')}`);
 
 const projectorsNext = [
   ProjectEventProjector,
@@ -30,10 +30,10 @@ const projectorsNext = [
 ].map((projector) => {
   projector.initEventStream({
     subscribe: subscribeToRedis,
-  })
-  return projector.name
-})
+  });
+  return projector.name;
+});
 
-console.log(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`)
+console.log(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`);
 
-console.log('Projections initialized')
+console.log('Projections initialized');

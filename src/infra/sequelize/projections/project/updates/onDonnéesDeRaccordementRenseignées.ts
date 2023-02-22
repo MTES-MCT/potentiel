@@ -1,18 +1,18 @@
-import { logger } from '@core/utils'
-import { Projections } from '@infra/sequelize/models'
-import { DonnéesDeRaccordementRenseignées } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
+import { logger } from '@core/utils';
+import { Projections } from '@infra/sequelize/models';
+import { DonnéesDeRaccordementRenseignées } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
 
 type onDonnéesDeRaccordementRenseignées = (
-  projections: Projections
-) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>
+  projections: Projections,
+) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>;
 
 export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRenseignées =
   ({ Project }) =>
   async (évènement) => {
-    const { payload } = évènement
+    const { payload } = évènement;
 
-    const projectInstance = await Project.findByPk(payload.projetId)
+    const projectInstance = await Project.findByPk(payload.projetId);
 
     if (!projectInstance) {
       logger.error(
@@ -21,10 +21,10 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
           {
             nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
     try {
       await Project.update(
@@ -38,8 +38,8 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
         },
         {
           where: { id: payload.projetId },
-        }
-      )
+        },
+      );
     } catch (cause) {
       logger.error(
         new ProjectionEnEchec(
@@ -48,8 +48,8 @@ export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRense
             nomProjection: 'onDonnéesDeRaccordementRenseignées',
             évènement,
           },
-          cause
-        )
-      )
+          cause,
+        ),
+      );
     }
-  }
+  };

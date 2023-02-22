@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react'
-import { ProjectListItem } from '@modules/project'
-import { UserRole } from '@modules/users'
-import routes from '@routes'
-import { formatDate } from '../../../../helpers/formatDate'
-import { PaginatedList } from '../../../../types'
+import React, { ReactNode } from 'react';
+import { ProjectListItem } from '@modules/project';
+import { UserRole } from '@modules/users';
+import routes from '@routes';
+import { formatDate } from '../../../../helpers/formatDate';
+import { PaginatedList } from '../../../../types';
 import {
   ProjectActions,
   PowerIcon,
@@ -19,46 +19,46 @@ import {
   Tile,
   PaginationPanel,
   InputCheckbox,
-} from '@components'
+} from '@components';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
-)
+);
 
 const StatutBadge = ({ project }: { project: ProjectListItem; role: UserRole }) => {
   if (project.abandonedOn) {
-    return <Badge type="warning">Abandonné</Badge>
+    return <Badge type="warning">Abandonné</Badge>;
   }
 
   if (project.classe === 'Eliminé') {
-    return <Badge type="error">Eliminé</Badge>
+    return <Badge type="error">Eliminé</Badge>;
   }
 
   const getFinancementType = (project: ProjectListItem) => {
-    if (project.isFinancementParticipatif) return 'FP'
-    if (project.isInvestissementParticipatif) return 'IP'
-    if (project.actionnariat === 'financement-collectif') return 'FC'
-    if (project.actionnariat === 'gouvernance-partagee') return 'GP'
+    if (project.isFinancementParticipatif) return 'FP';
+    if (project.isInvestissementParticipatif) return 'IP';
+    if (project.actionnariat === 'financement-collectif') return 'FC';
+    if (project.actionnariat === 'gouvernance-partagee') return 'GP';
 
-    return null
-  }
+    return null;
+  };
 
   return (
     <Badge type="success">
       Classé {getFinancementType(project) && `(${getFinancementType(project)})`}
     </Badge>
-  )
-}
+  );
+};
 
 type Props = {
-  projects: PaginatedList<ProjectListItem>
-  displayGF?: true
-  role: UserRole
-  GFPastDue?: boolean
-  displaySelection?: boolean
-  selectedIds?: string[]
-  onSelectedIdsChanged?: (projectIds: string[]) => void
-}
+  projects: PaginatedList<ProjectListItem>;
+  displayGF?: true;
+  role: UserRole;
+  GFPastDue?: boolean;
+  displaySelection?: boolean;
+  selectedIds?: string[];
+  onSelectedIdsChanged?: (projectIds: string[]) => void;
+};
 
 export const ProjectList = ({
   projects,
@@ -69,28 +69,28 @@ export const ProjectList = ({
   displaySelection = false,
   onSelectedIdsChanged,
 }: Props) => {
-  const prixDisponible = projects.items.some((project) => project.prixReference)
+  const prixDisponible = projects.items.some((project) => project.prixReference);
 
-  const évaluationCarboneDisponible = projects.items.some((project) => project.evaluationCarbone)
+  const évaluationCarboneDisponible = projects.items.some((project) => project.evaluationCarbone);
 
   const toggleSelected = (projectId: string, value: boolean) => {
-    const newSelectedIds = selectedIds.slice()
+    const newSelectedIds = selectedIds.slice();
     if (value) {
-      newSelectedIds.push(projectId)
+      newSelectedIds.push(projectId);
     } else {
-      const index = newSelectedIds.indexOf(projectId)
-      newSelectedIds.splice(index, 1)
+      const index = newSelectedIds.indexOf(projectId);
+      newSelectedIds.splice(index, 1);
     }
-    onSelectedIdsChanged?.(newSelectedIds)
-  }
+    onSelectedIdsChanged?.(newSelectedIds);
+  };
 
   const toggleSelectAllPage = (value: boolean) => {
     if (value) {
-      onSelectedIdsChanged?.(projects.items.map((projet) => projet.id))
+      onSelectedIdsChanged?.(projects.items.map((projet) => projet.id));
     } else {
-      onSelectedIdsChanged?.([])
+      onSelectedIdsChanged?.([]);
     }
-  }
+  };
 
   return (
     <>
@@ -264,11 +264,11 @@ export const ProjectList = ({
         />
       )}
     </>
-  )
-}
+  );
+};
 
 const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: boolean }) => {
-  const gf = project.garantiesFinancières
+  const gf = project.garantiesFinancières;
   return (
     <div className="flex lg:flex-1 lg:flex-col gap-1 mt-1 md:items-center">
       <div
@@ -314,5 +314,5 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
         </DownloadLink>
       )}
     </div>
-  )
-}
+  );
+};

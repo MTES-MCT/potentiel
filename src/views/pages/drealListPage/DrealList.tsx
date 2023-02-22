@@ -1,7 +1,7 @@
-import { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../../helpers/testId'
-import ROUTES from '@routes'
+import { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../../helpers/testId';
+import ROUTES from '@routes';
 import {
   Button,
   ErrorBox,
@@ -11,18 +11,18 @@ import {
   PageTemplate,
   Select,
   SuccessBox,
-} from '@components'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import { REGIONS, Région } from '@modules/dreal/région'
+} from '@components';
+import { hydrateOnClient } from '../../helpers/hydrateOnClient';
+import { REGIONS, Région } from '@modules/dreal/région';
 
 type DrealListProps = {
-  request: Request
-  users: Array<{ user: { email: string; fullName: string }; dreals: Array<Région> }>
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+  request: Request;
+  users: Array<{ user: { email: string; fullName: string }; dreals: Array<Région> }>;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 
 export const DrealList = ({ request, users, validationErrors }: DrealListProps) => {
-  const { success, error } = (request.query as any) || {}
+  const { success, error } = (request.query as any) || {};
   return (
     <PageTemplate user={request.user} currentPage="list-dreal">
       <div className="panel">
@@ -95,7 +95,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                       </td>
                       <td valign="top">{dreals.join(', ')}</td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -103,7 +103,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DrealList)
+hydrateOnClient(DrealList);

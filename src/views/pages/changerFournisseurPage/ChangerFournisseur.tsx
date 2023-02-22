@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import { ProjectAppelOffre } from '@entities'
-import routes from '@routes'
-import { dataId } from '../../../helpers/testId'
-import { Request } from 'express'
+import React, { useState } from 'react';
+import { ProjectAppelOffre } from '@entities';
+import routes from '@routes';
+import { dataId } from '../../../helpers/testId';
+import { Request } from 'express';
 
 import {
   ChoisirCahierDesChargesFormulaire,
@@ -19,28 +19,28 @@ import {
   Heading1,
   Heading2,
   ProjectProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
-import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
+import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project';
 
 type ChangerFournisseurProps = {
-  request: Request
+  request: Request;
   project: ProjectProps & {
-    cahierDesChargesActuel: string
-    evaluationCarbone: number
-    evaluationCarboneDeRéférence: number
-    details?: { [key: string]: string }
-  }
-  appelOffre: ProjectAppelOffre
-}
+    cahierDesChargesActuel: string;
+    evaluationCarbone: number;
+    evaluationCarboneDeRéférence: number;
+    details?: { [key: string]: string };
+  };
+  appelOffre: ProjectAppelOffre;
+};
 
 export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFournisseurProps) => {
-  const { error, success, justification } = (request.query as any) || {}
+  const { error, success, justification } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
-  const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>()
+  const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>();
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -97,7 +97,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     </label>
                     <input type="text" name={champ.replace(/\n/g, '\\n')} id={champ} />
                   </div>
-                )
+                );
               })}
               {project.evaluationCarbone > 0 && (
                 <div>
@@ -167,7 +167,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ChangerFournisseur)
+hydrateOnClient(ChangerFournisseur);

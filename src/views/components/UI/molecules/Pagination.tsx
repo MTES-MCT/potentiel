@@ -1,32 +1,32 @@
-import React, { ComponentProps, FC } from 'react'
-import { ChevronLeftIcon, ChevronRightIcon } from '@components'
-import { dataId } from '../../../../helpers/testId'
+import React, { ComponentProps, FC } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@components';
+import { dataId } from '../../../../helpers/testId';
 
 type Props = ComponentProps<'ul'> & {
-  nombreDePage: number
-  page: number
-}
+  nombreDePage: number;
+  page: number;
+};
 
 export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...props }) => {
-  const pageNumbers = [0, 1]
+  const pageNumbers = [0, 1];
 
   if (nombreDePage <= 5) {
-    pageNumbers.push(2, 3, 4)
+    pageNumbers.push(2, 3, 4);
   } else {
     if (page > 1 && page < nombreDePage - 2) {
       if (page > 2) {
-        pageNumbers.push(-1) // Will be "..."
+        pageNumbers.push(-1); // Will be "..."
       }
 
-      pageNumbers.push(page)
+      pageNumbers.push(page);
 
       if (page < nombreDePage - 3) {
-        pageNumbers.push(-1) // Will be "..."
+        pageNumbers.push(-1); // Will be "..."
       }
     } else {
-      pageNumbers.push(2, -1)
+      pageNumbers.push(2, -1);
     }
-    pageNumbers.push(nombreDePage - 2, nombreDePage - 1)
+    pageNumbers.push(nombreDePage - 2, nombreDePage - 1);
   }
 
   return (
@@ -77,7 +77,7 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
               {pageNumber + 1}
             </a>
           </li>
-        )
+        ),
       )}
 
       <li>
@@ -103,5 +103,5 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
         )}
       </li>
     </ul>
-  )
-}
+  );
+};

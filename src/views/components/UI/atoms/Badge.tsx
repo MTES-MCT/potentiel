@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
-type BadgeType = 'success' | 'error' | 'info' | 'warning'
+type BadgeType = 'success' | 'error' | 'info' | 'warning';
 
 type BadgeProps = {
-  className?: string
-  type: BadgeType
-}
+  className?: string;
+  type: BadgeType;
+};
 
 const badgeColorsByType: Record<BadgeType, { backgroundColor: string; textColor: string }> = {
   success: {
@@ -24,15 +24,15 @@ const badgeColorsByType: Record<BadgeType, { backgroundColor: string; textColor:
     backgroundColor: 'bg-warning-950-base',
     textColor: 'text-warning-425-base',
   },
-}
+};
 
 export const Badge: FC<BadgeProps> = ({ type, className = '', children }) => {
-  const { backgroundColor, textColor } = badgeColorsByType[type]
+  const { backgroundColor, textColor } = badgeColorsByType[type];
   return (
     <span
       className={`inline-flex self-start px-2 py-0.5 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} ${className}`}
     >
       {children}
     </span>
-  )
-}
+  );
+};

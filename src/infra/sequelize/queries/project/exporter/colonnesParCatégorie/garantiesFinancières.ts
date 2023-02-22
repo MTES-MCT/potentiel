@@ -1,5 +1,5 @@
-import { literal } from 'sequelize'
-import { Colonne } from '../Colonne'
+import { literal } from 'sequelize';
+import { Colonne } from '../Colonne';
 
 export const garantiesFinancières: Readonly<Array<Colonne>> = [
   {
@@ -14,4 +14,4 @@ export const garantiesFinancières: Readonly<Array<Colonne>> = [
     aliasColonne: 'dateConstitution',
     intitulé: `Date déclarée par le porteur de dépôt des garanties financières`,
   },
-]
+];

@@ -1,9 +1,9 @@
-import { Op } from 'sequelize'
-import { models } from '../models'
+import { Op } from 'sequelize';
+import { models } from '../models';
 
 export default {
   up: () => {
-    const { EventStore } = models
+    const { EventStore } = models;
     return EventStore.destroy({
       where: {
         type: {
@@ -14,8 +14,8 @@ export default {
           ],
         },
       },
-    })
+    });
   },
 
   down: () => {},
-}
+};

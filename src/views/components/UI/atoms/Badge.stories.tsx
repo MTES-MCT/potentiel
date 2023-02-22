@@ -1,5 +1,5 @@
-import React from 'react'
-import { Badge } from './Badge'
+import React from 'react';
+import { Badge } from './Badge';
 
 export default {
   title: 'Components/Atoms/Badge',
@@ -8,13 +8,13 @@ export default {
     children: { control: 'text' },
     type: ['success', 'error', 'info', 'warning'],
   },
-}
+};
 
-const Template = (args) => <Badge {...args} />
+const Template = (args) => <Badge {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 
 Default.args = {
   children: `Badge`,
   type: 'info',
-}
+};

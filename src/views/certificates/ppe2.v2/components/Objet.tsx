@@ -1,14 +1,14 @@
-import { Text } from '@react-pdf/renderer'
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
+import { Text } from '@react-pdf/renderer';
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
 
 type ObjetProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 
 export const Objet = ({ project }: ObjetProps) => {
-  const { appelOffre, isClasse } = project
-  const { periode } = appelOffre || {}
+  const { appelOffre, isClasse } = project;
+  const { periode } = appelOffre || {};
 
   return (
     <Text style={{ fontWeight: 'bold', marginTop: 30 }}>
@@ -17,5 +17,5 @@ export const Objet = ({ project }: ObjetProps) => {
         ? `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`
         : `Avis de rejet à l’issue de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`}
     </Text>
-  )
-}
+  );
+};

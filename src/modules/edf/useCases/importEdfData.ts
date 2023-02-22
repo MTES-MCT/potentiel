@@ -1,38 +1,38 @@
-import { EventBus } from '@core/domain'
+import { EventBus } from '@core/domain';
 import {
   ContratEDFRapprochéAutomatiquement,
   ContratEDFAvecPlusieursProjetsPossibles,
   ContratEDFOrphelin,
   ContratEDFMisAJour,
   ListingEDFImporté,
-} from '../events'
+} from '../events';
 
-import { shallowDelta } from '../../../helpers/shallowDelta'
+import { shallowDelta } from '../../../helpers/shallowDelta';
 
 type SearchResult = {
-  projectId: string
-  score: number
-}
+  projectId: string;
+  score: number;
+};
 
 export type ContratEDF = {
-  numero?: string
-  type?: string
-  dateEffet?: string
-  dateSignature?: string
-  dateMiseEnService?: string
-  duree?: string
-  statut?: string
-}
+  numero?: string;
+  type?: string;
+  dateEffet?: string;
+  dateSignature?: string;
+  dateMiseEnService?: string;
+  duree?: string;
+  statut?: string;
+};
 
 export type SearchIndex = {
-  findByNumeroContrat: (numeroContratEDF: string) => ({ projectId: string } & ContratEDF) | null
-  search: (line: any) => SearchResult[]
-}
+  findByNumeroContrat: (numeroContratEDF: string) => ({ projectId: string } & ContratEDF) | null;
+  search: (line: any) => SearchResult[];
+};
 
 interface ImportEdfDataDeps {
-  publish: EventBus['publish']
-  parseCsvFile: (fileId: string) => Promise<any[]>
-  getSearchIndex: () => Promise<SearchIndex>
+  publish: EventBus['publish'];
+  parseCsvFile: (fileId: string) => Promise<any[]>;
+  getSearchIndex: () => Promise<SearchIndex>;
 }
 
 export const AO_BY_CONTRACT = {
@@ -48,39 +48,39 @@ export const AO_BY_CONTRACT = {
   'AO AC19': 'CRE4 - ZNI',
   FSF19OA: 'Fessenheim',
   FET: 'Eolien',
-}
+};
 
-export const AO_CODES = new Set(Object.keys(AO_BY_CONTRACT))
+export const AO_CODES = new Set(Object.keys(AO_BY_CONTRACT));
 
 export const makeImportEdfData =
   ({ publish, parseCsvFile, getSearchIndex: makeSearchIndex }: ImportEdfDataDeps) =>
   async (event: ListingEDFImporté): Promise<void> => {
     const {
       payload: { fileId },
-    } = event
+    } = event;
 
-    const searchIndex = await makeSearchIndex()
+    const searchIndex = await makeSearchIndex();
 
-    const lines = await parseCsvFile(fileId)
+    const lines = await parseCsvFile(fileId);
 
     // Filter by contract
-    const linesGoodContract = lines.filter((line) => AO_CODES.has(line['Contrat - Type (code)']))
+    const linesGoodContract = lines.filter((line) => AO_CODES.has(line['Contrat - Type (code)']));
 
     for (const line of linesGoodContract) {
       // Try to find a match by numero contrat
-      const contractDataFromLine = extractContractData(line)
+      const contractDataFromLine = extractContractData(line);
       const { type, dateSignature, dateEffet, dateMiseEnService, duree, numero, statut } =
-        contractDataFromLine
+        contractDataFromLine;
 
-      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero)
+      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero);
 
       if (projectForNumeroContrat) {
-        const { projectId } = projectForNumeroContrat
+        const { projectId } = projectForNumeroContrat;
 
         const changes = shallowDelta(projectForNumeroContrat, {
           ...contractDataFromLine,
           projectId,
-        })
+        });
 
         // grab info for this contract
         if (changes) {
@@ -91,13 +91,13 @@ export const makeImportEdfData =
                 projectId,
                 ...changes,
               },
-            })
-          )
+            }),
+          );
         }
-        continue
+        continue;
       }
 
-      const matches = searchIndex.search(line)
+      const matches = searchIndex.search(line);
 
       if (!matches.length) {
         // no match
@@ -107,9 +107,9 @@ export const makeImportEdfData =
               numero,
               rawValues: line,
             },
-          })
-        )
-        continue
+          }),
+        );
+        continue;
       }
 
       if (matches.length > 1) {
@@ -121,13 +121,13 @@ export const makeImportEdfData =
               matches,
               rawValues: line,
             },
-          })
-        )
-        continue
+          }),
+        );
+        continue;
       }
 
       // only one match
-      const { projectId, score } = matches[0]
+      const { projectId, score } = matches[0];
       await publish(
         new ContratEDFRapprochéAutomatiquement({
           payload: {
@@ -142,10 +142,10 @@ export const makeImportEdfData =
             statut,
             rawValues: line,
           },
-        })
-      )
+        }),
+      );
     }
-  }
+  };
 
 function extractContractData(line: Record<string, string>) {
   return {
@@ -156,5 +156,5 @@ function extractContractData(line: Record<string, string>) {
     dateMiseEnService: line['Date de mise en service du raccordement'],
     duree: line['Contrat - Durée'],
     statut: line['Contrat - Statut (code)'],
-  }
+  };
 }

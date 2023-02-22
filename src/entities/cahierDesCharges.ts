@@ -1,25 +1,25 @@
-import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse'
+import { DonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 
 export type CahierDesCharges = {
-  référence: string
-  url: string
-}
+  référence: string;
+  url: string;
+};
 
 export type DélaiApplicable = {
-  délaiEnMois: number
-  intervaleDateMiseEnService: { min: Date; max: Date }
-}
+  délaiEnMois: number;
+  intervaleDateMiseEnService: { min: Date; max: Date };
+};
 
 export type CahierDesChargesModifié = {
-  type: 'modifié'
-  url: string
-  paruLe: DateParutionCahierDesChargesModifié
-  alternatif?: true
-  numéroGestionnaireRequis?: true
-  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>
-  délaiApplicable?: DélaiApplicable
-  délaiAnnulationAbandon?: Date
-}
+  type: 'modifié';
+  url: string;
+  paruLe: DateParutionCahierDesChargesModifié;
+  alternatif?: true;
+  numéroGestionnaireRequis?: true;
+  donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  délaiApplicable?: DélaiApplicable;
+  délaiAnnulationAbandon?: Date;
+};
 
 export const cahiersDesChargesRéférences = [
   'initial',
@@ -28,40 +28,40 @@ export const cahiersDesChargesRéférences = [
   '30/08/2022-alternatif',
   '07/02/2023',
   '07/02/2023-alternatif',
-] as const
+] as const;
 
-export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number]
+export type CahierDesChargesRéférence = typeof cahiersDesChargesRéférences[number];
 
-const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const
+const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
 
 export type DateParutionCahierDesChargesModifié =
-  typeof datesParutionCahiersDesChargesModifiés[number]
+  typeof datesParutionCahiersDesChargesModifiés[number];
 
 export type CahierDesChargesRéférenceParsed =
   | { type: 'initial' }
   | {
-      type: 'modifié'
-      paruLe: DateParutionCahierDesChargesModifié
-      alternatif?: true
-    }
+      type: 'modifié';
+      paruLe: DateParutionCahierDesChargesModifié;
+      alternatif?: true;
+    };
 
 export const parseCahierDesChargesRéférence = (
-  référence: string
+  référence: string,
 ): CahierDesChargesRéférenceParsed => {
   if (référence === 'initial') {
-    return { type: 'initial' }
+    return { type: 'initial' };
   }
 
   return {
     type: 'modifié',
     paruLe: référence.replace('-alternatif', '') as DateParutionCahierDesChargesModifié,
     alternatif: référence.search('-alternatif') === -1 ? undefined : true,
-  }
-}
+  };
+};
 
 export const formatCahierDesChargesRéférence = (
-  cdc: CahierDesChargesRéférenceParsed
+  cdc: CahierDesChargesRéférenceParsed,
 ): CahierDesChargesRéférence =>
   cdc.type === 'initial'
     ? 'initial'
-    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence)
+    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as CahierDesChargesRéférence);

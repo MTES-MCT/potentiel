@@ -1,23 +1,23 @@
-import { loadFileForUser, ensureRole } from '@config'
-import { UniqueEntityID } from '@core/domain'
-import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
-import { InfraNotAvailableError } from '@modules/shared'
-import routes from '@routes'
-import { v1Router } from '../v1Router'
-import asyncHandler from '../helpers/asyncHandler'
-import path from 'path'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
+import { loadFileForUser, ensureRole } from '@config';
+import { UniqueEntityID } from '@core/domain';
+import { FileAccessDeniedError, FileNotFoundError } from '@modules/file';
+import { InfraNotAvailableError } from '@modules/shared';
+import routes from '@routes';
+import { v1Router } from '../v1Router';
+import asyncHandler from '../helpers/asyncHandler';
+import path from 'path';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 
 v1Router.get(
   routes.DOWNLOAD_PROJECT_FILE(),
   ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'cre']),
   asyncHandler(async (request, response) => {
-    const { fileId } = request.params
-    const { user } = request
+    const { fileId } = request.params;
+    const { user } = request;
 
     if (!validateUniqueId(fileId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
     }
 
     await loadFileForUser({
@@ -25,19 +25,19 @@ v1Router.get(
       user,
     }).match(
       async (fileStream) => {
-        response.type(path.extname(request.path))
-        fileStream.contents.pipe(response)
-        return response.status(200)
+        response.type(path.extname(request.path));
+        fileStream.contents.pipe(response);
+        return response.status(200);
       },
       async (e) => {
         if (e instanceof FileNotFoundError) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
+          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
         } else if (e instanceof FileAccessDeniedError) {
-          return unauthorizedResponse({ request, response })
+          return unauthorizedResponse({ request, response });
         } else if (e instanceof InfraNotAvailableError) {
-          return errorResponse({ request, response })
+          return errorResponse({ request, response });
         }
-      }
-    )
-  })
-)
+      },
+    );
+  }),
+);

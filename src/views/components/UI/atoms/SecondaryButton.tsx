@@ -1,6 +1,6 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { ComponentProps, FC } from 'react';
 
-export type SecondaryButtonProps = Omit<ComponentProps<'button'>, 'disabled'>
+export type SecondaryButtonProps = Omit<ComponentProps<'button'>, 'disabled'>;
 
 export const SecondaryButton: FC<SecondaryButtonProps> = ({
   children,
@@ -15,4 +15,4 @@ export const SecondaryButton: FC<SecondaryButtonProps> = ({
   >
     {children}
   </button>
-)
+);

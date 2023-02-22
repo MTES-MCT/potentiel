@@ -1,19 +1,19 @@
-import React from 'react'
+import React from 'react';
 import {
   ChoisirCahierDesChargesFormulaire,
   Heading1,
   InfoBox,
   InfoLienGuideUtilisationCDC,
   PageTemplate,
-} from '@components'
-import { ProjectDataForChoisirCDCPage } from '@modules/project'
-import { Request } from 'express'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { ProjectDataForChoisirCDCPage } from '@modules/project';
+import { Request } from 'express';
+import { hydrateOnClient } from '../../helpers';
 
 type ChoisirCahierDesChargesProps = {
-  request: Request
-  projet: ProjectDataForChoisirCDCPage
-}
+  request: Request;
+  projet: ProjectDataForChoisirCDCPage;
+};
 
 export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesChargesProps) => {
   return (
@@ -30,7 +30,7 @@ export const ChoisirCahierDesCharges = ({ projet, request }: ChoisirCahierDesCha
         </div>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ChoisirCahierDesCharges)
+hydrateOnClient(ChoisirCahierDesCharges);

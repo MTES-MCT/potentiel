@@ -1,11 +1,11 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Link, PageTemplate, ExternalLink, Heading1, Heading2 } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Link, PageTemplate, ExternalLink, Heading1, Heading2 } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type DéclarationAccessibilitéProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilitéProps) => {
   return (
@@ -67,7 +67,7 @@ export const DéclarationAccessibilité = ({ request }: DéclarationAccessibilit
         </p>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DéclarationAccessibilité)
+hydrateOnClient(DéclarationAccessibilité);

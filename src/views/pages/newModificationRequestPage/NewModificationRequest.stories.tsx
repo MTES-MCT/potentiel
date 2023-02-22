@@ -1,12 +1,12 @@
-import React from 'react'
-import { ProjectAppelOffre } from '@entities'
+import React from 'react';
+import { ProjectAppelOffre } from '@entities';
 
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeRequest from '../../../__tests__/fixtures/request'
+import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeRequest from '../../../__tests__/fixtures/request';
 
-import { NewModificationRequest } from './NewModificationRequest'
+import { NewModificationRequest } from './NewModificationRequest';
 
-export default { title: 'Modification Request' }
+export default { title: 'Modification Request' };
 
 export const Fournisseur = () => (
   <NewModificationRequest
@@ -16,7 +16,7 @@ export const Fournisseur = () => (
       appelOffre: {} as ProjectAppelOffre,
     }}
   />
-)
+);
 
 export const Actionnaire = () => (
   <NewModificationRequest
@@ -26,7 +26,7 @@ export const Actionnaire = () => (
       appelOffre: {} as ProjectAppelOffre,
     }}
   />
-)
+);
 
 export const Recours = () => (
   <NewModificationRequest
@@ -36,4 +36,4 @@ export const Recours = () => (
       appelOffre: {} as ProjectAppelOffre,
     }}
   />
-)
+);

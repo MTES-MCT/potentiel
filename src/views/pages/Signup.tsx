@@ -1,6 +1,6 @@
-import { Request } from 'express'
-import React from 'react'
-import routes from '@routes'
+import { Request } from 'express';
+import React from 'react';
+import routes from '@routes';
 import {
   Footer,
   Header,
@@ -9,17 +9,17 @@ import {
   Container,
   LinkButton,
   SecondaryLinkButton,
-} from '@components'
-import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine'
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
-import { hydrateOnClient } from '../helpers'
+} from '@components';
+import { RiSaveLine } from '@react-icons/all-files/ri/RiSaveLine';
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
+import { hydrateOnClient } from '../helpers';
 
 type SignupProps = {
-  request: Request
-  validationErrors?: Array<{ [fieldName: string]: string }>
-  error?: string
-  success?: string
-} & ({ utilisateurInvité: true; email: string } | { utilisateurInvité: false })
+  request: Request;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+  error?: string;
+  success?: string;
+} & ({ utilisateurInvité: true; email: string } | { utilisateurInvité: false });
 
 export const Signup = (props: SignupProps) => (
   <>
@@ -39,14 +39,14 @@ export const Signup = (props: SignupProps) => (
 
     <Footer />
   </>
-)
+);
 
 type SignupFormProps = {
-  utilisateurInvité: boolean
-  email?: string
-  validationErrors?: Array<{ [fieldName: string]: string }>
-  error?: string
-}
+  utilisateurInvité: boolean;
+  email?: string;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+  error?: string;
+};
 const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: SignupFormProps) => (
   <Container className="flex flex-col md:flex-row">
     <h1
@@ -130,7 +130,7 @@ const SignupForm = ({ utilisateurInvité, email, validationErrors, error }: Sign
       </form>
     </div>
   </Container>
-)
+);
 
 const SignupSuccessful = () => (
   <Container className="flex flex-col p-4 md:p-10 text-white">
@@ -152,11 +152,11 @@ const SignupSuccessful = () => (
       Retour à l'accueil
     </SecondaryLinkButton>
   </Container>
-)
+);
 
 type SignupFailedProps = {
-  error: string
-}
+  error: string;
+};
 const SignupFailed = ({ error }: SignupFailedProps) => (
   <Container className="flex flex-col p-4 md:p-10 text-white">
     <h1
@@ -179,6 +179,6 @@ const SignupFailed = ({ error }: SignupFailedProps) => (
       </LinkButton>
     </div>
   </Container>
-)
+);
 
-hydrateOnClient(Signup)
+hydrateOnClient(Signup);

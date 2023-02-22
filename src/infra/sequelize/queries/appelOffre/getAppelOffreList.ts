@@ -1,8 +1,8 @@
-import { ok, wrapInfra } from '@core/utils'
-import { GetAppelOffreList } from '@modules/appelOffre'
-import models from '../../models'
+import { ok, wrapInfra } from '@core/utils';
+import { GetAppelOffreList } from '@modules/appelOffre';
+import models from '../../models';
 
-const { AppelOffre } = models
+const { AppelOffre } = models;
 
 export const getAppelOffreList: GetAppelOffreList = () => {
   return wrapInfra(AppelOffre.findAll()).andThen((appelOffreListRaw: any) => {
@@ -12,7 +12,7 @@ export const getAppelOffreList: GetAppelOffreList = () => {
         .map(({ id, data }) => ({
           appelOffreId: id,
           ...data,
-        }))
-    )
-  })
-}
+        })),
+    );
+  });
+};

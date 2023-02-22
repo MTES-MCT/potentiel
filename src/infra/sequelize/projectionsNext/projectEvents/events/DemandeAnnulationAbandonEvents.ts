@@ -1,10 +1,10 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
-export type DemandeAnnulationAbandonEventStatus = 'envoyée' | 'annulée' | 'rejetée' | 'accordée'
+export type DemandeAnnulationAbandonEventStatus = 'envoyée' | 'annulée' | 'rejetée' | 'accordée';
 
 export type DemandeAnnulationAbandonEvent = ProjectEvent & {
-  type: 'DemandeAnnulationAbandon'
+  type: 'DemandeAnnulationAbandon';
   payload: {
-    statut: DemandeAnnulationAbandonEventStatus
-  }
-}
+    statut: DemandeAnnulationAbandonEventStatus;
+  };
+};

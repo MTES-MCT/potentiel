@@ -1,14 +1,14 @@
-import { resetDatabase } from '@infra/sequelize/helpers'
-import { resetSentEmails } from '@infra/mail'
-import { createUser } from './helpers/createUser'
-import { testRouter } from './testRouter'
+import { resetDatabase } from '@infra/sequelize/helpers';
+import { resetSentEmails } from '@infra/mail';
+import { createUser } from './helpers/createUser';
+import { testRouter } from './testRouter';
 
 testRouter.get('/test/reset', async (request, response) => {
   // Erase everything from the database
-  await resetDatabase()
+  await resetDatabase();
 
   // Erase emails
-  resetSentEmails()
+  resetSentEmails();
 
   // Create a test admin
   await createUser({
@@ -16,7 +16,7 @@ testRouter.get('/test/reset', async (request, response) => {
     fullName: 'admin',
     password: 'test',
     role: 'admin',
-  })
+  });
 
   // Create a test dreal
   await createUser({
@@ -24,7 +24,7 @@ testRouter.get('/test/reset', async (request, response) => {
     fullName: 'dreal',
     password: 'test',
     role: 'dreal',
-  })
+  });
 
   // Create a test porteur projet
   await createUser({
@@ -32,7 +32,7 @@ testRouter.get('/test/reset', async (request, response) => {
     fullName: 'Porteur de Projet',
     password: 'test',
     role: 'porteur-projet',
-  })
+  });
 
-  return response.send('success')
-})
+  return response.send('success');
+});

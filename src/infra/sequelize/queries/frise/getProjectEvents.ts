@@ -1,22 +1,22 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ResultAsync, wrapInfra } from '@core/utils'
-import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise'
-import { userIs } from '@modules/users'
-import { InfraNotAvailableError } from '@modules/shared'
-import routes from '../../../../routes'
-import { models } from '../../models'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { ResultAsync, wrapInfra } from '@core/utils';
+import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise';
+import { userIs } from '@modules/users';
+import { InfraNotAvailableError } from '@modules/shared';
+import routes from '../../../../routes';
+import { models } from '../../models';
 import {
   GarantiesFinancières,
   isKnownProjectEvent,
   KnownProjectEvents,
   ProjectEvent,
   Raccordements,
-} from '../../projectionsNext'
-import { ProjectAppelOffre } from '@entities'
-import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
-import { getPtfDTO } from './getPtfDTO'
+} from '../../projectionsNext';
+import { ProjectAppelOffre } from '@entities';
+import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
+import { getPtfDTO } from './getPtfDTO';
 
-const { Project, File, User } = models
+const { Project, File, User } = models;
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(
@@ -51,10 +51,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
           include: [{ model: File, as: 'ptfFichier' }],
         },
       ],
-    })
+    }),
   )
     .andThen((rawProject: any) =>
-      getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents }))
+      getEvents(projectId).map((rawEvents) => ({ rawProject, rawEvents })),
     )
     .map(async ({ rawProject, rawEvents }) => {
       const {
@@ -69,23 +69,23 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         details,
         garantiesFinancières,
         raccordement,
-      } = rawProject.get()
-      const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe
-      const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+      } = rawProject.get();
+      const status: ProjectStatus = abandonedOn ? 'Abandonné' : classe;
+      const projectAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
       const garantiesFinancièresDTO = await getGarantiesFinancièresDTO({
         garantiesFinancières,
         user,
-      })
+      });
 
-      const ptfDTO = getPtfDTO({ ptf: raccordement, projetStatus: status, user })
+      const ptfDTO = getPtfDTO({ ptf: raccordement, projetStatus: status, user });
 
       const garantieFinanciereEnMois =
         projectAppelOffre &&
         getGarantieFinanciereEnMois({
           projectAppelOffre,
           projectData: details,
-        })
+        });
 
       return {
         project: {
@@ -99,8 +99,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
         events: (
           await rawEvents.reduce<Promise<ProjectEventDTO[]>>(
             async (eventsPromise, projectEvent) => {
-              const { type, valueDate, payload, id } = projectEvent
-              const events: ProjectEventDTO[] = await eventsPromise
+              const { type, valueDate, payload, id } = projectEvent;
+              const events: ProjectEventDTO[] = await eventsPromise;
 
               switch (type) {
                 case 'ProjectImported':
@@ -109,7 +109,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                    })
+                    });
                   }
                   if (
                     userIs([
@@ -128,9 +128,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: payload.notifiedOn,
                       variant: user.role,
                       isLegacy: true,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectNotified':
                 case 'ProjectNotificationDateSet':
                 case 'CovidDelayGranted':
@@ -149,9 +149,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectClaimed':
                   if (
                     userIs([
@@ -172,9 +172,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       certificateFileId: payload.attestationDesignationFileId,
                       claimedBy: payload.claimedBy,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectCertificateGenerated':
                 case 'ProjectCertificateRegenerated':
                 case 'ProjectCertificateUpdated':
@@ -196,12 +196,12 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       certificateFileId: payload.certificateFileId,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectDCRSubmitted':
                   if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                    const { file } = payload
+                    const { file } = payload;
                     if (type === 'ProjectDCRSubmitted') {
                       events.push({
                         type,
@@ -209,19 +209,19 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         variant: user.role,
                         file: file && { id: file.id, name: file.name },
                         numeroDossier: payload.numeroDossier,
-                      })
+                      });
                     }
                   }
-                  break
+                  break;
                 case 'ProjectDCRRemoved':
                   if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
                     events.push({
                       type,
                       date: valueDate,
                       variant: user.role,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectCompletionDueDateSet':
                   if (
                     userIs([
@@ -239,9 +239,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       ...(payload?.reason === 'délaiCdc2022' && { délaiCDC2022Appliqué: true }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ProjectDCRDueDateSet':
                   if (
                     userIs([
@@ -256,9 +256,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       date: valueDate,
                       variant: user.role,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ModificationRequested':
                   if (
                     userIs([
@@ -271,7 +271,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { modificationType } = payload
+                    const { modificationType } = payload;
 
                     switch (modificationType) {
                       case 'delai':
@@ -283,8 +283,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationRequestId: payload.modificationRequestId,
                           delayInMonths: payload.delayInMonths,
                           authority: payload.authority,
-                        })
-                        break
+                        });
+                        break;
                       case 'puissance':
                         events.push({
                           type,
@@ -295,8 +295,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           puissance: payload.puissance,
                           unitePuissance: projectAppelOffre?.unitePuissance,
                           authority: payload.authority,
-                        })
-                        break
+                        });
+                        break;
                       case 'recours':
                         events.push({
                           type,
@@ -305,11 +305,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           authority: payload.authority,
-                        })
-                        break
+                        });
+                        break;
                     }
                   }
-                  break
+                  break;
                 case 'ModificationRequestAccepted':
                   if (
                     userIs([
@@ -331,9 +331,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ...(payload.delayInMonthsGranted && {
                         delayInMonthsGranted: payload.delayInMonthsGranted,
                       }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ModificationRequestRejected':
                   if (
                     userIs([
@@ -352,9 +352,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       variant: user.role,
                       modificationRequestId: payload.modificationRequestId,
                       file: payload.file,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ModificationRequestCancelled':
                 case 'ModificationRequestInstructionStarted':
                   if (
@@ -373,9 +373,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       date: valueDate,
                       variant: user.role,
                       modificationRequestId: payload.modificationRequestId,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'ModificationReceived':
                   if (
                     userIs([
@@ -388,7 +388,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { modificationType } = payload
+                    const { modificationType } = payload;
 
                     switch (modificationType) {
                       case 'actionnaire':
@@ -399,8 +399,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           actionnaire: payload.actionnaire,
-                        })
-                        break
+                        });
+                        break;
                       case 'fournisseur':
                         events.push({
                           type,
@@ -409,8 +409,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           fournisseurs: payload.fournisseurs,
-                        })
-                        break
+                        });
+                        break;
                       case 'producteur':
                         events.push({
                           type,
@@ -419,8 +419,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType: payload.modificationType,
                           modificationRequestId: payload.modificationRequestId,
                           producteur: payload.producteur,
-                        })
-                        break
+                        });
+                        break;
                       case 'puissance':
                         events.push({
                           type,
@@ -430,11 +430,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationRequestId: payload.modificationRequestId,
                           puissance: payload.puissance,
                           unitePuissance: projectAppelOffre?.unitePuissance,
-                        })
-                        break
+                        });
+                        break;
                     }
                   }
-                  break
+                  break;
                 case 'LegacyModificationImported':
                   if (
                     userIs([
@@ -447,8 +447,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const modificationType = payload.modificationType
-                    const status = payload.status
+                    const modificationType = payload.modificationType;
+                    const status = payload.status;
 
                     switch (modificationType) {
                       case 'abandon':
@@ -459,8 +459,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           status,
                           ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
-                        })
-                        break
+                        });
+                        break;
                       case 'autre':
                         events.push({
                           type,
@@ -471,8 +471,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           modificationType,
                           column: payload.column,
                           value: payload.value,
-                        })
-                        break
+                        });
+                        break;
                       case 'actionnaire':
                         events.push({
                           type,
@@ -482,8 +482,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           actionnairePrecedent: payload.actionnairePrecedent,
-                        })
-                        break
+                        });
+                        break;
                       case 'delai':
                         if (status === 'acceptée') {
                           events.push({
@@ -497,9 +497,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             modificationType,
                             ancienneDateLimiteAchevement: payload.ancienneDateLimiteAchevement,
                             nouvelleDateLimiteAchevement: payload.nouvelleDateLimiteAchevement,
-                          })
+                          });
                         }
-                        break
+                        break;
                       case 'producteur':
                         events.push({
                           type,
@@ -509,8 +509,8 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           producteurPrecedent: payload.producteurPrecedent,
-                        })
-                        break
+                        });
+                        break;
                       case 'recours':
                         events.push({
                           type,
@@ -520,14 +520,14 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           ...(user.role !== 'caisse-des-dépôts' && { filename: payload.filename }),
                           modificationType,
                           motifElimination: payload.motifElimination,
-                        })
-                        break
+                        });
+                        break;
                     }
                   }
-                  break
+                  break;
                 case 'FileAttachedToProject':
                   if (userIs(['porteur-projet', 'admin', 'dgec-validateur', 'dreal'])(user)) {
-                    const { title, description, files, attachedBy, attachmentId } = payload
+                    const { title, description, files, attachedBy, attachmentId } = payload;
                     events.push({
                       type: 'FileAttachedToProject',
                       date: valueDate,
@@ -539,9 +539,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       attachedBy,
                       attachmentId,
                       projectId,
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'LegacyModificationFileAttached':
                   if (
                     userIs([
@@ -554,7 +554,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { fileId, filename } = payload
+                    const { fileId, filename } = payload;
                     events.push({
                       type: 'LegacyModificationFileAttached',
                       variant: user.role,
@@ -562,9 +562,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         id: fileId,
                         name: filename,
                       },
-                    })
+                    });
                   }
-                  break
+                  break;
 
                 case 'DemandeDelaiSignaled':
                   if (
@@ -585,7 +585,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       newCompletionDueOn,
                       attachment,
                       notes,
-                    } = payload
+                    } = payload;
                     events.push({
                       type,
                       variant: user.role,
@@ -609,9 +609,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ])(user) && {
                         attachment,
                       }),
-                    })
+                    });
                   }
-                  break
+                  break;
 
                 case 'DemandeAbandonSignaled':
                   if (
@@ -625,7 +625,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { signaledBy, status, attachment, notes } = payload
+                    const { signaledBy, status, attachment, notes } = payload;
                     events.push({
                       type,
                       variant: user.role,
@@ -643,9 +643,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ])(user) && {
                         attachment,
                       }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'DemandeRecoursSignaled':
                   if (
                     userIs([
@@ -658,7 +658,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { signaledBy, status, attachment, notes } = payload
+                    const { signaledBy, status, attachment, notes } = payload;
                     events.push({
                       type,
                       variant: user.role,
@@ -676,9 +676,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       ])(user) && {
                         attachment,
                       }),
-                    })
+                    });
                   }
-                  break
+                  break;
 
                 case 'DemandeDélai':
                   if (
@@ -692,9 +692,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { statut, autorité } = payload
+                    const { statut, autorité } = payload;
                     if (payload.dateAchèvementDemandée) {
-                      const { dateAchèvementDemandée } = payload
+                      const { dateAchèvementDemandée } = payload;
                       events.push({
                         type,
                         date: valueDate,
@@ -718,11 +718,11 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           (userIs('dreal')(user) && autorité === 'dreal')) && {
                           demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                         }),
-                      })
+                      });
                     }
 
                     if (payload.délaiEnMoisDemandé) {
-                      const { délaiEnMoisDemandé } = payload
+                      const { délaiEnMoisDemandé } = payload;
                       events.push({
                         type,
                         date: valueDate,
@@ -744,10 +744,10 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                           (userIs('dreal')(user) && autorité === 'dreal')) && {
                           demandeUrl: routes.DEMANDE_PAGE_DETAILS(id),
                         }),
-                      })
+                      });
                     }
                   }
-                  break
+                  break;
                 case 'DemandeAbandon':
                   if (
                     userIs([
@@ -760,7 +760,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { statut } = payload
+                    const { statut } = payload;
                     events.push({
                       type,
                       variant: user.role,
@@ -779,9 +779,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         statut === 'envoyée' && {
                           actionRequise: 'à traiter',
                         }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'DemandeAnnulationAbandon':
                   if (
                     userIs([
@@ -794,7 +794,7 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       'cre',
                     ])(user)
                   ) {
-                    const { statut } = payload
+                    const { statut } = payload;
                     events.push({
                       type,
                       variant: user.role,
@@ -813,9 +813,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         statut === 'envoyée' && {
                           actionRequise: 'à traiter',
                         }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'CahierDesChargesChoisi':
                   if (
                     userIs([
@@ -841,9 +841,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             paruLe: payload.paruLe,
                             alternatif: payload.alternatif,
                           }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'DateMiseEnService':
                   if (
                     userIs([
@@ -863,9 +863,9 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                             statut: 'renseignée',
                           }
                         : { statut: 'non-renseignée' }),
-                    })
+                    });
                   }
-                  break
+                  break;
                 case 'DateFileAttente':
                   if (
                     userIs([
@@ -880,48 +880,48 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                       type,
                       variant: user.role,
                       date: new Date(payload.dateFileAttente).getTime(),
-                    })
+                    });
                   }
-                  break
+                  break;
               }
-              return Promise.resolve(events)
+              return Promise.resolve(events);
             },
-            Promise.resolve([] as ProjectEventDTO[])
+            Promise.resolve([] as ProjectEventDTO[]),
           )
         )
           .concat(garantiesFinancièresDTO ? [garantiesFinancièresDTO] : [])
           .concat(ptfDTO ? [ptfDTO] : []),
-      }
-    })
-}
+      };
+    });
+};
 
 const getEvents = (projectId): ResultAsync<Array<KnownProjectEvents>, InfraNotAvailableError> => {
   return wrapInfra(
-    ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] })
-  ).map((events) => events.filter(isKnownProjectEvent))
-}
+    ProjectEvent.findAll({ where: { projectId }, order: [['eventPublishedAt', 'ASC']] }),
+  ).map((events) => events.filter(isKnownProjectEvent));
+};
 
 type GetGarantieFinanciereEnMois = (args: {
-  projectAppelOffre: ProjectAppelOffre
-  projectData: Record<string, string>
-}) => number | undefined
+  projectAppelOffre: ProjectAppelOffre;
+  projectData: Record<string, string>;
+}) => number | undefined;
 
 const getGarantieFinanciereEnMois: GetGarantieFinanciereEnMois = ({
   projectAppelOffre,
   projectData,
 }) => {
-  const { periode, famille, soumisAuxGarantiesFinancieres } = projectAppelOffre
+  const { periode, famille, soumisAuxGarantiesFinancieres } = projectAppelOffre;
   if (
     periode.garantieFinanciereEnMoisSansAutorisationEnvironnementale &&
     !['Dérogation', 'AU valide'].includes(
-      projectData["Type d'autorisation environnementale (pièce n°3)"]
+      projectData["Type d'autorisation environnementale (pièce n°3)"],
     )
   ) {
-    return periode.garantieFinanciereEnMoisSansAutorisationEnvironnementale
+    return periode.garantieFinanciereEnMoisSansAutorisationEnvironnementale;
   }
   return famille?.soumisAuxGarantiesFinancieres === 'après candidature'
     ? famille.garantieFinanciereEnMois
     : soumisAuxGarantiesFinancieres === 'après candidature'
     ? projectAppelOffre.garantieFinanciereEnMois
-    : undefined
-}
+    : undefined;
+};

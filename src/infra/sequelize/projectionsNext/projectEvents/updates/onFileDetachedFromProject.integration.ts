@@ -1,19 +1,19 @@
-import { UniqueEntityID } from '@core/domain'
-import { FileDetachedFromProject } from '../../../../../modules/file'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { ProjectEvent } from '../projectEvent.model'
-import onFileDetachedFromProject from './onFileDetachedFromProject'
+import { UniqueEntityID } from '@core/domain';
+import { FileDetachedFromProject } from '../../../../../modules/file';
+import { resetDatabase } from '../../../helpers';
+import models from '../../../models';
+import { ProjectEvent } from '../projectEvent.model';
+import onFileDetachedFromProject from './onFileDetachedFromProject';
 
-const { File } = models
+const { File } = models;
 
 describe('onFileDetachedFromProject', () => {
-  const projectId = new UniqueEntityID().toString()
-  const attachmentId = new UniqueEntityID().toString()
-  const detachedBy = 'user-id'
+  const projectId = new UniqueEntityID().toString();
+  const attachmentId = new UniqueEntityID().toString();
+  const detachedBy = 'user-id';
 
   beforeEach(async () => {
-    await resetDatabase()
+    await resetDatabase();
     try {
       await ProjectEvent.create({
         id: attachmentId,
@@ -22,11 +22,11 @@ describe('onFileDetachedFromProject', () => {
         valueDate: Date.now(),
         eventPublishedAt: Date.now(),
         payload: {},
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
+  });
 
   it('should create a new project event of type FileDetachedFromProject', async () => {
     await onFileDetachedFromProject(
@@ -35,11 +35,11 @@ describe('onFileDetachedFromProject', () => {
           attachmentId,
           detachedBy,
         },
-      })
-    )
+      }),
+    );
 
-    const projectEvent = await ProjectEvent.findOne({ where: { id: attachmentId } })
+    const projectEvent = await ProjectEvent.findOne({ where: { id: attachmentId } });
 
-    expect(projectEvent).toBeNull()
-  })
-})
+    expect(projectEvent).toBeNull();
+  });
+});

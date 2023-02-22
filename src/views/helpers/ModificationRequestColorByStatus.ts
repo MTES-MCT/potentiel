@@ -1,4 +1,4 @@
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
+import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
 
 export const ModificationRequestColorByStatus: Record<
   ModificationRequestStatusDTO,
@@ -12,7 +12,7 @@ export const ModificationRequestColorByStatus: Record<
   acceptée: 'success',
   rejetée: 'error',
   annulée: 'error',
-}
+};
 
 export const ModificationRequestTitleColorByStatus: Record<ModificationRequestStatusDTO, string> = {
   envoyée: '#006be6',
@@ -23,4 +23,4 @@ export const ModificationRequestTitleColorByStatus: Record<ModificationRequestSt
   acceptée: 'rgb(56, 118, 29)',
   rejetée: 'rgb(204, 0, 0)',
   annulée: 'rgb(204, 0, 0)',
-}
+};

@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain'
-import { LegacyUserCreated, UserCreated } from '@modules/users'
-import { makeUtilisateur } from './Utilisateur'
-import { ProfilUtilisateurCréé, UtilisateurInvité } from './events'
+import { UniqueEntityID } from '@core/domain';
+import { LegacyUserCreated, UserCreated } from '@modules/users';
+import { makeUtilisateur } from './Utilisateur';
+import { ProfilUtilisateurCréé, UtilisateurInvité } from './events';
 
 describe(`Fabriquer l'agrégat Utilisateur`, () => {
   it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'UtilisateurInvité
@@ -17,16 +17,16 @@ describe(`Fabriquer l'agrégat Utilisateur`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(utilisateur.isOk()).toBe(true)
+    expect(utilisateur.isOk()).toBe(true);
     utilisateur.isOk() &&
       expect(utilisateur.value).toMatchObject({
         email: 'email@utilisateur.com',
         role: 'cre',
         statut: 'invité',
-      })
-  })
+      });
+  });
   it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'ProfilUtilisateurCréé
       Alors l'Utilisateur devrait avoir un statut 'créé'
       Et devrait avoir un email, rôle, nom, prénom et une fonction`, () => {
@@ -43,16 +43,16 @@ describe(`Fabriquer l'agrégat Utilisateur`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(utilisateur.isOk()).toBe(true)
+    expect(utilisateur.isOk()).toBe(true);
     utilisateur.isOk() &&
       expect(utilisateur.value).toMatchObject({
         email: 'email@utilisateur.com',
         role: 'cre',
         statut: 'créé',
-      })
-  })
+      });
+  });
   it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'UserCreated'
       Alors l'Utilisateur devrait avoir un statut 'créé'
       Et devrait avoir un email, rôle, nom et prénom`, () => {
@@ -68,16 +68,16 @@ describe(`Fabriquer l'agrégat Utilisateur`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(utilisateur.isOk()).toBe(true)
+    expect(utilisateur.isOk()).toBe(true);
     utilisateur.isOk() &&
       expect(utilisateur.value).toMatchObject({
         email: 'email@utilisateur.com',
         role: 'cre',
         statut: 'créé',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique l'agrégat Utilisateur avec un évènement 'LegacyUserCreated'
       Alors l'Utilisateur devrait avoir un statut 'créé'
@@ -95,14 +95,14 @@ describe(`Fabriquer l'agrégat Utilisateur`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(utilisateur.isOk()).toBe(true)
+    expect(utilisateur.isOk()).toBe(true);
     utilisateur.isOk() &&
       expect(utilisateur.value).toMatchObject({
         email: 'email@utilisateur.com',
         role: 'cre',
         statut: 'créé',
-      })
-  })
-})
+      });
+  });
+});

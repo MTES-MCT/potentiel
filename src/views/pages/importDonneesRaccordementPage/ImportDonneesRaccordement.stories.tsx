@@ -1,7 +1,7 @@
-import React from 'react'
-import { ImportDonneesRaccordement } from '.'
+import React from 'react';
+import { ImportDonneesRaccordement } from '.';
 
-export default { title: 'Pages/Import gestionnaire de réseau' }
+export default { title: 'Pages/Import gestionnaire de réseau' };
 
 export const Default = () => (
   <ImportDonneesRaccordement
@@ -87,4 +87,4 @@ export const Default = () => (
       },
     ]}
   />
-)
+);

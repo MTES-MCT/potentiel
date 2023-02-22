@@ -1,16 +1,16 @@
-import { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import routes from '@routes'
-import { Button, ErrorBox, Heading1, Heading2, Link, PageTemplate, SuccessBox } from '@components'
-import { hydrateOnClient } from '../helpers'
+import { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import routes from '@routes';
+import { Button, ErrorBox, Heading1, Heading2, Link, PageTemplate, SuccessBox } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type AdminAppelOffreProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
-  const { error, success } = (request.query as any) || {}
+  const { error, success } = (request.query as any) || {};
 
   return (
     <PageTemplate user={request.user} currentPage="admin-ao">
@@ -63,7 +63,7 @@ export const AdminAppelsOffres = ({ request }: AdminAppelOffreProps) => {
         </form>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AdminAppelsOffres)
+hydrateOnClient(AdminAppelsOffres);

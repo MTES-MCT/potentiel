@@ -1,17 +1,17 @@
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { USER_ROLES } from '@modules/users'
-import { getProjectEvents } from '.'
-import { ProjectEvent } from '../../projectionsNext'
-import { resetDatabase } from '../../helpers'
-import { models } from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { USER_ROLES } from '@modules/users';
+import { getProjectEvents } from '.';
+import { ProjectEvent } from '../../projectionsNext';
+import { resetDatabase } from '../../helpers';
+import { models } from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pour les événements LegacyModificationImported', () => {
-  const { Project } = models
-  const projectId = new UniqueEntityID().toString()
-  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
-  const date = new Date()
+  const { Project } = models;
+  const projectId = new UniqueEntityID().toString();
+  const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' });
+  const date = new Date();
 
   // événements à tester
 
@@ -27,7 +27,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
       ancienneDateLimiteAchevement: new Date('2022-01-01').getTime(),
       nouvelleDateLimiteAchevement: new Date('2024-01-01').getTime(),
     },
-  }
+  };
 
   const legacyAbandonModificationImportedEvent = {
     id: new UniqueEntityID().toString(),
@@ -39,7 +39,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
       modificationType: 'abandon',
       status: 'acceptée',
     },
-  }
+  };
 
   const legacyRecoursModificationImportedEvent = {
     id: new UniqueEntityID().toString(),
@@ -52,7 +52,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
       status: 'acceptée',
       motifElimination: 'motif',
     },
-  }
+  };
 
   const legacyActionnaireModificationImportedEvent = {
     id: new UniqueEntityID().toString(),
@@ -65,7 +65,7 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
       actionnairePrecedent: 'nom actionnaire précédent',
       status: 'acceptée',
     },
-  }
+  };
 
   const legacyProducteurModificationImportedEvent = {
     id: new UniqueEntityID().toString(),
@@ -78,12 +78,12 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
       producteurPrecedent: 'nom producteur précédent',
       status: 'acceptée',
     },
-  }
+  };
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(fakeProject)
-  })
+    await resetDatabase();
+    await Project.create(fakeProject);
+  });
 
   const rolesAutorisés = [
     'admin',
@@ -93,13 +93,13 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateurs autorisés`, () => {
     for (const role of USER_ROLES.filter((role) => rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur '${role}',
         alors les modifications historiques devraient être retournées`, async () => {
-        const utilisateur = { role } as User
+        const utilisateur = { role } as User;
 
         await ProjectEvent.bulkCreate([
           legacyDelayModificationImportedEvent,
@@ -107,10 +107,10 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
           legacyRecoursModificationImportedEvent,
           legacyActionnaireModificationImportedEvent,
           legacyProducteurModificationImportedEvent,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId, user: utilisateur })
-        expect(result._unsafeUnwrap().events).toHaveLength(5)
+        const result = await getProjectEvents({ projectId, user: utilisateur });
+        expect(result._unsafeUnwrap().events).toHaveLength(5);
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
             {
@@ -156,15 +156,15 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
               status: 'acceptée',
             },
           ]),
-        })
-      })
+        });
+      });
     }
-  })
+  });
   describe(`Utilisateurs non-autorisés`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur '${role}',
         alors les modifications historiques ne devraient pas être retournées`, async () => {
-        const utilisateur = { role } as User
+        const utilisateur = { role } as User;
 
         await ProjectEvent.bulkCreate([
           legacyDelayModificationImportedEvent,
@@ -172,13 +172,13 @@ describe('getProjectEvents pour les événements LegacyModificationImported', ()
           legacyRecoursModificationImportedEvent,
           legacyActionnaireModificationImportedEvent,
           legacyProducteurModificationImportedEvent,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId, user: utilisateur })
+        const result = await getProjectEvents({ projectId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

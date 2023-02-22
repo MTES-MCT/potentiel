@@ -1,11 +1,11 @@
-import routes from '@routes'
-import { v1Router } from '../v1Router'
-import { créerProfilUtilisateur } from '@config'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import * as yup from 'yup'
-import safeAsyncHandler from '../helpers/safeAsyncHandler'
-import { logger } from '@core/utils'
-import { ProfilDéjàExistantError } from '@modules/utilisateur'
+import routes from '@routes';
+import { v1Router } from '../v1Router';
+import { créerProfilUtilisateur } from '@config';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import * as yup from 'yup';
+import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { logger } from '@core/utils';
+import { ProfilDéjàExistantError } from '@modules/utilisateur';
 
 const schema = yup.object({
   body: yup.object({
@@ -17,7 +17,7 @@ const schema = yup.object({
       .email(`L'adresse courriel renseignée n'est pas valide`),
     utilisateurInvité: yup.boolean().required(),
   }),
-})
+});
 
 v1Router.post(
   routes.POST_SIGNUP,
@@ -31,17 +31,17 @@ v1Router.post(
               error.message ||
               `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
             ...request.body,
-          })
+          }),
         ),
     },
     async (request, response) => {
-      const { firstname, lastname, email } = request.body
+      const { firstname, lastname, email } = request.body;
       return créerProfilUtilisateur({ email, nom: lastname, prénom: firstname }).match(
         () =>
           response.redirect(
             addQueryParams(routes.SIGNUP, {
               success: true,
-            })
+            }),
           ),
         (e) => {
           if (e instanceof ProfilDéjàExistantError) {
@@ -49,18 +49,18 @@ v1Router.post(
               addQueryParams(routes.SIGNUP, {
                 error: e.message,
                 ...request.body,
-              })
-            )
+              }),
+            );
           }
-          logger.error(e)
+          logger.error(e);
           response.redirect(
             addQueryParams(routes.SIGNUP, {
               error: `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
               ...request.body,
-            })
-          )
-        }
-      )
-    }
-  )
-)
+            }),
+          );
+        },
+      );
+    },
+  ),
+);

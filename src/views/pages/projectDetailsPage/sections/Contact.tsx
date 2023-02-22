@@ -1,17 +1,17 @@
-import React from 'react'
-import { Request } from 'express'
+import React from 'react';
+import { Request } from 'express';
 
-import ROUTES from '@routes'
-import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components'
+import ROUTES from '@routes';
+import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components';
 
-import { ProjectDataForProjectPage } from '@modules/project'
-import { userIs } from '@modules/users'
-import { dataId } from '../../../../helpers/testId'
+import { ProjectDataForProjectPage } from '@modules/project';
+import { userIs } from '@modules/users';
+import { dataId } from '../../../../helpers/testId';
 
 type ContactProps = {
-  project: ProjectDataForProjectPage
-  user: Request['user']
-}
+  project: ProjectDataForProjectPage;
+  user: Request['user'];
+};
 
 export const Contact = ({ project, user }: ContactProps) => (
   <Section title="Contact" icon={UserIcon}>
@@ -31,12 +31,12 @@ export const Contact = ({ project, user }: ContactProps) => (
       <InvitationForm {...{ project }} />
     )}
   </Section>
-)
+);
 
 type ListComptesAvecAccesProps = {
-  user: Request['user']
-  project: ProjectDataForProjectPage & { notifiedOn: Date }
-}
+  user: Request['user'];
+  project: ProjectDataForProjectPage & { notifiedOn: Date };
+};
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>
     <Heading3 style={{ marginBottom: 5, marginTop: 15 }}>Comptes ayant accès à ce projet</Heading3>
@@ -62,11 +62,11 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
       {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
     </ul>
   </div>
-)
+);
 
 type InvitationFormProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 const InvitationForm = ({ project }: InvitationFormProps) => (
   <div {...dataId('invitation-form')}>
     <Link href="#" {...dataId('invitation-form-show-button')} className="invitationFormToggle">
@@ -98,4 +98,4 @@ const InvitationForm = ({ project }: InvitationFormProps) => (
       </Link>
     </form>
   </div>
-)
+);

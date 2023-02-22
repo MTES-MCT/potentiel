@@ -1,34 +1,34 @@
-import { EventBus } from '@core/domain'
+import { EventBus } from '@core/domain';
 import {
   ContratEnedisRapprochéAutomatiquement,
   ContratEnedisAvecPlusieursProjetsPossibles,
   ContratEnedisOrphelin,
   ContratEnedisMisAJour,
   ListingEnedisImporté,
-} from '../events'
+} from '../events';
 
-import { shallowDelta } from '../../../helpers/shallowDelta'
+import { shallowDelta } from '../../../helpers/shallowDelta';
 
 type SearchResult = {
-  projectId: string
-  score: number
-}
+  projectId: string;
+  score: number;
+};
 
 export type ContratEnedis = {
-  numero?: string
-}
+  numero?: string;
+};
 
 export type SearchIndex = {
   findByNumeroContrat: (
-    numeroContratEnedis: string
-  ) => ({ projectId: string } & ContratEnedis) | null
-  search: (line: any) => SearchResult[]
-}
+    numeroContratEnedis: string,
+  ) => ({ projectId: string } & ContratEnedis) | null;
+  search: (line: any) => SearchResult[];
+};
 
 interface ImportEdfDataDeps {
-  publish: EventBus['publish']
-  parseCsvFile: (fileId: string) => Promise<any[]>
-  getSearchIndex: () => Promise<SearchIndex>
+  publish: EventBus['publish'];
+  parseCsvFile: (fileId: string) => Promise<any[]>;
+  getSearchIndex: () => Promise<SearchIndex>;
 }
 
 export const makeImportEnedisData =
@@ -36,30 +36,30 @@ export const makeImportEnedisData =
   async (event: ListingEnedisImporté): Promise<void> => {
     const {
       payload: { fileId },
-    } = event
+    } = event;
 
-    const searchIndex = await makeSearchIndex()
+    const searchIndex = await makeSearchIndex();
 
-    const lines = await parseCsvFile(fileId)
+    const lines = await parseCsvFile(fileId);
 
     // Filter by contract
     // const linesGoodContract = lines.filter((line) => AO_CODES.has(line['Contrat - Type (code)']))
-    const linesGoodContract = lines
+    const linesGoodContract = lines;
 
     for (const line of linesGoodContract) {
       // Try to find a match by numero contrat
-      const contractDataFromLine = extractContractData(line)
-      const { numero } = contractDataFromLine
+      const contractDataFromLine = extractContractData(line);
+      const { numero } = contractDataFromLine;
 
-      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero)
+      const projectForNumeroContrat = searchIndex.findByNumeroContrat(numero);
 
       if (projectForNumeroContrat) {
-        const { projectId } = projectForNumeroContrat
+        const { projectId } = projectForNumeroContrat;
 
         const changes = shallowDelta(projectForNumeroContrat, {
           ...contractDataFromLine,
           projectId,
-        })
+        });
 
         // grab info for this contract
         if (changes) {
@@ -70,13 +70,13 @@ export const makeImportEnedisData =
                 projectId,
                 ...changes,
               },
-            })
-          )
+            }),
+          );
         }
-        continue
+        continue;
       }
 
-      const matches = searchIndex.search(line)
+      const matches = searchIndex.search(line);
 
       if (!matches.length) {
         // no match
@@ -86,9 +86,9 @@ export const makeImportEnedisData =
               numero,
               rawValues: line,
             },
-          })
-        )
-        continue
+          }),
+        );
+        continue;
       }
 
       if (matches.length > 1) {
@@ -100,13 +100,13 @@ export const makeImportEnedisData =
               matches,
               rawValues: line,
             },
-          })
-        )
-        continue
+          }),
+        );
+        continue;
       }
 
       // only one match
-      const { projectId, score } = matches[0]
+      const { projectId, score } = matches[0];
       await publish(
         new ContratEnedisRapprochéAutomatiquement({
           payload: {
@@ -115,13 +115,13 @@ export const makeImportEnedisData =
             numero,
             rawValues: line,
           },
-        })
-      )
+        }),
+      );
     }
-  }
+  };
 
 function extractContractData(line: Record<string, string>) {
   return {
     numero: line['Contrat - Numéro'],
-  }
+  };
 }

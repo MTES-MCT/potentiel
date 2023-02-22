@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const eolien: AppelOffre = {
   id: 'Eolien',
@@ -306,6 +306,6 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       },
     },
   ],
-}
+};
 
-export { eolien }
+export { eolien };

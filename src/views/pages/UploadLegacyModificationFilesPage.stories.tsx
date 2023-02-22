@@ -1,15 +1,15 @@
-import React from 'react'
-import { UploadLegacyModificationFiles } from '.'
-import makeFakeRequest from '../../__tests__/fixtures/request'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import React from 'react';
+import { UploadLegacyModificationFiles } from '.';
+import makeFakeRequest from '../../__tests__/fixtures/request';
+import makeFakeUser from '../../__tests__/fixtures/user';
 
-export default { title: 'Admin Attacher courrier' }
+export default { title: 'Admin Attacher courrier' };
 
 export const AvantEnvoi = () => (
   <UploadLegacyModificationFiles
     request={makeFakeRequest({ user: makeFakeUser({ role: 'admin' }) })}
   />
-)
+);
 
 export const AprèsEnvoiToutBon = () => (
   <UploadLegacyModificationFiles
@@ -21,7 +21,7 @@ export const AprèsEnvoiToutBon = () => (
       },
     ]}
   />
-)
+);
 
 export const AprèsEnvoiToutKo = () => (
   <UploadLegacyModificationFiles
@@ -44,7 +44,7 @@ export const AprèsEnvoiToutKo = () => (
       },
     ]}
   />
-)
+);
 
 export const AprèsEnvoiPartiellementOk = () => (
   <UploadLegacyModificationFiles
@@ -74,4 +74,4 @@ export const AprèsEnvoiPartiellementOk = () => (
       },
     ]}
   />
-)
+);

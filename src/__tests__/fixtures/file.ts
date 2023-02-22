@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 export default function makeFakeFile(overrides?) {
   const defaultObj = {
@@ -8,10 +8,10 @@ export default function makeFakeFile(overrides?) {
     createdBy: null,
     designation: 'other',
     storedAt: null,
-  }
+  };
 
   return {
     ...defaultObj,
     ...overrides,
-  }
+  };
 }

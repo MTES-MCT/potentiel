@@ -1,21 +1,21 @@
-import fs from 'fs'
-import { format } from 'date-fns'
-import * as yup from 'yup'
+import fs from 'fs';
+import { format } from 'date-fns';
+import * as yup from 'yup';
 
-import { ensureRole } from '@config'
-import { submitDCR, submitPTF } from '@config/useCases.config'
-import routes from '@routes'
-import { UnauthorizedError } from '@modules/shared'
-import { logger, ok, err } from '@core/utils'
+import { ensureRole } from '@config';
+import { submitDCR, submitPTF } from '@config/useCases.config';
+import routes from '@routes';
+import { UnauthorizedError } from '@modules/shared';
+import { logger, ok, err } from '@core/utils';
 import {
   CertificateFileIsMissingError,
   DCRCertificatDéjàEnvoyéError,
   PTFCertificatDéjàEnvoyéError,
-} from '@modules/project'
+} from '@modules/project';
 
-import asyncHandler from '../helpers/asyncHandler'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { pathExists } from '../../helpers/pathExists'
+import asyncHandler from '../helpers/asyncHandler';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { pathExists } from '../../helpers/pathExists';
 
 import {
   errorResponse,
@@ -23,9 +23,9 @@ import {
   validateRequestBodyForErrorArray,
   RequestValidationErrorArray,
   iso8601DateToDateYupTransformation,
-} from '../helpers'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
+} from '../helpers';
+import { upload } from '../upload';
+import { v1Router } from '../v1Router';
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -44,7 +44,7 @@ const requestBodySchema = yup.object({
       .typeError("Le numéro de dossier saisi n'est pas valide"),
     otherwise: yup.string().optional().typeError("Le numéro de dossier saisi n'est pas valide"),
   }),
-})
+});
 
 v1Router.post(
   routes.DEPOSER_ETAPE_ACTION,
@@ -54,17 +54,17 @@ v1Router.post(
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .andThen((body) => {
         if (!request.file || !pathExists(request.file.path)) {
-          return err(new CertificateFileIsMissingError())
+          return err(new CertificateFileIsMissingError());
         }
-        return ok(body)
+        return ok(body);
       })
       .asyncAndThen((body) => {
-        const { projectId, stepDate, numeroDossier, type } = body
-        const { user: submittedBy } = request
+        const { projectId, stepDate, numeroDossier, type } = body;
+        const { user: submittedBy } = request;
         const file = {
           contents: fs.createReadStream(request.file!.path),
           filename: `${Date.now()}-${request.file!.originalname}`,
-        }
+        };
 
         if (type === 'dcr') {
           return submitDCR({
@@ -76,12 +76,12 @@ v1Router.post(
             numeroDossier: numeroDossier as string,
           }).map(() => ({
             projectId,
-          }))
+          }));
         }
 
         return submitPTF({ type, projectId, stepDate, file, submittedBy }).map(() => ({
           projectId,
-        }))
+        }));
       })
       .match(
         ({ projectId }) => {
@@ -90,27 +90,27 @@ v1Router.post(
               success: 'Votre dépôt a bien été enregistré.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
-            })
-          )
+            }),
+          );
         },
         (error) => {
-          const { projectId } = request.body
+          const { projectId } = request.body;
 
           if (error instanceof RequestValidationErrorArray) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 ...request.body,
                 error: `${error.message} ${error.errors.join(' ')}`,
-              })
-            )
+              }),
+            );
           }
 
           if (error instanceof CertificateFileIsMissingError) {
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 error: "Le dépôt n'a pas pu être envoyée. Vous devez joindre un fichier.",
-              })
-            )
+              }),
+            );
           }
 
           if (error instanceof DCRCertificatDéjàEnvoyéError) {
@@ -118,8 +118,8 @@ v1Router.post(
               addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 error:
                   "Il semblerait qu'il y ait déjà une demande complète de raccordement en cours de validité sur ce projet.",
-              })
-            )
+              }),
+            );
           }
 
           if (error instanceof PTFCertificatDéjàEnvoyéError) {
@@ -127,23 +127,23 @@ v1Router.post(
               addQueryParams(routes.PROJECT_DETAILS(projectId), {
                 error:
                   "Il semblerait qu'il y ait déjà une proposition technique et financière en cours de validité sur ce projet.",
-              })
-            )
+              }),
+            );
           }
 
           if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
+            return unauthorizedResponse({ request, response });
           }
 
-          logger.error(error)
+          logger.error(error);
 
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
-  })
-)
+          });
+        },
+      );
+  }),
+);

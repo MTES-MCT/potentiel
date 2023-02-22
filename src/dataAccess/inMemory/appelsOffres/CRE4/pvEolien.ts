@@ -1,6 +1,6 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
-const garantieFinanciereEnMois = 36
+const garantieFinanciereEnMois = 36;
 //autorité : DGEC
 
 const pvEolien: AppelOffre = {
@@ -129,6 +129,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { pvEolien }
+export { pvEolien };

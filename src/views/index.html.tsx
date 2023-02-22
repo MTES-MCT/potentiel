@@ -1,38 +1,38 @@
-import ReactDOMServer from 'react-dom/server'
-import type { Request } from 'express'
-import { getTrackerScript } from '../infra/umami'
-import React from 'react'
+import ReactDOMServer from 'react-dom/server';
+import type { Request } from 'express';
+import { getTrackerScript } from '../infra/umami';
+import React from 'react';
 interface HasRequest {
-  request: Request
+  request: Request;
 }
 
 type PageProps<T> = {
-  Component: (props: T) => JSX.Element
-  props: T
-  title?: string
-}
+  Component: (props: T) => JSX.Element;
+  props: T;
+  title?: string;
+};
 
-const html = String.raw
+const html = String.raw;
 
 const escapeHtml = (value: string) => {
-  return value.replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-}
+  return value.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+};
 
 function stripRequest(props: HasRequest) {
-  const { query, user } = props.request
+  const { query, user } = props.request;
   return {
     ...props,
     request: { query, user },
-  }
+  };
 }
 
-const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID
-const crispWebsiteId = process.env.CRISP_WEBSITE_ID
+const trackerWebsiteId = process.env.TRACKER_WEBSITE_ID;
+const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
 
-const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1)
+const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
 
 export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
-  const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args
+  const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args;
 
   return html`
     <!DOCTYPE html>
@@ -113,9 +113,9 @@ export const makeHtml = <T extends HasRequest>(args: PageProps<T>) => {
         ${html`<script>
           window.__INITIAL_PROPS__ = ${props
             ? escapeHtml(JSON.stringify(stripRequest(props)))
-            : '{}'}
+            : '{}'};
         </script>`}
       </body>
     </html>
-  `
-}
+  `;
+};

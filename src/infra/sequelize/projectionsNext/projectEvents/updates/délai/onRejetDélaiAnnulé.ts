@@ -1,28 +1,28 @@
-import { logger } from '@core/utils'
-import { RejetDélaiAnnulé } from '@modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import models from '../../../../models'
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { logger } from '@core/utils';
+import { RejetDélaiAnnulé } from '@modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import models from '../../../../models';
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 
 export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, transaction) => {
   const {
     payload: { demandeDélaiId },
-  } = évènement
+  } = évènement;
 
   // recherche d'un événement de type DemandeDélai associé à la demande
   const demandeDélaiInstance = await ProjectEvent.findOne({
     where: { id: demandeDélaiId, type: 'DemandeDélai' },
     transaction,
-  })
+  });
 
   if (demandeDélaiInstance) {
-    const { ModificationRequest } = models
+    const { ModificationRequest } = models;
 
     const rawRequestedOn = await ModificationRequest.findOne({
       attributes: ['requestedOn'],
       where: { id: demandeDélaiId },
       transaction,
-    })
+    });
 
     if (!rawRequestedOn) {
       logger.error(
@@ -31,10 +31,10 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
           {
             évènement,
             nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
 
     Object.assign(demandeDélaiInstance, {
@@ -45,10 +45,10 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
         statut: 'envoyée',
         rejetéPar: null,
       },
-    })
+    });
 
     try {
-      await demandeDélaiInstance.save({ transaction })
+      await demandeDélaiInstance.save({ transaction });
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -57,11 +57,11 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
             évènement,
             nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-    return
+    return;
   }
 
   // Si pas d'événement de type DemandeDélai
@@ -73,7 +73,7 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
         payload: { modificationRequestId: demandeDélaiId },
       },
       transaction,
-    })
+    });
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -82,10 +82,10 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
           évènement: évènement,
           nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
         },
-        e
-      )
-    )
-    return
+        e,
+      ),
+    );
+    return;
   }
 
   try {
@@ -95,7 +95,7 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
         payload: { modificationRequestId: demandeDélaiId },
       },
       transaction,
-    })
+    });
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -104,8 +104,8 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
           évènement: évènement,
           nomProjection: 'ProjectEvent.onRejetDélaiAnnulé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

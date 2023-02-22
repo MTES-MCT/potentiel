@@ -1,1 +1,1 @@
-export * from './getEDFSearchIndex'
+export * from './getEDFSearchIndex';

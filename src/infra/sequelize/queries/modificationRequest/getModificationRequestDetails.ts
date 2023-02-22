@@ -1,22 +1,22 @@
-import { err, ok, wrapInfra } from '@core/utils'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { err, ok, wrapInfra } from '@core/utils';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import {
   GetModificationRequestDetails,
   ModificationRequestPageDTO,
-} from '@modules/modificationRequest'
-import { EntityNotFoundError } from '@modules/shared'
-import models from '../../models'
+} from '@modules/modificationRequest';
+import { EntityNotFoundError } from '@modules/shared';
+import models from '../../models';
 import {
   parseCahierDesChargesRéférence,
   CahierDesChargesRéférence,
   ProjectAppelOffre,
-} from '@entities'
-import { Raccordements } from '@infra/sequelize'
+} from '@entities';
+import { Raccordements } from '@infra/sequelize';
 
-const { ModificationRequest, Project, File, User } = models
+const { ModificationRequest, Project, File, User } = models;
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
-  modificationRequestId
+  modificationRequestId,
 ) => {
   return wrapInfra(
     ModificationRequest.findByPk(modificationRequestId, {
@@ -73,9 +73,9 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
           attributes: ['fullName'],
         },
       ],
-    })
+    }),
   ).andThen((modificationRequestRaw: any) => {
-    if (!modificationRequestRaw) return err(new EntityNotFoundError())
+    if (!modificationRequestRaw) return err(new EntityNotFoundError());
     const {
       id,
       type,
@@ -102,11 +102,11 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       dateAchèvementDemandée,
       authority,
       cahierDesCharges: cahierDesChargesRéférence,
-    } = modificationRequestRaw.get()
+    } = modificationRequestRaw.get();
 
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie, raccordements } =
-      project.get()
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })
+      project.get();
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId });
 
     return ok<ModificationRequestPageDTO>({
       id,
@@ -149,37 +149,37 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         appelOffre && cahierDesChargesRéférence
           ? formatCahierDesCharges({ appelOffre, cahierDesChargesRéférence })
           : undefined,
-    })
-  })
-}
+    });
+  });
+};
 
 const formatCahierDesCharges = ({
   cahierDesChargesRéférence,
   appelOffre,
 }: {
-  cahierDesChargesRéférence: CahierDesChargesRéférence
-  appelOffre: ProjectAppelOffre
+  cahierDesChargesRéférence: CahierDesChargesRéférence;
+  appelOffre: ProjectAppelOffre;
 }): ModificationRequestPageDTO['cahierDesCharges'] => {
-  const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence)
+  const cahierDesChargesRéférenceParsed = parseCahierDesChargesRéférence(cahierDesChargesRéférence);
 
   if (cahierDesChargesRéférenceParsed.type === 'initial') {
     return {
       type: 'initial',
       url: appelOffre.periode.cahierDesCharges.url,
-    }
+    };
   }
 
   const cahiersDesChargesModifié = appelOffre.cahiersDesChargesModifiésDisponibles.find(
     (c) =>
       cahierDesChargesRéférenceParsed.type === 'modifié' &&
       c.paruLe === cahierDesChargesRéférenceParsed.paruLe &&
-      c.alternatif === cahierDesChargesRéférenceParsed.alternatif
-  )
-  if (!cahiersDesChargesModifié) return undefined
+      c.alternatif === cahierDesChargesRéférenceParsed.alternatif,
+  );
+  if (!cahiersDesChargesModifié) return undefined;
   return {
     type: 'modifié',
     url: cahiersDesChargesModifié.url,
     paruLe: cahiersDesChargesModifié.paruLe,
     alternatif: cahiersDesChargesModifié.alternatif,
-  }
-}
+  };
+};

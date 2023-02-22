@@ -1,30 +1,30 @@
-import { logger } from '@core/utils'
-import { LegacyAbandonSupprimé } from '@modules/project'
+import { logger } from '@core/utils';
+import { LegacyAbandonSupprimé } from '@modules/project';
 
 export const onLegacyAbandonSupprimé = (models) => async (event: LegacyAbandonSupprimé) => {
-  const { Project } = models
+  const { Project } = models;
   const {
     payload: { dcrDueOn, completionDueOn, projetId },
-  } = event
-  const projectInstance = await Project.findByPk(projetId)
+  } = event;
+  const projectInstance = await Project.findByPk(projetId);
 
   if (!projectInstance) {
     logger.error(
-      `Error: onLegacyAbandonSupprimé projection failed to retrieve project from db': ${event}`
-    )
-    return
+      `Error: onLegacyAbandonSupprimé projection failed to retrieve project from db': ${event}`,
+    );
+    return;
   }
 
   Object.assign(projectInstance, {
     abandonedOn: 0,
     dcrDueOn,
     completionDueOn,
-  })
+  });
 
   try {
-    await projectInstance.save()
+    await projectInstance.save();
   } catch (e) {
-    logger.error(e)
-    logger.info('Error: onLegacyAbandonSupprimé projection failed to update project', event)
+    logger.error(e);
+    logger.info('Error: onLegacyAbandonSupprimé projection failed to update project', event);
   }
-}
+};

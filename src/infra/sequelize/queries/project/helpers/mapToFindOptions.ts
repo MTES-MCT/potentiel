@@ -1,6 +1,6 @@
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext'
-import { FiltreListeProjets } from '@modules/project/queries'
-import { Op, literal } from 'sequelize'
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
+import { FiltreListeProjets } from '@modules/project/queries';
+import { Op, literal } from 'sequelize';
 
 export const mapToFindOptions = ({
   recherche,
@@ -9,12 +9,12 @@ export const mapToFindOptions = ({
   reclames,
   garantiesFinancieres,
 }: FiltreListeProjets) => {
-  const filtreRecherche = recherche ? construireFiltreRecherche(recherche) : undefined
-  const filtreAO = appelOffre && construireFiltreAppelOffre(appelOffre)
-  const filtreClassement = classement && construireFiltreClassement(classement)
-  const filtreReclames = reclames && construireFiltreRéclamé(reclames)
+  const filtreRecherche = recherche ? construireFiltreRecherche(recherche) : undefined;
+  const filtreAO = appelOffre && construireFiltreAppelOffre(appelOffre);
+  const filtreClassement = classement && construireFiltreClassement(classement);
+  const filtreReclames = reclames && construireFiltreRéclamé(reclames);
   const filtreGarantiesFinancieres =
-    garantiesFinancieres && construireFiltreGarantiesFinancières(garantiesFinancieres)
+    garantiesFinancieres && construireFiltreGarantiesFinancières(garantiesFinancieres);
 
   return {
     where: {
@@ -25,12 +25,12 @@ export const mapToFindOptions = ({
       ...filtreGarantiesFinancieres?.where,
     },
     include: [...(filtreGarantiesFinancieres?.include ? filtreGarantiesFinancieres.include : [])],
-  }
-}
+  };
+};
 
 const construireFiltreRecherche = (termes: string) => ({
   where: { nomProjet: { [Op.iLike]: `%${termes}%` } },
-})
+});
 
 const construireFiltreAppelOffre = ({
   appelOffreId,
@@ -42,7 +42,7 @@ const construireFiltreAppelOffre = ({
     ...(periodeId && { periodeId }),
     ...(familleId && { familleId }),
   },
-})
+});
 
 const construireFiltreClassement = (classement: NonNullable<FiltreListeProjets['classement']>) => ({
   where: {
@@ -50,7 +50,7 @@ const construireFiltreClassement = (classement: NonNullable<FiltreListeProjets['
     ...(classement === 'éliminés' && { classe: 'Eliminé', abandonedOn: 0 }),
     ...(classement === 'abandons' && { abandonedOn: { [Op.ne]: 0 } }),
   },
-})
+});
 
 const construireFiltreRéclamé = (reclames: NonNullable<FiltreListeProjets['reclames']>) => ({
   where: {
@@ -61,10 +61,10 @@ const construireFiltreRéclamé = (reclames: NonNullable<FiltreListeProjets['rec
       id: { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
     }),
   },
-})
+});
 
 const construireFiltreGarantiesFinancières = (
-  garantiesFinancières: NonNullable<FiltreListeProjets['garantiesFinancieres']>
+  garantiesFinancières: NonNullable<FiltreListeProjets['garantiesFinancieres']>,
 ) => ({
   where: {
     ...(garantiesFinancières === 'submitted' && {
@@ -88,4 +88,4 @@ const construireFiltreGarantiesFinancières = (
       as: 'garantiesFinancières',
     },
   ],
-})
+});

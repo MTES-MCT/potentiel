@@ -1,27 +1,27 @@
-import { NotificationService } from '..'
-import { ProjectRepo, UserRepo } from '@dataAccess'
-import { logger } from '@core/utils'
-import { CahierDesChargesChoisi } from '../../project'
-import routes from '@routes'
+import { NotificationService } from '..';
+import { ProjectRepo, UserRepo } from '@dataAccess';
+import { logger } from '@core/utils';
+import { CahierDesChargesChoisi } from '../../project';
+import routes from '@routes';
 
 type OnCahierDesChargesChoisi = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-  findProjectById: ProjectRepo['findById']
-  findUserById: UserRepo['findById']
-}) => (événement: CahierDesChargesChoisi) => Promise<void>
+  sendNotification: NotificationService['sendNotification'];
+  findProjectById: ProjectRepo['findById'];
+  findUserById: UserRepo['findById'];
+}) => (événement: CahierDesChargesChoisi) => Promise<void>;
 
 export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
   ({ sendNotification, findProjectById, findUserById }) =>
   async ({ payload }) => {
-    const { projetId: projectId, choisiPar: optedInBy, type } = payload
-    const project = await findProjectById(projectId)
+    const { projetId: projectId, choisiPar: optedInBy, type } = payload;
+    const project = await findProjectById(projectId);
 
     if (!project) {
-      logger.error(new Error('onCahierDesChargesChoisi failed because project is not found'))
-      return
+      logger.error(new Error('onCahierDesChargesChoisi failed because project is not found'));
+      return;
     }
 
-    const mailjetTemplate = type === 'initial' ? 'pp-cdc-initial-choisi' : 'pp-cdc-modifié-choisi'
+    const mailjetTemplate = type === 'initial' ? 'pp-cdc-initial-choisi' : 'pp-cdc-modifié-choisi';
 
     const variables = {
       nom_projet: project.nomProjet,
@@ -30,9 +30,9 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
         cdc_date: payload.paruLe,
         cdc_alternatif: payload.alternatif ? 'alternatif ' : '',
       }),
-    }
+    };
 
-    ;(await findUserById(optedInBy)).match({
+    (await findUserById(optedInBy)).match({
       some: async ({ email, fullName }) => {
         const payload: any = {
           type: mailjetTemplate,
@@ -46,10 +46,10 @@ export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
             userId: optedInBy,
           },
           variables,
-        }
+        };
 
-        await sendNotification(payload)
+        await sendNotification(payload);
       },
       none: () => {},
-    })
-  }
+    });
+  };

@@ -1,14 +1,14 @@
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project'
-import { formatNumber } from '../../../../helpers/formatNumber'
-import { getNoteThreshold } from '../../../../helpers/getNoteThreshold'
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project';
+import { formatNumber } from '../../../../helpers/formatNumber';
+import { getNoteThreshold } from '../../../../helpers/getNoteThreshold';
 
 type CompetitiviteProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 
 export const Competitivite = ({ project }: CompetitiviteProps) => {
-  const { appelOffre } = project
+  const { appelOffre } = project;
 
   return (
     <>
@@ -21,5 +21,5 @@ export const Competitivite = ({ project }: CompetitiviteProps) => {
       {formatNumber(getNoteThreshold(project))} points. Par conséquent, cette offre n’a pas été
       retenue.
     </>
-  )
-}
+  );
+};

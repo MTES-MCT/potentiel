@@ -1,18 +1,18 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationReceived } from '@modules/modificationRequest'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationReceived } from '@modules/modificationRequest';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ModificationReceived,
   async ({ payload, occurredAt }, transaction) => {
-    const { projectId, type, modificationRequestId } = payload
+    const { projectId, type, modificationRequestId } = payload;
     const common = {
       projectId,
       type: ModificationReceived.type,
       valueDate: occurredAt.getTime(),
       eventPublishedAt: occurredAt.getTime(),
       id: new UniqueEntityID().toString(),
-    }
+    };
 
     switch (type) {
       case 'producteur':
@@ -25,9 +25,9 @@ export default ProjectEventProjector.on(
               modificationRequestId,
             },
           },
-          { transaction }
-        )
-        break
+          { transaction },
+        );
+        break;
       case 'actionnaire':
         await ProjectEvent.create(
           {
@@ -38,9 +38,9 @@ export default ProjectEventProjector.on(
               modificationRequestId,
             },
           },
-          { transaction }
-        )
-        break
+          { transaction },
+        );
+        break;
       case 'fournisseur':
         await ProjectEvent.create(
           {
@@ -51,9 +51,9 @@ export default ProjectEventProjector.on(
               modificationRequestId,
             },
           },
-          { transaction }
-        )
-        break
+          { transaction },
+        );
+        break;
       case 'puissance':
         await ProjectEvent.create(
           {
@@ -64,9 +64,9 @@ export default ProjectEventProjector.on(
               modificationRequestId,
             },
           },
-          { transaction }
-        )
-        break
+          { transaction },
+        );
+        break;
     }
-  }
-)
+  },
+);

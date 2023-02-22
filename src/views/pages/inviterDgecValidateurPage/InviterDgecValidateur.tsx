@@ -1,6 +1,6 @@
-import React from 'react'
-import { Request } from 'express'
-import routes from '@routes'
+import React from 'react';
+import { Request } from 'express';
+import routes from '@routes';
 import {
   Button,
   Heading1,
@@ -9,13 +9,13 @@ import {
   PageTemplate,
   RésultatSoumissionFormulaire,
   RésultatSoumissionFormulaireProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
 
 type InviterDgecValidateurProps = {
-  request: Request
-  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
-}
+  request: Request;
+  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire'];
+};
 
 export const InviterDgecValidateur = ({
   request,
@@ -71,7 +71,7 @@ export const InviterDgecValidateur = ({
         </div>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(InviterDgecValidateur)
+hydrateOnClient(InviterDgecValidateur);

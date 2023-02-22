@@ -1,11 +1,11 @@
-import { notificationEventSubscriber } from './notificationEventSubscriber'
+import { notificationEventSubscriber } from './notificationEventSubscriber';
 import {
   makeOnToutAccèsAuProjetRévoqué,
   makeOnUserRightsToProjectRevoked,
-} from '@modules/notification'
-import { notifierPorteurRévocationAccèsProjet } from '@config/useCases.config'
-import { ToutAccèsAuProjetRevoqué, UserRightsToProjectRevoked } from '@modules/authZ'
-import { projectRepo, userRepo } from '@dataAccess'
+} from '@modules/notification';
+import { notifierPorteurRévocationAccèsProjet } from '@config/useCases.config';
+import { ToutAccèsAuProjetRevoqué, UserRightsToProjectRevoked } from '@modules/authZ';
+import { projectRepo, userRepo } from '@dataAccess';
 
 notificationEventSubscriber(
   ToutAccèsAuProjetRevoqué,
@@ -13,8 +13,8 @@ notificationEventSubscriber(
     notifierPorteurRévocationAccèsProjet,
     getProjectUsers: projectRepo.getUsers,
     getProject: projectRepo.findById,
-  })
-)
+  }),
+);
 
 notificationEventSubscriber(
   UserRightsToProjectRevoked,
@@ -22,5 +22,5 @@ notificationEventSubscriber(
     notifierPorteurRévocationAccèsProjet,
     getUser: userRepo.findById,
     getProject: projectRepo.findById,
-  })
-)
+  }),
+);

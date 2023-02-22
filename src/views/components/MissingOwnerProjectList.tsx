@@ -1,11 +1,11 @@
-import { InputCheckbox, PaginationPanel } from '@components'
-import { logger } from '@core/utils'
-import { Project, User } from '@entities'
-import routes from '@routes'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import { PaginatedList } from '../../types'
-import { ACTION_BY_ROLE } from './actions'
+import { InputCheckbox, PaginationPanel } from '@components';
+import { logger } from '@core/utils';
+import { Project, User } from '@entities';
+import routes from '@routes';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import { PaginatedList } from '../../types';
+import { ACTION_BY_ROLE } from './actions';
 
 type Columns =
   | 'Projet'
@@ -15,9 +15,9 @@ type Columns =
   | 'N° CRE'
   | 'Projet pre-affecte'
   | 'Prix'
-  | 'Attestation de designation'
+  | 'Attestation de designation';
 
-type ColumnRenderer = (props: { project: Project; email: User['email'] }) => React.ReactNode
+type ColumnRenderer = (props: { project: Project; email: User['email'] }) => React.ReactNode;
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Projet: function ProjetColumn({ project }) {
@@ -32,7 +32,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           </div>
         </div>
       </td>
-    )
+    );
   } as ColumnRenderer,
   Candidat: function CandidatColumn({ project }) {
     return (
@@ -45,7 +45,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           <span {...dataId('projectList-item-email')}>{project.email}</span>
         </div>
       </td>
-    )
+    );
   } as ColumnRenderer,
   Puissance: function PuissanceColumn({ project }) {
     return (
@@ -53,14 +53,14 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
         <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
         <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
       </td>
-    )
+    );
   } as ColumnRenderer,
   Region: function RegionColumn({ project }) {
     return (
       <td valign="top" className="projectList-puissance-column">
         <span {...dataId('projectList-item-region')}>{project.regionProjet}</span>{' '}
       </td>
-    )
+    );
   } as ColumnRenderer,
   'Projet pre-affecte': function ProjectPreAffecteColumn({ project, email }) {
     return (
@@ -69,7 +69,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           {project.email === email ? 'Oui' : 'Non'}
         </span>
       </td>
-    )
+    );
   } as ColumnRenderer,
   'N° CRE': function NumeroCREColumn({ project, email }) {
     return email === project.email ? (
@@ -83,7 +83,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           className="min-w-[110px]"
         />
       </td>
-    )
+    );
   } as ColumnRenderer,
   Prix: function PrixColumn({ project, email }) {
     return email === project.email ? (
@@ -99,7 +99,7 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
         />{' '}
         €/MWh
       </td>
-    )
+    );
   } as ColumnRenderer,
   'Attestation de designation': function AttestationDesignationColumn({ project, email }) {
     return email === project.email ? (
@@ -114,24 +114,24 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
           />
         </span>
       </td>
-    )
+    );
   } as ColumnRenderer,
-}
+};
 
 interface Props {
-  projects: PaginatedList<Project> | Array<Project>
-  displayColumns: Array<string>
-  user: User
+  projects: PaginatedList<Project> | Array<Project>;
+  displayColumns: Array<string>;
+  user: User;
 }
 
 export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
-  const { role, email } = user
+  const { role, email } = user;
 
-  let items: Array<Project>
+  let items: Array<Project>;
   if (Array.isArray(projects)) {
-    items = projects
+    items = projects;
   } else {
-    items = projects.items
+    items = projects.items;
   }
 
   if (!items.length) {
@@ -143,7 +143,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           </tr>
         </tbody>
       </table>
-    )
+    );
   }
 
   return (
@@ -175,7 +175,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                   </th>
                 ) : (
                   <th key={column}>{column}</th>
-                )
+                ),
               )}
               {ACTION_BY_ROLE[role] ? <th></th> : ''}
             </tr>
@@ -192,10 +192,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                     />
                   </td>
                   {displayColumns?.map((column) => {
-                    const Column = ColumnComponent[column]
+                    const Column = ColumnComponent[column];
                     if (!Column) {
-                      logger.error(`Column ${column} could not be found`)
-                      return <td></td>
+                      logger.error(`Column ${column} could not be found`);
+                      return <td></td>;
                     }
                     return (
                       <Column
@@ -203,10 +203,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                         project={project}
                         email={email}
                       />
-                    )
+                    );
                   })}
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
@@ -249,5 +249,5 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         />
       )}
     </>
-  )
-}
+  );
+};

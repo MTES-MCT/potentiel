@@ -1,5 +1,5 @@
-import { DemandeAbandonDTO } from '@modules/frise/dtos'
-import React from 'react'
+import { DemandeAbandonDTO } from '@modules/frise/dtos';
+import React from 'react';
 import {
   CancelledStepIcon,
   ContentArea,
@@ -9,18 +9,18 @@ import {
   ItemTitle,
   PastIcon,
   UnvalidatedStepIcon,
-} from '.'
-import { Link } from '@components'
+} from '.';
+import { Link } from '@components';
 
-type DemandeAbandonItemProps = DemandeAbandonDTO
+type DemandeAbandonItemProps = DemandeAbandonDTO;
 
 export const DemandeAbandonItem = (props: DemandeAbandonItemProps) => {
-  const { date, demandeUrl, statut, actionRequise } = props
+  const { date, demandeUrl, statut, actionRequise } = props;
 
   const titre =
     statut === 'demande confirmée'
       ? `Demande d'abandon confirmée par le porteur`
-      : `Demande d'abandon ${statut}`
+      : `Demande d'abandon ${statut}`;
 
   return (
     <>
@@ -48,5 +48,5 @@ export const DemandeAbandonItem = (props: DemandeAbandonItemProps) => {
         </>
       </ContentArea>
     </>
-  )
-}
+  );
+};

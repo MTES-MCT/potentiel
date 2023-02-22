@@ -1,10 +1,10 @@
-import React from 'react'
-import { GarantiesFinancieres, GarantiesFinancieresProps } from '.'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeRequest from '../../../__tests__/fixtures/request'
+import React from 'react';
+import { GarantiesFinancieres, GarantiesFinancieresProps } from '.';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeRequest from '../../../__tests__/fixtures/request';
 
-export default { title: 'Garanties Financieres' }
+export default { title: 'Garanties Financieres' };
 
 const props: GarantiesFinancieresProps = {
   request: makeFakeRequest(),
@@ -34,6 +34,6 @@ const props: GarantiesFinancieresProps = {
   },
   appelsOffre: appelsOffreStatic,
   existingAppelsOffres: [appelsOffreStatic[0].id],
-}
+};
 
-export const GF = () => <GarantiesFinancieres {...props} />
+export const GF = () => <GarantiesFinancieres {...props} />;

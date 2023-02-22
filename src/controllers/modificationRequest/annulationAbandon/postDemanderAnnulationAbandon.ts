@@ -1,24 +1,24 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
-import { ensureRole, demanderAnnulationAbandon } from '@config'
-import { logger } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
+import { ensureRole, demanderAnnulationAbandon } from '@config';
+import { logger } from '@core/utils';
+import { UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
 
-import { addQueryParams } from '../../../helpers/addQueryParams'
-import { errorResponse, unauthorizedResponse } from '../../helpers'
-import { v1Router } from '../../v1Router'
-import safeAsyncHandler from '../../helpers/safeAsyncHandler'
+import { addQueryParams } from '../../../helpers/addQueryParams';
+import { errorResponse, unauthorizedResponse } from '../../helpers';
+import { v1Router } from '../../v1Router';
+import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import {
   CDCIncompatibleAvecAnnulationAbandonError,
   ProjetNonAbandonnéError,
-} from '@modules/demandeModification'
+} from '@modules/demandeModification';
 
 const schema = yup.object({
   body: yup.object({
     projetId: yup.string().uuid().required(),
   }),
-})
+});
 
 v1Router.post(
   routes.POST_DEMANDER_ANNULATION_ABANDON,
@@ -30,14 +30,14 @@ v1Router.post(
         response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(request.body.projetId), {
             ...error.errors,
-          })
+          }),
         ),
     },
     async (request, response) => {
       const {
         user,
         body: { projetId },
-      } = request
+      } = request;
 
       return demanderAnnulationAbandon({
         user,
@@ -49,12 +49,12 @@ v1Router.post(
               success: `Votre demande a bien été envoyée.`,
               redirectUrl: routes.PROJECT_DETAILS(projetId),
               redirectTitle: 'Retourner à la page projet',
-            })
-          )
+            }),
+          );
         },
         (error) => {
           if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
+            return unauthorizedResponse({ request, response });
           }
 
           if (
@@ -64,19 +64,19 @@ v1Router.post(
             return response.redirect(
               addQueryParams(routes.PROJECT_DETAILS(request.body.projetId), {
                 error: error.message,
-              })
-            )
+              }),
+            );
           }
 
-          logger.error(error)
+          logger.error(error);
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
-    }
-  )
-)
+          });
+        },
+      );
+    },
+  ),
+);

@@ -1,15 +1,15 @@
-import { logger } from '@core/utils'
-import { DrealUserInvited } from '@modules/authZ'
-import { ProjectionEnEchec } from '@modules/shared'
-import { UserDreal, UserDrealProjector } from '../userDreal.model'
+import { logger } from '@core/utils';
+import { DrealUserInvited } from '@modules/authZ';
+import { ProjectionEnEchec } from '@modules/shared';
+import { UserDreal, UserDrealProjector } from '../userDreal.model';
 
 export default UserDrealProjector.on(DrealUserInvited, async (évènement, transaction) => {
   const {
     payload: { region: dreal, userId },
-  } = évènement
+  } = évènement;
 
   try {
-    await UserDreal.create({ dreal, userId }, { transaction })
+    await UserDreal.create({ dreal, userId }, { transaction });
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -18,8 +18,8 @@ export default UserDrealProjector.on(DrealUserInvited, async (évènement, trans
           évènement,
           nomProjection: 'UserDreal.DrealUserInvited',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

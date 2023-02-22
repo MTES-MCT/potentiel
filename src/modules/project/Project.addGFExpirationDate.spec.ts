@@ -1,23 +1,23 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { makeUser } from '@entities'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { NoGFCertificateToUpdateError } from './errors/NoGFCertificateToUpdateError'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { makeUser } from '@entities';
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import { NoGFCertificateToUpdateError } from './errors/NoGFCertificateToUpdateError';
 
-const projectId = new UniqueEntityID()
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID();
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
 describe('Project.addGFExpirationDate()', () => {
   describe('when the project has not been notified', () => {
@@ -45,19 +45,19 @@ describe('Project.addGFExpirationDate()', () => {
             }),
           ],
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       const res = project.addGFExpirationDate({
         projectId: projectId.toString(),
         submittedBy: fakeUser,
         expirationDate: new Date('2023-01-01'),
-      })
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
+      });
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
 
   describe('when the project has been notified', () => {
     describe("when the project doesn't have GFs", () => {
@@ -100,20 +100,20 @@ describe('Project.addGFExpirationDate()', () => {
             ],
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
+          }),
+        );
 
         const res = project.addGFExpirationDate({
           projectId: projectId.toString(),
           submittedBy: fakeUser,
           expirationDate: new Date('2023-01-01'),
-        })
+        });
 
-        expect(res.isErr()).toEqual(true)
-        if (res.isOk()) return
-        expect(res.error).toBeInstanceOf(NoGFCertificateToUpdateError)
-      })
-    })
+        expect(res.isErr()).toEqual(true);
+        if (res.isOk()) return;
+        expect(res.error).toBeInstanceOf(NoGFCertificateToUpdateError);
+      });
+    });
 
     describe('when the project has GFs', () => {
       const fakeHistory: DomainEvent[] = [
@@ -160,7 +160,7 @@ describe('Project.addGFExpirationDate()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
       it('should emit a DateEchéanceGFAjoutée event', () => {
         const project = UnwrapForTest(
           makeProject({
@@ -168,20 +168,20 @@ describe('Project.addGFExpirationDate()', () => {
             history: [...fakeHistory],
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
+          }),
+        );
 
         const res = project.addGFExpirationDate({
           projectId: projectId.toString(),
           submittedBy: fakeUser,
           expirationDate: new Date('2023-01-01'),
-        })
+        });
 
-        expect(res.isOk()).toEqual(true)
-        expect(project.pendingEvents).toHaveLength(1)
-        expect(project.pendingEvents[0].type).toEqual('DateEchéanceGFAjoutée')
-        expect(project.pendingEvents[0].payload.expirationDate).toEqual(new Date('2023-01-01'))
-      })
-    })
-  })
-})
+        expect(res.isOk()).toEqual(true);
+        expect(project.pendingEvents).toHaveLength(1);
+        expect(project.pendingEvents[0].type).toEqual('DateEchéanceGFAjoutée');
+        expect(project.pendingEvents[0].payload.expirationDate).toEqual(new Date('2023-01-01'));
+      });
+    });
+  });
+});

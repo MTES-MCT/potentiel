@@ -1,12 +1,12 @@
-import { NextFunction, Request, Response } from 'express'
-import { logger, ok } from '@core/utils'
-import { CreateUser, GetUserByEmail, USER_ROLES } from '@modules/users'
-import { getPermissions } from '@modules/authN'
+import { NextFunction, Request, Response } from 'express';
+import { logger, ok } from '@core/utils';
+import { CreateUser, GetUserByEmail, USER_ROLES } from '@modules/users';
+import { getPermissions } from '@modules/authN';
 
 type AttachUserToRequestMiddlewareDependencies = {
-  getUserByEmail: GetUserByEmail
-  createUser: CreateUser
-}
+  getUserByEmail: GetUserByEmail;
+  createUser: CreateUser;
+};
 
 const makeAttachUserToRequestMiddleware =
   ({ getUserByEmail, createUser }: AttachUserToRequestMiddlewareDependencies) =>
@@ -19,13 +19,13 @@ const makeAttachUserToRequestMiddleware =
       request.path.startsWith('/scripts') ||
       request.path.startsWith('/main')
     ) {
-      next()
-      return
+      next();
+      return;
     }
 
-    const token = request.kauth?.grant?.access_token
-    const userEmail = token?.content?.email
-    const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role))
+    const token = request.kauth?.grant?.access_token;
+    const userEmail = token?.content?.email;
+    const kRole = USER_ROLES.find((role) => token?.hasRealmRole(role));
 
     if (userEmail) {
       await getUserByEmail(userEmail)
@@ -34,19 +34,19 @@ const makeAttachUserToRequestMiddleware =
             return ok({
               ...user,
               role: kRole!,
-            })
+            });
           }
 
-          const fullName = token?.content?.name
-          const createUserArgs = { email: userEmail, role: kRole, fullName }
+          const fullName = token?.content?.name;
+          const createUserArgs = { email: userEmail, role: kRole, fullName };
 
           return createUser(createUserArgs).andThen(({ id, role }) => {
             if (!kRole) {
-              request.session.destroy(() => {})
+              request.session.destroy(() => {});
             }
 
-            return ok({ ...createUserArgs, id, role })
-          })
+            return ok({ ...createUserArgs, id, role });
+          });
         })
         .match(
           (user) => {
@@ -54,15 +54,15 @@ const makeAttachUserToRequestMiddleware =
               ...user,
               accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,
               permissions: getPermissions(user),
-            }
+            };
           },
           (e: Error) => {
-            logger.error(e)
-          }
-        )
+            logger.error(e);
+          },
+        );
     }
 
-    next()
-  }
+    next();
+  };
 
-export { makeAttachUserToRequestMiddleware }
+export { makeAttachUserToRequestMiddleware };

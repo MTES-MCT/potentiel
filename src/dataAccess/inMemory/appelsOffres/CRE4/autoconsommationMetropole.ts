@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const autoconsommationMetropole: AppelOffre = {
   id: 'CRE4 - Autoconsommation métropole',
@@ -404,6 +404,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       },
     },
   ],
-}
+};
 
-export { autoconsommationMetropole }
+export { autoconsommationMetropole };

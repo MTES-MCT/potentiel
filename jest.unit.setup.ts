@@ -1,1 +1,1 @@
-export * from './src/__tests__/matchers'
+export * from './src/__tests__/matchers';

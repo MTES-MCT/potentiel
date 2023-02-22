@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const donnéesFournisseurs: Readonly<Array<Colonne>> = [
   {
@@ -109,4 +109,4 @@ export const donnéesFournisseurs: Readonly<Array<Colonne>> = [
     nomPropriété: `Lieu(x) de fabrication \n(Postes de conversion)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

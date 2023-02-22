@@ -1,5 +1,5 @@
-import React from 'react'
-import { CheckIcon } from '@components'
+import React from 'react';
+import { CheckIcon } from '@components';
 
 export const PastIcon = () => (
   <div className="h-9 flex items-center">
@@ -7,4 +7,4 @@ export const PastIcon = () => (
       <CheckIcon className="w-5 h-5 text-white" title="étape passée" />
     </span>
   </div>
-)
+);

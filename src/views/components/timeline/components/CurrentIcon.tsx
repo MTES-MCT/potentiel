@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export const CurrentIcon = () => (
   <div className="h-9 flex items-center" title="étape à valider">
@@ -10,4 +10,4 @@ export const CurrentIcon = () => (
       <span className={'h-2.5 w-2.5 rounded-full bg-blue-700'} />
     </span>
   </div>
-)
+);

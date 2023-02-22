@@ -1,16 +1,19 @@
-import { logger } from '@core/utils'
-import { ProjectGFWithdrawn } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
+import { logger } from '@core/utils';
+import { ProjectGFWithdrawn } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
 
 export default GarantiesFinancièresProjector.on(
   ProjectGFWithdrawn,
   async (évènement, transaction) => {
     const {
       payload: { projectId: projetId },
-    } = évènement
+    } = évènement;
 
-    const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
+    const entréeExistante = await GarantiesFinancières.findOne({
+      where: { projetId },
+      transaction,
+    });
 
     if (!entréeExistante) {
       logger.error(
@@ -19,13 +22,13 @@ export default GarantiesFinancièresProjector.on(
           {
             évènement,
             nomProjection: 'GarantiesFinancières',
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
 
-    await GarantiesFinancières.destroy({ where: { projetId }, transaction })
+    await GarantiesFinancières.destroy({ where: { projetId }, transaction });
 
     try {
       await GarantiesFinancières.create(
@@ -38,8 +41,8 @@ export default GarantiesFinancièresProjector.on(
           }),
           statut: 'en attente',
         },
-        { transaction }
-      )
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -48,9 +51,9 @@ export default GarantiesFinancièresProjector.on(
             évènement,
             nomProjection: 'GarantiesFinancières',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

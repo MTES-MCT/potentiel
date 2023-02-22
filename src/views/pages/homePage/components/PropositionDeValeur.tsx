@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container } from '../../../components'
+import React from 'react';
+import { Container } from '../../../components';
 
 export const PropositionDeValeur = () => (
   <section className="bg-blue-france-sun-base text-white">
@@ -27,4 +27,4 @@ export const PropositionDeValeur = () => (
       </p>
     </Container>
   </section>
-)
+);

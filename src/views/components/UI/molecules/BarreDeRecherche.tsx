@@ -1,12 +1,12 @@
-import React, { FC } from 'react'
-import { Button, Input, Label, SearchIcon } from '@components'
+import React, { FC } from 'react';
+import { Button, Input, Label, SearchIcon } from '@components';
 
 type BarreDeRechercheProps = {
-  className?: string
-  placeholder?: string
-  defaultValue?: string
-  name: string
-}
+  className?: string;
+  placeholder?: string;
+  defaultValue?: string;
+  name: string;
+};
 
 export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
   className = '',
@@ -35,4 +35,4 @@ export const BarreDeRecherche: FC<BarreDeRechercheProps> = ({
       <span className="hidden lg:block text-lg font-medium">Rechercher</span>
     </Button>
   </div>
-)
+);

@@ -1,38 +1,38 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
-import { ok, Result } from '@core/utils'
-import { EntityNotFoundError } from '../../shared'
-import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
+import { ok, Result } from '@core/utils';
+import { EntityNotFoundError } from '../../shared';
+import { AnnulationAbandonDemandée, AnnulationAbandonAnnulée } from './events';
 
 export const statutsDemandeAnnulationAbandon = [
   'envoyée',
   'annulée',
   'accordée',
   'refusée',
-] as const
+] as const;
 
-export type StatutDemandeAnnulationAbandon = typeof statutsDemandeAnnulationAbandon[number]
+export type StatutDemandeAnnulationAbandon = typeof statutsDemandeAnnulationAbandon[number];
 
 type DemandeAnnulationAbandonArgs = {
-  id: UniqueEntityID
-  events?: DomainEvent[]
-}
+  id: UniqueEntityID;
+  events?: DomainEvent[];
+};
 
 export type DemandeAnnulationAbandon = EventStoreAggregate & {
-  statut: StatutDemandeAnnulationAbandon
-  projetId: string
-}
+  statut: StatutDemandeAnnulationAbandon;
+  projetId: string;
+};
 
 export const makeDemandeAnnulationAbandon = (
-  args: DemandeAnnulationAbandonArgs
+  args: DemandeAnnulationAbandonArgs,
 ): Result<DemandeAnnulationAbandon, EntityNotFoundError> => {
-  const { events = [], id } = args
+  const { events = [], id } = args;
 
   const agregatParDefaut: Partial<DemandeAnnulationAbandon> = {
     id,
     projetId: undefined,
     statut: undefined,
     pendingEvents: [],
-  }
+  };
 
   const agregat = events.reduce((agregat, event) => {
     switch (event.type) {
@@ -41,15 +41,15 @@ export const makeDemandeAnnulationAbandon = (
           ...agregat,
           statut: 'envoyée',
           projetId: event.payload.projetId,
-        }
+        };
 
       case AnnulationAbandonAnnulée.type:
-        return { ...agregat, statut: 'annulée' }
+        return { ...agregat, statut: 'annulée' };
 
       default:
-        return agregat
+        return agregat;
     }
-  }, agregatParDefaut) as DemandeAnnulationAbandon
+  }, agregatParDefaut) as DemandeAnnulationAbandon;
 
-  return ok(agregat)
-}
+  return ok(agregat);
+};

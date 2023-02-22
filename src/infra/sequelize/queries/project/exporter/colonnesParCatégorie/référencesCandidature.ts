@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const référencesCandidature: Readonly<Array<Colonne>> = [
   {
@@ -13,4 +13,4 @@ export const référencesCandidature: Readonly<Array<Colonne>> = [
     nomPropriété: `Reference Pli\n(candidature)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

@@ -1,33 +1,33 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
-import { parseCahierDesChargesRéférence } from '@entities'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils';
+import { parseCahierDesChargesRéférence } from '@entities';
 import {
   GetProjectDataForSignalerDemandeDelaiPage,
   ProjectDataForSignalerDemandeDelaiPage,
-} from '@modules/project'
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
-import { Op } from 'sequelize'
-import models from '../../models'
-import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable'
+} from '@modules/project';
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { Op } from 'sequelize';
+import models from '../../models';
+import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable';
 
-const { Project, ModificationRequest } = models
+const { Project, ModificationRequest } = models;
 
 export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignalerDemandeDelaiPage =
   ({ projectId }) => {
     return wrapInfra(Project.findByPk(projectId))
       .andThen((projet) => {
         if (!projet) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        const { appelOffreId, periodeId, familleId } = projet
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+        const { appelOffreId, periodeId, familleId } = projet;
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
         if (!appelOffre) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        return okAsync({ projet, appelOffre })
+        return okAsync({ projet, appelOffre });
       })
       .andThen(
         ({
@@ -51,7 +51,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             appelOffreId,
             cahierDesChargesActuel,
             puissance,
-          } = projet
+          } = projet;
 
           const project = {
             id,
@@ -68,9 +68,9 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             cahierDesChargesActuel,
             puissance,
             unitePuissance: appelOffre.unitePuissance,
-          }
+          };
 
-          const cahierDesChargesParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel)
+          const cahierDesChargesParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel);
 
           if (
             cahierDesChargesParsed.type === 'modifié' &&
@@ -81,26 +81,26 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
               periodeId,
               appelOffreId,
               cahierDesChargesParsed,
-            })
+            });
 
-            return ok({ ...project, délaiCDC2022Applicable })
+            return ok({ ...project, délaiCDC2022Applicable });
           }
 
-          return ok(project)
-        }
+          return ok(project);
+        },
       )
       .andThen((project) => {
         return hasPendingDemandeDelai(project.id).andThen((count) =>
           ok({
             ...project,
             hasPendingDemandeDelai: count > 0 ? true : false,
-          })
-        )
-      })
-  }
+          }),
+        );
+      });
+  };
 
 const hasPendingDemandeDelai: (projectId: string) => ResultAsync<number, InfraNotAvailableError> = (
-  projectId
+  projectId,
 ) =>
   wrapInfra(
     ModificationRequest.findAndCountAll({
@@ -109,5 +109,5 @@ const hasPendingDemandeDelai: (projectId: string) => ResultAsync<number, InfraNo
         type: 'delai',
         status: { [Op.notIn]: ['acceptée', 'rejetée', 'annulée'] },
       },
-    })
-  ).andThen(({ count }) => ok(count))
+    }),
+  ).andThen(({ count }) => ok(count));

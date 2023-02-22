@@ -1,21 +1,21 @@
-import { Text, View } from '@react-pdf/renderer'
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { formatNumber } from '../../helpers/formatNumber'
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
+import { Text, View } from '@react-pdf/renderer';
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { formatNumber } from '../../helpers/formatNumber';
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
 
 type MakeLaureat = (project: ProjectDataForCertificate) => {
-  content: React.ReactNode
-  footnotes: Array<Footnote>
-}
+  content: React.ReactNode;
+  footnotes: Array<Footnote>;
+};
 
 export const makeLaureat: MakeLaureat = (project) => {
-  const { appelOffre, technologie } = project
-  const { periode, isSoumisAuxGF } = appelOffre || {}
-  const { delaiDcrEnMois } = periode
+  const { appelOffre, technologie } = project;
+  const { periode, isSoumisAuxGF } = appelOffre || {};
+  const { delaiDcrEnMois } = periode;
 
-  const footnotes: Array<Footnote> = []
-  const addFootNote = makeAddFootnote(footnotes)
+  const footnotes: Array<Footnote> = [];
+  const addFootNote = makeAddFootnote(footnotes);
 
   const content = (
     <>
@@ -199,28 +199,28 @@ export const makeLaureat: MakeLaureat = (project) => {
         </Text>
       )}
     </>
-  )
+  );
 
-  return { content, footnotes }
-}
+  return { content, footnotes };
+};
 
-const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
+const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830];
 
 type Footnote = {
-  footnote: string
-  indice: number
-}
+  footnote: string;
+  indice: number;
+};
 
 export const makeAddFootnote = (footnotes: Array<Footnote>) => (footnote: string) => {
   if (!footnote) {
-    return ''
+    return '';
   }
 
-  const indice = FOOTNOTE_INDICES[footnotes.length % FOOTNOTE_INDICES.length]
+  const indice = FOOTNOTE_INDICES[footnotes.length % FOOTNOTE_INDICES.length];
   footnotes.push({
     footnote,
     indice,
-  })
+  });
 
-  return String.fromCharCode(indice)
-}
+  return String.fromCharCode(indice);
+};

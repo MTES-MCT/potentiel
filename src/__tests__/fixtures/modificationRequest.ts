@@ -1,6 +1,6 @@
-import makeFakeUser from './user'
-import makeFakeProject from './project'
-import { UniqueEntityID } from '@core/domain'
+import makeFakeUser from './user';
+import makeFakeProject from './project';
+import { UniqueEntityID } from '@core/domain';
 
 export default function makeFakeModificationRequest(overrides?, includeInfo?: boolean) {
   const defaultObj: any = {
@@ -11,15 +11,15 @@ export default function makeFakeModificationRequest(overrides?, includeInfo?: bo
     actionnaire: 'nouvel actionnaire',
     authority: 'dreal',
     status: 'envoyée',
-  }
+  };
 
   if (includeInfo) {
-    defaultObj.user = makeFakeUser()
-    defaultObj.project = makeFakeProject()
+    defaultObj.user = makeFakeUser();
+    defaultObj.project = makeFakeProject();
   }
 
   return {
     ...defaultObj,
     ...overrides,
-  }
+  };
 }

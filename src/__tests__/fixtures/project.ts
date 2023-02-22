@@ -1,4 +1,4 @@
-import { v4 as uuid } from 'uuid'
+import { v4 as uuid } from 'uuid';
 
 export default function makeFakeProject(overrides?) {
   const defaultObj = {
@@ -31,15 +31,15 @@ export default function makeFakeProject(overrides?) {
     cahierDesChargesActuel: 'initial',
     technologie: 'N/A',
     completionDueOn: 0,
-  }
+  };
 
   const project = {
     ...defaultObj,
     ...overrides,
-  }
+  };
 
   return {
     ...project,
     potentielIdentifier: 'potentielIdentifer',
-  }
+  };
 }

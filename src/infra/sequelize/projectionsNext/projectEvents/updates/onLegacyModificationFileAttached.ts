@@ -1,10 +1,10 @@
-import { LegacyModificationFileAttached } from '@modules/modificationRequest'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { LegacyModificationFileAttached } from '@modules/modificationRequest';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   LegacyModificationFileAttached,
   async ({ payload, occurredAt, id }, transaction) => {
-    const { projectId, fileId, filename } = payload
+    const { projectId, fileId, filename } = payload;
 
     await ProjectEvent.create(
       {
@@ -18,7 +18,7 @@ export default ProjectEventProjector.on(
           filename,
         },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

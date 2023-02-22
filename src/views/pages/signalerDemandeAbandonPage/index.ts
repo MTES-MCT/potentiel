@@ -1,1 +1,1 @@
-export * from './SignalerDemandeAbandon'
+export * from './SignalerDemandeAbandon';

@@ -1,6 +1,6 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
-const garantieFinanciereEnMois = 36
+const garantieFinanciereEnMois = 36;
 
 export const zni2017: AppelOffre = {
   id: 'CRE4 - ZNI 2017',
@@ -145,4 +145,4 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
     },
   ],
-}
+};

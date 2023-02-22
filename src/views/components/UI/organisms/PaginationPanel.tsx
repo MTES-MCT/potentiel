@@ -1,14 +1,14 @@
-import React from 'react'
-import { Pagination } from '../molecules/Pagination'
-import { dataId } from '../../../../helpers/testId'
+import React from 'react';
+import { Pagination } from '../molecules/Pagination';
+import { dataId } from '../../../../helpers/testId';
 
 interface Props {
-  nombreDePage: number
+  nombreDePage: number;
   pagination: {
-    page: number
-    limiteParPage: number
-  }
-  titreItems: string
+    page: number;
+    limiteParPage: number;
+  };
+  titreItems: string;
 }
 
 export function PaginationPanel({
@@ -16,7 +16,7 @@ export function PaginationPanel({
   titreItems,
   pagination: { limiteParPage, page },
 }: Props) {
-  const limitePageOptions = [5, 10, 20, 50, 100]
+  const limitePageOptions = [5, 10, 20, 50, 100];
 
   return (
     <div className="flex justify-between items-center flex-wrap mt-6">
@@ -48,5 +48,5 @@ export function PaginationPanel({
         </>
       )}
     </div>
-  )
+  );
 }

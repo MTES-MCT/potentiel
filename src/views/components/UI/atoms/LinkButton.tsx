@@ -1,6 +1,6 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { ComponentProps, FC } from 'react';
 
-type LinkButtonProps = ComponentProps<'a'>
+type LinkButtonProps = ComponentProps<'a'>;
 
 export const LinkButton: FC<LinkButtonProps> = ({ children, className = '', ...props }) => (
   <a
@@ -11,4 +11,4 @@ export const LinkButton: FC<LinkButtonProps> = ({ children, className = '', ...p
   >
     {children}
   </a>
-)
+);

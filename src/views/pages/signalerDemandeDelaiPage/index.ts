@@ -1,1 +1,1 @@
-export * from './SignalerDemandeDelai'
+export * from './SignalerDemandeDelai';

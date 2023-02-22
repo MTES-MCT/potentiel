@@ -1,2 +1,2 @@
-export * from './actionnaire'
-export * from './recours'
+export * from './actionnaire';
+export * from './recours';

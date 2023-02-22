@@ -1,30 +1,30 @@
-import moment from 'moment'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { logger, UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import moment from 'moment';
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { logger, UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
 import {
   LegacyProjectSourced,
   ProjectCompletionDueDateSet,
   ProjectImported,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -39,10 +39,10 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         potentielIdentifier: '',
       },
     }),
-  ]
-}
+  ];
+};
 
-const initialCompletionDueOn = 123
+const initialCompletionDueOn = 123;
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -86,7 +86,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.moveCompletionDueDate()', () => {
   describe('when project is classé', () => {
@@ -97,29 +97,29 @@ describe('Project.moveCompletionDueDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
-      const delayInMonths = 2
-      const res = project.moveCompletionDueDate(fakeUser, delayInMonths)
+        }),
+      );
+      const delayInMonths = 2;
+      const res = project.moveCompletionDueDate(fakeUser, delayInMonths);
 
-      expect(res.isOk()).toBe(true)
-      if (res.isErr()) return
+      expect(res.isOk()).toBe(true);
+      if (res.isErr()) return;
 
-      expect(project.pendingEvents).not.toHaveLength(0)
+      expect(project.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCompletionDueDateSet.type
-      ) as ProjectCompletionDueDateSet | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectCompletionDueDateSet.type,
+      ) as ProjectCompletionDueDateSet | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
       expect(targetEvent.payload.completionDueOn).toEqual(
-        +moment(initialCompletionDueOn).add(delayInMonths, 'months')
-      )
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.setBy).toEqual(fakeUser.id)
-    })
-  })
+        +moment(initialCompletionDueOn).add(delayInMonths, 'months'),
+      );
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.setBy).toEqual(fakeUser.id);
+    });
+  });
 
   describe('when project already had a updated completion due date', () => {
     const fakeHistoryWithCompletionDateMoved = [
@@ -128,7 +128,7 @@ describe('Project.moveCompletionDueDate()', () => {
       new ProjectCompletionDueDateSet({
         payload: { projectId: projectId.toString(), completionDueOn: 4567 },
       }),
-    ]
+    ];
 
     const project = UnwrapForTest(
       makeProject({
@@ -136,27 +136,27 @@ describe('Project.moveCompletionDueDate()', () => {
         history: fakeHistoryWithCompletionDateMoved,
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      const res = project.moveCompletionDueDate(fakeUser, 3)
+      const res = project.moveCompletionDueDate(fakeUser, 3);
 
-      if (res.isErr()) logger.error(res.error)
-      expect(res.isOk()).toBe(true)
-    })
+      if (res.isErr()) logger.error(res.error);
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should still trigger ProjectCompletionDueDateSet', () => {
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCompletionDueDateSet.type
-      ) as ProjectCompletionDueDateSet | undefined
-      expect(targetEvent).toBeDefined()
-    })
-  })
+        (item) => item.type === ProjectCompletionDueDateSet.type,
+      ) as ProjectCompletionDueDateSet | undefined;
+      expect(targetEvent).toBeDefined();
+    });
+  });
 
   describe('when project is éliminé', () => {
-    const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Eliminé' })
-    const fakeHistory = makeFakeHistory(fakeProjectData)
+    const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Eliminé' });
+    const fakeHistory = makeFakeHistory(fakeProjectData);
 
     it('should not trigger ProjectCompletionDueDateSet', () => {
       const project = UnwrapForTest(
@@ -165,20 +165,20 @@ describe('Project.moveCompletionDueDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
-      const res = project.moveCompletionDueDate(fakeUser, 1)
+        }),
+      );
+      const res = project.moveCompletionDueDate(fakeUser, 1);
 
-      if (res.isErr()) logger.error(res.error)
-      expect(res.isOk()).toBe(true)
-      if (res.isErr()) return
+      if (res.isErr()) logger.error(res.error);
+      expect(res.isOk()).toBe(true);
+      if (res.isErr()) return;
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCompletionDueDateSet.type
-      ) as ProjectCompletionDueDateSet | undefined
-      expect(targetEvent).not.toBeDefined()
-    })
-  })
+        (item) => item.type === ProjectCompletionDueDateSet.type,
+      ) as ProjectCompletionDueDateSet | undefined;
+      expect(targetEvent).not.toBeDefined();
+    });
+  });
 
   describe('when project is not notified', () => {
     it('should return a ProjectCannotBeUpdatedIfUnnotifiedError', () => {
@@ -189,35 +189,35 @@ describe('Project.moveCompletionDueDate()', () => {
           getProjectAppelOffre,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.moveCompletionDueDate(fakeUser, 1)
+      const res = project.moveCompletionDueDate(fakeUser, 1);
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
 
   describe('when new completion due date is before notification date', () => {
     it('should return a IllegalProjectStateError', () => {
-      const fakeProjectData = makeFakeProject({ notifiedOn: 1001, classe: 'Classé' })
-      const fakeHistory = makeFakeHistory(fakeProjectData)
+      const fakeProjectData = makeFakeProject({ notifiedOn: 1001, classe: 'Classé' });
+      const fakeHistory = makeFakeHistory(fakeProjectData);
       const project = UnwrapForTest(
         makeProject({
           projectId,
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.moveCompletionDueDate(fakeUser, -1)
+      const res = project.moveCompletionDueDate(fakeUser, -1);
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
-    })
-  })
-})
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError);
+    });
+  });
+});

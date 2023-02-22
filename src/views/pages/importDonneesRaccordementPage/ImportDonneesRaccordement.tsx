@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Input,
   Label,
@@ -11,17 +11,17 @@ import {
   RésultatSoumissionFormulaireProps,
   Heading1,
   Heading2,
-} from '@components'
-import routes from '@routes'
-import { Request } from 'express'
-import { hydrateOnClient } from '@views/helpers'
-import { Tâche, TâcheProps } from './components/Tâche'
+} from '@components';
+import routes from '@routes';
+import { Request } from 'express';
+import { hydrateOnClient } from '@views/helpers';
+import { Tâche, TâcheProps } from './components/Tâche';
 
 type ImportDonnéesRaccordementProps = {
-  request: Request
-  tâches: Array<TâcheProps>
-  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire']
-}
+  request: Request;
+  tâches: Array<TâcheProps>;
+  résultatSoumissionFormulaire?: RésultatSoumissionFormulaireProps['résultatSoumissionFormulaire'];
+};
 
 export const ImportDonneesRaccordement = ({
   request,
@@ -107,6 +107,6 @@ export const ImportDonneesRaccordement = ({
       )}
     </div>
   </PageTemplate>
-)
+);
 
-hydrateOnClient(ImportDonneesRaccordement)
+hydrateOnClient(ImportDonneesRaccordement);

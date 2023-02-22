@@ -1,20 +1,20 @@
-import { Raccordements, RaccordementsProjector } from '../raccordements.model'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectDCRSubmitted } from '@modules/project'
+import { Raccordements, RaccordementsProjector } from '../raccordements.model';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectDCRSubmitted } from '@modules/project';
 
 export default RaccordementsProjector.on(ProjectDCRSubmitted, async (évènement, transaction) => {
   const {
     payload: { projectId, numeroDossier },
-  } = évènement
+  } = évènement;
 
   try {
     await Raccordements.update(
       {
         identifiantGestionnaire: numeroDossier,
       },
-      { where: { projetId: projectId }, transaction }
-    )
+      { where: { projetId: projectId }, transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -23,8 +23,8 @@ export default RaccordementsProjector.on(ProjectDCRSubmitted, async (évènement
           évènement,
           nomProjection: 'raccordements',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

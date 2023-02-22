@@ -1,1 +1,1 @@
-export * from './CsvValidatorError'
+export * from './CsvValidatorError';

@@ -1,4 +1,4 @@
-import { DomainEvent } from '@core/domain'
+import { DomainEvent } from '@core/domain';
 
 export const toPersistance = (event: DomainEvent) => ({
   id: event.id,
@@ -10,4 +10,4 @@ export const toPersistance = (event: DomainEvent) => ({
     (Array.isArray(event.aggregateId) ? event.aggregateId : [event.aggregateId]),
   requestId: event.requestId,
   occurredAt: event.occurredAt,
-})
+});

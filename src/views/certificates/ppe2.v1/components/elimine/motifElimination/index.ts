@@ -1,1 +1,1 @@
-export * from './MotifElimination'
+export * from './MotifElimination';

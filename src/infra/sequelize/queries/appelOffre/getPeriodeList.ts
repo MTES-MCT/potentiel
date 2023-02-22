@@ -1,8 +1,8 @@
-import { ok, wrapInfra } from '@core/utils'
-import { GetPeriodeList } from '@modules/appelOffre'
-import models from '../../models'
+import { ok, wrapInfra } from '@core/utils';
+import { GetPeriodeList } from '@modules/appelOffre';
+import models from '../../models';
 
-const { Periode } = models
+const { Periode } = models;
 export const getPeriodeList: GetPeriodeList = () => {
   return wrapInfra(Periode.findAll()).andThen((PeriodeListRaw: any) => {
     return ok(
@@ -11,8 +11,8 @@ export const getPeriodeList: GetPeriodeList = () => {
           appelOffreId,
           periodeId,
           ...data,
-        })
-      )
-    )
-  })
-}
+        }),
+      ),
+    );
+  });
+};

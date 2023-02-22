@@ -1,21 +1,21 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
-import { Payload } from './Payload'
-import { sequelizeInstance } from '../../../../sequelize.config'
-import { makeSequelizeProjector } from '../../helpers'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { Payload } from './Payload';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { makeSequelizeProjector } from '../../helpers';
 
 class ProjectEvent extends Model<
   InferAttributes<ProjectEvent>,
   InferCreationAttributes<ProjectEvent>
 > {
-  id: string
-  projectId: string
-  type: string
-  payload: Payload | null
-  valueDate: number
-  eventPublishedAt: number
+  id: string;
+  projectId: string;
+  type: string;
+  payload: Payload | null;
+  valueDate: number;
+  eventPublishedAt: number;
 }
 
-const nomProjection = 'project_events'
+const nomProjection = 'project_events';
 
 ProjectEvent.init(
   {
@@ -48,9 +48,9 @@ ProjectEvent.init(
     tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-const ProjectEventProjector = makeSequelizeProjector(ProjectEvent, nomProjection)
+const ProjectEventProjector = makeSequelizeProjector(ProjectEvent, nomProjection);
 
-export { ProjectEvent, ProjectEventProjector }
+export { ProjectEvent, ProjectEventProjector };

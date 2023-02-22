@@ -1,16 +1,16 @@
-import { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import routes from '@routes'
-import { Button, ErrorBox, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import routes from '@routes';
+import { Button, ErrorBox, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 interface FakeLoginProps {
-  request: Request
+  request: Request;
 }
 
 export const FakeLogin = ({ request }: FakeLoginProps) => {
-  const { error } = (request.query as any) || {}
+  const { error } = (request.query as any) || {};
   return (
     <PageTemplate user={request.user}>
       <main role="main">
@@ -37,7 +37,7 @@ export const FakeLogin = ({ request }: FakeLoginProps) => {
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(FakeLogin)
+hydrateOnClient(FakeLogin);

@@ -1,15 +1,15 @@
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { resetDatabase } from '../../../helpers'
-import models from '../../../models'
-import { getProjectDataForProjectPage } from './getProjectDataForProjectPage'
-import { v4 as uuid } from 'uuid'
-import { User } from '@entities'
-import { UserRole } from '@modules/users'
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { resetDatabase } from '../../../helpers';
+import models from '../../../models';
+import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
+import { v4 as uuid } from 'uuid';
+import { User } from '@entities';
+import { UserRole } from '@modules/users';
 
-const { Project } = models
+const { Project } = models;
 
 describe(`Récupérer les données relatives au prix de référence d'un projet`, () => {
-  const projetId = uuid()
+  const projetId = uuid();
   const roleAutorisés: Array<UserRole> = [
     'admin',
     'porteur-projet',
@@ -17,11 +17,11 @@ describe(`Récupérer les données relatives au prix de référence d'un projet`
     'acheteur-obligé',
     'dgec-validateur',
     'cre',
-  ]
-  const roleNonAutorisés: Array<UserRole> = ['ademe', 'caisse-des-dépôts']
+  ];
+  const roleNonAutorisés: Array<UserRole> = ['ademe', 'caisse-des-dépôts'];
 
   beforeEach(async () => {
-    await resetDatabase()
+    await resetDatabase();
 
     await Project.create(
       makeFakeProject({
@@ -29,9 +29,9 @@ describe(`Récupérer les données relatives au prix de référence d'un projet`
         appelOffreId: 'Fessenheim',
         notifiedOn: 1234,
         prixReference: 90,
-      })
-    )
-  })
+      }),
+    );
+  });
 
   describe(`Ne pas récupérer les données sur le prix de référence pour les utilisateurs non autorisés`, () => {
     for (const role of roleNonAutorisés) {
@@ -43,12 +43,12 @@ describe(`Récupérer les données relatives au prix de référence d'un projet`
             projectId: projetId,
             user: { role } as User,
           })
-        )._unsafeUnwrap()
+        )._unsafeUnwrap();
 
-        expect(donnéesProjet.prixReference).toBeUndefined()
-      })
+        expect(donnéesProjet.prixReference).toBeUndefined();
+      });
     }
-  })
+  });
 
   describe(`Récupérer les données sur le prix de référence pour les utilisateurs autorisés`, () => {
     for (const role of roleAutorisés) {
@@ -60,10 +60,10 @@ describe(`Récupérer les données relatives au prix de référence d'un projet`
             projectId: projetId,
             user: { role } as User,
           })
-        )._unsafeUnwrap()
+        )._unsafeUnwrap();
 
-        expect(donnéesProjet.prixReference).toEqual(90)
-      })
+        expect(donnéesProjet.prixReference).toEqual(90);
+      });
     }
-  })
-})
+  });
+});

@@ -1,5 +1,5 @@
-import React from 'react'
-import { Request } from 'express'
+import React from 'react';
+import { Request } from 'express';
 import {
   Button,
   Input,
@@ -8,23 +8,23 @@ import {
   SecondaryLinkButton,
   ErrorBox,
   Heading1,
-} from '@components'
-import routes from '@routes'
-import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+} from '@components';
+import routes from '@routes';
+import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project';
+import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
 type SignalerDemandeAbandonProps = {
-  request: Request
-  project: ProjectDataForSignalerDemandeAbandonPage
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+  request: Request;
+  project: ProjectDataForSignalerDemandeAbandonPage;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 export const SignalerDemandeAbandon = ({
   request,
   project,
   validationErrors,
 }: SignalerDemandeAbandonProps) => {
-  const { query, user } = request
-  const { error } = query as any
+  const { query, user } = request;
+  const { error } = query as any;
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
@@ -106,7 +106,7 @@ export const SignalerDemandeAbandon = ({
         </form>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(SignalerDemandeAbandon)
+hydrateOnClient(SignalerDemandeAbandon);

@@ -1,5 +1,5 @@
-import React from 'react'
-import { XIcon } from '@components'
+import React from 'react';
+import { XIcon } from '@components';
 
 export const UnvalidatedStepIcon = () => (
   <div className="h-9 flex items-center" aria-hidden="true">
@@ -7,4 +7,4 @@ export const UnvalidatedStepIcon = () => (
       <XIcon className="w-5 h-5 text-white" />
     </span>
   </div>
-)
+);

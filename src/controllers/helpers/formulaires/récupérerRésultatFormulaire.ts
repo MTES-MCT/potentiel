@@ -1,15 +1,15 @@
-import { Request } from 'express'
+import { Request } from 'express';
 
 export const récupérerRésultatFormulaire = (request: Request, formId: string) => {
   const {
     session: { forms },
-  } = request
+  } = request;
 
   if (forms) {
-    const { [formId]: form, ...clearedForms } = forms
+    const { [formId]: form, ...clearedForms } = forms;
 
-    request.session.forms = clearedForms
+    request.session.forms = clearedForms;
 
-    return form?.résultatSoumissionFormulaire
+    return form?.résultatSoumissionFormulaire;
   }
-}
+};

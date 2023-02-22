@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { CahierDesChargesChoisi } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { CahierDesChargesChoisi } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(CahierDesChargesChoisi, async (évènement, transaction) => {
-  const { payload } = évènement
-  const { projetId, choisiPar, type } = payload
+  const { payload } = évènement;
+  const { projetId, choisiPar, type } = payload;
 
   try {
     await ProjectEvent.create(
@@ -22,8 +22,8 @@ export default ProjectEventProjector.on(CahierDesChargesChoisi, async (évèneme
         valueDate: évènement.occurredAt.getTime(),
         eventPublishedAt: évènement.occurredAt.getTime(),
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -32,8 +32,8 @@ export default ProjectEventProjector.on(CahierDesChargesChoisi, async (évèneme
           évènement,
           nomProjection: 'ProjectEvent.onCahierDesChargesChoisi',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

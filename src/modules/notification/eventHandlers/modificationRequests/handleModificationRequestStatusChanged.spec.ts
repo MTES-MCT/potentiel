@@ -1,9 +1,9 @@
-import { okAsync } from 'neverthrow'
-import { NotificationArgs } from '../..'
-import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import { UnwrapForTest } from '../../../../types'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
+import { okAsync } from 'neverthrow';
+import { NotificationArgs } from '../..';
+import { UniqueEntityID } from '@core/domain';
+import { makeUser } from '@entities';
+import { UnwrapForTest } from '../../../../types';
+import makeFakeUser from '../../../../__tests__/fixtures/user';
 import {
   ConfirmationRequested,
   GetModificationRequestInfoForStatusNotification,
@@ -11,17 +11,17 @@ import {
   ModificationRequestCancelled,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '../../../modificationRequest'
-import { handleModificationRequestStatusChanged } from './handleModificationRequestStatusChanged'
+} from '../../../modificationRequest';
+import { handleModificationRequestStatusChanged } from './handleModificationRequestStatusChanged';
 
-const modificationRequestId = new UniqueEntityID().toString()
+const modificationRequestId = new UniqueEntityID().toString();
 
 describe('notification.handleModificationRequestStatusChanged', () => {
   const projectUsers = ['email1@test.test', 'email1@test.test'].map((email) =>
-    UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', email })))
-  )
+    UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', email }))),
+  );
 
-  const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+  const sendNotification = jest.fn(async (args: NotificationArgs) => null);
   const getModificationRequestInfoForStatusNotification = jest.fn((modificationRequestId) =>
     okAsync({
       porteursProjet: projectUsers.map(({ email, fullName, id }) => ({ email, fullName, id })),
@@ -29,12 +29,12 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       regionProjet: 'region',
       departementProjet: 'departement',
       type: 'recours',
-    })
-  ) as GetModificationRequestInfoForStatusNotification
+    }),
+  ) as GetModificationRequestInfoForStatusNotification;
 
   describe('in all cases', () => {
     it('should call sendNotification for each user that has rights to this project', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -42,33 +42,33 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ModificationRequestAccepted({
           payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
-        })
-      )
+        }),
+      );
 
       expect(getModificationRequestInfoForStatusNotification).toHaveBeenCalledWith(
-        modificationRequestId
-      )
+        modificationRequestId,
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(projectUsers.length)
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      expect(sendNotification).toHaveBeenCalledTimes(projectUsers.length);
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
 
       expect(notifications.map((notification) => notification.message.email)).toEqual(
-        projectUsers.map((user) => user.email)
-      )
+        projectUsers.map((user) => user.email),
+      );
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.nom_projet === 'nomProjet' &&
-            notification.variables.type_demande === 'recours'
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.type_demande === 'recours',
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when triggered with ModificationRequestAccepted', () => {
     it('should set the status in the email to acceptée and mention a document', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -76,24 +76,24 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ModificationRequestAccepted({
           payload: { modificationRequestId, acceptedBy: '', responseFileId: '' },
-        })
-      )
+        }),
+      );
 
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'acceptée' &&
-            notification.variables.document_absent === undefined
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.document_absent === undefined,
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when triggered with ModificationRequestRejected', () => {
     it('should set the status in the email to acceptée and mention a document', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -101,24 +101,24 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ModificationRequestRejected({
           payload: { modificationRequestId, rejectedBy: '', responseFileId: '' },
-        })
-      )
+        }),
+      );
 
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'rejetée' &&
-            notification.variables.document_absent === undefined
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.document_absent === undefined,
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when triggered with ModificationRequestInstructionStarted', () => {
     it('should set the status in the email to en instruction and not mention a document', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -126,24 +126,24 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ModificationRequestInstructionStarted({
           payload: { modificationRequestId },
-        })
-      )
+        }),
+      );
 
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'en instruction' &&
-            notification.variables.document_absent === ''
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.document_absent === '',
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when triggered with ConfirmationRequested', () => {
     it('should set the status in the email to en attente de confirmation and mention a document', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -151,25 +151,25 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ConfirmationRequested({
           payload: { modificationRequestId, confirmationRequestedBy: '', responseFileId: '' },
-        })
-      )
+        }),
+      );
 
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
 
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'en attente de confirmation' &&
-            notification.variables.document_absent === undefined
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.document_absent === undefined,
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when triggered with ModificationRequestCancelled', () => {
     it('should set the status in the email to annulée and dont mention a document', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequestStatusChanged({
         sendNotification,
@@ -177,18 +177,18 @@ describe('notification.handleModificationRequestStatusChanged', () => {
       })(
         new ModificationRequestCancelled({
           payload: { modificationRequestId, cancelledBy: '' },
-        })
-      )
+        }),
+      );
 
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
       expect(
         notifications.every(
           (notification) =>
             notification.type === 'modification-request-status-update' &&
             notification.variables.status === 'annulée' &&
-            notification.variables.document_absent === ''
-        )
-      ).toBe(true)
-    })
-  })
-})
+            notification.variables.document_absent === '',
+        ),
+      ).toBe(true);
+    });
+  });
+});

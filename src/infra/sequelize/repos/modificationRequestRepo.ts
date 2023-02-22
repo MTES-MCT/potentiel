@@ -4,17 +4,17 @@ import {
   Repository,
   TransactionalRepository,
   UniqueEntityID,
-} from '@core/domain'
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
-import { makeModificationRequest, ModificationRequest } from '@modules/modificationRequest'
+} from '@core/domain';
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils';
+import { makeModificationRequest, ModificationRequest } from '@modules/modificationRequest';
 
 export const makeModificationRequestRepo = (
-  eventStore: EventStore
+  eventStore: EventStore,
 ): Repository<ModificationRequest> & TransactionalRepository<ModificationRequest> => {
   const makeModificationRequestFromHistory = (args: {
-    events: DomainEvent[]
-    id: UniqueEntityID
-  }) => makeModificationRequest({ history: args.events, modificationRequestId: args.id })
+    events: DomainEvent[];
+    id: UniqueEntityID;
+  }) => makeModificationRequest({ history: args.events, modificationRequestId: args.id });
 
   return {
     ...makeEventStoreRepo<ModificationRequest>({
@@ -25,5 +25,5 @@ export const makeModificationRequestRepo = (
       eventStore,
       makeAggregate: makeModificationRequestFromHistory,
     }),
-  }
-}
+  };
+};

@@ -1,13 +1,13 @@
-import { AbandonAccordé } from '@modules/demandeModification'
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { Project, ProjectAbandoned } from '@modules/project'
+import { AbandonAccordé } from '@modules/demandeModification';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { Project, ProjectAbandoned } from '@modules/project';
 
 type MakeOnAbandonAccordéProps = {
-  projectRepo: TransactionalRepository<Project>
-  publishToEventStore: EventStore['publish']
-}
+  projectRepo: TransactionalRepository<Project>;
+  publishToEventStore: EventStore['publish'];
+};
 
-type OnAbandonAccordéProps = AbandonAccordé
+type OnAbandonAccordéProps = AbandonAccordé;
 
 export const makeOnAbandonAccordé =
   ({ projectRepo, publishToEventStore }: MakeOnAbandonAccordéProps) =>
@@ -19,6 +19,6 @@ export const makeOnAbandonAccordé =
             projectId,
             abandonAcceptedBy: accordéPar,
           },
-        })
-      )
-    })
+        }),
+      );
+    });

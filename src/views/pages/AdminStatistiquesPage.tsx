@@ -1,12 +1,12 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Heading1, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Heading1, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type AdminStatistiquesProps = {
-  request: Request
-  iframeUrl: string
-}
+  request: Request;
+  iframeUrl: string;
+};
 
 export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps) => {
   return (
@@ -32,7 +32,7 @@ export const AdminStatistiques = ({ iframeUrl, request }: AdminStatistiquesProps
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AdminStatistiques)
+hydrateOnClient(AdminStatistiques);

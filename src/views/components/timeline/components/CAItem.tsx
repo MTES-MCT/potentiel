@@ -1,5 +1,5 @@
-import React from 'react'
-import { ContentArea, ItemTitle, NextUpIcon } from '.'
+import React from 'react';
+import { ContentArea, ItemTitle, NextUpIcon } from '.';
 
 export const CAItem = () => {
   return (
@@ -12,5 +12,5 @@ export const CAItem = () => {
         </span>
       </ContentArea>
     </>
-  )
-}
+  );
+};

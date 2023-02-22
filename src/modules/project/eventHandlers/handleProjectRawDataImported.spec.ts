@@ -1,15 +1,15 @@
-import { FindProjectByIdentifiers } from '..'
-import { UniqueEntityID } from '@core/domain'
-import { okAsync } from '@core/utils'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
-import { ProjectRawDataImported, ProjectRawDataImportedPayload } from '../events'
-import { Project } from '../Project'
-import { handleProjectRawDataImported } from './handleProjectRawDataImported'
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectAppelOffre } from '@entities'
+import { FindProjectByIdentifiers } from '..';
+import { UniqueEntityID } from '@core/domain';
+import { okAsync } from '@core/utils';
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
+import { ProjectRawDataImported, ProjectRawDataImportedPayload } from '../events';
+import { Project } from '../Project';
+import { handleProjectRawDataImported } from './handleProjectRawDataImported';
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { ProjectAppelOffre } from '@entities';
 
-const appelOffre = { id: 'appelOffreId' } as ProjectAppelOffre
-const getProjectAppelOffre: GetProjectAppelOffre = () => appelOffre
+const appelOffre = { id: 'appelOffreId' } as ProjectAppelOffre;
+const getProjectAppelOffre: GetProjectAppelOffre = () => appelOffre;
 
 const fakeProjectData = {
   appelOffreId: 'appelOffreId',
@@ -41,18 +41,18 @@ const fakeProjectData = {
     Autre: 'valeur',
   },
   technologie: 'N/A',
-}
+};
 
 describe('handleProjectRawDataImported', () => {
-  const importId = new UniqueEntityID().toString()
+  const importId = new UniqueEntityID().toString();
 
   describe('when the project already exists', () => {
-    const projectId = new UniqueEntityID()
+    const projectId = new UniqueEntityID();
     const findProjectByIdentifiers: FindProjectByIdentifiers = jest.fn((args) =>
-      okAsync(projectId.toString())
-    )
-    const fakeProject = { ...makeFakeProject(), id: projectId }
-    const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+      okAsync(projectId.toString()),
+    );
+    const fakeProject = { ...makeFakeProject(), id: projectId };
+    const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
@@ -65,25 +65,25 @@ describe('handleProjectRawDataImported', () => {
             importId,
             data: fakeProjectData,
           } as ProjectRawDataImportedPayload,
-        })
-      )
-    })
+        }),
+      );
+    });
 
     it('should call Project.import with the new data', () => {
       expect(fakeProject.import).toHaveBeenCalledWith({
         appelOffre,
         data: fakeProjectData,
         importId,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('when the project does not exist yet', () => {
-    const projectId = new UniqueEntityID()
-    const findProjectByIdentifiers: FindProjectByIdentifiers = jest.fn((args) => okAsync(null))
+    const projectId = new UniqueEntityID();
+    const findProjectByIdentifiers: FindProjectByIdentifiers = jest.fn((args) => okAsync(null));
 
-    const fakeProject = { ...makeFakeProject(), id: projectId }
-    const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+    const fakeProject = { ...makeFakeProject(), id: projectId };
+    const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
     beforeAll(async () => {
       await handleProjectRawDataImported({
@@ -96,16 +96,16 @@ describe('handleProjectRawDataImported', () => {
             importId,
             data: fakeProjectData,
           } as ProjectRawDataImportedPayload,
-        })
-      )
-    })
+        }),
+      );
+    });
 
     it('should call Project.import with the data', () => {
       expect(fakeProject.import).toHaveBeenCalledWith({
         appelOffre,
         data: fakeProjectData,
         importId,
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

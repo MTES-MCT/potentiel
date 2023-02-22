@@ -1,13 +1,13 @@
-import { resetDatabase } from '../../../helpers'
-import { ProjectCompletionDueDateSet } from '@modules/project'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import models from '../../../models'
-import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'
-import { v4 as uuid } from 'uuid'
+import { resetDatabase } from '../../../helpers';
+import { ProjectCompletionDueDateSet } from '@modules/project';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import models from '../../../models';
+import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';
+import { v4 as uuid } from 'uuid';
 
 describe('project.onProjectCompletionDueDateSet', () => {
-  const projectId = uuid()
-  const fakeProjectId = uuid()
+  const projectId = uuid();
+  const fakeProjectId = uuid();
 
   const fakeProjects = [
     {
@@ -18,14 +18,14 @@ describe('project.onProjectCompletionDueDateSet', () => {
       id: fakeProjectId,
       completionDueOn: 0,
     },
-  ].map(makeFakeProject)
+  ].map(makeFakeProject);
 
-  const ProjectModel = models.Project
+  const ProjectModel = models.Project;
 
   beforeAll(async () => {
-    await resetDatabase()
-    await ProjectModel.bulkCreate(fakeProjects)
-  })
+    await resetDatabase();
+    await ProjectModel.bulkCreate(fakeProjects);
+  });
 
   it('should update project.completionDueOn', async () => {
     await onProjectCompletionDueDateSet(models)(
@@ -34,14 +34,14 @@ describe('project.onProjectCompletionDueDateSet', () => {
           projectId,
           completionDueOn: 12345,
         },
-      })
-    )
+      }),
+    );
 
-    const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject?.completionDueOn).toEqual(12345)
+    const updatedProject = await ProjectModel.findByPk(projectId);
+    expect(updatedProject?.completionDueOn).toEqual(12345);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
-    expect(nonUpdatedProject).toBeDefined()
-    expect(nonUpdatedProject?.completionDueOn).toEqual(0)
-  })
-})
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    expect(nonUpdatedProject).toBeDefined();
+    expect(nonUpdatedProject?.completionDueOn).toEqual(0);
+  });
+});

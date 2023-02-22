@@ -1,6 +1,6 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
-const garantieFinanciereEnMois = 42
+const garantieFinanciereEnMois = 42;
 
 const sol: AppelOffre = {
   id: 'CRE4 - Sol',
@@ -275,6 +275,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       },
     },
   ],
-}
+};
 
-export { sol }
+export { sol };

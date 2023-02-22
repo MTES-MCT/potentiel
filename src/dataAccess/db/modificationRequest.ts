@@ -1,11 +1,11 @@
-import { DataTypes } from 'sequelize'
-import { ModificationRequestRepo } from '..'
-import { ModificationRequest, makeModificationRequest } from '@entities'
-import { mapExceptError } from '../../helpers/results'
-import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types'
-import CONFIG from '../config'
-import isDbReady from './helpers/isDbReady'
-import { logger } from '@core/utils'
+import { DataTypes } from 'sequelize';
+import { ModificationRequestRepo } from '..';
+import { ModificationRequest, makeModificationRequest } from '@entities';
+import { mapExceptError } from '../../helpers/results';
+import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
+import CONFIG from '../config';
+import isDbReady from './helpers/isDbReady';
+import { logger } from '@core/utils';
 
 // Override these to apply serialization/deserialization on inputs/outputs
 const deserialize = (item) => ({
@@ -17,8 +17,8 @@ const deserialize = (item) => ({
   fournisseur: item.fournisseur || undefined,
   producteur: item.producteur || undefined,
   puissance: item.puissance || undefined,
-})
-const serialize = (item) => item
+});
+const serialize = (item) => item;
 
 export default function makeModificationRequestRepo({
   sequelizeInstance,
@@ -89,7 +89,7 @@ export default function makeModificationRequestRepo({
       type: DataTypes.STRING,
       allowNull: true,
     },
-  })
+  });
 
   const FileModel = sequelizeInstance.define(
     'files',
@@ -122,24 +122,24 @@ export default function makeModificationRequestRepo({
     },
     {
       timestamps: true,
-    }
-  )
+    },
+  );
   ModificationRequestModel.belongsTo(FileModel, {
     foreignKey: 'fileId',
     as: 'attachmentFile',
-  })
+  });
 
-  const _isDbReady = isDbReady({ sequelizeInstance })
+  const _isDbReady = isDbReady({ sequelizeInstance });
 
   return Object.freeze({
     findById,
     findAll,
     insert,
     update,
-  })
+  });
 
   async function findById(id: ModificationRequest['id']): OptionAsync<ModificationRequest> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
       const modificationRequestInDb = await ModificationRequestModel.findByPk(id, {
@@ -151,32 +151,32 @@ export default function makeModificationRequestRepo({
           },
         ],
         raw: true,
-      })
+      });
 
-      if (!modificationRequestInDb) return None
+      if (!modificationRequestInDb) return None;
 
       const modificationRequestInstance = makeModificationRequest(
-        deserialize(modificationRequestInDb)
-      )
+        deserialize(modificationRequestInDb),
+      );
 
-      if (modificationRequestInstance.isErr()) throw modificationRequestInstance.unwrapErr()
+      if (modificationRequestInstance.isErr()) throw modificationRequestInstance.unwrapErr();
 
-      return Some(modificationRequestInstance.unwrap())
+      return Some(modificationRequestInstance.unwrap());
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return None
+      if (CONFIG.logDbErrors) logger.error(error);
+      return None;
     }
   }
 
   async function findAll(
     query?: Record<string, any>,
-    includeInfo?: boolean
+    includeInfo?: boolean,
   ): Promise<Array<ModificationRequest>> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      const ProjectModel = sequelizeInstance.model('project')
-      const UserModel = sequelizeInstance.model('user')
+      const ProjectModel = sequelizeInstance.model('project');
+      const UserModel = sequelizeInstance.model('user');
 
       const opts: any = {
         include: [
@@ -186,9 +186,9 @@ export default function makeModificationRequestRepo({
             attributes: ['id', 'filename'],
           },
         ],
-      }
-      if (query) opts.where = query
-      if (includeInfo) opts.include.push(ProjectModel, UserModel)
+      };
+      if (query) opts.where = query;
+      if (includeInfo) opts.include.push(ProjectModel, UserModel);
 
       const modificationRequestsRaw = (await ModificationRequestModel.findAll(opts))
         .map((item) => item.get())
@@ -196,50 +196,50 @@ export default function makeModificationRequestRepo({
           ...item,
           user: item.user?.get(),
           project: item.project?.get(),
-        }))
+        }));
 
       const deserializedItems = mapExceptError(
         modificationRequestsRaw,
         deserialize,
-        'ModificationRequest.findAll.deserialize error'
-      )
+        'ModificationRequest.findAll.deserialize error',
+      );
 
-      return deserializedItems
+      return deserializedItems;
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return []
+      if (CONFIG.logDbErrors) logger.error(error);
+      return [];
     }
   }
 
   async function insert(
-    modificationRequest: ModificationRequest
+    modificationRequest: ModificationRequest,
   ): ResultAsync<ModificationRequest> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
-      await ModificationRequestModel.create(serialize(modificationRequest))
-      return Ok(modificationRequest)
+      await ModificationRequestModel.create(serialize(modificationRequest));
+      return Ok(modificationRequest);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return Err(error)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return Err(error);
     }
   }
 
   async function update(
-    modificationRequest: ModificationRequest
+    modificationRequest: ModificationRequest,
   ): ResultAsync<ModificationRequest> {
-    await _isDbReady
+    await _isDbReady;
 
     try {
       await ModificationRequestModel.update(serialize(modificationRequest), {
         where: { id: modificationRequest.id },
-      })
-      return Ok(modificationRequest)
+      });
+      return Ok(modificationRequest);
     } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error)
-      return Err(error)
+      if (CONFIG.logDbErrors) logger.error(error);
+      return Err(error);
     }
   }
 }
 
-export { makeModificationRequestRepo }
+export { makeModificationRequestRepo };

@@ -1,26 +1,26 @@
-import { Request } from 'express'
-import React from 'react'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components'
-import { hydrateOnClient } from '../helpers'
+import { Request } from 'express';
+import React from 'react';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const AdminRegénérerPeriodeAttestations = ({
   request,
 }: AdminRegénérerPeriodeAttestationsProps) => {
   const { error, success, appelOffreId, periodeId, familleId, notificationDate, reason } =
-    (request.query as any) || {}
+    (request.query as any) || {};
 
-  const periodes = appelsOffreStatic.find((ao) => ao.id === appelOffreId)?.periodes
+  const periodes = appelsOffreStatic.find((ao) => ao.id === appelOffreId)?.periodes;
 
   const familles = appelsOffreStatic
     .find((ao) => ao.id === appelOffreId)
-    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
   return (
     <PageTemplate user={request.user} currentPage="regenerate-certificates">
@@ -132,7 +132,7 @@ export const AdminRegénérerPeriodeAttestations = ({
         </form>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AdminRegénérerPeriodeAttestations)
+hydrateOnClient(AdminRegénérerPeriodeAttestations);

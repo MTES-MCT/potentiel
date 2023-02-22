@@ -1,1 +1,1 @@
-export * from './ModifierIdentifiantGestionnaireReseau'
+export * from './ModifierIdentifiantGestionnaireReseau';

@@ -1,1 +1,1 @@
-export * from './InviterDgecValidateur'
+export * from './InviterDgecValidateur';

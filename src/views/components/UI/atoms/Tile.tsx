@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
 export const Tile: FC<{ className?: string }> = ({ children, className = '' }) => (
   <div
@@ -6,4 +6,4 @@ export const Tile: FC<{ className?: string }> = ({ children, className = '' }) =
   >
     {children}
   </div>
-)
+);

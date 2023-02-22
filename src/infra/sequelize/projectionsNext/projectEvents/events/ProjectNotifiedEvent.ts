@@ -1,6 +1,6 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type ProjectNotifiedEvent = ProjectEvent & {
-  type: 'ProjectNotified'
-  payload: null
-}
+  type: 'ProjectNotified';
+  payload: null;
+};

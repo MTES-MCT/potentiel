@@ -1,24 +1,24 @@
-import { User } from '@entities'
-import { USER_ROLES } from '@modules/users'
-import { UniqueEntityID } from '@core/domain'
-import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model'
-import { getProjectEvents } from './getProjectEvents'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import models from '../../models'
-import { resetDatabase } from '../../helpers'
+import { User } from '@entities';
+import { USER_ROLES } from '@modules/users';
+import { UniqueEntityID } from '@core/domain';
+import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
+import { getProjectEvents } from './getProjectEvents';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import models from '../../models';
+import { resetDatabase } from '../../helpers';
 
 describe(`getProjectEvents`, () => {
-  const { Project } = models
-  const projectId = new UniqueEntityID().toString()
-  const projet = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' })
-  const demandeEnvoyéeId = new UniqueEntityID().toString()
-  const demandeAnnuléeId = new UniqueEntityID().toString()
-  const demandeRejetéeId = new UniqueEntityID().toString()
+  const { Project } = models;
+  const projectId = new UniqueEntityID().toString();
+  const projet = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' });
+  const demandeEnvoyéeId = new UniqueEntityID().toString();
+  const demandeAnnuléeId = new UniqueEntityID().toString();
+  const demandeRejetéeId = new UniqueEntityID().toString();
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(projet)
-  })
+    await resetDatabase();
+    await Project.create(projet);
+  });
 
   const demandeEnvoyéeÉvènement = {
     id: demandeEnvoyéeId,
@@ -30,7 +30,7 @@ describe(`getProjectEvents`, () => {
       autorité: 'dgec',
       statut: 'envoyée',
     },
-  }
+  };
 
   const demandeAnnuléeÉvènement = {
     id: demandeAnnuléeId,
@@ -42,7 +42,7 @@ describe(`getProjectEvents`, () => {
       autorité: 'dgec',
       statut: 'annulée',
     },
-  }
+  };
 
   const demandeRejetéeÉvènement = {
     id: demandeRejetéeId,
@@ -54,7 +54,7 @@ describe(`getProjectEvents`, () => {
       autorité: 'dgec',
       statut: 'rejetée',
     },
-  }
+  };
 
   const rolesAutorisés = [
     'admin',
@@ -64,39 +64,39 @@ describe(`getProjectEvents`, () => {
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateur n'ayant pas les droits pour visualiser les demandes d'abandon`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
-      const user = { role } as User
+      const user = { role } as User;
       it(`Etant donné un utilisateur '${role}',
         alors les événements de type "DemandeAnnulationAbandon" ne devraient pas être retournés`, async () => {
         await ProjectEvent.bulkCreate([
           demandeEnvoyéeÉvènement,
           demandeAnnuléeÉvènement,
           demandeRejetéeÉvènement,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId, user })
+        const result = await getProjectEvents({ projectId, user });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   describe(`Utilisateur ayant les droits pour visualiser les demandes d'abandon`, () => {
     for (const role of rolesAutorisés) {
-      const user = { role } as User
+      const user = { role } as User;
       it(`Etant donné un utilisateur '${role}',
           alors les événements de type "DemandeAnnulationAbandon" devraient être retournés`, async () => {
         await ProjectEvent.bulkCreate([
           demandeEnvoyéeÉvènement,
           demandeAnnuléeÉvènement,
           demandeRejetéeÉvènement,
-        ])
-        const result = await getProjectEvents({ projectId, user })
+        ]);
+        const result = await getProjectEvents({ projectId, user });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [
@@ -119,8 +119,8 @@ describe(`getProjectEvents`, () => {
               statut: 'rejetée',
             },
           ],
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

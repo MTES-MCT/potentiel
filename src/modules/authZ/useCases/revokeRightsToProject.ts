@@ -1,19 +1,19 @@
-import { errAsync } from 'neverthrow'
-import { EventBus } from '@core/domain'
-import { ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { UserRightsToProjectRevoked } from '../events'
+import { errAsync } from 'neverthrow';
+import { EventBus } from '@core/domain';
+import { ResultAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
+import { UserRightsToProjectRevoked } from '../events';
 
 interface RevokeRightsToProjectDeps {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  eventBus: EventBus
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  eventBus: EventBus;
 }
 
 interface RevokeRightsToProjectArgs {
-  projectId: string
-  userId: string
-  revokedBy: User
+  projectId: string;
+  userId: string;
+  revokedBy: User;
 }
 
 export const makeRevokeRightsToProject =
@@ -33,8 +33,8 @@ export const makeRevokeRightsToProject =
                   userId,
                   revokedBy: revokedBy.id,
                 },
-              })
+              }),
             )
-          : errAsync(new UnauthorizedError())
-    )
-  }
+          : errAsync(new UnauthorizedError()),
+    );
+  };

@@ -1,6 +1,6 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react';
 
-type RichRadioProps = Omit<ComponentProps<'input'>, 'type'> & { id: string }
+type RichRadioProps = Omit<ComponentProps<'input'>, 'type'> & { id: string };
 
 export const RichRadio: React.FC<RichRadioProps> = ({ children, className = '', ...props }) => (
   <div>
@@ -38,4 +38,4 @@ export const RichRadio: React.FC<RichRadioProps> = ({ children, className = '', 
       {children}
     </label>
   </div>
-)
+);

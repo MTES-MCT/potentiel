@@ -1,23 +1,23 @@
-import { AppelOffre, ProjectAppelOffre } from '@entities'
+import { AppelOffre, ProjectAppelOffre } from '@entities';
 
 export type GetProjectAppelOffre = (args: {
-  appelOffreId: string
-  periodeId: string
-  familleId?: string
-}) => ProjectAppelOffre | undefined
+  appelOffreId: string;
+  periodeId: string;
+  familleId?: string;
+}) => ProjectAppelOffre | undefined;
 
 export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProjectAppelOffre =
   (appelsOffres) =>
   ({ appelOffreId, periodeId, familleId }) => {
-    const appelOffre = appelsOffres.find((ao) => ao.id === appelOffreId)
+    const appelOffre = appelsOffres.find((ao) => ao.id === appelOffreId);
 
-    if (!appelOffre) return undefined
+    if (!appelOffre) return undefined;
 
-    const periode = appelOffre.periodes.find((periode) => periode.id === periodeId)
+    const periode = appelOffre.periodes.find((periode) => periode.id === periodeId);
 
-    if (!periode) return undefined
+    if (!periode) return undefined;
 
-    const famille = appelOffre.familles.find((famille) => famille.id === familleId)
+    const famille = appelOffre.familles.find((famille) => famille.id === familleId);
 
     return {
       ...appelOffre,
@@ -26,5 +26,5 @@ export const makeGetProjectAppelOffre: (appelsOffre: AppelOffre[]) => GetProject
       isSoumisAuxGF: famille
         ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
         : appelOffre.soumisAuxGarantiesFinancieres !== 'non soumis',
-    }
-  }
+    };
+  };

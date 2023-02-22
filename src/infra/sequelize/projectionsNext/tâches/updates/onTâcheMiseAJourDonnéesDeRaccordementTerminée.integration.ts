@@ -1,15 +1,15 @@
-import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events'
-import { resetDatabase } from '../../../helpers'
-import { Tâches } from '../tâches.model'
-import onTâcheMiseAJourDonnéesDeRaccordementTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events';
+import { resetDatabase } from '../../../helpers';
+import { Tâches } from '../tâches.model';
+import onTâcheMiseAJourDonnéesDeRaccordementTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée';
 
 describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
-  const occurredAt = new Date('2022-01-05')
-  const gestionnaire = 'Enedis'
+  const occurredAt = new Date('2022-01-05');
+  const gestionnaire = 'Enedis';
 
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enedis
@@ -25,7 +25,7 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
       gestionnaire,
       état: 'en cours',
       dateDeDébut: new Date(),
-    })
+    });
 
     await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
       new TâcheMiseAJourDonnéesDeRaccordementTerminée({
@@ -53,16 +53,16 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
           version: 1,
           occurredAt,
         },
-      })
-    )
+      }),
+    );
 
     const tâche = await Tâches.findOne({
       where: {
         id: 1,
       },
-    })
+    });
 
-    expect(tâche).not.toBeNull()
+    expect(tâche).not.toBeNull();
     expect(tâche).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
@@ -87,8 +87,8 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
           },
         ],
       },
-    })
-  })
+    });
+  });
 
   it(`Étant donnée une tâche 'en cours' de mise a jour de date de mise en service avec :
         - le gestionnaire Enedis
@@ -116,7 +116,7 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
         état: 'en cours',
         dateDeDébut: new Date('2022-01-05'),
       },
-    ])
+    ]);
 
     await onTâcheMiseAJourDonnéesDeRaccordementTerminée(
       new TâcheMiseAJourDonnéesDeRaccordementTerminée({
@@ -144,14 +144,14 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
           version: 1,
           occurredAt,
         },
-      })
-    )
+      }),
+    );
 
     const tâcheEnedis = await Tâches.findOne({
       where: {
         id: 1,
       },
-    })
+    });
     expect(tâcheEnedis).toMatchObject({
       état: 'terminée',
       dateDeFin: occurredAt,
@@ -176,15 +176,15 @@ describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {
           },
         ],
       },
-    })
+    });
 
     const tâcheAutreGestionnaire = await Tâches.findOne({
       where: {
         id: 2,
       },
-    })
+    });
     expect(tâcheAutreGestionnaire).toMatchObject({
       état: 'en cours',
-    })
-  })
-})
+    });
+  });
+});

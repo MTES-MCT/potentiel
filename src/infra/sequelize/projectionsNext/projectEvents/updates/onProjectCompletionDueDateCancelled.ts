@@ -1,5 +1,5 @@
-import { ProjectCompletionDueDateCancelled, ProjectCompletionDueDateSet } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectCompletionDueDateCancelled, ProjectCompletionDueDateSet } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectCompletionDueDateCancelled,
@@ -10,6 +10,6 @@ export default ProjectEventProjector.on(
         type: ProjectCompletionDueDateSet.type,
       },
       transaction,
-    })
-  }
-)
+    });
+  },
+);

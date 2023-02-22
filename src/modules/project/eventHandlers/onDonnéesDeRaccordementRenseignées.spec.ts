@@ -1,29 +1,29 @@
-import { okAsync } from '@core/utils'
-import { InfraNotAvailableError } from '@modules/shared'
-import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates'
+import { okAsync } from '@core/utils';
+import { InfraNotAvailableError } from '@modules/shared';
+import { fakeTransactionalRepo, makeFakeProject } from '../../../__tests__/fixtures/aggregates';
 import {
   DonnéesDeRaccordementRenseignées,
   DonnéesDeRaccordementRenseignéesdPayload,
-} from '../events'
-import { makeOnDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées'
-import { DomainEvent } from '@core/domain'
-import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities'
-import { Project } from '../Project'
+} from '../events';
+import { makeOnDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées';
+import { DomainEvent } from '@core/domain';
+import { CahierDesChargesModifié, ProjectAppelOffre } from '@entities';
+import { Project } from '../Project';
 
 describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>
-    okAsync<null, InfraNotAvailableError>(null)
-  )
-  beforeEach(() => publishToEventStore.mockClear())
+    okAsync<null, InfraNotAvailableError>(null),
+  );
+  beforeEach(() => publishToEventStore.mockClear());
 
-  const dateAchèvementInitiale = new Date('2024-01-01').getTime()
+  const dateAchèvementInitiale = new Date('2024-01-01').getTime();
 
   const nouvelleDateAchèvementAttendue = new Date(
-    new Date(dateAchèvementInitiale).setMonth(new Date(dateAchèvementInitiale).getMonth() + 18)
-  )
-  const fakeProject = makeFakeProject()
+    new Date(dateAchèvementInitiale).setMonth(new Date(dateAchèvementInitiale).getMonth() + 18),
+  );
+  const fakeProject = makeFakeProject();
 
-  const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+  const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
   describe(`Données de raccordement sans date de mise en service`, () => {
     it(`Lorsqu'un événement DonnéesDeRaccordementRenseignées est émis sans date de mise en service, 
@@ -32,18 +32,18 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
         projectRepo,
         publishToEventStore,
         getProjectAppelOffre: jest.fn(),
-      })
+      });
 
       const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId: fakeProject.id.toString(),
         } as DonnéesDeRaccordementRenseignéesdPayload,
-      })
+      });
 
-      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-      expect(publishToEventStore).not.toHaveBeenCalled()
-    })
-  })
+      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+      expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+  });
 
   describe(`Projets ne pouvant pas bénéficier du délai de 18 mois`, () => {
     describe(`Dates hors limites`, () => {
@@ -66,26 +66,26 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
                     },
                   } as CahierDesChargesModifié,
                 ] as ReadonlyArray<CahierDesChargesModifié>,
-              } as ProjectAppelOffre)
-          )
+              } as ProjectAppelOffre),
+          );
           it(`Etant donné un projet PV ${type} dont la date de mise en service est supérieure au 31 décembre 2024
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
             const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
               projectRepo,
               publishToEventStore,
               getProjectAppelOffre,
-            })
+            });
 
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: {
                 projetId: fakeProject.id.toString(),
                 dateMiseEnService: new Date('31/12/2025'),
               } as DonnéesDeRaccordementRenseignéesdPayload,
-            })
+            });
 
-            await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-            expect(publishToEventStore).not.toHaveBeenCalled()
-          })
+            await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+            expect(publishToEventStore).not.toHaveBeenCalled();
+          });
 
           it(`Etant donné un projet PV ${type} dont la date de mise en service est inférieure au 1er septembre 2022,
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
@@ -93,20 +93,20 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
               projectRepo,
               publishToEventStore,
               getProjectAppelOffre,
-            })
+            });
 
             const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
               payload: {
                 projetId: fakeProject.id.toString(),
                 dateMiseEnService: new Date('01/08/2022'),
               } as DonnéesDeRaccordementRenseignéesdPayload,
-            })
+            });
 
-            await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-            expect(publishToEventStore).not.toHaveBeenCalled()
-          })
+            await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+            expect(publishToEventStore).not.toHaveBeenCalled();
+          });
         }
-      })
+      });
       describe(`Projets éolien`, () => {
         const getProjectAppelOffre = jest.fn(
           () =>
@@ -125,26 +125,26 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
-            } as ProjectAppelOffre)
-        )
+            } as ProjectAppelOffre),
+        );
         it(`Etant donné un projet éolien dont la date de mise en service est antérieure au 1er juin 2022
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
           const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
             projectRepo,
             publishToEventStore,
             getProjectAppelOffre,
-          })
+          });
 
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: fakeProject.id.toString(),
               dateMiseEnService: new Date('01/05/2022'),
             } as DonnéesDeRaccordementRenseignéesdPayload,
-          })
+          });
 
-          await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-          expect(publishToEventStore).not.toHaveBeenCalled()
-        })
+          await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+          expect(publishToEventStore).not.toHaveBeenCalled();
+        });
 
         it(`Etant donné un projet éolien dont la date de mise en service est postérieure au 30 septembre 2024
       alors le projet ne doit pas être modifié et aucun événement n'est émis`, async () => {
@@ -152,20 +152,20 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
             projectRepo,
             publishToEventStore,
             getProjectAppelOffre,
-          })
+          });
 
           const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
             payload: {
               projetId: fakeProject.id.toString(),
               dateMiseEnService: new Date('30/10/2024'),
             } as DonnéesDeRaccordementRenseignéesdPayload,
-          })
+          });
 
-          await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-          expect(publishToEventStore).not.toHaveBeenCalled()
-        })
-      })
-    })
+          await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+          expect(publishToEventStore).not.toHaveBeenCalled();
+        });
+      });
+    });
 
     describe(`Cahier des charges 2022 non souscrit`, () => {
       it(`Etant donné un projet éolien
@@ -189,28 +189,28 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
-            } as ProjectAppelOffre)
-        )
+            } as ProjectAppelOffre),
+        );
         const fakeProject = {
           ...makeFakeProject(),
           cahierDesCharges: { type: 'modifié', paruLe: '30/07/2022' },
-        }
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
         const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
-        })
+        });
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: fakeProject.id.toString(),
             dateMiseEnService: new Date('01/01/2023'),
           } as DonnéesDeRaccordementRenseignéesdPayload,
-        })
-        await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-        expect(publishToEventStore).not.toHaveBeenCalled()
-      })
-    })
+        });
+        await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
+    });
 
     describe(`Délai déjà appliqué`, () => {
       it(`Etant donné un projet éolien
@@ -235,30 +235,30 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
                   },
                 } as CahierDesChargesModifié,
               ] as ReadonlyArray<CahierDesChargesModifié>,
-            } as ProjectAppelOffre)
-        )
+            } as ProjectAppelOffre),
+        );
         const fakeProject = {
           ...makeFakeProject(),
           cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
           délaiCDC2022appliqué: true,
-        }
-        const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+        };
+        const projectRepo = fakeTransactionalRepo(fakeProject as Project);
         const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
           projectRepo,
           publishToEventStore,
           getProjectAppelOffre,
-        })
+        });
         const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
           payload: {
             projetId: fakeProject.id.toString(),
             dateMiseEnService: new Date('01/01/2023'),
           } as DonnéesDeRaccordementRenseignéesdPayload,
-        })
-        await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
-        expect(publishToEventStore).not.toHaveBeenCalled()
-      })
-    })
-  })
+        });
+        await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
+    });
+  });
 
   describe(`Projet pouvant bénéficier du délai de 18 mois`, () => {
     it(`Etant donné un projet éolien,
@@ -283,41 +283,41 @@ describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {
                 },
               } as CahierDesChargesModifié,
             ] as ReadonlyArray<CahierDesChargesModifié>,
-          } as ProjectAppelOffre)
-      )
+          } as ProjectAppelOffre),
+      );
       const fakeProject = {
         ...makeFakeProject(),
         cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
         completionDueOn: dateAchèvementInitiale,
         délaiCDC2022Appliqué: false,
-      }
-      const projectRepo = fakeTransactionalRepo(fakeProject as Project)
+      };
+      const projectRepo = fakeTransactionalRepo(fakeProject as Project);
 
       const onDonnéesDeRaccordementRenseignées = makeOnDonnéesDeRaccordementRenseignées({
         projectRepo,
         publishToEventStore,
         getProjectAppelOffre,
-      })
+      });
 
       const événementMeSRenseignée = new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId: fakeProject.id.toString(),
           dateMiseEnService: new Date('01/01/2023'),
         } as DonnéesDeRaccordementRenseignéesdPayload,
-      })
+      });
 
-      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée)
+      await onDonnéesDeRaccordementRenseignées(événementMeSRenseignée);
 
-      expect(publishToEventStore).toHaveBeenCalledTimes(1)
-      const évènement = publishToEventStore.mock.calls[0][0]
-      expect(évènement.type).toEqual('ProjectCompletionDueDateSet')
+      expect(publishToEventStore).toHaveBeenCalledTimes(1);
+      const évènement = publishToEventStore.mock.calls[0][0];
+      expect(évènement.type).toEqual('ProjectCompletionDueDateSet');
       expect(évènement.payload).toEqual(
         expect.objectContaining({
           projectId: fakeProject.id.toString(),
           completionDueOn: nouvelleDateAchèvementAttendue.getTime(),
           reason: 'délaiCdc2022',
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

@@ -1,8 +1,8 @@
-import { ProjectEventListDTO } from '@modules/frise'
-import { ProjectDataForProjectPage } from '@modules/project/queries'
-import { Request } from 'express'
-import React from 'react'
-import { userIs } from '@modules/users'
+import { ProjectEventListDTO } from '@modules/frise';
+import { ProjectDataForProjectPage } from '@modules/project/queries';
+import { Request } from 'express';
+import React from 'react';
+import { userIs } from '@modules/users';
 import {
   Callout,
   Link,
@@ -14,8 +14,8 @@ import {
   Button,
   InfoBox,
   Heading2,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
   EditProjectData,
@@ -26,16 +26,16 @@ import {
   ContratEDF,
   ContratEnedis,
   GestionnaireDeRéseau,
-} from './sections'
-import { ProjectHeader } from './components'
-import routes from '@routes'
+} from './sections';
+import { ProjectHeader } from './components';
+import routes from '@routes';
 
 type ProjectDetailsProps = {
-  request: Request
-  project: ProjectDataForProjectPage
-  projectEventList?: ProjectEventListDTO
-  now: number
-}
+  request: Request;
+  project: ProjectDataForProjectPage;
+  projectEventList?: ProjectEventListDTO;
+  now: number;
+};
 
 export const ProjectDetails = ({
   request,
@@ -43,8 +43,8 @@ export const ProjectDetails = ({
   projectEventList,
   now,
 }: ProjectDetailsProps) => {
-  const { user } = request
-  const { error, success } = (request.query as any) || {}
+  const { user } = request;
+  const { error, success } = (request.query as any) || {};
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -89,13 +89,13 @@ export const ProjectDetails = ({
         )}
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
 type CDCInfoProps = {
-  project: ProjectDataForProjectPage
-  user: Request['user']
-}
+  project: ProjectDataForProjectPage;
+  user: Request['user'];
+};
 
 const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: CDCInfoProps) => (
   <>
@@ -116,14 +116,14 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
       )}
     </div>
   </>
-)
+);
 
 const AlerteAnnulationAbandonPossible = ({
   id: projetId,
   alerteAnnulationAbandon,
 }: {
-  id: ProjectDataForProjectPage['id']
-  alerteAnnulationAbandon: NonNullable<ProjectDataForProjectPage['alerteAnnulationAbandon']>
+  id: ProjectDataForProjectPage['id'];
+  alerteAnnulationAbandon: NonNullable<ProjectDataForProjectPage['alerteAnnulationAbandon']>;
 }) => (
   <>
     {alerteAnnulationAbandon.actionPossible === 'voir-demande-en-cours' ? (
@@ -152,7 +152,7 @@ const AlerteAnnulationAbandonPossible = ({
                 type="submit"
                 onClick={(event) =>
                   confirm(
-                    `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`
+                    `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`,
                   ) || event.preventDefault()
                 }
                 className="mt-4"
@@ -173,7 +173,7 @@ const AlerteAnnulationAbandonPossible = ({
                   <li>{`Cahier des charges ${
                     alternatif ? `alternatif` : ''
                   } ${type} paru le ${paruLe}`}</li>
-                )
+                ),
               )}
             </ul>
             Le lien vers le formulaire de changement de cahier des charges est disponible dans
@@ -183,6 +183,6 @@ const AlerteAnnulationAbandonPossible = ({
       </AlertBox>
     )}
   </>
-)
+);
 
-hydrateOnClient(ProjectDetails)
+hydrateOnClient(ProjectDetails);

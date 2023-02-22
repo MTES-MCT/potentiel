@@ -1,48 +1,48 @@
-import { User } from '@entities'
-import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { DemandeDélai } from '../DemandeDélai'
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { userIsNot } from '@modules/users'
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { Project } from '@modules/project'
+import { User } from '@entities';
+import { EventStore, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { DemandeDélai } from '../DemandeDélai';
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { userIsNot } from '@modules/users';
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
+import { Project } from '@modules/project';
 
-import { DélaiAccordé } from '../events/DélaiAccordé'
+import { DélaiAccordé } from '../events/DélaiAccordé';
 
-import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.'
+import { AccorderDemandeDélaiError, AccorderDateAchèvementAntérieureDateThéoriqueError } from '.';
 
 type AccorderDemandeDélai = (commande: {
-  user: User
-  demandeDélaiId: string
-  dateAchèvementAccordée: Date
-  fichierRéponse: { contents: FileContents; filename: string }
+  user: User;
+  demandeDélaiId: string;
+  dateAchèvementAccordée: Date;
+  fichierRéponse: { contents: FileContents; filename: string };
 }) => ResultAsync<
   null,
   InfraNotAvailableError | UnauthorizedError | AccorderDateAchèvementAntérieureDateThéoriqueError
->
+>;
 
 type MakeAccorderDemandeDélai = (dépendances: {
-  demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>
-  publishToEventStore: EventStore['publish']
-  fileRepo: Repository<FileObject>
-  projectRepo: Repository<Project>
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-}) => AccorderDemandeDélai
+  demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>;
+  publishToEventStore: EventStore['publish'];
+  fileRepo: Repository<FileObject>;
+  projectRepo: Repository<Project>;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+}) => AccorderDemandeDélai;
 
 export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
   ({ demandeDélaiRepo, publishToEventStore, fileRepo, projectRepo, shouldUserAccessProject }) =>
   ({ user, demandeDélaiId, dateAchèvementAccordée, fichierRéponse }) => {
     if (userIsNot(['admin', 'dreal', 'dgec-validateur'])(user)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return demandeDélaiRepo.load(new UniqueEntityID(demandeDélaiId)).andThen((demandeDélai) => {
-      const { projetId } = demandeDélai
-      if (!projetId) return errAsync(new InfraNotAvailableError())
+      const { projetId } = demandeDélai;
+      if (!projetId) return errAsync(new InfraNotAvailableError());
 
       return wrapInfra(shouldUserAccessProject({ projectId: projetId, user })).andThen(
         (userHasRightsToProject) => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError());
           return projectRepo
             .load(new UniqueEntityID(demandeDélai.projetId))
             .map((project) => ({ project }))
@@ -51,23 +51,23 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
                 return errAsync(
                   new AccorderDateAchèvementAntérieureDateThéoriqueError(
                     dateAchèvementAccordée,
-                    new Date(project.completionDueOn)
-                  )
-                )
+                    new Date(project.completionDueOn),
+                  ),
+                );
               }
 
               return demandeDélaiRepo.transaction(
                 new UniqueEntityID(demandeDélaiId),
                 (demandeDélai) => {
-                  const { statut } = demandeDélai
+                  const { statut } = demandeDélai;
 
                   if (statut !== 'envoyée' && statut !== 'en instruction') {
                     return errAsync(
                       new AccorderDemandeDélaiError(
                         demandeDélai,
-                        'Seul une demande envoyée ou en instruction peut être accordée'
-                      )
-                    )
+                        'Seul une demande envoyée ou en instruction peut être accordée',
+                      ),
+                    );
                   }
 
                   return makeAndSaveFile({
@@ -90,13 +90,13 @@ export const makeAccorderDemandeDélai: MakeAccorderDemandeDélai =
                           fichierRéponseId,
                           ancienneDateThéoriqueAchèvement: new Date(project.completionDueOn),
                         },
-                      })
-                    )
-                  })
-                }
-              )
-            })
-        }
-      )
-    })
-  }
+                      }),
+                    );
+                  });
+                },
+              );
+            });
+        },
+      );
+    });
+  };

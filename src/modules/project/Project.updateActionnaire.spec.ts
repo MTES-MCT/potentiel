@@ -1,26 +1,26 @@
-import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { LegacyProjectSourced, ProjectActionnaireUpdated } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import { LegacyProjectSourced, ProjectActionnaireUpdated } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
-const newActionnaire = 'newActionnaire'
+const newActionnaire = 'newActionnaire';
 
 describe('Project.updateActionnaire()', () => {
   describe('when project has been notified', () => {
@@ -42,23 +42,23 @@ describe('Project.updateActionnaire()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should emit a ProjectActionnaireUpdated event', () => {
-      project.updateActionnaire(fakeUser, newActionnaire)
+      project.updateActionnaire(fakeUser, newActionnaire);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectActionnaireUpdated.type
-      ) as ProjectActionnaireUpdated | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectActionnaireUpdated.type,
+      ) as ProjectActionnaireUpdated | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.updatedBy).toEqual(fakeUser.id)
-      expect(targetEvent.payload.newActionnaire).toEqual(newActionnaire)
-    })
-  })
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.updatedBy).toEqual(fakeUser.id);
+      expect(targetEvent.payload.newActionnaire).toEqual(newActionnaire);
+    });
+  });
 
   describe('when project has not been notified', () => {
     const project = UnwrapForTest(
@@ -79,13 +79,13 @@ describe('Project.updateActionnaire()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should return ProjectCannotBeUpdatedIfUnnotifiedError', () => {
-      const res = project.updateActionnaire(fakeUser, newActionnaire)
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-      expect(project.pendingEvents.length).toEqual(0)
-    })
-  })
-})
+      const res = project.updateActionnaire(fakeUser, newActionnaire);
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+      expect(project.pendingEvents.length).toEqual(0);
+    });
+  });
+});

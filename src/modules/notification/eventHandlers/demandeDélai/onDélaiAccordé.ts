@@ -1,26 +1,26 @@
-import { logger } from '@core/utils'
-import { DélaiAccordé } from '@modules/demandeModification'
-import routes from '@routes'
-import { NotificationService } from '../..'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
+import { logger } from '@core/utils';
+import { DélaiAccordé } from '@modules/demandeModification';
+import routes from '@routes';
+import { NotificationService } from '../..';
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
 
-type OnDélaiAccordé = (evenement: DélaiAccordé) => Promise<void>
+type OnDélaiAccordé = (evenement: DélaiAccordé) => Promise<void>;
 
 type MakeOnDélaiAccordé = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-}) => OnDélaiAccordé
+  sendNotification: NotificationService['sendNotification'];
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+}) => OnDélaiAccordé;
 
 export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
   ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
   async ({ payload }: DélaiAccordé) => {
-    const { demandeDélaiId } = payload
+    const { demandeDélaiId } = payload;
 
     await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
-          return
+          return;
         }
 
         await Promise.all(
@@ -34,24 +34,24 @@ export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
               modificationRequestId: demandeDélaiId,
               status: 'acceptée',
               hasDocument: true,
-            })
-          )
-        )
+            }),
+          ),
+        );
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
     function _sendUpdateNotification(args: {
-      email: string
-      fullName: string
-      typeDemande: string
-      nomProjet: string
-      modificationRequestId: string
-      porteurId: string
-      status: string
-      hasDocument: boolean
+      email: string;
+      fullName: string;
+      typeDemande: string;
+      nomProjet: string;
+      modificationRequestId: string;
+      porteurId: string;
+      status: string;
+      hasDocument: boolean;
     }) {
       const {
         email,
@@ -62,7 +62,7 @@ export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
         porteurId,
         status,
         hasDocument,
-      } = args
+      } = args;
       return sendNotification({
         type: 'modification-request-status-update',
         message: {
@@ -81,6 +81,6 @@ export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
           modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
-      })
+      });
     }
-  }
+  };

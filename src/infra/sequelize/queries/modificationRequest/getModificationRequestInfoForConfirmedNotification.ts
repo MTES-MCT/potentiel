@@ -1,12 +1,12 @@
-import { err, ok, wrapInfra } from '@core/utils'
+import { err, ok, wrapInfra } from '@core/utils';
 import {
   GetModificationRequestInfoForConfirmedNotification,
   ModificationRequestInfoForConfirmedNotificationDTO,
-} from '@modules/modificationRequest'
-import { EntityNotFoundError } from '@modules/shared'
-import models from '../../models'
+} from '@modules/modificationRequest';
+import { EntityNotFoundError } from '@modules/shared';
+import models from '../../models';
 
-const { ModificationRequest, Project, User } = models
+const { ModificationRequest, Project, User } = models;
 
 export const getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification =
   (modificationRequestId: string) => {
@@ -24,20 +24,20 @@ export const getModificationRequestInfoForConfirmedNotification: GetModification
             attributes: ['fullName', 'email', 'id'],
           },
         ],
-      })
+      }),
     ).andThen((modificationRequestRaw: any) => {
-      if (!modificationRequestRaw) return err(new EntityNotFoundError())
+      if (!modificationRequestRaw) return err(new EntityNotFoundError());
 
       const {
         type,
         confirmationRequestedByUser: { email, fullName, id },
         project: { nomProjet },
-      } = modificationRequestRaw.get()
+      } = modificationRequestRaw.get();
 
       return ok({
         type,
         nomProjet,
         chargeAffaire: { id, email, fullName },
-      } as ModificationRequestInfoForConfirmedNotificationDTO)
-    })
-  }
+      } as ModificationRequestInfoForConfirmedNotificationDTO);
+    });
+  };

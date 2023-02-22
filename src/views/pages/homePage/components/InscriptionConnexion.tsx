@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine'
-import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine'
-import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
-import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine'
-import { User } from '@entities'
-import routes from '@routes'
-import { LinkButton, Container, SecondaryLinkButton, Link } from '@components'
+import React, { useState } from 'react';
+import { RiDashboardLine } from '@react-icons/all-files/ri/RiDashboardLine';
+import { RiLogoutBoxLine } from '@react-icons/all-files/ri/RiLogoutBoxLine';
+import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
+import { RiLockLine } from '@react-icons/all-files/ri/RiLockLine';
+import { User } from '@entities';
+import routes from '@routes';
+import { LinkButton, Container, SecondaryLinkButton, Link } from '@components';
 
 type InscriptionConnexionProps = {
-  user: User
-}
+  user: User;
+};
 
 export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
   <section
@@ -30,11 +30,11 @@ export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
       )}
     </Container>
   </section>
-)
+);
 
 type BienvenueProps = {
-  user: User
-}
+  user: User;
+};
 const Bienvenue = ({ user }: BienvenueProps) => (
   <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-10">
     <p className="mt-0 text-2xl lg:text-3xl font-semibold text-blue-france-sun-base">
@@ -57,10 +57,10 @@ const Bienvenue = ({ user }: BienvenueProps) => (
       </SecondaryLinkButton>
     </div>
   </div>
-)
+);
 
 const SignupBox = () => {
-  const [active, setActive] = useState<'porteur-projet' | 'autre-partenaire'>('porteur-projet')
+  const [active, setActive] = useState<'porteur-projet' | 'autre-partenaire'>('porteur-projet');
 
   return (
     <div className="px-2 py-4 md:px-12 md:py-10 shadow-md text-center flex-1 flex flex-col justify-between gap-7 bg-white">
@@ -100,14 +100,14 @@ const SignupBox = () => {
         <Link href={routes.LOGIN}>Vous avez déjà un compte ?</Link>
       </p>
     </div>
-  )
-}
+  );
+};
 
 type TabProps = {
-  title: string
-  isActive: boolean
-  onItemClicked: () => void
-}
+  title: string;
+  isActive: boolean;
+  onItemClicked: () => void;
+};
 
 const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
   return (
@@ -123,8 +123,8 @@ const Tab = ({ title, onItemClicked, isActive = false }: TabProps) => {
         {title}
       </button>
     </div>
-  )
-}
+  );
+};
 
 const LoginBox = () => {
   return (
@@ -149,5 +149,5 @@ const LoginBox = () => {
         M'identifier
       </LinkButton>
     </div>
-  )
-}
+  );
+};

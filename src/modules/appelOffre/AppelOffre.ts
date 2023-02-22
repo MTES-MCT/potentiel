@@ -1,75 +1,75 @@
-import omitBy from 'lodash/omitBy'
+import omitBy from 'lodash/omitBy';
 
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
-import { err, ok, Result } from '@core/utils'
-import { User } from '@entities'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
+import { err, ok, Result } from '@core/utils';
+import { User } from '@entities';
 import {
   EntityNotFoundError,
   IllegalInitialStateForAggregateError,
   UnauthorizedError,
-} from '../shared'
-import { AppelOffreCreated, AppelOffreUpdated, PeriodeCreated, PeriodeUpdated } from './events'
-import { AppelOffreRemoved } from './events/AppelOffreRemoved'
+} from '../shared';
+import { AppelOffreCreated, AppelOffreUpdated, PeriodeCreated, PeriodeUpdated } from './events';
+import { AppelOffreRemoved } from './events/AppelOffreRemoved';
 
 export interface AppelOffre extends EventStoreAggregate {
-  update: (args: { data: any; updatedBy: User }) => Result<null, UnauthorizedError>
+  update: (args: { data: any; updatedBy: User }) => Result<null, UnauthorizedError>;
   updatePeriode: (args: {
-    periodeId: string
-    data: any
-    updatedBy: User
-  }) => Result<null, UnauthorizedError>
-  remove: (args: { removedBy: User }) => Result<null, never>
+    periodeId: string;
+    data: any;
+    updatedBy: User;
+  }) => Result<null, UnauthorizedError>;
+  remove: (args: { removedBy: User }) => Result<null, never>;
 }
 
 interface AppelOffreProps {
-  data: any
-  periodes: { periodeId: string; data: any }[]
-  removed: boolean
+  data: any;
+  periodes: { periodeId: string; data: any }[];
+  removed: boolean;
 }
 
 export const makeAppelOffre = (args: {
-  events: DomainEvent[]
-  id: UniqueEntityID
+  events: DomainEvent[];
+  id: UniqueEntityID;
 }): Result<AppelOffre, EntityNotFoundError | IllegalInitialStateForAggregateError> => {
-  const { events, id } = args
+  const { events, id } = args;
 
   if (!events?.length) {
-    return err(new EntityNotFoundError())
+    return err(new EntityNotFoundError());
   }
 
   if (!events.find((event) => event.type === 'AppelOffreCreated')) {
-    return err(new EntityNotFoundError())
+    return err(new EntityNotFoundError());
   }
   const props: AppelOffreProps = {
     data: {},
     periodes: [],
     removed: false,
-  }
+  };
 
-  const pendingEvents: DomainEvent[] = []
+  const pendingEvents: DomainEvent[] = [];
 
-  let lastUpdatedOn = new Date(0)
-  let _isError = false
+  let lastUpdatedOn = new Date(0);
+  let _isError = false;
 
   for (const event of events) {
-    _processEvent(event)
+    _processEvent(event);
 
     if (_isError) {
-      return err(new IllegalInitialStateForAggregateError())
+      return err(new IllegalInitialStateForAggregateError());
     }
   }
 
   if (props.removed) {
-    return err(new EntityNotFoundError())
+    return err(new EntityNotFoundError());
   }
 
   return ok({
     update({ data, updatedBy }) {
       if (updatedBy.role !== 'admin' && updatedBy.role !== 'dgec-validateur') {
-        return err(new UnauthorizedError())
+        return err(new UnauthorizedError());
       }
 
-      const delta = omitBy(data, (value, key) => props.data[key] === value)
+      const delta = omitBy(data, (value, key) => props.data[key] === value);
 
       if (Object.keys(delta).length) {
         _publishEvent(
@@ -79,11 +79,11 @@ export const makeAppelOffre = (args: {
               delta,
               updatedBy: updatedBy.id,
             },
-          })
-        )
+          }),
+        );
       }
 
-      return ok(null)
+      return ok(null);
     },
     remove({ removedBy }) {
       _publishEvent(
@@ -92,17 +92,17 @@ export const makeAppelOffre = (args: {
             appelOffreId: id.toString(),
             removedBy: removedBy.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     updatePeriode({ periodeId, data, updatedBy }) {
       if (updatedBy.role !== 'admin' && updatedBy.role !== 'dgec-validateur') {
-        return err(new UnauthorizedError())
+        return err(new UnauthorizedError());
       }
 
-      const periode = props.periodes.find((periode) => periode.periodeId === periodeId)
+      const periode = props.periodes.find((periode) => periode.periodeId === periodeId);
 
       if (!periode) {
         _publishEvent(
@@ -113,10 +113,10 @@ export const makeAppelOffre = (args: {
               data,
               createdBy: updatedBy.id,
             },
-          })
-        )
+          }),
+        );
       } else {
-        const delta = omitBy(data, (value, key) => periode.data[key] === value)
+        const delta = omitBy(data, (value, key) => periode.data[key] === value);
         if (Object.keys(delta).length) {
           _publishEvent(
             new PeriodeUpdated({
@@ -126,59 +126,59 @@ export const makeAppelOffre = (args: {
                 delta,
                 updatedBy: updatedBy.id,
               },
-            })
-          )
+            }),
+          );
         }
       }
 
-      return ok(null)
+      return ok(null);
     },
     get pendingEvents() {
-      return pendingEvents
+      return pendingEvents;
     },
     get id() {
-      return id
+      return id;
     },
     get lastUpdatedOn() {
-      return lastUpdatedOn
+      return lastUpdatedOn;
     },
-  })
+  });
 
   function _publishEvent(event: DomainEvent) {
-    pendingEvents.push(event)
-    _processEvent(event)
+    pendingEvents.push(event);
+    _processEvent(event);
   }
 
   function _processEvent(event: DomainEvent) {
-    let existingPeriode
-    const { delta, data, periodeId } = event.payload
+    let existingPeriode;
+    const { delta, data, periodeId } = event.payload;
     switch (event.type) {
       case AppelOffreCreated.type:
-        props.data = data
-        props.removed = false
-        break
+        props.data = data;
+        props.removed = false;
+        break;
       case AppelOffreUpdated.type:
-        props.data = { ...props.data, ...delta }
-        break
+        props.data = { ...props.data, ...delta };
+        break;
       case PeriodeCreated.type:
-        props.periodes = [...props.periodes, { periodeId, data }]
-        break
+        props.periodes = [...props.periodes, { periodeId, data }];
+        break;
       case AppelOffreRemoved.type:
-        props.removed = true
-        props.periodes = []
-        break
+        props.removed = true;
+        props.periodes = [];
+        break;
       case PeriodeUpdated.type:
-        existingPeriode = props.periodes.find((periode) => periode.periodeId === periodeId)
+        existingPeriode = props.periodes.find((periode) => periode.periodeId === periodeId);
         if (!existingPeriode) {
-          break
+          break;
         }
-        existingPeriode.data = { ...existingPeriode.data, ...delta }
-        break
+        existingPeriode.data = { ...existingPeriode.data, ...delta };
+        break;
       default:
         // ignore other event types
-        break
+        break;
     }
 
-    lastUpdatedOn = event.occurredAt
+    lastUpdatedOn = event.occurredAt;
   }
-}
+};

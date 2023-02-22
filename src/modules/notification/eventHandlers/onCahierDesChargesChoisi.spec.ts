@@ -1,25 +1,25 @@
-import { Some } from '../../../types'
-import { CahierDesChargesChoisi } from '../../project'
-import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { makeProject } from '@entities'
+import { Some } from '../../../types';
+import { CahierDesChargesChoisi } from '../../project';
+import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
+import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeUser from '../../../__tests__/fixtures/user';
+import { makeProject } from '@entities';
 
 describe('Notifier le choix du nouveau cahier des charges', () => {
   describe(`Lorsqu'un nouveau cahier des charges est choisi pour un projet`, () => {
-    const projetId = 'le-projet'
-    const choisiPar = 'le-porteur-de-projet'
-    const sendNotification = jest.fn()
+    const projetId = 'le-projet';
+    const choisiPar = 'le-porteur-de-projet';
+    const sendNotification = jest.fn();
     const findProjectById = () =>
       Promise.resolve(
-        makeProject(makeFakeProject({ id: projetId, nomProjet: 'nomProjet' })).unwrap()
-      )
+        makeProject(makeFakeProject({ id: projetId, nomProjet: 'nomProjet' })).unwrap(),
+      );
     const findUserById = () =>
-      Promise.resolve(Some(makeFakeUser({ email: 'porteur@test.test', fullName: 'john doe' })))
+      Promise.resolve(Some(makeFakeUser({ email: 'porteur@test.test', fullName: 'john doe' })));
 
     beforeEach(() => {
-      sendNotification.mockClear()
-    })
+      sendNotification.mockClear();
+    });
 
     it(`Si le cahier des charges est de type modifié
          Alors le porteur qui l'a choisi devrait être notifié avec le template 'pp-cdc-modifié-choisi'`, async () => {
@@ -36,10 +36,10 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
             paruLe: '30/07/2021',
             alternatif: true,
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(1)
+      expect(sendNotification).toHaveBeenCalledTimes(1);
       expect(sendNotification).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'pp-cdc-modifié-choisi',
@@ -52,9 +52,9 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
             cdc_alternatif: 'alternatif ',
             projet_url: expect.stringContaining(projetId),
           }),
-        })
-      )
-    })
+        }),
+      );
+    });
 
     it(`Si le cahier des charges est de type initial
         Alors le porteur qui l'a choisi devrait être notifié avec le template 'pp-cdc-initial-choisi`, async () => {
@@ -69,10 +69,10 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
             choisiPar,
             type: 'initial',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(1)
+      expect(sendNotification).toHaveBeenCalledTimes(1);
       expect(sendNotification).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'pp-cdc-initial-choisi',
@@ -83,8 +83,8 @@ describe('Notifier le choix du nouveau cahier des charges', () => {
             nom_projet: 'nomProjet',
             projet_url: expect.stringContaining(projetId),
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

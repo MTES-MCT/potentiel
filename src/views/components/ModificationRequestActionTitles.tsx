@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export const ModificationRequestActionTitles = ({ action }) => {
   const titlePerAction = {
@@ -10,6 +10,6 @@ export const ModificationRequestActionTitles = ({ action }) => {
     abandon: 'Je demande un abandon de mon projet',
     recours: 'Je demande un recours',
     'annulation abandon': "Je demande une annulation d'abandon de mon projet",
-  }
-  return <span>{titlePerAction[action]}</span>
-}
+  };
+  return <span>{titlePerAction[action]}</span>;
+};

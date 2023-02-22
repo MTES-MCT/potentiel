@@ -1,13 +1,13 @@
-import asyncHandler from '../helpers/asyncHandler'
-import moment from 'moment-timezone'
-import { regenerateCertificatesForPeriode } from '@config/useCases.config'
-import { logger } from '@core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import routes from '@routes'
-import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
+import asyncHandler from '../helpers/asyncHandler';
+import moment from 'moment-timezone';
+import { regenerateCertificatesForPeriode } from '@config/useCases.config';
+import { logger } from '@core/utils';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import routes from '@routes';
+import { ensureRole } from '@config';
+import { v1Router } from '../v1Router';
 
-const FORMAT_DATE = 'DD/MM/YYYY'
+const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
   routes.ADMIN_REGENERATE_CERTIFICATES_ACTION,
@@ -16,15 +16,15 @@ v1Router.post(
     const {
       user,
       body: { appelOffreId, periodeId, familleId, reason, notificationDate },
-    } = request
+    } = request;
 
     if (!appelOffreId || !periodeId) {
       return response.redirect(
         addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
           error: 'Il est nécessaire de choisir un appel d‘offre et une période.',
           ...request.body,
-        })
-      )
+        }),
+      );
     }
 
     if (notificationDate && !isDateFormatValid(notificationDate)) {
@@ -32,11 +32,11 @@ v1Router.post(
         addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
           error: 'La date de notification est au mauvais format.',
           ...request.body,
-        })
-      )
+        }),
+      );
     }
 
-    ;(
+    (
       await regenerateCertificatesForPeriode({
         appelOffreId,
         periodeId,
@@ -63,21 +63,21 @@ v1Router.post(
               familleId,
             }),
             redirectTitle: 'Voir le listing des projets concernés',
-          })
+          }),
         ),
       (e: Error) => {
-        logger.error(e)
+        logger.error(e);
         response.redirect(
           addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
             ...request.body,
             error: `Les relances n'ont pas pu être envoyées. (Erreur: ${e.message})`,
-          })
-        )
-      }
-    )
-  })
-)
+          }),
+        );
+      },
+    );
+  }),
+);
 
 function isDateFormatValid(dateStr) {
-  return moment(dateStr, FORMAT_DATE).format(FORMAT_DATE) === dateStr
+  return moment(dateStr, FORMAT_DATE).format(FORMAT_DATE) === dateStr;
 }

@@ -1,29 +1,29 @@
-import { ProjectAppelOffre } from '@entities/appelOffre'
-import ROUTES from '@routes'
+import { ProjectAppelOffre } from '@entities/appelOffre';
+import ROUTES from '@routes';
 
 const porteurProjetActions = (project: {
-  id: string
+  id: string;
   appelOffre?: {
-    type: ProjectAppelOffre['type']
-    unitePuissance: ProjectAppelOffre['unitePuissance']
-    periode: { type: ProjectAppelOffre['periode'] }
-  }
-  isClasse: boolean
-  isAbandoned: boolean
+    type: ProjectAppelOffre['type'];
+    unitePuissance: ProjectAppelOffre['unitePuissance'];
+    periode: { type: ProjectAppelOffre['periode'] };
+  };
+  isClasse: boolean;
+  isAbandoned: boolean;
   certificateFile?: {
-    id: string
-    filename: string
-  }
-  nomProjet: string
-  potentielIdentifier: string
+    id: string;
+    filename: string;
+  };
+  nomProjet: string;
+  potentielIdentifier: string;
 }) => {
-  const canDownloadCertificate = !!project.certificateFile
-  const isEolien = project.appelOffre?.type === 'eolien'
+  const canDownloadCertificate = !!project.certificateFile;
+  const isEolien = project.appelOffre?.type === 'eolien';
 
-  if (project.isAbandoned) return []
+  if (project.isAbandoned) return [];
 
   if (!project.isClasse) {
-    const actions: any[] = []
+    const actions: any[] = [];
 
     if (project.certificateFile) {
       actions.push({
@@ -36,18 +36,18 @@ const porteurProjetActions = (project: {
         }),
         isDownload: true,
         disabled: !canDownloadCertificate,
-      })
+      });
     }
 
     actions.push({
       title: 'Faire une demande de recours',
       link: ROUTES.DEPOSER_RECOURS(project.id),
-    })
+    });
 
-    return actions
+    return actions;
   }
 
-  const actions: any[] = []
+  const actions: any[] = [];
 
   if (project.certificateFile) {
     actions.push({
@@ -60,7 +60,7 @@ const porteurProjetActions = (project: {
       }),
       isDownload: true,
       disabled: !canDownloadCertificate,
-    })
+    });
   }
   actions.push(
     ...[
@@ -97,10 +97,10 @@ const porteurProjetActions = (project: {
         title: 'Demander un abandon',
         link: ROUTES.GET_DEMANDER_ABANDON(project.id),
       },
-    ]
-  )
+    ],
+  );
 
-  return actions
-}
+  return actions;
+};
 
-export { porteurProjetActions }
+export { porteurProjetActions };

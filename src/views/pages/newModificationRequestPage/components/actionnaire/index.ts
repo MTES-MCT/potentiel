@@ -1,1 +1,1 @@
-export * from './ChangementActionnaire'
+export * from './ChangementActionnaire';

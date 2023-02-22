@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@core/domain'
-import { ProjectDCRDueDateSet } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ProjectDCRDueDateSet } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectDCRDueDateSet,
@@ -13,7 +13,7 @@ export default ProjectEventProjector.on(
         valueDate: dcrDueOn,
         id: new UniqueEntityID().toString(),
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

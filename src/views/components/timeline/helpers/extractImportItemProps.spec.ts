@@ -1,5 +1,5 @@
-import { ProjectNotifiedDTO, ProjectImportedDTO } from '@modules/frise'
-import { extractImportItemProps } from './extractImportItemProps'
+import { ProjectNotifiedDTO, ProjectImportedDTO } from '@modules/frise';
+import { extractImportItemProps } from './extractImportItemProps';
 
 describe('extractImportItemProps', () => {
   describe(`when there is a ProjectNotified event`, () => {
@@ -15,13 +15,13 @@ describe('extractImportItemProps', () => {
           variant: 'admin',
           date: 11,
         } as ProjectImportedDTO,
-      ]
+      ];
 
-      const result = extractImportItemProps(events)
+      const result = extractImportItemProps(events);
 
-      expect(result).toBeNull()
-    })
-  })
+      expect(result).toBeNull();
+    });
+  });
 
   describe(`when there is a ProjectNotified event`, () => {
     it('should return the import date', () => {
@@ -31,14 +31,14 @@ describe('extractImportItemProps', () => {
           variant: 'admin',
           date: 12,
         } as ProjectImportedDTO,
-      ]
+      ];
 
-      const result = extractImportItemProps(events)
+      const result = extractImportItemProps(events);
 
       expect(result).toEqual({
         type: 'import',
         date: 12,
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

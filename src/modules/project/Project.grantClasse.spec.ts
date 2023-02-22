@@ -1,24 +1,24 @@
-import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { LegacyProjectSourced, ProjectClasseGranted } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjetDéjàClasséError } from '@modules/modificationRequest'
+import { UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { LegacyProjectSourced, ProjectClasseGranted } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 describe('Project.grantClasse()', () => {
   describe('Si le projet est Eliminé', () => {
@@ -40,22 +40,22 @@ describe('Project.grantClasse()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('Alors un événement ProjectClasseGranted devrait être émis.', () => {
-      project.grantClasse(fakeUser)
+      project.grantClasse(fakeUser);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectClasseGranted.type
-      ) as ProjectClasseGranted | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectClasseGranted.type,
+      ) as ProjectClasseGranted | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.grantedBy).toEqual(fakeUser.id)
-    })
-  })
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.grantedBy).toEqual(fakeUser.id);
+    });
+  });
 
   describe('Si le projet est Classé', () => {
     const project = UnwrapForTest(
@@ -76,17 +76,17 @@ describe('Project.grantClasse()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('Alors aucun événement ne devrait être émis et une erreur devrait être retournée', () => {
-      const résultat = project.grantClasse(fakeUser)
+      const résultat = project.grantClasse(fakeUser);
 
-      expect(project.pendingEvents).toHaveLength(0)
+      expect(project.pendingEvents).toHaveLength(0);
 
-      expect(résultat.isErr()).toBe(true)
-      if (!résultat.isErr()) return
-      expect(résultat.error).toBeInstanceOf(ProjetDéjàClasséError)
-    })
-  })
-})
+      expect(résultat.isErr()).toBe(true);
+      if (!résultat.isErr()) return;
+      expect(résultat.error).toBeInstanceOf(ProjetDéjàClasséError);
+    });
+  });
+});

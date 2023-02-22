@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@core/domain'
-import { AppelOffreUpdated } from '@modules/appelOffre'
-import { describeProjector } from '../../../__tests__/projections'
-import models from '../../../models'
-import { onAppelOffreUpdated } from './onAppelOffreUpdated'
+import { UniqueEntityID } from '@core/domain';
+import { AppelOffreUpdated } from '@modules/appelOffre';
+import { describeProjector } from '../../../__tests__/projections';
+import models from '../../../models';
+import { onAppelOffreUpdated } from './onAppelOffreUpdated';
 
-const { AppelOffre } = models
+const { AppelOffre } = models;
 
-const appelOffreId = new UniqueEntityID().toString()
+const appelOffreId = new UniqueEntityID().toString();
 
 describeProjector(onAppelOffreUpdated)
   .onEvent(
@@ -19,7 +19,7 @@ describeProjector(onAppelOffreUpdated)
           param2: 'newvalue2',
         },
       },
-    })
+    }),
   )
   .shouldUpdate({
     model: AppelOffre,
@@ -35,4 +35,4 @@ describeProjector(onAppelOffreUpdated)
         param3: 'value3',
       },
     },
-  })
+  });

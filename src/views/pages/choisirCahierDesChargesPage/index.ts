@@ -1,1 +1,1 @@
-export * from './ChoisirCahierDesCharges'
+export * from './ChoisirCahierDesCharges';

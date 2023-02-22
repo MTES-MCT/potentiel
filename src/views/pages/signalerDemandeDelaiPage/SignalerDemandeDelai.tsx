@@ -9,33 +9,33 @@ import {
   ErrorBox,
   InputCheckbox,
   Heading1,
-} from '@components'
-import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project'
-import routes from '@routes'
-import { appliquerDélaiEnMois } from '@views/helpers'
-import { Request } from 'express'
-import React, { useState } from 'react'
-import { formatDate } from '../../../helpers/formatDate'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+} from '@components';
+import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
+import routes from '@routes';
+import { appliquerDélaiEnMois } from '@views/helpers';
+import { Request } from 'express';
+import React, { useState } from 'react';
+import { formatDate } from '../../../helpers/formatDate';
+import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
 type SignalerDemandeDelaiProps = {
-  request: Request
-  project: ProjectDataForSignalerDemandeDelaiPage
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+  request: Request;
+  project: ProjectDataForSignalerDemandeDelaiPage;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 export const SignalerDemandeDelai = ({
   request,
   project,
   validationErrors,
 }: SignalerDemandeDelaiProps) => {
-  const { user } = request
-  const { error } = (request.query as any) || {}
-  const [doesNewDateImpactProject, newDateImpactsProject] = useState(true)
+  const { user } = request;
+  const { error } = (request.query as any) || {};
+  const [doesNewDateImpactProject, newDateImpactsProject] = useState(true);
 
   const ajoutDélaiCdc2022Possible =
     ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
     ['admin', 'dgec-validateur'].includes(user.role) &&
-    !!project.délaiCDC2022Applicable
+    !!project.délaiCDC2022Applicable;
 
   const dateAvecDélaiCDC2022 = project.délaiCDC2022Applicable
     ? appliquerDélaiEnMois({
@@ -44,9 +44,9 @@ export const SignalerDemandeDelai = ({
       })
         .toISOString()
         .split('T')[0]
-    : undefined
+    : undefined;
 
-  const [appliquerCDC2022Délai, setappliquerCDC2022Délai] = useState(false)
+  const [appliquerCDC2022Délai, setappliquerCDC2022Délai] = useState(false);
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
@@ -195,7 +195,7 @@ export const SignalerDemandeDelai = ({
         </form>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(SignalerDemandeDelai)
+hydrateOnClient(SignalerDemandeDelai);

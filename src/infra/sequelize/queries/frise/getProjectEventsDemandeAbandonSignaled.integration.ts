@@ -1,22 +1,22 @@
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { USER_ROLES } from '@modules/users'
-import { getProjectEvents } from '.'
-import { ProjectEvent } from '../../projectionsNext'
-import { resetDatabase } from '../../helpers'
-import { models } from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { DemandeAbandonSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events'
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { USER_ROLES } from '@modules/users';
+import { getProjectEvents } from '.';
+import { ProjectEvent } from '../../projectionsNext';
+import { resetDatabase } from '../../helpers';
+import { models } from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import { DemandeAbandonSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => {
-  const { Project } = models
-  const projetId = new UniqueEntityID().toString()
-  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
+  const { Project } = models;
+  const projetId = new UniqueEntityID().toString();
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(projet)
-  })
+    await resetDatabase();
+    await Project.create(projet);
+  });
 
   const DemandeAbandonSignaledEvent = {
     id: new UniqueEntityID().toString(),
@@ -30,7 +30,7 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
       attachment: { id: 'file-id', name: 'file-name' },
       notes: 'notes',
     },
-  } as DemandeAbandonSignaledEvent
+  } as DemandeAbandonSignaledEvent;
 
   const rolesAutorisés = [
     'admin',
@@ -40,17 +40,17 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateurs autorisés à visualiser les demandes d'abandon faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of rolesAutorisés) {
-      const utilisateur = { role } as User
+      const utilisateur = { role } as User;
 
       it(`Etant donné un utilisateur ${role},
       alors les événements DemandeAbandonSignaled devraient être retournés`, async () => {
-        await ProjectEvent.create(DemandeAbandonSignaledEvent)
+        await ProjectEvent.create(DemandeAbandonSignaledEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
@@ -73,25 +73,25 @@ describe('getProjectEvents pour les événements DemandeAbandonSignaled', () => 
               }),
             },
           ]),
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   describe(`Utilisateurs non-autorisés à visualiser les demandes d'abandon faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
-      const utilisateur = { role } as User
+      const utilisateur = { role } as User;
 
       it(`Etant donné un utilisateur ${role},
       alors les événements DemandeAbandonSignaled ne devraient pas être retournés`, async () => {
-        await ProjectEvent.create(DemandeAbandonSignaledEvent)
+        await ProjectEvent.create(DemandeAbandonSignaledEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([]),
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

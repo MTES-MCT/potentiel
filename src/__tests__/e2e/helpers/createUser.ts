@@ -1,13 +1,13 @@
-import { logger } from '@core/utils'
-import { userRepo } from '@dataAccess'
-import { makeUser, User } from '@entities'
-import { UserRole } from '@modules/users'
+import { logger } from '@core/utils';
+import { userRepo } from '@dataAccess';
+import { makeUser, User } from '@entities';
+import { UserRole } from '@modules/users';
 
 interface CreateUserProps {
-  email: User['email']
-  fullName: User['fullName']
-  password: string
-  role: UserRole
+  email: User['email'];
+  fullName: User['fullName'];
+  password: string;
+  role: UserRole;
 }
 
 async function createUser({ email, fullName, password, role }: CreateUserProps) {
@@ -16,23 +16,23 @@ async function createUser({ email, fullName, password, role }: CreateUserProps) 
     fullName,
     email,
     role,
-  })
+  });
   if (userResult.isErr()) {
-    logger.error(userResult.unwrapErr())
-    return
+    logger.error(userResult.unwrapErr());
+    return;
   }
-  const user = userResult.unwrap()
+  const user = userResult.unwrap();
 
   // Insert the user in the database
-  const userInsertion = await userRepo.insert(user)
+  const userInsertion = await userRepo.insert(user);
 
   if (userInsertion.isErr()) {
-    logger.error(userInsertion.unwrapErr())
-    logger.info(user)
-    return
+    logger.error(userInsertion.unwrapErr());
+    logger.info(user);
+    return;
   }
 
-  return user.id
+  return user.id;
 }
 
-export { createUser }
+export { createUser };

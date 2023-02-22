@@ -1,6 +1,6 @@
-import isEmail from 'isemail'
-import pick from 'lodash/pick'
-import buildMakeEntity from '../helpers/buildMakeEntity'
+import isEmail from 'isemail';
+import pick from 'lodash/pick';
+import buildMakeEntity from '../helpers/buildMakeEntity';
 import {
   Boolean,
   Literal,
@@ -12,16 +12,16 @@ import {
   Undefined,
   Union,
   Unknown,
-} from '../types/schemaTypes'
-import { ModificationRequest } from './modificationRequest'
-import { User } from './user'
-import { ProjectAppelOffre, Technologie, technologies } from './appelOffre'
-import { Famille } from './famille'
-import { CertificateTemplate, isNotifiedPeriode } from './periode'
+} from '../types/schemaTypes';
+import { ModificationRequest } from './modificationRequest';
+import { User } from './user';
+import { ProjectAppelOffre, Technologie, technologies } from './appelOffre';
+import { Famille } from './famille';
+import { CertificateTemplate, isNotifiedPeriode } from './periode';
 
-import { territoireSchema } from './territoire'
-import { logger } from '@core/utils'
-import { CahierDesChargesRéférence } from '@entities/cahierDesCharges'
+import { territoireSchema } from './territoire';
+import { logger } from '@core/utils';
+import { CahierDesChargesRéférence } from '@entities/cahierDesCharges';
 
 const baseProjectSchema = SchemaRecord({
   id: String,
@@ -65,13 +65,13 @@ const baseProjectSchema = SchemaRecord({
     Literal('initial'),
     Literal('30/07/2021'),
     Literal('30/08/2022'),
-    Literal('30/08/2022-alternatif')
+    Literal('30/08/2022-alternatif'),
   ),
   potentielIdentifier: String,
   technologie: String.withGuard((value: string): value is Technologie =>
-    technologies.includes(value as Technologie)
+    technologies.includes(value as Technologie),
   ),
-})
+});
 const projectSchema = baseProjectSchema.And(
   SchemaPartial({
     actionnaire: String,
@@ -80,8 +80,8 @@ const projectSchema = baseProjectSchema.And(
     famille: Unknown.withGuard((obj: any): obj is Famille => true),
     createdAt: Unknown.withGuard((obj: any): obj is Date => true),
     updatedAt: Unknown.withGuard((obj: any): obj is Date => true),
-  })
-)
+  }),
+);
 
 const fields: string[] = [
   'actionnaire',
@@ -98,46 +98,46 @@ const fields: string[] = [
   'cahierDesChargesActuel',
   'potentielIdentifier',
   ...Object.keys(baseProjectSchema.fields),
-]
+];
 
 type BaseProject = Static<typeof projectSchema> & {
-  details?: Record<string, any>
+  details?: Record<string, any>;
   dcrFileRef?: {
-    id: string
-    filename: string
-  }
+    id: string;
+    filename: string;
+  };
   certificateFile?: {
-    id: string
-    filename: string
-  }
+    id: string;
+    filename: string;
+  };
   garantiesFinancières?: {
-    id: string
-    projetId: string
-    statut: 'en attente' | 'à traiter' | 'validé'
-    soumisesALaCandidature: boolean
-    dateLimiteEnvoi?: Date
+    id: string;
+    projetId: string;
+    statut: 'en attente' | 'à traiter' | 'validé';
+    soumisesALaCandidature: boolean;
+    dateLimiteEnvoi?: Date;
     fichier?: {
-      id: string
-      filename: string
-    }
-    dateEnvoi?: Date
-    envoyéesPar?: { fullName: string }
-    validéesPar?: { fullName: string }
-    dateConstitution?: Date
-    dateEchéance?: Date
-    validéesLe?: Date
-  }
-  cahierDesChargesActuel: CahierDesChargesRéférence
-  readonly potentielIdentifier: string
-  actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee'
-}
+      id: string;
+      filename: string;
+    };
+    dateEnvoi?: Date;
+    envoyéesPar?: { fullName: string };
+    validéesPar?: { fullName: string };
+    dateConstitution?: Date;
+    dateEchéance?: Date;
+    validéesLe?: Date;
+  };
+  cahierDesChargesActuel: CahierDesChargesRéférence;
+  readonly potentielIdentifier: string;
+  actionnariat?: '' | 'financement-collectif' | 'gouvernance-partagee';
+};
 
 type ProjectEvent = {
-  id: string
-  before: Partial<BaseProject>
-  after: Partial<BaseProject>
-  createdAt: number
-  userId: User['id']
+  id: string;
+  before: Partial<BaseProject>;
+  after: Partial<BaseProject>;
+  createdAt: number;
+  userId: User['id'];
   type:
     | 'modification-request'
     | 'import'
@@ -149,23 +149,23 @@ type ProjectEvent = {
     | 'manual-edition'
     | 'dcr-submission'
     | 'dcr-removal'
-    | 'dcr-file-move'
-  modificationRequestId?: ModificationRequest['id']
-  isNew?: true
-}
+    | 'dcr-file-move';
+  modificationRequestId?: ModificationRequest['id'];
+  isNew?: true;
+};
 
 type Project = BaseProject & {
-  history?: Array<ProjectEvent>
-}
+  history?: Array<ProjectEvent>;
+};
 
 interface ApplyProjectUpdateProps {
-  project: Project
-  update?: Partial<BaseProject>
+  project: Project;
+  update?: Partial<BaseProject>;
   context: {
-    userId: User['id']
-    type: ProjectEvent['type']
-    modificationRequestId?: ModificationRequest['id']
-  }
+    userId: User['id'];
+    type: ProjectEvent['type'];
+    modificationRequestId?: ModificationRequest['id'];
+  };
 }
 const buildApplyProjectUpdate = (makeId: () => string) => {
   return ({ project, update, context }: ApplyProjectUpdateProps): Project | null => {
@@ -176,7 +176,7 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
             (key) =>
               key !== 'id' &&
               // Only accept changes to notifiedOn for candidate-notifications
-              (context.type === 'candidate-notification' || key !== 'notifiedOn')
+              (context.type === 'candidate-notification' || key !== 'notifiedOn'),
           )
           .reduce(
             ({ before, after }, key: string) => {
@@ -185,35 +185,35 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
                 const changedKeys = [
                   ...Object.keys(project[key]),
                   ...Object.keys(update[key]),
-                ].filter((innerKey) => project[key][innerKey] !== update[key][innerKey])
+                ].filter((innerKey) => project[key][innerKey] !== update[key][innerKey]);
 
                 if (changedKeys.length) {
-                  before[key] = pick(project[key], changedKeys)
-                  after[key] = pick(update[key], changedKeys)
+                  before[key] = pick(project[key], changedKeys);
+                  after[key] = pick(update[key], changedKeys);
                 }
               } else {
                 // For other types, do a shallow comparison
                 if (project[key] !== update[key]) {
-                  before[key] = project[key]
-                  after[key] = update[key]
+                  before[key] = project[key];
+                  after[key] = update[key];
                 }
               }
               // Update the project itself
-              project[key] = update[key]
+              project[key] = update[key];
 
-              return { before, after }
+              return { before, after };
             },
             {
               before: {} as Partial<BaseProject>,
               after: {} as Partial<BaseProject>,
-            }
+            },
           )
       : // If no update is defined, the whole project is new, consider the delta as empty
-        { before: {}, after: {} }
+        { before: {}, after: {} };
 
     if (update && !Object.keys(after).length) {
       // There's supposed to be an update but nothing has been updated
-      return null
+      return null;
     }
 
     // Add a ProjectEvent to project.history
@@ -227,36 +227,36 @@ const buildApplyProjectUpdate = (makeId: () => string) => {
         createdAt: Date.now(),
         isNew: true,
       },
-    ]
+    ];
 
-    return project
-  }
-}
+    return project;
+  };
+};
 
 const getCertificateIfProjectEligible = (
   project: Project,
-  ignoreNotifiedOn?: boolean
+  ignoreNotifiedOn?: boolean,
 ): CertificateTemplate | null => {
   if (!ignoreNotifiedOn && !project.notifiedOn) {
-    logger.error('getCertificateIfProjectEligible failed on project notifiedOn')
-    return null
+    logger.error('getCertificateIfProjectEligible failed on project notifiedOn');
+    return null;
   }
 
   if (project.appelOffre?.periode && !isNotifiedPeriode(project.appelOffre?.periode)) {
-    logger.error(new Error('getCertificateIfProjectEligible failed on isNotifiedPeriode(periode)'))
-    return null
+    logger.error(new Error('getCertificateIfProjectEligible failed on isNotifiedPeriode(periode)'));
+    return null;
   }
 
   if (!project.appelOffre?.periode?.certificateTemplate) {
-    logger.error('getCertificateIfProjectEligible failed on periode.certificateTemplate')
-    return null
+    logger.error('getCertificateIfProjectEligible failed on periode.certificateTemplate');
+    return null;
   }
 
-  return project.appelOffre?.periode?.certificateTemplate
-}
+  return project.appelOffre?.periode?.certificateTemplate;
+};
 
 interface MakeProjectDependencies {
-  makeId: () => string
+  makeId: () => string;
 }
 
 export default ({ makeId }: MakeProjectDependencies) =>
@@ -278,7 +278,7 @@ export default ({ makeId }: MakeProjectDependencies) =>
     cahierDesChargesActuel: 'initial',
     potentielIdentifier: '',
     technologie: 'N/A',
-  })
+  });
 
 export {
   Project,
@@ -287,4 +287,4 @@ export {
   territoireSchema,
   buildApplyProjectUpdate,
   getCertificateIfProjectEligible,
-}
+};

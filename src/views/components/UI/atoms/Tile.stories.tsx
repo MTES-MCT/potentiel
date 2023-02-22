@@ -1,5 +1,5 @@
-import React from 'react'
-import { Tile } from './Tile'
+import React from 'react';
+import { Tile } from './Tile';
 
 export default {
   title: 'Components/Atoms/Tile',
@@ -7,12 +7,12 @@ export default {
   argTypes: {
     children: { control: 'text' },
   },
-}
+};
 
-const Template = (args) => <Tile {...args} />
+const Template = (args) => <Tile {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 
 Default.args = {
   children: `Exemple de tuile`,
-}
+};

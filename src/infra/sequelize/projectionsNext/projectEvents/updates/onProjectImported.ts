@@ -1,8 +1,8 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ProjectImported } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ProjectImported } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(ProjectImported, async (évènement, transaction) => {
   const {
@@ -11,7 +11,7 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
       data: { notifiedOn, classe },
     },
     occurredAt,
-  } = évènement
+  } = évènement;
   try {
     await ProjectEvent.create(
       {
@@ -22,8 +22,8 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
         id: new UniqueEntityID().toString(),
         payload: { notifiedOn },
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -32,9 +32,9 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
           évènement,
           nomProjection: 'ProjectEvent.onProjectImported',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
 
   if (classe === 'Classé') {
@@ -48,8 +48,8 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
           id: new UniqueEntityID().toString(),
           payload: { statut: 'non-renseignée' },
         },
-        { transaction }
-      )
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -58,9 +58,9 @@ export default ProjectEventProjector.on(ProjectImported, async (évènement, tra
             évènement,
             nomProjection: 'ProjectEvent.onProjectImported',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
   }
-})
+});

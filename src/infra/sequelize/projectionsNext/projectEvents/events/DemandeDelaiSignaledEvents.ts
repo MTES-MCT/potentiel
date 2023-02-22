@@ -1,19 +1,19 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type DemandeDelaiSignaledEvent = ProjectEvent & {
-  type: 'DemandeDelaiSignaled'
+  type: 'DemandeDelaiSignaled';
   payload: {
-    signaledBy: string
-    attachment?: { id: string; name: string }
-    notes?: string
+    signaledBy: string;
+    attachment?: { id: string; name: string };
+    notes?: string;
   } & (
     | {
-        status: 'rejetée' | 'accord-de-principe'
+        status: 'rejetée' | 'accord-de-principe';
       }
     | {
-        status: 'acceptée'
-        oldCompletionDueOn?: number
-        newCompletionDueOn: number
+        status: 'acceptée';
+        oldCompletionDueOn?: number;
+        newCompletionDueOn: number;
       }
-  )
-}
+  );
+};

@@ -1,7 +1,7 @@
-import { logger } from '@core/utils'
-import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '@modules/imports/donnéesRaccordement/events'
-import { ProjectionEnEchec } from '@modules/shared'
-import { TâchesProjector, Tâches } from '../tâches.model'
+import { logger } from '@core/utils';
+import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '@modules/imports/donnéesRaccordement/events';
+import { ProjectionEnEchec } from '@modules/shared';
+import { TâchesProjector, Tâches } from '../tâches.model';
 
 export default TâchesProjector.on(
   TâcheMiseAJourDonnéesDeRaccordementDémarrée,
@@ -9,7 +9,7 @@ export default TâchesProjector.on(
     const {
       payload: { gestionnaire },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     try {
       await Tâches.create(
@@ -21,8 +21,8 @@ export default TâchesProjector.on(
         },
         {
           transaction,
-        }
-      )
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -31,9 +31,9 @@ export default TâchesProjector.on(
             évènement,
             nomProjection: 'ProjectEvent.onTâcheMiseAJourDonnéesDeRaccordementDémarrée',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

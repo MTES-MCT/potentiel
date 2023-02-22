@@ -1,16 +1,22 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize'
-import { Users } from '../../projectionsNext'
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  NonAttribute,
+} from 'sequelize';
+import { Users } from '../../projectionsNext';
 
 class UserProjects extends Model<
   InferAttributes<UserProjects>,
   InferCreationAttributes<UserProjects>
 > {
-  userId: string
-  projectId: string
-  user: NonAttribute<Users>
+  userId: string;
+  projectId: string;
+  user: NonAttribute<Users>;
 }
 
-const nomProjection = 'UserProjects'
+const nomProjection = 'UserProjects';
 
 export const MakeUserProjectsModel = (sequelize) => {
   UserProjects.init(
@@ -31,8 +37,8 @@ export const MakeUserProjectsModel = (sequelize) => {
       sequelize,
       tableName: nomProjection,
       freezeTableName: true,
-    }
-  )
+    },
+  );
 
-  return UserProjects
-}
+  return UserProjects;
+};

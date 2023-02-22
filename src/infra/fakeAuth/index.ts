@@ -1,1 +1,1 @@
-export * from './fakeAuth'
+export * from './fakeAuth';

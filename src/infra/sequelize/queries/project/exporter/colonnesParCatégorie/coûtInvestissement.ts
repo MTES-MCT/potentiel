@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const coûtInvestissement: Readonly<Array<Colonne>> = [
   { nomPropriété: `Raccordement € / kWc`, source: 'propriété-colonne-détail' },
@@ -21,4 +21,4 @@ export const coûtInvestissement: Readonly<Array<Colonne>> = [
   },
   { nomPropriété: `Location (€/an/MWc)`, source: 'propriété-colonne-détail' },
   { nomPropriété: `CAPEX Moyen\n(k€ / MWc)`, source: 'propriété-colonne-détail' },
-]
+];

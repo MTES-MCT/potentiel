@@ -1,28 +1,28 @@
-import { ensureRole, loadFileForUser } from '@config'
-import { UniqueEntityID } from '@core/domain'
-import { FileAccessDeniedError, FileNotFoundError } from '@modules/file'
-import { InfraNotAvailableError } from '@modules/shared'
-import routes from '@routes'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
+import { ensureRole, loadFileForUser } from '@config';
+import { UniqueEntityID } from '@core/domain';
+import { FileAccessDeniedError, FileNotFoundError } from '@modules/file';
+import { InfraNotAvailableError } from '@modules/shared';
+import routes from '@routes';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
 import {
   errorResponse,
   miseAJourStatistiquesUtilisation,
   notFoundResponse,
   unauthorizedResponse,
-} from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { v1Router } from '../v1Router'
-import { models } from '@infra/sequelize/models'
+} from '../helpers';
+import asyncHandler from '../helpers/asyncHandler';
+import { v1Router } from '../v1Router';
+import { models } from '@infra/sequelize/models';
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
   ensureRole(['admin', 'dgec-validateur', 'dreal', 'porteur-projet', 'acheteur-obligé']),
   asyncHandler(async (request, response) => {
-    const { projectId, fileId } = request.params
-    const { user } = request
+    const { projectId, fileId } = request.params;
+    const { user } = request;
 
     if (!validateUniqueId(fileId) || !validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
     }
 
     await loadFileForUser({
@@ -34,7 +34,7 @@ v1Router.get(
           const projet = await models.Project.findOne({
             where: { id: projectId },
             attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
-          })
+          });
 
           if (projet) {
             miseAJourStatistiquesUtilisation({
@@ -50,23 +50,23 @@ v1Router.get(
                   numeroCRE: projet.numeroCRE,
                 },
               },
-            })
+            });
           }
         }
 
-        response.type('pdf')
-        fileStream.contents.pipe(response)
-        return response.status(200)
+        response.type('pdf');
+        fileStream.contents.pipe(response);
+        return response.status(200);
       },
       async (e) => {
         if (e instanceof FileNotFoundError) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' })
+          return notFoundResponse({ request, response, ressourceTitle: 'Fichier' });
         } else if (e instanceof FileAccessDeniedError) {
-          return unauthorizedResponse({ request, response })
+          return unauthorizedResponse({ request, response });
         } else if (e instanceof InfraNotAvailableError) {
-          return errorResponse({ request, response })
+          return errorResponse({ request, response });
         }
-      }
-    )
-  })
-)
+      },
+    );
+  }),
+);

@@ -1,1 +1,1 @@
-export * from './GarantiesFinancieres'
+export * from './GarantiesFinancieres';

@@ -1,6 +1,6 @@
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { UniqueEntityID } from '../../../../../core/domain'
-import { ProjectNotificationDateSet } from '../../../../../modules/project'
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { UniqueEntityID } from '../../../../../core/domain';
+import { ProjectNotificationDateSet } from '../../../../../modules/project';
 
 export default ProjectEventProjector.on(
   ProjectNotificationDateSet,
@@ -13,7 +13,7 @@ export default ProjectEventProjector.on(
         valueDate: notifiedOn,
         eventPublishedAt: occurredAt.getTime(),
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

@@ -1,142 +1,142 @@
-import { ResultAsync } from '@core/utils'
-import { ProjectAppelOffre, User } from '@entities'
-import { Permission } from '@modules/authN'
-import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
+import { ResultAsync } from '@core/utils';
+import { ProjectAppelOffre, User } from '@entities';
+import { Permission } from '@modules/authN';
+import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
   description: 'Consulter un projet',
-}
+};
 
 export type GetProjectDataForProjectPage = (args: {
-  projectId: string
-  user: User
-}) => ResultAsync<ProjectDataForProjectPage, EntityNotFoundError | InfraNotAvailableError>
+  projectId: string;
+  user: User;
+}) => ResultAsync<ProjectDataForProjectPage, EntityNotFoundError | InfraNotAvailableError>;
 
 export type ProjectDataForProjectPage = {
-  alerteAnnulationAbandon?: AlerteAnnulationAbandon
-  id: string
-  potentielIdentifier: string
+  alerteAnnulationAbandon?: AlerteAnnulationAbandon;
+  id: string;
+  potentielIdentifier: string;
 
-  appelOffre: ProjectAppelOffre
-  gestionnaireDeRéseau?: GestionnaireDeRéseau
+  appelOffre: ProjectAppelOffre;
+  gestionnaireDeRéseau?: GestionnaireDeRéseau;
 
-  appelOffreId: string
-  periodeId: string
-  familleId: string
-  numeroCRE: string
+  appelOffreId: string;
+  periodeId: string;
+  familleId: string;
+  numeroCRE: string;
   cahierDesChargesActuel: {
-    url: string
+    url: string;
   } & (
     | {
-        type: 'initial'
+        type: 'initial';
       }
     | {
-        type: 'modifié'
-        paruLe: string
-        alternatif?: true
+        type: 'modifié';
+        paruLe: string;
+        alternatif?: true;
       }
-  )
+  );
 
-  isLegacy: boolean
+  isLegacy: boolean;
 
-  puissance: number
-  prixReference?: number
+  puissance: number;
+  prixReference?: number;
 
-  engagementFournitureDePuissanceAlaPointe: boolean
-  isFinancementParticipatif: boolean
-  isInvestissementParticipatif: boolean
+  engagementFournitureDePuissanceAlaPointe: boolean;
+  isFinancementParticipatif: boolean;
+  isInvestissementParticipatif: boolean;
 
-  adresseProjet: string
-  codePostalProjet: string
-  communeProjet: string
-  departementProjet: string
-  regionProjet: string
-  territoireProjet?: string
+  adresseProjet: string;
+  codePostalProjet: string;
+  communeProjet: string;
+  departementProjet: string;
+  regionProjet: string;
+  territoireProjet?: string;
 
-  nomCandidat: string
-  nomProjet: string
-  nomRepresentantLegal: string
-  email: string
-  fournisseur?: string
-  evaluationCarbone?: number
-  note: number
+  nomCandidat: string;
+  nomProjet: string;
+  nomRepresentantLegal: string;
+  email: string;
+  fournisseur?: string;
+  evaluationCarbone?: number;
+  note: number;
 
-  details: Record<string, any>
+  details: Record<string, any>;
 
   contratEDF?: Partial<{
-    numero: string
-    type: string
-    dateEffet: string
-    dateSignature: string
-    dateMiseEnService: string
-    duree: number
-    statut: string
-  }>
+    numero: string;
+    type: string;
+    dateEffet: string;
+    dateSignature: string;
+    dateMiseEnService: string;
+    duree: number;
+    statut: string;
+  }>;
 
   contratEnedis?: {
-    numero: string
-  }
+    numero: string;
+  };
 
-  updatedAt?: Date
+  updatedAt?: Date;
 } & (IsNotified | IsNotNotified) &
-  (IsClasse | IsElimine | IsAbandoned)
+  (IsClasse | IsElimine | IsAbandoned);
 
 type IsNotNotified = {
-  notifiedOn: undefined
-}
+  notifiedOn: undefined;
+};
 
 type IsNotified = {
-  notifiedOn: Date
+  notifiedOn: Date;
   certificateFile?: {
-    id: string
-    filename: string
-  }
-} & Users
+    id: string;
+    filename: string;
+  };
+} & Users;
 
 type IsClasse = {
-  isClasse: true
-  isAbandoned: false
-  completionDueOn: Date
-}
+  isClasse: true;
+  isAbandoned: false;
+  completionDueOn: Date;
+};
 
 type IsElimine = {
-  isClasse: false
-  isAbandoned: false
-  motifsElimination: string
-}
+  isClasse: false;
+  isAbandoned: false;
+  motifsElimination: string;
+};
 
 type IsAbandoned = {
-  isAbandoned: true
-  isClasse: false
-}
+  isAbandoned: true;
+  isClasse: false;
+};
 
 type Users = {
   users: Array<{
-    id: string
-    fullName: string
-    email: string
-  }>
-}
+    id: string;
+    fullName: string;
+    email: string;
+  }>;
+};
 
 type AlerteAnnulationAbandon =
   | {
-      actionPossible: 'voir-demande-en-cours'
-      urlDemandeEnCours: string
+      actionPossible: 'voir-demande-en-cours';
+      urlDemandeEnCours: string;
     }
   | {
-      actionPossible: 'choisir-nouveau-cdc'
+      actionPossible: 'choisir-nouveau-cdc';
       cdcAvecOptionAnnulationAbandon: Array<{
-        type: 'modifié'
-        paruLe: string
-        alternatif?: true
-      }>
+        type: 'modifié';
+        paruLe: string;
+        alternatif?: true;
+      }>;
     }
   | {
-      actionPossible: 'demander-annulation-abandon'
-      dateLimite: string
-    }
+      actionPossible: 'demander-annulation-abandon';
+      dateLimite: string;
+    };
 
 type GestionnaireDeRéseau = {
-  identifiantGestionnaire: string
-}
+  identifiantGestionnaire: string;
+};

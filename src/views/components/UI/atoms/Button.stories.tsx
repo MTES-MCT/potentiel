@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button } from './Button'
+import React from 'react';
+import { Button } from './Button';
 
 export default {
   title: 'Components/Atoms/Button',
@@ -8,13 +8,13 @@ export default {
     children: { control: 'text' },
     disabled: { control: 'boolean' },
   },
-}
+};
 
-const Template = (args) => <Button {...args} />
+const Template = (args) => <Button {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 
 Default.args = {
   children: `Exemple de bouton`,
   disabled: false,
-}
+};

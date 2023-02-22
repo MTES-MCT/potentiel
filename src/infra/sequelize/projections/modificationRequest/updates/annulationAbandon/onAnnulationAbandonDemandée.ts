@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { AnnulationAbandonDemandée } from '@modules/demandeModification/demandeAnnulationAbandon/events'
+import { logger } from '@core/utils';
+import { AnnulationAbandonDemandée } from '@modules/demandeModification/demandeAnnulationAbandon/events';
 
 export const onAnnulationAbandonDemandée =
   (models) =>
   async ({ payload, occurredAt }: AnnulationAbandonDemandée) => {
-    const { demandeId, demandéPar, projetId, cahierDesCharges } = payload
+    const { demandeId, demandéPar, projetId, cahierDesCharges } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.create({
         id: demandeId,
@@ -18,8 +18,8 @@ export const onAnnulationAbandonDemandée =
         userId: demandéPar,
         authority: 'dgec',
         cahierDesCharges,
-      })
+      });
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

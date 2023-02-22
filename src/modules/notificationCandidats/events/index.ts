@@ -1,3 +1,3 @@
-export * from './CandidateInformationOfCertificateUpdateFailed'
-export * from './CandidateInformedOfCertificateUpdate'
-export * from './CandidateNotifiedForPeriode'
+export * from './CandidateInformationOfCertificateUpdateFailed';
+export * from './CandidateInformedOfCertificateUpdate';
+export * from './CandidateNotifiedForPeriode';

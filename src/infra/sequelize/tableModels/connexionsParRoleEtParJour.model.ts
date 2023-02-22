@@ -4,18 +4,18 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
-} from 'sequelize'
-import { UserRole, USER_ROLES } from '../../../modules/users'
-import { sequelizeInstance } from '../../../sequelize.config'
+} from 'sequelize';
+import { UserRole, USER_ROLES } from '../../../modules/users';
+import { sequelizeInstance } from '../../../sequelize.config';
 
 class ConnexionsParRoleEtParJour extends Model<
   InferAttributes<ConnexionsParRoleEtParJour>,
   InferCreationAttributes<ConnexionsParRoleEtParJour>
 > {
-  id: CreationOptional<number>
-  date: Date
-  role: UserRole
-  compteur: number
+  id: CreationOptional<number>;
+  date: Date;
+  role: UserRole;
+  compteur: number;
 }
 ConnexionsParRoleEtParJour.init(
   {
@@ -49,7 +49,7 @@ ConnexionsParRoleEtParJour.init(
     modelName: 'ConnexionsParRoleEtParJour',
     timestamps: false,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-export { ConnexionsParRoleEtParJour }
+export { ConnexionsParRoleEtParJour };

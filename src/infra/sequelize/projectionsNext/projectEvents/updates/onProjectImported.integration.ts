@@ -1,17 +1,17 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '../../../helpers'
-import { ProjectEvent } from '../projectEvent.model'
-import { ProjectImported, ProjectImportedPayload } from '@modules/project'
-import onProjectImported from './onProjectImported'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '../../../helpers';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectImported, ProjectImportedPayload } from '@modules/project';
+import onProjectImported from './onProjectImported';
 
 describe('Handler onProjectImported', () => {
-  const projectId = new UniqueEntityID().toString()
-  const eventDate = new Date('2022-01-04')
-  const notifiedOn = new Date('2022-01-01').getTime()
+  const projectId = new UniqueEntityID().toString();
+  const eventDate = new Date('2022-01-04');
+  const notifiedOn = new Date('2022-01-01').getTime();
 
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   describe(`Projet classé importé`, () => {
     it(`Etant donné un projet lauréat,
@@ -28,28 +28,28 @@ describe('Handler onProjectImported', () => {
             version: 1,
             occurredAt: eventDate,
           },
-        })
-      )
+        }),
+      );
 
-      const projectEvent = await ProjectEvent.findAll({ where: { projectId } })
+      const projectEvent = await ProjectEvent.findAll({ where: { projectId } });
 
-      expect(projectEvent).toHaveLength(2)
+      expect(projectEvent).toHaveLength(2);
 
       expect(projectEvent[0]).toMatchObject({
         type: 'ProjectImported',
         valueDate: eventDate.getTime(),
         eventPublishedAt: eventDate.getTime(),
         payload: { notifiedOn },
-      })
+      });
 
       expect(projectEvent[1]).toMatchObject({
         type: 'DateMiseEnService',
         valueDate: eventDate.getTime(),
         eventPublishedAt: eventDate.getTime(),
         payload: { statut: 'non-renseignée' },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe(`Projet éliminé importé`, () => {
     it(`Etant donné un projet éliminé,
@@ -65,19 +65,19 @@ describe('Handler onProjectImported', () => {
             version: 1,
             occurredAt: eventDate,
           },
-        })
-      )
+        }),
+      );
 
-      const projectEvent = await ProjectEvent.findAll({ where: { projectId } })
+      const projectEvent = await ProjectEvent.findAll({ where: { projectId } });
 
-      expect(projectEvent).toHaveLength(1)
+      expect(projectEvent).toHaveLength(1);
 
       expect(projectEvent[0]).toMatchObject({
         type: 'ProjectImported',
         valueDate: eventDate.getTime(),
         eventPublishedAt: eventDate.getTime(),
         payload: { notifiedOn },
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

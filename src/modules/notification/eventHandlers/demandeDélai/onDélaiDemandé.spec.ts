@@ -1,26 +1,26 @@
-import { okAsync } from '@core/utils'
-import { Project, User } from '@entities'
-import { DélaiDemandé } from '@modules/demandeModification'
-import routes from '@routes'
-import { makeOnDélaiDemandé } from './onDélaiDemandé'
+import { okAsync } from '@core/utils';
+import { Project, User } from '@entities';
+import { DélaiDemandé } from '@modules/demandeModification';
+import routes from '@routes';
+import { makeOnDélaiDemandé } from './onDélaiDemandé';
 
 describe(`Notifier lorsqu'un délai est demandé`, () => {
   describe(`Notifier le porteur de projet`, () => {
     it(`  Quand un délai est demandé
           Alors le porteur ayant fait la demande devrait être notifié`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getInfoForModificationRequested = () =>
         okAsync({
           porteurProjet: { email: 'porteur@test.test', fullName: 'Porteur de Projet' },
           nomProjet: 'nom-du-projet',
-        })
+        });
 
       const onDélaiDemandé = makeOnDélaiDemandé({
         sendNotification,
         getInfoForModificationRequested,
         findUsersForDreal: jest.fn(),
         findProjectById: jest.fn(),
-      })
+      });
 
       await onDélaiDemandé(
         new DélaiDemandé({
@@ -31,10 +31,10 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             autorité: 'dgec',
             dateAchèvementDemandée: new Date('2022-07-12'),
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(1)
+      expect(sendNotification).toHaveBeenCalledTimes(1);
       expect(sendNotification).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'modification-request-status-update',
@@ -52,19 +52,19 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             type_demande: 'delai',
             document_absent: '',
           }),
-        })
-      )
-    })
-  })
+        }),
+      );
+    });
+  });
   describe(`Notifier les DREALs`, () => {
     it(`  Quand un délai est demandé sous autorité des DREALs
           Alors tous les agents de la DREAL des régions du projet devraient être notifiés`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getInfoForModificationRequested = () =>
         okAsync({
           porteurProjet: { email: 'porteur@test.test', fullName: 'Porteur de Projet' },
           nomProjet: 'nom-du-projet',
-        })
+        });
 
       const findProjectById = (region: string) =>
         Promise.resolve({
@@ -72,21 +72,21 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
           nomProjet: 'nom-du-projet',
           regionProjet: 'regionA / regionB',
           departementProjet: 'département',
-        } as Project)
+        } as Project);
 
       const findUsersForDreal = (region: string) =>
         Promise.resolve(
           region === 'regionA'
             ? [{ email: 'drealA@test.test', fullName: 'drealA' } as User]
-            : [{ email: 'drealB@test.test', fullName: 'drealB' } as User]
-        )
+            : [{ email: 'drealB@test.test', fullName: 'drealB' } as User],
+        );
 
       const onDélaiDemandé = makeOnDélaiDemandé({
         sendNotification,
         getInfoForModificationRequested,
         findUsersForDreal,
         findProjectById,
-      })
+      });
 
       await onDélaiDemandé(
         new DélaiDemandé({
@@ -97,10 +97,10 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             autorité: 'dreal',
             dateAchèvementDemandée: new Date('2022-07-12'),
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(3)
+      expect(sendNotification).toHaveBeenCalledTimes(3);
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -120,8 +120,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             type_demande: 'delai',
             departement_projet: 'département',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         3,
         expect.objectContaining({
@@ -141,8 +141,8 @@ describe(`Notifier lorsqu'un délai est demandé`, () => {
             type_demande: 'delai',
             departement_projet: 'département',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

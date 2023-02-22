@@ -1,28 +1,28 @@
-import { EventStore } from '@core/domain'
-import { ResultAsync } from '@core/utils'
-import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '../events'
-import { InfraNotAvailableError } from '@modules/shared'
-import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau'
+import { EventStore } from '@core/domain';
+import { ResultAsync } from '@core/utils';
+import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '../events';
+import { InfraNotAvailableError } from '@modules/shared';
+import { GetProjetsParIdentifiantGestionnaireRéseau } from './GetProjetsParIdentifiantGestionnaireRéseau';
 import {
   DateMiseEnServicePlusRécenteError,
   RenseignerDonnéesDeRaccordement,
-} from '@modules/project'
-import { DonnéesRaccordement } from '../DonnéesRaccordement'
+} from '@modules/project';
+import { DonnéesRaccordement } from '../DonnéesRaccordement';
 
 type Dépendances = {
-  getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau
-  renseignerDonnéesDeRaccordement: RenseignerDonnéesDeRaccordement
-  publishToEventStore: EventStore['publish']
-}
+  getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau;
+  renseignerDonnéesDeRaccordement: RenseignerDonnéesDeRaccordement;
+  publishToEventStore: EventStore['publish'];
+};
 
 type Commande = {
-  gestionnaire: string
-  données: DonnéesRaccordement[]
-}
+  gestionnaire: string;
+  données: DonnéesRaccordement[];
+};
 
 export type MettreAJourDonnéesDeRaccordement = ReturnType<
   typeof makeMettreAJourDonnéesDeRaccordement
->
+>;
 
 export const makeMettreAJourDonnéesDeRaccordement =
   ({
@@ -32,13 +32,13 @@ export const makeMettreAJourDonnéesDeRaccordement =
   }: Dépendances) =>
   ({ gestionnaire, données }: Commande) => {
     const lancementDesMiseAJourPourChaqueProjet = (
-      projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ projetId: string }>>
+      projetsParIdentifiantGestionnaireRéseau: Record<string, Array<{ projetId: string }>>,
     ) => {
       return ResultAsync.fromPromise(
         Promise.all(
           données.map(async (ligne) => {
             const nombreDeProjetsCorrespondant =
-              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau].length
+              projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau].length;
             if (nombreDeProjetsCorrespondant !== 1) {
               return {
                 identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
@@ -47,17 +47,17 @@ export const makeMettreAJourDonnéesDeRaccordement =
                   nombreDeProjetsCorrespondant > 1
                     ? `Plusieurs projets correspondent à l'identifiant gestionnaire de réseau`
                     : `Aucun projet ne correspond à l'identifiant gestionnaire de réseau`,
-              }
+              };
             }
 
             const projetId =
               projetsParIdentifiantGestionnaireRéseau[ligne.identifiantGestionnaireRéseau][0]
-                .projetId
+                .projetId;
 
             const result = await renseignerDonnéesDeRaccordement({
               projetId,
               ...ligne,
-            })
+            });
 
             return {
               identifiantGestionnaireRéseau: ligne.identifiantGestionnaireRéseau,
@@ -73,15 +73,15 @@ export const makeMettreAJourDonnéesDeRaccordement =
                         : ('échec' as const),
                     raison: result.error.message,
                   }),
-            }
-          })
+            };
+          }),
         ),
-        () => new InfraNotAvailableError()
-      )
-    }
+        () => new InfraNotAvailableError(),
+      );
+    };
 
     const terminerLaMiseAJour = (
-      résultat: TâcheMiseAJourDonnéesDeRaccordementTerminée['payload']['résultat']
+      résultat: TâcheMiseAJourDonnéesDeRaccordementTerminée['payload']['résultat'],
     ) => {
       return publishToEventStore(
         new TâcheMiseAJourDonnéesDeRaccordementTerminée({
@@ -89,13 +89,13 @@ export const makeMettreAJourDonnéesDeRaccordement =
             gestionnaire,
             résultat,
           },
-        })
-      )
-    }
+        }),
+      );
+    };
 
-    const identifiantsGestionnaireRéseau = données.map((d) => d.identifiantGestionnaireRéseau)
+    const identifiantsGestionnaireRéseau = données.map((d) => d.identifiantGestionnaireRéseau);
 
     return getProjetsParIdentifiantGestionnaireRéseau(identifiantsGestionnaireRéseau)
       .andThen(lancementDesMiseAJourPourChaqueProjet)
-      .andThen(terminerLaMiseAJour)
-  }
+      .andThen(terminerLaMiseAJour);
+  };

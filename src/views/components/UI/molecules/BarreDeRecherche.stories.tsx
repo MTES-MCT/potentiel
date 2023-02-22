@@ -1,5 +1,5 @@
-import React from 'react'
-import { BarreDeRecherche } from './BarreDeRecherche'
+import React from 'react';
+import { BarreDeRecherche } from './BarreDeRecherche';
 
 export default {
   title: 'Components/Molecules/BarreDeRecherche',
@@ -7,12 +7,12 @@ export default {
   argTypes: {
     placeholder: { control: 'text' },
   },
-}
+};
 
-const Template = (args) => <BarreDeRecherche {...args} />
+const Template = (args) => <BarreDeRecherche {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 
 Default.args = {
   placeholder: 'Rechercher',
-}
+};

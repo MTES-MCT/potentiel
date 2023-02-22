@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-import makeFakeRequest from '../../__tests__/fixtures/request'
+import makeFakeRequest from '../../__tests__/fixtures/request';
 
-export default { title: 'List Projects' }
+export default { title: 'List Projects' };
 
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { ListeProjets } from './ListeProjetsPage'
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { ListeProjets } from './ListeProjetsPage';
 
 const projects = {
   itemCount: 3,
@@ -30,7 +30,7 @@ const projects = {
       classe: 'Classé',
     }),
   ],
-}
+};
 
 export const withFilters = () => (
   <ListeProjets
@@ -42,13 +42,13 @@ export const withFilters = () => (
           garantiesFinancieres: 'notSubmitted',
         },
       },
-      { role: 'porteur-projet' }
+      { role: 'porteur-projet' },
     )}
     existingAppelsOffres={appelsOffreStatic.map((item) => item.id)}
     appelsOffre={appelsOffreStatic}
     projects={projects}
   />
-)
+);
 
 export const withError = () => (
   <ListeProjets
@@ -67,7 +67,7 @@ export const withError = () => (
       items: [],
     }}
   />
-)
+);
 
 export const withSuccess = () => (
   <ListeProjets
@@ -78,7 +78,7 @@ export const withSuccess = () => (
     appelsOffre={appelsOffreStatic}
     projects={projects}
   />
-)
+);
 
 export const adminWithProjects = () => (
   <ListeProjets
@@ -87,7 +87,7 @@ export const adminWithProjects = () => (
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
   />
-)
+);
 
 export const drealWithProjects = () => (
   <ListeProjets
@@ -96,7 +96,7 @@ export const drealWithProjects = () => (
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
   />
-)
+);
 
 export const porteurProjetWithProjects = () => (
   <ListeProjets
@@ -105,7 +105,7 @@ export const porteurProjetWithProjects = () => (
     existingAppelsOffres={[appelsOffreStatic[0].id]}
     projects={projects}
   />
-)
+);
 
 function makeFakeProjectListItem(overrides?) {
   const defaultObj = {
@@ -131,15 +131,15 @@ function makeFakeProjectListItem(overrides?) {
     },
     abandonedOn: 0,
     notifiedOn: 2,
-  }
+  };
 
   const project = {
     ...defaultObj,
     ...overrides,
-  }
+  };
 
   return {
     ...project,
     potentielIdentifier: 'potentielIdentifer',
-  }
+  };
 }

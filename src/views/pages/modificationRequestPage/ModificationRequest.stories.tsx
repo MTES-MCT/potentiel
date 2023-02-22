@@ -1,13 +1,13 @@
-import { ProjectAppelOffre } from '@entities'
-import React from 'react'
-import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres'
+import { ProjectAppelOffre } from '@entities';
+import React from 'react';
+import { batimentPPE2 } from '@dataAccess/inMemory/appelsOffres';
 
-import makeFakeRequest from '../../../__tests__/fixtures/request'
-import makeFakeUser from '../../../__tests__/fixtures/user'
+import makeFakeRequest from '../../../__tests__/fixtures/request';
+import makeFakeUser from '../../../__tests__/fixtures/user';
 
-import { ModificationRequest } from './ModificationRequest'
+import { ModificationRequest } from './ModificationRequest';
 
-export default { title: 'Modification Request Details' }
+export default { title: 'Modification Request Details' };
 
 export const RecoursOuvertPourAdmin = () => (
   <ModificationRequest
@@ -48,7 +48,7 @@ export const RecoursOuvertPourAdmin = () => (
       },
     }}
   />
-)
+);
 
 export const RecoursAccepté = () => (
   <ModificationRequest
@@ -91,7 +91,7 @@ export const RecoursAccepté = () => (
       },
     }}
   />
-)
+);
 
 export const RecoursRejeté = () => (
   <ModificationRequest
@@ -134,7 +134,7 @@ export const RecoursRejeté = () => (
       },
     }}
   />
-)
+);
 
 export const ChangementPuissance = () => (
   <ModificationRequest
@@ -176,7 +176,7 @@ export const ChangementPuissance = () => (
       },
     }}
   />
-)
+);
 
 export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
   <ModificationRequest
@@ -219,4 +219,4 @@ export const ChangementPuissanceNonAutoAccepteSuperieurVolumeReserve = () => (
       },
     }}
   />
-)
+);

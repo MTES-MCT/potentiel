@@ -1,26 +1,26 @@
-import { ProjectAppelOffre, Technologie } from '@entities'
+import { ProjectAppelOffre, Technologie } from '@entities';
 
-const defaultRatios = { min: 0.9, max: 1.1 }
+const defaultRatios = { min: 0.9, max: 1.1 };
 
 export const getRatiosChangementPuissance = (project: {
-  appelOffre?: ProjectAppelOffre
-  technologie: Technologie
+  appelOffre?: ProjectAppelOffre;
+  technologie: Technologie;
 }): { min: number; max: number } => {
-  const { appelOffre, technologie } = project
+  const { appelOffre, technologie } = project;
 
   if (!appelOffre) {
-    return defaultRatios
+    return defaultRatios;
   }
 
-  const { changementPuissance } = appelOffre
+  const { changementPuissance } = appelOffre;
 
   if (changementPuissance.changementByTechnologie) {
     if (technologie === 'N/A') {
-      return defaultRatios
+      return defaultRatios;
     }
 
-    return changementPuissance.ratios[technologie]
+    return changementPuissance.ratios[technologie];
   }
 
-  return changementPuissance.ratios
-}
+  return changementPuissance.ratios;
+};

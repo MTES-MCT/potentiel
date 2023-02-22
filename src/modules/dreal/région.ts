@@ -17,8 +17,8 @@ const REGIONS = [
   'La Réunion',
   'Mayotte',
   'Corse',
-] as const
+] as const;
 
-type Région = typeof REGIONS[number]
+type Région = typeof REGIONS[number];
 
-export { Région, REGIONS }
+export { Région, REGIONS };

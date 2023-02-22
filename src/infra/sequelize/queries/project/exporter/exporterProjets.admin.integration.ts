@@ -1,7 +1,7 @@
-import models from '../../../models'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { exporterProjets } from './exporterProjets'
-import { resetDatabase } from '@dataAccess'
+import models from '../../../models';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { exporterProjets } from './exporterProjets';
+import { resetDatabase } from '@dataAccess';
 
 import {
   contenuLocal,
@@ -25,11 +25,11 @@ import {
   référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
-} from './colonnesParCatégorie'
-import { User } from '@entities'
+} from './colonnesParCatégorie';
+import { User } from '@entities';
 
 describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"`, () => {
-  beforeEach(resetDatabase)
+  beforeEach(resetDatabase);
 
   const colonnesÀExporter = [
     ...identificationProjet,
@@ -53,7 +53,7 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
     ...notes,
     ...modificationsAvantImport,
     ...garantiesFinancières,
-  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
+  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   for (const role of ['admin', 'dgec-validateur'] as const) {
     it(`Étant donné des projets notifiés et non notifiés
@@ -72,15 +72,15 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
           notifiedOn: new Date('2021-07-31').getTime(),
           nomProjet: 'Autre',
         }),
-      ])
+      ]);
 
       const exportProjets = (
         await exporterProjets({ user: { id: 'id-user', role } as User })
-      )._unsafeUnwrap()
+      )._unsafeUnwrap();
 
-      expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
+      expect(exportProjets.colonnes).toEqual(colonnesÀExporter);
 
-      expect(exportProjets.données).toHaveLength(3)
+      expect(exportProjets.données).toHaveLength(3);
       expect(exportProjets.données).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
@@ -92,8 +92,8 @@ describe(`Export des projets en tant qu'utilisateur "admin" ou "dgec-validateur"
           expect.objectContaining({
             'Nom projet': 'Autre',
           }),
-        ])
-      )
-    })
+        ]),
+      );
+    });
   }
-})
+});

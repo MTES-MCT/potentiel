@@ -1,5 +1,5 @@
-import React from 'react'
-import { Request } from 'express'
+import React from 'react';
+import { Request } from 'express';
 
 import {
   Button,
@@ -13,20 +13,20 @@ import {
   ProjectProps,
   SecondaryLinkButton,
   SuccessBox,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
-import routes from '@routes'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
+import routes from '@routes';
 
 type ModifierIdentifiantGestionnaireReseauProps = {
-  request: Request
-  projet: ProjectProps
-}
+  request: Request;
+  projet: ProjectProps;
+};
 
 export const ModifierIdentifiantGestionnaireReseau = ({
   request,
   projet,
 }: ModifierIdentifiantGestionnaireReseauProps) => {
-  const { error, success } = (request.query as any) || {}
+  const { error, success } = (request.query as any) || {};
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
@@ -77,6 +77,6 @@ export const ModifierIdentifiantGestionnaireReseau = ({
         </form>
       </div>
     </PageTemplate>
-  )
-}
-hydrateOnClient(ModifierIdentifiantGestionnaireReseau)
+  );
+};
+hydrateOnClient(ModifierIdentifiantGestionnaireReseau);

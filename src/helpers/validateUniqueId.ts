@@ -1,7 +1,7 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
-const isUuid = yup.string().required().uuid()
+const isUuid = yup.string().required().uuid();
 
 export const validateUniqueId = (uniqueId: string): boolean => {
-  return isUuid.isValidSync(uniqueId)
-}
+  return isUuid.isValidSync(uniqueId);
+};

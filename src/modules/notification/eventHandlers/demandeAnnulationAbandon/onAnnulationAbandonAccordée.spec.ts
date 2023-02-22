@@ -1,11 +1,11 @@
-import { okAsync } from '@core/utils'
-import { AnnulationAbandonAccordée } from '@modules/demandeModification'
-import { makeOnAnnulationAbandonAccordée } from './onAnnulationAbandonAccordée'
+import { okAsync } from '@core/utils';
+import { AnnulationAbandonAccordée } from '@modules/demandeModification';
+import { makeOnAnnulationAbandonAccordée } from './onAnnulationAbandonAccordée';
 
 describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
   it(`  Quand une annulation  d'abandon est accordé,
         alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-    const notifierPorteurChangementStatutDemande = jest.fn()
+    const notifierPorteurChangementStatutDemande = jest.fn();
     const getModificationRequestInfoForStatusNotification = () =>
       okAsync({
         porteursProjet: [
@@ -26,12 +26,12 @@ describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
         regionProjet: 'region',
         departementProjet: 'departement',
         type: 'annulation abandon',
-      })
+      });
 
     const onAnnulationAbandonAccordée = makeOnAnnulationAbandonAccordée({
       notifierPorteurChangementStatutDemande,
       getModificationRequestInfoForStatusNotification,
-    })
+    });
 
     await onAnnulationAbandonAccordée(
       new AnnulationAbandonAccordée({
@@ -41,10 +41,10 @@ describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
           accordéPar: 'la-dreal',
           fichierRéponseId: 'le-fichier',
         },
-      })
-    )
+      }),
+    );
 
-    expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+    expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2);
     expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
@@ -56,8 +56,8 @@ describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
         nomProjet: 'nom-du-projet',
         modificationRequestId: 'la-demande',
         hasDocument: true,
-      })
-    )
+      }),
+    );
 
     expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
       2,
@@ -70,7 +70,7 @@ describe(`Notifier lorsqu'une annulation d'abandon est accordée`, () => {
         nomProjet: 'nom-du-projet',
         modificationRequestId: 'la-demande',
         hasDocument: true,
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

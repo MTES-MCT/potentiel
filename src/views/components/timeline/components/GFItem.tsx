@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.'
-import ROUTES from '@routes'
-import { InfoItem } from './InfoItem'
-import { WarningItem } from './WarningItem'
-import { WarningIcon } from './WarningIcon'
-import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise'
-import { formatDate } from '../../../../helpers/formatDate'
-import { format } from 'date-fns'
-import { UserRole } from '@modules/users'
+import React, { useState } from 'react';
+import { ContentArea, CurrentIcon, ItemDate, ItemTitle, PastIcon } from '.';
+import ROUTES from '@routes';
+import { InfoItem } from './InfoItem';
+import { WarningItem } from './WarningItem';
+import { WarningIcon } from './WarningIcon';
+import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise';
+import { formatDate } from '../../../../helpers/formatDate';
+import { format } from 'date-fns';
+import { UserRole } from '@modules/users';
 
 import {
   Button,
@@ -19,55 +19,55 @@ import {
   DownloadLink,
   Dropdown,
   Link,
-} from '@components'
+} from '@components';
 
 type ComponentProps = GarantiesFinancièresDTO & {
   project: {
-    id: string
-    status: ProjectStatus
-    garantieFinanciereEnMois?: number
-    nomProjet: string
-  }
-}
+    id: string;
+    status: ProjectStatus;
+    garantieFinanciereEnMois?: number;
+    nomProjet: string;
+  };
+};
 
 export const GFItem = (props: ComponentProps) => {
-  const { statut, project } = props
+  const { statut, project } = props;
 
   switch (statut) {
     case 'en attente':
     case 'en retard':
-      return <EnAttente {...{ ...props, statut, project }} />
+      return <EnAttente {...{ ...props, statut, project }} />;
     case 'à traiter':
-      return <ATraiter {...{ ...props, statut, project }} />
+      return <ATraiter {...{ ...props, statut, project }} />;
     case 'validé':
-      return <Validé {...{ ...props, statut, project }} />
+      return <Validé {...{ ...props, statut, project }} />;
   }
-}
+};
 
-const rolesAutorisés = ['porteur-projet', 'dreal', 'admin', 'caisse-des-dépôts'] as const
+const rolesAutorisés = ['porteur-projet', 'dreal', 'admin', 'caisse-des-dépôts'] as const;
 const utilisateurPeutModifierLesGF = (role: UserRole): role is typeof rolesAutorisés[number] => {
-  return (rolesAutorisés as readonly string[]).includes(role)
-}
+  return (rolesAutorisés as readonly string[]).includes(role);
+};
 
 const getInfoDuréeGF = (garantieFinanciereEnMois?: number) => {
   return garantieFinanciereEnMois
     ? `la durée de l’engagement ne peut être inférieure à ${garantieFinanciereEnMois} mois.`
     : `La garantie doit avoir une durée couvrant le
             projet jusqu’à 6 mois après la date d’achèvement de l’installation ou être renouvelée
-            régulièrement afin d’assurer une telle couverture temporelle.`
-}
+            régulièrement afin d’assurer une telle couverture temporelle.`;
+};
 
-type GFEnAttenteProps = ComponentProps & { statut: 'en attente' | 'en retard' }
+type GFEnAttenteProps = ComponentProps & { statut: 'en attente' | 'en retard' };
 const EnAttente = ({
   date: dateLimiteEnvoi,
   statut,
   variant,
   project: { nomProjet, id: projectId, garantieFinanciereEnMois },
 }: GFEnAttenteProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet'
-  const afficherAlerteRetard = statut === 'en retard' && utilisateurEstPorteur
-  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
+  const utilisateurEstPorteur = variant === 'porteur-projet';
+  const afficherAlerteRetard = statut === 'en retard' && utilisateurEstPorteur;
+  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
+  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
   return (
     <>
       {afficherAlerteRetard ? <WarningIcon /> : <CurrentIcon />}
@@ -112,17 +112,17 @@ const EnAttente = ({
         </div>
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type FormulaireProps = {
-  projetId: string
-  garantieFinanciereEnMois?: number
-  action: 'soumettre' | 'enregistrer'
-  role: typeof rolesAutorisés[number]
-}
+  projetId: string;
+  garantieFinanciereEnMois?: number;
+  action: 'soumettre' | 'enregistrer';
+  role: typeof rolesAutorisés[number];
+};
 const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: FormulaireProps) => {
-  const [displayForm, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false);
 
   return (
     <Dropdown
@@ -185,10 +185,10 @@ const Formulaire = ({ projetId, garantieFinanciereEnMois, action, role }: Formul
         </div>
       </form>
     </Dropdown>
-  )
-}
+  );
+};
 
-type ATraiterProps = ComponentProps & { statut: 'à traiter' }
+type ATraiterProps = ComponentProps & { statut: 'à traiter' };
 const ATraiter = ({
   date: dateConstitution,
   url,
@@ -196,9 +196,9 @@ const ATraiter = ({
   project,
   dateEchéance,
 }: ATraiterProps) => {
-  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant)
-  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
+  const utilisateurPeutAnnulerDépôt = ['porteur-projet', 'caisse-des-dépôts'].includes(variant);
+  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
+  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
 
   return (
     <>
@@ -231,15 +231,15 @@ const ATraiter = ({
         {utilisateurPeutAnnulerDépôt && <AnnulerDépôt projetId={project.id} />}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type DateEchéanceProps = {
-  projetId: string
-  modificationAutorisée: boolean
-  dateEchéance: number | undefined
-  garantieFinanciereEnMois?: number
-}
+  projetId: string;
+  modificationAutorisée: boolean;
+  dateEchéance: number | undefined;
+  garantieFinanciereEnMois?: number;
+};
 const DateEchéance = ({
   projetId,
   modificationAutorisée,
@@ -259,20 +259,20 @@ const DateEchéance = ({
         )}
       </div>
     </>
-  )
-}
+  );
+};
 
 type DateEchéanceFormulaireProps = {
-  projetId: string
-  garantieFinanciereEnMois?: number
-  action: 'Éditer' | 'Ajouter'
-}
+  projetId: string;
+  garantieFinanciereEnMois?: number;
+  action: 'Éditer' | 'Ajouter';
+};
 const DateEchéanceFormulaire = ({
   projetId,
   garantieFinanciereEnMois,
   action,
 }: DateEchéanceFormulaireProps) => {
-  const [displayForm, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false);
   return (
     <Dropdown
       design="link"
@@ -301,12 +301,12 @@ const DateEchéanceFormulaire = ({
         </div>
       </form>
     </Dropdown>
-  )
-}
+  );
+};
 
 type AnnulerDépôtProps = {
-  projetId: string
-}
+  projetId: string;
+};
 const AnnulerDépôt = ({ projetId }: AnnulerDépôtProps) => (
   <Link
     href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
@@ -316,9 +316,9 @@ const AnnulerDépôt = ({ projetId }: AnnulerDépôtProps) => (
   >
     Annuler le dépôt
   </Link>
-)
+);
 
-type ValidéProps = ComponentProps & { statut: 'validé' }
+type ValidéProps = ComponentProps & { statut: 'validé' };
 const Validé = ({
   date: dateConstitution,
   url,
@@ -328,10 +328,10 @@ const Validé = ({
   retraitDépôtPossible,
   project,
 }: ValidéProps) => {
-  const utilisateurEstPorteur = variant === 'porteur-projet'
-  const utilisateurEstCaisseDesDépôts = variant === 'caisse-des-dépôts'
-  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin'
-  const modificationAutorisée = utilisateurPeutModifierLesGF(variant)
+  const utilisateurEstPorteur = variant === 'porteur-projet';
+  const utilisateurEstCaisseDesDépôts = variant === 'caisse-des-dépôts';
+  const utilisateurEstAdmin = variant === 'dreal' || variant === 'admin';
+  const modificationAutorisée = utilisateurPeutModifierLesGF(variant);
 
   return (
     <>
@@ -375,13 +375,13 @@ const Validé = ({
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type RetirerDocumentProps = {
-  projetId: string
-  envoyéesPar?: 'porteur-projet' | 'dreal' | 'admin'
-}
+  projetId: string;
+  envoyéesPar?: 'porteur-projet' | 'dreal' | 'admin';
+};
 const RetirerDocument = ({ projetId, envoyéesPar }: RetirerDocumentProps) => (
   <p className="p-0 m-0">
     <Link
@@ -396,4 +396,4 @@ const RetirerDocument = ({ projetId, envoyéesPar }: RetirerDocumentProps) => (
       <span> (cela n'annule pas les garanties financières soumises à la candidature)</span>
     )}
   </p>
-)
+);

@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
-import { Button, Input, Link, SecondaryLinkButton } from '@components'
-import { ProjectDataForChoisirCDCPage } from '@modules/project'
-import routes from '@routes'
-import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges'
+import React, { useState } from 'react';
+import { Button, Input, Link, SecondaryLinkButton } from '@components';
+import { ProjectDataForChoisirCDCPage } from '@modules/project';
+import routes from '@routes';
+import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 
-import { CahierDesChargesInitial } from './CahierDesChargesInitial'
-import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible'
-import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable'
+import { CahierDesChargesInitial } from './CahierDesChargesInitial';
+import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
+import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
 
 type ChoisirCahierDesChargesFormulaireProps = {
-  projet: ProjectDataForChoisirCDCPage
-  redirectUrl?: string
+  projet: ProjectDataForChoisirCDCPage;
+  redirectUrl?: string;
   type?:
     | 'actionnaire'
     | 'fournisseur'
@@ -18,15 +18,20 @@ type ChoisirCahierDesChargesFormulaireProps = {
     | 'puissance'
     | 'recours'
     | 'abandon'
-    | 'delai'
-}
+    | 'delai';
+};
 
 export const ChoisirCahierDesChargesFormulaire: React.FC<
   ChoisirCahierDesChargesFormulaireProps
 > = ({ projet, redirectUrl, type }) => {
-  const { id: projetId, appelOffre, cahierDesChargesActuel, identifiantGestionnaireRéseau } = projet
-  const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel)
-  const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false)
+  const {
+    id: projetId,
+    appelOffre,
+    cahierDesChargesActuel,
+    identifiantGestionnaireRéseau,
+  } = projet;
+  const [cdcChoisi, choisirCdc] = useState(cahierDesChargesActuel);
+  const [peutEnregistrerLeChangement, pouvoirEnregistrerLeChangement] = useState(false);
 
   return (
     <form action={routes.CHANGER_CDC} method="post" className="m-0 max-w-full">
@@ -43,8 +48,8 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
             {...{
               id: 'initial',
               onCahierDesChargesChoisi: (id) => {
-                choisirCdc(id)
-                pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+                choisirCdc(id);
+                pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel);
               },
               sélectionné: cdcChoisi === 'initial',
               ...(!projet.appelOffre.doitPouvoirChoisirCDCInitial && { désactivé: true }),
@@ -62,8 +67,8 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         {appelOffre.cahiersDesChargesModifiésDisponibles.map((cahierDesChargesModifié, index) => {
           const idCdc = formatCahierDesChargesRéférence({
             ...cahierDesChargesModifié,
-          })
-          const sélectionné = cdcChoisi === idCdc
+          });
+          const sélectionné = cdcChoisi === idCdc;
 
           return (
             <li className="mb-5" key={`cahier-des-charges-modifié-${index}`}>
@@ -71,8 +76,8 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                 {...{
                   id: idCdc,
                   onCahierDesChargesChoisi: (id) => {
-                    choisirCdc(id)
-                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel)
+                    choisirCdc(id);
+                    pouvoirEnregistrerLeChangement(id !== cahierDesChargesActuel);
                   },
                   sélectionné,
                 }}
@@ -111,7 +116,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                 </div>
               </CahierDesChargesSelectionnable>
             </li>
-          )
+          );
         })}
       </ul>
 
@@ -124,5 +129,5 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
         </SecondaryLinkButton>
       </div>
     </form>
-  )
-}
+  );
+};

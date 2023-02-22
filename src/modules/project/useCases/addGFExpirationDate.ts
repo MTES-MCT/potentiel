@@ -1,49 +1,49 @@
-import { TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { NoGFCertificateToUpdateError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
-import { Project } from '../Project'
+import { TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
+import { NoGFCertificateToUpdateError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors';
+import { Project } from '../Project';
 
 type addGFExpidationDateDeps = {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: TransactionalRepository<Project>
-}
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: TransactionalRepository<Project>;
+};
 
 type addGFExpidationDateArgs = {
-  expirationDate: Date
-  submittedBy: User
-  projectId: string
-}
+  expirationDate: Date;
+  submittedBy: User;
+  projectId: string;
+};
 
 export const PermissionAjouterDateExpirationGF = {
   nom: 'ajouter-date-expiration-gf',
   description: `Ajouter une date d'expiration à une garantie financière`,
-}
+};
 export const makeAddGFExpirationDate =
   (deps: addGFExpidationDateDeps) =>
   (
-    args: addGFExpidationDateArgs
+    args: addGFExpidationDateArgs,
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { shouldUserAccessProject, projectRepo } = deps
-    const { expirationDate, submittedBy, projectId } = args
+    const { shouldUserAccessProject, projectRepo } = deps;
+    const { expirationDate, submittedBy, projectId } = args;
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy })).andThen(
       (userHasRights): ResultAsync<null, UnauthorizedError> => {
-        if (!userHasRights) return errAsync(new UnauthorizedError())
+        if (!userHasRights) return errAsync(new UnauthorizedError());
         return projectRepo.transaction(
           new UniqueEntityID(projectId),
           (
-            project: Project
+            project: Project,
           ): ResultAsync<
             null,
             ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError
           > => {
             return project
               .addGFExpirationDate({ expirationDate, submittedBy, projectId })
-              .asyncMap(async () => null)
-          }
-        )
-      }
-    )
-  }
+              .asyncMap(async () => null);
+          },
+        );
+      },
+    );
+  };

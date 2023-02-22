@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@core/domain'
-import { ProjectClaimed } from '@modules/projectClaim'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ProjectClaimed } from '@modules/projectClaim';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectClaimed,
   async (
     { payload: { projectId, attestationDesignationFileId, claimedBy }, occurredAt },
-    transaction
+    transaction,
   ) => {
     await ProjectEvent.create(
       {
@@ -20,7 +20,7 @@ export default ProjectEventProjector.on(
           claimedBy,
         },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

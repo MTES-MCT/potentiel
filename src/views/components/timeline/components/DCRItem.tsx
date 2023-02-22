@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
-import ROUTES from '@routes'
+import React, { useState } from 'react';
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.';
+import ROUTES from '@routes';
 import {
   Button,
   FormulaireChampsObligatoireLégende,
@@ -10,29 +10,29 @@ import {
   Link,
   Dropdown,
   Input,
-} from '@components'
-import { WarningItem } from './WarningItem'
-import { DCRItemProps } from '../helpers/extractDCRItemProps'
-import { WarningIcon } from './WarningIcon'
-import { format } from 'date-fns'
+} from '@components';
+import { WarningItem } from './WarningItem';
+import { DCRItemProps } from '../helpers/extractDCRItemProps';
+import { WarningIcon } from './WarningIcon';
+import { format } from 'date-fns';
 
 export const DCRItem = (props: DCRItemProps & { projectId: string }) => {
-  const { status, projectId } = props
+  const { status, projectId } = props;
 
   return status === 'submitted' ? (
     <Submitted {...{ ...props, projectId }} />
   ) : (
     <NotSubmitted {...{ ...props, projectId }} />
-  )
-}
+  );
+};
 
 type SubmittedProps = {
-  role: string
-  date: number
-  url: string | undefined
-  numeroDossier: string
-  projectId: string
-}
+  role: string;
+  date: number;
+  url: string | undefined;
+  numeroDossier: string;
+  projectId: string;
+};
 
 const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps) => {
   return (
@@ -52,15 +52,15 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
         {role === 'porteur-projet' && <CancelDeposit {...{ projectId }} />}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type NotSubmittedProps = {
-  role: string
-  date: number
-  projectId: string
-  status: 'due' | 'past-due'
-}
+  role: string;
+  date: number;
+  projectId: string;
+  status: 'due' | 'past-due';
+};
 
 const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
   return (
@@ -93,10 +93,10 @@ const NotSubmitted = ({ role, date, projectId, status }: NotSubmittedProps) => {
         </div>
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
-type CancelDepositProps = { projectId: string }
+type CancelDepositProps = { projectId: string };
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
     <Link
@@ -108,15 +108,15 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
     >
       Annuler le dépôt
     </Link>
-  )
-}
+  );
+};
 
 type UploadFormProps = {
-  projectId: string
-}
+  projectId: string;
+};
 
 const UploadForm = ({ projectId }: UploadFormProps) => {
-  const [displayForm, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false);
   return (
     <Dropdown
       design="link"
@@ -163,5 +163,5 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
         </div>
       </form>
     </Dropdown>
-  )
-}
+  );
+};

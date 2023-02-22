@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   DemandeDelaiSignaledDTO,
   DemandeAbandonSignaledDTO,
@@ -13,7 +13,7 @@ import {
   DateFileAttenteDTO,
   PtfDTO,
   DemandeAnnulationAbandonDTO,
-} from '@modules/frise'
+} from '@modules/frise';
 import {
   TimelineItem,
   DesignationItem,
@@ -36,7 +36,7 @@ import {
   DemandeDelaiSignaledItem,
   DemandeAbandonItem,
   CahierDesChargesChoisiItem,
-} from './components'
+} from './components';
 import {
   ACItemProps,
   CAItemProps,
@@ -58,13 +58,13 @@ import {
   LegacyModificationsItemProps,
   AttachedFileItemProps,
   extractAttachedFileItemProps,
-} from './helpers'
-import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAbandonItem'
+} from './helpers';
+import { DemandeAnnulationAbandonItem } from './components/DemandeAnnulationAbandonItem';
 
 export type TimelineProps = {
-  projectEventList: ProjectEventListDTO
-  now: number
-}
+  projectEventList: ProjectEventListDTO;
+  now: number;
+};
 
 type ItemProps =
   | ImportItemProps
@@ -87,7 +87,7 @@ type ItemProps =
   | CahierDesChargesChoisiDTO
   | GarantiesFinancièresDTO
   | DateMiseEnServiceDTO
-  | DateFileAttenteDTO
+  | DateFileAttenteDTO;
 
 export const Timeline = ({
   projectEventList: {
@@ -96,10 +96,10 @@ export const Timeline = ({
   },
   now,
 }: TimelineProps) => {
-  const garantiesFinancières = events.find(is('garanties-financières'))
-  const ptf = events.find(is('proposition-technique-et-financière'))
-  const dateMiseEnService = events.find(is('DateMiseEnService'))
-  const dateFileAttente = events.find(is('DateFileAttente'))
+  const garantiesFinancières = events.find(is('garanties-financières'));
+  const ptf = events.find(is('proposition-technique-et-financière'));
+  const dateMiseEnService = events.find(is('DateMiseEnService'));
+  const dateFileAttente = events.find(is('DateFileAttente'));
 
   const itemProps: ItemProps[] = [
     extractDesignationItemProps(events, projectId, status),
@@ -123,24 +123,24 @@ export const Timeline = ({
     dateFileAttente ? dateFileAttente : undefined,
   ]
     .filter(isNotNil)
-    .sort((a, b) => a.date - b.date)
+    .sort((a, b) => a.date - b.date);
 
-  ptf?.statut === 'en-attente' && insertBefore(itemProps, 'attestation-de-conformite', ptf)
-  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }))
-  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }))
+  ptf?.statut === 'en-attente' && insertBefore(itemProps, 'attestation-de-conformite', ptf);
+  insertBefore(itemProps, 'attestation-de-conformite', extractCRItemProps(events, { status }));
+  insertAfter(itemProps, 'attestation-de-conformite', extractCAItemProps(events, { status }));
   dateMiseEnService?.statut === 'non-renseignée' &&
-    insertAfter(itemProps, 'attestation-de-conformite', dateMiseEnService)
-  garantiesFinancières?.date === 0 && insertAfter(itemProps, 'designation', garantiesFinancières)
+    insertAfter(itemProps, 'attestation-de-conformite', dateMiseEnService);
+  garantiesFinancières?.date === 0 && insertAfter(itemProps, 'designation', garantiesFinancières);
 
   const timelineItems = itemProps.map((props) => {
-    const { type } = props
+    const { type } = props;
 
     switch (type) {
       case 'designation':
-        return <DesignationItem {...props} />
+        return <DesignationItem {...props} />;
 
       case 'import':
-        return <ImportItem {...props} />
+        return <ImportItem {...props} />;
 
       case 'garanties-financières':
         return (
@@ -150,63 +150,63 @@ export const Timeline = ({
               ...props,
             }}
           />
-        )
+        );
 
       case 'demande-complete-de-raccordement':
-        return <DCRItem {...{ ...props, projectId }} />
+        return <DCRItem {...{ ...props, projectId }} />;
 
       case 'proposition-technique-et-financière':
-        return <PTFItem {...{ ...props, projectId }} />
+        return <PTFItem {...{ ...props, projectId }} />;
 
       case 'convention-de-raccordement':
-        return <CRItem />
+        return <CRItem />;
 
       case 'attestation-de-conformite':
-        return <ACItem {...props} />
+        return <ACItem {...props} />;
 
       case 'DateMiseEnService':
-        return <MeSItem {...props} />
+        return <MeSItem {...props} />;
 
       case 'DateFileAttente':
-        return <DateFileAttenteItem {...props} />
+        return <DateFileAttenteItem {...props} />;
 
       case 'contrat-achat':
-        return <CAItem />
+        return <CAItem />;
 
       case 'demande-de-modification':
-        return <ModificationRequestItem {...{ ...props, projectStatus: status }} />
+        return <ModificationRequestItem {...{ ...props, projectStatus: status }} />;
 
       case 'modification-information':
-        return <ModificationReceivedItem {...props} />
+        return <ModificationReceivedItem {...props} />;
 
       case 'modification-historique':
-        return <LegacyModificationsItem {...props} />
+        return <LegacyModificationsItem {...props} />;
 
       case 'fichier-attaché':
-        return <AttachedFileItem {...props} />
+        return <AttachedFileItem {...props} />;
 
       case 'DemandeDelaiSignaled':
-        return <DemandeDelaiSignaledItem {...props} />
+        return <DemandeDelaiSignaledItem {...props} />;
 
       case 'DemandeAbandonSignaled':
-        return <DemandeAbandonSignaledItem {...props} />
+        return <DemandeAbandonSignaledItem {...props} />;
 
       case 'DemandeRecoursSignaled':
-        return <DemandeRecoursSignaledItem {...props} />
+        return <DemandeRecoursSignaledItem {...props} />;
 
       case 'DemandeDélai':
-        return <DemandeDélaiItem {...props} />
+        return <DemandeDélaiItem {...props} />;
 
       case 'DemandeAbandon':
-        return <DemandeAbandonItem {...props} />
+        return <DemandeAbandonItem {...props} />;
 
       case 'DemandeAnnulationAbandon':
-        return <DemandeAnnulationAbandonItem {...props} />
+        return <DemandeAnnulationAbandonItem {...props} />;
 
       case 'CahierDesChargesChoisi':
-        return <CahierDesChargesChoisiItem {...props} />
+        return <CahierDesChargesChoisiItem {...props} />;
     }
-  })
+  });
 
   return (
     <aside aria-label="Progress">
@@ -221,25 +221,25 @@ export const Timeline = ({
         ))}
       </ol>
     </aside>
-  )
-}
+  );
+};
 
 function isNotNil<T>(arg: T): arg is Exclude<T, null | undefined> {
-  return arg !== null && arg !== undefined
+  return arg !== null && arg !== undefined;
 }
 
 function insertBefore(
   itemProps: ItemProps[],
   referenceType: ItemProps['type'],
-  item: ItemProps | null
+  item: ItemProps | null,
 ) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {
       itemProps.splice(
         itemProps.findIndex((props) => props.type === referenceType),
         0,
-        item
-      )
+        item,
+      );
     }
   }
 }
@@ -247,11 +247,11 @@ function insertBefore(
 function insertAfter(
   itemProps: ItemProps[],
   referenceType: ItemProps['type'],
-  item: ItemProps | null
+  item: ItemProps | null,
 ) {
   if (itemProps.findIndex((props) => props.type === referenceType) !== -1) {
     if (item) {
-      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item)
+      itemProps.splice(itemProps.findIndex((props) => props.type === referenceType) + 1, 0, item);
     }
   }
 }

@@ -1,23 +1,23 @@
-import fs from 'fs'
-import omit from 'lodash/omit'
-import * as yup from 'yup'
+import fs from 'fs';
+import omit from 'lodash/omit';
+import * as yup from 'yup';
 
-import { demanderDélai, ensureRole } from '@config'
-import { logger } from '@core/utils'
-import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
+import { demanderDélai, ensureRole } from '@config';
+import { logger } from '@core/utils';
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '@modules/demandeModification/demandeDélai/demander';
+import { UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
 
-import { addQueryParams } from '../../../helpers/addQueryParams'
+import { addQueryParams } from '../../../helpers/addQueryParams';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   unauthorizedResponse,
-} from '../../helpers'
-import { upload } from '../../upload'
-import { v1Router } from '../../v1Router'
-import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification/demandeDélai/demander/NouveauCahierDesChargesNonChoisiError'
-import safeAsyncHandler from '../../helpers/safeAsyncHandler'
+} from '../../helpers';
+import { upload } from '../../upload';
+import { v1Router } from '../../v1Router';
+import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeModification/demandeDélai/demander/NouveauCahierDesChargesNonChoisiError';
+import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 
 const schema = yup.object({
   body: yup.object({
@@ -31,7 +31,7 @@ const schema = yup.object({
     justification: yup.string().optional(),
     numeroGestionnaire: yup.string().optional(),
   }),
-})
+});
 
 v1Router.post(
   routes.DEMANDE_DELAI_ACTION,
@@ -45,8 +45,8 @@ v1Router.post(
           addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
             ...omit(request.body, 'projectId'),
             error: `${error.errors.join(' ')}`,
-          })
-        )
+          }),
+        );
       },
     },
     async (request, response) => {
@@ -55,13 +55,13 @@ v1Router.post(
         justification,
         numeroGestionnaire,
         dateAchevementDemandee: dateAchèvementDemandée,
-      } = request.body
-      const { user } = request
+      } = request.body;
+      const { user } = request;
 
       const file = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
-      }
+      };
 
       return demanderDélai({
         user,
@@ -77,12 +77,12 @@ v1Router.post(
               success: 'Votre demande de délai a bien été envoyée.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
-            })
-          )
+            }),
+          );
         },
         (error) => {
           if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
+            return unauthorizedResponse({ request, response });
           }
 
           if (
@@ -94,18 +94,18 @@ v1Router.post(
               response,
               customStatus: 400,
               customMessage: error.message,
-            })
+            });
           }
 
-          logger.error(error)
+          logger.error(error);
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
-    }
-  )
-)
+          });
+        },
+      );
+    },
+  ),
+);

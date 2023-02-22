@@ -1,27 +1,27 @@
-import { UniqueEntityID } from '@core/domain'
-import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification'
-import { resetDatabase } from '../../../../helpers'
-import models from '../../../../models'
-import { ProjectEvent } from '../../projectEvent.model'
-import onRejetDélaiAnnulé from './onRejetDélaiAnnulé'
+import { UniqueEntityID } from '@core/domain';
+import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification';
+import { resetDatabase } from '../../../../helpers';
+import models from '../../../../models';
+import { ProjectEvent } from '../../projectEvent.model';
+import onRejetDélaiAnnulé from './onRejetDélaiAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
   beforeEach(async () => {
-    resetDatabase()
-  })
+    resetDatabase();
+  });
   describe(`Etant donné un événement RejetDélaiAnnulé émis`, () => {
     //Scenario 1
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "envoyée"`, async () => {
-        const { ModificationRequest } = models
-        const demandeDélaiId = new UniqueEntityID().toString()
-        const projetId = new UniqueEntityID().toString()
-        const dateAchèvementDemandée = new Date().getTime()
-        const occurredAt = new Date().getTime()
-        const demandeur = new UniqueEntityID().toString()
-        const rejetéPar = new UniqueEntityID().toString()
-        const annuléPar = new UniqueEntityID().toString()
-        const requestedOn = new Date('2021-01-01').getTime()
+        const { ModificationRequest } = models;
+        const demandeDélaiId = new UniqueEntityID().toString();
+        const projetId = new UniqueEntityID().toString();
+        const dateAchèvementDemandée = new Date().getTime();
+        const occurredAt = new Date().getTime();
+        const demandeur = new UniqueEntityID().toString();
+        const rejetéPar = new UniqueEntityID().toString();
+        const annuléPar = new UniqueEntityID().toString();
+        const requestedOn = new Date('2021-01-01').getTime();
 
         await ModificationRequest.create({
           id: demandeDélaiId,
@@ -29,7 +29,7 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
           type: 'delai',
           requestedOn,
           status: 'acceptée',
-        })
+        });
 
         await ProjectEvent.create({
           id: demandeDélaiId,
@@ -44,7 +44,7 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
             demandeur,
             rejetéPar,
           },
-        })
+        });
 
         await onRejetDélaiAnnulé(
           new RejetDélaiAnnulé({
@@ -56,12 +56,12 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
               version: 1,
               occurredAt: new Date('2022-06-30'),
             },
-          })
-        )
+          }),
+        );
 
         const DemandeDélai = await ProjectEvent.findOne({
           where: { id: demandeDélaiId },
-        })
+        });
         expect(DemandeDélai).toMatchObject({
           type: 'DemandeDélai',
           valueDate: requestedOn,
@@ -72,20 +72,20 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
             dateAchèvementDemandée,
             demandeur,
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     //Scenario 2
     describe(`Lorsqu'il y a un événement de type "ModificationRequestRejected" 
       et un événement de type "ModificationRequestInstructionStarted"
       avec le même modificationRequestId`, () => {
       it(`Alors ces événements devraient être supprimés`, async () => {
-        const modificationRequestId = new UniqueEntityID().toString()
-        const projectId = new UniqueEntityID().toString()
-        const occurredAt = new Date().getTime()
+        const modificationRequestId = new UniqueEntityID().toString();
+        const projectId = new UniqueEntityID().toString();
+        const occurredAt = new Date().getTime();
 
-        const annuléPar = new UniqueEntityID().toString()
+        const annuléPar = new UniqueEntityID().toString();
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -99,7 +99,7 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
             authority: 'dreal',
             delayInMonths: 3,
           },
-        })
+        });
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -110,7 +110,7 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
           payload: {
             modificationRequestId,
           },
-        })
+        });
 
         await ProjectEvent.create({
           id: new UniqueEntityID().toString(),
@@ -122,7 +122,7 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
             modificationRequestId,
             file: { id: 'id-fichier-reponse', name: 'nom-fichier-reponse' },
           },
-        })
+        });
 
         await onRejetDélaiAnnulé(
           new RejetDélaiAnnulé({
@@ -134,22 +134,22 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
               version: 1,
               occurredAt: new Date('2022-06-30'),
             },
-          })
-        )
+          }),
+        );
 
         const modificationRequestRejected = await ProjectEvent.findOne({
           where: { type: 'ModificationRequestRejected', payload: { modificationRequestId } },
-        })
+        });
         const modificationRequestInstruction = await ProjectEvent.findOne({
           where: {
             type: 'ModificationRequestInstructionStarted',
             payload: { modificationRequestId },
           },
-        })
+        });
 
-        expect(modificationRequestRejected).toBeNull()
-        expect(modificationRequestInstruction).toBeNull()
-      })
-    })
-  })
-})
+        expect(modificationRequestRejected).toBeNull();
+        expect(modificationRequestInstruction).toBeNull();
+      });
+    });
+  });
+});

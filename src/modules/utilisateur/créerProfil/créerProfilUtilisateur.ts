@@ -1,20 +1,20 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync } from '@core/utils'
-import { ProfilDéjàExistantError } from './ProfilDéjàExistantError'
-import { Utilisateur } from '../Utilisateur'
-import { ProfilUtilisateurCréé } from '../events/ProfilUtilisateurCréé'
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync } from '@core/utils';
+import { ProfilDéjàExistantError } from './ProfilDéjàExistantError';
+import { Utilisateur } from '../Utilisateur';
+import { ProfilUtilisateurCréé } from '../events/ProfilUtilisateurCréé';
 
 type Dépendances = {
-  utilisateurRepo: TransactionalRepository<Utilisateur>
-  publishToEventStore: EventStore['publish']
-}
+  utilisateurRepo: TransactionalRepository<Utilisateur>;
+  publishToEventStore: EventStore['publish'];
+};
 
 type Commande = {
-  email: string
-  nom: string
-  prénom: string
-  fonction?: string
-}
+  email: string;
+  nom: string;
+  prénom: string;
+  fonction?: string;
+};
 
 export const makeCréerProfilUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
@@ -23,7 +23,7 @@ export const makeCréerProfilUtilisateur =
       new UniqueEntityID(email),
       (utilisateur) => {
         if (utilisateur.statut === 'créé') {
-          return errAsync(new ProfilDéjàExistantError({ email, role: utilisateur.role }))
+          return errAsync(new ProfilDéjàExistantError({ email, role: utilisateur.role }));
         }
         return publishToEventStore(
           new ProfilUtilisateurCréé({
@@ -34,8 +34,8 @@ export const makeCréerProfilUtilisateur =
               prénom,
               fonction,
             },
-          })
-        )
+          }),
+        );
       },
-      { acceptNew: true }
-    )
+      { acceptNew: true },
+    );

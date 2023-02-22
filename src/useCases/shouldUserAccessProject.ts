@@ -1,14 +1,14 @@
-import { User, Project } from '@entities'
-import { UserRepo, ProjectRepo } from '@dataAccess'
+import { User, Project } from '@entities';
+import { UserRepo, ProjectRepo } from '@dataAccess';
 
 interface MakeUseCaseProps {
-  userRepo: UserRepo
-  findProjectById: ProjectRepo['findById']
+  userRepo: UserRepo;
+  findProjectById: ProjectRepo['findById'];
 }
 
 interface CallUseCaseProps {
-  projectId: Project['id']
-  user: User
+  projectId: Project['id'];
+  user: User;
 }
 
 export default function makeShouldUserAccessProject({
@@ -21,21 +21,21 @@ export default function makeShouldUserAccessProject({
   }: CallUseCaseProps): Promise<boolean> {
     if (
       ['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'].includes(
-        user.role
+        user.role,
       )
     ) {
-      return true
+      return true;
     }
 
     if (user.role === 'dreal') {
-      const userDreals = await userRepo.findDrealsForUser(user.id)
-      const project = await findProjectById(projectId)
+      const userDreals = await userRepo.findDrealsForUser(user.id);
+      const project = await findProjectById(projectId);
 
-      if (!project) return false
+      if (!project) return false;
 
-      return userDreals.some((region) => project.regionProjet.includes(region))
+      return userDreals.some((region) => project.regionProjet.includes(region));
     }
 
-    return userRepo.hasProject(user.id, projectId)
-  }
+    return userRepo.hasProject(user.id, projectId);
+  };
 }

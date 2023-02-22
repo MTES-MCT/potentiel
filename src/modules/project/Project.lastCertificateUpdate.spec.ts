@@ -1,24 +1,24 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../__tests__/fixtures/project'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectImported,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -52,7 +52,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 describe('Project.lastCertificateUpdate', () => {
   describe('when project never had a certificate', () => {
     it('should return undefined', () => {
@@ -64,14 +64,14 @@ describe('Project.lastCertificateUpdate', () => {
           history: fakeHistory.filter(
             (event) =>
               event.type !== ProjectCertificateGenerated.type &&
-              event.type !== ProjectCertificateUpdated.type
+              event.type !== ProjectCertificateUpdated.type,
           ),
-        })
-      )
+        }),
+      );
 
-      expect(project.lastCertificateUpdate).toBeUndefined()
-    })
-  })
+      expect(project.lastCertificateUpdate).toBeUndefined();
+    });
+  });
 
   describe('when project had a generated certificate', () => {
     it('should return the certificate generated date', () => {
@@ -93,12 +93,12 @@ describe('Project.lastCertificateUpdate', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
-      expect(project.lastCertificateUpdate).toEqual(new Date(456))
-    })
-  })
+      expect(project.lastCertificateUpdate).toEqual(new Date(456));
+    });
+  });
 
   describe('when project had an uploaded certificate', () => {
     it('should return the certificate upload date', () => {
@@ -121,12 +121,12 @@ describe('Project.lastCertificateUpdate', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
-      expect(project.lastCertificateUpdate).toEqual(new Date(456))
-    })
-  })
+      expect(project.lastCertificateUpdate).toEqual(new Date(456));
+    });
+  });
 
   describe('when project had a certificate generated and then regenerated', () => {
     it('should return the certificate regeneration date', () => {
@@ -155,10 +155,10 @@ describe('Project.lastCertificateUpdate', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
-      expect(project.lastCertificateUpdate).toEqual(new Date(456))
-    })
-  })
-})
+      expect(project.lastCertificateUpdate).toEqual(new Date(456));
+    });
+  });
+});

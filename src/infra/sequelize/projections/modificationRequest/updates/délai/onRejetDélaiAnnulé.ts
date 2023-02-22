@@ -1,14 +1,14 @@
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
-import { RejetDélaiAnnulé } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
+import { RejetDélaiAnnulé } from '@modules/demandeModification';
 
 export const onRejetDélaiAnnulé = (models) => async (évènement: RejetDélaiAnnulé) => {
   const {
     payload: { demandeDélaiId },
     occurredAt,
-  } = évènement
+  } = évènement;
   try {
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
 
     await ModificationRequestModel.update(
       {
@@ -22,14 +22,14 @@ export const onRejetDélaiAnnulé = (models) => async (évènement: RejetDélaiA
         where: {
           id: demandeDélaiId,
         },
-      }
-    )
+      },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(`Erreur lors du traitement de l'évènement RejetDélaiAnnulé`, {
         nomProjection: 'ProjectEventProjector.onRejetDélaiAnnulé',
         évènement,
-      })
-    )
+      }),
+    );
   }
-}
+};

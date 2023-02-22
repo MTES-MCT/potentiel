@@ -1,19 +1,19 @@
-import { QueryInterface } from 'sequelize'
-import { RaccordementsProjector } from '../projectionsNext/raccordements'
+import { QueryInterface } from 'sequelize';
+import { RaccordementsProjector } from '../projectionsNext/raccordements';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    const transaction = await queryInterface.sequelize.transaction()
+    const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await RaccordementsProjector.rebuild(transaction)
+      await RaccordementsProjector.rebuild(transaction);
 
-      await transaction.commit()
+      await transaction.commit();
     } catch (error) {
-      await transaction.rollback()
-      throw error
+      await transaction.rollback();
+      throw error;
     }
   },
 
   down: async () => {},
-}
+};

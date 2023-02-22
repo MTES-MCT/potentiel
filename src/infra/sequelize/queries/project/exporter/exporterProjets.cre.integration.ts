@@ -1,7 +1,7 @@
-import models from '../../../models'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { exporterProjets } from './exporterProjets'
-import { resetDatabase } from '@dataAccess'
+import models from '../../../models';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { exporterProjets } from './exporterProjets';
+import { resetDatabase } from '@dataAccess';
 
 import {
   contenuLocal,
@@ -25,11 +25,11 @@ import {
   référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
-} from './colonnesParCatégorie'
-import { User } from '@entities'
+} from './colonnesParCatégorie';
+import { User } from '@entities';
 
 describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
-  beforeEach(resetDatabase)
+  beforeEach(resetDatabase);
 
   const colonnesÀExporter = [
     ...identificationProjet,
@@ -53,7 +53,7 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
     ...notes,
     ...modificationsAvantImport,
     ...garantiesFinancières,
-  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
+  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`Étant donné des projets notifiés et non notifiés
         Lorsqu'un utilisateur CRE exporte tous les projets
@@ -71,14 +71,14 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Autre',
       }),
-    ])
+    ]);
 
-    const exportProjets = await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User })
-    expect(exportProjets.isOk()).toBe(true)
+    const exportProjets = await exporterProjets({ user: { id: 'user-id', role: 'cre' } as User });
+    expect(exportProjets.isOk()).toBe(true);
 
-    expect(exportProjets._unsafeUnwrap().colonnes).toEqual(colonnesÀExporter)
+    expect(exportProjets._unsafeUnwrap().colonnes).toEqual(colonnesÀExporter);
 
-    expect(exportProjets._unsafeUnwrap().données).toHaveLength(3)
+    expect(exportProjets._unsafeUnwrap().données).toHaveLength(3);
     expect(exportProjets._unsafeUnwrap().données).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -90,7 +90,7 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
         expect.objectContaining({
           'Nom projet': 'Autre',
         }),
-      ])
-    )
-  })
-})
+      ]),
+    );
+  });
+});

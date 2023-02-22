@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 export const DejaLaureatNonInstruit = () => (
   <>
@@ -6,4 +6,4 @@ export const DejaLaureatNonInstruit = () => (
     suis au regret de vous informer que votre offre n’a pas été retenue car elle avait déjà été
     désignée lauréate au cours d’un précédent appel d’offres.
   </>
-)
+);

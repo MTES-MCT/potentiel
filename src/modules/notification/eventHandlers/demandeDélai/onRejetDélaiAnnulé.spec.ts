@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { RejetDélaiAnnulé } from '@modules/demandeModification'
-import { makeOnRejetDélaiAnnulé } from './onRejetDélaiAnnulé'
+import { okAsync } from '@core/utils';
+import { RejetDélaiAnnulé } from '@modules/demandeModification';
+import { makeOnRejetDélaiAnnulé } from './onRejetDélaiAnnulé';
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet de demande de délai est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
 
       const onRejetDemandeDélaiAnnulé = makeOnRejetDélaiAnnulé({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onRejetDemandeDélaiAnnulé(
         new RejetDélaiAnnulé({
@@ -41,10 +41,10 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
             projetId: 'le-projet',
             annuléPar: 'la-dreal',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -57,8 +57,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -71,8 +71,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de délai`, () =>
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

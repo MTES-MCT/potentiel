@@ -1,35 +1,35 @@
-import { err, logger, ok, Result } from '@core/utils'
-import { IncompleteDataError } from '../../shared'
-import { ProjectDataForCertificate } from '../dtos'
-import { ProjectProps } from '../Project'
+import { err, logger, ok, Result } from '@core/utils';
+import { IncompleteDataError } from '../../shared';
+import { ProjectDataForCertificate } from '../dtos';
+import { ProjectProps } from '../Project';
 
 export const toProjectDataForCertificate = (
-  props: ProjectProps
+  props: ProjectProps,
 ): Result<ProjectDataForCertificate, IncompleteDataError> => {
-  const { data, appelOffre, potentielIdentifier } = props
+  const { data, appelOffre, potentielIdentifier } = props;
 
   if (!data) {
     logger.error(
-      'toProjectDataForCertificate failed to create DTO because project has no data prop'
-    )
+      'toProjectDataForCertificate failed to create DTO because project has no data prop',
+    );
 
-    return err(new IncompleteDataError())
+    return err(new IncompleteDataError());
   }
 
   if (!appelOffre) {
     logger.error(
-      'toProjectDataForCertificate failed to create DTO because project has no appelOffre prop'
-    )
+      'toProjectDataForCertificate failed to create DTO because project has no appelOffre prop',
+    );
 
-    return err(new IncompleteDataError())
+    return err(new IncompleteDataError());
   }
 
   if (typeof props.isClasse === 'undefined' || !props.notifiedOn) {
     logger.error(
-      'toProjectDataForCertificate failed to create DTO because project has missing props'
-    )
+      'toProjectDataForCertificate failed to create DTO because project has missing props',
+    );
 
-    return err(new IncompleteDataError())
+    return err(new IncompleteDataError());
   }
 
   const {
@@ -52,7 +52,7 @@ export const toProjectDataForCertificate = (
     territoireProjet,
     technologie,
     actionnariat,
-  } = data
+  } = data;
 
   return ok({
     appelOffre,
@@ -78,5 +78,5 @@ export const toProjectDataForCertificate = (
     territoireProjet,
     technologie,
     actionnariat,
-  })
-}
+  });
+};

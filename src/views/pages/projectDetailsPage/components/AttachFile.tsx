@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import ROUTES from '@routes'
+import React, { useState } from 'react';
+import ROUTES from '@routes';
 import {
   Button,
   SecondaryButton,
@@ -9,14 +9,14 @@ import {
   Astérisque,
   PaperClipIcon,
   Link,
-} from '@components'
+} from '@components';
 
 type AttachFileProps = {
-  projectId: string
-}
+  projectId: string;
+};
 export const AttachFile = ({ projectId }: AttachFileProps) => {
-  const [isFormVisible, setFormVisible] = useState(false)
-  const [fileCount, setFileCount] = useState(1)
+  const [isFormVisible, setFormVisible] = useState(false);
+  const [fileCount, setFileCount] = useState(1);
 
   return (
     <div>
@@ -74,8 +74,8 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
           </Button>
           <Link
             onClick={() => {
-              setFormVisible(false)
-              setFileCount(1)
+              setFormVisible(false);
+              setFileCount(1);
             }}
           >
             Annuler
@@ -83,5 +83,5 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
         </form>
       )}
     </div>
-  )
-}
+  );
+};

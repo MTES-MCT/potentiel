@@ -1,29 +1,29 @@
-import { Op } from 'sequelize'
-import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils'
-import { getFullTextSearchOptions } from '@dataAccess/db'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { User } from '@entities'
-import { makePaginatedList, paginate } from '../../../../helpers/paginate'
+import { Op } from 'sequelize';
+import { errAsync, ok, okAsync, Result, ResultAsync, wrapInfra } from '@core/utils';
+import { getFullTextSearchOptions } from '@dataAccess/db';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { User } from '@entities';
+import { makePaginatedList, paginate } from '../../../../helpers/paginate';
 import {
   GetModificationRequestListForAdmin,
   ModificationRequestListItemDTO,
-} from '@modules/modificationRequest'
-import { InfraNotAvailableError } from '@modules/shared'
-import { PaginatedList } from '../../../../types'
-import models from '../../models'
-import { userIs } from '@modules/users'
+} from '@modules/modificationRequest';
+import { InfraNotAvailableError } from '@modules/shared';
+import { PaginatedList } from '../../../../types';
+import models from '../../models';
+import { userIs } from '@modules/users';
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
-  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
+  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
 }
 
 function _getDrealRegionsForUser(user: User, models) {
   if (user.role !== 'dreal') {
-    return okAsync<any, InfraNotAvailableError>([])
+    return okAsync<any, InfraNotAvailableError>([]);
   }
 
-  const { UserDreal } = models
-  if (!UserDreal) return errAsync(new InfraNotAvailableError())
+  const { UserDreal } = models;
+  if (!UserDreal) return errAsync(new InfraNotAvailableError());
 
   return ResultAsync.fromPromise(
     UserDreal.findAll({
@@ -33,13 +33,13 @@ function _getDrealRegionsForUser(user: User, models) {
       },
     }),
     (e) => {
-      console.error(e)
-      return new InfraNotAvailableError()
-    }
-  ).map((items: any) => items.map((item) => item.dreal))
+      console.error(e);
+      return new InfraNotAvailableError();
+    },
+  ).map((items: any) => items.map((item) => item.dreal));
 }
 
-const { ModificationRequest, Project, User, File } = models
+const { ModificationRequest, Project, User, File } = models;
 
 export const getModificationRequestListForAdmin: GetModificationRequestListForAdmin = ({
   user,
@@ -62,7 +62,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           ...(familleId && { familleId }),
           ...(userIs('dreal')(user) && { regionProjet: drealRegions }),
         },
-      }
+      };
 
       const opts = {
         where: {
@@ -75,7 +75,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           ...(modificationRequestType && { type: modificationRequestType }),
           ...(modificationRequestStatus && { status: modificationRequestStatus }),
         },
-      }
+      };
 
       return wrapInfra(
         ModificationRequest.findAndCountAll({
@@ -111,12 +111,12 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
           ],
           order: [['createdAt', 'DESC']],
           ...paginate(pagination),
-        })
-      )
+        }),
+      );
     })
     .andThen(
       (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
-        const { count, rows } = res
+        const { count, rows } = res;
 
         const modificationRequests = rows.map(
           ({
@@ -147,20 +147,20 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 case 'fournisseur':
                 case 'delai':
                 case 'annulation abandon':
-                  return justification || ''
+                  return justification || '';
                 case 'actionnaire':
-                  return actionnaire || ''
+                  return actionnaire || '';
                 case 'producteur':
-                  return producteur || ''
+                  return producteur || '';
                 case 'puissance':
                   return puissance
                     ? `${puissance} ${_getPuissanceForAppelOffre({
                         appelOffreId,
                         periodeId,
                       })}`
-                    : ''
+                    : '';
               }
-            }
+            };
 
             return {
               id,
@@ -183,11 +183,11 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
               },
               type,
               description: getDescription(),
-            }
-          }
-        )
+            };
+          },
+        );
 
-        return ok(makePaginatedList(modificationRequests, count, pagination))
-      }
-    )
-}
+        return ok(makePaginatedList(modificationRequests, count, pagination));
+      },
+    );
+};

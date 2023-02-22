@@ -1,31 +1,31 @@
-import { Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync } from '@core/utils'
-import { User } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { Repository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, okAsync, ResultAsync } from '@core/utils';
+import { User } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../../file';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationRequest } from '../ModificationRequest'
+} from '../../shared';
+import { ModificationRequest } from '../ModificationRequest';
 
 interface RejectModificationRequestDeps {
-  modificationRequestRepo: Repository<ModificationRequest>
-  fileRepo: Repository<FileObject>
+  modificationRequestRepo: Repository<ModificationRequest>;
+  fileRepo: Repository<FileObject>;
 }
 
 interface RejectModificationRequestArgs {
-  modificationRequestId: UniqueEntityID
-  versionDate: Date
-  responseFile?: { contents: FileContents; filename: string }
-  rejectedBy: User
+  modificationRequestId: UniqueEntityID;
+  versionDate: Date;
+  responseFile?: { contents: FileContents; filename: string };
+  rejectedBy: User;
 }
 
 export const makeRejectModificationRequest =
   (deps: RejectModificationRequestDeps) =>
   (
-    args: RejectModificationRequestArgs
+    args: RejectModificationRequestArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -33,18 +33,18 @@ export const makeRejectModificationRequest =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { fileRepo, modificationRequestRepo } = deps
-    const { modificationRequestId, versionDate, responseFile, rejectedBy } = args
+    const { fileRepo, modificationRequestRepo } = deps;
+    const { modificationRequestId, versionDate, responseFile, rejectedBy } = args;
 
     if (!['admin', 'dgec-validateur', 'dreal'].includes(rejectedBy.role)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return modificationRequestRepo
       .load(modificationRequestId)
       .andThen(
         (
-          modificationRequest
+          modificationRequest,
         ): ResultAsync<
           { modificationRequest: ModificationRequest; responseFileId: string },
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
@@ -53,10 +53,10 @@ export const makeRejectModificationRequest =
             modificationRequest.lastUpdatedOn &&
             modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
           ) {
-            return errAsync(new AggregateHasBeenUpdatedSinceError())
+            return errAsync(new AggregateHasBeenUpdatedSinceError());
           }
 
-          if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' })
+          if (!responseFile) return okAsync({ modificationRequest, responseFileId: '' });
 
           return makeAndSaveFile({
             file: {
@@ -70,15 +70,17 @@ export const makeRejectModificationRequest =
           })
             .map((responseFileId) => ({ modificationRequest, responseFileId }))
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
+        },
       )
       .andThen(({ modificationRequest, responseFileId }) => {
-        return modificationRequest.reject(rejectedBy, responseFileId).map(() => modificationRequest)
+        return modificationRequest
+          .reject(rejectedBy, responseFileId)
+          .map(() => modificationRequest);
       })
       .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
-      })
-  }
+        return modificationRequestRepo.save(modificationRequest);
+      });
+  };

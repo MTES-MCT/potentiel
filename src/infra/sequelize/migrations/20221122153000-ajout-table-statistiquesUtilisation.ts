@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes, NOW } from 'sequelize'
+import { QueryInterface, DataTypes, NOW } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -21,10 +21,10 @@ module.exports = {
         type: DataTypes.JSON,
         allowNull: false,
       },
-    })
+    });
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable('statistiquesUtilisation')
+    await queryInterface.dropTable('statistiquesUtilisation');
   },
-}
+};

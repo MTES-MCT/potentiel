@@ -1,13 +1,13 @@
-import { UniqueEntityID } from '@core/domain'
+import { UniqueEntityID } from '@core/domain';
 import {
   CahierDesChargesChoisi,
   DonnéesDeRaccordementRenseignées,
   NumeroGestionnaireSubmitted,
-} from './events'
-import { makeProject } from './Project'
+} from './events';
+import { makeProject } from './Project';
 
 describe(`Fabriquer l'aggregat projet`, () => {
-  const projectId = new UniqueEntityID('le-projet')
+  const projectId = new UniqueEntityID('le-projet');
 
   describe(`Cahier des charges actuel du projet`, () => {
     it(`Quand on fabrique un projet sans évènement 'CahierDesChargesChoisi'
@@ -16,12 +16,12 @@ describe(`Fabriquer l'aggregat projet`, () => {
         projectId,
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       expect(projet.cahierDesCharges).toEqual({
         type: 'initial',
-      })
-    })
+      });
+    });
 
     it(`Quand on fabrique un projet avec un évènement 'CahierDesChargesChoisi'
       Alors le projet a un CDC correspondant à celui mentionné dans l'évènement`, () => {
@@ -40,15 +40,15 @@ describe(`Fabriquer l'aggregat projet`, () => {
         ],
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       expect(projet.cahierDesCharges).toEqual({
         type: 'modifié',
         paruLe: '30/07/2021',
         alternatif: true,
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe(`Identifiant du gestionnaire de réseau actuel du projet`, () => {
     it(`Quand on fabrique un projet sans évènement 'NumeroGestionnaireSubmitted'
@@ -57,10 +57,10 @@ describe(`Fabriquer l'aggregat projet`, () => {
         projectId,
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
-      expect(projet.identifiantGestionnaireRéseau).toEqual('')
-    })
+      expect(projet.identifiantGestionnaireRéseau).toEqual('');
+    });
 
     it(`Quand on fabrique un projet avec un évènement 'NumeroGestionnaireSubmitted'
       Alors l'identifiant du gestionnaire de réseau du projet devrait être celui mentionné dans l'évènement`, () => {
@@ -77,11 +77,11 @@ describe(`Fabriquer l'aggregat projet`, () => {
         ],
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
-      expect(projet.identifiantGestionnaireRéseau).toEqual('NUMERO-GESTIONNAIRE')
-    })
-  })
+      expect(projet.identifiantGestionnaireRéseau).toEqual('NUMERO-GESTIONNAIRE');
+    });
+  });
 
   describe(`Données de raccordement du projet`, () => {
     it(`Quand on fabrique un projet sans évènement 'DonnéesDeRaccordementRenseignées'
@@ -91,17 +91,17 @@ describe(`Fabriquer l'aggregat projet`, () => {
         projectId,
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
-      expect(projet.dateMiseEnService).toBeUndefined()
-      expect(projet.dateFileAttente).toBeUndefined()
-    })
+      expect(projet.dateMiseEnService).toBeUndefined();
+      expect(projet.dateFileAttente).toBeUndefined();
+    });
 
     it(`Quand on fabrique un projet avec évènement 'DonnéesDeRaccordementRenseignées'
         Alors le projet devrait avoir la date de mise en service des données de raccordement
         Et le projet devrait avoir la date en file d'attente des données de raccordement`, () => {
-      const dateMiseEnService = new Date('2024-01-01')
-      const dateFileAttente = new Date('2023-01-01')
+      const dateMiseEnService = new Date('2024-01-01');
+      const dateFileAttente = new Date('2023-01-01');
 
       const projet = makeProject({
         projectId,
@@ -116,10 +116,10 @@ describe(`Fabriquer l'aggregat projet`, () => {
         ],
         getProjectAppelOffre: jest.fn(),
         buildProjectIdentifier: jest.fn(),
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
-      expect(projet.dateMiseEnService).toEqual(dateMiseEnService)
-      expect(projet.dateFileAttente).toEqual(dateFileAttente)
-    })
-  })
-})
+      expect(projet.dateMiseEnService).toEqual(dateMiseEnService);
+      expect(projet.dateFileAttente).toEqual(dateFileAttente);
+    });
+  });
+});

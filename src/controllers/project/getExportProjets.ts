@@ -1,20 +1,20 @@
-import { exporterProjets } from '@infra/sequelize/queries/project/exporter'
-import routes from '@routes'
-import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { v1Router } from '../v1Router'
-import { Parser } from '@json2csv/plainjs'
-import { writeCsvOnDisk } from '../../helpers/csv'
-import { promises as fsPromises } from 'fs'
-import { logger } from '@core/utils'
-import { InfraNotAvailableError } from '@modules/shared'
-import { PermissionExporterProjets } from '@modules/project/queries'
+import { exporterProjets } from '@infra/sequelize/queries/project/exporter';
+import routes from '@routes';
+import { miseAJourStatistiquesUtilisation, vérifierPermissionUtilisateur } from '../helpers';
+import asyncHandler from '../helpers/asyncHandler';
+import { v1Router } from '../v1Router';
+import { Parser } from '@json2csv/plainjs';
+import { writeCsvOnDisk } from '../../helpers/csv';
+import { promises as fsPromises } from 'fs';
+import { logger } from '@core/utils';
+import { InfraNotAvailableError } from '@modules/shared';
+import { PermissionExporterProjets } from '@modules/project/queries';
 
 v1Router.get(
   routes.EXPORTER_LISTE_PROJETS_CSV,
   vérifierPermissionUtilisateur(PermissionExporterProjets),
   asyncHandler(async (request, response) => {
-    const { user } = request
+    const { user } = request;
 
     const {
       appelOffreId,
@@ -24,7 +24,7 @@ v1Router.get(
       classement,
       reclames,
       garantiesFinancieres,
-    } = request.query as any
+    } = request.query as any;
 
     const filtres = {
       recherche,
@@ -37,30 +37,30 @@ v1Router.get(
       classement,
       reclames,
       garantiesFinancieres,
-    }
+    };
 
-    const exportProjets = await exporterProjets({ user, filtres })
+    const exportProjets = await exporterProjets({ user, filtres });
 
     if (exportProjets && exportProjets.isErr()) {
-      return new InfraNotAvailableError()
+      return new InfraNotAvailableError();
     }
 
     try {
       const {
         value: { colonnes, données },
-      } = exportProjets
+      } = exportProjets;
 
       const parser = new Parser({
         fields: colonnes,
         delimiter: ';',
-      })
-      const csv = await parser.parse(données)
-      const csvFilePath = await writeCsvOnDisk(csv, '/tmp')
+      });
+      const csv = await parser.parse(données);
+      const csvFilePath = await writeCsvOnDisk(csv, '/tmp');
 
       // Delete file when the client's download is complete
       response.on('finish', async () => {
-        await fsPromises.unlink(csvFilePath)
-      })
+        await fsPromises.unlink(csvFilePath);
+      });
 
       miseAJourStatistiquesUtilisation({
         type: 'exportProjetsTéléchargé',
@@ -68,16 +68,16 @@ v1Router.get(
           utilisateur: { role: user.role },
           nombreDeProjets: données.length,
         },
-      })
+      });
 
-      return response.type('text/csv').sendFile(csvFilePath)
+      return response.type('text/csv').sendFile(csvFilePath);
     } catch (error) {
-      logger.error(error)
+      logger.error(error);
       return response
         .status(500)
         .send(
-          "Un problème est survenu pendant la génération de l'export des projets en format csv. Veuillez contacter un administrateur."
-        )
+          "Un problème est survenu pendant la génération de l'export des projets en format csv. Veuillez contacter un administrateur.",
+        );
     }
-  })
-)
+  }),
+);

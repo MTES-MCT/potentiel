@@ -1,23 +1,23 @@
-import { setDefaultOptions } from 'date-fns'
-import * as LOCALE from 'date-fns/locale'
-import cookieParser from 'cookie-parser'
-import dotenv from 'dotenv'
-import express, { Request } from 'express'
-import helmet from 'helmet'
-import path from 'path'
-import morgan from 'morgan'
-import { isDevEnv, registerAuth } from './config'
-import { v1Router } from './controllers'
-import { logger } from './core/utils'
+import { setDefaultOptions } from 'date-fns';
+import * as LOCALE from 'date-fns/locale';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import express, { Request } from 'express';
+import helmet from 'helmet';
+import path from 'path';
+import morgan from 'morgan';
+import { isDevEnv, registerAuth } from './config';
+import { v1Router } from './controllers';
+import { logger } from './core/utils';
 
-setDefaultOptions({ locale: LOCALE.fr })
-dotenv.config()
+setDefaultOptions({ locale: LOCALE.fr });
+dotenv.config();
 
-const FILE_SIZE_LIMIT_MB = 50
+const FILE_SIZE_LIMIT_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
-    const app = express()
+    const app = express();
 
     if (!isDevEnv) {
       app.use(
@@ -55,8 +55,8 @@ export async function makeServer(port: number, sessionSecret: string) {
               'object-src': ["'none'"],
             },
           },
-        })
-      )
+        }),
+      );
     }
 
     app.use(
@@ -68,45 +68,45 @@ export async function makeServer(port: number, sessionSecret: string) {
           req.path.startsWith('/scripts') ||
           req.path.startsWith('/main') ||
           req.path === '/',
-      })
-    )
+      }),
+    );
 
     app.use(
       express.urlencoded({
         extended: false,
         limit: FILE_SIZE_LIMIT_MB + 'mb',
-      })
-    )
-    app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }))
+      }),
+    );
+    app.use(express.json({ limit: FILE_SIZE_LIMIT_MB + 'mb' }));
 
-    app.use(cookieParser())
+    app.use(cookieParser());
 
-    registerAuth({ app, sessionSecret, router: v1Router })
+    registerAuth({ app, sessionSecret, router: v1Router });
 
-    app.use(v1Router)
-    app.use(express.static(path.join(__dirname, 'public')))
+    app.use(v1Router);
+    app.use(express.static(path.join(__dirname, 'public')));
 
     app.use((error, req, res, next) => {
-      logger.error(error)
+      logger.error(error);
 
       res
         .status(500)
         .send(
-          'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionée. Merci de réessayer et de contacter l‘équipe si le problème persiste.'
-        )
-    })
+          'Une erreur inattendue est survenue. Veuillez nous excuser pour la gêne occasionée. Merci de réessayer et de contacter l‘équipe si le problème persiste.',
+        );
+    });
 
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
-        logger.info(`Server listening on port ${port}!`)
-        logger.info(`NODE_ENV is ${process.env.NODE_ENV}`)
-        logger.info(`Version ${process.env.npm_package_version}`)
-        resolve(server)
-      })
-    })
+        logger.info(`Server listening on port ${port}!`);
+        logger.info(`NODE_ENV is ${process.env.NODE_ENV}`);
+        logger.info(`Version ${process.env.npm_package_version}`);
+        resolve(server);
+      });
+    });
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
   }
 }
 
-export * from './dataAccess'
+export * from './dataAccess';

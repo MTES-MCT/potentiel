@@ -1,60 +1,60 @@
-import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
-import { HasDemandeDeMêmeTypeOuverte } from '@modules/project'
-import { FileContents, FileObject, makeFileObject } from '../../file'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
+import { Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
+import { HasDemandeDeMêmeTypeOuverte } from '@modules/project';
+import { FileContents, FileObject, makeFileObject } from '../../file';
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
 import {
   DemandeDeMêmeTypeDéjàOuverteError,
   ProjectCannotBeUpdatedIfUnnotifiedError,
-} from '../errors'
-import { Project } from '../Project'
+} from '../errors';
+import { Project } from '../Project';
 
 type SignalerDemandeRecoursDeps = {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  fileRepo: Repository<FileObject>
-  projectRepo: TransactionalRepository<Project>
-  hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte
-}
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  fileRepo: Repository<FileObject>;
+  projectRepo: TransactionalRepository<Project>;
+  hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte;
+};
 
 type SignalerDemandeRecoursArgs = {
-  projectId: string
-  decidedOn: Date
-  signaledBy: User
-  notes?: string
+  projectId: string;
+  decidedOn: Date;
+  signaledBy: User;
+  notes?: string;
   file?: {
-    contents: FileContents
-    filename: string
-  }
-  status: 'acceptée' | 'rejetée'
-}
+    contents: FileContents;
+    filename: string;
+  };
+  status: 'acceptée' | 'rejetée';
+};
 
 export const makeSignalerDemandeRecours =
   (deps: SignalerDemandeRecoursDeps) =>
   (
-    args: SignalerDemandeRecoursArgs
+    args: SignalerDemandeRecoursArgs,
   ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { projectRepo, fileRepo, shouldUserAccessProject, hasDemandeDeMêmeTypeOuverte } = deps
-    const { projectId, decidedOn, status, notes, signaledBy, file } = args
+    const { projectRepo, fileRepo, shouldUserAccessProject, hasDemandeDeMêmeTypeOuverte } = deps;
+    const { projectId, decidedOn, status, notes, signaledBy, file } = args;
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: signaledBy }))
       .andThen((userHasRightsToProject) => {
         if (!userHasRightsToProject) {
-          return errAsync(new UnauthorizedError())
+          return errAsync(new UnauthorizedError());
         }
-        return okAsync(null)
+        return okAsync(null);
       })
       .andThen(() => {
         return hasDemandeDeMêmeTypeOuverte({
           projetId: projectId,
           type: 'recours',
         }).andThen((demande) =>
-          demande ? errAsync(new DemandeDeMêmeTypeDéjàOuverteError()) : okAsync(null)
-        )
+          demande ? errAsync(new DemandeDeMêmeTypeDéjàOuverteError()) : okAsync(null),
+        );
       })
       .andThen((): ResultAsync<{ id: string; name: string } | null, InfraNotAvailableError> => {
         if (file) {
-          const { filename, contents } = file
+          const { filename, contents } = file;
           const fileObject = makeFileObject({
             designation: 'other',
             forProject: new UniqueEntityID(projectId),
@@ -65,14 +65,14 @@ export const makeSignalerDemandeRecours =
             .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
             .map((fileId) => ({ id: fileId, name: filename }))
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
 
-          return fileObject
+          return fileObject;
         }
 
-        return okAsync(null)
+        return okAsync(null);
       })
       .andThen((attachment) => {
         return projectRepo.transaction(
@@ -86,8 +86,8 @@ export const makeSignalerDemandeRecours =
                 ...(attachment && { attachment }),
                 signaledBy,
               })
-              .asyncMap(async () => null)
-          }
-        )
-      })
-  }
+              .asyncMap(async () => null);
+          },
+        );
+      });
+  };

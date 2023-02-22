@@ -1,15 +1,15 @@
-import routes from '@routes'
-import { NotificationService } from '../NotificationService'
-import { UtilisateurInvité } from '@modules/utilisateur'
+import routes from '@routes';
+import { NotificationService } from '../NotificationService';
+import { UtilisateurInvité } from '@modules/utilisateur';
 
 type Dépendances = {
-  sendNotification: NotificationService['sendNotification']
-}
+  sendNotification: NotificationService['sendNotification'];
+};
 
 export const onUtilisateurInvité =
   ({ sendNotification }: Dépendances) =>
   async (évènement: UtilisateurInvité) => {
-    const { email } = évènement.payload
+    const { email } = évènement.payload;
 
     await sendNotification({
       type: 'user-invitation',
@@ -21,5 +21,5 @@ export const onUtilisateurInvité =
       variables: {
         invitation_link: `${routes.SIGNUP}?email=${email}`,
       },
-    })
-  }
+    });
+  };

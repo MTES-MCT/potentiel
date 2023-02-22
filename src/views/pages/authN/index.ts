@@ -1,1 +1,1 @@
-export * from './AccèsNonAutoriséPage'
+export * from './AccèsNonAutoriséPage';

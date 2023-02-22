@@ -1,2 +1,2 @@
-export * from './updates'
-export * from './modificationRequest.model'
+export * from './updates';
+export * from './modificationRequest.model';

@@ -1,16 +1,19 @@
-import { logger } from '@core/utils'
-import { DateEchéanceGFAjoutée } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
+import { logger } from '@core/utils';
+import { DateEchéanceGFAjoutée } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
 
 export default GarantiesFinancièresProjector.on(
   DateEchéanceGFAjoutée,
   async (évènement, transaction) => {
     const {
       payload: { projectId: projetId, expirationDate },
-    } = évènement
+    } = évènement;
 
-    const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
+    const entréeExistante = await GarantiesFinancières.findOne({
+      where: { projetId },
+      transaction,
+    });
 
     if (!entréeExistante) {
       logger.error(
@@ -19,10 +22,10 @@ export default GarantiesFinancièresProjector.on(
           {
             évènement,
             nomProjection: 'GarantiesFinancières',
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
 
     try {
@@ -30,8 +33,8 @@ export default GarantiesFinancièresProjector.on(
         {
           dateEchéance: expirationDate,
         },
-        { where: { projetId }, transaction }
-      )
+        { where: { projetId }, transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -40,9 +43,9 @@ export default GarantiesFinancièresProjector.on(
             évènement,
             nomProjection: 'GarantiesFinancières',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

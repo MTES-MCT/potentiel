@@ -1,43 +1,43 @@
-import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { oldUserRepo } from '@config/repos.config'
-import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils'
+import { getDonnéesCourriersRéponse } from '@entities/donnéesCourriersRéponse';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { oldUserRepo } from '@config/repos.config';
+import { errAsync, logger, ok, okAsync, ResultAsync, wrapInfra } from '@core/utils';
 import {
   GetModificationRequestDateForResponseTemplate,
   ModificationRequestDataForResponseTemplateDTO,
-} from '@modules/modificationRequest'
-import { getDelaiDeRealisation } from '@modules/projectAppelOffre'
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
-import moment from 'moment'
-import { formatDate } from '../../../../helpers/formatDate'
-import models from '../../models'
-import { Région } from '@modules/dreal/région'
+} from '@modules/modificationRequest';
+import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import moment from 'moment';
+import { formatDate } from '../../../../helpers/formatDate';
+import models from '../../models';
+import { Région } from '@modules/dreal/région';
 
-const { ModificationRequest, Project, File, User } = models
+const { ModificationRequest, Project, File, User } = models;
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User)
-      return errAsync(new InfraNotAvailableError())
+      return errAsync(new InfraNotAvailableError());
     return _getModificationRequestById(modificationRequestId, models)
       .andThen(
         (
-          modificationRequest: any
+          modificationRequest: any,
         ): ResultAsync<
           { modificationRequest: any; previousRequest: any },
           EntityNotFoundError | InfraNotAvailableError
         > => {
-          if (!modificationRequest) return errAsync(new EntityNotFoundError())
-          const { type, projectId } = modificationRequest
+          if (!modificationRequest) return errAsync(new EntityNotFoundError());
+          const { type, projectId } = modificationRequest;
           if (type === 'delai') {
             return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
               modificationRequest,
               previousRequest,
-            }))
+            }));
           }
 
-          return okAsync({ modificationRequest, previousRequest: null })
-        }
+          return okAsync({ modificationRequest, previousRequest: null });
+        },
       )
       .andThen(
         ({
@@ -50,21 +50,21 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           if (user.role === 'dreal') {
             const {
               project: { regionProjet },
-            } = modificationRequest
+            } = modificationRequest;
             return wrapInfra(oldUserRepo.findDrealsForUser(user.id)).map((userDreals) => {
               // If there are multiple, use the first to coincide with the project
-              const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || ''
+              const dreal = userDreals.find((dreal) => regionProjet.includes(dreal)) || '';
 
               return {
                 dreal,
                 modificationRequest,
                 previousRequest,
-              }
-            })
+              };
+            });
           }
 
-          return okAsync({ dreal: '', modificationRequest, previousRequest })
-        }
+          return okAsync({ dreal: '', modificationRequest, previousRequest });
+        },
       )
       .andThen(({ dreal, modificationRequest, previousRequest }) => {
         const {
@@ -79,18 +79,18 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           confirmedOn,
           producteur,
           dateAchèvementDemandée = null,
-        } = modificationRequest
+        } = modificationRequest;
 
-        const { appelOffreId, periodeId, familleId, technologie } = project
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+        const { appelOffreId, periodeId, familleId, technologie } = project;
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
         if (!appelOffre || !appelOffre?.periode) {
           logger.error(
             new Error(
-              `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`
-            )
-          )
-          return errAsync(new InfraNotAvailableError())
+              `getModificationRequestDataForResponseTemplate failed to find the appelOffre for this id ${appelOffreId}`,
+            ),
+          );
+          return errAsync(new InfraNotAvailableError());
         }
 
         const {
@@ -113,7 +113,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           notifiedOn,
           potentielIdentifier,
           cahierDesChargesActuel,
-        } = project
+        } = project;
 
         const {
           periode,
@@ -131,7 +131,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           delaiRealisationTexte,
           renvoiSoumisAuxGarantiesFinancieres,
           isSoumisAuxGF,
-        } = appelOffre
+        } = appelOffre;
 
         const commonData = {
           type,
@@ -158,7 +158,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           dateDemande: formatDate(requestedOn),
           justificationDemande: justification,
           dateNotification: formatDate(notifiedOn),
-        }
+        };
 
         const {
           texteChangementDActionnariat,
@@ -167,7 +167,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           texteDélaisDAchèvement,
           texteEngagementRéalisationEtModalitésAbandon,
           texteIdentitéDuProducteur,
-        } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre)
+        } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre);
         switch (type) {
           case 'delai':
             return ok({
@@ -178,16 +178,16 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 Number(
                   moment(notifiedOn)
                     .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
-                    .subtract(1, 'day')
+                    .subtract(1, 'day'),
                 ),
-                'DD/MM/YYYY'
+                'DD/MM/YYYY',
               ),
               dateAchèvementDemandée: dateAchèvementDemandée
                 ? formatDate(dateAchèvementDemandée)
                 : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
           case 'abandon':
           case 'annulation abandon':
             return ok({
@@ -198,14 +198,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               dateDemandeConfirmation:
                 confirmationRequestedOn && formatDate(confirmationRequestedOn),
               dateConfirmation: confirmedOn && formatDate(confirmedOn),
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
           case 'actionnaire':
             return ok({
               ...commonData,
               nouvelActionnaire: actionnaire,
               referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
               contenuParagrapheActionnaire: texteChangementDActionnariat.dispositions,
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
           case 'recours':
             return ok({
               ...commonData,
@@ -239,14 +239,14 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               delaiRealisationTexte,
               isFinancementCollectif: actionnariat === 'financement-collectif' ? 'yes' : '',
               isGouvernancePartagée: actionnariat === 'gouvernance-partagee' ? 'yes' : '',
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
 
           case 'puissance':
-            const { puissance: puissanceActuelle } = modificationRequest.project
+            const { puissance: puissanceActuelle } = modificationRequest.project;
             const {
               project: { puissanceInitiale },
               puissance: nouvellePuissance,
-            } = modificationRequest
+            } = modificationRequest;
 
             return ok({
               ...commonData,
@@ -256,7 +256,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               puissanceActuelle,
               referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
               contenuParagraphePuissance: texteChangementDePuissance.dispositions,
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
 
           case 'producteur':
             return ok({
@@ -267,15 +267,15 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheChangementProducteur:
                 texteChangementDeProducteur.référenceParagraphe,
               contenuParagrapheChangementProducteur: texteChangementDeProducteur.dispositions,
-            } as ModificationRequestDataForResponseTemplateDTO)
+            } as ModificationRequestDataForResponseTemplateDTO);
         }
 
-        return errAsync(new EntityNotFoundError())
-      })
-  }
+        return errAsync(new EntityNotFoundError());
+      });
+  };
 
 function _getModificationRequestById(modificationRequestId, models) {
-  const { ModificationRequest, Project } = models
+  const { ModificationRequest, Project } = models;
 
   return wrapInfra(
     ModificationRequest.findByPk(modificationRequestId, {
@@ -285,12 +285,12 @@ function _getModificationRequestById(modificationRequestId, models) {
           as: 'project',
         },
       ],
-    })
-  ).map((rawData: any) => rawData?.get())
+    }),
+  ).map((rawData: any) => rawData?.get());
 }
 
 function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
-  const { ModificationRequest } = models
+  const { ModificationRequest } = models;
 
   return wrapInfra(
     ModificationRequest.findOne({
@@ -299,12 +299,12 @@ function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
         status: 'acceptée',
         type: 'delai',
       },
-    })
-  ).map((rawData: any) => rawData?.get())
+    }),
+  ).map((rawData: any) => rawData?.get());
 }
 
 function _makePreviousDelaiFromPreviousRequest(previousRequest) {
-  if (!previousRequest) return { demandePrecedente: '' }
+  if (!previousRequest) return { demandePrecedente: '' };
 
   const {
     requestedOn,
@@ -313,13 +313,13 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
     respondedOn,
     isLegacy,
     dateAchèvementDemandée,
-  } = previousRequest
+  } = previousRequest;
 
   if (isLegacy) {
     const legacyDelay = monthDiff(
       new Date(acceptanceParams.ancienneDateLimiteAchevement),
-      new Date(acceptanceParams.nouvelleDateLimiteAchevement)
-    )
+      new Date(acceptanceParams.nouvelleDateLimiteAchevement),
+    );
     return {
       demandePrecedente: 'yes',
       dateDepotDemandePrecedente: formatDate(requestedOn),
@@ -327,13 +327,13 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       dateReponseDemandePrecedente: formatDate(respondedOn),
       autreDelaiDemandePrecedenteAccorde: '',
       delaiDemandePrecedenteAccordeEnMois: legacyDelay.toString(),
-    }
+    };
   }
   const common = {
     demandePrecedente: 'yes',
     dateDepotDemandePrecedente: formatDate(requestedOn),
     dateReponseDemandePrecedente: formatDate(respondedOn),
-  }
+  };
 
   if (dateAchèvementDemandée) {
     return {
@@ -343,7 +343,7 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       demandeEnDate: 'yes',
       autreDelaiDemandePrecedenteAccorde:
         dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
-    }
+    };
   }
 
   if (delayInMonths) {
@@ -362,14 +362,14 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
         autreDelaiDemandePrecedenteAccorde:
           dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
       }),
-    }
+    };
   }
 
-  return { demandePrecedente: '' }
+  return { demandePrecedente: '' };
 }
 
 function monthDiff(dateFrom, dateTo) {
   return (
     dateTo.getMonth() - dateFrom.getMonth() + 12 * (dateTo.getFullYear() - dateFrom.getFullYear())
-  )
+  );
 }

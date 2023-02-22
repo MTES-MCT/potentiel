@@ -1,18 +1,18 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain';
 
 export interface ProjectPTFRemovedPayload {
-  projectId: string
-  removedBy: string
+  projectId: string;
+  removedBy: string;
 }
 export class ProjectPTFRemoved
   extends BaseDomainEvent<ProjectPTFRemovedPayload>
   implements DomainEvent
 {
-  public static type: 'ProjectPTFRemoved' = 'ProjectPTFRemoved'
-  public type = ProjectPTFRemoved.type
-  currentVersion = 1
+  public static type: 'ProjectPTFRemoved' = 'ProjectPTFRemoved';
+  public type = ProjectPTFRemoved.type;
+  currentVersion = 1;
 
   aggregateIdFromPayload(payload: ProjectPTFRemovedPayload) {
-    return payload.projectId
+    return payload.projectId;
   }
 }

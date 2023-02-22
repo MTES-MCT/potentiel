@@ -1,9 +1,9 @@
-import { DataTypes } from 'sequelize'
-import { makeProjector } from '../../helpers'
+import { DataTypes } from 'sequelize';
+import { makeProjector } from '../../helpers';
 
-const étatsPossibles = ['invité', 'créé'] as const
+const étatsPossibles = ['invité', 'créé'] as const;
 
-export const userProjector = makeProjector()
+export const userProjector = makeProjector();
 
 export const MakeUserModel = (sequelize) => {
   const User = sequelize.define(
@@ -45,16 +45,16 @@ export const MakeUserModel = (sequelize) => {
     },
     {
       timestamps: true,
-    }
-  )
+    },
+  );
 
   User.associate = (models) => {
     // Add belongsTo etc. statements here
-    const { Project } = models
-    User.hasMany(Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' })
-  }
+    const { Project } = models;
+    User.hasMany(Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
+  };
 
-  User.projector = userProjector
+  User.projector = userProjector;
 
-  return User
-}
+  return User;
+};

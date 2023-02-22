@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { DélaiAccordé } from '@modules/demandeModification'
-import { makeOnDélaiAccordé } from './onDélaiAccordé'
+import { okAsync } from '@core/utils';
+import { DélaiAccordé } from '@modules/demandeModification';
+import { makeOnDélaiAccordé } from './onDélaiAccordé';
 
 describe(`Notifier lorsqu'un délai est accordé`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est accordé
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
 
       const onDélaiAccordé = makeOnDélaiAccordé({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onDélaiAccordé(
         new DélaiAccordé({
@@ -43,10 +43,10 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
             accordéPar: 'la-dreal',
             ancienneDateThéoriqueAchèvement: new Date('2022-01-13'),
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -59,8 +59,8 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -73,8 +73,8 @@ describe(`Notifier lorsqu'un délai est accordé`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

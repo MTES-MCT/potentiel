@@ -1,4 +1,4 @@
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
+import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
 
 export const ModificationRequestStatusTitle: Record<ModificationRequestStatusDTO, string> = {
   envoyée: 'Envoyée',
@@ -9,4 +9,4 @@ export const ModificationRequestStatusTitle: Record<ModificationRequestStatusDTO
   acceptée: 'Acceptée',
   rejetée: 'Rejetée',
   annulée: 'Annulée',
-}
+};

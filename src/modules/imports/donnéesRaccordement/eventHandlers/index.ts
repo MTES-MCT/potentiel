@@ -1,1 +1,1 @@
-export * from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée'
+export * from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée';

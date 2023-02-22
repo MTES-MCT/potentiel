@@ -1,22 +1,22 @@
-import { logger, wrapInfra } from '@core/utils'
-import routes from '@routes'
-import { GetPeriodeTitle } from '../../appelOffre'
-import { NotificationService } from '../../notification'
-import { GetUserByEmail, CreateUser } from '../../users'
-import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPeriode'
+import { logger, wrapInfra } from '@core/utils';
+import routes from '@routes';
+import { GetPeriodeTitle } from '../../appelOffre';
+import { NotificationService } from '../../notification';
+import { GetUserByEmail, CreateUser } from '../../users';
+import { CandidateNotifiedForPeriode } from '../events/CandidateNotifiedForPeriode';
 
 export const handleCandidateNotifiedForPeriode =
   (deps: {
-    sendNotification: NotificationService['sendNotification']
-    createUser: CreateUser
-    getUserByEmail: GetUserByEmail
-    getPeriodeTitle: GetPeriodeTitle
+    sendNotification: NotificationService['sendNotification'];
+    createUser: CreateUser;
+    getUserByEmail: GetUserByEmail;
+    getPeriodeTitle: GetPeriodeTitle;
   }) =>
   async (event: CandidateNotifiedForPeriode) => {
-    const { sendNotification, createUser, getPeriodeTitle, getUserByEmail } = deps
+    const { sendNotification, createUser, getPeriodeTitle, getUserByEmail } = deps;
     const {
       payload: { periodeId, appelOffreId, candidateEmail, candidateName },
-    } = event
+    } = event;
 
     await getUserByEmail(candidateEmail)
       .andThen((userOrNull) => {
@@ -25,23 +25,23 @@ export const handleCandidateNotifiedForPeriode =
             role: 'porteur-projet',
             email: candidateEmail,
             fullName: candidateName,
-          })
+          });
         }
 
-        return _sendCandidateNotification()
+        return _sendCandidateNotification();
       })
       .match(
         () => {},
         (e) => {
-          logger.info(`Failed to notify candidate for periode ${appelOffreId} - ${periodeId}`)
-          logger.error(e)
-        }
-      )
+          logger.info(`Failed to notify candidate for periode ${appelOffreId} - ${periodeId}`);
+          logger.error(e);
+        },
+      );
 
     function _sendCandidateNotification() {
       return getPeriodeTitle(appelOffreId, periodeId).andThen(
         ({ periodeTitle, appelOffreTitle }) => {
-          const subject = `Résultats de la ${periodeTitle} période de l'appel d'offres ${appelOffreTitle}`
+          const subject = `Résultats de la ${periodeTitle} période de l'appel d'offres ${appelOffreTitle}`;
 
           return wrapInfra(
             sendNotification({
@@ -58,9 +58,9 @@ export const handleCandidateNotifiedForPeriode =
                 email: candidateEmail,
                 name: candidateName,
               },
-            })
-          )
-        }
-      )
+            }),
+          );
+        },
+      );
     }
-  }
+  };

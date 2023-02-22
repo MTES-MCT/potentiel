@@ -1,5 +1,5 @@
-import React from 'react'
-import { DownloadLink } from './DownloadLink'
+import React from 'react';
+import { DownloadLink } from './DownloadLink';
 
 export default {
   title: 'Components/Molecules/DownloadLink',
@@ -8,12 +8,12 @@ export default {
     children: { control: 'text', defaultValue: 'linkStory' },
     fileUrl: { control: 'text' },
   },
-}
+};
 
-const Template = (args) => <DownloadLink {...args} />
+const Template = (args) => <DownloadLink {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
   children: `Exemple de lien de téléchargement`,
   fileUrl: '#',
-}
+};

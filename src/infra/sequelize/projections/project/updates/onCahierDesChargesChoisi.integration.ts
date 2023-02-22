@@ -1,16 +1,16 @@
-import models from '../../../models'
-import { resetDatabase } from '../../../helpers'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi'
-import { CahierDesChargesChoisi } from '@modules/project'
-import { UniqueEntityID } from '@core/domain'
+import models from '../../../models';
+import { resetDatabase } from '../../../helpers';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
+import { CahierDesChargesChoisi } from '@modules/project';
+import { UniqueEntityID } from '@core/domain';
 
 describe('Mise à jour du projet suite au choix du nouveau cahier des charges', () => {
-  const { Project } = models
+  const { Project } = models;
 
   beforeAll(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   const fixtures = [
     {
@@ -38,7 +38,7 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
       cahierDesChargesChoisi: { type: 'initial', paruLe: 'initial' },
       cahierDesChargesAttendu: 'initial',
     },
-  ]
+  ];
 
   for (const {
     cahierDesChargesActuel,
@@ -50,8 +50,8 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
         cahierDesChargesChoisi.alternatif ? 'alternatif' : ''
       } paru le ${cahierDesChargesChoisi.paruLe} est choisi
       Alors le cahier des charges du projet devrait être ${cahierDesChargesAttendu}`, async () => {
-      const projetId = new UniqueEntityID().toString()
-      await Project.create(makeFakeProject({ id: projetId, cahierDesChargesActuel }))
+      const projetId = new UniqueEntityID().toString();
+      await Project.create(makeFakeProject({ id: projetId, cahierDesChargesActuel }));
 
       await onCahierDesChargesChoisi(models)(
         new CahierDesChargesChoisi({
@@ -60,11 +60,11 @@ describe('Mise à jour du projet suite au choix du nouveau cahier des charges', 
             choisiPar: 'porteur de projet',
             ...cahierDesChargesChoisi,
           } as CahierDesChargesChoisi['payload'],
-        })
-      )
+        }),
+      );
 
-      const projetActuel = await Project.findByPk(projetId)
-      expect(projetActuel?.cahierDesChargesActuel).toEqual(cahierDesChargesAttendu)
-    })
+      const projetActuel = await Project.findByPk(projetId);
+      expect(projetActuel?.cahierDesChargesActuel).toEqual(cahierDesChargesAttendu);
+    });
   }
-})
+});

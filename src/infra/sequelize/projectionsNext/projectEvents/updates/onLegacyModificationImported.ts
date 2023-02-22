@@ -1,6 +1,6 @@
-import { LegacyModificationImported } from '@modules/modificationRequest'
-import { UniqueEntityID } from '@core/domain'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { LegacyModificationImported } from '@modules/modificationRequest';
+import { UniqueEntityID } from '@core/domain';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   LegacyModificationImported,
@@ -8,7 +8,7 @@ export default ProjectEventProjector.on(
     await ProjectEvent.destroy({
       where: { projectId, type: 'LegacyModificationImported' },
       transaction,
-    })
+    });
 
     for (const modification of modifications) {
       const common = {
@@ -17,9 +17,9 @@ export default ProjectEventProjector.on(
         eventPublishedAt: occurredAt.getTime(),
         valueDate: modification.modifiedOn,
         type: 'LegacyModificationImported',
-      }
-      const filename = modification.filename
-      const status = modification.status
+      };
+      const filename = modification.filename;
+      const status = modification.status;
       switch (modification.type) {
         case 'abandon':
           await ProjectEvent.create(
@@ -31,9 +31,9 @@ export default ProjectEventProjector.on(
                 ...(filename && { filename }),
               },
             },
-            { transaction }
-          )
-          break
+            { transaction },
+          );
+          break;
         case 'recours':
           await ProjectEvent.create(
             {
@@ -45,9 +45,9 @@ export default ProjectEventProjector.on(
                 motifElimination: modification.motifElimination,
               },
             },
-            { transaction }
-          )
-          break
+            { transaction },
+          );
+          break;
         case 'delai':
           if (status === 'acceptée') {
             await ProjectEvent.create(
@@ -61,8 +61,8 @@ export default ProjectEventProjector.on(
                   ...(filename && { filename }),
                 },
               },
-              { transaction }
-            )
+              { transaction },
+            );
           } else {
             await ProjectEvent.create(
               {
@@ -73,10 +73,10 @@ export default ProjectEventProjector.on(
                   ...(filename && { filename }),
                 },
               },
-              { transaction }
-            )
+              { transaction },
+            );
           }
-          break
+          break;
         case 'actionnaire':
           await ProjectEvent.create(
             {
@@ -88,9 +88,9 @@ export default ProjectEventProjector.on(
                 status,
               },
             },
-            { transaction }
-          )
-          break
+            { transaction },
+          );
+          break;
         case 'producteur':
           await ProjectEvent.create(
             {
@@ -102,9 +102,9 @@ export default ProjectEventProjector.on(
                 status,
               },
             },
-            { transaction }
-          )
-          break
+            { transaction },
+          );
+          break;
         case 'autre':
           await ProjectEvent.create(
             {
@@ -117,10 +117,10 @@ export default ProjectEventProjector.on(
                 status,
               },
             },
-            { transaction }
-          )
-          break
+            { transaction },
+          );
+          break;
       }
     }
-  }
-)
+  },
+);

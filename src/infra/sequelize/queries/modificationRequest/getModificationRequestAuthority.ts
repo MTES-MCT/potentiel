@@ -1,11 +1,11 @@
-import models from '../../models'
+import models from '../../models';
 
-const { ModificationRequest } = models
+const { ModificationRequest } = models;
 
 export const getModificationRequestAuthority = (
-  modificationRequestId: string
+  modificationRequestId: string,
 ): Promise<'dreal' | 'dgec' | undefined> =>
   ModificationRequest.findOne({
     where: { id: modificationRequestId },
     attributes: ['authority'],
-  }).then((modificationRequest) => modificationRequest?.authority)
+  }).then((modificationRequest) => modificationRequest?.authority);

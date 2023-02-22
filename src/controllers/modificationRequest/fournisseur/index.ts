@@ -1,2 +1,2 @@
-export * from './getChangerFournisseurPage'
-export * from './postChangerFournisseur'
+export * from './getChangerFournisseurPage';
+export * from './postChangerFournisseur';

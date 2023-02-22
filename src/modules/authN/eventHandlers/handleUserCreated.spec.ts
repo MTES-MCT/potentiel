@@ -1,9 +1,9 @@
-import { UserCreated } from '../../users'
-import { handleUserCreated } from './handleUserCreated'
+import { UserCreated } from '../../users';
+import { handleUserCreated } from './handleUserCreated';
 
 describe('authN.handleUserCreated', () => {
   it('should call createUserCredentials for the email', async () => {
-    const createUserCredentials = jest.fn()
+    const createUserCredentials = jest.fn();
 
     await handleUserCreated({
       createUserCredentials,
@@ -15,13 +15,13 @@ describe('authN.handleUserCreated', () => {
           role: 'porteur-projet',
           fullName: 'fullName',
         },
-      })
-    )
+      }),
+    );
 
     expect(createUserCredentials).toHaveBeenCalledWith({
       email: 'test@test.test',
       role: 'porteur-projet',
       fullName: 'fullName',
-    })
-  })
-})
+    });
+  });
+});

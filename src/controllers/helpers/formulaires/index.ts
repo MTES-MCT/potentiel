@@ -1,2 +1,2 @@
-export * from './récupérerRésultatFormulaire'
-export * from './sauvegarderRésultatFormulaire'
+export * from './récupérerRésultatFormulaire';
+export * from './sauvegarderRésultatFormulaire';

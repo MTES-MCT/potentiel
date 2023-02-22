@@ -1,16 +1,16 @@
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { Request } from 'express'
-import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components'
-import { hydrateOnClient } from '../helpers'
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { Request } from 'express';
+import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {
-  request: Request
-  importErrors?: Record<number, string>
-  otherError?: string
-  isSuccess?: boolean
-}
+  request: Request;
+  importErrors?: Record<number, string>;
+  otherError?: string;
+  isSuccess?: boolean;
+};
 
 export const AdminImporterCandidats = ({
   request,
@@ -56,7 +56,7 @@ export const AdminImporterCandidats = ({
         </form>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AdminImporterCandidats)
+hydrateOnClient(AdminImporterCandidats);

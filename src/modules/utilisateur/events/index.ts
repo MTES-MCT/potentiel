@@ -1,2 +1,2 @@
-export * from './ProfilUtilisateurCréé'
-export * from './UtilisateurInvité'
+export * from './ProfilUtilisateurCréé';
+export * from './UtilisateurInvité';

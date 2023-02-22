@@ -6,4 +6,4 @@ export const ModificationRequestTitleByType = {
   abandon: "d'abandon",
   'annulation abandon': "d'annulation d'abandon",
   recours: 'de recours',
-}
+};

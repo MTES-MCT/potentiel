@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const neutrePPE2: AppelOffre = {
   id: 'PPE2 - Neutre',
@@ -94,6 +94,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     // },
   ],
   cahiersDesChargesModifiésDisponibles: [],
-}
+};
 
-export { neutrePPE2 }
+export { neutrePPE2 };

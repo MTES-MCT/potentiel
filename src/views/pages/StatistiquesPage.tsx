@@ -1,13 +1,13 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Heading1, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Heading1, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type StatistiquesProps = {
-  request: Request
-  mainIframeUrl: string
-  mapIframeUrl: string
-}
+  request: Request;
+  mainIframeUrl: string;
+  mapIframeUrl: string;
+};
 
 export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: StatistiquesProps) => {
   return (
@@ -48,7 +48,7 @@ export const Statistiques = ({ mapIframeUrl, mainIframeUrl, request }: Statistiq
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(Statistiques)
+hydrateOnClient(Statistiques);

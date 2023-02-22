@@ -1,14 +1,14 @@
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent';
 
 type Match = {
-  projectId: string
-  score: number
-}
+  projectId: string;
+  score: number;
+};
 
 export interface ContratEDFAvecPlusieursProjetsPossiblesPayload {
-  numero: string
-  rawValues: Record<string, string>
-  matches: Match[]
+  numero: string;
+  rawValues: Record<string, string>;
+  matches: Match[];
 }
 
 export class ContratEDFAvecPlusieursProjetsPossibles
@@ -16,11 +16,11 @@ export class ContratEDFAvecPlusieursProjetsPossibles
   implements DomainEvent
 {
   public static type: 'ContratEDFAvecPlusieursProjetsPossibles' =
-    'ContratEDFAvecPlusieursProjetsPossibles'
-  public type = ContratEDFAvecPlusieursProjetsPossibles.type
-  currentVersion = 1
+    'ContratEDFAvecPlusieursProjetsPossibles';
+  public type = ContratEDFAvecPlusieursProjetsPossibles.type;
+  currentVersion = 1;
 
   aggregateIdFromPayload(payload: ContratEDFAvecPlusieursProjetsPossiblesPayload) {
-    return undefined
+    return undefined;
   }
 }

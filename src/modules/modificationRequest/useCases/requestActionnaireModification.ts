@@ -1,39 +1,39 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
-import { Project } from '@modules/project'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../../file';
+import { Project } from '@modules/project';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationReceived, ModificationRequested } from '../events'
-import { GetProjectAppelOffreId, HasGarantiesFinancières, IsProjectParticipatif } from '../queries'
+} from '../../shared';
+import { ModificationReceived, ModificationRequested } from '../events';
+import { GetProjectAppelOffreId, HasGarantiesFinancières, IsProjectParticipatif } from '../queries';
 
 interface RequestActionnaireModificationDeps {
-  eventBus: EventBus
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: TransactionalRepository<Project>
-  fileRepo: Repository<FileObject>
-  isProjectParticipatif: IsProjectParticipatif
-  hasGarantiesFinancières: HasGarantiesFinancières
-  getProjectAppelOffreId: GetProjectAppelOffreId
+  eventBus: EventBus;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: TransactionalRepository<Project>;
+  fileRepo: Repository<FileObject>;
+  isProjectParticipatif: IsProjectParticipatif;
+  hasGarantiesFinancières: HasGarantiesFinancières;
+  getProjectAppelOffreId: GetProjectAppelOffreId;
 }
 
 interface RequestActionnaireModificationArgs {
-  projectId: UniqueEntityID
-  requestedBy: User
-  newActionnaire: string
-  justification?: string
-  file?: { contents: FileContents; filename: string }
+  projectId: UniqueEntityID;
+  requestedBy: User;
+  newActionnaire: string;
+  justification?: string;
+  file?: { contents: FileContents; filename: string };
 }
 
 export const makeRequestActionnaireModification =
   (deps: RequestActionnaireModificationDeps) =>
   (
-    args: RequestActionnaireModificationArgs
+    args: RequestActionnaireModificationArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -41,15 +41,15 @@ export const makeRequestActionnaireModification =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { projectId, requestedBy, newActionnaire, justification, file } = args
-    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps
+    const { projectId, requestedBy, newActionnaire, justification, file } = args;
+    const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps;
 
     return wrapInfra(
-      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy })
+      shouldUserAccessProject({ projectId: projectId.toString(), user: requestedBy }),
     )
       .andThen((userHasRightsToProject) => {
-        if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-        if (!file) return okAsync(null)
+        if (!userHasRightsToProject) return errAsync(new UnauthorizedError());
+        if (!file) return okAsync(null);
 
         return makeAndSaveFile({
           file: {
@@ -63,9 +63,9 @@ export const makeRequestActionnaireModification =
         })
           .map((responseFileId) => responseFileId)
           .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
+            logger.error(e);
+            return new InfraNotAvailableError();
+          });
       })
       .andThen((fileId: string) =>
         deps.getProjectAppelOffreId(projectId.toString()).andThen((appelOffreId) => {
@@ -76,11 +76,11 @@ export const makeRequestActionnaireModification =
             ]).map(([hasGarantieFinanciere, isProjectParticipatif]) => ({
               requiresAuthorization: !hasGarantieFinanciere || isProjectParticipatif,
               fileId,
-            }))
+            }));
           }
 
-          return okAsync({ requiresAuthorization: false, fileId })
-        })
+          return okAsync({ requiresAuthorization: false, fileId });
+        }),
       )
       .andThen(({ requiresAuthorization, fileId }) =>
         projectRepo.transaction(projectId, (project: Project) => {
@@ -98,11 +98,11 @@ export const makeRequestActionnaireModification =
                   authority: 'dreal',
                   cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                 },
-              })
-            )
+              }),
+            );
           }
 
-          project.updateActionnaire(requestedBy, newActionnaire)
+          project.updateActionnaire(requestedBy, newActionnaire);
 
           eventBus.publish(
             new ModificationReceived({
@@ -117,9 +117,9 @@ export const makeRequestActionnaireModification =
                 authority: 'dreal',
                 cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
               },
-            })
-          )
-          return okAsync(null)
-        })
-      )
-  }
+            }),
+          );
+          return okAsync(null);
+        }),
+      );
+  };

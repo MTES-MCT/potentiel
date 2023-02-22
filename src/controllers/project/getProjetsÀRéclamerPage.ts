@@ -1,12 +1,12 @@
-import { appelOffreRepo } from '@dataAccess'
-import { makePagination } from '../../helpers/paginate'
-import routes from '@routes'
-import { Pagination } from '../../types'
-import { listMissingOwnerProjects } from '@useCases'
-import { ensureRole } from '@config'
-import { v1Router } from '../v1Router'
-import asyncHandler from '../helpers/asyncHandler'
-import { ProjetsÀRéclamerPage } from '@views'
+import { appelOffreRepo } from '@dataAccess';
+import { makePagination } from '../../helpers/paginate';
+import routes from '@routes';
+import { Pagination } from '../../types';
+import { listMissingOwnerProjects } from '@useCases';
+import { ensureRole } from '@config';
+import { v1Router } from '../v1Router';
+import asyncHandler from '../helpers/asyncHandler';
+import { ProjetsÀRéclamerPage } from '@views';
 
 const getMissingOwnerProjectListPage = asyncHandler(async (request, response) => {
   let {
@@ -17,30 +17,30 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     classement,
     garantiesFinancieres,
     pageSize,
-  } = request.query as any
-  const { user } = request
+  } = request.query as any;
+  const { user } = request;
 
   // Set default filter on classés for admins
   if (
     ['admin', 'dgec-validateur', 'dreal'].includes(user.role) &&
     typeof classement === 'undefined'
   ) {
-    classement = 'classés'
-    request.query.classement = 'classés'
+    classement = 'classés';
+    request.query.classement = 'classés';
   }
 
   const defaultPagination: Pagination = {
     page: 0,
     pageSize: +request.cookies?.pageSize || 10,
-  }
-  const pagination = makePagination(request.query, defaultPagination)
+  };
+  const pagination = makePagination(request.query, defaultPagination);
 
-  const appelsOffre = await appelOffreRepo.findAll()
+  const appelsOffre = await appelOffreRepo.findAll();
 
   if (!appelOffreId) {
     // Reset the periodId and familleId if there is no appelOffreId
-    periodeId = undefined
-    familleId = undefined
+    periodeId = undefined;
+    familleId = undefined;
   }
 
   const results = await listMissingOwnerProjects({
@@ -52,16 +52,16 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     recherche,
     classement,
     garantiesFinancieres,
-  })
+  });
 
-  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results
+  const { projects, existingAppelsOffres, existingPeriodes, existingFamilles } = results;
 
   if (pageSize) {
     // Save the pageSize in a cookie
     response.cookie('pageSize', pageSize, {
       maxAge: 1000 * 60 * 60 * 24 * 30 * 3, // 3 months
       httpOnly: true,
-    })
+    });
   }
 
   response.send(
@@ -72,12 +72,12 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
       existingPeriodes,
       existingFamilles,
       appelsOffre,
-    })
-  )
-})
+    }),
+  );
+});
 
 v1Router.get(
   routes.USER_LIST_MISSING_OWNER_PROJECTS,
   ensureRole(['porteur-projet']),
-  getMissingOwnerProjectListPage
-)
+  getMissingOwnerProjectListPage,
+);

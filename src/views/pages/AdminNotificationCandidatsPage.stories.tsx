@@ -1,22 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeRequest from '../../__tests__/fixtures/request'
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeRequest from '../../__tests__/fixtures/request';
 
 // This is static
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { AdminNotificationCandidats } from './AdminNotificationCandidatsPage'
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { AdminNotificationCandidats } from './AdminNotificationCandidatsPage';
 
-export default { title: 'Notifier les candidats' }
+export default { title: 'Notifier les candidats' };
 
-const AOSélectionné = appelsOffreStatic[0].id
-const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id
+const AOSélectionné = appelsOffreStatic[0].id;
+const selectedPeriodeId = appelsOffreStatic[0].periodes[0].id;
 
 export const withError = () => (
   <AdminNotificationCandidats
     request={makeFakeRequest({ query: { error: 'This is an error message!' } })}
   />
-)
+);
 
 export const withSuccess = () => (
   <AdminNotificationCandidats
@@ -24,7 +24,7 @@ export const withSuccess = () => (
       query: { success: 'This is a success message!' },
     })}
   />
-)
+);
 
 export const withProjects = () => (
   <AdminNotificationCandidats
@@ -52,6 +52,6 @@ export const withProjects = () => (
       },
     }}
   />
-)
+);
 
-export const withoutProjects = () => <AdminNotificationCandidats request={makeFakeRequest()} />
+export const withoutProjects = () => <AdminNotificationCandidats request={makeFakeRequest()} />;

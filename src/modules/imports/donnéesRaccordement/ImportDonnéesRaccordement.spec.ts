@@ -1,9 +1,9 @@
-import { UniqueEntityID } from '@core/domain'
-import { makeImportDonnéesRaccordement } from './ImportDonnéesRaccordement'
+import { UniqueEntityID } from '@core/domain';
+import { makeImportDonnéesRaccordement } from './ImportDonnéesRaccordement';
 import {
   TâcheMiseAJourDonnéesDeRaccordementDémarrée,
   TâcheMiseAJourDonnéesDeRaccordementTerminée,
-} from './events'
+} from './events';
 
 describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () => {
   it(`Quand on fabrique l'import de données de raccordement avec un évènement 'TâcheMiseAJourDonnéesDeRaccordementDémarrée'
@@ -26,13 +26,13 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
           },
         }),
       ],
-    })
+    });
 
-    expect(importDonnéesRaccordement.isOk()).toBe(true)
+    expect(importDonnéesRaccordement.isOk()).toBe(true);
     expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'en cours',
-    })
-  })
+    });
+  });
   it(`Quand on fabrique l'import de données de raccordement avec 2 évènements consécutifs 'TâcheMiseAJourDonnéesDeRaccordementDémarrée' et 'TâcheMiseAJourDonnéesDeRaccordementTerminée'
       Alors l'import devrait avoir une tâche en cours de type mise à jour de date de mise en service
       Et l'import devrait avoir un statut 'en cours'`, () => {
@@ -59,11 +59,11 @@ describe(`Fabriquer l'agrégat pour un import de données de raccordement`, () =
           },
         }),
       ],
-    })
+    });
 
-    expect(importDonnéesRaccordement.isOk()).toBe(true)
+    expect(importDonnéesRaccordement.isOk()).toBe(true);
     expect(importDonnéesRaccordement._unsafeUnwrap()).toMatchObject({
       état: 'terminé',
-    })
-  })
-})
+    });
+  });
+});

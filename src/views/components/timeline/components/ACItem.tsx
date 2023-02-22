@@ -1,7 +1,7 @@
-import { Link } from '@components'
-import React from 'react'
-import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.'
-import { ACItemProps } from '../helpers'
+import { Link } from '@components';
+import React from 'react';
+import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
+import { ACItemProps } from '../helpers';
 export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps) => {
   return (
     <>
@@ -33,5 +33,5 @@ export const ACItem = ({ date, covidDelay, délaiCDC2022Appliqué }: ACItemProps
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};

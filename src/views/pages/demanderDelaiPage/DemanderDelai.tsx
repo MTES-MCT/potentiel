@@ -15,36 +15,36 @@ import {
   ExternalLink,
   Heading1,
   ProjectProps,
-} from '@components'
-import routes from '@routes'
-import { ProjectAppelOffre } from '@entities'
+} from '@components';
+import routes from '@routes';
+import { ProjectAppelOffre } from '@entities';
 
-import { Request } from 'express'
-import React from 'react'
-import format from 'date-fns/format'
+import { Request } from 'express';
+import React from 'react';
+import format from 'date-fns/format';
 
-import { dataId } from '../../../helpers/testId'
-import { hydrateOnClient } from '../../helpers'
+import { dataId } from '../../../helpers/testId';
+import { hydrateOnClient } from '../../helpers';
 
 type DemanderDelaiProps = {
-  request: Request
+  request: Request;
   project: ProjectProps & {
-    cahierDesChargesActuel: string
-    completionDueOn: number
-  }
-  appelOffre: ProjectAppelOffre
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+    cahierDesChargesActuel: string;
+    completionDueOn: number;
+  };
+  appelOffre: ProjectAppelOffre;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 
 export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiProps) => {
-  const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {}
+  const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
-    new Date(project.completionDueOn).getDate() + 1
-  )
+    new Date(project.completionDueOn).getDate() + 1,
+  );
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -173,7 +173,7 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DemanderDelai)
+hydrateOnClient(DemanderDelai);

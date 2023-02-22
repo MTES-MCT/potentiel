@@ -1,24 +1,24 @@
-import fs from 'fs'
-import { ensureRole, signalerDemandeDelai } from '@config'
-import { logger } from '@core/utils'
-import asyncHandler from '../helpers/asyncHandler'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
+import fs from 'fs';
+import { ensureRole, signalerDemandeDelai } from '@config';
+import { logger } from '@core/utils';
+import asyncHandler from '../helpers/asyncHandler';
+import { UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
 import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   RequestValidationError,
   unauthorizedResponse,
   validateRequestBody,
-} from '../helpers'
-import { v1Router } from '../v1Router'
-import { upload } from '../upload'
-import * as yup from 'yup'
-import { addQueryParams } from '../../helpers/addQueryParams'
+} from '../helpers';
+import { v1Router } from '../v1Router';
+import { upload } from '../upload';
+import * as yup from 'yup';
+import { addQueryParams } from '../../helpers/addQueryParams';
 import {
   DélaiCDC2022DéjàAppliquéError,
   ImpossibleDAppliquerDélaiSiCDC2022NonChoisiError,
-} from '@modules/project'
+} from '@modules/project';
 
 const requestBodySchema = yup.object({
   projectId: yup.string().uuid().required(),
@@ -50,7 +50,7 @@ const requestBodySchema = yup.object({
   }),
   notes: yup.string().optional(),
   délaiCdc2022: yup.boolean().optional(),
-})
+});
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
@@ -59,13 +59,13 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { projectId, decidedOn, status, notes, délaiCdc2022 } = body
-        const { user: signaledBy } = request
+        const { projectId, decidedOn, status, notes, délaiCdc2022 } = body;
+        const { user: signaledBy } = request;
 
         const file = request.file && {
           contents: fs.createReadStream(request.file.path),
           filename: `${Date.now()}-${request.file.originalname}`,
-        }
+        };
 
         return signalerDemandeDelai({
           projectId,
@@ -80,7 +80,7 @@ v1Router.post(
           notes,
           file,
           signaledBy,
-        }).map(() => ({ projectId }))
+        }).map(() => ({ projectId }));
       })
       .match(
         ({ projectId }) => {
@@ -89,8 +89,8 @@ v1Router.post(
               success: 'Votre signalement de demande de délai a bien été enregistré.',
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
-            })
-          )
+            }),
+          );
         },
         (error) => {
           if (error instanceof RequestValidationError) {
@@ -98,8 +98,8 @@ v1Router.post(
               addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
                 ...request.body,
                 ...error.errors,
-              })
-            )
+              }),
+            );
           }
 
           if (
@@ -110,22 +110,22 @@ v1Router.post(
               addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
                 error: error.message,
                 ...request.body,
-              })
-            )
+              }),
+            );
           }
 
           if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
+            return unauthorizedResponse({ request, response });
           }
 
-          logger.error(error)
+          logger.error(error);
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
-  })
-)
+          });
+        },
+      );
+  }),
+);

@@ -1,29 +1,29 @@
-import { UniqueEntityID } from '@core/domain'
-import { okAsync } from '@core/utils'
-import { CahierDesChargesModifié, ProjectAppelOffre, User } from '@entities'
-import { InfraNotAvailableError } from '@modules/shared'
+import { UniqueEntityID } from '@core/domain';
+import { okAsync } from '@core/utils';
+import { CahierDesChargesModifié, ProjectAppelOffre, User } from '@entities';
+import { InfraNotAvailableError } from '@modules/shared';
 import {
   DemandeAnnulationAbandon,
   statutsDemandeAnnulationAbandon,
-} from '../DemandeAnnulationAbandon'
-import { makeAccorderAnnulationAbandon } from './accorderAnnulationAbandon'
-import { Project } from '@modules/project'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates'
-import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError'
-import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError'
-import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError'
-import { Readable } from 'stream'
+} from '../DemandeAnnulationAbandon';
+import { makeAccorderAnnulationAbandon } from './accorderAnnulationAbandon';
+import { Project } from '@modules/project';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import { fakeRepo, fakeTransactionalRepo } from '../../../../__tests__/fixtures/aggregates';
+import { StatutDemandeIncompatibleAvecAccordAnnulationAbandonError } from './StatutDemandeIncompatibleAvecAccordAnnulationAbandonError';
+import { StatutProjetIncompatibleAvecAccordAnnulationAbandonError } from './StatutProjetIncompatibleAvecAccordAnnulationAbandonError';
+import { CDCProjetIncompatibleAvecAccordAnnulationAbandonError } from './CDCProjetIncompatibleAvecAccordAnnulationAbandonError';
+import { Readable } from 'stream';
 
 describe(`Accorder une annulation d'abandon de projet`, () => {
   // commande
-  const utilisateur = { role: 'admin' } as User
-  const demandeId = new UniqueEntityID().toString()
-  const projet = makeFakeProject()
+  const utilisateur = { role: 'admin' } as User;
+  const demandeId = new UniqueEntityID().toString();
+  const projet = makeFakeProject();
   const fichierRéponse = {
     contents: Readable.from('test-content'),
     filename: 'fichier-réponse',
-  }
+  };
 
   // dépendances
   const projectRepo = fakeRepo({
@@ -31,16 +31,16 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
     isClasse: true,
     abandonedOn: 123,
     cahierDesCharges: { type: 'modifié', paruLe: '30/08/2022' },
-  } as Project)
+  } as Project);
 
-  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null))
+  const publishToEventStore = jest.fn(() => okAsync<null, InfraNotAvailableError>(null));
 
-  const demande = { statut: 'envoyée', projetId: projet.id } as DemandeAnnulationAbandon
+  const demande = { statut: 'envoyée', projetId: projet.id } as DemandeAnnulationAbandon;
 
   const demandeAnnulationAbandonRepo = {
     ...fakeTransactionalRepo(demande),
     ...fakeRepo(demande),
-  }
+  };
 
   const getProjectAppelOffre = () =>
     ({
@@ -51,11 +51,11 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
           délaiAnnulationAbandon: new Date(),
         } as CahierDesChargesModifié,
       ] as Readonly<Array<CahierDesChargesModifié>>,
-    } as ProjectAppelOffre)
+    } as ProjectAppelOffre);
 
-  const fileRepo = fakeRepo()
+  const fileRepo = fakeRepo();
 
-  beforeEach(() => publishToEventStore.mockClear())
+  beforeEach(() => publishToEventStore.mockClear());
 
   describe(`Cas d'une demande qui n'est pas en statut "envoyée"`, () => {
     for (const statut of statutsDemandeAnnulationAbandon.filter((statut) => statut !== 'envoyée')) {
@@ -65,12 +65,12 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         const demande = {
           statut: 'annulée',
           projetId: projet.id,
-        } as DemandeAnnulationAbandon
+        } as DemandeAnnulationAbandon;
 
         const demandeAnnulationAbandonRepo = {
           ...fakeTransactionalRepo(demande),
           ...fakeRepo(demande),
-        }
+        };
 
         const accorder = makeAccorderAnnulationAbandon({
           publishToEventStore,
@@ -78,25 +78,25 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
           demandeAnnulationAbandonRepo,
           getProjectAppelOffre,
           fileRepo,
-        })
+        });
 
-        const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
+        const accord = await accorder({ utilisateur, demandeId, fichierRéponse });
 
-        expect(accord.isErr()).toEqual(true)
+        expect(accord.isErr()).toEqual(true);
         accord.isErr() &&
           expect(accord.error).toBeInstanceOf(
-            StatutDemandeIncompatibleAvecAccordAnnulationAbandonError
-          )
-        expect(publishToEventStore).not.toHaveBeenCalled()
-      })
+            StatutDemandeIncompatibleAvecAccordAnnulationAbandonError,
+          );
+        expect(publishToEventStore).not.toHaveBeenCalled();
+      });
     }
-  })
+  });
 
   describe(`Cas d'un projet qui n'est pas abandonné`, () => {
     it(`Etant donné un projet non abandonné,
         lorsqu'un admin accepte une demande d'annulation d'abandon,
         alors il devrait être notifié que l'action est impossible car le projet n'est pas abandonné`, async () => {
-      const projectRepo = fakeRepo({ ...projet, isClasse: true, abandonedOn: 0 } as Project)
+      const projectRepo = fakeRepo({ ...projet, isClasse: true, abandonedOn: 0 } as Project);
 
       const accorder = makeAccorderAnnulationAbandon({
         publishToEventStore,
@@ -104,18 +104,18 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
         fileRepo,
-      })
+      });
 
-      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse });
 
-      expect(accord.isErr()).toEqual(true)
+      expect(accord.isErr()).toEqual(true);
       accord.isErr() &&
         expect(accord.error).toBeInstanceOf(
-          StatutProjetIncompatibleAvecAccordAnnulationAbandonError
-        )
-      expect(publishToEventStore).not.toHaveBeenCalled()
-    })
-  })
+          StatutProjetIncompatibleAvecAccordAnnulationAbandonError,
+        );
+      expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+  });
 
   describe(`Cas d'un CDC incompatible avec une annulation d'abandon`, () => {
     it(`Etant donné un projet abandonné,
@@ -131,7 +131,7 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
               délaiAnnulationAbandon: undefined,
             } as CahierDesChargesModifié,
           ] as Readonly<Array<CahierDesChargesModifié>>,
-        } as ProjectAppelOffre)
+        } as ProjectAppelOffre);
 
       const accorder = makeAccorderAnnulationAbandon({
         publishToEventStore,
@@ -139,16 +139,16 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
         fileRepo,
-      })
+      });
 
-      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse });
 
-      expect(accord.isErr()).toEqual(true)
+      expect(accord.isErr()).toEqual(true);
       accord.isErr() &&
-        expect(accord.error).toBeInstanceOf(CDCProjetIncompatibleAvecAccordAnnulationAbandonError)
-      expect(publishToEventStore).not.toHaveBeenCalled()
-    })
-  })
+        expect(accord.error).toBeInstanceOf(CDCProjetIncompatibleAvecAccordAnnulationAbandonError);
+      expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+  });
 
   describe(`Conditions d'acceptation réunies`, () => {
     it(`Etant donné un projet abandonné,
@@ -162,11 +162,11 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
         demandeAnnulationAbandonRepo,
         getProjectAppelOffre,
         fileRepo,
-      })
+      });
 
-      const accord = await accorder({ utilisateur, demandeId, fichierRéponse })
+      const accord = await accorder({ utilisateur, demandeId, fichierRéponse });
 
-      expect(accord.isOk()).toBe(true)
+      expect(accord.isOk()).toBe(true);
 
       expect(fileRepo.save).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -174,8 +174,8 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
           filename: fichierRéponse.filename,
           path: `projects/${projet.id}/fichier-réponse`,
           forProject: projet.id,
-        })
-      )
+        }),
+      );
 
       expect(publishToEventStore).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -186,8 +186,8 @@ describe(`Accorder une annulation d'abandon de projet`, () => {
             projetId: projet.id,
             fichierRéponseId: expect.any(String),
           },
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

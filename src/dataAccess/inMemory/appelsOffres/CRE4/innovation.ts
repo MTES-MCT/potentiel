@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const innovation: AppelOffre = {
   id: 'CRE4 - Innovation',
@@ -214,6 +214,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { innovation }
+export { innovation };

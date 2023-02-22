@@ -1,27 +1,27 @@
-import { TransactionalRepository, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
-import { FileContents, FileObject, makeFileObject } from '../../file'
-import { InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { PTFCertificatDéjàEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors'
-import { Project } from '../Project'
+import { TransactionalRepository, Repository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, ResultAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
+import { FileContents, FileObject, makeFileObject } from '../../file';
+import { InfraNotAvailableError, UnauthorizedError } from '../../shared';
+import { PTFCertificatDéjàEnvoyéError, ProjectCannotBeUpdatedIfUnnotifiedError } from '../errors';
+import { Project } from '../Project';
 
 interface SubmitPTFDeps {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  fileRepo: Repository<FileObject>
-  projectRepo: TransactionalRepository<Project>
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  fileRepo: Repository<FileObject>;
+  projectRepo: TransactionalRepository<Project>;
 }
 
 type SubmitPTFArgs = {
-  type: 'ptf'
-  projectId: string
-  stepDate: Date
+  type: 'ptf';
+  projectId: string;
+  stepDate: Date;
   file: {
-    contents: FileContents
-    filename: string
-  }
-  submittedBy: User
-}
+    contents: FileContents;
+    filename: string;
+  };
+  submittedBy: User;
+};
 
 export const makeSubmitPTF =
   ({ shouldUserAccessProject, fileRepo, projectRepo }: SubmitPTFDeps) =>
@@ -32,14 +32,14 @@ export const makeSubmitPTF =
     stepDate,
     submittedBy,
   }: SubmitPTFArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
-    const { filename, contents } = file
+    const { filename, contents } = file;
 
     return wrapInfra(shouldUserAccessProject({ projectId, user: submittedBy }))
       .andThen(
         (
-          userHasRightsToProject
+          userHasRightsToProject,
         ): ResultAsync<string, InfraNotAvailableError | UnauthorizedError> => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError());
           const res = makeFileObject({
             designation: type,
             forProject: new UniqueEntityID(projectId),
@@ -49,16 +49,16 @@ export const makeSubmitPTF =
           })
             .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
 
-          return res
-        }
+          return res;
+        },
       )
       .andThen(
         (
-          fileId: string
+          fileId: string,
         ): ResultAsync<
           null,
           InfraNotAvailableError | UnauthorizedError | PTFCertificatDéjàEnvoyéError
@@ -66,7 +66,7 @@ export const makeSubmitPTF =
           projectRepo.transaction(
             new UniqueEntityID(projectId),
             (
-              project: Project
+              project: Project,
             ): ResultAsync<
               null,
               ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError
@@ -78,7 +78,7 @@ export const makeSubmitPTF =
                   fileId,
                   submittedBy: submittedBy.id.toString(),
                 })
-                .asyncMap(async () => null)
-          )
-      )
-  }
+                .asyncMap(async () => null),
+          ),
+      );
+  };

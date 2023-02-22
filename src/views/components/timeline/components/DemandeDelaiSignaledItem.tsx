@@ -1,41 +1,41 @@
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
-import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.'
-import { makeDocumentUrl } from '../helpers'
-import { DownloadLink } from '@components'
+import React from 'react';
+import { formatDate } from '../../../../helpers/formatDate';
+import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
+import { makeDocumentUrl } from '../helpers';
+import { DownloadLink } from '@components';
 
 type DemandeDelaiSignaledItemProps = {
-  date: number
-  attachment?: { id: string; name: string }
-  notes?: string
+  date: number;
+  attachment?: { id: string; name: string };
+  notes?: string;
 } & (
   | {
-      status: 'acceptée'
-      oldCompletionDueOn?: number
-      newCompletionDueOn: number
+      status: 'acceptée';
+      oldCompletionDueOn?: number;
+      newCompletionDueOn: number;
     }
   | {
-      status: 'rejetée'
+      status: 'rejetée';
     }
   | {
-      status: 'accord-de-principe'
+      status: 'accord-de-principe';
     }
-)
+);
 
 export const DemandeDelaiSignaledItem = (props: DemandeDelaiSignaledItemProps) => {
   switch (props.status) {
     case 'acceptée':
-      return <Accepted {...props} />
+      return <Accepted {...props} />;
 
     case 'rejetée':
-      return <Rejected {...props} />
+      return <Rejected {...props} />;
 
     case 'accord-de-principe':
-      return <AccordPrincipe {...props} />
+      return <AccordPrincipe {...props} />;
   }
-}
+};
 
-type RejectedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'rejetée' }>
+type RejectedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'rejetée' }>;
 
 const Rejected = ({ date, attachment, notes }: RejectedProps) => (
   <>
@@ -53,9 +53,9 @@ const Rejected = ({ date, attachment, notes }: RejectedProps) => (
       )}
     </ContentArea>
   </>
-)
+);
 
-type AccordPrincipeProps = Extract<DemandeDelaiSignaledItemProps, { status: 'accord-de-principe' }>
+type AccordPrincipeProps = Extract<DemandeDelaiSignaledItemProps, { status: 'accord-de-principe' }>;
 
 const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
   <>
@@ -73,9 +73,9 @@ const AccordPrincipe = ({ date, attachment, notes }: AccordPrincipeProps) => (
       )}
     </ContentArea>
   </>
-)
+);
 
-type AcceptedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'acceptée' }>
+type AcceptedProps = Extract<DemandeDelaiSignaledItemProps, { status: 'acceptée' }>;
 
 const Accepted = ({
   date,
@@ -107,4 +107,4 @@ const Accepted = ({
       )}
     </ContentArea>
   </>
-)
+);

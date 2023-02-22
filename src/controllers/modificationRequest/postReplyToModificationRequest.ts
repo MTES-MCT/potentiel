@@ -1,34 +1,34 @@
-import fs from 'fs'
+import fs from 'fs';
 import {
   acceptModificationRequest,
   ensureRole,
   rejectModificationRequest,
   requestConfirmation,
   updateModificationRequestStatus,
-} from '@config'
-import { logger } from '@core/utils'
-import { getModificationRequestAuthority } from '@infra/sequelize/queries'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
+} from '@config';
+import { logger } from '@core/utils';
+import { getModificationRequestAuthority } from '@infra/sequelize/queries';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
 import {
   ModificationRequestAcceptanceParams,
   ProjetDéjàClasséError,
   PuissanceVariationWithDecisionJusticeError,
-} from '@modules/modificationRequest'
+} from '@modules/modificationRequest';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '@modules/shared'
-import routes from '@routes'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
-import moment from 'moment'
+} from '@modules/shared';
+import routes from '@routes';
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import asyncHandler from '../helpers/asyncHandler';
+import { upload } from '../upload';
+import { v1Router } from '../v1Router';
+import moment from 'moment';
 
-const FORMAT_DATE = 'DD/MM/YYYY'
+const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
@@ -51,35 +51,35 @@ v1Router.post(
         actionnaire,
         producteur,
       },
-    } = request
+    } = request;
 
     if (!validateUniqueId(modificationRequestId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Demande' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
     if (role === 'dreal') {
-      const authority = await getModificationRequestAuthority(modificationRequestId)
+      const authority = await getModificationRequestAuthority(modificationRequestId);
 
       if (authority && authority !== role) {
-        return unauthorizedResponse({ request, response })
+        return unauthorizedResponse({ request, response });
       }
     }
 
     // There are two submit buttons on the form, named submitAccept and submitReject
     // We know which one has been clicked when it has a string value
-    const acceptedReply = typeof submitAccept === 'string'
-    const confirmReply = typeof submitConfirm === 'string'
+    const acceptedReply = typeof submitAccept === 'string';
+    const confirmReply = typeof submitConfirm === 'string';
 
     if (statusUpdateOnly) {
       if (confirmReply) {
         return response.redirect(
           addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
             error: `Votre réponse n'a pas pu être prise en compte parce qu'il n'est pas possible de demander une confirmation si la demande a été traitée en dehors de Potentiel.`,
-          })
-        )
+          }),
+        );
       }
 
-      const newStatus = acceptedReply ? 'acceptée' : 'rejetée'
+      const newStatus = acceptedReply ? 'acceptée' : 'rejetée';
 
       return await updateModificationRequestStatus({
         modificationRequestId,
@@ -88,16 +88,16 @@ v1Router.post(
         submittedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(request, response, modificationRequestId)
-      )
+        _handleErrors(request, response, modificationRequestId),
+      );
     }
 
     if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: "La réponse n'a pas pu être envoyée: la date de notification est erronnée.",
-        })
-      )
+        }),
+      );
     }
 
     if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
@@ -105,27 +105,27 @@ v1Router.post(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error:
             "La réponse n'a pas pu être envoyée: la puissance doit être un nombre supérieur à 0.",
-        })
-      )
+        }),
+      );
     }
 
     const responseFile = request.file && {
       contents: fs.createReadStream(request.file.path),
       filename: request.file.originalname,
-    }
+    };
 
-    const courrierReponseIsOk = responseFile || (acceptedReply && isDecisionJustice)
+    const courrierReponseIsOk = responseFile || (acceptedReply && isDecisionJustice);
 
     if (!courrierReponseIsOk) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error:
             "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
-        })
-      )
+        }),
+      );
     }
 
-    let acceptanceParams: ModificationRequestAcceptanceParams | undefined
+    let acceptanceParams: ModificationRequestAcceptanceParams | undefined;
     switch (type) {
       case 'recours':
         acceptanceParams = {
@@ -133,21 +133,21 @@ v1Router.post(
           newNotificationDate: moment(newNotificationDate, 'DD/MM/YYYY')
             .tz('Europe/London')
             .toDate(),
-        }
-        break
+        };
+        break;
       case 'puissance':
-        acceptanceParams = { type, newPuissance: puissance, isDecisionJustice }
-        break
+        acceptanceParams = { type, newPuissance: puissance, isDecisionJustice };
+        break;
       case 'actionnaire':
-        acceptanceParams = { type, newActionnaire: actionnaire }
-        break
+        acceptanceParams = { type, newActionnaire: actionnaire };
+        break;
       case 'producteur':
-        acceptanceParams = { type, newProducteur: producteur }
-        break
+        acceptanceParams = { type, newProducteur: producteur };
+        break;
     }
 
     if (type !== 'abandon' && !acceptanceParams) {
-      return errorResponse({ request, response })
+      return errorResponse({ request, response });
     }
 
     if (acceptedReply) {
@@ -159,8 +159,8 @@ v1Router.post(
         submittedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(request, response, modificationRequestId)
-      )
+        _handleErrors(request, response, modificationRequestId),
+      );
     }
 
     if (confirmReply) {
@@ -171,8 +171,8 @@ v1Router.post(
         confirmationRequestedBy: request.user,
       }).match(
         _handleSuccess(response, modificationRequestId),
-        _handleErrors(request, response, modificationRequestId)
-      )
+        _handleErrors(request, response, modificationRequestId),
+      );
     }
 
     return rejectModificationRequest({
@@ -182,10 +182,10 @@ v1Router.post(
       rejectedBy: request.user,
     }).match(
       _handleSuccess(response, modificationRequestId),
-      _handleErrors(request, response, modificationRequestId)
-    )
-  })
-)
+      _handleErrors(request, response, modificationRequestId),
+    );
+  }),
+);
 
 function _handleSuccess(response, modificationRequestId) {
   return () => {
@@ -194,9 +194,9 @@ function _handleSuccess(response, modificationRequestId) {
         success: 'Votre réponse a bien été enregistrée.',
         redirectUrl: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
         redirectTitle: 'Retourner à la demande',
-      })
-    )
-  }
+      }),
+    );
+  };
 }
 
 function _handleErrors(request, response, modificationRequestId) {
@@ -205,36 +205,36 @@ function _handleErrors(request, response, modificationRequestId) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: `Votre réponse n'a pas pu être prise en compte parce que la demande a été mise à jour entre temps. Merci de réessayer.`,
-        })
-      )
+        }),
+      );
     }
 
     if (e instanceof PuissanceVariationWithDecisionJusticeError) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: e.message,
-        })
-      )
+        }),
+      );
     }
 
     if (e instanceof ProjetDéjàClasséError) {
       return response.redirect(
         addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
           error: `Vous ne pouvez pas accepter cette demande de recours car le projet est déjà "classé". Le porteur a la possibilité d'annuler sa demande, ou bien vous pouvez la rejeter.`,
-        })
-      )
+        }),
+      );
     }
 
     if (e instanceof EntityNotFoundError) {
-      return notFoundResponse({ request, response })
+      return notFoundResponse({ request, response });
     }
 
     if (e instanceof UnauthorizedError) {
-      return unauthorizedResponse({ request, response })
+      return unauthorizedResponse({ request, response });
     }
 
-    logger.error(e)
+    logger.error(e);
 
-    return errorResponse({ request, response })
-  }
+    return errorResponse({ request, response });
+  };
 }

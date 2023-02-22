@@ -1,29 +1,29 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateUpdated,
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -57,7 +57,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.shouldCertificateBeGenerated', () => {
   describe('when project is not notified', () => {
@@ -69,12 +69,12 @@ describe('Project.shouldCertificateBeGenerated', () => {
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
-        })
-      )
+        }),
+      );
 
-      expect(project.shouldCertificateBeGenerated).toBe(false)
-    })
-  })
+      expect(project.shouldCertificateBeGenerated).toBe(false);
+    });
+  });
 
   describe('when project is from a periode that has no certificate', () => {
     it('should return false', () => {
@@ -89,12 +89,12 @@ describe('Project.shouldCertificateBeGenerated', () => {
             ...event,
             payload: { ...event.payload, appelOffreId: 'Fessenheim', periodeId: '1' },
           })),
-        })
-      )
+        }),
+      );
 
-      expect(project.shouldCertificateBeGenerated).toBe(false)
-    })
-  })
+      expect(project.shouldCertificateBeGenerated).toBe(false);
+    });
+  });
 
   describe('when project is notified', () => {
     describe('when a certificate has been generated since last update', () => {
@@ -115,13 +115,13 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
       it('should return false', () => {
-        expect(project.shouldCertificateBeGenerated).toBe(false)
-      })
-    })
+        expect(project.shouldCertificateBeGenerated).toBe(false);
+      });
+    });
 
     describe('when a certificate has been generated since last update but for a prior version', () => {
       const project = UnwrapForTest(
@@ -141,13 +141,13 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
       it('should return true', () => {
-        expect(project.shouldCertificateBeGenerated).toBe(true)
-      })
-    })
+        expect(project.shouldCertificateBeGenerated).toBe(true);
+      });
+    });
 
     describe('when the project has been updated since last certificate generation', () => {
       const project = UnwrapForTest(
@@ -182,13 +182,13 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
       it('should return true', () => {
-        expect(project.shouldCertificateBeGenerated).toBe(true)
-      })
-    })
+        expect(project.shouldCertificateBeGenerated).toBe(true);
+      });
+    });
 
     describe('when a certificate has been uploaded since last update', () => {
       const project = UnwrapForTest(
@@ -209,13 +209,13 @@ describe('Project.shouldCertificateBeGenerated', () => {
               },
             }),
           ]),
-        })
-      )
+        }),
+      );
 
       it('should return false', () => {
-        expect(project.shouldCertificateBeGenerated).toBe(false)
-      })
-    })
+        expect(project.shouldCertificateBeGenerated).toBe(false);
+      });
+    });
 
     describe('when a certificate has been updated in the same transaction as a change', () => {
       const project = UnwrapForTest(
@@ -224,15 +224,15 @@ describe('Project.shouldCertificateBeGenerated', () => {
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
           history: fakeHistory,
-        })
-      )
+        }),
+      );
 
       it('should return false', () => {
-        project.updateCertificate(fakeUser, 'fakeCertificateFileId')
-        project.setNotificationDate(fakeUser, 5454564654)
-        expect(project.shouldCertificateBeGenerated).toBe(false)
-      })
-    })
+        project.updateCertificate(fakeUser, 'fakeCertificateFileId');
+        project.setNotificationDate(fakeUser, 5454564654);
+        expect(project.shouldCertificateBeGenerated).toBe(false);
+      });
+    });
 
     describe('when no certificate has been uploaded or generated since last update', () => {
       const project = UnwrapForTest(
@@ -241,12 +241,12 @@ describe('Project.shouldCertificateBeGenerated', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       it('should return true', () => {
-        expect(project.shouldCertificateBeGenerated).toBe(true)
-      })
-    })
-  })
-})
+        expect(project.shouldCertificateBeGenerated).toBe(true);
+      });
+    });
+  });
+});

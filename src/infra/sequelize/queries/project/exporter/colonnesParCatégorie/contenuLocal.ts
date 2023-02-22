@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const contenuLocal: Readonly<Array<Colonne>> = [
   {
@@ -185,4 +185,4 @@ export const contenuLocal: Readonly<Array<Colonne>> = [
     nomPropriété: `Contenu local Fabrication de composants et assemblage :\nCommentaires`,
     source: 'propriété-colonne-détail',
   },
-]
+];

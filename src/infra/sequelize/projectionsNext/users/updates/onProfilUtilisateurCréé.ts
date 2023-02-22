@@ -1,13 +1,13 @@
-import { Users, UsersProjector } from '../users.model'
-import { ProfilUtilisateurCréé } from '@modules/utilisateur'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { Users, UsersProjector } from '../users.model';
+import { ProfilUtilisateurCréé } from '@modules/utilisateur';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, transaction) => {
   const {
     payload: { email, role, prénom, nom, fonction },
-  } = évènement
-  const utilisateurExistant = await Users.findOne({ where: { email }, transaction })
+  } = évènement;
+  const utilisateurExistant = await Users.findOne({ where: { email }, transaction });
   try {
     await Users.upsert(
       {
@@ -20,8 +20,8 @@ export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, tr
       },
       {
         transaction,
-      }
-    )
+      },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -30,8 +30,8 @@ export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, tr
           évènement,
           nomProjection: 'Users.ProfilUtilisateurCréé',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

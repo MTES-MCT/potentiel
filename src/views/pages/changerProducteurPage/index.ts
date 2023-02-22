@@ -1,1 +1,1 @@
-export * from './ChangerProducteur'
+export * from './ChangerProducteur';

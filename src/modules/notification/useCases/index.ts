@@ -1,2 +1,2 @@
-export * from './notifierPorteurChangementStatutDemande'
-export * from './notifierPorteurRévocationAccèsProjet'
+export * from './notifierPorteurChangementStatutDemande';
+export * from './notifierPorteurRévocationAccèsProjet';

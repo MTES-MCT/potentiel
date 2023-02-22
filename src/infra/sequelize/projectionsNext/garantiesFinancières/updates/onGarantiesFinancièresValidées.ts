@@ -1,7 +1,7 @@
-import { GarantiesFinancièresValidées } from '@modules/project'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
+import { GarantiesFinancièresValidées } from '@modules/project';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
 
 export default GarantiesFinancièresProjector.on(
   GarantiesFinancièresValidées,
@@ -9,12 +9,12 @@ export default GarantiesFinancièresProjector.on(
     const {
       payload: { projetId, validéesPar },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     const entréeExistante = await GarantiesFinancières.findOne({
       where: { projetId },
       transaction,
-    })
+    });
 
     if (!entréeExistante) {
       logger.error(
@@ -23,10 +23,10 @@ export default GarantiesFinancièresProjector.on(
           {
             évènement,
             nomProjection: 'GarantiesFinancières',
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
 
     try {
@@ -39,8 +39,8 @@ export default GarantiesFinancièresProjector.on(
         {
           where: { projetId },
           transaction,
-        }
-      )
+        },
+      );
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -49,9 +49,9 @@ export default GarantiesFinancièresProjector.on(
             évènement,
             nomProjection: 'ProjectEvent.onGarantiesFinancièresValidées',
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-  }
-)
+  },
+);

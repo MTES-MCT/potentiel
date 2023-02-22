@@ -1,11 +1,11 @@
-import React from 'react'
-import { dataId } from '../../../../../helpers/testId'
+import React from 'react';
+import { dataId } from '../../../../../helpers/testId';
 
-import { Label } from '@components'
+import { Label } from '@components';
 
 type DemandeRecoursProps = {
-  justification: string
-}
+  justification: string;
+};
 
 export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
   <>
@@ -24,4 +24,4 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
     <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
     <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
   </>
-)
+);

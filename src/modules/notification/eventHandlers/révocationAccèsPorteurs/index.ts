@@ -1,2 +1,2 @@
-export * from './onToutAccèsAuProjetRevoqué'
-export * from './onUserRightsToProjectRevoked'
+export * from './onToutAccèsAuProjetRevoqué';
+export * from './onUserRightsToProjectRevoked';

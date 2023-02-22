@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequested, ModificationRequestedPayload } from '@modules/modificationRequest'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequested, ModificationRequestedPayload } from '@modules/modificationRequest';
 
-import { makeDemandeDélai } from './DemandeDélai'
+import { makeDemandeDélai } from './DemandeDélai';
 import {
   DélaiAccordé,
   DélaiAccordéPayload,
@@ -9,7 +9,7 @@ import {
   DélaiDemandéPayload,
   DélaiRejeté,
   DélaiRejetéPayload,
-} from './events'
+} from './events';
 
 describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
   it(`
@@ -25,15 +25,15 @@ describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
           } as DélaiDemandéPayload,
         }),
       ],
-    })
+    });
 
-    expect(demandeDélai.isOk()).toBe(true)
+    expect(demandeDélai.isOk()).toBe(true);
     demandeDélai.isOk() &&
       expect(demandeDélai.value).toMatchObject({
         projetId: 'le-projet-de-la-demande',
         statut: 'envoyée',
-      })
-  })
+      });
+  });
 
   it(`
         Quand on fabrique la demande de délai avec un évenement 'DélaiAccordé'
@@ -47,15 +47,15 @@ describe(`Fabriquer l'agrégat pour une demande de délai`, () => {
           } as DélaiAccordéPayload,
         }),
       ],
-    })
+    });
 
-    expect(demandeDélai.isOk()).toBe(true)
+    expect(demandeDélai.isOk()).toBe(true);
     demandeDélai.isOk() &&
       expect(demandeDélai.value).toMatchObject({
         statut: 'accordée',
-      })
-  })
-})
+      });
+  });
+});
 
 describe(`Fabriquer l'agrégat d'une demande de délai utilisant l'ancien et le nouveau format de demande`, () => {
   describe(`Etant donné une demande de délai dont l'acceptation correspond à un événement générique ModificationRequested
@@ -76,13 +76,13 @@ describe(`Fabriquer l'agrégat d'une demande de délai utilisant l'ancien et le 
             } as DélaiRejetéPayload,
           }),
         ],
-      })
+      });
 
-      expect(demandeDélai.isOk()).toBe(true)
+      expect(demandeDélai.isOk()).toBe(true);
       demandeDélai.isOk() &&
         expect(demandeDélai.value).toMatchObject({
           statut: 'refusée',
-        })
-    })
-  })
-})
+        });
+    });
+  });
+});

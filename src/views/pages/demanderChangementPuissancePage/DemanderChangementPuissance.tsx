@@ -1,7 +1,7 @@
-import React from 'react'
-import { ProjectAppelOffre, Technologie } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import { Request } from 'express'
+import React from 'react';
+import { ProjectAppelOffre, Technologie } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import { Request } from 'express';
 
 import {
   ProjectInfo,
@@ -16,31 +16,36 @@ import {
   ErrorBox,
   Heading1,
   ProjectProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
-import { ChangementPuissance } from './components/ChangementPuissance'
-import routes from '@routes'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
+import { ChangementPuissance } from './components/ChangementPuissance';
+import routes from '@routes';
 
 type DemanderChangementPuissanceProps = {
-  request: Request
+  request: Request;
   project: ProjectProps & {
-    cahierDesChargesActuel: string
-    technologie: Technologie
-    puissanceInitiale: number
-    puissance: number
-  }
-  appelOffre: ProjectAppelOffre
-}
+    cahierDesChargesActuel: string;
+    technologie: Technologie;
+    puissanceInitiale: number;
+    puissance: number;
+  };
+  appelOffre: ProjectAppelOffre;
+};
 
 export const DemanderChangementPuissance = ({
   request,
   project,
   appelOffre,
 }: DemanderChangementPuissanceProps) => {
-  const { error, success, puissance: puissanceSaisie, justification } = (request.query as any) || {}
+  const {
+    error,
+    success,
+    puissance: puissanceSaisie,
+    justification,
+  } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -109,7 +114,7 @@ export const DemanderChangementPuissance = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DemanderChangementPuissance)
+hydrateOnClient(DemanderChangementPuissance);

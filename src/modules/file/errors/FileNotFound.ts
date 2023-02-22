@@ -1,7 +1,7 @@
-import { DomainError } from '@core/domain'
+import { DomainError } from '@core/domain';
 
 export class FileNotFoundError extends DomainError {
   constructor() {
-    super('Le fichier demandé est introuvable.')
+    super('Le fichier demandé est introuvable.');
   }
 }

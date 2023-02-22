@@ -1,11 +1,11 @@
-import React from 'react'
-import { Heading1, PageTemplate } from '@views/components'
-import { Request } from 'express'
+import React from 'react';
+import { Heading1, PageTemplate } from '@views/components';
+import { Request } from 'express';
 
 type AccèsNonAutoriséProps = {
-  request: Request
-  fonctionnalité: string
-}
+  request: Request;
+  fonctionnalité: string;
+};
 
 export const AccèsNonAutorisé = ({ request, fonctionnalité }: AccèsNonAutoriséProps) => (
   <PageTemplate {...request}>
@@ -15,4 +15,4 @@ export const AccèsNonAutorisé = ({ request, fonctionnalité }: AccèsNonAutori
       Votre compte ne vous permet pas de <span className="lowercase">{fonctionnalité}</span>.
     </p>
   </PageTemplate>
-)
+);

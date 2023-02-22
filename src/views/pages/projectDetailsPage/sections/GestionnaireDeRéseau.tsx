@@ -1,14 +1,14 @@
-import React from 'react'
-import { Link, PlugIcon, Section } from '@components'
-import { UserRole } from '@modules/users'
-import routes from '@routes'
-import { Project } from '@entities'
+import React from 'react';
+import { Link, PlugIcon, Section } from '@components';
+import { UserRole } from '@modules/users';
+import routes from '@routes';
+import { Project } from '@entities';
 
 type GestionnaireDeRéseauProps = {
-  projetId: Project['id']
-  identifiantGestionnaire?: string
-  role: UserRole
-}
+  projetId: Project['id'];
+  identifiantGestionnaire?: string;
+  role: UserRole;
+};
 
 export const GestionnaireDeRéseau = ({
   identifiantGestionnaire,
@@ -27,4 +27,4 @@ export const GestionnaireDeRéseau = ({
       </Link>
     )}
   </Section>
-)
+);

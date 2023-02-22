@@ -1,39 +1,39 @@
-import { v4 as uuid } from 'uuid'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { userRepo, projectRepo, resetDatabase } from '.'
-import { sequelizeInstance } from '../../sequelize.config'
-import { UserDreal, Users } from '@infra/sequelize/projectionsNext'
+import { v4 as uuid } from 'uuid';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { userRepo, projectRepo, resetDatabase } from '.';
+import { sequelizeInstance } from '../../sequelize.config';
+import { UserDreal, Users } from '@infra/sequelize/projectionsNext';
 
 describe('userRepo sequelizeInstance', () => {
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   describe('addToDreal', () => {
-    const userId = uuid()
+    const userId = uuid();
     beforeAll(async () => {
       await Users.create({
         id: userId,
         fullName: '',
         email: '',
         role: 'dreal',
-      })
-    })
+      });
+    });
 
     it('should add the dreal to the user', async () => {
-      await userRepo.addToDreal(userId, 'Corse')
+      await userRepo.addToDreal(userId, 'Corse');
 
-      const userDreals = await UserDreal.findAll({ where: { userId } })
+      const userDreals = await UserDreal.findAll({ where: { userId } });
 
-      expect(userDreals).toHaveLength(1)
+      expect(userDreals).toHaveLength(1);
       //@ts-ignore
-      expect(userDreals[0].dreal).toEqual('Corse')
-    })
-  })
+      expect(userDreals[0].dreal).toEqual('Corse');
+    });
+  });
 
   describe('findUsersForDreal', () => {
-    const userId = uuid()
+    const userId = uuid();
 
     it('return the users associated to the dreal', async () => {
       await Users.create({
@@ -41,24 +41,24 @@ describe('userRepo sequelizeInstance', () => {
         fullName: 'fullName',
         email: 'email@test.test',
         role: 'dreal',
-      })
+      });
 
       await UserDreal.create({
         userId,
         dreal: 'Corse',
-      })
+      });
 
-      const drealUsers = await userRepo.findUsersForDreal('Corse')
+      const drealUsers = await userRepo.findUsersForDreal('Corse');
 
-      expect(drealUsers).toHaveLength(1)
-      expect(drealUsers[0].fullName).toEqual('fullName')
-      expect(drealUsers[0].email).toEqual('email@test.test')
-      expect(drealUsers[0].role).toEqual('dreal')
-    })
-  })
+      expect(drealUsers).toHaveLength(1);
+      expect(drealUsers[0].fullName).toEqual('fullName');
+      expect(drealUsers[0].email).toEqual('email@test.test');
+      expect(drealUsers[0].role).toEqual('dreal');
+    });
+  });
 
   describe('findDrealsForUser', () => {
-    const userId = uuid()
+    const userId = uuid();
 
     it('return the dreals associated to the user', async () => {
       await Users.create({
@@ -66,34 +66,34 @@ describe('userRepo sequelizeInstance', () => {
         fullName: 'fullName',
         email: 'email@test.test',
         role: 'dreal',
-      })
+      });
 
       await UserDreal.create({
         userId,
         dreal: 'Corse',
-      })
+      });
 
-      const dreals = await userRepo.findDrealsForUser(userId)
+      const dreals = await userRepo.findDrealsForUser(userId);
 
-      expect(dreals).toHaveLength(1)
-      expect(dreals[0]).toEqual('Corse')
-    })
-  })
+      expect(dreals).toHaveLength(1);
+      expect(dreals[0]).toEqual('Corse');
+    });
+  });
 
   describe('addProjectToUserWithEmail(projectId, email)', () => {
     describe('when a user with this email exists', () => {
       it('should add the user to the project', async () => {
-        const userId = uuid()
-        const targetEmail = 'test@test.test'
+        const userId = uuid();
+        const targetEmail = 'test@test.test';
 
         await userRepo.insert(
           makeFakeUser({
             id: userId,
             email: targetEmail,
-          })
-        )
+          }),
+        );
 
-        const targetProjetId = uuid()
+        const targetProjetId = uuid();
 
         await Promise.all(
           [
@@ -103,37 +103,37 @@ describe('userRepo sequelizeInstance', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const result = await userRepo.addProjectToUserWithEmail(targetProjetId, targetEmail)
+        const result = await userRepo.addProjectToUserWithEmail(targetProjetId, targetEmail);
 
-        expect(result.isOk()).toBeTruthy()
+        expect(result.isOk()).toBeTruthy();
 
-        const UserModel = sequelizeInstance.model('user')
-        const ProjectModel = sequelizeInstance.model('project')
-        const userInstance = await UserModel.findByPk(userId)
-        const projectInstance = await ProjectModel.findByPk(targetProjetId)
+        const UserModel = sequelizeInstance.model('user');
+        const ProjectModel = sequelizeInstance.model('project');
+        const userInstance = await UserModel.findByPk(userId);
+        const projectInstance = await ProjectModel.findByPk(targetProjetId);
 
         //@ts-ignore
-        expect(await userInstance.hasProject(projectInstance)).toEqual(true)
-      })
-    })
-  })
+        expect(await userInstance.hasProject(projectInstance)).toEqual(true);
+      });
+    });
+  });
 
   describe('addUserToProjectsWithEmail(userId, email)', () => {
     it('should add the user to all projects that have the given email address', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const targetProjet1 = uuid()
-      const targetProjet2 = uuid()
-      const targetEmail = 'test@test.test'
+      const targetProjet1 = uuid();
+      const targetProjet2 = uuid();
+      const targetEmail = 'test@test.test';
 
       await Promise.all(
         [
@@ -151,24 +151,24 @@ describe('userRepo sequelizeInstance', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      const result = await userRepo.addUserToProjectsWithEmail(userId, targetEmail)
+      const result = await userRepo.addUserToProjectsWithEmail(userId, targetEmail);
 
-      expect(result.isOk()).toBeTruthy()
+      expect(result.isOk()).toBeTruthy();
 
-      const UserModel = sequelizeInstance.model('user')
-      const ProjectModel = sequelizeInstance.model('project')
+      const UserModel = sequelizeInstance.model('user');
+      const ProjectModel = sequelizeInstance.model('project');
       const userProjects = (
         await ProjectModel.findAll({
           attributes: ['id'],
           include: [{ model: UserModel, where: { id: userId } }],
         })
-      ).map((item) => item.get().id)
+      ).map((item) => item.get().id);
 
-      expect(userProjects).toHaveLength(2)
-      expect(userProjects).toEqual(expect.arrayContaining([targetProjet1, targetProjet2]))
-    })
-  })
-})
+      expect(userProjects).toHaveLength(2);
+      expect(userProjects).toEqual(expect.arrayContaining([targetProjet1, targetProjet2]));
+    });
+  });
+});

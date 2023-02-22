@@ -1,5 +1,5 @@
-import { logger } from '@core/utils'
-import { AbandonDemandé } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { AbandonDemandé } from '@modules/demandeModification';
 
 export const onAbandonDemandé =
   (models) =>
@@ -12,9 +12,9 @@ export const onAbandonDemandé =
       autorité,
       porteurId,
       cahierDesCharges,
-    } = payload
+    } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.create({
         id: demandeAbandonId,
@@ -28,8 +28,8 @@ export const onAbandonDemandé =
         justification,
         authority: autorité,
         cahierDesCharges,
-      })
+      });
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

@@ -1,10 +1,10 @@
-import { Text, View } from '@react-pdf/renderer'
-import React from 'react'
-import { Validateur } from '../..'
+import { Text, View } from '@react-pdf/renderer';
+import React from 'react';
+import { Validateur } from '../..';
 
 type SignatureProps = {
-  validateur: Validateur
-}
+  validateur: Validateur;
+};
 
 export const Signature = ({ validateur }: SignatureProps) => (
   <View
@@ -23,4 +23,4 @@ export const Signature = ({ validateur }: SignatureProps) => (
       {validateur.fonction}
     </Text>
   </View>
-)
+);

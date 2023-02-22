@@ -1,6 +1,6 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react';
 
-export type CalloutProps = ComponentProps<'div'>
+export type CalloutProps = ComponentProps<'div'>;
 
 export const Callout = ({ children, className = '', ...props }: CalloutProps) => {
   return (
@@ -11,5 +11,5 @@ export const Callout = ({ children, className = '', ...props }: CalloutProps) =>
     >
       {children}
     </div>
-  )
-}
+  );
+};

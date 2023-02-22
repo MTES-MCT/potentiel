@@ -7,14 +7,14 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-} from '@components'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { userIs } from '@modules/users'
-import ROUTES from '@routes'
-import { Request } from 'express'
-import moment from 'moment'
-import React from 'react'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { userIs } from '@modules/users';
+import ROUTES from '@routes';
+import { Request } from 'express';
+import moment from 'moment';
+import React from 'react';
+import { hydrateOnClient } from '../../helpers';
 import {
   ActionnaireForm,
   AdminResponseForm,
@@ -26,30 +26,30 @@ import {
   ProducteurForm,
   PuissanceForm,
   RecoursForm,
-} from './components'
+} from './components';
 
-moment.locale('fr')
+moment.locale('fr');
 
 type ModificationRequestProps = {
-  request: Request
-  modificationRequest: ModificationRequestPageDTO
-}
+  request: Request;
+  modificationRequest: ModificationRequestPageDTO;
+};
 
 export const ModificationRequest = ({ request, modificationRequest }: ModificationRequestProps) => {
-  const { user } = request
-  const { error, success } = request.query as any
-  const { type, id, status } = modificationRequest
+  const { user } = request;
+  const { error, success } = request.query as any;
+  const { type, id, status } = modificationRequest;
 
-  const userIsAdmin = userIs(['admin', 'dgec-validateur', 'dreal'])(user)
+  const userIsAdmin = userIs(['admin', 'dgec-validateur', 'dreal'])(user);
 
   const showFormulaireAdministrateur =
     userIsAdmin &&
     !modificationRequest.respondedOn &&
     !modificationRequest.cancelledOn &&
-    status !== 'information validée'
+    status !== 'information validée';
 
   const showPasserEnInstructionButton =
-    showFormulaireAdministrateur && type === 'delai' && status === 'envoyée'
+    showFormulaireAdministrateur && type === 'delai' && status === 'envoyée';
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -85,10 +85,10 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
                 onClick={(e) => {
                   if (
                     !confirm(
-                      'Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
+                      'Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?',
                     )
                   ) {
-                    e.preventDefault()
+                    e.preventDefault();
                   }
                 }}
               >
@@ -137,7 +137,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
           ))}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ModificationRequest)
+hydrateOnClient(ModificationRequest);

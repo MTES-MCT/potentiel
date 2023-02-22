@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { RejetAbandonAnnulé } from '@modules/demandeModification'
-import { makeOnRejetAbandonAnnulé } from './onRejetAbandonAnnulé'
+import { okAsync } from '@core/utils';
+import { RejetAbandonAnnulé } from '@modules/demandeModification';
+import { makeOnRejetAbandonAnnulé } from './onRejetAbandonAnnulé';
 
 describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`Quand un rejet de demande d'abandon est annulé
         alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn()
+      const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () =>
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
-        })
+        });
 
       const onRejetDemandeAbandonAnnulé = makeOnRejetAbandonAnnulé({
         notifierPorteurChangementStatutDemande,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onRejetDemandeAbandonAnnulé(
         new RejetAbandonAnnulé({
@@ -41,10 +41,10 @@ describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () =>
             projetId: 'le-projet',
             annuléPar: 'dgec',
           },
-        })
-      )
+        }),
+      );
 
-      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2);
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -56,8 +56,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () =>
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: false,
-        })
-      )
+        }),
+      );
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -69,8 +69,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande d'abandon`, () =>
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: false,
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

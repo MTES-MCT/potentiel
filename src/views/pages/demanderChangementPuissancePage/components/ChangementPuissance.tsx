@@ -1,26 +1,26 @@
-import React, { useState } from 'react'
-import { dataId } from '../../../../helpers/testId'
-import toNumber from '../../../../helpers/toNumber'
-import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators'
+import React, { useState } from 'react';
+import { dataId } from '../../../../helpers/testId';
+import toNumber from '../../../../helpers/toNumber';
+import { isStrictlyPositiveNumber } from '../../../../helpers/formValidators';
 import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
-} from '@modules/demandeModification'
-import { Astérisque, ErrorBox, Label } from '@components'
-import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee'
-import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios'
-import { ProjectAppelOffre, Technologie } from '@entities'
+} from '@modules/demandeModification';
+import { Astérisque, ErrorBox, Label } from '@components';
+import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
+import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
+import { ProjectAppelOffre, Technologie } from '@entities';
 
 type ChangementPuissanceProps = {
-  unitePuissance: string
-  puissance: number
-  puissanceInitiale: number
-  justification: string
-  cahierDesChargesActuel: string
-  appelOffre: ProjectAppelOffre
-  technologie: Technologie
-  puissanceSaisie?: number
-}
+  unitePuissance: string;
+  puissance: number;
+  puissanceInitiale: number;
+  justification: string;
+  cahierDesChargesActuel: string;
+  appelOffre: ProjectAppelOffre;
+  technologie: Technologie;
+  puissanceSaisie?: number;
+};
 
 export const ChangementPuissance = ({
   puissance,
@@ -31,31 +31,31 @@ export const ChangementPuissance = ({
   technologie,
   puissanceSaisie,
 }: ChangementPuissanceProps) => {
-  const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false)
-  const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false)
+  const [displayAlertOnPuissanceType, setDisplayAlertOnPuissanceType] = useState(false);
+  const [displayAlertHorsRatios, setDisplayAlertHorsRatios] = useState(false);
   const [displayAlertPuissanceMaxVolumeReserve, setDisplayAlertPuissanceMaxVolumeReserve] =
-    useState(false)
-  const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false)
+    useState(false);
+  const [fichierEtJustificationRequis, setFichierEtJustificationRequis] = useState(false);
 
   const handlePuissanceOnChange = (e) => {
-    const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value)
-    const nouvellePuissance = toNumber(e.target.value)
+    const isNewValueCorrect = isStrictlyPositiveNumber(e.target.value);
+    const nouvellePuissance = toNumber(e.target.value);
     const exceedsRatios = exceedsRatiosChangementPuissance({
       project: { puissanceInitiale, appelOffre, technologie },
       nouvellePuissance,
-    })
+    });
     const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
       project: { puissanceInitiale, appelOffre },
       nouvellePuissance,
-    })
+    });
 
-    setDisplayAlertOnPuissanceType(!isNewValueCorrect)
-    setDisplayAlertHorsRatios(exceedsRatios)
-    setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax)
-    setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax)
-  }
+    setDisplayAlertOnPuissanceType(!isNewValueCorrect);
+    setDisplayAlertHorsRatios(exceedsRatios);
+    setDisplayAlertPuissanceMaxVolumeReserve(exceedsPuissanceMax);
+    setFichierEtJustificationRequis(exceedsRatios || exceedsPuissanceMax);
+  };
 
-  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel)
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
 
   return (
     <>
@@ -127,5 +127,5 @@ export const ChangementPuissance = ({
         />
       </div>
     </>
-  )
-}
+  );
+};

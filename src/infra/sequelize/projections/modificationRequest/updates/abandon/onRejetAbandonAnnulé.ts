@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { RejetAbandonAnnulé } from '@modules/demandeModification'
-import { ProjectionEnEchec } from '../../../../../../modules/shared'
+import { logger } from '@core/utils';
+import { RejetAbandonAnnulé } from '@modules/demandeModification';
+import { ProjectionEnEchec } from '../../../../../../modules/shared';
 
 export const onRejetAbandonAnnulé = (models) => async (évènement: RejetAbandonAnnulé) => {
-  const { payload, occurredAt } = évènement
-  const { demandeAbandonId } = payload
+  const { payload, occurredAt } = évènement;
+  const { demandeAbandonId } = payload;
   try {
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
 
     await ModificationRequestModel.update(
       {
@@ -20,8 +20,8 @@ export const onRejetAbandonAnnulé = (models) => async (évènement: RejetAbando
         where: {
           id: demandeAbandonId,
         },
-      }
-    )
+      },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -30,8 +30,8 @@ export const onRejetAbandonAnnulé = (models) => async (évènement: RejetAbando
           évènement,
           nomProjection: 'onRejetAbandonAnnulé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-}
+};

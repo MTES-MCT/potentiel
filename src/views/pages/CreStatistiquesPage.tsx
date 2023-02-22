@@ -1,12 +1,12 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Heading1, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Heading1, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type CreStatistiquesPageProps = {
-  request: Request
-  iframeUrl: string
-}
+  request: Request;
+  iframeUrl: string;
+};
 
 export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps) => {
   return (
@@ -32,7 +32,7 @@ export const CreStatistiques = ({ iframeUrl, request }: CreStatistiquesPageProps
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(CreStatistiques)
+hydrateOnClient(CreStatistiques);

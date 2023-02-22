@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { RejetRecoursAnnulé } from '@modules/demandeModification'
-import { makeOnRejetRecoursAnnulé } from './onRejetRecoursAnnulé'
+import { okAsync } from '@core/utils';
+import { RejetRecoursAnnulé } from '@modules/demandeModification';
+import { makeOnRejetRecoursAnnulé } from './onRejetRecoursAnnulé';
 
 describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un rejet de demande de recours est annulé,
           alors tous les porteurs ayant accès au projet devrait être notifiés`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () =
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'recours',
-        })
+        });
 
       const onRejetDemandeDélaiAnnulé = makeOnRejetRecoursAnnulé({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onRejetDemandeDélaiAnnulé(
         new RejetRecoursAnnulé({
@@ -41,10 +41,10 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () =
             projetId: 'le-projet',
             annuléPar: 'la-dreal',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -57,8 +57,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () =
             nom_projet: 'nom-du-projet',
             type_demande: 'recours',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -71,8 +71,8 @@ describe(`Notifier lors de l'annulation du rejet d'une demande de recours`, () =
             nom_projet: 'nom-du-projet',
             type_demande: 'recours',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

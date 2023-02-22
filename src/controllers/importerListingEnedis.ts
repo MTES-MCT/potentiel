@@ -1,23 +1,23 @@
-import { ensureRole, eventStore, fileRepo } from '@config'
-import { ImporterListingEnedisPage } from '@views'
-import { createReadStream } from 'fs'
-import { UniqueEntityID } from '../core/domain'
-import { logger } from '../core/utils'
-import { addQueryParams } from '../helpers/addQueryParams'
-import { ListingEnedisImporté } from '../modules/enedis'
-import { makeFileObject } from '../modules/file'
-import routes from '@routes'
-import asyncHandler from './helpers/asyncHandler'
-import { upload } from './upload'
-import { v1Router } from './v1Router'
+import { ensureRole, eventStore, fileRepo } from '@config';
+import { ImporterListingEnedisPage } from '@views';
+import { createReadStream } from 'fs';
+import { UniqueEntityID } from '../core/domain';
+import { logger } from '../core/utils';
+import { addQueryParams } from '../helpers/addQueryParams';
+import { ListingEnedisImporté } from '../modules/enedis';
+import { makeFileObject } from '../modules/file';
+import routes from '@routes';
+import asyncHandler from './helpers/asyncHandler';
+import { upload } from './upload';
+import { v1Router } from './v1Router';
 
 v1Router.get(
   routes.IMPORTER_LISTING_ENEDIS,
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
-    return response.send(ImporterListingEnedisPage({ request }))
-  })
-)
+    return response.send(ImporterListingEnedisPage({ request }));
+  }),
+);
 
 v1Router.post(
   routes.IMPORTER_LISTING_ENEDIS,
@@ -29,12 +29,12 @@ v1Router.post(
         addQueryParams(routes.IMPORTER_LISTING_ENEDIS, {
           error: 'Merci de sélectionner un fichier.',
           ...request.body,
-        })
-      )
+        }),
+      );
     }
 
-    const contents = createReadStream(request.file!.path)
-    const filename = `${Date.now()}-${request.file!.originalname}`
+    const contents = createReadStream(request.file!.path);
+    const filename = `${Date.now()}-${request.file!.originalname}`;
 
     await makeFileObject({
       designation: 'listing-enedis',
@@ -45,8 +45,8 @@ v1Router.post(
       .asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
       .andThen((fileId) => {
         return eventStore.publish(
-          new ListingEnedisImporté({ payload: { fileId, uploadedBy: request.user.id } })
-        )
+          new ListingEnedisImporté({ payload: { fileId, uploadedBy: request.user.id } }),
+        );
       })
       .match(
         () => {
@@ -54,18 +54,18 @@ v1Router.post(
             addQueryParams(routes.IMPORTER_LISTING_ENEDIS, {
               success: "L'import s'est fait avec succès.",
               ...request.body,
-            })
-          )
+            }),
+          );
         },
         (err) => {
-          logger.error(err)
+          logger.error(err);
           return response.redirect(
             addQueryParams(routes.IMPORTER_LISTING_ENEDIS, {
               error: 'Une erreur est survenue, merci de réessayer.',
               ...request.body,
-            })
-          )
-        }
-      )
-  })
-)
+            }),
+          );
+        },
+      );
+  }),
+);

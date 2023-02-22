@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const autoconsommationZNI: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI',
@@ -139,6 +139,6 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       },
     },
   ],
-}
+};
 
-export { autoconsommationZNI }
+export { autoconsommationZNI };

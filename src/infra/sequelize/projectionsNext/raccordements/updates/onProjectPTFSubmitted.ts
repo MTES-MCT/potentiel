@@ -1,12 +1,12 @@
-import { ProjectPTFSubmitted } from '@modules/project'
-import { Raccordements, RaccordementsProjector } from '../raccordements.model'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { ProjectPTFSubmitted } from '@modules/project';
+import { Raccordements, RaccordementsProjector } from '../raccordements.model';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default RaccordementsProjector.on(ProjectPTFSubmitted, async (évènement, transaction) => {
   const {
     payload: { projectId, fileId, submittedBy, ptfDate },
-  } = évènement
+  } = évènement;
 
   try {
     await Raccordements.update(
@@ -15,8 +15,8 @@ export default RaccordementsProjector.on(ProjectPTFSubmitted, async (évènement
         ptfDateDeSignature: ptfDate,
         ptfEnvoyéePar: submittedBy,
       },
-      { where: { projetId: projectId }, transaction }
-    )
+      { where: { projetId: projectId }, transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -25,8 +25,8 @@ export default RaccordementsProjector.on(ProjectPTFSubmitted, async (évènement
           évènement,
           nomProjection: 'Raccordements',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

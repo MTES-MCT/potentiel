@@ -1,9 +1,9 @@
-import { wrapInfra } from '@core/utils'
-import { HasDemandeDeMêmeTypeOuverte } from '@modules/project'
-import { Op } from 'sequelize'
-import models from '../../models'
+import { wrapInfra } from '@core/utils';
+import { HasDemandeDeMêmeTypeOuverte } from '@modules/project';
+import { Op } from 'sequelize';
+import models from '../../models';
 
-const { ModificationRequest } = models
+const { ModificationRequest } = models;
 
 export const hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte = ({ projetId, type }) => {
   return wrapInfra(
@@ -20,6 +20,6 @@ export const hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte = ({ pro
           ],
         },
       },
-    })
-  ).map((demandeOuverte: any) => !!demandeOuverte)
-}
+    }),
+  ).map((demandeOuverte: any) => !!demandeOuverte);
+};

@@ -1,1 +1,1 @@
-export * from './mapToFindOptions'
+export * from './mapToFindOptions';

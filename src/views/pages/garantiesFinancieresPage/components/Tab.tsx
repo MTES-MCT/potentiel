@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
 
 type TabProps = {
-  children: React.ReactNode
-  tabKey: string
-}
+  children: React.ReactNode;
+  tabKey: string;
+};
 
 const Tab = (props: TabProps) => {
-  return null
-}
+  return null;
+};
 
-export { Tab, TabProps }
+export { Tab, TabProps };

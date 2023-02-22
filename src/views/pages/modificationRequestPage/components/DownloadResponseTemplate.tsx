@@ -1,10 +1,10 @@
-import React from 'react'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { DownloadLink } from '@components'
-import ROUTES from '@routes'
+import React from 'react';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { DownloadLink } from '@components';
+import ROUTES from '@routes';
 
 interface DownloadResponseTemplateProps {
-  modificationRequest: ModificationRequestPageDTO
+  modificationRequest: ModificationRequestPageDTO;
 }
 export const DownloadResponseTemplate = ({
   modificationRequest: { id, project },
@@ -14,4 +14,4 @@ export const DownloadResponseTemplate = ({
       Télécharger un modèle de réponse (document word/docx)
     </DownloadLink>
   </div>
-)
+);

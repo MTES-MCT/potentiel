@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain'
-import { isDefined, makeValidator, ok, Result } from '@core/utils'
-import { makeProjectFilePath } from '../../helpers/makeProjectFilePath'
-import { IllegalFileDataError } from './errors'
+import { UniqueEntityID } from '@core/domain';
+import { isDefined, makeValidator, ok, Result } from '@core/utils';
+import { makeProjectFilePath } from '../../helpers/makeProjectFilePath';
+import { IllegalFileDataError } from './errors';
 
 type FileDesignation =
   | 'garantie-financiere'
@@ -15,30 +15,30 @@ type FileDesignation =
   | 'courrier-modification-historique'
   | 'listing-edf'
   | 'listing-enedis'
-  | 'other'
+  | 'other';
 
 /* global NodeJS */
-export type FileContents = NodeJS.ReadableStream
+export type FileContents = NodeJS.ReadableStream;
 
 export interface FileObject {
-  readonly id: UniqueEntityID
-  readonly filename: string
-  readonly forProject: UniqueEntityID | undefined
-  readonly createdBy: UniqueEntityID | undefined
-  readonly designation: FileDesignation
-  readonly createdAt: Date
-  readonly contents: FileContents
-  readonly path: string
+  readonly id: UniqueEntityID;
+  readonly filename: string;
+  readonly forProject: UniqueEntityID | undefined;
+  readonly createdBy: UniqueEntityID | undefined;
+  readonly designation: FileDesignation;
+  readonly createdAt: Date;
+  readonly contents: FileContents;
+  readonly path: string;
 }
 
 export interface FileObjectArgs {
-  id?: UniqueEntityID
-  createdAt?: Date
-  filename: string
-  forProject?: UniqueEntityID
-  createdBy?: UniqueEntityID
-  designation: FileDesignation
-  contents: FileContents
+  id?: UniqueEntityID;
+  createdAt?: Date;
+  filename: string;
+  forProject?: UniqueEntityID;
+  createdBy?: UniqueEntityID;
+  designation: FileDesignation;
+  contents: FileContents;
 }
 
 const validateFileArgs = makeValidator<typeof IllegalFileDataError>(
@@ -47,12 +47,12 @@ const validateFileArgs = makeValidator<typeof IllegalFileDataError>(
     designation: isDefined,
     contents: isDefined,
   },
-  IllegalFileDataError
-)
+  IllegalFileDataError,
+);
 
 export const makeFileObject = (args: FileObjectArgs): Result<FileObject, IllegalFileDataError> => {
   return validateFileArgs(args).andThen((args) => {
-    const { filename, forProject, createdBy, designation, contents, id, createdAt } = args
+    const { filename, forProject, createdBy, designation, contents, id, createdAt } = args;
     return ok({
       filename,
       forProject,
@@ -62,8 +62,10 @@ export const makeFileObject = (args: FileObjectArgs): Result<FileObject, Illegal
       createdAt: createdAt || new Date(),
       id: id || new UniqueEntityID(),
       get path() {
-        return forProject ? makeProjectFilePath(forProject.toString(), filename).filepath : filename
+        return forProject
+          ? makeProjectFilePath(forProject.toString(), filename).filepath
+          : filename;
       },
-    })
-  })
-}
+    });
+  });
+};

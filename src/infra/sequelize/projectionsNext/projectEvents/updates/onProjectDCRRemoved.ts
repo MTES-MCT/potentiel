@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@core/domain'
-import { ProjectDCRRemoved } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ProjectDCRRemoved } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectDCRRemoved,
@@ -13,7 +13,7 @@ export default ProjectEventProjector.on(
         eventPublishedAt: occurredAt.getTime(),
         id: new UniqueEntityID().toString(),
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

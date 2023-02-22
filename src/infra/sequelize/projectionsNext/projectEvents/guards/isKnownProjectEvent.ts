@@ -1,5 +1,5 @@
-import { or } from '@core/utils'
-import { ProjectEvent } from '@infra/sequelize'
+import { or } from '@core/utils';
+import { ProjectEvent } from '@infra/sequelize';
 import {
   CovidDelayGrantedEvent,
   ProjectCertificateEvents,
@@ -21,7 +21,7 @@ import {
   DemandeAbandonSignaledEvent,
   DemandeRecoursSignaledEvent,
   DemandeAnnulationAbandonEvent,
-} from '../events'
+} from '../events';
 
 export type KnownProjectEvents =
   | ProjectImportedEvent
@@ -43,14 +43,14 @@ export type KnownProjectEvents =
   | DemandeDelaiSignaledEvent
   | DemandeRecoursSignaledEvent
   | DemandeAbandonSignaledEvent
-  | DemandeAnnulationAbandonEvent
+  | DemandeAnnulationAbandonEvent;
 
-type NarrowType<T, N> = T extends { type: N } ? T : never
+type NarrowType<T, N> = T extends { type: N } ? T : never;
 
 export const is =
   <T extends KnownProjectEvents, K extends T['type']>(type: K) =>
   (event: ProjectEvent): event is NarrowType<T, K> =>
-    event.type === type
+    event.type === type;
 
 export const isKnownProjectEvent = or(
   is('ProjectImported'),
@@ -84,5 +84,5 @@ export const isKnownProjectEvent = or(
   is('DemandeDelaiSignaled'),
   is('DemandeAbandonSignaled'),
   is('DemandeRecoursSignaled'),
-  is('DemandeAnnulationAbandon')
-)
+  is('DemandeAnnulationAbandon'),
+);

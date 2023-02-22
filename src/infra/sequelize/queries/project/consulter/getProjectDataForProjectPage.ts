@@ -1,16 +1,16 @@
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project'
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared'
-import models from '../../../models'
-import { CahierDesCharges, parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities'
-import routes from '@routes'
-import { format } from 'date-fns'
-import { userIs, userIsNot } from '@modules/users'
-import { Project } from '../../../projections/project/project.model'
-import { Raccordements } from '@infra/sequelize'
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
+import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import models from '../../../models';
+import { CahierDesCharges, parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities';
+import routes from '@routes';
+import { format } from 'date-fns';
+import { userIs, userIsNot } from '@modules/users';
+import { Project } from '../../../projections/project/project.model';
+import { Raccordements } from '@infra/sequelize';
 
-const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models
+const { Project: ProjectTable, File, User, UserProjects, ModificationRequest } = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -40,56 +40,56 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           ],
         },
       ],
-    })
-  )
+    }),
+  );
   const vérifierAccèsProjet = (
-    project: Project | null
+    project: Project | null,
   ): ResultAsync<Project, EntityNotFoundError> => {
     if (!project || (!project.notifiedOn && userIsNot(['admin', 'dgec-validateur', 'cre'])(user))) {
-      return errAsync(new EntityNotFoundError())
+      return errAsync(new EntityNotFoundError());
     }
 
-    return okAsync(project)
-  }
+    return okAsync(project);
+  };
 
   const récupérerAppelOffre = (
-    project: Project
+    project: Project,
   ): ResultAsync<{ project: any; appelOffre: ProjectAppelOffre }, EntityNotFoundError> => {
-    const { appelOffreId, periodeId, familleId } = project
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    const { appelOffreId, periodeId, familleId } = project;
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
     if (!appelOffre) {
-      return errAsync(new EntityNotFoundError())
+      return errAsync(new EntityNotFoundError());
     }
 
-    return okAsync({ project: project as any, appelOffre })
-  }
+    return okAsync({ project: project as any, appelOffre });
+  };
 
   const récupérerCahierDesCharges = ({
     appelOffre,
     project,
   }: {
-    project: any
-    appelOffre: ProjectAppelOffre
+    project: any;
+    appelOffre: ProjectAppelOffre;
   }): ResultAsync<
     {
-      appelOffre: ProjectAppelOffre
-      project: any
+      appelOffre: ProjectAppelOffre;
+      project: any;
       cahierDesCharges:
         | CahierDesCharges
         | { type: string; url: string; paruLe?: undefined; alternatif?: undefined }
         | {
-            type: string
-            url: string | undefined
-            paruLe: '30/07/2021' | '30/08/2022' | '07/02/2023'
-            alternatif: true | undefined
-          }
+            type: string;
+            url: string | undefined;
+            paruLe: '30/07/2021' | '30/08/2022' | '07/02/2023';
+            alternatif: true | undefined;
+          };
     },
     never
   > => {
-    const { cahierDesChargesActuel: cahierDesChargesActuelRaw } = project
+    const { cahierDesChargesActuel: cahierDesChargesActuelRaw } = project;
 
-    const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw)
+    const cahierDesChargesActuel = parseCahierDesChargesRéférence(cahierDesChargesActuelRaw);
 
     const cahierDesCharges =
       cahierDesChargesActuel.type === 'initial'
@@ -102,14 +102,14 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             url: appelOffre.cahiersDesChargesModifiésDisponibles.find(
               (c) =>
                 c.paruLe === cahierDesChargesActuel.paruLe &&
-                c.alternatif === cahierDesChargesActuel.alternatif
+                c.alternatif === cahierDesChargesActuel.alternatif,
             )?.url,
             paruLe: cahierDesChargesActuel.paruLe,
             alternatif: cahierDesChargesActuel.alternatif,
-          }
+          };
 
-    return okAsync({ appelOffre, project, cahierDesCharges })
-  }
+    return okAsync({ appelOffre, project, cahierDesCharges });
+  };
   return chargerProjet
     .andThen(vérifierAccèsProjet)
     .andThen(récupérerAppelOffre)
@@ -232,20 +232,20 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
                 identifiantGestionnaire: raccordements.identifiantGestionnaire,
               },
             }),
-        })
+        }),
     )
-    .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)))
-}
+    .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)));
+};
 
 const ajouterInfosAlerteAnnulationAbandon = (
-  dto: ProjectDataForProjectPage
+  dto: ProjectDataForProjectPage,
 ): ResultAsync<ProjectDataForProjectPage, InfraNotAvailableError> => {
-  const { id: projectId, appelOffre, cahierDesChargesActuel } = dto
+  const { id: projectId, appelOffre, cahierDesChargesActuel } = dto;
 
   return wrapInfra(
     ModificationRequest.findOne({
       where: { projectId, type: 'annulation abandon', status: 'envoyée' },
-    })
+    }),
   ).map((demande) => {
     if (demande) {
       return {
@@ -254,24 +254,24 @@ const ajouterInfosAlerteAnnulationAbandon = (
           actionPossible: 'voir-demande-en-cours' as const,
           urlDemandeEnCours: routes.DEMANDE_PAGE_DETAILS(demande.id),
         },
-      }
+      };
     }
 
     const cdcDispoPourAnnulationAbandon = appelOffre?.cahiersDesChargesModifiésDisponibles.filter(
       (cdc) =>
-        cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime()
-    )
+        cdc.délaiAnnulationAbandon && new Date().getTime() <= cdc.délaiAnnulationAbandon.getTime(),
+    );
 
     const dateLimite =
       cahierDesChargesActuel.type === 'modifié'
         ? appelOffre.cahiersDesChargesModifiésDisponibles.find(
             (cdc) =>
               cdc.paruLe === cahierDesChargesActuel.paruLe &&
-              cdc.alternatif === cahierDesChargesActuel.alternatif
+              cdc.alternatif === cahierDesChargesActuel.alternatif,
           )?.délaiAnnulationAbandon
-        : undefined
+        : undefined;
 
-    const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false
+    const cdcActuelPermetAnnulationAbandon = dateLimite ? true : false;
 
     return {
       ...dto,
@@ -289,11 +289,11 @@ const ajouterInfosAlerteAnnulationAbandon = (
                     paruLe,
                     alternatif,
                     type,
-                  })
+                  }),
                 ),
               }),
         },
       }),
-    }
-  })
-}
+    };
+  });
+};

@@ -1,11 +1,11 @@
-import { Users, UsersProjector } from '../users.model'
-import { UtilisateurInvité } from '@modules/utilisateur'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { Users, UsersProjector } from '../users.model';
+import { UtilisateurInvité } from '@modules/utilisateur';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default UsersProjector.on(UtilisateurInvité, async (évènement, transaction) => {
-  const { payload } = évènement
-  const { email, role } = payload
+  const { payload } = évènement;
+  const { email, role } = payload;
 
   try {
     await Users.create(
@@ -17,8 +17,8 @@ export default UsersProjector.on(UtilisateurInvité, async (évènement, transac
       },
       {
         transaction,
-      }
-    )
+      },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -27,8 +27,8 @@ export default UsersProjector.on(UtilisateurInvité, async (évènement, transac
           évènement,
           nomProjection: 'Users.UtilisateurInvité',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

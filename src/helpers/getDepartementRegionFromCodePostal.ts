@@ -105,7 +105,7 @@ const departementIndex = {
   '93': { departement: 'Seine-Saint-Denis', region: 'Île-de-France' },
   '94': { departement: 'Val-de-Marne', region: 'Île-de-France' },
   '95': { departement: "Val-d'Oise", region: 'Île-de-France' },
-}
+};
 
 const departementsOutreMer = {
   '971': { departement: 'Guadeloupe', region: 'Guadeloupe' },
@@ -113,32 +113,32 @@ const departementsOutreMer = {
   '973': { departement: 'Guyane', region: 'Guyane' },
   '974': { departement: 'La Réunion', region: 'La Réunion' },
   '976': { departement: 'Mayotte', region: 'Mayotte' },
-}
+};
 
 const corse = {
   '2A': { departement: 'Corse-du-Sud', region: 'Corse' },
   '2B': { departement: 'Haute-Corse', region: 'Corse' },
-}
+};
 
 type DepartementRegion = {
-  codePostal: string
-  departement: string
-  region: string
-}
+  codePostal: string;
+  departement: string;
+  region: string;
+};
 
 const getDepartementRegionFromCodePostal = (codePostal?: string): DepartementRegion | undefined => {
   // Add the 0 prefix if it's missing
 
-  if (typeof codePostal !== 'string' || codePostal.length < 4) return
+  if (typeof codePostal !== 'string' || codePostal.length < 4) return;
 
   if (codePostal.length === 4) {
-    codePostal = '0' + codePostal
+    codePostal = '0' + codePostal;
   }
 
   if (codePostal.startsWith('97')) {
     // Outre-mer
-    const prefix = codePostal.substr(0, 3)
-    return { ...departementsOutreMer[prefix], codePostal }
+    const prefix = codePostal.substr(0, 3);
+    return { ...departementsOutreMer[prefix], codePostal };
   }
 
   if (codePostal.startsWith('20')) {
@@ -146,25 +146,25 @@ const getDepartementRegionFromCodePostal = (codePostal?: string): DepartementReg
 
     if (codePostal === '20000') {
       // Ajaccio
-      return { ...corse['2A'], codePostal }
+      return { ...corse['2A'], codePostal };
     }
 
     if (['20600', '20620'].includes(codePostal)) {
       // Furiani, Biguglia => Haute-Corse
-      return { ...corse['2B'], codePostal }
+      return { ...corse['2B'], codePostal };
     }
 
     if (codePostal.startsWith('201')) {
       // Corse du sud
-      return { ...corse['2A'], codePostal }
+      return { ...corse['2A'], codePostal };
     }
 
-    return { ...corse['2B'], codePostal }
+    return { ...corse['2B'], codePostal };
   }
 
   // general case
-  const prefix = codePostal.substring(0, 2)
-  return { ...departementIndex[prefix], codePostal }
-}
+  const prefix = codePostal.substring(0, 2);
+  return { ...departementIndex[prefix], codePostal };
+};
 
-export default getDepartementRegionFromCodePostal
+export default getDepartementRegionFromCodePostal;

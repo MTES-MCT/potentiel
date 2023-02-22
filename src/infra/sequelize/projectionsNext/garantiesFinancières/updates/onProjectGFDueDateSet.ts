@@ -1,19 +1,22 @@
-import { logger } from '@core/utils'
-import { ProjectGFDueDateSet } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
-import { UniqueEntityID } from '@core/domain'
-import { models } from '../../../models'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { logger } from '@core/utils';
+import { ProjectGFDueDateSet } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { UniqueEntityID } from '@core/domain';
+import { models } from '../../../models';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
 export default GarantiesFinancièresProjector.on(
   ProjectGFDueDateSet,
   async (évènement, transaction) => {
     const {
       payload: { projectId: projetId, garantiesFinancieresDueOn },
-    } = évènement
+    } = évènement;
 
-    const entréeExistante = await GarantiesFinancières.findOne({ where: { projetId }, transaction })
+    const entréeExistante = await GarantiesFinancières.findOne({
+      where: { projetId },
+      transaction,
+    });
 
     if (entréeExistante) {
       try {
@@ -21,8 +24,8 @@ export default GarantiesFinancièresProjector.on(
           {
             dateLimiteEnvoi: new Date(garantiesFinancieresDueOn),
           },
-          { where: { projetId }, transaction }
-        )
+          { where: { projetId }, transaction },
+        );
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
@@ -31,19 +34,19 @@ export default GarantiesFinancièresProjector.on(
               évènement,
               nomProjection: 'GarantiesFinancières',
             },
-            error
-          )
-        )
+            error,
+          ),
+        );
       }
-      return
+      return;
     }
 
     try {
-      const { Project } = models
+      const { Project } = models;
       const project = await Project.findOne({
         where: { id: projetId },
         transaction,
-      })
+      });
 
       const appelOffre =
         project &&
@@ -51,7 +54,7 @@ export default GarantiesFinancièresProjector.on(
           appelOffreId: project.appelOffreId,
           periodeId: project.periodeId,
           familleId: project.familleId,
-        })
+        });
 
       if (!appelOffre) {
         logger.error(
@@ -60,9 +63,9 @@ export default GarantiesFinancièresProjector.on(
             {
               évènement,
               nomProjection: 'GarantiesFinancières',
-            }
-          )
-        )
+            },
+          ),
+        );
       }
 
       await GarantiesFinancières.create(
@@ -75,8 +78,8 @@ export default GarantiesFinancièresProjector.on(
           dateLimiteEnvoi: new Date(garantiesFinancieresDueOn),
           statut: 'en attente',
         },
-        { where: { projetId }, transaction }
-      )
+        { where: { projetId }, transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -85,9 +88,9 @@ export default GarantiesFinancièresProjector.on(
             évènement,
             nomProjection: 'GarantiesFinancières',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

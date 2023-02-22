@@ -1,13 +1,13 @@
-import { DomainError, UniqueEntityID } from '@core/domain'
-import { String } from 'aws-sdk/clients/cloudsearch'
+import { DomainError, UniqueEntityID } from '@core/domain';
+import { String } from 'aws-sdk/clients/cloudsearch';
 
 type IllegalInitialStateForAggregateErrorDetails = {
-  projectId: UniqueEntityID
-  errorMessage: String
-}
+  projectId: UniqueEntityID;
+  errorMessage: String;
+};
 
 export class IllegalInitialStateForAggregateError extends DomainError {
   constructor(public details?: IllegalInitialStateForAggregateErrorDetails) {
-    super("L'objet concerné semble endommagé.")
+    super("L'objet concerné semble endommagé.");
   }
 }

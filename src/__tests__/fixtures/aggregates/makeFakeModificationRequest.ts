@@ -1,5 +1,5 @@
-import { ok } from 'neverthrow'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
+import { ok } from 'neverthrow';
+import { DomainEvent, UniqueEntityID } from '@core/domain';
 
 export const makeFakeModificationRequest = () => ({
   accept: jest.fn(() => ok<null, never>(null)),
@@ -14,4 +14,4 @@ export const makeFakeModificationRequest = () => ({
   id: new UniqueEntityID(),
   status: 'envoyée',
   type: 'delai',
-})
+});

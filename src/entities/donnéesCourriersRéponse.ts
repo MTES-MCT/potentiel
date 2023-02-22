@@ -1,5 +1,5 @@
-import { ProjectAppelOffre } from './appelOffre'
-import { CahierDesChargesRéférence, parseCahierDesChargesRéférence } from './cahierDesCharges'
+import { ProjectAppelOffre } from './appelOffre';
+import { CahierDesChargesRéférence, parseCahierDesChargesRéférence } from './cahierDesCharges';
 
 export type DonnéesCourriersRéponse = Record<
   | 'texteEngagementRéalisationEtModalitésAbandon'
@@ -9,15 +9,15 @@ export type DonnéesCourriersRéponse = Record<
   | 'texteChangementDeProducteur'
   | 'texteDélaisDAchèvement',
   {
-    référenceParagraphe: string
-    dispositions: string
+    référenceParagraphe: string;
+    dispositions: string;
   }
->
+>;
 
 export type GetDonnéesCourriersRéponse = (
   cahierDesChargesActuel: CahierDesChargesRéférence,
-  projectAppelOffre: ProjectAppelOffre
-) => DonnéesCourriersRéponse
+  projectAppelOffre: ProjectAppelOffre,
+) => DonnéesCourriersRéponse;
 
 const donnéesCourriersRéponseParDéfaut: DonnéesCourriersRéponse = {
   texteChangementDActionnariat: {
@@ -44,21 +44,21 @@ const donnéesCourriersRéponseParDéfaut: DonnéesCourriersRéponse = {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
     dispositions: '!!!CONTENU NON DISPONIBLE!!!',
   },
-}
+};
 
 export const getDonnéesCourriersRéponse: GetDonnéesCourriersRéponse = (
   cahierDesChargesActuel,
-  { donnéesCourriersRéponse, periode, cahiersDesChargesModifiésDisponibles }
+  { donnéesCourriersRéponse, periode, cahiersDesChargesModifiésDisponibles },
 ) => {
-  const cdc = parseCahierDesChargesRéférence(cahierDesChargesActuel)
+  const cdc = parseCahierDesChargesRéférence(cahierDesChargesActuel);
   const cahierDesChargesModifié = cahiersDesChargesModifiésDisponibles.find(
-    (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif
-  )
+    (c) => cdc.type === 'modifié' && c.paruLe === cdc.paruLe && c.alternatif === cdc.alternatif,
+  );
 
   return {
     ...donnéesCourriersRéponseParDéfaut,
     ...donnéesCourriersRéponse,
     ...periode.donnéesCourriersRéponse,
     ...(cahierDesChargesModifié && cahierDesChargesModifié.donnéesCourriersRéponse),
-  }
-}
+  };
+};

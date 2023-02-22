@@ -1,40 +1,40 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { ok, wrapInfra, err, errAsync } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { ModificationRequested } from '@modules/modificationRequest'
-import { NumeroGestionnaireSubmitted, Project } from '@modules/project'
-import { userIsNot } from '@modules/users'
-import { UnauthorizedError } from '@modules/shared'
+import { EventBus, Repository, UniqueEntityID } from '@core/domain';
+import { ok, wrapInfra, err, errAsync } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
+import { ModificationRequested } from '@modules/modificationRequest';
+import { NumeroGestionnaireSubmitted, Project } from '@modules/project';
+import { userIsNot } from '@modules/users';
+import { UnauthorizedError } from '@modules/shared';
 
 interface MakeUseCaseProps {
-  fileRepo: Repository<FileObject>
-  eventBus: EventBus
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: Repository<Project>
+  fileRepo: Repository<FileObject>;
+  eventBus: EventBus;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: Repository<Project>;
 }
 
 interface RequestCommon {
-  user: User
+  user: User;
   file?: {
-    contents: FileContents
-    filename: string
-  }
-  projectId: string
-  numeroGestionnaire?: string
+    contents: FileContents;
+    filename: string;
+  };
+  projectId: string;
+  numeroGestionnaire?: string;
 }
 
 interface AbandonRequest {
-  type: 'abandon'
-  justification: string
+  type: 'abandon';
+  justification: string;
 }
 
 interface RecoursRequest {
-  type: 'recours'
-  justification: string
+  type: 'recours';
+  justification: string;
 }
 
-type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest)
+type CallUseCaseProps = RequestCommon & (AbandonRequest | RecoursRequest);
 
 export default function makeRequestModification({
   fileRepo,
@@ -43,22 +43,22 @@ export default function makeRequestModification({
   projectRepo,
 }: MakeUseCaseProps) {
   return ({ user, projectId, file, type, justification, numeroGestionnaire }: CallUseCaseProps) => {
-    if (userIsNot('porteur-projet')(user)) return errAsync(new UnauthorizedError())
+    if (userIsNot('porteur-projet')(user)) return errAsync(new UnauthorizedError());
 
     return wrapInfra(
       shouldUserAccessProject({
         user,
         projectId,
-      })
+      }),
     )
       .andThen((access) => {
         if (!access) {
-          return err(new UnauthorizedError())
+          return err(new UnauthorizedError());
         }
 
-        if (!file) return ok(null)
+        if (!file) return ok(null);
 
-        const { filename, contents } = file
+        const { filename, contents } = file;
         return makeAndSaveFile({
           file: {
             designation: 'modification-request',
@@ -68,7 +68,7 @@ export default function makeRequestModification({
             contents,
           },
           fileRepo,
-        })
+        });
       })
       .andThen((fileId) =>
         projectRepo.load(new UniqueEntityID(projectId)).andThen((project) =>
@@ -85,19 +85,19 @@ export default function makeRequestModification({
                   authority: 'dgec',
                   cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                 },
-              })
+              }),
             )
             .andThen(() => {
               if (numeroGestionnaire) {
                 return eventBus.publish(
                   new NumeroGestionnaireSubmitted({
                     payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-                  })
-                )
+                  }),
+                );
               }
-              return ok(null)
-            })
-        )
-      )
-  }
+              return ok(null);
+            }),
+        ),
+      );
+  };
 }

@@ -1,30 +1,30 @@
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
-import routes from '@routes'
-import { Link } from '@components'
+import React from 'react';
+import { formatDate } from '../../helpers/formatDate';
+import { dataId } from '../../helpers/testId';
+import routes from '@routes';
+import { Link } from '@components';
 
 export type ProjectProps = {
-  id: string
-  nomProjet: string
-  nomCandidat: string
-  communeProjet: string
-  regionProjet: string
-  departementProjet: string
-  periodeId: string
-  familleId: string | undefined
-  notifiedOn: number
-  appelOffreId: string
-  identifiantGestionnaire?: string
-  puissance: number
-  unitePuissance: string
-}
+  id: string;
+  nomProjet: string;
+  nomCandidat: string;
+  communeProjet: string;
+  regionProjet: string;
+  departementProjet: string;
+  periodeId: string;
+  familleId: string | undefined;
+  notifiedOn: number;
+  appelOffreId: string;
+  identifiantGestionnaire?: string;
+  puissance: number;
+  unitePuissance: string;
+};
 
 type ProjectInfoProps = {
-  project: ProjectProps
-  children?: React.ReactNode
-  className?: string
-}
+  project: ProjectProps;
+  children?: React.ReactNode;
+  className?: string;
+};
 
 export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoProps) => {
   const {
@@ -41,7 +41,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
     identifiantGestionnaire,
     puissance,
     unitePuissance,
-  } = project
+  } = project;
 
   return (
     <div
@@ -84,5 +84,5 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       )}
       {children}
     </div>
-  )
-}
+  );
+};

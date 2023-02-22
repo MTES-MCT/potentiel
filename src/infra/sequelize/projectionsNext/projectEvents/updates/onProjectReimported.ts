@@ -1,27 +1,27 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ProjectReimported } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ProjectReimported } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(ProjectReimported, async (évènement, transaction) => {
   const {
     payload: { projectId, data },
     occurredAt,
-  } = évènement
+  } = évènement;
 
   if (!data.classe) {
-    return
+    return;
   }
 
   if (data.classe === 'Classé') {
     const projectEvent = await ProjectEvent.findOne({
       where: { projectId, type: 'DateMiseEnService' },
       transaction,
-    })
+    });
 
     if (projectEvent) {
-      return
+      return;
     }
 
     try {
@@ -34,8 +34,8 @@ export default ProjectEventProjector.on(ProjectReimported, async (évènement, t
           id: new UniqueEntityID().toString(),
           payload: { statut: 'non-renseignée' },
         },
-        { transaction }
-      )
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -44,14 +44,14 @@ export default ProjectEventProjector.on(ProjectReimported, async (évènement, t
             évènement,
             nomProjection: 'ProjectEvent.onProjectReimported',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-    return
+    return;
   }
 
   if (data.classe === 'Eliminé') {
-    await ProjectEvent.destroy({ where: { projectId, type: 'DateMiseEnService' }, transaction })
+    await ProjectEvent.destroy({ where: { projectId, type: 'DateMiseEnService' }, transaction });
   }
-})
+});

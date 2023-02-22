@@ -1,19 +1,19 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
 
 if (
   !['local', 'test', 'development', 'staging', 'production'].includes(process.env.NODE_ENV || '')
 ) {
-  console.error('ERROR: NODE_ENV not recognized')
-  process.exit(1)
+  console.error('ERROR: NODE_ENV not recognized');
+  process.exit(1);
 }
 
-export const isTestEnv = process.env.NODE_ENV === 'test'
-export const isDevEnv = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'local'
-export const isStagingEnv = process.env.NODE_ENV === 'staging'
-export const isProdEnv = process.env.NODE_ENV === 'production'
+export const isTestEnv = process.env.NODE_ENV === 'test';
+export const isDevEnv = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'local';
+export const isStagingEnv = process.env.NODE_ENV === 'staging';
+export const isProdEnv = process.env.NODE_ENV === 'production';
 
-export const dgecEmail: string = process.env.DGEC_EMAIL!
+export const dgecEmail: string = process.env.DGEC_EMAIL!;
 
 console.log(
   'Environment is ' +
@@ -25,5 +25,5 @@ console.log(
       ? 'Staging'
       : isProdEnv
       ? 'Production'
-      : 'Not recognized')
-)
+      : 'Not recognized'),
+);

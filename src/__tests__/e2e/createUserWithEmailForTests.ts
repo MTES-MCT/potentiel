@@ -1,13 +1,13 @@
-import { logger } from '@core/utils'
-import { createUser } from './helpers/createUser'
-import { testRouter } from './testRouter'
+import { logger } from '@core/utils';
+import { createUser } from './helpers/createUser';
+import { testRouter } from './testRouter';
 
 testRouter.post('/test/createUserWithEmail', async (request, response) => {
-  const { email } = request.body
+  const { email } = request.body;
 
   if (!email) {
-    logger.error('createUserWithEmailForTests missing email')
-    return response.status(500).send('missing email')
+    logger.error('createUserWithEmailForTests missing email');
+    return response.status(500).send('missing email');
   }
 
   // Create a test porteur projet
@@ -16,7 +16,7 @@ testRouter.post('/test/createUserWithEmail', async (request, response) => {
     fullName: 'Porteur de Projet',
     password: 'test',
     role: 'porteur-projet',
-  })
+  });
 
-  return response.send(userId || '')
-})
+  return response.send(userId || '');
+});

@@ -1,26 +1,26 @@
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { USER_ROLES } from '@modules/users'
-import { getProjectEvents } from '.'
-import { ProjectEvent } from '../../projectionsNext'
-import { resetDatabase } from '../../helpers'
-import { models } from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { ModificationRequestEvents } from '@infra/sequelize/projectionsNext/projectEvents/events'
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { USER_ROLES } from '@modules/users';
+import { getProjectEvents } from '.';
+import { ProjectEvent } from '../../projectionsNext';
+import { resetDatabase } from '../../helpers';
+import { models } from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import { ModificationRequestEvents } from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 describe('getProjectEvents for ModificationReceived events', () => {
-  const { Project } = models
-  const projectId = new UniqueEntityID().toString()
+  const { Project } = models;
+  const projectId = new UniqueEntityID().toString();
   const fakeProject = makeFakeProject({
     id: projectId,
     potentielIdentifier: 'pot-id',
-  })
-  const date = new Date()
+  });
+  const date = new Date();
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(fakeProject)
-  })
+    await resetDatabase();
+    await Project.create(fakeProject);
+  });
 
   // événements à tester
 
@@ -35,7 +35,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
       producteur: 'nom producteur',
       modificationRequestId: 'id',
     },
-  } as ModificationRequestEvents
+  } as ModificationRequestEvents;
 
   const actionnaireModificationReceivedEvent = {
     id: new UniqueEntityID().toString(),
@@ -48,7 +48,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
       actionnaire: 'nom actionnaire',
       modificationRequestId: 'id',
     },
-  } as ModificationRequestEvents
+  } as ModificationRequestEvents;
 
   const fournisseurModificationReceivedEvent = {
     id: new UniqueEntityID().toString(),
@@ -64,7 +64,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
       ],
       modificationRequestId: 'id',
     },
-  } as ModificationRequestEvents
+  } as ModificationRequestEvents;
 
   const puissanceModificationReceivedEvent = {
     id: new UniqueEntityID().toString(),
@@ -77,7 +77,7 @@ describe('getProjectEvents for ModificationReceived events', () => {
       puissance: 2,
       modificationRequestId: 'id',
     },
-  } as ModificationRequestEvents
+  } as ModificationRequestEvents;
 
   const rolesAutorisés = [
     'admin',
@@ -87,22 +87,22 @@ describe('getProjectEvents for ModificationReceived events', () => {
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateurs autorisés à visualiser les informations de modification de projet`, () => {
     for (const role of rolesAutorisés) {
       it(`Etant donné un utlisateur ${role},
       alors les événements de type ModificationReceived devraient être retournés`, async () => {
-        const utlisateur = { role } as User
+        const utlisateur = { role } as User;
 
         await ProjectEvent.bulkCreate([
           producteurModificationReceivedEvent,
           actionnaireModificationReceivedEvent,
           fournisseurModificationReceivedEvent,
           puissanceModificationReceivedEvent,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId, user: utlisateur })
+        const result = await getProjectEvents({ projectId, user: utlisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
             {
@@ -142,29 +142,29 @@ describe('getProjectEvents for ModificationReceived events', () => {
               modificationRequestId: 'id',
             },
           ]),
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   describe(`Utilisateurs non-autorisés à visualiser les informations de modification de projet`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utlisateur ${role},
       alors les événements de type ModificationReceived ne devraient pas être retournés`, async () => {
-        const utlisateur = { role } as User
+        const utlisateur = { role } as User;
 
         await ProjectEvent.bulkCreate([
           producteurModificationReceivedEvent,
           actionnaireModificationReceivedEvent,
           fournisseurModificationReceivedEvent,
           puissanceModificationReceivedEvent,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId, user: utlisateur })
+        const result = await getProjectEvents({ projectId, user: utlisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

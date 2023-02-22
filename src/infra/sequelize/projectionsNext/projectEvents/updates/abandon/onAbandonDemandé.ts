@@ -1,13 +1,13 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { AbandonDemandé } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { logger } from '@core/utils'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { AbandonDemandé } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '@core/utils';
 
 export default ProjectEventProjector.on(AbandonDemandé, async (évènement, transaction) => {
   const {
     payload: { projetId, demandeAbandonId, autorité },
     occurredAt,
-  } = évènement
+  } = évènement;
 
   try {
     await ProjectEvent.create(
@@ -22,8 +22,8 @@ export default ProjectEventProjector.on(AbandonDemandé, async (évènement, tra
           autorité,
         },
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -32,8 +32,8 @@ export default ProjectEventProjector.on(AbandonDemandé, async (évènement, tra
           évènement,
           nomProjection: 'ProjectEventProjector.onAbandonDemandé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

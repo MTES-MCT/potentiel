@@ -1,39 +1,39 @@
-import { UserRole } from '..'
-import { TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { ResultAsync } from '@core/utils'
-import { User as OldUser } from '@entities'
-import { EmailAlreadyUsedError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { User } from '../User'
+import { UserRole } from '..';
+import { TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { ResultAsync } from '@core/utils';
+import { User as OldUser } from '@entities';
+import { EmailAlreadyUsedError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
+import { User } from '../User';
 
-export type CreateUser = ReturnType<typeof makeCreateUser>
+export type CreateUser = ReturnType<typeof makeCreateUser>;
 
 interface CreateUserDeps {
-  userRepo: TransactionalRepository<User>
+  userRepo: TransactionalRepository<User>;
 }
 
 interface CreateUserArgs {
-  email: string
-  fullName?: string
-  role?: UserRole
-  createdBy?: OldUser
+  email: string;
+  fullName?: string;
+  role?: UserRole;
+  createdBy?: OldUser;
 }
 
 export interface CreateUserResult {
-  id: string
-  role: UserRole
+  id: string;
+  role: UserRole;
 }
 
 export const makeCreateUser =
   (deps: CreateUserDeps) =>
   (
-    args: CreateUserArgs
+    args: CreateUserArgs,
   ): ResultAsync<
     CreateUserResult,
     UnauthorizedError | InfraNotAvailableError | EmailAlreadyUsedError
   > => {
-    const { userRepo } = deps
+    const { userRepo } = deps;
 
-    const { email, role = 'porteur-projet', createdBy, fullName } = args
+    const { email, role = 'porteur-projet', createdBy, fullName } = args;
 
     return userRepo.transaction(
       new UniqueEntityID(email),
@@ -41,8 +41,8 @@ export const makeCreateUser =
         return user
           .create({ role, createdBy: createdBy?.id, fullName })
           .andThen(user.getUserId)
-          .map((id) => ({ id, role }))
+          .map((id) => ({ id, role }));
       },
-      { acceptNew: true }
-    )
-  }
+      { acceptNew: true },
+    );
+  };

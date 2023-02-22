@@ -1,5 +1,5 @@
-import { literal } from 'sequelize'
-import { Colonne } from '../Colonne'
+import { literal } from 'sequelize';
+import { Colonne } from '../Colonne';
 
 export const donnéesDeRaccordement: Readonly<Array<Colonne>> = [
   {
@@ -34,4 +34,4 @@ export const donnéesDeRaccordement: Readonly<Array<Colonne>> = [
     intitulé: 'Numéro de gestionnaire réseau',
     expressionSql: literal(`"raccordements"."identifiantGestionnaire"`),
   },
-]
+];

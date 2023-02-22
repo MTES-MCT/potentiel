@@ -1,1 +1,1 @@
-export * from './StatutRéponseIncompatibleAvecAnnulationError'
+export * from './StatutRéponseIncompatibleAvecAnnulationError';

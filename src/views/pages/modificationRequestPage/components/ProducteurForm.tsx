@@ -1,9 +1,9 @@
-import React from 'react'
-import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
+import React from 'react';
+import { dataId } from '../../../../helpers/testId';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 
 interface ProducteurFormProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'producteur' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'producteur' };
 }
 export const ProducteurForm = ({ modificationRequest }: ProducteurFormProps) => (
   <>
@@ -17,4 +17,4 @@ export const ProducteurForm = ({ modificationRequest }: ProducteurFormProps) => 
       />
     </div>
   </>
-)
+);

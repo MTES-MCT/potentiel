@@ -1,13 +1,13 @@
-import React, { ComponentProps, useState } from 'react'
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
+import React, { ComponentProps, useState } from 'react';
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
 
 type InputProps = ComponentProps<'input'> & {
-  error?: string
-}
+  error?: string;
+};
 
 export const Input = ({ className = '', error = '', onChange, ...props }: InputProps) => {
-  const [valueHasChanged, valueChanged] = useState(false)
-  const isOnError = error !== '' && !valueHasChanged
+  const [valueHasChanged, valueChanged] = useState(false);
+  const isOnError = error !== '' && !valueHasChanged;
 
   return (
     <>
@@ -17,8 +17,8 @@ export const Input = ({ className = '', error = '', onChange, ...props }: InputP
           isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
         } rounded-none disabled:cursor-not-allowed disabled:border-b-grey-925-base disabled:bg-grey-950-base  ${className}`}
         onChange={(e) => {
-          valueChanged(true)
-          onChange && onChange(e)
+          valueChanged(true);
+          onChange && onChange(e);
         }}
       />
       {isOnError && (
@@ -31,5 +31,5 @@ export const Input = ({ className = '', error = '', onChange, ...props }: InputP
         </p>
       )}
     </>
-  )
-}
+  );
+};

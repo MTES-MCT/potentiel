@@ -1,3 +1,3 @@
-export * from './eventHandlers'
-export * from './queries'
-export * from './Permission'
+export * from './eventHandlers';
+export * from './queries';
+export * from './Permission';

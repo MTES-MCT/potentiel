@@ -1,12 +1,12 @@
-import { UniqueEntityID } from '@core/domain'
-import onDrealUserInvited from './onDrealUserInvited'
-import { DrealUserInvited } from '@modules/authZ'
-import { resetDatabase } from '../../../helpers'
-import { UserDreal } from '../userDreal.model'
+import { UniqueEntityID } from '@core/domain';
+import onDrealUserInvited from './onDrealUserInvited';
+import { DrealUserInvited } from '@modules/authZ';
+import { resetDatabase } from '../../../helpers';
+import { UserDreal } from '../userDreal.model';
 
-const userId = new UniqueEntityID().toString()
+const userId = new UniqueEntityID().toString();
 describe('userDreal.onDrealUserInvited', () => {
-  beforeEach(resetDatabase)
+  beforeEach(resetDatabase);
 
   it('should create the user dreal link', async () => {
     await onDrealUserInvited(
@@ -16,9 +16,9 @@ describe('userDreal.onDrealUserInvited', () => {
           region: 'Bretagne',
           invitedBy: '',
         },
-      })
-    )
-    const result = await UserDreal.findOne({ where: { userId, dreal: 'Bretagne' } })
-    expect(result).not.toEqual(null)
-  })
-})
+      }),
+    );
+    const result = await UserDreal.findOne({ where: { userId, dreal: 'Bretagne' } });
+    expect(result).not.toEqual(null);
+  });
+});

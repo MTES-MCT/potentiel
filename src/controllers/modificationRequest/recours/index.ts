@@ -1,1 +1,1 @@
-export * from './postAnnulerRejetRecours'
+export * from './postAnnulerRejetRecours';

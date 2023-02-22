@@ -1,15 +1,15 @@
-import { Text } from '@react-pdf/renderer'
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { formatNumber } from '../../helpers/formatNumber'
+import { Text } from '@react-pdf/renderer';
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { formatNumber } from '../../helpers/formatNumber';
 
 type IntroductionProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 
 export const Introduction = ({ project }: IntroductionProps) => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
 
   return (
     <>
@@ -40,5 +40,5 @@ export const Introduction = ({ project }: IntroductionProps) => {
         {appelOffre.unitePuissance}.
       </Text>
     </>
-  )
-}
+  );
+};

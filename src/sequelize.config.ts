@@ -1,13 +1,13 @@
-import dotenv from 'dotenv'
-import pg from 'pg'
-import { parse } from 'pg-connection-string'
-import { Options, Sequelize } from 'sequelize'
+import dotenv from 'dotenv';
+import pg from 'pg';
+import { parse } from 'pg-connection-string';
+import { Options, Sequelize } from 'sequelize';
 
-dotenv.config()
-pg.defaults.parseInt8 = true
+dotenv.config();
+pg.defaults.parseInt8 = true;
 
 const getOptionsFromUrl = (url): Options => {
-  const { host, port, database, user: username, password } = parse(url)
+  const { host, port, database, user: username, password } = parse(url);
 
   return {
     host: host ?? undefined,
@@ -15,8 +15,8 @@ const getOptionsFromUrl = (url): Options => {
     password,
     database: database ?? undefined,
     port: port ? +port : undefined,
-  }
-}
+  };
+};
 
 const {
   POSTGRESQL_ADDON_HOST,
@@ -27,7 +27,7 @@ const {
   POSTGRESQL_POOL_MAX,
   NODE_ENV,
   DATABASE_URL,
-} = process.env
+} = process.env;
 
 let databaseOptions: Options = {
   dialect: 'postgres',
@@ -44,7 +44,7 @@ let databaseOptions: Options = {
     max: Number(POSTGRESQL_POOL_MAX),
   },
   logging: false,
-}
+};
 
 if (NODE_ENV === 'test') {
   databaseOptions = {
@@ -57,17 +57,17 @@ if (NODE_ENV === 'test') {
     pool: {
       max: 2,
     },
-  }
+  };
 }
 
-const sequelizeInstance = new Sequelize(databaseOptions)
+const sequelizeInstance = new Sequelize(databaseOptions);
 
 sequelizeInstance.authenticate().catch((error) => {
-  console.error(error)
-  throw error
-})
+  console.error(error);
+  throw error;
+});
 
-module.exports = databaseOptions
-module.exports.sequelizeInstance = sequelizeInstance
+module.exports = databaseOptions;
+module.exports.sequelizeInstance = sequelizeInstance;
 
-export { sequelizeInstance }
+export { sequelizeInstance };

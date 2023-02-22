@@ -1,5 +1,5 @@
-import React from 'react'
-import { RichRadio } from './RichRadio'
+import React from 'react';
+import { RichRadio } from './RichRadio';
 
 export default {
   title: 'Components/Atoms/RichRadio',
@@ -9,7 +9,7 @@ export default {
     checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
   },
-}
+};
 
 const Template = (args) => (
   <>
@@ -22,11 +22,11 @@ const Template = (args) => (
       </ul>
     </RichRadio>
   </>
-)
+);
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 
 Default.args = {
   children: `Exemple de bouton radio riche`,
   disabled: false,
-}
+};

@@ -1,6 +1,6 @@
-import { NotificationService } from '../..'
-import { logger } from '@core/utils'
-import routes from '@routes'
+import { NotificationService } from '../..';
+import { logger } from '@core/utils';
+import routes from '@routes';
 import {
   ConfirmationRequested,
   ModificationReceived,
@@ -8,13 +8,13 @@ import {
   ModificationRequestCancelled,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '../../../modificationRequest'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
+} from '../../../modificationRequest';
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
 
 export const handleModificationRequestStatusChanged =
   (deps: {
-    sendNotification: NotificationService['sendNotification']
-    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
+    sendNotification: NotificationService['sendNotification'];
+    getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
   }) =>
   async (
     event:
@@ -23,43 +23,43 @@ export const handleModificationRequestStatusChanged =
       | ModificationRequestRejected
       | ModificationRequestCancelled
       | ConfirmationRequested
-      | ModificationReceived
+      | ModificationReceived,
   ) => {
-    const modificationRequestId = event.payload.modificationRequestId
-    let status: string = 'mise à jour' // default
-    let hasDocument: boolean = false
+    const modificationRequestId = event.payload.modificationRequestId;
+    let status: string = 'mise à jour'; // default
+    let hasDocument: boolean = false;
     switch (event.type) {
       case ModificationRequestAccepted.type:
-        status = 'acceptée'
-        hasDocument = true
-        break
+        status = 'acceptée';
+        hasDocument = true;
+        break;
       case ModificationRequestInstructionStarted.type:
-        status = 'en instruction'
-        hasDocument = false
-        break
+        status = 'en instruction';
+        hasDocument = false;
+        break;
       case ModificationRequestRejected.type:
-        status = 'rejetée'
-        hasDocument = true
-        break
+        status = 'rejetée';
+        hasDocument = true;
+        break;
       case ConfirmationRequested.type:
-        status = 'en attente de confirmation'
-        hasDocument = true
-        break
+        status = 'en attente de confirmation';
+        hasDocument = true;
+        break;
       case ModificationReceived.type:
-        status = 'changement pris en compte'
-        hasDocument = false
-        break
+        status = 'changement pris en compte';
+        hasDocument = false;
+        break;
       case ModificationRequestCancelled.type:
-        status = 'annulée'
-        hasDocument = false
-        break
+        status = 'annulée';
+        hasDocument = false;
+        break;
     }
 
     await deps.getModificationRequestInfoForStatusNotification(modificationRequestId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
-          return
+          return;
         }
 
         await Promise.all(
@@ -73,24 +73,24 @@ export const handleModificationRequestStatusChanged =
               modificationRequestId,
               status,
               hasDocument,
-            })
-          )
-        )
+            }),
+          ),
+        );
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
     function _sendUpdateNotification(args: {
-      email: string
-      fullName: string
-      typeDemande: string
-      nomProjet: string
-      modificationRequestId: string
-      porteurId: string
-      status: string
-      hasDocument: boolean
+      email: string;
+      fullName: string;
+      typeDemande: string;
+      nomProjet: string;
+      modificationRequestId: string;
+      porteurId: string;
+      status: string;
+      hasDocument: boolean;
     }) {
       const {
         email,
@@ -101,7 +101,7 @@ export const handleModificationRequestStatusChanged =
         porteurId,
         status,
         hasDocument,
-      } = args
+      } = args;
       return deps.sendNotification({
         type: 'modification-request-status-update',
         message: {
@@ -120,6 +120,6 @@ export const handleModificationRequestStatusChanged =
           modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
-      })
+      });
     }
-  }
+  };

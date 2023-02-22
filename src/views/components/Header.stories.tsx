@@ -1,7 +1,7 @@
-import React from 'react'
-import { Header } from './Header'
+import React from 'react';
+import { Header } from './Header';
 
-export default { title: 'Components/Header' }
+export default { title: 'Components/Header' };
 
 export const HeaderPourPorteurDeProjet = () => (
   <Header
@@ -16,7 +16,7 @@ export const HeaderPourPorteurDeProjet = () => (
       },
     }}
   />
-)
+);
 
 export const HeaderPourPorteurDeProjetSansNom = () => (
   <Header
@@ -31,7 +31,7 @@ export const HeaderPourPorteurDeProjetSansNom = () => (
       },
     }}
   />
-)
+);
 
 export const HeaderPourPorteurDeProjetAvecUnTrèsLongNom = () => (
   <Header
@@ -47,7 +47,7 @@ export const HeaderPourPorteurDeProjetAvecUnTrèsLongNom = () => (
       },
     }}
   />
-)
+);
 
 export const HeaderPourAdmin = () => (
   <Header
@@ -62,7 +62,7 @@ export const HeaderPourAdmin = () => (
       },
     }}
   />
-)
+);
 export const HeaderPourAdminSansNom = () => (
   <Header
     {...{
@@ -76,7 +76,7 @@ export const HeaderPourAdminSansNom = () => (
       },
     }}
   />
-)
+);
 
 export const HeaderPourAdminAvecUnTrèsLongNom = () => (
   <Header
@@ -92,4 +92,4 @@ export const HeaderPourAdminAvecUnTrèsLongNom = () => (
       },
     }}
   />
-)
+);

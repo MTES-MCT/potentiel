@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { AbandonAccordé } from '@modules/demandeModification'
-import { makeOnAbandonAccordé } from '.'
+import { okAsync } from '@core/utils';
+import { AbandonAccordé } from '@modules/demandeModification';
+import { makeOnAbandonAccordé } from '.';
 
 describe(`Notifier lorsqu'un abandon est accordé`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est accordé
           Alors les deux porteurs ayant accès au projet devrait être notifié`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn()
+      const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lorsqu'un abandon est accordé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
-        })
+        });
 
       const onAbandonAccordé = makeOnAbandonAccordé({
         notifierPorteurChangementStatutDemande,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onAbandonAccordé(
         new AbandonAccordé({
@@ -41,10 +41,10 @@ describe(`Notifier lorsqu'un abandon est accordé`, () => {
             projetId: 'le-projet',
             accordéPar: 'la-dreal',
           },
-        })
-      )
+        }),
+      );
 
-      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2);
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -56,8 +56,8 @@ describe(`Notifier lorsqu'un abandon est accordé`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
+        }),
+      );
 
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         2,
@@ -70,8 +70,8 @@ describe(`Notifier lorsqu'un abandon est accordé`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

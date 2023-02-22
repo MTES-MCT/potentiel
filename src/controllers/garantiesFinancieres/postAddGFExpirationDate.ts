@@ -1,18 +1,18 @@
-import { logger } from '@core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
+import { logger } from '@core/utils';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
 import {
   errorResponse,
   unauthorizedResponse,
   iso8601DateToDateYupTransformation,
   vérifierPermissionUtilisateur,
-} from '../helpers'
-import { v1Router } from '../v1Router'
-import * as yup from 'yup'
-import safeAsyncHandler from '../helpers/safeAsyncHandler'
-import { PermissionAjouterDateExpirationGF } from '@modules/project/useCases'
-import { addGFExpirationDate } from '@config/useCases.config'
+} from '../helpers';
+import { v1Router } from '../v1Router';
+import * as yup from 'yup';
+import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { PermissionAjouterDateExpirationGF } from '@modules/project/useCases';
+import { addGFExpirationDate } from '@config/useCases.config';
 
 const schema = yup.object({
   body: yup.object({
@@ -24,7 +24,7 @@ const schema = yup.object({
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date d'échéance saisie n'est pas valide.`),
   }),
-})
+});
 
 v1Router.post(
   routes.ADD_GF_EXPIRATION_DATE(),
@@ -37,12 +37,12 @@ v1Router.post(
           addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
             ...request.body,
             error: `${error.errors.join(' ')}`,
-          })
+          }),
         ),
     },
     async (request, response) => {
-      const { projectId, expirationDate } = request.body
-      const { user: submittedBy } = request
+      const { projectId, expirationDate } = request.body;
+      const { user: submittedBy } = request;
       return addGFExpirationDate({ projectId, expirationDate, submittedBy }).match(
         () =>
           response.redirect(
@@ -50,22 +50,22 @@ v1Router.post(
               success: "La date d'échéance des garanties financières a bien été enregistrée.",
               redirectUrl: routes.PROJECT_DETAILS(projectId),
               redirectTitle: 'Retourner à la page projet',
-            })
+            }),
           ),
         (error: Error) => {
           if (error instanceof UnauthorizedError) {
-            return unauthorizedResponse({ request, response })
+            return unauthorizedResponse({ request, response });
           }
 
-          logger.error(error)
+          logger.error(error);
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Veuillez nous contacter si le problème persiste.',
-          })
-        }
-      )
-    }
-  )
-)
+          });
+        },
+      );
+    },
+  ),
+);

@@ -1,12 +1,12 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Heading2, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Heading2, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 interface Props {
-  request: Request
-  errorTitle: string
-  errorMessage?: string
+  request: Request;
+  errorTitle: string;
+  errorMessage?: string;
 }
 
 export const Error = ({ errorTitle, errorMessage, request }: Props) => {
@@ -21,7 +21,7 @@ export const Error = ({ errorTitle, errorMessage, request }: Props) => {
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(Error)
+hydrateOnClient(Error);

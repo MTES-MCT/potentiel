@@ -1,43 +1,43 @@
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync } from '@core/utils'
-import { User } from '@entities'
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { DemandeAbandon } from '../DemandeAbandon'
-import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors'
-import { RejetAbandonAnnulé } from '../events'
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, ResultAsync } from '@core/utils';
+import { User } from '@entities';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { DemandeAbandon } from '../DemandeAbandon';
+import { StatutRéponseIncompatibleAvecAnnulationError } from '@modules/demandeModification/errors';
+import { RejetAbandonAnnulé } from '../events';
 
 type AnnulerRejetAbandon = (commande: {
-  user: User
-  demandeAbandonId: string
-}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>
+  user: User;
+  demandeAbandonId: string;
+}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError | EntityNotFoundError>;
 
 type MakeAnnulerRejetAbandon = (dépendances: {
-  demandeAbandonRepo: TransactionalRepository<DemandeAbandon>
-  publishToEventStore: EventStore['publish']
-}) => AnnulerRejetAbandon
+  demandeAbandonRepo: TransactionalRepository<DemandeAbandon>;
+  publishToEventStore: EventStore['publish'];
+}) => AnnulerRejetAbandon;
 
 export const makeAnnulerRejetAbandon: MakeAnnulerRejetAbandon =
   ({ demandeAbandonRepo, publishToEventStore }) =>
   ({ user, demandeAbandonId }) => {
     if (!['admin', 'dgec-validateur'].includes(user.role)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
     return demandeAbandonRepo.transaction(
       new UniqueEntityID(demandeAbandonId),
       (demandeAbandon) => {
-        const { statut, projetId } = demandeAbandon
+        const { statut, projetId } = demandeAbandon;
         if (!projetId) {
-          return errAsync(new InfraNotAvailableError())
+          return errAsync(new InfraNotAvailableError());
         }
 
         if (statut === 'refusée') {
           return publishToEventStore(
             new RejetAbandonAnnulé({
               payload: { demandeAbandonId, projetId, annuléPar: user.id },
-            })
-          )
+            }),
+          );
         }
-        return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(statut || 'inconnu'))
-      }
-    )
-  }
+        return errAsync(new StatutRéponseIncompatibleAvecAnnulationError(statut || 'inconnu'));
+      },
+    );
+  };

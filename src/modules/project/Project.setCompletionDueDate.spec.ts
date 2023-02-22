@@ -1,19 +1,19 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import { ProjectCompletionDueDateSet, ProjectImported, ProjectNotified } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import { ProjectCompletionDueDateSet, ProjectImported, ProjectNotified } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
-const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })!
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
+const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId })!;
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -47,7 +47,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.setCompletionDueDate()', () => {
   it('should emit a ProjectCompletionDueDateSet', () => {
@@ -57,25 +57,25 @@ describe('Project.setCompletionDueDate()', () => {
         history: fakeHistory,
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
-    const newCompletionDueOn = 12345
-    const res = project.setCompletionDueDate({ appelOffre, completionDueOn: newCompletionDueOn })
+    const newCompletionDueOn = 12345;
+    const res = project.setCompletionDueDate({ appelOffre, completionDueOn: newCompletionDueOn });
 
-    expect(res.isOk()).toBe(true)
-    if (res.isErr()) return
+    expect(res.isOk()).toBe(true);
+    if (res.isErr()) return;
 
-    expect(project.pendingEvents).not.toHaveLength(0)
+    expect(project.pendingEvents).not.toHaveLength(0);
 
     const targetEvent = project.pendingEvents.find(
-      (item) => item.type === ProjectCompletionDueDateSet.type
-    ) as ProjectCompletionDueDateSet | undefined
-    expect(targetEvent).toBeDefined()
-    if (!targetEvent) return
+      (item) => item.type === ProjectCompletionDueDateSet.type,
+    ) as ProjectCompletionDueDateSet | undefined;
+    expect(targetEvent).toBeDefined();
+    if (!targetEvent) return;
 
-    expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn)
-    expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-    expect(targetEvent.payload.setBy).toEqual('')
-  })
-})
+    expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn);
+    expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+    expect(targetEvent.payload.setBy).toEqual('');
+  });
+});

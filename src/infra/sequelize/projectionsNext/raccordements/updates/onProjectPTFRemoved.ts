@@ -1,18 +1,18 @@
-import { ProjectPTFRemoved } from '@modules/project'
-import { Raccordements, RaccordementsProjector } from '../raccordements.model'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { ProjectPTFRemoved } from '@modules/project';
+import { Raccordements, RaccordementsProjector } from '../raccordements.model';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default RaccordementsProjector.on(ProjectPTFRemoved, async (évènement, transaction) => {
   const {
     payload: { projectId },
-  } = évènement
+  } = évènement;
 
   try {
     await Raccordements.update(
       { ptfDateDeSignature: null, ptfEnvoyéePar: null, ptfFichierId: null },
-      { where: { projetId: projectId }, transaction }
-    )
+      { where: { projetId: projectId }, transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -21,8 +21,8 @@ export default RaccordementsProjector.on(ProjectPTFRemoved, async (évènement, 
           évènement,
           nomProjection: 'Raccordements',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

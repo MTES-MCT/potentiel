@@ -1,20 +1,20 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain';
 
 export interface CandidateInformedOfCertificateUpdatePayload {
-  porteurProjetId: string
-  projectId: string
+  porteurProjetId: string;
+  projectId: string;
 }
 export class CandidateInformedOfCertificateUpdate
   extends BaseDomainEvent<CandidateInformedOfCertificateUpdatePayload>
   implements DomainEvent
 {
   public static type: 'CandidateInformedOfCertificateUpdate' =
-    'CandidateInformedOfCertificateUpdate'
+    'CandidateInformedOfCertificateUpdate';
 
-  public type = CandidateInformedOfCertificateUpdate.type
-  currentVersion = 1
+  public type = CandidateInformedOfCertificateUpdate.type;
+  currentVersion = 1;
 
   aggregateIdFromPayload(payload: CandidateInformedOfCertificateUpdatePayload) {
-    return [payload.projectId, payload.porteurProjetId]
+    return [payload.projectId, payload.porteurProjetId];
   }
 }

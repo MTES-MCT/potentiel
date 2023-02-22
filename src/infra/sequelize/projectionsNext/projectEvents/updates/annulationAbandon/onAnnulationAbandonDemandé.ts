@@ -1,7 +1,7 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { AnnulationAbandonDemandée } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { logger } from '@core/utils'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { AnnulationAbandonDemandée } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '@core/utils';
 
 export default ProjectEventProjector.on(
   AnnulationAbandonDemandée,
@@ -9,7 +9,7 @@ export default ProjectEventProjector.on(
     const {
       payload: { projetId, demandeId },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     try {
       await ProjectEvent.create(
@@ -23,8 +23,8 @@ export default ProjectEventProjector.on(
             statut: 'envoyée',
           },
         },
-        { transaction }
-      )
+        { transaction },
+      );
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -33,9 +33,9 @@ export default ProjectEventProjector.on(
             évènement,
             nomProjection: 'ProjectEventProjector.AnnulationAbandonDemandée',
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-  }
-)
+  },
+);

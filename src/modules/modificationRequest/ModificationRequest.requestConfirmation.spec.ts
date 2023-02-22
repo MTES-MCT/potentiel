@@ -1,17 +1,21 @@
-import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { ModificationRequestAccepted, ModificationRequested, ConfirmationRequested } from './events'
-import { StatusPreventsConfirmationRequestError, TypePreventsConfirmationError } from './errors'
-import { makeModificationRequest } from './ModificationRequest'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import { UnwrapForTest } from '@core/utils'
+import { UniqueEntityID } from '@core/domain';
+import { makeUser } from '@entities';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import {
+  ModificationRequestAccepted,
+  ModificationRequested,
+  ConfirmationRequested,
+} from './events';
+import { StatusPreventsConfirmationRequestError, TypePreventsConfirmationError } from './errors';
+import { makeModificationRequest } from './ModificationRequest';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import { UnwrapForTest } from '@core/utils';
 
 describe('Modification.requestConfirmation()', () => {
-  const modificationRequestId = new UniqueEntityID()
-  const projectId = new UniqueEntityID()
-  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-  const fakeResponseFileId = new UniqueEntityID().toString()
+  const modificationRequestId = new UniqueEntityID();
+  const projectId = new UniqueEntityID();
+  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
+  const fakeResponseFileId = new UniqueEntityID().toString();
 
   describe('when demande of type abandon and status is envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -28,30 +32,30 @@ describe('Modification.requestConfirmation()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('envoyée')
+      expect(fakeModificationRequest.status).toEqual('envoyée');
 
-      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId)
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId);
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ConfirmationRequested', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ConfirmationRequested.type
-      ) as ConfirmationRequested | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ConfirmationRequested.type,
+      ) as ConfirmationRequested | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.confirmationRequestedBy).toEqual(fakeUser.id)
-      expect(targetEvent.payload.responseFileId).toEqual(fakeResponseFileId)
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+      expect(targetEvent.payload.confirmationRequestedBy).toEqual(fakeUser.id);
+      expect(targetEvent.payload.responseFileId).toEqual(fakeResponseFileId);
+    });
+  });
 
   describe('when demande status is not envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -75,19 +79,19 @@ describe('Modification.requestConfirmation()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsConfirmationRequestError', () => {
-      expect(fakeModificationRequest.status).toEqual('acceptée')
+      expect(fakeModificationRequest.status).toEqual('acceptée');
 
-      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId)
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId);
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsConfirmationRequestError)
-    })
-  })
+      expect(res.error).toBeInstanceOf(StatusPreventsConfirmationRequestError);
+    });
+  });
 
   describe('when demande is not of type abandon', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -104,15 +108,15 @@ describe('Modification.requestConfirmation()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return TypePreventsConfirmationError', () => {
-      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId)
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.requestConfirmation(fakeUser, fakeResponseFileId);
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(TypePreventsConfirmationError)
-    })
-  })
-})
+      expect(res.error).toBeInstanceOf(TypePreventsConfirmationError);
+    });
+  });
+});

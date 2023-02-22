@@ -1,12 +1,12 @@
-import { Astérisque, Label } from '@components'
-import React from 'react'
-import { dataId } from '../../../../../helpers/testId'
+import { Astérisque, Label } from '@components';
+import React from 'react';
+import { dataId } from '../../../../../helpers/testId';
 
 type ChangementActionnaireProps = {
-  project: { actionnaire?: string }
-  actionnaire: string
-  justification: string
-}
+  project: { actionnaire?: string };
+  actionnaire: string;
+  justification: string;
+};
 
 export const ChangementActionnaire = ({
   project,
@@ -48,4 +48,4 @@ export const ChangementActionnaire = ({
       {...dataId('modificationRequest-justificationField')}
     />
   </>
-)
+);

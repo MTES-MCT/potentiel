@@ -1,45 +1,45 @@
-import AWS from 'aws-sdk'
-import { wrapInfra, err, ok, okAsync, Result } from '@core/utils'
-import { FileStorageService } from '@modules/file'
+import AWS from 'aws-sdk';
+import { wrapInfra, err, ok, okAsync, Result } from '@core/utils';
+import { FileStorageService } from '@modules/file';
 
 class WrongIdentifierFormat extends Error {
   constructor() {
-    super('Identifier is not recognized as S3.')
+    super('Identifier is not recognized as S3.');
   }
 }
 
 class WrongBucket extends Error {
   constructor() {
-    super('The S3 bucket does not match the current bucket.')
+    super('The S3 bucket does not match the current bucket.');
   }
 }
 
-const IDENTIFIER_PREFIX = 'S3'
+const IDENTIFIER_PREFIX = 'S3';
 
 function makeIdentifier(filePath: string, bucket: string): string {
-  return `${IDENTIFIER_PREFIX}:${bucket}:${filePath}`
+  return `${IDENTIFIER_PREFIX}:${bucket}:${filePath}`;
 }
 
 function parseIdentifier(fileId: string, _bucket: string): Result<string, WrongIdentifierFormat> {
   if (!fileId || fileId.indexOf(IDENTIFIER_PREFIX) !== 0) {
-    return err(new WrongIdentifierFormat())
+    return err(new WrongIdentifierFormat());
   }
 
-  const bucket = fileId.substring(IDENTIFIER_PREFIX.length + 1, fileId.lastIndexOf(':'))
+  const bucket = fileId.substring(IDENTIFIER_PREFIX.length + 1, fileId.lastIndexOf(':'));
 
   if (bucket !== _bucket) {
-    return err(new WrongBucket())
+    return err(new WrongBucket());
   }
 
-  return ok(fileId.substring(fileId.lastIndexOf(':') + 1))
+  return ok(fileId.substring(fileId.lastIndexOf(':') + 1));
 }
 
 export const makeS3FileStorageService = (args: {
-  endpoint: string
-  bucket: string
+  endpoint: string;
+  bucket: string;
 }): FileStorageService => {
-  const { endpoint, bucket } = args
-  const _client = new AWS.S3({ endpoint })
+  const { endpoint, bucket } = args;
+  const _client = new AWS.S3({ endpoint });
 
   return {
     upload({ contents, path: filePath }) {
@@ -50,8 +50,8 @@ export const makeS3FileStorageService = (args: {
             Key: filePath,
             Body: contents,
           })
-          .promise()
-      ).map(() => makeIdentifier(filePath, bucket))
+          .promise(),
+      ).map(() => makeIdentifier(filePath, bucket));
     },
 
     download(storedAt) {
@@ -62,9 +62,9 @@ export const makeS3FileStorageService = (args: {
               Bucket: bucket,
               Key: remote,
             })
-            .createReadStream()
+            .createReadStream(),
         )
-        .asyncAndThen((stream) => okAsync(stream))
+        .asyncAndThen((stream) => okAsync(stream));
     },
 
     remove(storedAt) {
@@ -76,10 +76,10 @@ export const makeS3FileStorageService = (args: {
                 Bucket: bucket,
                 Key: remote,
               })
-              .promise()
-          )
+              .promise(),
+          ),
         )
-        .map(() => null)
+        .map(() => null);
     },
-  }
-}
+  };
+};
