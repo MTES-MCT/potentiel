@@ -1,12 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserRightsToProjectRevoked } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
-import { onUserRightsToProjectRevoked } from './onUserRightsToProjectRevoked';
+import onUserRightsToProjectRevoked from './onUserRightsToProjectRevoked';
+import { UserProjects } from "../userProjects.model";
 
 describe('userProjects.onUserRightsToProjectRevoked', () => {
-  const UserProjectsModel = models.UserProjects;
-
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
 
@@ -14,7 +12,7 @@ describe('userProjects.onUserRightsToProjectRevoked', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    await UserProjectsModel.bulkCreate([
+    await UserProjects.bulkCreate([
       {
         userId,
         projectId,
@@ -35,8 +33,8 @@ describe('userProjects.onUserRightsToProjectRevoked', () => {
   });
 
   it('should remove all instances for this userId and projectId', async () => {
-    expect(await UserProjectsModel.count({ where: { userId, projectId } })).toEqual(1);
-    expect(await UserProjectsModel.count()).toEqual(4);
+    expect(await UserProjects.count({ where: { userId, projectId } })).toEqual(1);
+    expect(await UserProjects.count()).toEqual(4);
 
     const event = new UserRightsToProjectRevoked({
       payload: {
@@ -45,9 +43,9 @@ describe('userProjects.onUserRightsToProjectRevoked', () => {
         revokedBy: new UniqueEntityID().toString(),
       },
     });
-    await onUserRightsToProjectRevoked(models)(event);
+    await onUserRightsToProjectRevoked(event);
 
-    expect(await UserProjectsModel.count({ where: { userId, projectId } })).toEqual(0);
-    expect(await UserProjectsModel.count()).toEqual(3);
+    expect(await UserProjects.count({ where: { userId, projectId } })).toEqual(0);
+    expect(await UserProjects.count()).toEqual(3);
   });
 });
