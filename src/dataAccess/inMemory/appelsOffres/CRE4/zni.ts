@@ -322,7 +322,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       paruLe: '07/02/2023',
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-publie-le-07-02-2023',
       numéroGestionnaireRequis: true,
-      délaiAnnulationAbandon: new Date('2023-02-22'),
+      délaiAnnulationAbandon: new Date('2023-02-23'),
     },
     {
       type: 'modifié',
@@ -330,7 +330,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       alternatif: true,
       url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/telecharger-l-avis-modificatif-alternatif-publie-le-07-02-2023',
       numéroGestionnaireRequis: true,
-      délaiAnnulationAbandon: new Date('2023-02-22'),
+      délaiAnnulationAbandon: new Date('2023-02-23'),
     },
   ],
 }
