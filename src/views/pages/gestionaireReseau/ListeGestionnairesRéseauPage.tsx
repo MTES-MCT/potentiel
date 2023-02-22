@@ -1,4 +1,4 @@
-import { GestionnaireRéseauReadModel } from '@modules/gestionnairesRéseau/lister/ListerGestionnairesRéseau';
+import { GestionnaireRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
 import { Heading1, PageTemplate } from '@views/components';
 import { hydrateOnClient } from '@views/helpers';
 import { Request } from 'express';

@@ -1,4 +1,4 @@
-import { GestionnaireRéseauReadModel } from '@modules/gestionnairesRéseau/lister/ListerGestionnairesRéseau';
+import { GestionnaireRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
 import { Tile } from '@views/components';
 import React, { FC } from 'react';
 
@@ -8,7 +8,7 @@ type ListeProps = {
 export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
   <ul className="m-0 p-0 list-none">
     {gestionnairesRéseau.map((gestionnaireRéseau) => (
-      <li key={`gestionnaire-réseau-${gestionnaireRéseau.id}`} className="m-0 mb-3 p-0">
+      <li key={`gestionnaire-reseau-${gestionnaireRéseau.id}`} className="m-0 mb-3 p-0">
         <Tile>
           <GestionnaireRéseau {...gestionnaireRéseau} />
         </Tile>
@@ -19,7 +19,5 @@ export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
 
 type GestionnaireRéseauProps = GestionnaireRéseauReadModel;
 const GestionnaireRéseau: FC<GestionnaireRéseauProps> = ({ nom }) => (
-  <>
-    <div className="font-bold">{nom}</div>
-  </>
+  <div className="font-bold">{nom}</div>
 );

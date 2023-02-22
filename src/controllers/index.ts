@@ -1,6 +1,6 @@
 export * from './admin';
 export * from './garantiesFinancieres';
-export * from './gestionnairesRéseau';
+export * from './gestionnaireRéseau';
 export * from './helpers';
 export * from './home';
 export * from './lettreInformation';
