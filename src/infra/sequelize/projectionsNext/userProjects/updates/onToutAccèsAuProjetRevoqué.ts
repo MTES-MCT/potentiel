@@ -1,13 +1,27 @@
 import { logger } from '@core/utils';
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ/events/ToutAccèsAuProjetRevoqué';
+import { ProjectionEnEchec } from '@modules/shared';
+import { UserProjects, UserProjectsProjector } from '../userProjects.model';
 
-export const onToutAccèsAuProjetRevoqué = (models) => async (event: ToutAccèsAuProjetRevoqué) => {
-  const UserProjectModel = models.UserProjects;
-  const { projetId } = event.payload;
-
-  try {
-    await UserProjectModel.destroy({ where: { projectId: projetId } });
-  } catch (e) {
-    logger.error(e);
-  }
-};
+export default UserProjectsProjector.on(
+  ToutAccèsAuProjetRevoqué,
+  async (évènement, transaction) => {
+    const {
+      payload: { projetId },
+    } = évènement;
+    try {
+      await UserProjects.destroy({ where: { projectId: projetId }, transaction });
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ToutAccèsAuProjetRevoqué`,
+          {
+            évènement,
+            nomProjection: 'UserProjects.ToutAccèsAuProjetRevoqué',
+          },
+          error,
+        ),
+      );
+    }
+  },
+);
