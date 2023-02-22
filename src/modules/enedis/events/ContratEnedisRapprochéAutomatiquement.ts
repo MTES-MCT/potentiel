@@ -1,10 +1,10 @@
-import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent'
+import { DomainEvent, BaseDomainEvent } from '../../../core/domain/DomainEvent';
 
 export interface ContratEnedisRapprochéAutomatiquementPayload {
-  projectId: string
-  numero: string
-  score: number
-  rawValues: Record<string, string>
+  projectId: string;
+  numero: string;
+  score: number;
+  rawValues: Record<string, string>;
   // TODO
 }
 
@@ -13,11 +13,11 @@ export class ContratEnedisRapprochéAutomatiquement
   implements DomainEvent
 {
   public static type: 'ContratEnedisRapprochéAutomatiquement' =
-    'ContratEnedisRapprochéAutomatiquement'
-  public type = ContratEnedisRapprochéAutomatiquement.type
-  currentVersion = 1
+    'ContratEnedisRapprochéAutomatiquement';
+  public type = ContratEnedisRapprochéAutomatiquement.type;
+  currentVersion = 1;
 
   aggregateIdFromPayload(payload: ContratEnedisRapprochéAutomatiquementPayload) {
-    return undefined
+    return undefined;
   }
 }

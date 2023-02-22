@@ -1,14 +1,14 @@
-import { ok } from 'neverthrow'
+import { ok } from 'neverthrow';
 
-import { UniqueEntityID, DomainEvent } from '@core/domain'
-import { ModificationRequestStatus } from '@modules/modificationRequest'
+import { UniqueEntityID, DomainEvent } from '@core/domain';
+import { ModificationRequestStatus } from '@modules/modificationRequest';
 
 export const makeFakeDemandeRecours = (overide?: {
-  id?: UniqueEntityID
-  status?: ModificationRequestStatus
-  projectId?: string
-  pendingEvents?: DomainEvent[]
-  lastUpdatedOn?: Date
+  id?: UniqueEntityID;
+  status?: ModificationRequestStatus;
+  projectId?: string;
+  pendingEvents?: DomainEvent[];
+  lastUpdatedOn?: Date;
 }) => ({
   accept: jest.fn(() => ok<null, never>(null)),
   reject: jest.fn(() => ok<null, never>(null)),
@@ -22,4 +22,4 @@ export const makeFakeDemandeRecours = (overide?: {
   id: overide?.id || new UniqueEntityID(),
   status: overide?.status || 'envoyée',
   type: 'recours',
-})
+});

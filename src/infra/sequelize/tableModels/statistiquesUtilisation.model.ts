@@ -5,23 +5,23 @@ import {
   InferCreationAttributes,
   Model,
   NOW,
-} from 'sequelize'
-import { sequelizeInstance } from '../../../sequelize.config'
+} from 'sequelize';
+import { sequelizeInstance } from '../../../sequelize.config';
 
-type JSONValue = string | number | boolean | { [key: string]: JSONValue } | Array<JSONValue>
+type JSONValue = string | number | boolean | { [key: string]: JSONValue } | Array<JSONValue>;
 
 export type Données = {
-  [key: string]: JSONValue
-}
+  [key: string]: JSONValue;
+};
 
 class StatistiquesUtilisation extends Model<
   InferAttributes<StatistiquesUtilisation>,
   InferCreationAttributes<StatistiquesUtilisation>
 > {
-  id: CreationOptional<number>
-  type: string
-  date?: Date
-  données: Données
+  id: CreationOptional<number>;
+  type: string;
+  date?: Date;
+  données: Données;
 }
 
 StatistiquesUtilisation.init(
@@ -57,7 +57,7 @@ StatistiquesUtilisation.init(
     modelName: 'StatistiquesUtilisation',
     timestamps: false,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-export { StatistiquesUtilisation }
+export { StatistiquesUtilisation };

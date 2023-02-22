@@ -1,7 +1,7 @@
-import { ResultAsync } from '@core/utils'
-import { ProjectDataForProjectClaim } from '../../projectClaim'
-import { InfraNotAvailableError, EntityNotFoundError } from '../../shared'
+import { ResultAsync } from '@core/utils';
+import { ProjectDataForProjectClaim } from '../../projectClaim';
+import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 
 export type GetProjectDataForProjectClaim = (
-  projectId: string
-) => ResultAsync<ProjectDataForProjectClaim, EntityNotFoundError | InfraNotAvailableError>
+  projectId: string,
+) => ResultAsync<ProjectDataForProjectClaim, EntityNotFoundError | InfraNotAvailableError>;

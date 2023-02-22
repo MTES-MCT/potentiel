@@ -1,20 +1,20 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
-import { sequelizeInstance } from '../../../../sequelize.config'
-import { makeSequelizeProjector } from '../../helpers'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { makeSequelizeProjector } from '../../helpers';
 
 class Raccordements extends Model<
   InferAttributes<Raccordements>,
   InferCreationAttributes<Raccordements>
 > {
-  id: string
-  projetId: string
-  ptfFichierId?: string | null
-  ptfDateDeSignature: Date | null
-  ptfEnvoyéePar: string | null
-  identifiantGestionnaire: string | null
+  id: string;
+  projetId: string;
+  ptfFichierId?: string | null;
+  ptfDateDeSignature: Date | null;
+  ptfEnvoyéePar: string | null;
+  identifiantGestionnaire: string | null;
 }
 
-const nomProjection = 'raccordements'
+const nomProjection = 'raccordements';
 
 Raccordements.init(
   {
@@ -54,9 +54,9 @@ Raccordements.init(
     tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection)
+const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection);
 
-export { Raccordements, RaccordementsProjector }
+export { Raccordements, RaccordementsProjector };

@@ -1,33 +1,33 @@
-import { is, ProjectEventDTO } from '@modules/frise'
-import { UserRole } from '@modules/users'
+import { is, ProjectEventDTO } from '@modules/frise';
+import { UserRole } from '@modules/users';
 
 export type AttachedFileItemProps = {
-  type: 'fichier-attaché'
-  date: number
-  role: UserRole
-  title: string
-  description?: string
-  files: { id: string; name: string }[]
-  isOwner: boolean
-  attachmentId: string
-  projectId: string
+  type: 'fichier-attaché';
+  date: number;
+  role: UserRole;
+  title: string;
+  description?: string;
+  files: { id: string; name: string }[];
+  isOwner: boolean;
+  attachmentId: string;
+  projectId: string;
   attachedBy: {
-    id: string
-    name?: string
-    administration?: string
-  }
-}
+    id: string;
+    name?: string;
+    administration?: string;
+  };
+};
 
 export const extractAttachedFileItemProps = (
-  events: ProjectEventDTO[]
+  events: ProjectEventDTO[],
 ): AttachedFileItemProps[] => {
   if (!events.length) {
-    return []
+    return [];
   }
-  const attachedFileEvents = events.filter(is('FileAttachedToProject'))
+  const attachedFileEvents = events.filter(is('FileAttachedToProject'));
 
   if (!attachedFileEvents.length) {
-    return []
+    return [];
   }
 
   return attachedFileEvents.map(
@@ -52,6 +52,6 @@ export const extractAttachedFileItemProps = (
       attachmentId,
       projectId,
       attachedBy,
-    })
-  )
-}
+    }),
+  );
+};

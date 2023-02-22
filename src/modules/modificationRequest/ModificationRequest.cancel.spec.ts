@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import { UniqueEntityID } from '@core/domain';
+import { makeUser } from '@entities';
+import makeFakeUser from '../../__tests__/fixtures/user';
 import {
   ModificationRequested,
   ModificationRequestCancelled,
@@ -8,17 +8,17 @@ import {
   ModificationRequestConfirmed,
   ConfirmationRequested,
   ModificationRequestAccepted,
-} from './events'
-import { StatusPreventsCancellingError } from './errors'
-import { makeModificationRequest } from './ModificationRequest'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import { UnwrapForTest } from '@core/utils'
+} from './events';
+import { StatusPreventsCancellingError } from './errors';
+import { makeModificationRequest } from './ModificationRequest';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import { UnwrapForTest } from '@core/utils';
 
 describe('Modification.cancel()', () => {
-  const modificationRequestId = new UniqueEntityID()
-  const projectId = new UniqueEntityID()
-  const responseFileId = new UniqueEntityID().toString()
-  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+  const modificationRequestId = new UniqueEntityID();
+  const projectId = new UniqueEntityID();
+  const responseFileId = new UniqueEntityID().toString();
+  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
   describe('when demande status is envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -35,29 +35,29 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('envoyée')
+      expect(fakeModificationRequest.status).toEqual('envoyée');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestCancelled', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestCancelled.type
-      ) as ModificationRequestCancelled | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestCancelled.type,
+      ) as ModificationRequestCancelled | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.cancelledBy).toEqual(fakeUser.id.toString())
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+      expect(targetEvent.payload.cancelledBy).toEqual(fakeUser.id.toString());
+    });
+  });
 
   describe('when demande status is demande confirmée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -80,28 +80,28 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('demande confirmée')
+      expect(fakeModificationRequest.status).toEqual('demande confirmée');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestCancelled', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestCancelled.type
-      ) as ModificationRequestCancelled | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestCancelled.type,
+      ) as ModificationRequestCancelled | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+    });
+  });
 
   describe('when demande status is en attente de confirmation', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -125,28 +125,28 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('en attente de confirmation')
+      expect(fakeModificationRequest.status).toEqual('en attente de confirmation');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestCancelled', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestCancelled.type
-      ) as ModificationRequestCancelled | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestCancelled.type,
+      ) as ModificationRequestCancelled | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+    });
+  });
 
   describe('when demande status is annulée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -169,19 +169,19 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsCancellingError', () => {
-      expect(fakeModificationRequest.status).toEqual('annulée')
+      expect(fakeModificationRequest.status).toEqual('annulée');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError)
-    })
-  })
+      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError);
+    });
+  });
 
   describe('when demande status is rejetée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -205,19 +205,19 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsCancellingError', () => {
-      expect(fakeModificationRequest.status).toEqual('rejetée')
+      expect(fakeModificationRequest.status).toEqual('rejetée');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError)
-    })
-  })
+      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError);
+    });
+  });
 
   describe('when demande status is acceptée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -241,17 +241,17 @@ describe('Modification.cancel()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsCancellingError', () => {
-      expect(fakeModificationRequest.status).toEqual('acceptée')
+      expect(fakeModificationRequest.status).toEqual('acceptée');
 
-      const res = fakeModificationRequest.cancel(fakeUser)
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.cancel(fakeUser);
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError)
-    })
-  })
-})
+      expect(res.error).toBeInstanceOf(StatusPreventsCancellingError);
+    });
+  });
+});

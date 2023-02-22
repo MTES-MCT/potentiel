@@ -1,26 +1,26 @@
-import { EventBus, Repository, UniqueEntityID } from '../../../core/domain'
-import { User } from '../../../entities'
-import { FileObject, makeFileObject } from '../../file'
-import { LegacyModificationFileAttached } from '../events/LegacyModificationFileAttached'
+import { EventBus, Repository, UniqueEntityID } from '../../../core/domain';
+import { User } from '../../../entities';
+import { FileObject, makeFileObject } from '../../file';
+import { LegacyModificationFileAttached } from '../events/LegacyModificationFileAttached';
 
 interface AttachLegacyModificationFileDeps {
-  eventBus: EventBus
-  fileRepo: Repository<FileObject>
-  getLegacyModificationByFilename: (filename: string) => Promise<string[]>
+  eventBus: EventBus;
+  fileRepo: Repository<FileObject>;
+  getLegacyModificationByFilename: (filename: string) => Promise<string[]>;
 }
 
 interface AttachLegacyModificationFileArgs {
-  filename: string
-  contents: NodeJS.ReadableStream
-  attachedBy: User
+  filename: string;
+  contents: NodeJS.ReadableStream;
+  attachedBy: User;
 }
 
 export const makeAttachLegacyModificationFile =
   ({ eventBus, fileRepo, getLegacyModificationByFilename }: AttachLegacyModificationFileDeps) =>
   async ({ filename, contents, attachedBy }: AttachLegacyModificationFileArgs): Promise<void> => {
-    const projectIds = await getLegacyModificationByFilename(filename)
+    const projectIds = await getLegacyModificationByFilename(filename);
     if (projectIds.length === 0) {
-      throw new Error('Pas de modification historique trouvée avec ce nom de fichier.')
+      throw new Error('Pas de modification historique trouvée avec ce nom de fichier.');
     }
 
     for (const projectId of projectIds) {
@@ -31,14 +31,14 @@ export const makeAttachLegacyModificationFile =
         filename,
         contents,
       }).asyncAndThen((file) => {
-        return fileRepo.save(file).map((): string => file.id.toString())
-      })
+        return fileRepo.save(file).map((): string => file.id.toString());
+      });
 
       if (fileIdResult.isErr()) {
-        throw new Error('Impossible de sauvegarder le fichier')
+        throw new Error('Impossible de sauvegarder le fichier');
       }
 
-      const fileId = fileIdResult.value
+      const fileId = fileIdResult.value;
       const res = await eventBus.publish(
         new LegacyModificationFileAttached({
           payload: {
@@ -46,11 +46,11 @@ export const makeAttachLegacyModificationFile =
             filename,
             projectId,
           },
-        })
-      )
+        }),
+      );
 
       if (res.isErr()) {
-        throw new Error("Impossible d'associer ce fichier à la demande correspondante.")
+        throw new Error("Impossible d'associer ce fichier à la demande correspondante.");
       }
     }
-  }
+  };

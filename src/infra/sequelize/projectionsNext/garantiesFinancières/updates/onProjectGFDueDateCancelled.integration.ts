@@ -1,21 +1,21 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '@infra/sequelize/helpers'
-import { ProjectGFDueDateCancelled } from '@modules/project'
-import { GarantiesFinancières } from '../garantiesFinancières.model'
-import onProjectGFDueDateCancelled from './onProjectGFDueDateCancelled'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '@infra/sequelize/helpers';
+import { ProjectGFDueDateCancelled } from '@modules/project';
+import { GarantiesFinancières } from '../garantiesFinancières.model';
+import onProjectGFDueDateCancelled from './onProjectGFDueDateCancelled';
 
 describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {
-    await resetDatabase()
-  })
-  const id = new UniqueEntityID().toString()
-  const projetId = new UniqueEntityID().toString()
-  const occurredAt = new Date('2022-01-04')
-  const gfDate = new Date('2020-01-01')
-  const fichierId = new UniqueEntityID().toString()
-  const envoyéesPar = new UniqueEntityID().toString()
-  const dateExpiration = new Date('2020-01-01')
-  const dateLimiteEnvoi = new Date()
+    await resetDatabase();
+  });
+  const id = new UniqueEntityID().toString();
+  const projetId = new UniqueEntityID().toString();
+  const occurredAt = new Date('2022-01-04');
+  const gfDate = new Date('2020-01-01');
+  const fichierId = new UniqueEntityID().toString();
+  const envoyéesPar = new UniqueEntityID().toString();
+  const dateExpiration = new Date('2020-01-01');
+  const dateLimiteEnvoi = new Date();
 
   const évènement = new ProjectGFDueDateCancelled({
     payload: {
@@ -25,7 +25,7 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
       version: 1,
       occurredAt,
     },
-  })
+  });
 
   it(`Etant donné un projet existant dans la projection garantiesFinancières,
     lorsqu'un événement ProjectGFDueDateCancelled est émis pour ce projet,
@@ -42,11 +42,11 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
       dateConstitution: gfDate,
       fichierId,
       dateLimiteEnvoi,
-    })
+    });
 
-    await onProjectGFDueDateCancelled(évènement)
+    await onProjectGFDueDateCancelled(évènement);
 
-    const GF = await GarantiesFinancières.findOne({ where: { projetId } })
+    const GF = await GarantiesFinancières.findOne({ where: { projetId } });
 
     expect(GF).toMatchObject({
       id,
@@ -58,8 +58,8 @@ describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinanc
       dateEnvoi: occurredAt,
       dateConstitution: gfDate,
       fichierId,
-    })
+    });
 
-    expect(GF?.dateLimiteEnvoi).toBeNull()
-  })
-})
+    expect(GF?.dateLimiteEnvoi).toBeNull();
+  });
+});

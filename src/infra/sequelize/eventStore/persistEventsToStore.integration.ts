@@ -1,17 +1,17 @@
-import { persistEventsToStore } from './persistEventsToStore'
-import { resetDatabase } from '../helpers'
-import { ProjectAbandoned } from '@modules/project'
-import { UniqueEntityID } from '@core/domain'
-import models from '../models'
-import { LegacyModificationImported } from '@modules/modificationRequest'
-const { EventStore } = models
+import { persistEventsToStore } from './persistEventsToStore';
+import { resetDatabase } from '../helpers';
+import { ProjectAbandoned } from '@modules/project';
+import { UniqueEntityID } from '@core/domain';
+import models from '../models';
+import { LegacyModificationImported } from '@modules/modificationRequest';
+const { EventStore } = models;
 
 describe('sequelize.persistEventsToStore', () => {
   it('should add the serialized event to the event store table', async () => {
-    const projectId = new UniqueEntityID().toString()
-    const requestId = new UniqueEntityID().toString()
+    const projectId = new UniqueEntityID().toString();
+    const requestId = new UniqueEntityID().toString();
 
-    await resetDatabase()
+    await resetDatabase();
 
     const eventWithSingleAggregateId = new ProjectAbandoned({
       payload: {
@@ -23,8 +23,8 @@ describe('sequelize.persistEventsToStore', () => {
         version: 1,
       },
       requestId,
-    })
-    expect(eventWithSingleAggregateId.aggregateId).toEqual(projectId)
+    });
+    expect(eventWithSingleAggregateId.aggregateId).toEqual(projectId);
 
     const eventWithMultipleAggregateIds = new LegacyModificationImported({
       payload: {
@@ -36,15 +36,15 @@ describe('sequelize.persistEventsToStore', () => {
         occurredAt: new Date(3456),
         version: 2,
       },
-    })
-    expect(eventWithMultipleAggregateIds.aggregateId).toHaveLength(2)
-    expect(eventWithMultipleAggregateIds.aggregateId).toEqual(expect.arrayContaining([projectId]))
+    });
+    expect(eventWithMultipleAggregateIds.aggregateId).toHaveLength(2);
+    expect(eventWithMultipleAggregateIds.aggregateId).toEqual(expect.arrayContaining([projectId]));
 
-    await persistEventsToStore([eventWithSingleAggregateId, eventWithMultipleAggregateIds])
+    await persistEventsToStore([eventWithSingleAggregateId, eventWithMultipleAggregateIds]);
 
-    const events = await EventStore.findAll()
+    const events = await EventStore.findAll();
 
-    expect(events).toHaveLength(2)
+    expect(events).toHaveLength(2);
 
     expect(events[0]).toMatchObject({
       type: 'ProjectAbandoned',
@@ -56,7 +56,7 @@ describe('sequelize.persistEventsToStore', () => {
       version: '1',
       aggregateId: [projectId],
       requestId,
-    })
+    });
 
     expect(events[1]).toMatchObject({
       type: 'LegacyModificationImported',
@@ -69,6 +69,6 @@ describe('sequelize.persistEventsToStore', () => {
       version: '2',
       aggregateId: ['123', projectId],
       requestId: null,
-    })
-  })
-})
+    });
+  });
+});

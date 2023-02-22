@@ -1,11 +1,11 @@
-import { ResultAsync } from '@core/utils'
-import { GetNonLegacyProjectsByContactEmail } from '@modules/project'
-import { InfraNotAvailableError } from '@modules/shared'
-import { isPeriodeLegacy } from '@dataAccess/inMemory'
+import { ResultAsync } from '@core/utils';
+import { GetNonLegacyProjectsByContactEmail } from '@modules/project';
+import { InfraNotAvailableError } from '@modules/shared';
+import { isPeriodeLegacy } from '@dataAccess/inMemory';
 
-import models from '../../models'
+import models from '../../models';
 
-const { Project } = models
+const { Project } = models;
 
 export const getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEmail = (email) => {
   return ResultAsync.fromPromise(
@@ -13,19 +13,21 @@ export const getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEm
       where: { email },
       attributes: ['id', 'appelOffreId', 'periodeId'],
     }),
-    () => new InfraNotAvailableError()
+    () => new InfraNotAvailableError(),
   ).andThen((projects: any[]) =>
-    ResultAsync.fromSafePromise<string[], InfraNotAvailableError>(filterOutLegacyProjects(projects))
-  )
-}
+    ResultAsync.fromSafePromise<string[], InfraNotAvailableError>(
+      filterOutLegacyProjects(projects),
+    ),
+  );
+};
 
 async function filterOutLegacyProjects(projects: any[]): Promise<string[]> {
-  const projectIds: string[] = []
+  const projectIds: string[] = [];
   for (const { id, appelOffreId, periodeId } of projects) {
     if (!(await isPeriodeLegacy({ appelOffreId, periodeId }))) {
-      projectIds.push(id)
+      projectIds.push(id);
     }
   }
 
-  return projectIds
+  return projectIds;
 }

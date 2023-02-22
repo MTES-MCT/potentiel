@@ -1,30 +1,30 @@
-import { FileAttachedToProject } from '../../../../../modules/file'
-import models from '../../../models'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { FileAttachedToProject } from '../../../../../modules/file';
+import models from '../../../models';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   FileAttachedToProject,
   async ({ payload: { projectId, date, attachedBy, ...payload }, occurredAt, id }, transaction) => {
-    const { User, UserDreal } = models
-    const user = await User.findOne({ where: { id: attachedBy }, transaction })
+    const { User, UserDreal } = models;
+    const user = await User.findOne({ where: { id: attachedBy }, transaction });
 
     const attachedByUser: {
-      id: string
-      name?: string
-      administration?: string
-    } = { id: attachedBy }
+      id: string;
+      name?: string;
+      administration?: string;
+    } = { id: attachedBy };
 
     if (user) {
-      attachedByUser.name = user.fullName
+      attachedByUser.name = user.fullName;
 
       if (user.role === 'dgec-validateur' || user.role === 'admin') {
-        attachedByUser.administration = 'DGEC'
+        attachedByUser.administration = 'DGEC';
       }
 
       if (user.role === 'dreal') {
-        const region = await UserDreal.findOne({ where: { userId: attachedBy }, transaction })
+        const region = await UserDreal.findOne({ where: { userId: attachedBy }, transaction });
         if (region) {
-          attachedByUser.administration = `DREAL ${region.dreal}`
+          attachedByUser.administration = `DREAL ${region.dreal}`;
         }
       }
     }
@@ -38,7 +38,7 @@ export default ProjectEventProjector.on(
         id,
         payload: { ...payload, attachmentId: id, attachedBy: attachedByUser },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

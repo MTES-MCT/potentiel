@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const coordonnéesGéodésiques: Readonly<Array<Colonne>> = [
   {
@@ -33,4 +33,4 @@ export const coordonnéesGéodésiques: Readonly<Array<Colonne>> = [
     nomPropriété: `Coordonnées géodésiques WGS84du barycentre de l’Installation : Longitude\n(cardinal)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

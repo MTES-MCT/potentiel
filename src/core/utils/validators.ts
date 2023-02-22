@@ -1,34 +1,34 @@
-import { DomainError } from '../domain'
-import { err, ok, Result } from './Result'
+import { DomainError } from '../domain';
+import { err, ok, Result } from './Result';
 
 const validateOrThrow =
   <T>(validationFn: (obj: any) => boolean, errorMsg: string) =>
   (obj: any): obj is T => {
-    if (!validationFn(obj)) throw new Error(errorMsg)
-    return true
-  }
+    if (!validationFn(obj)) throw new Error(errorMsg);
+    return true;
+  };
 
 const _isNumber = (nbr: any) => {
-  return typeof nbr === 'number' && !isNaN(nbr) && isFinite(nbr)
-}
+  return typeof nbr === 'number' && !isNaN(nbr) && isFinite(nbr);
+};
 
-export const isNumber = validateOrThrow<number>(_isNumber, 'doit être un nombre')
+export const isNumber = validateOrThrow<number>(_isNumber, 'doit être un nombre');
 
 export const isPositiveNumber = validateOrThrow<number>((nbr: any) => {
-  return _isNumber(nbr) && nbr >= 0
-}, 'doit être un nombre positif')
+  return _isNumber(nbr) && nbr >= 0;
+}, 'doit être un nombre positif');
 
 export const isStrictlyPositiveNumber = validateOrThrow<number>((nbr: any) => {
-  return _isNumber(nbr) && nbr > 0
-}, 'doit être un nombre strictement positif')
+  return _isNumber(nbr) && nbr > 0;
+}, 'doit être un nombre strictement positif');
 
 export const isDefined = <T>(obj: any): obj is T =>
   validateOrThrow((nbr: any) => {
-    return typeof nbr !== 'undefined'
-  }, 'doit être défini')(obj)
+    return typeof nbr !== 'undefined';
+  }, 'doit être défini')(obj);
 
 interface PropertyValidator {
-  (object: Record<string, any>): Record<string, string>
+  (object: Record<string, any>): Record<string, string>;
 }
 
 export const makePropertyValidator =
@@ -38,17 +38,17 @@ export const makePropertyValidator =
       if (objectKey in validatorMap) {
         // this property is has a validator
         try {
-          validatorMap[objectKey](objectValue)
+          validatorMap[objectKey](objectValue);
         } catch (e) {
-          errorInProperty[objectKey] = e.message
+          errorInProperty[objectKey] = e.message;
         }
       }
 
-      return errorInProperty
-    }, {})
+      return errorInProperty;
+    }, {});
 
 interface HasErrorFieldsContructor {
-  new (errorsInFields: Record<string, string>): any
+  new (errorsInFields: Record<string, string>): any;
 }
 
 export const ValidationError: HasErrorFieldsContructor = class ValidationError extends DomainError {
@@ -56,22 +56,22 @@ export const ValidationError: HasErrorFieldsContructor = class ValidationError e
     super(
       `Champs erronés: ${Object.entries(errorsInFields)
         .map(([key, value]) => `${key} (${value})`)
-        .join(', ')}`
-    )
+        .join(', ')}`,
+    );
   }
-}
+};
 
 export const makeValidator = <E extends HasErrorFieldsContructor>(
   validatorMap: Record<string, (obj: any) => void>,
-  ErrorType: E
+  ErrorType: E,
 ) => {
-  const propertyValidator = makePropertyValidator(validatorMap)
+  const propertyValidator = makePropertyValidator(validatorMap);
 
   return (object: Record<string, any>): Result<Record<string, any>, E> => {
-    const errorsInFields = propertyValidator(object)
+    const errorsInFields = propertyValidator(object);
     if (Object.keys(errorsInFields).length) {
-      return err(new ErrorType(errorsInFields))
+      return err(new ErrorType(errorsInFields));
     }
-    return ok(object)
-  }
-}
+    return ok(object);
+  };
+};

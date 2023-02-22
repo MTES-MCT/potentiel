@@ -1,19 +1,19 @@
-import asyncHandler from '../helpers/asyncHandler'
-import fs from 'fs'
-import moment from 'moment-timezone'
-import sanitize from 'sanitize-filename'
-import { correctProjectData, ensureRole } from '@config'
-import { logger } from '@core/utils'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { IllegalProjectDataError, CertificateFileIsMissingError } from '@modules/project'
-import routes from '@routes'
-import { errorResponse } from '../helpers'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
-import { ProjetDéjàClasséError } from '@modules/modificationRequest'
+import asyncHandler from '../helpers/asyncHandler';
+import fs from 'fs';
+import moment from 'moment-timezone';
+import sanitize from 'sanitize-filename';
+import { correctProjectData, ensureRole } from '@config';
+import { logger } from '@core/utils';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { IllegalProjectDataError, CertificateFileIsMissingError } from '@modules/project';
+import routes from '@routes';
+import { errorResponse } from '../helpers';
+import { upload } from '../upload';
+import { v1Router } from '../v1Router';
+import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 
-const FORMAT_DATE = 'DD/MM/YYYY'
+const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
@@ -26,8 +26,8 @@ v1Router.post(
           error:
             'Vous tentez de changer une donnée non-modifiable, votre demande ne peut être prise en compte.',
           ...request.body,
-        })
-      )
+        }),
+      );
     }
 
     const {
@@ -52,7 +52,7 @@ v1Router.post(
       motifsElimination,
       reason,
       attestation,
-    } = request.body
+    } = request.body;
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({
@@ -60,7 +60,7 @@ v1Router.post(
         response,
         customMessage:
           'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-      })
+      });
     }
 
     const { isFinancementParticipatif, isInvestissementParticipatif } =
@@ -68,7 +68,7 @@ v1Router.post(
         ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
         : participatif === 'financement'
         ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
-        : { isFinancementParticipatif: false, isInvestissementParticipatif: false }
+        : { isFinancementParticipatif: false, isInvestissementParticipatif: false };
 
     if (
       notificationDate &&
@@ -78,8 +78,8 @@ v1Router.post(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error: 'La date de notification est au mauvais format.',
           ...request.body,
-        })
-      )
+        }),
+      );
     }
 
     const correctedData = {
@@ -99,7 +99,7 @@ v1Router.post(
       isFinancementParticipatif: Boolean(isFinancementParticipatif),
       isInvestissementParticipatif: Boolean(isInvestissementParticipatif),
       motifsElimination,
-    }
+    };
 
     const certificateFile =
       request.file && attestation === 'custom'
@@ -107,7 +107,7 @@ v1Router.post(
             contents: fs.createReadStream(request.file.path),
             filename: sanitize(`${Date.now()}-${request.file.originalname}`),
           }
-        : undefined
+        : undefined;
 
     const result = await correctProjectData({
       projectId,
@@ -121,7 +121,7 @@ v1Router.post(
       shouldGrantClasse: Number(isClasse) === 1,
       reason,
       attestation,
-    })
+    });
 
     return result.match(
       () => {
@@ -130,8 +130,8 @@ v1Router.post(
             success: 'Les données du projet ont bien été mises à jour.',
             redirectUrl: routes.PROJECT_DETAILS(projectId),
             redirectTitle: 'Retourner à la page projet',
-          })
-        )
+          }),
+        );
       },
       (e) => {
         if (e instanceof IllegalProjectDataError) {
@@ -143,8 +143,8 @@ v1Router.post(
                   .map(([key, value]) => `${key} (${value})`)
                   .join(', '),
               ...request.body,
-            })
-          )
+            }),
+          );
         }
 
         if (e instanceof CertificateFileIsMissingError || e instanceof ProjetDéjàClasséError) {
@@ -152,19 +152,19 @@ v1Router.post(
             addQueryParams(routes.PROJECT_DETAILS(projectId), {
               error: e.message,
               ...request.body,
-            })
-          )
+            }),
+          );
         }
 
-        logger.error(e as Error)
+        logger.error(e as Error);
 
         return response.redirect(
           addQueryParams(routes.PROJECT_DETAILS(projectId), {
             error: "Votre demande n'a pas pu être prise en compte.",
             ...request.body,
-          })
-        )
-      }
-    )
-  })
-)
+          }),
+        );
+      },
+    );
+  }),
+);

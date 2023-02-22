@@ -1,1 +1,1 @@
-export * from './onUtilisateurInvité'
+export * from './onUtilisateurInvité';

@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const noteInnovation: Readonly<Array<Colonne>> = [
   {
@@ -57,4 +57,4 @@ export const noteInnovation: Readonly<Array<Colonne>> = [
     nomPropriété: `Commentaire final sur note aspects environnementaux et sociaux\n(AO innovation)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

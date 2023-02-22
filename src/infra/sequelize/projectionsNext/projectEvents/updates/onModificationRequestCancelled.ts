@@ -1,9 +1,9 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
-import models from '../../../models'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequestCancelled } from '@modules/modificationRequest';
+import models from '../../../models';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestCancelled,
@@ -11,12 +11,12 @@ export default ProjectEventProjector.on(
     const {
       payload: { modificationRequestId, cancelledBy },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     const demandeDélai = await ProjectEvent.findOne({
       where: { id: modificationRequestId, type: 'DemandeDélai' },
       transaction,
-    })
+    });
 
     if (demandeDélai) {
       try {
@@ -31,9 +31,9 @@ export default ProjectEventProjector.on(
               annuléPar: cancelledBy,
             },
           },
-          { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
-        )
-        return
+          { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction },
+        );
+        return;
       } catch (e) {
         logger.error(
           new ProjectionEnEchec(
@@ -42,20 +42,20 @@ export default ProjectEventProjector.on(
               évènement,
               nomProjection: 'ProjectEvent.onModificationRequestCancelled',
             },
-            e
-          )
-        )
+            e,
+          ),
+        );
       }
     } else {
-      const { ModificationRequest } = models
+      const { ModificationRequest } = models;
 
       const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
         attributes: ['projectId'],
         transaction,
-      })
+      });
 
       if (modificationRequest) {
-        const { projectId } = modificationRequest
+        const { projectId } = modificationRequest;
         await ProjectEvent.create(
           {
             projectId,
@@ -65,9 +65,9 @@ export default ProjectEventProjector.on(
             id: new UniqueEntityID().toString(),
             payload: { modificationRequestId },
           },
-          { transaction }
-        )
+          { transaction },
+        );
       }
     }
-  }
-)
+  },
+);

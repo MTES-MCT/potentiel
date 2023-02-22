@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes } from 'sequelize'
+import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -26,17 +26,17 @@ module.exports = {
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
-    })
+    });
 
     queryInterface.addConstraint('raccordements', {
       fields: ['projetId'],
       type: 'unique',
       name: 'raccordement_unique_par-projet',
-    })
+    });
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.removeConstraint('raccordements', 'raccordement_unique_par')
-    await queryInterface.dropTable('raccordements')
+    await queryInterface.removeConstraint('raccordements', 'raccordement_unique_par');
+    await queryInterface.dropTable('raccordements');
   },
-}
+};

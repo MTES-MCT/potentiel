@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { format } from 'date-fns'
-import ROUTES from '@routes'
-import { UserRole } from '@modules/users'
+import React, { useState } from 'react';
+import { format } from 'date-fns';
+import ROUTES from '@routes';
+import { UserRole } from '@modules/users';
 import {
   Button,
   SecondaryButton,
@@ -12,26 +12,26 @@ import {
   DownloadLink,
   Link,
   ExclamationIcon,
-} from '@components'
-import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.'
-import { PtfDTO } from '@modules/frise'
+} from '@components';
+import { ItemTitle, ItemDate, ContentArea, PastIcon, CurrentIcon } from '.';
+import { PtfDTO } from '@modules/frise';
 
 export const PTFItem = (props: PtfDTO & { projectId: string }) => {
-  const { projectId, statut } = props
+  const { projectId, statut } = props;
 
   return statut === 'envoyée' ? (
     <Submitted {...{ ...props, projectId }} />
   ) : (
     <NotSubmitted {...{ ...props, projectId }} />
-  )
-}
+  );
+};
 
 type SubmittedProps = {
-  variant: UserRole
-  date: number
-  url?: string
-  projectId: string
-}
+  variant: UserRole;
+  date: number;
+  url?: string;
+  projectId: string;
+};
 const Submitted = ({ variant, date, url, projectId }: SubmittedProps) => (
   <>
     <PastIcon />
@@ -52,12 +52,12 @@ const Submitted = ({ variant, date, url, projectId }: SubmittedProps) => (
       {isPorteurProjet(variant) && <CancelDeposit {...{ projectId }} />}
     </ContentArea>
   </>
-)
+);
 
 type NotSubmittedProps = {
-  variant: UserRole
-  projectId: string
-}
+  variant: UserRole;
+  projectId: string;
+};
 const NotSubmitted = ({ variant, projectId }: NotSubmittedProps) => (
   <>
     <CurrentIcon />
@@ -69,9 +69,9 @@ const NotSubmitted = ({ variant, projectId }: NotSubmittedProps) => (
       </div>
     </ContentArea>
   </>
-)
+);
 
-type CancelDepositProps = { projectId: string }
+type CancelDepositProps = { projectId: string };
 const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
     <Link
@@ -83,14 +83,14 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
     >
       Annuler le dépôt
     </Link>
-  )
-}
+  );
+};
 
 type UploadFormProps = {
-  projectId: string
-}
+  projectId: string;
+};
 const UploadForm = ({ projectId }: UploadFormProps) => {
-  const [displayForm, showForm] = useState(false)
+  const [displayForm, showForm] = useState(false);
 
   return (
     <Dropdown
@@ -136,6 +136,6 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
         </div>
       </form>
     </Dropdown>
-  )
-}
-const isPorteurProjet = (variant: UserRole) => variant === 'porteur-projet'
+  );
+};
+const isPorteurProjet = (variant: UserRole) => variant === 'porteur-projet';

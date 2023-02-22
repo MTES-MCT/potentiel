@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-type FormulaireChampsObligatoireLégendeProps = React.HTMLAttributes<HTMLDivElement>
+type FormulaireChampsObligatoireLégendeProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const FormulaireChampsObligatoireLégende = (
-  props: FormulaireChampsObligatoireLégendeProps
+  props: FormulaireChampsObligatoireLégendeProps,
 ) => (
   <div {...props} className={`text-red-500 ${props.className || ''}`}>
     * champs obligatoires
   </div>
-)
+);

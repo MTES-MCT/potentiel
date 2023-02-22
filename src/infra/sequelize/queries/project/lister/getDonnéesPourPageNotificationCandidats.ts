@@ -1,7 +1,7 @@
-import { Project } from '@entities'
-import { GetDonnéesPourPageNotificationCandidats } from '@modules/notificationCandidats/queries'
-import models from '../../../models'
-import { listerProjetsNonNotifiés } from './requêtes/listerProjetsNonNotifiés'
+import { Project } from '@entities';
+import { GetDonnéesPourPageNotificationCandidats } from '@modules/notificationCandidats/queries';
+import models from '../../../models';
+import { listerProjetsNonNotifiés } from './requêtes/listerProjetsNonNotifiés';
 
 export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotificationCandidats =
   async ({ pagination, appelOffreId, periodeId, recherche, classement }) => {
@@ -9,31 +9,31 @@ export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotifi
       models.Project.findAll({
         where: { notifiedOn: 0 },
         attributes: ['appelOffreId', 'periodeId'],
-      })
+      });
 
     const getListeAOs = (
       projets: Array<{
-        appelOffreId: Project['appelOffreId']
-        periodeId: Project['periodeId']
-      }>
+        appelOffreId: Project['appelOffreId'];
+        periodeId: Project['periodeId'];
+      }>,
     ): Array<Project['appelOffreId']> =>
       projets.reduce(
         (acc, projet) =>
           acc.some((element) => element === projet.appelOffreId)
             ? acc
             : [...acc, projet.appelOffreId],
-        []
-      )
+        [],
+      );
 
     const getListePériodes = ({
       projets,
       appelOffreId,
     }: {
       projets: Array<{
-        appelOffreId: Project['appelOffreId']
-        periodeId: Project['periodeId']
-      }>
-      appelOffreId: Project['appelOffreId']
+        appelOffreId: Project['appelOffreId'];
+        periodeId: Project['periodeId'];
+      }>;
+      appelOffreId: Project['appelOffreId'];
     }): Array<Project['periodeId']> =>
       projets.reduce(
         (acc, projet) =>
@@ -41,22 +41,22 @@ export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotifi
           !acc.some((element) => element === projet.periodeId)
             ? [...acc, projet.periodeId]
             : acc,
-        []
-      )
+        [],
+      );
 
-    const projetsNonNotifiés = await getProjetsNonNotifiés()
+    const projetsNonNotifiés = await getProjetsNonNotifiés();
 
     if (projetsNonNotifiés.length === 0) {
-      return null
+      return null;
     }
 
-    const listeAOs = getListeAOs(projetsNonNotifiés)
-    const AOSélectionné = appelOffreId ?? listeAOs[0]
+    const listeAOs = getListeAOs(projetsNonNotifiés);
+    const AOSélectionné = appelOffreId ?? listeAOs[0];
     const listePériodes = getListePériodes({
       projets: projetsNonNotifiés,
       appelOffreId: AOSélectionné,
-    })
-    const périodeSélectionnée = periodeId ?? listePériodes[0]
+    });
+    const périodeSélectionnée = periodeId ?? listePériodes[0];
 
     const projetsPériodeSélectionnée = await listerProjetsNonNotifiés({
       pagination,
@@ -68,10 +68,10 @@ export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotifi
           periodeId: périodeSélectionnée,
         },
       },
-    })
+    });
 
     if (projetsPériodeSélectionnée.itemCount === 0) {
-      return null
+      return null;
     }
 
     return {
@@ -80,5 +80,5 @@ export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotifi
       listePériodes,
       périodeSélectionnée,
       projetsPériodeSélectionnée,
-    }
-  }
+    };
+  };

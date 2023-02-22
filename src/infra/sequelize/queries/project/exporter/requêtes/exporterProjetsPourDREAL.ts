@@ -1,5 +1,5 @@
-import models from '../../../../models'
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
+import models from '../../../../models';
+import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
 import {
   coordonnéesCandidat,
   coordonnéesGéodésiques,
@@ -16,9 +16,9 @@ import {
   référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
-} from '../colonnesParCatégorie'
-import { récupérerExportProjets } from './récupérerExportProjets'
-import { wrapInfra } from '@core/utils'
+} from '../colonnesParCatégorie';
+import { récupérerExportProjets } from './récupérerExportProjets';
+import { wrapInfra } from '@core/utils';
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -36,24 +36,24 @@ const colonnesÀExporter = [
   ...résultatInstructionSensible,
   ...modificationsAvantImport,
   ...garantiesFinancières,
-]
+];
 
 export const exporterProjetsPourDREAL = ({
   filtres,
   userId,
 }: {
-  userId: string
-  filtres?: FiltreListeProjets
+  userId: string;
+  filtres?: FiltreListeProjets;
 }) =>
   wrapInfra(
     models.UserDreal.findOne({
       where: { userId },
       attributes: ['dreal'],
-    })
+    }),
   ).andThen((régionDreal: any) =>
     récupérerExportProjets({
       colonnesÀExporter,
       filtres,
       seulementLesProjetsParRégion: régionDreal.dreal,
-    })
-  )
+    }),
+  );

@@ -1,1 +1,1 @@
-export * from './claimProject'
+export * from './claimProject';

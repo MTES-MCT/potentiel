@@ -1,15 +1,15 @@
-import { Text } from '@react-pdf/renderer'
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { MotifElimination } from './motifElimination'
+import { Text } from '@react-pdf/renderer';
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { MotifElimination } from './motifElimination';
 
 type ElimineProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 
 export const Elimine = ({ project }: ElimineProps) => {
-  const { appelOffre } = project
-  const { renvoiRetraitDesignationGarantieFinancieres, isSoumisAuxGF } = appelOffre
+  const { appelOffre } = project;
+  const { renvoiRetraitDesignationGarantieFinancieres, isSoumisAuxGF } = appelOffre;
 
   return (
     <>
@@ -29,5 +29,5 @@ export const Elimine = ({ project }: ElimineProps) => {
         territorialement compétent dans un délai de deux mois à compter de sa date de notification.
       </Text>
     </>
-  )
-}
+  );
+};

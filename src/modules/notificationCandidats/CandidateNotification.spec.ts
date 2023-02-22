@@ -1,20 +1,20 @@
-import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
+import { UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
   ProjectNotified,
-} from '../project/events'
-import { EntityNotFoundError, HeterogeneousHistoryError } from '../shared'
-import { makeCandidateNotification } from './CandidateNotification'
-import { CandidateNotifiedForPeriode } from './events'
-import { makeCandidateNotificationId } from './helpers'
+} from '../project/events';
+import { EntityNotFoundError, HeterogeneousHistoryError } from '../shared';
+import { makeCandidateNotification } from './CandidateNotification';
+import { CandidateNotifiedForPeriode } from './events';
+import { makeCandidateNotificationId } from './helpers';
 
-const appelOffreId = 'appelOffre'
-const periodeId = 'periode'
-const familleId = 'famille'
-const candidateEmail = 'candidate@email.test'
-const candidateName = 'candidate'
+const appelOffreId = 'appelOffre';
+const periodeId = 'periode';
+const familleId = 'famille';
+const candidateEmail = 'candidate@email.test';
+const candidateName = 'candidate';
 
 describe('CandidateNotification', () => {
   describe('makeCandidateNotification', () => {
@@ -22,16 +22,16 @@ describe('CandidateNotification', () => {
       const candidateNotification = makeCandidateNotification({
         id: new UniqueEntityID(),
         events: [],
-      })
+      });
 
       it('should return a EntityNotFound error result', () => {
-        expect(candidateNotification.isErr()).toBe(true)
+        expect(candidateNotification.isErr()).toBe(true);
 
-        if (candidateNotification.isOk()) return
+        if (candidateNotification.isOk()) return;
 
-        expect(candidateNotification.error).toBeInstanceOf(EntityNotFoundError)
-      })
-    })
+        expect(candidateNotification.error).toBeInstanceOf(EntityNotFoundError);
+      });
+    });
 
     describe('when history has events of different appel offre', () => {
       const candidateNotification = makeCandidateNotification({
@@ -60,16 +60,16 @@ describe('CandidateNotification', () => {
             },
           }),
         ],
-      })
+      });
 
       it('should return a HeterogeneousHistoryError error result', () => {
-        expect(candidateNotification.isErr()).toBe(true)
+        expect(candidateNotification.isErr()).toBe(true);
 
-        if (candidateNotification.isOk()) return
+        if (candidateNotification.isOk()) return;
 
-        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
-      })
-    })
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError);
+      });
+    });
 
     describe('when history has events of different periode', () => {
       const candidateNotification = makeCandidateNotification({
@@ -98,16 +98,16 @@ describe('CandidateNotification', () => {
             },
           }),
         ],
-      })
+      });
 
       it('should return a HeterogeneousHistoryError error result', () => {
-        expect(candidateNotification.isErr()).toBe(true)
+        expect(candidateNotification.isErr()).toBe(true);
 
-        if (candidateNotification.isOk()) return
+        if (candidateNotification.isOk()) return;
 
-        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
-      })
-    })
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError);
+      });
+    });
 
     describe('when history has events of different candidateEmail', () => {
       const candidateNotification = makeCandidateNotification({
@@ -136,17 +136,17 @@ describe('CandidateNotification', () => {
             },
           }),
         ],
-      })
+      });
 
       it('should return a HeterogeneousHistoryError error result', () => {
-        expect(candidateNotification.isErr()).toBe(true)
+        expect(candidateNotification.isErr()).toBe(true);
 
-        if (candidateNotification.isOk()) return
+        if (candidateNotification.isOk()) return;
 
-        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError)
-      })
-    })
-  })
+        expect(candidateNotification.error).toBeInstanceOf(HeterogeneousHistoryError);
+      });
+    });
+  });
 
   describe('notifyCandidateIfReady()', () => {
     describe('when all candidate projects have a certificate and CandidateNotifiedForPeriode has not occurred', () => {
@@ -197,35 +197,35 @@ describe('CandidateNotification', () => {
               requestId: 'request1',
             }),
           ],
-        })
-      )
+        }),
+      );
 
       it('should trigger a CandidateNotifiedForPeriode', () => {
-        expect(candidateNotification.pendingEvents).toHaveLength(0)
+        expect(candidateNotification.pendingEvents).toHaveLength(0);
 
-        candidateNotification.notifyCandidateIfReady()
+        candidateNotification.notifyCandidateIfReady();
 
-        expect(candidateNotification.pendingEvents).toHaveLength(1)
+        expect(candidateNotification.pendingEvents).toHaveLength(1);
 
-        const event = candidateNotification.pendingEvents[0]
-        expect(event!.type).toEqual(CandidateNotifiedForPeriode.type)
+        const event = candidateNotification.pendingEvents[0];
+        expect(event!.type).toEqual(CandidateNotifiedForPeriode.type);
 
         expect(event!.payload).toEqual({
           candidateEmail,
           periodeId,
           appelOffreId,
           candidateName,
-        })
-        expect(event!.requestId).toEqual('request1')
+        });
+        expect(event!.requestId).toEqual('request1');
         expect(event!.aggregateId).toEqual(
           makeCandidateNotificationId({
             appelOffreId,
             periodeId,
             candidateEmail,
-          })
-        )
-      })
-    })
+          }),
+        );
+      });
+    });
 
     describe('when some candidate projects do not have a certificate yet', () => {
       const candidateNotification = UnwrapForTest(
@@ -265,17 +265,17 @@ describe('CandidateNotification', () => {
               },
             }),
           ],
-        })
-      )
+        }),
+      );
 
       it('should not trigger events', () => {
-        expect(candidateNotification.pendingEvents).toHaveLength(0)
+        expect(candidateNotification.pendingEvents).toHaveLength(0);
 
-        candidateNotification.notifyCandidateIfReady()
+        candidateNotification.notifyCandidateIfReady();
 
-        expect(candidateNotification.pendingEvents).toHaveLength(0)
-      })
-    })
+        expect(candidateNotification.pendingEvents).toHaveLength(0);
+      });
+    });
 
     describe('when CandidateNotifiedForPeriode exists', () => {
       const candidateNotification = UnwrapForTest(
@@ -291,16 +291,16 @@ describe('CandidateNotification', () => {
               },
             }),
           ],
-        })
-      )
+        }),
+      );
 
       it('should not trigger events', () => {
-        expect(candidateNotification.pendingEvents).toHaveLength(0)
+        expect(candidateNotification.pendingEvents).toHaveLength(0);
 
-        candidateNotification.notifyCandidateIfReady()
+        candidateNotification.notifyCandidateIfReady();
 
-        expect(candidateNotification.pendingEvents).toHaveLength(0)
-      })
-    })
-  })
-})
+        expect(candidateNotification.pendingEvents).toHaveLength(0);
+      });
+    });
+  });
+});

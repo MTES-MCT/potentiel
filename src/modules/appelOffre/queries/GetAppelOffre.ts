@@ -1,7 +1,7 @@
-import { ResultAsync } from '@core/utils'
-import { EntityNotFoundError, InfraNotAvailableError } from '../../shared'
-import { AppelOffreDTO } from '../dtos'
+import { ResultAsync } from '@core/utils';
+import { EntityNotFoundError, InfraNotAvailableError } from '../../shared';
+import { AppelOffreDTO } from '../dtos';
 
 export type GetAppelOffre = (
-  appelOffreId: string
-) => ResultAsync<AppelOffreDTO, InfraNotAvailableError | EntityNotFoundError>
+  appelOffreId: string,
+) => ResultAsync<AppelOffreDTO, InfraNotAvailableError | EntityNotFoundError>;

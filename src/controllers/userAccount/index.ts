@@ -1,2 +1,2 @@
-export * from './getSignupPage'
-export * from './postSignup'
+export * from './getSignupPage';
+export * from './postSignup';

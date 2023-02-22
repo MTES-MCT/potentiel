@@ -1,1 +1,1 @@
-export * from './NewModificationRequest'
+export * from './NewModificationRequest';

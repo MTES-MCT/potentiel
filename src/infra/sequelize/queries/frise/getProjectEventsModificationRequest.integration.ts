@@ -1,23 +1,23 @@
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { USER_ROLES } from '@modules/users'
-import { getProjectEvents } from '.'
-import { ProjectEvent } from '../../projectionsNext'
-import { resetDatabase } from '../../helpers'
-import { models } from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { USER_ROLES } from '@modules/users';
+import { getProjectEvents } from '.';
+import { ProjectEvent } from '../../projectionsNext';
+import { resetDatabase } from '../../helpers';
+import { models } from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pour les événements ModificationRequest*', () => {
-  const { Project } = models
-  const projetId = new UniqueEntityID().toString()
-  const modificationRequestId = new UniqueEntityID().toString()
-  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
-  const date = new Date()
+  const { Project } = models;
+  const projetId = new UniqueEntityID().toString();
+  const modificationRequestId = new UniqueEntityID().toString();
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
+  const date = new Date();
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(projet)
-  })
+    await resetDatabase();
+    await Project.create(projet);
+  });
 
   // événements à tester
 
@@ -32,7 +32,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
       modificationRequestId,
       authority: 'dgec',
     },
-  }
+  };
 
   const demandePuissanceEvent = {
     id: new UniqueEntityID().toString(),
@@ -46,7 +46,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
       authority: 'dgec',
       puissance: 100,
     },
-  }
+  };
 
   const demandeAcceptéeEvent = {
     id: new UniqueEntityID().toString(),
@@ -55,7 +55,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     valueDate: date.getTime(),
     eventPublishedAt: date.getTime(),
     payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-  }
+  };
 
   const demandeRejetéeEvent = {
     id: new UniqueEntityID().toString(),
@@ -64,7 +64,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     valueDate: date.getTime(),
     eventPublishedAt: date.getTime(),
     payload: { modificationRequestId, file: { id: 'file-id', name: 'filename' } },
-  }
+  };
 
   const demandeAnnuléeEvent = {
     id: new UniqueEntityID().toString(),
@@ -73,7 +73,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     valueDate: date.getTime(),
     eventPublishedAt: date.getTime(),
     payload: { modificationRequestId },
-  }
+  };
 
   const demandeEnInstructionEvent = {
     id: new UniqueEntityID().toString(),
@@ -82,7 +82,7 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     valueDate: date.getTime(),
     eventPublishedAt: date.getTime(),
     payload: { modificationRequestId },
-  }
+  };
 
   const rolesAutorisés = [
     'admin',
@@ -92,16 +92,16 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateurs autorisés à visualiser les demandes de modifications`, () => {
     for (const role of rolesAutorisés) {
-      const utilisateur = { role } as User
+      const utilisateur = { role } as User;
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification devraient être retournées`, async () => {
-        await ProjectEvent.bulkCreate([demandeRecoursEvent, demandePuissanceEvent])
+        await ProjectEvent.bulkCreate([demandeRecoursEvent, demandePuissanceEvent]);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
             {
@@ -123,14 +123,14 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               unitePuissance: 'MWc',
             },
           ]),
-        })
-      })
+        });
+      });
 
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification acceptées devraient être retournées`, async () => {
-        await ProjectEvent.create(demandeAcceptéeEvent)
+        await ProjectEvent.create(demandeAcceptéeEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [
             {
@@ -141,14 +141,14 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               file: { id: 'file-id', name: 'filename' },
             },
           ],
-        })
-      })
+        });
+      });
 
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification rejetées devraient être retournées`, async () => {
-        await ProjectEvent.create(demandeRejetéeEvent)
+        await ProjectEvent.create(demandeRejetéeEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [
             {
@@ -159,14 +159,14 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               file: { id: 'file-id', name: 'filename' },
             },
           ],
-        })
-      })
+        });
+      });
 
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification annulées devraient être retournées`, async () => {
-        await ProjectEvent.create(demandeAnnuléeEvent)
+        await ProjectEvent.create(demandeAnnuléeEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [
             {
@@ -176,14 +176,14 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               modificationRequestId,
             },
           ],
-        })
-      })
+        });
+      });
 
       it(`Etant donné un utilisateur ${role}, 
       alors les demandes de modification en instruction devraient être retournées`, async () => {
-        await ProjectEvent.create(demandeEnInstructionEvent)
+        await ProjectEvent.create(demandeEnInstructionEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [
             {
@@ -193,16 +193,16 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
               modificationRequestId,
             },
           ],
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   describe(`Utilisateurs non-autorisés à visualiser les demandes de modifications`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
       it(`Etant donné un utilisateur ${role},
       alors les demandes de modification ne devraient pas être retournées`, async () => {
-        const utilisateur = { role } as User
+        const utilisateur = { role } as User;
         await ProjectEvent.bulkCreate([
           demandeRecoursEvent,
           demandePuissanceEvent,
@@ -210,13 +210,13 @@ describe('getProjectEvents pour les événements ModificationRequest*', () => {
           demandeRejetéeEvent,
           demandeAnnuléeEvent,
           demandeEnInstructionEvent,
-        ])
+        ]);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
         expect(result._unsafeUnwrap()).toMatchObject({
           events: [],
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

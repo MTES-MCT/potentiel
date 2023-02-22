@@ -1,16 +1,16 @@
-import { resetDatabase } from '../../../helpers'
-import { UniqueEntityID } from '@core/domain'
-import { ModificationReceived, ModificationReceivedPayload } from '@modules/modificationRequest'
-import { ProjectEvent } from '..'
-import onModificationReceived from './onModificationReceived'
+import { resetDatabase } from '../../../helpers';
+import { UniqueEntityID } from '@core/domain';
+import { ModificationReceived, ModificationReceivedPayload } from '@modules/modificationRequest';
+import { ProjectEvent } from '..';
+import onModificationReceived from './onModificationReceived';
 
 describe('onModificationReceived', () => {
-  const projectId = new UniqueEntityID().toString()
-  const modificationRequestId = new UniqueEntityID().toString()
-  const user = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
+  const modificationRequestId = new UniqueEntityID().toString();
+  const user = new UniqueEntityID().toString();
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   describe('when there is an actionnaire modification event', () => {
     it('should create a new project event of type "actionnaire" in ProjectEvents', async () => {
@@ -28,9 +28,9 @@ describe('onModificationReceived', () => {
             version: 1,
             occurredAt: new Date('2022-02-09'),
           },
-        })
-      )
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        }),
+      );
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
@@ -39,9 +39,9 @@ describe('onModificationReceived', () => {
           actionnaire: 'nouvel actionnaire',
           modificationRequestId,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('when there is a producteur modification event', () => {
     it('should create a new project event of type "producteur" in ProjectEvents', async () => {
@@ -59,9 +59,9 @@ describe('onModificationReceived', () => {
             version: 1,
             occurredAt: new Date('2022-02-09'),
           },
-        })
-      )
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        }),
+      );
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
@@ -70,9 +70,9 @@ describe('onModificationReceived', () => {
           producteur: 'nouveau producteur',
           modificationRequestId,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('when there is a fournisseur modification event', () => {
     it('should create a new project event of type "fournisseur" in ProjectEvents', async () => {
@@ -93,9 +93,9 @@ describe('onModificationReceived', () => {
             version: 1,
             occurredAt: new Date('2022-02-09'),
           },
-        })
-      )
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        }),
+      );
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
@@ -107,9 +107,9 @@ describe('onModificationReceived', () => {
           ],
           modificationRequestId,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe('when there is a puissance modification event', () => {
     it('should create a new project event of type "puissance" in ProjectEvents', async () => {
@@ -127,14 +127,14 @@ describe('onModificationReceived', () => {
             version: 1,
             occurredAt: new Date('2022-02-09'),
           },
-        })
-      )
-      const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+        }),
+      );
+      const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
       expect(projectEvent).toMatchObject({
         type: 'ModificationReceived',
         projectId,
         payload: { modificationType: 'puissance', puissance: 2, modificationRequestId },
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

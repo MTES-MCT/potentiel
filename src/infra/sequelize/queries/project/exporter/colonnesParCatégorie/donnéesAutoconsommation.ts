@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const donnéesAutoconsommation: Readonly<Array<Colonne>> = [
   {
@@ -17,4 +17,4 @@ export const donnéesAutoconsommation: Readonly<Array<Colonne>> = [
     nomPropriété: `Taux occupation toiture\n(AO autoconsommation)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

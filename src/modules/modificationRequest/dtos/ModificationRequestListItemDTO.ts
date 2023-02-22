@@ -6,7 +6,7 @@ export type ModificationRequestTypes =
   | 'recours'
   | 'abandon'
   | 'delai'
-  | 'annulation abandon'
+  | 'annulation abandon';
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'
@@ -16,33 +16,33 @@ export type ModificationRequestStatusDTO =
   | 'en instruction'
   | 'en attente de confirmation'
   | 'demande confirmée'
-  | 'information validée'
+  | 'information validée';
 
 export type ModificationRequestListItemDTO = {
-  id: string
-  type: ModificationRequestTypes
-  status: string
-  description: string
+  id: string;
+  type: ModificationRequestTypes;
+  status: string;
+  description: string;
 
-  requestedOn: Date
+  requestedOn: Date;
   requestedBy: {
-    email: string
-    fullName: string
-  }
+    email: string;
+    fullName: string;
+  };
 
   attachmentFile: {
-    filename: string
-    id: string
-  }
+    filename: string;
+    id: string;
+  };
 
   project: {
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    nomProjet: string
-    communeProjet: string
-    departementProjet: string
-    regionProjet: string
-    unitePuissance: string
-  }
-}
+    appelOffreId: string;
+    periodeId: string;
+    familleId: string | undefined;
+    nomProjet: string;
+    communeProjet: string;
+    departementProjet: string;
+    regionProjet: string;
+    unitePuissance: string;
+  };
+};

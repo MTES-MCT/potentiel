@@ -1,1 +1,1 @@
-export * from './getEnedisSearchIndex'
+export * from './getEnedisSearchIndex';

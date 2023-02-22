@@ -1,10 +1,10 @@
-import { logger } from '@core/utils'
-import { ModificationReceived } from '@modules/modificationRequest'
+import { logger } from '@core/utils';
+import { ModificationReceived } from '@modules/modificationRequest';
 
 export const onModificationReceived =
   (models) =>
   async ({ payload, occurredAt }: ModificationReceived) => {
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
     const {
       modificationRequestId,
       projectId,
@@ -14,7 +14,7 @@ export const onModificationReceived =
       type,
       authority,
       cahierDesCharges,
-    } = payload
+    } = payload;
 
     try {
       await ModificationRequestModel.create({
@@ -36,9 +36,9 @@ export const onModificationReceived =
         evaluationCarbone: type === 'fournisseur' ? payload.evaluationCarbone : undefined,
         authority,
         cahierDesCharges,
-      })
+      });
     } catch (e) {
-      logger.error(e)
-      logger.info('Error: onModificationReceived projection failed to update project :', event)
+      logger.error(e);
+      logger.info('Error: onModificationReceived projection failed to update project :', event);
     }
-  }
+  };

@@ -1,10 +1,10 @@
-import { logger } from '@core/utils'
-import { ProjectImported } from '@modules/project'
+import { logger } from '@core/utils';
+import { ProjectImported } from '@modules/project';
 
 export const onProjectImported = (models) => async (event: ProjectImported) => {
-  const { Project } = models
+  const { Project } = models;
 
-  const { projectId, data, potentielIdentifier } = event.payload
+  const { projectId, data, potentielIdentifier } = event.payload;
 
   try {
     await Project.create({
@@ -12,9 +12,9 @@ export const onProjectImported = (models) => async (event: ProjectImported) => {
       ...data,
       evaluationCarboneDeRéférence: data.evaluationCarbone,
       potentielIdentifier,
-    })
+    });
   } catch (e) {
-    logger.error(e)
-    logger.info('Error: onProjectImported projection failed to update project', event)
+    logger.error(e);
+    logger.info('Error: onProjectImported projection failed to update project', event);
   }
-}
+};

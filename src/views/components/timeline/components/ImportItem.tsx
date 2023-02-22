@@ -1,6 +1,6 @@
-import React from 'react'
-import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
-import { ImportItemProps } from '../helpers/extractImportItemProps'
+import React from 'react';
+import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
+import { ImportItemProps } from '../helpers/extractImportItemProps';
 
 export const ImportItem = ({ date }: ImportItemProps) => (
   <>
@@ -10,4 +10,4 @@ export const ImportItem = ({ date }: ImportItemProps) => (
       <ItemTitle title="Projet Importé" />
     </ContentArea>
   </>
-)
+);

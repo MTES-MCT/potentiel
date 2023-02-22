@@ -1,1 +1,1 @@
-export * from './annulerRejetDélai'
+export * from './annulerRejetDélai';

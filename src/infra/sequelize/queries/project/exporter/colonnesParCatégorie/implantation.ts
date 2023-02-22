@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const implantation: Readonly<Array<Colonne>> = [
   {
@@ -49,4 +49,4 @@ export const implantation: Readonly<Array<Colonne>> = [
     nomPropriété: `Codes cas 3\n(AO sol)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

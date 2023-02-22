@@ -1,19 +1,19 @@
-import React from 'react'
-import { getVolumeReserve } from '@modules/demandeModification'
-import { ProjectAppelOffre } from '@entities'
+import React from 'react';
+import { getVolumeReserve } from '@modules/demandeModification';
+import { ProjectAppelOffre } from '@entities';
 
 type AlertOnPuissanceExceedMaxProps = {
   project: {
-    appelOffre?: ProjectAppelOffre
-  }
-}
+    appelOffre?: ProjectAppelOffre;
+  };
+};
 export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMaxProps) => {
   if (!project.appelOffre) {
-    return null
+    return null;
   }
 
-  const { appelOffre } = project
-  const reservedVolume = getVolumeReserve(appelOffre)
+  const { appelOffre } = project;
+  const reservedVolume = getVolumeReserve(appelOffre);
 
   return reservedVolume ? (
     <div className="notification warning mt-4">
@@ -22,5 +22,5 @@ export const AlertePuissanceMaxDepassee = ({ project }: AlertOnPuissanceExceedMa
       d'offre. Dans ce cas{' '}
       <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
     </div>
-  ) : null
-}
+  ) : null;
+};

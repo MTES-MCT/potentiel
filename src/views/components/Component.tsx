@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Component = (props: string) => {
   return (
@@ -9,7 +9,7 @@ const Component = (props: string) => {
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Component
+export default Component;

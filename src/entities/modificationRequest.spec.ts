@@ -1,4 +1,4 @@
-import { makeModificationRequest } from '.'
+import { makeModificationRequest } from '.';
 
 describe('ModificationRequest entity', () => {
   it("should accept an 'actionnaire' request with actionnaire and filename", () => {
@@ -8,10 +8,10 @@ describe('ModificationRequest entity', () => {
       type: 'actionnaire',
       actionnaire: 'nouvel actionnaire',
       fileId: 'filename',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isOk()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isOk()).toBeTruthy();
+  });
 
   it("should refuse a 'actionnaire' request that is missing filename", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -19,10 +19,10 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'actionnaire',
       actionnaire: 'nouvel actionnaire',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should refuse a 'actionnaire' request that is missing actionnaire", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -30,10 +30,10 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'actionnaire',
       fileId: 'filename',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should accept an 'producteur' request with producteur and filename", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -42,10 +42,10 @@ describe('ModificationRequest entity', () => {
       type: 'producteur',
       producteur: 'nouveau producteur',
       fileId: 'filename',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isOk()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isOk()).toBeTruthy();
+  });
 
   it("should refuse a 'producteur' request that is missing filename", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -53,10 +53,10 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'producteur',
       producteur: 'nouvel producteur',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should refuse a 'producteur' request that is missing producteur", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -64,10 +64,10 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'producteur',
       fileId: 'filename',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should accept an 'fournisseur' request with fournisseur, evaluationCarbone, justification and filename", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -78,10 +78,10 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
       evaluationCarbone: 10,
       justification: 'because',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isOk()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isOk()).toBeTruthy();
+  });
 
   it("should refuse a 'fournisseur' request that is missing filename", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -91,10 +91,10 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       evaluationCarbone: 10,
       justification: 'because',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should refuse a 'fournisseur' request that is missing fournisseur", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -104,10 +104,10 @@ describe('ModificationRequest entity', () => {
       fileId: 'filename',
       evaluationCarbone: 10,
       justification: 'because',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should refuse a 'fournisseur' request that is missing evaluationCarbone", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -117,10 +117,10 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       fileId: 'filename',
       justification: 'because',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should refuse a 'fournisseur' request that is missing justification", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -130,10 +130,10 @@ describe('ModificationRequest entity', () => {
       fournisseur: 'nouvel fournisseur',
       fileId: 'filename',
       evaluationCarbone: 10,
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isErr()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isErr()).toBeTruthy();
+  });
 
   it("should accept an 'delai' request with justification and delayInMonths", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -142,10 +142,10 @@ describe('ModificationRequest entity', () => {
       type: 'delai',
       justification: 'because',
       delayInMonths: 2,
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isOk()).toBeTruthy()
-  })
+    expect(modificationRequestResult.isOk()).toBeTruthy();
+  });
 
   it("should set the status to 'envoyée' by default", () => {
     const modificationRequestResult = makeModificationRequest({
@@ -153,11 +153,11 @@ describe('ModificationRequest entity', () => {
       projectId: '1',
       type: 'abandon',
       justification: 'miaou',
-    } as any)
+    } as any);
 
-    expect(modificationRequestResult.isOk()).toBeTruthy()
+    expect(modificationRequestResult.isOk()).toBeTruthy();
 
-    const modificationRequest = modificationRequestResult.unwrap()
-    expect(modificationRequest.status).toEqual('envoyée')
-  })
-})
+    const modificationRequest = modificationRequestResult.unwrap();
+    expect(modificationRequest.status).toEqual('envoyée');
+  });
+});

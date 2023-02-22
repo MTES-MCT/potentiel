@@ -1,5 +1,5 @@
-import React from 'react'
-import { Request } from 'express'
+import React from 'react';
+import { Request } from 'express';
 import {
   Button,
   ErrorBox,
@@ -8,23 +8,23 @@ import {
   PageTemplate,
   ProjectInfo,
   SecondaryLinkButton,
-} from '@components'
-import routes from '@routes'
-import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
+} from '@components';
+import routes from '@routes';
+import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
+import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
 type SignalerDemandeRecoursProps = {
-  request: Request
-  project: ProjectDataForSignalerDemandeRecoursPage
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+  request: Request;
+  project: ProjectDataForSignalerDemandeRecoursPage;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 export const SignalerDemandeRecours = ({
   request,
   project,
   validationErrors,
 }: SignalerDemandeRecoursProps) => {
-  const { query, user } = request
-  const { error } = query as any
+  const { query, user } = request;
+  const { error } = query as any;
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
@@ -106,7 +106,7 @@ export const SignalerDemandeRecours = ({
         </form>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(SignalerDemandeRecours)
+hydrateOnClient(SignalerDemandeRecours);

@@ -1,10 +1,10 @@
-import { NotificationService } from '..'
-import { LegacyCandidateNotified } from '../../legacyCandidateNotification'
+import { NotificationService } from '..';
+import { LegacyCandidateNotified } from '../../legacyCandidateNotification';
 
 export const handleLegacyCandidateNotified =
   (deps: { sendNotification: NotificationService['sendNotification'] }) =>
   async (event: LegacyCandidateNotified) => {
-    const { email, importId } = event.payload
+    const { email, importId } = event.payload;
 
     deps.sendNotification({
       type: 'legacy-candidate-notification',
@@ -17,5 +17,5 @@ export const handleLegacyCandidateNotified =
         importId,
       },
       variables: {},
-    })
-  }
+    });
+  };

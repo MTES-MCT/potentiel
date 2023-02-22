@@ -3,21 +3,21 @@ import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
   InfraNotAvailableError,
-} from '@modules/shared'
-import { Result, ResultAsync } from '../utils'
-import { UniqueEntityID } from './UniqueEntityID'
+} from '@modules/shared';
+import { Result, ResultAsync } from '../utils';
+import { UniqueEntityID } from './UniqueEntityID';
 
 export type Repository<T> = {
   save: (
-    aggregate: T
-  ) => ResultAsync<null, InfraNotAvailableError | AggregateHasBeenUpdatedSinceError>
-  load: (id: UniqueEntityID) => ResultAsync<T, EntityNotFoundError | InfraNotAvailableError>
-}
+    aggregate: T,
+  ) => ResultAsync<null, InfraNotAvailableError | AggregateHasBeenUpdatedSinceError>;
+  load: (id: UniqueEntityID) => ResultAsync<T, EntityNotFoundError | InfraNotAvailableError>;
+};
 
 export type TransactionalRepository<T> = {
   transaction: <K, E>(
     id: UniqueEntityID,
     fn: (aggregate: T) => ResultAsync<K, E> | Result<K, E>,
-    opts?: { isNew?: boolean; acceptNew?: boolean }
-  ) => ResultAsync<K, E | EntityNotFoundError | InfraNotAvailableError | HeterogeneousHistoryError>
-}
+    opts?: { isNew?: boolean; acceptNew?: boolean },
+  ) => ResultAsync<K, E | EntityNotFoundError | InfraNotAvailableError | HeterogeneousHistoryError>;
+};

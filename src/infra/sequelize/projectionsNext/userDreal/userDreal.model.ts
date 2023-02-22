@@ -4,19 +4,19 @@ import {
   Model,
   CreationOptional,
   DataTypes,
-} from 'sequelize'
-import { makeSequelizeProjector } from '../../helpers'
-import { sequelizeInstance } from '../../../../sequelize.config'
-import { Users } from '../users'
-import { Région } from '@modules/dreal/région'
+} from 'sequelize';
+import { makeSequelizeProjector } from '../../helpers';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { Users } from '../users';
+import { Région } from '@modules/dreal/région';
 
 class UserDreal extends Model<InferAttributes<UserDreal>, InferCreationAttributes<UserDreal>> {
-  id: CreationOptional<number>
-  dreal: Région
-  userId: string
+  id: CreationOptional<number>;
+  dreal: Région;
+  userId: string;
 }
 
-const nomProjection = 'userDreals'
+const nomProjection = 'userDreals';
 
 UserDreal.init(
   {
@@ -40,11 +40,11 @@ UserDreal.init(
     tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-UserDreal.belongsTo(Users, { foreignKey: 'userId' })
+UserDreal.belongsTo(Users, { foreignKey: 'userId' });
 
-const UserDrealProjector = makeSequelizeProjector(UserDreal, nomProjection)
+const UserDrealProjector = makeSequelizeProjector(UserDreal, nomProjection);
 
-export { UserDreal, UserDrealProjector }
+export { UserDreal, UserDrealProjector };

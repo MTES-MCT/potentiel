@@ -1,12 +1,12 @@
-import { IconType } from '@react-icons/all-files/lib'
-import { Heading2 } from '@views/components'
-import React, { ComponentProps } from 'react'
+import { IconType } from '@react-icons/all-files/lib';
+import { Heading2 } from '@views/components';
+import React, { ComponentProps } from 'react';
 
 type SectionProps = ComponentProps<'div'> & {
-  title: string
-  icon?: IconType
-  children: React.ReactNode
-}
+  title: string;
+  icon?: IconType;
+  children: React.ReactNode;
+};
 
 export const Section = ({
   title,
@@ -25,4 +25,4 @@ export const Section = ({
     </Heading2>
     {children}
   </section>
-)
+);

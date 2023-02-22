@@ -1,19 +1,19 @@
-import type { Request } from 'express'
-import React from 'react'
-import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine'
-import routes from '@routes'
-import { Header, Footer } from '../../components'
-import { hydrateOnClient } from '../../helpers/hydrateOnClient'
-import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components'
+import type { Request } from 'express';
+import React from 'react';
+import { RiArrowRightCircleLine } from '@react-icons/all-files/ri/RiArrowRightCircleLine';
+import routes from '@routes';
+import { Header, Footer } from '../../components';
+import { hydrateOnClient } from '../../helpers/hydrateOnClient';
+import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
 
 type HomeProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const Home = (props: HomeProps) => {
   const {
     request: { user },
-  } = props
+  } = props;
 
   return (
     <>
@@ -35,7 +35,7 @@ export const Home = (props: HomeProps) => {
       </main>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-hydrateOnClient(Home)
+hydrateOnClient(Home);

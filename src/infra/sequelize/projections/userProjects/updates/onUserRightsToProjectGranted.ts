@@ -1,16 +1,16 @@
-import { logger } from '@core/utils'
-import { UserRightsToProjectGranted } from '@modules/authZ'
+import { logger } from '@core/utils';
+import { UserRightsToProjectGranted } from '@modules/authZ';
 
 export const onUserRightsToProjectGranted =
   (models) => async (event: UserRightsToProjectGranted) => {
-    const { UserProjects } = models
-    const { userId, projectId } = event.payload
+    const { UserProjects } = models;
+    const { userId, projectId } = event.payload;
     try {
       await UserProjects.create({
         userId,
         projectId,
-      })
+      });
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

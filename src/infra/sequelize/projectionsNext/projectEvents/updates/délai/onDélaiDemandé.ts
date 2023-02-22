@@ -1,18 +1,18 @@
-import { logger } from '@core/utils'
-import { DélaiDemandé } from '@modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
+import { logger } from '@core/utils';
+import { DélaiDemandé } from '@modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 
 export default ProjectEventProjector.on(DélaiDemandé, async (évènement, transaction) => {
   const {
     payload: { demandeDélaiId, projetId, autorité, dateAchèvementDemandée, porteurId },
     occurredAt,
-  } = évènement
+  } = évènement;
 
   const demandeDélai = await ProjectEvent.findOne({
     where: { id: demandeDélaiId, type: 'DemandeDélai' },
     transaction,
-  })
+  });
 
   if (demandeDélai) {
     try {
@@ -25,8 +25,8 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
             demandeur: porteurId,
           },
         },
-        { where: { id: demandeDélaiId }, transaction }
-      )
+        { where: { id: demandeDélaiId }, transaction },
+      );
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -35,11 +35,11 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
             évènement,
             nomProjection: 'ProjectEvent.onDélaiDemandé',
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-    return
+    return;
   }
 
   try {
@@ -57,8 +57,8 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
           demandeur: porteurId,
         },
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -67,8 +67,8 @@ export default ProjectEventProjector.on(DélaiDemandé, async (évènement, tran
           évènement,
           nomProjection: 'ProjectEvent.onDélaiDemandé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

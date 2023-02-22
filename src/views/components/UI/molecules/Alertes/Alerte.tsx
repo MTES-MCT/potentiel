@@ -1,29 +1,29 @@
-import React, { ComponentProps, FC } from 'react'
-import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../../atoms'
+import React, { ComponentProps, FC } from 'react';
+import { ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from '../../atoms';
 
-type TypesAlerte = 'Erreur' | 'Succès' | 'Information' | 'Attention'
+type TypesAlerte = 'Erreur' | 'Succès' | 'Information' | 'Attention';
 
 type AlerteProps = ComponentProps<'div'> & {
-  type: TypesAlerte
-  title?: string
-}
+  type: TypesAlerte;
+  title?: string;
+};
 
 type PictoAlerteProps = ComponentProps<'svg'> & {
-  type: TypesAlerte
-}
+  type: TypesAlerte;
+};
 
 const PictoAlerte: FC<PictoAlerteProps> = ({ type, className = '' }) => {
   switch (type) {
     case 'Erreur':
-      return <ErrorIcon {...{ className }} title="Information erreur" />
+      return <ErrorIcon {...{ className }} title="Information erreur" />;
     case 'Succès':
-      return <SuccessIcon {...{ className }} title="Information succès" />
+      return <SuccessIcon {...{ className }} title="Information succès" />;
     case 'Information':
-      return <InfoIcon {...{ className }} title="Information" />
+      return <InfoIcon {...{ className }} title="Information" />;
     case 'Attention':
-      return <WarningIcon {...{ className }} title="Information alerte" />
+      return <WarningIcon {...{ className }} title="Information alerte" />;
   }
-}
+};
 
 const couleurs: Record<TypesAlerte, { backgroundColor: string; borderColor: string }> = {
   Attention: {
@@ -42,7 +42,7 @@ const couleurs: Record<TypesAlerte, { backgroundColor: string; borderColor: stri
     backgroundColor: 'bg-success-425-base',
     borderColor: 'border-success-425-base',
   },
-}
+};
 
 export const Alerte: FC<AlerteProps> = ({
   type,
@@ -51,8 +51,8 @@ export const Alerte: FC<AlerteProps> = ({
   className = '',
   ...props
 }: AlerteProps) => {
-  const { backgroundColor, borderColor } = couleurs[type]
-  const petiteAlerte = !title
+  const { backgroundColor, borderColor } = couleurs[type];
+  const petiteAlerte = !title;
 
   return (
     <div className={`${className}`} {...props}>
@@ -69,5 +69,5 @@ export const Alerte: FC<AlerteProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

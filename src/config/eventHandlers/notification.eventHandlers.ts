@@ -1,5 +1,5 @@
-import { UserInvitedToProject } from '@modules/authZ'
-import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification'
+import { UserInvitedToProject } from '@modules/authZ';
+import { LegacyCandidateNotified } from '@modules/legacyCandidateNotification';
 import {
   ConfirmationRequested,
   ModificationReceived,
@@ -8,7 +8,7 @@ import {
   ModificationRequested,
   ModificationRequestInstructionStarted,
   ModificationRequestRejected,
-} from '@modules/modificationRequest'
+} from '@modules/modificationRequest';
 import {
   handleLegacyCandidateNotified,
   handleModificationReceived,
@@ -20,44 +20,44 @@ import {
   handleProjectGFSubmitted,
   handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
-} from '@modules/notification'
+} from '@modules/notification';
 import {
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
   ProjectGFSubmitted,
   CahierDesChargesChoisi,
   ProjectCompletionDueDateSet,
-} from '@modules/project'
-import { sendNotification } from '../emails.config'
-import { eventStore } from '../eventStore.config'
+} from '@modules/project';
+import { sendNotification } from '../emails.config';
+import { eventStore } from '../eventStore.config';
 import {
   getInfoForModificationRequested,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
-} from '../queries.config'
-import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config'
+} from '../queries.config';
+import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
   projectRepo,
   getUsersForProject: oldProjectRepo.getUsers,
-})
+});
 
-eventStore.subscribe(ProjectCertificateUpdated.type, projectCertificateChangeHandler)
-eventStore.subscribe(ProjectCertificateRegenerated.type, projectCertificateChangeHandler)
+eventStore.subscribe(ProjectCertificateUpdated.type, projectCertificateChangeHandler);
+eventStore.subscribe(ProjectCertificateRegenerated.type, projectCertificateChangeHandler);
 
 const modificationRequestStatusChangeHandler = handleModificationRequestStatusChanged({
   sendNotification,
   getModificationRequestInfoForStatusNotification,
-})
+});
 eventStore.subscribe(
   ModificationRequestInstructionStarted.type,
-  modificationRequestStatusChangeHandler
-)
-eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler)
-eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatusChangeHandler)
-eventStore.subscribe(ConfirmationRequested.type, modificationRequestStatusChangeHandler)
-eventStore.subscribe(ModificationRequestCancelled.type, modificationRequestStatusChangeHandler)
+  modificationRequestStatusChangeHandler,
+);
+eventStore.subscribe(ModificationRequestAccepted.type, modificationRequestStatusChangeHandler);
+eventStore.subscribe(ModificationRequestRejected.type, modificationRequestStatusChangeHandler);
+eventStore.subscribe(ConfirmationRequested.type, modificationRequestStatusChangeHandler);
+eventStore.subscribe(ModificationRequestCancelled.type, modificationRequestStatusChangeHandler);
 
 eventStore.subscribe(
   ModificationRequested.type,
@@ -66,8 +66,8 @@ eventStore.subscribe(
     getInfoForModificationRequested,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   ProjectGFSubmitted.type,
@@ -76,12 +76,12 @@ eventStore.subscribe(
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 
 if (!process.env.DGEC_EMAIL) {
-  console.error('ERROR: DGEC_EMAIL is not set')
-  process.exit(1)
+  console.error('ERROR: DGEC_EMAIL is not set');
+  process.exit(1);
 }
 
 eventStore.subscribe(
@@ -92,8 +92,8 @@ eventStore.subscribe(
     getModificationRequestInfo: getModificationRequestInfoForStatusNotification,
     getModificationRequestRecipient,
     dgecEmail: process.env.DGEC_EMAIL,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   ModificationReceived.type,
@@ -102,8 +102,8 @@ eventStore.subscribe(
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   UserInvitedToProject.type,
@@ -111,8 +111,8 @@ eventStore.subscribe(
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   CahierDesChargesChoisi.type,
@@ -120,15 +120,15 @@ eventStore.subscribe(
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   LegacyCandidateNotified.type,
   handleLegacyCandidateNotified({
     sendNotification,
-  })
-)
+  }),
+);
 
 eventStore.subscribe(
   ProjectCompletionDueDateSet.type,
@@ -137,8 +137,8 @@ eventStore.subscribe(
     getProjectUsers: oldProjectRepo.getUsers,
     getProjectById: oldProjectRepo.findById,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
-  })
-)
+  }),
+);
 
-console.log('Notification Event Handlers Initialized')
-export const notificationHandlersOk = true
+console.log('Notification Event Handlers Initialized');
+export const notificationHandlersOk = true;

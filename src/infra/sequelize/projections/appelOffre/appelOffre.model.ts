@@ -1,7 +1,7 @@
-import { DataTypes } from 'sequelize'
-import { makeProjector } from '../../helpers'
+import { DataTypes } from 'sequelize';
+import { makeProjector } from '../../helpers';
 
-export const appelOffreProjector = makeProjector()
+export const appelOffreProjector = makeProjector();
 
 export const MakeAppelOffreModel = (sequelize) => {
   const AppelOffre = sequelize.define(
@@ -18,14 +18,14 @@ export const MakeAppelOffreModel = (sequelize) => {
     },
     {
       timestamps: true,
-    }
-  )
+    },
+  );
 
   AppelOffre.associate = (models) => {
     // Add belongsTo etc. statements here
-  }
+  };
 
-  AppelOffre.projector = appelOffreProjector
+  AppelOffre.projector = appelOffreProjector;
 
-  return AppelOffre
-}
+  return AppelOffre;
+};

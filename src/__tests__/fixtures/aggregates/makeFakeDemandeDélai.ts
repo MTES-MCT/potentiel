@@ -1,13 +1,13 @@
-import { UniqueEntityID } from '@core/domain'
-import { DemandeDélai, StatutDemandeDélai } from '@modules/demandeModification'
+import { UniqueEntityID } from '@core/domain';
+import { DemandeDélai, StatutDemandeDélai } from '@modules/demandeModification';
 
 export const makeFakeDemandeDélai = (overide?: {
-  id?: string
-  statut?: StatutDemandeDélai
-  projetId?: string
-  ancienneDateThéoriqueAchèvement?: string
-  dateAchèvementAccordée?: string
-  délaiEnMoisAccordé?: number
+  id?: string;
+  statut?: StatutDemandeDélai;
+  projetId?: string;
+  ancienneDateThéoriqueAchèvement?: string;
+  dateAchèvementAccordée?: string;
+  délaiEnMoisAccordé?: number;
 }): DemandeDélai => ({
   pendingEvents: [],
   id: new UniqueEntityID(overide?.id) || new UniqueEntityID(),
@@ -16,4 +16,4 @@ export const makeFakeDemandeDélai = (overide?: {
   ancienneDateThéoriqueAchèvement: overide?.ancienneDateThéoriqueAchèvement,
   dateAchèvementAccordée: overide?.dateAchèvementAccordée,
   délaiEnMoisAccordé: overide?.délaiEnMoisAccordé,
-})
+});

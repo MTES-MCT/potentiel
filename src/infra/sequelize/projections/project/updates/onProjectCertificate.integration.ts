@@ -1,20 +1,20 @@
-import { resetDatabase } from '../../../helpers'
+import { resetDatabase } from '../../../helpers';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectCertificateUpdated,
-} from '@modules/project'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import models from '../../../models'
-import { onProjectCertificate } from './onProjectCertificate'
-import { v4 as uuid } from 'uuid'
+} from '@modules/project';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import models from '../../../models';
+import { onProjectCertificate } from './onProjectCertificate';
+import { v4 as uuid } from 'uuid';
 
 describe('project.onProjectCertificate', () => {
-  const projectId = uuid()
-  const fakeProjectId = uuid()
+  const projectId = uuid();
+  const fakeProjectId = uuid();
 
-  const certificateFile1 = uuid()
-  const certificateFile2 = uuid()
+  const certificateFile1 = uuid();
+  const certificateFile2 = uuid();
 
   const fakeProjects = [
     {
@@ -25,21 +25,21 @@ describe('project.onProjectCertificate', () => {
       id: fakeProjectId,
       certificateFileId: null,
     },
-  ].map(makeFakeProject)
+  ].map(makeFakeProject);
 
-  const ProjectModel = models.Project
-  const FileModel = models.File
+  const ProjectModel = models.Project;
+  const FileModel = models.File;
 
   beforeEach(async () => {
-    await resetDatabase()
+    await resetDatabase();
 
-    await ProjectModel.bulkCreate(fakeProjects)
+    await ProjectModel.bulkCreate(fakeProjects);
     await FileModel.create({
       id: certificateFile1,
       filename: '',
       designation: '',
-    })
-  })
+    });
+  });
 
   it('should update project.certificateFileId on ProjectCertificateGenerated', async () => {
     await onProjectCertificate(models)(
@@ -52,16 +52,16 @@ describe('project.onProjectCertificate', () => {
           periodeId: '',
           appelOffreId: '',
         },
-      })
-    )
+      }),
+    );
 
-    const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject?.certificateFileId).toEqual(certificateFile2)
+    const updatedProject = await ProjectModel.findByPk(projectId);
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile2);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
-    expect(nonUpdatedProject).toBeDefined()
-    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
-  })
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    expect(nonUpdatedProject).toBeDefined();
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null);
+  });
 
   it('should update project.certificateFileId on ProjectCertificateRegenerated', async () => {
     await onProjectCertificate(models)(
@@ -71,16 +71,16 @@ describe('project.onProjectCertificate', () => {
           projectId: projectId,
           projectVersionDate: new Date(0),
         },
-      })
-    )
+      }),
+    );
 
-    const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject?.certificateFileId).toEqual(certificateFile1)
+    const updatedProject = await ProjectModel.findByPk(projectId);
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile1);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
-    expect(nonUpdatedProject).toBeDefined()
-    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
-  })
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    expect(nonUpdatedProject).toBeDefined();
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null);
+  });
 
   it('should update project.certificateFileId on ProjectCertificateUpdated', async () => {
     await onProjectCertificate(models)(
@@ -90,14 +90,14 @@ describe('project.onProjectCertificate', () => {
           projectId: projectId,
           uploadedBy: 'user1',
         },
-      })
-    )
+      }),
+    );
 
-    const updatedProject = await ProjectModel.findByPk(projectId)
-    expect(updatedProject?.certificateFileId).toEqual(certificateFile1)
+    const updatedProject = await ProjectModel.findByPk(projectId);
+    expect(updatedProject?.certificateFileId).toEqual(certificateFile1);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId)
-    expect(nonUpdatedProject).toBeDefined()
-    expect(nonUpdatedProject?.certificateFileId).toEqual(null)
-  })
-})
+    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    expect(nonUpdatedProject).toBeDefined();
+    expect(nonUpdatedProject?.certificateFileId).toEqual(null);
+  });
+});

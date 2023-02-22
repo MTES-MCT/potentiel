@@ -1,15 +1,15 @@
-import { logger } from '@core/utils'
-import { RejetDélaiAnnulé } from '@modules/demandeModification'
-import routes from '@routes'
-import { NotificationService } from '../..'
-import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification'
+import { logger } from '@core/utils';
+import { RejetDélaiAnnulé } from '@modules/demandeModification';
+import routes from '@routes';
+import { NotificationService } from '../..';
+import { GetModificationRequestInfoForStatusNotification } from '../../../modificationRequest/queries/GetModificationRequestInfoForStatusNotification';
 
-type OnRejetDélaiAnnulé = (evenement: RejetDélaiAnnulé) => Promise<void>
+type OnRejetDélaiAnnulé = (evenement: RejetDélaiAnnulé) => Promise<void>;
 
 type MakeOnRejetDélaiAnnulé = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-}) => OnRejetDélaiAnnulé
+  sendNotification: NotificationService['sendNotification'];
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+}) => OnRejetDélaiAnnulé;
 
 export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
   ({ sendNotification, getModificationRequestInfoForStatusNotification }) =>
@@ -18,7 +18,7 @@ export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
-          return
+          return;
         }
         await Promise.all(
           porteursProjet.map(({ email, fullName, id }) =>
@@ -31,24 +31,24 @@ export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
               modificationRequestId: demandeDélaiId,
               status: 'repassée en statut "envoyée"',
               hasDocument: false,
-            })
-          )
-        )
+            }),
+          ),
+        );
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
     function _sendUpdateNotification(args: {
-      email: string
-      fullName: string
-      typeDemande: string
-      nomProjet: string
-      modificationRequestId: string
-      porteurId: string
-      status: string
-      hasDocument: boolean
+      email: string;
+      fullName: string;
+      typeDemande: string;
+      nomProjet: string;
+      modificationRequestId: string;
+      porteurId: string;
+      status: string;
+      hasDocument: boolean;
     }) {
       const {
         email,
@@ -59,7 +59,7 @@ export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
         porteurId,
         status,
         hasDocument,
-      } = args
+      } = args;
       return sendNotification({
         type: 'modification-request-status-update',
         message: {
@@ -78,6 +78,6 @@ export const makeOnRejetDélaiAnnulé: MakeOnRejetDélaiAnnulé =
           modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
-      })
+      });
     }
-  }
+  };

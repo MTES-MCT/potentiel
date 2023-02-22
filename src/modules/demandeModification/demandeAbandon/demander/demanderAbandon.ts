@@ -1,34 +1,34 @@
-import { errAsync, okAsync } from 'neverthrow'
-import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { wrapInfra, ResultAsync } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { AbandonDemandé } from '../events'
-import { FileContents, FileObject, makeFileObject } from '../../../file'
-import { AppelOffreRepo } from '@dataAccess'
-import { GetProjectAppelOffreId } from '../../../modificationRequest'
-import { Project } from '@modules/project'
-import { DemanderAbandonError } from './DemanderAbandonError'
-import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification/demandeDélai/demander'
+import { errAsync, okAsync } from 'neverthrow';
+import { EventStore, Repository, UniqueEntityID } from '@core/domain';
+import { wrapInfra, ResultAsync } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { AbandonDemandé } from '../events';
+import { FileContents, FileObject, makeFileObject } from '../../../file';
+import { AppelOffreRepo } from '@dataAccess';
+import { GetProjectAppelOffreId } from '../../../modificationRequest';
+import { Project } from '@modules/project';
+import { DemanderAbandonError } from './DemanderAbandonError';
+import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification/demandeDélai/demander';
 
 type DemanderAbandon = (commande: {
-  user: User
-  projectId: string
-  justification?: string
+  user: User;
+  projectId: string;
+  justification?: string;
   file?: {
-    contents: FileContents
-    filename: string
-  }
-}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError>
+    contents: FileContents;
+    filename: string;
+  };
+}) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError>;
 
 type MakeDemanderAbandon = (dépendances: {
-  publishToEventStore: EventStore['publish']
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  fileRepo: Repository<FileObject>
-  findAppelOffreById: AppelOffreRepo['findById']
-  getProjectAppelOffreId: GetProjectAppelOffreId
-  projectRepo: Repository<Project>
-}) => DemanderAbandon
+  publishToEventStore: EventStore['publish'];
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  fileRepo: Repository<FileObject>;
+  findAppelOffreById: AppelOffreRepo['findById'];
+  getProjectAppelOffreId: GetProjectAppelOffreId;
+  projectRepo: Repository<Project>;
+}) => DemanderAbandon;
 
 export const makeDemanderAbandon: MakeDemanderAbandon =
   ({
@@ -43,36 +43,38 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
     return wrapInfra(shouldUserAccessProject({ user, projectId }))
       .andThen((utilisateurALesDroits) => {
         if (!utilisateurALesDroits) {
-          return errAsync(new UnauthorizedError())
+          return errAsync(new UnauthorizedError());
         }
-        return okAsync(null)
+        return okAsync(null);
       })
       .andThen(() => {
-        return projectRepo.load(new UniqueEntityID(projectId))
+        return projectRepo.load(new UniqueEntityID(projectId));
       })
       .andThen((project) => {
         if (!project.isClasse) {
-          return errAsync(new DemanderAbandonError(`Un projet éliminé ne peut pas être abandonné.`))
+          return errAsync(
+            new DemanderAbandonError(`Un projet éliminé ne peut pas être abandonné.`),
+          );
         }
         if (project.abandonedOn > 0) {
-          return errAsync(new DemanderAbandonError(`Le projet est déjà abandonné.`))
+          return errAsync(new DemanderAbandonError(`Le projet est déjà abandonné.`));
         }
-        return okAsync(project)
+        return okAsync(project);
       })
       .andThen((project) => {
         return getProjectAppelOffreId(projectId).andThen((appelOffreId) => {
           return wrapInfra(findAppelOffreById(appelOffreId)).map((appelOffre) => ({
             appelOffre,
             project,
-          }))
-        })
+          }));
+        });
       })
       .andThen(({ appelOffre, project }) => {
         if (
           project.cahierDesCharges.type === 'initial' &&
           appelOffre?.choisirNouveauCahierDesCharges
         ) {
-          return errAsync(new NouveauCahierDesChargesNonChoisiError())
+          return errAsync(new NouveauCahierDesChargesNonChoisiError());
         }
 
         if (file) {
@@ -86,14 +88,14 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
             fileRepo.save(file).map(() => ({
               fileId: file.id.toString(),
               project,
-            }))
-          )
+            })),
+          );
         }
 
         return okAsync({
           fileId: undefined,
           project,
-        })
+        });
       })
       .andThen(({ fileId, project }) => {
         return publishToEventStore(
@@ -107,7 +109,7 @@ export const makeDemanderAbandon: MakeDemanderAbandon =
               porteurId: user.id,
               cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
-          })
-        )
-      })
-  }
+          }),
+        );
+      });
+  };

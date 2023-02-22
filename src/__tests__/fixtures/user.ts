@@ -4,10 +4,10 @@ export default function makeFakeUser(overrides?) {
     role: 'admin',
     email: 'fake@email.com',
     fonction: undefined,
-  }
+  };
 
   return {
     ...defaultObj,
     ...overrides,
-  }
+  };
 }

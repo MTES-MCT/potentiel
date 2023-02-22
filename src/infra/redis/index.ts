@@ -1,2 +1,2 @@
-export * from './redisPublish'
-export * from './redisSubscribe'
+export * from './redisPublish';
+export * from './redisSubscribe';

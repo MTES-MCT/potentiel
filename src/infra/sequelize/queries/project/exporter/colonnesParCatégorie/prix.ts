@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const prix: Readonly<Array<Colonne>> = [
   {
@@ -14,4 +14,4 @@ export const prix: Readonly<Array<Colonne>> = [
     nomPropriété: `Prix de référence (€/MWh)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

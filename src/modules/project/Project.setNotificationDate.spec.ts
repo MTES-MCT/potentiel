@@ -1,12 +1,12 @@
-import moment from 'moment'
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { logger, UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
+import moment from 'moment';
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { logger, UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { IllegalProjectStateError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
 import {
   LegacyProjectSourced,
   ProjectCompletionDueDateSet,
@@ -15,19 +15,19 @@ import {
   ProjectImported,
   ProjectNotificationDateSet,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
   return [
@@ -42,8 +42,8 @@ const makeFakeHistory = (fakeProject: any): DomainEvent[] => {
         potentielIdentifier: '',
       },
     }),
-  ]
-}
+  ];
+};
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -77,11 +77,11 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.setNotificationDate()', () => {
   describe('when the given date is different than the current date', () => {
-    const newNotifiedOn = 123 + 24 * 60 * 60 * 1000
+    const newNotifiedOn = 123 + 24 * 60 * 60 * 1000;
 
     it('should emit a ProjectNotificationDateSet', () => {
       const project = UnwrapForTest(
@@ -90,30 +90,30 @@ describe('Project.setNotificationDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+      const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-      expect(res.isOk()).toBe(true)
-      if (res.isErr()) return
+      expect(res.isOk()).toBe(true);
+      if (res.isErr()) return;
 
-      expect(project.pendingEvents).not.toHaveLength(0)
+      expect(project.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectNotificationDateSet.type
-      ) as ProjectNotificationDateSet | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectNotificationDateSet.type,
+      ) as ProjectNotificationDateSet | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.notifiedOn).toEqual(newNotifiedOn)
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.setBy).toEqual(fakeUser.id)
-    })
+      expect(targetEvent.payload.notifiedOn).toEqual(newNotifiedOn);
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.setBy).toEqual(fakeUser.id);
+    });
 
     describe('when project is classé', () => {
-      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé', appelOffreId })
-      const fakeHistory = makeFakeHistory(fakeProjectData)
+      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Classé', appelOffreId });
+      const fakeHistory = makeFakeHistory(fakeProjectData);
 
       const project = UnwrapForTest(
         makeProject({
@@ -121,42 +121,42 @@ describe('Project.setNotificationDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       beforeAll(() => {
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-        if (res.isErr()) logger.error(res.error)
-        expect(res.isOk()).toBe(true)
-      })
+        if (res.isErr()) logger.error(res.error);
+        expect(res.isOk()).toBe(true);
+      });
 
       it('should trigger ProjectDCRDueDateSet', () => {
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectDCRDueDateSet.type
-        ) as ProjectDCRDueDateSet | undefined
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
+          (item) => item.type === ProjectDCRDueDateSet.type,
+        ) as ProjectDCRDueDateSet | undefined;
+        expect(targetEvent).toBeDefined();
+        if (!targetEvent) return;
 
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         expect(targetEvent.payload.dcrDueOn).toEqual(
-          moment(newNotifiedOn).add(2, 'months').toDate().getTime()
-        )
-      })
+          moment(newNotifiedOn).add(2, 'months').toDate().getTime(),
+        );
+      });
 
       it('should trigger ProjectCompletionDueDateSet', () => {
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectCompletionDueDateSet.type
-        ) as ProjectCompletionDueDateSet | undefined
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
+          (item) => item.type === ProjectCompletionDueDateSet.type,
+        ) as ProjectCompletionDueDateSet | undefined;
+        expect(targetEvent).toBeDefined();
+        if (!targetEvent) return;
 
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         expect(targetEvent.payload.completionDueOn).toEqual(
-          moment(newNotifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime()
-        )
-      })
-    })
+          moment(newNotifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime(),
+        );
+      });
+    });
 
     describe('when project already had a updated completion due date', () => {
       const fakeHistoryWithCompletionDateMoved = [
@@ -169,7 +169,7 @@ describe('Project.setNotificationDate()', () => {
         new ProjectCompletionDueDateSet({
           payload: { projectId: projectId.toString(), completionDueOn: 4567 },
         }),
-      ]
+      ];
 
       const project = UnwrapForTest(
         makeProject({
@@ -177,27 +177,27 @@ describe('Project.setNotificationDate()', () => {
           history: fakeHistoryWithCompletionDateMoved,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       beforeAll(() => {
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-        if (res.isErr()) logger.error(res.error)
-        expect(res.isOk()).toBe(true)
-      })
+        if (res.isErr()) logger.error(res.error);
+        expect(res.isOk()).toBe(true);
+      });
 
       it('should not trigger ProjectCompletionDueDateSet', () => {
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectCompletionDueDateSet.type
-        ) as ProjectCompletionDueDateSet | undefined
-        expect(targetEvent).not.toBeDefined()
-      })
-    })
+          (item) => item.type === ProjectCompletionDueDateSet.type,
+        ) as ProjectCompletionDueDateSet | undefined;
+        expect(targetEvent).not.toBeDefined();
+      });
+    });
 
     describe('when project is éliminé', () => {
-      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Eliminé' })
-      const fakeHistory = makeFakeHistory(fakeProjectData)
+      const fakeProjectData = makeFakeProject({ notifiedOn: 123, classe: 'Eliminé' });
+      const fakeHistory = makeFakeHistory(fakeProjectData);
 
       it('should not trigger ProjectDCRDueDateSet', () => {
         const project = UnwrapForTest(
@@ -206,20 +206,20 @@ describe('Project.setNotificationDate()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+          }),
+        );
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-        if (res.isErr()) logger.error(res.error)
-        expect(res.isOk()).toBe(true)
-        if (res.isErr()) return
+        if (res.isErr()) logger.error(res.error);
+        expect(res.isOk()).toBe(true);
+        if (res.isErr()) return;
 
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectDCRDueDateSet.type
-        ) as ProjectDCRDueDateSet | undefined
-        expect(targetEvent).not.toBeDefined()
-      })
-    })
+          (item) => item.type === ProjectDCRDueDateSet.type,
+        ) as ProjectDCRDueDateSet | undefined;
+        expect(targetEvent).not.toBeDefined();
+      });
+    });
 
     describe('when project family warrants a garantie financiere', () => {
       const fakeProjectData = makeFakeProject({
@@ -228,8 +228,8 @@ describe('Project.setNotificationDate()', () => {
         periodeId: '2',
         familleId: '1',
         classe: 'Classé',
-      })
-      const fakeHistory = makeFakeHistory(fakeProjectData)
+      });
+      const fakeHistory = makeFakeHistory(fakeProjectData);
 
       it('should trigger ProjectGFDueDateSet', () => {
         const project = UnwrapForTest(
@@ -238,26 +238,26 @@ describe('Project.setNotificationDate()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+          }),
+        );
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-        if (res.isErr()) logger.error(res.error)
-        expect(res.isOk()).toBe(true)
-        if (res.isErr()) return
+        if (res.isErr()) logger.error(res.error);
+        expect(res.isOk()).toBe(true);
+        if (res.isErr()) return;
 
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectGFDueDateSet.type
-        ) as ProjectGFDueDateSet | undefined
-        expect(targetEvent).toBeDefined()
-        if (!targetEvent) return
+          (item) => item.type === ProjectGFDueDateSet.type,
+        ) as ProjectGFDueDateSet | undefined;
+        expect(targetEvent).toBeDefined();
+        if (!targetEvent) return;
 
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         expect(targetEvent.payload.garantiesFinancieresDueOn).toEqual(
-          moment(newNotifiedOn).add(2, 'months').toDate().getTime()
-        )
-      })
-    })
+          moment(newNotifiedOn).add(2, 'months').toDate().getTime(),
+        );
+      });
+    });
 
     describe('when project family does not warrant a garantie financiere', () => {
       const fakeProjectData = makeFakeProject({
@@ -266,8 +266,8 @@ describe('Project.setNotificationDate()', () => {
         periodeId: '2',
         familleId: '3',
         classe: 'Classé',
-      })
-      const fakeHistory = makeFakeHistory(fakeProjectData)
+      });
+      const fakeHistory = makeFakeHistory(fakeProjectData);
 
       it('should not trigger ProjectGFDueDateSet', () => {
         const project = UnwrapForTest(
@@ -276,21 +276,21 @@ describe('Project.setNotificationDate()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
-        const res = project.setNotificationDate(fakeUser, newNotifiedOn)
+          }),
+        );
+        const res = project.setNotificationDate(fakeUser, newNotifiedOn);
 
-        if (res.isErr()) logger.error(res.error)
-        expect(res.isOk()).toBe(true)
-        if (res.isErr()) return
+        if (res.isErr()) logger.error(res.error);
+        expect(res.isOk()).toBe(true);
+        if (res.isErr()) return;
 
         const targetEvent = project.pendingEvents.find(
-          (item) => item.type === ProjectGFDueDateSet.type
-        ) as ProjectGFDueDateSet | undefined
-        expect(targetEvent).not.toBeDefined()
-      })
-    })
-  })
+          (item) => item.type === ProjectGFDueDateSet.type,
+        ) as ProjectGFDueDateSet | undefined;
+        expect(targetEvent).not.toBeDefined();
+      });
+    });
+  });
 
   describe('when the given date is the same as the current date', () => {
     it('should not emit', () => {
@@ -300,17 +300,17 @@ describe('Project.setNotificationDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.setNotificationDate(fakeUser, 123)
+      const res = project.setNotificationDate(fakeUser, 123);
 
-      expect(res.isOk()).toBe(true)
-      if (res.isErr()) return
+      expect(res.isOk()).toBe(true);
+      if (res.isErr()) return;
 
-      expect(project.pendingEvents).toHaveLength(0)
-    })
-  })
+      expect(project.pendingEvents).toHaveLength(0);
+    });
+  });
 
   describe('when project is not notified', () => {
     it('should return a ProjectCannotBeUpdatedIfUnnotifiedError', () => {
@@ -321,16 +321,16 @@ describe('Project.setNotificationDate()', () => {
           getProjectAppelOffre,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.setNotificationDate(fakeUser, 1)
+      const res = project.setNotificationDate(fakeUser, 1);
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
 
   describe('when new notifiedOn is 0', () => {
     it('should return a IllegalProjectStateError', () => {
@@ -341,14 +341,14 @@ describe('Project.setNotificationDate()', () => {
           history: fakeHistory,
           getProjectAppelOffre,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.setNotificationDate(fakeUser, 0)
+      const res = project.setNotificationDate(fakeUser, 0);
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(IllegalProjectStateError)
-    })
-  })
-})
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(IllegalProjectStateError);
+    });
+  });
+});

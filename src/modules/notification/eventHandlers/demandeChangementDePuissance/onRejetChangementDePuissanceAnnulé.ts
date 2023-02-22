@@ -1,15 +1,15 @@
-import { logger } from '@core/utils'
-import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
-import { NotifierPorteurChangementStatutDemande } from '../..'
+import { logger } from '@core/utils';
+import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification';
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
+import { NotifierPorteurChangementStatutDemande } from '../..';
 type OnRejetChangementDePuissanceAnnulé = (
-  evenement: RejetChangementDePuissanceAnnulé
-) => Promise<void>
+  evenement: RejetChangementDePuissanceAnnulé,
+) => Promise<void>;
 
 type MakeOnRejetChangementDePuissanceRecoursAnnulé = (dépendances: {
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-  notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande
-}) => OnRejetChangementDePuissanceAnnulé
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+  notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande;
+}) => OnRejetChangementDePuissanceAnnulé;
 
 export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePuissanceRecoursAnnulé =
 
@@ -19,7 +19,7 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
         async ({ porteursProjet, nomProjet, type }) => {
           if (!porteursProjet || !porteursProjet.length) {
             // no registered user for this projet, no one to warn
-            return
+            return;
           }
           await Promise.all(
             porteursProjet.map(({ email, fullName, id }) =>
@@ -32,12 +32,12 @@ export const makeOnRejetChangementDePuissanceAnnulé: MakeOnRejetChangementDePui
                 modificationRequestId: demandeChangementDePuissanceId,
                 status: 'repassée en statut "envoyée"',
                 hasDocument: false,
-              })
-            )
-          )
+              }),
+            ),
+          );
         },
         (e: Error) => {
-          logger.error(e)
-        }
-      )
-    }
+          logger.error(e);
+        },
+      );
+    };

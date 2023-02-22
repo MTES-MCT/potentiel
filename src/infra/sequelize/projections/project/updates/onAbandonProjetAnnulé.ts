@@ -1,21 +1,21 @@
-import { logger } from '@core/utils'
-import { AbandonProjetAnnulé } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
+import { logger } from '@core/utils';
+import { AbandonProjetAnnulé } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonProjetAnnulé) => {
   const {
     payload: { dateAchèvement, dateLimiteEnvoiDcr, projetId },
-  } = évènement
+  } = évènement;
 
-  const { Project } = models
+  const { Project } = models;
 
-  const instanceDuProjet = await Project.findByPk(évènement.payload.projetId)
+  const instanceDuProjet = await Project.findByPk(évènement.payload.projetId);
 
   if (!instanceDuProjet) {
     logger.error(
-      `Error: onAbandonProjetAnnulé n'a pas pu retrouver le projet pour l'évènement : ${évènement}`
-    )
-    return
+      `Error: onAbandonProjetAnnulé n'a pas pu retrouver le projet pour l'évènement : ${évènement}`,
+    );
+    return;
   }
 
   try {
@@ -27,8 +27,8 @@ export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonPro
         }),
         completionDueOn: dateAchèvement.getTime(),
       },
-      { where: { id: projetId } }
-    )
+      { where: { id: projetId } },
+    );
   } catch (cause) {
     logger.error(
       new ProjectionEnEchec(
@@ -37,8 +37,8 @@ export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonPro
           nomProjection: 'onAbandonProjetAnnulé',
           évènement,
         },
-        cause
-      )
-    )
+        cause,
+      ),
+    );
   }
-}
+};

@@ -1,18 +1,18 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { LegacyProjectSourced } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { Raccordements, RaccordementsProjector } from '../raccordements.model'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { LegacyProjectSourced } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { Raccordements, RaccordementsProjector } from '../raccordements.model';
 
 export default RaccordementsProjector.on(LegacyProjectSourced, async (évènement, transaction) => {
   const {
     payload: { projectId: projetId },
-  } = évènement
+  } = évènement;
 
-  const entréeExistance = await Raccordements.findOne({ where: { projetId }, transaction })
+  const entréeExistance = await Raccordements.findOne({ where: { projetId }, transaction });
 
   if (entréeExistance) {
-    return
+    return;
   }
 
   try {
@@ -21,8 +21,8 @@ export default RaccordementsProjector.on(LegacyProjectSourced, async (évènemen
         id: new UniqueEntityID().toString(),
         projetId,
       },
-      { transaction }
-    )
+      { transaction },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -31,8 +31,8 @@ export default RaccordementsProjector.on(LegacyProjectSourced, async (évènemen
           évènement,
           nomProjection: 'Raccordements',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

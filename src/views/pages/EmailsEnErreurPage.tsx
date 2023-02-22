@@ -1,19 +1,19 @@
-import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components'
-import { FailedNotificationDTO } from '@modules/notification'
-import ROUTES from '@routes'
-import { Request } from 'express'
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
-import { PaginatedList } from '../../types'
-import { hydrateOnClient } from '../helpers'
+import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components';
+import { FailedNotificationDTO } from '@modules/notification';
+import ROUTES from '@routes';
+import { Request } from 'express';
+import React from 'react';
+import { formatDate } from '../../helpers/formatDate';
+import { dataId } from '../../helpers/testId';
+import { PaginatedList } from '../../types';
+import { hydrateOnClient } from '../helpers';
 type EmailsEnErreurProps = {
-  request: Request
-  notifications: PaginatedList<FailedNotificationDTO>
-}
+  request: Request;
+  notifications: PaginatedList<FailedNotificationDTO>;
+};
 
 export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) => {
-  const { error, success } = (request.query as any) || {}
+  const { error, success } = (request.query as any) || {};
 
   return (
     <PageTemplate user={request.user} currentPage="list-notifications">
@@ -94,7 +94,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                         )}
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -112,7 +112,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(EmailsEnErreur)
+hydrateOnClient(EmailsEnErreur);

@@ -1,24 +1,24 @@
-import { Repository, UniqueEntityID } from '@core/domain'
-import { ResultAsync } from '@core/utils'
-import { FileObject, makeFileObject } from '../../file'
+import { Repository, UniqueEntityID } from '@core/domain';
+import { ResultAsync } from '@core/utils';
+import { FileObject, makeFileObject } from '../../file';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   IncompleteDataError,
   InfraNotAvailableError,
   OtherError,
-} from '../../shared/errors'
-import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors'
-import { Project } from '../Project'
-import { CertificateTemplate, User } from '@entities'
-import { GetUserById } from '@infra/sequelize/queries/users'
-import { ProjectDataForCertificate } from '@modules/project'
-import { Validateur } from '@views/certificates'
+} from '../../shared/errors';
+import { IllegalProjectDataError, ProjectNotEligibleForCertificateError } from '../errors';
+import { Project } from '../Project';
+import { CertificateTemplate, User } from '@entities';
+import { GetUserById } from '@infra/sequelize/queries/users';
+import { ProjectDataForCertificate } from '@modules/project';
+import { Validateur } from '@views/certificates';
 
 export type GenerateCertificate = (args: {
-  projectId: string
-  reason?: string
-  validateurId?: string
+  projectId: string;
+  reason?: string;
+  validateurId?: string;
 }) => ResultAsync<
   null,
   | EntityNotFoundError
@@ -27,17 +27,17 @@ export type GenerateCertificate = (args: {
   | ProjectNotEligibleForCertificateError
   | OtherError
   | AggregateHasBeenUpdatedSinceError
->
+>;
 
 /* global NodeJS */
 interface GenerateCertificateDeps {
-  fileRepo: Repository<FileObject>
-  projectRepo: Repository<Project>
-  getUserById: GetUserById
+  fileRepo: Repository<FileObject>;
+  projectRepo: Repository<Project>;
+  getUserById: GetUserById;
   buildCertificate: (options: {
-    template: CertificateTemplate
-    data: ProjectDataForCertificate
-    validateur?: Validateur
+    template: CertificateTemplate;
+    data: ProjectDataForCertificate;
+    validateur?: Validateur;
   }) => ResultAsync<
     NodeJS.ReadableStream,
     | IllegalProjectDataError
@@ -47,7 +47,7 @@ interface GenerateCertificateDeps {
     | AggregateHasBeenUpdatedSinceError
     | ProjectNotEligibleForCertificateError
     | InfraNotAvailableError
-  >
+  >;
 }
 export const makeGenerateCertificate =
   ({
@@ -61,12 +61,12 @@ export const makeGenerateCertificate =
       .load(new UniqueEntityID(projectId))
       .andThen((project) => {
         return getUserById(validateurId).andThen((validateur) =>
-          _buildCertificateForProject(project, validateur)
-        )
+          _buildCertificateForProject(project, validateur),
+        );
       })
       .andThen(_saveCertificateToStorage)
       .andThen(_addCertificateFileIdToProject)
-      .andThen((project) => projectRepo.save(project))
+      .andThen((project) => projectRepo.save(project));
 
     function _buildCertificateForProject(project: Project, validateur?: User | null) {
       return project.certificateData
@@ -80,7 +80,7 @@ export const makeGenerateCertificate =
               : {
                   fullName: 'Ghislain FERRAN',
                   fonction: `L’adjoint au sous-directeur du système électrique et des énergies renouvelables`,
-                }
+                };
           return buildCertificate({
             ...certificateData,
             validateur: validateur
@@ -89,16 +89,16 @@ export const makeGenerateCertificate =
                   fonction: validateur.fonction,
                 }
               : validateurParDéfaut,
-          })
+          });
         })
-        .map((fileStream) => ({ fileStream, project }))
+        .map((fileStream) => ({ fileStream, project }));
     }
 
     function _saveCertificateToStorage(args: {
-      fileStream: NodeJS.ReadableStream
-      project: Project
+      fileStream: NodeJS.ReadableStream;
+      project: Project;
     }) {
-      const { fileStream, project } = args
+      const { fileStream, project } = args;
       return makeFileObject({
         filename: project.certificateFilename,
         contents: fileStream,
@@ -107,19 +107,19 @@ export const makeGenerateCertificate =
       })
         .mapErr((e) => new OtherError(e.message))
         .asyncAndThen((file: FileObject) => {
-          return fileRepo.save(file).map(() => file.id.toString())
+          return fileRepo.save(file).map(() => file.id.toString());
         })
-        .map((certificateFileId) => ({ certificateFileId, project }))
+        .map((certificateFileId) => ({ certificateFileId, project }));
     }
 
     function _addCertificateFileIdToProject(args: { certificateFileId: string; project: Project }) {
-      const { certificateFileId, project } = args
+      const { certificateFileId, project } = args;
       return project
         .addGeneratedCertificate({
           projectVersionDate: project.lastUpdatedOn || new Date(),
           certificateFileId,
           reason,
         })
-        .map(() => project)
+        .map(() => project);
     }
-  }
+  };

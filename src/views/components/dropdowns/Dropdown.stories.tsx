@@ -1,5 +1,5 @@
-import React from 'react'
-import { Dropdown } from './Dropdown'
+import React from 'react';
+import { Dropdown } from './Dropdown';
 
 export default {
   title: 'Components/Atoms/Dropdown',
@@ -12,15 +12,15 @@ export default {
     isOpen: { control: 'boolean' },
     changeOpenState: { control: 'action' },
   },
-}
+};
 
-const Template = (args) => <Dropdown {...args} />
+const Template = (args) => <Dropdown {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
   isOpen: false,
   disabled: false,
   design: 'link',
   children: `contenu à afficher dans le dropdown`,
   text: 'Ceci est le titre du dropdown',
-}
+};

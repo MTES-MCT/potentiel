@@ -1,2 +1,2 @@
-export * from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée'
-export * from './onTâcheMiseAJourDonnéesDeRaccordementTerminée'
+export * from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée';
+export * from './onTâcheMiseAJourDonnéesDeRaccordementTerminée';

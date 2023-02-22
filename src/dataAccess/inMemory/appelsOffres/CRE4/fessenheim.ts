@@ -1,6 +1,6 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
-const garantieFinanciereEnMois = 42
+const garantieFinanciereEnMois = 42;
 
 const fessenheim: AppelOffre = {
   id: 'Fessenheim',
@@ -198,6 +198,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { fessenheim }
+export { fessenheim };

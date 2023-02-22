@@ -1,1 +1,1 @@
-export * from './SignalerDemandeRecours'
+export * from './SignalerDemandeRecours';

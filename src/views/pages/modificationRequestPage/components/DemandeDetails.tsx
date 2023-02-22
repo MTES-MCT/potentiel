@@ -1,18 +1,18 @@
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { format } from 'date-fns'
-import moment from 'moment'
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
-import ROUTES from '@routes'
-import { DownloadLink, ExternalLink, Heading2 } from '@components'
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { format } from 'date-fns';
+import moment from 'moment';
+import React from 'react';
+import { formatDate } from '../../../../helpers/formatDate';
+import ROUTES from '@routes';
+import { DownloadLink, ExternalLink, Heading2 } from '@components';
 
 interface DemandeDetailsProps {
-  modificationRequest: ModificationRequestPageDTO
+  modificationRequest: ModificationRequestPageDTO;
 }
 
 export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => {
   const { requestedBy, requestedOn, justification, attachmentFile, cahierDesCharges } =
-    modificationRequest
+    modificationRequest;
 
   return (
     <div className="panel__header">
@@ -43,31 +43,31 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 interface DetailsByTypeProps {
-  modificationRequest: ModificationRequestPageDTO
+  modificationRequest: ModificationRequestPageDTO;
 }
 const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
   switch (modificationRequest.type) {
     case 'delai':
-      return <DelaiDetails modificationRequest={modificationRequest} />
+      return <DelaiDetails modificationRequest={modificationRequest} />;
     case 'puissance':
-      return <PuissanceDetails modificationRequest={modificationRequest} />
+      return <PuissanceDetails modificationRequest={modificationRequest} />;
     case 'actionnaire':
-      return <ActionnaireDetails modificationRequest={modificationRequest} />
+      return <ActionnaireDetails modificationRequest={modificationRequest} />;
     case 'producteur':
-      return <ProducteurDetails modificationRequest={modificationRequest} />
+      return <ProducteurDetails modificationRequest={modificationRequest} />;
     case 'fournisseur':
-      return <FournisseurDetails modificationRequest={modificationRequest} />
+      return <FournisseurDetails modificationRequest={modificationRequest} />;
     default:
-      return null
+      return null;
   }
-}
+};
 
 interface DelaiDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'delai' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'delai' };
 }
 const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
   const {
@@ -75,11 +75,11 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
     status,
     delayInMonths,
     dateAchèvementDemandée,
-  } = modificationRequest
+  } = modificationRequest;
 
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
-    : moment(completionDueOn).add(delayInMonths, 'month').toDate()
+    : moment(completionDueOn).add(delayInMonths, 'month').toDate();
 
   return status === 'envoyée' || status === 'en instruction' ? (
     <div className="mt-2">
@@ -105,18 +105,18 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
         </>
       )}
     </div>
-  )
-}
+  );
+};
 
 interface PuissanceDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
 }
 const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
-  const { project, status, puissanceAuMomentDuDepot } = modificationRequest
-  const { puissance, puissanceInitiale, unitePuissance } = project
+  const { project, status, puissanceAuMomentDuDepot } = modificationRequest;
+  const { puissance, puissanceInitiale, unitePuissance } = project;
 
   const hasPuissanceChangedSinceDepot =
-    puissance !== (puissanceAuMomentDuDepot || puissanceInitiale)
+    puissance !== (puissanceAuMomentDuDepot || puissanceInitiale);
 
   return (
     <div className="mt-2">
@@ -144,33 +144,33 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
         Nouvelle puissance demandée : {modificationRequest.puissance} {unitePuissance}
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface ActionnaireDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' };
 }
 const ActionnaireDetails = ({ modificationRequest }: ActionnaireDetailsProps) => {
   return (
     <div className="mt-2">
       <span>Nouvel actionnaire : {modificationRequest.actionnaire}</span>
     </div>
-  )
-}
+  );
+};
 
 interface ProducteurDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'producteur' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'producteur' };
 }
 const ProducteurDetails = ({ modificationRequest }: ProducteurDetailsProps) => {
   return (
     <div className="mt-2">
       <span>Nouveau producteur : {modificationRequest.producteur}</span>
     </div>
-  )
-}
+  );
+};
 
 interface FournisseurDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'fournisseur' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'fournisseur' };
 }
 const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) => {
   return (
@@ -196,5 +196,5 @@ const FournisseurDetails = ({ modificationRequest }: FournisseurDetailsProps) =>
         </>
       )}
     </div>
-  )
-}
+  );
+};

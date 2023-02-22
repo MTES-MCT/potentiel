@@ -1,9 +1,9 @@
-import { Request } from 'express'
-import React from 'react'
-import { AppelOffre, Famille, Periode, Project } from '@entities'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { PaginatedList } from '../../types'
+import { Request } from 'express';
+import React from 'react';
+import { AppelOffre, Famille, Periode, Project } from '@entities';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { PaginatedList } from '../../types';
 import {
   BarreDeRecherche,
   ErrorBox,
@@ -12,16 +12,16 @@ import {
   MissingOwnerProjectList,
   PageTemplate,
   SuccessBox,
-} from '@components'
-import { hydrateOnClient } from '../helpers'
+} from '@components';
+import { hydrateOnClient } from '../helpers';
 
 interface ProjetsÀRéclamerProps {
-  request: Request
-  projects?: PaginatedList<Project>
-  appelsOffre: Array<AppelOffre>
-  existingAppelsOffres: Array<AppelOffre['id']>
-  existingPeriodes?: Array<Periode['id']>
-  existingFamilles?: Array<Famille['id']>
+  request: Request;
+  projects?: PaginatedList<Project>;
+  appelsOffre: Array<AppelOffre>;
+  existingAppelsOffres: Array<AppelOffre['id']>;
+  existingPeriodes?: Array<Periode['id']>;
+  existingFamilles?: Array<Famille['id']>;
 }
 
 export const ProjetsÀRéclamer = ({
@@ -33,24 +33,24 @@ export const ProjetsÀRéclamer = ({
   existingFamilles,
 }: ProjetsÀRéclamerProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, classement } =
-    (request.query as any) || {}
+    (request.query as any) || {};
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
     (request.user &&
       ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
-      classement !== 'classés')
+      classement !== 'classés');
 
-  const hasFilters = appelOffreId || periodeId || familleId || hasNonDefaultClassement
+  const hasFilters = appelOffreId || periodeId || familleId || hasNonDefaultClassement;
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
-    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
+    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
+    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
   return (
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
@@ -187,7 +187,7 @@ export const ProjetsÀRéclamer = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ProjetsÀRéclamer)
+hydrateOnClient(ProjetsÀRéclamer);

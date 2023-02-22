@@ -1,22 +1,22 @@
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { USER_ROLES } from '@modules/users'
-import { getProjectEvents } from '.'
-import { ProjectEvent } from '../../projectionsNext'
-import { resetDatabase } from '../../helpers'
-import { models } from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { DemandeDelaiSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events'
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { USER_ROLES } from '@modules/users';
+import { getProjectEvents } from '.';
+import { ProjectEvent } from '../../projectionsNext';
+import { resetDatabase } from '../../helpers';
+import { models } from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import { DemandeDelaiSignaledEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
-  const { Project } = models
-  const projetId = new UniqueEntityID().toString()
-  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' })
+  const { Project } = models;
+  const projetId = new UniqueEntityID().toString();
+  const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
 
   beforeEach(async () => {
-    await resetDatabase()
-    await Project.create(projet)
-  })
+    await resetDatabase();
+    await Project.create(projet);
+  });
 
   const DemandeDelaiSignaledEvent = {
     id: new UniqueEntityID().toString(),
@@ -32,7 +32,7 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
       attachment: { id: 'file-id', name: 'file-name' },
       notes: 'notes',
     },
-  } as DemandeDelaiSignaledEvent
+  } as DemandeDelaiSignaledEvent;
 
   const rolesAutorisés = [
     'admin',
@@ -42,17 +42,17 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
     'dgec-validateur',
     'caisse-des-dépôts',
     'cre',
-  ]
+  ];
 
   describe(`Utilisateurs autorisés à visualiser les demandes de délai faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of rolesAutorisés) {
-      const utilisateur = { role } as User
+      const utilisateur = { role } as User;
 
       it(`Etant donné un utilisateur ${role},
       alors les événements DemandeDelaiSignaled devraient être retournés`, async () => {
-        await ProjectEvent.create(DemandeDelaiSignaledEvent)
+        await ProjectEvent.create(DemandeDelaiSignaledEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([
@@ -77,25 +77,25 @@ describe('getProjectEvents pour les événements DemandeDelaiSignaled', () => {
               ...(['admin', 'dgec-validateur', 'dreal'].includes(role) && { notes: 'notes' }),
             },
           ]),
-        })
-      })
+        });
+      });
     }
-  })
+  });
 
   describe(`Utilisateurs non-autorisés à visualiser les demandes de délai faites hors Potentiel et ajoutées aux projets`, () => {
     for (const role of USER_ROLES.filter((role) => !rolesAutorisés.includes(role))) {
-      const utilisateur = { role } as User
+      const utilisateur = { role } as User;
 
       it(`Etant donné un utilisateur ${role},
       alors les événements DemandeDelaiSignaled ne devraient pas être retournés`, async () => {
-        await ProjectEvent.create(DemandeDelaiSignaledEvent)
+        await ProjectEvent.create(DemandeDelaiSignaledEvent);
 
-        const result = await getProjectEvents({ projectId: projetId, user: utilisateur })
+        const result = await getProjectEvents({ projectId: projetId, user: utilisateur });
 
         expect(result._unsafeUnwrap()).toMatchObject({
           events: expect.arrayContaining([]),
-        })
-      })
+        });
+      });
     }
-  })
-})
+  });
+});

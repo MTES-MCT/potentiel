@@ -1,1 +1,1 @@
-export * from './revokeRightsToProject'
+export * from './revokeRightsToProject';

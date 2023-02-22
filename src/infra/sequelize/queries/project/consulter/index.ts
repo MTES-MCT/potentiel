@@ -1,1 +1,1 @@
-export * from './getProjectDataForProjectPage'
+export * from './getProjectDataForProjectPage';

@@ -1,1 +1,1 @@
-export * from './getDelaiDeRealisation'
+export * from './getDelaiDeRealisation';

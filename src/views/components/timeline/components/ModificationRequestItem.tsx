@@ -1,5 +1,5 @@
-import React from 'react'
-import { ProjectStatus } from '@modules/frise'
+import React from 'react';
+import { ProjectStatus } from '@modules/frise';
 import {
   ItemDate,
   ItemTitle,
@@ -8,41 +8,41 @@ import {
   PastIcon,
   UnvalidatedStepIcon,
   InfoItem,
-} from '.'
-import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps'
-import { CancelledStepIcon } from './cancelledStepIcon'
-import { DownloadLink, Link } from '@components'
+} from '.';
+import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps';
+import { CancelledStepIcon } from './cancelledStepIcon';
+import { DownloadLink, Link } from '@components';
 
 type ComponentProps = ModificationRequestItemProps & {
-  projectStatus: ProjectStatus
-}
+  projectStatus: ProjectStatus;
+};
 
 export const ModificationRequestItem = (props: ComponentProps) => {
-  const { status, projectStatus } = props
+  const { status, projectStatus } = props;
   switch (status) {
     case 'envoyée':
     case 'en instruction':
-      return <Submitted {...{ ...props, status, projectStatus }} />
+      return <Submitted {...{ ...props, status, projectStatus }} />;
     case 'rejetée':
-      return <Rejected {...{ ...props, status }} />
+      return <Rejected {...{ ...props, status }} />;
     case 'acceptée':
-      return <Accepted {...{ ...props, status }} />
+      return <Accepted {...{ ...props, status }} />;
     case 'annulée':
-      return <Cancelled {...{ ...props, status }} />
+      return <Cancelled {...{ ...props, status }} />;
   }
-}
+};
 
 type SubmittedProps = ComponentProps & {
-  status: 'envoyée' | 'en instruction'
-}
+  status: 'envoyée' | 'en instruction';
+};
 
 const Submitted = (props: SubmittedProps) => {
-  const { date, authority, role, status, projectStatus } = props
+  const { date, authority, role, status, projectStatus } = props;
   const roleRequiresAction =
     (role === 'admin' && authority === 'dgec') ||
     role === authority ||
-    (role === 'dgec-validateur' && authority === 'dgec')
-  const isAbandoned = projectStatus === 'Abandonné'
+    (role === 'dgec-validateur' && authority === 'dgec');
+  const isAbandoned = projectStatus === 'Abandonné';
   return (
     <>
       <CurrentIcon />
@@ -60,15 +60,15 @@ const Submitted = (props: SubmittedProps) => {
         <Details {...props} />
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type RejectedProps = ModificationRequestItemProps & {
-  status: 'rejetée'
-}
+  status: 'rejetée';
+};
 
 const Rejected = (props: RejectedProps) => {
-  const { date, responseUrl } = props
+  const { date, responseUrl } = props;
   return (
     <>
       <UnvalidatedStepIcon />
@@ -80,15 +80,15 @@ const Rejected = (props: RejectedProps) => {
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type AcceptedProps = ModificationRequestItemProps & {
-  status: 'acceptée'
-}
+  status: 'acceptée';
+};
 
 const Accepted = (props: AcceptedProps) => {
-  const { date, responseUrl } = props
+  const { date, responseUrl } = props;
   return (
     <>
       <PastIcon />
@@ -100,15 +100,15 @@ const Accepted = (props: AcceptedProps) => {
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type CancelledProps = ModificationRequestItemProps & {
-  status: 'annulée'
-}
+  status: 'annulée';
+};
 
 const Cancelled = (props: CancelledProps) => {
-  const { date } = props
+  const { date } = props;
   return (
     <>
       <CancelledStepIcon />
@@ -118,29 +118,29 @@ const Cancelled = (props: CancelledProps) => {
         <p className="p-0 m-0">Demande annulée par le porteur de projet</p>
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 const Details = (
   props: {
-    status: ModificationRequestItemProps['status']
-    authority: ModificationRequestItemProps['authority']
-    role: ModificationRequestItemProps['role']
-    detailsUrl: string
+    status: ModificationRequestItemProps['status'];
+    authority: ModificationRequestItemProps['authority'];
+    role: ModificationRequestItemProps['role'];
+    detailsUrl: string;
   } & (
     | { modificationType: 'delai'; delayInMonths: number }
     | { modificationType: 'puissance'; puissance: number; unitePuissance: string }
     | { modificationType: 'recours' }
-  )
+  ),
 ) => {
-  const { status, modificationType, detailsUrl, authority = undefined, role } = props
+  const { status, modificationType, detailsUrl, authority = undefined, role } = props;
 
   const libelleTypeDemande: { [key in ModificationRequestItemProps['modificationType']]: string } =
     {
       delai: `Délai supplémentaire`,
       recours: `Recours`,
       puissance: `Changement de puissance installée`,
-    }
+    };
 
   const libelleStatus: { [key in ModificationRequestItemProps['status']]: string } = {
     envoyée: `demandé`,
@@ -148,17 +148,17 @@ const Details = (
     rejetée: `rejeté`,
     annulée: `annulé`,
     'en instruction': `en instruction`,
-  }
+  };
 
   function showDemandeButton() {
     if (
       !authority ||
       ['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé'].includes(role)
     ) {
-      return true
+      return true;
     }
 
-    return role === authority
+    return role === authority;
   }
 
   return (
@@ -176,5 +176,5 @@ const Details = (
       )}
       {showDemandeButton() && <Link href={detailsUrl}>Voir la demande</Link>}
     </>
-  )
-}
+  );
+};

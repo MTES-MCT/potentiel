@@ -1,2 +1,2 @@
-export * from './connexionsParRoleEtParJour.model'
-export * from './statistiquesUtilisation.model'
+export * from './connexionsParRoleEtParJour.model';
+export * from './statistiquesUtilisation.model';

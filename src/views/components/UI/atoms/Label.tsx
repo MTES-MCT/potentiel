@@ -1,8 +1,8 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps } from 'react';
 
 type LabelProps = ComponentProps<'label'> & {
-  required?: true
-}
+  required?: true;
+};
 
 export const Label = ({ required, children, ...props }: LabelProps) => (
   <label {...props}>
@@ -14,4 +14,4 @@ export const Label = ({ required, children, ...props }: LabelProps) => (
       </>
     )}
   </label>
-)
+);

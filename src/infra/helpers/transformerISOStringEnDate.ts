@@ -1,27 +1,27 @@
-import { isMatch, parseISO } from 'date-fns'
+import { isMatch, parseISO } from 'date-fns';
 
-const ISOStringFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+const ISOStringFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 type Payload =
   | {
-      [key: string]: any
+      [key: string]: any;
     }
   | (string | Payload)[]
   | null
-  | undefined
+  | undefined;
 
 export const transformerISOStringEnDate = (payload: Payload) => {
-  if (!payload) return payload
+  if (!payload) return payload;
 
   // cas de payload ARRAY
   if (Array.isArray(payload)) {
     return payload.map((item) => {
       if (typeof item === 'object') {
-        return transformerISOStringEnDate(item)
+        return transformerISOStringEnDate(item);
       }
 
-      return isMatch(item, ISOStringFormat) ? parseISO(item) : item
-    })
+      return isMatch(item, ISOStringFormat) ? parseISO(item) : item;
+    });
   }
 
   // cas de payload OBJECT
@@ -30,12 +30,12 @@ export const transformerISOStringEnDate = (payload: Payload) => {
       return {
         ...acc,
         [key]: transformerISOStringEnDate(value),
-      }
+      };
     }
 
     return {
       ...acc,
       [key]: isMatch(value, ISOStringFormat) ? parseISO(value) : value,
-    }
-  }, {})
-}
+    };
+  }, {});
+};

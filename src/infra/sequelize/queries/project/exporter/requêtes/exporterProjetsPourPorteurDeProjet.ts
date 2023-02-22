@@ -1,5 +1,5 @@
-import { FiltreListeProjets } from '@modules/project/queries/listerProjets'
-import { UserRole } from '@modules/users'
+import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
+import { UserRole } from '@modules/users';
 import {
   contenuLocal,
   coordonnéesCandidat,
@@ -18,8 +18,8 @@ import {
   prix,
   résultatInstructionSensible,
   évaluationCarbone,
-} from '../colonnesParCatégorie'
-import { récupérerExportProjets } from './récupérerExportProjets'
+} from '../colonnesParCatégorie';
+import { récupérerExportProjets } from './récupérerExportProjets';
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -39,17 +39,17 @@ const colonnesÀExporter = [
   ...résultatInstructionSensible,
   ...modificationsAvantImport,
   ...garantiesFinancières,
-]
+];
 
 export const exporterProjetsPourPorteurDeProjet = ({
   user,
   filtres,
 }: {
-  user: { id: string; role: UserRole }
-  filtres?: FiltreListeProjets
+  user: { id: string; role: UserRole };
+  filtres?: FiltreListeProjets;
 }) =>
   récupérerExportProjets({
     colonnesÀExporter,
     filtres,
     seulementLesProjetsAvecAccèsPour: user.id,
-  })
+  });

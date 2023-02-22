@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 export const autoconsommationZNI2017: AppelOffre = {
   id: 'CRE4 - Autoconsommation ZNI 2017',
@@ -118,4 +118,4 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       },
     },
   ],
-}
+};

@@ -1,14 +1,14 @@
-import { DownloadLink } from '@components'
-import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.'
-import { makeDocumentUrl } from '../helpers'
+import { DownloadLink } from '@components';
+import React from 'react';
+import { ItemDate, ItemTitle, ContentArea, UnvalidatedStepIcon, PastIcon } from '.';
+import { makeDocumentUrl } from '../helpers';
 
 type DemandeRecoursSignaledItemProps = {
-  date: number
-  attachment?: { id: string; name: string }
-  notes?: string
-  status: 'acceptée' | 'rejetée'
-}
+  date: number;
+  attachment?: { id: string; name: string };
+  notes?: string;
+  status: 'acceptée' | 'rejetée';
+};
 
 export const DemandeRecoursSignaledItem = ({
   status,
@@ -31,16 +31,16 @@ export const DemandeRecoursSignaledItem = ({
       )}
     </ContentArea>
   </>
-)
+);
 
 type StatusIconProps = {
-  status: DemandeRecoursSignaledItemProps['status']
-}
+  status: DemandeRecoursSignaledItemProps['status'];
+};
 const StatusIcon = ({ status }: StatusIconProps) => {
   switch (status) {
     case 'acceptée':
-      return <PastIcon />
+      return <PastIcon />;
     case 'rejetée':
-      return <UnvalidatedStepIcon />
+      return <UnvalidatedStepIcon />;
   }
-}
+};

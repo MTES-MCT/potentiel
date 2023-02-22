@@ -1,14 +1,14 @@
-import { ModificationReceivedDTO, ProjectEventDTO, ProjectNotifiedDTO } from '@modules/frise'
-import { extractModificationReceivedItemProps } from './extractModificationReceivedItemProps'
+import { ModificationReceivedDTO, ProjectEventDTO, ProjectNotifiedDTO } from '@modules/frise';
+import { extractModificationReceivedItemProps } from './extractModificationReceivedItemProps';
 
 describe('extractModificationReceivedItemProps', () => {
   describe('when there is no event at all', () => {
     it('should return an empry array', () => {
-      const projectEventList: ProjectEventDTO[] = []
-      const result = extractModificationReceivedItemProps(projectEventList)
-      expect(result).toHaveLength(0)
-    })
-  })
+      const projectEventList: ProjectEventDTO[] = [];
+      const result = extractModificationReceivedItemProps(projectEventList);
+      expect(result).toHaveLength(0);
+    });
+  });
   describe('when there is no ModificationReceived event', () => {
     it('should return an empty array', () => {
       const projectEventList: ProjectEventDTO[] = [
@@ -17,15 +17,15 @@ describe('extractModificationReceivedItemProps', () => {
           variant: 'admin',
           date: 12,
         } as ProjectNotifiedDTO,
-      ]
-      const result = extractModificationReceivedItemProps(projectEventList)
-      expect(result).toHaveLength(0)
-    })
-  })
+      ];
+      const result = extractModificationReceivedItemProps(projectEventList);
+      expect(result).toHaveLength(0);
+    });
+  });
 
   describe(`when the user is 'caisse-des-dépôts'`, () => {
     it(`should props without detailsUrl`, () => {
-      const date = new Date('2022-03-02').getTime()
+      const date = new Date('2022-03-02').getTime();
       const projectEventList: ProjectEventDTO[] = [
         {
           type: 'ModificationReceived',
@@ -35,9 +35,9 @@ describe('extractModificationReceivedItemProps', () => {
           actionnaire: 'actionnaire',
           modificationRequestId: 'id',
         } as ModificationReceivedDTO,
-      ]
-      const result = extractModificationReceivedItemProps(projectEventList)
-      expect(result).toHaveLength(1)
+      ];
+      const result = extractModificationReceivedItemProps(projectEventList);
+      expect(result).toHaveLength(1);
       expect(result).toEqual([
         {
           type: 'modification-information',
@@ -45,14 +45,14 @@ describe('extractModificationReceivedItemProps', () => {
           modificationType: 'actionnaire',
           actionnaire: 'actionnaire',
         },
-      ])
-    })
-  })
-})
+      ]);
+    });
+  });
+});
 
 describe('when there is an actionnaire modification', () => {
   it('should return an array with actionnaire props', () => {
-    const date = new Date('2022-03-02').getTime()
+    const date = new Date('2022-03-02').getTime();
     const projectEventList: ProjectEventDTO[] = [
       {
         type: 'ModificationReceived',
@@ -62,9 +62,9 @@ describe('when there is an actionnaire modification', () => {
         actionnaire: 'actionnaire',
         modificationRequestId: 'id',
       } as ModificationReceivedDTO,
-    ]
-    const result = extractModificationReceivedItemProps(projectEventList)
-    expect(result).toHaveLength(1)
+    ];
+    const result = extractModificationReceivedItemProps(projectEventList);
+    expect(result).toHaveLength(1);
     expect(result).toEqual([
       {
         type: 'modification-information',
@@ -73,13 +73,13 @@ describe('when there is an actionnaire modification', () => {
         actionnaire: 'actionnaire',
         detailsUrl: expect.anything(),
       },
-    ])
-  })
-})
+    ]);
+  });
+});
 
 describe('when there is a producteur modification', () => {
   it('should return an array with producteur props', () => {
-    const date = new Date('2022-03-02').getTime()
+    const date = new Date('2022-03-02').getTime();
     const projectEventList: ProjectEventDTO[] = [
       {
         type: 'ModificationReceived',
@@ -89,9 +89,9 @@ describe('when there is a producteur modification', () => {
         producteur: 'producteur',
         modificationRequestId: 'id',
       } as ModificationReceivedDTO,
-    ]
-    const result = extractModificationReceivedItemProps(projectEventList)
-    expect(result).toHaveLength(1)
+    ];
+    const result = extractModificationReceivedItemProps(projectEventList);
+    expect(result).toHaveLength(1);
     expect(result).toEqual([
       {
         type: 'modification-information',
@@ -100,13 +100,13 @@ describe('when there is a producteur modification', () => {
         producteur: 'producteur',
         detailsUrl: expect.anything(),
       },
-    ])
-  })
-})
+    ]);
+  });
+});
 
 describe('when there is a fournisseurs modification', () => {
   it('should return an array with fournisseurs props', () => {
-    const date = new Date('2022-03-02').getTime()
+    const date = new Date('2022-03-02').getTime();
     const projectEventList: ProjectEventDTO[] = [
       {
         type: 'ModificationReceived',
@@ -119,9 +119,9 @@ describe('when there is a fournisseurs modification', () => {
         ],
         modificationRequestId: 'id',
       } as ModificationReceivedDTO,
-    ]
-    const result = extractModificationReceivedItemProps(projectEventList)
-    expect(result).toHaveLength(1)
+    ];
+    const result = extractModificationReceivedItemProps(projectEventList);
+    expect(result).toHaveLength(1);
     expect(result).toEqual([
       {
         type: 'modification-information',
@@ -133,13 +133,13 @@ describe('when there is a fournisseurs modification', () => {
         ],
         detailsUrl: expect.anything(),
       },
-    ])
-  })
-})
+    ]);
+  });
+});
 
 describe('when there is a puissance modification', () => {
   it('should return an array with puissance props', () => {
-    const date = new Date('2022-03-02').getTime()
+    const date = new Date('2022-03-02').getTime();
     const projectEventList: ProjectEventDTO[] = [
       {
         type: 'ModificationReceived',
@@ -150,9 +150,9 @@ describe('when there is a puissance modification', () => {
         unitePuissance: 'MW',
         modificationRequestId: 'id',
       } as ModificationReceivedDTO,
-    ]
-    const result = extractModificationReceivedItemProps(projectEventList)
-    expect(result).toHaveLength(1)
+    ];
+    const result = extractModificationReceivedItemProps(projectEventList);
+    expect(result).toHaveLength(1);
     expect(result).toEqual([
       {
         type: 'modification-information',
@@ -162,6 +162,6 @@ describe('when there is a puissance modification', () => {
         unitePuissance: 'MW',
         detailsUrl: expect.anything(),
       },
-    ])
-  })
-})
+    ]);
+  });
+});

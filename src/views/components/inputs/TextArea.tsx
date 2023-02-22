@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill'
+import React, { useState } from 'react';
+import { RiErrorWarningFill } from '@react-icons/all-files/ri/RiErrorWarningFill';
 
 type TextAreaProps = React.HTMLAttributes<HTMLTextAreaElement> & {
-  value?: string
-  name?: string
-  placeholder?: string
-  required?: true
-  pattern?: string
-  error?: string
-  max?: string
-  disabled?: true
-}
+  value?: string;
+  name?: string;
+  placeholder?: string;
+  required?: true;
+  pattern?: string;
+  error?: string;
+  max?: string;
+  disabled?: true;
+};
 
 export const TextArea = ({ className = '', error = '', onChange, ...props }: TextAreaProps) => {
-  const [valueHasChanged, valueChanged] = useState(false)
-  const isOnError = error !== '' && !valueHasChanged
+  const [valueHasChanged, valueChanged] = useState(false);
+  const isOnError = error !== '' && !valueHasChanged;
 
   return (
     <>
@@ -24,8 +24,8 @@ export const TextArea = ({ className = '', error = '', onChange, ...props }: Tex
           isOnError ? 'border-red-marianne-main-472-base' : 'border-gray-600'
         } rounded-none`}
         onChange={(e) => {
-          valueChanged(true)
-          onChange && onChange(e)
+          valueChanged(true);
+          onChange && onChange(e);
         }}
       />
       {isOnError && (
@@ -38,5 +38,5 @@ export const TextArea = ({ className = '', error = '', onChange, ...props }: Tex
         </p>
       )}
     </>
-  )
-}
+  );
+};

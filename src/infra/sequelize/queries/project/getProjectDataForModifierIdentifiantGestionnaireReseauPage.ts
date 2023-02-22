@@ -1,14 +1,14 @@
-import { errAsync, ok, okAsync, wrapInfra } from '@core/utils'
-import { EntityNotFoundError } from '@modules/shared'
-import models from '../../models'
+import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
+import { EntityNotFoundError } from '@modules/shared';
+import models from '../../models';
 import {
   GetProjectDataForModifierIdentifiantGestionnaireReseauPage,
   ProjectDataForModifierIdentifiantGestionnaireReseauPage,
-} from '@modules/project'
-import { Raccordements } from '@infra/sequelize/projectionsNext'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+} from '@modules/project';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
-const { Project } = models
+const { Project } = models;
 
 export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProjectDataForModifierIdentifiantGestionnaireReseauPage =
   (projectId) =>
@@ -34,21 +34,21 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
             attributes: ['identifiantGestionnaire'],
           },
         ],
-      })
+      }),
     )
       .andThen((projet) => {
         if (!projet) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        const { appelOffreId, periodeId, familleId } = projet
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+        const { appelOffreId, periodeId, familleId } = projet;
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
         if (!appelOffre) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        return okAsync({ projet, appelOffre })
+        return okAsync({ projet, appelOffre });
       })
       .andThen(({ projet, appelOffre }) => {
         const pageProps: ProjectDataForModifierIdentifiantGestionnaireReseauPage = {
@@ -67,7 +67,7 @@ export const getProjectDataForModifierIdentifiantGestionnaireReseauPage: GetProj
           ...(projet.raccordements?.identifiantGestionnaire && {
             identifiantGestionnaire: projet.raccordements.identifiantGestionnaire,
           }),
-        }
+        };
 
-        return ok(pageProps)
-      })
+        return ok(pageProps);
+      });

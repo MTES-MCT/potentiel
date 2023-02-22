@@ -1,22 +1,22 @@
-import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain'
+import { BaseDomainEvent, BaseDomainEventProps, DomainEvent } from '@core/domain';
 
 export interface ProjectCertificateObsoletePayload {
-  projectId: string
+  projectId: string;
 }
 export class ProjectCertificateObsolete
   extends BaseDomainEvent<ProjectCertificateObsoletePayload>
   implements DomainEvent
 {
-  public static type: 'ProjectCertificateObsolete' = 'ProjectCertificateObsolete'
+  public static type: 'ProjectCertificateObsolete' = 'ProjectCertificateObsolete';
 
-  public type = ProjectCertificateObsolete.type
-  currentVersion = 1
+  public type = ProjectCertificateObsolete.type;
+  currentVersion = 1;
 
   constructor(props: BaseDomainEventProps<ProjectCertificateObsoletePayload>) {
-    super(props)
+    super(props);
   }
 
   aggregateIdFromPayload(payload: ProjectCertificateObsoletePayload) {
-    return payload.projectId
+    return payload.projectId;
   }
 }

@@ -1,41 +1,41 @@
-import { ResultAsync, okAsync, logger } from '@core/utils'
-import { SendEmailProps } from '@modules/notification'
+import { ResultAsync, okAsync, logger } from '@core/utils';
+import { SendEmailProps } from '@modules/notification';
 /**
  *
  * This call sends a message to the given recipient with vars and custom vars.
  *
  */
 
-const sentEmails: Array<SendEmailProps> = [] // For testing purposes only
+const sentEmails: Array<SendEmailProps> = []; // For testing purposes only
 
 function fakeSendEmail(props: SendEmailProps): ResultAsync<null, Error> {
   if (process.env.NODE_ENV === 'test') {
     // Register the sent email but don't send it for real
-    sentEmails.push(props)
-    return okAsync(null)
+    sentEmails.push(props);
+    return okAsync(null);
   }
 
-  const { subject, recipients, type, variables } = props
+  const { subject, recipients, type, variables } = props;
 
   logger.info(
     `EMAIL OUT: ${recipients
       .map((item) => item.email)
       .join(', ')} with subject "${subject}" and type ${type}`,
-    variables
-  )
+    variables,
+  );
 
-  return okAsync(null)
+  return okAsync(null);
 }
 
 // For tests only
 const getSentEmails = () => {
-  return sentEmails
-}
+  return sentEmails;
+};
 
 const resetSentEmails = () => {
   while (sentEmails.length) {
-    sentEmails.pop()
+    sentEmails.pop();
   }
-}
+};
 
-export { getSentEmails, fakeSendEmail, resetSentEmails }
+export { getSentEmails, fakeSendEmail, resetSentEmails };

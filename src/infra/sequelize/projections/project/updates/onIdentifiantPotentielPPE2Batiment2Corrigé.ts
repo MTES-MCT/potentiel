@@ -1,27 +1,27 @@
-import { logger } from '@core/utils'
-import { IdentifiantPotentielPPE2Batiment2Corrigé } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
+import { logger } from '@core/utils';
+import { IdentifiantPotentielPPE2Batiment2Corrigé } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export const onIdentifiantPotentielPPE2Batiment2Corrigé =
   (models) => async (évènement: IdentifiantPotentielPPE2Batiment2Corrigé) => {
-    const { projectId, nouvelIdentifiant } = évènement.payload
-    const { Project } = models
-    const projectInstance = await Project.findByPk(projectId)
+    const { projectId, nouvelIdentifiant } = évènement.payload;
+    const { Project } = models;
+    const projectInstance = await Project.findByPk(projectId);
 
     if (!projectInstance) {
       logger.error(
         new ProjectionEnEchec(`Le projet n'existe pas`, {
           nomProjection: 'onIdentifiantPotentielPPE2Batiment2Corrigé',
           évènement,
-        })
-      )
-      return
+        }),
+      );
+      return;
     }
 
-    projectInstance.potentielIdentifier = nouvelIdentifiant
+    projectInstance.potentielIdentifier = nouvelIdentifiant;
 
     try {
-      await projectInstance.save()
+      await projectInstance.save();
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -30,8 +30,8 @@ export const onIdentifiantPotentielPPE2Batiment2Corrigé =
             nomProjection: 'onIdentifiantPotentielPPE2Batiment2Corrigé',
             évènement,
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-  }
+  };

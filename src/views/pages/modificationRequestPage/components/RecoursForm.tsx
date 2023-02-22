@@ -1,6 +1,6 @@
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
-import { dataId } from '../../../../helpers/testId'
+import React from 'react';
+import { formatDate } from '../../../../helpers/formatDate';
+import { dataId } from '../../../../helpers/testId';
 
 export const RecoursForm = () => (
   <>
@@ -16,4 +16,4 @@ export const RecoursForm = () => (
       />
     </div>
   </>
-)
+);

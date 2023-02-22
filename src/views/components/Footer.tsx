@@ -1,5 +1,5 @@
-import routes from '@routes'
-import React from 'react'
+import routes from '@routes';
+import React from 'react';
 
 const Footer = () => {
   return (
@@ -134,7 +134,7 @@ const Footer = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export { Footer }
+export { Footer };

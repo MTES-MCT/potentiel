@@ -1,35 +1,35 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '../../helpers'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
-import models from '../../models'
-import { getModificationRequestInfoForStatusNotification } from './getModificationRequestInfoForStatusNotification'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '../../helpers';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import makeFakeUser from '../../../../__tests__/fixtures/user';
+import models from '../../models';
+import { getModificationRequestInfoForStatusNotification } from './getModificationRequestInfoForStatusNotification';
 
 describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
-  const projectId = new UniqueEntityID().toString()
-  const modificationRequestId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
-  const userId2 = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
+  const modificationRequestId = new UniqueEntityID().toString();
+  const userId = new UniqueEntityID().toString();
+  const userId2 = new UniqueEntityID().toString();
 
   const projectInfo = {
     id: projectId,
     nomProjet: 'nomProjet',
     departementProjet: 'departement',
     regionProjet: 'region',
-  }
+  };
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
+    await resetDatabase();
 
-    const ProjectModel = models.Project
-    await ProjectModel.create(makeFakeProject(projectInfo))
+    const ProjectModel = models.Project;
+    await ProjectModel.create(makeFakeProject(projectInfo));
 
-    const UserModel = models.User
-    await UserModel.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }))
-    await UserModel.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }))
+    const UserModel = models.User;
+    await UserModel.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }));
+    await UserModel.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }));
 
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
     await ModificationRequestModel.create({
       id: modificationRequestId,
       projectId,
@@ -37,9 +37,9 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       type: 'recours',
       requestedOn: 123,
       status: 'envoyée',
-    })
+    });
 
-    const UserProjects = models.UserProjects
+    const UserProjects = models.UserProjects;
     await UserProjects.bulkCreate([
       {
         userId,
@@ -49,18 +49,18 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
         userId: userId2,
         projectId,
       },
-    ])
-  })
+    ]);
+  });
 
   it('should return a complete ModificationRequestUpdateInfoDTO', async () => {
     const modificationRequestResult = await getModificationRequestInfoForStatusNotification(
-      modificationRequestId.toString()
-    )
+      modificationRequestId.toString(),
+    );
 
-    expect(modificationRequestResult.isOk()).toBe(true)
-    if (modificationRequestResult.isErr()) return
+    expect(modificationRequestResult.isOk()).toBe(true);
+    if (modificationRequestResult.isErr()) return;
 
-    const modificationRequestDTO = modificationRequestResult.value
+    const modificationRequestDTO = modificationRequestResult.value;
 
     expect(modificationRequestDTO).toEqual({
       nomProjet: 'nomProjet',
@@ -79,6 +79,6 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
           email: 'pp2@test.test',
         },
       ],
-    })
-  })
-})
+    });
+  });
+});

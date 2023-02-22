@@ -1,1 +1,1 @@
-export * from './makeAndSaveFile'
+export * from './makeAndSaveFile';

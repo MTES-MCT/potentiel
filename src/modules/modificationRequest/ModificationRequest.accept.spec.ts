@@ -1,23 +1,23 @@
-import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import makeFakeUser from '../../__tests__/fixtures/user'
+import { UniqueEntityID } from '@core/domain';
+import { makeUser } from '@entities';
+import makeFakeUser from '../../__tests__/fixtures/user';
 import {
   ModificationRequested,
   ModificationRequestAccepted,
   ModificationRequestRejected,
   ModificationRequestConfirmed,
   ConfirmationRequested,
-} from './events'
-import { StatusPreventsAcceptingError } from './errors'
-import { makeModificationRequest } from './ModificationRequest'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import { UnwrapForTest } from '@core/utils'
+} from './events';
+import { StatusPreventsAcceptingError } from './errors';
+import { makeModificationRequest } from './ModificationRequest';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import { UnwrapForTest } from '@core/utils';
 
 describe('Modification.acceptRecours()', () => {
-  const modificationRequestId = new UniqueEntityID()
-  const projectId = new UniqueEntityID()
-  const responseFileId = new UniqueEntityID().toString()
-  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+  const modificationRequestId = new UniqueEntityID();
+  const projectId = new UniqueEntityID();
+  const responseFileId = new UniqueEntityID().toString();
+  const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
   describe('when demande status is envoyée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -34,29 +34,29 @@ describe('Modification.acceptRecours()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('envoyée')
+      expect(fakeModificationRequest.status).toEqual('envoyée');
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId });
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestAccepted', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestAccepted.type
-      ) as ModificationRequestAccepted | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestAccepted.type,
+      ) as ModificationRequestAccepted | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.responseFileId).toEqual(responseFileId)
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+      expect(targetEvent.payload.responseFileId).toEqual(responseFileId);
+    });
+  });
 
   describe('when demande status is demande confirmée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -79,29 +79,29 @@ describe('Modification.acceptRecours()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('demande confirmée')
+      expect(fakeModificationRequest.status).toEqual('demande confirmée');
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId });
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestAccepted', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestAccepted.type
-      ) as ModificationRequestAccepted | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestAccepted.type,
+      ) as ModificationRequestAccepted | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.responseFileId).toEqual(responseFileId)
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+      expect(targetEvent.payload.responseFileId).toEqual(responseFileId);
+    });
+  });
 
   describe('when demande status is en attente de confirmation', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -125,29 +125,29 @@ describe('Modification.acceptRecours()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     beforeAll(() => {
-      expect(fakeModificationRequest.status).toEqual('en attente de confirmation')
+      expect(fakeModificationRequest.status).toEqual('en attente de confirmation');
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
-      expect(res.isOk()).toBe(true)
-    })
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId });
+      expect(res.isOk()).toBe(true);
+    });
 
     it('should emit ModificationRequestAccepted', () => {
-      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0)
+      expect(fakeModificationRequest.pendingEvents).not.toHaveLength(0);
 
       const targetEvent = fakeModificationRequest.pendingEvents.find(
-        (item) => item.type === ModificationRequestAccepted.type
-      ) as ModificationRequestAccepted | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ModificationRequestAccepted.type,
+      ) as ModificationRequestAccepted | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString())
-      expect(targetEvent.payload.responseFileId).toEqual(responseFileId)
-    })
-  })
+      expect(targetEvent.payload.modificationRequestId).toEqual(modificationRequestId.toString());
+      expect(targetEvent.payload.responseFileId).toEqual(responseFileId);
+    });
+  });
 
   describe('when demande status is acceptée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -171,19 +171,19 @@ describe('Modification.acceptRecours()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsAcceptingError', () => {
-      expect(fakeModificationRequest.status).toEqual('acceptée')
+      expect(fakeModificationRequest.status).toEqual('acceptée');
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId });
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError)
-    })
-  })
+      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError);
+    });
+  });
 
   describe('when demande status is rejetée', () => {
     const fakeModificationRequest = UnwrapForTest(
@@ -207,17 +207,17 @@ describe('Modification.acceptRecours()', () => {
             },
           }),
         ],
-      })
-    )
+      }),
+    );
 
     it('should return StatusPreventsAcceptingError', () => {
-      expect(fakeModificationRequest.status).toEqual('rejetée')
+      expect(fakeModificationRequest.status).toEqual('rejetée');
 
-      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
+      const res = fakeModificationRequest.accept({ acceptedBy: fakeUser, responseFileId });
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
 
-      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError)
-    })
-  })
-})
+      expect(res.error).toBeInstanceOf(StatusPreventsAcceptingError);
+    });
+  });
+});

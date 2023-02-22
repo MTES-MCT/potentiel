@@ -1,15 +1,15 @@
-import sanitize from 'sanitize-filename'
-import path from 'path'
+import sanitize from 'sanitize-filename';
+import path from 'path';
 
 const makeProjectFilePath = (
   projectId: string,
   originalFilename: string,
-  keepFilename?: boolean
+  keepFilename?: boolean,
 ): { filename: string; filepath: string } => {
-  const filename = keepFilename ? originalFilename : sanitize(originalFilename)
-  const filepath = path.join('projects', projectId, filename)
+  const filename = keepFilename ? originalFilename : sanitize(originalFilename);
+  const filepath = path.join('projects', projectId, filename);
 
-  return { filename, filepath }
-}
+  return { filename, filepath };
+};
 
-export { makeProjectFilePath }
+export { makeProjectFilePath };

@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const batimentPPE2: AppelOffre = {
   id: 'PPE2 - Bâtiment',
@@ -160,6 +160,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { batimentPPE2 }
+export { batimentPPE2 };

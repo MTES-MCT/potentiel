@@ -1,12 +1,12 @@
-import type { Request } from 'express'
-import React from 'react'
-import { Heading1, PageTemplate } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { Heading1, PageTemplate } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type AcheteurObligeStatistiquesProps = {
-  request: Request
-  iframeUrl: string
-}
+  request: Request;
+  iframeUrl: string;
+};
 
 export const AcheteurObligeStatistiques = ({
   iframeUrl,
@@ -35,7 +35,7 @@ export const AcheteurObligeStatistiques = ({
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AcheteurObligeStatistiques)
+hydrateOnClient(AcheteurObligeStatistiques);

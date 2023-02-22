@@ -1,24 +1,24 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { AbandonAccordé } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { logger } from '@core/utils'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { AbandonAccordé } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '@core/utils';
 
 export default ProjectEventProjector.on(AbandonAccordé, async (évènement, transaction) => {
   const {
     payload: { demandeAbandonId, projetId },
     occurredAt,
-  } = évènement
+  } = évènement;
 
-  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
+  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction });
 
   if (!abandonEvent) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
         évènement,
         nomProjection: 'ProjectEventProjector.onAbandonAccordé',
-      })
-    )
-    return
+      }),
+    );
+    return;
   }
 
   try {
@@ -31,8 +31,8 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
           statut: 'accordée',
         },
       },
-      { where: { id: demandeAbandonId }, transaction }
-    )
+      { where: { id: demandeAbandonId }, transaction },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -41,16 +41,16 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
           évènement,
           nomProjection: 'ProjectEventProjector.onAbandonAccordé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
 
   try {
     await ProjectEvent.destroy({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
-    })
+    });
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -59,8 +59,8 @@ export default ProjectEventProjector.on(AbandonAccordé, async (évènement, tra
           évènement,
           nomProjection: 'ProjectEventProjector.onAbandonAccordé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

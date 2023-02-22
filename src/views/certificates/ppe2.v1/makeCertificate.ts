@@ -1,15 +1,15 @@
-import ReactPDF, { Font } from '@react-pdf/renderer'
-import dotenv from 'dotenv'
-import { errAsync, Queue, ResultAsync } from '@core/utils'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { IllegalProjectStateError } from '@modules/project/errors'
-import { OtherError } from '@modules/shared'
-import { Certificate, CertificateProps } from './Certificate'
-import { makeLaureat } from './components/Laureat'
-import { Elimine } from './components/elimine'
-import { Validateur } from '..'
+import ReactPDF, { Font } from '@react-pdf/renderer';
+import dotenv from 'dotenv';
+import { errAsync, Queue, ResultAsync } from '@core/utils';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { IllegalProjectStateError } from '@modules/project/errors';
+import { OtherError } from '@modules/shared';
+import { Certificate, CertificateProps } from './Certificate';
+import { makeLaureat } from './components/Laureat';
+import { Elimine } from './components/elimine';
+import { Validateur } from '..';
 
-dotenv.config()
+dotenv.config();
 
 Font.register({
   family: 'Arimo',
@@ -26,31 +26,31 @@ Font.register({
       fontStyle: 'italic',
     },
   ],
-})
+});
 
-const queue = new Queue()
+const queue = new Queue();
 
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  validateur: Validateur
+  validateur: Validateur,
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
 
   if (!appelOffre || !periode) {
     return errAsync(
-      new IllegalProjectStateError({ appelOffre: 'appelOffre et/ou periode manquantes' })
-    )
+      new IllegalProjectStateError({ appelOffre: 'appelOffre et/ou periode manquantes' }),
+    );
   }
 
   const certificateProps: CertificateProps = project.isClasse
     ? { project, type: 'laureat', ...makeLaureat(project), validateur }
-    : { project, type: 'elimine', content: Elimine({ project }), validateur }
+    : { project, type: 'elimine', content: Elimine({ project }), validateur };
 
-  const certificate = Certificate(certificateProps)
-  const ticket = queue.push(() => ReactPDF.renderToStream(certificate))
+  const certificate = Certificate(certificateProps);
+  const ticket = queue.push(() => ReactPDF.renderToStream(certificate));
 
-  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
-}
+  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message));
+};
 
-export { makeCertificate }
+export { makeCertificate };

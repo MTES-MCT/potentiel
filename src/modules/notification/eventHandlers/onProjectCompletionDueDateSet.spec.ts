@@ -1,20 +1,20 @@
-import { User } from '@entities'
-import { ProjectCompletionDueDateSet } from '@modules/project'
-import makeFakeProject from '../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../__tests__/fixtures/user'
-import { makeOnProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet'
+import { User } from '@entities';
+import { ProjectCompletionDueDateSet } from '@modules/project';
+import makeFakeProject from '../../../__tests__/fixtures/project';
+import makeFakeUser from '../../../__tests__/fixtures/user';
+import { makeOnProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';
 
 describe(`Notification handler onProjectCompletionDueDateSet`, () => {
-  const sendNotification = jest.fn()
-  const projetId = 'projetId'
+  const sendNotification = jest.fn();
+  const projetId = 'projetId';
   const évènement = new ProjectCompletionDueDateSet({
     payload: {
       projectId: projetId,
       completionDueOn: new Date('2025-01-01').getTime(),
       reason: 'délaiCdc2022',
     },
-  })
-  beforeEach(() => sendNotification.mockClear())
+  });
+  beforeEach(() => sendNotification.mockClear());
   describe(`Notifier les porteurs de l'application du délai de 18 mois relatif au CDC 2022`, () => {
     it(`Etant donné un projet suivi par deux porteurs,
     alors les deux profils devraient être notifiés`, async () => {
@@ -22,24 +22,24 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
         email: 'email1@test.test',
         id: 'user-1',
         fullName: 'nom_porteur1',
-      })
+      });
       const porteur2 = makeFakeUser({
         email: 'email2@test.test',
         id: 'user-2',
         fullName: 'nom_porteur2',
-      })
+      });
       const onProjectCompletionDueDateSet = makeOnProjectCompletionDueDateSet({
         sendNotification,
         getProjectUsers: jest.fn(async () => [porteur1, porteur2]),
         getProjectById: jest.fn(async () =>
-          makeFakeProject({ id: projetId, nomProjet: 'nom_projet' })
+          makeFakeProject({ id: projetId, nomProjet: 'nom_projet' }),
         ),
         findUsersForDreal: jest.fn(async () => []),
-      })
+      });
 
-      await onProjectCompletionDueDateSet(évènement)
+      await onProjectCompletionDueDateSet(évènement);
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
 
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
@@ -55,8 +55,8 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             name: 'nom_porteur1',
             subject: `Potentiel - Nouveau délai appliqué pour votre projet nom_projet`,
           }),
-        })
-      )
+        }),
+      );
 
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
@@ -72,10 +72,10 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             name: 'nom_porteur2',
             subject: `Potentiel - Nouveau délai appliqué pour votre projet nom_projet`,
           }),
-        })
-      )
-    })
-  })
+        }),
+      );
+    });
+  });
 
   describe(`Notifier les Dreals concernées 
   de l'application du délai de 18 mois relatif au CDC 2022`, () => {
@@ -89,18 +89,18 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             id: projetId,
             nomProjet: 'nom_projet',
             regionProjet: 'regionA / regionB',
-          })
+          }),
         ),
         findUsersForDreal: (region: string) =>
           Promise.resolve(
             region === 'regionA'
               ? [{ email: 'drealA@test.test', fullName: 'drealA', id: 'user-A' } as User]
-              : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User]
+              : [{ email: 'drealB@test.test', fullName: 'drealB', id: 'user-B' } as User],
           ),
-      })
-      await onProjectCompletionDueDateSet(évènement)
+      });
+      await onProjectCompletionDueDateSet(évènement);
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
 
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
@@ -116,8 +116,8 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             name: 'drealA',
             subject: `Potentiel - Nouveau délai appliqué pour le projet nom_projet`,
           }),
-        })
-      )
+        }),
+      );
 
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
@@ -133,8 +133,8 @@ describe(`Notification handler onProjectCompletionDueDateSet`, () => {
             name: 'drealB',
             subject: `Potentiel - Nouveau délai appliqué pour le projet nom_projet`,
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

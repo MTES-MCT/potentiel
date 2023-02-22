@@ -1,30 +1,30 @@
-import { Repository, UniqueEntityID } from '@core/domain'
-import { err, errAsync, ok, Result, ResultAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
+import { Repository, UniqueEntityID } from '@core/domain';
+import { err, errAsync, ok, Result, ResultAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { StatusPreventsConfirmationError } from '../errors'
-import { ModificationRequest } from '../ModificationRequest'
+} from '../../shared';
+import { StatusPreventsConfirmationError } from '../errors';
+import { ModificationRequest } from '../ModificationRequest';
 
 interface ConfirmRequestDeps {
-  modificationRequestRepo: Repository<ModificationRequest>
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
+  modificationRequestRepo: Repository<ModificationRequest>;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
 }
 
 interface ConfirmRequestArgs {
-  modificationRequestId: UniqueEntityID
-  versionDate: Date
-  confirmedBy: User
+  modificationRequestId: UniqueEntityID;
+  versionDate: Date;
+  confirmedBy: User;
 }
 
 export const makeConfirmRequest =
   (deps: ConfirmRequestDeps) =>
   (
-    args: ConfirmRequestArgs
+    args: ConfirmRequestArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -32,18 +32,18 @@ export const makeConfirmRequest =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { modificationRequestRepo } = deps
-    const { modificationRequestId, versionDate, confirmedBy } = args
+    const { modificationRequestRepo } = deps;
+    const { modificationRequestId, versionDate, confirmedBy } = args;
 
     if (confirmedBy.role !== 'porteur-projet') {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return modificationRequestRepo
       .load(modificationRequestId)
       .andThen(
         (
-          modificationRequest
+          modificationRequest,
         ): ResultAsync<
           ModificationRequest,
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
@@ -52,31 +52,31 @@ export const makeConfirmRequest =
             modificationRequest.lastUpdatedOn &&
             modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
           ) {
-            return errAsync(new AggregateHasBeenUpdatedSinceError())
+            return errAsync(new AggregateHasBeenUpdatedSinceError());
           }
 
           return wrapInfra(
             deps.shouldUserAccessProject({
               projectId: modificationRequest.projectId.toString(),
               user: confirmedBy,
-            })
+            }),
           ).andThen((userHasRightsToProject): Result<ModificationRequest, UnauthorizedError> => {
             if (!userHasRightsToProject) {
-              return err(new UnauthorizedError())
+              return err(new UnauthorizedError());
             }
 
-            return ok(modificationRequest)
-          })
-        }
+            return ok(modificationRequest);
+          });
+        },
       )
       .andThen(
         (
-          modificationRequest
+          modificationRequest,
         ): Result<ModificationRequest, UnauthorizedError | StatusPreventsConfirmationError> => {
-          return modificationRequest.confirm(confirmedBy).map(() => modificationRequest)
-        }
+          return modificationRequest.confirm(confirmedBy).map(() => modificationRequest);
+        },
       )
       .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
-      })
-  }
+        return modificationRequestRepo.save(modificationRequest);
+      });
+  };

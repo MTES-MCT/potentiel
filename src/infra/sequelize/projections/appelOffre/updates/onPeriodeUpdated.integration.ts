@@ -1,25 +1,25 @@
-import models from '../../../models'
-import { resetDatabase } from '../../../helpers'
-import { onPeriodeUpdated } from './onPeriodeUpdated'
-import { PeriodeUpdated } from '@modules/appelOffre'
-import { UniqueEntityID } from '@core/domain'
+import models from '../../../models';
+import { resetDatabase } from '../../../helpers';
+import { onPeriodeUpdated } from './onPeriodeUpdated';
+import { PeriodeUpdated } from '@modules/appelOffre';
+import { UniqueEntityID } from '@core/domain';
 
 describe('appelOffre.onPeriodeUpdated', () => {
-  const { Periode } = models
+  const { Periode } = models;
 
-  const appelOffreId = new UniqueEntityID().toString()
-  const periodeId = new UniqueEntityID().toString()
+  const appelOffreId = new UniqueEntityID().toString();
+  const periodeId = new UniqueEntityID().toString();
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
+    await resetDatabase();
 
     await Periode.create({
       periodeId,
       appelOffreId,
       data: { param2: 'value2', param3: 'value3' },
-    })
-  })
+    });
+  });
 
   it('should update the periode data with the delta', async () => {
     await onPeriodeUpdated(models)(
@@ -33,14 +33,14 @@ describe('appelOffre.onPeriodeUpdated', () => {
             param2: 'newvalue2',
           },
         },
-      })
-    )
+      }),
+    );
 
-    const updatedPeriode = await Periode.findOne({ where: { appelOffreId, periodeId } })
+    const updatedPeriode = await Periode.findOne({ where: { appelOffreId, periodeId } });
     expect(updatedPeriode.data).toEqual({
       param1: 'value1',
       param2: 'newvalue2',
       param3: 'value3',
-    })
-  })
-})
+    });
+  });
+});

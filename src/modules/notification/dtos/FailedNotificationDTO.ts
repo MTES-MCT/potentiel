@@ -1,10 +1,10 @@
 export interface FailedNotificationDTO {
-  id: string
+  id: string;
   recipient: {
-    email: string
-    name: string
-  }
-  type: string
-  createdAt: Date
-  error: string
+    email: string;
+    name: string;
+  };
+  type: string;
+  createdAt: Date;
+  error: string;
 }

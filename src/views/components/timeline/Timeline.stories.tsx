@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   ProjectImportedDTO,
   ProjectNotifiedDTO,
@@ -21,10 +21,10 @@ import {
   DateMiseEnServiceDTO,
   DateFileAttenteDTO,
   GarantiesFinancièresDTO,
-} from '@modules/frise'
-import { Timeline } from './Timeline'
+} from '@modules/frise';
+import { Timeline } from './Timeline';
 
-export default { title: 'Nouvelle frise' }
+export default { title: 'Nouvelle frise' };
 
 const project = {
   id: 'fake-project-id',
@@ -32,7 +32,7 @@ const project = {
   isSoumisAuxGF: true,
   isGarantiesFinancieresDeposeesALaCandidature: false,
   nomProjet: 'monProjet',
-} as ProjectEventListDTO['project']
+} as ProjectEventListDTO['project'];
 
 export const adminGarantiesFinancieresDues = () => (
   <Timeline
@@ -73,7 +73,7 @@ export const adminGarantiesFinancieresDues = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPGarantiesFinancieresDues = () => (
   <Timeline
@@ -109,7 +109,7 @@ export const PPGarantiesFinancieresDues = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPGarantiesFinancieresEnRetard = () => (
   <Timeline
@@ -145,7 +145,7 @@ export const PPGarantiesFinancieresEnRetard = () => (
     }}
     now={new Date('2022-01-12').getTime()}
   />
-)
+);
 
 export const PPGarantiesFinancieresEtDCREnRetard = () => (
   <Timeline
@@ -181,7 +181,7 @@ export const PPGarantiesFinancieresEtDCREnRetard = () => (
     }}
     now={new Date('2022-02-12').getTime()}
   />
-)
+);
 export const garantiesFinancieresConstituees = () => (
   <Timeline
     projectEventList={{
@@ -228,7 +228,7 @@ export const garantiesFinancieresConstituees = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const garantiesFinancieresValidées = () => (
   <Timeline
@@ -276,7 +276,7 @@ export const garantiesFinancieresValidées = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPDCRSupprimée = () => (
   <Timeline
@@ -309,7 +309,7 @@ export const PPDCRSupprimée = () => (
     }}
     now={new Date('2022-01-03').getTime()}
   />
-)
+);
 export const PPDCRConstituée = () => (
   <Timeline
     projectEventList={{
@@ -338,7 +338,7 @@ export const PPDCRConstituée = () => (
     }}
     now={new Date('2022-01-03').getTime()}
   />
-)
+);
 
 export const projetHistorique = () => (
   <Timeline
@@ -355,7 +355,7 @@ export const projetHistorique = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPAttestationEnCoursDeGeneration = () => (
   <Timeline
@@ -371,7 +371,7 @@ export const PPAttestationEnCoursDeGeneration = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const AdminAttestationEnCoursDeGeneration = () => (
   <Timeline
@@ -387,7 +387,7 @@ export const AdminAttestationEnCoursDeGeneration = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const projetEliminé = () => (
   <Timeline
@@ -403,7 +403,7 @@ export const projetEliminé = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const RecoursAccepte = () => (
   <Timeline
@@ -424,7 +424,7 @@ export const RecoursAccepte = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PuissanceRequestedForPP = () => (
   <Timeline
@@ -459,7 +459,7 @@ export const PuissanceRequestedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DelayRequestedForPP = () => (
   <Timeline
@@ -493,7 +493,7 @@ export const DelayRequestedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DelayRequestedInstructionStartedForPP = () => (
   <Timeline
@@ -533,7 +533,7 @@ export const DelayRequestedInstructionStartedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DelayAcceptedForPP = () => (
   <Timeline
@@ -573,7 +573,7 @@ export const DelayAcceptedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const RecoursRejectedForPP = () => (
   <Timeline
@@ -613,7 +613,7 @@ export const RecoursRejectedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 export const DelayRequestedForDreal = () => (
   <Timeline
     projectEventList={{
@@ -637,7 +637,7 @@ export const DelayRequestedForDreal = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DelayRequestedInstructionStartedForDreal = () => (
   <Timeline
@@ -668,7 +668,7 @@ export const DelayRequestedInstructionStartedForDreal = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const RecoursRequestedForADMIN = () => (
   <Timeline
@@ -692,7 +692,7 @@ export const RecoursRequestedForADMIN = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPModificationReceived = () => (
   <Timeline
@@ -749,7 +749,7 @@ export const PPModificationReceived = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const drealGarantiesFinancieresNotUploaded = () => (
   <Timeline
@@ -770,7 +770,7 @@ export const drealGarantiesFinancieresNotUploaded = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPGarantiesFinancieresNotUploaded = () => (
   <Timeline
@@ -800,7 +800,7 @@ export const PPGarantiesFinancieresNotUploaded = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const drealGarantiesFinancieresUploaded = () => (
   <Timeline
@@ -829,7 +829,7 @@ export const drealGarantiesFinancieresUploaded = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const PPGarantiesFinancieresUploaded = () => (
   <Timeline
@@ -867,7 +867,7 @@ export const PPGarantiesFinancieresUploaded = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const LegacyModificationsAndDelayRequestForPP = () => (
   <Timeline
@@ -943,7 +943,7 @@ export const LegacyModificationsAndDelayRequestForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const LegacyRecoursRejectedForPP = () => (
   <Timeline
@@ -976,7 +976,7 @@ export const LegacyRecoursRejectedForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const AdminFichierAttache = () => (
   <Timeline
@@ -1040,7 +1040,7 @@ export const AdminFichierAttache = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const AdminDélaiCovid = () => (
   <Timeline
@@ -1085,7 +1085,7 @@ export const AdminDélaiCovid = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DemandeDelaiSignaléAcceptée = () => (
   <Timeline
@@ -1122,7 +1122,7 @@ export const DemandeDelaiSignaléAcceptée = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DemandeDelaiSignaléRefusée = () => (
   <Timeline
@@ -1157,7 +1157,7 @@ export const DemandeDelaiSignaléRefusée = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const AbandonDemandéForAdmin = () => (
   <Timeline
@@ -1190,7 +1190,7 @@ export const AbandonDemandéForAdmin = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const AbandonRejetéForPP = () => (
   <Timeline
@@ -1222,7 +1222,7 @@ export const AbandonRejetéForPP = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);
 
 export const DateMESEtFA = () => (
   <Timeline
@@ -1249,4 +1249,4 @@ export const DateMESEtFA = () => (
     }}
     now={new Date().getTime()}
   />
-)
+);

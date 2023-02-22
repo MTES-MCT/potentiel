@@ -1,3 +1,3 @@
 export type AppelOffreDTO = {
-  appelOffreId: string
-}
+  appelOffreId: string;
+};

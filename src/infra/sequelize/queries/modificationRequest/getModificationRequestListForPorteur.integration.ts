@@ -1,16 +1,16 @@
-import models from '../../models'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import makeFakeFile from '../../../../__tests__/fixtures/file'
-import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur'
-import { UniqueEntityID } from '@core/domain'
-import { User as userEntity } from '@entities'
+import models from '../../models';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import makeFakeFile from '../../../../__tests__/fixtures/file';
+import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur';
+import { UniqueEntityID } from '@core/domain';
+import { User as userEntity } from '@entities';
 
 /* 
 Fonctionnalité : Retourner la liste des demandes de modifications 
 associées aux projets auxquels le porteur a accès
 */
 
-const { Project, User, File, ModificationRequest, UserProjects } = models
+const { Project, User, File, ModificationRequest, UserProjects } = models;
 
 describe('Obtenir la liste des demandes de modification pour un porteur de projet.', () => {
   // Scenario 1
@@ -21,10 +21,10 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
               - une modification legacy, `, () => {
       it(`Quand le porteur accède à ses demandes, 
          alors il devrait recevoir les détails de la modification non-legacy.`, async () => {
-        const user = _creerPorteurProjet('email@test.test', 'John Doe')
-        await User.create(user)
+        const user = _creerPorteurProjet('email@test.test', 'John Doe');
+        await User.create(user);
 
-        const projectId = new UniqueEntityID().toString()
+        const projectId = new UniqueEntityID().toString();
         await Project.create(
           makeFakeProject({
             id: projectId,
@@ -36,14 +36,14 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
             periodeId: '1',
             familleId: 'familleId',
             unitePuissance: 'MWc',
-          })
-        )
-        await UserProjects.create({ projectId, userId: user.id })
+          }),
+        );
+        await UserProjects.create({ projectId, userId: user.id });
 
-        const fileId = new UniqueEntityID().toString()
-        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+        const fileId = new UniqueEntityID().toString();
+        await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-        const modificationId = new UniqueEntityID().toString()
+        const modificationId = new UniqueEntityID().toString();
         await ModificationRequest.create({
           projectId,
           fileId,
@@ -54,7 +54,7 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
           userId: user.id,
           authority: 'dgec',
           justification: 'justification',
-        })
+        });
 
         await ModificationRequest.create({
           projectId,
@@ -67,15 +67,15 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
           authority: 'dgec',
           justification: 'justification',
           isLegacy: true,
-        })
+        });
 
         const res = await getModificationRequestListForPorteur({
           user: user,
           pagination: { page: 0, pageSize: 10 },
-        })
+        });
 
-        expect(res.isOk()).toBe(true)
-        expect(res._unsafeUnwrap().itemCount).toEqual(1)
+        expect(res.isOk()).toBe(true);
+        expect(res._unsafeUnwrap().itemCount).toEqual(1);
         expect(res._unsafeUnwrap().items[0]).toMatchObject({
           id: modificationId,
           status: 'envoyée',
@@ -100,34 +100,34 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
           },
           type: 'recours',
           description: 'justification',
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
   //Scenario 2
   describe(`Afficher les modifications faites par un autre porteur pour un porteur ayant accès au même projet`, () => {
     describe(`Etant donnés un project accessible pour deux porteurs A et B, 
               et une modification faite par le porteur A sur le projet, `, () => {
       it(`Quand le porteur B accède à ses demandes, 
         alors il devrait recevoir cette modification du porteur A.`, async () => {
-        const userA = _creerPorteurProjet('email@test.test', 'John Doe')
-        await User.create(userA)
+        const userA = _creerPorteurProjet('email@test.test', 'John Doe');
+        await User.create(userA);
 
-        const userB = _creerPorteurProjet('other-email@test.test', 'John Smith')
-        await User.create(userB)
+        const userB = _creerPorteurProjet('other-email@test.test', 'John Smith');
+        await User.create(userB);
 
-        const projectId = new UniqueEntityID().toString()
+        const projectId = new UniqueEntityID().toString();
         await Project.create(
           makeFakeProject({
             id: projectId,
-          })
-        )
+          }),
+        );
         await UserProjects.bulkCreate([
           { projectId, userId: userA.id },
           { projectId, userId: userB.id },
-        ])
+        ]);
 
-        const modificationId = new UniqueEntityID().toString()
+        const modificationId = new UniqueEntityID().toString();
         await ModificationRequest.create({
           projectId,
           fileId: new UniqueEntityID().toString(),
@@ -138,40 +138,40 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
           userId: userA.id,
           authority: 'dgec',
           justification: 'justification',
-        })
+        });
 
         const res = await getModificationRequestListForPorteur({
           user: userB,
           pagination: { page: 0, pageSize: 10 },
-        })
+        });
 
-        expect(res.isOk()).toBe(true)
-        expect(res._unsafeUnwrap().itemCount).toEqual(1)
-        expect(res._unsafeUnwrap().items[0]).toMatchObject({ id: modificationId })
-      })
-    })
-  })
+        expect(res.isOk()).toBe(true);
+        expect(res._unsafeUnwrap().itemCount).toEqual(1);
+        expect(res._unsafeUnwrap().items[0]).toMatchObject({ id: modificationId });
+      });
+    });
+  });
   //Scenario 3
   describe(`Ne pas afficher les modifications si le porteur n'a pas accès au projet.`, () => {
     describe(`Etant donnés un projet accessible par un porteur A uniquement,
               et une modification faite par le porteur A sur le projet, `, () => {
       it(`Quand le porteur B accède à ses demandes, 
       alors il ne devrait pas recevoir la modification.`, async () => {
-        const userA = _creerPorteurProjet('email@test.test', 'John Doe')
-        await User.create(userA)
+        const userA = _creerPorteurProjet('email@test.test', 'John Doe');
+        await User.create(userA);
 
-        const userB = _creerPorteurProjet('other-email@test.test', 'John Smith')
-        await User.create(userB)
+        const userB = _creerPorteurProjet('other-email@test.test', 'John Smith');
+        await User.create(userB);
 
-        const projectId = new UniqueEntityID().toString()
+        const projectId = new UniqueEntityID().toString();
         await Project.create(
           makeFakeProject({
             id: projectId,
-          })
-        )
-        await UserProjects.create({ projectId, userId: userA.id })
+          }),
+        );
+        await UserProjects.create({ projectId, userId: userA.id });
 
-        const modificationId = new UniqueEntityID().toString()
+        const modificationId = new UniqueEntityID().toString();
         await ModificationRequest.create({
           projectId,
           fileId: new UniqueEntityID().toString(),
@@ -182,28 +182,28 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
           userId: userA.id,
           authority: 'dgec',
           justification: 'justification',
-        })
+        });
 
         const res = await getModificationRequestListForPorteur({
           user: userB,
           pagination: { page: 0, pageSize: 10 },
-        })
+        });
 
-        expect(res.isOk()).toBe(true)
-        expect(res._unsafeUnwrap().itemCount).toEqual(0)
-      })
-    })
-  })
-})
+        expect(res.isOk()).toBe(true);
+        expect(res._unsafeUnwrap().itemCount).toEqual(0);
+      });
+    });
+  });
+});
 
 const _creerPorteurProjet = (
   email: string,
-  fullName: string
+  fullName: string,
 ): userEntity & { role: 'porteur-projet' } => {
   return {
     role: 'porteur-projet',
     email,
     fullName,
     id: new UniqueEntityID().toString(),
-  }
-}
+  };
+};

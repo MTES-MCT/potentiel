@@ -1,1 +1,1 @@
-export * from './isKnownProjectEvent'
+export * from './isKnownProjectEvent';

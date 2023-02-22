@@ -1,6 +1,6 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { ComponentProps, FC } from 'react';
 
-export type ButtonProps = ComponentProps<'button'>
+export type ButtonProps = ComponentProps<'button'>;
 
 export const Button: FC<ButtonProps> = ({ children, className = '', ...props }) => (
   <button
@@ -11,4 +11,4 @@ export const Button: FC<ButtonProps> = ({ children, className = '', ...props }) 
   >
     {children}
   </button>
-)
+);

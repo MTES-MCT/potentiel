@@ -1,9 +1,9 @@
-import { wrapInfra } from '@core/utils'
-import { makePaginatedList, paginate } from '../../../../helpers/paginate'
-import { FailedNotificationDTO, GetFailedNotificationDetails } from '@modules/notification'
-import models from '../../models'
+import { wrapInfra } from '@core/utils';
+import { makePaginatedList, paginate } from '../../../../helpers/paginate';
+import { FailedNotificationDTO, GetFailedNotificationDetails } from '@modules/notification';
+import models from '../../models';
 
-const { Notification } = models
+const { Notification } = models;
 
 export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagination) => {
   return wrapInfra(
@@ -11,7 +11,7 @@ export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagin
       where: { status: 'error' },
       order: [['createdAt', 'DESC']],
       ...paginate(pagination),
-    })
+    }),
   ).map(({ count, rows }) =>
     makePaginatedList(
       rows
@@ -27,10 +27,10 @@ export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagin
               type,
               createdAt,
               error,
-            } as FailedNotificationDTO)
+            } as FailedNotificationDTO),
         ),
       count,
-      pagination
-    )
-  )
-}
+      pagination,
+    ),
+  );
+};

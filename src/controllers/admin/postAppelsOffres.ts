@@ -1,12 +1,12 @@
-import { importAppelOffreData, ensureRole } from '@config'
-import { logger } from '@core/utils'
-import asyncHandler from '../helpers/asyncHandler'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { parseCsv } from '../../helpers/parseCsv'
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
+import { importAppelOffreData, ensureRole } from '@config';
+import { logger } from '@core/utils';
+import asyncHandler from '../helpers/asyncHandler';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { parseCsv } from '../../helpers/parseCsv';
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
+import { upload } from '../upload';
+import { v1Router } from '../v1Router';
 
 v1Router.post(
   routes.IMPORT_AO_ACTION,
@@ -17,8 +17,8 @@ v1Router.post(
       return response.redirect(
         addQueryParams(routes.ADMIN_AO_PERIODE, {
           error: 'Le fichier des appels d‘offre est manquant.',
-        })
-      )
+        }),
+      );
     }
 
     await parseCsv(request.file.path, { delimiter: ',', encoding: 'utf8' })
@@ -26,56 +26,56 @@ v1Router.post(
         importAppelOffreData({
           dataLines,
           importedBy: request.user,
-        })
+        }),
       )
       .match(
         () => {
           return response.redirect(
             addQueryParams(routes.ADMIN_AO_PERIODE, {
               success: "L'import des données d'appel d'offres est un succès.",
-            })
-          )
+            }),
+          );
         },
         (errors) => {
           function redirectWithError(errorMessage) {
             return response.redirect(
               addQueryParams(routes.ADMIN_AO_PERIODE, {
                 error: errorMessage,
-              })
-            )
+              }),
+            );
           }
 
           if (!Array.isArray(errors)) {
-            return redirectWithError(`Le fichier csv n'a pas pu être importé: ${errors.message}`)
+            return redirectWithError(`Le fichier csv n'a pas pu être importé: ${errors.message}`);
           }
 
           if (!errors.length) {
-            logger.error(new Error('importAppelOffreData a échoué mais sans contenir d‘erreur.'))
+            logger.error(new Error('importAppelOffreData a échoué mais sans contenir d‘erreur.'));
             return redirectWithError(
-              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur."
-            )
+              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur.",
+            );
           }
 
           if (errors[0] instanceof InfraNotAvailableError) {
-            logger.error(errors[0])
+            logger.error(errors[0]);
             return redirectWithError(
-              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur."
-            )
+              "L'import a échoué pour des raisons techniques. Merci de prévenir un administrateur.",
+            );
           }
 
           if (errors[0] instanceof UnauthorizedError) {
-            logger.error(errors[0])
+            logger.error(errors[0]);
             return redirectWithError(
-              "Vous n'avez pas les droits suffisants pour effectuer cette action."
-            )
+              "Vous n'avez pas les droits suffisants pour effectuer cette action.",
+            );
           }
 
-          const globalMessage = errors.map((error) => error.message).join('\n')
+          const globalMessage = errors.map((error) => error.message).join('\n');
 
           return redirectWithError(
-            globalMessage.length > 1000 ? globalMessage.substring(0, 1000) + '...' : globalMessage
-          )
-        }
-      )
-  })
-)
+            globalMessage.length > 1000 ? globalMessage.substring(0, 1000) + '...' : globalMessage,
+          );
+        },
+      );
+  }),
+);

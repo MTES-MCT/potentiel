@@ -1,14 +1,14 @@
-import React from 'react'
-import { Font, PDFViewer } from '@react-pdf/renderer'
-import { ProjectAppelOffre } from '@entities'
-import { ProjectDataForCertificate } from '@modules/project'
-import { Certificate } from './Certificate'
-import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres'
-import { Elimine } from './components/elimine/Elimine'
+import React from 'react';
+import { Font, PDFViewer } from '@react-pdf/renderer';
+import { ProjectAppelOffre } from '@entities';
+import { ProjectDataForCertificate } from '@modules/project';
+import { Certificate } from './Certificate';
+import { batimentPPE2, eolienPPE2 } from '@dataAccess/inMemory/appelsOffres';
+import { Elimine } from './components/elimine/Elimine';
 
-import { Validateur } from '..'
+import { Validateur } from '..';
 
-export default { title: 'Attestations PDF/PPE2/v2' }
+export default { title: 'Attestations PDF/PPE2/v2' };
 
 Font.register({
   family: 'Arimo',
@@ -25,7 +25,7 @@ Font.register({
       fontStyle: 'italic',
     },
   ],
-})
+});
 
 const fakeProject: ProjectDataForCertificate = {
   appelOffre: {
@@ -53,19 +53,19 @@ const fakeProject: ProjectDataForCertificate = {
   potentielId: 'potentielId',
   territoireProjet: 'territoireProjet',
   technologie: 'N/A',
-}
+};
 
 const validateur = {
   fullName: 'Nom du signataire',
   fonction: 'fonction du signataire',
-} as Validateur
+} as Validateur;
 
 export const EliminePPE2AuDessusDePcible = () => {
   const project: ProjectDataForCertificate = {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Au-dessus de Pcible',
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -77,15 +77,15 @@ export const EliminePPE2AuDessusDePcible = () => {
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const EliminePPE2DéjàLauréatNonInstruit = () => {
   const project: ProjectDataForCertificate = {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Déjà lauréat - Non instruit',
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -97,8 +97,8 @@ export const EliminePPE2DéjàLauréatNonInstruit = () => {
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves = () => {
   const project: ProjectDataForCertificate = {
@@ -121,7 +121,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
         },
       },
     } as ProjectAppelOffre,
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -133,8 +133,8 @@ export const EliminePPE2CompetitiviteBatimentPuissanceInferieureVolumeReserves =
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves = () => {
   const project: ProjectDataForCertificate = {
@@ -157,7 +157,7 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
         },
       },
     } as ProjectAppelOffre,
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -169,15 +169,15 @@ export const EliminePPE2CompetitiviteBatimentPuissanceSuperieureVolumeReserves =
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const EliminePPE2AutreMotif = () => {
   const project: ProjectDataForCertificate = {
     ...fakeProject,
     isClasse: false,
     motifsElimination: 'Autre motif',
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -189,8 +189,8 @@ export const EliminePPE2AutreMotif = () => {
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
   const project: ProjectDataForCertificate = {
@@ -201,7 +201,7 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
       ...fakeProject.appelOffre,
       soumisAuxGarantiesFinancieres: 'non soumis',
     },
-  }
+  };
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate
@@ -213,5 +213,5 @@ export const EliminePPE2AutreMotifNonSoumisAuxGF = () => {
         }}
       />
     </PDFViewer>
-  )
-}
+  );
+};

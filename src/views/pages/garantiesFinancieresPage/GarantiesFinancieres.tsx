@@ -1,10 +1,10 @@
-import { Request } from 'express'
-import querystring from 'querystring'
-import React from 'react'
-import { AppelOffre, Famille, Periode } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import ROUTES from '@routes'
-import { PaginatedList } from '../../../types'
+import { Request } from 'express';
+import querystring from 'querystring';
+import React from 'react';
+import { AppelOffre, Famille, Periode } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import ROUTES from '@routes';
+import { PaginatedList } from '../../../types';
 import {
   ProjectList,
   PageTemplate,
@@ -14,19 +14,19 @@ import {
   Heading1,
   DownloadLink,
   BarreDeRecherche,
-} from '@components'
-import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
-import { GarantiesFinancieresFilter } from './components'
-import { ProjectListItem } from '@modules/project/queries'
+} from '@components';
+import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
+import { GarantiesFinancieresFilter } from './components';
+import { ProjectListItem } from '@modules/project/queries';
 
 export type GarantiesFinancieresProps = {
-  request: Request
-  projects: PaginatedList<ProjectListItem>
-  appelsOffre: Array<AppelOffre>
-  existingAppelsOffres: Array<AppelOffre['id']>
-  existingPeriodes?: Array<Periode['id']>
-  existingFamilles?: Array<Famille['id']>
-}
+  request: Request;
+  projects: PaginatedList<ProjectListItem>;
+  appelsOffre: Array<AppelOffre>;
+  existingAppelsOffres: Array<AppelOffre['id']>;
+  existingPeriodes?: Array<Periode['id']>;
+  existingFamilles?: Array<Famille['id']>;
+};
 
 export const GarantiesFinancieres = ({
   request,
@@ -37,22 +37,22 @@ export const GarantiesFinancieres = ({
   existingFamilles,
 }: GarantiesFinancieresProps) => {
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
-    (request.query as any) || {}
+    (request.query as any) || {};
 
-  const hasFilters = appelOffreId || periodeId || familleId
+  const hasFilters = appelOffreId || periodeId || familleId;
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
-    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
+    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
+    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
   const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
-    refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue)
-  }
+    refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue);
+  };
 
   return (
     <PageTemplate user={request.user} currentPage="list-garanties-financieres">
@@ -142,7 +142,7 @@ export const GarantiesFinancieres = ({
             <div className="mb-8">
               <DownloadLink
                 fileUrl={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                  request.query as any
+                  request.query as any,
                 )}`}
               >
                 Télécharger les{' '}
@@ -162,7 +162,7 @@ export const GarantiesFinancieres = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(GarantiesFinancieres)
+hydrateOnClient(GarantiesFinancieres);

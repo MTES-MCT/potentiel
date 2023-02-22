@@ -1,16 +1,16 @@
 /* global JSX */
-import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer'
-import dotenv from 'dotenv'
-import React from 'react'
-import { errAsync, Queue, ResultAsync } from '@core/utils'
-import { formatDate } from '../../helpers/formatDate'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { IllegalProjectStateError } from '@modules/project/errors'
-import { OtherError } from '@modules/shared'
-import { formatNumber, getNoteThreshold } from './helpers'
-import { Validateur } from '.'
+import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/renderer';
+import dotenv from 'dotenv';
+import React from 'react';
+import { errAsync, Queue, ResultAsync } from '@core/utils';
+import { formatDate } from '../../helpers/formatDate';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { IllegalProjectStateError } from '@modules/project/errors';
+import { OtherError } from '@modules/shared';
+import { formatNumber, getNoteThreshold } from './helpers';
+import { Validateur } from '.';
 
-dotenv.config()
+dotenv.config();
 
 Font.register({
   family: 'Arial',
@@ -23,36 +23,36 @@ Font.register({
       fontWeight: 'bold',
     },
   ],
-})
+});
 
-const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830]
+const FOOTNOTE_INDICES = [185, 178, 179, 186, 9824, 9827, 9829, 9830];
 
 const makeAddFootnote = (footNotes: Array<any>) => {
   return (footNote: string) => {
-    if (!footNote) return '' // ignore if there is no footnote
+    if (!footNote) return ''; // ignore if there is no footnote
 
-    const indice = FOOTNOTE_INDICES[footNotes.length % FOOTNOTE_INDICES.length]
+    const indice = FOOTNOTE_INDICES[footNotes.length % FOOTNOTE_INDICES.length];
     footNotes.push({
       footNote,
       indice,
-    })
+    });
 
-    return String.fromCharCode(indice)
-  }
-}
+    return String.fromCharCode(indice);
+  };
+};
 
 const Laureat = (project: ProjectDataForCertificate) => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
-  const { delaiDcrEnMois } = periode
-  const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
+  const { delaiDcrEnMois } = periode;
+  const objet = `Désignation des lauréats de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`;
 
-  const famille = appelOffre.familles.find((famille) => famille.id === project.familleId)
+  const famille = appelOffre.familles.find((famille) => famille.id === project.familleId);
   const soumisAuxGarantiesFinancieres =
-    famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres
+    famille?.soumisAuxGarantiesFinancieres || appelOffre?.soumisAuxGarantiesFinancieres;
 
-  const footNotes: Array<{ footNote: string; indice: number }> = []
-  const addFootNote = makeAddFootnote(footNotes)
+  const footNotes: Array<{ footNote: string; indice: number }> = [];
+  const addFootNote = makeAddFootnote(footNotes);
 
   const body = (
     <>
@@ -269,7 +269,7 @@ const Laureat = (project: ProjectDataForCertificate) => {
         <Text />
       )}
     </>
-  )
+  );
 
   // We have to jugle a bit with String.fromCharCode to have the actual indices and not literaly &sup1; or other
   // Also we replace the spaces in the footnote text with non-breaking spaces because of a bug in React-PDF that wraps way too early
@@ -278,14 +278,14 @@ const Laureat = (project: ProjectDataForCertificate) => {
       {String.fromCharCode(indice)} Paragraphe(s){' '}
       {footNote.replace(/\s/gi, String.fromCharCode(160))} du cahier des charges
     </Text>
-  ))
-  return { project, appelOffre, periode, objet, body, footnotes }
-}
+  ));
+  return { project, appelOffre, periode, objet, body, footnotes };
+};
 
 const Elimine = (project: ProjectDataForCertificate) => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
-  const objet = `Avis de rejet à l’issue de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
+  const objet = `Avis de rejet à l’issue de la ${periode.title} période de l'appel d'offres ${periode.cahierDesCharges.référence} ${appelOffre.title}`;
 
   const body = (
     <>
@@ -334,22 +334,22 @@ const Elimine = (project: ProjectDataForCertificate) => {
         territorialement compétent dans un délai de deux mois à compter de sa date de notification.
       </Text>
     </>
-  )
+  );
 
-  return { project, appelOffre, periode, objet, body }
-}
+  return { project, appelOffre, periode, objet, body };
+};
 
 // Create Document Component
 interface CertificateProps {
-  project: ProjectDataForCertificate
-  objet: string
-  body: JSX.Element
-  footnotes?: JSX.Element
-  validateur: Validateur
+  project: ProjectDataForCertificate;
+  objet: string;
+  body: JSX.Element;
+  footnotes?: JSX.Element;
+  validateur: Validateur;
 }
 const Certificate = ({ project, objet, body, footnotes, validateur }: CertificateProps) => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
 
   return (
     <Document>
@@ -501,38 +501,38 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
         </View>
       </Page>
     </Document>
-  )
-}
+  );
+};
 
-const queue = new Queue()
+const queue = new Queue();
 
 /* global NodeJS */
 const makeCertificate = (
   project: ProjectDataForCertificate,
-  validateur: Validateur
+  validateur: Validateur,
 ): ResultAsync<NodeJS.ReadableStream, IllegalProjectStateError | OtherError> => {
-  const { appelOffre } = project
-  const { periode } = appelOffre || {}
+  const { appelOffre } = project;
+  const { periode } = appelOffre || {};
 
   if (!appelOffre || !periode) {
     return errAsync(
-      new IllegalProjectStateError({ appelOffre: 'appelOffre et/ou periode manquantes' })
-    )
+      new IllegalProjectStateError({ appelOffre: 'appelOffre et/ou periode manquantes' }),
+    );
   }
 
-  let content
+  let content;
 
   if (project.isClasse) {
-    content = Laureat(project)
+    content = Laureat(project);
   } else {
-    content = Elimine(project)
+    content = Elimine(project);
   }
 
   const ticket = queue.push(() =>
-    ReactPDF.renderToStream(<Certificate {...content} validateur={validateur} />)
-  )
+    ReactPDF.renderToStream(<Certificate {...content} validateur={validateur} />),
+  );
 
-  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message))
-}
+  return ResultAsync.fromPromise(ticket, (e: any) => new OtherError(e.message));
+};
 
-export { makeCertificate }
+export { makeCertificate };

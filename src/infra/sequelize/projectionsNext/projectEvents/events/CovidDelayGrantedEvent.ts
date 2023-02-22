@@ -1,6 +1,6 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type CovidDelayGrantedEvent = ProjectEvent & {
-  type: 'CovidDelayGranted'
-  payload: null
-}
+  type: 'CovidDelayGranted';
+  payload: null;
+};

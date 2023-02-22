@@ -1,1 +1,1 @@
-export * from './ModificationRequestList'
+export * from './ModificationRequestList';

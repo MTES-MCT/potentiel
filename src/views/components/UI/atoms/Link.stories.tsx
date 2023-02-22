@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from './Link'
+import React from 'react';
+import { Link } from './Link';
 
 export default {
   title: 'Components/Atoms/Link',
@@ -8,12 +8,12 @@ export default {
     children: { control: 'text', defaultValue: 'linkStory' },
     href: { control: 'text' },
   },
-}
+};
 
-const Template = (args) => <Link {...args} />
+const Template = (args) => <Link {...args} />;
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
   children: `Exemple de lien`,
   href: '#',
-}
+};

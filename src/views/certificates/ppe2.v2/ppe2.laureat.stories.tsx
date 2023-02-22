@@ -1,9 +1,9 @@
-import React from 'react'
-import { Font, PDFViewer } from '@react-pdf/renderer'
-import { ProjectAppelOffre } from '@entities'
-import { ProjectDataForCertificate } from '@modules/project'
-import { makeLaureat } from './components/Laureat'
-import { Certificate } from './Certificate'
+import React from 'react';
+import { Font, PDFViewer } from '@react-pdf/renderer';
+import { ProjectAppelOffre } from '@entities';
+import { ProjectDataForCertificate } from '@modules/project';
+import { makeLaureat } from './components/Laureat';
+import { Certificate } from './Certificate';
 import {
   autoconsommationMetropolePPE2,
   batimentPPE2,
@@ -11,10 +11,10 @@ import {
   innovationPPE2,
   neutrePPE2,
   solPPE2,
-} from '@dataAccess/inMemory/appelsOffres'
-import { Validateur } from '..'
+} from '@dataAccess/inMemory/appelsOffres';
+import { Validateur } from '..';
 
-export default { title: 'Attestations PDF/PPE2/v2' }
+export default { title: 'Attestations PDF/PPE2/v2' };
 
 Font.register({
   family: 'Arimo',
@@ -31,7 +31,7 @@ Font.register({
       fontStyle: 'italic',
     },
   ],
-})
+});
 
 const fakeProject: ProjectDataForCertificate = {
   appelOffre: {} as ProjectAppelOffre,
@@ -56,12 +56,12 @@ const fakeProject: ProjectDataForCertificate = {
   potentielId: 'potentielId',
   territoireProjet: 'territoireProjet',
   technologie: 'pv',
-}
+};
 
 const validateur = {
   fullName: 'Nom du signataire',
   fonction: 'fonction du signataire',
-} as Validateur
+} as Validateur;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
   const project: ProjectDataForCertificate = {
@@ -71,15 +71,15 @@ export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif = () => {
       ...autoconsommationMetropolePPE2,
       periode: autoconsommationMetropolePPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
 
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2BatimentGouvernancePartagee = () => {
   const project: ProjectDataForCertificate = {
@@ -89,14 +89,14 @@ export const LaureatPPE2BatimentGouvernancePartagee = () => {
       ...batimentPPE2,
       periode: batimentPPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2EolienP1 = () => {
   const project = {
@@ -105,14 +105,14 @@ export const LaureatPPE2EolienP1 = () => {
       ...eolienPPE2,
       periode: eolienPPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2EolienP2 = () => {
   const project = {
@@ -121,14 +121,14 @@ export const LaureatPPE2EolienP2 = () => {
       ...eolienPPE2,
       periode: eolienPPE2.periodes[1],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2Innovation = () => {
   const project = {
@@ -137,14 +137,14 @@ export const LaureatPPE2Innovation = () => {
       ...innovationPPE2,
       periode: innovationPPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2Neutre = () => {
   const project = {
@@ -153,14 +153,14 @@ export const LaureatPPE2Neutre = () => {
       ...neutrePPE2,
       periode: neutrePPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};
 
 export const LaureatPPE2Sol = () => {
   const project = {
@@ -169,11 +169,11 @@ export const LaureatPPE2Sol = () => {
       ...solPPE2,
       periode: solPPE2.periodes[0],
     } as ProjectAppelOffre,
-  }
-  const { content, footnotes } = makeLaureat(project)
+  };
+  const { content, footnotes } = makeLaureat(project);
   return (
     <PDFViewer width="100%" height="900px">
       <Certificate {...{ project, type: 'laureat', content, footnotes, validateur }} />
     </PDFViewer>
-  )
-}
+  );
+};

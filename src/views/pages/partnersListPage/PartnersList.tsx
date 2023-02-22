@@ -1,8 +1,8 @@
-import { Request } from 'express'
-import React from 'react'
-import { User } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import ROUTES from '@routes'
+import { Request } from 'express';
+import React from 'react';
+import { User } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import ROUTES from '@routes';
 import {
   Button,
   Input,
@@ -12,17 +12,17 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
 
 type PartnersListProps = {
-  request: Request
-  users: Array<User>
-  validationErrors?: Array<{ [fieldName: string]: string }>
-}
+  request: Request;
+  users: Array<User>;
+  validationErrors?: Array<{ [fieldName: string]: string }>;
+};
 
 export const PartnersList = ({ request, users, validationErrors }: PartnersListProps) => {
-  const { error, success } = (request.query as any) || {}
+  const { error, success } = (request.query as any) || {};
 
   return (
     <PageTemplate user={request.user} currentPage="admin-users">
@@ -91,7 +91,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                       </td>
                       <td valign="top">{role}</td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -99,7 +99,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(PartnersList)
+hydrateOnClient(PartnersList);

@@ -1,1 +1,1 @@
-export * from './ModificationRequest'
+export * from './ModificationRequest';

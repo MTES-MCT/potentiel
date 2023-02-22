@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { DélaiRejeté } from '@modules/demandeModification'
-import { makeOnDélaiRejeté } from './onDélaiRejeté'
+import { okAsync } from '@core/utils';
+import { DélaiRejeté } from '@modules/demandeModification';
+import { makeOnDélaiRejeté } from './onDélaiRejeté';
 
 describe(`Notifier lorsqu'un délai est rejeté`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est rejeté
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
-      const sendNotification = jest.fn()
+      const sendNotification = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lorsqu'un délai est rejeté`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
 
       const onDélaiRejeté = makeOnDélaiRejeté({
         sendNotification,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onDélaiRejeté(
         new DélaiRejeté({
@@ -42,10 +42,10 @@ describe(`Notifier lorsqu'un délai est rejeté`, () => {
             rejetéPar: 'la-dreal',
             fichierRéponseId: 'le-fichier-de-réponse',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -58,8 +58,8 @@ describe(`Notifier lorsqu'un délai est rejeté`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -72,8 +72,8 @@ describe(`Notifier lorsqu'un délai est rejeté`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

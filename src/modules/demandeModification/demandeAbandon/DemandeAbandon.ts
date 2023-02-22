@@ -1,7 +1,7 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
-import { ok, Result } from '@core/utils'
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest'
-import { EntityNotFoundError } from '../../shared'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
+import { ok, Result } from '@core/utils';
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
+import { EntityNotFoundError } from '../../shared';
 import {
   AbandonDemandé,
   AbandonAnnulé,
@@ -10,7 +10,7 @@ import {
   AbandonRejeté,
   ConfirmationAbandonDemandée,
   RejetAbandonAnnulé,
-} from './events'
+} from './events';
 
 export const statutsDemandeAbandon = [
   'envoyée',
@@ -20,31 +20,31 @@ export const statutsDemandeAbandon = [
   'en instruction',
   'en attente de confirmation',
   'demande confirmée',
-] as const
+] as const;
 
-export type StatutDemandeAbandon = typeof statutsDemandeAbandon[number]
+export type StatutDemandeAbandon = typeof statutsDemandeAbandon[number];
 
 type DemandeAbandonArgs = {
-  id: UniqueEntityID
-  events?: DomainEvent[]
-}
+  id: UniqueEntityID;
+  events?: DomainEvent[];
+};
 
 export type DemandeAbandon = EventStoreAggregate & {
-  statut: StatutDemandeAbandon
-  projetId: string
-}
+  statut: StatutDemandeAbandon;
+  projetId: string;
+};
 
 export const makeDemandeAbandon = (
-  args: DemandeAbandonArgs
+  args: DemandeAbandonArgs,
 ): Result<DemandeAbandon, EntityNotFoundError> => {
-  const { events = [], id } = args
+  const { events = [], id } = args;
 
   const agregatParDefaut: Partial<DemandeAbandon> = {
     id,
     projetId: undefined,
     statut: undefined,
     pendingEvents: [],
-  }
+  };
 
   const agregat = events.reduce((agregat, event) => {
     switch (event.type) {
@@ -53,25 +53,25 @@ export const makeDemandeAbandon = (
           ...agregat,
           statut: 'envoyée',
           projetId: event.payload.projetId,
-        }
+        };
       case AbandonAnnulé.type:
-        return { ...agregat, statut: 'annulée' }
+        return { ...agregat, statut: 'annulée' };
       case AbandonConfirmé.type:
-        return { ...agregat, statut: 'demande confirmée' }
+        return { ...agregat, statut: 'demande confirmée' };
       case AbandonAccordé.type:
-        return { ...agregat, statut: 'accordée' }
+        return { ...agregat, statut: 'accordée' };
       case AbandonRejeté.type:
-        return { ...agregat, statut: 'refusée' }
+        return { ...agregat, statut: 'refusée' };
       case ConfirmationAbandonDemandée.type:
-        return { ...agregat, statut: 'en attente de confirmation' }
+        return { ...agregat, statut: 'en attente de confirmation' };
       case RejetAbandonAnnulé.type:
-        return { ...agregat, statut: 'envoyée' }
+        return { ...agregat, statut: 'envoyée' };
       case ModificationRequestInstructionStarted.type:
-        return { ...agregat, statut: 'en instruction' }
+        return { ...agregat, statut: 'en instruction' };
       default:
-        return agregat
+        return agregat;
     }
-  }, agregatParDefaut) as DemandeAbandon
+  }, agregatParDefaut) as DemandeAbandon;
 
-  return ok(agregat)
-}
+  return ok(agregat);
+};

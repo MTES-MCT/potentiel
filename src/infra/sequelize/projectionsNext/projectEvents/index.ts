@@ -1,3 +1,3 @@
-export * from './guards'
-export * from './updates'
-export * from './projectEvent.model'
+export * from './guards';
+export * from './updates';
+export * from './projectEvent.model';

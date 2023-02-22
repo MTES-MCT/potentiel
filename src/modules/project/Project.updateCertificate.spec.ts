@@ -1,24 +1,24 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { ProjectCertificateUpdated, ProjectImported, ProjectNotified } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import { ProjectCertificateUpdated, ProjectImported, ProjectNotified } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -52,7 +52,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.updateCertificate()', () => {
   it('should emit ProjectCertificateUpdated', () => {
@@ -62,26 +62,26 @@ describe('Project.updateCertificate()', () => {
         history: fakeHistory,
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
-    const res = project.updateCertificate(fakeUser, 'fakeFileId')
+    const res = project.updateCertificate(fakeUser, 'fakeFileId');
 
-    expect(res.isOk()).toBe(true)
-    if (res.isErr()) return
+    expect(res.isOk()).toBe(true);
+    if (res.isErr()) return;
 
-    expect(project.pendingEvents).not.toHaveLength(0)
+    expect(project.pendingEvents).not.toHaveLength(0);
 
     const targetEvent = project.pendingEvents.find(
-      (item) => item.type === ProjectCertificateUpdated.type
-    ) as ProjectCertificateUpdated | undefined
-    expect(targetEvent).toBeDefined()
-    if (!targetEvent) return
+      (item) => item.type === ProjectCertificateUpdated.type,
+    ) as ProjectCertificateUpdated | undefined;
+    expect(targetEvent).toBeDefined();
+    if (!targetEvent) return;
 
-    expect(targetEvent.payload.certificateFileId).toEqual('fakeFileId')
-    expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-    expect(targetEvent.payload.uploadedBy).toEqual(fakeUser.id)
-  })
+    expect(targetEvent.payload.certificateFileId).toEqual('fakeFileId');
+    expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+    expect(targetEvent.payload.uploadedBy).toEqual(fakeUser.id);
+  });
 
   describe('when project is not notified', () => {
     it('should return a ProjectCannotBeUpdatedIfUnnotifiedError', () => {
@@ -92,14 +92,14 @@ describe('Project.updateCertificate()', () => {
           getProjectAppelOffre,
           history: fakeHistory.filter((event) => event.type !== ProjectNotified.type),
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.updateCertificate(fakeUser, 'fakeFileId')
+      const res = project.updateCertificate(fakeUser, 'fakeFileId');
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
-})
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
+});

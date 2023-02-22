@@ -1,19 +1,19 @@
-import { QueryInterface } from 'sequelize'
-import { ProjectEventProjector } from '../projectionsNext/projectEvents'
+import { QueryInterface } from 'sequelize';
+import { ProjectEventProjector } from '../projectionsNext/projectEvents';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    const transaction = await queryInterface.sequelize.transaction()
+    const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await ProjectEventProjector.rebuild(transaction)
+      await ProjectEventProjector.rebuild(transaction);
 
-      await transaction.commit()
+      await transaction.commit();
     } catch (error) {
-      await transaction.rollback()
-      throw error
+      await transaction.rollback();
+      throw error;
     }
   },
 
   down: async () => {},
-}
+};

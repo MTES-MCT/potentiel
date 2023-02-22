@@ -1,18 +1,18 @@
-import models from '../../models'
-import { resetDatabase } from '../../helpers'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import makeFakeFile from '../../../../__tests__/fixtures/file'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { getModificationRequestDetails } from './getModificationRequestDetails'
-import { UniqueEntityID } from '@core/domain'
-import { Raccordements } from '@infra/sequelize'
+import models from '../../models';
+import { resetDatabase } from '../../helpers';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import makeFakeFile from '../../../../__tests__/fixtures/file';
+import makeFakeUser from '../../../../__tests__/fixtures/user';
+import { getModificationRequestDetails } from './getModificationRequestDetails';
+import { UniqueEntityID } from '@core/domain';
+import { Raccordements } from '@infra/sequelize';
 
 describe('Requête getModificationRequestDetails', () => {
-  const projectId = new UniqueEntityID().toString()
-  const fileId = new UniqueEntityID().toString()
-  const modificationRequestId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
-  const userId2 = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
+  const fileId = new UniqueEntityID().toString();
+  const modificationRequestId = new UniqueEntityID().toString();
+  const userId = new UniqueEntityID().toString();
+  const userId2 = new UniqueEntityID().toString();
 
   const projectInfo = {
     id: projectId,
@@ -27,28 +27,28 @@ describe('Requête getModificationRequestDetails', () => {
     appelOffreId: 'Fessenheim',
     periodeId: '1',
     familleId: 'familleId',
-  }
+  };
 
   beforeEach(async () => {
-    await resetDatabase()
-    const ProjectModel = models.Project
-    await ProjectModel.create(makeFakeProject(projectInfo))
-  })
+    await resetDatabase();
+    const ProjectModel = models.Project;
+    await ProjectModel.create(makeFakeProject(projectInfo));
+  });
 
-  const versionDate = new Date(456)
+  const versionDate = new Date(456);
 
   describe(`Données par type de demande attendues`, () => {
     it(`Etant donné une modification de type "recours",
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      const FileModel = models.File;
+      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }))
+      const UserModel = models.User;
+      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
       await ModificationRequestModel.create({
         id: modificationRequestId,
         projectId,
@@ -61,16 +61,16 @@ describe('Requête getModificationRequestDetails', () => {
         status: 'envoyée',
         justification: 'justification',
         versionDate,
-      })
+      });
 
       const modificationRequestResult = await getModificationRequestDetails(
-        modificationRequestId.toString()
-      )
+        modificationRequestId.toString(),
+      );
 
-      expect(modificationRequestResult.isOk()).toBe(true)
-      if (modificationRequestResult.isErr()) return
+      expect(modificationRequestResult.isOk()).toBe(true);
+      if (modificationRequestResult.isErr()) return;
 
-      const modificationRequestDTO = modificationRequestResult.value
+      const modificationRequestDTO = modificationRequestResult.value;
 
       expect(modificationRequestDTO).toMatchObject({
         id: modificationRequestId,
@@ -91,20 +91,20 @@ describe('Requête getModificationRequestDetails', () => {
           unitePuissance: 'MWc',
           notifiedOn: projectInfo.notifiedOn,
         },
-      })
-    })
+      });
+    });
 
     it(`Etant donné une modification de type "puissance",
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      const FileModel = models.File;
+      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }))
+      const UserModel = models.User;
+      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
       await ModificationRequestModel.create({
         id: modificationRequestId,
         projectId,
@@ -118,16 +118,16 @@ describe('Requête getModificationRequestDetails', () => {
         status: 'envoyée',
         justification: 'justification',
         versionDate,
-      })
+      });
 
       const modificationRequestResult = await getModificationRequestDetails(
-        modificationRequestId.toString()
-      )
+        modificationRequestId.toString(),
+      );
 
-      expect(modificationRequestResult.isOk()).toBe(true)
-      if (modificationRequestResult.isErr()) return
+      expect(modificationRequestResult.isOk()).toBe(true);
+      if (modificationRequestResult.isErr()) return;
 
-      const modificationRequestDTO = modificationRequestResult.value
+      const modificationRequestDTO = modificationRequestResult.value;
 
       expect(modificationRequestDTO).toMatchObject({
         id: modificationRequestId,
@@ -149,30 +149,30 @@ describe('Requête getModificationRequestDetails', () => {
           unitePuissance: 'MWc',
           notifiedOn: projectInfo.notifiedOn,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe(`Données de raccordement attendues`, () => {
     it(`Etant donné un projet ayant un identifiant de gestionnaire réseau,
       et une demande de modification, 
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner l'identifiant de gestionnnaire réseau`, async () => {
-      const identifiantGestionnaire = 'identifiant-du-gestionnaire'
+      const identifiantGestionnaire = 'identifiant-du-gestionnaire';
       await Raccordements.create({
         id: new UniqueEntityID().toString(),
         projetId: projectId,
         identifiantGestionnaire,
-      })
+      });
 
-      const FileModel = models.File
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }))
+      const FileModel = models.File;
+      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }))
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }))
+      const UserModel = models.User;
+      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
       await ModificationRequestModel.create({
         id: modificationRequestId,
         projectId,
@@ -185,21 +185,21 @@ describe('Requête getModificationRequestDetails', () => {
         status: 'envoyée',
         justification: 'justification',
         versionDate,
-      })
+      });
 
       const modificationRequestResult = await getModificationRequestDetails(
-        modificationRequestId.toString()
-      )
+        modificationRequestId.toString(),
+      );
 
-      expect(modificationRequestResult.isOk()).toBe(true)
-      if (modificationRequestResult.isErr()) return
+      expect(modificationRequestResult.isOk()).toBe(true);
+      if (modificationRequestResult.isErr()) return;
 
-      const modificationRequestDTO = modificationRequestResult.value
+      const modificationRequestDTO = modificationRequestResult.value;
 
-      expect(modificationRequestDTO.id).toEqual(modificationRequestId)
+      expect(modificationRequestDTO.id).toEqual(modificationRequestId);
       expect(modificationRequestDTO.project.identifiantGestionnaire).toEqual(
-        identifiantGestionnaire
-      )
-    })
-  })
-})
+        identifiantGestionnaire,
+      );
+    });
+  });
+});

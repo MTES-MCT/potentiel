@@ -1,1 +1,1 @@
-export * from './DemanderChangementPuissance'
+export * from './DemanderChangementPuissance';

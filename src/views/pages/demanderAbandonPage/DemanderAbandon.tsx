@@ -1,8 +1,8 @@
-import React from 'react'
-import { ProjectAppelOffre } from '@entities'
-import routes from '@routes'
-import { dataId } from '../../../helpers/testId'
-import { Request } from 'express'
+import React from 'react';
+import { ProjectAppelOffre } from '@entities';
+import routes from '@routes';
+import { dataId } from '../../../helpers/testId';
+import { Request } from 'express';
 
 import {
   ProjectInfo,
@@ -18,20 +18,20 @@ import {
   Heading1,
   SecondaryLinkButton,
   ProjectProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
 
 type DemanderAbandonProps = {
-  request: Request
-  project: ProjectProps & { cahierDesChargesActuel: string }
-  appelOffre: ProjectAppelOffre
-}
+  request: Request;
+  project: ProjectProps & { cahierDesChargesActuel: string };
+  appelOffre: ProjectAppelOffre;
+};
 
 export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbandonProps) => {
-  const { error, success, justification } = (request.query as any) || {}
+  const { error, success, justification } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -107,7 +107,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DemanderAbandon)
+hydrateOnClient(DemanderAbandon);

@@ -1,10 +1,10 @@
-import { Request } from 'express'
-import React from 'react'
-import { LinkButton, PageTemplate, SuccessBox, ErrorBox } from '@components'
-import { hydrateOnClient } from '../helpers'
+import { Request } from 'express';
+import React from 'react';
+import { LinkButton, PageTemplate, SuccessBox, ErrorBox } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 interface SuccèsOuErreurProps {
-  request: Request
+  request: Request;
 }
 
 export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
@@ -14,11 +14,11 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
     redirectUrl,
     redirectTitle,
   }: {
-    success?: string
-    error?: string
-    redirectUrl: string
-    redirectTitle: string
-  } = (request.query as any) || {}
+    success?: string;
+    error?: string;
+    redirectUrl: string;
+    redirectTitle: string;
+  } = (request.query as any) || {};
 
   const contents = (
     <div className="panel">
@@ -29,9 +29,9 @@ export const SuccèsOuErreur = ({ request }: SuccèsOuErreurProps) => {
         {redirectTitle}
       </LinkButton>
     </div>
-  )
+  );
 
-  return <PageTemplate user={request.user}>{contents}</PageTemplate>
-}
+  return <PageTemplate user={request.user}>{contents}</PageTemplate>;
+};
 
-hydrateOnClient(SuccèsOuErreur)
+hydrateOnClient(SuccèsOuErreur);

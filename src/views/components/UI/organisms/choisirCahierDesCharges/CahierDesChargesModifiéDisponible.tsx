@@ -1,8 +1,8 @@
-import React from 'react'
-import { ExternalLink } from '@components'
-import { CahierDesChargesModifié } from '@entities/cahierDesCharges'
+import React from 'react';
+import { ExternalLink } from '@components';
+import { CahierDesChargesModifié } from '@entities/cahierDesCharges';
 
-type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié
+type CahierDesChargesModifiéDisponibleProps = CahierDesChargesModifié;
 
 export const CahierDesChargesModifiéDisponible: React.FC<
   CahierDesChargesModifiéDisponibleProps
@@ -29,4 +29,4 @@ export const CahierDesChargesModifiéDisponible: React.FC<
       )}
     </ul>
   </div>
-)
+);

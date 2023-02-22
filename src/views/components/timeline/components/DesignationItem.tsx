@@ -1,8 +1,8 @@
-import React from 'react'
-import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.'
-import { DesignationItemProps } from '../helpers/extractDesignationItemProps'
-import { formatDate } from '../../../../helpers/formatDate'
-import { DownloadLink } from '@components'
+import React from 'react';
+import { ItemDate, PastIcon, ItemTitle, ContentArea } from '.';
+import { DesignationItemProps } from '../helpers/extractDesignationItemProps';
+import { formatDate } from '../../../../helpers/formatDate';
+import { DownloadLink } from '@components';
 
 export const DesignationItem = ({
   certificate,
@@ -22,21 +22,21 @@ export const DesignationItem = ({
       )}
     </ContentArea>
   </>
-)
+);
 
 type CertificateProps = {
-  certificate: Exclude<DesignationItemProps['certificate'], undefined>
-  projectStatus: DesignationItemProps['projectStatus']
-}
+  certificate: Exclude<DesignationItemProps['certificate'], undefined>;
+  projectStatus: DesignationItemProps['projectStatus'];
+};
 
 const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
-  const { status } = certificate
+  const { status } = certificate;
 
   if (status === 'not-applicable') {
-    return <span>Attestation non disponible pour cette période</span>
+    return <span>Attestation non disponible pour cette période</span>;
   }
 
-  const { url: fileUrl, date } = certificate
+  const { url: fileUrl, date } = certificate;
 
   const urlTitle =
     projectStatus === 'Eliminé'
@@ -45,10 +45,10 @@ const Certificate = ({ certificate, projectStatus }: CertificateProps) => {
         : `avis de rejet (transmis`
       : status === 'generated'
       ? `attestation de désignation (éditée`
-      : `attestation de désignation (transmise`
+      : `attestation de désignation (transmise`;
   return (
     <DownloadLink {...{ fileUrl }}>{`Télécharger l'${urlTitle} le ${formatDate(
-      date
+      date,
     )})`}</DownloadLink>
-  )
-}
+  );
+};

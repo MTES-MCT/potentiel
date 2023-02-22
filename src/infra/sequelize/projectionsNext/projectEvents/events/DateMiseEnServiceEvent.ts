@@ -1,10 +1,10 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type DateMiseEnServicePayload =
   | { statut: 'renseignée'; dateMiseEnService: string }
-  | { statut: 'non-renseignée' }
+  | { statut: 'non-renseignée' };
 
 export type DateMiseEnServiceEvent = ProjectEvent & {
-  type: 'DateMiseEnService'
-  payload: DateMiseEnServicePayload
-}
+  type: 'DateMiseEnService';
+  payload: DateMiseEnServicePayload;
+};

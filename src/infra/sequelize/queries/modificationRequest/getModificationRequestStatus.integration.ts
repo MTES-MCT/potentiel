@@ -1,22 +1,22 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '../../helpers'
-import models from '../../models'
-import { getModificationRequestStatus } from './getModificationRequestStatus'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '../../helpers';
+import models from '../../models';
+import { getModificationRequestStatus } from './getModificationRequestStatus';
 
 describe('Sequelize getModificationRequestStatus', () => {
-  const projectId = new UniqueEntityID().toString()
-  const fileId = new UniqueEntityID().toString()
-  const modificationRequestId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
-  const userId2 = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
+  const fileId = new UniqueEntityID().toString();
+  const modificationRequestId = new UniqueEntityID().toString();
+  const userId = new UniqueEntityID().toString();
+  const userId2 = new UniqueEntityID().toString();
 
-  const versionDate = new Date(456)
+  const versionDate = new Date(456);
 
   beforeAll(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
+    await resetDatabase();
 
-    const ModificationRequestModel = models.ModificationRequest
+    const ModificationRequestModel = models.ModificationRequest;
     await ModificationRequestModel.create({
       id: modificationRequestId,
       projectId,
@@ -29,12 +29,12 @@ describe('Sequelize getModificationRequestStatus', () => {
       status: 'envoyée',
       justification: 'justification',
       versionDate,
-    })
-  })
+    });
+  });
 
   it('should return status', async () => {
-    const statusResult = await getModificationRequestStatus(modificationRequestId)
+    const statusResult = await getModificationRequestStatus(modificationRequestId);
 
-    expect(statusResult._unsafeUnwrap()).toEqual('envoyée')
-  })
-})
+    expect(statusResult._unsafeUnwrap()).toEqual('envoyée');
+  });
+});

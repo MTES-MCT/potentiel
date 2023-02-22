@@ -1,5 +1,5 @@
-import React from 'react'
-import { ExternalLink } from './UI'
+import React from 'react';
+import { ExternalLink } from './UI';
 
 export const InfoLienGuideUtilisationCDC = () => (
   <span>
@@ -9,4 +9,4 @@ export const InfoLienGuideUtilisationCDC = () => (
     </ExternalLink>
     .
   </span>
-)
+);

@@ -1,9 +1,9 @@
-import React from 'react'
-import type { Request } from 'express'
-import routes from '@routes'
-import { Footer } from './Footer'
-import { Header } from './Header'
-import { DropdownMenu } from './UI/molecules/DropdownMenu'
+import React from 'react';
+import type { Request } from 'express';
+import routes from '@routes';
+import { Footer } from './Footer';
+import { Header } from './Header';
+import { DropdownMenu } from './UI/molecules/DropdownMenu';
 
 type CurrentPage =
   | 'list-projects'
@@ -25,34 +25,34 @@ type CurrentPage =
   | 'admin-statistiques'
   | 'cre-statistiques'
   | 'inviter-dgec-validateur'
-  | undefined
+  | undefined;
 
 const getUserNavigation = ({
   user,
   currentPage,
 }: {
-  user: Request['user']
-  currentPage?: CurrentPage
+  user: Request['user'];
+  currentPage?: CurrentPage;
 }) => {
   switch (user.role) {
     case 'porteur-projet':
-      return MenuPorteurProjet(currentPage)
+      return MenuPorteurProjet(currentPage);
     case 'acheteur-obligé':
-      return MenuAcheteurObligé(currentPage)
+      return MenuAcheteurObligé(currentPage);
     case 'ademe':
-      return MenuAdeme(currentPage)
+      return MenuAdeme(currentPage);
     case 'dreal':
-      return MenuDreal(currentPage)
+      return MenuDreal(currentPage);
     case 'admin':
-      return MenuAdmin(currentPage)
+      return MenuAdmin(currentPage);
     case 'dgec-validateur':
-      return MenuAdmin(currentPage)
+      return MenuAdmin(currentPage);
     case 'cre':
-      return MenuCre(currentPage)
+      return MenuCre(currentPage);
     case 'caisse-des-dépôts':
-      return MenuCaisseDesDépôts(currentPage)
+      return MenuCaisseDesDépôts(currentPage);
   }
-}
+};
 
 const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
   <Header.MenuItem
@@ -61,7 +61,7 @@ const MenuCaisseDesDépôts = (currentPage: CurrentPage) => (
   >
     Projets
   </Header.MenuItem>
-)
+);
 
 const MenuCre = (currentPage: CurrentPage) => (
   <>
@@ -78,7 +78,7 @@ const MenuCre = (currentPage: CurrentPage) => (
       Tableau de bord
     </Header.MenuItem>
   </>
-)
+);
 
 const MenuAdmin = (currentPage: CurrentPage) => (
   <>
@@ -177,7 +177,7 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
-)
+);
 
 const MenuPorteurProjet = (currentPage: CurrentPage) => (
   <>
@@ -200,7 +200,7 @@ const MenuPorteurProjet = (currentPage: CurrentPage) => (
       Projets à réclamer
     </Header.MenuItem>
   </>
-)
+);
 
 const MenuAcheteurObligé = (currentPage: CurrentPage) => (
   <>
@@ -217,7 +217,7 @@ const MenuAcheteurObligé = (currentPage: CurrentPage) => (
       Tableau de bord
     </Header.MenuItem>
   </>
-)
+);
 
 const MenuAdeme = (currentPage: CurrentPage) => (
   <>
@@ -234,7 +234,7 @@ const MenuAdeme = (currentPage: CurrentPage) => (
       Tableau de bord
     </Header.MenuItem>
   </>
-)
+);
 
 const MenuDreal = (currentPage: CurrentPage) => (
   <>
@@ -257,16 +257,16 @@ const MenuDreal = (currentPage: CurrentPage) => (
       Garanties Financières
     </Header.MenuItem>
   </>
-)
+);
 
 export const PageTemplate = ({
   user,
   children,
   currentPage,
 }: {
-  user: Request['user']
-  children: React.ReactNode
-  currentPage?: CurrentPage
+  user: Request['user'];
+  children: React.ReactNode;
+  currentPage?: CurrentPage;
 }) => {
   return (
     <>
@@ -280,5 +280,5 @@ export const PageTemplate = ({
       </main>
       <Footer />
     </>
-  )
-}
+  );
+};

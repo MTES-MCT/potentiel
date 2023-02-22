@@ -1,6 +1,6 @@
-import isEmail from 'isemail'
-import buildMakeEntity from '../helpers/buildMakeEntity'
-import { Literal, Null, Optional, Record, Static, String, Union } from '../types/schemaTypes'
+import isEmail from 'isemail';
+import buildMakeEntity from '../helpers/buildMakeEntity';
+import { Literal, Null, Optional, Record, Static, String, Union } from '../types/schemaTypes';
 
 const userSchema = Record({
   id: String,
@@ -15,19 +15,19 @@ const userSchema = Record({
     Literal('ademe'),
     Literal('dgec-validateur'),
     Literal('cre'),
-    Literal('caisse-des-dépôts')
+    Literal('caisse-des-dépôts'),
   ),
-})
+});
 
-const fields: string[] = [...Object.keys(userSchema.fields)]
+const fields: string[] = [...Object.keys(userSchema.fields)];
 
-type User = Static<typeof userSchema>
+type User = Static<typeof userSchema>;
 
 interface MakeUserDependencies {
-  makeId: () => string
+  makeId: () => string;
 }
 
 export default ({ makeId }: MakeUserDependencies) =>
-  buildMakeEntity<User>(userSchema, makeId, fields)
+  buildMakeEntity<User>(userSchema, makeId, fields);
 
-export { User, userSchema }
+export { User, userSchema };

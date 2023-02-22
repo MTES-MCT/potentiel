@@ -1,1 +1,1 @@
-export * from './fournisseur'
+export * from './fournisseur';

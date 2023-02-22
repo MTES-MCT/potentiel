@@ -8,19 +8,19 @@
 
 export function shallowDelta<DataType extends Record<string, any>>(
   previousData: DataType,
-  newData: DataType
+  newData: DataType,
 ): Partial<DataType> | undefined {
   const changes = Object.entries(newData).reduce((delta, [correctionKey, correctionValue]) => {
     // If the specific property is missing from previousData
     // or it's value has changed, add it to the delta
     if (_isValueChanged(correctionKey, correctionValue, previousData)) {
-      delta[correctionKey] = correctionValue
+      delta[correctionKey] = correctionValue;
     }
 
-    return delta
-  }, {})
+    return delta;
+  }, {});
 
-  return Object.keys(changes).length ? changes : undefined
+  return Object.keys(changes).length ? changes : undefined;
 }
 
 function _isValueChanged(key, newValue, data) {
@@ -28,5 +28,5 @@ function _isValueChanged(key, newValue, data) {
     typeof newValue !== 'undefined' &&
     data &&
     (typeof data[key] === 'undefined' || data[key] !== newValue)
-  )
+  );
 }

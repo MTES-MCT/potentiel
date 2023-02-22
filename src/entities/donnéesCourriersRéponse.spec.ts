@@ -1,13 +1,13 @@
-import { CahierDesChargesModifié } from './cahierDesCharges'
-import { ProjectAppelOffre } from './appelOffre'
-import { Periode } from './periode'
-import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse'
+import { CahierDesChargesModifié } from './cahierDesCharges';
+import { ProjectAppelOffre } from './appelOffre';
+import { Periode } from './periode';
+import { getDonnéesCourriersRéponse } from './donnéesCourriersRéponse';
 
 describe(`Récupération des données des courriers de réponse`, () => {
   describe(`Cas des données présentes seulement dans l'appel d'offres`, () => {
     it(`Etant donné un appel d'offres de projet dont les données sont seulement dans l'AO
         Alors les données de l'AO devraient être retournées`, () => {
-      const cahierDesChargesActuel = '30/07/2021'
+      const cahierDesChargesActuel = '30/07/2021';
 
       const projectAppelOffre = {
         periode: {} as Periode,
@@ -23,9 +23,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
         cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
-      } as ProjectAppelOffre
+      } as ProjectAppelOffre;
 
-      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre)
+      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
 
       expect(res).toEqual({
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -37,14 +37,14 @@ describe(`Récupération des données des courriers de réponse`, () => {
         texteIdentitéDuProducteur: { référenceParagraphe: 'AO-4', dispositions: 'AO-quatre' },
         texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
         texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe(`Cas des données présentes en partie dans la période et l'appel d'offres`, () => {
     it(`Etant donné un appel d'offres de projet dont les données sont en partie dans la période et l'appel d'offres
         Alors les données de la l'AO devraient être retournées surchargées par celles de la période`, () => {
-      const cahierDesChargesActuel = '30/07/2021'
+      const cahierDesChargesActuel = '30/07/2021';
 
       const projectAppelOffre = {
         periode: {
@@ -68,9 +68,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
         cahiersDesChargesModifiésDisponibles: [] as ReadonlyArray<CahierDesChargesModifié>,
-      } as ProjectAppelOffre
+      } as ProjectAppelOffre;
 
-      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre)
+      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
 
       expect(res).toEqual({
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -82,14 +82,14 @@ describe(`Récupération des données des courriers de réponse`, () => {
         texteIdentitéDuProducteur: { référenceParagraphe: 'AO-4', dispositions: 'AO-quatre' },
         texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
         texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
-      })
-    })
-  })
+      });
+    });
+  });
 
   describe(`Cas des données présentes en partie dans le CDC modifié, la période et l'appel d'offres`, () => {
     it(`Etant donné un appel d'offres de projet dont les données sont en partie dans le CDC modifié, la période et l'appel d'offres
         Alors les données de l'AO devraient être retournées surchargées par celles de la période puis celles du CDC`, () => {
-      const cahierDesChargesActuel = '30/08/2022-alternatif'
+      const cahierDesChargesActuel = '30/08/2022-alternatif';
 
       const cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié> = [
         {
@@ -115,7 +115,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
             },
           },
         },
-      ]
+      ];
 
       const projectAppelOffre = {
         periode: {
@@ -139,9 +139,9 @@ describe(`Récupération des données des courriers de réponse`, () => {
           texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
         },
         cahiersDesChargesModifiésDisponibles,
-      } as ProjectAppelOffre
+      } as ProjectAppelOffre;
 
-      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre)
+      const res = getDonnéesCourriersRéponse(cahierDesChargesActuel, projectAppelOffre);
 
       expect(res).toEqual({
         texteEngagementRéalisationEtModalitésAbandon: {
@@ -153,7 +153,7 @@ describe(`Récupération des données des courriers de réponse`, () => {
         texteIdentitéDuProducteur: { référenceParagraphe: 'AO-4', dispositions: 'AO-quatre' },
         texteChangementDeProducteur: { référenceParagraphe: 'AO-5', dispositions: 'AO-cinq' },
         texteDélaisDAchèvement: { référenceParagraphe: 'AO-6', dispositions: 'AO-six' },
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

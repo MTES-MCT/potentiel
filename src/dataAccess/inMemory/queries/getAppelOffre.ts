@@ -1,12 +1,12 @@
-import { ResultAsync, errAsync, okAsync } from '@core/utils'
-import { EntityNotFoundError } from '@modules/shared'
-import { appelsOffreStatic } from '../appelOffre'
-import { AppelOffre } from '@entities/appelOffre'
+import { ResultAsync, errAsync, okAsync } from '@core/utils';
+import { EntityNotFoundError } from '@modules/shared';
+import { appelsOffreStatic } from '../appelOffre';
+import { AppelOffre } from '@entities/appelOffre';
 
 export const getAppelOffre: (
-  appelOffreId: string
+  appelOffreId: string,
 ) => ResultAsync<AppelOffre, EntityNotFoundError> = (appelOffreId) => {
-  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId)
+  const appelOffre = appelsOffreStatic.find((ao) => ao.id === appelOffreId);
 
-  return appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError())
-}
+  return appelOffre ? okAsync(appelOffre) : errAsync(new EntityNotFoundError());
+};

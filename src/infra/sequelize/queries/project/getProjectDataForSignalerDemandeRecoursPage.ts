@@ -1,30 +1,30 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { errAsync, ok, okAsync, Result, wrapInfra } from '@core/utils'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { errAsync, ok, okAsync, Result, wrapInfra } from '@core/utils';
 import {
   GetProjectDataForSignalerDemandeRecoursPage,
   ProjectDataForSignalerDemandeRecoursPage,
-} from '@modules/project'
-import { EntityNotFoundError } from '@modules/shared'
-import models from '../../models'
+} from '@modules/project';
+import { EntityNotFoundError } from '@modules/shared';
+import models from '../../models';
 
-const { Project } = models
+const { Project } = models;
 
 export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSignalerDemandeRecoursPage =
   ({ projectId }) => {
     return wrapInfra(Project.findByPk(projectId))
       .andThen((projet) => {
         if (!projet) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        const { appelOffreId, periodeId, familleId } = projet
-        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+        const { appelOffreId, periodeId, familleId } = projet;
+        const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
 
         if (!appelOffre) {
-          return errAsync(new EntityNotFoundError())
+          return errAsync(new EntityNotFoundError());
         }
 
-        return okAsync({ projet, appelOffre })
+        return okAsync({ projet, appelOffre });
       })
       .andThen(
         ({
@@ -45,7 +45,7 @@ export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSigna
             familleId,
             appelOffreId,
             puissance,
-          } = projet
+          } = projet;
 
           const status = !notifiedOn
             ? 'non-notifié'
@@ -53,7 +53,7 @@ export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSigna
             ? 'abandonné'
             : classe === 'Classé'
             ? 'lauréat'
-            : 'éliminé'
+            : 'éliminé';
 
           const project: ProjectDataForSignalerDemandeRecoursPage = {
             id,
@@ -69,9 +69,9 @@ export const getProjectDataForSignalerDemandeRecoursPage: GetProjectDataForSigna
             appelOffreId,
             puissance,
             unitePuissance: appelOffre.unitePuissance,
-          }
+          };
 
-          return ok(project)
-        }
-      )
-  }
+          return ok(project);
+        },
+      );
+  };

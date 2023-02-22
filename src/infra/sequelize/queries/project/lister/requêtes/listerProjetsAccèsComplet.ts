@@ -1,8 +1,8 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ListerProjets } from '@modules/project/queries'
-import { models } from '../../../../models'
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
-import { mapToFindOptions } from '../../helpers/mapToFindOptions'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { ListerProjets } from '@modules/project/queries';
+import { models } from '../../../../models';
+import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 
 const attributes = [
   'id',
@@ -26,10 +26,10 @@ const attributes = [
   'isFinancementParticipatif',
   'isInvestissementParticipatif',
   'actionnariat',
-]
+];
 
 export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
-  const findOptions = filtres && mapToFindOptions(filtres)
+  const findOptions = filtres && mapToFindOptions(filtres);
 
   const résultat = await models.Project.findAndCountAll({
     where: {
@@ -38,15 +38,15 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
     include: [...(findOptions?.include ? findOptions.include : [])],
     ...paginate(pagination),
     attributes,
-  })
+  });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get()
+    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
     const appelOffre = getProjectAppelOffre({
       appelOffreId,
       periodeId,
       familleId,
-    })
+    });
 
     return [
       ...prev,
@@ -60,8 +60,8 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
           },
         }),
       },
-    ]
-  }, [])
+    ];
+  }, []);
 
-  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
-}
+  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination);
+};

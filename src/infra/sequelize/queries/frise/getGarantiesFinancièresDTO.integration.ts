@@ -1,17 +1,17 @@
-import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO'
-import { resetDatabase } from '@infra/sequelize/helpers'
-import { UniqueEntityID } from '@core/domain'
-import { User } from '@entities'
-import { USER_ROLES } from '@modules/users'
+import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
+import { resetDatabase } from '@infra/sequelize/helpers';
+import { UniqueEntityID } from '@core/domain';
+import { User } from '@entities';
+import { USER_ROLES } from '@modules/users';
 
 describe(`Requête getGarantiesFinancièresDTO`, () => {
-  const dateLimiteEnvoi = new Date('2050-01-01')
-  const dateEchéance = new Date()
-  const envoyéesPar = new UniqueEntityID().toString()
-  const dateConstitution = new Date()
-  const fichierId = new UniqueEntityID().toString()
+  const dateLimiteEnvoi = new Date('2050-01-01');
+  const dateEchéance = new Date();
+  const envoyéesPar = new UniqueEntityID().toString();
+  const dateConstitution = new Date();
+  const fichierId = new UniqueEntityID().toString();
 
-  beforeEach(async () => await resetDatabase())
+  beforeEach(async () => await resetDatabase());
 
   describe(`Ne rien retourner si l'utlisateur n'a pas les droits`, () => {
     for (const role of USER_ROLES.filter(
@@ -23,7 +23,7 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           'dreal',
           'caisse-des-dépôts',
           'cre',
-        ].includes(role)
+        ].includes(role),
     )) {
       it(`Etant donné un projet soumis à garanties financières,
   si l'utlisateur a le rôle ${role},
@@ -36,26 +36,26 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           dateConstitution: null,
           dateEchéance: null,
           validéesPar: null,
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: { role } as User,
-        })
+        });
 
-        expect(résultat).toBe(undefined)
-      })
+        expect(résultat).toBe(undefined);
+      });
     }
-  })
+  });
 
   describe(`Si le rôle a le droit de visualiser les GF`, () => {
-    const utilisateurAutorisé = { role: 'admin' } as User
+    const utilisateurAutorisé = { role: 'admin' } as User;
     describe(`Retourner les données de GF en retard`, () => {
       it(`Etant donné un projet soumis à garanties financières,
   et dont les GF sont en attente avec une date limite d'envoi dépassée,
   alors la requête devrait retourner un GarantiesFinancièresDTO 
   avec un statut 'en retard'`, async () => {
-        const dateLimiteDépassée = new Date('2021-01-01')
+        const dateLimiteDépassée = new Date('2021-01-01');
         const garantiesFinancières = {
           statut: 'en attente',
           soumisesALaCandidature: false,
@@ -64,21 +64,21 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           dateConstitution: null,
           dateEchéance: null,
           validéesPar: null,
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: utilisateurAutorisé,
-        })
+        });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
           statut: 'en retard',
           date: dateLimiteDépassée.getTime(),
           variant: 'admin',
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe(`Retourner les données de GF en attente`, () => {
       it(`Etant donné un projet soumis à garanties financières,
@@ -93,21 +93,21 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           dateConstitution: null,
           dateEchéance: null,
           validéesPar: null,
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: utilisateurAutorisé,
-        })
+        });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
           statut: 'en attente',
           date: dateLimiteEnvoi.getTime(),
           variant: 'admin',
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe(`Retourner les données de GF à traiter`, () => {
       it(`Etant donné un projet soumis à garanties financières,
@@ -124,12 +124,12 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           validéesPar: null,
           fichier: { id: fichierId, filename: 'nom-fichier' },
           envoyéesParRef: { role: 'porteur-projet' as 'porteur-projet' },
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: utilisateurAutorisé,
-        })
+        });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
@@ -139,9 +139,9 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           url: expect.anything(),
           envoyéesPar: 'porteur-projet',
           dateEchéance: dateEchéance.getTime(),
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe(`Retourner les données de GF validées`, () => {
       it(`Etant donné un projet soumis à garanties financières,
@@ -158,12 +158,12 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           validéesPar: new UniqueEntityID().toString(),
           fichier: { id: fichierId, filename: 'nom-fichier' },
           envoyéesParRef: { role: 'admin' as 'admin' },
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: utilisateurAutorisé,
-        })
+        });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
@@ -173,9 +173,9 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           url: expect.anything(),
           envoyéesPar: 'admin',
           dateEchéance: dateEchéance.getTime(),
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe(`Retourner les données de GF validées et supprimables`, () => {
       it(`Etant donné un projet soumis à garanties financières,
@@ -192,12 +192,12 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           validéesPar: null,
           fichier: { id: fichierId, filename: 'nom-fichier' },
           envoyéesParRef: { role: 'admin' as 'admin' },
-        } as const
+        } as const;
 
         const résultat = await getGarantiesFinancièresDTO({
           garantiesFinancières,
           user: utilisateurAutorisé,
-        })
+        });
 
         expect(résultat).toEqual({
           type: 'garanties-financières',
@@ -208,8 +208,8 @@ describe(`Requête getGarantiesFinancièresDTO`, () => {
           envoyéesPar: 'admin',
           dateEchéance: dateEchéance.getTime(),
           retraitDépôtPossible: true,
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});

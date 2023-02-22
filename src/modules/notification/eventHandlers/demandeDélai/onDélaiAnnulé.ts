@@ -1,23 +1,23 @@
-import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils'
-import { UserRepo } from '@dataAccess'
-import { DélaiAnnulé } from '@modules/demandeModification'
-import { InfraNotAvailableError } from '@modules/shared'
-import routes from '@routes'
-import { NotificationService } from '../..'
+import { logger, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { UserRepo } from '@dataAccess';
+import { DélaiAnnulé } from '@modules/demandeModification';
+import { InfraNotAvailableError } from '@modules/shared';
+import routes from '@routes';
+import { NotificationService } from '../..';
 import {
   GetModificationRequestInfoForStatusNotification,
   GetModificationRequestRecipient,
-} from '../../../modificationRequest'
+} from '../../../modificationRequest';
 
-type OnDélaiAnnulé = (evenement: DélaiAnnulé) => Promise<void>
+type OnDélaiAnnulé = (evenement: DélaiAnnulé) => Promise<void>;
 
 type MakeOnDélaiAnnulé = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-  getModificationRequestRecipient: GetModificationRequestRecipient
-  dgecEmail: string
-  findUsersForDreal: UserRepo['findUsersForDreal']
-}) => OnDélaiAnnulé
+  sendNotification: NotificationService['sendNotification'];
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+  getModificationRequestRecipient: GetModificationRequestRecipient;
+  dgecEmail: string;
+  findUsersForDreal: UserRepo['findUsersForDreal'];
+}) => OnDélaiAnnulé;
 
 export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
   ({
@@ -28,13 +28,13 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
     findUsersForDreal,
   }) =>
   async (event: DélaiAnnulé) => {
-    const { demandeDélaiId } = event.payload
+    const { demandeDélaiId } = event.payload;
 
     await getModificationRequestInfoForStatusNotification(demandeDélaiId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
-          return
+          return;
         }
 
         await Promise.all(
@@ -48,47 +48,47 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
               modificationRequestId: demandeDélaiId,
               status: 'annulée',
               hasDocument: false,
-            })
-          )
-        )
+            }),
+          ),
+        );
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
     const res = await getModificationRequestInfoForStatusNotification(demandeDélaiId)
       .andThen((modificationRequest) => {
         return getModificationRequestRecipient(demandeDélaiId).map((recipient) => ({
           recipient,
           modificationRequest,
-        }))
+        }));
       })
       .andThen(({ recipient, modificationRequest }): ResultAsync<null, InfraNotAvailableError> => {
-        const { nomProjet, departementProjet, regionProjet, type } = modificationRequest
+        const { nomProjet, departementProjet, regionProjet, type } = modificationRequest;
 
         if (recipient === 'dgec') {
-          return wrapInfra(_sendNotificationToAdmin(dgecEmail, 'DGEC'))
+          return wrapInfra(_sendNotificationToAdmin(dgecEmail, 'DGEC'));
         }
 
         if (recipient === 'dreal') {
-          const regions = regionProjet.split(' / ')
+          const regions = regionProjet.split(' / ');
           return wrapInfra(
             Promise.all(
               regions.map(async (region) => {
                 // Notifiy existing dreal users
-                const drealUsers = await findUsersForDreal(region)
+                const drealUsers = await findUsersForDreal(region);
                 await Promise.all(
                   drealUsers.map((drealUser) =>
-                    _sendNotificationToAdmin(drealUser.email, drealUser.fullName)
-                  )
-                )
-              })
-            )
-          ).map(() => null)
+                    _sendNotificationToAdmin(drealUser.email, drealUser.fullName),
+                  ),
+                );
+              }),
+            ),
+          ).map(() => null);
         }
 
-        return okAsync(null)
+        return okAsync(null);
 
         function _sendNotificationToAdmin(email, name) {
           return sendNotification({
@@ -107,23 +107,23 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
               departement_projet: departementProjet,
               modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
             },
-          })
+          });
         }
-      })
+      });
 
     if (res.isErr()) {
-      logger.error(res.error)
+      logger.error(res.error);
     }
 
     function _sendUpdateNotification(args: {
-      email: string
-      fullName: string
-      typeDemande: string
-      nomProjet: string
-      modificationRequestId: string
-      porteurId: string
-      status: string
-      hasDocument: boolean
+      email: string;
+      fullName: string;
+      typeDemande: string;
+      nomProjet: string;
+      modificationRequestId: string;
+      porteurId: string;
+      status: string;
+      hasDocument: boolean;
     }) {
       const {
         email,
@@ -134,7 +134,7 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
         porteurId,
         status,
         hasDocument,
-      } = args
+      } = args;
       return sendNotification({
         type: 'modification-request-status-update',
         message: {
@@ -153,6 +153,6 @@ export const makeOnDélaiAnnulé: MakeOnDélaiAnnulé =
           modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
           document_absent: hasDocument ? undefined : '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
         },
-      })
+      });
     }
-  }
+  };

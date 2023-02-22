@@ -1,9 +1,9 @@
-import React from 'react'
-import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
+import React from 'react';
+import { dataId } from '../../../../helpers/testId';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 
 interface ActionnaireFormProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' }
+  modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' };
 }
 export const ActionnaireForm = ({ modificationRequest }: ActionnaireFormProps) => (
   <>
@@ -17,4 +17,4 @@ export const ActionnaireForm = ({ modificationRequest }: ActionnaireFormProps) =
       />
     </div>
   </>
-)
+);

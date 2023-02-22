@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const localisationProjet: Readonly<Array<Colonne>> = [
   {
@@ -10,4 +10,4 @@ export const localisationProjet: Readonly<Array<Colonne>> = [
   { source: 'champ-simple', nomColonneTableProjet: 'communeProjet', intitulé: 'Commune' },
   { nomPropriété: `Département`, source: 'propriété-colonne-détail' },
   { nomPropriété: `Région`, source: 'propriété-colonne-détail' },
-]
+];

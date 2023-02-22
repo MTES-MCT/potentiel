@@ -1,24 +1,24 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ProjectClasseGranted } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model'
-import { models } from '../../../models'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ProjectClasseGranted } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
+import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { models } from '../../../models';
 
 export default GarantiesFinancièresProjector.on(
   ProjectClasseGranted,
   async (évènement, transaction) => {
     const {
       payload: { projectId: projetId },
-    } = évènement
+    } = évènement;
 
-    const { Project } = models
+    const { Project } = models;
 
     const project = await Project.findOne({
       where: { id: projetId },
       transaction,
-    })
+    });
 
     const appelOffre =
       project &&
@@ -26,7 +26,7 @@ export default GarantiesFinancièresProjector.on(
         appelOffreId: project.appelOffreId,
         periodeId: project.periodeId,
         familleId: project.familleId,
-      })
+      });
 
     if (!appelOffre) {
       logger.error(
@@ -35,24 +35,24 @@ export default GarantiesFinancièresProjector.on(
           {
             évènement,
             nomProjection: 'GarantiesFinancières',
-          }
-        )
-      )
-      return
+          },
+        ),
+      );
+      return;
     }
 
     if (!appelOffre.isSoumisAuxGF) {
-      return
+      return;
     }
 
     const soumisesALaCandidature =
       appelOffre.famille?.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-      appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature'
+      appelOffre.soumisAuxGarantiesFinancieres === 'à la candidature';
 
     await GarantiesFinancières.destroy({
       where: { projetId },
       transaction,
-    })
+    });
 
     try {
       await GarantiesFinancières.create(
@@ -62,8 +62,8 @@ export default GarantiesFinancièresProjector.on(
           statut: 'en attente',
           soumisesALaCandidature,
         },
-        { transaction }
-      )
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -72,9 +72,9 @@ export default GarantiesFinancièresProjector.on(
             évènement,
             nomProjection: 'GarantiesFinancières',
           },
-          error
-        )
-      )
+          error,
+        ),
+      );
     }
-  }
-)
+  },
+);

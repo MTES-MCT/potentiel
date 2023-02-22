@@ -1,15 +1,15 @@
-import asyncHandler from '../helpers/asyncHandler'
-import routes from '@routes'
-import { v1Router } from '../v1Router'
-import { SignupPage } from '@views'
+import asyncHandler from '../helpers/asyncHandler';
+import routes from '@routes';
+import { v1Router } from '../v1Router';
+import { SignupPage } from '@views';
 
 v1Router.get(
   routes.SIGNUP,
   asyncHandler(async (request, response) => {
-    const { user, query } = request
+    const { user, query } = request;
 
     if (user) {
-      response.redirect(routes.REDIRECT_BASED_ON_ROLE)
+      response.redirect(routes.REDIRECT_BASED_ON_ROLE);
     }
 
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
@@ -17,8 +17,8 @@ v1Router.get(
         ...errors,
         ...(key.startsWith('error-') && { [key.replace('error-', '')]: value }),
       }),
-      [] as Array<{ [fieldName: string]: string }>
-    )
+      [] as Array<{ [fieldName: string]: string }>,
+    );
 
     return response.send(
       SignupPage({
@@ -29,7 +29,7 @@ v1Router.get(
         ...(query.email
           ? { utilisateurInvité: true, email: query.email.toString() }
           : { utilisateurInvité: false }),
-      })
-    )
-  })
-)
+      }),
+    );
+  }),
+);

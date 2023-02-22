@@ -1,27 +1,27 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../__tests__/fixtures/project'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   DemandeDelaiSignaled,
   ProjectCompletionDueDateSet,
   ProjectImported,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { makeUser } from '@entities'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { makeUser } from '@entities';
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
-const projectId = new UniqueEntityID()
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
+const projectId = new UniqueEntityID();
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
 describe('Project.signalerDemandeDelai()', () => {
   describe('when the project has not been notified', () => {
@@ -49,20 +49,20 @@ describe('Project.signalerDemandeDelai()', () => {
             }),
           ],
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
       const res = project.signalerDemandeDelai({
         decidedOn: new Date('2022-04-12'),
         status: 'rejetée',
         signaledBy: fakeUser,
-      })
+      });
 
-      expect(res.isErr()).toEqual(true)
+      expect(res.isErr()).toEqual(true);
       if (res.isErr()) {
-        expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
+        expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
       }
-    })
-  })
+    });
+  });
   describe('when the project has been notified', () => {
     describe('when project has a completion due date later than the new one', () => {
       const fakeHistory: DomainEvent[] = [
@@ -107,7 +107,7 @@ describe('Project.signalerDemandeDelai()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
       it('should emit a DemandeDelaiSignaled event without an old completion due date', () => {
         const project = UnwrapForTest(
           makeProject({
@@ -115,10 +115,10 @@ describe('Project.signalerDemandeDelai()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
+          }),
+        );
 
-        const newCompletionDueOn = new Date('2024-01-31')
+        const newCompletionDueOn = new Date('2024-01-31');
 
         project.signalerDemandeDelai({
           decidedOn: new Date('2022-04-12'),
@@ -127,24 +127,24 @@ describe('Project.signalerDemandeDelai()', () => {
           notes: 'notes',
           attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
-        })
+        });
 
-        expect(project.pendingEvents).toHaveLength(1)
+        expect(project.pendingEvents).toHaveLength(1);
 
-        const targetEvent = project.pendingEvents[0]
-        if (!targetEvent) return
+        const targetEvent = project.pendingEvents[0];
+        if (!targetEvent) return;
 
-        expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
-        expect(targetEvent.payload.oldCompletionDueOn).toBeUndefined()
-        expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
-        expect(targetEvent.payload.status).toEqual('acceptée')
-        expect(targetEvent.payload.notes).toEqual('notes')
-        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
-        expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
-      })
-    })
+        expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type);
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime());
+        expect(targetEvent.payload.oldCompletionDueOn).toBeUndefined();
+        expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime());
+        expect(targetEvent.payload.status).toEqual('acceptée');
+        expect(targetEvent.payload.notes).toEqual('notes');
+        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }]);
+        expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id);
+      });
+    });
     describe('when project has a completion due date earlier than the new one', () => {
       const fakeHistory: DomainEvent[] = [
         new ProjectImported({
@@ -188,7 +188,7 @@ describe('Project.signalerDemandeDelai()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
       it('should emit a DemandeDelaiSignaled event with the old completion due date', () => {
         const project = UnwrapForTest(
           makeProject({
@@ -196,10 +196,10 @@ describe('Project.signalerDemandeDelai()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
+          }),
+        );
 
-        const newCompletionDueOn = new Date('2024-01-31')
+        const newCompletionDueOn = new Date('2024-01-31');
 
         project.signalerDemandeDelai({
           decidedOn: new Date('2022-04-12'),
@@ -208,23 +208,23 @@ describe('Project.signalerDemandeDelai()', () => {
           notes: 'notes',
           attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
-        })
+        });
 
-        expect(project.pendingEvents).toHaveLength(2)
+        expect(project.pendingEvents).toHaveLength(2);
 
-        const targetEvent = project.pendingEvents[0]
-        if (!targetEvent) return
+        const targetEvent = project.pendingEvents[0];
+        if (!targetEvent) return;
 
-        expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type)
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime())
-        expect(targetEvent.payload.oldCompletionDueOn).toBeDefined()
-        expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime())
-        expect(targetEvent.payload.status).toEqual('acceptée')
-        expect(targetEvent.payload.notes).toEqual('notes')
-        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }])
-        expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id)
-      })
+        expect(targetEvent.type).toEqual(DemandeDelaiSignaled.type);
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+        expect(targetEvent.payload.decidedOn).toEqual(new Date('2022-04-12').getTime());
+        expect(targetEvent.payload.oldCompletionDueOn).toBeDefined();
+        expect(targetEvent.payload.newCompletionDueOn).toEqual(newCompletionDueOn.getTime());
+        expect(targetEvent.payload.status).toEqual('acceptée');
+        expect(targetEvent.payload.notes).toEqual('notes');
+        expect(targetEvent.payload.attachments).toEqual([{ id: 'file-id', name: 'file-name' }]);
+        expect(targetEvent.payload.signaledBy).toEqual(fakeUser.id);
+      });
       it('should emit a CompletionDueDateSet event with the new completion due date', () => {
         const project = UnwrapForTest(
           makeProject({
@@ -232,10 +232,10 @@ describe('Project.signalerDemandeDelai()', () => {
             history: fakeHistory,
             getProjectAppelOffre,
             buildProjectIdentifier: () => '',
-          })
-        )
+          }),
+        );
 
-        const newCompletionDueOn = new Date('2024-01-31')
+        const newCompletionDueOn = new Date('2024-01-31');
 
         project.signalerDemandeDelai({
           decidedOn: new Date('2022-04-12'),
@@ -244,18 +244,18 @@ describe('Project.signalerDemandeDelai()', () => {
           notes: 'notes',
           attachment: { id: 'file-id', name: 'file-name' },
           signaledBy: fakeUser,
-        })
+        });
 
-        expect(project.pendingEvents).toHaveLength(2)
+        expect(project.pendingEvents).toHaveLength(2);
 
-        const targetEvent = project.pendingEvents[1]
-        if (!targetEvent) return
+        const targetEvent = project.pendingEvents[1];
+        if (!targetEvent) return;
 
-        expect(targetEvent.type).toEqual(ProjectCompletionDueDateSet.type)
-        expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-        expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn.getTime())
-        expect(targetEvent.payload.setBy).toEqual(fakeUser.id)
-      })
-    })
-  })
-})
+        expect(targetEvent.type).toEqual(ProjectCompletionDueDateSet.type);
+        expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+        expect(targetEvent.payload.completionDueOn).toEqual(newCompletionDueOn.getTime());
+        expect(targetEvent.payload.setBy).toEqual(fakeUser.id);
+      });
+    });
+  });
+});

@@ -1,5 +1,5 @@
-export * from './appelOffre'
-export * from './isPeriodeLegacy'
-export { dataFieldsFlattened } from './appelsOffres'
+export * from './appelOffre';
+export * from './isPeriodeLegacy';
+export { dataFieldsFlattened } from './appelsOffres';
 
-export * from './queries'
+export * from './queries';

@@ -1,69 +1,69 @@
-import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '@entities'
-import { Fournisseur } from '../../project'
-import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO'
+import { ProjectAppelOffre, Technologie, CahierDesChargesRéférence } from '@entities';
+import { Fournisseur } from '../../project';
+import { ModificationRequestStatusDTO } from './ModificationRequestListItemDTO';
 
 export type ModificationRequestPageDTO = {
-  id: string
-  status: ModificationRequestStatusDTO
+  id: string;
+  status: ModificationRequestStatusDTO;
 
-  respondedBy?: string
-  respondedOn?: number
+  respondedBy?: string;
+  respondedOn?: number;
   responseFile?: {
-    filename: string
-    id: string
-  }
+    filename: string;
+    id: string;
+  };
 
-  versionDate: number
+  versionDate: number;
 
-  requestedOn: number
-  requestedBy: string
+  requestedOn: number;
+  requestedBy: string;
 
-  justification: string
+  justification: string;
   attachmentFile: {
-    filename: string
-    id: string
-  }
+    filename: string;
+    id: string;
+  };
 
-  cancelledBy?: string
-  cancelledOn?: number
-  authority?: string
+  cancelledBy?: string;
+  cancelledOn?: number;
+  authority?: string;
   cahierDesCharges?: {
-    url: string
+    url: string;
   } & (
     | {
-        type: 'initial'
+        type: 'initial';
       }
     | {
-        type: 'modifié'
-        paruLe: string
-        alternatif?: true
+        type: 'modifié';
+        paruLe: string;
+        alternatif?: true;
       }
-  )
+  );
 
   project: {
-    id: string
-    numeroCRE: string
-    nomProjet: string
-    nomCandidat: string
-    communeProjet: string
-    departementProjet: string
-    regionProjet: string
-    puissance: number
-    puissanceInitiale: number
-    unitePuissance: string
-    notifiedOn: number
-    completionDueOn: number
-    appelOffreId: string
-    periodeId: string
-    familleId: string | undefined
-    identifiantGestionnaire: string | undefined
-    actionnaire: string
-    potentielIdentifier: string
-    technologie: Technologie
-    appelOffre?: ProjectAppelOffre
-    cahierDesChargesActuel: CahierDesChargesRéférence
-  }
-} & Variant
+    id: string;
+    numeroCRE: string;
+    nomProjet: string;
+    nomCandidat: string;
+    communeProjet: string;
+    departementProjet: string;
+    regionProjet: string;
+    puissance: number;
+    puissanceInitiale: number;
+    unitePuissance: string;
+    notifiedOn: number;
+    completionDueOn: number;
+    appelOffreId: string;
+    periodeId: string;
+    familleId: string | undefined;
+    identifiantGestionnaire: string | undefined;
+    actionnaire: string;
+    potentielIdentifier: string;
+    technologie: Technologie;
+    appelOffre?: ProjectAppelOffre;
+    cahierDesChargesActuel: CahierDesChargesRéférence;
+  };
+} & Variant;
 
 type Variant =
   | { type: 'actionnaire'; actionnaire: string }
@@ -74,17 +74,17 @@ type Variant =
   | { type: 'abandon' }
   | { type: 'annulation abandon' }
   | ({
-      type: 'delai'
-      acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string }
+      type: 'delai';
+      acceptanceParams?: { delayInMonths: number; dateAchèvementAccordée?: string };
     } & (
       | { delayInMonths: number; dateAchèvementDemandée?: undefined }
       | {
-          delayInMonths?: undefined
-          dateAchèvementDemandée: string
+          delayInMonths?: undefined;
+          dateAchèvementDemandée: string;
         }
-    ))
+    ));
 
-export type DemandeAbandonPageDTO = ModificationRequestPageDTO & { type: 'abandon' }
+export type DemandeAbandonPageDTO = ModificationRequestPageDTO & { type: 'abandon' };
 export type DemandeAnnulationAbandonPageDTO = ModificationRequestPageDTO & {
-  type: 'annulation abandon'
-}
+  type: 'annulation abandon';
+};

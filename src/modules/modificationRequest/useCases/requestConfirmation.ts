@@ -1,31 +1,31 @@
-import { Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, ResultAsync } from '@core/utils'
-import { User } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '../../file'
+import { Repository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, ResultAsync } from '@core/utils';
+import { User } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '../../file';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationRequest } from '../ModificationRequest'
+} from '../../shared';
+import { ModificationRequest } from '../ModificationRequest';
 
 interface RequestConfirmationDeps {
-  modificationRequestRepo: Repository<ModificationRequest>
-  fileRepo: Repository<FileObject>
+  modificationRequestRepo: Repository<ModificationRequest>;
+  fileRepo: Repository<FileObject>;
 }
 
 interface RequestConfirmationArgs {
-  modificationRequestId: UniqueEntityID
-  versionDate: Date
-  responseFile: { contents: FileContents; filename: string }
-  confirmationRequestedBy: User
+  modificationRequestId: UniqueEntityID;
+  versionDate: Date;
+  responseFile: { contents: FileContents; filename: string };
+  confirmationRequestedBy: User;
 }
 
 export const makeRequestConfirmation =
   (deps: RequestConfirmationDeps) =>
   (
-    args: RequestConfirmationArgs
+    args: RequestConfirmationArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -33,19 +33,19 @@ export const makeRequestConfirmation =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { fileRepo, modificationRequestRepo } = deps
-    const { modificationRequestId, versionDate, responseFile, confirmationRequestedBy } = args
-    const { contents, filename } = responseFile
+    const { fileRepo, modificationRequestRepo } = deps;
+    const { modificationRequestId, versionDate, responseFile, confirmationRequestedBy } = args;
+    const { contents, filename } = responseFile;
 
     if (!['admin', 'dgec-validateur'].includes(confirmationRequestedBy.role)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return modificationRequestRepo
       .load(modificationRequestId)
       .andThen(
         (
-          modificationRequest
+          modificationRequest,
         ): ResultAsync<
           { modificationRequest: ModificationRequest; responseFileId: string },
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError
@@ -54,7 +54,7 @@ export const makeRequestConfirmation =
             modificationRequest.lastUpdatedOn &&
             modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
           ) {
-            return errAsync(new AggregateHasBeenUpdatedSinceError())
+            return errAsync(new AggregateHasBeenUpdatedSinceError());
           }
 
           return makeAndSaveFile({
@@ -69,17 +69,17 @@ export const makeRequestConfirmation =
           })
             .map((responseFileId) => ({ modificationRequest, responseFileId }))
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
+        },
       )
       .andThen(({ modificationRequest, responseFileId }) => {
         return modificationRequest
           .requestConfirmation(confirmationRequestedBy, responseFileId)
-          .map(() => modificationRequest)
+          .map(() => modificationRequest);
       })
       .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
-      })
-  }
+        return modificationRequestRepo.save(modificationRequest);
+      });
+  };

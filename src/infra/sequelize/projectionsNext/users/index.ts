@@ -1,2 +1,2 @@
-export * from './updates'
-export * from './users.model'
+export * from './updates';
+export * from './users.model';

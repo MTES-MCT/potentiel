@@ -4,6 +4,6 @@ export default function (query): Array<{ [fieldName: string]: string }> {
       ...errors,
       ...(key.startsWith('error-') && { [key.replace('error-', '')]: value }),
     }),
-    [] as Array<{ [fieldName: string]: string }>
-  )
+    [] as Array<{ [fieldName: string]: string }>,
+  );
 }

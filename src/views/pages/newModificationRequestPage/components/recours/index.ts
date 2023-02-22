@@ -1,1 +1,1 @@
-export * from './DemandeRecours'
+export * from './DemandeRecours';

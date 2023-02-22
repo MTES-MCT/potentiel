@@ -1,29 +1,29 @@
-import { Request } from 'express'
-import React, { useState } from 'react'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { formatDate } from '../../../../helpers/formatDate'
-import { dataId } from '../../../../helpers/testId'
-import { ProjectDataForProjectPage } from '@modules/project/queries'
-import ROUTES from '@routes'
-import { BuildingIcon, Button, InputCheckbox, Section } from '@components'
+import { Request } from 'express';
+import React, { useState } from 'react';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { formatDate } from '../../../../helpers/formatDate';
+import { dataId } from '../../../../helpers/testId';
+import { ProjectDataForProjectPage } from '@modules/project/queries';
+import ROUTES from '@routes';
+import { BuildingIcon, Button, InputCheckbox, Section } from '@components';
 
 type EditProjectDataProps = {
-  project: ProjectDataForProjectPage
-  request: Request
-}
+  project: ProjectDataForProjectPage;
+  request: Request;
+};
 
 export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
-  const { query } = request as any
+  const { query } = request as any;
 
   if (!project.notifiedOn || project.isAbandoned) {
-    return null
+    return null;
   }
 
-  const [uploadIsDisabled, disableUpload] = useState(true)
+  const [uploadIsDisabled, disableUpload] = useState(true);
 
   const handleCertificateTypeChange = (e) => {
-    disableUpload(e.target.value !== 'custom')
-  }
+    disableUpload(e.target.value !== 'custom');
+  };
 
   return (
     <Section title="Modifier le projet" icon={BuildingIcon}>
@@ -56,8 +56,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                   >
                     {appelOffre.id} - {periode.id}
                   </option>
-                ))
-              )
+                )),
+              );
             }, [] as React.ReactNode[])}
           </select>
         </div>
@@ -304,5 +304,5 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         </Button>
       </form>
     </Section>
-  )
-}
+  );
+};

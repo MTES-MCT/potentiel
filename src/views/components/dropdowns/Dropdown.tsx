@@ -1,13 +1,13 @@
-import React from 'react'
+import React from 'react';
 
-import { Link, Button, ChevronDownIcon, ChevronUpIcon } from '@components'
+import { Link, Button, ChevronDownIcon, ChevronUpIcon } from '@components';
 
 interface DropdownProps extends React.ComponentProps<'div'> {
-  text: string
-  design: 'link' | 'button'
-  disabled?: boolean
-  isOpen?: boolean
-  changeOpenState: (isOpen: boolean) => void
+  text: string;
+  design: 'link' | 'button';
+  disabled?: boolean;
+  isOpen?: boolean;
+  changeOpenState: (isOpen: boolean) => void;
 }
 
 export const Dropdown: React.FunctionComponent<DropdownProps> = ({
@@ -47,11 +47,11 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
           <ChevronDownIcon className="w-5 h-5 ml-1" title="Ouvrir le contenu" />
         )}
       </Button>
-    )
+    );
   return (
     <div className={`flex flex-col w-fit${className}`} {...props}>
       {button}
       <div className={isOpen && !disabled ? 'block' : 'hidden'}>{children}</div>
     </div>
-  )
-}
+  );
+};

@@ -1,60 +1,60 @@
-import { v4 as uuid } from 'uuid'
-import { Pagination } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { projectRepo, resetDatabase, userRepo } from '.'
-import { GarantiesFinancières } from '@infra/sequelize'
+import { v4 as uuid } from 'uuid';
+import { Pagination } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { projectRepo, resetDatabase, userRepo } from '.';
+import { GarantiesFinancières } from '@infra/sequelize';
 
-const defaultPagination = { page: 0, pageSize: 2 } as Pagination
+const defaultPagination = { page: 0, pageSize: 2 } as Pagination;
 
 describe('projectRepo sequelize', () => {
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   describe('findById(projectId)', () => {
     describe('when projectId exists', () => {
       it('should return the project', async () => {
-        const projectId = uuid()
+        const projectId = uuid();
         const project = makeFakeProject({
           id: projectId,
           appelOffreId: 'Fessenheim',
           periodeId: '1',
           familleId: '2',
-        })
+        });
 
-        await projectRepo.save(project)
+        await projectRepo.save(project);
 
-        const foundProject = await projectRepo.findById(projectId)
-        expect(foundProject).toBeDefined()
-        if (!foundProject) return
-        expect(foundProject).toEqual(expect.objectContaining(project))
+        const foundProject = await projectRepo.findById(projectId);
+        expect(foundProject).toBeDefined();
+        if (!foundProject) return;
+        expect(foundProject).toEqual(expect.objectContaining(project));
 
-        const { famille, appelOffre } = foundProject
-        expect(appelOffre).toBeDefined()
-        if (!appelOffre) return
+        const { famille, appelOffre } = foundProject;
+        expect(appelOffre).toBeDefined();
+        if (!appelOffre) return;
 
-        expect(appelOffre.id).toEqual('Fessenheim')
-        expect(appelOffre.periode).toBeDefined()
-        if (!appelOffre.periode) return
+        expect(appelOffre.id).toEqual('Fessenheim');
+        expect(appelOffre.periode).toBeDefined();
+        if (!appelOffre.periode) return;
 
-        expect(appelOffre.periode.id).toEqual('1')
-        expect(famille).toBeDefined()
-        if (!famille) return
+        expect(appelOffre.periode.id).toEqual('1');
+        expect(famille).toBeDefined();
+        if (!famille) return;
 
-        expect(famille.id).toEqual('2')
-      })
-    })
+        expect(famille.id).toEqual('2');
+      });
+    });
 
     describe('when projectId does not exist', () => {
       it('should return undefined', async () => {
-        const projectId = uuid()
+        const projectId = uuid();
 
-        const foundProject = await projectRepo.findById(projectId)
-        expect(foundProject).toBeUndefined()
-      })
-    })
-  })
+        const foundProject = await projectRepo.findById(projectId);
+        expect(foundProject).toBeUndefined();
+      });
+    });
+  });
 
   describe('findAll', () => {
     describe('given no arguments', () => {
@@ -78,23 +78,23 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const { itemCount, items, pageCount, pagination } = await projectRepo.findAll(
           undefined,
-          defaultPagination
-        )
-        expect(itemCount).toEqual(5)
-        expect(items).toHaveLength(2)
-        expect(pageCount).toEqual(3)
-        expect(pagination).toEqual(defaultPagination)
-      })
-    })
+          defaultPagination,
+        );
+        expect(itemCount).toEqual(5);
+        expect(items).toHaveLength(2);
+        expect(pageCount).toEqual(3);
+        expect(pagination).toEqual(defaultPagination);
+      });
+    });
 
     describe('given filters', () => {
       it('should return all projects that match the filters', async () => {
-        const targetProjectId = uuid()
+        const targetProjectId = uuid();
 
         const goodProperties = {
           notifiedOn: 1,
@@ -105,7 +105,7 @@ describe('projectRepo sequelize', () => {
           familleId: '1',
           email: 'test122345@test.com',
           nomProjet: 'test',
-        }
+        };
 
         await Promise.all(
           [
@@ -155,8 +155,8 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const { itemCount, items } = await projectRepo.findAll({
           isNotified: true,
@@ -167,22 +167,22 @@ describe('projectRepo sequelize', () => {
           familleId: '1',
           email: 'test122345@test.com',
           nomProjet: 'test',
-        })
+        });
 
-        expect(itemCount).toEqual(1)
-        expect(items[0].id).toEqual(targetProjectId)
-      })
-    })
+        expect(itemCount).toEqual(1);
+        expect(items[0].id).toEqual(targetProjectId);
+      });
+    });
 
     describe('given garantiesFinancieresSubmitted filter', () => {
       describe('with value of true', () => {
         it('should return all projects that have submitted garanties financieres', async () => {
-          const targetProjectId = uuid()
+          const targetProjectId = uuid();
 
           const goodProperties = {
             notifiedOn: 1,
             classe: 'Classé',
-          }
+          };
 
           await Promise.all(
             [
@@ -196,8 +196,8 @@ describe('projectRepo sequelize', () => {
               },
             ]
               .map(makeFakeProject)
-              .map(projectRepo.save)
-          )
+              .map(projectRepo.save),
+          );
 
           await GarantiesFinancières.create({
             id: uuid(),
@@ -205,28 +205,28 @@ describe('projectRepo sequelize', () => {
             statut: 'en attente',
             dateEnvoi: new Date(),
             soumisesALaCandidature: false,
-          })
+          });
 
           const { itemCount, items } = await projectRepo.findAll({
             isNotified: true,
             garantiesFinancieres: 'submitted',
             isClasse: true,
-          })
+          });
 
-          expect(itemCount).toEqual(1)
-          expect(items[0].id).toEqual(targetProjectId)
-        })
-      })
+          expect(itemCount).toEqual(1);
+          expect(items[0].id).toEqual(targetProjectId);
+        });
+      });
 
       describe('with value of false', () => {
         it('should return all projects that have a due date but have not submitted garanties financieres', async () => {
-          const projectWithoutGF = uuid()
-          const projectWithGF = uuid()
+          const projectWithoutGF = uuid();
+          const projectWithGF = uuid();
 
           const goodProperties = {
             notifiedOn: 1,
             classe: 'Classé',
-          }
+          };
 
           await Promise.all(
             [
@@ -244,8 +244,8 @@ describe('projectRepo sequelize', () => {
               },
             ]
               .map(makeFakeProject)
-              .map(projectRepo.save)
-          )
+              .map(projectRepo.save),
+          );
 
           await GarantiesFinancières.create({
             id: uuid(),
@@ -253,29 +253,29 @@ describe('projectRepo sequelize', () => {
             statut: 'en attente',
             dateLimiteEnvoi: new Date('12-01-2020'),
             soumisesALaCandidature: false,
-          })
+          });
 
           const { itemCount, items } = await projectRepo.findAll({
             isNotified: true,
             garantiesFinancieres: 'notSubmitted',
             isClasse: true,
-          })
+          });
 
-          expect(itemCount).toEqual(1)
-          expect(items[0].id).toEqual(projectWithoutGF)
-        })
-      })
-    })
+          expect(itemCount).toEqual(1);
+          expect(items[0].id).toEqual(projectWithoutGF);
+        });
+      });
+    });
 
     describe('given garantiesFinancieresPastDue=true filter', () => {
       it('should return all projects that are due before today and not submitted yet', async () => {
-        const projectWithoutGF = uuid()
-        const projectWithGF = uuid()
+        const projectWithoutGF = uuid();
+        const projectWithGF = uuid();
 
         const goodProperties = {
           notifiedOn: 1,
           classe: 'Classé',
-        }
+        };
 
         await Promise.all(
           [
@@ -297,8 +297,8 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         await GarantiesFinancières.create({
           id: uuid(),
@@ -306,23 +306,23 @@ describe('projectRepo sequelize', () => {
           statut: 'en attente',
           dateLimiteEnvoi: new Date('12-01-2020'),
           soumisesALaCandidature: false,
-        })
+        });
 
         const { itemCount, items } = await projectRepo.findAll({
           isNotified: true,
           garantiesFinancieres: 'pastDue',
           isClasse: true,
-        })
+        });
 
-        expect(itemCount).toEqual(1)
-        expect(items[0].id).toEqual(projectWithoutGF)
-      })
-    })
-  })
+        expect(itemCount).toEqual(1);
+        expect(items[0].id).toEqual(projectWithoutGF);
+      });
+    });
+  });
 
   describe('searchAll', () => {
     it('should return projects that contain the search term', async () => {
-      const targetProjectId = uuid()
+      const targetProjectId = uuid();
       await Promise.all(
         [
           {
@@ -335,16 +335,16 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      const { itemCount, items } = await projectRepo.searchAll('term')
-      expect(itemCount).toEqual(1)
-      expect(items[0].id).toEqual(targetProjectId)
-    })
+      const { itemCount, items } = await projectRepo.searchAll('term');
+      expect(itemCount).toEqual(1);
+      expect(items[0].id).toEqual(targetProjectId);
+    });
 
     it('should return projects that match all the filters', async () => {
-      const targetProjectId = uuid()
+      const targetProjectId = uuid();
       await Promise.all(
         [
           {
@@ -359,28 +359,28 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
       const { itemCount, items } = await projectRepo.searchAll('term', {
         isNotified: true,
-      })
-      expect(itemCount).toEqual(1)
-      expect(items[0].id).toEqual(targetProjectId)
-    })
-  })
+      });
+      expect(itemCount).toEqual(1);
+      expect(items[0].id).toEqual(targetProjectId);
+    });
+  });
 
   describe('findAllForUser', () => {
     it('should only return user projects', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const userProjectId = uuid()
+      const userProjectId = uuid();
 
       await Promise.all(
         [
@@ -398,32 +398,32 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      await userRepo.addProject(userId, userProjectId)
+      await userRepo.addProject(userId, userProjectId);
 
       const results = await projectRepo.findAllForUser(userId, {
         isNotified: true,
         isClasse: true,
-      })
+      });
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(userProjectId)
-    })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(userProjectId);
+    });
 
     it('should return projects that match the query', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const userProjectId1 = uuid()
-      const userProjectId3 = uuid()
-      const userProjectId4 = uuid()
+      const userProjectId1 = uuid();
+      const userProjectId3 = uuid();
+      const userProjectId4 = uuid();
 
       await Promise.all(
         [
@@ -447,35 +447,35 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      await userRepo.addProject(userId, userProjectId1)
-      await userRepo.addProject(userId, userProjectId3)
-      await userRepo.addProject(userId, userProjectId4)
+      await userRepo.addProject(userId, userProjectId1);
+      await userRepo.addProject(userId, userProjectId3);
+      await userRepo.addProject(userId, userProjectId4);
 
       const results = await projectRepo.findAllForUser(userId, {
         isNotified: true,
         isClasse: true,
-      })
+      });
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(userProjectId1)
-    })
-  })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(userProjectId1);
+    });
+  });
 
   describe('searchForUser', () => {
     it('should return projects that contain the search term', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const userProjectId1 = uuid()
-      const userProjectId2 = uuid()
+      const userProjectId1 = uuid();
+      const userProjectId2 = uuid();
 
       await Promise.all(
         [
@@ -491,28 +491,28 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      await userRepo.addProject(userId, userProjectId1)
-      await userRepo.addProject(userId, userProjectId2)
+      await userRepo.addProject(userId, userProjectId1);
+      await userRepo.addProject(userId, userProjectId2);
 
-      const results = await projectRepo.searchForUser(userId, 'term')
+      const results = await projectRepo.searchForUser(userId, 'term');
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(userProjectId1)
-    })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(userProjectId1);
+    });
 
     it('should only return user projects', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const userProjectId = uuid()
+      const userProjectId = uuid();
 
       await Promise.all(
         [
@@ -528,29 +528,29 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      await userRepo.addProject(userId, userProjectId)
+      await userRepo.addProject(userId, userProjectId);
 
-      const results = await projectRepo.searchForUser(userId, 'term')
+      const results = await projectRepo.searchForUser(userId, 'term');
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(userProjectId)
-    })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(userProjectId);
+    });
 
     it('should return projects that match all the filters', async () => {
-      const userId = uuid()
+      const userId = uuid();
 
       await userRepo.insert(
         makeFakeUser({
           id: userId,
-        })
-      )
+        }),
+      );
 
-      const userProjectId1 = uuid()
-      const userProjectId3 = uuid()
-      const userProjectId4 = uuid()
+      const userProjectId1 = uuid();
+      const userProjectId3 = uuid();
+      const userProjectId4 = uuid();
 
       await Promise.all(
         [
@@ -577,28 +577,28 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      await userRepo.addProject(userId, userProjectId1)
-      await userRepo.addProject(userId, userProjectId3)
-      await userRepo.addProject(userId, userProjectId4)
+      await userRepo.addProject(userId, userProjectId1);
+      await userRepo.addProject(userId, userProjectId3);
+      await userRepo.addProject(userId, userProjectId4);
 
       const results = await projectRepo.searchForUser(userId, 'term', {
         isNotified: true,
         isClasse: true,
-      })
+      });
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(userProjectId1)
-    })
-  })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(userProjectId1);
+    });
+  });
 
   describe('findAllForRegions', () => {
     describe('when a single region is given', () => {
       it('should only return projects from the region', async () => {
-        const regionProjectId1 = uuid()
-        const regionProjectId2 = uuid()
+        const regionProjectId1 = uuid();
+        const regionProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -619,22 +619,22 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.findAllForRegions('Corse')
+        const results = await projectRepo.findAllForRegions('Corse');
 
-        expect(results.itemCount).toEqual(2)
+        expect(results.itemCount).toEqual(2);
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, regionProjectId2])
-        )
-      })
-    })
+          expect.arrayContaining([regionProjectId1, regionProjectId2]),
+        );
+      });
+    });
 
     describe('when multiple regions are given', () => {
       it('should only return projects from at least one of the regions', async () => {
-        const regionProjectId1 = uuid()
-        const regionProjectId2 = uuid()
+        const regionProjectId1 = uuid();
+        const regionProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -655,20 +655,20 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.findAllForRegions(['Corse', 'Occitanie'])
+        const results = await projectRepo.findAllForRegions(['Corse', 'Occitanie']);
 
-        expect(results.itemCount).toEqual(2)
+        expect(results.itemCount).toEqual(2);
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, regionProjectId2])
-        )
-      })
-    })
+          expect.arrayContaining([regionProjectId1, regionProjectId2]),
+        );
+      });
+    });
 
     it('should return projects that match all the filters', async () => {
-      const regionProjectId1 = uuid()
+      const regionProjectId1 = uuid();
 
       await Promise.all(
         [
@@ -695,22 +695,22 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
       const results = await projectRepo.findAllForRegions('Corse', {
         isNotified: true,
         isClasse: true,
-      })
+      });
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(regionProjectId1)
-    })
-  })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(regionProjectId1);
+    });
+  });
 
   describe('searchForRegions', () => {
     it('should return projects that contain the search term', async () => {
-      const regionProjectId = uuid()
+      const regionProjectId = uuid();
 
       await Promise.all(
         [
@@ -728,19 +728,19 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      const results = await projectRepo.searchForRegions('Corse', 'term')
+      const results = await projectRepo.searchForRegions('Corse', 'term');
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(regionProjectId)
-    })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(regionProjectId);
+    });
 
     describe('when a single region is given', () => {
       it('should only return projects from the region', async () => {
-        const regionProjectId1 = uuid()
-        const regionProjectId2 = uuid()
+        const regionProjectId1 = uuid();
+        const regionProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -764,22 +764,22 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.searchForRegions('Corse', 'term')
+        const results = await projectRepo.searchForRegions('Corse', 'term');
 
-        expect(results.itemCount).toEqual(2)
+        expect(results.itemCount).toEqual(2);
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, regionProjectId2])
-        )
-      })
-    })
+          expect.arrayContaining([regionProjectId1, regionProjectId2]),
+        );
+      });
+    });
 
     describe('when multiple regions are given', () => {
       it('should only return projects from at least one of the regions', async () => {
-        const regionProjectId1 = uuid()
-        const regionProjectId2 = uuid()
+        const regionProjectId1 = uuid();
+        const regionProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -803,20 +803,20 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.searchForRegions(['Corse', 'Occitanie'], 'term')
+        const results = await projectRepo.searchForRegions(['Corse', 'Occitanie'], 'term');
 
-        expect(results.itemCount).toEqual(2)
+        expect(results.itemCount).toEqual(2);
         expect(results.items.map((item) => item.id)).toEqual(
-          expect.arrayContaining([regionProjectId1, regionProjectId2])
-        )
-      })
-    })
+          expect.arrayContaining([regionProjectId1, regionProjectId2]),
+        );
+      });
+    });
 
     it('should return projects that match all the filters', async () => {
-      const regionProjectId1 = uuid()
+      const regionProjectId1 = uuid();
 
       await Promise.all(
         [
@@ -846,23 +846,23 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
       const results = await projectRepo.searchForRegions('Corse', 'term', {
         isNotified: true,
         isClasse: true,
-      })
+      });
 
-      expect(results.itemCount).toEqual(1)
-      expect(results.items[0].id).toEqual(regionProjectId1)
-    })
-  })
+      expect(results.itemCount).toEqual(1);
+      expect(results.items[0].id).toEqual(regionProjectId1);
+    });
+  });
 
   describe('findExistingAppelsOffres', () => {
     describe('given no params', () => {
       it('should return appelOffreIds which have at least one project', async () => {
-        const targetAppelOffre = 'Fessenheim'
+        const targetAppelOffre = 'Fessenheim';
 
         await Promise.all(
           [
@@ -872,19 +872,19 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.findExistingAppelsOffres()
+        const results = await projectRepo.findExistingAppelsOffres();
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetAppelOffre)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetAppelOffre);
+      });
+    });
 
     describe('given isNotified = true param', () => {
       it('should return appelOffreIds which have at least one notified project', async () => {
-        const targetAppelOffre = 'Fessenheim'
+        const targetAppelOffre = 'Fessenheim';
 
         await Promise.all(
           [
@@ -905,21 +905,21 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingAppelsOffres({
           isNotified: true,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetAppelOffre)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetAppelOffre);
+      });
+    });
 
     describe('given isNotified = false param', () => {
       it('should return appelOffreIds which have at least one unnotified project', async () => {
-        const targetAppelOffre = 'Fessenheim'
+        const targetAppelOffre = 'Fessenheim';
 
         await Promise.all(
           [
@@ -940,32 +940,32 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingAppelsOffres({
           isNotified: false,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetAppelOffre)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetAppelOffre);
+      });
+    });
 
     describe('given userId param', () => {
       it('should return appelOffreIds which have at least one notified project from this userId', async () => {
-        const targetAppelOffre = 'Fessenheim'
+        const targetAppelOffre = 'Fessenheim';
 
-        const userId = uuid()
+        const userId = uuid();
 
         await userRepo.insert(
           makeFakeUser({
             id: userId,
-          })
-        )
+          }),
+        );
 
-        const userProjectId1 = uuid()
-        const userProjectId2 = uuid()
+        const userProjectId1 = uuid();
+        const userProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -986,25 +986,25 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        await userRepo.addProject(userId, userProjectId1)
-        await userRepo.addProject(userId, userProjectId2)
+        await userRepo.addProject(userId, userProjectId1);
+        await userRepo.addProject(userId, userProjectId2);
 
         const results = await projectRepo.findExistingAppelsOffres({
           userId,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetAppelOffre)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetAppelOffre);
+      });
+    });
 
     describe('given regions param', () => {
       it('should return appelOffreIds which have at least one notified project from this region', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetAppelOffre2 = 'CRE4 - Batiment'
+        const targetAppelOffre = 'Fessenheim';
+        const targetAppelOffre2 = 'CRE4 - Batiment';
         await Promise.all(
           [
             {
@@ -1027,24 +1027,24 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingAppelsOffres({
           regions: ['Corse', 'Occitanie'],
-        })
+        });
 
-        expect(results).toHaveLength(2)
-        expect(results).toEqual(expect.arrayContaining([targetAppelOffre, targetAppelOffre2]))
-      })
-    })
-  })
+        expect(results).toHaveLength(2);
+        expect(results).toEqual(expect.arrayContaining([targetAppelOffre, targetAppelOffre2]));
+      });
+    });
+  });
 
   describe('findExistingPeriodesForAppelOffre', () => {
     describe('given an appelOffreId and no params', () => {
       it('should return periodeIds which have at least one project in this appelOffreId', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetPeriode = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetPeriode = '1';
 
         await Promise.all(
           [
@@ -1060,20 +1060,20 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre)
+        const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre);
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetPeriode)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetPeriode);
+      });
+    });
 
     describe('given isNotified = true param', () => {
       it('should return periodeIds which have at least one notified project in this appelOffreId', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetPeriode = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetPeriode = '1';
 
         await Promise.all(
           [
@@ -1091,22 +1091,22 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
           isNotified: true,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetPeriode)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetPeriode);
+      });
+    });
 
     describe('given isNotified = false param', () => {
       it('should return periodeIds which have at least one unnotified project in this AppelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetPeriode = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetPeriode = '1';
 
         await Promise.all(
           [
@@ -1124,33 +1124,33 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
           isNotified: false,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetPeriode)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetPeriode);
+      });
+    });
 
     describe('given userId param', () => {
       it('should return periodeIds which have at least one notified project from this userId in this appelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetPeriode = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetPeriode = '1';
 
-        const userId = uuid()
+        const userId = uuid();
 
         await userRepo.insert(
           makeFakeUser({
             id: userId,
-          })
-        )
+          }),
+        );
 
-        const userProjectId1 = uuid()
-        const userProjectId2 = uuid()
+        const userProjectId1 = uuid();
+        const userProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -1174,26 +1174,26 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        await userRepo.addProject(userId, userProjectId1)
-        await userRepo.addProject(userId, userProjectId2)
+        await userRepo.addProject(userId, userProjectId1);
+        await userRepo.addProject(userId, userProjectId2);
 
         const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
           userId,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetPeriode)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetPeriode);
+      });
+    });
 
     describe('given regions param', () => {
       it('should return periodeIds which have at least one notified project from this region in this appelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetPeriode1 = '1'
-        const targetPeriode2 = '2'
+        const targetAppelOffre = 'Fessenheim';
+        const targetPeriode1 = '1';
+        const targetPeriode2 = '2';
         await Promise.all(
           [
             {
@@ -1226,24 +1226,24 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
           regions: ['Corse', 'Occitanie'],
-        })
+        });
 
-        expect(results).toHaveLength(2)
-        expect(results).toEqual(expect.arrayContaining([targetPeriode1, targetPeriode2]))
-      })
-    })
-  })
+        expect(results).toHaveLength(2);
+        expect(results).toEqual(expect.arrayContaining([targetPeriode1, targetPeriode2]));
+      });
+    });
+  });
 
   describe('findExistingFamillesForAppelOffre', () => {
     describe('given an appelOffreId and no params', () => {
       it('should return familleIds which have at least one project in this appelOffreId', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetFamille = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetFamille = '1';
 
         await Promise.all(
           [
@@ -1259,20 +1259,20 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre)
+        const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre);
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetFamille)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetFamille);
+      });
+    });
 
     describe('given isNotified = true param', () => {
       it('should return familleIds which have at least one notified project in this appelOffreId', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetFamille = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetFamille = '1';
 
         await Promise.all(
           [
@@ -1290,22 +1290,22 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
           isNotified: true,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetFamille)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetFamille);
+      });
+    });
 
     describe('given isNotified = false param', () => {
       it('should return familleIds which have at least one unnotified project in this AppelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetFamille = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetFamille = '1';
 
         await Promise.all(
           [
@@ -1323,33 +1323,33 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
           isNotified: false,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetFamille)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetFamille);
+      });
+    });
 
     describe('given userId param', () => {
       it('should return familleIds which have at least one notified project from this userId in this appelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetFamille = '1'
+        const targetAppelOffre = 'Fessenheim';
+        const targetFamille = '1';
 
-        const userId = uuid()
+        const userId = uuid();
 
         await userRepo.insert(
           makeFakeUser({
             id: userId,
-          })
-        )
+          }),
+        );
 
-        const userProjectId1 = uuid()
-        const userProjectId2 = uuid()
+        const userProjectId1 = uuid();
+        const userProjectId2 = uuid();
 
         await Promise.all(
           [
@@ -1373,26 +1373,26 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
-        await userRepo.addProject(userId, userProjectId1)
-        await userRepo.addProject(userId, userProjectId2)
+        await userRepo.addProject(userId, userProjectId1);
+        await userRepo.addProject(userId, userProjectId2);
 
         const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
           userId,
-        })
+        });
 
-        expect(results).toHaveLength(1)
-        expect(results[0]).toEqual(targetFamille)
-      })
-    })
+        expect(results).toHaveLength(1);
+        expect(results[0]).toEqual(targetFamille);
+      });
+    });
 
     describe('given regions param', () => {
       it('should return familleIds which have at least one notified project from this region in this appelOffre', async () => {
-        const targetAppelOffre = 'Fessenheim'
-        const targetFamille1 = '1'
-        const targetFamille2 = '2'
+        const targetAppelOffre = 'Fessenheim';
+        const targetFamille1 = '1';
+        const targetFamille2 = '2';
         await Promise.all(
           [
             {
@@ -1425,23 +1425,23 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save)
-        )
+            .map(projectRepo.save),
+        );
 
         const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
           regions: ['Corse', 'Occitanie'],
-        })
+        });
 
-        expect(results).toHaveLength(2)
-        expect(results).toEqual(expect.arrayContaining([targetFamille1, targetFamille2]))
-      })
-    })
-  })
+        expect(results).toHaveLength(2);
+        expect(results).toEqual(expect.arrayContaining([targetFamille1, targetFamille2]));
+      });
+    });
+  });
 
   describe('countUnnotifiedProjects(appelOffreId, periodeId)', () => {
     it('should return the number of unnotified projects for the given appelOffreId and periode', async () => {
-      const targetAppelOffre = 'Fessenheim'
-      const targetPeriode = '1'
+      const targetAppelOffre = 'Fessenheim';
+      const targetPeriode = '1';
 
       await Promise.all(
         [
@@ -1465,10 +1465,10 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save)
-      )
+          .map(projectRepo.save),
+      );
 
-      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(0)
+      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(0);
 
       await projectRepo.save(
         makeFakeProject({
@@ -1476,10 +1476,10 @@ describe('projectRepo sequelize', () => {
           appelOffreId: targetAppelOffre,
           periodeId: targetPeriode,
           notifiedOn: 0,
-        })
-      )
+        }),
+      );
 
-      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(1)
-    })
-  })
-})
+      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(1);
+    });
+  });
+});

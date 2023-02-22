@@ -1,15 +1,15 @@
-import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events'
-import { makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée } from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée'
+import { TâcheMiseAJourDonnéesDeRaccordementDémarrée } from '../events';
+import { makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée } from './onTâcheMiseAJourDonnéesDeRaccordementDémarrée';
 
 describe(`Éxécution de la mise à jour des données de raccordement`, () => {
   it(`Lorsqu'un évènement TâcheMiseAJourDonnéesDeRaccordementDémarrée survient
       Alors la mise à jour des données de raccordement devrait être éxécutée`, async () => {
-    const mettreAJourDonnéesDeRaccordement = jest.fn()
+    const mettreAJourDonnéesDeRaccordement = jest.fn();
 
     const onTâcheMiseAJourDonnéesDeRaccordementDémarrée =
       makeOnTâcheMiseAJourDonnéesDeRaccordementDémarrée({
         mettreAJourDonnéesDeRaccordement,
-      })
+      });
 
     await onTâcheMiseAJourDonnéesDeRaccordementDémarrée(
       new TâcheMiseAJourDonnéesDeRaccordementDémarrée({
@@ -24,8 +24,8 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
             },
           ],
         },
-      })
-    )
+      }),
+    );
 
     expect(mettreAJourDonnéesDeRaccordement).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -37,7 +37,7 @@ describe(`Éxécution de la mise à jour des données de raccordement`, () => {
             dateFileAttente: new Date('2023-12-31'),
           },
         ],
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

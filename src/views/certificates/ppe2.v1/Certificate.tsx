@@ -1,31 +1,31 @@
-import { Document, Page, Text, View } from '@react-pdf/renderer'
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { Header } from './components/Header'
-import { Objet } from './components/Objet'
-import { Introduction } from './components/Introduction'
-import { Signature } from './components/Signature'
-import { PageFooter } from './components/PageFooter'
-import { Footnote, FootnoteProps } from './components/Footnote'
-import { Validateur } from '..'
+import { Document, Page, Text, View } from '@react-pdf/renderer';
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { Header } from './components/Header';
+import { Objet } from './components/Objet';
+import { Introduction } from './components/Introduction';
+import { Signature } from './components/Signature';
+import { PageFooter } from './components/PageFooter';
+import { Footnote, FootnoteProps } from './components/Footnote';
+import { Validateur } from '..';
 
 export type CertificateProps = {
-  project: ProjectDataForCertificate
-  content: React.ReactNode
-  validateur: Validateur
+  project: ProjectDataForCertificate;
+  content: React.ReactNode;
+  validateur: Validateur;
 } & (
   | {
-      type: 'laureat'
-      footnotes: Array<FootnoteProps>
+      type: 'laureat';
+      footnotes: Array<FootnoteProps>;
     }
   | {
-      type: 'elimine'
+      type: 'elimine';
     }
-)
+);
 
 export const Certificate = (props: CertificateProps) => {
-  const { type, project, content, validateur } = props
-  const footnotes = type === 'laureat' && props.footnotes
+  const { type, project, content, validateur } = props;
+  const footnotes = type === 'laureat' && props.footnotes;
 
   return (
     <Document>
@@ -75,5 +75,5 @@ export const Certificate = (props: CertificateProps) => {
         <PageFooter />
       </Page>
     </Document>
-  )
-}
+  );
+};

@@ -1,29 +1,29 @@
-import { Repository, UniqueEntityID } from '@core/domain'
-import { err, errAsync, Result, ResultAsync } from '@core/utils'
-import { User } from '@entities'
+import { Repository, UniqueEntityID } from '@core/domain';
+import { err, errAsync, Result, ResultAsync } from '@core/utils';
+import { User } from '@entities';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '../../shared'
-import { ModificationRequest, ModificationRequestStatus } from '../ModificationRequest'
+} from '../../shared';
+import { ModificationRequest, ModificationRequestStatus } from '../ModificationRequest';
 
 interface UpdateModificationRequestStatusDeps {
-  modificationRequestRepo: Repository<ModificationRequest>
+  modificationRequestRepo: Repository<ModificationRequest>;
 }
 
 interface UpdateModificationRequestStatusArgs {
-  modificationRequestId: UniqueEntityID
-  versionDate: Date
-  submittedBy: User
-  newStatus: ModificationRequestStatus
+  modificationRequestId: UniqueEntityID;
+  versionDate: Date;
+  submittedBy: User;
+  newStatus: ModificationRequestStatus;
 }
 
 export const makeUpdateModificationRequestStatus =
   (deps: UpdateModificationRequestStatusDeps) =>
   (
-    args: UpdateModificationRequestStatusArgs
+    args: UpdateModificationRequestStatusArgs,
   ): ResultAsync<
     null,
     | AggregateHasBeenUpdatedSinceError
@@ -31,11 +31,11 @@ export const makeUpdateModificationRequestStatus =
     | EntityNotFoundError
     | UnauthorizedError
   > => {
-    const { modificationRequestRepo } = deps
-    const { modificationRequestId, versionDate, newStatus, submittedBy } = args
+    const { modificationRequestRepo } = deps;
+    const { modificationRequestId, versionDate, newStatus, submittedBy } = args;
 
     if (!['admin', 'dgec-validateur'].includes(submittedBy.role)) {
-      return errAsync(new UnauthorizedError())
+      return errAsync(new UnauthorizedError());
     }
 
     return modificationRequestRepo
@@ -46,15 +46,15 @@ export const makeUpdateModificationRequestStatus =
             modificationRequest.lastUpdatedOn &&
             modificationRequest.lastUpdatedOn.getTime() !== versionDate.getTime()
           ) {
-            return err(new AggregateHasBeenUpdatedSinceError())
+            return err(new AggregateHasBeenUpdatedSinceError());
           }
 
           return modificationRequest
             .updateStatus({ updatedBy: submittedBy, newStatus })
-            .map(() => modificationRequest)
-        }
+            .map(() => modificationRequest);
+        },
       )
       .andThen((modificationRequest) => {
-        return modificationRequestRepo.save(modificationRequest)
-      })
-  }
+        return modificationRequestRepo.save(modificationRequest);
+      });
+  };

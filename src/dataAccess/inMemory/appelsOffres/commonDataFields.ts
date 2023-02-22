@@ -1,7 +1,7 @@
-import toTypeLiteral from './helpers/toTypeLiteral'
-import { Project } from '@entities'
+import toTypeLiteral from './helpers/toTypeLiteral';
+import { Project } from '@entities';
 
-const dateFieldFormatter = (value) => value && new Date(value).toLocaleDateString()
+const dateFieldFormatter = (value) => value && new Date(value).toLocaleDateString();
 
 const commonDataFields = [
   { field: 'numeroCRE', type: toTypeLiteral('string'), column: 'N°CRE' },
@@ -81,7 +81,7 @@ const commonDataFields = [
     value: (row) => (row.actionnariat === 'gouvernance-partagee' ? 'Oui' : ''),
     column: 'Gouvernance partagée',
   },
-]
+];
 
 const additionalFields = [
   {
@@ -118,7 +118,7 @@ const additionalFields = [
     value: (row) => row.technologie,
     column: 'Technologie\n(dispositif de production)',
   },
-]
+];
 
 const dataFieldsFlattened: Map<
   string,
@@ -127,8 +127,8 @@ const dataFieldsFlattened: Map<
   fields.set(currField.field, {
     label: currField.column,
     value: currField.value ?? currField.field,
-  })
-  return fields
-}, new Map())
+  });
+  return fields;
+}, new Map());
 
-export { commonDataFields, additionalFields, dataFieldsFlattened }
+export { commonDataFields, additionalFields, dataFieldsFlattened };

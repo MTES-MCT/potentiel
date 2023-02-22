@@ -1,9 +1,9 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { ListerProjets } from '@modules/project'
-import { models } from '../../../../models'
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
-import { mapToFindOptions } from '../../helpers/mapToFindOptions'
-import { Op } from 'sequelize'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { ListerProjets } from '@modules/project';
+import { models } from '../../../../models';
+import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { mapToFindOptions } from '../../helpers/mapToFindOptions';
+import { Op } from 'sequelize';
 
 const attributes = [
   'id',
@@ -27,14 +27,14 @@ const attributes = [
   'isFinancementParticipatif',
   'isInvestissementParticipatif',
   'actionnariat',
-]
+];
 
 export const listerProjetsPourPorteur: ListerProjets = async ({
   pagination,
   filtres,
   user: { id: userId },
 }) => {
-  const findOptions = filtres && mapToFindOptions(filtres)
+  const findOptions = filtres && mapToFindOptions(filtres);
 
   const résultat = await models.Project.findAndCountAll({
     subQuery: false,
@@ -53,15 +53,15 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
     ],
     ...paginate(pagination),
     attributes,
-  })
+  });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get()
+    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
     const appelOffre = getProjectAppelOffre({
       appelOffreId,
       periodeId,
       familleId,
-    })
+    });
 
     return [
       ...prev,
@@ -75,8 +75,8 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
           },
         }),
       },
-    ]
-  }, [])
+    ];
+  }, []);
 
-  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
-}
+  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination);
+};

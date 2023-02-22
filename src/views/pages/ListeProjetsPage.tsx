@@ -1,10 +1,10 @@
-import { Request } from 'express'
-import querystring from 'querystring'
-import React, { useState } from 'react'
-import { AppelOffre, Famille, Periode } from '@entities'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { PaginatedList } from '../../types'
+import { Request } from 'express';
+import querystring from 'querystring';
+import React, { useState } from 'react';
+import { AppelOffre, Famille, Periode } from '@entities';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { PaginatedList } from '../../types';
 
 import {
   ProjectList,
@@ -19,19 +19,19 @@ import {
   Link,
   Heading1,
   BarreDeRecherche,
-} from '@components'
-import { hydrateOnClient } from '../helpers'
-import { ProjectListItem } from '@modules/project'
-import { userIsNot } from '@modules/users'
+} from '@components';
+import { hydrateOnClient } from '../helpers';
+import { ProjectListItem } from '@modules/project';
+import { userIsNot } from '@modules/users';
 
 type ListeProjetsProps = {
-  request: Request
-  projects: PaginatedList<ProjectListItem>
-  appelsOffre: Array<AppelOffre>
-  existingAppelsOffres: Array<AppelOffre['id']>
-  existingPeriodes?: Array<Periode['id']>
-  existingFamilles?: Array<Famille['id']>
-}
+  request: Request;
+  projects: PaginatedList<ProjectListItem>;
+  appelsOffre: Array<AppelOffre>;
+  existingAppelsOffres: Array<AppelOffre['id']>;
+  existingPeriodes?: Array<Periode['id']>;
+  existingFamilles?: Array<Famille['id']>;
+};
 
 export const ListeProjets = ({
   request,
@@ -51,29 +51,29 @@ export const ListeProjets = ({
     garantiesFinancieres,
     classement,
     reclames,
-  } = (request.query as any) || {}
+  } = (request.query as any) || {};
 
   const hasNonDefaultClassement =
     (request.user?.role === 'porteur-projet' && classement) ||
     (request.user &&
       ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
-      classement !== 'classés')
+      classement !== 'classés');
 
   const hasFilters =
-    appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement
+    appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement;
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
-    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id))
+    ?.periodes.filter((periode) => !existingPeriodes || existingPeriodes.includes(periode.id));
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
-    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id))
+    .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
-  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([])
-  const [displaySelection, setDisplaySelection] = useState(false)
-  const [afficherFiltres, setAfficherFiltres] = useState(false)
+  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
+  const [displaySelection, setDisplaySelection] = useState(false);
+  const [afficherFiltres, setAfficherFiltres] = useState(false);
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -293,7 +293,7 @@ export const ListeProjets = ({
                 <SecondaryLinkButton
                   className="inline-flex items-center m-0 md:ml-auto umami--click--telecharger-un-export-projets"
                   href={`${ROUTES.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                    request.query as any
+                    request.query as any,
                   )}`}
                   download
                 >
@@ -317,7 +317,7 @@ export const ListeProjets = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ListeProjets)
+hydrateOnClient(ListeProjets);

@@ -1,1 +1,1 @@
-export * from './construireQuery'
+export * from './construireQuery';

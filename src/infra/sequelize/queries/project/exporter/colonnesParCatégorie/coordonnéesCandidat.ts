@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const coordonnéesCandidat: Readonly<Array<Colonne>> = [
   { nomPropriété: `Région d'implantation`, source: 'propriété-colonne-détail' },
@@ -28,4 +28,4 @@ export const coordonnéesCandidat: Readonly<Array<Colonne>> = [
     intitulé: 'Adresse électronique du contact',
   },
   { nomPropriété: `Téléphone`, source: 'propriété-colonne-détail' },
-]
+];

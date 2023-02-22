@@ -1,2 +1,2 @@
-import express from 'express'
-export const v1Router = express.Router()
+import express from 'express';
+export const v1Router = express.Router();

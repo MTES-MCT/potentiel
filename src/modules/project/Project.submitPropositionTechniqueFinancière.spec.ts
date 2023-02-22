@@ -1,19 +1,19 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import { ProjectImported, ProjectNotified, ProjectPTFSubmitted } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectCannotBeUpdatedIfUnnotifiedError, PTFCertificatDéjàEnvoyéError } from './errors'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import { ProjectImported, ProjectNotified, ProjectPTFSubmitted } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { ProjectCannotBeUpdatedIfUnnotifiedError, PTFCertificatDéjàEnvoyéError } from './errors';
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
-const projectId = new UniqueEntityID()
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
+const projectId = new UniqueEntityID();
 
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
 describe('Project.submitPropositionTechniqueFinancière()', () => {
   describe(`Quand le projet n'a pas été notifié`, () => {
@@ -41,8 +41,8 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
             }),
           ],
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       const res = project.submitDemandeComplèteRaccordement({
         projectId: projectId.toString(),
@@ -50,16 +50,16 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
         fileId: 'identifiant-fichier',
         numeroDossier: 'numero-dossier',
         submittedBy: 'user-id',
-      })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
+      });
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
 
   describe('Quand le projet a été notifié', () => {
     describe(`Lorsqu'une PTF a déjà été soumise`, () => {
-      it(`Alors une erreur de type PTFCertificatDéjàEnvoyéError doit être retournée`, () => {})
+      it(`Alors une erreur de type PTFCertificatDéjàEnvoyéError doit être retournée`, () => {});
 
       const fakeHistory: DomainEvent[] = [
         new ProjectImported({
@@ -105,7 +105,7 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
 
       const project = UnwrapForTest(
         makeProject({
@@ -113,22 +113,22 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
           getProjectAppelOffre,
           history: fakeHistory,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       const res = project.submitPropositionTechniqueFinancière({
         projectId: projectId.toString(),
         ptfDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
         submittedBy: 'user-id',
-      })
-      expect(res.isErr()).toBe(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(PTFCertificatDéjàEnvoyéError)
-    })
+      });
+      expect(res.isErr()).toBe(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(PTFCertificatDéjàEnvoyéError);
+    });
 
     describe(`Lorsqu'aucune PTF n'a déjà été soumise`, () => {
-      it(`Alors un évènement ProjectPTFSubmitted doit être émis`, () => {})
+      it(`Alors un évènement ProjectPTFSubmitted doit être émis`, () => {});
 
       const fakeHistory: DomainEvent[] = [
         new ProjectImported({
@@ -162,7 +162,7 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
 
       const project = UnwrapForTest(
         makeProject({
@@ -170,25 +170,25 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
           getProjectAppelOffre,
           history: fakeHistory,
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
       project.submitPropositionTechniqueFinancière({
         projectId: projectId.toString(),
         ptfDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
         submittedBy: 'user-id',
-      })
+      });
 
-      expect(project.pendingEvents).toHaveLength(1)
+      expect(project.pendingEvents).toHaveLength(1);
 
-      const targetEvent = project.pendingEvents[0]
-      if (!targetEvent) return
+      const targetEvent = project.pendingEvents[0];
+      if (!targetEvent) return;
 
-      expect(targetEvent.type).toEqual(ProjectPTFSubmitted.type)
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.fileId).toEqual('identifiant-fichier')
-      expect(targetEvent.payload.submittedBy).toEqual('user-id')
-    })
-  })
-})
+      expect(targetEvent.type).toEqual(ProjectPTFSubmitted.type);
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.fileId).toEqual('identifiant-fichier');
+      expect(targetEvent.payload.submittedBy).toEqual('user-id');
+    });
+  });
+});

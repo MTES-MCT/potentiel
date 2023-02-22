@@ -1,44 +1,44 @@
-import { Project } from '@entities'
-import ROUTES from '@routes'
+import { Project } from '@entities';
+import ROUTES from '@routes';
 import {
   isCertificateDTO,
   is,
   ProjectCertificateDTO,
   ProjectEventDTO,
   ProjectStatus,
-} from '@modules/frise'
-import { UserRole } from '@modules/users'
-import { or } from '../../../../core/utils'
+} from '@modules/frise';
+import { UserRole } from '@modules/users';
+import { or } from '../../../../core/utils';
 
 export type DesignationItemProps = {
-  type: 'designation'
-  date: number
-  role: UserRole
-  projectStatus: ProjectStatus
+  type: 'designation';
+  date: number;
+  role: UserRole;
+  projectStatus: ProjectStatus;
   certificate:
     | {
-        date: number
-        url: string
-        status: 'uploaded' | 'generated'
+        date: number;
+        url: string;
+        status: 'uploaded' | 'generated';
       }
     | {
-        status: 'not-applicable'
+        status: 'not-applicable';
       }
-    | undefined
-}
+    | undefined;
+};
 
 export const extractDesignationItemProps = (
   events: ProjectEventDTO[],
   projectId: Project['id'],
-  status: ProjectStatus
+  status: ProjectStatus,
 ): DesignationItemProps | null => {
-  const projetDesignationEvents = events.filter(isProjectDesignation)
-  const lastProjectDesignationEvent = projetDesignationEvents.pop()
+  const projetDesignationEvents = events.filter(isProjectDesignation);
+  const lastProjectDesignationEvent = projetDesignationEvents.pop();
 
-  if (!lastProjectDesignationEvent) return null
-  const { variant: role, date } = lastProjectDesignationEvent
+  if (!lastProjectDesignationEvent) return null;
+  const { variant: role, date } = lastProjectDesignationEvent;
 
-  const certificateEvent = events.filter(isCertificateDTO).pop()
+  const certificateEvent = events.filter(isCertificateDTO).pop();
   if (certificateEvent) {
     return {
       type: 'designation',
@@ -46,7 +46,7 @@ export const extractDesignationItemProps = (
       certificate: makeCertificateProps(certificateEvent, projectId),
       role: certificateEvent.variant,
       projectStatus: status,
-    }
+    };
   }
 
   return {
@@ -58,27 +58,27 @@ export const extractDesignationItemProps = (
         : undefined,
     role,
     projectStatus: status,
-  }
-}
+  };
+};
 
 const isProjectDesignation = or(
   is('ProjectNotificationDateSet'),
   is('ProjectNotified'),
-  is('ProjectDCRRemoved')
-)
+  is('ProjectDCRRemoved'),
+);
 
 const makeCertificateLink = (
   latestCertificateEvent: ProjectCertificateDTO,
-  projectId: Project['id']
+  projectId: Project['id'],
 ) => {
-  const { certificateFileId, nomProjet, potentielIdentifier, variant } = latestCertificateEvent
+  const { certificateFileId, nomProjet, potentielIdentifier, variant } = latestCertificateEvent;
   if (variant === 'admin' || variant === 'dgec-validateur') {
     return ROUTES.CANDIDATE_CERTIFICATE_FOR_ADMINS({
       id: projectId,
       certificateFileId,
       email: latestCertificateEvent.email,
       potentielIdentifier,
-    })
+    });
   }
 
   return ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
@@ -86,12 +86,12 @@ const makeCertificateLink = (
     certificateFileId,
     nomProjet,
     potentielIdentifier,
-  })
-}
+  });
+};
 
 const makeCertificateProps = (
   certificateEvent: ProjectCertificateDTO,
-  projectId: Project['id']
+  projectId: Project['id'],
 ): DesignationItemProps['certificate'] => {
   return {
     date: certificateEvent.date,
@@ -99,5 +99,5 @@ const makeCertificateProps = (
       ? 'uploaded'
       : 'generated',
     url: makeCertificateLink(certificateEvent, projectId),
-  }
-}
+  };
+};

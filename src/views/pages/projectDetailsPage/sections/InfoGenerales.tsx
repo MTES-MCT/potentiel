@@ -1,10 +1,10 @@
-import React from 'react'
-import { ProjectDataForProjectPage } from '@modules/project'
-import { BuildingIcon, Heading3, Section } from '@components'
+import React from 'react';
+import { ProjectDataForProjectPage } from '@modules/project';
+import { BuildingIcon, Heading3, Section } from '@components';
 
 type InfoGeneralesProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 
 export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
   <Section title="Projet" icon={BuildingIcon}>
@@ -25,4 +25,4 @@ export const InfoGenerales = ({ project }: InfoGeneralesProps) => (
       </div>
     </div>
   </Section>
-)
+);

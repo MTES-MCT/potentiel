@@ -1,26 +1,26 @@
-import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import { LegacyProjectSourced, ProjectPuissanceUpdated } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import { LegacyProjectSourced, ProjectPuissanceUpdated } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
-const newPuissance = 200
+const newPuissance = 200;
 
 describe('Project.updatePuissance()', () => {
   describe('when project has been notified', () => {
@@ -42,23 +42,23 @@ describe('Project.updatePuissance()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should emit a ProjectPuissanceUpdated event', () => {
-      project.updatePuissance(fakeUser, newPuissance)
+      project.updatePuissance(fakeUser, newPuissance);
 
-      expect(project.pendingEvents).toHaveLength(1)
+      expect(project.pendingEvents).toHaveLength(1);
 
-      const targetEvent = project.pendingEvents[0]
-      if (!targetEvent) return
+      const targetEvent = project.pendingEvents[0];
+      if (!targetEvent) return;
 
-      expect(targetEvent.type).toEqual(ProjectPuissanceUpdated.type)
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.updatedBy).toEqual(fakeUser.id)
-      expect(targetEvent.payload.newPuissance).toEqual(newPuissance)
-    })
-  })
+      expect(targetEvent.type).toEqual(ProjectPuissanceUpdated.type);
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.updatedBy).toEqual(fakeUser.id);
+      expect(targetEvent.payload.newPuissance).toEqual(newPuissance);
+    });
+  });
 
   describe('when project has not been notified', () => {
     const project = UnwrapForTest(
@@ -79,13 +79,13 @@ describe('Project.updatePuissance()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should return ProjectCannotBeUpdatedIfUnnotifiedError', () => {
-      const res = project.updatePuissance(fakeUser, newPuissance)
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-      expect(project.pendingEvents.length).toEqual(0)
-    })
-  })
-})
+      const res = project.updatePuissance(fakeUser, newPuissance);
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+      expect(project.pendingEvents.length).toEqual(0);
+    });
+  });
+});

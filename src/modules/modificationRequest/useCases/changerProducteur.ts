@@ -1,29 +1,29 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync, wrapInfra } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeFileObject } from '../../file'
-import { Project } from '../../project/Project'
-import { UnauthorizedError } from '../../shared'
-import { ModificationReceived } from '../events'
-import { AppelOffreRepo } from '@dataAccess'
-import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification'
-import { ToutAccèsAuProjetRevoqué } from '@modules/authZ'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, okAsync, wrapInfra } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { FileContents, FileObject, makeFileObject } from '../../file';
+import { Project } from '../../project/Project';
+import { UnauthorizedError } from '../../shared';
+import { ModificationReceived } from '../events';
+import { AppelOffreRepo } from '@dataAccess';
+import { NouveauCahierDesChargesNonChoisiError } from '@modules/demandeModification';
+import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
 
 type ChangerProducteurDeps = {
-  eventBus: EventBus
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: TransactionalRepository<Project>
-  fileRepo: Repository<FileObject>
-  findAppelOffreById: AppelOffreRepo['findById']
-}
+  eventBus: EventBus;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: TransactionalRepository<Project>;
+  fileRepo: Repository<FileObject>;
+  findAppelOffreById: AppelOffreRepo['findById'];
+};
 
 type ChangerProducteurArgs = {
-  projetId: string
-  porteur: User
-  nouveauProducteur: string
-  justification?: string
-  fichier?: { contents: FileContents; filename: string }
-}
+  projetId: string;
+  porteur: User;
+  nouveauProducteur: string;
+  justification?: string;
+  fichier?: { contents: FileContents; filename: string };
+};
 
 export const makeChangerProducteur =
   ({
@@ -36,7 +36,7 @@ export const makeChangerProducteur =
   ({ projetId, porteur, nouveauProducteur, justification, fichier }: ChangerProducteurArgs) => {
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: porteur })).andThen(
       (utilisateurALesDroits) => {
-        if (!utilisateurALesDroits) return errAsync(new UnauthorizedError())
+        if (!utilisateurALesDroits) return errAsync(new UnauthorizedError());
         return projectRepo.transaction(new UniqueEntityID(projetId), (projet) => {
           return wrapInfra(findAppelOffreById(projet.appelOffreId))
             .andThen((appelOffre) => {
@@ -44,7 +44,7 @@ export const makeChangerProducteur =
                 projet.cahierDesCharges.type === 'initial' &&
                 appelOffre?.choisirNouveauCahierDesCharges
               ) {
-                return errAsync(new NouveauCahierDesChargesNonChoisiError())
+                return errAsync(new NouveauCahierDesChargesNonChoisiError());
               }
 
               if (fichier) {
@@ -54,15 +54,15 @@ export const makeChangerProducteur =
                   createdBy: new UniqueEntityID(porteur.id),
                   filename: fichier.filename,
                   contents: fichier.contents,
-                }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()))
+                }).asyncAndThen((file) => fileRepo.save(file).map(() => file.id.toString()));
               }
 
-              return okAsync(null)
+              return okAsync(null);
             })
             .andThen((fileId) => {
               return projet
                 .updateProducteur(porteur, nouveauProducteur)
-                .asyncMap(async () => fileId)
+                .asyncMap(async () => fileId);
             })
             .andThen((fileId) => {
               return eventBus.publish(
@@ -81,8 +81,8 @@ export const makeChangerProducteur =
                         ? formatCahierDesChargesRéférence(projet.cahierDesCharges)
                         : 'initial',
                   },
-                })
-              )
+                }),
+              );
             })
             .andThen(() => {
               return eventBus.publish(
@@ -91,10 +91,10 @@ export const makeChangerProducteur =
                     projetId: projetId,
                     cause: 'changement producteur',
                   },
-                })
-              )
-            })
-        })
-      }
-    )
-  }
+                }),
+              );
+            });
+        });
+      },
+    );
+  };

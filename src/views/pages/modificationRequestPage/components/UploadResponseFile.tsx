@@ -1,10 +1,10 @@
-import React from 'react'
-import { DownloadResponseTemplate } from '.'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { Astérisque } from '@components'
+import React from 'react';
+import { DownloadResponseTemplate } from '.';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { Astérisque } from '@components';
 
 interface UploadResponseFileProps {
-  modificationRequest: ModificationRequestPageDTO & { type: string }
+  modificationRequest: ModificationRequestPageDTO & { type: string };
 }
 
 export const UploadResponseFile = ({ modificationRequest }: UploadResponseFileProps) => {
@@ -23,5 +23,5 @@ export const UploadResponseFile = ({ modificationRequest }: UploadResponseFilePr
         />
       </div>
     </>
-  )
-}
+  );
+};

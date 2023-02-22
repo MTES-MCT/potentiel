@@ -1,7 +1,7 @@
-import { wrapInfra } from '@core/utils'
-import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '@modules/project'
-import { Raccordements } from '../../projectionsNext'
-import { okAsync } from 'neverthrow'
+import { wrapInfra } from '@core/utils';
+import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '@modules/project';
+import { Raccordements } from '../../projectionsNext';
+import { okAsync } from 'neverthrow';
 
 export const trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau =
   (identifiantGestionnaire) =>
@@ -11,7 +11,7 @@ export const trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParI
         where: {
           identifiantGestionnaire,
         },
-      })
+      }),
     ).andThen((raccordements) =>
-      okAsync(raccordements.map((raccordement) => raccordement.projetId))
-    )
+      okAsync(raccordements.map((raccordement) => raccordement.projetId)),
+    );

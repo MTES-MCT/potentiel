@@ -1,33 +1,33 @@
-import { logger } from '@core/utils'
-import { ProjectReimported } from '@modules/project'
+import { logger } from '@core/utils';
+import { ProjectReimported } from '@modules/project';
 
 export const onProjectReimported = (models) => async (event: ProjectReimported) => {
-  const { Project } = models
+  const { Project } = models;
 
-  const { projectId, data } = event.payload
+  const { projectId, data } = event.payload;
 
   try {
-    const project = await Project.findByPk(projectId)
+    const project = await Project.findByPk(projectId);
 
     if (project === null) {
-      throw new Error(`onProjectReimported for project that is not found ${projectId}`)
+      throw new Error(`onProjectReimported for project that is not found ${projectId}`);
     }
 
-    const { details, ...other } = data
+    const { details, ...other } = data;
 
     if (details) {
-      Object.assign(project.details, details)
-      project.changed('details', true)
+      Object.assign(project.details, details);
+      project.changed('details', true);
     }
 
     Object.assign(project, {
       ...other,
       evaluationCarboneDeRéférence: other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
-    })
+    });
 
-    await project.save()
+    await project.save();
   } catch (e) {
-    logger.error(e)
-    logger.info('Error: onProjectReimported projection failed to update project', event)
+    logger.error(e);
+    logger.info('Error: onProjectReimported projection failed to update project', event);
   }
-}
+};

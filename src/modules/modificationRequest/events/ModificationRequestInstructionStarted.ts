@@ -1,20 +1,20 @@
-import { BaseDomainEvent, DomainEvent } from '@core/domain'
+import { BaseDomainEvent, DomainEvent } from '@core/domain';
 
 export interface ModificationRequestInstructionStartedPayload {
-  modificationRequestId: string
+  modificationRequestId: string;
 }
 export class ModificationRequestInstructionStarted
   extends BaseDomainEvent<ModificationRequestInstructionStartedPayload>
   implements DomainEvent
 {
   public static type: 'ModificationRequestInstructionStarted' =
-    'ModificationRequestInstructionStarted'
+    'ModificationRequestInstructionStarted';
 
-  public type = ModificationRequestInstructionStarted.type
-  currentVersion = 1
+  public type = ModificationRequestInstructionStarted.type;
+  currentVersion = 1;
 
   aggregateIdFromPayload(payload: ModificationRequestInstructionStartedPayload) {
     // This event does not mutate an agregate
-    return undefined
+    return undefined;
   }
 }

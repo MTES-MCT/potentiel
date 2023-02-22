@@ -1,12 +1,12 @@
-import { RésultatSoumissionFormulaire } from 'express-session'
-import { Request } from 'express'
+import { RésultatSoumissionFormulaire } from 'express-session';
+import { Request } from 'express';
 
 export const sauvegarderRésultatFormulaire = (
   request: Request,
   formId: string,
-  formResult: RésultatSoumissionFormulaire | undefined
+  formResult: RésultatSoumissionFormulaire | undefined,
 ) => {
-  const form = request.session.forms?.[formId]
+  const form = request.session.forms?.[formId];
 
   request.session.forms = {
     ...request.session.forms,
@@ -14,5 +14,5 @@ export const sauvegarderRésultatFormulaire = (
       ...form,
       résultatSoumissionFormulaire: formResult,
     },
-  }
-}
+  };
+};

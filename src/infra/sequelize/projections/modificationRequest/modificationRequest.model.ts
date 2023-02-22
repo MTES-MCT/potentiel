@@ -6,16 +6,16 @@ import {
   Model,
   NonAttribute,
   NOW,
-} from 'sequelize'
-import { Project } from '../project'
+} from 'sequelize';
+import { Project } from '../project';
 
 export class ModificationRequest extends Model<
   InferAttributes<ModificationRequest>,
   InferCreationAttributes<ModificationRequest>
 > {
-  id: string
-  projectId: string
-  userId?: string
+  id: string;
+  projectId: string;
+  userId?: string;
   type:
     | 'actionnaire'
     | 'fournisseur'
@@ -24,38 +24,38 @@ export class ModificationRequest extends Model<
     | 'recours'
     | 'abandon'
     | 'delai'
-    | 'annulation abandon'
-  status: string
-  requestedOn: number
-  versionDate: CreationOptional<Date>
-  respondedOn?: number
-  respondedBy?: string
-  responseFileId?: string
-  acceptanceParams?: { [key: string]: string | number }
-  authority?: 'dreal' | 'dgec'
-  filename?: string
-  fileId?: string
-  justification?: string
-  actionnaire?: string
-  producteur?: string
-  fournisseurs?: JSON
-  puissance?: number
-  puissanceAuMomentDuDepot?: number
-  evaluationCarbone?: number
-  delayInMonths?: number
-  dateAchèvementDemandée?: Date
-  confirmationRequestedBy?: string
-  confirmationRequestedOn?: number
-  confirmedBy?: string
-  confirmedOn?: number
-  cancelledBy?: string
-  cancelledOn?: number
-  isLegacy: CreationOptional<boolean | null>
-  cahierDesCharges?: string
+    | 'annulation abandon';
+  status: string;
+  requestedOn: number;
+  versionDate: CreationOptional<Date>;
+  respondedOn?: number;
+  respondedBy?: string;
+  responseFileId?: string;
+  acceptanceParams?: { [key: string]: string | number };
+  authority?: 'dreal' | 'dgec';
+  filename?: string;
+  fileId?: string;
+  justification?: string;
+  actionnaire?: string;
+  producteur?: string;
+  fournisseurs?: JSON;
+  puissance?: number;
+  puissanceAuMomentDuDepot?: number;
+  evaluationCarbone?: number;
+  delayInMonths?: number;
+  dateAchèvementDemandée?: Date;
+  confirmationRequestedBy?: string;
+  confirmationRequestedOn?: number;
+  confirmedBy?: string;
+  confirmedOn?: number;
+  cancelledBy?: string;
+  cancelledOn?: number;
+  isLegacy: CreationOptional<boolean | null>;
+  cahierDesCharges?: string;
 
-  project: NonAttribute<Project>
-  requestedBy: NonAttribute<{ email: string; fullName: string }>
-  attachmentFile: NonAttribute<{ id: string; filename: string }>
+  project: NonAttribute<Project>;
+  requestedBy: NonAttribute<{ email: string; fullName: string }>;
+  attachmentFile: NonAttribute<{ id: string; filename: string }>;
 }
 
 export const MakeModificationRequestModel = (sequelize) => {
@@ -193,8 +193,8 @@ export const MakeModificationRequestModel = (sequelize) => {
       sequelize,
       tableName: 'modificationRequests',
       timestamps: true,
-    }
-  )
+    },
+  );
 
-  return ModificationRequest
-}
+  return ModificationRequest;
+};

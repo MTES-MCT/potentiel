@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const modificationsAvantImport: Readonly<Array<Colonne>> = [
   { nomPropriété: `Type de modification 1`, source: 'propriété-colonne-détail' },
@@ -21,4 +21,4 @@ export const modificationsAvantImport: Readonly<Array<Colonne>> = [
   { nomPropriété: `Date de modification 5`, source: 'propriété-colonne-détail' },
   { nomPropriété: `Colonne concernée 5`, source: 'propriété-colonne-détail' },
   { nomPropriété: `Ancienne valeur 5`, source: 'propriété-colonne-détail' },
-]
+];

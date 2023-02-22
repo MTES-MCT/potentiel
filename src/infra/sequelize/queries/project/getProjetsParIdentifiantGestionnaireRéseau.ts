@@ -1,9 +1,9 @@
-import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/donnéesRaccordement'
-import { okAsync, wrapInfra } from '@core/utils'
-import models from '../../models'
-import { Op } from 'sequelize'
+import { GetProjetsParIdentifiantGestionnaireRéseau } from '@modules/imports/donnéesRaccordement';
+import { okAsync, wrapInfra } from '@core/utils';
+import models from '../../models';
+import { Op } from 'sequelize';
 
-const Raccordements = models.Raccordements
+const Raccordements = models.Raccordements;
 
 export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifiantGestionnaireRéseau =
   (identifiantsGestionnaireRéseau) => {
@@ -15,7 +15,7 @@ export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifia
           },
         },
         attributes: ['projetId', 'identifiantGestionnaire'],
-      })
+      }),
     ).andThen((projets) => {
       return okAsync(
         identifiantsGestionnaireRéseau.reduce((acc, identifiantGR) => {
@@ -25,11 +25,11 @@ export const getProjetsParIdentifiantGestionnaireRéseau: GetProjetsParIdentifia
               .filter((raccordement) =>
                 raccordement.identifiantGestionnaire
                   ?.toLowerCase()
-                  .includes(identifiantGR.toLowerCase())
+                  .includes(identifiantGR.toLowerCase()),
               )
               .map(({ projetId }) => ({ projetId })),
-          }
-        }, {})
-      )
-    })
-  }
+          };
+        }, {}),
+      );
+    });
+  };

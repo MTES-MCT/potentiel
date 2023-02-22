@@ -1,25 +1,25 @@
-import { UserRightsToProjectGranted } from '..'
-import { EventBus } from '@core/domain'
-import { logger, okAsync } from '@core/utils'
-import { IsPeriodeLegacy } from '../../appelOffre'
-import { ProjectImported, ProjectReimported } from '../../project'
-import { GetUserByEmail } from '../../users/queries'
+import { UserRightsToProjectGranted } from '..';
+import { EventBus } from '@core/domain';
+import { logger, okAsync } from '@core/utils';
+import { IsPeriodeLegacy } from '../../appelOffre';
+import { ProjectImported, ProjectReimported } from '../../project';
+import { GetUserByEmail } from '../../users/queries';
 
 interface HandleProjectImportedDeps {
-  eventBus: EventBus
-  getUserByEmail: GetUserByEmail
-  isPeriodeLegacy: IsPeriodeLegacy
+  eventBus: EventBus;
+  getUserByEmail: GetUserByEmail;
+  isPeriodeLegacy: IsPeriodeLegacy;
 }
 
 export const handleProjectImported =
   (deps: HandleProjectImportedDeps) => async (event: ProjectImported | ProjectReimported) => {
-    const { projectId, data, appelOffreId, periodeId } = event.payload
-    const { email } = data
+    const { projectId, data, appelOffreId, periodeId } = event.payload;
+    const { email } = data;
 
     try {
-      const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId })
+      const isLegacy = await deps.isPeriodeLegacy({ appelOffreId, periodeId });
 
-      if (isLegacy || !email?.length) return
+      if (isLegacy || !email?.length) return;
 
       await deps.getUserByEmail(email).andThen((userOrNull) => {
         if (!!userOrNull) {
@@ -30,12 +30,12 @@ export const handleProjectImported =
                 projectId,
                 grantedBy: '',
               },
-            })
-          )
+            }),
+          );
         }
-        return okAsync(null)
-      })
+        return okAsync(null);
+      });
     } catch (error) {
-      logger.error(error)
+      logger.error(error);
     }
-  }
+  };

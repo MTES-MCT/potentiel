@@ -1,12 +1,12 @@
-import { Users, UsersProjector } from '../users.model'
-import { RôleUtilisateurModifié } from '@modules/users'
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
+import { Users, UsersProjector } from '../users.model';
+import { RôleUtilisateurModifié } from '@modules/users';
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default UsersProjector.on(RôleUtilisateurModifié, async (évènement, transaction) => {
   const {
     payload: { userId, role },
-  } = évènement
+  } = évènement;
   try {
     await Users.update(
       {
@@ -15,8 +15,8 @@ export default UsersProjector.on(RôleUtilisateurModifié, async (évènement, t
       {
         where: { id: userId },
         transaction,
-      }
-    )
+      },
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
@@ -25,8 +25,8 @@ export default UsersProjector.on(RôleUtilisateurModifié, async (évènement, t
           évènement,
           nomProjection: 'Users.RôleUtilisateurModifié',
         },
-        error
-      )
-    )
+        error,
+      ),
+    );
   }
-})
+});

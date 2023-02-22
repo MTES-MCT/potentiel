@@ -1,28 +1,28 @@
-import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@components'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { UserRole } from '@modules/users'
-import ROUTES from '@routes'
-import React from 'react'
-import { UploadResponseFile } from '.'
-import { dataId } from '../../../../helpers/testId'
-import { ModificationRequestTitleByType } from '../../../helpers'
+import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@components';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { UserRole } from '@modules/users';
+import ROUTES from '@routes';
+import React from 'react';
+import { UploadResponseFile } from '.';
+import { dataId } from '../../../../helpers/testId';
+import { ModificationRequestTitleByType } from '../../../helpers';
 
 interface AdminResponseFormProps {
-  modificationRequest: ModificationRequestPageDTO
-  role: UserRole
-  children?: React.ReactNode
+  modificationRequest: ModificationRequestPageDTO;
+  role: UserRole;
+  children?: React.ReactNode;
 }
 
 function getAdminRouteBasedOnType(type) {
   switch (type) {
     case 'delai':
-      return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI
+      return ROUTES.ADMIN_REPONDRE_DEMANDE_DELAI;
     case 'abandon':
-      return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON
+      return ROUTES.ADMIN_REPONDRE_DEMANDE_ABANDON;
     case 'annulation abandon':
-      return ROUTES.POST_REPONDRE_DEMANDE_ANNULATION_ABANDON
+      return ROUTES.POST_REPONDRE_DEMANDE_ANNULATION_ABANDON;
     default:
-      return ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST
+      return ROUTES.ADMIN_REPLY_TO_MODIFICATION_REQUEST;
   }
 }
 
@@ -31,7 +31,7 @@ export const AdminResponseForm = ({
   role,
   children,
 }: AdminResponseFormProps) => {
-  const { type, versionDate } = modificationRequest
+  const { type, versionDate } = modificationRequest;
 
   return (
     <form
@@ -84,5 +84,5 @@ export const AdminResponseForm = ({
         Rejeter la demande {ModificationRequestTitleByType[type]}
       </button>
     </form>
-  )
-}
+  );
+};

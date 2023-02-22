@@ -1,1 +1,1 @@
-export * from '../../file/errors/FileAccessDenied'
+export * from '../../file/errors/FileAccessDenied';

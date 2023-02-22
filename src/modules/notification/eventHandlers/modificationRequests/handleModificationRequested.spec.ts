@@ -1,34 +1,34 @@
-import { okAsync } from 'neverthrow'
-import { NotificationArgs } from '../..'
-import { UniqueEntityID } from '@core/domain'
-import { makeProject } from '@entities'
-import routes from '@routes'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { ModificationRequested } from '../../../modificationRequest'
-import { GetInfoForModificationRequested } from '../../queries'
-import { handleModificationRequested } from './handleModificationRequested'
+import { okAsync } from 'neverthrow';
+import { NotificationArgs } from '../..';
+import { UniqueEntityID } from '@core/domain';
+import { makeProject } from '@entities';
+import routes from '@routes';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import makeFakeUser from '../../../../__tests__/fixtures/user';
+import { ModificationRequested } from '../../../modificationRequest';
+import { GetInfoForModificationRequested } from '../../queries';
+import { handleModificationRequested } from './handleModificationRequested';
 
-const modificationRequestId = new UniqueEntityID().toString()
-const userId = new UniqueEntityID().toString()
-const projectId = new UniqueEntityID().toString()
+const modificationRequestId = new UniqueEntityID().toString();
+const userId = new UniqueEntityID().toString();
+const projectId = new UniqueEntityID().toString();
 
 describe('notification.handleModificationRequested', () => {
   const getInfoForModificationRequested = jest.fn((args: { projectId; userId }) =>
     okAsync({
       porteurProjet: { email: 'email@test.test', fullName: 'john doe' },
       nomProjet: 'nomProjet',
-    })
-  ) as GetInfoForModificationRequested
+    }),
+  ) as GetInfoForModificationRequested;
 
-  const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+  const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 
   describe('in general', () => {
-    const findProjectById = jest.fn()
-    const findUsersForDreal = jest.fn()
+    const findProjectById = jest.fn();
+    const findUsersForDreal = jest.fn();
 
     it('should set send a status-update email to the PP that submitted the request', async () => {
-      sendNotification.mockClear()
+      sendNotification.mockClear();
 
       await handleModificationRequested({
         sendNotification,
@@ -44,13 +44,13 @@ describe('notification.handleModificationRequested', () => {
             requestedBy: userId,
             authority: 'dgec',
           },
-        })
-      )
+        }),
+      );
 
-      expect(getInfoForModificationRequested).toHaveBeenCalledWith({ projectId, userId })
+      expect(getInfoForModificationRequested).toHaveBeenCalledWith({ projectId, userId });
 
-      expect(sendNotification).toHaveBeenCalledTimes(1)
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      expect(sendNotification).toHaveBeenCalledTimes(1);
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
       expect(
         notifications.every(
           (notification) =>
@@ -60,15 +60,15 @@ describe('notification.handleModificationRequested', () => {
             notification.variables.status === 'envoyée' &&
             notification.variables.nom_projet === 'nomProjet' &&
             notification.variables.type_demande === 'recours' &&
-            notification.variables.document_absent === ''
-        )
-      ).toBe(true)
-    })
-  })
+            notification.variables.document_absent === '',
+        ),
+      ).toBe(true);
+    });
+  });
 
   describe('when modification request type is destined to DREAL admins', () => {
     it('should send an email to the DREAL users for the project region(s)', async () => {
-      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null);
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
           makeFakeProject({
@@ -76,14 +76,14 @@ describe('notification.handleModificationRequested', () => {
             nomProjet: 'nomProjet',
             regionProjet: 'regionA / regionB',
             departementProjet: 'departement',
-          })
-        ).unwrap()
-      )
+          }),
+        ).unwrap(),
+      );
       const findUsersForDreal = jest.fn(async (region: string) =>
         region === 'regionA'
           ? [makeFakeUser({ email: 'drealA@test.test', fullName: 'drealA' })]
-          : [makeFakeUser({ email: 'drealB@test.test', fullName: 'drealB' })]
-      )
+          : [makeFakeUser({ email: 'drealB@test.test', fullName: 'drealB' })],
+      );
 
       await handleModificationRequested({
         sendNotification,
@@ -101,15 +101,15 @@ describe('notification.handleModificationRequested', () => {
             justification: 'justification',
             authority: 'dreal',
           },
-        })
-      )
+        }),
+      );
 
-      expect(findUsersForDreal).toHaveBeenCalledTimes(2)
-      expect(findUsersForDreal).toHaveBeenCalledWith('regionA')
-      expect(findUsersForDreal).toHaveBeenCalledWith('regionB')
+      expect(findUsersForDreal).toHaveBeenCalledTimes(2);
+      expect(findUsersForDreal).toHaveBeenCalledWith('regionA');
+      expect(findUsersForDreal).toHaveBeenCalledWith('regionB');
 
-      expect(sendNotification).toHaveBeenCalledTimes(3)
-      const notifications = sendNotification.mock.calls.map((call) => call[0])
+      expect(sendNotification).toHaveBeenCalledTimes(3);
+      const notifications = sendNotification.mock.calls.map((call) => call[0]);
 
       expect(
         notifications.some(
@@ -124,9 +124,9 @@ describe('notification.handleModificationRequested', () => {
             notification.variables.departement_projet === 'departement' &&
             notification.context.modificationRequestId === modificationRequestId &&
             notification.context.dreal === 'regionA' &&
-            notification.context.projectId === projectId
-        )
-      ).toBe(true)
+            notification.context.projectId === projectId,
+        ),
+      ).toBe(true);
       expect(
         notifications.some(
           (notification) =>
@@ -140,9 +140,9 @@ describe('notification.handleModificationRequested', () => {
             notification.variables.departement_projet === 'departement' &&
             notification.context.modificationRequestId === modificationRequestId &&
             notification.context.dreal === 'regionB' &&
-            notification.context.projectId === projectId
-        )
-      ).toBe(true)
-    })
-  })
-})
+            notification.context.projectId === projectId,
+        ),
+      ).toBe(true);
+    });
+  });
+});

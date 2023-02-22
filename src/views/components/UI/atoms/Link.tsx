@@ -1,6 +1,6 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { ComponentProps, FC } from 'react';
 
-type LinkProps = ComponentProps<'a'>
+type LinkProps = ComponentProps<'a'>;
 
 export const Link: FC<LinkProps> = ({ className = '', children, ...props }) => (
   <a
@@ -11,4 +11,4 @@ export const Link: FC<LinkProps> = ({ className = '', children, ...props }) => (
   >
     {children}
   </a>
-)
+);

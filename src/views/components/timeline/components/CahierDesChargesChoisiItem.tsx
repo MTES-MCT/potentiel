@@ -1,9 +1,9 @@
-import { CahierDesChargesChoisiDTO } from '@modules/frise'
-import React from 'react'
-import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.'
+import { CahierDesChargesChoisiDTO } from '@modules/frise';
+import React from 'react';
+import { ContentArea, ItemDate, ItemTitle, PastIcon } from '.';
 
 export const CahierDesChargesChoisiItem = (payload: CahierDesChargesChoisiDTO) => {
-  const { date, cahierDesCharges } = payload
+  const { date, cahierDesCharges } = payload;
   return (
     <>
       <PastIcon />
@@ -20,5 +20,5 @@ export const CahierDesChargesChoisiItem = (payload: CahierDesChargesChoisiDTO) =
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};

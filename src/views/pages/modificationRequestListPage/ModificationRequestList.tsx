@@ -1,10 +1,10 @@
-import { Request } from 'express'
-import React, { ChangeEvent, useState } from 'react'
-import { AppelOffre } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
-import ROUTES from '@routes'
-import { PaginatedList } from '../../../types'
+import { Request } from 'express';
+import React, { ChangeEvent, useState } from 'react';
+import { AppelOffre } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
+import ROUTES from '@routes';
+import { PaginatedList } from '../../../types';
 import {
   RequestList,
   PageTemplate,
@@ -14,15 +14,15 @@ import {
   Link,
   Heading1,
   BarreDeRecherche,
-} from '@components'
-import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers'
-import { userIs } from '@modules/users'
+} from '@components';
+import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
+import { userIs } from '@modules/users';
 
 type ModificationRequestListProps = {
-  request: Request
-  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
-  appelsOffre: Array<AppelOffre>
-}
+  request: Request;
+  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
+  appelsOffre: Array<AppelOffre>;
+};
 
 export const ModificationRequestList = ({
   request,
@@ -30,10 +30,10 @@ export const ModificationRequestList = ({
   appelsOffre,
 }: ModificationRequestListProps) => {
   const handleShowOnlyDGEC = (e: ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked
-    setIsShowOnlyDGECChecked(isChecked)
-    refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`)
-  }
+    const isChecked = e.target.checked;
+    setIsShowOnlyDGECChecked(isChecked);
+    refreshPageWithNewSearchParamValue('showOnlyDGEC', `${isChecked ? 'on' : 'off'}`);
+  };
 
   const {
     error,
@@ -45,20 +45,20 @@ export const ModificationRequestList = ({
     modificationRequestStatus,
     modificationRequestType,
     showOnlyDGEC = 'on',
-  } = (request.query as any) || {}
+  } = (request.query as any) || {};
 
-  const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on')
+  const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on');
 
   const hasFilters =
-    appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType
+    appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType;
 
-  const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes
+  const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes;
 
   const familles = appelsOffre
     .find((ao) => ao.id === appelOffreId)
-    ?.familles.sort((a, b) => a.title.localeCompare(b.title))
+    ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
-  const [afficherFiltres, setAfficherFiltres] = useState(false)
+  const [afficherFiltres, setAfficherFiltres] = useState(false);
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -219,7 +219,7 @@ export const ModificationRequestList = ({
         <RequestList modificationRequests={modificationRequests} role={request.user?.role} />
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ModificationRequestList)
+hydrateOnClient(ModificationRequestList);

@@ -1,2 +1,2 @@
-export * from './updates'
-export * from './userDreal.model'
+export * from './updates';
+export * from './userDreal.model';

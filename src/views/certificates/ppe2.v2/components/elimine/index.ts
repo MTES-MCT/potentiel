@@ -1,1 +1,1 @@
-export * from './Elimine'
+export * from './Elimine';

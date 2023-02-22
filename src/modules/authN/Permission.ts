@@ -1,4 +1,4 @@
-import { UserRole } from '@modules/users'
+import { UserRole } from '@modules/users';
 import {
   PermissionConsulterProjet,
   PermissionInvaliderGF,
@@ -10,15 +10,15 @@ import {
   PermissionListerProjets,
   PermissionExporterProjets,
   PermissionModifierIdentifiantGestionnaireReseau,
-} from '@modules/project'
-import { PermissionInviterDgecValidateur } from '@modules/utilisateur'
-import { PermissionListerDemandesAdmin } from '@modules/modificationRequest'
-import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats'
+} from '@modules/project';
+import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
+import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
+import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
 
 export type Permission = {
-  nom: string
-  description: string
-}
+  nom: string;
+  description: string;
+};
 
 export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> => {
   switch (role) {
@@ -33,7 +33,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
-      ]
+      ];
     case 'porteur-projet':
       return [
         PermissionListerProjets,
@@ -44,7 +44,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionModifierIdentifiantGestionnaireReseau,
-      ]
+      ];
     case 'caisse-des-dépôts':
       return [
         PermissionListerProjets,
@@ -54,7 +54,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
-      ]
+      ];
     case 'admin':
       return [
         PermissionListerProjets,
@@ -67,7 +67,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionModifierIdentifiantGestionnaireReseau,
-      ]
+      ];
     case 'dgec-validateur':
       return [
         PermissionListerProjets,
@@ -79,12 +79,12 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
         PermissionModifierIdentifiantGestionnaireReseau,
-      ]
+      ];
     case 'acheteur-obligé':
     case 'ademe':
     case 'cre':
-      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets]
+      return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     default:
-      return []
+      return [];
   }
-}
+};

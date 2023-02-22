@@ -1,11 +1,11 @@
-import { DateMiseEnServiceDTO } from '@modules/frise'
-import React from 'react'
-import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.'
+import { DateMiseEnServiceDTO } from '@modules/frise';
+import React from 'react';
+import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
 
-type MeSProps = DateMiseEnServiceDTO
+type MeSProps = DateMiseEnServiceDTO;
 
 export const MeSItem = (props: MeSProps) => {
-  const { statut } = props
+  const { statut } = props;
   return (
     <>
       <NextUpIcon />
@@ -15,5 +15,5 @@ export const MeSItem = (props: MeSProps) => {
         {statut === 'non-renseignée' && <span>Date de mise en service à venir</span>}
       </ContentArea>
     </>
-  )
-}
+  );
+};

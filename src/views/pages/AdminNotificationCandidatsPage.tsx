@@ -8,34 +8,34 @@ import {
   ProjectList,
   SecondaryLinkButton,
   SuccessBox,
-} from '@components'
-import { AppelOffre, Periode } from '@entities'
-import { ProjectListItem } from '@modules/project/queries'
-import ROUTES from '@routes'
-import { Request } from 'express'
-import querystring from 'querystring'
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
-import { PaginatedList } from '../../types'
-import { hydrateOnClient } from '../helpers'
+} from '@components';
+import { AppelOffre, Periode } from '@entities';
+import { ProjectListItem } from '@modules/project/queries';
+import ROUTES from '@routes';
+import { Request } from 'express';
+import querystring from 'querystring';
+import React from 'react';
+import { formatDate } from '../../helpers/formatDate';
+import { dataId } from '../../helpers/testId';
+import { PaginatedList } from '../../types';
+import { hydrateOnClient } from '../helpers';
 
 type AdminNotificationCandidatsProps = {
-  request: Request
+  request: Request;
   données?: {
-    projetsPériodeSélectionnée: PaginatedList<ProjectListItem>
-    AOSélectionné: AppelOffre['id']
-    périodeSélectionnée: Periode['id']
-    listeAOs: Array<AppelOffre['id']>
-    listePériodes?: Array<Periode['id']>
-  }
-}
+    projetsPériodeSélectionnée: PaginatedList<ProjectListItem>;
+    AOSélectionné: AppelOffre['id'];
+    périodeSélectionnée: Periode['id'];
+    listeAOs: Array<AppelOffre['id']>;
+    listePériodes?: Array<Periode['id']>;
+  };
+};
 
 export const AdminNotificationCandidats = ({
   request,
   données,
 }: AdminNotificationCandidatsProps) => {
-  const { error, success, recherche, classement } = (request.query as any) || {}
+  const { error, success, recherche, classement } = (request.query as any) || {};
   if (!données) {
     // All projects have been notified
     return (
@@ -49,7 +49,7 @@ export const AdminNotificationCandidats = ({
           <div>Tous les candidats ont été notifiés</div>
         </div>
       </PageTemplate>
-    )
+    );
   }
 
   const {
@@ -58,9 +58,9 @@ export const AdminNotificationCandidats = ({
     périodeSélectionnée,
     listeAOs,
     listePériodes,
-  } = données
+  } = données;
 
-  const hasFilters = classement && classement !== ''
+  const hasFilters = classement && classement !== '';
 
   return (
     <PageTemplate user={request.user}>
@@ -191,7 +191,7 @@ export const AdminNotificationCandidats = ({
         <ProjectList projects={projetsPériodeSélectionnée} role={request.user?.role} />
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(AdminNotificationCandidats)
+hydrateOnClient(AdminNotificationCandidats);

@@ -1,113 +1,113 @@
-import { Readable } from 'stream'
-import { makeS3FileStorageService } from './S3FileStorageService'
-import dotenv from 'dotenv'
-dotenv.config()
+import { Readable } from 'stream';
+import { makeS3FileStorageService } from './S3FileStorageService';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const bucket = process.env.S3_BUCKET
-const endpoint = process.env.S3_ENDPOINT
+const bucket = process.env.S3_BUCKET;
+const endpoint = process.env.S3_ENDPOINT;
 
 describe.skip('S3FileStorageService', () => {
-  const fakePath = `test/fakeFile-${Date.now()}.txt`
+  const fakePath = `test/fakeFile-${Date.now()}.txt`;
 
   describe('upload', () => {
-    let uploadedFileId: string
+    let uploadedFileId: string;
 
     describe('given a proper bucket', () => {
       it('bucket and endpoint should not be undefined', () => {
-        expect(bucket).toBeDefined()
-        expect(endpoint).toBeDefined()
-      })
+        expect(bucket).toBeDefined();
+        expect(endpoint).toBeDefined();
+      });
 
-      if (!bucket) return
-      if (!endpoint) return
+      if (!bucket) return;
+      if (!endpoint) return;
 
-      const fileStorageService = makeS3FileStorageService({ endpoint, bucket })
+      const fileStorageService = makeS3FileStorageService({ endpoint, bucket });
 
       afterAll(async () => {
-        if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
-      })
+        if (uploadedFileId) await fileStorageService.remove(uploadedFileId);
+      });
 
       it('should call the client upload', async () => {
-        const fakeContents = Readable.from(['test'])
+        const fakeContents = Readable.from(['test']);
 
-        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath });
 
-        expect(result.isOk()).toBe(true)
+        expect(result.isOk()).toBe(true);
 
-        if (result.isErr()) return
+        if (result.isErr()) return;
 
-        uploadedFileId = result.value
+        uploadedFileId = result.value;
 
-        expect(result.value).toEqual(`S3:${bucket}:${fakePath}`)
-      })
-    })
+        expect(result.value).toEqual(`S3:${bucket}:${fakePath}`);
+      });
+    });
 
     describe('given a wrong bucket', () => {
       it('should return an error', async () => {
-        expect(endpoint).toBeDefined()
-        if (!endpoint) return
+        expect(endpoint).toBeDefined();
+        if (!endpoint) return;
 
         const fileStorageService = makeS3FileStorageService({
           endpoint,
           bucket: 'CONTAINERTHATDOESNTEXIST',
-        })
-        const fakeContents = Readable.from(['test'])
-        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
+        });
+        const fakeContents = Readable.from(['test']);
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath });
 
-        expect(result.isErr()).toBe(true)
-      })
-    })
-  })
+        expect(result.isErr()).toBe(true);
+      });
+    });
+  });
 
   describe('download', () => {
     it('bucket and endpoint should not be undefined', () => {
-      expect(bucket).toBeDefined()
-      expect(endpoint).toBeDefined()
-    })
+      expect(bucket).toBeDefined();
+      expect(endpoint).toBeDefined();
+    });
 
-    if (!bucket) return
-    if (!endpoint) return
+    if (!bucket) return;
+    if (!endpoint) return;
 
-    const fileStorageService = makeS3FileStorageService({ endpoint, bucket })
+    const fileStorageService = makeS3FileStorageService({ endpoint, bucket });
 
     describe('given an existing file', () => {
-      let uploadedFileId: string
+      let uploadedFileId: string;
 
       beforeAll(async () => {
-        const fakeContents = Readable.from(['test'])
-        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath })
+        const fakeContents = Readable.from(['test']);
+        const result = await fileStorageService.upload({ contents: fakeContents, path: fakePath });
 
-        expect(result.isOk()).toBe(true)
-        if (result.isErr()) return
+        expect(result.isOk()).toBe(true);
+        if (result.isErr()) return;
 
-        uploadedFileId = result.value
-      })
+        uploadedFileId = result.value;
+      });
 
       afterAll(async () => {
-        if (uploadedFileId) await fileStorageService.remove(uploadedFileId)
-      })
+        if (uploadedFileId) await fileStorageService.remove(uploadedFileId);
+      });
 
       it('should retrieve the file from the S3 storage', async () => {
-        const result = await fileStorageService.download(uploadedFileId)
+        const result = await fileStorageService.download(uploadedFileId);
 
-        expect(result.isOk()).toBe(true)
-        if (result.isErr()) return
+        expect(result.isOk()).toBe(true);
+        if (result.isErr()) return;
 
         const downloadedFile = await new Promise((resolve, reject) => {
-          let fileContents = ''
+          let fileContents = '';
           result.value.on('data', (chunk) => {
-            fileContents += chunk
-          })
+            fileContents += chunk;
+          });
           result.value.on('error', (err) => {
-            reject(err)
-          })
+            reject(err);
+          });
           result.value.on('end', () => {
-            resolve(fileContents)
-          })
-        })
+            resolve(fileContents);
+          });
+        });
 
-        expect(downloadedFile).toEqual('test')
-      })
-    })
-  })
-})
+        expect(downloadedFile).toEqual('test');
+      });
+    });
+  });
+});

@@ -1,7 +1,7 @@
-import models from '../../../models'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { exporterProjets } from './exporterProjets'
-import { resetDatabase } from '@dataAccess'
+import models from '../../../models';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { exporterProjets } from './exporterProjets';
+import { resetDatabase } from '@dataAccess';
 
 import {
   coordonnéesCandidat,
@@ -18,11 +18,11 @@ import {
   notes,
   prix,
   évaluationCarbone,
-} from './colonnesParCatégorie'
-import { User } from '@entities'
+} from './colonnesParCatégorie';
+import { User } from '@entities';
 
 describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
-  beforeEach(resetDatabase)
+  beforeEach(resetDatabase);
 
   const colonnesÀExporter = [
     ...identificationProjet,
@@ -39,7 +39,7 @@ describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
     ...notes,
     ...modificationsAvantImport,
     ...garantiesFinancières,
-  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
+  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
   it(`Étant donné des projets notifiés et non notifiés,
     lorsqu'un utilisateur ayant le rôle "acheteur-obligé" exporte tous les projets,
@@ -58,15 +58,15 @@ describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Autre',
       }),
-    ])
+    ]);
 
     const exportProjets = (
       await exporterProjets({ user: { id: 'id-user', role: 'acheteur-obligé' } as User })
-    )._unsafeUnwrap()
+    )._unsafeUnwrap();
 
-    expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
+    expect(exportProjets.colonnes).toEqual(colonnesÀExporter);
 
-    expect(exportProjets.données).toHaveLength(2)
+    expect(exportProjets.données).toHaveLength(2);
     expect(exportProjets.données).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -75,12 +75,12 @@ describe(`Export des projets en tant qu'utilisateur "acheteur-obligé"`, () => {
         expect.objectContaining({
           'Nom projet': 'Autre',
         }),
-      ])
-    )
+      ]),
+    );
     expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': 'Projet Non notifié Photovoltaïque',
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

@@ -1,26 +1,26 @@
-import React, { FC } from 'react'
-import { ErrorBox, SuccessBox } from '@components'
+import React, { FC } from 'react';
+import { ErrorBox, SuccessBox } from '@components';
 
 export type RésultatSoumissionFormulaireProps = {
   résultatSoumissionFormulaire:
     | {
-        type: 'succès'
-        message: string
+        type: 'succès';
+        message: string;
       }
     | {
-        type: 'échec'
-        raison: string
-        erreursDeValidationCsv?: Array<ErreurValidationCsv>
-        erreursDeValidation?: Record<string, string>
-      }
-}
+        type: 'échec';
+        raison: string;
+        erreursDeValidationCsv?: Array<ErreurValidationCsv>;
+        erreursDeValidation?: Record<string, string>;
+      };
+};
 
 export const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProps> = ({
   résultatSoumissionFormulaire,
 }) => {
   switch (résultatSoumissionFormulaire.type) {
     case 'succès':
-      return <SuccessBox title={résultatSoumissionFormulaire.message} />
+      return <SuccessBox title={résultatSoumissionFormulaire.message} />;
     case 'échec':
       return résultatSoumissionFormulaire.erreursDeValidationCsv &&
         résultatSoumissionFormulaire.erreursDeValidationCsv?.length > 0 ? (
@@ -29,29 +29,29 @@ export const RésultatSoumissionFormulaire: FC<RésultatSoumissionFormulaireProp
         />
       ) : (
         <ErrorBox title={résultatSoumissionFormulaire.raison} />
-      )
+      );
   }
-}
+};
 
 type ErreurValidationCsv = {
-  numéroLigne?: number
-  valeurInvalide?: string
-  raison: string
-}
+  numéroLigne?: number;
+  valeurInvalide?: string;
+  raison: string;
+};
 
 type CsvValidationErrorBoxProps = {
-  erreursDeValidationCsv: Array<ErreurValidationCsv>
-}
+  erreursDeValidationCsv: Array<ErreurValidationCsv>;
+};
 
 const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValidationCsv }) => {
   const afficherErreur = ({ numéroLigne, valeurInvalide, raison }: ErreurValidationCsv) => {
     return `${numéroLigne ? `Ligne ${numéroLigne.toString()} - ` : ''}${
       valeurInvalide ? `${valeurInvalide} - ` : ''
-    }${raison}`
-  }
+    }${raison}`;
+  };
 
   if (erreursDeValidationCsv.length === 1) {
-    return <div className="notification error">{afficherErreur(erreursDeValidationCsv[0])}</div>
+    return <div className="notification error">{afficherErreur(erreursDeValidationCsv[0])}</div>;
   }
 
   return (
@@ -62,5 +62,5 @@ const CsvValidationErrorBox: FC<CsvValidationErrorBoxProps> = ({ erreursDeValida
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};

@@ -1,24 +1,24 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { AbandonRejeté } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { logger } from '@core/utils'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { AbandonRejeté } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '@core/utils';
 
 export default ProjectEventProjector.on(AbandonRejeté, async (évènement, transaction) => {
   const {
     payload: { demandeAbandonId },
     occurredAt,
-  } = évènement
+  } = évènement;
 
-  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction })
+  const abandonEvent = await ProjectEvent.findOne({ where: { id: demandeAbandonId }, transaction });
 
   if (!abandonEvent) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
         évènement,
         nomProjection: 'ProjectEventProjector.onAbandonRejeté',
-      })
-    )
-    return
+      }),
+    );
+    return;
   }
 
   try {
@@ -31,8 +31,8 @@ export default ProjectEventProjector.on(AbandonRejeté, async (évènement, tran
           statut: 'rejetée',
         },
       },
-      { where: { id: demandeAbandonId }, transaction }
-    )
+      { where: { id: demandeAbandonId }, transaction },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -41,8 +41,8 @@ export default ProjectEventProjector.on(AbandonRejeté, async (évènement, tran
           évènement,
           nomProjection: 'ProjectEventProjector.onAbandonRejeté',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

@@ -1,2 +1,2 @@
-export * from './handleUserCreated'
-export * from './onProfilUtilisateurCréé'
+export * from './handleUserCreated';
+export * from './onProfilUtilisateurCréé';

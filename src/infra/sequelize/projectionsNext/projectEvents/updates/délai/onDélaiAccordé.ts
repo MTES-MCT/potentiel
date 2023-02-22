@@ -1,7 +1,7 @@
-import { DélaiAccordé } from '@modules/demandeModification'
-import { logger } from '@core/utils'
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { ProjectionEnEchec } from '@modules/shared'
+import { DélaiAccordé } from '@modules/demandeModification';
+import { logger } from '@core/utils';
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default ProjectEventProjector.on(DélaiAccordé, async (évènement, transaction) => {
   const {
@@ -12,18 +12,18 @@ export default ProjectEventProjector.on(DélaiAccordé, async (évènement, tran
       ancienneDateThéoriqueAchèvement,
     },
     occurredAt,
-  } = évènement
+  } = évènement;
 
-  const projectEvent = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction })
+  const projectEvent = await ProjectEvent.findOne({ where: { id: demandeDélaiId }, transaction });
 
   if (!projectEvent) {
     logger.error(
       new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
         évènement,
         nomProjection: 'ProjectEvent.onDélaiAccordé',
-      })
-    )
-    return
+      }),
+    );
+    return;
   }
 
   try {
@@ -39,8 +39,8 @@ export default ProjectEventProjector.on(DélaiAccordé, async (évènement, tran
           ancienneDateThéoriqueAchèvement: ancienneDateThéoriqueAchèvement.toISOString(),
         },
       },
-      { where: { id: demandeDélaiId }, transaction }
-    )
+      { where: { id: demandeDélaiId }, transaction },
+    );
   } catch (e) {
     logger.error(
       new ProjectionEnEchec(
@@ -49,8 +49,8 @@ export default ProjectEventProjector.on(DélaiAccordé, async (évènement, tran
           évènement,
           nomProjection: 'ProjectEvent.onDélaiAccordé',
         },
-        e
-      )
-    )
+        e,
+      ),
+    );
   }
-})
+});

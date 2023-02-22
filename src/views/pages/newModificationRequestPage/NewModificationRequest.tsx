@@ -1,7 +1,7 @@
-import React from 'react'
-import { ProjectAppelOffre } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import { Request } from 'express'
+import React from 'react';
+import { ProjectAppelOffre } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import { Request } from 'express';
 
 import {
   ModificationRequestActionTitles,
@@ -17,37 +17,37 @@ import {
   ErrorBox,
   Heading1,
   ProjectProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
-import { ChangementActionnaire, DemandeRecours } from './components'
-import routes from '@routes'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
+import { ChangementActionnaire, DemandeRecours } from './components';
+import routes from '@routes';
 
 type NewModificationRequestProps = {
-  request: Request
-  project: ProjectProps & { cahierDesChargesActuel: string; actionnaire?: string }
-  appelOffre: ProjectAppelOffre
-}
+  request: Request;
+  project: ProjectProps & { cahierDesChargesActuel: string; actionnaire?: string };
+  appelOffre: ProjectAppelOffre;
+};
 
 export const NewModificationRequest = ({
   request,
   project,
   appelOffre,
 }: NewModificationRequestProps) => {
-  const { action, error, success, actionnaire, justification } = (request.query as any) || {}
+  const { action, error, success, actionnaire, justification } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   const redirectionRoute = (action) => {
     switch (action) {
       case 'actionnaire':
-        return routes.CHANGER_ACTIONNAIRE(project.id)
+        return routes.CHANGER_ACTIONNAIRE(project.id);
       case 'recours':
-        return routes.DEPOSER_RECOURS(project.id)
+        return routes.DEPOSER_RECOURS(project.id);
       default:
-        return routes.LISTE_PROJETS
+        return routes.LISTE_PROJETS;
     }
-  }
+  };
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -111,7 +111,7 @@ export const NewModificationRequest = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(NewModificationRequest)
+hydrateOnClient(NewModificationRequest);

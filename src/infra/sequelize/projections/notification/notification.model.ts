@@ -4,20 +4,20 @@ import {
   InferAttributes,
   InferCreationAttributes,
   Model,
-} from 'sequelize'
+} from 'sequelize';
 
 export class Notification extends Model<
   InferAttributes<Notification>,
   InferCreationAttributes<Notification>
 > {
-  id: string
-  type: string
-  message: Record<string, string>
-  context: Record<string, string>
-  variables: Record<string, string>
-  status: string
-  error?: string
-  createdAt: CreationOptional<Date>
+  id: string;
+  type: string;
+  message: Record<string, string>;
+  context: Record<string, string>;
+  variables: Record<string, string>;
+  status: string;
+  error?: string;
+  createdAt: CreationOptional<Date>;
 }
 
 export const MakeNotificationModel = (sequelize) => {
@@ -57,8 +57,8 @@ export const MakeNotificationModel = (sequelize) => {
       sequelize,
       tableName: 'notifications',
       timestamps: true,
-    }
-  )
+    },
+  );
 
-  return Notification
-}
+  return Notification;
+};

@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { ConfirmationAbandonDemandée } from '@modules/demandeModification'
-import { makeOnConfirmationAbandonDemandée } from '.'
+import { okAsync } from '@core/utils';
+import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
+import { makeOnConfirmationAbandonDemandée } from '.';
 
 describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est en attente de confirmation
           Alors les deux porteurs ayant accès au projet devrait être notifié`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn()
+      const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
-        })
+        });
 
       const onConfirmationAbandonDemandée = makeOnConfirmationAbandonDemandée({
         notifierPorteurChangementStatutDemande,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onConfirmationAbandonDemandée(
         new ConfirmationAbandonDemandée({
@@ -41,10 +41,10 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
             projetId: 'le-projet',
             demandéePar: 'la-dreal',
           },
-        })
-      )
+        }),
+      );
 
-      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2);
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -56,8 +56,8 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
+        }),
+      );
 
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         2,
@@ -70,8 +70,8 @@ describe(`Notifier lorsqu'un abandon est en attente de confirmation`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

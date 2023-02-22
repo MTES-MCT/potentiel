@@ -1,19 +1,19 @@
-import { Link, ModificationRequestActionTitles, PaginationPanel } from '@components'
-import { ModificationRequestListItemDTO } from '@modules/modificationRequest'
-import { UserRole } from '@modules/users'
-import ROUTES from '@routes'
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
-import { PaginatedList } from '../../types'
-import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers'
+import { Link, ModificationRequestActionTitles, PaginationPanel } from '@components';
+import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
+import { UserRole } from '@modules/users';
+import ROUTES from '@routes';
+import React from 'react';
+import { formatDate } from '../../helpers/formatDate';
+import { dataId } from '../../helpers/testId';
+import { PaginatedList } from '../../types';
+import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers';
 
 interface Props {
-  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>
-  role?: UserRole
+  modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
+  role?: UserRole;
   requestActions?: (
-    modificationRequest: ModificationRequestListItemDTO
-  ) => Array<{ title: string; link: string; disabled?: boolean }> | null
+    modificationRequest: ModificationRequestListItemDTO,
+  ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
 }
 
 export const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
@@ -26,7 +26,7 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
           </tr>
         </tbody>
       </table>
-    )
+    );
   }
 
   return (
@@ -44,7 +44,7 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
         <tbody>
           {modificationRequests.items.map((modificationRequestItem) => {
             const { project, requestedBy, requestedOn, status, ...modificationRequest } =
-              modificationRequestItem
+              modificationRequestItem;
             return (
               <tr
                 key={'modificationRequest_' + modificationRequest.id}
@@ -116,7 +116,7 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                       <Link
                         href={ROUTES.DOWNLOAD_PROJECT_FILE(
                           modificationRequest.attachmentFile.id,
-                          modificationRequest.attachmentFile.filename
+                          modificationRequest.attachmentFile.filename,
                         )}
                         download={true}
                       >
@@ -158,13 +158,13 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
                               </Link>
                             )}
                           </li>
-                        )
+                        ),
                       )}
                     </ul>
                   </td>
                 ) : null}
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
@@ -177,5 +177,5 @@ export const RequestList = ({ modificationRequests, role, requestActions }: Prop
         titreItems="Demandes"
       />
     </>
-  )
-}
+  );
+};

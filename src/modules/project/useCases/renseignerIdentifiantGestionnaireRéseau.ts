@@ -1,20 +1,20 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, okAsync, wrapInfra } from '@core/utils'
-import { User } from '@entities'
-import { UnauthorizedError } from '@modules/shared'
-import { Project } from '../Project'
-import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries'
+import { EventStore, Repository, UniqueEntityID } from '@core/domain';
+import { errAsync, okAsync, wrapInfra } from '@core/utils';
+import { User } from '@entities';
+import { UnauthorizedError } from '@modules/shared';
+import { Project } from '../Project';
+import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries';
 import {
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
-} from '../errors'
-import { NumeroGestionnaireSubmitted } from '../events'
+} from '../errors';
+import { NumeroGestionnaireSubmitted } from '../events';
 
 type Commande = {
-  projetId: string
-  utilisateur: User
-  identifiantGestionnaireRéseau: string
-}
+  projetId: string;
+  utilisateur: User;
+  identifiantGestionnaireRéseau: string;
+};
 
 export const makeRenseignerIdentifiantGestionnaireRéseau = ({
   shouldUserAccessProject,
@@ -22,13 +22,13 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
 }: {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  publishToEventStore: EventStore['publish']
-  projectRepo: Repository<Project>
-  trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  publishToEventStore: EventStore['publish'];
+  projectRepo: Repository<Project>;
+  trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
 }) => {
   const chargerProjet = (commande: { projetId: string; utilisateur: User }) => {
-    const { projetId, utilisateur } = commande
+    const { projetId, utilisateur } = commande;
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
       (utilisateurALesDroits) =>
         utilisateurALesDroits
@@ -36,38 +36,38 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
               commande,
               projet,
             }))
-          : errAsync(new UnauthorizedError())
-    )
-  }
+          : errAsync(new UnauthorizedError()),
+    );
+  };
 
   const vérifierIdentifiantGestionnaireRéseau = ({
     commande,
     projet,
   }: {
-    commande: Commande
-    projet: Project
+    commande: Commande;
+    projet: Project;
   }) => {
     if (!commande.identifiantGestionnaireRéseau) {
-      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError())
+      return errAsync(new IdentifiantGestionnaireRéseauObligatoireError());
     }
 
     return trouverProjetsParIdentifiantGestionnaireRéseau(
-      commande.identifiantGestionnaireRéseau
+      commande.identifiantGestionnaireRéseau,
     ).andThen((projets) => {
-      const existePourUnAutreProjet = projets.filter((p) => p !== commande.projetId).length > 0
+      const existePourUnAutreProjet = projets.filter((p) => p !== commande.projetId).length > 0;
 
       return existePourUnAutreProjet
         ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
-        : okAsync({ commande, projet })
-    })
-  }
+        : okAsync({ commande, projet });
+    });
+  };
 
   const enregistrerLeChoix = ({
     projet,
     commande: { projetId, utilisateur, identifiantGestionnaireRéseau },
   }: {
-    commande: Commande
-    projet: Project
+    commande: Commande;
+    projet: Project;
   }) =>
     projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
       ? publishToEventStore(
@@ -77,12 +77,12 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
               submittedBy: utilisateur.id,
               numeroGestionnaire: identifiantGestionnaireRéseau,
             },
-          })
+          }),
         )
-      : okAsync(null)
+      : okAsync(null);
 
   return (commande) =>
     chargerProjet(commande)
       .andThen(vérifierIdentifiantGestionnaireRéseau)
-      .andThen(enregistrerLeChoix)
-}
+      .andThen(enregistrerLeChoix);
+};

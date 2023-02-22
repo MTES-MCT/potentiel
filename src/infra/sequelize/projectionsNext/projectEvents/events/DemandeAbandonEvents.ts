@@ -1,4 +1,4 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type DemandeAbandonEventStatus =
   | 'envoyée'
@@ -6,12 +6,12 @@ export type DemandeAbandonEventStatus =
   | 'rejetée'
   | 'en attente de confirmation'
   | 'demande confirmée'
-  | 'accordée'
+  | 'accordée';
 
 export type DemandeAbandonEvent = ProjectEvent & {
-  type: 'DemandeAbandon'
+  type: 'DemandeAbandon';
   payload: {
-    autorité: 'dgec'
-    statut: DemandeAbandonEventStatus
-  }
-}
+    autorité: 'dgec';
+    statut: DemandeAbandonEventStatus;
+  };
+};

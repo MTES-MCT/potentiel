@@ -1,10 +1,10 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ModificationRequestAccepted } from '@modules/modificationRequest'
-import { ProjectionEnEchec } from '@modules/shared'
-import { Transaction } from 'sequelize'
-import models from '../../../models'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ModificationRequestAccepted } from '@modules/modificationRequest';
+import { ProjectionEnEchec } from '@modules/shared';
+import { Transaction } from 'sequelize';
+import models from '../../../models';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestAccepted,
@@ -12,13 +12,13 @@ export default ProjectEventProjector.on(
     const {
       payload: { modificationRequestId, responseFileId, acceptedBy, params },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     if (params?.type === 'delai') {
       const demandeDélai = await ProjectEvent.findOne({
         where: { id: modificationRequestId, type: 'DemandeDélai' },
         transaction,
-      })
+      });
 
       if (demandeDélai) {
         try {
@@ -34,8 +34,8 @@ export default ProjectEventProjector.on(
                 délaiEnMoisAccordé: params.delayInMonths,
               },
             },
-            { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction }
-          )
+            { where: { id: modificationRequestId, type: 'DemandeDélai' }, transaction },
+          );
         } catch (e) {
           logger.error(
             new ProjectionEnEchec(
@@ -44,24 +44,24 @@ export default ProjectEventProjector.on(
                 évènement,
                 nomProjection: 'ProjectEvent.onModificationRequestAccepted',
               },
-              e
-            )
-          )
+              e,
+            ),
+          );
         }
-        return
+        return;
       }
     }
 
-    const { ModificationRequest } = models
+    const { ModificationRequest } = models;
 
     const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],
       transaction,
-    })
+    });
 
     if (modificationRequest) {
-      const { projectId } = modificationRequest
-      const file = responseFileId && (await getFile(responseFileId, transaction))
+      const { projectId } = modificationRequest;
+      const file = responseFileId && (await getFile(responseFileId, transaction));
 
       try {
         await ProjectEvent.create(
@@ -73,8 +73,8 @@ export default ProjectEventProjector.on(
             id: new UniqueEntityID().toString(),
             payload: { modificationRequestId, ...(file && { file }) },
           },
-          { transaction }
-        )
+          { transaction },
+        );
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
@@ -83,9 +83,9 @@ export default ProjectEventProjector.on(
               évènement,
               nomProjection: 'ProjectEvent.onModificationRequestAccepted',
             },
-            error
-          )
-        )
+            error,
+          ),
+        );
       }
 
       if (params?.type === 'recours') {
@@ -99,8 +99,8 @@ export default ProjectEventProjector.on(
               id: new UniqueEntityID().toString(),
               payload: { statut: 'non-renseignée' },
             },
-            { transaction }
-          )
+            { transaction },
+          );
         } catch (error) {
           logger.error(
             new ProjectionEnEchec(
@@ -109,24 +109,24 @@ export default ProjectEventProjector.on(
                 évènement,
                 nomProjection: 'ProjectEvent.onModificationRequestAccepted',
               },
-              error
-            )
-          )
+              error,
+            ),
+          );
         }
       }
     }
-  }
-)
+  },
+);
 
 const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
-  const { File } = models
+  const { File } = models;
   const rawFilename = await File.findByPk(responseFileId, {
     attributes: ['filename'],
     transaction,
-  })
+  });
 
-  const filename: string | undefined = rawFilename?.filename
-  const file = filename && { id: responseFileId, name: filename }
+  const filename: string | undefined = rawFilename?.filename;
+  const file = filename && { id: responseFileId, name: filename };
 
-  return file
-}
+  return file;
+};

@@ -1,18 +1,18 @@
-import routes from '@routes'
-import { NotificationService } from '../NotificationService'
+import routes from '@routes';
+import { NotificationService } from '../NotificationService';
 
 export type NotifierPorteurRévocationAccèsProjet = (args: {
-  email: string
-  nomPorteur: string
-  nomProjet: string
-  porteurId: string
-  projetId: string
-  cause?: 'changement producteur'
-}) => Promise<null>
+  email: string;
+  nomPorteur: string;
+  nomProjet: string;
+  porteurId: string;
+  projetId: string;
+  cause?: 'changement producteur';
+}) => Promise<null>;
 
 export type MakeNotifierPorteurRévocationAccèsProjet = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-}) => NotifierPorteurRévocationAccèsProjet
+  sendNotification: NotificationService['sendNotification'];
+}) => NotifierPorteurRévocationAccèsProjet;
 
 export const makeNotifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRévocationAccèsProjet =
   ({ sendNotification }) =>
@@ -36,5 +36,5 @@ export const makeNotifierPorteurRévocationAccèsProjet: MakeNotifierPorteurRév
             ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'
             : undefined,
       },
-    })
-  }
+    });
+  };

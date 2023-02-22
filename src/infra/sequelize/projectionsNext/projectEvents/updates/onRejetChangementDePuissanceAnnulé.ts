@@ -1,14 +1,14 @@
-import { logger } from '@core/utils'
-import { ProjectionEnEchec } from '@modules/shared'
-import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
+import { RejetChangementDePuissanceAnnulé } from '@modules/demandeModification';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   RejetChangementDePuissanceAnnulé,
   async (évènement, transaction) => {
     const {
       payload: { demandeChangementDePuissanceId },
-    } = évènement
+    } = évènement;
 
     try {
       await ProjectEvent.destroy({
@@ -17,14 +17,14 @@ export default ProjectEventProjector.on(
           'payload.modificationRequestId': demandeChangementDePuissanceId,
         },
         transaction,
-      })
+      });
       await ProjectEvent.destroy({
         where: {
           type: 'ModificationRequestInstructionStarted',
           'payload.modificationRequestId': demandeChangementDePuissanceId,
         },
         transaction,
-      })
+      });
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -32,9 +32,9 @@ export default ProjectEventProjector.on(
           {
             évènement,
             nomProjection: 'ProjectEventProjector.onRejetChangementDePuissanceAnnulé',
-          }
-        )
-      )
+          },
+        ),
+      );
     }
-  }
-)
+  },
+);

@@ -1,13 +1,13 @@
-import { logger } from '@core/utils'
-import { isProdEnv } from './env.config'
-import * as Sentry from '@sentry/node'
+import { logger } from '@core/utils';
+import { isProdEnv } from './env.config';
+import * as Sentry from '@sentry/node';
 
 if (isProdEnv) {
-  const sentryDsn = process.env.SENTRY_DSN
+  const sentryDsn = process.env.SENTRY_DSN;
 
   if (!sentryDsn) {
-    console.error('SENTRY_DSN is empty. It should be provided as an environment variable.')
-    process.exit(1)
+    console.error('SENTRY_DSN is empty. It should be provided as an environment variable.');
+    process.exit(1);
   }
 
   Sentry.init({
@@ -16,39 +16,39 @@ if (isProdEnv) {
     // We recommend adjusting this value in production, or using tracesSampler
     // for finer control
     tracesSampleRate: 1.0,
-  })
+  });
 
   logger.on('infoLog', (...args) => {
-    console.info(...args)
-  })
+    console.info(...args);
+  });
 
   logger.on('warningLog', (message: string, context?: Record<string, unknown>) => {
-    console.warn(message)
-    Sentry.captureMessage(message)
+    console.warn(message);
+    Sentry.captureMessage(message);
     if (context) {
-      Sentry.setExtra('context', context)
+      Sentry.setExtra('context', context);
     }
-  })
+  });
 
   logger.on('errorLog', (exception: Error | string) => {
-    console.error(exception)
-    Sentry.setExtra('exception', exception)
-    Sentry.captureException(exception)
-  })
+    console.error(exception);
+    Sentry.setExtra('exception', exception);
+    Sentry.captureException(exception);
+  });
 } else {
   logger.on('debugLog', (...args) => {
-    console.debug(...args)
-  })
+    console.debug(...args);
+  });
 
   logger.on('infoLog', (...args) => {
-    console.info(...args)
-  })
+    console.info(...args);
+  });
 
   logger.on('warningLog', (message: string) => {
-    console.warn(message)
-  })
+    console.warn(message);
+  });
 
   logger.on('errorLog', (exception: Error | string) => {
-    console.error(exception)
-  })
+    console.error(exception);
+  });
 }

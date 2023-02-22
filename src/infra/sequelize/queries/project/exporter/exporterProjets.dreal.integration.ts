@@ -1,6 +1,6 @@
-import models from '../../../models'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import { exporterProjets } from './exporterProjets'
+import models from '../../../models';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import { exporterProjets } from './exporterProjets';
 
 import {
   coordonnéesCandidat,
@@ -18,10 +18,10 @@ import {
   référencesCandidature,
   résultatInstructionSensible,
   évaluationCarbone,
-} from './colonnesParCatégorie'
-import { User } from '@entities'
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '@infra/sequelize/helpers'
+} from './colonnesParCatégorie';
+import { User } from '@entities';
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '@infra/sequelize/helpers';
 
 describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
   const colonnesÀExporter = [
@@ -40,14 +40,14 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
     ...résultatInstructionSensible,
     ...modificationsAvantImport,
     ...garantiesFinancières,
-  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé))
+  ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 
-  const utilisateurId = new UniqueEntityID().toString()
+  const utilisateurId = new UniqueEntityID().toString();
 
   beforeEach(async () => {
-    await resetDatabase()
-    await models.UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Auvergne-Rhône-Alpes' })
-  })
+    await resetDatabase();
+    await models.UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Auvergne-Rhône-Alpes' });
+  });
 
   it(`Étant donné des projets notifiés et non notifiés,
       lorsqu'un utilisateur DREAL exporte tous les projets,
@@ -68,15 +68,15 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
         nomProjet: 'Autre projet notifié',
         regionProjet: 'Auvergne-Rhône-Alpes',
       }),
-    ])
+    ]);
 
     const exportProjets = (
       await exporterProjets({ user: { id: utilisateurId, role: 'dreal' } as User })
-    )._unsafeUnwrap()
+    )._unsafeUnwrap();
 
-    expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
+    expect(exportProjets.colonnes).toEqual(colonnesÀExporter);
 
-    expect(exportProjets.données).toHaveLength(2)
+    expect(exportProjets.données).toHaveLength(2);
     expect(exportProjets.données).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -85,15 +85,15 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
         expect.objectContaining({
           'Nom projet': 'Autre projet notifié',
         }),
-      ])
-    )
+      ]),
+    );
 
     expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': 'Projet Non notifié Photovoltaïque',
-      })
-    )
-  })
+      }),
+    );
+  });
 
   it(`Étant donné des projets notifiés issus de différentes régions,
       lorsqu'un utilisateur DREAL exporte tous les projets,
@@ -114,15 +114,15 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
         nomProjet: 'Projet autre région',
         regionProjet: 'Normandie',
       }),
-    ])
+    ]);
 
     const exportProjets = (
       await exporterProjets({ user: { id: utilisateurId, role: 'dreal' } as User })
-    )._unsafeUnwrap()
+    )._unsafeUnwrap();
 
-    expect(exportProjets.colonnes).toEqual(colonnesÀExporter)
+    expect(exportProjets.colonnes).toEqual(colonnesÀExporter);
 
-    expect(exportProjets.données).toHaveLength(2)
+    expect(exportProjets.données).toHaveLength(2);
     expect(exportProjets.données).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -131,13 +131,13 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
         expect.objectContaining({
           'Nom projet': 'Projet Photovoltaïque de la Dreal',
         }),
-      ])
-    )
+      ]),
+    );
 
     expect(exportProjets.données).not.toContainEqual(
       expect.objectContaining({
         'Nom projet': 'Projet autre région',
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

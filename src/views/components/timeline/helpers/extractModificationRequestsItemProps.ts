@@ -1,54 +1,54 @@
-import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise'
-import { or } from '@core/utils'
-import { makeDocumentUrl } from '.'
-import { UserRole } from '@modules/users'
-import ROUTES from '@routes'
+import { is, ModificationRequestDTO, ProjectEventDTO } from '@modules/frise';
+import { or } from '@core/utils';
+import { makeDocumentUrl } from '.';
+import { UserRole } from '@modules/users';
+import ROUTES from '@routes';
 
 export type ModificationRequestItemProps = {
-  type: 'demande-de-modification'
-  date: number
-  status: 'envoyée' | 'en instruction' | 'acceptée' | 'rejetée' | 'annulée'
-  authority: 'dreal' | 'dgec' | undefined
-  role: UserRole
-  responseUrl?: string | undefined
-  detailsUrl: string
+  type: 'demande-de-modification';
+  date: number;
+  status: 'envoyée' | 'en instruction' | 'acceptée' | 'rejetée' | 'annulée';
+  authority: 'dreal' | 'dgec' | undefined;
+  role: UserRole;
+  responseUrl?: string | undefined;
+  detailsUrl: string;
 } & (
   | {
-      modificationType: 'delai'
-      delayInMonths: number
+      modificationType: 'delai';
+      delayInMonths: number;
     }
   | {
-      modificationType: 'puissance'
-      puissance: number
-      unitePuissance: string
+      modificationType: 'puissance';
+      puissance: number;
+      unitePuissance: string;
     }
   | {
-      modificationType: 'recours'
+      modificationType: 'recours';
     }
-)
+);
 
 export const extractModificationRequestsItemProps = (
-  events: ProjectEventDTO[]
+  events: ProjectEventDTO[],
 ): ModificationRequestItemProps[] => {
-  const modificationRequestEvents = events.filter(isModificationRequestEvent)
+  const modificationRequestEvents = events.filter(isModificationRequestEvent);
   if (modificationRequestEvents.length === 0) {
-    return []
+    return [];
   }
 
   const modificationRequestGroups =
-    getEventsGroupedByModificationRequestId(modificationRequestEvents)
+    getEventsGroupedByModificationRequestId(modificationRequestEvents);
 
   const propsArray: ModificationRequestItemProps[] = Object.entries(modificationRequestGroups)
     .filter(([, events]) => events.find(is('ModificationRequested')))
     .map(([, events]): ModificationRequestItemProps => {
-      const latestEvent = getLatestEvent(events)
-      const requestEvent = getRequestEvent(events)
+      const latestEvent = getLatestEvent(events);
+      const requestEvent = getRequestEvent(events);
 
-      const { date, variant: role } = latestEvent
-      const { authority, modificationType } = requestEvent
-      const status = getStatus(latestEvent)
-      const responseUrl = getResponseUrl(latestEvent)
-      const detailsUrl = ROUTES.DEMANDE_PAGE_DETAILS(requestEvent.modificationRequestId)
+      const { date, variant: role } = latestEvent;
+      const { authority, modificationType } = requestEvent;
+      const status = getStatus(latestEvent);
+      const responseUrl = getResponseUrl(latestEvent);
+      const detailsUrl = ROUTES.DEMANDE_PAGE_DETAILS(requestEvent.modificationRequestId);
 
       switch (modificationType) {
         case 'delai':
@@ -65,7 +65,7 @@ export const extractModificationRequestsItemProps = (
                 ? latestEvent.delayInMonthsGranted
                 : requestEvent.delayInMonths,
             detailsUrl,
-          }
+          };
 
         case 'puissance':
           return {
@@ -79,7 +79,7 @@ export const extractModificationRequestsItemProps = (
             puissance: requestEvent.puissance,
             unitePuissance: requestEvent.unitePuissance || '??',
             detailsUrl,
-          }
+          };
 
         case 'recours':
           return {
@@ -91,72 +91,72 @@ export const extractModificationRequestsItemProps = (
             role,
             responseUrl,
             detailsUrl,
-          }
+          };
       }
-    })
+    });
 
-  return propsArray
-}
+  return propsArray;
+};
 
 const isModificationRequestEvent = or(
   is('ModificationRequested'),
   is('ModificationRequestRejected'),
   is('ModificationRequestInstructionStarted'),
   is('ModificationRequestAccepted'),
-  is('ModificationRequestCancelled')
-)
+  is('ModificationRequestCancelled'),
+);
 
 const getEventsGroupedByModificationRequestId = (
-  modificationRequestedEvents: ModificationRequestDTO[]
+  modificationRequestedEvents: ModificationRequestDTO[],
 ) => {
   return modificationRequestedEvents.reduce((modificationRequests, event) => {
     if (modificationRequests[event.modificationRequestId]) {
-      modificationRequests[event.modificationRequestId].push(event)
+      modificationRequests[event.modificationRequestId].push(event);
     } else {
-      modificationRequests[event.modificationRequestId] = [event]
+      modificationRequests[event.modificationRequestId] = [event];
     }
-    return modificationRequests
-  }, {} as Record<string, ModificationRequestDTO[]>)
-}
+    return modificationRequests;
+  }, {} as Record<string, ModificationRequestDTO[]>);
+};
 
 const getLatestEvent = (events: ModificationRequestDTO[]) => {
-  const sortedEvents = events.sort((a, b) => a.date - b.date)
-  return sortedEvents[sortedEvents.length - 1]
-}
+  const sortedEvents = events.sort((a, b) => a.date - b.date);
+  return sortedEvents[sortedEvents.length - 1];
+};
 
 const getRequestEvent = (events: ModificationRequestDTO[]) => {
-  return events.filter(is('ModificationRequested'))[0]
-}
+  return events.filter(is('ModificationRequested'))[0];
+};
 
 const getResponseUrl = (latestEvent: ModificationRequestDTO) => {
   if (
     !['porteur-projet', 'dreal', 'admin', 'dgec-validateur', 'cre', 'acheteur-obligé'].includes(
-      latestEvent.variant
+      latestEvent.variant,
     )
   ) {
-    return
+    return;
   }
   if (
     or(is('ModificationRequestRejected'), is('ModificationRequestAccepted'))(latestEvent) &&
     latestEvent.file?.name
   ) {
-    return makeDocumentUrl(latestEvent.file.id, latestEvent.file.name)
+    return makeDocumentUrl(latestEvent.file.id, latestEvent.file.name);
   } else {
-    return
+    return;
   }
-}
+};
 
 function getStatus(event: ModificationRequestDTO) {
   switch (event.type) {
     case 'ModificationRequested':
-      return 'envoyée'
+      return 'envoyée';
     case 'ModificationRequestInstructionStarted':
-      return 'en instruction'
+      return 'en instruction';
     case 'ModificationRequestAccepted':
-      return 'acceptée'
+      return 'acceptée';
     case 'ModificationRequestRejected':
-      return 'rejetée'
+      return 'rejetée';
     case 'ModificationRequestCancelled':
-      return 'annulée'
+      return 'annulée';
   }
 }

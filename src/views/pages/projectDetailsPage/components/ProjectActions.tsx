@@ -1,19 +1,19 @@
-import { DownloadLinkButton, SecondaryLinkButton, InboxInIcon, Link } from '@components'
-import { User } from '@entities'
-import { Menu, Transition } from '@headlessui/react'
-import { ProjectDataForProjectPage } from '@modules/project'
-import { userIs } from '@modules/users'
-import routes from '@routes'
-import React, { Fragment } from 'react'
+import { DownloadLinkButton, SecondaryLinkButton, InboxInIcon, Link } from '@components';
+import { User } from '@entities';
+import { Menu, Transition } from '@headlessui/react';
+import { ProjectDataForProjectPage } from '@modules/project';
+import { userIs } from '@modules/users';
+import routes from '@routes';
+import React, { Fragment } from 'react';
 
 type ProjectActionsProps = {
-  project: ProjectDataForProjectPage
-  user: User
-}
+  project: ProjectDataForProjectPage;
+  user: User;
+};
 
 type EnregistrerUneModificationProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 
 const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
   <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
@@ -77,7 +77,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
       </Menu.Items>
     </Transition>
   </Menu>
-)
+);
 
 const getProjectStatus = (project: ProjectDataForProjectPage) =>
   !project.notifiedOn
@@ -86,11 +86,11 @@ const getProjectStatus = (project: ProjectDataForProjectPage) =>
     ? 'abandonné'
     : project.isClasse
     ? 'lauréat'
-    : 'éliminé'
+    : 'éliminé';
 
 type PorteurProjetActionsProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
   <div className="flex flex-col xl:flex-row gap-2">
     {!project.isClasse && (
@@ -223,11 +223,11 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
       </DownloadLinkButton>
     )}
   </div>
-)
+);
 
 type AdminActionsProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 const AdminActions = ({ project }: AdminActionsProps) => (
   <div className="flex flex-col md:flex-row gap-2">
     <EnregistrerUneModification {...{ project }} />
@@ -255,7 +255,7 @@ const AdminActions = ({ project }: AdminActionsProps) => (
       )
     )}
   </div>
-)
+);
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
   <div className="whitespace-nowrap">
@@ -263,4 +263,4 @@ export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
-)
+);

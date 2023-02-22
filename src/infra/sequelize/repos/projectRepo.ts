@@ -1,17 +1,17 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import {
   DomainEvent,
   EventStore,
   Repository,
   TransactionalRepository,
   UniqueEntityID,
-} from '@core/domain'
-import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils'
-import { BuildProjectIdentifier, makeProject, Project } from '@modules/project'
+} from '@core/domain';
+import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '@core/utils';
+import { BuildProjectIdentifier, makeProject, Project } from '@modules/project';
 
 export const makeProjectRepo = (
   eventStore: EventStore,
-  buildProjectIdentifier: BuildProjectIdentifier
+  buildProjectIdentifier: BuildProjectIdentifier,
 ): Repository<Project> & TransactionalRepository<Project> => {
   // Classic EventStoreRepos take a makeAggregate function that only takes events and an id, to make a project we needs to bind the appelsOffre argument as well
   const makeProjectFromHistory = (args: { events: DomainEvent[]; id: UniqueEntityID }) =>
@@ -20,7 +20,7 @@ export const makeProjectRepo = (
       projectId: args.id,
       getProjectAppelOffre,
       buildProjectIdentifier,
-    })
+    });
 
   // ProjectRepo is a composition of EventStoreRepo and EventStoreTransactionalRepo
   return {
@@ -32,5 +32,5 @@ export const makeProjectRepo = (
       eventStore,
       makeAggregate: makeProjectFromHistory,
     }),
-  }
-}
+  };
+};

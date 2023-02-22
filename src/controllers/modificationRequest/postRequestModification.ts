@@ -1,58 +1,58 @@
-import { ensureRole, requestActionnaireModification } from '@config'
-import { logger } from '@core/utils'
-import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest'
+import { ensureRole, requestActionnaireModification } from '@config';
+import { logger } from '@core/utils';
+import { PuissanceJustificationEtCourrierManquantError } from '@modules/modificationRequest';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   UnauthorizedError,
-} from '@modules/shared'
-import routes from '@routes'
-import { requestModification, shouldUserAccessProject } from '@useCases'
-import fs from 'fs'
-import omit from 'lodash/omit'
-import pick from 'lodash/pick'
-import { addQueryParams } from '../../helpers/addQueryParams'
-import { pathExists } from '../../helpers/pathExists'
-import { validateUniqueId } from '../../helpers/validateUniqueId'
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers'
-import asyncHandler from '../helpers/asyncHandler'
-import { upload } from '../upload'
-import { v1Router } from '../v1Router'
+} from '@modules/shared';
+import routes from '@routes';
+import { requestModification, shouldUserAccessProject } from '@useCases';
+import fs from 'fs';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { pathExists } from '../../helpers/pathExists';
+import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import asyncHandler from '../helpers/asyncHandler';
+import { upload } from '../upload';
+import { v1Router } from '../v1Router';
 
 const routeRedirection = (type, projectId) => {
-  let returnRoute: string
+  let returnRoute: string;
   switch (type) {
     case 'actionnaire':
-      returnRoute = routes.CHANGER_ACTIONNAIRE(projectId)
-      break
+      returnRoute = routes.CHANGER_ACTIONNAIRE(projectId);
+      break;
     case 'recours':
-      returnRoute = routes.DEPOSER_RECOURS(projectId)
-      break
+      returnRoute = routes.DEPOSER_RECOURS(projectId);
+      break;
     default:
-      returnRoute = routes.LISTE_PROJETS
-      break
+      returnRoute = routes.LISTE_PROJETS;
+      break;
   }
-  return returnRoute
-}
+  return returnRoute;
+};
 
 v1Router.post(
   routes.DEMANDE_ACTION,
   ensureRole('porteur-projet'),
   upload.single('file'),
   asyncHandler(async (request, response) => {
-    const { projectId } = request.body
+    const { projectId } = request.body;
 
     if (!validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
     }
 
     const userAccess = await shouldUserAccessProject({
       projectId,
       user: request.user,
-    })
+    });
 
     if (!userAccess) {
-      return unauthorizedResponse({ request, response })
+      return unauthorizedResponse({ request, response });
     }
 
     const data = pick(request.body, [
@@ -62,28 +62,28 @@ v1Router.post(
       'projectId',
       'numeroGestionnaire',
       'evaluationCarbone',
-    ])
+    ]);
 
-    data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined
+    data.evaluationCarbone = data.evaluationCarbone ? Number(data.evaluationCarbone) : undefined;
 
-    let file
+    let file;
 
     if (request.file) {
-      const dirExists: boolean = await pathExists(request.file.path)
+      const dirExists: boolean = await pathExists(request.file.path);
 
       if (!dirExists) {
-        const { projectId, type } = data
+        const { projectId, type } = data;
         return response.redirect(
           addQueryParams(routeRedirection(type, projectId), {
             error: "Erreur: la pièce-jointe n'a pas pu être intégrée. Merci de réessayer.",
-          })
-        )
+          }),
+        );
       }
 
       file = {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,
-      }
+      };
     }
 
     const handleSuccess = () =>
@@ -92,20 +92,20 @@ v1Router.post(
           success: 'Votre demande a bien été prise en compte.',
           redirectUrl: routes.PROJECT_DETAILS(projectId),
           redirectTitle: 'Retourner à la page projet',
-        })
-      )
+        }),
+      );
 
     const handleError = (error) => {
-      const { projectId, type } = data
-      const redirectRoute = routeRedirection(type, projectId)
+      const { projectId, type } = data;
+      const redirectRoute = routeRedirection(type, projectId);
 
       if (error instanceof PuissanceJustificationEtCourrierManquantError) {
         return response.redirect(
           addQueryParams(redirectRoute, {
             ...omit(data, 'projectId'),
             error: error.message,
-          })
-        )
+          }),
+        );
       }
 
       if (error instanceof AggregateHasBeenUpdatedSinceError) {
@@ -114,20 +114,20 @@ v1Router.post(
             ...omit(data, 'projectId'),
             error:
               'Le projet a été modifié entre le moment où vous avez ouvert cette page et le moment où vous avez validé la demande. Merci de prendre en compte le changement et refaire votre demande si nécessaire.',
-          })
-        )
+          }),
+        );
       }
 
       if (error instanceof EntityNotFoundError) {
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       } else if (error instanceof UnauthorizedError) {
-        return unauthorizedResponse({ request, response })
+        return unauthorizedResponse({ request, response });
       }
 
-      logger.error(error)
+      logger.error(error);
 
-      return errorResponse({ request, response })
-    }
+      return errorResponse({ request, response });
+    };
 
     switch (data.type) {
       case 'actionnaire':
@@ -137,15 +137,15 @@ v1Router.post(
           newActionnaire: data.actionnaire,
           justification: data.justification,
           file,
-        }).match(handleSuccess, handleError)
-        break
+        }).match(handleSuccess, handleError);
+        break;
       default:
         await requestModification({
           ...data,
           file,
           user: request.user,
-        }).match(handleSuccess, handleError)
-        break
+        }).match(handleSuccess, handleError);
+        break;
     }
-  })
-)
+  }),
+);

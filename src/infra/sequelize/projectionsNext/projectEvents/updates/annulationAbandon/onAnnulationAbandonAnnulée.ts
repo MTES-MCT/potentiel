@@ -1,7 +1,7 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model'
-import { AnnulationAbandonAnnulée } from '../../../../../../modules/demandeModification'
-import { ProjectionEnEchec } from '@modules/shared'
-import { logger } from '@core/utils'
+import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { AnnulationAbandonAnnulée } from '../../../../../../modules/demandeModification';
+import { ProjectionEnEchec } from '@modules/shared';
+import { logger } from '@core/utils';
 
 export default ProjectEventProjector.on(
   AnnulationAbandonAnnulée,
@@ -9,21 +9,21 @@ export default ProjectEventProjector.on(
     const {
       payload: { demandeId },
       occurredAt,
-    } = évènement
+    } = évènement;
 
     const abandonEvent = await ProjectEvent.findOne({
       where: { id: demandeId },
       transaction,
-    })
+    });
 
     if (!abandonEvent) {
       logger.error(
         new ProjectionEnEchec(`L'événement pour la demande n'a pas été retrouvé`, {
           évènement,
           nomProjection: 'ProjectEventProjector.onAnnulationAbandonAnnulée',
-        })
-      )
-      return
+        }),
+      );
+      return;
     }
 
     try {
@@ -36,8 +36,8 @@ export default ProjectEventProjector.on(
             statut: 'annulée',
           },
         },
-        { where: { id: demandeId }, transaction }
-      )
+        { where: { id: demandeId }, transaction },
+      );
     } catch (e) {
       logger.error(
         new ProjectionEnEchec(
@@ -46,9 +46,9 @@ export default ProjectEventProjector.on(
             évènement,
             nomProjection: 'ProjectEventProjector.onAnnulationAbandonAnnulée',
           },
-          e
-        )
-      )
+          e,
+        ),
+      );
     }
-  }
-)
+  },
+);

@@ -1,44 +1,44 @@
-import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeAndSaveFile } from '@modules/file'
-import { Project } from '@modules/project'
+import { EventBus, Repository, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { errAsync, logger, okAsync, ok, ResultAsync, wrapInfra } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { FileContents, FileObject, makeAndSaveFile } from '@modules/file';
+import { Project } from '@modules/project';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   InfraNotAvailableError,
   UnauthorizedError,
-} from '@modules/shared'
-import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events'
+} from '@modules/shared';
+import { ModificationRequested, ModificationReceived } from '@modules/modificationRequest/events';
 
-import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers'
-import { PuissanceJustificationEtCourrierManquantError } from '.'
+import { ExceedsPuissanceMaxDuVolumeReserve, ExceedsRatiosChangementPuissance } from './helpers';
+import { PuissanceJustificationEtCourrierManquantError } from '.';
 
 type DemanderChangementDePuissance = (commande: {
-  projectId: string
-  requestedBy: User
-  newPuissance: number
-  justification?: string
-  fichier?: { contents: FileContents; filename: string }
+  projectId: string;
+  requestedBy: User;
+  newPuissance: number;
+  justification?: string;
+  fichier?: { contents: FileContents; filename: string };
 }) => ResultAsync<
   null,
   | PuissanceJustificationEtCourrierManquantError
   | AggregateHasBeenUpdatedSinceError
   | EntityNotFoundError
   | UnauthorizedError
->
+>;
 
 type MakeDemanderChangementDePuissance = (dépendances: {
-  eventBus: EventBus
-  exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance
-  exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve
+  eventBus: EventBus;
+  exceedsRatiosChangementPuissance: ExceedsRatiosChangementPuissance;
+  exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeReserve;
   getPuissanceProjet: (
-    projectId: string
-  ) => ResultAsync<number, EntityNotFoundError | InfraNotAvailableError>
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: TransactionalRepository<Project>
-  fileRepo: Repository<FileObject>
-}) => DemanderChangementDePuissance
+    projectId: string,
+  ) => ResultAsync<number, EntityNotFoundError | InfraNotAvailableError>;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: TransactionalRepository<Project>;
+  fileRepo: Repository<FileObject>;
+}) => DemanderChangementDePuissance;
 
 export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissance =
   ({
@@ -54,13 +54,13 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
     return wrapInfra(shouldUserAccessProject({ projectId, user: requestedBy }))
       .andThen(
         (
-          userHasRightsToProject
+          userHasRightsToProject,
         ): ResultAsync<
           any,
           AggregateHasBeenUpdatedSinceError | InfraNotAvailableError | UnauthorizedError
         > => {
-          if (!userHasRightsToProject) return errAsync(new UnauthorizedError())
-          if (!fichier) return okAsync(null)
+          if (!userHasRightsToProject) return errAsync(new UnauthorizedError());
+          if (!fichier) return okAsync(null);
 
           return makeAndSaveFile({
             file: {
@@ -74,30 +74,30 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
           })
             .map((responseFileId) => responseFileId)
             .mapErr((e: Error) => {
-              logger.error(e)
-              return new InfraNotAvailableError()
-            })
-        }
+              logger.error(e);
+              return new InfraNotAvailableError();
+            });
+        },
       )
       .andThen((fileId: string) => {
         return projectRepo.transaction(new UniqueEntityID(projectId), (project: Project) => {
           const exceedsRatios = exceedsRatiosChangementPuissance({
             nouvellePuissance: newPuissance,
             project: { ...project, technologie: project.data?.technologie ?? 'N/A' },
-          })
+          });
           const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({
             nouvellePuissance: newPuissance,
             project: { ...project },
-          })
+          });
 
-          const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax
+          const newPuissanceIsAutoAccepted = !exceedsRatios && !exceedsPuissanceMax;
 
           if (newPuissanceIsAutoAccepted) {
             return project.updatePuissance(requestedBy, newPuissance).asyncMap(async () => ({
               newPuissanceIsAutoAccepted,
               fileId,
               project,
-            }))
+            }));
           }
 
           if (
@@ -107,11 +107,11 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
             !fileId &&
             !justification
           ) {
-            return errAsync(new PuissanceJustificationEtCourrierManquantError())
+            return errAsync(new PuissanceJustificationEtCourrierManquantError());
           }
 
-          return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project })
-        })
+          return okAsync({ newPuissanceIsAutoAccepted: false, fileId, project });
+        });
       })
       .andThen(
         ({
@@ -119,13 +119,13 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
           fileId,
           project,
         }): ResultAsync<null, AggregateHasBeenUpdatedSinceError | InfraNotAvailableError> => {
-          const modificationRequestId = new UniqueEntityID().toString()
+          const modificationRequestId = new UniqueEntityID().toString();
 
           return getPuissanceProjet(projectId.toString())
             .orElse(() => ok(-1))
             .andThen((puissanceActuelle) => {
               const puissanceAuMomentDuDepot =
-                puissanceActuelle !== -1 ? puissanceActuelle : undefined
+                puissanceActuelle !== -1 ? puissanceActuelle : undefined;
               return eventBus.publish(
                 newPuissanceIsAutoAccepted
                   ? new ModificationReceived({
@@ -155,9 +155,9 @@ export const makeDemanderChangementDePuissance: MakeDemanderChangementDePuissanc
                         authority: 'dreal',
                         cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
                       },
-                    })
-              )
-            })
-        }
-      )
-  }
+                    }),
+              );
+            });
+        },
+      );
+  };

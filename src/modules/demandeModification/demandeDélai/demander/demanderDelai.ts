@@ -1,40 +1,40 @@
-import { errAsync, okAsync } from 'neverthrow'
-import { EventStore, Repository, UniqueEntityID } from '@core/domain'
-import { logger, wrapInfra, ResultAsync } from '@core/utils'
-import { User, formatCahierDesChargesRéférence } from '@entities'
-import { FileContents, FileObject, makeFileObject } from '@modules/file'
-import { DélaiDemandé } from '@modules/demandeModification'
-import { GetProjectAppelOffreId } from '@modules/modificationRequest'
-import { AppelOffreRepo } from '@dataAccess'
-import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { NumeroGestionnaireSubmitted, Project } from '@modules/project'
+import { errAsync, okAsync } from 'neverthrow';
+import { EventStore, Repository, UniqueEntityID } from '@core/domain';
+import { logger, wrapInfra, ResultAsync } from '@core/utils';
+import { User, formatCahierDesChargesRéférence } from '@entities';
+import { FileContents, FileObject, makeFileObject } from '@modules/file';
+import { DélaiDemandé } from '@modules/demandeModification';
+import { GetProjectAppelOffreId } from '@modules/modificationRequest';
+import { AppelOffreRepo } from '@dataAccess';
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { NumeroGestionnaireSubmitted, Project } from '@modules/project';
 
-import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.'
-import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError'
+import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
+import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';
 
 type DemanderDélai = (commande: {
-  user: User
+  user: User;
   file?: {
-    contents: FileContents
-    filename: string
-  }
-  projectId: string
-  justification?: string
-  dateAchèvementDemandée: Date
-  numeroGestionnaire?: string
+    contents: FileContents;
+    filename: string;
+  };
+  projectId: string;
+  justification?: string;
+  dateAchèvementDemandée: Date;
+  numeroGestionnaire?: string;
 }) => ResultAsync<
   null,
   InfraNotAvailableError | UnauthorizedError | DemanderDateAchèvementAntérieureDateThéoriqueError
->
+>;
 
 type MakeDemanderDélai = (dépendances: {
-  fileRepo: Repository<FileObject>
-  findAppelOffreById: AppelOffreRepo['findById']
-  publishToEventStore: EventStore['publish']
-  getProjectAppelOffreId: GetProjectAppelOffreId
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  projectRepo: Repository<Project>
-}) => DemanderDélai
+  fileRepo: Repository<FileObject>;
+  findAppelOffreById: AppelOffreRepo['findById'];
+  publishToEventStore: EventStore['publish'];
+  getProjectAppelOffreId: GetProjectAppelOffreId;
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  projectRepo: Repository<Project>;
+}) => DemanderDélai;
 
 export const makeDemanderDélai: MakeDemanderDélai =
   ({
@@ -50,16 +50,16 @@ export const makeDemanderDélai: MakeDemanderDélai =
       shouldUserAccessProject({
         user,
         projectId,
-      })
+      }),
     )
       .andThen((userHasRightsToProject) => {
         if (!userHasRightsToProject) {
-          return errAsync(new UnauthorizedError())
+          return errAsync(new UnauthorizedError());
         }
 
         return getProjectAppelOffreId(projectId).andThen((appelOffreId) => {
-          return wrapInfra(findAppelOffreById(appelOffreId))
-        })
+          return wrapInfra(findAppelOffreById(appelOffreId));
+        });
       })
       .andThen((appelOffre) => {
         return projectRepo.load(new UniqueEntityID(projectId)).andThen((project) => {
@@ -67,24 +67,24 @@ export const makeDemanderDélai: MakeDemanderDélai =
             project.cahierDesCharges.type === 'initial' &&
             appelOffre?.choisirNouveauCahierDesCharges
           ) {
-            return errAsync(new NouveauCahierDesChargesNonChoisiError())
+            return errAsync(new NouveauCahierDesChargesNonChoisiError());
           }
           if (dateAchèvementDemandée.getTime() <= project.completionDueOn) {
             return errAsync(
               new DemanderDateAchèvementAntérieureDateThéoriqueError(
                 dateAchèvementDemandée,
-                new Date(project.completionDueOn)
-              )
-            )
+                new Date(project.completionDueOn),
+              ),
+            );
           }
           return okAsync({
             appelOffre,
             project,
-          })
-        })
+          });
+        });
       })
       .andThen(({ appelOffre, project }) => {
-        if (!file) return okAsync({ appelOffre, fileId: null, project })
+        if (!file) return okAsync({ appelOffre, fileId: null, project });
 
         return makeFileObject({
           designation: 'modification-request',
@@ -98,12 +98,12 @@ export const makeDemanderDélai: MakeDemanderDélai =
               appelOffre,
               fileId: file.id.toString(),
               project,
-            }))
+            })),
           )
           .mapErr((e: Error) => {
-            logger.error(e)
-            return new InfraNotAvailableError()
-          })
+            logger.error(e);
+            return new InfraNotAvailableError();
+          });
       })
       .andThen(({ appelOffre, fileId, project }) => {
         return publishToEventStore(
@@ -118,16 +118,16 @@ export const makeDemanderDélai: MakeDemanderDélai =
               porteurId: user.id,
               cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
-          })
+          }),
         ).andThen(() => {
           if (numeroGestionnaire) {
             return publishToEventStore(
               new NumeroGestionnaireSubmitted({
                 payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-              })
-            )
+              }),
+            );
           }
-          return okAsync(null)
-        })
-      })
-  }
+          return okAsync(null);
+        });
+      });
+  };

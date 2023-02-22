@@ -1,8 +1,8 @@
-import { Pagination } from '../../types'
+import { Pagination } from '../../types';
 
 const defaultPagination: Pagination = {
   page: 0,
   pageSize: 100,
-}
+};
 
-export default defaultPagination
+export default defaultPagination;

@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const instruction: Readonly<Array<Colonne>> = [
   {
@@ -87,4 +87,4 @@ export const instruction: Readonly<Array<Colonne>> = [
   { nomPropriété: `Commune (doublon)`, source: 'propriété-colonne-détail' },
   { nomPropriété: `Commentaires`, source: 'propriété-colonne-détail' },
   { nomPropriété: `Puissance cumulée`, source: 'propriété-colonne-détail' },
-]
+];

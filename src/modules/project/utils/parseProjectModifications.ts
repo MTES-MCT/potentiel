@@ -1,28 +1,28 @@
-import { LegacyModificationDTO, LegacyModificationStatus } from '../../modificationRequest'
-import moment from 'moment-timezone'
-import { UniqueEntityID } from '@core/domain'
-moment.tz.setDefault('Europe/Paris')
+import { LegacyModificationDTO, LegacyModificationStatus } from '../../modificationRequest';
+import moment from 'moment-timezone';
+import { UniqueEntityID } from '@core/domain';
+moment.tz.setDefault('Europe/Paris');
 
 export const parseProjectModifications = (line: Record<string, string>) => {
-  const modificationsByDate: Record<string, LegacyModificationDTO> = {}
+  const modificationsByDate: Record<string, LegacyModificationDTO> = {};
   for (const index of [1, 2, 3, 4, 5]) {
     if (line[`Type de modification ${index}`]) {
-      const date = line[`Date de modification ${index}`]
-      modificationsByDate[date] = extractModificationType(line, index, modificationsByDate[date])
+      const date = line[`Date de modification ${index}`];
+      modificationsByDate[date] = extractModificationType(line, index, modificationsByDate[date]);
     }
   }
 
-  return Object.values(modificationsByDate)
-}
+  return Object.values(modificationsByDate);
+};
 
 function extractRecoursType(args: {
-  modifiedOn: number
-  colonneConcernee: string
-  ancienneValeur: string
-  index: number
-  sameDateModification: LegacyModificationDTO | undefined
-  nomCourrier: string
-  status: LegacyModificationStatus
+  modifiedOn: number;
+  colonneConcernee: string;
+  ancienneValeur: string;
+  index: number;
+  sameDateModification: LegacyModificationDTO | undefined;
+  nomCourrier: string;
+  status: LegacyModificationStatus;
 }): LegacyModificationDTO {
   const {
     colonneConcernee,
@@ -32,18 +32,18 @@ function extractRecoursType(args: {
     sameDateModification,
     nomCourrier,
     status,
-  } = args
+  } = args;
   if (!['Classé ?', "Motif d'élimination"].includes(colonneConcernee)) {
     throw new Error(
-      `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`
-    )
+      `Colonne concernée ${index} doit être soit "Classé ?" soit "Motif d'élimination" pour un Recours gracieux`,
+    );
   }
 
   if (colonneConcernee === 'Classé ?') {
     if (!['Classé', 'Eliminé'].includes(ancienneValeur)) {
       throw new Error(
-        `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`
-      )
+        `Ancienne valeur ${index} doit être soit Classé soit Eliminé pour un Recours gracieux`,
+      );
     }
 
     return {
@@ -54,37 +54,37 @@ function extractRecoursType(args: {
       modificationId: new UniqueEntityID().toString(),
       filename: nomCourrier,
       status,
-    } as LegacyModificationDTO
+    } as LegacyModificationDTO;
   } else {
     return {
       ...sameDateModification,
       motifElimination: ancienneValeur,
       filename: nomCourrier,
       status,
-    } as LegacyModificationDTO
+    } as LegacyModificationDTO;
   }
 }
 
 function extractDelaiType(args: {
-  modifiedOn: number
-  colonneConcernee: string
-  ancienneValeur: string
-  index: number
-  status: LegacyModificationStatus
-  nomCourrier: string
+  modifiedOn: number;
+  colonneConcernee: string;
+  ancienneValeur: string;
+  index: number;
+  status: LegacyModificationStatus;
+  nomCourrier: string;
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index, status, nomCourrier } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, status, nomCourrier } = args;
   if (status === 'acceptée' && !colonneConcernee) {
-    throw new Error(`Colonne concernée ${index} manquante`)
+    throw new Error(`Colonne concernée ${index} manquante`);
   }
-  const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime()
+  const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime();
   if (isNaN(nouvelleDateLimiteAchevement)) {
-    throw new Error(`Colonne concernée ${index} contient une date invalide`)
+    throw new Error(`Colonne concernée ${index} contient une date invalide`);
   }
-  const ancienneDateLimiteAchevement = moment(ancienneValeur, 'DD/MM/YYYY').toDate().getTime()
+  const ancienneDateLimiteAchevement = moment(ancienneValeur, 'DD/MM/YYYY').toDate().getTime();
 
   if (isNaN(ancienneDateLimiteAchevement)) {
-    throw new Error(`Ancienne valeur ${index} contient une date invalide`)
+    throw new Error(`Ancienne valeur ${index} contient une date invalide`);
   }
   return {
     type: 'delai',
@@ -94,17 +94,17 @@ function extractDelaiType(args: {
     modificationId: new UniqueEntityID().toString(),
     status,
     filename: nomCourrier,
-  }
+  };
 }
 
 function extractActionnaireType(args: {
-  modifiedOn: number
-  colonneConcernee: string
-  ancienneValeur: string
-  index: number
-  sameDateModification: LegacyModificationDTO | undefined
-  nomCourrier: string
-  status: LegacyModificationStatus
+  modifiedOn: number;
+  colonneConcernee: string;
+  ancienneValeur: string;
+  index: number;
+  sameDateModification: LegacyModificationDTO | undefined;
+  nomCourrier: string;
+  status: LegacyModificationStatus;
 }): LegacyModificationDTO {
   const {
     colonneConcernee,
@@ -114,7 +114,7 @@ function extractActionnaireType(args: {
     sameDateModification,
     nomCourrier,
     status,
-  } = args
+  } = args;
   if (colonneConcernee === 'Candidat') {
     return {
       type: 'actionnaire',
@@ -124,7 +124,7 @@ function extractActionnaireType(args: {
       modificationId: new UniqueEntityID().toString(),
       filename: nomCourrier,
       status,
-    }
+    };
   } else if (colonneConcernee === 'Numéro SIREN ou SIRET*') {
     return {
       ...sameDateModification,
@@ -132,21 +132,21 @@ function extractActionnaireType(args: {
       modifiedOn,
       filename: nomCourrier,
       status,
-    } as LegacyModificationDTO
+    } as LegacyModificationDTO;
   } else {
-    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`);
   }
 }
 
 function extractProducteurType(args: {
-  modifiedOn: number
-  colonneConcernee: string
-  ancienneValeur: string
-  index: number
-  nomCourrier: string
-  status: LegacyModificationStatus
+  modifiedOn: number;
+  colonneConcernee: string;
+  ancienneValeur: string;
+  index: number;
+  nomCourrier: string;
+  status: LegacyModificationStatus;
 }): LegacyModificationDTO {
-  const { colonneConcernee, modifiedOn, ancienneValeur, index, nomCourrier, status } = args
+  const { colonneConcernee, modifiedOn, ancienneValeur, index, nomCourrier, status } = args;
   if (colonneConcernee === 'Nom (personne physique) ou raison sociale (personne morale) : ') {
     return {
       type: 'producteur',
@@ -155,16 +155,16 @@ function extractProducteurType(args: {
       modificationId: new UniqueEntityID().toString(),
       filename: nomCourrier,
       status,
-    }
+    };
   } else {
-    throw new Error(`Colonne concernée ${index} n'est pas reconnue`)
+    throw new Error(`Colonne concernée ${index} n'est pas reconnue`);
   }
 }
 
 function extractModificationType(
   line: Record<string, string>,
   index: number,
-  sameDateModification: LegacyModificationDTO | undefined
+  sameDateModification: LegacyModificationDTO | undefined,
 ): LegacyModificationDTO {
   const {
     [`Type de modification ${index}`]: type,
@@ -173,27 +173,27 @@ function extractModificationType(
     [`Date de modification ${index}`]: dateModification,
     [`Statut demande ${index}`]: statut,
     [`Nom courrier ${index}`]: nomCourrier,
-  } = line
-  const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY')
+  } = line;
+  const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY');
 
   if (!modifiedOnDate.isValid()) {
-    throw new Error(`Date de modification ${index} n'est pas une date valide`)
+    throw new Error(`Date de modification ${index} n'est pas une date valide`);
   }
 
   if (modifiedOnDate.isAfter(moment())) {
-    throw new Error(`Date de modification ${index} est une date dans le futur.`)
+    throw new Error(`Date de modification ${index} est une date dans le futur.`);
   }
 
   if (modifiedOnDate.isBefore(moment('01/01/2010', 'DD/MM/YYYY'))) {
-    throw new Error(`Date de modification ${index} est une date trop loin dans le passé.`)
+    throw new Error(`Date de modification ${index} est une date trop loin dans le passé.`);
   }
 
-  const modifiedOn = modifiedOnDate.toDate().getTime()
+  const modifiedOn = modifiedOnDate.toDate().getTime();
 
   if (['Acceptée', 'Refusée', 'Accord de principe'].indexOf(statut) === -1) {
     throw new Error(
-      `Statut de la modification ${index} invalide, le statut doit correspondre à l'une de ces valeurs "Acceptée", "Refusée", ou "Accord de principe"`
-    )
+      `Statut de la modification ${index} invalide, le statut doit correspondre à l'une de ces valeurs "Acceptée", "Refusée", ou "Accord de principe"`,
+    );
   }
 
   const status =
@@ -201,7 +201,7 @@ function extractModificationType(
       ? 'acceptée'
       : statut === 'Accord de principe'
       ? 'accord-de-principe'
-      : 'rejetée'
+      : 'rejetée';
 
   switch (type) {
     case 'Autre':
@@ -213,7 +213,7 @@ function extractModificationType(
         modificationId: new UniqueEntityID().toString(),
         filename: nomCourrier,
         status,
-      }
+      };
     case 'Abandon':
       return {
         type: 'abandon',
@@ -221,7 +221,7 @@ function extractModificationType(
         modificationId: new UniqueEntityID().toString(),
         filename: nomCourrier,
         status,
-      }
+      };
     case 'Recours gracieux':
       return extractRecoursType({
         modifiedOn,
@@ -231,7 +231,7 @@ function extractModificationType(
         index,
         nomCourrier,
         status,
-      })
+      });
     case 'Prolongation de délai':
       return extractDelaiType({
         modifiedOn,
@@ -240,7 +240,7 @@ function extractModificationType(
         index,
         status,
         nomCourrier,
-      })
+      });
     case "Changement d'actionnaire":
       return extractActionnaireType({
         modifiedOn,
@@ -250,7 +250,7 @@ function extractModificationType(
         index,
         nomCourrier,
         status,
-      })
+      });
     case 'Changement de producteur':
       return extractProducteurType({
         modifiedOn,
@@ -259,8 +259,8 @@ function extractModificationType(
         index,
         nomCourrier,
         status,
-      })
+      });
     default:
-      throw new Error(`Type de modification ${index} n'est pas reconnu`)
+      throw new Error(`Type de modification ${index} n'est pas reconnu`);
   }
 }

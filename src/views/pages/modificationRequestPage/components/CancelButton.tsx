@@ -1,10 +1,10 @@
-import * as React from 'react'
-import { ModificationRequestStatusDTO } from '@modules/modificationRequest'
-import ROUTES from '@routes'
+import * as React from 'react';
+import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
+import ROUTES from '@routes';
 
 interface CancelButtonProps {
-  status: ModificationRequestStatusDTO
-  id: string
+  status: ModificationRequestStatusDTO;
+  id: string;
 }
 export const CancelButton = ({ status, id }: CancelButtonProps) =>
   (['envoyée', 'en instruction', 'en attente de confirmation'].includes(status) && (
@@ -21,4 +21,4 @@ export const CancelButton = ({ status, id }: CancelButtonProps) =>
       </button>
     </form>
   )) ||
-  null
+  null;

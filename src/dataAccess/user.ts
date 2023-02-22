@@ -1,24 +1,24 @@
-import { User, Project } from '@entities'
-import { Région } from '@modules/dreal/région'
-import { ResultAsync, OptionAsync } from '../types'
+import { User, Project } from '@entities';
+import { Région } from '@modules/dreal/région';
+import { ResultAsync, OptionAsync } from '../types';
 
 export type UserRepo = {
-  findById: (id: User['id']) => OptionAsync<User>
-  findAll: (query?: Record<string, any>) => Promise<Array<User>>
-  insert: (user: User) => ResultAsync<User>
-  update: (user: User) => ResultAsync<User>
-  addProject: (userId: User['id'], projectId: Project['id']) => ResultAsync<null>
+  findById: (id: User['id']) => OptionAsync<User>;
+  findAll: (query?: Record<string, any>) => Promise<Array<User>>;
+  insert: (user: User) => ResultAsync<User>;
+  update: (user: User) => ResultAsync<User>;
+  addProject: (userId: User['id'], projectId: Project['id']) => ResultAsync<null>;
 
-  addUserToProjectsWithEmail: (userId: User['id'], email: Project['email']) => ResultAsync<null>
+  addUserToProjectsWithEmail: (userId: User['id'], email: Project['email']) => ResultAsync<null>;
 
   addProjectToUserWithEmail: (
     projectId: Project['id'],
-    email: Project['email']
-  ) => ResultAsync<null>
+    email: Project['email'],
+  ) => ResultAsync<null>;
 
-  hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>
-  remove: (userId: User['id']) => ResultAsync<null>
-  findUsersForDreal: (dreal: string) => Promise<Array<User>>
-  findDrealsForUser: (userId: User['id']) => Promise<Array<Région>>
-  addToDreal: (userId: User['id'], dreal: Région) => ResultAsync<null>
-}
+  hasProject: (userId: User['id'], projectId: Project['id']) => Promise<boolean>;
+  remove: (userId: User['id']) => ResultAsync<null>;
+  findUsersForDreal: (dreal: string) => Promise<Array<User>>;
+  findDrealsForUser: (userId: User['id']) => Promise<Array<Région>>;
+  addToDreal: (userId: User['id'], dreal: Région) => ResultAsync<null>;
+};

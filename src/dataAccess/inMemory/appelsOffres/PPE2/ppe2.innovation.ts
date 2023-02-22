@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const innovationPPE2: AppelOffre = {
   id: 'PPE2 - Innovation',
@@ -129,6 +129,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { innovationPPE2 }
+export { innovationPPE2 };

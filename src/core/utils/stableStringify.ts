@@ -3,4 +3,4 @@
  * @param key serializable object
  * @returns string
  */
-export const stableStringify = (key: any) => JSON.stringify(key, Object.keys(key).sort())
+export const stableStringify = (key: any) => JSON.stringify(key, Object.keys(key).sort());

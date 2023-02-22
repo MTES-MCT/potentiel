@@ -1,41 +1,41 @@
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import { UserRole } from '@modules/users'
-import { ACTION_BY_ROLE } from './actions'
-import { ChevronDownIcon, SecondaryButton } from './UI'
-import { Link } from '@components'
-import { ProjectAppelOffre } from '@entities'
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import { UserRole } from '@modules/users';
+import { ACTION_BY_ROLE } from './actions';
+import { ChevronDownIcon, SecondaryButton } from './UI';
+import { Link } from '@components';
+import { ProjectAppelOffre } from '@entities';
 
 type Props = {
   project: {
-    id: string
+    id: string;
     appelOffre?: {
-      type: ProjectAppelOffre['type']
-      unitePuissance: ProjectAppelOffre['unitePuissance']
-      periode: ProjectAppelOffre['periode']
-    }
-    isClasse: boolean
-    isAbandoned: boolean
-    isLegacy: boolean
-    notifiedOn?: Date
+      type: ProjectAppelOffre['type'];
+      unitePuissance: ProjectAppelOffre['unitePuissance'];
+      periode: ProjectAppelOffre['periode'];
+    };
+    isClasse: boolean;
+    isAbandoned: boolean;
+    isLegacy: boolean;
+    notifiedOn?: Date;
     certificateFile?: {
-      id: string
-      filename: string
-    }
-    email: string
-    nomProjet: string
+      id: string;
+      filename: string;
+    };
+    email: string;
+    nomProjet: string;
     garantiesFinancières?: {
-      id: string
-      statut: 'à traiter' | 'validé' | 'en attente'
-    }
-  }
-  role: UserRole
-}
+      id: string;
+      statut: 'à traiter' | 'validé' | 'en attente';
+    };
+  };
+  role: UserRole;
+};
 
 export const ProjectActions = ({ project, role }: Props) => {
-  if (!project || !role) return <></>
-  const actions = ACTION_BY_ROLE[role]?.call(null, project)
-  if (!actions || !actions.length) return <></>
+  if (!project || !role) return <></>;
+  const actions = ACTION_BY_ROLE[role]?.call(null, project);
+  if (!actions || !actions.length) return <></>;
 
   return (
     <div style={{ position: 'relative' }} {...dataId('project-actions')}>
@@ -62,5 +62,5 @@ export const ProjectActions = ({ project, role }: Props) => {
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};

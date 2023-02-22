@@ -1,4 +1,4 @@
-import { AppelOffre } from '@entities'
+import { AppelOffre } from '@entities';
 
 const autoconsommationMetropolePPE2: AppelOffre = {
   id: 'PPE2 - Autoconsommation métropole',
@@ -163,6 +163,6 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
       },
     },
   ],
-}
+};
 
-export { autoconsommationMetropolePPE2 }
+export { autoconsommationMetropolePPE2 };

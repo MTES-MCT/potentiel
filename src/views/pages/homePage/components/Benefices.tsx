@@ -1,5 +1,5 @@
-import React from 'react'
-import { Container } from '../../../components'
+import React from 'react';
+import { Container } from '../../../components';
 
 export const Benefices = () => (
   <section className="text-blue-france-sun-base mb-10">
@@ -27,14 +27,14 @@ export const Benefices = () => (
       </div>
     </Container>
   </section>
-)
+);
 
 type BeneficeProps = {
-  title: string
-}
+  title: string;
+};
 const Benefice = ({ title }: BeneficeProps) => (
   <li className="flex flex-row items-center leading-loose list-none">
     <img src="/images/home/check.png" className="align-bottom mr-2" aria-hidden></img>
     {title}
   </li>
-)
+);

@@ -1,5 +1,5 @@
-import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectDCRDueDateCancelled,
@@ -10,6 +10,6 @@ export default ProjectEventProjector.on(
         type: ProjectDCRDueDateSet.type,
       },
       transaction,
-    })
-  }
-)
+    });
+  },
+);

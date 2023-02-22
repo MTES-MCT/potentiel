@@ -1,29 +1,29 @@
-import { User } from '@entities'
-import { EventStore, TransactionalRepository, Repository, UniqueEntityID } from '@core/domain'
-import { ResultAsync, errAsync, wrapInfra } from '@core/utils'
+import { User } from '@entities';
+import { EventStore, TransactionalRepository, Repository, UniqueEntityID } from '@core/domain';
+import { ResultAsync, errAsync, wrapInfra } from '@core/utils';
 
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared'
-import { DélaiEnInstruction } from '@modules/demandeModification/demandeDélai/events'
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
+import { DélaiEnInstruction } from '@modules/demandeModification/demandeDélai/events';
 
-import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError'
-import { DemandeDélai } from '../DemandeDélai'
+import { PasserEnInstructionDemandeDélaiStatutIncompatibleError } from './PasserEnInstructionDemandeDélaiStatutIncompatibleError';
+import { DemandeDélai } from '../DemandeDélai';
 
 type PasserDemandeDélaiEnInstruction = (commande: {
-  user: User
-  demandeDélaiId: string
+  user: User;
+  demandeDélaiId: string;
 }) => ResultAsync<
   null,
   | InfraNotAvailableError
   | UnauthorizedError
   | EntityNotFoundError
   | PasserEnInstructionDemandeDélaiStatutIncompatibleError
->
+>;
 
 type MakePasserDemandeDélaiEnInstruction = (dépendances: {
-  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>
-  demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>
-  publishToEventStore: EventStore['publish']
-}) => PasserDemandeDélaiEnInstruction
+  shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
+  demandeDélaiRepo: Repository<DemandeDélai> & TransactionalRepository<DemandeDélai>;
+  publishToEventStore: EventStore['publish'];
+}) => PasserDemandeDélaiEnInstruction;
 
 export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInstruction =
   ({ demandeDélaiRepo, publishToEventStore, shouldUserAccessProject }) =>
@@ -32,18 +32,18 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
       new UniqueEntityID(demandeDélaiId),
       ({ statut = undefined, projetId = undefined }) => {
         if (!projetId) {
-          return errAsync(new InfraNotAvailableError())
+          return errAsync(new InfraNotAvailableError());
         }
         if (!statut || statut !== 'envoyée') {
-          return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError())
+          return errAsync(new PasserEnInstructionDemandeDélaiStatutIncompatibleError());
         }
 
         return wrapInfra(shouldUserAccessProject({ projectId: projetId, user })).andThen(
           (
-            userHasRightsToProject
+            userHasRightsToProject,
           ): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
             if (!userHasRightsToProject) {
-              return errAsync(new UnauthorizedError())
+              return errAsync(new UnauthorizedError());
             }
 
             return publishToEventStore(
@@ -53,10 +53,10 @@ export const makePasserDemandeDélaiEnInstruction: MakePasserDemandeDélaiEnInst
                   modifiéPar: user.id,
                   projetId,
                 },
-              })
-            )
-          }
-        )
-      }
-    )
-  }
+              }),
+            );
+          },
+        );
+      },
+    );
+  };

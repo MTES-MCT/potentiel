@@ -1,19 +1,19 @@
-import routes from '@routes'
-import * as yup from 'yup'
-import { v1Router } from '../../v1Router'
+import routes from '@routes';
+import * as yup from 'yup';
+import { v1Router } from '../../v1Router';
 import {
   RequestValidationError,
   validateRequestBody,
   vérifierPermissionUtilisateur,
-} from '../../helpers'
-import { inviterUtilisateur } from '@config'
+} from '../../helpers';
+import { inviterUtilisateur } from '@config';
 import {
   InvitationUniqueParUtilisateurError,
   PermissionInviterDgecValidateur,
-} from '@modules/utilisateur'
-import { logger } from '@core/utils'
-import asyncHandler from '../../helpers/asyncHandler'
-import { sauvegarderRésultatFormulaire } from '../../helpers/formulaires'
+} from '@modules/utilisateur';
+import { logger } from '@core/utils';
+import asyncHandler from '../../helpers/asyncHandler';
+import { sauvegarderRésultatFormulaire } from '../../helpers/formulaires';
 
 const schema = yup.object({
   role: yup
@@ -26,7 +26,7 @@ const schema = yup.object({
     .string()
     .required('Ce champ est obligatoire')
     .typeError("La fonction renseignée n'est pas valide"),
-})
+});
 
 v1Router.post(
   routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
@@ -36,15 +36,15 @@ v1Router.post(
       .asyncAndThen(({ email, role, fonction }) =>
         inviterUtilisateur({ email, role, invitéPar: request.user, fonction }).map(() => ({
           email,
-        }))
+        })),
       )
       .match(
         () => {
           sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
             type: 'succès',
             message: "L'invitation a bien été envoyée",
-          })
-          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
+          });
+          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
         },
         (error: Error) => {
           if (error instanceof RequestValidationError) {
@@ -55,26 +55,26 @@ v1Router.post(
                 return {
                   ...prev,
                   [key.replace('error-', '')]: value,
-                }
+                };
               }, {}),
-            })
-            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
+            });
+            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
           }
           if (error instanceof InvitationUniqueParUtilisateurError) {
             sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
               type: 'échec',
               raison: error.message,
-            })
-            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
+            });
+            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
           }
-          logger.error(error)
+          logger.error(error);
           sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
             type: 'échec',
             raison:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR)
-        }
-      )
-  })
-)
+          });
+          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
+        },
+      );
+  }),
+);

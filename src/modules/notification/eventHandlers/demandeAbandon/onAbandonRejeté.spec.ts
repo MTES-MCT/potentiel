@@ -1,12 +1,12 @@
-import { okAsync } from '@core/utils'
-import { AbandonRejeté } from '@modules/demandeModification'
-import { makeOnAbandonRejeté } from '.'
+import { okAsync } from '@core/utils';
+import { AbandonRejeté } from '@modules/demandeModification';
+import { makeOnAbandonRejeté } from '.';
 
 describe(`Notifier lorsqu'un abandon est rejeté`, () => {
   describe(`Etant donné un projet accessible pour deux porteurs`, () => {
     it(`  Quand un abandon est rejeté
           Alors les deux porteurs ayant accès au projet devrait être notifié`, async () => {
-      const notifierPorteurChangementStatutDemande = jest.fn()
+      const notifierPorteurChangementStatutDemande = jest.fn();
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -27,12 +27,12 @@ describe(`Notifier lorsqu'un abandon est rejeté`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'abandon',
-        })
+        });
 
       const onAbandonRejeté = makeOnAbandonRejeté({
         notifierPorteurChangementStatutDemande,
         getModificationRequestInfoForStatusNotification,
-      })
+      });
 
       await onAbandonRejeté(
         new AbandonRejeté({
@@ -42,10 +42,10 @@ describe(`Notifier lorsqu'un abandon est rejeté`, () => {
             rejetéPar: 'la-dreal',
             fichierRéponseId: 'id-fichier',
           },
-        })
-      )
+        }),
+      );
 
-      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2)
+      expect(notifierPorteurChangementStatutDemande).toHaveBeenCalledTimes(2);
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -57,8 +57,8 @@ describe(`Notifier lorsqu'un abandon est rejeté`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
+        }),
+      );
 
       expect(notifierPorteurChangementStatutDemande).toHaveBeenNthCalledWith(
         2,
@@ -71,8 +71,8 @@ describe(`Notifier lorsqu'un abandon est rejeté`, () => {
           nomProjet: 'nom-du-projet',
           modificationRequestId: 'la-demande',
           hasDocument: true,
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

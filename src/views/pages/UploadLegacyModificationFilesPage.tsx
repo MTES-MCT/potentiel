@@ -1,19 +1,19 @@
-import type { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1 } from '@components'
-import { hydrateOnClient } from '../helpers/hydrateOnClient'
+import type { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1 } from '@components';
+import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
 export type UploadLegacyModificationFileResult =
   | {
-      filename: string
-    } & ({ error: false } | { error: true; message: string })
+      filename: string;
+    } & ({ error: false } | { error: true; message: string });
 
 type UploadLegacyModificationFilesProps = {
-  request: Request
-  results?: UploadLegacyModificationFileResult[]
-}
+  request: Request;
+  results?: UploadLegacyModificationFileResult[];
+};
 
 export const UploadLegacyModificationFiles = ({
   request,
@@ -21,13 +21,13 @@ export const UploadLegacyModificationFiles = ({
 }: UploadLegacyModificationFilesProps) => {
   const {
     query: { error },
-  } = request
+  } = request;
 
   const errors =
     results?.filter(
-      (result): result is UploadLegacyModificationFileResult & { error: true } => result.error
-    ) || []
-  const successes = results?.filter((result) => !result.error) || []
+      (result): result is UploadLegacyModificationFileResult & { error: true } => result.error,
+    ) || [];
+  const successes = results?.filter((result) => !result.error) || [];
 
   return (
     <PageTemplate user={request.user} currentPage={'admin-upload-legacy-modification-files'}>
@@ -84,7 +84,7 @@ export const UploadLegacyModificationFiles = ({
         </form>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(UploadLegacyModificationFiles)
+hydrateOnClient(UploadLegacyModificationFiles);

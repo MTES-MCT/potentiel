@@ -1,60 +1,60 @@
-import { Project } from '..'
-import { TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { LegacyModificationImported } from '../../modificationRequest'
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { ProjectionEnEchec } from '@modules/shared'
-import { err } from '@core/utils'
+import { Project } from '..';
+import { TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { LegacyModificationImported } from '../../modificationRequest';
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { ProjectionEnEchec } from '@modules/shared';
+import { err } from '@core/utils';
 
 type HandleLegacyModificationImportedDependencies = {
-  projectRepo: TransactionalRepository<Project>
-  getProjectAppelOffre: GetProjectAppelOffre
-}
+  projectRepo: TransactionalRepository<Project>;
+  getProjectAppelOffre: GetProjectAppelOffre;
+};
 
 export const handleLegacyModificationImported =
   ({ projectRepo, getProjectAppelOffre }: HandleLegacyModificationImportedDependencies) =>
   async (évènement: LegacyModificationImported) => {
-    const { projectId, modifications } = évènement.payload
+    const { projectId, modifications } = évènement.payload;
 
-    const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn)
+    const modificationsDescDate = modifications.sort((a, b) => b.modifiedOn - a.modifiedOn);
 
-    let delayApplied = false
-    let abandonApplied = false
+    let delayApplied = false;
+    let abandonApplied = false;
     for (const modification of modificationsDescDate) {
       switch (modification.type) {
         case 'delai':
-          if (delayApplied) continue
+          if (delayApplied) continue;
           if (modification.status === 'acceptée') {
             await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-              const { appelOffreId, periodeId, familleId } = project
-              const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+              const { appelOffreId, periodeId, familleId } = project;
+              const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
               if (!appelOffre) {
                 return err(
                   new ProjectionEnEchec(
                     `Impossible d'appliquer la demande de modification de délai`,
-                    { nomProjection: 'handleLegacyModificationImported', évènement }
-                  )
-                )
+                    { nomProjection: 'handleLegacyModificationImported', évènement },
+                  ),
+                );
               }
 
               return project.setCompletionDueDate({
                 appelOffre,
                 completionDueOn: modification.nouvelleDateLimiteAchevement,
-              })
-            })
-            delayApplied = true
+              });
+            });
+            delayApplied = true;
           }
-          break
+          break;
         case 'abandon':
-          if (abandonApplied) continue
+          if (abandonApplied) continue;
           if (modification.status === 'acceptée') {
             await projectRepo.transaction(new UniqueEntityID(projectId), (project) => {
-              return project.abandonLegacy(modification.modifiedOn)
-            })
-            abandonApplied = true
+              return project.abandonLegacy(modification.modifiedOn);
+            });
+            abandonApplied = true;
           }
-          break
+          break;
         default:
-          break
+          break;
       }
     }
-  }
+  };

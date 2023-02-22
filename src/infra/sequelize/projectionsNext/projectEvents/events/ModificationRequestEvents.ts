@@ -1,110 +1,110 @@
-import { Fournisseur } from '@modules/project'
-import { ProjectEvent } from '..'
+import { Fournisseur } from '@modules/project';
+import { ProjectEvent } from '..';
 
 export type ModificationRequestEvents = ProjectEvent &
   (
     | {
-        type: 'ModificationRequested'
+        type: 'ModificationRequested';
         payload: {
-          modificationRequestId: string
-          authority: 'dgec' | 'dreal'
+          modificationRequestId: string;
+          authority: 'dgec' | 'dreal';
         } & (
           | {
-              modificationType: 'recours'
+              modificationType: 'recours';
             }
           | {
-              modificationType: 'delai'
-              delayInMonths: number
+              modificationType: 'delai';
+              delayInMonths: number;
             }
           | {
-              modificationType: 'puissance'
-              puissance: number
+              modificationType: 'puissance';
+              puissance: number;
             }
-        )
+        );
       }
     | {
-        type: 'ModificationRequestAccepted'
+        type: 'ModificationRequestAccepted';
         payload: {
-          modificationRequestId: string
+          modificationRequestId: string;
           file: {
-            id: string
-            name: string
-          }
-          delayInMonthsGranted?: number
-        }
+            id: string;
+            name: string;
+          };
+          delayInMonthsGranted?: number;
+        };
       }
     | {
-        type: 'ModificationRequestRejected'
+        type: 'ModificationRequestRejected';
         payload: {
-          modificationRequestId: string
+          modificationRequestId: string;
           file?: {
-            id: string
-            name: string
-          }
-        }
+            id: string;
+            name: string;
+          };
+        };
       }
     | {
-        type: 'ModificationRequestCancelled' | 'ModificationRequestInstructionStarted'
+        type: 'ModificationRequestCancelled' | 'ModificationRequestInstructionStarted';
 
         payload: {
-          modificationRequestId: string
-        }
+          modificationRequestId: string;
+        };
       }
     | {
-        type: 'ModificationReceived'
+        type: 'ModificationReceived';
         payload: {
-          modificationRequestId: string
+          modificationRequestId: string;
         } & (
           | {
-              modificationType: 'producteur'
-              producteur: string
+              modificationType: 'producteur';
+              producteur: string;
             }
           | {
-              modificationType: 'actionnaire'
-              actionnaire: string
+              modificationType: 'actionnaire';
+              actionnaire: string;
             }
           | {
-              modificationType: 'fournisseur'
-              fournisseurs: Fournisseur[]
+              modificationType: 'fournisseur';
+              fournisseurs: Fournisseur[];
             }
           | {
-              modificationType: 'puissance'
-              puissance: number
+              modificationType: 'puissance';
+              puissance: number;
             }
-        )
+        );
       }
     | {
-        type: 'LegacyModificationImported'
+        type: 'LegacyModificationImported';
         payload: {
-          status: 'acceptée' | 'rejetée' | 'accord-de-principe'
-          modificationRequestId: string
-          filename: string
+          status: 'acceptée' | 'rejetée' | 'accord-de-principe';
+          modificationRequestId: string;
+          filename: string;
         } & (
           | {
-              modificationType: 'abandon'
+              modificationType: 'abandon';
             }
           | {
-              modificationType: 'actionnaire'
-              actionnairePrecedent: string
+              modificationType: 'actionnaire';
+              actionnairePrecedent: string;
             }
           | {
-              modificationType: 'autre'
-              column: string
-              value: string
+              modificationType: 'autre';
+              column: string;
+              value: string;
             }
           | {
-              modificationType: 'delai'
-              ancienneDateLimiteAchevement: number
-              nouvelleDateLimiteAchevement: number
+              modificationType: 'delai';
+              ancienneDateLimiteAchevement: number;
+              nouvelleDateLimiteAchevement: number;
             }
           | {
-              modificationType: 'producteur'
-              producteurPrecedent: string
+              modificationType: 'producteur';
+              producteurPrecedent: string;
             }
           | {
-              modificationType: 'recours'
-              motifElimination: string
+              modificationType: 'recours';
+              motifElimination: string;
             }
-        )
+        );
       }
-  )
+  );

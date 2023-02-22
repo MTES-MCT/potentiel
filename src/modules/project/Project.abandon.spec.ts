@@ -1,23 +1,23 @@
-import { UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { makeUser } from '@entities'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { EliminatedProjectCannotBeAbandonnedError } from './errors'
-import { LegacyProjectSourced, ProjectAbandoned } from './events'
-import { makeProject } from './Project'
+import { UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { makeUser } from '@entities';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { EliminatedProjectCannotBeAbandonnedError } from './errors';
+import { LegacyProjectSourced, ProjectAbandoned } from './events';
+import { makeProject } from './Project';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE } = fakeProject;
 
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 describe('Project.abandon()', () => {
   describe('when project is Classé', () => {
@@ -39,22 +39,22 @@ describe('Project.abandon()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should emit ProjectAbandoned event', () => {
-      project.abandon(fakeUser)
+      project.abandon(fakeUser);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectAbandoned.type
-      ) as ProjectAbandoned | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectAbandoned.type,
+      ) as ProjectAbandoned | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.abandonAcceptedBy).toEqual(fakeUser.id)
-    })
-  })
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.abandonAcceptedBy).toEqual(fakeUser.id);
+    });
+  });
 
   describe('when project is Eliminé', () => {
     const project = UnwrapForTest(
@@ -75,15 +75,15 @@ describe('Project.abandon()', () => {
         ],
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should return EliminatedProjectCannotBeAbandonnedError', () => {
-      const res = project.abandon(fakeUser)
+      const res = project.abandon(fakeUser);
 
-      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EliminatedProjectCannotBeAbandonnedError)
+      expect(res._unsafeUnwrapErr()).toBeInstanceOf(EliminatedProjectCannotBeAbandonnedError);
 
-      expect(project.pendingEvents.length).toEqual(0)
-    })
-  })
-})
+      expect(project.pendingEvents.length).toEqual(0);
+    });
+  });
+});

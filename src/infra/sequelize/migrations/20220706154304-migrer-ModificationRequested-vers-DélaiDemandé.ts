@@ -1,17 +1,17 @@
-import { DélaiDemandé } from '@modules/demandeModification'
-import { ModificationRequested } from '@modules/modificationRequest'
-import { Op, QueryInterface } from 'sequelize'
-import { toPersistance } from '../helpers'
-import { models } from '../models'
-import { ProjectEvent } from '../projectionsNext'
-import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé'
+import { DélaiDemandé } from '@modules/demandeModification';
+import { ModificationRequested } from '@modules/modificationRequest';
+import { Op, QueryInterface } from 'sequelize';
+import { toPersistance } from '../helpers';
+import { models } from '../models';
+import { ProjectEvent } from '../projectionsNext';
+import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
-    const transaction = await queryInterface.sequelize.transaction()
+    const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      const { ModificationRequest, Project, EventStore } = models
+      const { ModificationRequest, Project, EventStore } = models;
 
       const demandesDélaiAMigrer = await ModificationRequest.findAll({
         include: [
@@ -29,9 +29,9 @@ export default {
         },
         attributes: ['id'],
         transaction,
-      })
+      });
 
-      console.log(`${demandesDélaiAMigrer.length} demandes de délai envoyées à migrer`)
+      console.log(`${demandesDélaiAMigrer.length} demandes de délai envoyées à migrer`);
 
       const nouveauxÉvénements = (
         await Promise.all(
@@ -46,18 +46,20 @@ export default {
                   'payload.type': { [Op.eq]: 'delai' },
                 },
               },
-              { transaction }
-            )
+              { transaction },
+            );
 
             if (modificationRequestedEvent) {
-              const { payload, occurredAt } = modificationRequestedEvent
+              const { payload, occurredAt } = modificationRequestedEvent;
 
-              const dateThéoriqueDAchèvement = new Date(demandeDélaiAMigrer.project.completionDueOn)
+              const dateThéoriqueDAchèvement = new Date(
+                demandeDélaiAMigrer.project.completionDueOn,
+              );
               const dateAchèvementDemandée = new Date(
                 dateThéoriqueDAchèvement.setMonth(
-                  dateThéoriqueDAchèvement.getMonth() + payload.delayInMonths
-                )
-              )
+                  dateThéoriqueDAchèvement.getMonth() + payload.delayInMonths,
+                ),
+              );
 
               return new DélaiDemandé({
                 payload: {
@@ -73,21 +75,23 @@ export default {
                   occurredAt,
                   version: 1,
                 },
-              })
+              });
             }
-          })
+          }),
         )
-      ).filter((e): e is DélaiDemandé => e?.type === 'DélaiDemandé')
+      ).filter((e): e is DélaiDemandé => e?.type === 'DélaiDemandé');
 
-      console.log(`${nouveauxÉvénements.length} nouveaux événements DélaiDemandé vont être ajoutés`)
+      console.log(
+        `${nouveauxÉvénements.length} nouveaux événements DélaiDemandé vont être ajoutés`,
+      );
 
-      await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction })
+      await EventStore.bulkCreate(nouveauxÉvénements.map(toPersistance), { transaction });
 
       await Promise.all(
-        nouveauxÉvénements.map((délaiDemandé) => onDélaiDemandé(délaiDemandé, transaction))
-      )
+        nouveauxÉvénements.map((délaiDemandé) => onDélaiDemandé(délaiDemandé, transaction)),
+      );
 
-      const modificationRequestIds = nouveauxÉvénements.map((dd) => dd.payload.demandeDélaiId)
+      const modificationRequestIds = nouveauxÉvénements.map((dd) => dd.payload.demandeDélaiId);
       await ProjectEvent.destroy({
         where: {
           type: 'ModificationRequested',
@@ -96,14 +100,14 @@ export default {
           },
         },
         transaction,
-      })
+      });
 
-      await transaction.commit()
+      await transaction.commit();
     } catch (error) {
-      await transaction.rollback()
-      throw error
+      await transaction.rollback();
+      throw error;
     }
   },
 
   down: async (queryInterface, Sequelize) => {},
-}
+};

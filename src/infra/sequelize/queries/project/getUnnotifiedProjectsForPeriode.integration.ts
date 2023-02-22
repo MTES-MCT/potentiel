@@ -1,14 +1,14 @@
-import models from '../../models'
-import { resetDatabase } from '../../helpers'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import { getUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode'
-import { v4 as uuid } from 'uuid'
+import models from '../../models';
+import { resetDatabase } from '../../helpers';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import { getUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode';
+import { v4 as uuid } from 'uuid';
 
 describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
-  const appelOffreId = 'appelOffre1'
-  const periodeId = 'periode1'
+  const appelOffreId = 'appelOffre1';
+  const periodeId = 'periode1';
 
-  const projectId = uuid()
+  const projectId = uuid();
 
   const fakeProjects = [
     {
@@ -38,24 +38,24 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
       periodeId: 'periode1',
       notifiedOn: 0,
     },
-  ].map(makeFakeProject)
+  ].map(makeFakeProject);
 
   beforeAll(async () => {
-    await resetDatabase()
+    await resetDatabase();
 
-    const ProjectModel = models.Project
-    await ProjectModel.bulkCreate(fakeProjects)
-  })
+    const ProjectModel = models.Project;
+    await ProjectModel.bulkCreate(fakeProjects);
+  });
 
   it('should return a list of UnnotifiedProjectDTOs for projects that have not been notified for the specific periode', async () => {
-    const projectsResult = await getUnnotifiedProjectsForPeriode(appelOffreId, periodeId)
+    const projectsResult = await getUnnotifiedProjectsForPeriode(appelOffreId, periodeId);
 
-    expect(projectsResult.isOk()).toBe(true)
-    if (projectsResult.isErr()) return
+    expect(projectsResult.isOk()).toBe(true);
+    if (projectsResult.isErr()) return;
 
-    const projects = projectsResult.value
+    const projects = projectsResult.value;
 
-    expect(projects).toHaveLength(1)
+    expect(projects).toHaveLength(1);
     expect(projects).toEqual(
       expect.arrayContaining([
         {
@@ -64,7 +64,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
           candidateName: 'john doe',
           familleId: 'famille1',
         },
-      ])
-    )
-  })
-})
+      ]),
+    );
+  });
+});

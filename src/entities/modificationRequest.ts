@@ -7,55 +7,55 @@ import {
   Static,
   Undefined,
   Partial,
-} from '../types/schemaTypes'
-import buildMakeEntity from '../helpers/buildMakeEntity'
-import { projectSchema } from './project'
-import { userSchema } from './user'
+} from '../types/schemaTypes';
+import buildMakeEntity from '../helpers/buildMakeEntity';
+import { projectSchema } from './project';
+import { userSchema } from './user';
 
 const baseModificationRequestSchema = Record({
   id: String,
   userId: String,
   projectId: String,
-})
+});
 
 const actionnaireSchema = Record({
   type: Literal('actionnaire'),
   actionnaire: String,
   fileId: String,
-})
+});
 const producteurSchema = Record({
   type: Literal('producteur'),
   producteur: String,
   fileId: String,
-})
+});
 const fournisseurSchema = Record({
   type: Literal('fournisseur'),
   fournisseur: String,
   evaluationCarbone: Number,
   justification: String,
   fileId: String,
-})
+});
 const puissanceSchema = Record({
   type: Literal('puissance'),
   puissance: Number.withConstraint((value) => value > 0),
-})
+});
 const abandonSchema = Record({
   type: Literal('abandon'),
   justification: String,
-})
+});
 const annulationAbandonSchema = Record({
   type: Literal('annulation abandon'),
   justification: String,
-})
+});
 const recoursSchema = Record({
   type: Literal('recours'),
   justification: String,
-})
+});
 const delaiSchema = Record({
   type: Literal('delai'),
   justification: String,
   delayInMonths: Number,
-})
+});
 
 const modificationRequestSchema = baseModificationRequestSchema
   .And(
@@ -67,8 +67,8 @@ const modificationRequestSchema = baseModificationRequestSchema
       abandonSchema,
       recoursSchema,
       delaiSchema,
-      annulationAbandonSchema
-    )
+      annulationAbandonSchema,
+    ),
   )
   .And(
     Partial({
@@ -81,10 +81,10 @@ const modificationRequestSchema = baseModificationRequestSchema
         Literal('en instruction'),
         Literal('en validation'),
         Literal('validée'),
-        Literal('refusée')
+        Literal('refusée'),
       ),
-    })
-  )
+    }),
+  );
 
 const fields: string[] = [
   'fileId',
@@ -102,23 +102,23 @@ const fields: string[] = [
   'delayInMonths',
   'status',
   ...Object.keys(baseModificationRequestSchema.fields),
-]
+];
 
 type ModificationRequest = Static<typeof modificationRequestSchema> & {
   attachmentFile?: {
-    id: string
-    filename: string
-  }
-}
+    id: string;
+    filename: string;
+  };
+};
 
 interface MakeModificationRequestDependencies {
-  makeId: () => string
+  makeId: () => string;
 }
 
 export default ({ makeId }: MakeModificationRequestDependencies) =>
   buildMakeEntity<ModificationRequest>(modificationRequestSchema, makeId, fields, {
     requestedOn: () => Date.now(),
     status: () => 'envoyée',
-  })
+  });
 
-export { ModificationRequest }
+export { ModificationRequest };

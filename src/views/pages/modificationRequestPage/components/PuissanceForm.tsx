@@ -1,29 +1,29 @@
-import React from 'react'
-import { dataId } from '../../../../helpers/testId'
+import React from 'react';
+import { dataId } from '../../../../helpers/testId';
 import {
   exceedsPuissanceMaxDuVolumeReserve,
   exceedsRatiosChangementPuissance,
   getRatiosChangementPuissance,
   getVolumeReserve,
-} from '@modules/demandeModification/demandeChangementDePuissance'
+} from '@modules/demandeModification/demandeChangementDePuissance';
 
-import { InputCheckbox } from '@components'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos'
+import { InputCheckbox } from '@components';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest/dtos';
 
 type PuissanceFormProps = {
-  modificationRequest: ModificationRequestPageDTO & { type: 'puissance' }
-}
+  modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
+};
 
 export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
-  const { project, puissance: nouvellePuissance } = modificationRequest
-  const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance })
-  const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance })
-  const ratios = getRatiosChangementPuissance(project)
-  const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre)
+  const { project, puissance: nouvellePuissance } = modificationRequest;
+  const exceedsRatios = exceedsRatiosChangementPuissance({ project, nouvellePuissance });
+  const exceedsPuissanceMax = exceedsPuissanceMaxDuVolumeReserve({ project, nouvellePuissance });
+  const ratios = getRatiosChangementPuissance(project);
+  const reservedVolume = project.appelOffre && getVolumeReserve(project.appelOffre);
 
   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(
-    project.cahierDesChargesActuel
-  )
+    project.cahierDesChargesActuel,
+  );
 
   return (
     <>
@@ -70,5 +70,5 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { ClockIcon } from '@components'
+import { ClockIcon } from '@components';
 
 export const NextUpIcon = () => (
   <div className="h-9 flex items-center">
@@ -10,4 +10,4 @@ export const NextUpIcon = () => (
       <ClockIcon className="h-5 w-5 text-white" title="étape à venir" />
     </span>
   </div>
-)
+);

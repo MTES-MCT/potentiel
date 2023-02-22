@@ -1,18 +1,18 @@
-import { logger } from '@core/utils'
-import { ProjectRepo, UserRepo } from '@dataAccess'
-import { DélaiDemandé } from '@modules/demandeModification'
-import routes from '@routes'
-import { NotificationService } from '../..'
-import { GetInfoForModificationRequested } from '../../queries'
+import { logger } from '@core/utils';
+import { ProjectRepo, UserRepo } from '@dataAccess';
+import { DélaiDemandé } from '@modules/demandeModification';
+import routes from '@routes';
+import { NotificationService } from '../..';
+import { GetInfoForModificationRequested } from '../../queries';
 
-type OnDélaiDemandé = (evenement: DélaiDemandé) => Promise<void>
+type OnDélaiDemandé = (evenement: DélaiDemandé) => Promise<void>;
 
 type MakeOnDélaiDemandé = (dépendances: {
-  sendNotification: NotificationService['sendNotification']
-  getInfoForModificationRequested: GetInfoForModificationRequested
-  findUsersForDreal: UserRepo['findUsersForDreal']
-  findProjectById: ProjectRepo['findById']
-}) => OnDélaiDemandé
+  sendNotification: NotificationService['sendNotification'];
+  getInfoForModificationRequested: GetInfoForModificationRequested;
+  findUsersForDreal: UserRepo['findUsersForDreal'];
+  findProjectById: ProjectRepo['findById'];
+}) => OnDélaiDemandé;
 
 export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
   ({ sendNotification, getInfoForModificationRequested, findUsersForDreal, findProjectById }) =>
@@ -37,20 +37,20 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
             modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
             document_absent: '', // injecting an empty string will prevent the default "with document" message to be injected in the email body
           },
-        })
+        });
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
+        logger.error(e);
+      },
+    );
 
-    const project = await findProjectById(projectId)
+    const project = await findProjectById(projectId);
 
     if (project && autorité === 'dreal') {
-      const regions = project.regionProjet.split(' / ')
+      const regions = project.regionProjet.split(' / ');
       await Promise.all(
         regions.map(async (region) => {
-          const drealUsers = await findUsersForDreal(region)
+          const drealUsers = await findUsersForDreal(region);
 
           await Promise.all(
             drealUsers.map((drealUser) =>
@@ -73,10 +73,10 @@ export const makeOnDélaiDemandé: MakeOnDélaiDemandé =
                   type_demande: 'delai',
                   modification_request_url: routes.DEMANDE_PAGE_DETAILS(demandeDélaiId),
                 },
-              })
-            )
-          )
-        })
-      )
+              }),
+            ),
+          );
+        }),
+      );
     }
-  }
+  };

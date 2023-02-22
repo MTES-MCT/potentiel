@@ -1,2 +1,2 @@
-export * from './authN.eventHandlers'
-export * from './authNEventSubscriber'
+export * from './authN.eventHandlers';
+export * from './authNEventSubscriber';

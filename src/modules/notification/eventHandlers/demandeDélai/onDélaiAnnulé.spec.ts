@@ -1,13 +1,13 @@
-import { okAsync } from '@core/utils'
-import { User } from '@entities'
-import { DélaiAnnulé } from '@modules/demandeModification'
-import { makeOnDélaiAnnulé } from './onDélaiAnnulé'
+import { okAsync } from '@core/utils';
+import { User } from '@entities';
+import { DélaiAnnulé } from '@modules/demandeModification';
+import { makeOnDélaiAnnulé } from './onDélaiAnnulé';
 
 describe(`Notifier lorsqu'un délai est annulé`, () => {
   describe(`Notifier les porteurs ayant accès au projet`, () => {
     it(`  Quand un délai est annulé
           Alors tous les porteurs ayant accès au projet devrait être notifié`, async () => {
-      const sendNotification = jest.fn(async () => null)
+      const sendNotification = jest.fn(async () => null);
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [
@@ -28,7 +28,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
 
       const onDélaiAnnulé = makeOnDélaiAnnulé({
         sendNotification,
@@ -36,7 +36,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
         dgecEmail: 'dgec@email.test',
         getModificationRequestRecipient: () => okAsync('dgec' as 'dgec'),
         findUsersForDreal: jest.fn(),
-      })
+      });
 
       await onDélaiAnnulé(
         new DélaiAnnulé({
@@ -45,10 +45,10 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             projetId: 'le-projet',
             annuléPar: 'le-porteur',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(3)
+      expect(sendNotification).toHaveBeenCalledTimes(3);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -61,8 +61,8 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -75,15 +75,15 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             nom_projet: 'nom-du-projet',
             type_demande: 'delai',
           }),
-        })
-      )
-    })
-  })
+        }),
+      );
+    });
+  });
   describe(`Notifier la DGEC`, () => {
     it(`  Quand un délai est annulé sous l'autorité de la DGEC
           Alors le bureau de la DGEC devrait être notifié`, async () => {
-      const sendNotification = jest.fn(async () => null)
-      const getModificationRequestRecipient = () => okAsync('dgec' as 'dgec')
+      const sendNotification = jest.fn(async () => null);
+      const getModificationRequestRecipient = () => okAsync('dgec' as 'dgec');
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [],
@@ -91,7 +91,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'region',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
 
       const onDélaiAnnulé = makeOnDélaiAnnulé({
         sendNotification,
@@ -99,7 +99,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
         getModificationRequestRecipient,
         dgecEmail: 'dgec@email.test',
         findUsersForDreal: jest.fn(),
-      })
+      });
 
       await onDélaiAnnulé(
         new DélaiAnnulé({
@@ -108,10 +108,10 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             projetId: 'le-projet',
             annuléPar: 'le-porteur',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(1)
+      expect(sendNotification).toHaveBeenCalledTimes(1);
       expect(sendNotification).toHaveBeenCalledWith(
         expect.objectContaining({
           type: 'modification-request-cancelled',
@@ -127,15 +127,15 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             type_demande: 'delai',
             departement_projet: 'departement',
           }),
-        })
-      )
-    })
-  })
+        }),
+      );
+    });
+  });
   describe(`Notifier les DREALs`, () => {
     it(`  Quand un délai est annulé sous l'autorité des DREALs
           Alors tous les agents de la DREAL des régions du projet devraient être notifiés`, async () => {
-      const sendNotification = jest.fn(async () => null)
-      const getModificationRequestRecipient = () => okAsync('dreal' as 'dreal')
+      const sendNotification = jest.fn(async () => null);
+      const getModificationRequestRecipient = () => okAsync('dreal' as 'dreal');
       const getModificationRequestInfoForStatusNotification = () =>
         okAsync({
           porteursProjet: [],
@@ -143,13 +143,13 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
           regionProjet: 'regionA / regionB',
           departementProjet: 'departement',
           type: 'delai',
-        })
+        });
       const findUsersForDreal = (region: string) =>
         Promise.resolve(
           region === 'regionA'
             ? [{ email: 'drealA@test.test', fullName: 'drealA' } as User]
-            : [{ email: 'drealB@test.test', fullName: 'drealB' } as User]
-        )
+            : [{ email: 'drealB@test.test', fullName: 'drealB' } as User],
+        );
 
       const onDélaiAnnulé = makeOnDélaiAnnulé({
         sendNotification,
@@ -157,7 +157,7 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
         getModificationRequestRecipient,
         dgecEmail: 'dgec@email.test',
         findUsersForDreal,
-      })
+      });
 
       await onDélaiAnnulé(
         new DélaiAnnulé({
@@ -166,10 +166,10 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             projetId: 'le-projet',
             annuléPar: 'le-porteur',
           },
-        })
-      )
+        }),
+      );
 
-      expect(sendNotification).toHaveBeenCalledTimes(2)
+      expect(sendNotification).toHaveBeenCalledTimes(2);
       expect(sendNotification).toHaveBeenNthCalledWith(
         1,
         expect.objectContaining({
@@ -186,8 +186,8 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             type_demande: 'delai',
             departement_projet: 'departement',
           }),
-        })
-      )
+        }),
+      );
       expect(sendNotification).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
@@ -204,8 +204,8 @@ describe(`Notifier lorsqu'un délai est annulé`, () => {
             type_demande: 'delai',
             departement_projet: 'departement',
           }),
-        })
-      )
-    })
-  })
-})
+        }),
+      );
+    });
+  });
+});

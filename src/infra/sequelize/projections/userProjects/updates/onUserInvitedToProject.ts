@@ -1,13 +1,13 @@
-import { logger } from '@core/utils'
-import { UserInvitedToProject } from '@modules/authZ'
+import { logger } from '@core/utils';
+import { UserInvitedToProject } from '@modules/authZ';
 
 export const onUserInvitedToProject = (models) => async (event: UserInvitedToProject) => {
-  const { UserProjects } = models
-  const { userId, projectIds } = event.payload
+  const { UserProjects } = models;
+  const { userId, projectIds } = event.payload;
 
   try {
-    await UserProjects.bulkCreate(projectIds.map((projectId) => ({ userId, projectId })))
+    await UserProjects.bulkCreate(projectIds.map((projectId) => ({ userId, projectId })));
   } catch (e) {
-    logger.error(e)
+    logger.error(e);
   }
-}
+};

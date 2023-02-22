@@ -1,15 +1,15 @@
-import { DélaiAccordé } from '@modules/demandeModification'
-import { ResultAsync } from '@core/utils'
-import { InfraNotAvailableError } from '@modules/shared'
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { Project, ProjectCompletionDueDateSet } from '@modules/project'
+import { DélaiAccordé } from '@modules/demandeModification';
+import { ResultAsync } from '@core/utils';
+import { InfraNotAvailableError } from '@modules/shared';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { Project, ProjectCompletionDueDateSet } from '@modules/project';
 
-type OnDélaiAccordé = (event: DélaiAccordé) => ResultAsync<null, InfraNotAvailableError>
+type OnDélaiAccordé = (event: DélaiAccordé) => ResultAsync<null, InfraNotAvailableError>;
 
 type MakeOnDélaiAccordé = (dépendances: {
-  projectRepo: TransactionalRepository<Project>
-  publishToEventStore: EventStore['publish']
-}) => OnDélaiAccordé
+  projectRepo: TransactionalRepository<Project>;
+  publishToEventStore: EventStore['publish'];
+}) => OnDélaiAccordé;
 
 export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
   ({ projectRepo, publishToEventStore }) =>
@@ -22,6 +22,6 @@ export const makeOnDélaiAccordé: MakeOnDélaiAccordé =
             setBy: accordéPar,
             completionDueOn: dateAchèvementAccordée.getTime(),
           },
-        })
-      )
-    )
+        }),
+      ),
+    );

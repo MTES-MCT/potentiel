@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { AbandonAccordé } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { AbandonAccordé } from '@modules/demandeModification';
 
 export const onAbandonAccordé =
   (models) =>
   async ({ payload, occurredAt }: AbandonAccordé) => {
-    const { demandeAbandonId, accordéPar, fichierRéponseId } = payload
+    const { demandeAbandonId, accordéPar, fichierRéponseId } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.update(
         {
@@ -16,9 +16,9 @@ export const onAbandonAccordé =
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
         },
-        { where: { id: demandeAbandonId } }
-      )
+        { where: { id: demandeAbandonId } },
+      );
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

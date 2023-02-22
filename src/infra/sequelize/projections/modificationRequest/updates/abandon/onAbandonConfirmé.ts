@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { AbandonConfirmé } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { AbandonConfirmé } from '@modules/demandeModification';
 
 export const onAbandonConfirmé =
   (models) =>
   async ({ payload, occurredAt }: AbandonConfirmé) => {
-    const { demandeAbandonId, confirméPar } = payload
+    const { demandeAbandonId, confirméPar } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.update(
         {
@@ -15,9 +15,9 @@ export const onAbandonConfirmé =
           confirmedOn: occurredAt.getTime(),
           versionDate: occurredAt,
         },
-        { where: { id: demandeAbandonId } }
-      )
+        { where: { id: demandeAbandonId } },
+      );
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

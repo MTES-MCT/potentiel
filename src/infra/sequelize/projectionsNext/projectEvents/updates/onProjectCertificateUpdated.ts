@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '@core/domain'
-import { ProjectCertificateUpdated } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ProjectCertificateUpdated } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ProjectCertificateUpdated,
@@ -14,7 +14,7 @@ export default ProjectEventProjector.on(
         id: new UniqueEntityID().toString(),
         payload: { certificateFileId },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

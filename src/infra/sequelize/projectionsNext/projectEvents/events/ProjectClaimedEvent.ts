@@ -1,9 +1,9 @@
-import { ProjectEvent } from '..'
+import { ProjectEvent } from '..';
 
 export type ProjectClaimedEvent = ProjectEvent & {
-  type: 'ProjectClaimed'
+  type: 'ProjectClaimed';
   payload: {
-    attestationDesignationFileId: string
-    claimedBy: string
-  }
-}
+    attestationDesignationFileId: string;
+    claimedBy: string;
+  };
+};

@@ -1,27 +1,27 @@
-import { resetDatabase } from '../../../helpers'
-import { ProjectReimported } from '@modules/project'
-import makeFakeProject from '../../../../../__tests__/fixtures/project'
-import models from '../../../models'
-import { onProjectReimported } from './onProjectReimported'
-import { UniqueEntityID } from '@core/domain'
+import { resetDatabase } from '../../../helpers';
+import { ProjectReimported } from '@modules/project';
+import makeFakeProject from '../../../../../__tests__/fixtures/project';
+import models from '../../../models';
+import { onProjectReimported } from './onProjectReimported';
+import { UniqueEntityID } from '@core/domain';
 
 describe('project.onProjectReimported', () => {
-  const projectId = new UniqueEntityID().toString()
+  const projectId = new UniqueEntityID().toString();
 
   const fakeProject = makeFakeProject({
     id: projectId,
     email: 'email',
     numeroCRE: 'numeroCRE',
     details: { param1: 'value1', param2: 'value2' },
-  })
-  delete fakeProject.potentielIdentifier
+  });
+  delete fakeProject.potentielIdentifier;
 
-  const { Project } = models
+  const { Project } = models;
 
   beforeAll(async () => {
-    await resetDatabase()
+    await resetDatabase();
 
-    await Project.create(fakeProject)
+    await Project.create(fakeProject);
 
     await onProjectReimported(models)(
       new ProjectReimported({
@@ -41,13 +41,13 @@ describe('project.onProjectReimported', () => {
           version: 1,
           occurredAt: new Date(1234),
         },
-      })
-    )
-  })
+      }),
+    );
+  });
 
   it('should update the project with the delta', async () => {
-    const updatedProject = await Project.findByPk(projectId)
-    expect(updatedProject).not.toEqual(null)
+    const updatedProject = await Project.findByPk(projectId);
+    expect(updatedProject).not.toEqual(null);
 
     expect(updatedProject).toMatchObject({
       email: 'email2',
@@ -56,6 +56,6 @@ describe('project.onProjectReimported', () => {
         param1: 'value1',
         param2: 'value2bis',
       },
-    })
-  })
-})
+    });
+  });
+});

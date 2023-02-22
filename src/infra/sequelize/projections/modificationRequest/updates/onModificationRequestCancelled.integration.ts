@@ -1,19 +1,19 @@
-import { UniqueEntityID } from '@core/domain'
-import models from '../../../models'
-import { onModificationRequestCancelled } from './onModificationRequestCancelled'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
-import { resetDatabase } from '@dataAccess'
+import { UniqueEntityID } from '@core/domain';
+import models from '../../../models';
+import { onModificationRequestCancelled } from './onModificationRequestCancelled';
+import { ModificationRequestCancelled } from '@modules/modificationRequest';
+import { resetDatabase } from '@dataAccess';
 
 describe(`Projection de l'annulation d'une demande`, () => {
-  const { ModificationRequest } = models
+  const { ModificationRequest } = models;
 
-  const modificationRequestId = new UniqueEntityID().toString()
-  const projectId = new UniqueEntityID().toString()
-  const userId = new UniqueEntityID().toString()
+  const modificationRequestId = new UniqueEntityID().toString();
+  const projectId = new UniqueEntityID().toString();
+  const userId = new UniqueEntityID().toString();
 
   beforeEach(async () => {
     // Create the tables and remove all data
-    await resetDatabase()
+    await resetDatabase();
 
     await ModificationRequest.create({
       id: modificationRequestId,
@@ -22,7 +22,7 @@ describe(`Projection de l'annulation d'une demande`, () => {
       type: 'abandon',
       status: 'envoyée',
       requestedOn: 1,
-    })
+    });
 
     await onModificationRequestCancelled(models)(
       new ModificationRequestCancelled({
@@ -34,18 +34,18 @@ describe(`Projection de l'annulation d'une demande`, () => {
           version: 1,
           occurredAt: new Date(123),
         },
-      })
-    )
-  })
+      }),
+    );
+  });
 
   it('should update status to demande annulée', async () => {
-    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest?.status).toEqual('annulée')
-  })
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId);
+    expect(updatedModificationRequest?.status).toEqual('annulée');
+  });
 
   it('should set cancelledBy and cancelledOn', async () => {
-    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId)
-    expect(updatedModificationRequest?.cancelledBy).toEqual(userId)
-    expect(updatedModificationRequest?.cancelledOn).toEqual(123)
-  })
-})
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId);
+    expect(updatedModificationRequest?.cancelledBy).toEqual(userId);
+    expect(updatedModificationRequest?.cancelledOn).toEqual(123);
+  });
+});

@@ -1,52 +1,58 @@
-import { DomainEvent, EventStore, EventStoreAggregate, Repository, UniqueEntityID } from '../domain'
-import { errAsync, okAsync, Result, ResultAsync } from '.'
+import {
+  DomainEvent,
+  EventStore,
+  EventStoreAggregate,
+  Repository,
+  UniqueEntityID,
+} from '../domain';
+import { errAsync, okAsync, Result, ResultAsync } from '.';
 import {
   AggregateHasBeenUpdatedSinceError,
   EntityNotFoundError,
   HeterogeneousHistoryError,
-} from '@modules/shared'
+} from '@modules/shared';
 
 type AggregateFromHistoryFn<T> = (args: {
-  events: DomainEvent[]
-  id: UniqueEntityID
-}) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>
+  events: DomainEvent[];
+  id: UniqueEntityID;
+}) => Result<T, EntityNotFoundError | HeterogeneousHistoryError>;
 
 export const makeEventStoreRepo = <T extends EventStoreAggregate>(deps: {
-  eventStore: EventStore
-  makeAggregate: AggregateFromHistoryFn<T>
+  eventStore: EventStore;
+  makeAggregate: AggregateFromHistoryFn<T>;
 }): Repository<T> => ({
   load(id: UniqueEntityID) {
-    let events: DomainEvent[] = []
+    let events: DomainEvent[] = [];
     return deps.eventStore
       .transaction(id, (aggregateEvents) => {
-        events = aggregateEvents
-        return okAsync<DomainEvent[], never>([])
+        events = aggregateEvents;
+        return okAsync<DomainEvent[], never>([]);
       })
-      .andThen(() => deps.makeAggregate({ events, id }))
+      .andThen(() => deps.makeAggregate({ events, id }));
   },
 
   save(aggregate: T) {
-    if (!aggregate.pendingEvents.length) return okAsync(null)
+    if (!aggregate.pendingEvents.length) return okAsync(null);
 
     return deps.eventStore.transaction(aggregate.id, (events) => {
       return deps
         .makeAggregate({ events, id: aggregate.id })
         .asyncAndThen(
           (
-            newestAggregate: T
+            newestAggregate: T,
           ): ResultAsync<readonly DomainEvent[], AggregateHasBeenUpdatedSinceError> => {
             const aggregateHasBeenUpdated =
               newestAggregate.lastUpdatedOn &&
               aggregate.lastUpdatedOn &&
-              newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn
+              newestAggregate.lastUpdatedOn > aggregate.lastUpdatedOn;
             if (aggregateHasBeenUpdated) {
               // Return error if aggregate has a newer version
-              return errAsync(new AggregateHasBeenUpdatedSinceError())
+              return errAsync(new AggregateHasBeenUpdatedSinceError());
             }
 
-            return okAsync(aggregate.pendingEvents)
-          }
-        )
-    })
+            return okAsync(aggregate.pendingEvents);
+          },
+        );
+    });
   },
-})
+});

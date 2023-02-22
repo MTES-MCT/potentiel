@@ -1,14 +1,14 @@
-import { UniqueEntityID } from '@core/domain'
-import { AppelOffreRemoved } from '@modules/appelOffre'
-import { describeProjector } from '../../../__tests__/projections'
-import models from '../../../models'
-import { onAppelOffreRemoved, onAppelOffreRemovedRemovePeriodes } from './onAppelOffreRemoved'
+import { UniqueEntityID } from '@core/domain';
+import { AppelOffreRemoved } from '@modules/appelOffre';
+import { describeProjector } from '../../../__tests__/projections';
+import models from '../../../models';
+import { onAppelOffreRemoved, onAppelOffreRemovedRemovePeriodes } from './onAppelOffreRemoved';
 
-const { AppelOffre, Periode } = models
+const { AppelOffre, Periode } = models;
 
-const appelOffreId = new UniqueEntityID().toString()
-const otherAppelOffreId = new UniqueEntityID().toString()
-const periodeId = new UniqueEntityID().toString()
+const appelOffreId = new UniqueEntityID().toString();
+const otherAppelOffreId = new UniqueEntityID().toString();
+const periodeId = new UniqueEntityID().toString();
 
 describeProjector(onAppelOffreRemoved)
   .onEvent(
@@ -17,7 +17,7 @@ describeProjector(onAppelOffreRemoved)
         appelOffreId,
         removedBy: '',
       },
-    })
+    }),
   )
   .shouldDelete({
     model: AppelOffre,
@@ -37,7 +37,7 @@ describeProjector(onAppelOffreRemoved)
         data: {},
       },
     ],
-  })
+  });
 
 describeProjector(onAppelOffreRemovedRemovePeriodes)
   .onEvent(
@@ -46,7 +46,7 @@ describeProjector(onAppelOffreRemovedRemovePeriodes)
         appelOffreId,
         removedBy: '',
       },
-    })
+    }),
   )
   .shouldDelete({
     model: Periode,
@@ -69,4 +69,4 @@ describeProjector(onAppelOffreRemovedRemovePeriodes)
         data: {},
       },
     ],
-  })
+  });

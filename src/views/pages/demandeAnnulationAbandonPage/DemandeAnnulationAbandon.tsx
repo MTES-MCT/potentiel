@@ -6,38 +6,38 @@ import {
   PageTemplate,
   ProjectInfo,
   SuccessBox,
-} from '@components'
-import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components'
-import ROUTES from '@routes'
-import React from 'react'
-import { Request } from 'express'
-import { DemandeAnnulationAbandonPageDTO } from '@modules/modificationRequest'
+} from '@components';
+import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
+import ROUTES from '@routes';
+import React from 'react';
+import { Request } from 'express';
+import { DemandeAnnulationAbandonPageDTO } from '@modules/modificationRequest';
 import {
   hydrateOnClient,
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
-} from '../../helpers'
-import { formatDate } from '../../../helpers/formatDate'
-import { userIs } from '@modules/users'
+} from '../../helpers';
+import { formatDate } from '../../../helpers/formatDate';
+import { userIs } from '@modules/users';
 
 type DemandeAnnulationAbandonProps = {
-  request: Request
-  modificationRequest: DemandeAnnulationAbandonPageDTO
-}
+  request: Request;
+  modificationRequest: DemandeAnnulationAbandonPageDTO;
+};
 
 export const DemandeAnnulationAbandon = ({
   request,
   modificationRequest,
 }: DemandeAnnulationAbandonProps) => {
-  const { user } = request
-  const { error, success } = request.query as any
+  const { user } = request;
+  const { error, success } = request.query as any;
   const { id, status, respondedOn, respondedBy, cancelledOn, cancelledBy, responseFile } =
-    modificationRequest
+    modificationRequest;
 
-  const isAdmin = userIs(['admin', 'dgec-validateur'])(user)
+  const isAdmin = userIs(['admin', 'dgec-validateur'])(user);
   const showFormulaireAdministrateur =
-    isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status)
+    isAdmin && !['rejetée', 'acceptée', 'annulée'].includes(status);
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
       <div className="panel">
@@ -97,7 +97,7 @@ export const DemandeAnnulationAbandon = ({
           )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(DemandeAnnulationAbandon)
+hydrateOnClient(DemandeAnnulationAbandon);

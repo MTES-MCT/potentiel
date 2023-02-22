@@ -1,18 +1,18 @@
-import { UniqueEntityID } from '@core/domain'
-import { logger } from '@core/utils'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
-import { DonnéesDeRaccordementRenseignées } from '@modules/project'
-import { ProjectionEnEchec } from '@modules/shared'
+import { UniqueEntityID } from '@core/domain';
+import { logger } from '@core/utils';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { DonnéesDeRaccordementRenseignées } from '@modules/project';
+import { ProjectionEnEchec } from '@modules/shared';
 
 export default ProjectEventProjector.on(
   DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
-    const { payload, occurredAt } = évènement
-    const { projetId } = payload
+    const { payload, occurredAt } = évènement;
+    const { projetId } = payload;
     const projectEventDateMiseEnService = await ProjectEvent.findOne({
       where: { projectId: projetId, type: 'DateMiseEnService' },
       transaction,
-    })
+    });
 
     if ('dateMiseEnService' in payload) {
       try {
@@ -28,8 +28,8 @@ export default ProjectEventProjector.on(
               dateMiseEnService: payload.dateMiseEnService,
             },
           },
-          { transaction }
-        )
+          { transaction },
+        );
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
@@ -38,9 +38,9 @@ export default ProjectEventProjector.on(
               évènement,
               nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
             },
-            error
-          )
-        )
+            error,
+          ),
+        );
       }
     }
 
@@ -48,7 +48,7 @@ export default ProjectEventProjector.on(
       const projectEventDateFileAttente = await ProjectEvent.findOne({
         where: { projectId: projetId, type: 'DateFileAttente' },
         transaction,
-      })
+      });
 
       try {
         await ProjectEvent.upsert(
@@ -62,8 +62,8 @@ export default ProjectEventProjector.on(
               dateFileAttente: payload.dateFileAttente,
             },
           },
-          { transaction }
-        )
+          { transaction },
+        );
       } catch (error) {
         logger.error(
           new ProjectionEnEchec(
@@ -72,12 +72,12 @@ export default ProjectEventProjector.on(
               évènement,
               nomProjection: 'ProjectEvent.onDonnéesDeRaccordementRenseignées',
             },
-            error
-          )
-        )
+            error,
+          ),
+        );
       }
     }
 
-    return
-  }
-)
+    return;
+  },
+);

@@ -1,4 +1,4 @@
-import { QueryInterface, DataTypes } from 'sequelize'
+import { QueryInterface, DataTypes } from 'sequelize';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {
@@ -54,17 +54,17 @@ module.exports = {
       },
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
-    })
+    });
 
     queryInterface.addConstraint('garantiesFinancières', {
       fields: ['projetId'],
       type: 'unique',
       name: 'GF_unique_par-projet',
-    })
+    });
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.removeConstraint('garantiesFinancières', 'GF_unique_par-projet')
-    await queryInterface.dropTable('garantiesFinancières')
+    await queryInterface.removeConstraint('garantiesFinancières', 'GF_unique_par-projet');
+    await queryInterface.dropTable('garantiesFinancières');
   },
-}
+};

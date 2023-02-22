@@ -1,6 +1,6 @@
-import { InfraNotAvailableError } from '@modules/shared'
-import { ResultAsync } from './Result'
-import { logger } from './logger'
+import { InfraNotAvailableError } from '@modules/shared';
+import { ResultAsync } from './Result';
+import { logger } from './logger';
 
 /**
  * Wrap an infrastructure promise (db query, api call, ...) in a ResultAsync
@@ -8,6 +8,6 @@ import { logger } from './logger'
  */
 export const wrapInfra = <T>(infraPromise: Promise<T>): ResultAsync<T, InfraNotAvailableError> =>
   ResultAsync.fromPromise(infraPromise, (e: any) => {
-    logger.error(e)
-    return new InfraNotAvailableError()
-  })
+    logger.error(e);
+    return new InfraNotAvailableError();
+  });

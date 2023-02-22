@@ -1,22 +1,22 @@
-import { UniqueEntityID } from '@core/domain'
-import { resetDatabase } from '../../../helpers'
-import { LegacyModificationImported } from '@modules/modificationRequest'
-import { ProjectEvent } from '..'
-import onLegacyModificationImported from './onLegacyModificationImported'
+import { UniqueEntityID } from '@core/domain';
+import { resetDatabase } from '../../../helpers';
+import { LegacyModificationImported } from '@modules/modificationRequest';
+import { ProjectEvent } from '..';
+import onLegacyModificationImported from './onLegacyModificationImported';
 
 describe('onLegacyModificationImported', () => {
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
   describe('when there already are events in ProjectEvents table', () => {
     it("should remove only the same project's legacy events", async () => {
-      const targetProjectId = new UniqueEntityID().toString()
-      const legacyTargetProject1 = new UniqueEntityID().toString()
-      const legacyTargetProject2 = new UniqueEntityID().toString()
-      const nonLegacyTargetProject = new UniqueEntityID().toString()
-      const importId = new UniqueEntityID().toString()
-      const otherProjectId = new UniqueEntityID().toString()
-      const legacyOtherProject = new UniqueEntityID().toString()
+      const targetProjectId = new UniqueEntityID().toString();
+      const legacyTargetProject1 = new UniqueEntityID().toString();
+      const legacyTargetProject2 = new UniqueEntityID().toString();
+      const nonLegacyTargetProject = new UniqueEntityID().toString();
+      const importId = new UniqueEntityID().toString();
+      const otherProjectId = new UniqueEntityID().toString();
+      const legacyOtherProject = new UniqueEntityID().toString();
 
       await ProjectEvent.create({
         // legacy event, same project
@@ -26,7 +26,7 @@ describe('onLegacyModificationImported', () => {
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
         payload: { modificationType: 'abandon' },
-      })
+      });
 
       await ProjectEvent.create({
         // legacy event, same project
@@ -36,7 +36,7 @@ describe('onLegacyModificationImported', () => {
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
         payload: { modificationType: 'abandon' },
-      })
+      });
 
       await ProjectEvent.create({
         // non legacy event, same project
@@ -46,7 +46,7 @@ describe('onLegacyModificationImported', () => {
         valueDate: new Date('2022-03-03').getTime(),
         type: 'ProjectImported',
         payload: { notifiedOn: 123 },
-      })
+      });
 
       await ProjectEvent.create({
         // legacy event, different project
@@ -56,10 +56,10 @@ describe('onLegacyModificationImported', () => {
         valueDate: new Date('2022-03-03').getTime(),
         type: 'LegacyModificationImported',
         payload: { modificationType: 'abandon' },
-      })
+      });
 
-      const projectEvents = await ProjectEvent.findAll()
-      expect(projectEvents).toHaveLength(4)
+      const projectEvents = await ProjectEvent.findAll();
+      expect(projectEvents).toHaveLength(4);
 
       await onLegacyModificationImported(
         new LegacyModificationImported({
@@ -72,24 +72,24 @@ describe('onLegacyModificationImported', () => {
             occurredAt: new Date('2022-01-01'),
             version: 1,
           },
-        })
-      )
+        }),
+      );
 
-      const res = await ProjectEvent.findAll()
-      expect(res).toHaveLength(2)
+      const res = await ProjectEvent.findAll();
+      expect(res).toHaveLength(2);
 
-      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject1 }))
-      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject2 }))
+      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject1 }));
+      expect(res).not.toContainEqual(expect.objectContaining({ id: legacyTargetProject2 }));
 
-      expect(res).toContainEqual(expect.objectContaining({ id: nonLegacyTargetProject }))
-      expect(res).toContainEqual(expect.objectContaining({ id: legacyOtherProject }))
-    })
-  })
+      expect(res).toContainEqual(expect.objectContaining({ id: nonLegacyTargetProject }));
+      expect(res).toContainEqual(expect.objectContaining({ id: legacyOtherProject }));
+    });
+  });
 
   describe('when a LegacyModificationImported event is emitted with modifications', () => {
-    const projectId = new UniqueEntityID()
-    const importId = new UniqueEntityID()
-    const occurredAt = new Date('2022-01-01')
+    const projectId = new UniqueEntityID();
+    const importId = new UniqueEntityID();
+    const occurredAt = new Date('2022-01-01');
 
     it('should save a new event in ProjectEvent for each modification', async () => {
       await onLegacyModificationImported(
@@ -149,22 +149,22 @@ describe('onLegacyModificationImported', () => {
             occurredAt,
             version: 1,
           },
-        })
-      )
+        }),
+      );
 
       const projectEvent = await ProjectEvent.findAll({
         where: { projectId: projectId.toString() },
-      })
+      });
 
-      expect(projectEvent).toHaveLength(6)
+      expect(projectEvent).toHaveLength(6);
       expect(projectEvent[0]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'abandon', filename: 'filename', status: 'acceptée' },
-      })
+      });
       expect(projectEvent[1]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'recours', status: 'acceptée', motifElimination: 'motif' },
-      })
+      });
       expect(projectEvent[2]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
@@ -173,7 +173,7 @@ describe('onLegacyModificationImported', () => {
           ancienneDateLimiteAchevement: new Date('2021-01-01').getTime(),
           status: 'acceptée',
         },
-      })
+      });
       expect(projectEvent[3]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
@@ -181,7 +181,7 @@ describe('onLegacyModificationImported', () => {
           actionnairePrecedent: 'nom ancien actionnaire',
           status: 'acceptée',
         },
-      })
+      });
       expect(projectEvent[4]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: {
@@ -189,11 +189,11 @@ describe('onLegacyModificationImported', () => {
           producteurPrecedent: 'nom ancien producteur',
           status: 'acceptée',
         },
-      })
+      });
       expect(projectEvent[5]).toMatchObject({
         type: 'LegacyModificationImported',
         payload: { modificationType: 'autre', column: 'col', value: 'val', status: 'acceptée' },
-      })
-    })
-  })
-})
+      });
+    });
+  });
+});

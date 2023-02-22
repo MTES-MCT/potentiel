@@ -1,2 +1,2 @@
-export * from './updates'
-export * from './garantiesFinancières.model'
+export * from './updates';
+export * from './garantiesFinancières.model';

@@ -1,5 +1,5 @@
-import React from 'react'
-import { DropdownMenu } from './DropdownMenu'
+import React from 'react';
+import { DropdownMenu } from './DropdownMenu';
 
 export default {
   title: 'Components/Molecules/DropdownMenu',
@@ -7,13 +7,13 @@ export default {
   argTypes: {
     children: { control: 'text', defaultValue: 'Menu' },
   },
-}
+};
 
 const Template = (args: Parameters<typeof DropdownMenu>[0]) => (
   <DropdownMenu className="inline-flex" {...args} />
-)
+);
 
-export const Default = Template.bind({})
+export const Default = Template.bind({});
 Default.args = {
   buttonChildren: `Exemple de menu déroulant`,
   children: (
@@ -22,4 +22,4 @@ Default.args = {
       <DropdownMenu.DropdownItem href="#">Menu 2</DropdownMenu.DropdownItem>
     </>
   ),
-} as Parameters<typeof DropdownMenu>[0]
+} as Parameters<typeof DropdownMenu>[0];

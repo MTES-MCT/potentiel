@@ -1,14 +1,14 @@
-import { ensureRole, getProjectAppelOffre } from '@config'
-import { shouldUserAccessProject } from '@config/useCases.config'
+import { ensureRole, getProjectAppelOffre } from '@config';
+import { shouldUserAccessProject } from '@config/useCases.config';
 
-import routes from '@routes'
-import { validateUniqueId } from '../../../helpers/validateUniqueId'
-import { notFoundResponse, unauthorizedResponse } from '../../helpers'
-import asyncHandler from '../../helpers/asyncHandler'
-import { v1Router } from '../../v1Router'
+import routes from '@routes';
+import { validateUniqueId } from '../../../helpers/validateUniqueId';
+import { notFoundResponse, unauthorizedResponse } from '../../helpers';
+import asyncHandler from '../../helpers/asyncHandler';
+import { v1Router } from '../../v1Router';
 
-import { ChangerProducteurPage } from '@views'
-import { Project } from '@infra/sequelize/projections'
+import { ChangerProducteurPage } from '@views';
+import { Project } from '@infra/sequelize/projections';
 
 v1Router.get(
   routes.GET_CHANGER_PRODUCTEUR(),
@@ -17,22 +17,22 @@ v1Router.get(
     const {
       user,
       params: { projectId },
-    } = request
+    } = request;
 
     if (!validateUniqueId(projectId)) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
     }
 
-    const project = await Project.findByPk(projectId)
+    const project = await Project.findByPk(projectId);
 
     if (!project) {
-      return notFoundResponse({ request, response, ressourceTitle: 'Projet' })
+      return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
     }
 
-    const { appelOffreId, periodeId, familleId } = project
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    const { appelOffreId, periodeId, familleId } = project;
+    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
     if (!appelOffre) {
-      return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' })
+      return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' });
     }
 
     // Changement de producteur interdit avant la date d'achèvement
@@ -42,20 +42,20 @@ v1Router.get(
         request,
         response,
         customMessage: `L'action demandée n'est pas possible pour ce projet`,
-      })
+      });
     }
 
     const userHasRightsToProject = await shouldUserAccessProject.check({
       user,
       projectId,
-    })
+    });
 
     if (!userHasRightsToProject) {
       return unauthorizedResponse({
         request,
         response,
         customMessage: `Votre compte ne vous permet pas d'accéder à cette page.`,
-      })
+      });
     }
 
     return response.send(
@@ -63,7 +63,7 @@ v1Router.get(
         request,
         project: { ...project.get(), unitePuissance: appelOffre.unitePuissance },
         appelOffre,
-      })
-    )
-  })
-)
+      }),
+    );
+  }),
+);

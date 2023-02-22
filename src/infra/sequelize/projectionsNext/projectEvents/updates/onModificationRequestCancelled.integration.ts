@@ -1,21 +1,21 @@
-import { resetDatabase } from '../../../helpers'
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
-import { ProjectEvent } from '..'
-import models from '../../../models'
-import onModificationRequestCancelled from './onModificationRequestCancelled'
-import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest'
+import { resetDatabase } from '../../../helpers';
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequestCancelled } from '@modules/modificationRequest';
+import { ProjectEvent } from '..';
+import models from '../../../models';
+import onModificationRequestCancelled from './onModificationRequestCancelled';
+import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 
-const { ModificationRequest } = models
+const { ModificationRequest } = models;
 
 describe('handler onModificationRequestCancelled', () => {
-  const projectId = new UniqueEntityID().toString()
-  const demandeId = new UniqueEntityID().toString()
-  const utilisateurId = new UniqueEntityID().toString()
-  const uneDate = new Date('2022-01-01').getTime()
+  const projectId = new UniqueEntityID().toString();
+  const demandeId = new UniqueEntityID().toString();
+  const utilisateurId = new UniqueEntityID().toString();
+  const uneDate = new Date('2022-01-01').getTime();
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   describe(`Traitement des événements de type 'délai'`, () => {
     describe(`Etant donné un événement de type ModificationRequestCancelled de sous-type 'delai' émis`, () => {
@@ -28,7 +28,7 @@ describe('handler onModificationRequestCancelled', () => {
           version: 1,
           occurredAt: new Date('2022-02-09'),
         },
-      })
+      });
       describe(`S'il y a un événement de type DemandeDélai de même id dans ProjectEvent`, () => {
         it(`Alors le statut de cet événement devrait être mis à jour pour passer en "annulé"`, async () => {
           /* On présume qu'il y a un événement de type délai dans la table ModificationRequest 
@@ -40,8 +40,8 @@ describe('handler onModificationRequestCancelled', () => {
               projectId,
               type: 'delai',
               status: 'envoyée',
-            })
-          )
+            }),
+          );
 
           // l'événement déjà présent dans ProjectEvent
           await ProjectEvent.create({
@@ -56,11 +56,11 @@ describe('handler onModificationRequestCancelled', () => {
               dateAchèvementDemandée: uneDate,
               demandeur: utilisateurId,
             },
-          })
+          });
 
-          await onModificationRequestCancelled(nouvelEvénementEmis)
+          await onModificationRequestCancelled(nouvelEvénementEmis);
 
-          const demandeDélai = await ProjectEvent.findOne({ where: { id: demandeId } })
+          const demandeDélai = await ProjectEvent.findOne({ where: { id: demandeId } });
 
           expect(demandeDélai).toMatchObject({
             id: demandeId,
@@ -75,9 +75,9 @@ describe('handler onModificationRequestCancelled', () => {
               annuléPar: utilisateurId,
               demandeur: utilisateurId,
             },
-          })
-        })
-      })
+          });
+        });
+      });
 
       describe(`S'il n'y a pas d'événement de type DemandeDélai de même id dans ProjectEvent`, () => {
         it(`Aucun événement ne doit être ajouté à ProjectEvent`, async () => {
@@ -90,24 +90,24 @@ describe('handler onModificationRequestCancelled', () => {
               projectId,
               type: 'delai',
               status: 'envoyée',
-            })
-          )
+            }),
+          );
 
-          await onModificationRequestCancelled(nouvelEvénementEmis)
+          await onModificationRequestCancelled(nouvelEvénementEmis);
 
           const DemandeDélai = await ProjectEvent.findOne({
             where: { id: demandeId },
-          })
-          expect(DemandeDélai).toBeNull()
-        })
-      })
-    })
-  })
+          });
+          expect(DemandeDélai).toBeNull();
+        });
+      });
+    });
+  });
 
   describe(`Traitement des événement qui ne sont pas de type 'délai'`, () => {
     describe(`Etant donné un événement ModificationRequestCancelled émis`, () => {
       it('Alors un nouvel événement de type ModificationRequestCancelled devrait être ajouté à ProjectEvent', async () => {
-        await ModificationRequest.create(makeFakeModificationRequest({ id: demandeId, projectId }))
+        await ModificationRequest.create(makeFakeModificationRequest({ id: demandeId, projectId }));
         await onModificationRequestCancelled(
           new ModificationRequestCancelled({
             payload: {
@@ -118,15 +118,15 @@ describe('handler onModificationRequestCancelled', () => {
               version: 1,
               occurredAt: new Date('2022-02-09'),
             },
-          })
-        )
-        const projectEvent = await ProjectEvent.findOne({ where: { projectId } })
+          }),
+        );
+        const projectEvent = await ProjectEvent.findOne({ where: { projectId } });
         expect(projectEvent).toMatchObject({
           type: 'ModificationRequestCancelled',
           projectId,
           payload: { modificationRequestId: demandeId },
-        })
-      })
-    })
-  })
-})
+        });
+      });
+    });
+  });
+});

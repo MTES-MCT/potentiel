@@ -1,10 +1,10 @@
-import { DemandeAbandonSignaled } from '@modules/project'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { DemandeAbandonSignaled } from '@modules/project';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   DemandeAbandonSignaled,
   async ({ payload, id, occurredAt }, transaction) => {
-    const { projectId, decidedOn, signaledBy, status, notes, attachments } = payload
+    const { projectId, decidedOn, signaledBy, status, notes, attachments } = payload;
 
     await ProjectEvent.create(
       {
@@ -20,7 +20,7 @@ export default ProjectEventProjector.on(
           ...(attachments.length > 0 && { attachment: attachments[0] }),
         },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

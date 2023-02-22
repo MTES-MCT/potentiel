@@ -1,4 +1,4 @@
-import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain'
+import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
 import {
   err,
   isPositiveNumber,
@@ -6,29 +6,29 @@ import {
   makePropertyValidator,
   ok,
   Result,
-} from '@core/utils'
+} from '@core/utils';
 import {
   CertificateTemplate,
   ProjectAppelOffre,
   Technologie,
   User,
   CahierDesChargesRéférenceParsed,
-} from '@entities'
-import { isNotifiedPeriode } from '@entities/periode'
-import { ProjetDéjàClasséError } from '@modules/modificationRequest'
-import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import remove from 'lodash/remove'
-import moment from 'moment-timezone'
-import sanitize from 'sanitize-filename'
-import { BuildProjectIdentifier, Fournisseur } from '.'
-import { shallowDelta } from '../../helpers/shallowDelta'
+} from '@entities';
+import { isNotifiedPeriode } from '@entities/periode';
+import { ProjetDéjàClasséError } from '@modules/modificationRequest';
+import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import remove from 'lodash/remove';
+import moment from 'moment-timezone';
+import sanitize from 'sanitize-filename';
+import { BuildProjectIdentifier, Fournisseur } from '.';
+import { shallowDelta } from '../../helpers/shallowDelta';
 import {
   EntityNotFoundError,
   HeterogeneousHistoryError,
   IllegalInitialStateForAggregateError,
   IncompleteDataError,
-} from '../shared'
-import { ProjectDataForCertificate } from './dtos'
+} from '../shared';
+import { ProjectDataForCertificate } from './dtos';
 import {
   AttachmentRequiredForDemandeRecoursAcceptedError,
   EliminatedProjectCannotBeAbandonnedError,
@@ -43,7 +43,7 @@ import {
   ProjectNotEligibleForCertificateError,
   ChangementProducteurImpossiblePourEolienError,
   SuppressionGFValidéeImpossibleError,
-} from './errors'
+} from './errors';
 import {
   AppelOffreProjetModifié,
   CovidDelayGranted,
@@ -91,223 +91,223 @@ import {
   GarantiesFinancièresValidées,
   GarantiesFinancièresInvalidées,
   AbandonProjetAnnulé,
-} from './events'
-import { toProjectDataForCertificate } from './mappers'
+} from './events';
+import { toProjectDataForCertificate } from './mappers';
 
 export interface Project extends EventStoreAggregate {
   notify: (args: {
-    appelOffre: ProjectAppelOffre
-    notifiedOn: number
-  }) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>
-  abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>
-  abandonLegacy: (abandonnedOn: number) => Result<null, never>
+    appelOffre: ProjectAppelOffre;
+    notifiedOn: number;
+  }) => Result<null, IllegalProjectStateError | ProjectAlreadyNotifiedError>;
+  abandon: (user: User) => Result<null, EliminatedProjectCannotBeAbandonnedError>;
+  abandonLegacy: (abandonnedOn: number) => Result<null, never>;
   import: (args: {
-    appelOffre: ProjectAppelOffre
-    data: ProjectImportedPayload['data']
-    importId: string
-  }) => Result<null, IllegalProjectStateError | EntityNotFoundError>
+    appelOffre: ProjectAppelOffre;
+    data: ProjectImportedPayload['data'];
+    importId: string;
+  }) => Result<null, IllegalProjectStateError | EntityNotFoundError>;
   correctData: (
     user: User,
-    data: ProjectDataCorrectedPayload['correctedData']
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
+    data: ProjectDataCorrectedPayload['correctedData'],
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   setNotificationDate: (
     user: User | null,
-    notifiedOn: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
+    notifiedOn: number,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   moveCompletionDueDate: (
     user: User,
-    delayInMonths: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>
+    delayInMonths: number,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | IllegalProjectStateError>;
   setCompletionDueDate: (args: {
-    appelOffre: ProjectAppelOffre
-    completionDueOn: number
-  }) => Result<null, never>
+    appelOffre: ProjectAppelOffre;
+    completionDueOn: number;
+  }) => Result<null, never>;
   updateCertificate: (
     user: User,
-    certificateFileId: string
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    certificateFileId: string,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   updatePuissance: (
     user: User,
-    newPuissance: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    newPuissance: number,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   updateActionnaire: (
     user: User,
-    newActionnaire: string
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    newActionnaire: string,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   updateProducteur: (
     user: User,
-    newProducteur: string
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    newProducteur: string,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   updateFournisseurs: (
     user: User,
     newFournisseurs: Fournisseur[],
-    newEvaluationCarbone?: number
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
-  grantClasse: (user: User) => Result<null, ProjetDéjàClasséError>
+    newEvaluationCarbone?: number,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
+  grantClasse: (user: User) => Result<null, ProjetDéjàClasséError>;
   addGeneratedCertificate: (args: {
-    projectVersionDate: Date
-    certificateFileId: string
-    reason?: string
-  }) => Result<null, IllegalInitialStateForAggregateError>
+    projectVersionDate: Date;
+    certificateFileId: string;
+    reason?: string;
+  }) => Result<null, IllegalInitialStateForAggregateError>;
   submitDemandeComplèteRaccordement: (args: {
-    projectId: string
-    dcrDate: Date
-    fileId: string
-    submittedBy: string
-    numeroDossier: string
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>
+    projectId: string;
+    dcrDate: Date;
+    fileId: string;
+    submittedBy: string;
+    numeroDossier: string;
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>;
   submitPropositionTechniqueFinancière: (args: {
-    projectId: string
-    fileId: string
-    ptfDate: Date
-    submittedBy: string
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>
+    projectId: string;
+    fileId: string;
+    ptfDate: Date;
+    submittedBy: string;
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | PTFCertificatDéjàEnvoyéError>;
   submitGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
     submittedBy: User,
-    expirationDate: Date
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+    expirationDate: Date,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
   uploadGarantiesFinancieres: (
     gfDate: Date,
     fileId: string,
     submittedBy: User,
-    expirationDate: Date
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>
+    expirationDate: Date,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | GFCertificateHasAlreadyBeenSentError>;
   removeGarantiesFinancieres: (
-    removedBy: User
+    removedBy: User,
   ) => Result<
     null,
     | ProjectCannotBeUpdatedIfUnnotifiedError
     | NoGFCertificateToDeleteError
     | SuppressionGFValidéeImpossibleError
-  >
+  >;
   withdrawGarantiesFinancieres: (
-    removedBy: User
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>
+    removedBy: User,
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToDeleteError>;
   signalerDemandeDelai: (
     args: {
-      decidedOn: Date
-      notes?: string
-      attachment?: { id: string; name: string }
-      signaledBy: User
+      decidedOn: Date;
+      notes?: string;
+      attachment?: { id: string; name: string };
+      signaledBy: User;
     } & (
       | {
-          status: 'acceptée'
-          newCompletionDueOn: Date
-          délaiCdc2022?: true
+          status: 'acceptée';
+          newCompletionDueOn: Date;
+          délaiCdc2022?: true;
         }
       | {
-          status: 'rejetée' | 'accord-de-principe'
+          status: 'rejetée' | 'accord-de-principe';
         }
-    )
-  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    ),
+  ) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   signalerDemandeAbandon: (args: {
-    decidedOn: Date
-    notes?: string
-    attachment?: { id: string; name: string }
-    signaledBy: User
-    status: 'acceptée' | 'rejetée'
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    decidedOn: Date;
+    notes?: string;
+    attachment?: { id: string; name: string };
+    signaledBy: User;
+    status: 'acceptée' | 'rejetée';
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   signalerDemandeRecours: (args: {
-    decidedOn: Date
-    notes?: string
-    signaledBy: User
-    status: 'acceptée' | 'rejetée'
-    attachment?: { id: string; name: string }
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>
+    decidedOn: Date;
+    notes?: string;
+    signaledBy: User;
+    status: 'acceptée' | 'rejetée';
+    attachment?: { id: string; name: string };
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError>;
   addGFExpirationDate: (args: {
-    projectId: string
-    expirationDate: Date
-    submittedBy: User
-  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>
-  readonly shouldCertificateBeGenerated: boolean
-  readonly isClasse?: boolean
-  readonly isLegacy?: boolean
-  readonly abandonedOn: number
-  readonly puissanceInitiale: number
+    projectId: string;
+    expirationDate: Date;
+    submittedBy: User;
+  }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | NoGFCertificateToUpdateError>;
+  readonly shouldCertificateBeGenerated: boolean;
+  readonly isClasse?: boolean;
+  readonly isLegacy?: boolean;
+  readonly abandonedOn: number;
+  readonly puissanceInitiale: number;
   readonly certificateData: Result<
     {
-      template: CertificateTemplate
-      data: ProjectDataForCertificate
+      template: CertificateTemplate;
+      data: ProjectDataForCertificate;
     },
     | IncompleteDataError
     | ProjectNotEligibleForCertificateError
     | IllegalInitialStateForAggregateError
-  >
-  readonly certificateFilename: string
-  readonly data: ProjectDataProps | undefined
-  readonly lastCertificateUpdate: Date | undefined
-  readonly cahierDesCharges: CahierDesChargesRéférenceParsed
-  readonly appelOffreId: string
-  readonly periodeId: string
-  readonly familleId?: string
-  readonly completionDueOn: number
-  readonly identifiantGestionnaireRéseau: string
-  readonly dateMiseEnService?: Date
-  readonly dateFileAttente?: Date
-  readonly délaiCDC2022appliqué: boolean
-  readonly GFValidées: boolean
-  readonly dcrDueOn?: Date
-  readonly notifiedOn: number
+  >;
+  readonly certificateFilename: string;
+  readonly data: ProjectDataProps | undefined;
+  readonly lastCertificateUpdate: Date | undefined;
+  readonly cahierDesCharges: CahierDesChargesRéférenceParsed;
+  readonly appelOffreId: string;
+  readonly periodeId: string;
+  readonly familleId?: string;
+  readonly completionDueOn: number;
+  readonly identifiantGestionnaireRéseau: string;
+  readonly dateMiseEnService?: Date;
+  readonly dateFileAttente?: Date;
+  readonly délaiCDC2022appliqué: boolean;
+  readonly GFValidées: boolean;
+  readonly dcrDueOn?: Date;
+  readonly notifiedOn: number;
 }
 
 export interface ProjectDataProps {
-  numeroCRE: string
-  appelOffreId: string
-  periodeId: string
-  familleId: string
-  nomProjet: string
-  territoireProjet: string
-  puissance: number
-  prixReference: number
-  evaluationCarbone: number
-  note: number
-  nomCandidat: string
-  nomRepresentantLegal: string
-  email: string
-  adresseProjet: string
-  codePostalProjet: string
-  communeProjet: string
-  engagementFournitureDePuissanceAlaPointe: boolean
-  isFinancementParticipatif: boolean
-  isInvestissementParticipatif: boolean
-  motifsElimination: string
-  details: Record<string, string>
-  technologie: Technologie
-  actionnariat?: 'financement-collectif' | 'gouvernance-partagee'
-  classe: 'Classé' | 'Eliminé'
+  numeroCRE: string;
+  appelOffreId: string;
+  periodeId: string;
+  familleId: string;
+  nomProjet: string;
+  territoireProjet: string;
+  puissance: number;
+  prixReference: number;
+  evaluationCarbone: number;
+  note: number;
+  nomCandidat: string;
+  nomRepresentantLegal: string;
+  email: string;
+  adresseProjet: string;
+  codePostalProjet: string;
+  communeProjet: string;
+  engagementFournitureDePuissanceAlaPointe: boolean;
+  isFinancementParticipatif: boolean;
+  isInvestissementParticipatif: boolean;
+  motifsElimination: string;
+  details: Record<string, string>;
+  technologie: Technologie;
+  actionnariat?: 'financement-collectif' | 'gouvernance-partagee';
+  classe: 'Classé' | 'Eliminé';
 }
 
 export interface ProjectProps {
-  projectId: UniqueEntityID
-  appelOffre?: ProjectAppelOffre
-  notifiedOn: number
-  abandonedOn: number
-  completionDueOn: number
-  hasCompletionDueDateMoved: boolean
-  lastUpdatedOn?: Date
-  lastCertificateUpdate: Date | undefined
-  hasError: boolean
-  isClasse?: boolean
-  puissanceInitiale: number
-  data: ProjectDataProps | undefined
-  cahierDesCharges: CahierDesChargesRéférenceParsed
-  fieldsUpdatedAfterImport: Set<string>
-  potentielIdentifier?: string
-  hasCurrentGf: boolean
-  hasCurrentPtf: boolean
-  hasCurrentDcr: boolean
-  GFExpirationDate: Date | undefined
-  appelOffreId: string
-  periodeId: string
-  familleId: string
-  identifiantGestionnaireRéseau: string
-  dateMiseEnService: Date | undefined
-  dateFileAttente: Date | undefined
-  délaiCDC2022appliqué: boolean
-  GFValidées: boolean
-  dcrDueOn: Date | undefined
+  projectId: UniqueEntityID;
+  appelOffre?: ProjectAppelOffre;
+  notifiedOn: number;
+  abandonedOn: number;
+  completionDueOn: number;
+  hasCompletionDueDateMoved: boolean;
+  lastUpdatedOn?: Date;
+  lastCertificateUpdate: Date | undefined;
+  hasError: boolean;
+  isClasse?: boolean;
+  puissanceInitiale: number;
+  data: ProjectDataProps | undefined;
+  cahierDesCharges: CahierDesChargesRéférenceParsed;
+  fieldsUpdatedAfterImport: Set<string>;
+  potentielIdentifier?: string;
+  hasCurrentGf: boolean;
+  hasCurrentPtf: boolean;
+  hasCurrentDcr: boolean;
+  GFExpirationDate: Date | undefined;
+  appelOffreId: string;
+  periodeId: string;
+  familleId: string;
+  identifiantGestionnaireRéseau: string;
+  dateMiseEnService: Date | undefined;
+  dateFileAttente: Date | undefined;
+  délaiCDC2022appliqué: boolean;
+  GFValidées: boolean;
+  dcrDueOn: Date | undefined;
 }
 
 const projectValidator = makePropertyValidator({
@@ -315,21 +315,21 @@ const projectValidator = makePropertyValidator({
   prixReference: isPositiveNumber,
   note: isPositiveNumber,
   evaluationCarbone: isPositiveNumber,
-})
+});
 
 export const makeProject = (args: {
-  projectId: UniqueEntityID
-  history?: DomainEvent[]
-  getProjectAppelOffre: GetProjectAppelOffre
-  buildProjectIdentifier: BuildProjectIdentifier
+  projectId: UniqueEntityID;
+  history?: DomainEvent[];
+  getProjectAppelOffre: GetProjectAppelOffre;
+  buildProjectIdentifier: BuildProjectIdentifier;
 }): Result<Project, EntityNotFoundError | HeterogeneousHistoryError> => {
-  const { history, projectId, getProjectAppelOffre, buildProjectIdentifier } = args
+  const { history, projectId, getProjectAppelOffre, buildProjectIdentifier } = args;
 
   if (!_allEventsHaveSameAggregateId()) {
-    return err(new HeterogeneousHistoryError())
+    return err(new HeterogeneousHistoryError());
   }
 
-  const pendingEvents: DomainEvent[] = []
+  const pendingEvents: DomainEvent[] = [];
   const props: ProjectProps = {
     notifiedOn: 0,
     abandonedOn: 0,
@@ -356,20 +356,20 @@ export const makeProject = (args: {
     délaiCDC2022appliqué: false,
     GFValidées: false,
     dcrDueOn: undefined,
-  }
+  };
 
   // Initialize aggregate by processing each event in history
   if (history) {
     if (history.length === 0) {
-      return err(new EntityNotFoundError())
+      return err(new EntityNotFoundError());
     }
 
     for (const event of history) {
-      _processEvent(event)
+      _processEvent(event);
 
       if (props.hasError) {
-        const errorMessage = `Problème lors du traitement de l'événement ${event.type} par _ProcessEvent pour le projet ${projectId}`
-        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
+        const errorMessage = `Problème lors du traitement de l'événement ${event.type} par _ProcessEvent pour le projet ${projectId}`;
+        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }));
       }
     }
 
@@ -377,16 +377,16 @@ export const makeProject = (args: {
       appelOffreId: props.appelOffreId,
       periodeId: props.periodeId,
       familleId: props.familleId,
-    })
+    });
   }
 
   // public methods
   return ok({
     notify: function ({ appelOffre, notifiedOn }) {
-      const { data, projectId } = props
+      const { data, projectId } = props;
 
       if (props.notifiedOn) {
-        return err(new ProjectAlreadyNotifiedError())
+        return err(new ProjectAlreadyNotifiedError());
       }
 
       _publishEvent(
@@ -400,23 +400,23 @@ export const makeProject = (args: {
             candidateName: data?.nomRepresentantLegal || '',
             notifiedOn,
           },
-        })
-      )
+        }),
+      );
 
-      _updateDCRDate(appelOffre)
-      _updateCompletionDate(appelOffre)
+      _updateDCRDate(appelOffre);
+      _updateCompletionDate(appelOffre);
       if (
         appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
         appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
       ) {
-        _updateGFDate(appelOffre)
+        _updateGFDate(appelOffre);
       }
 
-      return ok(null)
+      return ok(null);
     },
     abandon: function (user) {
       if (!props.isClasse) {
-        return err(new EliminatedProjectCannotBeAbandonnedError())
+        return err(new EliminatedProjectCannotBeAbandonnedError());
       }
 
       _publishEvent(
@@ -425,10 +425,10 @@ export const makeProject = (args: {
             projectId: projectId.toString(),
             abandonAcceptedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     abandonLegacy: function (abandonnedOn) {
       if (props.isClasse) {
@@ -442,16 +442,16 @@ export const makeProject = (args: {
               version: 1,
               occurredAt: new Date(abandonnedOn),
             },
-          })
-        )
+          }),
+        );
       }
 
-      return ok(null)
+      return ok(null);
     },
     import: function ({ appelOffre, data, importId }) {
-      const { appelOffreId, periodeId, familleId, numeroCRE } = data
+      const { appelOffreId, periodeId, familleId, numeroCRE } = data;
 
-      const id = projectId.toString()
+      const id = projectId.toString();
 
       if (_isNew()) {
         _publishEvent(
@@ -474,39 +474,39 @@ export const makeProject = (args: {
                 numeroCRE,
               }),
             },
-          })
-        )
+          }),
+        );
         if (data.notifiedOn) {
           try {
-            isStrictlyPositiveNumber(data.notifiedOn)
+            isStrictlyPositiveNumber(data.notifiedOn);
           } catch (e) {
-            return err(new IllegalProjectStateError({ notifiedOn: e.message }))
+            return err(new IllegalProjectStateError({ notifiedOn: e.message }));
           }
 
           _publishNewNotificationDate({
             projectId: id,
             notifiedOn: data.notifiedOn,
             setBy: '',
-          })
+          });
 
-          _updateDCRDate(appelOffre)
-          _updateGFDate(appelOffre)
-          _updateCompletionDate(appelOffre)
+          _updateDCRDate(appelOffre);
+          _updateGFDate(appelOffre);
+          _updateCompletionDate(appelOffre);
         }
       } else {
-        const changes = _computeDelta(data)
+        const changes = _computeDelta(data);
 
         for (const updatedField of props.fieldsUpdatedAfterImport) {
           if (updatedField.startsWith('details.') && changes.details) {
-            delete changes.details[updatedField.substring('details.'.length)]
-            continue
+            delete changes.details[updatedField.substring('details.'.length)];
+            continue;
           }
-          delete changes[updatedField]
+          delete changes[updatedField];
         }
-        delete changes['notifiedOn']
+        delete changes['notifiedOn'];
 
-        const previouslyNotified = !!props.notifiedOn
-        const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn
+        const previouslyNotified = !!props.notifiedOn;
+        const hasNotificationDateChanged = data.notifiedOn && data.notifiedOn !== props.notifiedOn;
 
         if (Object.keys(changes).length) {
           _publishEvent(
@@ -519,8 +519,8 @@ export const makeProject = (args: {
                 importId,
                 data: changes,
               },
-            })
-          )
+            }),
+          );
         }
 
         if (hasNotificationDateChanged) {
@@ -528,21 +528,21 @@ export const makeProject = (args: {
             projectId: id,
             notifiedOn: data.notifiedOn,
             setBy: '',
-          })
+          });
         }
 
         if (props.notifiedOn) {
           if (changes.classe) {
             if (data.classe === 'Classé') {
               // éliminé -> classé
-              _updateDCRDate(appelOffre)
-              _updateGFDate(appelOffre)
-              _updateCompletionDate(appelOffre)
+              _updateDCRDate(appelOffre);
+              _updateGFDate(appelOffre);
+              _updateCompletionDate(appelOffre);
             } else if (data.classe === 'Eliminé') {
               // classé -> eliminé
-              _cancelGFDate(appelOffre)
-              _cancelDCRDate()
-              _cancelCompletionDate()
+              _cancelGFDate(appelOffre);
+              _cancelDCRDate();
+              _cancelCompletionDate();
             }
 
             if (previouslyNotified) {
@@ -551,16 +551,16 @@ export const makeProject = (args: {
                   payload: {
                     projectId: id,
                   },
-                })
-              )
+                }),
+              );
             }
           } else {
             if (props.isClasse) {
               if (hasNotificationDateChanged) {
                 // remains classé
-                _updateDCRDate(appelOffre)
-                _updateGFDate(appelOffre)
-                _updateCompletionDate(appelOffre)
+                _updateDCRDate(appelOffre);
+                _updateGFDate(appelOffre);
+                _updateCompletionDate(appelOffre);
               }
             }
             // remains éliminé
@@ -568,17 +568,17 @@ export const makeProject = (args: {
         }
       }
 
-      return ok(null)
+      return ok(null);
     },
     correctData: function (user, corrections) {
       if (!_isNotified() || !props.data) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
-      const changes = _computeDelta(corrections)
+      const changes = _computeDelta(corrections);
 
       if (!changes || !Object.keys(changes).length) {
-        return ok(null)
+        return ok(null);
       }
 
       return _validateProjectFields(changes).andThen(() => {
@@ -589,80 +589,80 @@ export const makeProject = (args: {
               correctedBy: user.id,
               correctedData: changes,
             },
-          })
-        )
-        return ok(null)
-      })
+          }),
+        );
+        return ok(null);
+      });
     },
     setCompletionDueDate: function ({ appelOffre, completionDueOn }) {
       _updateCompletionDate(appelOffre, {
         completionDueOn,
-      })
+      });
 
-      return ok(null)
+      return ok(null);
     },
     moveCompletionDueDate: function (user, delayInMonths) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
-      const { completionDueOn, notifiedOn, appelOffre } = props
+      const { completionDueOn, notifiedOn, appelOffre } = props;
 
       const newCompletionDueOn = moment(completionDueOn)
         .add(delayInMonths, 'months')
         .toDate()
-        .getTime()
+        .getTime();
 
       if (newCompletionDueOn <= notifiedOn) {
         return err(
           new IllegalProjectStateError({
             completionDueOn:
               'La nouvelle date de mise en service doit postérieure à la date de notification.',
-          })
-        )
+          }),
+        );
       }
 
       appelOffre &&
-        _updateCompletionDate(appelOffre, { setBy: user.id, completionDueOn: newCompletionDueOn })
+        _updateCompletionDate(appelOffre, { setBy: user.id, completionDueOn: newCompletionDueOn });
 
-      return ok(null)
+      return ok(null);
     },
     setNotificationDate: function (user, notifiedOn) {
       if (!_isNew() && !_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       try {
-        isStrictlyPositiveNumber(notifiedOn)
+        isStrictlyPositiveNumber(notifiedOn);
       } catch (e) {
-        return err(new IllegalProjectStateError({ notifiedOn: e.message }))
+        return err(new IllegalProjectStateError({ notifiedOn: e.message }));
       }
 
       // If it's the same day, ignore small differences in timestamp
-      if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null)
+      if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null);
 
       _publishNewNotificationDate({
         projectId: props.projectId.toString(),
         notifiedOn,
         setBy: user?.id || '',
-      })
+      });
 
-      const { appelOffre } = props
+      const { appelOffre } = props;
       if (appelOffre) {
-        _updateDCRDate(appelOffre)
+        _updateDCRDate(appelOffre);
         if (
           appelOffre.famille?.soumisAuxGarantiesFinancieres === 'après candidature' ||
           appelOffre.soumisAuxGarantiesFinancieres === 'après candidature'
         ) {
-          _updateGFDate(appelOffre)
+          _updateGFDate(appelOffre);
         }
-        _updateCompletionDate(appelOffre)
+        _updateCompletionDate(appelOffre);
       }
 
-      return ok(null)
+      return ok(null);
     },
     updateCertificate: function (user, certificateFileId) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       _publishEvent(
@@ -672,14 +672,14 @@ export const makeProject = (args: {
             certificateFileId,
             uploadedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     updatePuissance: function (user, newPuissance) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       _publishEvent(
@@ -689,14 +689,14 @@ export const makeProject = (args: {
             newPuissance,
             updatedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     updateActionnaire: function (user, newActionnaire) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       _publishEvent(
@@ -706,18 +706,18 @@ export const makeProject = (args: {
             newActionnaire,
             updatedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     updateProducteur: function (user, newProducteur) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       if (props.appelOffre?.type === 'eolien') {
-        return err(new ChangementProducteurImpossiblePourEolienError())
+        return err(new ChangementProducteurImpossiblePourEolienError());
       }
 
       _publishEvent(
@@ -727,10 +727,10 @@ export const makeProject = (args: {
             newProducteur,
             updatedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      const { appelOffre, isClasse } = props
+      const { appelOffre, isClasse } = props;
 
       if (isClasse && appelOffre?.isSoumisAuxGF) {
         _publishEvent(
@@ -739,8 +739,8 @@ export const makeProject = (args: {
               projectId: props.projectId.toString(),
               garantiesFinancieresDueOn: moment().add(1, 'months').toDate().getTime(),
             },
-          })
-        )
+          }),
+        );
 
         if (props.hasCurrentGf) {
           _publishEvent(
@@ -748,16 +748,16 @@ export const makeProject = (args: {
               payload: {
                 projectId: props.projectId.toString(),
               },
-            })
-          )
+            }),
+          );
         }
       }
 
-      return ok(null)
+      return ok(null);
     },
     updateFournisseurs: function (user, newFournisseurs: Fournisseur[], newEvaluationCarbone) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       _publishEvent(
@@ -768,14 +768,14 @@ export const makeProject = (args: {
             newEvaluationCarbone,
             updatedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     grantClasse: function (user) {
       if (props.isClasse) {
-        return err(new ProjetDéjàClasséError())
+        return err(new ProjetDéjàClasséError());
       }
       _publishEvent(
         new ProjectClasseGranted({
@@ -783,15 +783,15 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             grantedBy: user.id,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     addGeneratedCertificate: function ({ projectVersionDate, certificateFileId, reason }) {
       if (!props.appelOffre) {
-        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`
-        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }))
+        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`;
+        return err(new IllegalInitialStateForAggregateError({ projectId, errorMessage }));
       }
 
       if (props.lastCertificateUpdate) {
@@ -803,8 +803,8 @@ export const makeProject = (args: {
               certificateFileId,
               reason,
             },
-          })
-        )
+          }),
+        );
       } else {
         _publishEvent(
           new ProjectCertificateGenerated({
@@ -816,11 +816,11 @@ export const makeProject = (args: {
               periodeId: props.appelOffre.periode.id,
               candidateEmail: props.data?.email || '',
             },
-          })
-        )
+          }),
+        );
       }
 
-      return ok(null)
+      return ok(null);
     },
     submitDemandeComplèteRaccordement: function ({
       projectId,
@@ -830,44 +830,44 @@ export const makeProject = (args: {
       submittedBy,
     }) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       if (props.hasCurrentDcr) {
-        return err(new DCRCertificatDéjàEnvoyéError())
+        return err(new DCRCertificatDéjàEnvoyéError());
       }
 
       _publishEvent(
         new ProjectDCRSubmitted({
           payload: { projectId, dcrDate, fileId, submittedBy, numeroDossier },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     submitPropositionTechniqueFinancière: function ({ projectId, fileId, ptfDate, submittedBy }) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       if (props.hasCurrentPtf) {
-        return err(new PTFCertificatDéjàEnvoyéError())
+        return err(new PTFCertificatDéjàEnvoyéError());
       }
 
       _publishEvent(
         new ProjectPTFSubmitted({
           payload: { projectId, ptfDate, fileId, submittedBy },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     submitGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       if (props.hasCurrentGf) {
-        return err(new GFCertificateHasAlreadyBeenSentError())
+        return err(new GFCertificateHasAlreadyBeenSentError());
       }
       _publishEvent(
         new ProjectGFSubmitted({
@@ -878,16 +878,16 @@ export const makeProject = (args: {
             submittedBy: submittedBy.id,
             expirationDate,
           },
-        })
-      )
-      return ok(null)
+        }),
+      );
+      return ok(null);
     },
     uploadGarantiesFinancieres: function (gfDate, fileId, submittedBy, expirationDate) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       if (props.hasCurrentGf) {
-        return err(new GFCertificateHasAlreadyBeenSentError())
+        return err(new GFCertificateHasAlreadyBeenSentError());
       }
       _publishEvent(
         new ProjectGFUploaded({
@@ -898,19 +898,19 @@ export const makeProject = (args: {
             submittedBy: submittedBy.id,
             expirationDate,
           },
-        })
-      )
-      return ok(null)
+        }),
+      );
+      return ok(null);
     },
     removeGarantiesFinancieres: function (removedBy) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToDeleteError())
+        return err(new NoGFCertificateToDeleteError());
       }
       if (props.GFValidées) {
-        return err(new SuppressionGFValidéeImpossibleError())
+        return err(new SuppressionGFValidéeImpossibleError());
       }
       _publishEvent(
         new ProjectGFRemoved({
@@ -918,16 +918,16 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
           },
-        })
-      )
-      return ok(null)
+        }),
+      );
+      return ok(null);
     },
     withdrawGarantiesFinancieres: function (removedBy) {
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToDeleteError())
+        return err(new NoGFCertificateToDeleteError());
       }
       _publishEvent(
         new ProjectGFWithdrawn({
@@ -935,18 +935,18 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             removedBy: removedBy.id,
           },
-        })
-      )
-      return ok(null)
+        }),
+      );
+      return ok(null);
     },
     signalerDemandeDelai: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args;
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       const isNewDateApplicable =
-        status === 'acceptée' && props.completionDueOn < args.newCompletionDueOn.getTime()
+        status === 'acceptée' && props.completionDueOn < args.newCompletionDueOn.getTime();
 
       _publishEvent(
         new DemandeDelaiSignaled({
@@ -965,8 +965,8 @@ export const makeProject = (args: {
                 }
               : { status }),
           },
-        })
-      )
+        }),
+      );
 
       if (isNewDateApplicable) {
         _publishEvent(
@@ -977,15 +977,15 @@ export const makeProject = (args: {
               setBy: signaledBy.id,
               ...(args.délaiCdc2022 && { reason: 'délaiCdc2022' }),
             },
-          })
-        )
+          }),
+        );
       }
-      return ok(null)
+      return ok(null);
     },
     signalerDemandeAbandon: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args;
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       _publishEvent(
@@ -998,8 +998,8 @@ export const makeProject = (args: {
             signaledBy: signaledBy.id,
             status,
           },
-        })
-      )
+        }),
+      );
 
       if (status === 'acceptée' && props.abandonedOn === 0) {
         _publishEvent(
@@ -1012,20 +1012,20 @@ export const makeProject = (args: {
               version: 1,
               occurredAt: decidedOn,
             },
-          })
-        )
+          }),
+        );
       }
 
-      return ok(null)
+      return ok(null);
     },
     signalerDemandeRecours: function (args) {
-      const { decidedOn, status, notes, attachment, signaledBy } = args
+      const { decidedOn, status, notes, attachment, signaledBy } = args;
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
 
       if (status === 'acceptée' && !attachment) {
-        return err(new AttachmentRequiredForDemandeRecoursAcceptedError())
+        return err(new AttachmentRequiredForDemandeRecoursAcceptedError());
       }
 
       _publishEvent(
@@ -1038,24 +1038,24 @@ export const makeProject = (args: {
             signaledBy: signaledBy.id,
             status,
           },
-        })
-      )
+        }),
+      );
 
       if (status === 'acceptée' && !props.isClasse) {
         this.grantClasse(signaledBy)
           .andThen(() => attachment && this.updateCertificate(signaledBy, attachment.id))
-          .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()))
+          .andThen(() => this.setNotificationDate(signaledBy, decidedOn.getTime()));
       }
 
-      return ok(null)
+      return ok(null);
     },
     addGFExpirationDate: function (args) {
-      const { expirationDate, submittedBy, projectId } = args
+      const { expirationDate, submittedBy, projectId } = args;
       if (!_isNotified()) {
-        return err(new ProjectCannotBeUpdatedIfUnnotifiedError())
+        return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
       if (!props.hasCurrentGf) {
-        return err(new NoGFCertificateToUpdateError())
+        return err(new NoGFCertificateToUpdateError());
       }
       _publishEvent(
         new DateEchéanceGFAjoutée({
@@ -1064,13 +1064,13 @@ export const makeProject = (args: {
             submittedBy: submittedBy.id,
             projectId,
           },
-        })
-      )
+        }),
+      );
 
-      return ok(null)
+      return ok(null);
     },
     get pendingEvents() {
-      return pendingEvents
+      return pendingEvents;
     },
     get shouldCertificateBeGenerated() {
       return (
@@ -1079,123 +1079,123 @@ export const makeProject = (args: {
         !_hasPendingEventOfType(ProjectCertificateUpdated.type) &&
         (!props.lastCertificateUpdate ||
           (!!props.lastUpdatedOn && props.lastCertificateUpdate < props.lastUpdatedOn))
-      )
+      );
     },
     get lastUpdatedOn() {
-      return props.lastUpdatedOn
+      return props.lastUpdatedOn;
     },
     get isClasse() {
-      return props.isClasse
+      return props.isClasse;
     },
     get isLegacy() {
-      return props.appelOffre && props.appelOffre.periode.type === 'legacy'
+      return props.appelOffre && props.appelOffre.periode.type === 'legacy';
     },
     get puissanceInitiale() {
-      return props.puissanceInitiale
+      return props.puissanceInitiale;
     },
     get certificateData() {
       if (!props.appelOffre) {
-        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`
+        const errorMessage = `Appel d'offre inaccessible dans project.addGeneratedCertificate pour le project ${projectId}`;
         return err(
-          new IllegalInitialStateForAggregateError({ projectId, errorMessage })
-        ) as Project['certificateData']
+          new IllegalInitialStateForAggregateError({ projectId, errorMessage }),
+        ) as Project['certificateData'];
       }
 
-      const { periode } = props.appelOffre
+      const { periode } = props.appelOffre;
       if (!isNotifiedPeriode(periode) || !periode.certificateTemplate || !props.notifiedOn) {
-        return err(new ProjectNotEligibleForCertificateError()) as Project['certificateData']
+        return err(new ProjectNotEligibleForCertificateError()) as Project['certificateData'];
       }
 
       return toProjectDataForCertificate(props).map((data) => ({
         template: periode.certificateTemplate,
         data,
-      }))
+      }));
     },
     get certificateFilename() {
-      const { appelOffre, data, potentielIdentifier } = props
+      const { appelOffre, data, potentielIdentifier } = props;
 
-      if (!appelOffre || !data || !potentielIdentifier) return 'attestation.pdf'
+      if (!appelOffre || !data || !potentielIdentifier) return 'attestation.pdf';
 
-      const { nomProjet } = data
+      const { nomProjet } = data;
 
-      return sanitize(`${potentielIdentifier}-${nomProjet}.pdf`)
+      return sanitize(`${potentielIdentifier}-${nomProjet}.pdf`);
     },
     get id() {
-      return projectId
+      return projectId;
     },
     get data() {
-      return props.data
+      return props.data;
     },
     get lastCertificateUpdate() {
-      return props.lastCertificateUpdate
+      return props.lastCertificateUpdate;
     },
     get cahierDesCharges() {
-      return props.cahierDesCharges
+      return props.cahierDesCharges;
     },
     get appelOffreId() {
-      return props.appelOffreId
+      return props.appelOffreId;
     },
     get periodeId() {
-      return props.periodeId
+      return props.periodeId;
     },
     get familleId() {
-      return props.familleId
+      return props.familleId;
     },
     get completionDueOn() {
-      return props.completionDueOn
+      return props.completionDueOn;
     },
     get abandonedOn() {
-      return props.abandonedOn
+      return props.abandonedOn;
     },
     get identifiantGestionnaireRéseau() {
-      return props.identifiantGestionnaireRéseau
+      return props.identifiantGestionnaireRéseau;
     },
     get dateMiseEnService() {
-      return props.dateMiseEnService
+      return props.dateMiseEnService;
     },
     get dateFileAttente() {
-      return props.dateFileAttente
+      return props.dateFileAttente;
     },
     get délaiCDC2022appliqué() {
-      return props.délaiCDC2022appliqué
+      return props.délaiCDC2022appliqué;
     },
     get GFValidées() {
-      return props.GFValidées
+      return props.GFValidées;
     },
     get notifiedOn() {
-      return props.notifiedOn
+      return props.notifiedOn;
     },
-  })
+  });
 
   // private methods
   function _validateProjectFields(
-    newProps: Partial<ProjectDataProps>
+    newProps: Partial<ProjectDataProps>,
   ): Result<Partial<ProjectDataProps>, IllegalProjectStateError> {
-    const errorsInFields = projectValidator(newProps)
+    const errorsInFields = projectValidator(newProps);
 
     if ('familleId' in newProps) {
-      const { appelOffreId, periodeId } = { ...props.data, ...newProps }
+      const { appelOffreId, periodeId } = { ...props.data, ...newProps };
 
       if (!appelOffreId || !periodeId) {
-        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre"
+        errorsInFields.appelOffre = "Ce projet n'est associé à aucun appel d'offre";
       } else {
         if (!getProjectAppelOffre({ appelOffreId, periodeId, familleId: newProps.familleId })) {
           // Can't find family in appelOffre
-          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre"
+          errorsInFields.familleId = "Cette famille n'existe pas pour cet appel d'offre";
         }
       }
     }
 
     if (Object.keys(errorsInFields).length) {
-      return err(new IllegalProjectStateError(errorsInFields))
+      return err(new IllegalProjectStateError(errorsInFields));
     }
 
-    return ok(newProps)
+    return ok(newProps);
   }
 
   function _publishEvent(event: DomainEvent) {
-    pendingEvents.push(event)
-    _processEvent(event)
+    pendingEvents.push(event);
+    _processEvent(event);
   }
 
   function _updateLastUpdatedOn(event: DomainEvent) {
@@ -1212,106 +1212,106 @@ export const makeProject = (args: {
       case ProjectGFSubmitted.type:
       case ProjectGFRemoved.type:
       case ProjectGFUploaded.type:
-        props.lastUpdatedOn = event.occurredAt
-        break
+        props.lastUpdatedOn = event.occurredAt;
+        break;
       default:
         // ignore other event types
-        break
+        break;
     }
   }
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
       case GarantiesFinancièresValidées.type:
-        props.GFValidées = true
-        break
+        props.GFValidées = true;
+        break;
       case GarantiesFinancièresInvalidées.type:
-        props.GFValidées = false
-        break
+        props.GFValidées = false;
+        break;
       case LegacyProjectSourced.type:
-        props.data = event.payload.content
-        props.notifiedOn = event.payload.content.notifiedOn
-        props.puissanceInitiale = event.payload.content.puissance
-        props.potentielIdentifier = event.payload.potentielIdentifier
-        _updateClasse(event.payload.content.classe)
-        props.appelOffreId = event.payload.appelOffreId
-        props.periodeId = event.payload.periodeId
-        props.familleId = event.payload.familleId
-        break
+        props.data = event.payload.content;
+        props.notifiedOn = event.payload.content.notifiedOn;
+        props.puissanceInitiale = event.payload.content.puissance;
+        props.potentielIdentifier = event.payload.potentielIdentifier;
+        _updateClasse(event.payload.content.classe);
+        props.appelOffreId = event.payload.appelOffreId;
+        props.periodeId = event.payload.periodeId;
+        props.familleId = event.payload.familleId;
+        break;
       case ProjectImported.type:
-        props.data = event.payload.data
-        props.puissanceInitiale = event.payload.data.puissance
-        props.potentielIdentifier = event.payload.potentielIdentifier
-        _updateClasse(event.payload.data.classe)
-        props.appelOffreId = event.payload.appelOffreId
-        props.periodeId = event.payload.periodeId
-        props.familleId = event.payload.familleId
-        break
+        props.data = event.payload.data;
+        props.puissanceInitiale = event.payload.data.puissance;
+        props.potentielIdentifier = event.payload.potentielIdentifier;
+        _updateClasse(event.payload.data.classe);
+        props.appelOffreId = event.payload.appelOffreId;
+        props.periodeId = event.payload.periodeId;
+        props.familleId = event.payload.familleId;
+        break;
       case ProjectReimported.type:
-        props.data = { ...props.data, ...event.payload.data }
+        props.data = { ...props.data, ...event.payload.data };
         if (event.payload.data.puissance) {
-          props.puissanceInitiale = event.payload.data.puissance
+          props.puissanceInitiale = event.payload.data.puissance;
         }
         if (event.payload.data.classe) {
-          _updateClasse(event.payload.data.classe)
+          _updateClasse(event.payload.data.classe);
         }
-        break
+        break;
       case ProjectNotified.type:
       case ProjectNotificationDateSet.type:
-        props.notifiedOn = event.payload.notifiedOn
-        props.fieldsUpdatedAfterImport.add('notifiedOn')
-        break
+        props.notifiedOn = event.payload.notifiedOn;
+        props.fieldsUpdatedAfterImport.add('notifiedOn');
+        break;
       case ProjectCompletionDueDateSet.type:
-        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
-        props.completionDueOn = event.payload.completionDueOn
-        if (event.payload.reason === 'délaiCdc2022') props.délaiCDC2022appliqué = true
-        break
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true;
+        props.completionDueOn = event.payload.completionDueOn;
+        if (event.payload.reason === 'délaiCdc2022') props.délaiCDC2022appliqué = true;
+        break;
       case CovidDelayGranted.type:
-        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true
-        props.completionDueOn = event.payload.completionDueOn
-        break
+        if (props.completionDueOn !== 0) props.hasCompletionDueDateMoved = true;
+        props.completionDueOn = event.payload.completionDueOn;
+        break;
       case ProjectDataCorrected.type:
-        props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data']
+        props.data = { ...props.data, ...event.payload.correctedData } as ProjectProps['data'];
         for (const updatedField of Object.keys(event.payload.correctedData)) {
-          props.fieldsUpdatedAfterImport.add(updatedField)
+          props.fieldsUpdatedAfterImport.add(updatedField);
         }
-        break
+        break;
       case ProjectCertificateUpdated.type:
-        props.lastCertificateUpdate = event.occurredAt
-        break
+        props.lastCertificateUpdate = event.occurredAt;
+        break;
       case ProjectCertificateGenerated.type:
       case ProjectCertificateRegenerated.type:
-        props.lastCertificateUpdate = event.payload.projectVersionDate || event.occurredAt
-        break
+        props.lastCertificateUpdate = event.payload.projectVersionDate || event.occurredAt;
+        break;
       case ProjectClasseGranted.type:
-        props.isClasse = true
+        props.isClasse = true;
         props.data = {
           ...props.data,
           classe: 'Classé',
-        } as ProjectProps['data']
-        props.fieldsUpdatedAfterImport.add('classe')
-        break
+        } as ProjectProps['data'];
+        props.fieldsUpdatedAfterImport.add('classe');
+        break;
       case ProjectActionnaireUpdated.type:
         props.data = {
           ...props.data,
           actionnaire: event.payload.newActionnaire,
-        } as ProjectProps['data']
-        props.fieldsUpdatedAfterImport.add('actionnaire')
-        break
+        } as ProjectProps['data'];
+        props.fieldsUpdatedAfterImport.add('actionnaire');
+        break;
       case ProjectProducteurUpdated.type:
         props.data = {
           ...props.data,
           nomCandidat: event.payload.newProducteur,
-        } as ProjectProps['data']
-        props.fieldsUpdatedAfterImport.add('nomCandidat')
-        break
+        } as ProjectProps['data'];
+        props.fieldsUpdatedAfterImport.add('nomCandidat');
+        break;
       case ProjectPuissanceUpdated.type:
         props.data = {
           ...props.data,
           puissance: event.payload.puissance,
-        } as ProjectProps['data']
-        props.fieldsUpdatedAfterImport.add('puissance')
-        break
+        } as ProjectProps['data'];
+        props.fieldsUpdatedAfterImport.add('puissance');
+        break;
       case ProjectFournisseursUpdated.type:
         props.data = {
           ...props.data,
@@ -1319,57 +1319,57 @@ export const makeProject = (args: {
             ...props.data?.details,
             ...event.payload.newFournisseurs.reduce(
               (fournisseurs, { kind, name }) => ({ ...fournisseurs, [kind]: name }),
-              {}
+              {},
             ),
           },
-        } as ProjectProps['data']
+        } as ProjectProps['data'];
 
         for (const { kind } of event.payload.newFournisseurs) {
-          props.fieldsUpdatedAfterImport.add(`details.${kind}`)
+          props.fieldsUpdatedAfterImport.add(`details.${kind}`);
         }
 
-        break
+        break;
       case ProjectGFSubmitted.type:
       case ProjectGFUploaded.type:
-        props.hasCurrentGf = true
+        props.hasCurrentGf = true;
         if (event.payload.expirationDate) {
-          props.GFExpirationDate = event.payload.expirationDate
+          props.GFExpirationDate = event.payload.expirationDate;
         }
-        break
+        break;
       case ProjectDCRSubmitted.type:
-        props.hasCurrentDcr = true
-        break
+        props.hasCurrentDcr = true;
+        break;
       case ProjectDCRRemoved.type:
-        props.hasCurrentDcr = false
-        break
+        props.hasCurrentDcr = false;
+        break;
       case ProjectPTFSubmitted.type:
-        props.hasCurrentPtf = true
-        break
+        props.hasCurrentPtf = true;
+        break;
       case ProjectPTFRemoved.type:
-        props.hasCurrentPtf = false
-        break
+        props.hasCurrentPtf = false;
+        break;
       case ProjectGFRemoved.type:
       case ProjectGFWithdrawn.type:
-        props.hasCurrentGf = false
-        props.GFValidées = false
-        break
+        props.hasCurrentGf = false;
+        props.GFValidées = false;
+        break;
       case ProjectAbandoned.type:
-        props.abandonedOn = event.occurredAt.getTime()
-        break
+        props.abandonedOn = event.occurredAt.getTime();
+        break;
       case LegacyAbandonSupprimé.type:
       case AbandonProjetAnnulé.type:
-        props.abandonedOn = 0
-        break
+        props.abandonedOn = 0;
+        break;
       case AppelOffreProjetModifié.type:
-        props.appelOffreId = event.payload.appelOffreId
-        props.periodeId = event.payload.periodeId
-        break
+        props.appelOffreId = event.payload.appelOffreId;
+        props.periodeId = event.payload.periodeId;
+        break;
       case DateEchéanceGFAjoutée.type:
-        props.GFExpirationDate = event.payload.expirationDate
-        break
+        props.GFExpirationDate = event.payload.expirationDate;
+        break;
       case IdentifiantPotentielPPE2Batiment2Corrigé.type:
-        props.potentielIdentifier = event.payload.nouvelIdentifiant
-        break
+        props.potentielIdentifier = event.payload.nouvelIdentifiant;
+        break;
       case CahierDesChargesChoisi.type:
         props.cahierDesCharges = {
           type: event.payload.type,
@@ -1377,86 +1377,86 @@ export const makeProject = (args: {
             paruLe: event.payload.paruLe,
             alternatif: event.payload.alternatif,
           }),
-        }
-        break
+        };
+        break;
       case NumeroGestionnaireSubmitted.type:
-        props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire
-        break
+        props.identifiantGestionnaireRéseau = event.payload.numeroGestionnaire;
+        break;
       case DonnéesDeRaccordementRenseignées.type:
         if (event.payload.dateMiseEnService) {
-          props.dateMiseEnService = new Date(event.payload.dateMiseEnService)
+          props.dateMiseEnService = new Date(event.payload.dateMiseEnService);
         }
         if (event.payload.dateFileAttente) {
-          props.dateFileAttente = new Date(event.payload.dateFileAttente)
+          props.dateFileAttente = new Date(event.payload.dateFileAttente);
         }
-        break
+        break;
       case ProjectDCRDueDateSet.type:
-        props.dcrDueOn = new Date(event.payload.dcrDueOn)
-        break
+        props.dcrDueOn = new Date(event.payload.dcrDueOn);
+        break;
       default:
         // ignore other event types
-        break
+        break;
     }
 
-    _updateLastUpdatedOn(event)
+    _updateLastUpdatedOn(event);
   }
 
   function _isNew() {
-    return !history
+    return !history;
   }
 
   function _isNotified() {
-    return !!props.notifiedOn
+    return !!props.notifiedOn;
   }
 
   function _periodeHasCertificate() {
-    return !!props.appelOffre?.periode.certificateTemplate
+    return !!props.appelOffre?.periode.certificateTemplate;
   }
 
   function _updateAppelOffre(args: {
-    appelOffreId?: string
-    periodeId?: string
-    familleId?: string
+    appelOffreId?: string;
+    periodeId?: string;
+    familleId?: string;
   }) {
-    const { appelOffre: currentAppelOffre } = props
+    const { appelOffre: currentAppelOffre } = props;
 
-    const appelOffreId = args.appelOffreId || currentAppelOffre?.id
-    const periodeId = args.periodeId || currentAppelOffre?.periode.id
-    const familleId = args.familleId || currentAppelOffre?.famille?.id
+    const appelOffreId = args.appelOffreId || currentAppelOffre?.id;
+    const periodeId = args.periodeId || currentAppelOffre?.periode.id;
+    const familleId = args.familleId || currentAppelOffre?.famille?.id;
 
-    if (!appelOffreId || !periodeId) return
+    if (!appelOffreId || !periodeId) return;
 
-    const newAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+    const newAppelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
     if (!newAppelOffre) {
-      props.hasError = true
+      props.hasError = true;
     } else {
-      props.appelOffre = newAppelOffre
+      props.appelOffre = newAppelOffre;
     }
   }
 
   function _updateClasse(classe: string) {
-    props.isClasse = classe === 'Classé'
+    props.isClasse = classe === 'Classé';
   }
 
   function _allEventsHaveSameAggregateId() {
     return history
       ? history.every((event) => event.aggregateId?.includes(projectId.toString()))
-      : true
+      : true;
   }
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
-    remove(pendingEvents, (event) => event.type === type)
+    remove(pendingEvents, (event) => event.type === type);
   }
 
   function _hasPendingEventOfType(type: DomainEvent['type']) {
-    return pendingEvents.some((event) => event.type === type)
+    return pendingEvents.some((event) => event.type === type);
   }
 
   function _updateDCRDate(appelOffre: ProjectAppelOffre) {
     if (props.isClasse) {
-      _removePendingEventsOfType(ProjectDCRDueDateSet.type)
-      const notifiedOnDate = new Date(props.notifiedOn)
-      const delaiDcr = appelOffre.periode.delaiDcrEnMois.valeur
+      _removePendingEventsOfType(ProjectDCRDueDateSet.type);
+      const notifiedOnDate = new Date(props.notifiedOn);
+      const delaiDcr = appelOffre.periode.delaiDcrEnMois.valeur;
 
       _publishEvent(
         new ProjectDCRDueDateSet({
@@ -1464,8 +1464,8 @@ export const makeProject = (args: {
             projectId: props.projectId.toString(),
             dcrDueOn: notifiedOnDate.setMonth(notifiedOnDate.getMonth() + delaiDcr),
           },
-        })
-      )
+        }),
+      );
     }
   }
 
@@ -1475,22 +1475,22 @@ export const makeProject = (args: {
         payload: {
           projectId: props.projectId.toString(),
         },
-      })
-    )
+      }),
+    );
   }
 
   function _updateCompletionDate(
     appelOffre: ProjectAppelOffre,
-    forceValue?: { setBy?: string; completionDueOn: number }
+    forceValue?: { setBy?: string; completionDueOn: number },
   ) {
-    if (!props.isClasse) return
+    if (!props.isClasse) return;
 
-    if (props.hasCompletionDueDateMoved && !forceValue) return
+    if (props.hasCompletionDueDateMoved && !forceValue) return;
 
-    if (!props.notifiedOn) return
+    if (!props.notifiedOn) return;
 
-    const { setBy, completionDueOn } = forceValue || {}
-    _removePendingEventsOfType(ProjectCompletionDueDateSet.type)
+    const { setBy, completionDueOn } = forceValue || {};
+    _removePendingEventsOfType(ProjectCompletionDueDateSet.type);
     _publishEvent(
       new ProjectCompletionDueDateSet({
         payload: {
@@ -1504,8 +1504,8 @@ export const makeProject = (args: {
               .getTime(),
           setBy: setBy || '',
         },
-      })
-    )
+      }),
+    );
   }
 
   function _cancelCompletionDate() {
@@ -1514,22 +1514,22 @@ export const makeProject = (args: {
         payload: {
           projectId: props.projectId.toString(),
         },
-      })
-    )
+      }),
+    );
   }
 
   function _updateGFDate(appelOffre: ProjectAppelOffre) {
-    const { isClasse } = props
+    const { isClasse } = props;
     if (isClasse && appelOffre.isSoumisAuxGF) {
-      _removePendingEventsOfType(ProjectGFDueDateSet.type)
+      _removePendingEventsOfType(ProjectGFDueDateSet.type);
       _publishEvent(
         new ProjectGFDueDateSet({
           payload: {
             projectId: props.projectId.toString(),
             garantiesFinancieresDueOn: moment(props.notifiedOn).add(2, 'months').toDate().getTime(),
           },
-        })
-      )
+        }),
+      );
     }
   }
 
@@ -1540,36 +1540,36 @@ export const makeProject = (args: {
           payload: {
             projectId: props.projectId.toString(),
           },
-        })
-      )
+        }),
+      );
     }
   }
 
   function _computeDelta(data) {
-    const mainChanges = !!data && shallowDelta(props.data || {}, { ...data, details: undefined })
+    const mainChanges = !!data && shallowDelta(props.data || {}, { ...data, details: undefined });
 
-    const changes = { ...mainChanges } as Partial<ProjectDataProps>
+    const changes = { ...mainChanges } as Partial<ProjectDataProps>;
 
-    const detailsChanges = !!data?.details && shallowDelta(props.data?.details || {}, data.details)
+    const detailsChanges = !!data?.details && shallowDelta(props.data?.details || {}, data.details);
 
     if (detailsChanges) {
-      changes.details = detailsChanges
+      changes.details = detailsChanges;
     }
 
     for (const key of Object.keys(changes)) {
       if (typeof changes[key] === 'undefined') {
-        delete changes[key]
+        delete changes[key];
       }
     }
 
-    return changes
+    return changes;
   }
 
   function _publishNewNotificationDate(payload: ProjectNotificationDateSet['payload']) {
     _publishEvent(
       new ProjectNotificationDateSet({
         payload,
-      })
-    )
+      }),
+    );
   }
-}
+};

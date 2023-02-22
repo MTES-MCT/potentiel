@@ -1,14 +1,14 @@
-import React from 'react'
-import { ProjectDataForProjectPage } from '@modules/project'
-import { CogIcon, Section } from '@components'
+import React from 'react';
+import { ProjectDataForProjectPage } from '@modules/project';
+import { CogIcon, Section } from '@components';
 
 type MaterielsEtTechnologiesProps = {
-  project: ProjectDataForProjectPage
-}
+  project: ProjectDataForProjectPage;
+};
 
 export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProps) => {
   if (!project.fournisseur && !project.evaluationCarbone) {
-    return null
+    return null;
   }
   return (
     <Section title="Matériels et technologies" icon={CogIcon}>
@@ -17,5 +17,5 @@ export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProp
         <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
       )}
     </Section>
-  )
-}
+  );
+};

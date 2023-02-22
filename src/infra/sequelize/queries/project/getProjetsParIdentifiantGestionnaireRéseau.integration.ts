@@ -1,13 +1,13 @@
-import { Raccordements } from '../../projectionsNext/raccordements'
-import { resetDatabase } from '../../helpers'
-import { getProjetsParIdentifiantGestionnaireRéseau } from './getProjetsParIdentifiantGestionnaireRéseau'
-import { UniqueEntityID } from '@core/domain'
-import * as uuid from 'uuid'
+import { Raccordements } from '../../projectionsNext/raccordements';
+import { resetDatabase } from '../../helpers';
+import { getProjetsParIdentifiantGestionnaireRéseau } from './getProjetsParIdentifiantGestionnaireRéseau';
+import { UniqueEntityID } from '@core/domain';
+import * as uuid from 'uuid';
 
 describe('Trouver les identifiants des projets depuis leur identifiant de gestionnaire de réseau', () => {
   beforeEach(async () => {
-    await resetDatabase()
-  })
+    await resetDatabase();
+  });
 
   const fixtures: Array<{ identifiantsGR: string; raccordements: Raccordements }> = [
     {
@@ -34,7 +34,7 @@ describe('Trouver les identifiants des projets depuis leur identifiant de gestio
         identifiantGestionnaire: 'oue-rp-2022-000137',
       } as Raccordements,
     },
-  ]
+  ];
 
   for (const {
     identifiantsGR,
@@ -47,14 +47,14 @@ describe('Trouver les identifiants des projets depuis leur identifiant de gestio
         id,
         projetId,
         identifiantGestionnaire,
-      })
+      });
 
-      const résultat = await getProjetsParIdentifiantGestionnaireRéseau([identifiantsGR])
-      expect(résultat.isOk()).toBe(true)
+      const résultat = await getProjetsParIdentifiantGestionnaireRéseau([identifiantsGR]);
+      expect(résultat.isOk()).toBe(true);
       expect(résultat._unsafeUnwrap()).toStrictEqual({
         [identifiantsGR]: expect.arrayContaining([{ projetId }]),
-      })
-    })
+      });
+    });
   }
 
   it(`Étant donné plusieurs projets avec l'identifiant gestionnaire de réseau 'OUE-RP-2022-000137' 
@@ -62,21 +62,21 @@ describe('Trouver les identifiants des projets depuis leur identifiant de gestio
       Lorsqu'on récupère les projets pour les identifiants gestionnaire de réseau 'OUE-RP-2022-000137' et 'Autre-Numéro'
       Alors l'id des projets devraient être récupérés pour 'OUE-RP-2022-000137'
       Et aucun id ne devraient être récupéré pour 'Autre-Numéro'`, async () => {
-    const projet1Id = new UniqueEntityID().toString()
-    const projet2Id = new UniqueEntityID().toString()
-    const projet3Id = new UniqueEntityID().toString()
+    const projet1Id = new UniqueEntityID().toString();
+    const projet2Id = new UniqueEntityID().toString();
+    const projet3Id = new UniqueEntityID().toString();
 
     await Raccordements.bulkCreate([
       { id: uuid.v4(), projetId: projet1Id, identifiantGestionnaire: 'OUE-RP-2022-000137' },
       { id: uuid.v4(), projetId: projet2Id, identifiantGestionnaire: 'Enedis OUE-RP-2022-000137' },
       { id: uuid.v4(), projetId: projet3Id, identifiantGestionnaire: 'oue-rp-2022-000137' },
-    ])
+    ]);
 
     const résultat = await getProjetsParIdentifiantGestionnaireRéseau([
       'OUE-RP-2022-000137',
       'Autre-Numéro',
-    ])
-    expect(résultat.isOk()).toBe(true)
+    ]);
+    expect(résultat.isOk()).toBe(true);
     expect(résultat._unsafeUnwrap()).toMatchObject({
       'OUE-RP-2022-000137': expect.arrayContaining([
         { projetId: projet2Id },
@@ -84,6 +84,6 @@ describe('Trouver les identifiants des projets depuis leur identifiant de gestio
         { projetId: projet1Id },
       ]),
       'Autre-Numéro': [],
-    })
-  })
-})
+    });
+  });
+});

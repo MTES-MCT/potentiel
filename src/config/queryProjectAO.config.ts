@@ -1,5 +1,5 @@
-import { appelsOffreStatic } from '@dataAccess/inMemory'
+import { appelsOffreStatic } from '@dataAccess/inMemory';
 
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-export const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+export const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);

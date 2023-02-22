@@ -1,18 +1,18 @@
-import { Op } from 'sequelize'
-import { ok, Result, wrapInfra } from '@core/utils'
-import { getFullTextSearchOptions } from '@dataAccess/db'
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { User } from '@entities'
-import { makePaginatedList, paginate } from '../../../../helpers/paginate'
+import { Op } from 'sequelize';
+import { ok, Result, wrapInfra } from '@core/utils';
+import { getFullTextSearchOptions } from '@dataAccess/db';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { User } from '@entities';
+import { makePaginatedList, paginate } from '../../../../helpers/paginate';
 import {
   GetModificationRequestListForPorteur,
   ModificationRequestListItemDTO,
-} from '@modules/modificationRequest'
-import { InfraNotAvailableError } from '@modules/shared'
-import { PaginatedList } from '../../../../types'
-import models from '../../models'
+} from '@modules/modificationRequest';
+import { InfraNotAvailableError } from '@modules/shared';
+import { PaginatedList } from '../../../../types';
+import models from '../../models';
 
-const { ModificationRequest, Project, User, File, UserProjects } = models
+const { ModificationRequest, Project, User, File, UserProjects } = models;
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
@@ -74,12 +74,12 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
           ],
           order: [['createdAt', 'DESC']],
           ...paginate(pagination),
-        })
-      )
+        }),
+      );
     })
     .andThen(
       (res): Result<PaginatedList<ModificationRequestListItemDTO>, InfraNotAvailableError> => {
-        const { count, rows } = res
+        const { count, rows } = res;
 
         const modificationRequests = rows.map(
           ({
@@ -110,20 +110,20 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                 case 'fournisseur':
                 case 'delai':
                 case 'annulation abandon':
-                  return justification || ''
+                  return justification || '';
                 case 'actionnaire':
-                  return actionnaire || ''
+                  return actionnaire || '';
                 case 'producteur':
-                  return producteur || ''
+                  return producteur || '';
                 case 'puissance':
                   return puissance
                     ? `${puissance} ${_getPuissanceForAppelOffre({
                         appelOffreId,
                         periodeId,
                       })}`
-                    : ''
+                    : '';
               }
-            }
+            };
 
             return {
               id,
@@ -146,18 +146,18 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
               },
               type,
               description: getDescription(),
-            }
-          }
-        )
+            };
+          },
+        );
 
-        return ok(makePaginatedList(modificationRequests, count, pagination))
-      }
-    )
-}
+        return ok(makePaginatedList(modificationRequests, count, pagination));
+      },
+    );
+};
 
 const _getPuissanceForAppelOffre = (args: { appelOffreId: string; periodeId: string }): string => {
-  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance'
-}
+  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
+};
 
 const _getProjectIdsForUser = (user: User) => {
   return wrapInfra(
@@ -166,6 +166,6 @@ const _getProjectIdsForUser = (user: User) => {
       where: {
         userId: user.id,
       },
-    })
-  ).map((items: any) => items.map((item) => item.projectId))
-}
+    }),
+  ).map((items: any) => items.map((item) => item.projectId));
+};

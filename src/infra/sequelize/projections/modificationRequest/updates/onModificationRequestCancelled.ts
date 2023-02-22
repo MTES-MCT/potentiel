@@ -1,5 +1,5 @@
-import { logger } from '@core/utils'
-import { ModificationRequestCancelled } from '@modules/modificationRequest'
+import { logger } from '@core/utils';
+import { ModificationRequestCancelled } from '@modules/modificationRequest';
 
 export const onModificationRequestCancelled =
   (models) =>
@@ -7,7 +7,7 @@ export const onModificationRequestCancelled =
     occurredAt,
     payload: { modificationRequestId, cancelledBy },
   }: ModificationRequestCancelled) => {
-    const { ModificationRequest } = models
+    const { ModificationRequest } = models;
 
     try {
       await ModificationRequest.update(
@@ -21,13 +21,13 @@ export const onModificationRequestCancelled =
           where: {
             id: modificationRequestId,
           },
-        }
-      )
+        },
+      );
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
       logger.info(
         'Error: onModificationRequestCancelled projection failed to update modification request :',
-        event
-      )
+        event,
+      );
     }
-  }
+  };

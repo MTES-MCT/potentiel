@@ -1,7 +1,7 @@
-import React from 'react'
-import { ProjectAppelOffre } from '@entities'
-import { dataId } from '../../../helpers/testId'
-import { Request } from 'express'
+import React from 'react';
+import { ProjectAppelOffre } from '@entities';
+import { dataId } from '../../../helpers/testId';
+import { Request } from 'express';
 
 import {
   ProjectInfo,
@@ -21,23 +21,23 @@ import {
   ErrorBox,
   Heading1,
   ProjectProps,
-} from '@components'
-import { hydrateOnClient } from '../../helpers'
-import routes from '@routes'
+} from '@components';
+import { hydrateOnClient } from '../../helpers';
+import routes from '@routes';
 
 type ChangerProducteurProps = {
-  request: Request
-  project: ProjectProps & { cahierDesChargesActuel: string }
-  appelOffre: ProjectAppelOffre
-}
+  request: Request;
+  project: ProjectProps & { cahierDesChargesActuel: string };
+  appelOffre: ProjectAppelOffre;
+};
 
 export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProducteurProps) => {
-  const { error, success, justification } = (request.query as any) || {}
+  const { error, success, justification } = (request.query as any) || {};
 
-  const isEolien = appelOffre?.type === 'eolien'
+  const isEolien = appelOffre?.type === 'eolien';
 
   const doitChoisirCahierDesCharges =
-    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial'
+    appelOffre.choisirNouveauCahierDesCharges && project.cahierDesChargesActuel === 'initial';
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -154,7 +154,7 @@ export const ChangerProducteur = ({ request, project, appelOffre }: ChangerProdu
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ChangerProducteur)
+hydrateOnClient(ChangerProducteur);

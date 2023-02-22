@@ -1,23 +1,23 @@
-import { UniqueEntityID } from '@core/domain'
-import { makeUser } from '@entities'
-import { UnwrapForTest } from '../../types'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { UnauthorizedError } from '../shared'
-import { makeAppelOffre } from './AppelOffre'
+import { UniqueEntityID } from '@core/domain';
+import { makeUser } from '@entities';
+import { UnwrapForTest } from '../../types';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { UnauthorizedError } from '../shared';
+import { makeAppelOffre } from './AppelOffre';
 import {
   AppelOffreCreated,
   AppelOffreRemoved,
   AppelOffreUpdated,
   PeriodeCreated,
   PeriodeUpdated,
-} from './events'
+} from './events';
 
 describe('AppelOffre', () => {
   describe('update()', () => {
-    const appelOffreId = new UniqueEntityID()
+    const appelOffreId = new UniqueEntityID();
 
     describe('when user is admin', () => {
-      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
 
       const appelOffre = makeAppelOffre({
         id: appelOffreId,
@@ -33,7 +33,7 @@ describe('AppelOffre', () => {
             },
           }),
         ],
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       it('should trigger AppelOffreUpdated with a computed delta', () => {
         appelOffre
@@ -45,11 +45,11 @@ describe('AppelOffre', () => {
             },
             updatedBy: fakeUser,
           })
-          ._unsafeUnwrap()
+          ._unsafeUnwrap();
 
-        expect(appelOffre.pendingEvents).toHaveLength(1)
-        const event = appelOffre.pendingEvents[0]
-        expect(event).toBeInstanceOf(AppelOffreUpdated)
+        expect(appelOffre.pendingEvents).toHaveLength(1);
+        const event = appelOffre.pendingEvents[0];
+        expect(event).toBeInstanceOf(AppelOffreUpdated);
         expect((event as AppelOffreUpdated).payload).toMatchObject({
           appelOffreId: appelOffreId.toString(),
           updatedBy: fakeUser.id,
@@ -57,12 +57,12 @@ describe('AppelOffre', () => {
             param2: 'newvalue2',
             param3: 'value3',
           },
-        })
-      })
-    })
+        });
+      });
+    });
 
     describe('when user is not admin', () => {
-      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
 
       const appelOffre = makeAppelOffre({
         id: appelOffreId,
@@ -78,7 +78,7 @@ describe('AppelOffre', () => {
             },
           }),
         ],
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       it('should return an UnauthorizedError', () => {
         const res = appelOffre.update({
@@ -88,19 +88,19 @@ describe('AppelOffre', () => {
             param3: 'value3',
           },
           updatedBy: fakeUser,
-        })
+        });
 
-        expect(res.isErr()).toBe(true)
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-      })
-    })
-  })
+        expect(res.isErr()).toBe(true);
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
+      });
+    });
+  });
 
   describe('remove()', () => {
-    const appelOffreId = new UniqueEntityID()
+    const appelOffreId = new UniqueEntityID();
 
     describe('when appel offre has not been removed yet', () => {
-      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
 
       const appelOffre = makeAppelOffre({
         id: appelOffreId,
@@ -113,32 +113,32 @@ describe('AppelOffre', () => {
             },
           }),
         ],
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       it('should trigger AppelOffreRemoved', () => {
         appelOffre
           .remove({
             removedBy: fakeUser,
           })
-          ._unsafeUnwrap()
+          ._unsafeUnwrap();
 
-        expect(appelOffre.pendingEvents).toHaveLength(1)
-        const event = appelOffre.pendingEvents[0]
-        expect(event).toBeInstanceOf(AppelOffreRemoved)
+        expect(appelOffre.pendingEvents).toHaveLength(1);
+        const event = appelOffre.pendingEvents[0];
+        expect(event).toBeInstanceOf(AppelOffreRemoved);
         expect((event as AppelOffreRemoved).payload).toMatchObject({
           appelOffreId: appelOffreId.toString(),
           removedBy: fakeUser.id,
-        })
-      })
-    })
-  })
+        });
+      });
+    });
+  });
 
   describe('updatePeriode()', () => {
-    const appelOffreId = new UniqueEntityID()
-    const periodeId = new UniqueEntityID().toString()
+    const appelOffreId = new UniqueEntityID();
+    const periodeId = new UniqueEntityID().toString();
 
     describe('when user is admin', () => {
-      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })))
+      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'admin' })));
 
       describe('when periode is new', () => {
         const appelOffre = makeAppelOffre({
@@ -155,7 +155,7 @@ describe('AppelOffre', () => {
               },
             }),
           ],
-        })._unsafeUnwrap()
+        })._unsafeUnwrap();
 
         it('should trigger PeriodeCreated', () => {
           appelOffre
@@ -166,11 +166,11 @@ describe('AppelOffre', () => {
               },
               updatedBy: fakeUser,
             })
-            ._unsafeUnwrap()
+            ._unsafeUnwrap();
 
-          expect(appelOffre.pendingEvents).toHaveLength(1)
-          const event = appelOffre.pendingEvents[0]
-          expect(event).toBeInstanceOf(PeriodeCreated)
+          expect(appelOffre.pendingEvents).toHaveLength(1);
+          const event = appelOffre.pendingEvents[0];
+          expect(event).toBeInstanceOf(PeriodeCreated);
           expect((event as PeriodeCreated).payload).toMatchObject({
             appelOffreId: appelOffreId.toString(),
             periodeId,
@@ -178,9 +178,9 @@ describe('AppelOffre', () => {
             data: {
               param1: 'value1',
             },
-          })
-        })
-      })
+          });
+        });
+      });
 
       describe('when the periode existed', () => {
         const appelOffre = makeAppelOffre({
@@ -205,7 +205,7 @@ describe('AppelOffre', () => {
               },
             }),
           ],
-        })._unsafeUnwrap()
+        })._unsafeUnwrap();
 
         it('should trigger PeriodeUpdated with a computed delta', () => {
           appelOffre
@@ -218,11 +218,11 @@ describe('AppelOffre', () => {
               },
               updatedBy: fakeUser,
             })
-            ._unsafeUnwrap()
+            ._unsafeUnwrap();
 
-          expect(appelOffre.pendingEvents).toHaveLength(1)
-          const event = appelOffre.pendingEvents[0]
-          expect(event).toBeInstanceOf(PeriodeUpdated)
+          expect(appelOffre.pendingEvents).toHaveLength(1);
+          const event = appelOffre.pendingEvents[0];
+          expect(event).toBeInstanceOf(PeriodeUpdated);
           expect((event as PeriodeUpdated).payload).toMatchObject({
             appelOffreId: appelOffreId.toString(),
             periodeId,
@@ -231,13 +231,13 @@ describe('AppelOffre', () => {
               param2: 'newvalue2',
               param3: 'value3',
             },
-          })
-        })
-      })
-    })
+          });
+        });
+      });
+    });
 
     describe('when user is not admin', () => {
-      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })))
+      const fakeUser = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
 
       const appelOffre = makeAppelOffre({
         id: appelOffreId,
@@ -253,7 +253,7 @@ describe('AppelOffre', () => {
             },
           }),
         ],
-      })._unsafeUnwrap()
+      })._unsafeUnwrap();
 
       it('should return an UnauthorizedError', () => {
         const res = appelOffre.updatePeriode({
@@ -264,11 +264,11 @@ describe('AppelOffre', () => {
             param3: 'value3',
           },
           updatedBy: fakeUser,
-        })
+        });
 
-        expect(res.isErr()).toBe(true)
-        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError)
-      })
-    })
-  })
-})
+        expect(res.isErr()).toBe(true);
+        expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
+      });
+    });
+  });
+});

@@ -1,25 +1,25 @@
-import { logger } from '@core/utils'
-import { AbandonRejeté } from '@modules/demandeModification'
-import { NotifierPorteurChangementStatutDemande } from '../..'
-import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries'
+import { logger } from '@core/utils';
+import { AbandonRejeté } from '@modules/demandeModification';
+import { NotifierPorteurChangementStatutDemande } from '../..';
+import { GetModificationRequestInfoForStatusNotification } from '@modules/modificationRequest/queries';
 
-type OnAbandonRejeté = (evenement: AbandonRejeté) => Promise<void>
+type OnAbandonRejeté = (evenement: AbandonRejeté) => Promise<void>;
 
 type MakeOnAbandonRejeté = (dépendances: {
-  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification
-  notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande
-}) => OnAbandonRejeté
+  getModificationRequestInfoForStatusNotification: GetModificationRequestInfoForStatusNotification;
+  notifierPorteurChangementStatutDemande: NotifierPorteurChangementStatutDemande;
+}) => OnAbandonRejeté;
 
 export const makeOnAbandonRejeté: MakeOnAbandonRejeté =
   ({ notifierPorteurChangementStatutDemande, getModificationRequestInfoForStatusNotification }) =>
   async ({ payload }: AbandonRejeté) => {
-    const { demandeAbandonId } = payload
+    const { demandeAbandonId } = payload;
 
     await getModificationRequestInfoForStatusNotification(demandeAbandonId).match(
       async ({ porteursProjet, nomProjet, type }) => {
         if (!porteursProjet || !porteursProjet.length) {
           // no registered user for this projet, no one to warn
-          return
+          return;
         }
 
         await Promise.all(
@@ -33,12 +33,12 @@ export const makeOnAbandonRejeté: MakeOnAbandonRejeté =
               modificationRequestId: demandeAbandonId,
               status: 'rejetée',
               hasDocument: true,
-            })
-          )
-        )
+            }),
+          ),
+        );
       },
       (e: Error) => {
-        logger.error(e)
-      }
-    )
-  }
+        logger.error(e);
+      },
+    );
+  };

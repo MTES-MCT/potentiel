@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const évaluationCarbone: Readonly<Array<Colonne>> = [
   {
@@ -11,4 +11,4 @@ export const évaluationCarbone: Readonly<Array<Colonne>> = [
     nomPropriété: `Valeur de l’évaluation carbone des modules (kg eq CO2/kWc)`,
     source: 'propriété-colonne-détail',
   },
-]
+];

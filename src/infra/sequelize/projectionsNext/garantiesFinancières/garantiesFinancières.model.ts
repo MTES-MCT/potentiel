@@ -1,29 +1,29 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
-import { sequelizeInstance } from '../../../../sequelize.config'
-import { makeSequelizeProjector } from '../../helpers'
+import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { makeSequelizeProjector } from '../../helpers';
 
-export const garantiesFinancièresStatuts = ['en attente', 'à traiter', 'validé'] as const
-export type GarantiesFinancièresStatut = typeof garantiesFinancièresStatuts[number]
+export const garantiesFinancièresStatuts = ['en attente', 'à traiter', 'validé'] as const;
+export type GarantiesFinancièresStatut = typeof garantiesFinancièresStatuts[number];
 
 class GarantiesFinancières extends Model<
   InferAttributes<GarantiesFinancières>,
   InferCreationAttributes<GarantiesFinancières>
 > {
-  id: string
-  projetId: string
-  statut: GarantiesFinancièresStatut
-  soumisesALaCandidature: boolean
-  dateLimiteEnvoi: Date | null
-  fichierId: string | null
-  dateEnvoi: Date | null
-  envoyéesPar: string | null
-  dateConstitution: Date | null
-  dateEchéance: Date | null
-  validéesPar: string | null
-  validéesLe: Date | null
+  id: string;
+  projetId: string;
+  statut: GarantiesFinancièresStatut;
+  soumisesALaCandidature: boolean;
+  dateLimiteEnvoi: Date | null;
+  fichierId: string | null;
+  dateEnvoi: Date | null;
+  envoyéesPar: string | null;
+  dateConstitution: Date | null;
+  dateEchéance: Date | null;
+  validéesPar: string | null;
+  validéesLe: Date | null;
 }
 
-const nomProjection = 'garantiesFinancières'
+const nomProjection = 'garantiesFinancières';
 
 GarantiesFinancières.init(
   {
@@ -88,9 +88,9 @@ GarantiesFinancières.init(
     tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-const GarantiesFinancièresProjector = makeSequelizeProjector(GarantiesFinancières, nomProjection)
+const GarantiesFinancièresProjector = makeSequelizeProjector(GarantiesFinancières, nomProjection);
 
-export { GarantiesFinancières, GarantiesFinancièresProjector }
+export { GarantiesFinancières, GarantiesFinancièresProjector };

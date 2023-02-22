@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const résultatInstructionSensible: Readonly<Array<Colonne>> = [
   {
@@ -6,4 +6,4 @@ export const résultatInstructionSensible: Readonly<Array<Colonne>> = [
     nomColonneTableProjet: 'motifsElimination',
     intitulé: "Motif d'élimination",
   },
-]
+];

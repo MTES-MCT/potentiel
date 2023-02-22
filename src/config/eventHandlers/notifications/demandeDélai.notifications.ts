@@ -1,4 +1,4 @@
-import { notificationEventSubscriber } from './notificationEventSubscriber'
+import { notificationEventSubscriber } from './notificationEventSubscriber';
 import {
   DélaiAccordé,
   DélaiAnnulé,
@@ -6,7 +6,7 @@ import {
   DélaiEnInstruction,
   DélaiRejeté,
   RejetDélaiAnnulé,
-} from '@modules/demandeModification'
+} from '@modules/demandeModification';
 import {
   makeOnDélaiAccordé,
   makeOnDélaiAnnulé,
@@ -14,18 +14,18 @@ import {
   makeOnDélaiRejeté,
   makeOnRejetDélaiAnnulé,
   makeOnDélaiEnInstruction,
-} from '@modules/notification'
-import { sendNotification } from '../../emails.config'
+} from '@modules/notification';
+import { sendNotification } from '../../emails.config';
 import {
   getInfoForModificationRequested,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
-} from '../../queries.config'
-import { oldProjectRepo, oldUserRepo } from '../../repos.config'
+} from '../../queries.config';
+import { oldProjectRepo, oldUserRepo } from '../../repos.config';
 
 if (!process.env.DGEC_EMAIL) {
-  console.error('ERROR: DGEC_EMAIL is not set')
-  process.exit(1)
+  console.error('ERROR: DGEC_EMAIL is not set');
+  process.exit(1);
 }
 
 notificationEventSubscriber(
@@ -35,31 +35,31 @@ notificationEventSubscriber(
     getInfoForModificationRequested,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     findProjectById: oldProjectRepo.findById,
-  })
-)
+  }),
+);
 notificationEventSubscriber(
   DélaiAccordé,
   makeOnDélaiAccordé({
     sendNotification,
     getModificationRequestInfoForStatusNotification,
-  })
-)
+  }),
+);
 
 notificationEventSubscriber(
   DélaiRejeté,
   makeOnDélaiRejeté({
     sendNotification,
     getModificationRequestInfoForStatusNotification,
-  })
-)
+  }),
+);
 
 notificationEventSubscriber(
   RejetDélaiAnnulé,
   makeOnRejetDélaiAnnulé({
     sendNotification,
     getModificationRequestInfoForStatusNotification,
-  })
-)
+  }),
+);
 
 notificationEventSubscriber(
   DélaiAnnulé,
@@ -69,13 +69,13 @@ notificationEventSubscriber(
     getModificationRequestInfoForStatusNotification,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     dgecEmail: process.env.DGEC_EMAIL,
-  })
-)
+  }),
+);
 
 notificationEventSubscriber(
   DélaiEnInstruction,
   makeOnDélaiEnInstruction({
     sendNotification,
     getModificationRequestInfoForStatusNotification,
-  })
-)
+  }),
+);

@@ -1,5 +1,5 @@
-import { DemandeAnnulationAbandonDTO } from '@modules/frise/dtos'
-import React from 'react'
+import { DemandeAnnulationAbandonDTO } from '@modules/frise/dtos';
+import React from 'react';
 import {
   CancelledStepIcon,
   ContentArea,
@@ -9,15 +9,15 @@ import {
   ItemTitle,
   PastIcon,
   UnvalidatedStepIcon,
-} from '.'
-import { Link } from '@components'
+} from '.';
+import { Link } from '@components';
 
-type DemandeAnnulationAbandonItemProps = DemandeAnnulationAbandonDTO
+type DemandeAnnulationAbandonItemProps = DemandeAnnulationAbandonDTO;
 
 export const DemandeAnnulationAbandonItem = (props: DemandeAnnulationAbandonItemProps) => {
-  const { date, demandeUrl, statut, actionRequise } = props
+  const { date, demandeUrl, statut, actionRequise } = props;
 
-  const titre = `Demande d'annulation d'abandon ${statut}`
+  const titre = `Demande d'annulation d'abandon ${statut}`;
 
   return (
     <>
@@ -43,5 +43,5 @@ export const DemandeAnnulationAbandonItem = (props: DemandeAnnulationAbandonItem
         </>
       </ContentArea>
     </>
-  )
-}
+  );
+};

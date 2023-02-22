@@ -1,1 +1,1 @@
-export * from './annulerRejetChangementDePuissance'
+export * from './annulerRejetChangementDePuissance';

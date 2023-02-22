@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 type TimelineItemProps = {
-  children?: any
-  isLastItem: boolean
-}
+  children?: any;
+  isLastItem: boolean;
+};
 
 export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
   <li className={classNames(isLastItem ? '' : 'pb-6', 'relative')}>
@@ -15,8 +15,8 @@ export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
     )}
     <div className="relative flex items-start group">{children}</div>
   </li>
-)
+);
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(' ');
 }

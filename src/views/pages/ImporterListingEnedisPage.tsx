@@ -1,18 +1,18 @@
-import type { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type ImporterListingEnedisProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) => {
   const {
     query: { error, success },
-  } = request
+  } = request;
 
   return (
     <PageTemplate user={request.user}>
@@ -38,6 +38,6 @@ export const ImporterListingEnedis = ({ request }: ImporterListingEnedisProps) =
         </form>
       </div>
     </PageTemplate>
-  )
-}
-hydrateOnClient(ImporterListingEnedis)
+  );
+};
+hydrateOnClient(ImporterListingEnedis);

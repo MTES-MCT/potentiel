@@ -1,21 +1,21 @@
-import { EventBus, Repository, UniqueEntityID } from '@core/domain'
-import { errAsync, ResultAsync } from '@core/utils'
-import { User } from '@entities'
-import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared'
-import { AppelOffre } from '../AppelOffre'
-import { MissingAppelOffreIdError } from '../errors'
-import { AppelOffreCreated } from '../events'
-import { GetAppelOffreList } from '../queries'
+import { EventBus, Repository, UniqueEntityID } from '@core/domain';
+import { errAsync, ResultAsync } from '@core/utils';
+import { User } from '@entities';
+import { EntityNotFoundError, InfraNotAvailableError, UnauthorizedError } from '../../shared';
+import { AppelOffre } from '../AppelOffre';
+import { MissingAppelOffreIdError } from '../errors';
+import { AppelOffreCreated } from '../events';
+import { GetAppelOffreList } from '../queries';
 
 interface ImportAppelOffreDataDeps {
-  appelOffreRepo: Repository<AppelOffre>
-  eventBus: EventBus
-  getAppelOffreList: GetAppelOffreList
+  appelOffreRepo: Repository<AppelOffre>;
+  eventBus: EventBus;
+  getAppelOffreList: GetAppelOffreList;
 }
 
 interface ImportAppelOffreDataArgs {
-  dataLines: any
-  importedBy: User
+  dataLines: any;
+  importedBy: User;
 }
 
 export const makeImportAppelOffreData =
@@ -34,31 +34,31 @@ export const makeImportAppelOffreData =
         const removals = appelOffreList
           .filter(
             ({ appelOffreId }) =>
-              !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId)
+              !dataLines.find((dataLine) => dataLine["Appel d'offres"] === appelOffreId),
           )
           .map(({ appelOffreId }) => {
             return deps.appelOffreRepo
               .load(new UniqueEntityID(appelOffreId))
               .andThen((appelOffre) =>
-                appelOffre.remove({ removedBy: importedBy }).map(() => appelOffre)
+                appelOffre.remove({ removedBy: importedBy }).map(() => appelOffre),
               )
-              .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
-          })
+              .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre));
+          });
 
         const updates: ResultAsync<
           null,
           InfraNotAvailableError | UnauthorizedError | MissingAppelOffreIdError
         >[] = dataLines.map((dataLine, index) => {
-          const { "Appel d'offres": appelOffreId, ...data } = dataLine
+          const { "Appel d'offres": appelOffreId, ...data } = dataLine;
 
           if (!appelOffreId) {
-            return errAsync(new MissingAppelOffreIdError(index + 1))
+            return errAsync(new MissingAppelOffreIdError(index + 1));
           }
 
           return deps.appelOffreRepo
             .load(new UniqueEntityID(appelOffreId))
             .andThen((appelOffre) =>
-              appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre)
+              appelOffre.update({ data, updatedBy: importedBy }).map(() => appelOffre),
             )
             .andThen((appelOffre) => deps.appelOffreRepo.save(appelOffre))
             .orElse((e) => {
@@ -70,14 +70,14 @@ export const makeImportAppelOffreData =
                       data,
                       createdBy: importedBy.id,
                     },
-                  })
-                )
+                  }),
+                );
               }
 
-              return errAsync(e)
-            })
-        })
+              return errAsync(e);
+            });
+        });
 
-        return ResultAsync.combineWithAllErrors([...removals, ...updates]).map(() => null)
-      })
-  }
+        return ResultAsync.combineWithAllErrors([...removals, ...updates]).map(() => null);
+      });
+  };

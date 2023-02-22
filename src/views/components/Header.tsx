@@ -1,7 +1,7 @@
-import React from 'react'
-import routes from '@routes'
-import { Request } from 'express'
-import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine'
+import React from 'react';
+import routes from '@routes';
+import { Request } from 'express';
+import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
 
 import {
   ExternalLinkIcon,
@@ -12,12 +12,12 @@ import {
   MenuIcon,
   LogoutBoxIcon,
   CloseIcon,
-} from '@components'
+} from '@components';
 
 type HeaderProps = {
-  user?: Request['user']
-  children?: React.ReactNode
-}
+  user?: Request['user'];
+  children?: React.ReactNode;
+};
 
 const LogoAndTitle = () => (
   <Link
@@ -43,7 +43,7 @@ const LogoAndTitle = () => (
       </div>
     </div>
   </Link>
-)
+);
 
 const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
   user,
@@ -77,12 +77,12 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
         </div>
       </header>
     </>
-  )
-}
+  );
+};
 
 type QuickAccessProps = {
-  user?: Request['user']
-}
+  user?: Request['user'];
+};
 const QuickAccess = ({ user }: QuickAccessProps) => (
   <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">
     {user ? (
@@ -165,11 +165,11 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
       </Link>
     </li>
   </ul>
-)
+);
 
 type MainMenuProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 const MainMenu = ({ children }: MainMenuProps) => (
   <>
     <input id="menu-toggle" className="hidden" type="checkbox" />
@@ -183,13 +183,13 @@ const MainMenu = ({ children }: MainMenuProps) => (
       </ul>
     </nav>
   </>
-)
+);
 
 type MenuItemProps = {
-  href: string
-  isCurrent?: true
-  children: React.ReactNode
-}
+  href: string;
+  isCurrent?: true;
+  children: React.ReactNode;
+};
 const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
   <li
     className={`flex items-center py-2 lg:px-4 border-0 border-b lg:border-b-0 border-solid border-slate-200 lg:p-4 hover:bg-grey-1000-hover ${
@@ -207,7 +207,7 @@ const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
       {children}
     </a>
   </li>
-)
+);
 
-Header.MenuItem = MenuItem
-export { Header }
+Header.MenuItem = MenuItem;
+export { Header };

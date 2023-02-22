@@ -1,28 +1,28 @@
-import { handleModificationReceived, NotificationArgs } from '../..'
-import { UniqueEntityID } from '@core/domain'
-import { makeProject } from '@entities'
-import routes from '@routes'
-import { None, Some } from '../../../../types'
-import makeFakeProject from '../../../../__tests__/fixtures/project'
-import makeFakeUser from '../../../../__tests__/fixtures/user'
-import { ModificationReceived } from '../../../modificationRequest'
+import { handleModificationReceived, NotificationArgs } from '../..';
+import { UniqueEntityID } from '@core/domain';
+import { makeProject } from '@entities';
+import routes from '@routes';
+import { None, Some } from '../../../../types';
+import makeFakeProject from '../../../../__tests__/fixtures/project';
+import makeFakeUser from '../../../../__tests__/fixtures/user';
+import { ModificationReceived } from '../../../modificationRequest';
 
-const userId = new UniqueEntityID().toString()
-const projectId = new UniqueEntityID().toString()
-const modificationRequestId = new UniqueEntityID().toString()
+const userId = new UniqueEntityID().toString();
+const projectId = new UniqueEntityID().toString();
+const modificationRequestId = new UniqueEntityID().toString();
 
 describe('notification.handleModificationReceived', () => {
   it(`Lorsque le projet est mis à jour, une notification devrait être envoyée au porteur à l'origine de la demande`, async () => {
-    const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+    const sendNotification = jest.fn(async (args: NotificationArgs) => null);
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
-        makeFakeProject({ id: projectId, nomProjet: 'nomProjet', regionProjet: 'region' })
-      ).unwrap()
-    )
+        makeFakeProject({ id: projectId, nomProjet: 'nomProjet', regionProjet: 'region' }),
+      ).unwrap(),
+    );
     const findUserById = jest.fn(async (userId: string) =>
-      Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
-    )
-    const findUsersForDreal = jest.fn(async (region: string) => [])
+      Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' })),
+    );
+    const findUsersForDreal = jest.fn(async (region: string) => []);
 
     await handleModificationReceived({
       sendNotification,
@@ -40,14 +40,14 @@ describe('notification.handleModificationReceived', () => {
           justification: 'justification',
           authority: 'dreal',
         },
-      })
-    )
+      }),
+    );
 
-    expect(findProjectById).toHaveBeenCalledWith(projectId)
-    expect(findUserById).toHaveBeenCalledWith(userId)
+    expect(findProjectById).toHaveBeenCalledWith(projectId);
+    expect(findUserById).toHaveBeenCalledWith(userId);
 
-    expect(sendNotification).toHaveBeenCalledTimes(1)
-    const notifications = sendNotification.mock.calls.map((call) => call[0])
+    expect(sendNotification).toHaveBeenCalledTimes(1);
+    const notifications = sendNotification.mock.calls.map((call) => call[0]);
     expect(
       notifications.every(
         (notification) =>
@@ -62,13 +62,13 @@ describe('notification.handleModificationReceived', () => {
           notification.variables.demande_action_pp === undefined &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.userId === userId &&
-          notification.context.projectId === projectId
-      )
-    ).toBe(true)
-  })
+          notification.context.projectId === projectId,
+      ),
+    ).toBe(true);
+  });
 
   it(`Lorsque le projet est mis à jour, une notification devrait être envoyée aux Dreals de la région du projet`, async () => {
-    const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+    const sendNotification = jest.fn(async (args: NotificationArgs) => null);
     const findProjectById = jest.fn(async (region: string) =>
       makeProject(
         makeFakeProject({
@@ -76,15 +76,15 @@ describe('notification.handleModificationReceived', () => {
           nomProjet: 'nomProjet',
           regionProjet: 'regionA / regionB',
           departementProjet: 'departement',
-        })
-      ).unwrap()
-    )
-    const findUserById = jest.fn(async (userId: string) => None)
+        }),
+      ).unwrap(),
+    );
+    const findUserById = jest.fn(async (userId: string) => None);
     const findUsersForDreal = jest.fn(async (region: string) =>
       region === 'regionA'
         ? [makeFakeUser({ email: 'drealA@test.test', fullName: 'drealA' })]
-        : [makeFakeUser({ email: 'drealB@test.test', fullName: 'drealB' })]
-    )
+        : [makeFakeUser({ email: 'drealB@test.test', fullName: 'drealB' })],
+    );
 
     await handleModificationReceived({
       sendNotification,
@@ -102,15 +102,15 @@ describe('notification.handleModificationReceived', () => {
           justification: 'justification',
           authority: 'dreal',
         },
-      })
-    )
+      }),
+    );
 
-    expect(findUsersForDreal).toHaveBeenCalledTimes(2)
-    expect(findUsersForDreal).toHaveBeenCalledWith('regionA')
-    expect(findUsersForDreal).toHaveBeenCalledWith('regionB')
+    expect(findUsersForDreal).toHaveBeenCalledTimes(2);
+    expect(findUsersForDreal).toHaveBeenCalledWith('regionA');
+    expect(findUsersForDreal).toHaveBeenCalledWith('regionB');
 
-    expect(sendNotification).toHaveBeenCalledTimes(2)
-    const notifications = sendNotification.mock.calls.map((call) => call[0])
+    expect(sendNotification).toHaveBeenCalledTimes(2);
+    const notifications = sendNotification.mock.calls.map((call) => call[0]);
 
     expect(
       notifications.some(
@@ -125,9 +125,9 @@ describe('notification.handleModificationReceived', () => {
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionA' &&
-          notification.context.projectId === projectId
-      )
-    ).toBe(true)
+          notification.context.projectId === projectId,
+      ),
+    ).toBe(true);
     expect(
       notifications.some(
         (notification) =>
@@ -141,15 +141,15 @@ describe('notification.handleModificationReceived', () => {
           notification.variables.departement_projet === 'departement' &&
           notification.context.modificationRequestId === modificationRequestId &&
           notification.context.dreal === 'regionB' &&
-          notification.context.projectId === projectId
-      )
-    ).toBe(true)
-  })
+          notification.context.projectId === projectId,
+      ),
+    ).toBe(true);
+  });
 
   describe('Lorsque le type de demande est "fournisseur"', () => {
     it(`Lorsque la nouvelle evaluationCarbone est inférieure à la valeur de référence 
         une section alerte ne devrait pas être ajoutée à la notification`, async () => {
-      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null);
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
           makeFakeProject({
@@ -157,13 +157,13 @@ describe('notification.handleModificationReceived', () => {
             nomProjet: 'nomProjet',
             regionProjet: 'region',
             evaluationCarboneDeRéférence: 100,
-          })
-        ).unwrap()
-      )
+          }),
+        ).unwrap(),
+      );
       const findUserById = jest.fn(async (userId: string) =>
-        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
-      )
-      const findUsersForDreal = jest.fn(async (region: string) => [])
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' })),
+      );
+      const findUsersForDreal = jest.fn(async (region: string) => []);
 
       await handleModificationReceived({
         sendNotification,
@@ -181,18 +181,18 @@ describe('notification.handleModificationReceived', () => {
             evaluationCarbone: 74,
             authority: 'dreal',
           },
-        })
-      )
+        }),
+      );
 
-      const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0]);
 
-      if (notification.type !== 'pp-modification-received') return
-      expect(notification.variables.demande_action_pp).toBeUndefined()
-    })
+      if (notification.type !== 'pp-modification-received') return;
+      expect(notification.variables.demande_action_pp).toBeUndefined();
+    });
 
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieure à la tolérance
         une section alerte ne devrait pas être ajoutée à la notification`, async () => {
-      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null);
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
           makeFakeProject({
@@ -200,13 +200,13 @@ describe('notification.handleModificationReceived', () => {
             nomProjet: 'nomProjet',
             regionProjet: 'region',
             evaluationCarboneDeRéférence: 100,
-          })
-        ).unwrap()
-      )
+          }),
+        ).unwrap(),
+      );
       const findUserById = jest.fn(async (userId: string) =>
-        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
-      )
-      const findUsersForDreal = jest.fn(async (region: string) => [])
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' })),
+      );
+      const findUsersForDreal = jest.fn(async (region: string) => []);
 
       await handleModificationReceived({
         sendNotification,
@@ -224,18 +224,18 @@ describe('notification.handleModificationReceived', () => {
             evaluationCarbone: 124,
             authority: 'dreal',
           },
-        })
-      )
+        }),
+      );
 
-      const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0]);
 
-      if (notification.type !== 'pp-modification-received') return
-      expect(notification.variables.demande_action_pp).toBeUndefined()
-    })
+      if (notification.type !== 'pp-modification-received') return;
+      expect(notification.variables.demande_action_pp).toBeUndefined();
+    });
 
     it(`Lorsque la nouvelle evaluationCarbone est supérieure à la valeur de référence et inférieur à la tolérance
         une section alerte devrait être ajoutée à la notification`, async () => {
-      const sendNotification = jest.fn(async (args: NotificationArgs) => null)
+      const sendNotification = jest.fn(async (args: NotificationArgs) => null);
       const findProjectById = jest.fn(async (region: string) =>
         makeProject(
           makeFakeProject({
@@ -243,13 +243,13 @@ describe('notification.handleModificationReceived', () => {
             nomProjet: 'nomProjet',
             regionProjet: 'region',
             evaluationCarboneDeRéférence: 100,
-          })
-        ).unwrap()
-      )
+          }),
+        ).unwrap(),
+      );
       const findUserById = jest.fn(async (userId: string) =>
-        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' }))
-      )
-      const findUsersForDreal = jest.fn(async (region: string) => [])
+        Some(makeFakeUser({ email: 'pp@test.test', fullName: 'john doe' })),
+      );
+      const findUsersForDreal = jest.fn(async (region: string) => []);
 
       await handleModificationReceived({
         sendNotification,
@@ -267,13 +267,13 @@ describe('notification.handleModificationReceived', () => {
             evaluationCarbone: 125,
             authority: 'dreal',
           },
-        })
-      )
+        }),
+      );
 
-      const [notification] = sendNotification.mock.calls.map((call) => call[0])
+      const [notification] = sendNotification.mock.calls.map((call) => call[0]);
 
-      if (notification.type !== 'pp-modification-received') return
-      expect(notification.variables.demande_action_pp).not.toBeUndefined()
-    })
-  })
-})
+      if (notification.type !== 'pp-modification-received') return;
+      expect(notification.variables.demande_action_pp).not.toBeUndefined();
+    });
+  });
+});

@@ -1,19 +1,19 @@
-import { wrapInfra } from '@core/utils'
-import { GetPendingCandidateInvitations } from '@modules/notificationCandidats'
-import { models } from '../../models'
-import { paginate, makePaginatedList } from '../../../../helpers/paginate'
-import { Pagination } from '../../../../types'
-const { User, Project } = models
+import { wrapInfra } from '@core/utils';
+import { GetPendingCandidateInvitations } from '@modules/notificationCandidats';
+import { models } from '../../models';
+import { paginate, makePaginatedList } from '../../../../helpers/paginate';
+import { Pagination } from '../../../../types';
+const { User, Project } = models;
 
 export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (
-  pagination: Pagination
+  pagination: Pagination,
 ) => {
   return wrapInfra(
     User.findAndCountAll({
       where: { registeredOn: null },
       include: [{ model: Project, as: 'candidateProjects', required: true }],
       ...paginate(pagination),
-    })
+    }),
   ).map(({ count, rows: pendingUsers }) =>
     makePaginatedList(
       pendingUsers.map(({ email, fullName, createdAt }) => ({
@@ -22,7 +22,7 @@ export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (
         invitedOn: createdAt,
       })),
       count,
-      pagination
-    )
-  )
-}
+      pagination,
+    ),
+  );
+};

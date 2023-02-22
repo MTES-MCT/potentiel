@@ -1,4 +1,4 @@
-import { Colonne } from '../Colonne'
+import { Colonne } from '../Colonne';
 
 export const notes: Readonly<Array<Colonne>> = [
   { nomPropriété: `Note prix`, source: 'propriété-colonne-détail' },
@@ -9,4 +9,4 @@ export const notes: Readonly<Array<Colonne>> = [
     source: 'propriété-colonne-détail',
   },
   { source: 'champ-simple', nomColonneTableProjet: 'note', intitulé: 'Note totale' },
-]
+];

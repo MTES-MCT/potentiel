@@ -1,6 +1,6 @@
-import React, { ComponentProps, FC } from 'react'
+import React, { ComponentProps, FC } from 'react';
 
-type LinkButtonProps = ComponentProps<'a'>
+type LinkButtonProps = ComponentProps<'a'>;
 
 export const SecondaryLinkButton: FC<LinkButtonProps> = ({
   children,
@@ -17,4 +17,4 @@ export const SecondaryLinkButton: FC<LinkButtonProps> = ({
   >
     {children}
   </a>
-)
+);

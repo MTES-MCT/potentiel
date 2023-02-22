@@ -1,7 +1,7 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequestInstructionStarted } from '@modules/modificationRequest'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
 
-import { makeDemandeAbandon } from './DemandeAbandon'
+import { makeDemandeAbandon } from './DemandeAbandon';
 import {
   AbandonAccordé,
   AbandonAnnulé,
@@ -10,7 +10,7 @@ import {
   AbandonRejeté,
   ConfirmationAbandonDemandée,
   RejetAbandonAnnulé,
-} from './events'
+} from './events';
 
 describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonDemandé'
@@ -28,15 +28,15 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         projetId: 'le-projet-de-la-demande',
         statut: 'envoyée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonAccordé'
       Alors la demande a un statut 'accordée'`, () => {
@@ -51,14 +51,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'accordée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonRejeté'
       Alors la demande a un statut 'rejetée'`, () => {
@@ -73,14 +73,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'refusée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonRejeté'
       Alors la demande a un statut 'rejetée'`, () => {
@@ -95,14 +95,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'refusée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonAnnulé'
       Alors la demande a un statut 'annulée'`, () => {
@@ -117,14 +117,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'annulée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'AbandonConfirmé'
       Alors la demande a un statut 'annulée'`, () => {
@@ -139,14 +139,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'demande confirmée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'ConfirmationAbandonDemandée'
       Alors la demande a un statut 'annulée'`, () => {
@@ -161,14 +161,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'en attente de confirmation',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'RejetAbandonAnnulé'
       Alors la demande a un statut 'annulée'`, () => {
@@ -183,14 +183,14 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'envoyée',
-      })
-  })
+      });
+  });
 
   it(`Quand on fabrique la demande d'abandon avec un événement 'ModificationRequestInstructionStarted'
       Alors la demande a un statut 'en instruction'`, () => {
@@ -203,12 +203,12 @@ describe(`Fabriquer l'agrégat pour une demande d'abandon`, () => {
           },
         }),
       ],
-    })
+    });
 
-    expect(demandeAbandon.isOk()).toBe(true)
+    expect(demandeAbandon.isOk()).toBe(true);
     demandeAbandon.isOk() &&
       expect(demandeAbandon.value).toMatchObject({
         statut: 'en instruction',
-      })
-  })
-})
+      });
+  });
+});

@@ -1,23 +1,23 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import makeFakeProject from '../../__tests__/fixtures/project'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import makeFakeProject from '../../__tests__/fixtures/project';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateRegenerated,
   ProjectImported,
   ProjectNotified,
-} from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
+} from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
 
-const projectId = new UniqueEntityID('project1')
-const appelOffreId = 'Fessenheim'
-const periodeId = '2'
-const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+const projectId = new UniqueEntityID('project1');
+const appelOffreId = 'Fessenheim';
+const periodeId = '2';
+const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
 
 const fakeHistory: DomainEvent[] = [
   new ProjectImported({
@@ -51,7 +51,7 @@ const fakeHistory: DomainEvent[] = [
       version: 1,
     },
   }),
-]
+];
 
 describe('Project.addGeneratedCertificate()', () => {
   describe('when project did not have a certificate', () => {
@@ -61,28 +61,28 @@ describe('Project.addGeneratedCertificate()', () => {
         history: fakeHistory,
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should emit ProjectCertificateGenerated', () => {
       project.addGeneratedCertificate({
         projectVersionDate: new Date(123),
         certificateFileId: 'file1',
-      })
+      });
 
-      expect(project.pendingEvents).toHaveLength(1)
+      expect(project.pendingEvents).toHaveLength(1);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCertificateGenerated.type
-      ) as ProjectCertificateGenerated | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectCertificateGenerated.type,
+      ) as ProjectCertificateGenerated | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.projectVersionDate).toEqual(new Date(123))
-      expect(targetEvent.payload.certificateFileId).toEqual('file1')
-    })
-  })
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.projectVersionDate).toEqual(new Date(123));
+      expect(targetEvent.payload.certificateFileId).toEqual('file1');
+    });
+  });
 
   describe('when project already had a certificate', () => {
     const project = UnwrapForTest(
@@ -102,28 +102,28 @@ describe('Project.addGeneratedCertificate()', () => {
         ]),
         getProjectAppelOffre,
         buildProjectIdentifier: () => '',
-      })
-    )
+      }),
+    );
 
     it('should emit ProjectCertificateRegenerated', () => {
       project.addGeneratedCertificate({
         projectVersionDate: new Date(123),
         certificateFileId: 'file1',
         reason: 'reason',
-      })
+      });
 
-      expect(project.pendingEvents).toHaveLength(1)
+      expect(project.pendingEvents).toHaveLength(1);
 
       const targetEvent = project.pendingEvents.find(
-        (item) => item.type === ProjectCertificateRegenerated.type
-      ) as ProjectCertificateRegenerated | undefined
-      expect(targetEvent).toBeDefined()
-      if (!targetEvent) return
+        (item) => item.type === ProjectCertificateRegenerated.type,
+      ) as ProjectCertificateRegenerated | undefined;
+      expect(targetEvent).toBeDefined();
+      if (!targetEvent) return;
 
-      expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-      expect(targetEvent.payload.projectVersionDate).toEqual(new Date(123))
-      expect(targetEvent.payload.certificateFileId).toEqual('file1')
-      expect(targetEvent.payload.reason).toEqual('reason')
-    })
-  })
-})
+      expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+      expect(targetEvent.payload.projectVersionDate).toEqual(new Date(123));
+      expect(targetEvent.payload.certificateFileId).toEqual('file1');
+      expect(targetEvent.payload.reason).toEqual('reason');
+    });
+  });
+});

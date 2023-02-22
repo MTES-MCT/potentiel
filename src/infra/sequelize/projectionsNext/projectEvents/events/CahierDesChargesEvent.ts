@@ -1,18 +1,18 @@
-import { DateParutionCahierDesChargesModifié } from '@entities/cahierDesCharges'
-import { ProjectEvent } from '..'
+import { DateParutionCahierDesChargesModifié } from '@entities/cahierDesCharges';
+import { ProjectEvent } from '..';
 
 export type CahierDesChargesEvent = ProjectEvent & {
-  type: 'CahierDesChargesChoisi'
+  type: 'CahierDesChargesChoisi';
   payload: {
-    choisiPar: string
+    choisiPar: string;
   } & (
     | {
-        type: 'initial'
+        type: 'initial';
       }
     | {
-        type: 'modifié'
-        paruLe: DateParutionCahierDesChargesModifié
-        alternatif?: true
+        type: 'modifié';
+        paruLe: DateParutionCahierDesChargesModifié;
+        alternatif?: true;
       }
-  )
-}
+  );
+};

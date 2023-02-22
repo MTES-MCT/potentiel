@@ -1,18 +1,18 @@
-import { AnnulationAbandonAccordée } from '@modules/demandeModification'
-import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain'
-import { AbandonProjetAnnulé, Project, ProjectGFDueDateSet } from '@modules/project'
-import add from 'date-fns/add'
-import { okAsync } from 'neverthrow'
-import { GetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { logger } from '@core/utils'
+import { AnnulationAbandonAccordée } from '@modules/demandeModification';
+import { EventStore, TransactionalRepository, UniqueEntityID } from '@core/domain';
+import { AbandonProjetAnnulé, Project, ProjectGFDueDateSet } from '@modules/project';
+import add from 'date-fns/add';
+import { okAsync } from 'neverthrow';
+import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { logger } from '@core/utils';
 
-type Evènement = AnnulationAbandonAccordée
+type Evènement = AnnulationAbandonAccordée;
 
 type Dépendances = {
-  projectRepo: TransactionalRepository<Project>
-  publishToEventStore: EventStore['publish']
-  getProjectAppelOffre: GetProjectAppelOffre
-}
+  projectRepo: TransactionalRepository<Project>;
+  publishToEventStore: EventStore['publish'];
+  getProjectAppelOffre: GetProjectAppelOffre;
+};
 
 export const makeOnAnnulationAbandonAccordée =
   ({ projectRepo, publishToEventStore, getProjectAppelOffre }: Dépendances) =>
@@ -27,18 +27,18 @@ export const makeOnAnnulationAbandonAccordée =
               dateAchèvement: new Date(completionDueOn),
               dateLimiteEnvoiDcr: dcrDueOn,
             },
-          })
+          }),
         ).andThen(() => {
-          const appelOffreProjet = getProjectAppelOffre({ appelOffreId, periodeId, familleId })
+          const appelOffreProjet = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
           if (!appelOffreProjet) {
             logger.error(
-              `onAnnulationAbandonAccordée n'a pas pu retrouver l'appel d'offres du projet ${projetId}`
-            )
-            return okAsync(null)
+              `onAnnulationAbandonAccordée n'a pas pu retrouver l'appel d'offres du projet ${projetId}`,
+            );
+            return okAsync(null);
           }
 
           if (!appelOffreProjet.isSoumisAuxGF) {
-            return okAsync(null)
+            return okAsync(null);
           }
 
           return publishToEventStore(
@@ -49,7 +49,7 @@ export const makeOnAnnulationAbandonAccordée =
                   months: 2,
                 }).getTime(),
               },
-            })
-          )
-        })
-    )
+            }),
+          );
+        }),
+    );

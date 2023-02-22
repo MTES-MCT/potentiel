@@ -1,15 +1,15 @@
-import ROUTES from '@routes'
-import { porteurProjetActions } from '.'
-import makeFakeProject from '../../../__tests__/fixtures/project'
+import ROUTES from '@routes';
+import { porteurProjetActions } from '.';
+import makeFakeProject from '../../../__tests__/fixtures/project';
 
 describe('porteurProjetActions', () => {
   describe('when project is abandoned', () => {
     it('should return an empty action array', () => {
-      const fakeProject = makeFakeProject({ isAbandoned: true, appelOffre: { type: 'batiment' } })
-      const result = porteurProjetActions(fakeProject)
-      expect(result).toEqual([])
-    })
-  })
+      const fakeProject = makeFakeProject({ isAbandoned: true, appelOffre: { type: 'batiment' } });
+      const result = porteurProjetActions(fakeProject);
+      expect(result).toEqual([]);
+    });
+  });
   describe('when project is not "classé"', () => {
     describe('when project has a certificate file', () => {
       it('should return certificate link and "recours" link', () => {
@@ -20,9 +20,9 @@ describe('porteurProjetActions', () => {
             id: '1',
             filename: 'file-name',
           },
-        })
-        const result = porteurProjetActions(fakeProject)
-        expect(result).toHaveLength(2)
+        });
+        const result = porteurProjetActions(fakeProject);
+        expect(result).toHaveLength(2);
         expect(result[0]).toMatchObject({
           title: 'Télécharger mon attestation',
           link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
@@ -32,18 +32,18 @@ describe('porteurProjetActions', () => {
             potentielIdentifier: fakeProject.potentielIdentifier,
           }),
           isDownload: true,
-        })
+        });
         expect(result[1]).toMatchObject({
           title: 'Faire une demande de recours',
           link: ROUTES.DEPOSER_RECOURS(fakeProject.id),
-        })
-      })
-    })
+        });
+      });
+    });
     describe('when project is "classé"', () => {
       it('should return an action array with the following actions: "Télécharger le récapitulatif", "Demander un délai", "Changer de producteur", "Changer de fournisseur", "Changer d\'actionnaire", "Changer de puissance", "Demander un abandon"', () => {
-        const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'batiment' } })
-        const result = porteurProjetActions(fakeProject)
-        expect(result).toHaveLength(7)
+        const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'batiment' } });
+        const result = porteurProjetActions(fakeProject);
+        expect(result).toHaveLength(7);
         expect(result).toEqual([
           {
             title: 'Télécharger le récapitulatif',
@@ -74,8 +74,8 @@ describe('porteurProjetActions', () => {
             title: 'Demander un abandon',
             link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
           },
-        ])
-      })
+        ]);
+      });
       describe('when project has a certificate file', () => {
         it('should return also a link to get this file', () => {
           const fakeProject = makeFakeProject({
@@ -85,9 +85,9 @@ describe('porteurProjetActions', () => {
               id: '1',
               filename: 'file-name',
             },
-          })
-          const result = porteurProjetActions(fakeProject)
-          expect(result).toHaveLength(8)
+          });
+          const result = porteurProjetActions(fakeProject);
+          expect(result).toHaveLength(8);
           expect(result[0]).toMatchObject({
             title: 'Télécharger mon attestation',
             link: ROUTES.CANDIDATE_CERTIFICATE_FOR_CANDIDATES({
@@ -97,14 +97,14 @@ describe('porteurProjetActions', () => {
               potentielIdentifier: fakeProject.potentielIdentifier,
             }),
             isDownload: true,
-          })
-        })
-      })
+          });
+        });
+      });
       describe('when the AO is eolien', () => {
         it('should not return "changement de producteur" action', () => {
-          const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'eolien' } })
-          const result = porteurProjetActions(fakeProject)
-          expect(result).toHaveLength(6)
+          const fakeProject = makeFakeProject({ isClasse: true, appelOffre: { type: 'eolien' } });
+          const result = porteurProjetActions(fakeProject);
+          expect(result).toHaveLength(6);
           expect(result).toEqual([
             {
               title: 'Télécharger le récapitulatif',
@@ -131,9 +131,9 @@ describe('porteurProjetActions', () => {
               title: 'Demander un abandon',
               link: ROUTES.GET_DEMANDER_ABANDON(fakeProject.id),
             },
-          ])
-        })
-      })
-    })
-  })
-})
+          ]);
+        });
+      });
+    });
+  });
+});

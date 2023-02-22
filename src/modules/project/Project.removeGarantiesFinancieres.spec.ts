@@ -1,22 +1,22 @@
-import { DomainEvent, UniqueEntityID } from '@core/domain'
-import { UnwrapForTest } from '@core/utils'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { ProjectGFRemoved, ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events'
-import { makeProject } from './Project'
-import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre'
-import { NoGFCertificateToDeleteError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors'
-import makeFakeProject from '../../__tests__/fixtures/project'
-import { UnwrapForTest as OldUnwrapForTest } from '../../types'
-import makeFakeUser from '../../__tests__/fixtures/user'
-import { makeUser } from '@entities'
+import { DomainEvent, UniqueEntityID } from '@core/domain';
+import { UnwrapForTest } from '@core/utils';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { ProjectGFRemoved, ProjectGFSubmitted, ProjectImported, ProjectNotified } from './events';
+import { makeProject } from './Project';
+import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { NoGFCertificateToDeleteError, ProjectCannotBeUpdatedIfUnnotifiedError } from './errors';
+import makeFakeProject from '../../__tests__/fixtures/project';
+import { UnwrapForTest as OldUnwrapForTest } from '../../types';
+import makeFakeUser from '../../__tests__/fixtures/user';
+import { makeUser } from '@entities';
 
-const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic)
-const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()))
+const getProjectAppelOffre = makeGetProjectAppelOffre(appelsOffreStatic);
+const fakeUser = OldUnwrapForTest(makeUser(makeFakeUser()));
 
 describe('Project.removeGarantiesFinancieres()', () => {
   describe('when the project has not been notified', () => {
     it('should return a ProjectCannotBeUpdatedIfUnnotifiedError', () => {
-      const projectId = new UniqueEntityID()
+      const projectId = new UniqueEntityID();
       const project = UnwrapForTest(
         makeProject({
           projectId,
@@ -34,23 +34,23 @@ describe('Project.removeGarantiesFinancieres()', () => {
             }),
           ],
           buildProjectIdentifier: () => '',
-        })
-      )
+        }),
+      );
 
-      const res = project.removeGarantiesFinancieres(fakeUser)
+      const res = project.removeGarantiesFinancieres(fakeUser);
 
-      expect(res.isErr()).toEqual(true)
-      if (res.isOk()) return
-      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError)
-    })
-  })
+      expect(res.isErr()).toEqual(true);
+      if (res.isOk()) return;
+      expect(res.error).toBeInstanceOf(ProjectCannotBeUpdatedIfUnnotifiedError);
+    });
+  });
   describe('when the project has been notified', () => {
     describe('when project GF has to be submitted on Potentiel after application to AO (CRE4)', () => {
-      const projectId = new UniqueEntityID()
-      const appelOffreId = 'Fessenheim'
-      const periodeId = '2'
-      const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' })
-      const { familleId, numeroCRE, potentielIdentifier } = fakeProject
+      const projectId = new UniqueEntityID();
+      const appelOffreId = 'Fessenheim';
+      const periodeId = '2';
+      const fakeProject = makeFakeProject({ appelOffreId, periodeId, classe: 'Classé' });
+      const { familleId, numeroCRE, potentielIdentifier } = fakeProject;
 
       const fakeHistory: DomainEvent[] = [
         new ProjectImported({
@@ -84,7 +84,7 @@ describe('Project.removeGarantiesFinancieres()', () => {
             version: 1,
           },
         }),
-      ]
+      ];
       describe('when project does not have a GF certificate', () => {
         it('should return a NoGFCertificateToDeleteError', () => {
           const project = UnwrapForTest(
@@ -105,14 +105,14 @@ describe('Project.removeGarantiesFinancieres()', () => {
               ],
               getProjectAppelOffre,
               buildProjectIdentifier: () => '',
-            })
-          )
-          const res = project.removeGarantiesFinancieres(fakeUser)
-          expect(res.isErr()).toEqual(true)
-          if (res.isOk()) return
-          expect(res.error).toBeInstanceOf(NoGFCertificateToDeleteError)
-        })
-      })
+            }),
+          );
+          const res = project.removeGarantiesFinancieres(fakeUser);
+          expect(res.isErr()).toEqual(true);
+          if (res.isOk()) return;
+          expect(res.error).toBeInstanceOf(NoGFCertificateToDeleteError);
+        });
+      });
       describe('when a GF has been submitted on Potentiel', () => {
         it('should emit a ProjectGFRemoved event', () => {
           const project = UnwrapForTest(
@@ -135,20 +135,20 @@ describe('Project.removeGarantiesFinancieres()', () => {
               ],
               getProjectAppelOffre,
               buildProjectIdentifier: () => '',
-            })
-          )
-          project.removeGarantiesFinancieres(fakeUser)
+            }),
+          );
+          project.removeGarantiesFinancieres(fakeUser);
 
-          expect(project.pendingEvents).toHaveLength(1)
+          expect(project.pendingEvents).toHaveLength(1);
 
-          const targetEvent = project.pendingEvents[0]
-          if (!targetEvent) return
+          const targetEvent = project.pendingEvents[0];
+          if (!targetEvent) return;
 
-          expect(targetEvent.type).toEqual(ProjectGFRemoved.type)
-          expect(targetEvent.payload.projectId).toEqual(projectId.toString())
-          expect(targetEvent.payload.removedBy).toEqual(fakeUser.id)
-        })
-      })
-    })
-  })
-})
+          expect(targetEvent.type).toEqual(ProjectGFRemoved.type);
+          expect(targetEvent.payload.projectId).toEqual(projectId.toString());
+          expect(targetEvent.payload.removedBy).toEqual(fakeUser.id);
+        });
+      });
+    });
+  });
+});

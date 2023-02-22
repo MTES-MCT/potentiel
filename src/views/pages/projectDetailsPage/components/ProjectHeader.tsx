@@ -1,13 +1,13 @@
-import React from 'react'
-import { User } from '@entities'
-import { ProjectDataForProjectPage } from '@modules/project/queries'
-import { Badge, Heading1 } from '@components'
-import { ProjectActions } from './ProjectActions'
+import React from 'react';
+import { User } from '@entities';
+import { ProjectDataForProjectPage } from '@modules/project/queries';
+import { Badge, Heading1 } from '@components';
+import { ProjectActions } from './ProjectActions';
 
 type ProjectHeaderProps = {
-  project: ProjectDataForProjectPage
-  user: User
-}
+  project: ProjectDataForProjectPage;
+  user: User;
+};
 
 export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 lg:flex justify-between gap-2">
@@ -45,4 +45,4 @@ export const ProjectHeader = ({ project, user }: ProjectHeaderProps) => (
       <ProjectActions {...{ project, user }} />
     </div>
   </div>
-)
+);

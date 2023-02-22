@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 
-import { ExclamationIcon } from '@components'
+import { ExclamationIcon } from '@components';
 
 export const WarningIcon = () => (
   <div className="h-9 flex items-center">
@@ -12,4 +12,4 @@ export const WarningIcon = () => (
       <ExclamationIcon className="h-6 w-6 text-white" title="alerte" />
     </span>
   </div>
-)
+);

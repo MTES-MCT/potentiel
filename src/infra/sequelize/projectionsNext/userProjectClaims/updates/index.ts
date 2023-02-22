@@ -1,1 +1,1 @@
-export * from './onProjectClaimFailed'
+export * from './onProjectClaimFailed';

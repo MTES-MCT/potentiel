@@ -1,18 +1,18 @@
-import type { Request } from 'express'
-import React from 'react'
-import { dataId } from '../../helpers/testId'
-import ROUTES from '@routes'
-import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components'
-import { hydrateOnClient } from '../helpers'
+import type { Request } from 'express';
+import React from 'react';
+import { dataId } from '../../helpers/testId';
+import ROUTES from '@routes';
+import { SecondaryButton, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components';
+import { hydrateOnClient } from '../helpers';
 
 type ImporterListingEDFProps = {
-  request: Request
-}
+  request: Request;
+};
 
 export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
   const {
     query: { error, success },
-  } = request
+  } = request;
 
   return (
     <PageTemplate user={request.user}>
@@ -38,7 +38,7 @@ export const ImporterListingEDF = ({ request }: ImporterListingEDFProps) => {
         </form>
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(ImporterListingEDF)
+hydrateOnClient(ImporterListingEDF);

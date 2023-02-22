@@ -1,14 +1,14 @@
-import { DownloadLink } from '@components'
-import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.'
-import { makeDocumentUrl } from '../helpers'
+import { DownloadLink } from '@components';
+import React from 'react';
+import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
+import { makeDocumentUrl } from '../helpers';
 
 type DemandeAbandonSignaledItemProps = {
-  date: number
-  status: 'acceptée' | 'rejetée' | 'à accorder'
-  attachment?: { id: string; name: string }
-  notes?: string
-}
+  date: number;
+  status: 'acceptée' | 'rejetée' | 'à accorder';
+  attachment?: { id: string; name: string };
+  notes?: string;
+};
 
 export const DemandeAbandonSignaledItem = ({
   status,
@@ -32,19 +32,19 @@ export const DemandeAbandonSignaledItem = ({
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
 type StatusIconProps = {
-  status: DemandeAbandonSignaledItemProps['status']
-}
+  status: DemandeAbandonSignaledItemProps['status'];
+};
 const StatusIcon = ({ status }: StatusIconProps) => {
   switch (status) {
     case 'acceptée':
-      return <PastIcon />
+      return <PastIcon />;
     case 'rejetée':
-      return <UnvalidatedStepIcon />
+      return <UnvalidatedStepIcon />;
     case 'à accorder':
-      return <CurrentIcon />
+      return <CurrentIcon />;
   }
-}
+};

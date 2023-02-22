@@ -5,26 +5,26 @@ import {
   PaginationPanel,
   SecondaryButton,
   SuccessBox,
-} from '@components'
-import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats'
-import ROUTES from '@routes'
-import { Request } from 'express'
-import React from 'react'
-import { formatDate } from '../../helpers/formatDate'
-import { dataId } from '../../helpers/testId'
-import { PaginatedList } from '../../types'
-import { hydrateOnClient } from '../helpers'
+} from '@components';
+import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
+import ROUTES from '@routes';
+import { Request } from 'express';
+import React from 'react';
+import { formatDate } from '../../helpers/formatDate';
+import { dataId } from '../../helpers/testId';
+import { PaginatedList } from '../../types';
+import { hydrateOnClient } from '../helpers';
 
 interface InvitationsCandidatsEnAttenteProps {
-  request: Request
-  invitations: PaginatedList<PendingCandidateInvitationDTO>
+  request: Request;
+  invitations: PaginatedList<PendingCandidateInvitationDTO>;
 }
 
 export const InvitationsCandidatsEnAttente = ({
   request,
   invitations,
 }: InvitationsCandidatsEnAttenteProps) => {
-  const { error, success } = (request.query as any) || {}
+  const { error, success } = (request.query as any) || {};
 
   return (
     <PageTemplate user={request.user} currentPage="list-invitations">
@@ -98,7 +98,7 @@ export const InvitationsCandidatsEnAttente = ({
                         </form>
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -118,7 +118,7 @@ export const InvitationsCandidatsEnAttente = ({
         )}
       </div>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(InvitationsCandidatsEnAttente)
+hydrateOnClient(InvitationsCandidatsEnAttente);

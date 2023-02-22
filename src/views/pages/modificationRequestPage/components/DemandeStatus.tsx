@@ -1,38 +1,38 @@
-import { DownloadLink, SecondaryButton } from '@components'
-import { ModificationRequestPageDTO } from '@modules/modificationRequest'
-import { UserRole } from '@modules/users'
-import ROUTES from '@routes'
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
+import { DownloadLink, SecondaryButton } from '@components';
+import { ModificationRequestPageDTO } from '@modules/modificationRequest';
+import { UserRole } from '@modules/users';
+import ROUTES from '@routes';
+import React from 'react';
+import { formatDate } from '../../../../helpers/formatDate';
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
-} from '../../../helpers'
+} from '../../../helpers';
 
 interface DemandeStatusProps {
-  modificationRequest: ModificationRequestPageDTO
-  role: UserRole
+  modificationRequest: ModificationRequestPageDTO;
+  role: UserRole;
 }
 
 function getAdminAnulerRejetDemandeRoute({ type, id }) {
   if (!type) {
-    return
+    return;
   }
 
   switch (type) {
     case 'delai':
       return ROUTES.ADMIN_ANNULER_DELAI_REJETE({
         modificationRequestId: id,
-      })
+      });
     case 'recours':
       return ROUTES.ADMIN_ANNULER_RECOURS_REJETE({
         modificationRequestId: id,
-      })
+      });
     case 'puissance':
-      return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE
+      return ROUTES.ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE;
     default:
-      return
+      return;
   }
 }
 
@@ -46,12 +46,12 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
     status,
     type,
     authority = null,
-  } = modificationRequest
+  } = modificationRequest;
   const afficherBoutonAnnulerRejet =
     (['admin', 'dgec-validateur'].includes(role) ||
       (role === 'dreal' && authority && authority === role)) &&
     ['delai', 'recours', 'puissance'].includes(type) &&
-    status === 'rejetée'
+    status === 'rejetée';
 
   return (
     <div
@@ -79,10 +79,10 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
             onClick={(e) => {
               if (
                 !confirm(
-                  'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
+                  'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?',
                 )
               ) {
-                e.preventDefault()
+                e.preventDefault();
               }
             }}
           >
@@ -102,14 +102,14 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 interface StatusForDelaiProps {
-  modificationRequest: ModificationRequestPageDTO
+  modificationRequest: ModificationRequestPageDTO;
 }
 const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
-  const { project } = modificationRequest
+  const { project } = modificationRequest;
   if (
     modificationRequest.type === 'delai' &&
     modificationRequest.status === 'acceptée' &&
@@ -117,7 +117,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
   ) {
     const {
       acceptanceParams: { delayInMonths, dateAchèvementAccordée },
-    } = modificationRequest
+    } = modificationRequest;
 
     if (delayInMonths) {
       return (
@@ -126,7 +126,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
           <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement
           théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
         </div>
-      )
+      );
     }
 
     if (dateAchèvementAccordée) {
@@ -135,11 +135,11 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
           L‘administration vous accorde un report de date limite d'achèvement au{' '}
           <span className="font-bold">{formatDate(new Date(dateAchèvementAccordée))}</span>.
         </div>
-      )
+      );
     }
 
-    return null
+    return null;
   }
 
-  return null
-}
+  return null;
+};

@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { AnnulationAbandonAnnulée } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { AnnulationAbandonAnnulée } from '@modules/demandeModification';
 
 export const onAnnulationAbandonAnnulée =
   (models) =>
   async ({ payload, occurredAt }: AnnulationAbandonAnnulée) => {
-    const { demandeId, annuléePar } = payload
+    const { demandeId, annuléePar } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.update(
         {
@@ -15,9 +15,9 @@ export const onAnnulationAbandonAnnulée =
           cancelledOn: occurredAt.getTime(),
           versionDate: occurredAt,
         },
-        { where: { id: demandeId } }
-      )
+        { where: { id: demandeId } },
+      );
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

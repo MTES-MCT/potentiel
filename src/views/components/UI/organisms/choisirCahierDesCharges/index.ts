@@ -1,1 +1,1 @@
-export * from './ChoisirCahierDesChargesFormulaire'
+export * from './ChoisirCahierDesChargesFormulaire';

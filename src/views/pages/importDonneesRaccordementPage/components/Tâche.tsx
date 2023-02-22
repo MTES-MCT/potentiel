@@ -1,46 +1,46 @@
-import { Badge, SuccessIcon, ErrorIcon, Link, SkipIcon } from '@components'
-import routes from '@routes'
-import React, { FC, useState } from 'react'
+import { Badge, SuccessIcon, ErrorIcon, Link, SkipIcon } from '@components';
+import routes from '@routes';
+import React, { FC, useState } from 'react';
 
 export type TâcheProps = {
-  type: 'maj-données-de-raccordement'
-  dateDeDébut: Date
+  type: 'maj-données-de-raccordement';
+  dateDeDébut: Date;
 } & (
   | {
-      état: 'en cours'
+      état: 'en cours';
     }
   | {
-      état: 'terminée'
-      dateDeFin: Date
-      détail: Détail
+      état: 'terminée';
+      dateDeFin: Date;
+      détail: Détail;
     }
-)
+);
 
 type Succès = {
-  projetId: string
-  identifiantGestionnaireRéseau: string
-}
+  projetId: string;
+  identifiantGestionnaireRéseau: string;
+};
 
 type Erreur = {
-  raison: string
-  projetId?: string
-  identifiantGestionnaireRéseau: string
-}
+  raison: string;
+  projetId?: string;
+  identifiantGestionnaireRéseau: string;
+};
 
 type Ignorés = {
-  raison: string
-  projetId: string
-  identifiantGestionnaireRéseau: string
-}
+  raison: string;
+  projetId: string;
+  identifiantGestionnaireRéseau: string;
+};
 
 type Détail = {
-  succès?: Array<Succès>
-  ignorés?: Array<Ignorés>
-  erreurs?: Array<Erreur>
-}
+  succès?: Array<Succès>;
+  ignorés?: Array<Ignorés>;
+  erreurs?: Array<Erreur>;
+};
 
 export const Tâche: FC<TâcheProps> = (props) => {
-  const { état, dateDeDébut } = props
+  const { état, dateDeDébut } = props;
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-1">
@@ -75,8 +75,8 @@ export const Tâche: FC<TâcheProps> = (props) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 const DétailSuccès: FC<{ succès: Array<Succès> }> = ({ succès }) => {
   return succès.length > 0 ? (
@@ -84,18 +84,18 @@ const DétailSuccès: FC<{ succès: Array<Succès> }> = ({ succès }) => {
       <SuccessIcon className="w-4 h-4 text-success-425-base mr-1" />
       {`${succès.length} ${succès.length === 1 ? 'projet a' : 'projets ont'} été mis à jour`}
     </div>
-  ) : null
-}
+  ) : null;
+};
 
 const DétailIgnorés: FC<{ ignorés: Array<Ignorés> }> = ({ ignorés }) => {
-  const [afficherDétail, setAfficherDétail] = useState(false)
+  const [afficherDétail, setAfficherDétail] = useState(false);
 
   return ignorés.length > 0 ? (
     <>
       <Link
         className="flex items-center text-sm lg:mr-4"
         onClick={() => {
-          setAfficherDétail(!afficherDétail)
+          setAfficherDétail(!afficherDétail);
         }}
       >
         <SkipIcon className="w-4 h-4 text-grey-625-base mr-1" />
@@ -122,23 +122,23 @@ const DétailIgnorés: FC<{ ignorés: Array<Ignorés> }> = ({ ignorés }) => {
                   </Link>
                 )}
               </li>
-            )
+            );
           })}
         </ul>
       )}
     </>
-  ) : null
-}
+  ) : null;
+};
 
 const DétailErreurs: FC<{ erreurs: Array<Erreur> }> = ({ erreurs }) => {
-  const [afficherDétail, setAfficherDétail] = useState(false)
+  const [afficherDétail, setAfficherDétail] = useState(false);
 
   return erreurs.length > 0 ? (
     <>
       <Link
         className="flex items-center text-sm"
         onClick={() => {
-          setAfficherDétail(!afficherDétail)
+          setAfficherDétail(!afficherDétail);
         }}
       >
         <ErrorIcon className="w-4 h-4 text-error-425-base mr-1" />
@@ -165,10 +165,10 @@ const DétailErreurs: FC<{ erreurs: Array<Erreur> }> = ({ erreurs }) => {
                   </Link>
                 )}
               </li>
-            )
+            );
           })}
         </ul>
       )}
     </>
-  ) : null
-}
+  ) : null;
+};

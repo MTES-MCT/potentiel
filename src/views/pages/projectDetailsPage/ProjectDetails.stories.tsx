@@ -1,10 +1,10 @@
-import React from 'react'
-import { ProjectDetails } from './ProjectDetails'
-import { appelsOffreStatic } from '@dataAccess/inMemory'
-import { ProjectAppelOffre } from '@entities'
-import { ProjectDataForProjectPage } from '@modules/project/queries'
-import makeFakeRequest from '../../../__tests__/fixtures/request'
-import makeFakeUser from '../../../__tests__/fixtures/user'
+import React from 'react';
+import { ProjectDetails } from './ProjectDetails';
+import { appelsOffreStatic } from '@dataAccess/inMemory';
+import { ProjectAppelOffre } from '@entities';
+import { ProjectDataForProjectPage } from '@modules/project/queries';
+import makeFakeRequest from '../../../__tests__/fixtures/request';
+import makeFakeUser from '../../../__tests__/fixtures/user';
 import {
   ProjectImportedDTO,
   ProjectNotifiedDTO,
@@ -14,14 +14,14 @@ import {
   ProjectEventListDTO,
   GarantiesFinancièresDTO,
   PtfDTO,
-} from '@modules/frise'
+} from '@modules/frise';
 
-export default { title: 'Project page' }
+export default { title: 'Project page' };
 
 const appelOffre: ProjectAppelOffre | undefined = appelsOffreStatic.find(
-  (appelOffre) => appelOffre.id === 'Fessenheim'
-) as ProjectAppelOffre
-if (appelOffre) appelOffre.periode = appelOffre.periodes[1]
+  (appelOffre) => appelOffre.id === 'Fessenheim',
+) as ProjectAppelOffre;
+if (appelOffre) appelOffre.periode = appelOffre.periodes[1];
 
 const projectEventList: ProjectEventListDTO = {
   project: { id: 'fake-project-id', status: 'Classé', nomProjet: 'mon-projet' },
@@ -62,7 +62,7 @@ const projectEventList: ProjectEventListDTO = {
       date: new Date('2022-02-13').getTime(),
     } as ProjectDCRDueDateSetDTO,
   ],
-}
+};
 
 const fakeProjectData = {
   id: 'projectId',
@@ -133,7 +133,7 @@ const fakeProjectData = {
   contratEnedis: {
     numero: 'ENEDIS12345',
   },
-} as unknown as ProjectDataForProjectPage
+} as unknown as ProjectDataForProjectPage;
 
 export const forAdminsLaureat = () => (
   <ProjectDetails
@@ -147,7 +147,7 @@ export const forAdminsLaureat = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forAdminsElimine = () => (
   <ProjectDetails
@@ -161,7 +161,7 @@ export const forAdminsElimine = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forAdminsNonNotifié = () => (
   <ProjectDetails
@@ -176,7 +176,7 @@ export const forAdminsNonNotifié = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forAdminsAbandonné = () => (
   <ProjectDetails
@@ -191,7 +191,7 @@ export const forAdminsAbandonné = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forPorteurProjet = () => (
   <ProjectDetails
@@ -207,7 +207,7 @@ export const forPorteurProjet = () => (
       } as ProjectDataForProjectPage
     }
   />
-)
+);
 
 export const forPorteurProjetElimine = () => (
   <ProjectDetails
@@ -223,7 +223,7 @@ export const forPorteurProjetElimine = () => (
       } as ProjectDataForProjectPage
     }
   />
-)
+);
 
 export const forPorteurProjetWithGarantiesFinancieres = () => (
   <ProjectDetails
@@ -239,7 +239,7 @@ export const forPorteurProjetWithGarantiesFinancieres = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forPorteurProjetWithPTF = () => (
   <ProjectDetails
@@ -267,7 +267,7 @@ export const forPorteurProjetWithPTF = () => (
       ],
     }}
   />
-)
+);
 
 export const forPorteurProjetWithSuccess = () => (
   <ProjectDetails
@@ -279,7 +279,7 @@ export const forPorteurProjetWithSuccess = () => (
     project={fakeProjectData}
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forDrealGFPassDue = () => (
   <ProjectDetails
@@ -295,7 +295,7 @@ export const forDrealGFPassDue = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 export const forDrealGFStillDue = () => (
   <ProjectDetails
@@ -311,14 +311,14 @@ export const forDrealGFStillDue = () => (
     }
     projectEventList={projectEventList}
   />
-)
+);
 
 const appelOffreInnovation: ProjectAppelOffre = appelsOffreStatic.find(
-  (appelOffre) => appelOffre.id === 'CRE4 - Innovation'
-) as ProjectAppelOffre
+  (appelOffre) => appelOffre.id === 'CRE4 - Innovation',
+) as ProjectAppelOffre;
 
 if (appelOffreInnovation) {
-  appelOffreInnovation.periode = appelOffreInnovation.periodes[1]
+  appelOffreInnovation.periode = appelOffreInnovation.periodes[1];
 }
 
 export const forAOInnovation = () => (
@@ -344,4 +344,4 @@ export const forAOInnovation = () => (
     }}
     projectEventList={projectEventList}
   />
-)
+);

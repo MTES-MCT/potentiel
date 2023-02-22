@@ -1,1 +1,1 @@
-export * from './dualPublish'
+export * from './dualPublish';

@@ -2,13 +2,13 @@ import {
   ensureRole,
   choisirCahierDesCharges,
   renseignerIdentifiantGestionnaireRéseau,
-} from '@config'
-import { logger, okAsync } from '@core/utils'
-import { UnauthorizedError } from '@modules/shared'
-import routes from '@routes'
-import { errorResponse, unauthorizedResponse } from '../helpers'
-import { v1Router } from '../v1Router'
-import * as yup from 'yup'
+} from '@config';
+import { logger, okAsync } from '@core/utils';
+import { UnauthorizedError } from '@modules/shared';
+import routes from '@routes';
+import { errorResponse, unauthorizedResponse } from '../helpers';
+import { v1Router } from '../v1Router';
+import * as yup from 'yup';
 import {
   CahierDesChargesInitialNonDisponibleError,
   CahierDesChargesNonDisponibleError,
@@ -16,16 +16,16 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
   NouveauCahierDesChargesDéjàSouscrit,
   PasDeChangementDeCDCPourCetAOError,
-} from '@modules/project'
-import { ModificationRequestType } from '@modules/modificationRequest'
-import safeAsyncHandler from '../helpers/safeAsyncHandler'
+} from '@modules/project';
+import { ModificationRequestType } from '@modules/modificationRequest';
+import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import {
   CahierDesChargesRéférence,
   cahiersDesChargesRéférences,
   parseCahierDesChargesRéférence,
-} from '@entities'
+} from '@entities';
 
-export type TypeDeModification = ModificationRequestType | 'delai'
+export type TypeDeModification = ModificationRequestType | 'delai';
 
 const schema = yup.object({
   body: yup.object({
@@ -49,23 +49,23 @@ const schema = yup.object({
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
   }),
-})
+});
 
 const getRedirectTitle = (type: TypeDeModification) => {
   switch (type) {
     case 'delai':
     case 'recours':
-      return `Retourner sur la demande de ${type}`
+      return `Retourner sur la demande de ${type}`;
     case 'abandon':
-      return `Retourner sur la demande d'${type}`
+      return `Retourner sur la demande d'${type}`;
     case 'puissance':
     case 'fournisseur':
     case 'producteur':
-      return `Retourner sur la demande de changement de ${type}`
+      return `Retourner sur la demande de changement de ${type}`;
     default:
-      return 'Retourner sur la page du projet'
+      return 'Retourner sur la page du projet';
   }
-}
+};
 
 v1Router.post(
   routes.CHANGER_CDC,
@@ -85,25 +85,25 @@ v1Router.post(
       const {
         body: { projectId, redirectUrl, type, choixCDC, identifiantGestionnaireRéseau },
         user,
-      } = request
+      } = request;
 
       return (() => {
         if (!identifiantGestionnaireRéseau) {
-          return okAsync(null)
+          return okAsync(null);
         }
 
         return renseignerIdentifiantGestionnaireRéseau({
           projetId: projectId,
           utilisateur: user,
           identifiantGestionnaireRéseau,
-        })
+        });
       })()
         .andThen(() =>
           choisirCahierDesCharges({
             projetId: projectId,
             utilisateur: user,
             cahierDesCharges: parseCahierDesChargesRéférence(choixCDC),
-          })
+          }),
         )
         .match(
           () => {
@@ -113,12 +113,12 @@ v1Router.post(
                   "Votre demande de changement de modalités d'instruction a bien été enregistrée.",
                 redirectUrl,
                 redirectTitle: getRedirectTitle(type),
-              })
-            )
+              }),
+            );
           },
           (error) => {
             if (error instanceof UnauthorizedError) {
-              return unauthorizedResponse({ request, response })
+              return unauthorizedResponse({ request, response });
             }
 
             if (
@@ -133,18 +133,18 @@ v1Router.post(
                 request,
                 response,
                 customMessage: error.message,
-              })
+              });
             }
 
-            logger.error(error)
+            logger.error(error);
             return errorResponse({
               request,
               response,
               customMessage:
                 'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-            })
-          }
-        )
-    }
-  )
-)
+            });
+          },
+        );
+    },
+  ),
+);

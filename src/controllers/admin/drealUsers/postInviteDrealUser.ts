@@ -1,14 +1,14 @@
-import { createUser, eventStore, ensureRole } from '@config'
-import asyncHandler from '../../helpers/asyncHandler'
-import { addQueryParams } from '../../../helpers/addQueryParams'
-import { DrealUserInvited } from '@modules/authZ'
-import routes from '@routes'
-import { v1Router } from '../../v1Router'
-import * as yup from 'yup'
-import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers'
-import { logger } from '../../../core/utils'
-import { EmailAlreadyUsedError } from '../../../modules/shared/errors'
-import { REGIONS } from '@modules/dreal/région'
+import { createUser, eventStore, ensureRole } from '@config';
+import asyncHandler from '../../helpers/asyncHandler';
+import { addQueryParams } from '../../../helpers/addQueryParams';
+import { DrealUserInvited } from '@modules/authZ';
+import routes from '@routes';
+import { v1Router } from '../../v1Router';
+import * as yup from 'yup';
+import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers';
+import { logger } from '../../../core/utils';
+import { EmailAlreadyUsedError } from '../../../modules/shared/errors';
+import { REGIONS } from '@modules/dreal/région';
 
 const requestBodySchema = yup.object({
   role: yup
@@ -22,7 +22,7 @@ const requestBodySchema = yup.object({
     .oneOf([...REGIONS], 'Vous devez sélectionner une région dans le menu déroulant ci-dessus')
     .required('Ce champ est obligatoire')
     .typeError("La région saisie n'est pas valide"),
-})
+});
 
 v1Router.post(
   routes.ADMIN_INVITE_DREAL_USER_ACTION,
@@ -30,7 +30,7 @@ v1Router.post(
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
-        const { email, role, region } = body
+        const { email, role, region } = body;
 
         return createUser({
           email: email.toLowerCase(),
@@ -45,10 +45,10 @@ v1Router.post(
                   region,
                   invitedBy: request.user.id,
                 },
-              })
+              }),
             )
-            .map(() => ({ email }))
-        })
+            .map(() => ({ email }));
+        });
       })
       .match(
         ({ email }) =>
@@ -57,7 +57,7 @@ v1Router.post(
               success: `Une invitation a bien été envoyée à ${email}.`,
               redirectUrl: routes.ADMIN_DREAL_LIST,
               redirectTitle: 'Retourner à la liste des DREALs',
-            })
+            }),
           ),
         (error: Error) => {
           if (error instanceof RequestValidationError) {
@@ -65,8 +65,8 @@ v1Router.post(
               addQueryParams(routes.ADMIN_DREAL_LIST, {
                 ...request.body,
                 ...error.errors,
-              })
-            )
+              }),
+            );
           }
           if (error instanceof EmailAlreadyUsedError) {
             return response.redirect(
@@ -74,17 +74,17 @@ v1Router.post(
                 ...request.body,
                 error:
                   "L'invitation n'a pas pu être envoyée car l'adresse email est déjà associée à un compte Potentiel.",
-              })
-            )
+              }),
+            );
           }
-          logger.error(error)
+          logger.error(error);
           return errorResponse({
             request,
             response,
             customMessage:
               'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          })
-        }
-      )
-  })
-)
+          });
+        },
+      );
+  }),
+);

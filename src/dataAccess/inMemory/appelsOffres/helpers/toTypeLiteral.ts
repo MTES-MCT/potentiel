@@ -1,5 +1,5 @@
-import { ValuesType } from 'utility-types'
-import { asLiteral } from '../../../../helpers/asLiteral'
+import { ValuesType } from 'utility-types';
+import { asLiteral } from '../../../../helpers/asLiteral';
 
 type Type = {
   type:
@@ -9,9 +9,9 @@ type Type = {
     | 'stringEquals' // column should equals value
     | 'orNumberInColumn' // if column is empty, check try column
     | 'orStringInColumn' // if column is empty, check try column
-    | 'codePostal' // Special case where we want to extend departement / région from codePostal
-}
+    | 'codePostal'; // Special case where we want to extend departement / région from codePostal
+};
 
-const toTypeLiteral = (str) => asLiteral<ValuesType<Type>>(str)
+const toTypeLiteral = (str) => asLiteral<ValuesType<Type>>(str);
 
-export default toTypeLiteral
+export default toTypeLiteral;

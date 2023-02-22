@@ -1,35 +1,35 @@
-import { logger, okAsync } from '@core/utils'
-import { TransactionalRepository, UniqueEntityID } from '@core/domain'
+import { logger, okAsync } from '@core/utils';
+import { TransactionalRepository, UniqueEntityID } from '@core/domain';
 import {
   ProjectCertificateGenerated,
   ProjectCertificateGenerationFailed,
-} from '../../project/events'
-import { CandidateNotification } from '../CandidateNotification'
-import { makeCandidateNotificationId } from '../helpers'
+} from '../../project/events';
+import { CandidateNotification } from '../CandidateNotification';
+import { makeCandidateNotificationId } from '../helpers';
 
 export const handleProjectCertificateGeneratedOrFailed =
   (deps: { candidateNotificationRepo: TransactionalRepository<CandidateNotification> }) =>
   async (event: ProjectCertificateGenerated | ProjectCertificateGenerationFailed) => {
     const {
       payload: { periodeId, appelOffreId, candidateEmail },
-    } = event
+    } = event;
 
     const candidateNotificationId = new UniqueEntityID(
       makeCandidateNotificationId({
         appelOffreId,
         periodeId,
         candidateEmail,
-      })
-    )
+      }),
+    );
 
     const res = await deps.candidateNotificationRepo.transaction(
       candidateNotificationId,
       (candidateNotification) => {
-        candidateNotification.notifyCandidateIfReady()
-        return okAsync(null)
-      }
-    )
+        candidateNotification.notifyCandidateIfReady();
+        return okAsync(null);
+      },
+    );
     if (res.isErr()) {
-      logger.error(res.error as Error)
+      logger.error(res.error as Error);
     }
-  }
+  };

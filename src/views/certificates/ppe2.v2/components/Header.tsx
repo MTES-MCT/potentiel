@@ -1,13 +1,13 @@
-import { ProjectDataForCertificate } from '@modules/project/dtos'
-import { Image, Text, View } from '@react-pdf/renderer'
-import React from 'react'
-import { formatDate } from '../../../../helpers/formatDate'
+import { ProjectDataForCertificate } from '@modules/project/dtos';
+import { Image, Text, View } from '@react-pdf/renderer';
+import React from 'react';
+import { formatDate } from '../../../../helpers/formatDate';
 
 type HeaderProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 export const Header = ({ project }: HeaderProps) => {
-  const { appelOffre } = project
+  const { appelOffre } = project;
 
   return (
     <View style={{ paddingLeft: 15 }}>
@@ -69,5 +69,5 @@ export const Header = ({ project }: HeaderProps) => {
         </View>
       </View>
     </View>
-  )
-}
+  );
+};

@@ -1,29 +1,29 @@
-import { UserRole } from '@modules/users'
+import { UserRole } from '@modules/users';
 import {
   CreationOptional,
   DataTypes,
   InferAttributes,
   InferCreationAttributes,
   Model,
-} from 'sequelize'
-import { sequelizeInstance } from '../../../../sequelize.config'
-import { makeSequelizeProjector } from '../../helpers'
+} from 'sequelize';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { makeSequelizeProjector } from '../../helpers';
 
-const étatsPossibles = ['invité', 'créé'] as const
-type États = typeof étatsPossibles[number]
+const étatsPossibles = ['invité', 'créé'] as const;
+type États = typeof étatsPossibles[number];
 
 class Users extends Model<InferAttributes<Users>, InferCreationAttributes<Users>> {
-  id: CreationOptional<string>
-  email: string
-  role: UserRole
-  fullName: CreationOptional<string>
-  registeredOn: CreationOptional<Date>
-  keycloakId: CreationOptional<string>
-  fonction: CreationOptional<string>
-  état: CreationOptional<États>
+  id: CreationOptional<string>;
+  email: string;
+  role: UserRole;
+  fullName: CreationOptional<string>;
+  registeredOn: CreationOptional<Date>;
+  keycloakId: CreationOptional<string>;
+  fonction: CreationOptional<string>;
+  état: CreationOptional<États>;
 }
 
-const nomProjection = 'users'
+const nomProjection = 'users';
 
 Users.init(
   {
@@ -67,9 +67,9 @@ Users.init(
     tableName: nomProjection,
     timestamps: true,
     freezeTableName: true,
-  }
-)
+  },
+);
 
-const UsersProjector = makeSequelizeProjector(Users, nomProjection)
+const UsersProjector = makeSequelizeProjector(Users, nomProjection);
 
-export { Users, UsersProjector }
+export { Users, UsersProjector };

@@ -1,10 +1,10 @@
-import { wrapInfra } from '@core/utils'
-import { GetModificationRequestRecipient } from '@modules/modificationRequest'
-import models from '../../models'
+import { wrapInfra } from '@core/utils';
+import { GetModificationRequestRecipient } from '@modules/modificationRequest';
+import models from '../../models';
 
-const { ModificationRequest } = models
+const { ModificationRequest } = models;
 export const getModificationRequestRecipient: GetModificationRequestRecipient = (
-  modificationRequestId: string
+  modificationRequestId: string,
 ) => {
-  return wrapInfra(ModificationRequest.findByPk(modificationRequestId)).map(() => 'dgec')
-}
+  return wrapInfra(ModificationRequest.findByPk(modificationRequestId)).map(() => 'dgec');
+};

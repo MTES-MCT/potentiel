@@ -1,10 +1,10 @@
-import { Heading1, Link, PageTemplate } from '@components'
-import React from 'react'
-import { Request } from 'express'
-import { hydrateOnClient } from '../helpers'
+import { Heading1, Link, PageTemplate } from '@components';
+import React from 'react';
+import { Request } from 'express';
+import { hydrateOnClient } from '../helpers';
 
 interface LienInvitationPériméProps {
-  request: Request
+  request: Request;
 }
 
 export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps) => {
@@ -30,7 +30,7 @@ export const LienInvitationPérimé = ({ request }: LienInvitationPériméProps)
         </section>
       </main>
     </PageTemplate>
-  )
-}
+  );
+};
 
-hydrateOnClient(LienInvitationPérimé)
+hydrateOnClient(LienInvitationPérimé);

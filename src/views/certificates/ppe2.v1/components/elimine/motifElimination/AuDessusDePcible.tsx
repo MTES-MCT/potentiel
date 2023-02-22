@@ -1,14 +1,14 @@
-import React from 'react'
-import { ProjectDataForCertificate } from '@modules/project'
-import { formatNumber } from '../../../../helpers/formatNumber'
-import { getNoteThreshold } from '../../../../helpers/getNoteThreshold'
+import React from 'react';
+import { ProjectDataForCertificate } from '@modules/project';
+import { formatNumber } from '../../../../helpers/formatNumber';
+import { getNoteThreshold } from '../../../../helpers/getNoteThreshold';
 
 type AuDessusDePcibleProps = {
-  project: ProjectDataForCertificate
-}
+  project: ProjectDataForCertificate;
+};
 
 export const AuDessusDePcible = ({ project }: AuDessusDePcibleProps) => {
-  const { appelOffre } = project
+  const { appelOffre } = project;
 
   return (
     <>
@@ -27,5 +27,5 @@ export const AuDessusDePcible = ({ project }: AuDessusDePcibleProps) => {
       {formatNumber(getNoteThreshold(project))} points. Par conséquent, cette offre n’a pas été
       retenue. `
     </>
-  )
-}
+  );
+};

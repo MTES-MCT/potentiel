@@ -1,12 +1,12 @@
-import { logger } from '@core/utils'
-import { AbandonRejeté } from '@modules/demandeModification'
+import { logger } from '@core/utils';
+import { AbandonRejeté } from '@modules/demandeModification';
 
 export const onAbandonRejeté =
   (models) =>
   async ({ payload, occurredAt }: AbandonRejeté) => {
-    const { demandeAbandonId, rejetéPar, fichierRéponseId } = payload
+    const { demandeAbandonId, rejetéPar, fichierRéponseId } = payload;
     try {
-      const ModificationRequestModel = models.ModificationRequest
+      const ModificationRequestModel = models.ModificationRequest;
 
       await ModificationRequestModel.update(
         {
@@ -16,9 +16,9 @@ export const onAbandonRejeté =
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
         },
-        { where: { id: demandeAbandonId } }
-      )
+        { where: { id: demandeAbandonId } },
+      );
     } catch (e) {
-      logger.error(e)
+      logger.error(e);
     }
-  }
+  };

@@ -1,1 +1,1 @@
-export { makeCertificate } from './makeCertificate'
+export { makeCertificate } from './makeCertificate';

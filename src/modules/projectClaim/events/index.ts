@@ -1,3 +1,3 @@
-export * from './ProjectClaimFailed'
-export * from './ProjectClaimed'
-export * from './ProjectClaimedByOwner'
+export * from './ProjectClaimFailed';
+export * from './ProjectClaimed';
+export * from './ProjectClaimedByOwner';

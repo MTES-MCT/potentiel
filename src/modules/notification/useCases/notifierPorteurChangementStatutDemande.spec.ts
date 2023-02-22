@@ -1,12 +1,12 @@
-import { makeNotifierPorteurChangementStatutDemande } from './notifierPorteurChangementStatutDemande'
-import routes from '@routes'
+import { makeNotifierPorteurChangementStatutDemande } from './notifierPorteurChangementStatutDemande';
+import routes from '@routes';
 
 describe(`Notifier le porteur d'un changement de statut de la demande`, () => {
   it('La notification est envoyée avec les informations fournies', async () => {
-    const sendNotification = jest.fn()
+    const sendNotification = jest.fn();
     const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
       sendNotification,
-    })
+    });
 
     notifierPorteurChangementStatutDemande({
       email: 'porteur@test.test',
@@ -17,9 +17,9 @@ describe(`Notifier le porteur d'un changement de statut de la demande`, () => {
       hasDocument: true,
       modificationRequestId: 'id-demande',
       typeDemande: 'recours',
-    })
+    });
 
-    expect(sendNotification).toBeCalledTimes(1)
+    expect(sendNotification).toBeCalledTimes(1);
     expect(sendNotification).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'modification-request-status-update',
@@ -39,7 +39,7 @@ describe(`Notifier le porteur d'un changement de statut de la demande`, () => {
           modification_request_url: routes.DEMANDE_PAGE_DETAILS('id-demande'),
           document_absent: undefined,
         },
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});

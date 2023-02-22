@@ -1,2 +1,2 @@
-export * from './handleCandidateNotifiedForPeriode'
-export * from './handleProjectCertificateGeneratedOrFailed'
+export * from './handleCandidateNotifiedForPeriode';
+export * from './handleProjectCertificateGeneratedOrFailed';

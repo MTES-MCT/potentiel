@@ -1,32 +1,32 @@
-import React from 'react'
-import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.'
-import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers'
-import { formatDate } from '../../../../helpers/formatDate'
-import { CurrentIcon } from './CurrentIcon'
-import { DownloadLink } from '@components'
+import React from 'react';
+import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.';
+import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers';
+import { formatDate } from '../../../../helpers/formatDate';
+import { CurrentIcon } from './CurrentIcon';
+import { DownloadLink } from '@components';
 
 export const LegacyModificationsItem = (props: LegacyModificationsItemProps) => {
-  const { modificationType } = props
+  const { modificationType } = props;
   switch (modificationType) {
     case 'abandon':
-      return <Abandon {...props} />
+      return <Abandon {...props} />;
     case 'recours':
-      return <Recours {...props} />
+      return <Recours {...props} />;
     case 'delai':
-      return <Delai {...props} />
+      return <Delai {...props} />;
     case 'producteur':
-      return <Producteur {...props} />
+      return <Producteur {...props} />;
     case 'actionnaire':
-      return <Actionnaire {...props} />
+      return <Actionnaire {...props} />;
     case 'autre':
-      return <Autre {...props} />
+      return <Autre {...props} />;
   }
-}
+};
 
 const LegacyModificationContainer = (
-  props: LegacyModificationsItemProps & { children: React.ReactNode }
+  props: LegacyModificationsItemProps & { children: React.ReactNode },
 ) => {
-  const { status, date, courrier, children } = props
+  const { status, date, courrier, children } = props;
   return (
     <>
       <StepIcon status={status} />
@@ -42,42 +42,42 @@ const LegacyModificationContainer = (
         )}
       </ContentArea>
     </>
-  )
-}
+  );
+};
 
-type AbandonProps = LegacyModificationsItemProps & { modificationType: 'abandon' }
+type AbandonProps = LegacyModificationsItemProps & { modificationType: 'abandon' };
 
 const Abandon = (props: AbandonProps) => {
-  const { status } = props
+  const { status } = props;
   const titleStatus =
-    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
+    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté';
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Abandon ${titleStatus}`} />
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
-type RecoursProps = LegacyModificationsItemProps & { modificationType: 'recours' }
+type RecoursProps = LegacyModificationsItemProps & { modificationType: 'recours' };
 
 const Recours = (props: RecoursProps) => {
-  const { status, motifElimination } = props
+  const { status, motifElimination } = props;
   const titleStatus =
-    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
+    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté';
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Recours ${titleStatus}`} />
       {motifElimination !== '' && <span>Motif de l'élimination : {motifElimination}</span>}
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
-type DelaiProps = LegacyModificationsItemProps & { modificationType: 'delai' }
+type DelaiProps = LegacyModificationsItemProps & { modificationType: 'delai' };
 
 const Delai = (props: DelaiProps) => {
-  const { status } = props
+  const { status } = props;
   const titleStatus =
-    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
+    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté';
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Délai supplémentaire ${titleStatus}`} />
@@ -94,28 +94,28 @@ const Delai = (props: DelaiProps) => {
         </>
       )}
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
-type ProducteurProps = LegacyModificationsItemProps & { modificationType: 'producteur' }
+type ProducteurProps = LegacyModificationsItemProps & { modificationType: 'producteur' };
 
 const Producteur = (props: ProducteurProps) => {
-  const { producteurPrecedent, status } = props
+  const { producteurPrecedent, status } = props;
   const titleStatus =
-    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté'
+    status === 'acceptée' ? 'accepté' : status === 'accord-de-principe' ? 'à accorder' : 'rejeté';
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Changement de producteur ${titleStatus}`} />
       <p className="p-0 m-0">Producteur précédent : {producteurPrecedent}</p>
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
-type ActionnaireProps = LegacyModificationsItemProps & { modificationType: 'actionnaire' }
+type ActionnaireProps = LegacyModificationsItemProps & { modificationType: 'actionnaire' };
 
 const Actionnaire = (props: ActionnaireProps) => {
-  const { actionnairePrecedent, status } = props
-  const titleStatus = status === 'accord-de-principe' ? 'à accorder' : status
+  const { actionnairePrecedent, status } = props;
+  const titleStatus = status === 'accord-de-principe' ? 'à accorder' : status;
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Modification de l'actionnariat ${titleStatus}`} />
@@ -123,14 +123,14 @@ const Actionnaire = (props: ActionnaireProps) => {
         <p className="p-0 m-0">Actionnaire précédent : {actionnairePrecedent}</p>
       )}
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
-type AutreProps = LegacyModificationsItemProps & { modificationType: 'autre' }
+type AutreProps = LegacyModificationsItemProps & { modificationType: 'autre' };
 
 const Autre = (props: AutreProps) => {
-  const { column, value, status } = props
-  const titleStatus = status === 'accord-de-principe' ? 'à accorder' : status
+  const { column, value, status } = props;
+  const titleStatus = status === 'accord-de-principe' ? 'à accorder' : status;
   return (
     <LegacyModificationContainer {...props}>
       <ItemTitle title={`Modification du projet ${titleStatus}`} />
@@ -138,16 +138,16 @@ const Autre = (props: AutreProps) => {
         {column} : {value}
       </p>
     </LegacyModificationContainer>
-  )
-}
+  );
+};
 
 const StepIcon = (props: { status: LegacyModificationsItemProps['status'] }) => {
-  const { status } = props
+  const { status } = props;
   return (
     <>
       {status === 'acceptée' && <PastIcon />}
       {status === 'accord-de-principe' && <CurrentIcon />}
       {status === 'rejetée' && <UnvalidatedStepIcon />}
     </>
-  )
-}
+  );
+};

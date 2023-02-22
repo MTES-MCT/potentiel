@@ -1,11 +1,11 @@
-import { or } from '@core/utils'
-import { DateParutionCahierDesChargesModifié, Project } from '@entities'
-import { LegacyModificationStatus } from '@modules/modificationRequest'
-import { Fournisseur } from '@modules/project'
+import { or } from '@core/utils';
+import { DateParutionCahierDesChargesModifié, Project } from '@entities';
+import { LegacyModificationStatus } from '@modules/modificationRequest';
+import { Fournisseur } from '@modules/project';
 import {
   DemandeAbandonEventStatus,
   DemandeAnnulationAbandonEventStatus,
-} from '@infra/sequelize/projectionsNext/projectEvents/events'
+} from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 export type ProjectEventDTO =
   | ProjectNotifiedDTO
@@ -39,24 +39,24 @@ export type ProjectEventDTO =
   | DateMiseEnServiceDTO
   | DateFileAttenteDTO
   | PtfDTO
-  | DemandeAnnulationAbandonDTO
+  | DemandeAnnulationAbandonDTO;
 
 type File = {
-  id: string
-  name: string
-}
+  id: string;
+  name: string;
+};
 
-export type ProjectStatus = 'Classé' | 'Eliminé' | 'Abandonné'
+export type ProjectStatus = 'Classé' | 'Eliminé' | 'Abandonné';
 
-type NarrowDTOType<T, N> = T extends { type: N } ? T : never
+type NarrowDTOType<T, N> = T extends { type: N } ? T : never;
 
 export const is =
   <T extends ProjectEventDTO, K extends T['type']>(type: K) =>
   (event: ProjectEventDTO): event is NarrowDTOType<T, K> =>
-    event.type === type
+    event.type === type;
 
 export type ProjectNotifiedDTO = {
-  type: 'ProjectNotified'
+  type: 'ProjectNotified';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -64,19 +64,19 @@ export type ProjectNotifiedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'cre'
-    | 'caisse-des-dépôts'
-  date: number
-  isLegacy?: true
-}
+    | 'caisse-des-dépôts';
+  date: number;
+  isLegacy?: true;
+};
 
 export type ProjectImportedDTO = {
-  type: 'ProjectImported'
-  variant: 'dgec-validateur' | 'admin'
-  date: number
-}
+  type: 'ProjectImported';
+  variant: 'dgec-validateur' | 'admin';
+  date: number;
+};
 
 export type ProjectNotificationDateSetDTO = {
-  type: 'ProjectNotificationDateSet'
+  type: 'ProjectNotificationDateSet';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -84,111 +84,111 @@ export type ProjectNotificationDateSetDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'cre'
-    | 'caisse-des-dépôts'
-  date: number
-}
+    | 'caisse-des-dépôts';
+  date: number;
+};
 
 type ProjectCertificateBase = {
-  date: number
-  potentielIdentifier: string
-  certificateFileId: string
-  nomProjet: string
+  date: number;
+  potentielIdentifier: string;
+  certificateFileId: string;
+  nomProjet: string;
 } & (
   | { variant: 'admin' | 'dgec-validateur'; email: string }
   | {
-      variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre'
-      email: undefined
+      variant: 'porteur-projet' | 'acheteur-obligé' | 'dreal' | 'cre';
+      email: undefined;
     }
-)
+);
 
 export type ProjectCertificateGeneratedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateGenerated'
-}
+  type: 'ProjectCertificateGenerated';
+};
 
 export type ProjectCertificateRegeneratedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateRegenerated'
-}
+  type: 'ProjectCertificateRegenerated';
+};
 
 export type ProjectCertificateUpdatedDTO = ProjectCertificateBase & {
-  type: 'ProjectCertificateUpdated'
-}
+  type: 'ProjectCertificateUpdated';
+};
 
 export type ProjectClaimedDTO = ProjectCertificateBase & {
-  type: 'ProjectClaimed'
-  claimedBy: string
-}
+  type: 'ProjectClaimed';
+  claimedBy: string;
+};
 
 export type ProjectCertificateDTO =
   | ProjectCertificateGeneratedDTO
   | ProjectCertificateRegeneratedDTO
   | ProjectCertificateUpdatedDTO
-  | ProjectClaimedDTO
+  | ProjectClaimedDTO;
 
 export const isCertificateDTO = or(
   is('ProjectCertificateGenerated'),
   is('ProjectCertificateRegenerated'),
   is('ProjectCertificateUpdated'),
-  is('ProjectClaimed')
-)
+  is('ProjectClaimed'),
+);
 
 export type GarantiesFinancièresDTO = {
-  type: 'garanties-financières'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts' | 'cre'
+  type: 'garanties-financières';
+  date: number;
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'caisse-des-dépôts' | 'cre';
 } & (
   | { statut: 'en attente' | 'en retard' }
   | {
-      statut: 'à traiter'
-      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
-      dateEchéance?: number
-      url: string
+      statut: 'à traiter';
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
+      dateEchéance?: number;
+      url: string;
     }
   | {
-      statut: 'validé'
-      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin'
-      dateEchéance?: number
-      url: string
-      retraitDépôtPossible?: true
+      statut: 'validé';
+      envoyéesPar: 'porteur-projet' | 'dreal' | 'admin';
+      dateEchéance?: number;
+      url: string;
+      retraitDépôtPossible?: true;
     }
-)
+);
 
 export type ProjectDCRSubmittedDTO = {
-  type: 'ProjectDCRSubmitted'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-  file?: File
-  numeroDossier: string
-}
+  type: 'ProjectDCRSubmitted';
+  date: number;
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
+  file?: File;
+  numeroDossier: string;
+};
 
 export type ProjectDCRRemovedDTO = {
-  type: 'ProjectDCRRemoved'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
-}
+  type: 'ProjectDCRRemoved';
+  date: number;
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
+};
 
 export type ProjectDCRDueDateSetDTO = {
-  type: 'ProjectDCRDueDateSet'
-  date: number
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'acheteur-obligé'
-}
+  type: 'ProjectDCRDueDateSet';
+  date: number;
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal' | 'acheteur-obligé';
+};
 
 export type PtfDTO = {
-  type: 'proposition-technique-et-financière'
-  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal'
+  type: 'proposition-technique-et-financière';
+  variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
 } & (
   | {
-      statut: 'en-attente'
+      statut: 'en-attente';
     }
   | {
-      statut: 'envoyée'
-      date: number
-      url: string
+      statut: 'envoyée';
+      date: number;
+      url: string;
     }
-)
+);
 
 export type ProjectCompletionDueDateSetDTO = {
-  type: 'ProjectCompletionDueDateSet'
-  date: number
+  type: 'ProjectCompletionDueDateSet';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -196,13 +196,13 @@ export type ProjectCompletionDueDateSetDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'cre'
-    | 'caisse-des-dépôts'
-  délaiCDC2022Appliqué?: true
-}
+    | 'caisse-des-dépôts';
+  délaiCDC2022Appliqué?: true;
+};
 
 export type ModificationRequestedDTO = {
-  type: 'ModificationRequested'
-  date: number
+  type: 'ModificationRequested';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -210,25 +210,25 @@ export type ModificationRequestedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
-  authority: 'dgec' | 'dreal'
+    | 'cre';
+  modificationRequestId: string;
+  authority: 'dgec' | 'dreal';
 } & (
   | {
-      modificationType: 'delai'
-      delayInMonths: number
+      modificationType: 'delai';
+      delayInMonths: number;
     }
   | {
-      modificationType: 'puissance'
-      puissance: number
-      unitePuissance?: string
+      modificationType: 'puissance';
+      puissance: number;
+      unitePuissance?: string;
     }
   | { modificationType: 'recours' }
-)
+);
 
 export type ModificationRequestAcceptedDTO = {
-  type: 'ModificationRequestAccepted'
-  date: number
+  type: 'ModificationRequestAccepted';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -236,15 +236,15 @@ export type ModificationRequestAcceptedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
-  file?: File
-  delayInMonthsGranted?: number
-}
+    | 'cre';
+  modificationRequestId: string;
+  file?: File;
+  delayInMonthsGranted?: number;
+};
 
 export type ModificationRequestRejectedDTO = {
-  type: 'ModificationRequestRejected'
-  date: number
+  type: 'ModificationRequestRejected';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -252,14 +252,14 @@ export type ModificationRequestRejectedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
-  file?: File
-}
+    | 'cre';
+  modificationRequestId: string;
+  file?: File;
+};
 
 export type ModificationRequestInstructionStartedDTO = {
-  type: 'ModificationRequestInstructionStarted'
-  date: number
+  type: 'ModificationRequestInstructionStarted';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -267,13 +267,13 @@ export type ModificationRequestInstructionStartedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
-}
+    | 'cre';
+  modificationRequestId: string;
+};
 
 export type ModificationRequestCancelledDTO = {
-  type: 'ModificationRequestCancelled'
-  date: number
+  type: 'ModificationRequestCancelled';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -281,20 +281,20 @@ export type ModificationRequestCancelledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
-}
+    | 'cre';
+  modificationRequestId: string;
+};
 
 export type ModificationRequestDTO =
   | ModificationRequestedDTO
   | ModificationRequestAcceptedDTO
   | ModificationRequestRejectedDTO
   | ModificationRequestInstructionStartedDTO
-  | ModificationRequestCancelledDTO
+  | ModificationRequestCancelledDTO;
 
 export type ModificationReceivedDTO = {
-  type: 'ModificationReceived'
-  date: number
+  type: 'ModificationReceived';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -302,18 +302,18 @@ export type ModificationReceivedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  modificationRequestId: string
+    | 'cre';
+  modificationRequestId: string;
 } & (
   | { modificationType: 'actionnaire'; actionnaire: string }
   | { modificationType: 'producteur'; producteur: string }
   | { modificationType: 'fournisseur'; fournisseurs: Fournisseur[] }
   | { modificationType: 'puissance'; puissance: number; unitePuissance?: string }
-)
+);
 
 export type LegacyModificationImportedDTO = {
-  type: 'LegacyModificationImported'
-  date: number
+  type: 'LegacyModificationImported';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -321,29 +321,29 @@ export type LegacyModificationImportedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  status: LegacyModificationStatus
-  filename?: string
+    | 'cre';
+  status: LegacyModificationStatus;
+  filename?: string;
 } & (
   | { modificationType: 'abandon' }
   | { modificationType: 'recours'; motifElimination: string }
   | {
-      modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'acceptée'>
-      ancienneDateLimiteAchevement: number
-      nouvelleDateLimiteAchevement: number
+      modificationType: 'delai';
+      status: Extract<LegacyModificationStatus, 'acceptée'>;
+      ancienneDateLimiteAchevement: number;
+      nouvelleDateLimiteAchevement: number;
     }
   | {
-      modificationType: 'delai'
-      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>
+      modificationType: 'delai';
+      status: Extract<LegacyModificationStatus, 'rejetée' | 'accord-de-principe'>;
     }
   | { modificationType: 'actionnaire'; actionnairePrecedent: string }
   | { modificationType: 'producteur'; producteurPrecedent: string }
   | { modificationType: 'autre'; column: string; value: string }
-)
+);
 
 export type LegacyModificationFileAttachedDTO = {
-  type: 'LegacyModificationFileAttached'
+  type: 'LegacyModificationFileAttached';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -351,30 +351,30 @@ export type LegacyModificationFileAttachedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  file: File
-}
+    | 'cre';
+  file: File;
+};
 
 export type FileAttachedToProjectDTO = {
-  type: 'FileAttachedToProject'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'dgec-validateur'
-  date: number
-  title: string
-  description?: string
-  files: File[]
-  isOwner: boolean
-  attachmentId: string
-  projectId: string
+  type: 'FileAttachedToProject';
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'dgec-validateur';
+  date: number;
+  title: string;
+  description?: string;
+  files: File[];
+  isOwner: boolean;
+  attachmentId: string;
+  projectId: string;
   attachedBy: {
-    id: string
-    name?: string
-    administration?: string
-  }
-}
+    id: string;
+    name?: string;
+    administration?: string;
+  };
+};
 
 export type CovidDelayGrantedDTO = {
-  type: 'CovidDelayGranted'
-  date: number
+  type: 'CovidDelayGranted';
+  date: number;
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -382,11 +382,11 @@ export type CovidDelayGrantedDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-}
+    | 'cre';
+};
 
 export type DemandeDelaiSignaledDTO = {
-  type: 'DemandeDelaiSignaled'
+  type: 'DemandeDelaiSignaled';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -394,24 +394,24 @@ export type DemandeDelaiSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  signaledBy: string
-  attachment?: File
-  notes?: string
+    | 'cre';
+  date: number;
+  signaledBy: string;
+  attachment?: File;
+  notes?: string;
 } & (
   | {
-      status: 'acceptée'
-      oldCompletionDueOn?: number
-      newCompletionDueOn: number
+      status: 'acceptée';
+      oldCompletionDueOn?: number;
+      newCompletionDueOn: number;
     }
   | {
-      status: 'rejetée' | 'accord-de-principe'
+      status: 'rejetée' | 'accord-de-principe';
     }
-)
+);
 
 export type DemandeAbandonSignaledDTO = {
-  type: 'DemandeAbandonSignaled'
+  type: 'DemandeAbandonSignaled';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -419,16 +419,16 @@ export type DemandeAbandonSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  signaledBy: string
-  status: 'acceptée' | 'rejetée'
-  attachment?: File
-  notes?: string
-}
+    | 'cre';
+  date: number;
+  signaledBy: string;
+  status: 'acceptée' | 'rejetée';
+  attachment?: File;
+  notes?: string;
+};
 
 export type DemandeRecoursSignaledDTO = {
-  type: 'DemandeRecoursSignaled'
+  type: 'DemandeRecoursSignaled';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -436,16 +436,16 @@ export type DemandeRecoursSignaledDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  signaledBy: string
-  status: 'acceptée' | 'rejetée'
-  attachment?: File
-  notes?: string
-}
+    | 'cre';
+  date: number;
+  signaledBy: string;
+  status: 'acceptée' | 'rejetée';
+  attachment?: File;
+  notes?: string;
+};
 
 export type DemandeDélaiDTO = {
-  type: 'DemandeDélai'
+  type: 'DemandeDélai';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -453,30 +453,30 @@ export type DemandeDélaiDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  demandeUrl?: string
-  actionRequise?: 'à traiter' | 'réponse à envoyer'
+    | 'cre';
+  date: number;
+  demandeUrl?: string;
+  actionRequise?: 'à traiter' | 'réponse à envoyer';
 } & (
   | ({ dateAchèvementDemandée: string; délaiEnMoisDemandé?: undefined } & (
       | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
       | {
-          statut: 'accordée'
-          dateAchèvementAccordée: string
-          ancienneDateThéoriqueAchèvement: string
+          statut: 'accordée';
+          dateAchèvementAccordée: string;
+          ancienneDateThéoriqueAchèvement: string;
         }
     ))
   | ({ dateAchèvementDemandée?: undefined; délaiEnMoisDemandé: number } & (
       | { statut: 'envoyée' | 'annulée' | 'rejetée' | 'en-instruction' }
       | {
-          statut: 'accordée'
-          délaiEnMoisAccordé: number
+          statut: 'accordée';
+          délaiEnMoisAccordé: number;
         }
     ))
-)
+);
 
 export type DemandeAbandonDTO = {
-  type: 'DemandeAbandon'
+  type: 'DemandeAbandon';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -484,15 +484,15 @@ export type DemandeAbandonDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  statut: DemandeAbandonEventStatus
-  demandeUrl?: string
-  actionRequise?: 'à traiter'
-}
+    | 'cre';
+  date: number;
+  statut: DemandeAbandonEventStatus;
+  demandeUrl?: string;
+  actionRequise?: 'à traiter';
+};
 
 export type DemandeAnnulationAbandonDTO = {
-  type: 'DemandeAnnulationAbandon'
+  type: 'DemandeAnnulationAbandon';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -500,15 +500,15 @@ export type DemandeAnnulationAbandonDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
-  statut: DemandeAnnulationAbandonEventStatus
-  demandeUrl?: string
-  actionRequise?: 'à traiter'
-}
+    | 'cre';
+  date: number;
+  statut: DemandeAnnulationAbandonEventStatus;
+  demandeUrl?: string;
+  actionRequise?: 'à traiter';
+};
 
 export type CahierDesChargesChoisiDTO = {
-  type: 'CahierDesChargesChoisi'
+  type: 'CahierDesChargesChoisi';
   variant:
     | 'admin'
     | 'porteur-projet'
@@ -516,36 +516,36 @@ export type CahierDesChargesChoisiDTO = {
     | 'acheteur-obligé'
     | 'dgec-validateur'
     | 'caisse-des-dépôts'
-    | 'cre'
-  date: number
+    | 'cre';
+  date: number;
 } & (
   | {
-      cahierDesCharges: 'initial'
+      cahierDesCharges: 'initial';
     }
   | {
-      cahierDesCharges: 'modifié'
-      paruLe: DateParutionCahierDesChargesModifié
-      alternatif?: true
+      cahierDesCharges: 'modifié';
+      paruLe: DateParutionCahierDesChargesModifié;
+      alternatif?: true;
     }
-)
+);
 
 export type DateMiseEnServiceDTO = {
-  type: 'DateMiseEnService'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
-} & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' })
+  type: 'DateMiseEnService';
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur';
+} & ({ statut: 'renseignée'; date: number } | { statut: 'non-renseignée' });
 
 export type DateFileAttenteDTO = {
-  type: 'DateFileAttente'
-  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur'
-  date: number
-}
+  type: 'DateFileAttente';
+  variant: 'admin' | 'porteur-projet' | 'dreal' | 'acheteur-obligé' | 'dgec-validateur';
+  date: number;
+};
 
 export type ProjectEventListDTO = {
   project: {
-    id: Project['id']
-    status: ProjectStatus
-    garantieFinanciereEnMois?: number
-    nomProjet: string
-  }
-  events: ProjectEventDTO[]
-}
+    id: Project['id'];
+    status: ProjectStatus;
+    garantieFinanciereEnMois?: number;
+    nomProjet: string;
+  };
+  events: ProjectEventDTO[];
+};

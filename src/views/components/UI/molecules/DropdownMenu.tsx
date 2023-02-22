@@ -1,10 +1,10 @@
-import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react'
-import { ArrowDownIcon } from '../atoms/icons'
+import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react';
+import { ArrowDownIcon } from '../atoms/icons';
 
 type DropdownMenuProps = ComponentProps<'li'> & {
-  buttonChildren: React.ReactNode
-  children: (ReactElement | false)[]
-}
+  buttonChildren: React.ReactNode;
+  children: (ReactElement | false)[];
+};
 
 const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
   buttonChildren,
@@ -12,20 +12,20 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
   className,
   ...props
 }: DropdownMenuProps) => {
-  const [visible, setVisible] = useState(false)
-  const isCurrent = children.some((subMenu) => subMenu && subMenu.props.isCurrent)
-  const ref = useRef<HTMLLIElement>(null)
+  const [visible, setVisible] = useState(false);
+  const isCurrent = children.some((subMenu) => subMenu && subMenu.props.isCurrent);
+  const ref = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const onClickOut = (e: MouseEvent) => {
-      const element = e.target as HTMLElement
+      const element = e.target as HTMLElement;
       if (ref.current !== element && !ref.current?.contains(element)) {
-        setVisible(false)
+        setVisible(false);
       }
-    }
-    document.addEventListener('click', onClickOut)
-    return () => document.removeEventListener('click', onClickOut)
-  }, [setVisible])
+    };
+    document.addEventListener('click', onClickOut);
+    return () => document.removeEventListener('click', onClickOut);
+  }, [setVisible]);
 
   return (
     <li
@@ -58,14 +58,14 @@ const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof Dropdow
         {children}
       </ul>
     </li>
-  )
-}
+  );
+};
 
 type DropdownItemProps = {
-  href: string
-  isCurrent?: true
-  children: React.ReactNode
-}
+  href: string;
+  isCurrent?: true;
+  children: React.ReactNode;
+};
 
 const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
   <li
@@ -85,8 +85,8 @@ const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
       {children}
     </a>
   </li>
-)
+);
 
-DropdownMenu.DropdownItem = DropdownItem
+DropdownMenu.DropdownItem = DropdownItem;
 
-export { DropdownMenu }
+export { DropdownMenu };

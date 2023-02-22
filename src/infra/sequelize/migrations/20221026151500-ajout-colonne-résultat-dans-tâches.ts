@@ -3,10 +3,10 @@ export default {
     await queryInterface.addColumn('taches', 'résultat', {
       type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.JSON),
       allowNull: true,
-    })
+    });
   },
 
   down: async (queryInterface) => {
-    queryInterface.removeColumn('taches', 'résultat')
+    queryInterface.removeColumn('taches', 'résultat');
   },
-}
+};

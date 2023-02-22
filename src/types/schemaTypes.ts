@@ -1,2 +1,2 @@
 // For creating schema types
-export * from 'runtypes'
+export * from 'runtypes';

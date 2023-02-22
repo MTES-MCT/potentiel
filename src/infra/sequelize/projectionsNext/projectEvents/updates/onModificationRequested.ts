@@ -1,21 +1,21 @@
-import { UniqueEntityID } from '@core/domain'
-import { ModificationRequested } from '@modules/modificationRequest'
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model'
+import { UniqueEntityID } from '@core/domain';
+import { ModificationRequested } from '@modules/modificationRequest';
+import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
   ModificationRequested,
   async ({ payload, occurredAt }, transaction) => {
-    const { projectId, type, modificationRequestId, authority, requestedBy } = payload
+    const { projectId, type, modificationRequestId, authority, requestedBy } = payload;
 
     if (!['delai', 'abandon', 'recours', 'puissance'].includes(type)) {
-      return
+      return;
     }
 
     if (type === 'delai') {
       const demandeExistante = await ProjectEvent.findOne({
         where: { id: modificationRequestId },
         transaction,
-      })
+      });
 
       if (!demandeExistante) {
         await ProjectEvent.create(
@@ -32,11 +32,11 @@ export default ProjectEventProjector.on(
               demandeur: requestedBy,
             },
           },
-          { transaction }
-        )
+          { transaction },
+        );
       }
 
-      return
+      return;
     }
 
     await ProjectEvent.create(
@@ -53,7 +53,7 @@ export default ProjectEventProjector.on(
           ...(type === 'puissance' && { puissance: payload.puissance }),
         },
       },
-      { transaction }
-    )
-  }
-)
+      { transaction },
+    );
+  },
+);

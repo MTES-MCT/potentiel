@@ -1,8 +1,8 @@
-import { getProjectAppelOffre } from '@config/queryProjectAO.config'
-import { models } from '../../../../models'
-import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
-import { mapToFindOptions } from '../../helpers/mapToFindOptions'
-import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries'
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { models } from '../../../../models';
+import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
+import { mapToFindOptions } from '../../helpers/mapToFindOptions';
+import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries';
 
 const attributes = [
   'id',
@@ -26,13 +26,13 @@ const attributes = [
   'isFinancementParticipatif',
   'isInvestissementParticipatif',
   'actionnariat',
-]
+];
 
 export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
   pagination,
   filtres,
 }) => {
-  const findOptions = filtres && mapToFindOptions(filtres)
+  const findOptions = filtres && mapToFindOptions(filtres);
 
   const résultat = await models.Project.findAndCountAll({
     where: {
@@ -41,15 +41,15 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
     },
     ...paginate(pagination),
     attributes,
-  })
+  });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get()
+    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
     const appelOffre = getProjectAppelOffre({
       appelOffreId,
       periodeId,
       familleId,
-    })
+    });
 
     return [
       ...prev,
@@ -64,8 +64,8 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
           },
         }),
       },
-    ]
-  }, [])
+    ];
+  }, []);
 
-  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination)
-}
+  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination);
+};
