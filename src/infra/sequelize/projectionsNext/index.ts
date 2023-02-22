@@ -6,3 +6,4 @@ export * from './raccordements';
 export * from './users';
 export * from './userProjectClaims';
 export * from './userDreal';
+export * from './userProjects';

@@ -6,6 +6,7 @@ import {
   ProjectEventProjector,
   TâchesProjector,
   UsersProjector,
+  UserProjectsProjector,
   UserProjectClaimsProjector,
   UserDrealProjector,
 } from '@infra/sequelize';
@@ -25,6 +26,7 @@ const projectorsNext = [
   GarantiesFinancièresProjector,
   RaccordementsProjector,
   UsersProjector,
+  UserProjectsProjector,
   UserProjectClaimsProjector,
   UserDrealProjector,
 ].map((projector) => {

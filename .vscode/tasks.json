@@ -7,7 +7,11 @@
       "label": "Test - Run test on this file",
       "type": "shell",
       "command": "if [[ ${file} == *\".spec.ts\" ]]; then npm run test:watch -- ${file} ; else if [[ ${file} == *\".integration.ts\" ]]; then npm run test-int:watch -- ${file} ; fi ; fi",
-      "problemMatcher": []
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
     }
   ]
 }
