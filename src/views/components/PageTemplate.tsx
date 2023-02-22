@@ -25,6 +25,7 @@ type CurrentPage =
   | 'admin-statistiques'
   | 'cre-statistiques'
   | 'inviter-dgec-validateur'
+  | 'liste-gestionnaires-réseau'
   | undefined;
 
 const getUserNavigation = ({
@@ -174,6 +175,12 @@ const MenuAdmin = (currentPage: CurrentPage) => (
         {...(currentPage === 'admin-ao' && { isCurrent: true })}
       >
         Gérer les appels d'offres
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}
+        {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
+      >
+        Gérer les gestionnaires de réseau
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
