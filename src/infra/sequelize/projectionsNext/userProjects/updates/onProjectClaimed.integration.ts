@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
-import { ProjectClaimed } from '@modules/projectClaim';
 import { resetDatabase } from '../../../helpers';
+import { ProjectClaimed } from '@modules/projectClaim';
 import { UserProjects } from '../userProjects.model';
 import onProjectClaimed from './onProjectClaimed';
 

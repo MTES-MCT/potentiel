@@ -1,4 +1,4 @@
-import { makeSequelizeProjector } from '@infra/sequelize/helpers';
+import { makeSequelizeProjector } from '../../helpers';
 import {
   DataTypes,
   InferAttributes,
@@ -7,7 +7,7 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
-import { Users } from "..";
+import { Users } from '../users';
 
 class UserProjects extends Model<
   InferAttributes<UserProjects>,
