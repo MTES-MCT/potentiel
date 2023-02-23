@@ -3,9 +3,11 @@ export const PermissionListerGestionnairesRéseau = {
   description: 'Lister les gestionnaires de réseau',
 };
 
-export type GestionnaireRéseauReadModel = {
+type GestionnaireRéseauReadModel = {
   id: string;
   nom: string;
 };
 
-export type ListerGestionnairesRéseau = () => Promise<Array<GestionnaireRéseauReadModel>>;
+export type ListeGestionnairesRéseauReadModel = Array<GestionnaireRéseauReadModel>;
+
+export type ListerGestionnairesRéseau = () => Promise<ListeGestionnairesRéseauReadModel>;

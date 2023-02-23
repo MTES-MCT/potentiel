@@ -1,4 +1,4 @@
-import { GestionnaireRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
 import { Heading1, PageTemplate } from '@views/components';
 import { hydrateOnClient } from '@views/helpers';
 import { Request } from 'express';
@@ -8,7 +8,7 @@ import { Liste } from './components/Liste';
 
 type ListeGestionnairesRéseauProps = {
   request: Request;
-  gestionnairesRéseau: Array<GestionnaireRéseauReadModel>;
+  gestionnairesRéseau: ListeGestionnairesRéseauReadModel;
 };
 
 export const ListeGestionnairesRéseau = ({
