@@ -1,4 +1,4 @@
-import { Données, StatistiquesUtilisation } from '@infra/sequelize/tableModels';
+import { Données, StatistiquesUtilisation } from '@infra/sequelize/tables';
 
 type MiseAJourStatistiquesUtilisationArgs = {
   type: string;

@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Request } from 'express';
 import routes from '@routes';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { DropdownMenu } from './UI/molecules/DropdownMenu';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type CurrentPage =
   | 'list-projects'
@@ -25,13 +25,14 @@ type CurrentPage =
   | 'admin-statistiques'
   | 'cre-statistiques'
   | 'inviter-dgec-validateur'
+  | 'liste-gestionnaires-réseau'
   | undefined;
 
 const getUserNavigation = ({
   user,
   currentPage,
 }: {
-  user: Request['user'];
+  user: UtilisateurReadModel;
   currentPage?: CurrentPage;
 }) => {
   switch (user.role) {
@@ -175,6 +176,12 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       >
         Gérer les appels d'offres
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}
+        {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
+      >
+        Gérer les gestionnaires de réseau
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
   </>
 );
@@ -264,7 +271,7 @@ export const PageTemplate = ({
   children,
   currentPage,
 }: {
-  user: Request['user'];
+  user: UtilisateurReadModel;
   children: React.ReactNode;
   currentPage?: CurrentPage;
 }) => {

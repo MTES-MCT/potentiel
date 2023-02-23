@@ -9,6 +9,7 @@ export * from './demanderChangementPuissancePage';
 export * from './demanderDelaiPage';
 export * from './drealListPage';
 export * from './garantiesFinancieresPage';
+export * from './gestionaireReseau';
 export * from './homePage';
 export * from './importDonneesRaccordementPage';
 export * from './inviterDgecValidateurPage';

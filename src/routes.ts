@@ -46,6 +46,8 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
 
+  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/liste-gestionnaires-reseau`;
+
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 
   static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';

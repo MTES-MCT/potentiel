@@ -46,6 +46,7 @@ import {
   AcheteurObligeStatistiques,
   ModifierIdentifiantGestionnaireReseau,
   CreStatistiques,
+  ListeGestionnairesRéseau,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -385,4 +386,13 @@ export const ModifierIdentifiantGestionnaireReseauPage = (
     Component: ModifierIdentifiantGestionnaireReseau,
     props,
     title: "Modifier l'identifiant du gestionnaire de réseau",
+  });
+
+export const ListeGestionnairesRéseauPage = (
+  props: Parameters<typeof ListeGestionnairesRéseau>[0],
+) =>
+  makeHtml({
+    Component: ListeGestionnairesRéseau,
+    props,
+    title: 'Liste des gestionnaires de réseau',
   });
