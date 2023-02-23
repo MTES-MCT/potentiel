@@ -14,7 +14,10 @@ import {
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidats';
-import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau';
+import {
+  PermissionListerGestionnairesRéseau,
+  PermissionConsulterGestionnaireRéseau,
+} from '@modules/gestionnaireRéseau';
 
 export type Permission = {
   nom: string;
@@ -69,6 +72,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjetsÀNotifier,
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
+        PermissionConsulterGestionnaireRéseau,
       ];
     case 'dgec-validateur':
       return [
@@ -82,6 +86,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjetsÀNotifier,
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
+        PermissionConsulterGestionnaireRéseau,
       ];
     case 'acheteur-obligé':
     case 'ademe':

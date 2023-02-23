@@ -46,7 +46,9 @@ class routes {
   static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
   static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
 
-  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/liste-gestionnaires-reseau`;
+  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
+  static GET_DETAIL_GESTIONNAIRE_RESEAU = (id?: string) =>
+    !id ? `/admin/gestionnaires-reseau/:id` : `/admin/gestionnaires-reseau/${id}`;
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 
