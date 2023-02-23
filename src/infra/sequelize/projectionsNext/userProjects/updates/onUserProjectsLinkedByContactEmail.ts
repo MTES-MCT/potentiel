@@ -17,10 +17,10 @@ export default UserProjectsProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement UserInvitedToProject`,
+          `Erreur lors du traitement de l'évènement UserProjectsLinkedByContactEmail`,
           {
             évènement,
-            nomProjection: 'UserProjects.UserInvitedToProject',
+            nomProjection: 'UserProjects.UserProjectsLinkedByContactEmail',
           },
           error,
         ),
