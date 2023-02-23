@@ -34,7 +34,7 @@ const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
 
 const formatJsName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
 
-export const makeHtml = <T extends Record<string, unknown>>(args: PageProps<T>) => {
+export const makeHtml = <T extends {}>(args: PageProps<T>) => {
   const { Component, props, title = `Suivi des Projets d'Energies Renouvelables` } = args;
 
   return html`
