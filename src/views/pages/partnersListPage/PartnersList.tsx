@@ -12,6 +12,7 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
+  ListeVide,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -72,7 +73,10 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             </Button>
           </form>
         </div>
-        {Boolean(users?.length) && (
+
+        {users.length === 0 ? (
+          <ListeVide titre="Aucun partenaire à afficher" />
+        ) : (
           <>
             <Heading2>Liste des utilisateurs</Heading2>
             <table className="table" {...dataId('projectList-list')}>

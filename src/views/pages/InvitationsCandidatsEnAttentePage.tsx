@@ -1,6 +1,7 @@
 import {
   ErrorBox,
   Heading1,
+  ListeVide,
   PageTemplate,
   PaginationPanel,
   SecondaryButton,
@@ -42,14 +43,8 @@ export const InvitationsCandidatsEnAttente = ({
         <div className="m-2">
           <strong>{invitations.itemCount}</strong> invitations en attente{' '}
         </div>
-        {!invitations.items.length ? (
-          <table className="table">
-            <tbody>
-              <tr>
-                <td>Aucune</td>
-              </tr>
-            </tbody>
-          </table>
+        {invitations.items.length === 0 ? (
+          <ListeVide titre="Aucune invitation candidat en attente" />
         ) : (
           <>
             <table className="table" style={{ width: '100%' }} {...dataId('invitationList-list')}>

@@ -135,13 +135,13 @@ export const ListeProjets = ({
                     defaultValue={periodeId}
                   >
                     <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
-                          </option>
-                        ))
-                      : null}
+                    {periodes &&
+                      periodes.length &&
+                      periodes.map((periode) => (
+                        <option key={'appel_' + periode.id} value={periode.id}>
+                          {periode.title}
+                        </option>
+                      ))}
                   </select>
                   {!appelOffreId || (familles && familles.length) ? (
                     <select

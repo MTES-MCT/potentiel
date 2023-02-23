@@ -8,6 +8,7 @@ import {
   Heading1,
   Heading2,
   Input,
+  ListeVide,
   PageTemplate,
   Select,
   SuccessBox,
@@ -76,7 +77,9 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
             </Button>
           </form>
         </div>
-        {users && users.length && (
+        {users.length === 0 ? (
+          <ListeVide titre="Aucun utilisateur dreal à afficher" />
+        ) : (
           <>
             <Heading2>Les utilisateurs rattachés à une Région</Heading2>
             <table className="table" {...dataId('projectList-list')}>
