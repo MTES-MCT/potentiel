@@ -1,6 +1,5 @@
 import React from 'react';
 import routes from '@routes';
-import { Request } from 'express';
 import { RiAccountCircleLine } from '@react-icons/all-files/ri/RiAccountCircleLine';
 
 import {
@@ -13,9 +12,10 @@ import {
   LogoutBoxIcon,
   CloseIcon,
 } from '@components';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type HeaderProps = {
-  user?: Request['user'];
+  user?: UtilisateurReadModel;
   children?: React.ReactNode;
 };
 
@@ -81,7 +81,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
 };
 
 type QuickAccessProps = {
-  user?: Request['user'];
+  user?: UtilisateurReadModel;
 };
 const QuickAccess = ({ user }: QuickAccessProps) => (
   <ul className="flex flex-row text-xl lg:text-sm font-normal list-none p-0 m-0 lg:mr-0">

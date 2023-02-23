@@ -1,18 +1,18 @@
 import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Heading1, PageTemplate } from '@views/components';
 import { hydrateOnClient } from '@views/helpers';
-import { Request } from 'express';
 import React from 'react';
 import { AucunGestionnaireRéseau } from './components/AucunGestionnaireRéseau';
 import { Liste } from './components/Liste';
 
 type ListeGestionnairesRéseauProps = {
-  request: Request;
+  user: UtilisateurReadModel;
   gestionnairesRéseau: ListeGestionnairesRéseauReadModel;
 };
 
 export const ListeGestionnairesRéseau = ({
-  request: { user },
+  user,
   gestionnairesRéseau,
 }: ListeGestionnairesRéseauProps) => (
   <PageTemplate user={user} currentPage={'liste-gestionnaires-réseau'}>

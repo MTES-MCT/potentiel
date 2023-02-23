@@ -1,9 +1,9 @@
 import React from 'react';
-import type { Request } from 'express';
 import routes from '@routes';
 import { Footer } from './Footer';
 import { Header } from './Header';
 import { DropdownMenu } from './UI/molecules/DropdownMenu';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type CurrentPage =
   | 'list-projects'
@@ -32,7 +32,7 @@ const getUserNavigation = ({
   user,
   currentPage,
 }: {
-  user: Request['user'];
+  user: UtilisateurReadModel;
   currentPage?: CurrentPage;
 }) => {
   switch (user.role) {
@@ -271,7 +271,7 @@ export const PageTemplate = ({
   children,
   currentPage,
 }: {
-  user: Request['user'];
+  user: UtilisateurReadModel;
   children: React.ReactNode;
   currentPage?: CurrentPage;
 }) => {
