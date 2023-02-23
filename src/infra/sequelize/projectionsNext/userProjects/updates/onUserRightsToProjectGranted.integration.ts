@@ -1,12 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserRightsToProjectGranted } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
-import { onUserRightsToProjectGranted } from './onUserRightsToProjectGranted';
+import { UserProjects } from '../userProjects.model';
+import onUserRightsToProjectGranted from './onUserRightsToProjectGranted';
 
 describe('userProjects.onUserRightsToProjectGranted', () => {
-  const { UserProjects } = models;
-
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
 
@@ -18,7 +16,7 @@ describe('userProjects.onUserRightsToProjectGranted', () => {
   it('should create a line for this userId and projectId', async () => {
     expect(await UserProjects.count({ where: { userId, projectId } })).toEqual(0);
 
-    await onUserRightsToProjectGranted(models)(
+    await onUserRightsToProjectGranted(
       new UserRightsToProjectGranted({
         payload: {
           projectId,

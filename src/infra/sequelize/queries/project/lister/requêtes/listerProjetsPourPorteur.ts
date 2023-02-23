@@ -4,6 +4,7 @@ import { models } from '../../../../models';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
+import { UserProjects } from '@infra/sequelize';
 
 const attributes = [
   'id',
@@ -46,7 +47,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
     include: [
       ...(findOptions?.include ? findOptions.include : []),
       {
-        model: models.UserProjects,
+        model: UserProjects,
         as: 'users',
         attributes: [],
       },
