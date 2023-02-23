@@ -40,13 +40,13 @@ export const InvitationsCandidatsEnAttente = ({
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
 
-        <div className="m-2">
-          <strong>{invitations.itemCount}</strong> invitations en attente{' '}
-        </div>
         {invitations.items.length === 0 ? (
           <ListeVide titre="Aucune invitation candidat en attente" />
         ) : (
           <>
+            <div className="m-2">
+              <strong>{invitations.itemCount}</strong> invitations en attente{' '}
+            </div>
             <table className="table" style={{ width: '100%' }} {...dataId('invitationList-list')}>
               <thead>
                 <tr>

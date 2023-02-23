@@ -19,6 +19,7 @@ import {
   Link,
   Heading1,
   BarreDeRecherche,
+  ListeVide,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -135,8 +136,7 @@ export const ListeProjets = ({
                     defaultValue={periodeId}
                   >
                     <option value="">Toutes périodes</option>
-                    {periodes &&
-                      periodes.length &&
+                    {!!(periodes && periodes.length > 0) &&
                       periodes.map((periode) => (
                         <option key={'appel_' + periode.id} value={periode.id}>
                           {periode.title}
@@ -313,7 +313,7 @@ export const ListeProjets = ({
             />
           </>
         ) : (
-          'Aucun projet à lister'
+          <ListeVide titre="Aucun projet à lister" />
         )}
       </div>
     </PageTemplate>

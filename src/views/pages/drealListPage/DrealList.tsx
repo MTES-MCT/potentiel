@@ -81,7 +81,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
           <ListeVide titre="Aucun utilisateur dreal à afficher" />
         ) : (
           <>
-            <Heading2>Les utilisateurs rattachés à une Région</Heading2>
+            <Heading2>Les utilisateurs rattachés à une région</Heading2>
             <table className="table" {...dataId('projectList-list')}>
               <thead>
                 <tr>

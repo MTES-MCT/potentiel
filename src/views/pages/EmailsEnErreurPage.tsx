@@ -1,4 +1,12 @@
-import { PaginationPanel, Button, PageTemplate, SuccessBox, ErrorBox, Heading1 } from '@components';
+import {
+  PaginationPanel,
+  Button,
+  PageTemplate,
+  SuccessBox,
+  ErrorBox,
+  Heading1,
+  ListeVide,
+} from '@components';
 import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
 import { Request } from 'express';
@@ -46,19 +54,13 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
           {error && <ErrorBox title={error} />}
         </div>
 
-        <div className="m-2">
-          <strong>{notifications.itemCount}</strong> notifications{' '}
-        </div>
         {!notifications.items.length ? (
-          <table className="table">
-            <tbody>
-              <tr>
-                <td>Aucune notification à lister</td>
-              </tr>
-            </tbody>
-          </table>
+          <ListeVide titre="Aucune notification à lister" />
         ) : (
           <>
+            <div className="m-2">
+              <strong>{notifications.itemCount}</strong> notifications{' '}
+            </div>
             <table className="table" style={{ width: '100%' }} {...dataId('notificationList-list')}>
               <thead>
                 <tr>

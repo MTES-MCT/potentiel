@@ -4,6 +4,7 @@ import {
   ErrorBox,
   ExcelFileIcon,
   Heading1,
+  ListeVide,
   PageTemplate,
   ProjectList,
   SecondaryLinkButton,
@@ -36,6 +37,7 @@ export const AdminNotificationCandidats = ({
   données,
 }: AdminNotificationCandidatsProps) => {
   const { error, success, recherche, classement } = (request.query as any) || {};
+
   if (!données) {
     // All projects have been notified
     return (
@@ -46,7 +48,7 @@ export const AdminNotificationCandidats = ({
           </div>
           {success && <SuccessBox title={success} />}
           {error && <ErrorBox title={error} />}
-          <div>Tous les candidats ont été notifiés</div>
+          <ListeVide titre="Tous les candidats ont été notifiés" />
         </div>
       </PageTemplate>
     );
@@ -63,7 +65,7 @@ export const AdminNotificationCandidats = ({
   const hasFilters = classement && classement !== '';
 
   return (
-    <PageTemplate user={request.user}>
+    <PageTemplate user={request.user} currentPage="notify-candidates">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Notifier les candidats</Heading1>
