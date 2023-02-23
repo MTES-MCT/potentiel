@@ -139,7 +139,7 @@ export const GarantiesFinancieres = ({
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
         {projects.items.length === 0 ? (
-          <ListeVide titre="Aucun projet à lister" />
+          <ListeVide titre="Aucune garantie financière à lister" />
         ) : (
           <>
             <div className="mb-8">

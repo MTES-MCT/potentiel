@@ -16,7 +16,7 @@ interface Props {
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
 }
 
-export const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions }: Props) => {
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }

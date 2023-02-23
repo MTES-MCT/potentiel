@@ -54,7 +54,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
           {error && <ErrorBox title={error} />}
         </div>
 
-        {!notifications.items.length ? (
+        {notifications.items.length === 0 ? (
           <ListeVide titre="Aucune notification à lister" />
         ) : (
           <>
