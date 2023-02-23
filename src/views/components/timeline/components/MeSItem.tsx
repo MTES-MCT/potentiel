@@ -1,6 +1,6 @@
 import { DateMiseEnServiceDTO } from '@modules/frise';
 import React from 'react';
-import { ContentArea, ItemDate, ItemTitle, NextUpIcon } from '.';
+import { ContentArea, ItemDate, ItemTitle, NextUpIcon, PastIcon } from '.';
 
 type MeSProps = DateMiseEnServiceDTO;
 
@@ -8,7 +8,7 @@ export const MeSItem = (props: MeSProps) => {
   const { statut } = props;
   return (
     <>
-      <NextUpIcon />
+      {statut === 'renseignée' ? <PastIcon /> : <NextUpIcon />}
       <ContentArea>
         {statut === 'renseignée' && <ItemDate date={props.date} />}
         <ItemTitle title="Mise en service" />
