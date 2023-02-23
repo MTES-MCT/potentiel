@@ -5,6 +5,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import { PermissionConsulterGestionnaireRéseau } from '@modules/gestionnaireRéseau/consulter/consulterGestionnaireRéseau';
+import { consulterGestionnaireRéseau } from '@infra/sequelize/queries/gestionnaireRéseau/consulterGestionnaireRéseau';
 
 const schema = yup.object({
   params: yup.object({ id: yup.string().required() }),
@@ -20,10 +21,20 @@ v1Router.get(
         notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' }),
     },
     async (request, response) => {
-      const { user } = request;
+      const {
+        user,
+        params: { id },
+      } = request;
+      const gestionnaireRéseau = await consulterGestionnaireRéseau(id);
+
+      if (!gestionnaireRéseau) {
+        return notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' });
+      }
+
       return response.send(
         ConsulterGestionnairesRéseauPage({
           utilisateur: user,
+          gestionnaireRéseau,
         }),
       );
     },

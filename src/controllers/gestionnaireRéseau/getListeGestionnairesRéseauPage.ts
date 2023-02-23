@@ -1,4 +1,4 @@
-import { listerGestionnaireRéseau } from '@infra/sequelize/queries/gestionnaireRéseau/listerGestionnaireRéseau';
+import { listerGestionnairesRéseau } from '@infra/sequelize/queries/gestionnaireRéseau/listerGestionnaireRéseau';
 import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
 import routes from '@routes';
 import { ListeGestionnairesRéseauPage } from '@views';
@@ -10,7 +10,7 @@ v1Router.get(
   routes.GET_LISTE_GESTIONNAIRES_RESEAU,
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
-    const gestionnairesRéseau = await listerGestionnaireRéseau();
+    const gestionnairesRéseau = await listerGestionnairesRéseau();
     const { user } = request;
     return response.send(
       ListeGestionnairesRéseauPage({
