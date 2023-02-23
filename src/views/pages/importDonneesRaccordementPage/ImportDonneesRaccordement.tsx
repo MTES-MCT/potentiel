@@ -11,6 +11,7 @@ import {
   RésultatSoumissionFormulaireProps,
   Heading1,
   Heading2,
+  ListeVide,
 } from '@components';
 import routes from '@routes';
 import { Request } from 'express';
@@ -91,9 +92,7 @@ export const ImportDonneesRaccordement = ({
         </SecondaryLinkButton>
       </div>
       {tâches.length === 0 ? (
-        <div className="flex p-16 border border-dashed border-grey-625-base">
-          <span className="mx-auto text-center">Aucune mise à jour n'a encore été démarrée</span>
-        </div>
+        <ListeVide titre="Aucune mise à jour n'a encore été démarrée" />
       ) : (
         <ul className="m-0 p-0 list-none">
           {tâches.map((tâche, index) => (

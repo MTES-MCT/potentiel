@@ -19,6 +19,7 @@ import {
   Link,
   Heading1,
   BarreDeRecherche,
+  ListeVide,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -313,7 +314,7 @@ export const ListeProjets = ({
             />
           </>
         ) : (
-          'Aucun projet à lister'
+          <ListeVide titre="Aucun projet à lister" />
         )}
       </div>
     </PageTemplate>

@@ -1,9 +1,8 @@
 import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, PageTemplate } from '@views/components';
+import { Heading1, ListeVide, PageTemplate } from '@components';
 import { hydrateOnClient } from '@views/helpers';
 import React from 'react';
-import { AucunGestionnaireRéseau } from './components/AucunGestionnaireRéseau';
 import { Liste } from './components/Liste';
 
 type ListeGestionnairesRéseauProps = {
@@ -22,7 +21,7 @@ export const ListeGestionnairesRéseau = ({
       </div>
 
       {gestionnairesRéseau.length === 0 ? (
-        <AucunGestionnaireRéseau />
+        <ListeVide titre="Aucun gestionnaire de réseau" />
       ) : (
         <Liste {...{ gestionnairesRéseau }} />
       )}

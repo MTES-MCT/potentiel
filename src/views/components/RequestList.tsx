@@ -1,4 +1,4 @@
-import { Link, ModificationRequestActionTitles, PaginationPanel } from '@components';
+import { Link, ListeVide, ModificationRequestActionTitles, PaginationPanel } from '@components';
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
@@ -16,17 +16,9 @@ interface Props {
   ) => Array<{ title: string; link: string; disabled?: boolean }> | null;
 }
 
-export const RequestList = ({ modificationRequests, role, requestActions }: Props) => {
+export const RequestList = ({ modificationRequests, requestActions }: Props) => {
   if (!modificationRequests?.itemCount) {
-    return (
-      <table className="table">
-        <tbody>
-          <tr>
-            <td>Aucune demande n’a été trouvée</td>
-          </tr>
-        </tbody>
-      </table>
-    );
+    return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
 
   return (

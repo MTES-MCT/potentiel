@@ -14,6 +14,7 @@ import {
   Heading1,
   DownloadLink,
   BarreDeRecherche,
+  ListeVide,
 } from '@components';
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
 import { GarantiesFinancieresFilter } from './components';
@@ -137,7 +138,9 @@ export const GarantiesFinancieres = ({
         </div>
         {success && <SuccessBox title={success} />}
         {error && <ErrorBox title={error} />}
-        {projects ? (
+        {projects.items.length === 0 ? (
+          <ListeVide titre="Aucune garantie financière à lister" />
+        ) : (
           <>
             <div className="mb-8">
               <DownloadLink
@@ -157,8 +160,6 @@ export const GarantiesFinancieres = ({
               GFPastDue={garantiesFinancieres === 'pastDue'}
             />
           </>
-        ) : (
-          'Aucun projet à lister'
         )}
       </div>
     </PageTemplate>

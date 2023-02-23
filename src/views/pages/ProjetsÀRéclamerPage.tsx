@@ -9,6 +9,7 @@ import {
   ErrorBox,
   Heading1,
   Link,
+  ListeVide,
   MissingOwnerProjectList,
   PageTemplate,
   SuccessBox,
@@ -183,7 +184,7 @@ export const ProjetsÀRéclamer = ({
             />
           </>
         ) : (
-          'Aucun projet à lister'
+          <ListeVide titre="Aucun projet à afficher" />
         )}
       </div>
     </PageTemplate>
