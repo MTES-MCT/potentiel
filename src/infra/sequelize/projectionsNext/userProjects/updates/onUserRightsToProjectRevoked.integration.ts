@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { UserRightsToProjectRevoked } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
 import onUserRightsToProjectRevoked from './onUserRightsToProjectRevoked';
-import { UserProjects } from "../userProjects.model";
+import { UserProjects } from '../userProjects.model';
 
 describe('userProjects.onUserRightsToProjectRevoked', () => {
   const projectId = new UniqueEntityID().toString();
