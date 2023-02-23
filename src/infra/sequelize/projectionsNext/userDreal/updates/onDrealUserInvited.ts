@@ -9,7 +9,7 @@ export default UserDrealProjector.on(DrealUserInvited, async (évènement, trans
   } = évènement;
 
   try {
-    await UserDreal.create({ dreal, userId }, { transaction });
+    await UserDreal.findOrCreate({ where: { dreal, userId }, transaction });
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
