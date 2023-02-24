@@ -17,7 +17,7 @@ import {
 import { isNotifiedPeriode } from '@entities/periode';
 import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { add } from 'date-fns';
+import { add, isSameDay } from 'date-fns';
 import remove from 'lodash/remove';
 import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
@@ -638,7 +638,9 @@ export const makeProject = (args: {
       }
 
       // If it's the same day, ignore small differences in timestamp
-      if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null);
+      if (isSameDay(notifiedOn, props.notifiedOn)) {
+        return ok(null);
+      }
 
       _publishNewNotificationDate({
         projectId: props.projectId.toString(),
