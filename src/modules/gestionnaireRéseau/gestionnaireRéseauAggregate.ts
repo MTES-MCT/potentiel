@@ -29,7 +29,7 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
     (agrégat, event) => {
       switch (event.type) {
         case GestionnaireRéseauAjouté.type:
-          return { ...agrégat, ...event.payload, id: event.payload.codeEIC };
+          return { ...agrégat, ...event.payload, id: new UniqueEntityID(event.payload.codeEIC) };
         default:
           return agrégat;
       }

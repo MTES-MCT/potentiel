@@ -1,5 +1,7 @@
+import { UniqueEntityID } from '@core/domain';
 import { okAsync } from 'neverthrow';
-import { fakeRepo } from '../../../__tests__/fixtures/aggregates';
+import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
+import { GestionnaireRéseau } from '../gestionnaireRéseauAggregate';
 import { ajouterGestionnaireRéseauFactory } from './ajouterGestionnaireRéseau';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
 
@@ -19,7 +21,7 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
         alors, le gestionnaire devrait être ajouté.`, async () => {
     const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
       publish,
-      repository: fakeRepo(),
+      repository: fakeTransactionalRepo(),
     });
 
     const résultat = await ajouterGestionnaireRéseau({
@@ -31,7 +33,7 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
 
     const type = 'GestionnaireRéseauAjouté';
     const payload: GestionnaireRéseauAjouté['payload'] = {
-      codeEIC: 'autre code',
+      codeEIC,
       raisonSociale,
       format,
       légende,
@@ -50,13 +52,15 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
     alors le gestionnaire de réseau devrait pas être ajouté,
     et l'admin devrait être informé que le gestionnaire existe déjà,`, async () => {
     const agrégat = {
+      id: new UniqueEntityID(codeEIC),
       codeEIC: '17X100A100A0001A',
       raisonSociale: 'Enedis',
       format: 'XX-YY-ZZ',
       légende: 'la légende',
+      pendingEvents: [],
     };
 
-    const repository = fakeRepo(agrégat);
+    const repository = fakeTransactionalRepo<GestionnaireRéseau>(agrégat);
 
     const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
       publish,

@@ -1,10 +1,10 @@
-import { Repository, UniqueEntityID } from '@core/domain';
+import { TransactionalRepository, UniqueEntityID } from '@core/domain';
 import { errAsync, ResultAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Publish } from '../../../core/domain/publish';
 import { GestionnaireRéseau } from '../gestionnaireRéseauAggregate';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
-import { GestionnaireRéseauDéjàExistantError } from './GestionnaireRéseauDéjàExistantError';
+import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistantError';
 
 type AjouterGestionnaireRéseauCommand = {
   codeEIC: string;
@@ -15,12 +15,15 @@ type AjouterGestionnaireRéseauCommand = {
 
 type AjouterGestionnaireRéseauDependencies = {
   publish: Publish;
-  repository: Repository<GestionnaireRéseau>;
+  repository: TransactionalRepository<GestionnaireRéseau>;
 };
 
 type AjouterGestionnaireRéseauCommandHandler = (
   command: AjouterGestionnaireRéseauCommand,
-) => ResultAsync<null, InfraNotAvailableError | UnauthorizedError>;
+) => ResultAsync<
+  null,
+  InfraNotAvailableError | UnauthorizedError | GestionnaireRéseauDéjàExistantError
+>;
 
 export const ajouterGestionnaireRéseauFactory =
   ({
@@ -28,12 +31,8 @@ export const ajouterGestionnaireRéseauFactory =
     repository,
   }: AjouterGestionnaireRéseauDependencies): AjouterGestionnaireRéseauCommandHandler =>
   ({ codeEIC, raisonSociale, format, légende }) => {
-    return repository
-      .load(new UniqueEntityID(codeEIC))
-      .andThen((gestionnaireRéseau: GestionnaireRéseau | undefined) => {
-        if (gestionnaireRéseau && gestionnaireRéseau.codeEIC === codeEIC) {
-          return errAsync(new GestionnaireRéseauDéjàExistantError());
-        }
+    return repository.transaction(new UniqueEntityID(codeEIC), (gestionnaireRéseau) => {
+      if (!gestionnaireRéseau.codeEIC) {
         return publish(
           new GestionnaireRéseauAjouté({
             payload: {
@@ -44,5 +43,8 @@ export const ajouterGestionnaireRéseauFactory =
             },
           }),
         );
-      });
+      }
+
+      return errAsync(new GestionnaireRéseauDéjàExistantError());
+    });
   };
