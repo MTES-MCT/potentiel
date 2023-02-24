@@ -1,5 +1,6 @@
+import { makeSequelizeProjector } from '@infra/sequelize/helpers';
 import { InferAttributes, InferCreationAttributes, Model, DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { sequelizeInstance } from '../../../../../sequelize.config';
 
 class GestionnaireRéseauDétail extends Model<
   InferAttributes<GestionnaireRéseauDétail>,
@@ -41,4 +42,9 @@ GestionnaireRéseauDétail.init(
   },
 );
 
-export { GestionnaireRéseauDétail };
+const GestionnaireRéseauDétailProjector = makeSequelizeProjector(
+  GestionnaireRéseauDétail,
+  nomProjection,
+);
+
+export { GestionnaireRéseauDétail, GestionnaireRéseauDétailProjector };

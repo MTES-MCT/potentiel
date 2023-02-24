@@ -1,4 +1,4 @@
-import { GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/gestionnairesRéseauDétail.model';
+import { GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
 import { ConsulterGestionnaireRéseauQueryHandler } from '@modules/gestionnaireRéseau';
 
 export const consulterGestionnaireRéseauQueryHandler: ConsulterGestionnaireRéseauQueryHandler = ({
