@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
@@ -13,6 +12,7 @@ import {
 } from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { add, sub } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');
 
@@ -117,12 +117,18 @@ describe('Project.notify()', () => {
       ) as ProjectCompletionDueDateSet | undefined;
       expect(targetEvent).toBeDefined();
       if (!targetEvent) return;
+      const dateNotifiedOn = sub(
+        add(new Date(notifiedOn), {
+          months: 24,
+        }),
+        {
+          days: 1,
+        },
+      ).getTime();
 
       expect(targetEvent.payload.projectId).toEqual(projectId.toString());
 
-      expect(targetEvent.payload.completionDueOn).toEqual(
-        moment(notifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime(),
-      );
+      expect(targetEvent.payload.completionDueOn).toEqual(dateNotifiedOn);
     });
   });
 
@@ -162,7 +168,9 @@ describe('Project.notify()', () => {
 
       expect(targetEvent.payload.projectId).toEqual(projectId.toString());
       expect(targetEvent.payload.garantiesFinancieresDueOn).toEqual(
-        moment(notifiedOn).add(2, 'months').toDate().getTime(),
+        add(new Date(notifiedOn), {
+          months: 2,
+        }).getTime(),
       );
     });
   });
