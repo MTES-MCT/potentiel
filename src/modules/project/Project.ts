@@ -17,9 +17,8 @@ import {
 import { isNotifiedPeriode } from '@entities/periode';
 import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
-import { add, isSameDay } from 'date-fns';
+import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
-import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
 import { BuildProjectIdentifier, Fournisseur } from '.';
 import { shallowDelta } from '../../helpers/shallowDelta';
@@ -1494,18 +1493,25 @@ export const makeProject = (args: {
     if (!props.notifiedOn) return;
 
     const { setBy, completionDueOn } = forceValue || {};
+
+    const moisAAjouter = getDelaiDeRealisation(appelOffre, props.data?.technologie ?? 'N/A') || 0;
+    const nouvelleDateCompletionDueOn =
+      completionDueOn ||
+      sub(
+        add(new Date(props.notifiedOn), {
+          months: moisAAjouter,
+        }),
+        {
+          days: 1,
+        },
+      ).getTime();
+
     _removePendingEventsOfType(ProjectCompletionDueDateSet.type);
     _publishEvent(
       new ProjectCompletionDueDateSet({
         payload: {
           projectId: props.projectId.toString(),
-          completionDueOn:
-            completionDueOn ||
-            moment(props.notifiedOn)
-              .add(getDelaiDeRealisation(appelOffre, props.data?.technologie ?? 'N/A'), 'months')
-              .subtract(1, 'day')
-              .toDate()
-              .getTime(),
+          completionDueOn: nouvelleDateCompletionDueOn,
           setBy: setBy || '',
         },
       }),
