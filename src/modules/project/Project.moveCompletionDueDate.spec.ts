@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { logger, UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
@@ -15,6 +14,7 @@ import {
 } from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { add } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';
@@ -114,7 +114,9 @@ describe('Project.moveCompletionDueDate()', () => {
       if (!targetEvent) return;
 
       expect(targetEvent.payload.completionDueOn).toEqual(
-        +moment(initialCompletionDueOn).add(delayInMonths, 'months'),
+        add(new Date(initialCompletionDueOn), {
+          months: delayInMonths,
+        }).getTime(),
       );
       expect(targetEvent.payload.projectId).toEqual(projectId.toString());
       expect(targetEvent.payload.setBy).toEqual(fakeUser.id);

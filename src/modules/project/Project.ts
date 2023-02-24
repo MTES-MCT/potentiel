@@ -17,6 +17,7 @@ import {
 import { isNotifiedPeriode } from '@entities/periode';
 import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { add } from 'date-fns';
 import remove from 'lodash/remove';
 import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
@@ -608,10 +609,9 @@ export const makeProject = (args: {
 
       const { completionDueOn, notifiedOn, appelOffre } = props;
 
-      const newCompletionDueOn = moment(completionDueOn)
-        .add(delayInMonths, 'months')
-        .toDate()
-        .getTime();
+      const newCompletionDueOn = add(completionDueOn, {
+        months: delayInMonths,
+      }).getTime();
 
       if (newCompletionDueOn <= notifiedOn) {
         return err(
