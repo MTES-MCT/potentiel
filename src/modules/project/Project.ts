@@ -739,7 +739,9 @@ export const makeProject = (args: {
           new ProjectGFDueDateSet({
             payload: {
               projectId: props.projectId.toString(),
-              garantiesFinancieresDueOn: moment().add(1, 'months').toDate().getTime(),
+              garantiesFinancieresDueOn: add(new Date(), {
+                months: 1,
+              }).getTime(),
             },
           }),
         );

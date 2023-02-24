@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { makeUser } from '@entities';
-import moment from 'moment';
+import { add, isSameDay } from 'date-fns';
 import { UnwrapForTest as OldUnwrapForTest } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
@@ -134,11 +134,13 @@ describe('Project.updateProducteur()', () => {
           if (!targetEvent) return;
 
           expect(
-            moment(targetEvent.payload.garantiesFinancieresDueOn).isSame(
-              moment(targetEvent.occurredAt).add(1, 'months'),
-              'day',
+            isSameDay(
+              new Date(targetEvent.payload.garantiesFinancieresDueOn),
+              add(new Date(targetEvent.occurredAt), {
+                months: 1,
+              }),
             ),
-          ).toEqual(true);
+          );
         });
 
         describe('when the project had submitted GF', () => {
