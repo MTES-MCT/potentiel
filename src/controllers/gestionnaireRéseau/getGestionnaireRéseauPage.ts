@@ -8,7 +8,7 @@ import { PermissionConsulterGestionnaireRéseau } from '@modules/gestionnaireRé
 import { consulterGestionnaireRéseauQueryHandler } from '@infra/sequelize/queries/gestionnaireRéseau/consulterGestionnaireRéseau';
 
 const schema = yup.object({
-  params: yup.object({ id: yup.string().required() }),
+  params: yup.object({ codeEIC: yup.string().required() }),
 });
 
 v1Router.get(
@@ -23,9 +23,9 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { id },
+        params: { codeEIC },
       } = request;
-      const gestionnaireRéseau = await consulterGestionnaireRéseauQueryHandler({ id });
+      const gestionnaireRéseau = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
 
       if (!gestionnaireRéseau) {
         return notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' });

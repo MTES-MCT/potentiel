@@ -5,21 +5,21 @@ class GestionnairesRéseauListe extends Model<
   InferAttributes<GestionnairesRéseauListe>,
   InferCreationAttributes<GestionnairesRéseauListe>
 > {
-  id: string;
-  nom: string;
+  codeEIC: string;
+  raisonSociale: string;
 }
 
 const nomProjection = 'gestionnairesRéseauListe';
 
 GestionnairesRéseauListe.init(
   {
-    id: {
+    codeEIC: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
     },
 
-    nom: {
+    raisonSociale: {
       type: DataTypes.STRING,
       allowNull: false,
     },

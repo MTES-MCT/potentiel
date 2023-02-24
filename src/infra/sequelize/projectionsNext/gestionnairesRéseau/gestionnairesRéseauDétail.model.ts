@@ -5,8 +5,8 @@ class GestionnaireRéseauDétail extends Model<
   InferAttributes<GestionnaireRéseauDétail>,
   InferCreationAttributes<GestionnaireRéseauDétail>
 > {
-  id: string;
-  nom: string;
+  codeEIC: string;
+  raisonSociale: string;
   format?: string;
   légende?: string;
 }
@@ -15,12 +15,12 @@ const nomProjection = 'gestionnaireRéseauDétail';
 
 GestionnaireRéseauDétail.init(
   {
-    id: {
+    codeEIC: {
       allowNull: false,
       primaryKey: true,
       type: DataTypes.STRING,
     },
-    nom: {
+    raisonSociale: {
       type: DataTypes.STRING,
       allowNull: false,
     },

@@ -4,8 +4,8 @@ export const PermissionListerGestionnairesRéseau = {
 };
 
 type GestionnaireRéseauReadModel = {
-  id: string;
-  nom: string;
+  codeEIC: string;
+  raisonSociale: string;
 };
 
 export type ListeGestionnairesRéseauReadModel = Array<GestionnaireRéseauReadModel>;

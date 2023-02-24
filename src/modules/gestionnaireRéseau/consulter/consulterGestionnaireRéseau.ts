@@ -4,14 +4,14 @@ export const PermissionConsulterGestionnaireRéseau = {
 };
 
 export type ConsulterGestionnaireRéseauReadModel = {
-  id: string;
-  nom: string;
+  codeEIC: string;
+  raisonSociale: string;
   format?: string;
   légende?: string;
 };
 
 type ConsulterGestionnaireRéseauQuery = {
-  id: string;
+  codeEIC: string;
 };
 
 export type ConsulterGestionnaireRéseauQueryHandler = (
