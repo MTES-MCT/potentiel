@@ -6,6 +6,11 @@ import { GestionnaireRéseau } from '../gestionnaireRéseauAggregate';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistantError';
 
+export const PermissionAjouterGestionnaireRéseau = {
+  nom: 'ajouter-gestionnaire-réseau',
+  description: 'Ajouter un gestionnaire de réseau',
+};
+
 type AjouterGestionnaireRéseauCommand = {
   codeEIC: string;
   raisonSociale: string;

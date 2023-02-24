@@ -98,6 +98,7 @@ import {
   importRepo,
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
+  gestionnaireRéseauRepo,
 } from './repos.config';
 import { sendNotification } from '@config/emails.config';
 import {
@@ -114,6 +115,7 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config';
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
+import { ajouterGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -507,4 +509,9 @@ export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
   getProjectAppelOffre,
   projectRepo,
   fileRepo,
+});
+
+export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
+  publish: publishToEventStore,
+  repository: gestionnaireRéseauRepo,
 });

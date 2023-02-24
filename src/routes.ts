@@ -50,6 +50,9 @@ class routes {
   static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
     !codeEIC ? `/admin/gestionnaires-reseau/:codeEIC` : `/admin/gestionnaires-reseau/${codeEIC}`;
 
+  static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
+  static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
+
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 
   static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';

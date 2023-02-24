@@ -47,6 +47,7 @@ import {
   CreStatistiques,
   ListeGestionnairesRéseau,
   ConsulterGestionnaireRéseau,
+  AjouterGestionnaireRéseau,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -397,4 +398,13 @@ export const ConsulterGestionnairesRéseauPage = (
     Component: ConsulterGestionnaireRéseau,
     props,
     title: 'Détail du gestionnaire de réseau',
+  });
+
+export const AjouterGestionnaireRéseauPage = (
+  props: Parameters<typeof AjouterGestionnaireRéseau>[0],
+) =>
+  makeHtml({
+    Component: AjouterGestionnaireRéseau,
+    props,
+    title: 'Ajouter un gestionnaire de réseau',
   });
