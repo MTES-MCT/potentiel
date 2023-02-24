@@ -29,7 +29,6 @@ import {
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ImportDonneesRaccordement,
-  AdminAppelsOffres,
   AdminNotificationCandidats,
   AdminRegénérerPeriodeAttestations,
   AdminImporterCandidats,
@@ -284,13 +283,6 @@ export const ImportDonneesRaccordementPage = (
     Component: ImportDonneesRaccordement,
     props,
     title: 'Importer données de raccordement',
-  });
-
-export const AdminAppelsOffresPage = (props: Parameters<typeof AdminAppelsOffres>[0]) =>
-  makeHtml({
-    Component: AdminAppelsOffres,
-    props,
-    title: 'Appels offres',
   });
 
 export const AdminNotificationCandidatsPage = (

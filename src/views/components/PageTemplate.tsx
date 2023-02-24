@@ -20,7 +20,6 @@ type CurrentPage =
   | 'import-données-raccordement'
   | 'list-dreal'
   | 'regenerate-certificates'
-  | 'admin-ao'
   | 'admin-users'
   | 'admin-statistiques'
   | 'cre-statistiques'
@@ -170,12 +169,6 @@ const MenuAdmin = (currentPage: CurrentPage) => (
         {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
       >
         Tableau de bord
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_AO_PERIODE}
-        {...(currentPage === 'admin-ao' && { isCurrent: true })}
-      >
-        Gérer les appels d'offres
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}

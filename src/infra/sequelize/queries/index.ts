@@ -1,4 +1,3 @@
-export * from './appelOffre';
 export * from './candidateNotification';
 export * from './edf';
 export * from './enedis';

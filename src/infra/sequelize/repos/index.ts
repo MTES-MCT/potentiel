@@ -1,7 +1,6 @@
 import { eventStore } from '@config/eventStore.config';
 import { fileStorageService } from '@config/fileStorage.config';
 import { buildProjectIdentifier } from '@config/crypto.config';
-import { makeAppelOffre } from '@modules/appelOffre';
 import { makeCandidateNotification } from '@modules/notificationCandidats';
 import { makeUser } from '@modules/users';
 import models from '../models';
@@ -33,10 +32,6 @@ export const legacyCandidateNotificationRepo = makeEventStoreTransactionalRepo({
 export const projectRepo = makeProjectRepo(eventStore, buildProjectIdentifier);
 export const projectClaimRepo = makeProjectClaimRepo(eventStore);
 export const modificationRequestRepo = makeModificationRequestRepo(eventStore);
-export const appelOffreRepo = makeEventStoreRepo({
-  eventStore,
-  makeAggregate: makeAppelOffre,
-});
 export const userRepo = makeEventStoreTransactionalRepo({
   eventStore,
   makeAggregate: makeUser,
