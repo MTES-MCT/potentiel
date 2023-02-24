@@ -26,6 +26,7 @@ type CurrentPage =
   | 'cre-statistiques'
   | 'inviter-dgec-validateur'
   | 'liste-gestionnaires-réseau'
+  | 'détail-gestionnaire-réseau'
   | undefined;
 
 const getUserNavigation = ({

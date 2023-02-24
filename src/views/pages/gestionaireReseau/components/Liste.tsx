@@ -1,5 +1,6 @@
 import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau';
-import { Tile } from '@views/components';
+import routes from '@routes';
+import { Link, Tile } from '@views/components';
 import React, { FC } from 'react';
 
 type ListeProps = {
@@ -11,6 +12,7 @@ export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
       <li key={`gestionnaire-reseau-${id}`} className="m-0 mb-3 p-0">
         <Tile>
           <div className="font-bold">{nom}</div>
+          <Link href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(id)}>Voir</Link>
         </Tile>
       </li>
     ))}
