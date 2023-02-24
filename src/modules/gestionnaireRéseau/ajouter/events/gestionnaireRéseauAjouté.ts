@@ -1,16 +1,17 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
-export type payload = {
-  id: string;
+export type Payload = {
+  codeEIC: string;
+  raisonSociale: string;
   format?: string;
   légende?: string;
 };
 
-export class GestionnaireRéseauAjouté extends BaseDomainEvent<payload> implements DomainEvent {
+export class GestionnaireRéseauAjouté extends BaseDomainEvent<Payload> implements DomainEvent {
   public static type: 'GestionnaireRéseauAjouté' = 'GestionnaireRéseauAjouté';
   public type = GestionnaireRéseauAjouté.type;
   currentVersion = 1;
 
-  aggregateIdFromPayload(payload: payload) {
-    return payload.id;
+  aggregateIdFromPayload(payload: Payload) {
+    return payload.codeEIC;
   }
 }

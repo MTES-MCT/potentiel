@@ -10,6 +10,10 @@ export type ConsulterGestionnaireRéseauReadModel = {
   légende?: string;
 };
 
-export type ConsulterGestionnaireRéseau = (
-  id: string,
+type ConsulterGestionnaireRéseauQuery = {
+  id: string;
+};
+
+export type ConsulterGestionnaireRéseauQueryHandler = (
+  query: ConsulterGestionnaireRéseauQuery,
 ) => Promise<ConsulterGestionnaireRéseauReadModel | null>;
