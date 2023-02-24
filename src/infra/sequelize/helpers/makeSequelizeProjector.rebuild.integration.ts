@@ -2,7 +2,7 @@ import { sequelizeInstance } from '../../../sequelize.config';
 import { makeSequelizeProjector, resetDatabase } from '.';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize';
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
-import { models } from '../models';
+import models from '../models';
 import { toPersistance } from './toPersistance';
 import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project';
 

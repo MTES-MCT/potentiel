@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { User } from '@entities';
 import { resetDatabase } from '../../helpers';
 import { getProjectEvents } from './getProjectEvents';
-import { models } from '../../models';
+import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents : statut du projet', () => {

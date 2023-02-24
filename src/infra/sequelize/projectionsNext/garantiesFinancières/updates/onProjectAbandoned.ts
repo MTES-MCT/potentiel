@@ -1,6 +1,6 @@
 import { ProjectAbandoned } from '@modules/project';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
-import { models } from '../../../models';
+import models from '../../../models';
 
 export default GarantiesFinancièresProjector.on(
   ProjectAbandoned,

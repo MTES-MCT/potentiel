@@ -3,7 +3,7 @@ import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFSubmitted } from '@modules/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import onProjectGFSubmitted from './onProjectGFSubmitted';
-import { models } from '../../../models';
+import models from '../../../models';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFSubmitted pour la projection garantiesFinancières`, () => {

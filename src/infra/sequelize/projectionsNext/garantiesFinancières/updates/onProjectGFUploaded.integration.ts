@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFUploaded } from '@modules/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
-import { models } from '../../../models';
+import models from '../../../models';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import onProjectGFUploaded from './onProjectGFUploaded';
 

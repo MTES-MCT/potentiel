@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { models } from '../models';
+import models from '../models';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {

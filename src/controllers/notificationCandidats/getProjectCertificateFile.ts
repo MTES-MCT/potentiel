@@ -12,7 +12,7 @@ import {
 } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-import { models } from '@infra/sequelize/models';
+import models from '@infra/sequelize/models';
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),

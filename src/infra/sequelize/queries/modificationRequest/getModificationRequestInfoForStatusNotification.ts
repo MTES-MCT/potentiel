@@ -5,7 +5,7 @@ import {
   ModificationRequestInfoForStatusNotificationDTO,
 } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import { models } from '../../models';
+import models from '../../models';
 
 const { ModificationRequest, Project } = models;
 

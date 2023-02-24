@@ -4,7 +4,7 @@ import { logger } from '@core/utils';
 import { ProjectNotified } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
-import { models } from '../../../models';
+import models from '../../../models';
 
 export default GarantiesFinancièresProjector.on(ProjectNotified, async (évènement, transaction) => {
   const {

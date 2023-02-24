@@ -3,7 +3,7 @@ import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFDueDateSet } from '@modules/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import onProjectGFDueDateSet from './onProjectGFDueDateSet';
-import { models } from '../../../models';
+import models from '../../../models';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières`, () => {

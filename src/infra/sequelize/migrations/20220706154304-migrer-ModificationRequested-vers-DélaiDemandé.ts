@@ -2,7 +2,7 @@ import { DélaiDemandé } from '@modules/demandeModification';
 import { ModificationRequested } from '@modules/modificationRequest';
 import { Op, QueryInterface } from 'sequelize';
 import { toPersistance } from '../helpers';
-import { models } from '../models';
+import models from '../models';
 import { ProjectEvent } from '../projectionsNext';
 import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé';
 

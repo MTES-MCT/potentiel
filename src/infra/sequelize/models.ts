@@ -17,7 +17,7 @@ import { UserProjects } from './projectionsNext/userProjects';
 // Legacy projections
 //
 
-export const models = {
+const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),
   Project: MakeProjectModel(sequelizeInstance),

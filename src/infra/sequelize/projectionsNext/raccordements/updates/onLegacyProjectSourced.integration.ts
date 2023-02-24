@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import { models } from '../../../models';
+import models from '../../../models';
 import { LegacyProjectSourced } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { Raccordements } from '../raccordements.model';

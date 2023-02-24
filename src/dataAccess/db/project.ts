@@ -1,4 +1,4 @@
-import { models } from '../../infra/sequelize/models';
+import models from '../../infra/sequelize/models';
 import { Attributes, DataTypes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '@core/utils';
@@ -19,7 +19,7 @@ import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { GarantiesFinancières } from '@infra/sequelize';
 import { Région } from '@modules/dreal/région';
 
-const { File } = models;
+const { File, User, UserProjects } = models;
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
@@ -74,8 +74,6 @@ type MakeProjectRepoDeps = {
 type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo;
 
 export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProjectAppelOffre }) => {
-  const UserModel = sequelizeInstance.model('user');
-
   const ProjectModel = sequelizeInstance.define('project', {
     id: {
       type: DataTypes.UUID,
@@ -297,8 +295,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     findExistingAppelsOffres,
     findExistingFamillesForAppelOffre,
     findExistingPeriodesForAppelOffre,
-    searchForUser,
-    findAllForUser,
     searchForRegions,
     findAllForRegions,
     searchAll,
@@ -329,8 +325,8 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
             as: 'garantiesFinancières',
             include: [
               { model: File, as: 'fichier' },
-              { model: UserModel, as: 'envoyéesParRef' },
-              { model: UserModel, as: 'validéesParRef' },
+              { model: User, as: 'envoyéesParRef' },
+              { model: User, as: 'validéesParRef' },
             ],
           },
           {
@@ -378,8 +374,8 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         as: 'garantiesFinancières',
         include: [
           { model: File, as: 'fichier' },
-          { model: UserModel, as: 'envoyéesParRef' },
-          { model: UserModel, as: 'validéesParRef' },
+          { model: User, as: 'envoyéesParRef' },
+          { model: User, as: 'validéesParRef' },
         ],
       },
       {
@@ -483,94 +479,12 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     return makePaginatedList(projects, count, pagination);
   }
 
-  async function _getProjectIdsForUser(
-    userId: User['id'],
-    filters?: ProjectFilters,
-  ): Promise<Project['id'][]> {
+  async function _getProjectIdsForUser(userId: User['id']): Promise<Project['id'][]> {
     await _isDbReady;
 
-    const userInstance = await UserModel.findByPk(userId);
-    if (!userInstance) {
-      if (CONFIG.logDbErrors) logger.error('Cannot find user to get projects from');
+    const userProjects = await UserProjects.findAll({ where: { userId } });
 
-      return [];
-    }
-
-    return (await userInstance.getProjects(_makeSelectorsForQuery(filters))).map(
-      (item) => item.get().id,
-    );
-  }
-
-  async function _searchWithinGivenIds(terms: string, projectIds: Project['id'][]) {
-    const projects = await ProjectModel.findAll({
-      where: {
-        id: { [Op.in]: projectIds },
-        [Op.or]: { ...getFullTextSearchOptions(terms) },
-      },
-    });
-
-    return projects.map(({ id }) => id);
-  }
-
-  async function _getProjectsWithIds(
-    projectIds: Project['id'][],
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>> {
-    const opts = {
-      where: {
-        id: projectIds,
-      },
-      include: [
-        {
-          model: FileModel,
-          as: 'certificateFile',
-          attributes: ['id', 'filename'],
-        },
-      ],
-    };
-
-    return _findAndBuildProjectList(opts, pagination, (project) => projectIds.includes(project.id));
-  }
-
-  async function searchForUser(
-    userId: User['id'],
-    terms: string,
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>> {
-    await _isDbReady;
-    try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters);
-
-      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination);
-
-      const searchedUserProjectIds = await _searchWithinGivenIds(terms, filteredUserProjectIds);
-
-      if (!searchedUserProjectIds.length) return makePaginatedList([], 0, pagination);
-
-      return _getProjectsWithIds(searchedUserProjectIds, pagination);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return makePaginatedList([], 0, pagination);
-    }
-  }
-
-  async function findAllForUser(
-    userId: User['id'],
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>> {
-    await _isDbReady;
-    try {
-      const filteredUserProjectIds = await _getProjectIdsForUser(userId, filters);
-
-      if (!filteredUserProjectIds.length) return makePaginatedList([], 0, pagination);
-
-      return _getProjectsWithIds(filteredUserProjectIds, pagination);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return makePaginatedList([], 0, pagination);
-    }
+    return userProjects.map((userProject) => userProject.projectId);
   }
 
   async function _searchWithinRegions(

@@ -8,7 +8,7 @@ import {
 } from '@modules/demandeModification';
 import { Op, QueryInterface, Sequelize } from 'sequelize';
 import { toPersistance } from '../helpers';
-import { models } from '../models';
+import models from '../models';
 import { ProjectEvent } from '../projectionsNext';
 import onAbandonAccordé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAccordé';
 import onAbandonAnnulé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAnnulé';
