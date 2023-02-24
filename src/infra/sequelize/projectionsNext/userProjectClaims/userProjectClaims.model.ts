@@ -1,4 +1,4 @@
-import { Users } from '../users';
+import { User } from '../users';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { makeSequelizeProjector } from '../../helpers';
@@ -38,7 +38,7 @@ UserProjectClaims.init(
   },
 );
 
-UserProjectClaims.belongsTo(Users, { foreignKey: 'userId' });
+UserProjectClaims.belongsTo(User, { foreignKey: 'userId' });
 
 const UserProjectClaimsProjector = makeSequelizeProjector(UserProjectClaims, nomProjection);
 

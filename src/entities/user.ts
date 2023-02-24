@@ -1,12 +1,12 @@
 import isEmail from 'isemail';
 import buildMakeEntity from '../helpers/buildMakeEntity';
-import { Literal, Null, Optional, Record, Static, String, Union } from '../types/schemaTypes';
+import { Literal, Optional, Record, Static, String, Undefined, Union } from '../types/schemaTypes';
 
 const userSchema = Record({
   id: String,
   fullName: String,
   email: String.withConstraint(isEmail.validate),
-  fonction: Optional(String.Or(Null)),
+  fonction: Optional(String.Or(Undefined)),
   role: Union(
     Literal('admin'),
     Literal('porteur-projet'),

@@ -7,7 +7,7 @@ import {
 } from 'sequelize';
 import { makeSequelizeProjector } from '../../helpers';
 import { sequelizeInstance } from '../../../../sequelize.config';
-import { Users } from '../users';
+import { User } from '../users';
 import { Région } from '@modules/dreal/région';
 
 class UserDreal extends Model<InferAttributes<UserDreal>, InferCreationAttributes<UserDreal>> {
@@ -43,7 +43,7 @@ UserDreal.init(
   },
 );
 
-UserDreal.belongsTo(Users, { foreignKey: 'userId' });
+UserDreal.belongsTo(User, { foreignKey: 'userId' });
 
 const UserDrealProjector = makeSequelizeProjector(UserDreal, nomProjection);
 

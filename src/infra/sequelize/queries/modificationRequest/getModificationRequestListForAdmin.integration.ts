@@ -11,7 +11,6 @@ const { Project, User, File, ModificationRequest } = models;
 describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();
-  const userId = new UniqueEntityID().toString();
 
   describe('generally', () => {
     const modificationRequestId = new UniqueEntityID().toString();

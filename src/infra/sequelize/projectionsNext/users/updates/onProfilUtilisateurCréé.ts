@@ -1,15 +1,15 @@
-import { Users, UsersProjector } from '../users.model';
+import { User, UserProjector } from '../users.model';
 import { ProfilUtilisateurCréé } from '@modules/utilisateur';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default UsersProjector.on(ProfilUtilisateurCréé, async (évènement, transaction) => {
+export default UserProjector.on(ProfilUtilisateurCréé, async (évènement, transaction) => {
   const {
     payload: { email, role, prénom, nom, fonction },
   } = évènement;
-  const utilisateurExistant = await Users.findOne({ where: { email }, transaction });
+  const utilisateurExistant = await User.findOne({ where: { email }, transaction });
   try {
-    await Users.upsert(
+    await User.upsert(
       {
         ...(utilisateurExistant && { id: utilisateurExistant.id }),
         email,

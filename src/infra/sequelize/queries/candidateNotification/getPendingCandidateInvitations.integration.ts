@@ -5,6 +5,7 @@ import { resetDatabase } from '../../helpers';
 import { getPendingCandidateInvitations } from './getPendingCandidateInvitations';
 
 import models from '../../models';
+
 describe('getPendingCandidateInvitations()', () => {
   const { User, Project } = models;
 
@@ -44,15 +45,22 @@ describe('getPendingCandidateInvitations()', () => {
     });
 
     it('return a paginated list of users that are not yet registered and is the candidate of at least one project', async () => {
-      const pendingInvitations = await getPendingCandidateInvitations({ pageSize: 10, page: 0 });
+      try {
+        const pendingInvitations = (
+          await getPendingCandidateInvitations({ pageSize: 10, page: 0 })
+        )._unsafeUnwrap();
 
-      expect(pendingInvitations._unsafeUnwrap().itemCount).toEqual(1);
-      expect(pendingInvitations._unsafeUnwrap().pageCount).toEqual(1);
-      expect(pendingInvitations._unsafeUnwrap().items[0]).toMatchObject({
-        email: 'pending@test.test',
-        fullName: 'pending user',
-        invitedOn: new Date(345),
-      });
+        expect(pendingInvitations.itemCount).toEqual(1);
+        expect(pendingInvitations.pageCount).toEqual(1);
+        expect(pendingInvitations.items[0]).toMatchObject({
+          email: 'pending@test.test',
+          fullName: 'pending user',
+          invitedOn: new Date(345),
+        });
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     });
   });
 });

@@ -3,7 +3,7 @@ import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
 import { userRepo, projectRepo, resetDatabase } from '.';
 import { sequelizeInstance } from '../../sequelize.config';
-import { UserDreal, Users } from '@infra/sequelize/projectionsNext';
+import { UserDreal, User } from '@infra/sequelize/projectionsNext';
 
 describe('userRepo sequelizeInstance', () => {
   beforeEach(async () => {
@@ -13,7 +13,7 @@ describe('userRepo sequelizeInstance', () => {
   describe('addToDreal', () => {
     const userId = uuid();
     beforeAll(async () => {
-      await Users.create({
+      await User.create({
         id: userId,
         fullName: '',
         email: '',
@@ -36,7 +36,7 @@ describe('userRepo sequelizeInstance', () => {
     const userId = uuid();
 
     it('return the users associated to the dreal', async () => {
-      await Users.create({
+      await User.create({
         id: userId,
         fullName: 'fullName',
         email: 'email@test.test',
@@ -61,7 +61,7 @@ describe('userRepo sequelizeInstance', () => {
     const userId = uuid();
 
     it('return the dreals associated to the user', async () => {
-      await Users.create({
+      await User.create({
         id: userId,
         fullName: 'fullName',
         email: 'email@test.test',

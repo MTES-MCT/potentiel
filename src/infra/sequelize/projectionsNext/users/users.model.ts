@@ -12,20 +12,21 @@ import { makeSequelizeProjector } from '../../helpers';
 const étatsPossibles = ['invité', 'créé'] as const;
 type États = typeof étatsPossibles[number];
 
-class Users extends Model<InferAttributes<Users>, InferCreationAttributes<Users>> {
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   id: CreationOptional<string>;
   email: string;
   role: UserRole;
   fullName: CreationOptional<string>;
-  registeredOn: CreationOptional<Date>;
+  registeredOn: CreationOptional<Date | null>;
   keycloakId: CreationOptional<string>;
   fonction: CreationOptional<string>;
   état: CreationOptional<États>;
+  createdAt: CreationOptional<Date>;
 }
 
 const nomProjection = 'users';
 
-Users.init(
+User.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -61,6 +62,8 @@ Users.init(
       type: DataTypes.ENUM(...étatsPossibles),
       allowNull: true,
     },
+
+    createdAt: DataTypes.DATE,
   },
   {
     sequelize: sequelizeInstance,
@@ -70,6 +73,6 @@ Users.init(
   },
 );
 
-const UsersProjector = makeSequelizeProjector(Users, nomProjection);
+const UserProjector = makeSequelizeProjector(User, nomProjection);
 
-export { Users, UsersProjector };
+export { User, UserProjector };

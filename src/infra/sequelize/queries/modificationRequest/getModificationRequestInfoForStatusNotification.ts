@@ -1,5 +1,5 @@
 import { errAsync, wrapInfra } from '@core/utils';
-import { UserProjects, Users } from '@infra/sequelize';
+import { UserProjects, User } from '@infra/sequelize';
 import {
   GetModificationRequestInfoForStatusNotification,
   ModificationRequestInfoForStatusNotificationDTO,
@@ -38,7 +38,7 @@ export const getModificationRequestInfoForStatusNotification: GetModificationReq
           where: { projectId },
           include: [
             {
-              model: Users,
+              model: User,
               as: 'user',
               attributes: ['fullName', 'email', 'id'],
             },
