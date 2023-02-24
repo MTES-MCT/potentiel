@@ -1,8 +1,9 @@
 import React from 'react';
-import { Heading1, PageTemplate } from '@views/components';
+import { Heading1, LinkButton, PageTemplate } from '@views/components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
 import { ConsulterGestionnaireRéseauReadModel } from '@modules/gestionnaireRéseau';
+import routes from '@routes';
 
 type ConsulterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
@@ -30,6 +31,7 @@ export const ConsulterGestionnaireRéseau = ({
           {légende ? <code>{légende}</code> : <span className="italic">non renseignée</span>}
         </li>
       </ul>
+      <LinkButton href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</LinkButton>
     </div>
   </PageTemplate>
 );
