@@ -6,8 +6,6 @@ import { MakeNotificationModel } from './projections/notification/notification.m
 import { MakeEventStoreModel } from './eventStore/eventStore.model';
 import { MakeUserModel } from './projections/user/user.model';
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model';
-import { MakeAppelOffreModel } from './projections/appelOffre/appelOffre.model';
-import { MakePeriodeModel } from './projections/appelOffre/periode.model';
 import { EventBus } from '@core/domain';
 
 import * as projectionsNextModels from './projectionsNext';
@@ -26,8 +24,6 @@ export const models = {
   EventStore: MakeEventStoreModel(sequelizeInstance),
   ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
   User: MakeUserModel(sequelizeInstance),
-  AppelOffre: MakeAppelOffreModel(sequelizeInstance),
-  Periode: MakePeriodeModel(sequelizeInstance),
 };
 
 GarantiesFinancières.hasOne(models.File, {

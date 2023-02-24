@@ -1,9 +1,5 @@
 import models from './models';
-import {
-  initModificationRequestProjections,
-  initProjectProjections,
-  initAppelOffreProjections,
-} from './projections';
+import { initModificationRequestProjections, initProjectProjections } from './projections';
 import { EventStore } from '@core/domain';
 
 export { initProjectors } from './models';
@@ -16,7 +12,6 @@ export {
 export const initProjections = (eventStore: EventStore) => {
   initProjectProjections(eventStore, models);
   initModificationRequestProjections(eventStore, models);
-  initAppelOffreProjections(eventStore, models);
 };
 
 export { HasSubscribe } from './helpers/Projection';

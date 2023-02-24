@@ -25,7 +25,6 @@ export * from './signalerDemandeRecoursPage';
 export * from './AbonnementLettreInformation';
 export * from './AcheteurObligeStatistiquesPage';
 export * from './AdemeStatistiquesPage';
-export * from './AdminAppelsOffresPage';
 export * from './AdminImporterCandidatsPage';
 export * from './AdminNotificationCandidatsPage';
 export * from './AdminRegénérerPeriodeAttestationsPage';

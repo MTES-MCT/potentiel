@@ -1,4 +1,3 @@
-import { makeImportAppelOffreData, makeImportPeriodeData } from '@modules/appelOffre';
 import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '@modules/authZ';
 import {
   makeAccorderDemandeDélai,
@@ -69,7 +68,6 @@ import { makeImportEnedisData } from '@modules/enedis';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
-  getAppelOffreList,
   getEDFSearchIndex,
   getEnedisSearchIndex,
   getFileProject,
@@ -87,7 +85,6 @@ import {
   trouverProjetsParIdentifiantGestionnaireRéseau,
 } from './queries.config';
 import {
-  appelOffreRepo,
   demandeAbandonRepo,
   demandeDélaiRepo,
   fileRepo,
@@ -267,17 +264,6 @@ export const regenerateCertificatesForPeriode = makeRegenerateCertificatesForPer
   generateCertificate,
   projectRepo,
   getProjectIdsForPeriode,
-});
-
-export const importAppelOffreData = makeImportAppelOffreData({
-  eventBus: eventStore,
-  appelOffreRepo,
-  getAppelOffreList,
-});
-
-export const importPeriodeData = makeImportPeriodeData({
-  eventBus: eventStore,
-  appelOffreRepo,
 });
 
 export const createUser = makeCreateUser({

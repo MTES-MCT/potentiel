@@ -40,13 +40,7 @@ class routes {
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard';
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
-  static ADMIN_AO_PERIODE = '/admin/appels-offres.html';
-  static IMPORT_AO_ACTION = '/admin/importAppelsOffres';
-  static IMPORT_PERIODE_ACTION = '/admin/importPeriodes';
-  static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
-  static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
-
-  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
+  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/liste-gestionnaires-reseau`;
   static GET_DETAIL_GESTIONNAIRE_RESEAU = (id?: string) =>
     !id ? `/admin/gestionnaires-reseau/:id` : `/admin/gestionnaires-reseau/${id}`;
 
