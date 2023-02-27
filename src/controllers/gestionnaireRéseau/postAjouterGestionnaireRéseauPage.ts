@@ -25,7 +25,6 @@ v1Router.post(
     {
       schema,
       onError: ({ request, response, error, errors }) => {
-        console.table(errors);
         response.redirect(
           addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
             ...request.body,
