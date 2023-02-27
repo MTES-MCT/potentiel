@@ -1,41 +1,48 @@
 import React from 'react';
 import { ProjectDataForProjectPage } from '@modules/project';
-import { NoteElement } from '../components';
 import { ClipboardCheckIcon, Section } from '@components';
 
-type ResultatsAppelOffreProps = {
-  project: ProjectDataForProjectPage;
+type ResultatsAppelOffreInnovationProps = {
+  note: ProjectDataForProjectPage['note'];
+  notePrix: ProjectDataForProjectPage['notePrix'];
+  notesInnovation: ProjectDataForProjectPage['notesInnovation'];
 };
 
-export const ResultatsAppelOffre = ({ project }: ResultatsAppelOffreProps) => (
+export const ResultatsAppelOffreInnovation = ({
+  note,
+  notePrix,
+  notesInnovation,
+}: ResultatsAppelOffreInnovationProps) => (
   <Section title="Résultats de l'appel d'offres" icon={ClipboardCheckIcon}>
-    <div className="mb-3 text-lg">
-      <b>Note totale</b>: {project.note || 'N/A'}
+    <div className="mb-3">
+      <b>Note totale</b>: {note || 'N/A'}
     </div>
     <ul>
-      <NoteElement project={project} column={'Note prix'} />
-      <NoteElement project={project} column={'Note innovation\n(AO innovation)'} />
-      <ul>
-        <NoteElement
-          project={project}
-          column={'Note degré d’innovation (/20pt)\n(AO innovation)'}
-        />
-        <NoteElement
-          project={project}
-          column={'Note positionnement sur le marché (/10pt)\n(AO innovation)'}
-        />
-        <NoteElement project={project} column={'Note qualité technique (/5pt)\n(AO innovation)'} />
-        <NoteElement
-          project={project}
-          column={
-            'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'
-          }
-        />
-        <NoteElement
-          project={project}
-          column={'Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'}
-        />
-      </ul>
+      <li>
+        <b>Note prix</b> : {notePrix}
+      </li>
+      <li>
+        <b>Note innovation</b> : {notesInnovation?.note}
+        <ul>
+          <li>
+            <b>Note degré d’innovation (/20pt)</b> : {notesInnovation?.degréInnovation}
+          </li>
+          <li>
+            <b>Note positionnement sur le marché (/10pt)</b> : {notesInnovation?.positionnement}
+          </li>
+          <li>
+            <b>Note qualité technique (/5pt)</b> : {notesInnovation?.qualitéTechnique}
+          </li>
+          <li>
+            <b>Note adéquation du projet avec les ambitions industrielles (/5pt)</b> :{' '}
+            {notesInnovation?.adéquationAmbitionsIndustrielles}
+          </li>
+          <li>
+            <b>Note aspects environnementaux et sociaux (/5pt)</b> :{' '}
+            {notesInnovation?.aspectsEnvironnementauxEtSociaux}
+          </li>
+        </ul>
+      </li>
     </ul>
   </Section>
 );

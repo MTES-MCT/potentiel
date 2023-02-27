@@ -61,6 +61,8 @@ export type ProjectDataForProjectPage = {
   fournisseur?: string;
   evaluationCarbone?: number;
   note: number;
+  notesInnovation?: NotesInnovation;
+  notePrix?: string;
 
   details: Record<string, any>;
 
@@ -139,4 +141,13 @@ type AlerteAnnulationAbandon =
 
 type GestionnaireDeRéseau = {
   identifiantGestionnaire: string;
+};
+
+type NotesInnovation = {
+  note: string;
+  degréInnovation: string;
+  positionnement: string;
+  qualitéTechnique: string;
+  adéquationAmbitionsIndustrielles: string;
+  aspectsEnvironnementauxEtSociaux: string;
 };

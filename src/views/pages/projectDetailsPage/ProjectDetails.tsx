@@ -22,7 +22,7 @@ import {
   InfoGenerales,
   Contact,
   MaterielsEtTechnologies,
-  ResultatsAppelOffre,
+  ResultatsAppelOffreInnovation,
   ContratEDF,
   ContratEnedis,
   GestionnaireDeRéseau,
@@ -73,8 +73,12 @@ export const ProjectDetails = ({
               role={user.role}
             />
 
-            {project.appelOffre?.type === 'innovation' && userIs('dreal')(user) && (
-              <ResultatsAppelOffre {...{ project }} />
+            {project.notesInnovation && (
+              <ResultatsAppelOffreInnovation
+                note={project.note}
+                notePrix={project.notePrix}
+                notesInnovation={project.notesInnovation}
+              />
             )}
           </div>
         </div>
