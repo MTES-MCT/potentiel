@@ -22,6 +22,7 @@ import {
   prix,
   résultatInstructionSensible,
   évaluationCarbone,
+  noteInnovation,
 } from './colonnesParCatégorie';
 import { User } from '@entities';
 import { UserProjects } from '@infra/sequelize/projectionsNext';
@@ -45,6 +46,7 @@ describe(`Export des projets en tant que porteur de projet`, () => {
     ...implantation,
     ...prix,
     ...résultatInstructionSensible,
+    ...noteInnovation,
     ...modificationsAvantImport,
     ...garantiesFinancières,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
