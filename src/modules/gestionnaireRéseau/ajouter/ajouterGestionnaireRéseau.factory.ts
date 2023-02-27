@@ -2,9 +2,9 @@ import { TransactionalRepository, UniqueEntityID } from '@core/domain';
 import { errAsync, ResultAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Publish } from '../../../core/domain/publish';
-import { GestionnaireRéseau } from '../gestionnaireRéseauAggregate';
+import { GestionnaireRéseau } from '../gestionnaireRéseau.aggregate';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
-import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistantError';
+import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 
 export const PermissionAjouterGestionnaireRéseau = {
   nom: 'ajouter-gestionnaire-réseau',

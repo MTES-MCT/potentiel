@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from 'neverthrow';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
-import { GestionnaireRéseau } from '../gestionnaireRéseauAggregate';
-import { ajouterGestionnaireRéseauFactory } from './ajouterGestionnaireRéseau';
+import { GestionnaireRéseau } from '../gestionnaireRéseau.aggregate';
+import { ajouterGestionnaireRéseauFactory } from './ajouterGestionnaireRéseau.factory';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
 
 describe(`Ajouter un gestionnaire de réseau`, () => {

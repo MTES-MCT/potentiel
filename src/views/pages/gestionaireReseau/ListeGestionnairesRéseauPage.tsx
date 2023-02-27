@@ -1,4 +1,4 @@
-import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Heading1, LinkButton, ListeVide, PageTemplate, SuccessBox } from '@components';
 import { hydrateOnClient } from '@views/helpers';

@@ -1,5 +1,5 @@
 import { listerGestionnairesRéseau } from '@infra/sequelize/queries/gestionnaireRéseau/listerGestionnaireRéseau';
-import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { PermissionListerGestionnairesRéseau } from '@modules/gestionnaireRéseau';
 import routes from '@routes';
 import { ListeGestionnairesRéseauPage } from '@views';
 import { vérifierPermissionUtilisateur } from '../helpers';

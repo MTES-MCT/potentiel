@@ -18,7 +18,7 @@ import {
 } from '@modules/demandeModification';
 import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement';
 import { makeUtilisateur } from '@modules/utilisateur';
-import { makeGestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseauAggregate';
+import { makeGestionnaireRéseau } from '@modules/gestionnaireRéseau';
 
 export const fileRepo = makeFileRepo({ models, fileStorageService });
 export const notificationRepo = new NotificationRepo(models);

@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { PermissionAjouterGestionnaireRéseau } from '@modules/gestionnaireRéseau';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { ajouterGestionnaireRéseau } from '@config';
-import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistantError';
+import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistant.error';
 import { logger } from '@core/utils';
 
 const schema = yup.object({
