@@ -42,6 +42,7 @@ export const AjouterGestionnaireRéseau = ({
               error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
               id="raisonSociale"
               name="raisonSociale"
+              required
             />
           </div>
           <div>
@@ -53,6 +54,7 @@ export const AjouterGestionnaireRéseau = ({
               error={erreurValidation ? erreurValidation['error-body.codeEIC'] : undefined}
               id="codeEIC"
               name="codeEIC"
+              required
             />
           </div>
           <div>
