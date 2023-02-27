@@ -6,7 +6,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { AjouterGestionnaireRéseauPage } from '@views';
 
 v1Router.get(
-  routes.GET_DETAIL_GESTIONNAIRE_RESEAU(),
+  routes.GET_AJOUTER_GESTIONNAIRE_RESEAU,
   vérifierPermissionUtilisateur(PermissionConsulterGestionnaireRéseau),
   asyncHandler(async (request, response) => {
     const { user } = request;
