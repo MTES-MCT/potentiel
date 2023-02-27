@@ -1,5 +1,5 @@
 import routes from '@routes';
-import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -11,8 +11,8 @@ import { logger } from '@core/utils';
 
 const schema = yup.object({
   body: yup.object({
-    codeEIC: yup.string().required(),
-    raisonSociale: yup.string().required(),
+    codeEIC: yup.string().required('Le code EIC est obligatoire'),
+    raisonSociale: yup.string().required('La raison sociale est obligatoire'),
     format: yup.string().optional(),
     légende: yup.string().optional(),
   }),
@@ -24,9 +24,16 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      //TODO : retourner les erreurs à afficher dans le formulaire
-      onError: ({ request, response }) =>
-        notFoundResponse({ request, response, ressourceTitle: 'Gestionnaire réseau' }),
+      onError: ({ request, response, error, errors }) => {
+        console.table(errors);
+        response.redirect(
+          addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
+            ...request.body,
+            error,
+            errors: JSON.stringify(errors),
+          }),
+        );
+      },
     },
     async (request, response) => {
       const { codeEIC, format, légende, raisonSociale } = request.body;

@@ -15,19 +15,21 @@ import routes from '@routes';
 
 type AjouterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
-  error?: string;
+  erreur?: string;
+  erreurValidation?: Record<string, string>;
 };
 
 export const AjouterGestionnaireRéseau = ({
   utilisateur,
-  error,
+  erreur,
+  erreurValidation,
 }: AjouterGestionnaireRéseauProps) => (
   <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel">
       <div className="panel__header">
         <Heading1>Ajouter un gestionnaire de réseau</Heading1>
       </div>
-      {error && <ErrorBox title={error} />}
+      {erreur && <ErrorBox title={erreur} />}
       <form method="post" action={routes.POST_AJOUTER_GESTIONNAIRE_RESEAU}>
         <div className="flex gap-3 flex-col">
           <FormulaireChampsObligatoireLégende className="self-end" />
@@ -35,13 +37,23 @@ export const AjouterGestionnaireRéseau = ({
             <Label htmlFor="raisonSociale" required>
               Raison sociale
             </Label>
-            <Input type="text" id="raisonSociale" name="raisonSociale" required />
+            <Input
+              type="text"
+              error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
+              id="raisonSociale"
+              name="raisonSociale"
+            />
           </div>
           <div>
             <Label htmlFor="codeEIC" required>
               Code EIC
             </Label>
-            <Input type="text" id="codeEIC" name="codeEIC" required />
+            <Input
+              type="text"
+              error={erreurValidation ? erreurValidation['error-body.codeEIC'] : undefined}
+              id="codeEIC"
+              name="codeEIC"
+            />
           </div>
           <div>
             <Label htmlFor="format">Format</Label>

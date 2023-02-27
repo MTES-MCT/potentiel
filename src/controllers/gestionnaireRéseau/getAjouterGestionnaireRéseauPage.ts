@@ -11,13 +11,14 @@ v1Router.get(
   asyncHandler(async (request, response) => {
     const {
       user,
-      query: { error },
+      query: { error, errors },
     } = request;
 
     return response.send(
       AjouterGestionnaireRéseauPage({
         utilisateur: user,
-        error: error as string,
+        erreur: error as string,
+        erreurValidation: errors ? JSON.parse(errors as string) : undefined,
       }),
     );
   }),
