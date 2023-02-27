@@ -36,20 +36,24 @@ export const ajouterGestionnaireRéseauFactory =
     repository,
   }: AjouterGestionnaireRéseauDependencies): AjouterGestionnaireRéseauCommandHandler =>
   ({ codeEIC, raisonSociale, format, légende }) => {
-    return repository.transaction(new UniqueEntityID(codeEIC), (gestionnaireRéseau) => {
-      if (!gestionnaireRéseau.codeEIC) {
-        return publish(
-          new GestionnaireRéseauAjouté({
-            payload: {
-              codeEIC,
-              raisonSociale,
-              format,
-              légende,
-            },
-          }),
-        );
-      }
+    return repository.transaction(
+      new UniqueEntityID(codeEIC),
+      (gestionnaireRéseau) => {
+        if (!gestionnaireRéseau.codeEIC) {
+          return publish(
+            new GestionnaireRéseauAjouté({
+              payload: {
+                codeEIC,
+                raisonSociale,
+                format,
+                légende,
+              },
+            }),
+          );
+        }
 
-      return errAsync(new GestionnaireRéseauDéjàExistantError());
-    });
+        return errAsync(new GestionnaireRéseauDéjàExistantError());
+      },
+      { acceptNew: true },
+    );
   };
