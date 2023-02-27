@@ -16,6 +16,7 @@ import * as DemandeAnnulationAbandonEvents from '@modules/demandeModification/de
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events';
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events';
 import * as UtilisateurEvents from '@modules/utilisateur/events';
+import * as GestionnairesRéseauEvents from '@modules/gestionnaireRéseau/ajouter/events';
 import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
@@ -51,6 +52,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
+  ...GestionnairesRéseauEvents,
 };
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
