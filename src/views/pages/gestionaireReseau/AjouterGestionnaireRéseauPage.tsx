@@ -4,6 +4,7 @@ import {
   FormulaireChampsObligatoireLégende,
   Heading1,
   Input,
+  Link,
   PageTemplate,
 } from '@views/components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
@@ -40,9 +41,10 @@ export const AjouterGestionnaireRéseau = ({ utilisateur }: AjouterGestionnaireR
             <Input type="text" id="légende" name="légende" />
           </div>
         </div>
-        <Button type="submit" className="mt-4">
+        <Button type="submit" className="mt-4 mr-3">
           Ajouter
         </Button>
+        <Link href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</Link>
       </form>
     </div>
   </PageTemplate>
