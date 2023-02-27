@@ -10,6 +10,8 @@ import {
   UserProjectClaimsProjector,
   UserDrealProjector,
 } from '@infra/sequelize';
+import { GestionnaireRéseauDétailProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
+import { GestionnairesRéseauListeProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/liste/gestionnairesRéseauListe.model';
 import { subscribeToRedis } from './eventBus.config';
 import { eventStore } from './eventStore.config';
 
@@ -24,6 +26,8 @@ const projectorsNext = [
   ProjectEventProjector,
   TâchesProjector,
   GarantiesFinancièresProjector,
+  GestionnaireRéseauDétailProjector,
+  GestionnairesRéseauListeProjector,
   RaccordementsProjector,
   UsersProjector,
   UserProjectsProjector,
