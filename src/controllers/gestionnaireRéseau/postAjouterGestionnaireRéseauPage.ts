@@ -41,7 +41,7 @@ v1Router.post(
         (e) => {
           if (e instanceof GestionnaireRéseauDéjàExistantError) {
             return response.redirect(
-              addQueryParams(routes.POST_AJOUTER_GESTIONNAIRE_RESEAU, {
+              addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
                 error: e.message,
               }),
             );

@@ -11,11 +11,15 @@ v1Router.get(
   vérifierPermissionUtilisateur(PermissionListerGestionnairesRéseau),
   asyncHandler(async (request, response) => {
     const gestionnairesRéseau = await listerGestionnairesRéseau();
-    const { user } = request;
+    const {
+      user,
+      query: { success },
+    } = request;
     return response.send(
       ListeGestionnairesRéseauPage({
         user,
         gestionnairesRéseau,
+        success: success as string,
       }),
     );
   }),

@@ -9,11 +9,15 @@ v1Router.get(
   routes.GET_AJOUTER_GESTIONNAIRE_RESEAU,
   vérifierPermissionUtilisateur(PermissionConsulterGestionnaireRéseau),
   asyncHandler(async (request, response) => {
-    const { user } = request;
+    const {
+      user,
+      query: { error },
+    } = request;
 
     return response.send(
       AjouterGestionnaireRéseauPage({
         utilisateur: user,
+        error: error as string,
       }),
     );
   }),
