@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { DomainEvent, UniqueEntityID } from '@core/domain';
 import { logger, UnwrapForTest } from '@core/utils';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
@@ -18,6 +17,7 @@ import {
 } from './events';
 import { makeProject } from './Project';
 import { makeGetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { add, sub } from 'date-fns';
 
 const projectId = new UniqueEntityID('project1');
 const appelOffreId = 'Fessenheim';
@@ -140,7 +140,9 @@ describe('Project.setNotificationDate()', () => {
 
         expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         expect(targetEvent.payload.dcrDueOn).toEqual(
-          moment(newNotifiedOn).add(2, 'months').toDate().getTime(),
+          add(newNotifiedOn, {
+            months: 2,
+          }).getTime(),
         );
       });
 
@@ -151,10 +153,17 @@ describe('Project.setNotificationDate()', () => {
         expect(targetEvent).toBeDefined();
         if (!targetEvent) return;
 
+        const dateNewNotifiedOn = sub(
+          add(newNotifiedOn, {
+            months: 24,
+          }),
+          {
+            days: 1,
+          },
+        ).getTime();
+
         expect(targetEvent.payload.projectId).toEqual(projectId.toString());
-        expect(targetEvent.payload.completionDueOn).toEqual(
-          moment(newNotifiedOn).add(24, 'months').subtract(1, 'day').toDate().getTime(),
-        );
+        expect(targetEvent.payload.completionDueOn).toEqual(dateNewNotifiedOn);
       });
     });
 
@@ -254,7 +263,9 @@ describe('Project.setNotificationDate()', () => {
 
         expect(targetEvent.payload.projectId).toEqual(projectId.toString());
         expect(targetEvent.payload.garantiesFinancieresDueOn).toEqual(
-          moment(newNotifiedOn).add(2, 'months').toDate().getTime(),
+          add(new Date(newNotifiedOn), {
+            months: 2,
+          }).getTime(),
         );
       });
     });

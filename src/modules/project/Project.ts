@@ -17,8 +17,8 @@ import {
 import { isNotifiedPeriode } from '@entities/periode';
 import { ProjetDéjàClasséError } from '@modules/modificationRequest';
 import { getDelaiDeRealisation, GetProjectAppelOffre } from '@modules/projectAppelOffre';
+import { add, isSameDay, sub } from 'date-fns';
 import remove from 'lodash/remove';
-import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
 import { BuildProjectIdentifier, Fournisseur } from '.';
 import { shallowDelta } from '../../helpers/shallowDelta';
@@ -608,10 +608,9 @@ export const makeProject = (args: {
 
       const { completionDueOn, notifiedOn, appelOffre } = props;
 
-      const newCompletionDueOn = moment(completionDueOn)
-        .add(delayInMonths, 'months')
-        .toDate()
-        .getTime();
+      const newCompletionDueOn = add(completionDueOn, {
+        months: delayInMonths,
+      }).getTime();
 
       if (newCompletionDueOn <= notifiedOn) {
         return err(
@@ -638,7 +637,9 @@ export const makeProject = (args: {
       }
 
       // If it's the same day, ignore small differences in timestamp
-      if (moment(notifiedOn).tz('Europe/Paris').isSame(props.notifiedOn, 'day')) return ok(null);
+      if (isSameDay(notifiedOn, props.notifiedOn)) {
+        return ok(null);
+      }
 
       _publishNewNotificationDate({
         projectId: props.projectId.toString(),
@@ -737,7 +738,9 @@ export const makeProject = (args: {
           new ProjectGFDueDateSet({
             payload: {
               projectId: props.projectId.toString(),
-              garantiesFinancieresDueOn: moment().add(1, 'months').toDate().getTime(),
+              garantiesFinancieresDueOn: add(new Date(), {
+                months: 1,
+              }).getTime(),
             },
           }),
         );
@@ -1490,18 +1493,25 @@ export const makeProject = (args: {
     if (!props.notifiedOn) return;
 
     const { setBy, completionDueOn } = forceValue || {};
+
+    const moisAAjouter = getDelaiDeRealisation(appelOffre, props.data?.technologie ?? 'N/A') || 0;
+    const nouvelleDateCompletionDueOn =
+      completionDueOn ||
+      sub(
+        add(new Date(props.notifiedOn), {
+          months: moisAAjouter,
+        }),
+        {
+          days: 1,
+        },
+      ).getTime();
+
     _removePendingEventsOfType(ProjectCompletionDueDateSet.type);
     _publishEvent(
       new ProjectCompletionDueDateSet({
         payload: {
           projectId: props.projectId.toString(),
-          completionDueOn:
-            completionDueOn ||
-            moment(props.notifiedOn)
-              .add(getDelaiDeRealisation(appelOffre, props.data?.technologie ?? 'N/A'), 'months')
-              .subtract(1, 'day')
-              .toDate()
-              .getTime(),
+          completionDueOn: nouvelleDateCompletionDueOn,
           setBy: setBy || '',
         },
       }),
@@ -1526,7 +1536,9 @@ export const makeProject = (args: {
         new ProjectGFDueDateSet({
           payload: {
             projectId: props.projectId.toString(),
-            garantiesFinancieresDueOn: moment(props.notifiedOn).add(2, 'months').toDate().getTime(),
+            garantiesFinancieresDueOn: add(props.notifiedOn, {
+              months: 2,
+            }).getTime(),
           },
         }),
       );
