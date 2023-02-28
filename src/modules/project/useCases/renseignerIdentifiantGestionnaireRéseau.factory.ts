@@ -5,11 +5,12 @@ import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Project } from '../Project';
 import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries';
 import {
+  CodeEICNonTrouvéError,
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { NumeroGestionnaireSubmitted } from '../events';
-import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistant.error';
+import { GestionnaireRéseau } from '@modules/gestionnaireRéseau';
 
 type Command = {
   projetId: string;
@@ -23,13 +24,18 @@ type Dependancies = {
   publishToEventStore: EventStore['publish'];
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
+  gestionnaireRéseauRepo: Repository<GestionnaireRéseau>;
 };
 
 type CommandHandler = (
   command: Command,
 ) => ResultAsync<
   null,
-  InfraNotAvailableError | UnauthorizedError | GestionnaireRéseauDéjàExistantError
+  | InfraNotAvailableError
+  | UnauthorizedError
+  | CodeEICNonTrouvéError
+  | IdentifiantGestionnaireRéseauObligatoireError
+  | IdentifiantGestionnaireRéseauExistantError
 >;
 
 export const renseignerIdentifiantGestionnaireRéseauFactory = ({
@@ -37,14 +43,30 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   publishToEventStore,
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
+  gestionnaireRéseauRepo,
 }: Dependancies): CommandHandler => {
-  const chargerProjet = (commande: { projetId: string; utilisateur: User }) => {
-    const { projetId, utilisateur } = commande;
+  const vérifierCodeEIC = (command: Command) => {
+    if (command.codeEICGestionnaireRéseau) {
+      gestionnaireRéseauRepo
+        .load(new UniqueEntityID(command.codeEICGestionnaireRéseau))
+        .andThen((gestionnaire) => {
+          if (gestionnaire.codeEIC !== command.codeEICGestionnaireRéseau) {
+            console.log('erreur ici');
+            return errAsync(new CodeEICNonTrouvéError());
+          }
+          return okAsync(command);
+        });
+    }
+    return okAsync(command);
+  };
+
+  const chargerProjet = (command: { projetId: string; utilisateur: User }) => {
+    const { projetId, utilisateur } = command;
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
       (utilisateurALesDroits) =>
         utilisateurALesDroits
           ? projectRepo.load(new UniqueEntityID(projetId)).map((projet) => ({
-              commande,
+              command,
               projet,
             }))
           : errAsync(new UnauthorizedError()),
@@ -52,32 +74,32 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   };
 
   const vérifierIdentifiantGestionnaireRéseau = ({
-    commande,
+    command,
     projet,
   }: {
-    commande: Command;
+    command: Command;
     projet: Project;
   }) => {
-    if (!commande.identifiantGestionnaireRéseau) {
+    if (!command.identifiantGestionnaireRéseau) {
       return errAsync(new IdentifiantGestionnaireRéseauObligatoireError());
     }
 
     return trouverProjetsParIdentifiantGestionnaireRéseau(
-      commande.identifiantGestionnaireRéseau,
+      command.identifiantGestionnaireRéseau,
     ).andThen((projets) => {
-      const existePourUnAutreProjet = projets.filter((p) => p !== commande.projetId).length > 0;
+      const existePourUnAutreProjet = projets.filter((p) => p !== command.projetId).length > 0;
 
       return existePourUnAutreProjet
         ? errAsync(new IdentifiantGestionnaireRéseauExistantError())
-        : okAsync({ commande, projet });
+        : okAsync({ command, projet });
     });
   };
 
   const enregistrerLeChoix = ({
     projet,
-    commande: { projetId, utilisateur, identifiantGestionnaireRéseau },
+    command: { projetId, utilisateur, identifiantGestionnaireRéseau, codeEICGestionnaireRéseau },
   }: {
-    commande: Command;
+    command: Command;
     projet: Project;
   }) =>
     projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
@@ -87,13 +109,15 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
               projectId: projetId,
               submittedBy: utilisateur.id,
               numeroGestionnaire: identifiantGestionnaireRéseau,
+              codeEICGestionnaireRéseau,
             },
           }),
         )
       : okAsync(null);
 
-  return (commande) =>
-    chargerProjet(commande)
+  return (command) =>
+    vérifierCodeEIC(command)
+      .andThen(chargerProjet)
       .andThen(vérifierIdentifiantGestionnaireRéseau)
       .andThen(enregistrerLeChoix);
 };

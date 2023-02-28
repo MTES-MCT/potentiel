@@ -3,6 +3,7 @@ export * from './CahierDesChargesInitialNonDisponibleError';
 export * from './CahierDesChargesNonDisponibleError';
 export * from './CertificateFileIsMissingError';
 export * from './ChangementProducteurImpossiblePourEolienError';
+export * from './CodeEICNonTrouvéError';
 export * from './DCRCertificatDéjàEnvoyéError';
 export * from './DateMiseEnServicePlusRécenteError';
 export * from './DemandeDeMêmeTypeDéjàOuverteError';

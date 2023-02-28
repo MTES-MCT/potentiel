@@ -22,6 +22,8 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
     id: projetId,
   } as Project);
 
+  const gestionnaireRéseauRepo = fakeRepo();
+
   beforeEach(() => {
     return publishToEventStore.mockClear();
   });
@@ -39,6 +41,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
+          gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -64,6 +67,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+          gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -97,6 +101,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo: fakeRepo(projet),
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
+          gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -106,6 +111,43 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
       });
       expect(résulat.isOk()).toBe(true);
       expect(publishToEventStore).not.toHaveBeenCalled();
+    });
+  });
+
+  describe(`Vérification du code EIC`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+        Lorsqu'il renseigne l'identifiant gestionnaire réseau 'ID_GES_RES'
+        Avec un code EIC inconnu,
+        Alors il devrait être informé que le code EIC est incorrect
+        Et aucun événement ne devrait être émis`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true);
+
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+          gestionnaireRéseauRepo: fakeRepo({
+            id: new UniqueEntityID('codeEICRenseigné'),
+            codeEIC: '',
+            raisonSociale: '',
+            légende: '',
+            format: '',
+            pendingEvents: [],
+          }),
+        });
+
+      const résulat = await renseignerIdentifiantGestionnaireRéseau({
+        projetId: projetId,
+        utilisateur: user,
+        identifiantGestionnaireRéseau: 'ID_GES_RES',
+        codeEICGestionnaireRéseau: 'codeEICRenseigné',
+      });
+
+      expect(résulat.isErr()).toBe(true);
+
+      //expect(publishToEventStore).toHaveBeenCalledWith(NumeroGestionnaireSubmitted);
     });
   });
 
@@ -121,12 +163,21 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+          gestionnaireRéseauRepo: fakeRepo({
+            id: new UniqueEntityID('codeEICRenseigné'),
+            codeEIC: 'codeEICRenseigné',
+            raisonSociale: 'ENEDIS',
+            légende: '',
+            format: '',
+            pendingEvents: [],
+          }),
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau: 'ID_GES_RES',
+        codeEICGestionnaireRéseau: 'codeEICRenseigné',
       });
 
       expect(résulat.isOk()).toBe(true);
@@ -138,6 +189,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
             projectId: projetId,
             numeroGestionnaire: 'ID_GES_RES',
             submittedBy: user.id,
+            codeEICGestionnaireRéseau: 'codeEICRenseigné',
           }),
         }),
       );
