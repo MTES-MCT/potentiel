@@ -44,7 +44,7 @@ export const AdminRegénérerPeriodeAttestations = ({
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
           <div className="form__group">
-            <Label htmlFor="appelOffreId">Appel d'offre concernée</Label>
+            <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
             <Select
               name="appelOffreId"
               id="appelOffreId"
@@ -53,7 +53,7 @@ export const AdminRegénérerPeriodeAttestations = ({
               className="mb-4"
             >
               <option selected disabled hidden>
-                Choisir appel d‘offre
+                Choisir un appel d‘offre
               </option>
               {appelsOffreStatic
                 .filter((appelOffre) => appelOffre.id !== 'PPE2 - Bâtiment 2')
