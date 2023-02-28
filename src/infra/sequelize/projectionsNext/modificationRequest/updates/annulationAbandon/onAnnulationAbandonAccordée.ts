@@ -1,14 +1,16 @@
 import { logger } from '@core/utils';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 import { AnnulationAbandonAccordée } from '@modules/demandeModification';
-
-export const onAnnulationAbandonAccordée =
-  (models) =>
-  async ({ payload, occurredAt }: AnnulationAbandonAccordée) => {
-    const { demandeId, accordéPar, fichierRéponseId } = payload;
+import { ProjectionEnEchec } from '@modules/shared';
+export default ModificationRequestProjector.on(
+  AnnulationAbandonAccordée,
+  async (évènement, transaction) => {
     try {
-      const ModificationRequestModel = models.ModificationRequest;
-
-      await ModificationRequestModel.update(
+      const {
+        payload: { demandeId, accordéPar, fichierRéponseId },
+        occurredAt,
+      } = évènement;
+      await ModificationRequest.update(
         {
           status: 'acceptée',
           respondedBy: accordéPar,
@@ -16,9 +18,19 @@ export const onAnnulationAbandonAccordée =
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
         },
-        { where: { id: demandeId } },
+        { where: { id: demandeId }, transaction },
       );
-    } catch (e) {
-      logger.error(e);
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement AnnulationAbandonAccordée`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.AnnulationAbandonAccordée',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);

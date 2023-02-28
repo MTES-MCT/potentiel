@@ -1,14 +1,18 @@
 import { logger } from '@core/utils';
 import { AnnulationAbandonRejetée } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
+import { ProjectionEnEchec } from '@modules/shared';
 
-export const onAnnulationAbandonRejetée =
-  (models) =>
-  async ({ payload, occurredAt }: AnnulationAbandonRejetée) => {
-    const { demandeId, rejetéPar, fichierRéponseId } = payload;
+export default ModificationRequestProjector.on(
+  AnnulationAbandonRejetée,
+  async (évènement, transaction) => {
     try {
-      const ModificationRequestModel = models.ModificationRequest;
+      const {
+        payload: { demandeId, rejetéPar, fichierRéponseId },
+        occurredAt,
+      } = évènement;
 
-      await ModificationRequestModel.update(
+      await ModificationRequest.update(
         {
           status: 'rejetée',
           respondedOn: occurredAt.getTime(),
@@ -16,9 +20,19 @@ export const onAnnulationAbandonRejetée =
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
         },
-        { where: { id: demandeId } },
+        { where: { id: demandeId }, transaction },
       );
-    } catch (e) {
-      logger.error(e);
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement AnnulationAbandonRejetée`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.AnnulationAbandonRejetée',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);
