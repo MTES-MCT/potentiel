@@ -3,10 +3,9 @@ import { resetDatabase } from '../../../helpers';
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from "..";
 
 describe('modificationRequest.onModificationRequestInstructionStarted', () => {
-  const ModificationRequestModel = models.ModificationRequest;
-
   const modificationRequestId = new UniqueEntityID().toString();
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
@@ -15,7 +14,7 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    await ModificationRequestModel.create({
+    await ModificationRequest.create({
       id: modificationRequestId,
       projectId,
       userId,
@@ -34,9 +33,7 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
       }),
     );
 
-    const updatedModificationRequest = await ModificationRequestModel.findByPk(
-      modificationRequestId,
-    );
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId);
     expect(updatedModificationRequest?.status).toEqual('en instruction');
   });
 });

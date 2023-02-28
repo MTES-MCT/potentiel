@@ -3,10 +3,9 @@ import models from '../../../models';
 import { onModificationRequestCancelled } from './onModificationRequestCancelled';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
 import { resetDatabase } from '@dataAccess';
+import { ModificationRequest } from "..";
 
 describe(`Projection de l'annulation d'une demande`, () => {
-  const { ModificationRequest } = models;
-
   const modificationRequestId = new UniqueEntityID().toString();
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();

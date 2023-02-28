@@ -3,6 +3,7 @@ import { logger } from '@core/utils';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import models from '../../../models';
+import { ModificationRequest } from '../../modificationRequest';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
@@ -47,8 +48,6 @@ export default ProjectEventProjector.on(
         );
       }
     } else {
-      const { ModificationRequest } = models;
-
       const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
         attributes: ['projectId'],
         transaction,

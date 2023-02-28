@@ -1,6 +1,4 @@
-import models from '../../models';
-
-const { ModificationRequest } = models;
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestAuthority = (
   modificationRequestId: string,

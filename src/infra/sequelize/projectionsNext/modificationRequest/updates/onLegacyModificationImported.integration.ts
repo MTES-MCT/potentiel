@@ -1,12 +1,11 @@
 import { UniqueEntityID } from '@core/domain';
 import { LegacyModificationImported } from '@modules/modificationRequest';
+import { ModificationRequest } from "..";
 import { resetDatabase } from '../../../helpers';
 import models from '../../../models';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
 
 describe('modificationRequest.onLegacyModificationImported', () => {
-  const { ModificationRequest } = models;
-
   const projectId = new UniqueEntityID().toString();
   const importId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();

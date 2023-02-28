@@ -7,8 +7,9 @@ import onModificationRequestRejected from './onModificationRequestRejected';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
+import { ModificationRequest } from '../../modificationRequest';
 
-const { ModificationRequest, Project, File } = models;
+const { Project, File } = models;
 
 describe(`Handler onModificationRequestRejected`, () => {
   const projetId = new UniqueEntityID().toString();

@@ -1,7 +1,7 @@
 import { logger } from '@core/utils';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { RejetDélaiAnnulé } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
-import models from '../../../../models';
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 
 export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, transaction) => {
@@ -16,8 +16,6 @@ export default ProjectEventProjector.on(RejetDélaiAnnulé, async (évènement, 
   });
 
   if (demandeDélaiInstance) {
-    const { ModificationRequest } = models;
-
     const rawRequestedOn = await ModificationRequest.findOne({
       attributes: ['requestedOn'],
       where: { id: demandeDélaiId },

@@ -6,10 +6,9 @@ import {
   ModificationRequestAccepted,
 } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from "..";
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
-  const ModificationRequestModel = models.ModificationRequest;
-
   const modificationRequestId = new UniqueEntityID().toString();
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
@@ -19,7 +18,7 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    await ModificationRequestModel.create({
+    await ModificationRequest.create({
       id: modificationRequestId,
       projectId,
       userId,
@@ -46,9 +45,7 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
       }),
     );
 
-    const updatedModificationRequest = await ModificationRequestModel.findByPk(
-      modificationRequestId,
-    );
+    const updatedModificationRequest = await ModificationRequest.findByPk(modificationRequestId);
     expect(updatedModificationRequest?.status).toEqual('acceptée');
     expect(updatedModificationRequest?.responseFileId).toEqual(responseFileId);
     expect(updatedModificationRequest?.acceptanceParams?.type).toEqual('recours');

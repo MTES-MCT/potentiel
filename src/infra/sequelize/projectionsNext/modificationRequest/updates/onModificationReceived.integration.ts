@@ -1,11 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived } from '@modules/modificationRequest';
+import { ModificationRequest } from "..";
 import models from '../../../models';
 import { onModificationReceived } from './onModificationReceived';
 
 describe('modificationRequest.onModificationReceived', () => {
-  const ModificationRequestModel = models.ModificationRequest;
-
   const modificationRequestId = new UniqueEntityID().toString();
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
@@ -25,7 +24,7 @@ describe('modificationRequest.onModificationReceived', () => {
       }),
     );
 
-    const modificationRequest = await ModificationRequestModel.findByPk(modificationRequestId);
+    const modificationRequest = await ModificationRequest.findByPk(modificationRequestId);
 
     expect(modificationRequest).toMatchObject({
       puissance: 104,

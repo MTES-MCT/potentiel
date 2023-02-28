@@ -1,5 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
@@ -14,7 +15,7 @@ const appelOffreId = 'Fessenheim';
 const periodeId = '1';
 
 describe('Requête sequelize getModificationRequestDataForResponseTemplate', () => {
-  const { Project, ModificationRequest, User, File, UserDreal } = models;
+  const { Project, User, File, UserDreal } = models;
 
   const projectId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();

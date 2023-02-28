@@ -1,12 +1,11 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequested } from '@modules/modificationRequest';
+import { ModificationRequest } from "..";
 import { resetDatabase } from '../../../helpers';
 import models from '../../../models';
 import { onModificationRequested } from './onModificationRequested';
 
 describe('modificationRequest.onModificationRequested', () => {
-  const ModificationRequestModel = models.ModificationRequest;
-
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();
@@ -33,7 +32,7 @@ describe('modificationRequest.onModificationRequested', () => {
     });
     await onModificationRequested(models)(event);
 
-    const projection = await ModificationRequestModel.findByPk(modificationRequestId);
+    const projection = await ModificationRequest.findByPk(modificationRequestId);
 
     expect(projection).toBeDefined();
     if (!projection) return;

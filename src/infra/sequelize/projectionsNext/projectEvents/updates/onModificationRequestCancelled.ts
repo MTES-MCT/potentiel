@@ -1,9 +1,9 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
-import models from '../../../models';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ModificationRequest } from '../../modificationRequest';
 
 export default ProjectEventProjector.on(
   ModificationRequestCancelled,
@@ -47,8 +47,6 @@ export default ProjectEventProjector.on(
         );
       }
     } else {
-      const { ModificationRequest } = models;
-
       const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
         attributes: ['projectId'],
         transaction,

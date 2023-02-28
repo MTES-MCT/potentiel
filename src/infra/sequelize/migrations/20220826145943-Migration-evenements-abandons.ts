@@ -9,7 +9,7 @@ import {
 import { Op, QueryInterface, Sequelize } from 'sequelize';
 import { toPersistance } from '../helpers';
 import models from '../models';
-import { ProjectEvent } from '../projectionsNext';
+import { ModificationRequest, ProjectEvent } from '../projectionsNext';
 import onAbandonAccordé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAccordé';
 import onAbandonAnnulé from '../projectionsNext/projectEvents/updates/abandon/onAbandonAnnulé';
 import onAbandonConfirmé from '../projectionsNext/projectEvents/updates/abandon/onAbandonConfirmé';
@@ -23,7 +23,7 @@ export default {
 
     try {
       console.log('TEST');
-      const { ModificationRequest, EventStore } = models;
+      const { EventStore } = models;
 
       const eventsAbandonAMigrer: Array<{ id: string; projectId: string }> =
         await ModificationRequest.findAll({

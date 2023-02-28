@@ -6,8 +6,9 @@ import models from '../../../models';
 import onModificationRequestInstructionStarted from './onModificationRequestInstructionStarted';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
+import { ModificationRequest } from '../../modificationRequest';
 
-const { ModificationRequest, Project } = models;
+const { Project } = models;
 
 describe(`Handler onModificationRequestInstructionStarted`, () => {
   const projetId = new UniqueEntityID().toString();

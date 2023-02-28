@@ -3,10 +3,9 @@ import { resetDatabase } from '../../../helpers';
 import { onConfirmationRequested } from './onConfirmationRequested';
 import { ConfirmationRequested } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from "..";
 
 describe('modificationRequest.onConfirmationRequested', () => {
-  const { ModificationRequest } = models;
-
   const modificationRequestId = new UniqueEntityID().toString();
   const projectId = new UniqueEntityID().toString();
   const userId = new UniqueEntityID().toString();
