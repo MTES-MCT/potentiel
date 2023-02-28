@@ -44,7 +44,7 @@ describe(`Récupérer les données relatives aux notes pour les AO innovation`, 
 
   describe(`Cas d'utilisateurs sans la permission`, () => {
     for (const role of roleNonAutorisés) {
-      it(`Étant donné un projet Innovation,
+      it(`Étant donné un projet CRE4 Innovation,
           Lorsqu'un utilisateur ${role} récupère les données du projet,
           alors les notes innovation ne devraient pas être retournées`, async () => {
         const donnéesProjet = await getProjectDataForProjectPage({
@@ -54,19 +54,21 @@ describe(`Récupérer les données relatives aux notes pour les AO innovation`, 
 
         expect(donnéesProjet.isOk()).toBe(true);
 
-        expect(donnéesProjet._unsafeUnwrap().notePrix).toBeUndefined();
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation).toBeUndefined();
+        const donnéesProjetUnwraped = donnéesProjet._unsafeUnwrap();
+
+        expect(donnéesProjetUnwraped.notePrix).toBeUndefined();
+        expect(donnéesProjetUnwraped.notesInnovation).toBeUndefined();
       });
     }
   });
 
   describe(`Cas d'utilisateurs avec la permission`, () => {
     for (const role of rôlesAvecAccèsAuxNotesInnovation) {
-      it(`Étant donné un projet innovation,
+      it(`Étant donné un projet CRE4 Innovation,
           lorsqu'un utilisateur ${role} récupère les données du projet,
           alors les notes innovation devraient être retournées,
           et les notes devraient être arrondies,
-          et le retour devrait êtrr 'N/A' pour les notes inexistantes`, async () => {
+          et le retour devrait être 'N/A' pour les notes inexistantes`, async () => {
         const donnéesProjet = await getProjectDataForProjectPage({
           projectId: projetId,
           user: { role } as User,
@@ -74,19 +76,18 @@ describe(`Récupérer les données relatives aux notes pour les AO innovation`, 
 
         expect(donnéesProjet.isOk()).toBe(true);
 
-        expect(donnéesProjet._unsafeUnwrap().notePrix).toEqual('15');
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation).toBeDefined();
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation?.note).toEqual('20.33'); // note arrondie
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation?.degréInnovation).toEqual('N/A'); // note absente
-        expect(donnéesProjet._unsafeUnwrap().note).toEqual(10);
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation?.positionnement).toEqual('8');
-        expect(donnéesProjet._unsafeUnwrap().notesInnovation?.qualitéTechnique).toEqual('16');
-        expect(
-          donnéesProjet._unsafeUnwrap().notesInnovation?.adéquationAmbitionsIndustrielles,
-        ).toEqual('12');
-        expect(
-          donnéesProjet._unsafeUnwrap().notesInnovation?.aspectsEnvironnementauxEtSociaux,
-        ).toEqual('4');
+        const donnéesProjetUnwraped = donnéesProjet._unsafeUnwrap();
+
+        expect(donnéesProjetUnwraped.note).toEqual(10);
+        expect(donnéesProjetUnwraped.notePrix).toEqual('15');
+        expect(donnéesProjetUnwraped.notesInnovation).toEqual({
+          note: '20.33', // note arrondie
+          degréInnovation: 'N/A', // valeur N/A assignée
+          positionnement: '8',
+          qualitéTechnique: '16',
+          adéquationAmbitionsIndustrielles: '12',
+          aspectsEnvironnementauxEtSociaux: '4',
+        });
       });
     }
   });
