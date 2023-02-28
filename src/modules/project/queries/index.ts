@@ -4,7 +4,7 @@ export * from './BuildProjectIdentifier';
 export * from './FindProjectByIdentifiers';
 export * from './GetDélaiCdc2022Applicable';
 export * from './GetProjectDataForChoisirCDCPage';
-export * from './GetProjectDataForModifierIdentifiantGestionnaireReseauPage';
+export * from './RésuméProjet';
 export * from './GetProjectDataForProjectClaim';
 export * from './GetProjectDataForProjectPage';
 export * from './GetProjectDataForSignalerDemandeAbandonPage';

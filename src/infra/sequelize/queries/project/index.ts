@@ -7,7 +7,7 @@ export * from './getDélaiCdc2022Applicable';
 export * from './getLegacyModificationByFilename';
 export * from './getNonLegacyProjectsByContactEmail';
 export * from './getProjectDataForChoisirCDCPage';
-export * from './getProjectDataForModifierIdentifiantGestionnaireReseauPage';
+export * from './résuméProjetQueryHandler';
 export * from './getProjectDataForProjectClaim';
 export * from './getProjectDataForSignalerDemandeAbandonPage';
 export * from './getProjectDataForSignalerDemandeDelaiPage';
