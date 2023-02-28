@@ -1,16 +1,16 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiAccordé } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export const onDélaiAccordé = (models) => async (évènement: DélaiAccordé) => {
-  const {
-    payload: { demandeDélaiId, dateAchèvementAccordée, fichierRéponseId, accordéPar },
-    occurredAt,
-  } = évènement;
+export default ModificationRequestProjector.on(DélaiAccordé, async (évènement, transaction) => {
   try {
-    const ModificationRequestModel = models.ModificationRequest;
+    const {
+      payload: { demandeDélaiId, dateAchèvementAccordée, fichierRéponseId, accordéPar },
+      occurredAt,
+    } = évènement;
 
-    await ModificationRequestModel.update(
+    await ModificationRequest.update(
       {
         status: 'acceptée',
         respondedOn: occurredAt.getTime(),
@@ -25,14 +25,19 @@ export const onDélaiAccordé = (models) => async (évènement: DélaiAccordé) 
         where: {
           id: demandeDélaiId,
         },
+        transaction,
       },
     );
-  } catch (e) {
+  } catch (error) {
     logger.error(
-      new ProjectionEnEchec(`Erreur lors du traitement de l'évènement DélaiAccordé`, {
-        nomProjection: 'ProjectEventProjector.onDélaiAccordé',
-        évènement,
-      }),
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'évènement DélaiAccordé`,
+        {
+          évènement,
+          nomProjection: 'ModificationRequest.DélaiAccordé',
+        },
+        error,
+      ),
     );
   }
-};
+});

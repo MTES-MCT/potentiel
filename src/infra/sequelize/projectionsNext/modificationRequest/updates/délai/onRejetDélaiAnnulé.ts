@@ -1,16 +1,15 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { RejetDélaiAnnulé } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export const onRejetDélaiAnnulé = (models) => async (évènement: RejetDélaiAnnulé) => {
-  const {
-    payload: { demandeDélaiId },
-    occurredAt,
-  } = évènement;
+export default ModificationRequestProjector.on(RejetDélaiAnnulé, async (évènement, transaction) => {
   try {
-    const ModificationRequestModel = models.ModificationRequest;
-
-    await ModificationRequestModel.update(
+    const {
+      payload: { demandeDélaiId },
+      occurredAt,
+    } = évènement;
+    await ModificationRequest.update(
       {
         status: 'envoyée',
         respondedBy: null,
@@ -22,14 +21,19 @@ export const onRejetDélaiAnnulé = (models) => async (évènement: RejetDélaiA
         where: {
           id: demandeDélaiId,
         },
+        transaction,
       },
     );
-  } catch (e) {
+  } catch (error) {
     logger.error(
-      new ProjectionEnEchec(`Erreur lors du traitement de l'évènement RejetDélaiAnnulé`, {
-        nomProjection: 'ProjectEventProjector.onRejetDélaiAnnulé',
-        évènement,
-      }),
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'évènement RejetDélaiAnnulé`,
+        {
+          évènement,
+          nomProjection: 'ModificationRequest.RejetDélaiAnnulé',
+        },
+        error,
+      ),
     );
   }
-};
+});

@@ -1,32 +1,40 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiEnInstruction } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export const onDélaiEnInstruction = (models) => async (évènement: DélaiEnInstruction) => {
-  const {
-    payload: { demandeDélaiId },
-    occurredAt,
-  } = évènement;
-  try {
-    const ModificationRequestModel = models.ModificationRequest;
+export default ModificationRequestProjector.on(
+  DélaiEnInstruction,
+  async (évènement, transaction) => {
+    try {
+      const {
+        payload: { demandeDélaiId },
+        occurredAt,
+      } = évènement;
 
-    await ModificationRequestModel.update(
-      {
-        status: 'en instruction',
-        versionDate: occurredAt,
-      },
-      {
-        where: {
-          id: demandeDélaiId,
+      await ModificationRequest.update(
+        {
+          status: 'en instruction',
+          versionDate: occurredAt,
         },
-      },
-    );
-  } catch (e) {
-    logger.error(
-      new ProjectionEnEchec(`Erreur lors du traitement de l'évènement DélaiEnInstruction`, {
-        nomProjection: 'ProjectEventProjector.onDélaiEnInstruction',
-        évènement,
-      }),
-    );
-  }
-};
+        {
+          where: {
+            id: demandeDélaiId,
+          },
+          transaction,
+        },
+      );
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement DélaiEnInstruction`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.DélaiEnInstruction',
+          },
+          error,
+        ),
+      );
+    }
+  },
+);

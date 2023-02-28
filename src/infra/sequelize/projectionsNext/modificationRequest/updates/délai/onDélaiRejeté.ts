@@ -1,16 +1,15 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiRejeté } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export const onDélaiRejeté = (models) => async (évènement: DélaiRejeté) => {
-  const {
-    payload: { demandeDélaiId, rejetéPar, fichierRéponseId },
-    occurredAt,
-  } = évènement;
+export default ModificationRequestProjector.on(DélaiRejeté, async (évènement, transaction) => {
   try {
-    const ModificationRequestModel = models.ModificationRequest;
-
-    await ModificationRequestModel.update(
+    const {
+      payload: { demandeDélaiId, rejetéPar, fichierRéponseId },
+      occurredAt,
+    } = évènement;
+    await ModificationRequest.update(
       {
         status: 'rejetée',
         respondedBy: rejetéPar,
@@ -22,14 +21,19 @@ export const onDélaiRejeté = (models) => async (évènement: DélaiRejeté) =>
         where: {
           id: demandeDélaiId,
         },
+        transaction,
       },
     );
-  } catch (e) {
+  } catch (error) {
     logger.error(
-      new ProjectionEnEchec(`Erreur lors du traitement de l'évènement DélaiRejeté`, {
-        nomProjection: 'ProjectEventProjector.onDélaiRejeté',
-        évènement,
-      }),
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'évènement DélaiRejeté`,
+        {
+          évènement,
+          nomProjection: 'ModificationRequest.DélaiRejeté',
+        },
+        error,
+      ),
     );
   }
-};
+});

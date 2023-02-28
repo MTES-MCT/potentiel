@@ -1,16 +1,16 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiAnnulé } from '@modules/demandeModification';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export const onDélaiAnnulé = (models) => async (évènement: DélaiAnnulé) => {
-  const {
-    payload: { demandeDélaiId, annuléPar },
-    occurredAt,
-  } = évènement;
+export default ModificationRequestProjector.on(DélaiAnnulé, async (évènement, transaction) => {
   try {
-    const ModificationRequestModel = models.ModificationRequest;
+    const {
+      payload: { demandeDélaiId, annuléPar },
+      occurredAt,
+    } = évènement;
 
-    await ModificationRequestModel.update(
+    await ModificationRequest.update(
       {
         status: 'annulée',
         cancelledBy: annuléPar,
@@ -21,14 +21,19 @@ export const onDélaiAnnulé = (models) => async (évènement: DélaiAnnulé) =>
         where: {
           id: demandeDélaiId,
         },
+        transaction,
       },
     );
-  } catch (e) {
+  } catch (error) {
     logger.error(
-      new ProjectionEnEchec(`Erreur lors du traitement de l'évènement DélaiAnnulé`, {
-        nomProjection: 'ProjectEventProjector.onDélaiAnnulé',
-        évènement,
-      }),
+      new ProjectionEnEchec(
+        `Erreur lors du traitement de l'évènement DélaiAnnulé`,
+        {
+          évènement,
+          nomProjection: 'ModificationRequest.DélaiAnnulé',
+        },
+        error,
+      ),
     );
   }
-};
+});
