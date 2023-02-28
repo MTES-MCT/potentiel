@@ -3,7 +3,7 @@ import { ModificationRequest, ModificationRequestProjector } from '@infra/sequel
 import { LegacyAbandonSupprimé } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onLegacyAbandonSupprimé = ModificationRequestProjector.on(
   LegacyAbandonSupprimé,
   async (évènement, transaction) => {
     const {

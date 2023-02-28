@@ -2,7 +2,8 @@ import { logger } from '@core/utils';
 import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 import { AnnulationAbandonAccordée } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
-export default ModificationRequestProjector.on(
+
+export const onAnnulationAbandonAccordée = ModificationRequestProjector.on(
   AnnulationAbandonAccordée,
   async (évènement, transaction) => {
     try {

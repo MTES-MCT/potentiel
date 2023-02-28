@@ -3,82 +3,52 @@ import { ModificationRequest, ModificationRequestProjector } from '@infra/sequel
 import { AbandonDemandé } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(AbandonDemandé, async (évènement, transaction) => {
-  const {
-    payload: {
-      demandeAbandonId,
-      projetId,
-      fichierId,
-      justification,
-      autorité,
-      porteurId,
-      cahierDesCharges,
-    },
-    occurredAt,
-  } = évènement;
-
-  try {
-    await ModificationRequest.create(
-      {
-        id: demandeAbandonId,
-        projectId: projetId,
-        type: 'abandon',
-        requestedOn: occurredAt.getTime(),
-        versionDate: occurredAt,
-        status: 'envoyée',
-        fileId: fichierId,
-        userId: porteurId,
-        justification,
-        authority: autorité,
-        cahierDesCharges,
-      },
-      {
-        transaction,
-      },
-    );
-  } catch (error) {
-    logger.error(
-      new ProjectionEnEchec(
-        `Erreur lors du traitement de l'évènement AbandonDemandé`,
-        {
-          évènement,
-          nomProjection: 'ModificationRequest.AbandonDemandé',
-        },
-        error,
-      ),
-    );
-  }
-});
-
-export const onAbandonDemandé =
-  (models) =>
-  async ({ payload, occurredAt }: AbandonDemandé) => {
+export const onAbandonDemandé = ModificationRequestProjector.on(
+  AbandonDemandé,
+  async (évènement, transaction) => {
     const {
-      demandeAbandonId,
-      projetId,
-      fichierId,
-      justification,
-      autorité,
-      porteurId,
-      cahierDesCharges,
-    } = payload;
-    try {
-      const ModificationRequestModel = models.ModificationRequest;
-
-      await ModificationRequestModel.create({
-        id: demandeAbandonId,
-        projectId: projetId,
-        type: 'abandon',
-        requestedOn: occurredAt.getTime(),
-        versionDate: occurredAt,
-        status: 'envoyée',
-        fileId: fichierId,
-        userId: porteurId,
+      payload: {
+        demandeAbandonId,
+        projetId,
+        fichierId,
         justification,
-        authority: autorité,
+        autorité,
+        porteurId,
         cahierDesCharges,
-      });
-    } catch (e) {
-      logger.error(e);
+      },
+      occurredAt,
+    } = évènement;
+
+    try {
+      await ModificationRequest.create(
+        {
+          id: demandeAbandonId,
+          projectId: projetId,
+          type: 'abandon',
+          requestedOn: occurredAt.getTime(),
+          versionDate: occurredAt,
+          status: 'envoyée',
+          fileId: fichierId,
+          userId: porteurId,
+          justification,
+          authority: autorité,
+          cahierDesCharges,
+        },
+        {
+          transaction,
+        },
+      );
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement AbandonDemandé`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.AbandonDemandé',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);

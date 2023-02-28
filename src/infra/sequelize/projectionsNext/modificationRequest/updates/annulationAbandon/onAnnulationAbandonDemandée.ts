@@ -3,7 +3,7 @@ import { AnnulationAbandonDemandée } from '@modules/demandeModification/demande
 import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onAnnulationAbandonDemandée = ModificationRequestProjector.on(
   AnnulationAbandonDemandée,
   async (évènement, transaction) => {
     try {

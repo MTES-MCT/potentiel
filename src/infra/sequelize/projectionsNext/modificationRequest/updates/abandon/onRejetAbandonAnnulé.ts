@@ -3,7 +3,7 @@ import { ModificationRequest, ModificationRequestProjector } from '@infra/sequel
 import { RejetAbandonAnnulé } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '../../../../../../modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onRejetAbandonAnnulé = ModificationRequestProjector.on(
   RejetAbandonAnnulé,
   async (évènement, transaction) => {
     try {

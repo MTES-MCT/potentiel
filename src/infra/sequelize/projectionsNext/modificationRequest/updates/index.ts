@@ -43,25 +43,31 @@ import onModificationRequestRejected from './onModificationRequestRejected';
 import onModificationRequestStatusUpdated from './onModificationRequestStatusUpdated';
 import onRejetRecoursAnnulé from './onRejetRecoursAnnulé';
 import onRejetChangementDePuissanceAnnulé from './onRejetChangementDePuissanceAnnulé';
-import onDélaiAccordé from './délai/onDélaiAccordé';
-import onDélaiAnnulé from './délai/onDélaiAnnulé';
-import onDélaiEnInstruction from './délai/onDélaiEnInstruction';
-import onDélaiDemandé from './délai/onDélaiDemandé';
-import onDélaiRejeté from './délai/onDélaiRejeté';
-import onRejetDélaiAnnulé from './délai/onRejetDélaiAnnulé';
-import onAbandonRejeté from './abandon/onAbandonRejeté';
-import onAbandonDemandé from './abandon/onAbandonDemandé';
-import onAbandonAnnulé from './abandon/onAbandonAnnulé';
-import onAbandonAccordé from './abandon/onAbandonAccordé';
-import onConfirmationAbandonDemandée from './abandon/onConfirmationAbandonDemandée';
-import onAbandonConfirmé from './abandon/onAbandonConfirmé';
-import onRejetAbandonAnnulé from './abandon/onRejetAbandonAnnulé';
-import onLegacyAbandonSupprimé from './abandon/onLegacyAbandonSupprimé';
-import onAnnulationAbandonDemandée from './annulationAbandon/onAnnulationAbandonDemandée';
-import onAnnulationAbandonAnnulée from './annulationAbandon/onAnnulationAbandonAnnulée';
-import onAnnulationAbandonRejetée from './annulationAbandon/onAnnulationAbandonRejetée';
-import onAnnulationAbandonAccordée from './annulationAbandon/onAnnulationAbandonAccordée';
 import { LegacyAbandonSupprimé } from '@modules/project';
+import {
+  onAbandonDemandé,
+  onAbandonAnnulé,
+  onAbandonConfirmé,
+  onAbandonAccordé,
+  onAbandonRejeté,
+  onLegacyAbandonSupprimé,
+  onConfirmationAbandonDemandée,
+  onRejetAbandonAnnulé,
+} from './abandon';
+import {
+  onAnnulationAbandonDemandée,
+  onAnnulationAbandonAnnulée,
+  onAnnulationAbandonRejetée,
+  onAnnulationAbandonAccordée,
+} from './annulationAbandon';
+import {
+  onDélaiDemandé,
+  onDélaiAnnulé,
+  onDélaiRejeté,
+  onDélaiAccordé,
+  onRejetDélaiAnnulé,
+  onDélaiEnInstruction,
+} from './délai';
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested);

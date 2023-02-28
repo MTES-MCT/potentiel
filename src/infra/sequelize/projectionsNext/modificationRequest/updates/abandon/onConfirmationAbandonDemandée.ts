@@ -3,7 +3,7 @@ import { ModificationRequest, ModificationRequestProjector } from '@infra/sequel
 import { ConfirmationAbandonDemandée } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onConfirmationAbandonDemandée = ModificationRequestProjector.on(
   ConfirmationAbandonDemandée,
   async (évènement, transaction) => {
     try {

@@ -3,7 +3,7 @@ import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiEnInstruction } from '@modules/demandeModification';
 import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 
-export default ModificationRequestProjector.on(
+export const onDélaiEnInstruction = ModificationRequestProjector.on(
   DélaiEnInstruction,
   async (évènement, transaction) => {
     try {
