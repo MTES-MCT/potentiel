@@ -130,10 +130,13 @@ module.exports = {
           hover: '#f1a892',
           active: '#f4bfb1',
         },
+        outline: {
+          base: '#0a76f6',
+        },
       },
     },
   },
   variants: {
     extend: {},
   },
-}
+};

@@ -1,23 +1,31 @@
 import React from 'react';
-import { Select, SelectProps } from './Select';
+import { Select } from './Select';
 
 export default {
   title: 'Components/Atoms/Select',
   component: Select,
+  argTypes: {
+    error: { control: 'text' },
+    disabled: { control: 'boolean' },
+  },
 };
 
 const Template = (args) => <Select {...args} />;
 
 export const Default = Template.bind({});
 
-const options: SelectProps['options'] = [
-  { value: 'Séléctionner une option', default: true },
-  { value: 'option 1' },
-  { value: 'option 2' },
-  { value: 'option 3' },
-  { value: 'option 4' },
-];
-
 Default.args = {
-  options,
+  children: (
+    <>
+      <option value="Choisir une valeur" selected disabled hidden>
+        Choisir une valeur
+      </option>
+      <option value="Option 1">Option 1</option>
+      <option value="Option 2">Option 2</option>
+      <option value="Option 3">Option 3</option>
+      <option value="Option 4">Option 4</option>
+    </>
+  ),
+  disabled: false,
+  error: '',
 };
