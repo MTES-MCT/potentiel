@@ -2,4 +2,4 @@ import { GestionnairesRéseauListe } from '@infra/sequelize/projectionsNext/gest
 import { ListerGestionnairesRéseau } from '@modules/gestionnaireRéseau';
 
 export const listerGestionnairesRéseau: ListerGestionnairesRéseau = () =>
-  GestionnairesRéseauListe.findAll({ raw: true });
+  GestionnairesRéseauListe.findAll({ raw: true, order: [['raisonSociale', 'ASC']] });
