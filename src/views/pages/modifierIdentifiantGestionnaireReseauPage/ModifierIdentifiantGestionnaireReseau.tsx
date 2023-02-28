@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Request } from 'express';
 
 import {
@@ -6,12 +6,14 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
+  InfoBox,
   Input,
   Label,
   PageTemplate,
   ProjectInfo,
   ProjectProps,
   SecondaryLinkButton,
+  Select,
   SuccessBox,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
@@ -20,13 +22,38 @@ import routes from '@routes';
 type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request;
   projet: ProjectProps;
+  listeGestionnairesRéseau?: {
+    codeEIC: string;
+    raisonSociale: string;
+    format?: string;
+    légende?: string;
+  }[];
 };
 
 export const ModifierIdentifiantGestionnaireReseau = ({
   request,
   projet,
+  listeGestionnairesRéseau,
 }: ModifierIdentifiantGestionnaireReseauProps) => {
   const { error, success } = (request.query as any) || {};
+
+  const [format, setFormat] = useState('');
+  const [légende, setLégende] = useState('');
+
+  const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
+    const gestionnaireSélectionné = listeGestionnairesRéseau?.find(
+      (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
+    );
+
+    gestionnaireSélectionné && gestionnaireSélectionné.format
+      ? setFormat(gestionnaireSélectionné.format)
+      : setFormat('');
+
+    gestionnaireSélectionné && gestionnaireSélectionné.légende
+      ? setLégende(gestionnaireSélectionné.légende)
+      : setLégende('');
+  };
+
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
       <div className="panel">
@@ -51,16 +78,39 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           </div>
 
           <input type="hidden" name="projetId" value={projet.id} />
+          {listeGestionnairesRéseau && (
+            <div>
+              <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+              <Select
+                id="codeEIC"
+                name="codeEIC"
+                onChange={(e) => handleGestionnaireSéléctionné(e)}
+              >
+                <option value={undefined}>Choisir un gestionnaire dans la liste</option>
+                {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+                  <option value={codeEIC} key={codeEIC}>
+                    {raisonSociale} (code EIC : {codeEIC})
+                  </option>
+                ))}
+              </Select>
+            </div>
+          )}
+
           <div>
             <Label htmlFor="identifiantGestionnaireRéseau">
-              {projet.identifiantGestionnaire ? 'Remplacer' : 'Renseigner'} l'identifiant de
-              gestionnaire réseau du projet (champ obligatoire)
+              Identifiant de gestionnaire réseau du projet (champ obligatoire)
             </Label>
+            {(format || légende) && (
+              <InfoBox className="mt-2 mb-3">
+                {légende && <p className="m-0">Format attendu : {légende}</p>}
+                {format && <p className="m-0 italic">Exemple : {format}</p>}
+              </InfoBox>
+            )}
             <Input
               type="text"
               id="identifiantGestionnaireRéseau"
               name="identifiantGestionnaireRéseau"
-              placeholder="Saisir un nouvel identifiant"
+              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
               defaultValue={projet.identifiantGestionnaire || ''}
               required
             />
