@@ -1,5 +1,27 @@
 import { logger } from '@core/utils';
 import { ModificationRequestStatusUpdated } from '@modules/modificationRequest';
+import { ModificationRequestProjector } from '@infra/sequelize';
+import { ProjectionEnEchec } from '@modules/shared';
+
+export default ModificationRequestProjector.on(
+  ModificationRequestStatusUpdated,
+  async (évènement, transaction) => {
+    try {
+      const {} = évènement;
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ModificationRequestStatusUpdated`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.ModificationRequestStatusUpdated',
+          },
+          error,
+        ),
+      );
+    }
+  },
+);
 
 export const onModificationRequestStatusUpdated =
   (models) => async (event: ModificationRequestStatusUpdated) => {

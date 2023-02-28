@@ -1,5 +1,27 @@
 import { logger } from '@core/utils';
 import { LegacyModificationImported } from '@modules/modificationRequest';
+import { ModificationRequestProjector } from '@infra/sequelize';
+import { ProjectionEnEchec } from '@modules/shared';
+
+export default ModificationRequestProjector.on(
+  LegacyModificationImported,
+  async (évènement, transaction) => {
+    try {
+      const {} = évènement;
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement LegacyModificationImported`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.LegacyModificationImported',
+          },
+          error,
+        ),
+      );
+    }
+  },
+);
 
 export const onLegacyModificationImported =
   (models) => async (event: LegacyModificationImported) => {
