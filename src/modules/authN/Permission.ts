@@ -9,6 +9,7 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
+  PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project';
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
@@ -18,7 +19,6 @@ import {
   PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
 } from '@modules/gestionnaireRéseau';
-import { PermissionModifierIdentifiantGestionnaireReseau } from '@modules/project/queries/ModifierGestionnaireRéseau';
 
 export type Permission = {
   nom: string;
