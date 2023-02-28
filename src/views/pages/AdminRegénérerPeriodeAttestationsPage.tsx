@@ -50,7 +50,6 @@ export const AdminRegénérerPeriodeAttestations = ({
               id="appelOffreId"
               defaultValue={appelOffreId}
               {...dataId('appelOffreIdSelector')}
-              className="mb-4"
             >
               <option selected disabled hidden>
                 Choisir un appel d‘offre

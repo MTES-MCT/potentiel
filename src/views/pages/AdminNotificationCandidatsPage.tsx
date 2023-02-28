@@ -121,13 +121,10 @@ export const AdminNotificationCandidats = ({
         </div>
         <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
           <div className="form__group">
-            <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-            <Select
-              name="appelOffreId"
-              id="appelOffreId"
-              {...dataId('appelOffreIdSelector')}
-              className="mb-4"
-            >
+            <Label htmlFor="appelOffreId" className="mt-4">
+              Appel d'offre concerné
+            </Label>
+            <Select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
               <option selected disabled hidden>
                 Choisir un appel d‘offre
               </option>
@@ -141,14 +138,16 @@ export const AdminNotificationCandidats = ({
                 </option>
               ))}
             </Select>
-            <Label htmlFor="periodeId">Periode concernée</Label>
+            <Label htmlFor="periodeId" className="mt-4">
+              Periode concernée
+            </Label>
             <Select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
               <option selected disabled hidden>
                 Choisir une période
               </option>
               {listePériodes?.map((periodeId) => (
                 <option
-                  key={'appel_' + periodeId}
+                  key={`appel_${periodeId}`}
                   value={periodeId}
                   selected={periodeId === périodeSélectionnée}
                 >

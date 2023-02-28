@@ -112,74 +112,76 @@ export const ListeProjets = ({
                   <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
-              <div className="filter-panel mt-8">
-                <div className="periode-panel">
-                  <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-                  <Select
-                    id="appelOffreId"
-                    name="appelOffreId"
-                    className={`appelOffre mb-4 ${appelOffreId ? 'active' : ''}`}
-                    {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
-                  >
-                    <option selected disabled hidden>
-                      Choisir un appel d‘offre
-                    </option>
-                    <option value="">Tous appels d'offres</option>
-                    {appelsOffre
-                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                      .map((appelOffre) => (
-                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                          {appelOffre.shortTitle}
-                        </option>
-                      ))}
-                  </Select>
-                  <Label htmlFor="periodeId">Période concernée</Label>
-                  <Select
-                    id="periodeId"
-                    name="periodeId"
-                    className={`${periodeId ? 'active' : ''}`}
-                    {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
-                  >
-                    <option selected disabled hidden>
-                      Choisir une période
-                    </option>
-                    <option value="">Toutes périodes</option>
-                    {periodes &&
-                      periodes.length > 0 &&
-                      periodes.map((periode) => (
-                        <option key={`appel_${periode.id}`} value={periode.id}>
-                          {periode.title}
-                        </option>
-                      ))}
-                  </Select>
-                  {!appelOffreId ||
-                    (familles && familles.length > 0 && (
-                      <>
-                        <Label htmlFor="familleId">Famille concernée</Label>
-                        <Select
-                          id="familleId"
-                          name="familleId"
-                          className={familleId ? 'active' : ''}
-                          {...dataId('familleIdSelector')}
-                          defaultValue={familleId}
-                        >
-                          <option selected disabled hidden>
-                            Choisir une famille
-                          </option>
-                          <option value="">Toutes familles</option>
-                          {familles &&
-                            familles.length > 0 &&
-                            familles.map((famille) => (
-                              <option key={`appel_${famille.id}`} value={famille.id}>
-                                {famille.title}
-                              </option>
-                            ))}
-                        </Select>
-                      </>
+              <fieldset className="filter-panel mt-8">
+                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                <Select
+                  id="appelOffreId"
+                  name="appelOffreId"
+                  className={`appelOffre ${appelOffreId ? 'active' : ''}`}
+                  {...dataId('appelOffreIdSelector')}
+                  defaultValue={appelOffreId}
+                >
+                  <option selected disabled hidden>
+                    Choisir un appel d‘offre
+                  </option>
+                  <option value="">Tous appels d'offres</option>
+                  {appelsOffre
+                    .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                    .map((appelOffre) => (
+                      <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                        {appelOffre.shortTitle}
+                      </option>
                     ))}
-                </div>
+                </Select>
+                <Label htmlFor="periodeId" className="mt-4">
+                  Période concernée
+                </Label>
+                <Select
+                  id="periodeId"
+                  name="periodeId"
+                  className={`${periodeId ? 'active' : ''}`}
+                  {...dataId('periodeIdSelector')}
+                  defaultValue={periodeId}
+                >
+                  <option selected disabled hidden>
+                    Choisir une période
+                  </option>
+                  <option value="">Toutes périodes</option>
+                  {periodes &&
+                    periodes.length > 0 &&
+                    periodes.map((periode) => (
+                      <option key={`appel_${periode.id}`} value={periode.id}>
+                        {periode.title}
+                      </option>
+                    ))}
+                </Select>
+                {!appelOffreId ||
+                  (familles && familles.length > 0 && (
+                    <>
+                      <Label htmlFor="familleId" className="mt-4">
+                        Famille concernée
+                      </Label>
+                      <Select
+                        id="familleId"
+                        name="familleId"
+                        className={`${familleId ? 'active' : ''}`}
+                        {...dataId('familleIdSelector')}
+                        defaultValue={familleId}
+                      >
+                        <option selected disabled hidden>
+                          Choisir une famille
+                        </option>
+                        <option value="">Toutes familles</option>
+                        {familles &&
+                          familles.length > 0 &&
+                          familles.map((famille) => (
+                            <option key={`appel_${famille.id}`} value={famille.id}>
+                              {famille.title}
+                            </option>
+                          ))}
+                      </Select>
+                    </>
+                  ))}
                 {[
                   'admin',
                   'dreal',
@@ -187,12 +189,14 @@ export const ListeProjets = ({
                   'porteur-projet',
                   'caisse-des-dépôts',
                 ].includes(request.user.role) && (
-                  <div style={{ marginTop: 15 }}>
-                    <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
+                  <>
+                    <Label htmlFor="garantiesFinancieres" className="mt-4">
+                      Garanties financières
+                    </Label>
                     <Select
                       id="garantiesFinancieres"
                       name="garantiesFinancieres"
-                      className={garantiesFinancieres ? 'active' : ''}
+                      className={`${garantiesFinancieres ? 'active' : ''}`}
                       {...dataId('garantiesFinancieresSelector')}
                       defaultValue={garantiesFinancieres || ''}
                     >
@@ -204,30 +208,32 @@ export const ListeProjets = ({
                       <option value="notSubmitted">Non-déposées</option>
                       <option value="pastDue">En retard</option>
                     </Select>
-                  </div>
+                  </>
                 )}
-                <div style={{ marginTop: 15 }}>
-                  <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
-                  <Select
-                    id="classement"
-                    name="classement"
-                    className={hasNonDefaultClassement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                    defaultValue={classement || ''}
-                  >
-                    <option selected disabled hidden>
-                      Choisir un état
-                    </option>
-                    <option value="">Tous</option>
-                    <option value="classés">Classés</option>
-                    <option value="éliminés">Eliminés</option>
-                    <option value="abandons">Abandons</option>
-                  </Select>
-                </div>
+                <Label htmlFor="classement" className="mt-4">
+                  Projets Classés/Eliminés/Abandons
+                </Label>
+                <Select
+                  id="classement"
+                  name="classement"
+                  className={`${hasNonDefaultClassement ? 'active' : ''}`}
+                  {...dataId('classementSelector')}
+                  defaultValue={classement || ''}
+                >
+                  <option selected disabled hidden>
+                    Choisir un état
+                  </option>
+                  <option value="">Tous</option>
+                  <option value="classés">Classés</option>
+                  <option value="éliminés">Eliminés</option>
+                  <option value="abandons">Abandons</option>
+                </Select>
 
                 {userIsNot('porteur-projet')(request.user) && (
-                  <div style={{ marginTop: 15 }}>
-                    <Label htmlFor="reclames">Projets Réclamés/Non réclamés</Label>
+                  <>
+                    <Label htmlFor="reclames" className="mt-4">
+                      Projets Réclamés/Non réclamés
+                    </Label>
                     <Select
                       id="reclames"
                       name="reclames"
@@ -241,9 +247,9 @@ export const ListeProjets = ({
                       <option value="réclamés">Réclamés</option>
                       <option value="non-réclamés">Non réclamés</option>
                     </Select>
-                  </div>
+                  </>
                 )}
-              </div>
+              </fieldset>
             </div>
             {hasFilters && (
               <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
