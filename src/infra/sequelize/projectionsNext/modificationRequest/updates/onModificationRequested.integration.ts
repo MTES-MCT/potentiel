@@ -1,8 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequested } from '@modules/modificationRequest';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { onModificationRequested } from './onModificationRequested';
 
 describe('modificationRequest.onModificationRequested', () => {
@@ -30,7 +29,7 @@ describe('modificationRequest.onModificationRequested', () => {
         cahierDesCharges: 'initial',
       },
     });
-    await onModificationRequested(models)(event);
+    await onModificationRequested(event);
 
     const projection = await ModificationRequest.findByPk(modificationRequestId);
 

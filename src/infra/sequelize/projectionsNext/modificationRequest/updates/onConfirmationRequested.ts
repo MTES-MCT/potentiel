@@ -1,9 +1,12 @@
 import { logger } from '@core/utils';
 import { ConfirmationRequested } from '@modules/modificationRequest';
-import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
+import {
+  ModificationRequest,
+  ModificationRequestProjector,
+} from '@infra/sequelize/projectionsNext';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onConfirmationRequested = ModificationRequestProjector.on(
   ConfirmationRequested,
   async (évènement, transaction) => {
     try {

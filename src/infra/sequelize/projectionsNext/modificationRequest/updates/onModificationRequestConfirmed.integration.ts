@@ -1,9 +1,8 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestConfirmed } from './onModificationRequestConfirmed';
 import { ModificationRequestConfirmed } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 
 describe('modificationRequest.onModificationRequestConfirmed', () => {
   const modificationRequestId = new UniqueEntityID().toString();
@@ -24,7 +23,7 @@ describe('modificationRequest.onModificationRequestConfirmed', () => {
       requestedOn: 1,
     });
 
-    await onModificationRequestConfirmed(models)(
+    await onModificationRequestConfirmed(
       new ModificationRequestConfirmed({
         payload: {
           modificationRequestId,

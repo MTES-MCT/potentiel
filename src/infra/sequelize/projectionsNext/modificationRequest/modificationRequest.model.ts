@@ -10,6 +10,8 @@ import {
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Project } from '../../projections/project';
+import { User } from '../users';
+import { File } from '../../projections/file';
 
 class ModificationRequest extends Model<
   InferAttributes<ModificationRequest>,
@@ -26,14 +28,15 @@ class ModificationRequest extends Model<
     | 'recours'
     | 'abandon'
     | 'delai'
-    | 'annulation abandon';
+    | 'annulation abandon'
+    | 'autre';
   status: string;
   requestedOn: number;
   versionDate: CreationOptional<Date>;
   respondedOn?: number | null;
   respondedBy?: string | null;
   responseFileId?: string | null;
-  acceptanceParams?: { [key: string]: string | number };
+  acceptanceParams?: { [key: string]: string | number } | null;
   authority?: 'dreal' | 'dgec';
   filename?: string;
   fileId?: string;
@@ -198,6 +201,45 @@ ModificationRequest.init(
     timestamps: true,
   },
 );
+
+ModificationRequest.belongsTo(File, {
+  foreignKey: 'fileId',
+  as: 'attachmentFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(File, {
+  foreignKey: 'responseFileId',
+  as: 'responseFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(Project, {
+  foreignKey: 'projectId',
+  as: 'project',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'requestedBy',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'respondedBy',
+  as: 'respondedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'confirmationRequestedBy',
+  as: 'confirmationRequestedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'cancelledBy',
+  as: 'cancelledByUser',
+  constraints: false,
+});
 
 const ModificationRequestProjector = makeSequelizeProjector(ModificationRequest, nomProjection);
 

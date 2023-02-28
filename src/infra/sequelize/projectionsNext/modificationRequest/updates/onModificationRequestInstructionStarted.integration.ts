@@ -1,9 +1,8 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 
 describe('modificationRequest.onModificationRequestInstructionStarted', () => {
   const modificationRequestId = new UniqueEntityID().toString();
@@ -25,7 +24,7 @@ describe('modificationRequest.onModificationRequestInstructionStarted', () => {
   });
 
   it('should update status to en instruction', async () => {
-    await onModificationRequestInstructionStarted(models)(
+    await onModificationRequestInstructionStarted(
       new ModificationRequestInstructionStarted({
         payload: {
           modificationRequestId,

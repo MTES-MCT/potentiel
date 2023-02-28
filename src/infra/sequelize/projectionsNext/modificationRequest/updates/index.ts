@@ -32,17 +32,8 @@ import {
   ModificationRequestRejected,
   ModificationRequestStatusUpdated,
 } from '@modules/modificationRequest';
-import onConfirmationRequested from './onConfirmationRequested';
-import onLegacyModificationImported from './onLegacyModificationImported';
-import onModificationReceived from './onModificationReceived';
-import onModificationRequestAccepted from './onModificationRequestAccepted';
-import onModificationRequestConfirmed from './onModificationRequestConfirmed';
-import onModificationRequested from './onModificationRequested';
-import onModificationRequestInstructionStarted from './onModificationRequestInstructionStarted';
-import onModificationRequestRejected from './onModificationRequestRejected';
-import onModificationRequestStatusUpdated from './onModificationRequestStatusUpdated';
-import onRejetRecoursAnnulé from './onRejetRecoursAnnulé';
-import onRejetChangementDePuissanceAnnulé from './onRejetChangementDePuissanceAnnulé';
+import { onConfirmationRequested } from './onConfirmationRequested';
+import { onLegacyModificationImported } from './onLegacyModificationImported';
 import { LegacyAbandonSupprimé } from '@modules/project';
 import {
   onAbandonDemandé,
@@ -68,6 +59,15 @@ import {
   onRejetDélaiAnnulé,
   onDélaiEnInstruction,
 } from './délai';
+import { onModificationReceived } from './onModificationReceived';
+import { onModificationRequestAccepted } from './onModificationRequestAccepted';
+import { onModificationRequestConfirmed } from './onModificationRequestConfirmed';
+import { onModificationRequested } from './onModificationRequested';
+import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted';
+import { onModificationRequestRejected } from './onModificationRequestRejected';
+import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated';
+import { onRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé';
+import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé';
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested);

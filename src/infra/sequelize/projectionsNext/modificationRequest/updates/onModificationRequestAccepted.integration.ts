@@ -1,4 +1,3 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestAccepted } from './onModificationRequestAccepted';
 import {
@@ -6,7 +5,7 @@ import {
   ModificationRequestAccepted,
 } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
   const modificationRequestId = new UniqueEntityID().toString();
@@ -34,7 +33,7 @@ describe('modificationRequest.onModificationRequestAccepted', () => {
       newNotificationDate: new Date('2022-06-20'),
     } as ModificationRequestAcceptanceParams;
 
-    await onModificationRequestAccepted(models)(
+    await onModificationRequestAccepted(
       new ModificationRequestAccepted({
         payload: {
           modificationRequestId,

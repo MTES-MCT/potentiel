@@ -122,6 +122,8 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
                         periodeId,
                       })}`
                     : '';
+                case 'autre':
+                  return 'autre (legacy)';
               }
             };
 

@@ -2,7 +2,7 @@ import { resetDatabase } from '../../../helpers';
 import { ConfirmationRequested } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequest } from '..';
-import onConfirmationRequested from './onConfirmationRequested';
+import { onConfirmationRequested } from './onConfirmationRequested';
 
 describe('modificationRequest.onConfirmationRequested', () => {
   const modificationRequestId = new UniqueEntityID().toString();

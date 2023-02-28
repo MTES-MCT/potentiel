@@ -78,45 +78,6 @@ models.Project.hasOne(Raccordements, {
   foreignKey: 'projetId',
 });
 
-// models.ModificationRequest.belongsTo(models.File, {
-//   foreignKey: 'fileId',
-//   as: 'attachmentFile',
-//   constraints: false,
-// });
-
-// models.ModificationRequest.belongsTo(models.File, {
-//   foreignKey: 'responseFileId',
-//   as: 'responseFile',
-//   constraints: false,
-// });
-
-// models.ModificationRequest.belongsTo(models.Project, {
-//   foreignKey: 'projectId',
-//   as: 'project',
-//   constraints: false,
-// });
-
-// models.ModificationRequest.belongsTo(User, {
-//   foreignKey: 'userId',
-//   as: 'requestedBy',
-//   constraints: false,
-// });
-// models.ModificationRequest.belongsTo(User, {
-//   foreignKey: 'respondedBy',
-//   as: 'respondedByUser',
-//   constraints: false,
-// });
-// models.ModificationRequest.belongsTo(User, {
-//   foreignKey: 'confirmationRequestedBy',
-//   as: 'confirmationRequestedByUser',
-//   constraints: false,
-// });
-// models.ModificationRequest.belongsTo(User, {
-//   foreignKey: 'cancelledBy',
-//   as: 'cancelledByUser',
-//   constraints: false,
-// });
-
 User.hasMany(models.Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
 
 // Link projectors with the eventBus (called by the application config)

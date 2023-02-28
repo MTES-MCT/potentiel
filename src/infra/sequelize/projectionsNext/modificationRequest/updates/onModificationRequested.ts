@@ -1,45 +1,24 @@
 import { logger } from '@core/utils';
 import { ModificationRequested } from '@modules/modificationRequest';
-import { ModificationRequestProjector } from '@infra/sequelize';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onModificationRequested = ModificationRequestProjector.on(
   ModificationRequested,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
-    } catch (error) {
-      logger.error(
-        new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement ModificationRequested`,
-          {
-            évènement,
-            nomProjection: 'ModificationRequest.ModificationRequested',
-          },
-          error,
-        ),
-      );
-    }
-  },
-);
-
-export const onModificationRequested =
-  (models) =>
-  async ({ payload, occurredAt }: ModificationRequested) => {
-    const ModificationRequestModel = models.ModificationRequest;
-
-    const {
-      modificationRequestId,
-      type,
-      projectId,
-      fileId,
-      justification,
-      requestedBy,
-      authority,
-      cahierDesCharges,
-    } = payload;
-    try {
-      await ModificationRequestModel.create({
+      const { payload, occurredAt } = évènement;
+      const {
+        modificationRequestId,
+        type,
+        projectId,
+        fileId,
+        justification,
+        requestedBy,
+        authority,
+        cahierDesCharges,
+      } = payload;
+      await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
         type,
@@ -56,8 +35,19 @@ export const onModificationRequested =
         actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
         authority,
         cahierDesCharges,
-      });
-    } catch (e) {
-      logger.error(e);
+      }),
+        { transaction };
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ModificationRequested`,
+          {
+            évènement,
+            nomProjection: 'ModificationRequest.ModificationRequested',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);

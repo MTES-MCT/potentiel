@@ -1,9 +1,8 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import { onModificationRequestRejected } from './onModificationRequestRejected';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 
 describe('modificationRequest.onModificationRequestRejected', () => {
   const modificationRequestId = new UniqueEntityID().toString();
@@ -26,7 +25,7 @@ describe('modificationRequest.onModificationRequestRejected', () => {
   });
 
   it('should update status to rejetée and add response file', async () => {
-    await onModificationRequestRejected(models)(
+    await onModificationRequestRejected(
       new ModificationRequestRejected({
         payload: {
           modificationRequestId,

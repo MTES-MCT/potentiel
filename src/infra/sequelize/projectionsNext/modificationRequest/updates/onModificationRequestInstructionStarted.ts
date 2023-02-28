@@ -1,13 +1,27 @@
 import { logger } from '@core/utils';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
-import { ModificationRequestProjector } from '@infra/sequelize';
+import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default ModificationRequestProjector.on(
+export const onModificationRequestInstructionStarted = ModificationRequestProjector.on(
   ModificationRequestInstructionStarted,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { modificationRequestId },
+      } = évènement;
+
+      await ModificationRequest.update(
+        {
+          status: 'en instruction',
+        },
+        {
+          where: {
+            id: modificationRequestId,
+          },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,29 +36,3 @@ export default ModificationRequestProjector.on(
     }
   },
 );
-
-export const onModificationRequestInstructionStarted =
-  (models) => async (event: ModificationRequestInstructionStarted) => {
-    const ModificationRequestModel = models.ModificationRequest;
-    const instance = await ModificationRequestModel.findByPk(event.payload.modificationRequestId);
-
-    if (!instance) {
-      logger.error(
-        `Error: onModificationRequestInstructionStarted projection failed to retrieve project from db ${event}`,
-      );
-
-      return;
-    }
-
-    instance.status = 'en instruction';
-
-    try {
-      await instance.save();
-    } catch (e) {
-      logger.error(e);
-      logger.info(
-        'Error: onModificationRequestInstructionStarted projection failed to update project :',
-        event,
-      );
-    }
-  };

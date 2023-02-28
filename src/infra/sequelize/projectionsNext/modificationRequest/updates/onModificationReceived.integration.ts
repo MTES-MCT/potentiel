@@ -1,7 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived } from '@modules/modificationRequest';
-import { ModificationRequest } from "..";
-import models from '../../../models';
+import { ModificationRequest } from '..';
 import { onModificationReceived } from './onModificationReceived';
 
 describe('modificationRequest.onModificationReceived', () => {
@@ -10,7 +9,7 @@ describe('modificationRequest.onModificationReceived', () => {
   const userId = new UniqueEntityID().toString();
 
   it('should create a Modification Request with a status of information validée', async () => {
-    await onModificationReceived(models)(
+    await onModificationReceived(
       new ModificationReceived({
         payload: {
           modificationRequestId,

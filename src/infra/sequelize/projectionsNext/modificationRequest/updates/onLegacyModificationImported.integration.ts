@@ -1,8 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { LegacyModificationImported } from '@modules/modificationRequest';
-import { ModificationRequest } from "..";
+import { ModificationRequest } from '..';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
 
 describe('modificationRequest.onLegacyModificationImported', () => {
@@ -37,7 +36,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
         },
       ]);
 
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -68,7 +67,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -102,7 +101,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -136,7 +135,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -176,7 +175,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -216,7 +215,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -250,7 +249,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -288,7 +287,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
@@ -326,7 +325,7 @@ describe('modificationRequest.onLegacyModificationImported', () => {
       const modificationId = new UniqueEntityID().toString();
 
       await resetDatabase();
-      await onLegacyModificationImported(models)(
+      await onLegacyModificationImported(
         new LegacyModificationImported({
           payload: {
             projectId,
