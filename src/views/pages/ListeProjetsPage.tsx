@@ -20,6 +20,7 @@ import {
   Heading1,
   BarreDeRecherche,
   ListeVide,
+  Select,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -113,13 +114,17 @@ export const ListeProjets = ({
               </div>
               <div className="filter-panel mt-8">
                 <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
-                  <select
+                  <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                  <Select
+                    id="appelOffreId"
                     name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
+                    className={`appelOffre mb-4 ${appelOffreId ? 'active' : ''}`}
                     {...dataId('appelOffreIdSelector')}
                     defaultValue={appelOffreId}
                   >
+                    <option selected disabled hidden>
+                      Choisir un appel d‘offre
+                    </option>
                     <option value="">Tous appels d'offres</option>
                     {appelsOffre
                       .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
@@ -128,39 +133,52 @@ export const ListeProjets = ({
                           {appelOffre.shortTitle}
                         </option>
                       ))}
-                  </select>
-                  <select
+                  </Select>
+                  <Label htmlFor="periodeId">Période concernée</Label>
+                  <Select
+                    id="periodeId"
                     name="periodeId"
-                    className={periodeId ? 'active' : ''}
+                    className={`${periodeId ? 'active' : ''}`}
                     {...dataId('periodeIdSelector')}
                     defaultValue={periodeId}
                   >
+                    <option selected disabled hidden>
+                      Choisir une période
+                    </option>
                     <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
+                    {periodes &&
+                      periodes.length > 0 &&
+                      periodes.map((periode) => (
+                        <option key={`appel_${periode.id}`} value={periode.id}>
+                          {periode.title}
+                        </option>
+                      ))}
+                  </Select>
+                  {!appelOffreId ||
+                    (familles && familles.length > 0 && (
+                      <>
+                        <Label htmlFor="familleId">Famille concernée</Label>
+                        <Select
+                          id="familleId"
+                          name="familleId"
+                          className={familleId ? 'active' : ''}
+                          {...dataId('familleIdSelector')}
+                          defaultValue={familleId}
+                        >
+                          <option selected disabled hidden>
+                            Choisir une famille
                           </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
-                    <select
-                      name="familleId"
-                      className={familleId ? 'active' : ''}
-                      {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
-                    >
-                      <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
-                            </option>
-                          ))
-                        : null}
-                    </select>
-                  ) : null}
+                          <option value="">Toutes familles</option>
+                          {familles &&
+                            familles.length > 0 &&
+                            familles.map((famille) => (
+                              <option key={`appel_${famille.id}`} value={famille.id}>
+                                {famille.title}
+                              </option>
+                            ))}
+                        </Select>
+                      </>
+                    ))}
                 </div>
                 {[
                   'admin',
@@ -170,47 +188,59 @@ export const ListeProjets = ({
                   'caisse-des-dépôts',
                 ].includes(request.user.role) && (
                   <div style={{ marginTop: 15 }}>
-                    <div style={{ marginLeft: 2 }}>Garanties Financières</div>
-                    <select
+                    <Label htmlFor="garantiesFinancieres">Garanties financières</Label>
+                    <Select
+                      id="garantiesFinancieres"
                       name="garantiesFinancieres"
                       className={garantiesFinancieres ? 'active' : ''}
                       {...dataId('garantiesFinancieresSelector')}
                       defaultValue={garantiesFinancieres || ''}
                     >
+                      <option selected disabled hidden>
+                        Choisir un état
+                      </option>
                       <option value="">Toutes</option>
                       <option value="submitted">Déposées</option>
                       <option value="notSubmitted">Non-déposées</option>
                       <option value="pastDue">En retard</option>
-                    </select>
+                    </Select>
                   </div>
                 )}
                 <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
-                  <select
+                  <Label htmlFor="classement">Projets Classés/Eliminés/Abandons</Label>
+                  <Select
+                    id="classement"
                     name="classement"
                     className={hasNonDefaultClassement ? 'active' : ''}
                     {...dataId('classementSelector')}
                     defaultValue={classement || ''}
                   >
+                    <option selected disabled hidden>
+                      Choisir un état
+                    </option>
                     <option value="">Tous</option>
                     <option value="classés">Classés</option>
                     <option value="éliminés">Eliminés</option>
                     <option value="abandons">Abandons</option>
-                  </select>
+                  </Select>
                 </div>
 
                 {userIsNot('porteur-projet')(request.user) && (
                   <div style={{ marginTop: 15 }}>
-                    <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                    <select
+                    <Label htmlFor="reclames">Projets Réclamés/Non réclamés</Label>
+                    <Select
+                      id="reclames"
                       name="reclames"
                       {...dataId('reclamesSelector')}
                       defaultValue={reclames || ''}
                     >
+                      <option selected disabled hidden>
+                        Choisir un état
+                      </option>
                       <option value="">Tous</option>
                       <option value="réclamés">Réclamés</option>
                       <option value="non-réclamés">Non réclamés</option>
-                    </select>
+                    </Select>
                   </div>
                 )}
               </div>
