@@ -1,10 +1,9 @@
 import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, LinkButton, ListeVide, PageTemplate, SuccessBox } from '@components';
+import { Heading1, ListeVide, PageTemplate, SuccessBox } from '@components';
 import { hydrateOnClient } from '@views/helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
-import routes from '@routes';
 
 type ListeGestionnairesRéseauProps = {
   user: UtilisateurReadModel;
@@ -23,9 +22,9 @@ export const ListeGestionnairesRéseau = ({
         <Heading1>Liste des gestionnaires de réseau</Heading1>
       </div>
       {success && <SuccessBox title={success} className="mb-4" />}
-      <LinkButton href={routes.GET_AJOUTER_GESTIONNAIRE_RESEAU} className="mb-4 self-end">
+      {/* <LinkButton href={routes.GET_AJOUTER_GESTIONNAIRE_RESEAU} className="mb-4 self-end">
         Ajouter
-      </LinkButton>
+      </LinkButton> */}
       {gestionnairesRéseau.length === 0 ? (
         <ListeVide titre="Aucun gestionnaire de réseau" />
       ) : (
