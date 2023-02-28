@@ -13,6 +13,8 @@ import {
   Heading1,
   Heading2,
   ListeVide,
+  Label,
+  FormulaireChampsObligatoireLégende,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -40,27 +42,31 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
             method="post"
             className="flex flex-col gap-4"
           >
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <div>
-              <label htmlFor="email">Adresse email :</label>
+              <Label htmlFor="email" required>
+                Adresse email :
+              </Label>
               <Input
                 type="email"
                 name="email"
                 id="email"
-                {...dataId('email-field')}
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
             </div>
             <div>
+              <Label htmlFor="role" required>
+                Sélectionnez un rôle
+              </Label>
               <Select
                 name="role"
                 id="role"
-                {...dataId('role-field')}
                 required
                 {...(validationErrors && { error: validationErrors['role']?.toString() })}
               >
-                <option>
-                  <label htmlFor="role">Sélectionnez un rôle</label>
+                <option selected disabled hidden>
+                  Sélectionnez un rôle
                 </option>
                 <option value="acheteur-obligé">Acheteur obligé</option>
                 <option value="ademe">ADEME</option>
