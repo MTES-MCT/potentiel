@@ -13,6 +13,7 @@ export * from './instruction';
 export * from './localisationProjet';
 export * from './modificationsAvantImport';
 export * from './noteInnovation';
+export * from './noteInnovationSensible';
 export * from './notes';
 export * from './potentielSolaire';
 export * from './prix';

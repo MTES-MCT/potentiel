@@ -18,6 +18,7 @@ import {
   prix,
   résultatInstructionSensible,
   évaluationCarbone,
+  noteInnovation,
 } from '../colonnesParCatégorie';
 import { récupérerExportProjets } from './récupérerExportProjets';
 
@@ -37,6 +38,7 @@ const colonnesÀExporter = [
   ...implantation,
   ...prix,
   ...résultatInstructionSensible,
+  ...noteInnovation,
   ...modificationsAvantImport,
   ...garantiesFinancières,
 ];

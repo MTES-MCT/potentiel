@@ -14,6 +14,7 @@ import {
   localisationProjet,
   modificationsAvantImport,
   noteInnovation,
+  noteInnovationSensible,
   potentielSolaire,
   évaluationCarbone,
 } from './colonnesParCatégorie';
@@ -34,6 +35,7 @@ describe(`Export des projets en tant qu'utilisateur "ademe"`, () => {
     ...potentielSolaire,
     ...implantation,
     ...noteInnovation,
+    ...noteInnovationSensible,
     ...modificationsAvantImport,
   ].map((c) => (c.source === 'propriété-colonne-détail' ? c.nomPropriété : c.intitulé));
 

@@ -3,7 +3,12 @@ import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
 import models from '../../../models';
-import { CahierDesCharges, parseCahierDesChargesRéférence, ProjectAppelOffre } from '@entities';
+import {
+  CahierDesCharges,
+  parseCahierDesChargesRéférence,
+  ProjectAppelOffre,
+  User,
+} from '@entities';
 import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
@@ -241,7 +246,54 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             }),
         }),
     )
+    .andThen((dto) =>
+      dto.appelOffre.type === 'innovation' ? ajouterNotesInnovation({ dto, user }) : okAsync(dto),
+    )
     .andThen((dto) => (dto.isAbandoned ? ajouterInfosAlerteAnnulationAbandon(dto) : okAsync(dto)));
+};
+
+const ajouterNotesInnovation = ({
+  dto,
+  user,
+}: {
+  dto: ProjectDataForProjectPage;
+  user: User;
+}): ResultAsync<ProjectDataForProjectPage, never> => {
+  const formater = (note: string | null) => {
+    if (note) {
+      const noteParsée = parseFloat(note.replace(',', '.'));
+
+      if (!Number.isNaN(noteParsée)) {
+        return (Math.round(noteParsée * 100) / 100).toString();
+      }
+    }
+    return 'N/A';
+  };
+
+  return userIs(['admin', 'dgec-validateur', 'ademe', 'cre', 'porteur-projet'])(user)
+    ? okAsync({
+        ...dto,
+        notePrix: formater(dto.details['Note prix']),
+        notesInnovation: {
+          note: formater(dto.details['Note innovation\n(AO innovation)']),
+          degréInnovation: formater(
+            dto.details['Note degré d’innovation (/20pt)\n(AO innovation)'],
+          ),
+          positionnement: formater(
+            dto.details['Note positionnement sur le marché (/10pt)\n(AO innovation)'],
+          ),
+          qualitéTechnique: formater(dto.details['Note qualité technique (/5pt)\n(AO innovation)']),
+          adéquationAmbitionsIndustrielles: formater(
+            dto.details[
+              'Note adéquation du projet avec les ambitions industrielles (/5pt)\n(AO innovation)'
+            ],
+          ),
+          aspectsEnvironnementauxEtSociaux: formater(
+            dto.details['Note aspects environnementaux et sociaux (/5pt)\n(AO innovation)'],
+          ),
+        },
+      })
+    : okAsync(dto);
 };
 
 const ajouterInfosAlerteAnnulationAbandon = (

@@ -10,6 +10,7 @@ import {
   localisationProjet,
   modificationsAvantImport,
   noteInnovation,
+  noteInnovationSensible,
   potentielSolaire,
   évaluationCarbone,
 } from '../colonnesParCatégorie';
@@ -27,6 +28,7 @@ const colonnesÀExporter = [
   ...potentielSolaire,
   ...implantation,
   ...noteInnovation,
+  ...noteInnovationSensible,
   ...modificationsAvantImport,
 ];
 
