@@ -3,7 +3,7 @@ import { ProjectGFDueDateSet } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
 import { UniqueEntityID } from '@core/domain';
-import { models } from '../../../models';
+import models from '../../../models';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
 export default GarantiesFinancièresProjector.on(

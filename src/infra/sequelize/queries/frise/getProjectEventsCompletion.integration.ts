@@ -3,7 +3,7 @@ import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext';
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import { models } from '../../models';
+import models from '../../models';
 import { USER_ROLES } from '@modules/users';
 import { User } from '@entities';
 import { ProjectCompletionDueDateSetEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';

@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { models } from '../models';
+import models from '../models';
 
 export default {
   up: () => {

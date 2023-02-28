@@ -7,7 +7,7 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
-import { Users } from '../users';
+import { User } from '../users';
 
 class UserProjects extends Model<
   InferAttributes<UserProjects>,
@@ -15,7 +15,7 @@ class UserProjects extends Model<
 > {
   userId: string;
   projectId: string;
-  user: NonAttribute<Users>;
+  user: NonAttribute<User>;
 }
 
 const nomProjection = 'UserProjects';
@@ -41,7 +41,7 @@ UserProjects.init(
   },
 );
 
-UserProjects.belongsTo(Users, { as: 'user', foreignKey: 'userId' });
+UserProjects.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 
 const UserProjectsProjector = makeSequelizeProjector(UserProjects, nomProjection);
 

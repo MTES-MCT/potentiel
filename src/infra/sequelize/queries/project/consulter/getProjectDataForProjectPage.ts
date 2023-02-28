@@ -8,9 +8,15 @@ import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
 import { Project } from '../../../projections/project/project.model';
-import { Raccordements, UserProjects, Users } from '@infra/sequelize';
 
-const { Project: ProjectTable, File, ModificationRequest, User } = models;
+const {
+  Project: ProjectTable,
+  File,
+  ModificationRequest,
+  User,
+  Raccordements,
+  UserProjects,
+} = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -33,7 +39,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           required: false,
           include: [
             {
-              model: Users,
+              model: User,
               as: 'user',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },

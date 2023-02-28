@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProfilUtilisateurCréé } from '@modules/utilisateur';
-import { Users } from '../users.model';
+import { User } from '../users.model';
 import onProfilUtilisateurCréé from './onProfilUtilisateurCréé';
 
 describe(`Handler onProfilUtilisateurCréé`, () => {
@@ -15,7 +15,7 @@ describe(`Handler onProfilUtilisateurCréé`, () => {
     it(`Etant donné un utilisateur ayant le statut 'invité',
     lorsqu'un événement ProfilUtilisateurCréé est émis pour ce même utilisateur,
     alors l'entrée existante dans la table devrait être mise à jour`, async () => {
-      await Users.create({ id, email, role, état: 'invité' });
+      await User.create({ id, email, role, état: 'invité' });
 
       const événement = new ProfilUtilisateurCréé({
         payload: { prénom, nom, email, role },
@@ -23,7 +23,7 @@ describe(`Handler onProfilUtilisateurCréé`, () => {
 
       await onProfilUtilisateurCréé(événement);
 
-      const résultat = await Users.findAll({ where: { email } });
+      const résultat = await User.findAll({ where: { email } });
       expect(résultat).toHaveLength(1);
       expect(résultat[0]).toMatchObject({
         id,
@@ -43,7 +43,7 @@ describe(`Handler onProfilUtilisateurCréé`, () => {
 
       await onProfilUtilisateurCréé(événement);
 
-      const résultat = await Users.findAll({ where: { email } });
+      const résultat = await User.findAll({ where: { email } });
       expect(résultat).toHaveLength(1);
       expect(résultat[0]).toMatchObject({
         email,

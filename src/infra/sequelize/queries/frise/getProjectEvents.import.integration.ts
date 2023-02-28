@@ -4,7 +4,7 @@ import { USER_ROLES } from '@modules/users';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import { models } from '../../models';
+import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { ProjectImportedEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
 

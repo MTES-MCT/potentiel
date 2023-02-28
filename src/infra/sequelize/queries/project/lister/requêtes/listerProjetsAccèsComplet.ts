@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project/queries';
-import { models } from '../../../../models';
+import models from '../../../../models';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 

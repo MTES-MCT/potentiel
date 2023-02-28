@@ -2,7 +2,7 @@ import { EtapeGFSupprimée } from '@modules/project';
 import { QueryInterface, QueryTypes } from 'sequelize';
 import { GarantiesFinancières } from '..';
 import { toPersistance } from '../helpers/toPersistance';
-import { models } from '../models';
+import models from '../models';
 
 module.exports = {
   async up(queryInterface: QueryInterface) {

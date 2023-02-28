@@ -4,7 +4,7 @@ import { USER_ROLES } from '@modules/users';
 import { getProjectEvents } from '.';
 import { ProjectEvent } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
-import { models } from '../../models';
+import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pour les événements LegacyModificationImported', () => {

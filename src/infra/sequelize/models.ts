@@ -4,26 +4,25 @@ import { MakeProjectModel } from './projections/project/project.model';
 import { MakeFileModel } from './projections/file/file.model';
 import { MakeNotificationModel } from './projections/notification/notification.model';
 import { MakeEventStoreModel } from './eventStore/eventStore.model';
-import { MakeUserModel } from './projections/user/user.model';
 import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model';
 import { EventBus } from '@core/domain';
 
 import * as projectionsNextModels from './projectionsNext';
 import { GarantiesFinancières } from './projectionsNext/garantiesFinancières';
-import { Raccordements } from './projectionsNext';
+import { Raccordements } from './projectionsNext/raccordements';
+import { User } from './projectionsNext/users';
 import { UserProjects } from './projectionsNext/userProjects';
 
 //
 // Legacy projections
 //
 
-export const models = {
+const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),
   Project: MakeProjectModel(sequelizeInstance),
   EventStore: MakeEventStoreModel(sequelizeInstance),
   ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
-  User: MakeUserModel(sequelizeInstance),
 };
 
 GarantiesFinancières.hasOne(models.File, {
@@ -32,13 +31,13 @@ GarantiesFinancières.hasOne(models.File, {
   as: 'fichier',
 });
 
-GarantiesFinancières.hasOne(models.User, {
+GarantiesFinancières.hasOne(User, {
   foreignKey: 'id',
   sourceKey: 'envoyéesPar',
   as: 'envoyéesParRef',
 });
 
-GarantiesFinancières.hasOne(models.User, {
+GarantiesFinancières.hasOne(User, {
   foreignKey: 'id',
   sourceKey: 'validéesPar',
   as: 'validéesParRef',
@@ -50,7 +49,7 @@ Raccordements.hasOne(models.File, {
   as: 'ptfFichier',
 });
 
-Raccordements.hasOne(models.User, {
+Raccordements.hasOne(User, {
   foreignKey: 'id',
   sourceKey: 'ptfEnvoyéePar',
   as: 'ptfEnvoyéeParRef',
@@ -99,26 +98,28 @@ models.ModificationRequest.belongsTo(models.Project, {
   constraints: false,
 });
 
-models.ModificationRequest.belongsTo(models.User, {
+models.ModificationRequest.belongsTo(User, {
   foreignKey: 'userId',
   as: 'requestedBy',
   constraints: false,
 });
-models.ModificationRequest.belongsTo(models.User, {
+models.ModificationRequest.belongsTo(User, {
   foreignKey: 'respondedBy',
   as: 'respondedByUser',
   constraints: false,
 });
-models.ModificationRequest.belongsTo(models.User, {
+models.ModificationRequest.belongsTo(User, {
   foreignKey: 'confirmationRequestedBy',
   as: 'confirmationRequestedByUser',
   constraints: false,
 });
-models.ModificationRequest.belongsTo(models.User, {
+models.ModificationRequest.belongsTo(User, {
   foreignKey: 'cancelledBy',
   as: 'cancelledByUser',
   constraints: false,
 });
+
+User.hasMany(models.Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
 
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {

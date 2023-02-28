@@ -30,18 +30,6 @@ export type ProjectRepo = {
   findById: (id: Project['id']) => Promise<Project | undefined>;
   findOne(query: Record<string, any>): Promise<Project | undefined>;
 
-  searchForUser(
-    userId: User['id'],
-    terms: string,
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>>;
-  findAllForUser(
-    userId: User['id'],
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>>;
-
   searchForRegions(
     regions: Région | Région[],
     terms: string,

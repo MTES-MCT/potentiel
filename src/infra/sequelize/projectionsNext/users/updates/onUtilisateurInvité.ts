@@ -1,14 +1,14 @@
-import { Users, UsersProjector } from '../users.model';
+import { User, UserProjector } from '../users.model';
 import { UtilisateurInvité } from '@modules/utilisateur';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 
-export default UsersProjector.on(UtilisateurInvité, async (évènement, transaction) => {
+export default UserProjector.on(UtilisateurInvité, async (évènement, transaction) => {
   const { payload } = évènement;
   const { email, role } = payload;
 
   try {
-    await Users.create(
+    await User.create(
       {
         email,
         role,
