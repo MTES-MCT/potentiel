@@ -16,6 +16,7 @@ const schema = object({
   body: object({
     projetId: string().uuid().required(),
     identifiantGestionnaireRéseau: string().required("L'identifiant est obligatoire"),
+    codeEICGestionnaireRéseau: string().optional(),
   }),
 });
 
@@ -37,7 +38,7 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projetId, identifiantGestionnaireRéseau },
+        body: { projetId, identifiantGestionnaireRéseau, codeEICGestionnaireRéseau },
         user,
       } = request;
 
@@ -45,6 +46,7 @@ v1Router.post(
         projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau,
+        codeEICGestionnaireRéseau,
       }).match(
         () =>
           response.redirect(

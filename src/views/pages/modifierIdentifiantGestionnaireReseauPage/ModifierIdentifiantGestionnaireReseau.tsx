@@ -80,10 +80,10 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           <input type="hidden" name="projetId" value={projet.id} />
           {listeGestionnairesRéseau && (
             <div>
-              <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
+              <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
               <Select
-                id="codeEIC"
-                name="codeEIC"
+                id="codeEICGestionnaireRéseau"
+                name="codeEICGestionnaireRéseau"
                 onChange={(e) => handleGestionnaireSéléctionné(e)}
               >
                 <option value={undefined}>Choisir un gestionnaire dans la liste</option>

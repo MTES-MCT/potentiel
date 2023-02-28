@@ -11,7 +11,7 @@ import {
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
-import { makeRenseignerIdentifiantGestionnaireRéseau } from './renseignerIdentifiantGestionnaireRéseau';
+import { renseignerIdentifiantGestionnaireRéseauFactory } from './renseignerIdentifiantGestionnaireRéseau.factory';
 
 describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -33,12 +33,13 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
         Alors l'utilisateur devrait être informé que l'identifiant est déjà utilisé pour un autre projet `, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
-      const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
-      });
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
+        });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
@@ -57,12 +58,13 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
         Alors l'utilisateur devrait être informé que l'identifiant est obligatoire`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
-      const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-      });
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+        });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
@@ -89,12 +91,13 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
         identifiantGestionnaireRéseau: 'ID_GES_RES',
       } as Project;
 
-      const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo: fakeRepo(projet),
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
-      });
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo: fakeRepo(projet),
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
+        });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
@@ -112,12 +115,13 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
         Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES' pour le projet`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
-      const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-        publishToEventStore,
-        shouldUserAccessProject,
-        projectRepo,
-        trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-      });
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+        });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,

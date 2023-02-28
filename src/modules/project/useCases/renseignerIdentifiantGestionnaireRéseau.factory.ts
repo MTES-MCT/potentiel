@@ -1,7 +1,7 @@
 import { EventStore, Repository, UniqueEntityID } from '@core/domain';
-import { errAsync, okAsync, wrapInfra } from '@core/utils';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
 import { User } from '@entities';
-import { UnauthorizedError } from '@modules/shared';
+import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Project } from '../Project';
 import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '../queries';
 import {
@@ -9,24 +9,35 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { NumeroGestionnaireSubmitted } from '../events';
+import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistant.error';
 
-type Commande = {
+type Command = {
   projetId: string;
   utilisateur: User;
   identifiantGestionnaireRéseau: string;
+  codeEICGestionnaireRéseau?: string;
 };
 
-export const makeRenseignerIdentifiantGestionnaireRéseau = ({
-  shouldUserAccessProject,
-  publishToEventStore,
-  projectRepo,
-  trouverProjetsParIdentifiantGestionnaireRéseau,
-}: {
+type Dependancies = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
   publishToEventStore: EventStore['publish'];
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
-}) => {
+};
+
+type CommandHandler = (
+  command: Command,
+) => ResultAsync<
+  null,
+  InfraNotAvailableError | UnauthorizedError | GestionnaireRéseauDéjàExistantError
+>;
+
+export const renseignerIdentifiantGestionnaireRéseauFactory = ({
+  shouldUserAccessProject,
+  publishToEventStore,
+  projectRepo,
+  trouverProjetsParIdentifiantGestionnaireRéseau,
+}: Dependancies): CommandHandler => {
   const chargerProjet = (commande: { projetId: string; utilisateur: User }) => {
     const { projetId, utilisateur } = commande;
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
@@ -44,7 +55,7 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
     commande,
     projet,
   }: {
-    commande: Commande;
+    commande: Command;
     projet: Project;
   }) => {
     if (!commande.identifiantGestionnaireRéseau) {
@@ -66,7 +77,7 @@ export const makeRenseignerIdentifiantGestionnaireRéseau = ({
     projet,
     commande: { projetId, utilisateur, identifiantGestionnaireRéseau },
   }: {
-    commande: Commande;
+    commande: Command;
     projet: Project;
   }) =>
     projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
