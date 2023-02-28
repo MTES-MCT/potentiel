@@ -33,8 +33,8 @@ export const ModifierIdentifiantGestionnaireReseau = ({
         <div className="panel__header">
           <Heading1>
             {projet.identifiantGestionnaire
-              ? "Je modifie l'identifiant du numéro gestionnaire réseau"
-              : "J'ajoute un numéro de gestionnaire réseau"}
+              ? "Je modifie l'identifiant de gestionnaire réseau"
+              : "J'ajoute un identifiant de gestionnaire réseau"}
           </Heading1>
         </div>
 
@@ -53,8 +53,8 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           <input type="hidden" name="projetId" value={projet.id} />
           <div>
             <Label htmlFor="identifiantGestionnaireRéseau">
-              {projet.identifiantGestionnaire ? "Remplacer l'identifiant" : "Ajouter l'identifiant"}{' '}
-              du numéro de gestionnaire (champ obligatoire)
+              {projet.identifiantGestionnaire ? 'Remplacer' : 'Renseigner'} l'identifiant de
+              gestionnaire réseau du projet (champ obligatoire)
             </Label>
             <Input
               type="text"
