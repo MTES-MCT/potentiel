@@ -8,11 +8,11 @@ type ListeProps = {
 };
 export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
   <ul className="m-0 p-0 list-none">
-    {gestionnairesRéseau.map(({ nom, id }) => (
-      <li key={`gestionnaire-reseau-${id}`} className="m-0 mb-3 p-0">
-        <Tile>
-          <div className="font-bold">{nom}</div>
-          <Link href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(id)}>Voir</Link>
+    {gestionnairesRéseau.map(({ raisonSociale, codeEIC }) => (
+      <li key={`gestionnaire-reseau-${codeEIC}`} className="m-0 mb-3 p-0">
+        <Tile className="flex justify-between">
+          <div className="font-bold">{raisonSociale}</div>
+          <Link href={routes.GET_DETAIL_GESTIONNAIRE_RESEAU(codeEIC)}>Voir</Link>
         </Tile>
       </li>
     ))}

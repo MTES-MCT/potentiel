@@ -4,12 +4,16 @@ export const PermissionConsulterGestionnaireRéseau = {
 };
 
 export type ConsulterGestionnaireRéseauReadModel = {
-  id: string;
-  nom: string;
+  codeEIC: string;
+  raisonSociale: string;
   format?: string;
   légende?: string;
 };
 
-export type ConsulterGestionnaireRéseau = (
-  id: string,
+type ConsulterGestionnaireRéseauQuery = {
+  codeEIC: string;
+};
+
+export type ConsulterGestionnaireRéseauQueryHandler = (
+  query: ConsulterGestionnaireRéseauQuery,
 ) => Promise<ConsulterGestionnaireRéseauReadModel | null>;

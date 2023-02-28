@@ -12,7 +12,7 @@ type ConsulterGestionnaireRéseauProps = {
 
 export const ConsulterGestionnaireRéseau = ({
   utilisateur,
-  gestionnaireRéseau: { nom, format, légende },
+  gestionnaireRéseau: { raisonSociale, format, légende, codeEIC },
 }: ConsulterGestionnaireRéseauProps) => (
   <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel">
@@ -21,15 +21,13 @@ export const ConsulterGestionnaireRéseau = ({
       </div>
       <ul>
         <li>
-          Nom : <span className="font-bold">{nom}</span>
+          Raison sociale : <span className="font-bold">{raisonSociale}</span>
         </li>
+        <li>code EIC : {codeEIC}</li>
         <li>
           Format : {format ? <code>{format}</code> : <span className="italic">non renseigné</span>}
         </li>
-        <li>
-          Légende :{' '}
-          {légende ? <code>{légende}</code> : <span className="italic">non renseignée</span>}
-        </li>
+        <li>Légende : {légende ? légende : <span className="italic">non renseignée</span>}</li>
       </ul>
       <LinkButton href={routes.GET_LISTE_GESTIONNAIRES_RESEAU}>Retourner à la liste</LinkButton>
     </div>

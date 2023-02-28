@@ -73,6 +73,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
+        //PermissionAjouterGestionnaireRéseau,
       ];
     case 'dgec-validateur':
       return [
@@ -87,6 +88,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
+        //PermissionAjouterGestionnaireRéseau,
       ];
     case 'acheteur-obligé':
     case 'ademe':

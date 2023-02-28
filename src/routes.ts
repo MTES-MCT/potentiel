@@ -40,9 +40,18 @@ class routes {
   static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard';
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
-  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/liste-gestionnaires-reseau`;
-  static GET_DETAIL_GESTIONNAIRE_RESEAU = (id?: string) =>
-    !id ? `/admin/gestionnaires-reseau/:id` : `/admin/gestionnaires-reseau/${id}`;
+  static ADMIN_AO_PERIODE = '/admin/appels-offres.html';
+  static IMPORT_AO_ACTION = '/admin/importAppelsOffres';
+  static IMPORT_PERIODE_ACTION = '/admin/importPeriodes';
+  static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
+  static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
+
+  static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
+  static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
+    !codeEIC ? `/admin/gestionnaires-reseau/:codeEIC` : `/admin/gestionnaires-reseau/${codeEIC}`;
+
+  static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
+  static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 

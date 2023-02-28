@@ -1,5 +1,6 @@
-import { GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/gestionnairesRéseauDétail.model';
-import { ConsulterGestionnaireRéseau } from '@modules/gestionnaireRéseau';
+import { GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
+import { ConsulterGestionnaireRéseauQueryHandler } from '@modules/gestionnaireRéseau';
 
-export const consulterGestionnaireRéseau: ConsulterGestionnaireRéseau = (id: string) =>
-  GestionnaireRéseauDétail.findByPk(id, { raw: true });
+export const consulterGestionnaireRéseauQueryHandler: ConsulterGestionnaireRéseauQueryHandler = ({
+  codeEIC,
+}) => GestionnaireRéseauDétail.findByPk(codeEIC, { raw: true });

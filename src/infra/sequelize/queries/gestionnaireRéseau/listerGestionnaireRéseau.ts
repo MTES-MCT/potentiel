@@ -1,5 +1,5 @@
-import { GestionnairesRéseauListe } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/gestionnairesRéseauListe.model';
-import { ListerGestionnairesRéseau } from '@modules/gestionnaireRéseau/lister/ListerGestionnairesRéseau';
+import { GestionnairesRéseauListe } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/liste/gestionnairesRéseauListe.model';
+import { ListerGestionnairesRéseau } from '@modules/gestionnaireRéseau';
 
 export const listerGestionnairesRéseau: ListerGestionnairesRéseau = () =>
-  GestionnairesRéseauListe.findAll({ raw: true });
+  GestionnairesRéseauListe.findAll({ raw: true, order: [['raisonSociale', 'ASC']] });
