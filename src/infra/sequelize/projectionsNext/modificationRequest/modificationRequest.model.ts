@@ -30,9 +30,9 @@ class ModificationRequest extends Model<
   status: string;
   requestedOn: number;
   versionDate: CreationOptional<Date>;
-  respondedOn?: number;
-  respondedBy?: string;
-  responseFileId?: string;
+  respondedOn?: number | null;
+  respondedBy?: string | null;
+  responseFileId?: string | null;
   acceptanceParams?: { [key: string]: string | number };
   authority?: 'dreal' | 'dgec';
   filename?: string;
