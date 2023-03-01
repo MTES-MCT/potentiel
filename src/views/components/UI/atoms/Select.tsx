@@ -25,6 +25,7 @@ export const Select = ({
     <>
       <div className="relative">
         <ArrowDownIcon
+          aria-hidden
           className={`absolute z-[1] right-2 pointer-events-none w-6 h-6 ${
             disabled ? 'text-gray-600' : 'text-black'
           } `}
@@ -52,7 +53,7 @@ export const Select = ({
           aria-describedby={id}
           className="flex flex-row items-center m-0 mt-4 text-sm text-red-marianne-main-472-base"
         >
-          <ErrorIcon className="text-sm text-red-marianne-main-472-base mr-2" />
+          <ErrorIcon className="text-sm text-red-marianne-main-472-base mr-2" aria-hidden />
           {error}
         </p>
       )}

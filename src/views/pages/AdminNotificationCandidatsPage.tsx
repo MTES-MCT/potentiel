@@ -97,12 +97,7 @@ export const AdminNotificationCandidats = ({
               <div className="filter-panel">
                 <div className="mt-4">
                   <Label htmlFor="classement">Classés/Eliminés</Label>
-                  <Select
-                    id="classement"
-                    name="classement"
-                    className={classement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                  >
+                  <Select id="classement" name="classement" {...dataId('classementSelector')}>
                     <option selected disabled hidden>
                       Choisir une option
                     </option>

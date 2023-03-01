@@ -173,7 +173,6 @@ export const ModificationRequestList = ({
                   <Select
                     id="modificationRequestType"
                     name="modificationRequestType"
-                    className={modificationRequestType ? 'active' : ''}
                     {...dataId('modificationRequestTypeSelector')}
                     defaultValue={modificationRequestType || ''}
                   >

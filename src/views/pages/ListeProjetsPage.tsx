@@ -190,7 +190,6 @@ export const ListeProjets = ({
                     <Select
                       id="garantiesFinancieres"
                       name="garantiesFinancieres"
-                      className={`${garantiesFinancieres ? 'active' : ''}`}
                       {...dataId('garantiesFinancieresSelector')}
                       defaultValue={garantiesFinancieres || ''}
                     >
@@ -210,7 +209,6 @@ export const ListeProjets = ({
                 <Select
                   id="classement"
                   name="classement"
-                  className={`${hasNonDefaultClassement ? 'active' : ''}`}
                   {...dataId('classementSelector')}
                   defaultValue={classement || ''}
                 >
