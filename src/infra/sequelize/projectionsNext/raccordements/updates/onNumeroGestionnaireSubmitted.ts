@@ -9,12 +9,11 @@ export default RaccordementsProjector.on(
     const {
       payload: { projectId, numeroGestionnaire, codeEICGestionnaireRéseau },
     } = évènement;
-
     try {
       await Raccordements.update(
         {
           identifiantGestionnaire: numeroGestionnaire,
-          codeEICGestionnaireRéseau,
+          ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
         },
         { where: { projetId: projectId }, transaction },
       );

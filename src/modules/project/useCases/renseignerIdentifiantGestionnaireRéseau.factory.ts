@@ -108,7 +108,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
               projectId: projetId,
               submittedBy: utilisateur.id,
               numeroGestionnaire: identifiantGestionnaireRéseau,
-              codeEICGestionnaireRéseau,
+              ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
             },
           }),
         )
