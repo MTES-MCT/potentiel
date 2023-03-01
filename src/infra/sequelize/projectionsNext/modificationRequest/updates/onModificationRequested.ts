@@ -18,25 +18,28 @@ export const onModificationRequested = ModificationRequestProjector.on(
         authority,
         cahierDesCharges,
       } = payload;
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        type,
-        requestedOn: occurredAt.getTime(),
-        versionDate: occurredAt,
-        status: 'envoyée',
-        fileId,
-        userId: requestedBy,
-        justification,
-        puissance: type === 'puissance' ? payload.puissance : undefined,
-        puissanceAuMomentDuDepot:
-          type === 'puissance' ? payload.puissanceAuMomentDuDepot : undefined,
-        delayInMonths: type === 'delai' ? payload.delayInMonths : undefined,
-        actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
-        authority,
-        cahierDesCharges,
-      }),
-        { transaction };
+
+      await ModificationRequest.create(
+        {
+          id: modificationRequestId,
+          projectId,
+          type,
+          requestedOn: occurredAt.getTime(),
+          versionDate: occurredAt,
+          status: 'envoyée',
+          fileId,
+          userId: requestedBy,
+          justification,
+          puissance: type === 'puissance' ? payload.puissance : undefined,
+          puissanceAuMomentDuDepot:
+            type === 'puissance' ? payload.puissanceAuMomentDuDepot : undefined,
+          delayInMonths: type === 'delai' ? payload.delayInMonths : undefined,
+          actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
+          authority,
+          cahierDesCharges,
+        },
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
