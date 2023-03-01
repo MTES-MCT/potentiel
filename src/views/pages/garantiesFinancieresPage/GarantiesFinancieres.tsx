@@ -15,6 +15,8 @@ import {
   DownloadLink,
   BarreDeRecherche,
   ListeVide,
+  Label,
+  Select,
 } from '@components';
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
 import { GarantiesFinancieresFilter } from './components';
@@ -70,58 +72,71 @@ export const GarantiesFinancieres = ({
             />
 
             <div className="mt-8">
-              <div {...dataId('visibility-toggle')} className={'filter-toggle open'}></div>
+              <div {...dataId('visibility-toggle')} className={'filter-toggle open'} />
               <div className="filter-panel">
-                <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>Filtrer par appel d'offre, période et famille</div>
-                  <select
-                    name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
-                    {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
-                  >
-                    <option value="">Tous appels d'offres</option>
-                    {appelsOffre
-                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                      .map((appelOffre) => (
-                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                          {appelOffre.shortTitle}
-                        </option>
-                      ))}
-                  </select>
-                  <select
-                    name="periodeId"
-                    className={periodeId ? 'active' : ''}
-                    {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
-                  >
-                    <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
-                          </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
-                    <select
+                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                <Select
+                  id="appelOffreId"
+                  name="appelOffreId"
+                  {...dataId('appelOffreIdSelector')}
+                  defaultValue={appelOffreId}
+                >
+                  <option selected disabled hidden>
+                    Choisir un appel d‘offre
+                  </option>
+                  <option value="">Tous appels d'offres</option>
+                  {appelsOffre
+                    .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                    .map((appelOffre) => (
+                      <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                        {appelOffre.shortTitle}
+                      </option>
+                    ))}
+                </Select>
+                <Label htmlFor="periodeId" className="mt-4">
+                  Période concernée
+                </Label>
+                <Select
+                  id="periodeId"
+                  name="periodeId"
+                  {...dataId('periodeIdSelector')}
+                  defaultValue={periodeId}
+                >
+                  <Label htmlFor="periodeId" className="mt-4">
+                    Période concernée
+                  </Label>
+                  <option value="">Toutes périodes</option>
+                  {periodes &&
+                    periodes.length > 0 &&
+                    periodes.map((periode) => (
+                      <option key={`appel_${periode.id}`} value={periode.id}>
+                        {periode.title}
+                      </option>
+                    ))}
+                </Select>
+                {appelOffreId && familles && familles.length > 0 && (
+                  <>
+                    <Label htmlFor="familleId" className="mt-4">
+                      Famille concernée
+                    </Label>
+                    <Select
+                      id="familleId"
                       name="familleId"
-                      className={familleId ? 'active' : ''}
                       {...dataId('familleIdSelector')}
                       defaultValue={familleId}
                     >
+                      <option selected disabled hidden>
+                        Choisir une famille
+                      </option>
                       <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
-                            </option>
-                          ))
-                        : null}
-                    </select>
-                  ) : null}
-                </div>
+                      {familles.map((famille) => (
+                        <option key={'appel_' + famille.id} value={famille.id}>
+                          {famille.title}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
+                )}
               </div>
             </div>
             {hasFilters && (
