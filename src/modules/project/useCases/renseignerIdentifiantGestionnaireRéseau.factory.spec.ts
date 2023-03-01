@@ -147,14 +147,14 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       expect(résulat.isErr()).toBe(true);
 
-      //expect(publishToEventStore).toHaveBeenCalledWith(NumeroGestionnaireSubmitted);
+      expect(publishToEventStore).not.toHaveBeenCalledWith(NumeroGestionnaireSubmitted);
     });
   });
 
   describe(`Renseigner l'identifiant gestionnaire réseau`, () => {
     it(`Etant donné un utilisateur ayant les droits sur le projet
-        Lorsqu'il renseigne l'identifiant gestionnaire réseau 'ID_GES_RES'
-        Alors l'identifiant gestionnaire réseau du projet devrait être 'ID_GES_RES' pour le projet`, async () => {
+        Lorsqu'il renseigne un identifiant gestionnaire et un code EIC gestionnaire
+        Alors ces deux données devraient être enregistrées`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
       const renseignerIdentifiantGestionnaireRéseau =
