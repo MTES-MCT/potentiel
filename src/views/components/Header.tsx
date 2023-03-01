@@ -11,6 +11,8 @@ import {
   MenuIcon,
   LogoutBoxIcon,
   CloseIcon,
+  InputCheckbox,
+  Label,
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
@@ -172,11 +174,11 @@ type MainMenuProps = {
 };
 const MainMenu = ({ children }: MainMenuProps) => (
   <>
-    <input id="menu-toggle" className="hidden" type="checkbox" />
-    <label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
+    <InputCheckbox id="menu-toggle" className="hidden" />
+    <Label className="absolute top-3 right-2 text-xl lg:hidden" htmlFor="menu-toggle">
       <MenuIcon className="menu-open" />
       <CloseIcon className="menu-close hidden" />
-    </label>
+    </Label>
     <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
       <ul className="flex flex-col list-none px-2 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}

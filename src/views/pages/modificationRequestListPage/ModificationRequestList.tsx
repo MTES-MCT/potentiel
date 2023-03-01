@@ -227,7 +227,6 @@ export const ModificationRequestList = ({
                 <InputCheckbox
                   id="showOnlyDGEC"
                   name="showOnlyDGEC"
-                  type="checkbox"
                   checked={isShowOnlyDGECChecked}
                   onChange={handleShowOnlyDGEC}
                 />

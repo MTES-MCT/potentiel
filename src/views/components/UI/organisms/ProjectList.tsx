@@ -139,7 +139,6 @@ export const ProjectList = ({
           <>
             <InputCheckbox
               onChange={(e) => toggleSelectAllPage(e.target.checked)}
-              type="checkbox"
               checked={selectedIds.length === projects.items.length}
             />
             <span className="text-sm">
@@ -158,7 +157,6 @@ export const ProjectList = ({
                   {displaySelection && (
                     <InputCheckbox
                       onChange={(e) => toggleSelected(project.id, e.target.checked)}
-                      type="checkbox"
                       value={project.id}
                       checked={selectedIds.indexOf(project.id) > -1}
                     />
