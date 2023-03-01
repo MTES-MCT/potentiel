@@ -21,6 +21,7 @@ const {
   User,
   Raccordements,
   UserProjects,
+  GestionnaireRéseauDétail,
 } = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
@@ -36,6 +37,13 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: Raccordements,
           as: 'raccordements',
           attributes: ['identifiantGestionnaire'],
+          include: [
+            {
+              model: GestionnaireRéseauDétail,
+              as: 'gestionnaireRéseauDétail',
+              attributes: ['raisonSociale', 'codeEIC'],
+            },
+          ],
         },
         {
           model: UserProjects,
@@ -242,6 +250,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             raccordements.identifiantGestionnaire && {
               gestionnaireDeRéseau: {
                 identifiantGestionnaire: raccordements.identifiantGestionnaire,
+                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseauDétail.codeEIC,
+                raisonSocialeGestionnaireRéseau:
+                  raccordements.gestionnaireRéseauDétail.raisonSociale,
               },
             }),
         }),

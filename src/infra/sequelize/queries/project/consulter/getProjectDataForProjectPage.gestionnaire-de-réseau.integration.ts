@@ -4,7 +4,7 @@ import models from '../../../models';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { v4 as uuid } from 'uuid';
 import { Project, User } from '@entities';
-import { Raccordements } from '@infra/sequelize';
+import { Raccordements, GestionnaireRéseauDétail } from '@infra/sequelize';
 
 const { Project } = models;
 
@@ -29,6 +29,12 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
       projetId,
       id: uuid(),
       identifiantGestionnaire,
+      codeEICGestionnaireRéseau: 'codeEIC',
+    });
+
+    await GestionnaireRéseauDétail.create({
+      codeEIC: 'codeEIC',
+      raisonSociale: 'ENEDIS',
     });
   });
 
@@ -85,15 +91,17 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
       ]) {
         it(`Lorsqu'un utilisateur ${role} récupère les données d'un projet
             Alors les données de gestionnaire de réseau devrait être récupérées`, async () => {
-          const donnéesProjet = (
-            await getProjectDataForProjectPage({
-              projectId: projetId,
-              user: { role } as User,
-            })
-          )._unsafeUnwrap();
+          const donnéesProjet = await getProjectDataForProjectPage({
+            projectId: projetId,
+            user: { role } as User,
+          });
 
-          expect(donnéesProjet.gestionnaireDeRéseau).toEqual({
+          expect(donnéesProjet.isOk()).toBe(true);
+
+          expect(donnéesProjet._unsafeUnwrap().gestionnaireDeRéseau).toEqual({
             identifiantGestionnaire,
+            codeEICGestionnaireRéseau: 'codeEIC',
+            raisonSocialeGestionnaireRéseau: 'ENEDIS',
           });
         });
       }

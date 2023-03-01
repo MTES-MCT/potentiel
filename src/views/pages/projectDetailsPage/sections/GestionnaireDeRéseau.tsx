@@ -6,24 +6,40 @@ import { Project } from '@entities';
 
 type GestionnaireDeRéseauProps = {
   projetId: Project['id'];
-  identifiantGestionnaire?: string;
+  gestionnaireRéseau?: {
+    identifiantGestionnaire: string;
+    codeEICGestionnaireRéseau?: string;
+    raisonSocialeGestionnaireRéseau?: string;
+  };
   role: UserRole;
 };
 
 export const GestionnaireDeRéseau = ({
-  identifiantGestionnaire,
+  gestionnaireRéseau,
   role,
   projetId,
 }: GestionnaireDeRéseauProps) => (
   <Section title="Gestionnaire de réseau" icon={PlugIcon}>
-    <div className="mb-[10px]">
-      {identifiantGestionnaire
-        ? `Identifiant : ${identifiantGestionnaire}`
-        : `Aucun identifiant n'est rattaché au projet`}
-    </div>
+    {gestionnaireRéseau ? (
+      <div>
+        <ul>
+          <li>
+            Gestionnaire de réseau :{' '}
+            {gestionnaireRéseau.raisonSocialeGestionnaireRéseau || 'Non renseigné'}
+          </li>
+          <li>
+            Code EIC gestionnaire de réseau :{' '}
+            {gestionnaireRéseau.codeEICGestionnaireRéseau || 'Non renseigné'}
+          </li>
+          <li>Identifiant du projet : {gestionnaireRéseau.identifiantGestionnaire}</li>
+        </ul>
+      </div>
+    ) : (
+      <div>Aucun identifiant n'est rattaché au projet</div>
+    )}
     {['admin', 'dgec-validateur', 'porteur-projet'].includes(role) && (
       <Link href={routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(projetId)}>
-        {identifiantGestionnaire ? 'Modifier' : 'Ajouter'}
+        {gestionnaireRéseau ? 'Modifier' : 'Ajouter'}
       </Link>
     )}
   </Section>

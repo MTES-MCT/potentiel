@@ -141,6 +141,8 @@ type AlerteAnnulationAbandon =
 
 type GestionnaireDeRéseau = {
   identifiantGestionnaire: string;
+  codeEICGestionnaireRéseau?: string;
+  raisonSocialeGestionnaireRéseau?: string;
 };
 
 type NotesInnovation = {
