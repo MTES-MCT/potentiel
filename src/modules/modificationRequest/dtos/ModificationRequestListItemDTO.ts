@@ -6,7 +6,8 @@ export type ModificationRequestTypes =
   | 'recours'
   | 'abandon'
   | 'delai'
-  | 'annulation abandon';
+  | 'annulation abandon'
+  | 'autre';
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'

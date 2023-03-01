@@ -64,7 +64,8 @@ export type ModificationRequestType =
   | 'recours'
   | 'abandon'
   | 'delai'
-  | 'annulation abandon';
+  | 'annulation abandon'
+  | 'autre';
 
 interface ModificationRequestProps {
   lastUpdatedOn: Date;

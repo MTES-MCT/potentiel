@@ -1,0 +1,7 @@
+{
+	"projection": {
+		"prefix": "projection",
+		"body": "import { logger } from '@core/utils';\nimport { $1Projector } from '@infra/sequelize';\nimport { ProjectionEnEchec } from '@modules/shared';\n\nexport const on$2 = $1Projector.on($2, async (évènement, transaction) => {\n  try {\n    const { } = évènement;\n  } catch (error) {\n    logger.error(\n      new ProjectionEnEchec(\n        `Erreur lors du traitement de l'évènement $2`,\n        {\n          évènement,\n          nomProjection: '$1.$2',\n        },\n        error,\n      ),\n    );\n  }\n});\n",
+		"scope": "typescript"
+	}
+}

@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import models from '../../models';
 import { getModificationRequestInfoForStatusNotification } from './getModificationRequestInfoForStatusNotification';
-import { UserProjects } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest, UserProjects } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
   const projectId = new UniqueEntityID().toString();
@@ -30,8 +30,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
     await UserModel.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }));
     await UserModel.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }));
 
-    const ModificationRequestModel = models.ModificationRequest;
-    await ModificationRequestModel.create({
+    await ModificationRequest.create({
       id: modificationRequestId,
       projectId,
       userId,

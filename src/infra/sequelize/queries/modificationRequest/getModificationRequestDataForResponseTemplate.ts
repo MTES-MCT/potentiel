@@ -12,8 +12,9 @@ import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import models from '../../models';
 import { Région } from '@modules/dreal/région';
+import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 
-const { ModificationRequest, Project, File, User } = models;
+const { Project, File, User } = models;
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {

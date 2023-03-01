@@ -1,8 +1,8 @@
 import { logger } from '@core/utils';
 import { RejetAbandonAnnulé } from '@modules/demandeModification';
-import models from '../../../../models';
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 import { ProjectionEnEchec } from '../../../../../../modules/shared';
+import { ModificationRequest } from '../../../modificationRequest';
 
 export default ProjectEventProjector.on(RejetAbandonAnnulé, async (évènement, transaction) => {
   const { demandeAbandonId } = évènement.payload;
@@ -13,8 +13,6 @@ export default ProjectEventProjector.on(RejetAbandonAnnulé, async (évènement,
   });
 
   if (demandeAbandonInstance) {
-    const { ModificationRequest } = models;
-
     const rawRequestedOn = await ModificationRequest.findOne({
       attributes: ['requestedOn'],
       where: { id: demandeAbandonId },

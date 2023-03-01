@@ -4,7 +4,6 @@ import { MakeProjectModel } from './projections/project/project.model';
 import { MakeFileModel } from './projections/file/file.model';
 import { MakeNotificationModel } from './projections/notification/notification.model';
 import { MakeEventStoreModel } from './eventStore/eventStore.model';
-import { MakeModificationRequestModel } from './projections/modificationRequest/modificationRequest.model';
 import { EventBus } from '@core/domain';
 
 import * as projectionsNextModels from './projectionsNext';
@@ -12,6 +11,7 @@ import { GarantiesFinancières } from './projectionsNext/garantiesFinancières';
 import { Raccordements } from './projectionsNext/raccordements';
 import { User } from './projectionsNext/users';
 import { UserProjects } from './projectionsNext/userProjects';
+import { ModificationRequest } from './projectionsNext';
 
 //
 // Legacy projections
@@ -22,7 +22,6 @@ const models = {
   Notification: MakeNotificationModel(sequelizeInstance),
   Project: MakeProjectModel(sequelizeInstance),
   EventStore: MakeEventStoreModel(sequelizeInstance),
-  ModificationRequest: MakeModificationRequestModel(sequelizeInstance),
 };
 
 GarantiesFinancières.hasOne(models.File, {
@@ -55,6 +54,45 @@ Raccordements.hasOne(User, {
   as: 'ptfEnvoyéeParRef',
 });
 
+ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'fileId',
+  as: 'attachmentFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'responseFileId',
+  as: 'responseFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(models.Project, {
+  foreignKey: 'projectId',
+  as: 'project',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'requestedBy',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'respondedBy',
+  as: 'respondedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'confirmationRequestedBy',
+  as: 'confirmationRequestedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'cancelledBy',
+  as: 'cancelledByUser',
+  constraints: false,
+});
+
 models.Project.belongsTo(models.File, {
   foreignKey: 'dcrFileId',
   as: 'dcrFileRef',
@@ -78,45 +116,6 @@ models.Project.hasOne(GarantiesFinancières, {
 models.Project.hasOne(Raccordements, {
   as: 'raccordements',
   foreignKey: 'projetId',
-});
-
-models.ModificationRequest.belongsTo(models.File, {
-  foreignKey: 'fileId',
-  as: 'attachmentFile',
-  constraints: false,
-});
-
-models.ModificationRequest.belongsTo(models.File, {
-  foreignKey: 'responseFileId',
-  as: 'responseFile',
-  constraints: false,
-});
-
-models.ModificationRequest.belongsTo(models.Project, {
-  foreignKey: 'projectId',
-  as: 'project',
-  constraints: false,
-});
-
-models.ModificationRequest.belongsTo(User, {
-  foreignKey: 'userId',
-  as: 'requestedBy',
-  constraints: false,
-});
-models.ModificationRequest.belongsTo(User, {
-  foreignKey: 'respondedBy',
-  as: 'respondedByUser',
-  constraints: false,
-});
-models.ModificationRequest.belongsTo(User, {
-  foreignKey: 'confirmationRequestedBy',
-  as: 'confirmationRequestedByUser',
-  constraints: false,
-});
-models.ModificationRequest.belongsTo(User, {
-  foreignKey: 'cancelledBy',
-  as: 'cancelledByUser',
-  constraints: false,
 });
 
 User.hasMany(models.Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });

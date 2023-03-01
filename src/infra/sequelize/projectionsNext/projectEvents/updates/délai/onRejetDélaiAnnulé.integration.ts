@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from '../../../modificationRequest';
 import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import models from '../../../../models';
 import { ProjectEvent } from '../../projectEvent.model';
 import onRejetDélaiAnnulé from './onRejetDélaiAnnulé';
 
@@ -13,7 +13,6 @@ describe('Projecteur de ProjectEvent onRejetDélaiAnnulé', () => {
     //Scenario 1
     describe(`Lorsqu'il y a un événement du même id dans ProjectEvent`, () => {
       it(`Alors cet événement devrait être mis à jour avec le statut "envoyée"`, async () => {
-        const { ModificationRequest } = models;
         const demandeDélaiId = new UniqueEntityID().toString();
         const projetId = new UniqueEntityID().toString();
         const dateAchèvementDemandée = new Date().getTime();

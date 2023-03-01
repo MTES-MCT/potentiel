@@ -5,7 +5,7 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestDetails } from './getModificationRequestDetails';
 import { UniqueEntityID } from '@core/domain';
-import { Raccordements } from '@infra/sequelize';
+import { ModificationRequest, Raccordements } from '@infra/sequelize';
 
 describe('Requête getModificationRequestDetails', () => {
   const projectId = new UniqueEntityID().toString();
@@ -104,8 +104,7 @@ describe('Requête getModificationRequestDetails', () => {
       await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
       await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest;
-      await ModificationRequestModel.create({
+      await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
         userId,
@@ -172,8 +171,7 @@ describe('Requête getModificationRequestDetails', () => {
       await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
       await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest;
-      await ModificationRequestModel.create({
+      await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
         userId,

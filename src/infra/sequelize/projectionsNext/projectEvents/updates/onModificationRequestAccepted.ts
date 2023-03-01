@@ -4,6 +4,7 @@ import { ModificationRequestAccepted } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import { Transaction } from 'sequelize';
 import models from '../../../models';
+import { ModificationRequest } from '../../modificationRequest';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
 
 export default ProjectEventProjector.on(
@@ -51,8 +52,6 @@ export default ProjectEventProjector.on(
         return;
       }
     }
-
-    const { ModificationRequest } = models;
 
     const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
       attributes: ['projectId'],

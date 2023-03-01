@@ -159,6 +159,8 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                         periodeId,
                       })}`
                     : '';
+                case 'autre':
+                  return 'autre (legacy)';
               }
             };
 

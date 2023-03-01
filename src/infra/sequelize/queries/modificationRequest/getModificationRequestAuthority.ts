@@ -1,6 +1,4 @@
-import models from '../../models';
-
-const { ModificationRequest } = models;
+import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 
 export const getModificationRequestAuthority = (
   modificationRequestId: string,

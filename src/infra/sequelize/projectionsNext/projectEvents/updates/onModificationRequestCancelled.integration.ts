@@ -2,11 +2,9 @@ import { resetDatabase } from '../../../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
 import { ProjectEvent } from '..';
-import models from '../../../models';
 import onModificationRequestCancelled from './onModificationRequestCancelled';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
-
-const { ModificationRequest } = models;
+import { ModificationRequest } from '../../modificationRequest';
 
 describe('handler onModificationRequestCancelled', () => {
   const projectId = new UniqueEntityID().toString();
