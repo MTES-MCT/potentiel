@@ -85,7 +85,7 @@ export const ModificationRequestList = ({
               className="mt-8"
             />
 
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
@@ -104,13 +104,12 @@ export const ModificationRequestList = ({
                   <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
-              <div className="filter-panel">
-                <fieldset className="mt-[15px]">
+              <div className="filter-panel mt-8">
+                <fieldset>
                   <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                   <Select
                     id="appelOffreId"
                     name="appelOffreId"
-                    className={`appelOffre ${appelOffreId ? 'active' : ''}`}
                     {...dataId('appelOffreIdSelector')}
                     defaultValue={appelOffreId}
                   >
@@ -130,7 +129,6 @@ export const ModificationRequestList = ({
                   <Select
                     id="periodeId"
                     name="periodeId"
-                    className={`${periodeId ? 'active' : ''}`}
                     {...dataId('periodeIdSelector')}
                     defaultValue={periodeId}
                   >
@@ -141,38 +139,34 @@ export const ModificationRequestList = ({
                     {periodes &&
                       periodes.length > 0 &&
                       periodes.map((periode) => (
-                        <option key={'appel_' + periode.id} value={periode.id}>
+                        <option key={`appel_${periode.id}`} value={periode.id}>
                           {periode.title}
                         </option>
                       ))}
                   </Select>
-                  {!appelOffreId ||
-                    (familles && familles.length > 0 && (
-                      <>
-                        <Label htmlFor="familleId" className="mt-4">
-                          Famille concernée
-                        </Label>
-                        <Select
-                          id="familleId"
-                          name="familleId"
-                          className={`${familleId ? 'active' : ''}`}
-                          {...dataId('familleIdSelector')}
-                          defaultValue={familleId}
-                        >
-                          <option selected disabled hidden>
-                            Choisir une famille
+                  {appelOffreId && familles && familles.length > 0 && (
+                    <>
+                      <Label htmlFor="familleId" className="mt-4">
+                        Famille concernée
+                      </Label>
+                      <Select
+                        id="familleId"
+                        name="familleId"
+                        {...dataId('familleIdSelector')}
+                        defaultValue={familleId}
+                      >
+                        <option selected disabled hidden>
+                          Choisir une famille
+                        </option>
+                        <option value="">Toutes familles</option>
+                        {familles.map((famille) => (
+                          <option key={`appel_${famille.id}`} value={famille.id}>
+                            {famille.title}
                           </option>
-                          <option value="">Toutes familles</option>
-                          {familles &&
-                            familles.length > 0 &&
-                            familles.map((famille) => (
-                              <option key={'appel_' + famille.id} value={famille.id}>
-                                {famille.title}
-                              </option>
-                            ))}
-                        </Select>
-                      </>
-                    ))}
+                        ))}
+                      </Select>
+                    </>
+                  )}
                   <Label htmlFor="modificationRequestType" className="mt-4">
                     Type de demande
                   </Label>
@@ -202,7 +196,6 @@ export const ModificationRequestList = ({
                   <Select
                     id="modificationRequestStatus"
                     name="modificationRequestStatus"
-                    className={modificationRequestStatus ? 'active' : ''}
                     {...dataId('modificationRequestStatusSelector')}
                     defaultValue={modificationRequestStatus || ''}
                   >
@@ -224,7 +217,7 @@ export const ModificationRequestList = ({
             </div>
 
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
+              <Link href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
               </Link>
             )}
