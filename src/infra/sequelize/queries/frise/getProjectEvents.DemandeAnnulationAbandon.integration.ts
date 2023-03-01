@@ -36,8 +36,8 @@ describe(`getProjectEvents`, () => {
     id: demandeAnnuléeId,
     projectId,
     type: 'DemandeAnnulationAbandon',
-    valueDate: new Date('2022-01-01').getTime(),
-    eventPublishedAt: new Date('2022-01-01').getTime(),
+    valueDate: new Date('2022-01-02').getTime(),
+    eventPublishedAt: new Date('2022-01-02').getTime(),
     payload: {
       autorité: 'dgec',
       statut: 'annulée',
@@ -48,8 +48,8 @@ describe(`getProjectEvents`, () => {
     id: demandeRejetéeId,
     projectId,
     type: 'DemandeAnnulationAbandon',
-    valueDate: new Date('2022-01-01').getTime(),
-    eventPublishedAt: new Date('2022-01-01').getTime(),
+    valueDate: new Date('2022-01-03').getTime(),
+    eventPublishedAt: new Date('2022-01-03').getTime(),
     payload: {
       autorité: 'dgec',
       statut: 'rejetée',
