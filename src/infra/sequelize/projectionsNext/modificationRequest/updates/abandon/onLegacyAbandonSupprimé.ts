@@ -18,10 +18,10 @@ export const onLegacyAbandonSupprimé = ModificationRequestProjector.on(
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement AbandonConfirmé`,
+          `Erreur lors du traitement de l'évènement LegacyAbandonSupprimé`,
           {
             évènement,
-            nomProjection: 'ModificationRequest.AbandonConfirmé',
+            nomProjection: 'ModificationRequest.LegacyAbandonSupprimé',
           },
           error,
         ),
