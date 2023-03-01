@@ -8,10 +8,12 @@ import {
   BarreDeRecherche,
   ErrorBox,
   Heading1,
+  Label,
   Link,
   ListeVide,
   MissingOwnerProjectList,
   PageTemplate,
+  Select,
   SuccessBox,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
@@ -80,7 +82,7 @@ export const ProjetsÀRéclamer = ({
               className="mt-8"
             />
 
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
@@ -97,57 +99,72 @@ export const ProjetsÀRéclamer = ({
                   <use xlinkHref="#expand"></use>
                 </svg>
               </div>
-              <div className="filter-panel">
-                <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
-                  <select
+              <div className="filter-panel mt-8">
+                <fieldset>
+                  <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                  <Select
+                    id="appelOffreId"
                     name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
                     {...dataId('appelOffreIdSelector')}
                     defaultValue={appelOffreId}
                   >
+                    <option selected disabled hidden>
+                      Choisir un appel d‘offre
+                    </option>
                     <option value="">Tous appels d'offres</option>
                     {appelsOffre
                       .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
                       .map((appelOffre) => (
-                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                        <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
                           {appelOffre.shortTitle}
                         </option>
                       ))}
-                  </select>
-                  <select
+                  </Select>
+                  <Label htmlFor="periodeId" className="mt-4">
+                    Période concernée
+                  </Label>
+                  <Select
+                    id="periodeId"
                     name="periodeId"
-                    className={periodeId ? 'active' : ''}
                     {...dataId('periodeIdSelector')}
                     defaultValue={periodeId}
                   >
+                    <option selected disabled hidden>
+                      Choisir une période
+                    </option>
                     <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
+                    {periodes &&
+                      periodes.length > 0 &&
+                      periodes.map((periode) => (
+                        <option key={`appel_${periode.id}`} value={periode.id}>
+                          {periode.title}
+                        </option>
+                      ))}
+                  </Select>
+                  {appelOffreId && familles && familles.length > 0 && (
+                    <>
+                      <Label htmlFor="familleId" className="mt-4">
+                        Famille concernée
+                      </Label>
+                      <Select
+                        id="familleId"
+                        name="familleId"
+                        {...dataId('familleIdSelector')}
+                        defaultValue={familleId}
+                      >
+                        <option selected disabled hidden>
+                          Choisir une famille
+                        </option>
+                        <option value="">Toutes familles</option>
+                        {familles.map((famille) => (
+                          <option key={`appel_${famille.id}`} value={famille.id}>
+                            {famille.title}
                           </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
-                    <select
-                      name="familleId"
-                      className={familleId ? 'active' : ''}
-                      {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
-                    >
-                      <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
-                            </option>
-                          ))
-                        : null}
-                    </select>
-                  ) : null}
-                </div>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                </fieldset>
               </div>
             </div>
             {hasFilters && (
