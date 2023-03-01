@@ -10,7 +10,7 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { NumeroGestionnaireSubmitted } from '../events';
-import { GestionnaireRéseau } from '@modules/gestionnaireRéseau';
+import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 
 type Command = {
   projetId: string;
