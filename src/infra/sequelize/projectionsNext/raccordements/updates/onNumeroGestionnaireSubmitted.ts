@@ -7,13 +7,14 @@ export default RaccordementsProjector.on(
   NumeroGestionnaireSubmitted,
   async (évènement, transaction) => {
     const {
-      payload: { projectId, numeroGestionnaire },
+      payload: { projectId, numeroGestionnaire, codeEICGestionnaireRéseau },
     } = évènement;
 
     try {
       await Raccordements.update(
         {
           identifiantGestionnaire: numeroGestionnaire,
+          codeEICGestionnaireRéseau,
         },
         { where: { projetId: projectId }, transaction },
       );

@@ -11,7 +11,8 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
   beforeEach(async () => await resetDatabase());
 
   it(`Lorsque l'event NumeroGestionnaireSubmitted survient, 
-      Alors l'identifiant de gestionnaire devrait être mise à jour`, async () => {
+      Alors l'identifiant de gestionnaire devrait être mise à jour
+      Et le codeEIC du gestionnaire s'il est présent dans l'événement`, async () => {
     await Raccordements.create({
       id: new UniqueEntityID().toString(),
       projetId,
@@ -23,12 +24,14 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
           projectId: projetId,
           numeroGestionnaire: identifiantGestionnaire,
           submittedBy: 'id',
+          codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
         },
       }),
     );
 
     expect(await Raccordements.findOne({ where: { projetId } })).toMatchObject({
       identifiantGestionnaire,
+      codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
     });
   });
 });
