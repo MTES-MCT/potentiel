@@ -9,6 +9,7 @@ import {
   UserProjectsProjector,
   UserProjectClaimsProjector,
   UserDrealProjector,
+  ModificationRequestProjector,
 } from '@infra/sequelize';
 import { GestionnaireRéseauDétailProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
 import { GestionnairesRéseauListeProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/liste/gestionnairesRéseauListe.model';
@@ -28,6 +29,7 @@ const projectorsNext = [
   GarantiesFinancièresProjector,
   GestionnaireRéseauDétailProjector,
   GestionnairesRéseauListeProjector,
+  ModificationRequestProjector,
   RaccordementsProjector,
   UserProjector,
   UserProjectsProjector,
