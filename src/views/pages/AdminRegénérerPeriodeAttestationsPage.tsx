@@ -91,13 +91,11 @@ export const AdminRegénérerPeriodeAttestations = ({
                     Choisir une famille
                   </option>
                   <option value="">Toutes familles</option>
-                  {familles &&
-                    familles.length &&
-                    familles.map((famille) => (
-                      <option key={`appel_${famille.id}`} value={famille.id}>
-                        {famille.title}
-                      </option>
-                    ))}
+                  {familles.map((famille) => (
+                    <option key={`appel_${famille.id}`} value={famille.id}>
+                      {famille.title}
+                    </option>
+                  ))}
                 </Select>
               </>
             )}
