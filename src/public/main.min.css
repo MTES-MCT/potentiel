@@ -247,12 +247,6 @@ textarea {
   vertical-align: middle;
   position: relative;
 }
-input:focus,
-textarea:focus {
-  border-color: #006be6;
-  border-color: var(--theme-border-active);
-  transition: border-color 0.2s ease-out;
-}
 input:disabled {
   background-color: #ebeff3;
   background-color: var(--theme-background-grey);
