@@ -25,11 +25,15 @@ export const GestionnaireDeRéseau = ({
         <ul>
           <li>
             Gestionnaire de réseau :{' '}
-            {gestionnaireRéseau.raisonSocialeGestionnaireRéseau || 'Non renseigné'}
+            {gestionnaireRéseau.raisonSocialeGestionnaireRéseau || (
+              <span className="italic">Non renseigné</span>
+            )}
           </li>
           <li>
             Code EIC gestionnaire de réseau :{' '}
-            {gestionnaireRéseau.codeEICGestionnaireRéseau || 'Non renseigné'}
+            {gestionnaireRéseau.codeEICGestionnaireRéseau || (
+              <span className="italic">Non renseigné</span>
+            )}
           </li>
           <li>Identifiant du projet : {gestionnaireRéseau.identifiantGestionnaire}</li>
         </ul>
