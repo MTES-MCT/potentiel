@@ -47,11 +47,10 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
 }: Dependancies): CommandHandler => {
   const vérifierCodeEIC = (command: Command) => {
     if (command.codeEICGestionnaireRéseau) {
-      gestionnaireRéseauRepo
+      return gestionnaireRéseauRepo
         .load(new UniqueEntityID(command.codeEICGestionnaireRéseau))
         .andThen((gestionnaire) => {
           if (gestionnaire.codeEIC !== command.codeEICGestionnaireRéseau) {
-            console.log('erreur ici');
             return errAsync(new CodeEICNonTrouvéError());
           }
           return okAsync(command);
