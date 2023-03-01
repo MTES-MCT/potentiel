@@ -12,7 +12,7 @@ import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import models from '../../models';
 import { Région } from '@modules/dreal/région';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 
 const { Project, File, User } = models;
 

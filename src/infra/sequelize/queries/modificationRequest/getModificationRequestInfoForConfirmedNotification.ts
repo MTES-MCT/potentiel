@@ -1,5 +1,5 @@
 import { err, ok, wrapInfra } from '@core/utils';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 import {
   GetModificationRequestInfoForConfirmedNotification,
   ModificationRequestInfoForConfirmedNotificationDTO,

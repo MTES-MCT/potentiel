@@ -11,6 +11,7 @@ import { GarantiesFinancières } from './projectionsNext/garantiesFinancières';
 import { Raccordements } from './projectionsNext/raccordements';
 import { User } from './projectionsNext/users';
 import { UserProjects } from './projectionsNext/userProjects';
+import { ModificationRequest } from './projectionsNext';
 
 //
 // Legacy projections
@@ -51,6 +52,45 @@ Raccordements.hasOne(User, {
   foreignKey: 'id',
   sourceKey: 'ptfEnvoyéePar',
   as: 'ptfEnvoyéeParRef',
+});
+
+ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'fileId',
+  as: 'attachmentFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(models.File, {
+  foreignKey: 'responseFileId',
+  as: 'responseFile',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(models.Project, {
+  foreignKey: 'projectId',
+  as: 'project',
+  constraints: false,
+});
+
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'userId',
+  as: 'requestedBy',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'respondedBy',
+  as: 'respondedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'confirmationRequestedBy',
+  as: 'confirmationRequestedByUser',
+  constraints: false,
+});
+ModificationRequest.belongsTo(User, {
+  foreignKey: 'cancelledBy',
+  as: 'cancelledByUser',
+  constraints: false,
 });
 
 models.Project.belongsTo(models.File, {

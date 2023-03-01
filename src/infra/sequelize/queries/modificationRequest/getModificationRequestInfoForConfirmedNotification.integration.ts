@@ -4,7 +4,7 @@ import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import models from '../../models';
 import { getModificationRequestInfoForConfirmedNotification } from './getModificationRequestInfoForConfirmedNotification';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 
 const { Project, User } = models;
 

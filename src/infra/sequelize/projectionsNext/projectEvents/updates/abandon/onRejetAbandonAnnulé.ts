@@ -2,7 +2,7 @@ import { logger } from '@core/utils';
 import { RejetAbandonAnnulé } from '@modules/demandeModification';
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
 import { ProjectionEnEchec } from '../../../../../../modules/shared';
-import { ModificationRequest } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest } from '../../../modificationRequest';
 
 export default ProjectEventProjector.on(RejetAbandonAnnulé, async (évènement, transaction) => {
   const { demandeAbandonId } = évènement.payload;

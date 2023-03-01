@@ -10,8 +10,6 @@ import {
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Project } from '../../projections/project';
-import { User } from '../users';
-import { File } from '../../projections/file';
 
 class ModificationRequest extends Model<
   InferAttributes<ModificationRequest>,
@@ -201,45 +199,6 @@ ModificationRequest.init(
     timestamps: true,
   },
 );
-
-ModificationRequest.belongsTo(File, {
-  foreignKey: 'fileId',
-  as: 'attachmentFile',
-  constraints: false,
-});
-
-ModificationRequest.belongsTo(File, {
-  foreignKey: 'responseFileId',
-  as: 'responseFile',
-  constraints: false,
-});
-
-ModificationRequest.belongsTo(Project, {
-  foreignKey: 'projectId',
-  as: 'project',
-  constraints: false,
-});
-
-ModificationRequest.belongsTo(User, {
-  foreignKey: 'userId',
-  as: 'requestedBy',
-  constraints: false,
-});
-ModificationRequest.belongsTo(User, {
-  foreignKey: 'respondedBy',
-  as: 'respondedByUser',
-  constraints: false,
-});
-ModificationRequest.belongsTo(User, {
-  foreignKey: 'confirmationRequestedBy',
-  as: 'confirmationRequestedByUser',
-  constraints: false,
-});
-ModificationRequest.belongsTo(User, {
-  foreignKey: 'cancelledBy',
-  as: 'cancelledByUser',
-  constraints: false,
-});
 
 const ModificationRequestProjector = makeSequelizeProjector(ModificationRequest, nomProjection);
 

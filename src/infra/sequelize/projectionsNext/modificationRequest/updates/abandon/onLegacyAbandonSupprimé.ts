@@ -1,5 +1,5 @@
 import { logger } from '@core/utils';
-import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
+import { ModificationRequest, ModificationRequestProjector } from '../../modificationRequest.model';
 import { LegacyAbandonSupprimé } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 

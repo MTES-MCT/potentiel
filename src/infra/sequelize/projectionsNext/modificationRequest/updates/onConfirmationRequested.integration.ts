@@ -1,7 +1,7 @@
-import { resetDatabase } from '../../../helpers';
+import { resetDatabase } from '@infra/sequelize/helpers';
 import { ConfirmationRequested } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '..';
+import { ModificationRequest } from '../modificationRequest.model';
 import { onConfirmationRequested } from './onConfirmationRequested';
 
 describe('modificationRequest.onConfirmationRequested', () => {

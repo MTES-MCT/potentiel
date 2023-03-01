@@ -1,7 +1,7 @@
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { DélaiDemandé } from '@modules/demandeModification';
-import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
+import { ModificationRequest, ModificationRequestProjector } from '../../modificationRequest.model';
 
 export const onDélaiDemandé = ModificationRequestProjector.on(
   DélaiDemandé,

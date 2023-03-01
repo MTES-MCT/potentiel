@@ -1,6 +1,6 @@
 import { logger } from '@core/utils';
 import { AnnulationAbandonRejetée } from '@modules/demandeModification';
-import { ModificationRequest, ModificationRequestProjector } from '@infra/sequelize';
+import { ModificationRequest, ModificationRequestProjector } from '../../modificationRequest.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onAnnulationAbandonRejetée = ModificationRequestProjector.on(

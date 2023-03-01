@@ -1,9 +1,6 @@
 import { logger } from '@core/utils';
 import { ConfirmationRequested } from '@modules/modificationRequest';
-import {
-  ModificationRequest,
-  ModificationRequestProjector,
-} from '@infra/sequelize/projectionsNext';
+import { ModificationRequest, ModificationRequestProjector } from '../modificationRequest.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onConfirmationRequested = ModificationRequestProjector.on(
