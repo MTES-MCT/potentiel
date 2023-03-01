@@ -35,7 +35,7 @@ export const onModificationReceived = ModificationRequestProjector.on(
           justification,
           fileId,
           actionnaire: type === 'actionnaire' ? payload.actionnaire : undefined,
-          fournisseurs: type === 'fournisseur' ? (payload.fournisseurs as any) : undefined, // TODO: fournisseurs était initialement dans l'ancienne projection typé en any... mais cela correspond à priori à un bug déjà remonté dans le projet. A fix dans une prochaine PR
+          fournisseurs: type === 'fournisseur' ? (payload.fournisseurs as any) : undefined, // TODO: fournisseurs était initialement dans l'ancienne projection typé en any... A fix dans une prochaine PR
           evaluationCarbone: type === 'fournisseur' ? payload.evaluationCarbone : undefined,
           authority,
           cahierDesCharges,

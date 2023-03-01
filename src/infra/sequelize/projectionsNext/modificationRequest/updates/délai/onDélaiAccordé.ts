@@ -20,7 +20,7 @@ export const onDélaiAccordé = ModificationRequestProjector.on(
           versionDate: occurredAt,
           responseFileId: fichierRéponseId,
           acceptanceParams: {
-            dateAchèvementAccordée: dateAchèvementAccordée as any, // TODO: dateAchèvementAccordée était initialement dans l'ancienne projection typé en any... mais cela correspond à priori à un bug déjà remonté dans le projet. A fix dans une prochaine PR
+            dateAchèvementAccordée: dateAchèvementAccordée as any, // TODO: dateAchèvementAccordée était initialement dans l'ancienne projection typé en any... A fix dans une prochaine PR
           },
         },
         {

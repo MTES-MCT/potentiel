@@ -19,7 +19,7 @@ export const onModificationRequestAccepted = ModificationRequestProjector.on(
           respondedBy: acceptedBy,
           versionDate: occurredAt,
           responseFileId: responseFileId || undefined,
-          acceptanceParams: params as any, // TODO: dateAchèvementAccordée était initialement dans l'ancienne projection typé en any... mais cela correspond à priori à un bug déjà remonté dans le projet. A fix dans une prochaine PR
+          acceptanceParams: params as any, // TODO: params était initialement dans l'ancienne projection typé en any... A fix dans une prochaine PR
         },
         {
           where: {
