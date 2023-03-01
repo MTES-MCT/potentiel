@@ -12,6 +12,7 @@ class Raccordements extends Model<
   ptfDateDeSignature: Date | null;
   ptfEnvoyéePar: string | null;
   identifiantGestionnaire: string | null;
+  codeEICGestionnaireRéseau?: string | null;
 }
 
 const nomProjection = 'raccordements';
@@ -39,6 +40,10 @@ Raccordements.init(
       allowNull: true,
     },
     identifiantGestionnaire: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    codeEICGestionnaireRéseau: {
       type: DataTypes.STRING,
       allowNull: true,
     },
