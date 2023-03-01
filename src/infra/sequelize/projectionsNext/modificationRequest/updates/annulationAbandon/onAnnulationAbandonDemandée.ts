@@ -11,6 +11,7 @@ export const onAnnulationAbandonDemandée = ModificationRequestProjector.on(
         payload: { demandeId, demandéPar, projetId, cahierDesCharges },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.create(
         {
           id: demandeId,

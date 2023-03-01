@@ -11,6 +11,7 @@ export const onDélaiRejeté = ModificationRequestProjector.on(
         payload: { demandeDélaiId, rejetéPar, fichierRéponseId },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'rejetée',

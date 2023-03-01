@@ -11,6 +11,7 @@ export const onRejetRecoursAnnulé = ModificationRequestProjector.on(
         payload: { demandeRecoursId },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'envoyée',

@@ -6,11 +6,12 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onAbandonRejeté = ModificationRequestProjector.on(
   AbandonRejeté,
   async (évènement, transaction) => {
-    const {
-      payload: { demandeAbandonId, rejetéPar, fichierRéponseId },
-      occurredAt,
-    } = évènement;
     try {
+      const {
+        payload: { demandeAbandonId, rejetéPar, fichierRéponseId },
+        occurredAt,
+      } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'rejetée',

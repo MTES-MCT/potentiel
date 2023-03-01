@@ -11,6 +11,7 @@ export const onAnnulationAbandonAccordée = ModificationRequestProjector.on(
         payload: { demandeId, accordéPar, fichierRéponseId },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'acceptée',

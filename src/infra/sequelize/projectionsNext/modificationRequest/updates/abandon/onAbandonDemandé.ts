@@ -6,20 +6,20 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onAbandonDemandé = ModificationRequestProjector.on(
   AbandonDemandé,
   async (évènement, transaction) => {
-    const {
-      payload: {
-        demandeAbandonId,
-        projetId,
-        fichierId,
-        justification,
-        autorité,
-        porteurId,
-        cahierDesCharges,
-      },
-      occurredAt,
-    } = évènement;
-
     try {
+      const {
+        payload: {
+          demandeAbandonId,
+          projetId,
+          fichierId,
+          justification,
+          autorité,
+          porteurId,
+          cahierDesCharges,
+        },
+        occurredAt,
+      } = évènement;
+
       await ModificationRequest.create(
         {
           id: demandeAbandonId,

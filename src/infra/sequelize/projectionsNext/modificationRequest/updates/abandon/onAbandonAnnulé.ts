@@ -6,23 +6,24 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onAbandonAnnulé = ModificationRequestProjector.on(
   AbandonAnnulé,
   async (évènement, transaction) => {
-    const {
-      payload: { demandeAbandonId, annuléPar },
-      occurredAt,
-    } = évènement;
-    await ModificationRequest.update(
-      {
-        status: 'annulée',
-        cancelledBy: annuléPar,
-        cancelledOn: occurredAt.getTime(),
-        versionDate: occurredAt,
-      },
-      {
-        where: { id: demandeAbandonId },
-        transaction,
-      },
-    );
     try {
+      const {
+        payload: { demandeAbandonId, annuléPar },
+        occurredAt,
+      } = évènement;
+
+      await ModificationRequest.update(
+        {
+          status: 'annulée',
+          cancelledBy: annuléPar,
+          cancelledOn: occurredAt.getTime(),
+          versionDate: occurredAt,
+        },
+        {
+          where: { id: demandeAbandonId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

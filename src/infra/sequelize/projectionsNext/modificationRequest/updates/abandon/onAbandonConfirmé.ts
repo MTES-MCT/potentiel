@@ -6,12 +6,12 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onAbandonConfirmé = ModificationRequestProjector.on(
   AbandonConfirmé,
   async (évènement, transaction) => {
-    const {
-      payload: { demandeAbandonId, confirméPar },
-      occurredAt,
-    } = évènement;
-
     try {
+      const {
+        payload: { demandeAbandonId, confirméPar },
+        occurredAt,
+      } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'demande confirmée',

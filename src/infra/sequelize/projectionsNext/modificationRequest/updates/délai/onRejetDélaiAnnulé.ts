@@ -11,6 +11,7 @@ export const onRejetDélaiAnnulé = ModificationRequestProjector.on(
         payload: { demandeDélaiId },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'envoyée',

@@ -11,6 +11,7 @@ export const onConfirmationAbandonDemandée = ModificationRequestProjector.on(
         payload: { demandeAbandonId, demandéePar, fichierRéponseId },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'en attente de confirmation',

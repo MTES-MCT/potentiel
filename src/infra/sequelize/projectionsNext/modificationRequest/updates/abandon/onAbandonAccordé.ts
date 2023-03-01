@@ -6,12 +6,12 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onAbandonAccordé = ModificationRequestProjector.on(
   AbandonAccordé,
   async (évènement, transaction) => {
-    const {
-      payload: { demandeAbandonId, accordéPar, fichierRéponseId },
-      occurredAt,
-    } = évènement;
-
     try {
+      const {
+        payload: { demandeAbandonId, accordéPar, fichierRéponseId },
+        occurredAt,
+      } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'acceptée',

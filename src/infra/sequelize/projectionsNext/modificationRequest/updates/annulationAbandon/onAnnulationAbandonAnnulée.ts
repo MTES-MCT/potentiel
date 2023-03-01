@@ -11,6 +11,7 @@ export const onAnnulationAbandonAnnulée = ModificationRequestProjector.on(
         payload: { demandeId, annuléePar },
         occurredAt,
       } = évènement;
+
       await ModificationRequest.update(
         {
           status: 'annulée',

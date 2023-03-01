@@ -6,10 +6,11 @@ import { ProjectionEnEchec } from '@modules/shared';
 export const onLegacyAbandonSupprimé = ModificationRequestProjector.on(
   LegacyAbandonSupprimé,
   async (évènement, transaction) => {
-    const {
-      payload: { projetId },
-    } = évènement;
     try {
+      const {
+        payload: { projetId },
+      } = évènement;
+
       await ModificationRequest.destroy({
         where: { projectId: projetId, type: 'abandon' },
         transaction,

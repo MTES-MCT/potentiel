@@ -18,6 +18,7 @@ export const onModificationReceived = ModificationRequestProjector.on(
         authority,
         cahierDesCharges,
       } = payload;
+
       await ModificationRequest.create(
         {
           id: modificationRequestId,
