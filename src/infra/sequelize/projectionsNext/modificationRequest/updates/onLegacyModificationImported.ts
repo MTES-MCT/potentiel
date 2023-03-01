@@ -1,5 +1,5 @@
 import { logger } from '@core/utils';
-import { LegacyModificationImported } from '@modules/modificationRequest';
+import { LegacyModificationDTO, LegacyModificationImported } from '@modules/modificationRequest';
 import { ModificationRequest, ModificationRequestProjector } from '../modificationRequest.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
@@ -14,81 +14,26 @@ export const onLegacyModificationImported = ModificationRequestProjector.on(
 
       await ModificationRequest.destroy({ where: { projectId, isLegacy: true } });
 
-      for (const modification of modifications) {
-        const common = {
-          id: modification.modificationId,
-          type: modification.type,
-          respondedOn: modification.modifiedOn,
-          requestedOn: modification.modifiedOn,
+      const modificationRequests = modifications.map((modificationRequest) => {
+        const acceptanceParams = getAcceptanceParams(modificationRequest);
+
+        const { modificationId, type, modifiedOn, filename, status } = modificationRequest;
+
+        return {
+          id: modificationId,
+          type,
+          respondedOn: modifiedOn,
+          requestedOn: modifiedOn,
           projectId,
           versionDate: occurredAt,
           isLegacy: true,
-          filename: modification.filename,
-          status: modification.status,
+          filename,
+          status,
+          acceptanceParams,
         };
-        switch (modification.type) {
-          case 'abandon':
-            await ModificationRequest.create(
-              {
-                ...common,
-              },
-              { transaction },
-            );
-            break;
-          case 'actionnaire':
-            await ModificationRequest.create(
-              {
-                ...common,
-                acceptanceParams: {
-                  actionnairePrecedent: modification.actionnairePrecedent,
-                  siretPrecedent: modification.siretPrecedent,
-                },
-              },
-              { transaction },
-            );
-            break;
-          case 'delai':
-            if (modification.status === 'acceptée') {
-              await ModificationRequest.create(
-                {
-                  ...common,
-                  acceptanceParams: {
-                    nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
-                    ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
-                  },
-                },
-                { transaction },
-              );
-            } else {
-              await ModificationRequest.create({
-                ...common,
-              });
-            }
-            break;
-          case 'producteur':
-            await ModificationRequest.create(
-              {
-                ...common,
-                acceptanceParams: {
-                  producteurPrecedent: modification.producteurPrecedent,
-                },
-              },
-              { transaction },
-            );
-            break;
-          case 'recours':
-            await ModificationRequest.create(
-              {
-                ...common,
-                acceptanceParams: {
-                  motifElimination: modification.motifElimination,
-                },
-              },
-              { transaction },
-            );
-            break;
-        }
-      }
+      });
+
+      await ModificationRequest.bulkCreate(modificationRequests, { transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -103,3 +48,29 @@ export const onLegacyModificationImported = ModificationRequestProjector.on(
     }
   },
 );
+
+const getAcceptanceParams = (
+  modification: LegacyModificationDTO,
+): Record<string, string | number> => {
+  if (modification.type === 'actionnaire') {
+    return {
+      actionnairePrecedent: modification.actionnairePrecedent,
+      siretPrecedent: modification.siretPrecedent,
+    };
+  } else if (modification.type === 'delai' && modification.status === 'acceptée') {
+    return {
+      nouvelleDateLimiteAchevement: modification.nouvelleDateLimiteAchevement,
+      ancienneDateLimiteAchevement: modification.ancienneDateLimiteAchevement,
+    };
+  } else if (modification.type === 'producteur') {
+    return {
+      producteurPrecedent: modification.producteurPrecedent,
+    };
+  } else if (modification.type === 'recours') {
+    return {
+      motifElimination: modification.motifElimination,
+    };
+  }
+
+  return {};
+};
