@@ -207,7 +207,7 @@ describe('parseProjectModifications', () => {
 
     it('should return a rejected modification of type delai with the proper dates', async () => {
       const modifications = parseProjectModifications(phonyLine);
-
+      console.log(modifications[0]);
       expect(modifications).toHaveLength(1);
       expect(modifications[0]).toMatchObject({
         type: 'delai',

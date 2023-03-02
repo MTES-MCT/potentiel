@@ -76,13 +76,22 @@ function extractDelaiType(args: {
   if (status === 'acceptée' && !colonneConcernee) {
     throw new Error(`Colonne concernée ${index} manquante`);
   }
-  const nouvelleDateLimiteAchevement = parse(colonneConcernee, 'dd/MM/yyyy', new Date()).getTime();
 
+  if (status === 'rejetée' || status === 'accord-de-principe') {
+    return {
+      type: 'delai',
+      modifiedOn,
+      modificationId: new UniqueEntityID().toString(),
+      status,
+      filename: nomCourrier,
+    };
+  }
+
+  const nouvelleDateLimiteAchevement = parse(colonneConcernee, 'dd/MM/yyyy', new Date()).getTime();
   if (isNaN(nouvelleDateLimiteAchevement)) {
     throw new Error(`Colonne concernée ${index} contient une date invalide`);
   }
   const ancienneDateLimiteAchevement = parse(ancienneValeur, 'dd/MM/yyyy', new Date()).getTime();
-
   if (isNaN(ancienneDateLimiteAchevement)) {
     throw new Error(`Ancienne valeur ${index} contient une date invalide`);
   }
