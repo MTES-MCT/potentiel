@@ -20,6 +20,7 @@ import {
   Heading1,
   BarreDeRecherche,
   ListeVide,
+  Select,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -92,7 +93,7 @@ export const ListeProjets = ({
               className="mt-8"
             />
 
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
               <div
                 onClick={() => setAfficherFiltres(!afficherFiltres)}
                 {...dataId('visibility-toggle')}
@@ -111,57 +112,70 @@ export const ListeProjets = ({
                   <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
-              <div className="filter-panel mt-8">
-                <div className="periode-panel">
-                  <div style={{ marginLeft: 2 }}>Par appel d'offre, période et famille</div>
-                  <select
-                    name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
-                    {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
-                  >
-                    <option value="">Tous appels d'offres</option>
-                    {appelsOffre
-                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                      .map((appelOffre) => (
-                        <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
-                          {appelOffre.shortTitle}
-                        </option>
-                      ))}
-                  </select>
-                  <select
-                    name="periodeId"
-                    className={periodeId ? 'active' : ''}
-                    {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
-                  >
-                    <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
-                          </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
-                    <select
+              <fieldset className="filter-panel mt-8">
+                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                <Select
+                  id="appelOffreId"
+                  name="appelOffreId"
+                  {...dataId('appelOffreIdSelector')}
+                  defaultValue={appelOffreId}
+                >
+                  <option selected disabled hidden>
+                    Choisir un appel d‘offre
+                  </option>
+                  <option value="">Tous appels d'offres</option>
+                  {appelsOffre
+                    .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                    .map((appelOffre) => (
+                      <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                        {appelOffre.shortTitle}
+                      </option>
+                    ))}
+                </Select>
+                <Label htmlFor="periodeId" className="mt-4">
+                  Période concernée
+                </Label>
+                <Select
+                  id="periodeId"
+                  name="periodeId"
+                  {...dataId('periodeIdSelector')}
+                  defaultValue={periodeId}
+                >
+                  <option selected disabled hidden>
+                    Choisir une période
+                  </option>
+                  <option value="">Toutes périodes</option>
+                  {periodes &&
+                    periodes.length > 0 &&
+                    periodes.map((periode) => (
+                      <option key={`appel_${periode.id}`} value={periode.id}>
+                        {periode.title}
+                      </option>
+                    ))}
+                </Select>
+                {appelOffreId && familles && familles.length > 0 && (
+                  <>
+                    <Label htmlFor="familleId" className="mt-4">
+                      Famille concernée
+                    </Label>
+                    <Select
+                      id="familleId"
                       name="familleId"
-                      className={familleId ? 'active' : ''}
                       {...dataId('familleIdSelector')}
                       defaultValue={familleId}
                     >
+                      <option selected disabled hidden>
+                        Choisir une famille
+                      </option>
                       <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
-                            </option>
-                          ))
-                        : null}
-                    </select>
-                  ) : null}
-                </div>
+                      {familles.map((famille) => (
+                        <option key={`appel_${famille.id}`} value={famille.id}>
+                          {famille.title}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
+                )}
                 {[
                   'admin',
                   'dreal',
@@ -169,54 +183,68 @@ export const ListeProjets = ({
                   'porteur-projet',
                   'caisse-des-dépôts',
                 ].includes(request.user.role) && (
-                  <div style={{ marginTop: 15 }}>
-                    <div style={{ marginLeft: 2 }}>Garanties Financières</div>
-                    <select
+                  <>
+                    <Label htmlFor="garantiesFinancieres" className="mt-4">
+                      Garanties financières
+                    </Label>
+                    <Select
+                      id="garantiesFinancieres"
                       name="garantiesFinancieres"
-                      className={garantiesFinancieres ? 'active' : ''}
                       {...dataId('garantiesFinancieresSelector')}
                       defaultValue={garantiesFinancieres || ''}
                     >
+                      <option selected disabled hidden>
+                        Choisir un état
+                      </option>
                       <option value="">Toutes</option>
                       <option value="submitted">Déposées</option>
                       <option value="notSubmitted">Non-déposées</option>
                       <option value="pastDue">En retard</option>
-                    </select>
-                  </div>
+                    </Select>
+                  </>
                 )}
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Classés/Eliminés/Abandons</div>
-                  <select
-                    name="classement"
-                    className={hasNonDefaultClassement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                    defaultValue={classement || ''}
-                  >
-                    <option value="">Tous</option>
-                    <option value="classés">Classés</option>
-                    <option value="éliminés">Eliminés</option>
-                    <option value="abandons">Abandons</option>
-                  </select>
-                </div>
+                <Label htmlFor="classement" className="mt-4">
+                  Projets Classés/Eliminés/Abandons
+                </Label>
+                <Select
+                  id="classement"
+                  name="classement"
+                  {...dataId('classementSelector')}
+                  defaultValue={classement || ''}
+                >
+                  <option selected disabled hidden>
+                    Choisir un état
+                  </option>
+                  <option value="">Tous</option>
+                  <option value="classés">Classés</option>
+                  <option value="éliminés">Eliminés</option>
+                  <option value="abandons">Abandons</option>
+                </Select>
 
                 {userIsNot('porteur-projet')(request.user) && (
-                  <div style={{ marginTop: 15 }}>
-                    <div style={{ marginLeft: 2 }}>Réclamés/Non réclamés</div>
-                    <select
+                  <>
+                    <Label htmlFor="reclames" className="mt-4">
+                      Projets Réclamés/Non réclamés
+                    </Label>
+                    <Select
+                      id="reclames"
                       name="reclames"
                       {...dataId('reclamesSelector')}
                       defaultValue={reclames || ''}
                     >
+                      <option selected disabled hidden>
+                        Choisir un état
+                      </option>
                       <option value="">Tous</option>
                       <option value="réclamés">Réclamés</option>
                       <option value="non-réclamés">Non réclamés</option>
-                    </select>
-                  </div>
+                    </Select>
+                  </>
                 )}
-              </div>
+              </fieldset>
             </div>
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
+              <Link href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
               </Link>
             )}

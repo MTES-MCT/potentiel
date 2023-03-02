@@ -12,6 +12,8 @@ import {
   PageTemplate,
   Select,
   SuccessBox,
+  Label,
+  FormulaireChampsObligatoireLégende,
 } from '@components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { REGIONS, Région } from '@modules/dreal/région';
@@ -40,33 +42,38 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
             method="post"
             className="flex flex-col gap-4"
           >
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <input type="hidden" name="role" value="dreal" />
             <div>
-              <label htmlFor="email">Adresse email :</label>
+              <Label htmlFor="email" required>
+                Adresse email :
+              </Label>
               <Input
                 type="email"
                 name="email"
                 id="email"
-                {...dataId('email-field')}
+                placeholder="email@test.test"
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
             </div>
             <div>
+              <Label htmlFor="region" required>
+                Sélectionnez une région
+              </Label>
               <Select
                 name="region"
                 id="region"
-                {...dataId('region-field')}
                 required
                 {...(validationErrors && { error: validationErrors['region']?.toString() })}
               >
-                <option>
-                  <label htmlFor="region">Sélectionnez une région</label>
+                <option selected disabled hidden>
+                  Sélectionnez une région
                 </option>
                 {[...REGIONS]
                   .sort((a, b) => a.localeCompare(b))
                   .map((value, index) => (
-                    <option key={value + '_' + index} value={value}>
+                    <option key={`${value}_${index}`} value={value}>
                       {value}
                     </option>
                   ))}

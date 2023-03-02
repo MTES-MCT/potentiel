@@ -4,10 +4,12 @@ import {
   ErrorBox,
   ExcelFileIcon,
   Heading1,
+  Label,
   ListeVide,
   PageTemplate,
   ProjectList,
   SecondaryLinkButton,
+  Select,
   SuccessBox,
 } from '@components';
 import { AppelOffre, Periode } from '@entities';
@@ -94,12 +96,11 @@ export const AdminNotificationCandidats = ({
               </legend>
               <div className="filter-panel">
                 <div className="mt-4">
-                  <div className="ml-0.5">Classés/Eliminés</div>
-                  <select
-                    name="classement"
-                    className={classement ? 'active' : ''}
-                    {...dataId('classementSelector')}
-                  >
+                  <Label htmlFor="classement">Classés/Eliminés</Label>
+                  <Select id="classement" name="classement" {...dataId('classementSelector')}>
+                    <option selected disabled hidden>
+                      Choisir une option
+                    </option>
                     <option value="">Tous</option>
                     <option value="classés" selected={classement && classement === 'classés'}>
                       Classés
@@ -107,7 +108,7 @@ export const AdminNotificationCandidats = ({
                     <option value="éliminés" selected={classement && classement === 'éliminés'}>
                       Eliminés
                     </option>
-                  </select>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -115,33 +116,40 @@ export const AdminNotificationCandidats = ({
         </div>
         <form action={ROUTES.POST_NOTIFIER_CANDIDATS} method="post" className="ml-0 mb-4">
           <div className="form__group">
-            <select
-              name="appelOffreId"
-              id="appelOffreId"
-              {...dataId('appelOffreIdSelector')}
-              className="mr-1"
-            >
+            <Label htmlFor="appelOffreId" className="mt-4">
+              Appel d'offre concerné
+            </Label>
+            <Select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
+              <option selected disabled hidden>
+                Choisir un appel d‘offre
+              </option>
               {listeAOs.map((appelOffreId) => (
                 <option
-                  key={'appel_' + appelOffreId}
+                  key={`appel_${appelOffreId}`}
                   value={appelOffreId}
                   selected={appelOffreId === AOSélectionné}
                 >
                   Appel d'offres {appelOffreId}
                 </option>
               ))}
-            </select>
-            <select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
+            </Select>
+            <Label htmlFor="periodeId" className="mt-4">
+              Periode concernée
+            </Label>
+            <Select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
+              <option selected disabled hidden>
+                Choisir une période
+              </option>
               {listePériodes?.map((periodeId) => (
                 <option
-                  key={'appel_' + periodeId}
+                  key={`appel_${periodeId}`}
                   value={periodeId}
                   selected={periodeId === périodeSélectionnée}
                 >
                   période {periodeId}
                 </option>
               ))}
-            </select>
+            </Select>
 
             {AOSélectionné && périodeSélectionnée && (
               <div className="mt-4">
@@ -163,7 +171,7 @@ export const AdminNotificationCandidats = ({
           </div>
           {projetsPériodeSélectionnée.itemCount > 0 && !success && (
             <div className="form__group">
-              <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
+              <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
               <input
                 type="text"
                 name="notificationDate"

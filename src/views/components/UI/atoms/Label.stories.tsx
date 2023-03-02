@@ -7,6 +7,7 @@ export default {
   argTypes: {
     children: { control: 'text', defaultValue: 'LabelStory' },
     required: { control: 'boolean' },
+    htmlFor: { control: 'text', defaultValue: 'attribut obligatoire htmlFor' },
   },
 };
 

@@ -3,9 +3,11 @@ import { Request } from 'express';
 import routes from '@routes';
 import {
   Button,
+  FormulaireChampsObligatoireLégende,
   Heading1,
   Heading2,
   Input,
+  Label,
   PageTemplate,
   RésultatSoumissionFormulaire,
   RésultatSoumissionFormulaireProps,
@@ -37,10 +39,12 @@ export const InviterDgecValidateur = ({
             method="post"
             className="flex flex-col gap-4"
           >
-            <p className="text-sm italic">Tous les champs sont obligatoires</p>
+            <FormulaireChampsObligatoireLégende className="text-right" />
             <input type="hidden" name="role" value="dgec-validateur" />
             <div>
-              <label htmlFor="email">Adresse email :</label>
+              <Label htmlFor="email" required>
+                Adresse email :
+              </Label>
               <Input
                 type="email"
                 name="email"
@@ -52,7 +56,9 @@ export const InviterDgecValidateur = ({
                     error: résultatSoumissionFormulaire.erreursDeValidation['email'],
                   })}
               />
-              <label htmlFor="fonction">Fonction :</label>
+              <Label htmlFor="fonction" required>
+                Fonction :
+              </Label>
               <Input
                 type="text"
                 name="fonction"

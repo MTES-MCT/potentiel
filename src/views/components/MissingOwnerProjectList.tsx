@@ -158,10 +158,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           <thead>
             <tr>
               <th {...dataId('missingOwnerProjectList-checkbox')}>
-                <InputCheckbox
-                  type="checkbox"
-                  {...dataId('missingOwnerProjectList-selectAll-checkbox')}
-                />
+                <InputCheckbox {...dataId('missingOwnerProjectList-selectAll-checkbox')} />
               </th>
               {displayColumns?.map((column) =>
                 column === 'N° CRE' ? (
@@ -186,7 +183,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                 <tr key={'project_' + project.id} {...dataId('missingOwnerProjectList-item')}>
                   <td {...dataId('missingOwnerProjectList-checkbox')}>
                     <InputCheckbox
-                      type="checkbox"
                       {...dataId('missingOwnerProjectList-item-checkbox')}
                       data-projectid={project.id}
                     />
@@ -216,7 +212,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         <div className="my-8">
           <label className="notification align-middle inline-block" htmlFor="swornStatement">
             <InputCheckbox
-              type="checkbox"
               name="swornStatement"
               id="swornStatement"
               {...dataId('sworn-statement')}

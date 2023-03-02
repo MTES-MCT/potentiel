@@ -14,6 +14,8 @@ import {
   Link,
   Heading1,
   BarreDeRecherche,
+  Label,
+  Select,
 } from '@components';
 import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
 import { userIs } from '@modules/users';
@@ -83,7 +85,7 @@ export const ModificationRequestList = ({
               className="mt-8"
             />
 
-            <div className="mt-8">
+            <div className="mt-8 mb-6">
               <div
                 {...dataId('visibility-toggle')}
                 className={'filter-toggle' + (hasFilters ? ' open' : '')}
@@ -102,63 +104,81 @@ export const ModificationRequestList = ({
                   <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
                 </svg>
               </div>
-              <div className="filter-panel">
-                <div className="periode-panel mt-[15px]">
-                  <div className="ml-[2px]">Par appel d'offre, période et famille</div>
-                  <select
+              <div className="filter-panel mt-8">
+                <fieldset>
+                  <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                  <Select
+                    id="appelOffreId"
                     name="appelOffreId"
-                    className={'appelOffre ' + (appelOffreId ? 'active' : '')}
                     {...dataId('appelOffreIdSelector')}
                     defaultValue={appelOffreId}
                   >
+                    <option selected disabled hidden>
+                      Choisir un appel d‘offre
+                    </option>
                     <option value="">Tous appels d'offres</option>
                     {appelsOffre.map((appelOffre) => (
                       <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
                         {appelOffre.shortTitle}
                       </option>
                     ))}
-                  </select>
-                  <select
+                  </Select>
+                  <Label htmlFor="periodeId" className="mt-4">
+                    Période concernée
+                  </Label>
+                  <Select
+                    id="periodeId"
                     name="periodeId"
-                    className={periodeId ? 'active' : ''}
                     {...dataId('periodeIdSelector')}
                     defaultValue={periodeId}
                   >
+                    <option selected disabled hidden>
+                      Choisir une période
+                    </option>
                     <option value="">Toutes périodes</option>
-                    {periodes && periodes.length
-                      ? periodes.map((periode) => (
-                          <option key={'appel_' + periode.id} value={periode.id}>
-                            {periode.title}
+                    {periodes &&
+                      periodes.length > 0 &&
+                      periodes.map((periode) => (
+                        <option key={`appel_${periode.id}`} value={periode.id}>
+                          {periode.title}
+                        </option>
+                      ))}
+                  </Select>
+                  {appelOffreId && familles && familles.length > 0 && (
+                    <>
+                      <Label htmlFor="familleId" className="mt-4">
+                        Famille concernée
+                      </Label>
+                      <Select
+                        id="familleId"
+                        name="familleId"
+                        {...dataId('familleIdSelector')}
+                        defaultValue={familleId}
+                      >
+                        <option selected disabled hidden>
+                          Choisir une famille
+                        </option>
+                        <option value="">Toutes familles</option>
+                        {familles.map((famille) => (
+                          <option key={`appel_${famille.id}`} value={famille.id}>
+                            {famille.title}
                           </option>
-                        ))
-                      : null}
-                  </select>
-                  {!appelOffreId || (familles && familles.length) ? (
-                    <select
-                      name="familleId"
-                      className={familleId ? 'active' : ''}
-                      {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
-                    >
-                      <option value="">Toutes familles</option>
-                      {familles && familles.length
-                        ? familles.map((famille) => (
-                            <option key={'appel_' + famille.id} value={famille.id}>
-                              {famille.title}
-                            </option>
-                          ))
-                        : null}
-                    </select>
-                  ) : null}
-                </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Type</div>
-                  <select
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                  <Label htmlFor="modificationRequestType" className="mt-4">
+                    Type de demande
+                  </Label>
+                  <Select
+                    id="modificationRequestType"
                     name="modificationRequestType"
-                    className={modificationRequestType ? 'active' : ''}
                     {...dataId('modificationRequestTypeSelector')}
                     defaultValue={modificationRequestType || ''}
                   >
+                    <option selected disabled hidden>
+                      Choisir un type de demande
+                    </option>
                     <option value="">Tous</option>
                     <option value="actionnaire">Actionnaire</option>
                     <option value="fournisseur">Fournisseur</option>
@@ -168,16 +188,19 @@ export const ModificationRequestList = ({
                     <option value="delai">Délai</option>
                     <option value="abandon">Abandon</option>
                     <option value="annulation abandon">Annulation abandon</option>
-                  </select>
-                </div>
-                <div style={{ marginTop: 15 }}>
-                  <div style={{ marginLeft: 2 }}>Statut</div>
-                  <select
+                  </Select>
+                  <Label htmlFor="modificationRequestStatus" className="mt-4">
+                    Statut de la demande
+                  </Label>
+                  <Select
+                    id="modificationRequestStatus"
                     name="modificationRequestStatus"
-                    className={modificationRequestStatus ? 'active' : ''}
                     {...dataId('modificationRequestStatusSelector')}
                     defaultValue={modificationRequestStatus || ''}
                   >
+                    <option selected disabled hidden>
+                      Choisir le statut de la demande
+                    </option>
                     <option value="">Tous</option>
                     <option value="envoyée">Envoyée</option>
                     <option value="en instruction">En instruction</option>
@@ -187,13 +210,13 @@ export const ModificationRequestList = ({
                     <option value="rejetée">Rejetée</option>
                     <option value="annulée">Annulée</option>
                     <option value="information validée">Information validée</option>
-                  </select>
-                </div>
+                  </Select>
+                </fieldset>
               </div>
             </div>
 
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
+              <Link href="#" {...dataId('resetSelectors')}>
                 Retirer tous les filtres
               </Link>
             )}
@@ -203,7 +226,6 @@ export const ModificationRequestList = ({
                 <InputCheckbox
                   id="showOnlyDGEC"
                   name="showOnlyDGEC"
-                  type="checkbox"
                   checked={isShowOnlyDGECChecked}
                   onChange={handleShowOnlyDGEC}
                 />

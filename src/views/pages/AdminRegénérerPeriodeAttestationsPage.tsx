@@ -3,7 +3,7 @@ import React from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
-import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components';
+import { Button, ErrorBox, Heading1, Label, PageTemplate, Select, SuccessBox } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {
@@ -43,49 +43,62 @@ export const AdminRegénérerPeriodeAttestations = ({
           method="post"
           style={{ maxWidth: 'auto', margin: '0 0 15px 0' }}
         >
-          <div className="periode-panel form__group">
-            <div style={{ marginLeft: 2 }}>Période concernée</div>
-            <select
+          <div className="form__group">
+            <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+            <Select
               name="appelOffreId"
-              {...dataId('appelOffreIdSelector')}
+              id="appelOffreId"
               defaultValue={appelOffreId}
+              {...dataId('appelOffreIdSelector')}
             >
-              <option value="">Choisir appel d‘offre</option>
+              <option selected disabled hidden>
+                Choisir un appel d‘offre
+              </option>
               {appelsOffreStatic
                 .filter((appelOffre) => appelOffre.id !== 'PPE2 - Bâtiment 2')
                 .map((appelOffre) => (
-                  <option key={'appel_' + appelOffre.id} value={appelOffre.id}>
+                  <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
                     {appelOffre.shortTitle}
                   </option>
                 ))}
-            </select>
-            {periodes && periodes.length ? (
-              <select
-                name="periodeId"
-                {...dataId('periodeIdSelector')}
-                defaultValue={periodeId || periodes[periodes.length - 1].id}
-              >
-                {periodes.map((periode) => (
-                  <option key={'appel_' + periode.id} value={periode.id}>
-                    {periode.title}
+            </Select>
+            {periodes && periodes.length > 0 && (
+              <>
+                <Label htmlFor="periodeId">Période concernée</Label>
+                <Select
+                  id="periodeId"
+                  name="periodeId"
+                  {...dataId('periodeIdSelector')}
+                  defaultValue={periodeId || periodes[periodes.length - 1].id}
+                  className="mb-4"
+                >
+                  <option selected disabled hidden>
+                    Choisir une période
                   </option>
-                ))}
-              </select>
-            ) : (
-              ''
+                  {periodes.map((periode) => (
+                    <option key={'appel_' + periode.id} value={periode.id}>
+                      {periode.title}
+                    </option>
+                  ))}
+                </Select>
+              </>
             )}
-            {appelOffreId && familles && familles.length ? (
-              <select name="familleId" defaultValue={familleId}>
-                <option value="">Toutes familles</option>
-                {familles && familles.length
-                  ? familles.map((famille) => (
-                      <option key={'appel_' + famille.id} value={famille.id}>
-                        {famille.title}
-                      </option>
-                    ))
-                  : null}
-              </select>
-            ) : null}
+            {appelOffreId && familles && familles.length > 0 && (
+              <>
+                <Label htmlFor="familleId">Famille concernée</Label>
+                <Select id="familleId" name="familleId" defaultValue={familleId}>
+                  <option selected disabled hidden>
+                    Choisir une famille
+                  </option>
+                  <option value="">Toutes familles</option>
+                  {familles.map((famille) => (
+                    <option key={`appel_${famille.id}`} value={famille.id}>
+                      {famille.title}
+                    </option>
+                  ))}
+                </Select>
+              </>
+            )}
           </div>
           <div className="form__group">
             <label htmlFor="notificationDate">

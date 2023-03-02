@@ -5,7 +5,7 @@ import { formatDate } from '../../../../helpers/formatDate';
 import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
-import { BuildingIcon, Button, InputCheckbox, Section } from '@components';
+import { BuildingIcon, Button, Input, InputCheckbox, Label, Section, Select } from '@components';
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage;
@@ -39,8 +39,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           value={new Date(project.updatedAt || 0).getTime()}
         />
         <div className="form__group">
-          <label>Période</label>
-          <select
+          <Label htmlFor="appelOffreAndPeriode">Période</Label>
+          <Select
+            id="appelOffreAndPeriode"
             name="appelOffreAndPeriode"
             defaultValue={
               query.appelOffreAndPeriode || `${project.appelOffreId}|${project.periodeId}`
@@ -59,136 +60,175 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 )),
               );
             }, [] as React.ReactNode[])}
-          </select>
+          </Select>
         </div>
         <div className="form__group">
-          <label>Famille</label>
-          <input
+          <Label htmlFor="familleId">Famille</Label>
+          <Input
             type="text"
+            id="familleId"
             name="familleId"
+            placeholder="Renseigner une famille"
             defaultValue={query.familleId || project.familleId || ''}
             disabled
           />
         </div>
         <div className="form__group">
-          <label>Territoire</label>
-          <input
+          <Label htmlFor="territoireProjet">Territoire</Label>
+          <Input
             type="text"
+            id="territoireProjet"
             name="territoireProjet"
+            placeholder="Renseigner un territoire"
             defaultValue={query.territoireProjet || project.territoireProjet || ''}
           />
         </div>
         <div className="form__group">
-          <label>Numéro CRE</label>
-          <input
+          <Label htmlFor="numeroCRE">Numéro CRE</Label>
+          <Input
             type="text"
+            id="numeroCRE"
             name="numeroCRE"
+            placeholder="Renseigner un numéro CRE"
             defaultValue={query.numeroCRE || project.numeroCRE}
             disabled
           />
         </div>
         <div className="form__group">
-          <label>Nom Projet</label>
-          <input type="text" name="nomProjet" defaultValue={query.nomProjet || project.nomProjet} />
+          <Label htmlFor="nomProjet">Nom Projet</Label>
+          <Input
+            type="text"
+            id="nomProjet"
+            name="nomProjet"
+            placeholder="Renseigner un nom de projet"
+            defaultValue={query.nomProjet || project.nomProjet}
+          />
         </div>
         <div className="form__group">
-          <label>Puissance (en {project.appelOffre?.unitePuissance})</label>
-          <input
+          <Label htmlFor="puissance">Puissance (en {project.appelOffre?.unitePuissance})</Label>
+          <Input
             type="text"
             inputMode="numeric"
             pattern="[0-9]+([\.,][0-9]+)?"
+            id="puissance"
             name="puissance"
+            placeholder="Renseigner une puissance"
             defaultValue={query.puissance || project.puissance}
           />
         </div>
         <div className="form__group">
-          <label>Prix de référence</label>
-          <input
+          <Label htmlFor="prixReference">Prix de référence</Label>
+          <Input
             type="text"
             inputMode="numeric"
             pattern="[0-9]+([\.,][0-9]+)?"
             name="prixReference"
+            id="prixReference"
+            placeholder="Renseigner un prix de référence"
             defaultValue={query.prixReference || project.prixReference}
           />
         </div>
         <div className="form__group">
-          <label>Evaluation carbone</label>
-          <input
+          <Label htmlFor="evaluationCarbone">Evaluation carbone</Label>
+          <Input
             type="text"
             inputMode="numeric"
             pattern="[0-9]+([\.,][0-9]+)?"
             name="evaluationCarbone"
+            id="evaluationCarbone"
+            placeholder="Renseigner une évaluation carbone"
             defaultValue={query.evaluationCarbone || project.evaluationCarbone}
           />
         </div>
         <div className="form__group">
-          <label>Note</label>
-          <input
+          <Label htmlFor="note">Note</Label>
+          <Input
             type="text"
             inputMode="numeric"
             pattern="[0-9]+([\.,][0-9]+)?"
             name="note"
+            id="note"
+            placeholder="Renseigner une note"
             defaultValue={query.note || project.note}
           />
         </div>
         <div className="form__group">
-          <label>Nom candidat</label>
-          <input
+          <Label htmlFor="nomCandidat">Nom candidat</Label>
+          <Input
             type="text"
+            id="nomCandidat"
             name="nomCandidat"
+            placeholder="Renseigner un nom candidat"
             defaultValue={query.nomCandidat || project.nomCandidat}
           />
         </div>
         <div className="form__group">
-          <label>Nom représentant légal</label>
-          <input
+          <Label htmlFor="nomRepresentantLegal">Nom représentant légal</Label>
+          <Input
             type="text"
             name="nomRepresentantLegal"
+            id="nomRepresentantLegal"
+            placeholder="Renseigner un nom de représentant légal"
             defaultValue={query.nomRepresentantLegal || project.nomRepresentantLegal}
           />
         </div>
         <div className="form__group">
-          <label>Email</label>
-          <input type="email" name="email" defaultValue={query.email || project.email} />
+          <Label htmlFor="email">Email</Label>
+          <Input
+            type="email"
+            id="email"
+            name="email"
+            defaultValue={query.email || project.email}
+            placeholder="Renseigner un email"
+          />
         </div>
         <div className="form__group">
-          <label>Adresse projet (rue et numéro)</label>
-          <input
+          <Label htmlFor="adresseProjet">Adresse projet (rue et numéro)</Label>
+          <Input
             type="text"
             name="adresseProjet"
+            id="adresseProjet"
+            placeholder="Renseigner une adresse"
             defaultValue={query.adresseProjet || project.adresseProjet}
           />
         </div>
         <div className="form__group">
-          <label>Code postal projet</label>
-          <input
+          <Label htmlFor="codePostalProjet">Code postal projet</Label>
+          <Input
             type="text"
+            id="codePostalProjet"
             name="codePostalProjet"
+            placeholder="Renseigner un code postal"
             defaultValue={query.codePostalProjet || project.codePostalProjet}
           />
         </div>
         <div className="form__group">
-          <label>Commune</label>
-          <input
+          <Label htmlFor="communeProjet">Commune</Label>
+          <Input
             type="text"
+            id="communeProjet"
             name="communeProjet"
+            placeholder="Renseigner une commune"
             defaultValue={query.communeProjet || project.communeProjet}
           />
         </div>
-        <div className="form__group">
-          <label>Engagement de fourniture de puissance à la pointe</label>
+        <div className="form__group flex">
           <InputCheckbox
-            type="checkbox"
+            id="engagementFournitureDePuissanceAlaPointe"
             name="engagementFournitureDePuissanceAlaPointe"
             defaultChecked={
               query.engagementFournitureDePuissanceAlaPointe ||
               project.engagementFournitureDePuissanceAlaPointe
             }
           />
+          <Label htmlFor="engagementFournitureDePuissanceAlaPointe">
+            Engagement de fourniture de puissance à la pointe
+          </Label>
         </div>
         <div className="form__group">
-          <label>Financement/Investissement participatif</label>
-          <select
+          <Label htmlFor="participatif">Financement/Investissement participatif</Label>
+          <Select
+            id="participatif"
             name="participatif"
             defaultValue={
               query.participatif ||
@@ -202,21 +242,22 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             <option value={''}>Non</option>
             <option value={'financement'}>Financement participatif</option>
             <option value={'investissement'}>Investissement participatif</option>
-          </select>
+          </Select>
         </div>
         {!project.isClasse ? (
           <>
             <div className="form__group">
-              <label>Classement</label>
-              <select name="isClasse" defaultValue={0}>
+              <Label htmlFor="isClasse">Classement</Label>
+              <Select id="isClasse" name="isClasse" defaultValue={0}>
                 <option value={1}>Classé</option>
                 <option value={0}>Eliminé</option>
-              </select>
+              </Select>
             </div>
             <div className="form__group">
-              <label>Motif Elimination (si éliminé)</label>
-              <input
+              <Label htmlFor="motifsElimination">Motif Elimination (si éliminé)</Label>
+              <Input
                 type="text"
+                id="motifsElimination"
                 name="motifsElimination"
                 defaultValue={query.motifsElimination || project.motifsElimination}
               />
@@ -224,15 +265,16 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           </>
         ) : (
           <div className="form__group">
-            <label>Classement</label>
-            <b>Classé</b>
+            <span>
+              Classement <br /> <b>Classé</b>
+            </span>
           </div>
         )}
 
         {!project.isLegacy && (
           <div className="form__group">
-            <label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</label>
-            <input
+            <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
+            <Input
               type="text"
               name="notificationDate"
               id="notificationDate"
@@ -241,6 +283,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 query.notificationDate ||
                 (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
               }
+              placeholder="Renseigner une date de désignation"
               style={{ width: 'auto' }}
             />
             <div
@@ -266,9 +309,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 defaultChecked
                 onChange={handleCertificateTypeChange}
               />
-              <label htmlFor="regenerate">
+              <Label htmlFor="regenerate">
                 Regénérer l'attestation (si les données du projet ont changé)
-              </label>
+              </Label>
             </div>
             <div className="inline-radio-option">
               <input
@@ -278,7 +321,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 value="donotregenerate"
                 onChange={handleCertificateTypeChange}
               />
-              <label htmlFor="donotregenerate">Ne pas regénérer l'attestation</label>
+              <Label htmlFor="donotregenerate">Ne pas regénérer l'attestation</Label>
             </div>
             <div className="inline-radio-option">
               <input
@@ -288,16 +331,19 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
                 value="custom"
                 onChange={handleCertificateTypeChange}
               />
-              <label htmlFor="custom">Uploader une attestation</label>
+              <Label htmlFor="custom">Uploader une attestation</Label>
             </div>
             <input type="file" name="file" id="file" disabled={uploadIsDisabled} />
           </div>
         )}
         <div className="form__group">
-          <label htmlFor="forceCertificateGeneration">
-            Message justificatif du changement (facultatif)
-          </label>
-          <textarea name="reason" defaultValue={query.reason} />
+          <Label htmlFor="reason">Message justificatif du changement (facultatif)</Label>
+          <textarea
+            name="reason"
+            id="reason"
+            defaultValue={query.reason}
+            placeholder="Renseigner un message justifcatif du changement"
+          />
         </div>
         <Button className="mt-2" type="submit" name="submit" {...dataId('submit-button')}>
           Modifier
