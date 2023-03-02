@@ -1,4 +1,4 @@
-import models from '../../../models';
+import { Project , UserProjects } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 import { resetDatabase } from '@dataAccess';
@@ -25,7 +25,6 @@ import {
   noteInnovation,
 } from './colonnesParCatégorie';
 import { User } from '@entities';
-import { UserProjects } from '@infra/sequelize/projectionsNext';
 
 describe(`Export des projets en tant que porteur de projet`, () => {
   beforeEach(resetDatabase);
@@ -61,7 +60,7 @@ describe(`Export des projets en tant que porteur de projet`, () => {
     const idProjet1AutrePorteur = uuid();
     const idProjet2AutrePorteur = uuid();
 
-    await models.Project.bulkCreate([
+    await Project.bulkCreate([
       makeFakeProject({
         id: idProjet1DuPorteur,
         notifiedOn: new Date('2021-07-31').getTime(),

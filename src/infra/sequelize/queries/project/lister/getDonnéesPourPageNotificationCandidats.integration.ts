@@ -1,9 +1,7 @@
 import { resetDatabase } from '@infra/sequelize/helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getDonnéesPourPageNotificationCandidats } from './getDonnéesPourPageNotificationCandidats';
-
-const ProjectModel = models.Project;
 
 describe(`listerProjetsÀNotifier`, () => {
   const pagination = {
@@ -55,7 +53,7 @@ describe(`listerProjetsÀNotifier`, () => {
     });
 
     beforeEach(async () => {
-      await ProjectModel.bulkCreate([
+      await Project.bulkCreate([
         projetÀNotifierAOEolienPériode1,
         projetNotifiéAOEolienPeriode1,
         projetÀNotifierAOEolienPériode2,
@@ -133,7 +131,7 @@ describe(`listerProjetsÀNotifier`, () => {
   describe(`Etant donné une base ne contenant pas de projet à notifier`, () => {
     it(`Lorsqu'un utilisateur affiche la page des projets à notifier,
       alors le retour devrait être null`, async () => {
-      await ProjectModel.create(makeFakeProject({ notifiedOn: new Date('2021-01-02').getTime() }));
+      await Project.create(makeFakeProject({ notifiedOn: new Date('2021-01-02').getTime() }));
       const résultat = await getDonnéesPourPageNotificationCandidats({ pagination });
       expect(résultat).toEqual(null);
     });

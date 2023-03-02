@@ -1,12 +1,10 @@
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { v4 as uuid } from 'uuid';
 import { User } from '@entities';
 import { UserRole } from '@modules/users';
-
-const { Project } = models;
 
 describe(`Récupérer les données relatives aux notes pour les AO innovation`, () => {
   const rôlesAvecAccèsAuxNotesInnovation: Array<UserRole> = [

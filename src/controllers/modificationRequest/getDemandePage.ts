@@ -5,7 +5,7 @@ import routes from '@routes';
 import { errorResponse, notFoundResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-import { Project } from '@infra/sequelize/projections';
+import { Project } from '../../infra/sequelize/projectionsNext';
 
 const ACTIONS = ['actionnaire', 'puissance', 'recours'];
 
@@ -23,6 +23,7 @@ v1Router.get(
       return errorResponse({ request, response, customMessage: 'Le type de demande est erronné.' });
     }
 
+    // TODO: lecture faite directement sur la table Project sans passé par une query...
     const project = await Project.findByPk(projectId);
 
     if (!project) {

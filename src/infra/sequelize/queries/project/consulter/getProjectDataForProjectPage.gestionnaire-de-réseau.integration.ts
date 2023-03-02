@@ -1,12 +1,12 @@
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { v4 as uuid } from 'uuid';
 import { Project, User } from '@entities';
 import { Raccordements, GestionnaireRéseauDétail } from '@infra/sequelize';
-
-const { Project } = models;
+import { User } from '@entities';
+import { Raccordements } from '@infra/sequelize';
 
 describe(`Récupérer les données de consultation d'un projet`, () => {
   let projetId: string;

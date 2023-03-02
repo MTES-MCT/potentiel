@@ -5,7 +5,7 @@ import { makePaginatedList, paginate } from '../../../../../../helpers/paginate'
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
-import { UserDreal } from '@infra/sequelize/projectionsNext';
+import { UserDreal, Project } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
 
 const attributes = [
@@ -45,7 +45,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
     return makePaginatedList([], 0, pagination);
   }
 
-  const résultat = await models.Project.findAndCountAll({
+  const résultat = await Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },

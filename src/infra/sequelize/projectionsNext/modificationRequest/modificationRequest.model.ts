@@ -9,7 +9,7 @@ import {
   NOW,
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
-import { Project } from '../../projections/project';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 class ModificationRequest extends Model<
   InferAttributes<ModificationRequest>,

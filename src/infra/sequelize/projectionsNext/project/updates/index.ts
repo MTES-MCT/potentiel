@@ -61,7 +61,6 @@ import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRappr
 import { onIdentifiantPotentielPPE2Batiment2Corrigé } from './onIdentifiantPotentielPPE2Batiment2Corrigé';
 import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées';
 
-import { Projections } from '@infra/sequelize/models';
 import { onLegacyAbandonSupprimé } from './onLegacyAbandonSupprimé';
 import { onAbandonProjetAnnulé } from './onAbandonProjetAnnulé';
 

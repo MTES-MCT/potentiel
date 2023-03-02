@@ -4,6 +4,13 @@ import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@module
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
 import models from '../../../models';
 import {
+  Project,
+  ModificationRequest,
+  User as UserModel,
+  Raccordements,
+  UserProjects,
+} from '@infra/sequelize/projectionsNext';
+import {
   CahierDesCharges,
   parseCahierDesChargesRéférence,
   ProjectAppelOffre,
@@ -12,7 +19,7 @@ import {
 import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
-import { Project } from '../../../projections/project/project.model';
+//import { Project } from '../../../projections/project/project.model';
 
 const {
   Project: ProjectTable,
@@ -23,10 +30,11 @@ const {
   UserProjects,
   GestionnaireRéseauDétail,
 } = models;
+const { File } = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
-    ProjectTable.findByPk(projectId, {
+    Project.findByPk(projectId, {
       include: [
         {
           model: File,
@@ -52,7 +60,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           required: false,
           include: [
             {
-              model: User,
+              model: UserModel,
               as: 'user',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },

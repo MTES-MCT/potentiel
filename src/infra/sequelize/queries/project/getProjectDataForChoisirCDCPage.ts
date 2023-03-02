@@ -1,12 +1,10 @@
 import { err, ok, wrapInfra } from '@core/utils';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { GetProjectDataForChoisirCDCPage, ProjectDataForChoisirCDCPage } from '@modules/project';
 import { CahierDesChargesRéférence } from '@entities';
 import { Raccordements } from '../../projectionsNext/raccordements/raccordements.model';
-
-const { Project } = models;
 
 export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) => {
   return wrapInfra(

@@ -1,5 +1,5 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import models from '../../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { ListerProjetsNonNotifiés } from '@modules/notificationCandidats/queries';
@@ -34,7 +34,7 @@ export const listerProjetsNonNotifiés: ListerProjetsNonNotifiés = async ({
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres);
 
-  const résultat = await models.Project.findAndCountAll({
+  const résultat = await Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       notifiedOn: 0,

@@ -18,7 +18,7 @@ import { subscribeToRedis } from './eventBus.config';
 import { eventStore } from './eventStore.config';
 
 // This is legacy
-initProjections(eventStore);
+initProjections();
 
 // This is initProjections replacement
 const projectors = initProjectors(eventStore);

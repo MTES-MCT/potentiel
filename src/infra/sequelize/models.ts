@@ -145,6 +145,5 @@ Object.values(models).forEach((model) => {
 });
 
 const projections = { ...models, ...projectionsNextModels };
-export type Projections = typeof projections;
 
 export default projections;

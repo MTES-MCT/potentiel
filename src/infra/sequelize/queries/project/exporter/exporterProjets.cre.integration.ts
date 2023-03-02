@@ -1,4 +1,4 @@
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 import { resetDatabase } from '@dataAccess';
@@ -60,7 +60,7 @@ describe(`Export des projets en tant qu'utilisateur "CRE"`, () => {
   it(`Étant donné des projets notifiés et non notifiés
         Lorsqu'un utilisateur CRE exporte tous les projets
         Alors tous les projets devrait être récupérés avec la liste des intitulés des colonnes exportées`, async () => {
-    await models.Project.bulkCreate([
+    await Project.bulkCreate([
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Eolien',

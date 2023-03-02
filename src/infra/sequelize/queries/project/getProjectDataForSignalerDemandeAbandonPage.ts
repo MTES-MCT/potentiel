@@ -5,9 +5,7 @@ import {
   ProjectDataForSignalerDemandeAbandonPage,
 } from '@modules/project';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const getProjectDataForSignalerDemandeAbandonPage: GetProjectDataForSignalerDemandeAbandonPage =
   ({ projectId }) => {

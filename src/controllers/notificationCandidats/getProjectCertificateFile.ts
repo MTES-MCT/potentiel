@@ -12,7 +12,7 @@ import {
 } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
-import models from '@infra/sequelize/models';
+import { Project } from '../../infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DOWNLOAD_CERTIFICATE_FILE(),
@@ -31,7 +31,8 @@ v1Router.get(
     }).match(
       async (fileStream) => {
         if (user.role === 'porteur-projet') {
-          const projet = await models.Project.findOne({
+          // TODO: lecture faite directement sur la table Project sans passé par une query...
+          const projet = await Project.findOne({
             where: { id: projectId },
             attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
           });
