@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { add, format } from 'date-fns';
 import { parseProjectLine } from './parseProjectLine';
 
 const fakeLine = {
@@ -273,7 +273,12 @@ describe('parseProjectLine', () => {
     expect(() =>
       parseProjectLine({
         ...fakeLine,
-        Notification: moment().add(1, 'day').format('DD/MM/YYYY'),
+        Notification: format(
+          add(new Date(), {
+            days: 1,
+          }),
+          'dd/MM/yyyy',
+        ),
       }),
     ).toThrowError(
       "Le champ 'Notification' est erronné (devrait une date antérieure à aujourd'hui)",

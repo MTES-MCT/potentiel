@@ -1,6 +1,5 @@
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
-import { format } from 'date-fns';
-import moment from 'moment';
+import { add, format } from 'date-fns';
 import React from 'react';
 import { formatDate } from '../../../../helpers/formatDate';
 import ROUTES from '@routes';
@@ -79,7 +78,9 @@ const DelaiDetails = ({ modificationRequest }: DelaiDetailsProps) => {
 
   const dateDemandée = dateAchèvementDemandée
     ? new Date(dateAchèvementDemandée)
-    : moment(completionDueOn).add(delayInMonths, 'month').toDate();
+    : add(completionDueOn, {
+        months: delayInMonths,
+      });
 
   return status === 'envoyée' || status === 'en instruction' ? (
     <div className="mt-2">

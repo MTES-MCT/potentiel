@@ -1,9 +1,9 @@
 import { NotificationService } from '..';
-import moment from 'moment';
 import { ProjectRepo, UserRepo } from '@dataAccess';
 import routes from '@routes';
 import { ProjectGFSubmitted } from '../../project/events';
 import { logger } from '@core/utils';
+import { format } from 'date-fns';
 
 export const handleProjectGFSubmitted =
   (deps: {
@@ -13,7 +13,10 @@ export const handleProjectGFSubmitted =
     findProjectById: ProjectRepo['findById'];
   }) =>
   async (event: ProjectGFSubmitted) => {
-    const { projectId, submittedBy } = event.payload;
+    const {
+      payload: { projectId, submittedBy },
+      occurredAt,
+    } = event;
 
     const project = await deps.findProjectById(projectId);
 
@@ -39,7 +42,7 @@ export const handleProjectGFSubmitted =
           variables: {
             nomProjet: project.nomProjet,
             dreal: project.regionProjet,
-            date_depot: moment(event.occurredAt).format('DD/MM/YYYY'),
+            date_depot: format(occurredAt, 'dd/MM/yyyy'),
           },
         });
       },

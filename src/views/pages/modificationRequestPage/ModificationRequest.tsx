@@ -12,7 +12,6 @@ import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { userIs } from '@modules/users';
 import ROUTES from '@routes';
 import { Request } from 'express';
-import moment from 'moment';
 import React from 'react';
 import { hydrateOnClient } from '../../helpers';
 import {
@@ -27,8 +26,6 @@ import {
   PuissanceForm,
   RecoursForm,
 } from './components';
-
-moment.locale('fr');
 
 type ModificationRequestProps = {
   request: Request;

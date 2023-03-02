@@ -1,7 +1,6 @@
 import { LegacyModificationDTO, LegacyModificationStatus } from '../../modificationRequest';
-import moment from 'moment-timezone';
 import { UniqueEntityID } from '@core/domain';
-moment.tz.setDefault('Europe/Paris');
+import { isAfter, isBefore, isValid, parse } from 'date-fns';
 
 export const parseProjectModifications = (line: Record<string, string>) => {
   const modificationsByDate: Record<string, LegacyModificationDTO> = {};
@@ -77,11 +76,12 @@ function extractDelaiType(args: {
   if (status === 'acceptée' && !colonneConcernee) {
     throw new Error(`Colonne concernée ${index} manquante`);
   }
-  const nouvelleDateLimiteAchevement = moment(colonneConcernee, 'DD/MM/YYYY').toDate().getTime();
+  const nouvelleDateLimiteAchevement = parse(colonneConcernee, 'dd/MM/yyyy', new Date()).getTime();
+
   if (isNaN(nouvelleDateLimiteAchevement)) {
     throw new Error(`Colonne concernée ${index} contient une date invalide`);
   }
-  const ancienneDateLimiteAchevement = moment(ancienneValeur, 'DD/MM/YYYY').toDate().getTime();
+  const ancienneDateLimiteAchevement = parse(ancienneValeur, 'dd/MM/yyyy', new Date()).getTime();
 
   if (isNaN(ancienneDateLimiteAchevement)) {
     throw new Error(`Ancienne valeur ${index} contient une date invalide`);
@@ -174,21 +174,20 @@ function extractModificationType(
     [`Statut demande ${index}`]: statut,
     [`Nom courrier ${index}`]: nomCourrier,
   } = line;
-  const modifiedOnDate = moment(dateModification, 'DD/MM/YYYY');
-
-  if (!modifiedOnDate.isValid()) {
+  const modifiedOnDate = parse(dateModification, 'dd/MM/yyyy', new Date());
+  if (!isValid(modifiedOnDate)) {
     throw new Error(`Date de modification ${index} n'est pas une date valide`);
   }
 
-  if (modifiedOnDate.isAfter(moment())) {
+  if (isAfter(modifiedOnDate, new Date())) {
     throw new Error(`Date de modification ${index} est une date dans le futur.`);
   }
 
-  if (modifiedOnDate.isBefore(moment('01/01/2010', 'DD/MM/YYYY'))) {
+  if (isBefore(modifiedOnDate, new Date(2010, 0, 1))) {
     throw new Error(`Date de modification ${index} est une date trop loin dans le passé.`);
   }
 
-  const modifiedOn = modifiedOnDate.toDate().getTime();
+  const modifiedOn = modifiedOnDate.getTime();
 
   if (['Acceptée', 'Refusée', 'Accord de principe'].indexOf(statut) === -1) {
     throw new Error(

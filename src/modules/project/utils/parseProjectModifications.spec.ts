@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { add, format } from 'date-fns';
 import { parseProjectModifications } from './parseProjectModifications';
 
 describe('parseProjectModifications', () => {
@@ -383,7 +383,12 @@ describe('parseProjectModifications', () => {
       try {
         parseProjectModifications({
           'Type de modification 1': 'This does not exist',
-          'Date de modification 1': moment().add(1, 'day').format('DD/MM/YYYY'),
+          'Date de modification 1': format(
+            add(new Date(), {
+              days: 1,
+            }),
+            'dd/MM/yyyy',
+          ),
           'Colonne concernée 1': '',
           'Ancienne valeur 1': '',
           'Nom courrier 1': 'filename',

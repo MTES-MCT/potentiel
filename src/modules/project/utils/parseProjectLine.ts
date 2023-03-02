@@ -1,7 +1,6 @@
+import { format, isValid, parse } from 'date-fns';
 import * as yup from 'yup';
-import moment from 'moment-timezone';
 import getDepartementRegionFromCodePostal from '../../../helpers/getDepartementRegionFromCodePostal';
-moment.tz.setDefault('Europe/Paris');
 
 const appelOffreId = (line: any) => line["Appel d'offres"];
 
@@ -100,8 +99,8 @@ const columnMapper = {
     const notifiedDate = line['Notification'];
     if (notifiedDate === '') return 0;
 
-    const parsed = moment(notifiedDate, DATE_FORMAT);
-    if (parsed.isValid()) return parsed.toDate().getTime();
+    const parsed = parse(format(notifiedDate, 'dd/MM/yyyy'), 'dd/MM/yyyy', new Date());
+    if (isValid(parsed)) return parsed.getTime();
 
     return null;
   },
@@ -251,8 +250,7 @@ const projectSchema = yup.object().shape({
     .test({
       name: 'is-notification-date-too-old',
       message: "Le champ 'Notification' est erronné (la date parait trop ancienne)",
-      test: (value) =>
-        value === 0 || (!!value && value > moment('01/01/2000', 'DD/MM/YYYY').toDate().getTime()),
+      test: (value) => value === 0 || (!!value && value > new Date('01/01/2000').getTime()),
     })
     .required(),
   engagementFournitureDePuissanceAlaPointe: yup
