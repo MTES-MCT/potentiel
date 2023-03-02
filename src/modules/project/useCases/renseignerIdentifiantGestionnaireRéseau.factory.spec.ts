@@ -37,7 +37,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
@@ -63,7 +63,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
@@ -97,7 +97,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo: fakeRepo(projet),
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
@@ -124,7 +124,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
@@ -159,7 +159,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
@@ -210,7 +210,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
 
       const renseignerIdentifiantGestionnaireRéseau =
         renseignerIdentifiantGestionnaireRéseauFactory({
-          publishToEventStore,
+          publish: publishToEventStore,
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),

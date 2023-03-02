@@ -13,6 +13,6 @@ export * from './GetProjectIdsForPeriode';
 export * from './GetProjectsByContactEmail';
 export * from './GetUnnotifiedProjectsForPeriode';
 export * from './HasDemandeDeMêmeTypeOuverte';
-export * from './ModifierGestionnaireRéseau';
+export * from './RécupérerRésuméProjetEtListeGestionnaires';
 export * from './RésuméProjet';
 export * from './TrouverProjetsParIdentifiantGestionnaireRéseau';

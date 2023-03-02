@@ -1,4 +1,4 @@
-import { EventStore, Repository, UniqueEntityID } from '@core/domain';
+import { Repository, UniqueEntityID } from '@core/domain';
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
 import { User } from '@entities';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
@@ -11,6 +11,7 @@ import {
 } from '../errors';
 import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
 import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
+import { Publish } from '../../../core/domain/publish';
 
 type Command = {
   projetId: string;
@@ -19,9 +20,9 @@ type Command = {
   codeEICGestionnaireRéseau?: string;
 };
 
-type Dependancies = {
+type Dependencies = {
   shouldUserAccessProject: (args: { user: User; projectId: string }) => Promise<boolean>;
-  publishToEventStore: EventStore['publish'];
+  publish: Publish;
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
   gestionnaireRéseauRepo: Repository<GestionnaireRéseau>;
@@ -40,11 +41,11 @@ type CommandHandler = (
 
 export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   shouldUserAccessProject,
-  publishToEventStore,
+  publish,
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
   gestionnaireRéseauRepo,
-}: Dependancies): CommandHandler => {
+}: Dependencies): CommandHandler => {
   const vérifierCodeEIC = (command: Command) => {
     if (command.codeEICGestionnaireRéseau) {
       return gestionnaireRéseauRepo
@@ -102,7 +103,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
     projet: Project;
   }) =>
     projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
-      ? publishToEventStore(
+      ? publish(
           new NumeroGestionnaireSubmitted({
             payload: {
               projectId: projetId,
@@ -113,7 +114,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
           }),
         )
       : codeEICGestionnaireRéseau
-      ? publishToEventStore(
+      ? publish(
           new GestionnaireRéseauRenseigné({
             payload: {
               projectId: projetId,

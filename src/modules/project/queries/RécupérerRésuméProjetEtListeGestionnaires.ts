@@ -9,11 +9,14 @@ export const PermissionModifierIdentifiantGestionnaireReseau: Permission = {
   description: "Modifier l'identifiant du gestionnaire de réseau",
 };
 
-export type ModifierGestionnaireRéseauReadModel = {
+export type RécupérerRésuméProjetEtListeGestionnairesReadModel = {
   projet: RésuméProjetReadModel;
   listeDétailGestionnaires?: ListeDétailGestionnairesRéseauReadModel;
 };
 
-export type ModifierGestionnaireRéseauQueryHandler = (
+export type RécupérerRésuméProjetEtListeGestionnairesQueryHandler = (
   projetId: string,
-) => ResultAsync<ModifierGestionnaireRéseauReadModel, EntityNotFoundError | InfraNotAvailableError>;
+) => ResultAsync<
+  RécupérerRésuméProjetEtListeGestionnairesReadModel,
+  EntityNotFoundError | InfraNotAvailableError
+>;

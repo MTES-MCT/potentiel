@@ -298,7 +298,7 @@ export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
 
 export const renseignerIdentifiantGestionnaireRéseau =
   renseignerIdentifiantGestionnaireRéseauFactory({
-    publishToEventStore,
+    publish: publishToEventStore,
     shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
     projectRepo,
     trouverProjetsParIdentifiantGestionnaireRéseau,

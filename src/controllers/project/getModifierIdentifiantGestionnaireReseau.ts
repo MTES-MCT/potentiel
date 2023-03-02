@@ -6,8 +6,8 @@ import { ModifierIdentifiantGestionnaireReseauPage } from '@views';
 import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { EntityNotFoundError } from '@modules/shared';
-import { PermissionModifierIdentifiantGestionnaireReseau } from '@modules/project/queries/ModifierGestionnaireRéseau';
-import { modifierGestionnaireRéseauQueryHandler } from '@infra/sequelize/queries/project/modifierGestionnaireRéseauQueryHandler';
+import { PermissionModifierIdentifiantGestionnaireReseau } from '@modules/project';
+import { récupérerRésuméProjetEtListeGestionnairesQueryHandler } from '@config';
 
 const schema = object({
   params: object({
@@ -27,7 +27,7 @@ v1Router.get(
     },
     async (request, response) => {
       const { projetId } = request.params;
-      return modifierGestionnaireRéseauQueryHandler(projetId).match(
+      return récupérerRésuméProjetEtListeGestionnairesQueryHandler(projetId).match(
         (readModel) =>
           response.send(
             ModifierIdentifiantGestionnaireReseauPage({
