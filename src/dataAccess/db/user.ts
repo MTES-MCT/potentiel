@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { UserRepo } from '..';
 import { logger } from '@core/utils';
-import { makeUser, Project, User } from '@entities';
+import { Project, User } from '@entities';
 import { mapExceptError } from '../../helpers/results';
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
 import CONFIG from '../config';
@@ -124,22 +124,10 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
   }
 
   async function findById(id: User['id']): OptionAsync<User> {
-    await _isDbReady;
+    const userInDb = await UserModel.findByPk(id, { raw: true });
 
-    try {
-      const userInDb = await UserModel.findByPk(id, { raw: true });
-
-      if (!userInDb) return None;
-
-      const userInstance = makeUser(deserialize(userInDb));
-
-      if (userInstance.isErr()) throw userInstance.unwrapErr();
-
-      return Some(userInstance.unwrap());
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return None;
-    }
+    if (!userInDb) return None;
+    return Some(userInDb);
   }
 
   async function findAll(query?: Record<string, any>): Promise<Array<User>> {
