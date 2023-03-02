@@ -1,6 +1,4 @@
 import { sequelizeInstance } from '../../sequelize.config';
-
-import { MakeProjectModel } from './projections/project/project.model';
 import { MakeFileModel } from './projections/file/file.model';
 import { MakeNotificationModel } from './projections/notification/notification.model';
 import { MakeEventStoreModel } from './eventStore/eventStore.model';
@@ -13,6 +11,7 @@ import { User } from './projectionsNext/users';
 import { UserProjects } from './projectionsNext/userProjects';
 import { ModificationRequest } from './projectionsNext';
 import { GestionnaireRéseauDétail } from './projectionsNext/gestionnairesRéseau';
+import { Project } from './projectionsNext/project';
 
 //
 // Legacy projections
@@ -21,7 +20,6 @@ import { GestionnaireRéseauDétail } from './projectionsNext/gestionnairesRése
 const models = {
   File: MakeFileModel(sequelizeInstance),
   Notification: MakeNotificationModel(sequelizeInstance),
-  Project: MakeProjectModel(sequelizeInstance),
   EventStore: MakeEventStoreModel(sequelizeInstance),
 };
 
@@ -73,7 +71,7 @@ ModificationRequest.belongsTo(models.File, {
   constraints: false,
 });
 
-ModificationRequest.belongsTo(models.Project, {
+ModificationRequest.belongsTo(Project, {
   foreignKey: 'projectId',
   as: 'project',
   constraints: false,
@@ -100,32 +98,32 @@ ModificationRequest.belongsTo(User, {
   constraints: false,
 });
 
-models.Project.belongsTo(models.File, {
+Project.belongsTo(models.File, {
   foreignKey: 'dcrFileId',
   as: 'dcrFileRef',
 });
 
-models.Project.belongsTo(models.File, {
+Project.belongsTo(models.File, {
   foreignKey: 'certificateFileId',
   as: 'certificateFile',
 });
 
-models.Project.hasMany(UserProjects, {
+Project.hasMany(UserProjects, {
   as: 'users',
   foreignKey: 'projectId',
 });
 
-models.Project.hasOne(GarantiesFinancières, {
+Project.hasOne(GarantiesFinancières, {
   as: 'garantiesFinancières',
   foreignKey: 'projetId',
 });
 
-models.Project.hasOne(Raccordements, {
+Project.hasOne(Raccordements, {
   as: 'raccordements',
   foreignKey: 'projetId',
 });
 
-User.hasMany(models.Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
+User.hasMany(Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
 
 // Link projectors with the eventBus (called by the application config)
 export const initProjectors = (eventBus: EventBus) => {

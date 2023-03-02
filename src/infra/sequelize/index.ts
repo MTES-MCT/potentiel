@@ -1,7 +1,3 @@
-import models from './models';
-import { initProjectProjections } from './projections';
-import { EventStore } from '@core/domain';
-
 export { initProjectors } from './models';
 export {
   persistEventsToStore,
@@ -9,8 +5,8 @@ export {
   rollbackEventsFromStore,
 } from './eventStore';
 
-export const initProjections = (eventStore: EventStore) => {
-  initProjectProjections(eventStore, models);
+export const initProjections = () => {
+  // TODO: Finally empty \o/ ... we can remove the memory projector system now ;)
 };
 
 export { HasSubscribe } from './helpers/Projection';
