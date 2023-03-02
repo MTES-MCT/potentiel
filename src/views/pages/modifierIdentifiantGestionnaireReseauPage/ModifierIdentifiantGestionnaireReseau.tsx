@@ -78,7 +78,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           </div>
 
           <input type="hidden" name="projetId" value={projet.id} />
-          {listeGestionnairesRéseau && (
+          {listeGestionnairesRéseau && listeGestionnairesRéseau.length > 0 && (
             <div>
               <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
               <Select
