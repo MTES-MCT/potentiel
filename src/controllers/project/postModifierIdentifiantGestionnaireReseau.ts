@@ -51,8 +51,7 @@ v1Router.post(
         () =>
           response.redirect(
             addQueryParams(routes.PROJECT_DETAILS(request.body.projetId), {
-              success:
-                "Le changement d'identifiant de gestionnaire de réseau a bien été pris en compte",
+              success: 'Les données du gestionnaire de réseau ont bien été mises à jour.',
             }),
           ),
         (error) => {
