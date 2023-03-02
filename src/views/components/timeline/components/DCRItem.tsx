@@ -30,11 +30,10 @@ type SubmittedProps = {
   role: string;
   date: number;
   url: string | undefined;
-  numeroDossier: string;
   projectId: string;
 };
 
-const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps) => {
+const Submitted = ({ role, date, url, projectId }: SubmittedProps) => {
   return (
     <>
       <PastIcon />
@@ -47,7 +46,6 @@ const Submitted = ({ role, date, url, numeroDossier, projectId }: SubmittedProps
           ) : (
             <span>Pièce-jointe introuvable</span>
           )}
-          {numeroDossier && <span>&nbsp;(dossier {numeroDossier})</span>}
         </div>
         {role === 'porteur-projet' && <CancelDeposit {...{ projectId }} />}
       </ContentArea>

@@ -110,7 +110,6 @@ describe('extractDCRitemProps', () => {
             type: 'ProjectDCRSubmitted',
             variant: 'porteur-projet',
             date: submittedDate,
-            numeroDossier: 'DOSSIER-1',
             file: { id: 'file-id', name: 'file-name' },
           } as ProjectDCRSubmittedDTO,
         ];
@@ -121,7 +120,6 @@ describe('extractDCRitemProps', () => {
           status: 'submitted',
           url: expect.anything(),
           role: 'porteur-projet',
-          numeroDossier: 'DOSSIER-1',
         });
       });
     });
