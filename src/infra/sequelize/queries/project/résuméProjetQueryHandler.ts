@@ -2,7 +2,7 @@ import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
 import models from '../../models';
 import { RésuméProjetQueryHandler, RésuméProjetReadModel } from '@modules/project';
-import { Raccordements } from '@infra/sequelize/projectionsNext';
+import { Raccordements, GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
 const { Project } = models;
@@ -27,7 +27,13 @@ export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId
         {
           model: Raccordements,
           as: 'raccordements',
-          attributes: ['identifiantGestionnaire'],
+          include: [
+            {
+              model: GestionnaireRéseauDétail,
+              as: 'gestionnaireRéseauDétail',
+              attributes: ['codeEIC', 'raisonSociale'],
+            },
+          ],
         },
       ],
     }),
@@ -62,8 +68,13 @@ export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId
         unitePuissance: appelOffre.unitePuissance,
         ...(projet.raccordements?.identifiantGestionnaire && {
           identifiantGestionnaire: projet.raccordements.identifiantGestionnaire,
+          ...(projet.raccordements.gestionnaireRéseauDétail && {
+            gestionnaireRéseau: {
+              codeEIC: projet.raccordements.gestionnaireRéseauDétail.codeEIC,
+              raisonSociale: projet.raccordements.gestionnaireRéseauDétail.raisonSociale,
+            },
+          }),
         }),
       };
-
       return ok(projetProps);
     });

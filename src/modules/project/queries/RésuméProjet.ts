@@ -13,6 +13,7 @@ export type RésuméProjetReadModel = {
   notifiedOn: number;
   appelOffreId: string;
   identifiantGestionnaire?: string;
+  gestionnaireRéseau?: { codeEIC: string; raisonSociale: string };
   puissance: number;
   unitePuissance: string;
 };

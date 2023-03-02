@@ -1,6 +1,13 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  NonAttribute,
+} from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { makeSequelizeProjector } from '../../helpers';
+import { GestionnaireRéseauDétail } from '../gestionnairesRéseau';
 
 class Raccordements extends Model<
   InferAttributes<Raccordements>,
@@ -13,6 +20,7 @@ class Raccordements extends Model<
   ptfEnvoyéePar: string | null;
   identifiantGestionnaire: string | null;
   codeEICGestionnaireRéseau?: string | null;
+  gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseauDétail>;
 }
 
 const nomProjection = 'raccordements';

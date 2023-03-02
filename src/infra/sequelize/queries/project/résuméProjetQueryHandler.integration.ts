@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import { Raccordements } from '@infra/sequelize';
+import { GestionnaireRéseauDétail, Raccordements } from '@infra/sequelize';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import models from '../../models';
@@ -52,5 +52,37 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
     };
 
     expect(résultat._unsafeUnwrap()).toEqual(expected);
+  });
+
+  it(`Etant donné un projet ayant son gestionnaire de réseau renseigné,
+      lorsqu'on récupère les données pour le résumé du projet,
+      alors les informations du gestionnaire devraient être retournées`, async () => {
+    // Arrange
+    await Project.create(fakeProjet);
+    const identifiantGestionnaire = 'identifiant';
+
+    await Raccordements.create({
+      projetId: fakeProjet.id,
+      id: uuid.v4(),
+      identifiantGestionnaire,
+      codeEICGestionnaireRéseau: 'le-code-EIC',
+    });
+
+    await GestionnaireRéseauDétail.create({
+      codeEIC: 'le-code-EIC',
+      raisonSociale: 'la-raison-sociale',
+    });
+
+    // Act
+    const résultat = await résuméProjetQueryHandler(projetId);
+    expect(résultat.isOk()).toBe(true);
+
+    // Assert
+    const expected: RésuméProjetReadModel['gestionnaireRéseau'] = {
+      codeEIC: 'le-code-EIC',
+      raisonSociale: 'la-raison-sociale',
+    };
+
+    expect(résultat._unsafeUnwrap().gestionnaireRéseau).toEqual(expected);
   });
 });

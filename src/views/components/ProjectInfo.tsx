@@ -16,6 +16,7 @@ export type ProjectProps = {
   notifiedOn: number;
   appelOffreId: string;
   identifiantGestionnaire?: string;
+  gestionnaireRéseau?: { codeEIC: string; raisonSociale: string };
   puissance: number;
   unitePuissance: string;
 };
@@ -39,6 +40,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
     notifiedOn,
     appelOffreId,
     identifiantGestionnaire,
+    gestionnaireRéseau,
     puissance,
     unitePuissance,
   } = project;
@@ -81,6 +83,11 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       </p>
       {identifiantGestionnaire && (
         <div>Identifiant gestionnaire de réseau : {identifiantGestionnaire}</div>
+      )}
+      {gestionnaireRéseau && (
+        <div>
+          Gestionnaire de réseau: {gestionnaireRéseau.raisonSociale} ({gestionnaireRéseau.codeEIC})
+        </div>
       )}
       {children}
     </div>
