@@ -4,7 +4,7 @@ import { makeUser } from '@entities';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError } from '../../shared';
-import { Project, NumeroGestionnaireSubmitted } from '..';
+import { Project, NumeroGestionnaireSubmitted, GestionnaireRéseauRenseigné } from '..';
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import {
@@ -190,6 +190,56 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
             numeroGestionnaire: 'ID_GES_RES',
             submittedBy: user.id,
             codeEICGestionnaireRéseau: 'codeEICRenseigné',
+          }),
+        }),
+      );
+    });
+  });
+
+  describe(`Seul le gestionnaire change`, () => {
+    it(`Etant donné un utilisateur ayant les droits sur le projet
+        Lorsqu'il renseigne son gestionnaire mais que l'identifiant est inchangé
+        Alors le gestionnaire devrait être enregistré`, async () => {
+      const shouldUserAccessProject = jest.fn(async () => true);
+
+      const projectRepo = fakeRepo({
+        ...makeFakeProject(),
+        id: projetId,
+        identifiantGestionnaireRéseau: 'ID_GES_RES',
+      } as Project);
+
+      const renseignerIdentifiantGestionnaireRéseau =
+        renseignerIdentifiantGestionnaireRéseauFactory({
+          publishToEventStore,
+          shouldUserAccessProject,
+          projectRepo,
+          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
+          gestionnaireRéseauRepo: fakeRepo({
+            id: new UniqueEntityID('codeEICRenseigné'),
+            codeEIC: 'codeEICRenseigné',
+            raisonSociale: 'ENEDIS',
+            légende: '',
+            format: '',
+            pendingEvents: [],
+          }),
+        });
+
+      const résulat = await renseignerIdentifiantGestionnaireRéseau({
+        projetId: projetId,
+        utilisateur: user,
+        identifiantGestionnaireRéseau: 'ID_GES_RES',
+        codeEICGestionnaireRéseau: 'codeEICRenseigné',
+      });
+
+      expect(résulat.isOk()).toBe(true);
+
+      expect(publishToEventStore).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: GestionnaireRéseauRenseigné.type,
+          payload: expect.objectContaining({
+            projectId: projetId,
+            submittedBy: user.id,
+            codeEIC: 'codeEICRenseigné',
           }),
         }),
       );

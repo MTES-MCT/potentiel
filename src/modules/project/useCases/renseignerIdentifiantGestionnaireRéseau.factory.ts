@@ -9,7 +9,7 @@ import {
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
-import { NumeroGestionnaireSubmitted } from '../events';
+import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
 import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 
 type Command = {
@@ -109,6 +109,16 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
               submittedBy: utilisateur.id,
               numeroGestionnaire: identifiantGestionnaireRéseau,
               ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
+            },
+          }),
+        )
+      : codeEICGestionnaireRéseau
+      ? publishToEventStore(
+          new GestionnaireRéseauRenseigné({
+            payload: {
+              projectId: projetId,
+              submittedBy: utilisateur.id,
+              codeEIC: codeEICGestionnaireRéseau,
             },
           }),
         )
