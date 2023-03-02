@@ -8,6 +8,7 @@ import { Project, NumeroGestionnaireSubmitted, GestionnaireRéseauRenseigné } f
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import {
+  CodeEICNonTrouvéError,
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
@@ -146,6 +147,8 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
       });
 
       expect(résulat.isErr()).toBe(true);
+
+      expect(résulat._unsafeUnwrapErr()).toBeInstanceOf(CodeEICNonTrouvéError);
 
       expect(publishToEventStore).not.toHaveBeenCalledWith(NumeroGestionnaireSubmitted);
     });

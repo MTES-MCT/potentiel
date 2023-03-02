@@ -101,30 +101,34 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   }: {
     command: Command;
     projet: Project;
-  }) =>
-    projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau
-      ? publish(
-          new NumeroGestionnaireSubmitted({
-            payload: {
-              projectId: projetId,
-              submittedBy: utilisateur.id,
-              numeroGestionnaire: identifiantGestionnaireRéseau,
-              ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
-            },
-          }),
-        )
-      : codeEICGestionnaireRéseau
-      ? publish(
-          new GestionnaireRéseauRenseigné({
-            payload: {
-              projectId: projetId,
-              submittedBy: utilisateur.id,
-              codeEIC: codeEICGestionnaireRéseau,
-            },
-          }),
-        )
-      : okAsync(null);
+  }) => {
+    if (projet.identifiantGestionnaireRéseau !== identifiantGestionnaireRéseau) {
+      return publish(
+        new NumeroGestionnaireSubmitted({
+          payload: {
+            projectId: projetId,
+            submittedBy: utilisateur.id,
+            numeroGestionnaire: identifiantGestionnaireRéseau,
+            ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
+          },
+        }),
+      );
+    }
 
+    if (codeEICGestionnaireRéseau) {
+      return publish(
+        new GestionnaireRéseauRenseigné({
+          payload: {
+            projectId: projetId,
+            submittedBy: utilisateur.id,
+            codeEIC: codeEICGestionnaireRéseau,
+          },
+        }),
+      );
+    }
+
+    return okAsync(null);
+  };
   return (command) =>
     vérifierCodeEIC(command)
       .andThen(chargerProjet)

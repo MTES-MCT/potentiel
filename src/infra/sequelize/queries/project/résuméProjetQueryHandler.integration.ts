@@ -20,7 +20,6 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
 
   it(`Lorsqu'un récupère les données pour le résumé d'un projet,
       alors une liste définie de données devrait être retournée.`, async () => {
-    // Arrange
     await Project.create(fakeProjet);
     const identifiantGestionnaire = 'identifiant';
 
@@ -30,11 +29,9 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
       identifiantGestionnaire,
     });
 
-    // Act
     const résultat = await résuméProjetQueryHandler(projetId);
     expect(résultat.isOk()).toBe(true);
 
-    // Assert
     const expected: RésuméProjetReadModel = {
       id: fakeProjet.id,
       nomProjet: fakeProjet.nomProjet,
@@ -57,7 +54,6 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
   it(`Etant donné un projet ayant son gestionnaire de réseau renseigné,
       lorsqu'on récupère les données pour le résumé du projet,
       alors les informations du gestionnaire devraient être retournées`, async () => {
-    // Arrange
     await Project.create(fakeProjet);
     const identifiantGestionnaire = 'identifiant';
 
@@ -73,11 +69,9 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
       raisonSociale: 'la-raison-sociale',
     });
 
-    // Act
     const résultat = await résuméProjetQueryHandler(projetId);
     expect(résultat.isOk()).toBe(true);
 
-    // Assert
     const expected: RésuméProjetReadModel['gestionnaireRéseau'] = {
       codeEIC: 'le-code-EIC',
       raisonSociale: 'la-raison-sociale',

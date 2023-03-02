@@ -10,7 +10,7 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
   beforeEach(async () => await resetDatabase());
 
   it(`Lorsque l'événement NumeroGestionnaireSubmitted est émis avec un identifiant et un code EIC, 
-      Alors des deux données devraient être enregistrée`, async () => {
+      Alors ces deux données devraient être enregistrée`, async () => {
     const identifiantGestionnaire = 'identifiant';
 
     await Raccordements.create({
@@ -51,7 +51,6 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
           projectId: projetId,
           numeroGestionnaire: 'nouvel-identifiant',
           submittedBy: 'id',
-          codeEICGestionnaireRéseau: undefined,
         },
       }),
     );
