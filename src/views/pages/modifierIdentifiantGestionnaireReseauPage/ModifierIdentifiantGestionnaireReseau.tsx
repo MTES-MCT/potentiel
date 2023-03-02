@@ -37,8 +37,12 @@ export const ModifierIdentifiantGestionnaireReseau = ({
 }: ModifierIdentifiantGestionnaireReseauProps) => {
   const { error, success } = (request.query as any) || {};
 
-  const [format, setFormat] = useState('');
-  const [légende, setLégende] = useState('');
+  const gestionnaireActuel = listeGestionnairesRéseau?.find(
+    (gestionnaire) => gestionnaire.codeEIC === projet.gestionnaireRéseau?.codeEIC,
+  );
+
+  const [format, setFormat] = useState(gestionnaireActuel?.format || '');
+  const [légende, setLégende] = useState(gestionnaireActuel?.légende || '');
 
   const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
     const gestionnaireSélectionné = listeGestionnairesRéseau?.find(
