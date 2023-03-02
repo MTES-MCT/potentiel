@@ -1,4 +1,4 @@
-import { format, isValid, parse } from 'date-fns';
+import { isValid, parse } from 'date-fns';
 import * as yup from 'yup';
 import getDepartementRegionFromCodePostal from '../../../helpers/getDepartementRegionFromCodePostal';
 
@@ -99,7 +99,7 @@ const columnMapper = {
     const notifiedDate = line['Notification'];
     if (notifiedDate === '') return 0;
 
-    const parsed = parse(format(notifiedDate, 'dd/MM/yyyy'), 'dd/MM/yyyy', new Date());
+    const parsed = parse(notifiedDate, 'dd/MM/yyyy', new Date());
     if (isValid(parsed)) return parsed.getTime();
 
     return null;
@@ -170,8 +170,6 @@ const extractRawDataFromColumns = (line: any) => {
     {},
   );
 };
-
-const DATE_FORMAT = 'DD/MM/YYYY';
 
 const projectSchema = yup.object().shape({
   appelOffreId: yup.string().required("Appel d'offres manquant"),
