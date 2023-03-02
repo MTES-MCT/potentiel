@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import { ProjectAbandoned } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { onProjectAbandoned } from './onProjectAbandoned';
 import { UniqueEntityID } from '@core/domain';
+import { Project } from '../project.model';
 
 describe('project.onProjectAbandoned', () => {
   const projectId = new UniqueEntityID().toString();
@@ -16,8 +16,6 @@ describe('project.onProjectAbandoned', () => {
     },
   ].map(makeFakeProject);
 
-  const { Project } = models;
-
   beforeAll(async () => {
     await resetDatabase();
     await Project.bulkCreate(fakeProjects);
@@ -25,7 +23,7 @@ describe('project.onProjectAbandoned', () => {
     const originalProject = await Project.findByPk(projectId);
     expect(originalProject?.abandonedOn).toEqual(0);
 
-    await onProjectAbandoned(models)(
+    await onProjectAbandoned(
       new ProjectAbandoned({
         payload: {
           projectId: projectId,

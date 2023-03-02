@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers';
-import { ProjectNotificationDateSet, ProjectNotified } from '@modules/project';
+import { ProjectNotificationDateSet } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { onProjectNotificationDateSet } from './onProjectNotificationDateSet';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onProjectNotificationDateSet', () => {
   const projectId = uuid();
@@ -20,15 +20,13 @@ describe('project.onProjectNotificationDateSet', () => {
     },
   ].map(makeFakeProject);
 
-  const ProjectModel = models.Project;
-
   beforeEach(async () => {
     await resetDatabase();
-    await ProjectModel.bulkCreate(fakeProjects);
+    await Project.bulkCreate(fakeProjects);
   });
 
   it('should update project.notifiedOn on ProjectNotificationDateSet', async () => {
-    await onProjectNotificationDateSet(models)(
+    await onProjectNotificationDateSet(
       new ProjectNotificationDateSet({
         payload: {
           projectId,
@@ -38,33 +36,10 @@ describe('project.onProjectNotificationDateSet', () => {
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject?.notifiedOn).toEqual(12345);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
-    expect(nonUpdatedProject).toBeDefined();
-    expect(nonUpdatedProject?.notifiedOn).toEqual(0);
-  });
-
-  it('should update project.notifiedOn on ProjectNotified', async () => {
-    await onProjectNotificationDateSet(models)(
-      new ProjectNotified({
-        payload: {
-          projectId,
-          notifiedOn: 56789,
-          candidateEmail: '',
-          candidateName: '',
-          periodeId: '',
-          appelOffreId: '',
-          familleId: '',
-        },
-      }),
-    );
-
-    const updatedProject = await ProjectModel.findByPk(projectId);
-    expect(updatedProject?.notifiedOn).toEqual(56789);
-
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    const nonUpdatedProject = await Project.findByPk(fakeProjectId);
     expect(nonUpdatedProject).toBeDefined();
     expect(nonUpdatedProject?.notifiedOn).toEqual(0);
   });

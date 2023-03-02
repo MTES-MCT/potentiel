@@ -1,31 +1,30 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectProducteurUpdated } from './onProjectProducteurUpdated';
 import { ProjectProducteurUpdated } from '@modules/project';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onProjectProducteurUpdated', () => {
-  const ProjectModel = models.Project;
   const projectId = uuid();
   const project = makeFakeProject({ id: projectId, producteur: 'old producteur' });
 
   beforeAll(async () => {
     // Create the tables and remove all data
     await resetDatabase();
-    await ProjectModel.bulkCreate([project]);
+    await Project.bulkCreate([project]);
   });
 
   it('should update the project producteur', async () => {
     const newProducteur = 'new producteur';
 
-    await onProjectProducteurUpdated(models)(
+    await onProjectProducteurUpdated(
       new ProjectProducteurUpdated({
         payload: { projectId, newProducteur, updatedBy: 'someone' },
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject?.nomCandidat).toEqual(newProducteur);
   });
 });

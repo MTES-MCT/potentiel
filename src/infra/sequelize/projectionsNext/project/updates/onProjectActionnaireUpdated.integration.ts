@@ -1,12 +1,11 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectActionnaireUpdated } from './onProjectActionnaireUpdated';
 import { ProjectActionnaireUpdated } from '@modules/project';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onProjectActionnaireUpdated', () => {
-  const { Project } = models;
   const projectId = uuid();
   const project = makeFakeProject({ id: projectId, actionnaire: 'old actionnaire' });
 
@@ -19,7 +18,7 @@ describe('project.onProjectActionnaireUpdated', () => {
   it('should update the project actionnaire', async () => {
     const newActionnaire = 'new actionnaire';
 
-    await onProjectActionnaireUpdated(models)(
+    await onProjectActionnaireUpdated(
       new ProjectActionnaireUpdated({
         payload: { projectId, newActionnaire, updatedBy: 'someone' },
       }),

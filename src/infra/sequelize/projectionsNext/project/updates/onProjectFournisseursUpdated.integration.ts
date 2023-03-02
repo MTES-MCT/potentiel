@@ -1,9 +1,9 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectFournisseursUpdated } from './onProjectFournisseursUpdated';
 import { ProjectFournisseursUpdated, Fournisseur } from '@modules/project';
 import { UniqueEntityID } from '@core/domain';
+import { Project } from '../project.model';
 
 describe('project.onProjectFournisseursUpdated', () => {
   beforeAll(async () => {
@@ -11,7 +11,6 @@ describe('project.onProjectFournisseursUpdated', () => {
   });
 
   it('should update the project fournisseurs and evaluation carbone', async () => {
-    const { Project } = models;
     const projectId = new UniqueEntityID().toString();
     const project = makeFakeProject({
       id: projectId,
@@ -32,7 +31,7 @@ describe('project.onProjectFournisseursUpdated', () => {
       { kind: 'Nom du fabricant (Cellules)', name: 'newFabricant2' },
     ];
 
-    await onProjectFournisseursUpdated(models)(
+    await onProjectFournisseursUpdated(
       new ProjectFournisseursUpdated({
         payload: { projectId, newFournisseurs, newEvaluationCarbone, updatedBy: 'someone' },
       }),
@@ -48,7 +47,6 @@ describe('project.onProjectFournisseursUpdated', () => {
   });
 
   it('should update the project fournisseurs and evaluation carbone even if no details on the initial project', async () => {
-    const { Project } = models;
     const projectId = new UniqueEntityID().toString();
     const project = makeFakeProject({
       id: projectId,
@@ -66,7 +64,7 @@ describe('project.onProjectFournisseursUpdated', () => {
       { kind: 'Nom du fabricant (Cellules)', name: 'newFabricant2' },
     ];
 
-    await onProjectFournisseursUpdated(models)(
+    await onProjectFournisseursUpdated(
       new ProjectFournisseursUpdated({
         payload: { projectId, newFournisseurs, newEvaluationCarbone, updatedBy: 'someone' },
       }),

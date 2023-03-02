@@ -1,24 +1,24 @@
 import { logger } from '@core/utils';
 import { ProjectDCRDueDateCancelled } from '@modules/project';
+import { ProjectProjector } from '@infra/sequelize';
+import { ProjectionEnEchec } from '@modules/shared';
 
-export const onProjectDCRDueDateCancelled =
-  (models) => async (event: ProjectDCRDueDateCancelled) => {
-    const { Project } = models;
-    const projectInstance = await Project.findByPk(event.payload.projectId);
-
-    if (!projectInstance) {
-      logger.error(
-        `Error: onProjectDCRDueDateCancelled projection failed to retrieve project from db': ${event}`,
-      );
-      return;
-    }
-
-    projectInstance.dcrDueOn = 0;
-
+export const onProjectDCRDueDateCancelled = ProjectProjector.on(
+  ProjectDCRDueDateCancelled,
+  async (évènement, transaction) => {
     try {
-      await projectInstance.save();
-    } catch (e) {
-      logger.error(e);
-      logger.info('Error: onProjectDCRDueDateCancelled projection failed to update project', event);
+      const {} = évènement;
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ProjectDCRDueDateCancelled`,
+          {
+            évènement,
+            nomProjection: 'Project.ProjectDCRDueDateCancelled',
+          },
+          error,
+        ),
+      );
     }
-  };
+  },
+);

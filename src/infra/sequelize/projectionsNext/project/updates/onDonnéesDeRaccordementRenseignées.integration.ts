@@ -1,12 +1,10 @@
-import models from '../../../models';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées';
 import { DonnéesDeRaccordementRenseignées } from '@modules/project';
 import { UniqueEntityID } from '@core/domain';
+import { Project } from '../project.model';
 
 describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`, () => {
-  const { Project } = models;
-
   it(`Étant donné un projet
       Lorsqu'une date de mise en service est renseignée
       Alors le projet devrait avoir cette date comme dateMiseEnService`, async () => {
@@ -16,7 +14,7 @@ describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`
 
     await Project.create(makeFakeProject({ id: projetId }));
 
-    await onDonnéesDeRaccordementRenseignées(models)(
+    await onDonnéesDeRaccordementRenseignées(
       new DonnéesDeRaccordementRenseignées({
         payload: {
           projetId,

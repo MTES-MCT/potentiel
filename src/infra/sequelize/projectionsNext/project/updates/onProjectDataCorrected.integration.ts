@@ -1,9 +1,9 @@
-import models from '../../../models';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDataCorrected } from './onProjectDataCorrected';
 import { ProjectDataCorrected } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 const newValues = {
   numeroCRE: 'numeroCRE1',
@@ -38,15 +38,13 @@ describe('project.onProjectDataCorrected', () => {
     },
   ].map(makeFakeProject);
 
-  const ProjectModel = models.Project;
-
   beforeAll(async () => {
     await resetDatabase();
-    await ProjectModel.bulkCreate(fakeProjects);
+    await Project.bulkCreate(fakeProjects);
   });
 
   it('should update project details', async () => {
-    await onProjectDataCorrected(models)(
+    await onProjectDataCorrected(
       new ProjectDataCorrected({
         payload: {
           projectId,
@@ -56,7 +54,7 @@ describe('project.onProjectDataCorrected', () => {
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject).toMatchObject({
       ...newValues,
       evaluationCarboneDeRéférence: newValues.evaluationCarbone,

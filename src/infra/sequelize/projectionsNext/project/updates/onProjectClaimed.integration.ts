@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { UniqueEntityID } from '@core/domain';
 import { onProjectClaimed } from './onProjectClaimed';
-import { ProjectClaimed, ProjectClaimedByOwner } from '@modules/projectClaim';
+import { ProjectClaimed } from '@modules/projectClaim';
+import { Project } from '../project.model';
 
 describe('project.onProjectClaimed', () => {
   const projectId = new UniqueEntityID().toString();
@@ -12,8 +12,6 @@ describe('project.onProjectClaimed', () => {
     id: projectId,
     email: 'old@test.test',
   });
-
-  const { Project } = models;
 
   describe('on ProjectClaimed', () => {
     const attestationDesignationFileId = new UniqueEntityID().toString();
@@ -25,7 +23,7 @@ describe('project.onProjectClaimed', () => {
       const originalProject = await Project.findByPk(projectId);
       expect(originalProject?.email).toEqual('old@test.test');
 
-      await onProjectClaimed(models)(
+      await onProjectClaimed(
         new ProjectClaimed({
           payload: {
             projectId: projectId,
@@ -57,7 +55,7 @@ describe('project.onProjectClaimed', () => {
         const originalProject = await Project.findByPk(projectId);
         expect(originalProject?.certificateFileId).toEqual(originalCertificateFileId);
 
-        await onProjectClaimed(models)(
+        await onProjectClaimed(
           new ProjectClaimed({
             payload: {
               projectId: projectId,
@@ -73,31 +71,6 @@ describe('project.onProjectClaimed', () => {
         const updatedProject = await Project.findByPk(projectId);
         expect(updatedProject?.certificateFileId).toEqual(originalCertificateFileId);
       });
-    });
-  });
-
-  describe('on ProjectClaimedByOwner', () => {
-    beforeAll(async () => {
-      await resetDatabase();
-      await Project.create(fakeProject);
-
-      const originalProject = await Project.findByPk(projectId);
-      expect(originalProject?.email).toEqual('old@test.test');
-
-      await onProjectClaimed(models)(
-        new ProjectClaimedByOwner({
-          payload: {
-            projectId: projectId,
-            claimedBy: new UniqueEntityID().toString(),
-            claimerEmail: 'new@test.test',
-          },
-        }),
-      );
-    });
-
-    it('should udpdate the project email', async () => {
-      const updatedProject = await Project.findByPk(projectId);
-      expect(updatedProject?.email).toEqual('new@test.test');
     });
   });
 });

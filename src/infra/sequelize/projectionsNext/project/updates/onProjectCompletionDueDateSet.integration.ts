@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import { ProjectCompletionDueDateSet } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onProjectCompletionDueDateSet', () => {
   const projectId = uuid();
@@ -20,15 +20,13 @@ describe('project.onProjectCompletionDueDateSet', () => {
     },
   ].map(makeFakeProject);
 
-  const ProjectModel = models.Project;
-
   beforeAll(async () => {
     await resetDatabase();
-    await ProjectModel.bulkCreate(fakeProjects);
+    await Project.bulkCreate(fakeProjects);
   });
 
   it('should update project.completionDueOn', async () => {
-    await onProjectCompletionDueDateSet(models)(
+    await onProjectCompletionDueDateSet(
       new ProjectCompletionDueDateSet({
         payload: {
           projectId,
@@ -37,10 +35,10 @@ describe('project.onProjectCompletionDueDateSet', () => {
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject?.completionDueOn).toEqual(12345);
 
-    const nonUpdatedProject = await ProjectModel.findByPk(fakeProjectId);
+    const nonUpdatedProject = await Project.findByPk(fakeProjectId);
     expect(nonUpdatedProject).toBeDefined();
     expect(nonUpdatedProject?.completionDueOn).toEqual(0);
   });

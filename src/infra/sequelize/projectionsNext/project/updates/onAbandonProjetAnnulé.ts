@@ -1,44 +1,65 @@
 import { logger } from '@core/utils';
 import { AbandonProjetAnnulé } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
+import { ProjectProjector } from '@infra/sequelize';
 
-export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonProjetAnnulé) => {
-  const {
-    payload: { dateAchèvement, dateLimiteEnvoiDcr, projetId },
-  } = évènement;
+export const onAbandonProjetAnnulé = ProjectProjector.on(
+  AbandonProjetAnnulé,
+  async (évènement, transaction) => {
+    try {
+      const {} = évènement;
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement AbandonProjetAnnulé`,
+          {
+            évènement,
+            nomProjection: 'Project.AbandonProjetAnnulé',
+          },
+          error,
+        ),
+      );
+    }
+  },
+);
 
-  const { Project } = models;
+// export const onAbandonProjetAnnulé = (models) => async (évènement: AbandonProjetAnnulé) => {
+//   const {
+//     payload: { dateAchèvement, dateLimiteEnvoiDcr, projetId },
+//   } = évènement;
 
-  const instanceDuProjet = await Project.findByPk(évènement.payload.projetId);
+//   const { Project } = models;
 
-  if (!instanceDuProjet) {
-    logger.error(
-      `Error: onAbandonProjetAnnulé n'a pas pu retrouver le projet pour l'évènement : ${évènement}`,
-    );
-    return;
-  }
+//   const instanceDuProjet = await Project.findByPk(évènement.payload.projetId);
 
-  try {
-    await Project.update(
-      {
-        abandonedOn: 0,
-        ...(dateLimiteEnvoiDcr && {
-          dcrDueOn: dateLimiteEnvoiDcr.getTime(),
-        }),
-        completionDueOn: dateAchèvement.getTime(),
-      },
-      { where: { id: projetId } },
-    );
-  } catch (cause) {
-    logger.error(
-      new ProjectionEnEchec(
-        'Erreur lors de la mise à jour du projet',
-        {
-          nomProjection: 'onAbandonProjetAnnulé',
-          évènement,
-        },
-        cause,
-      ),
-    );
-  }
-};
+//   if (!instanceDuProjet) {
+//     logger.error(
+//       `Error: onAbandonProjetAnnulé n'a pas pu retrouver le projet pour l'évènement : ${évènement}`,
+//     );
+//     return;
+//   }
+
+//   try {
+//     await Project.update(
+//       {
+//         abandonedOn: 0,
+//         ...(dateLimiteEnvoiDcr && {
+//           dcrDueOn: dateLimiteEnvoiDcr.getTime(),
+//         }),
+//         completionDueOn: dateAchèvement.getTime(),
+//       },
+//       { where: { id: projetId } },
+//     );
+//   } catch (cause) {
+//     logger.error(
+//       new ProjectionEnEchec(
+//         'Erreur lors de la mise à jour du projet',
+//         {
+//           nomProjection: 'onAbandonProjetAnnulé',
+//           évènement,
+//         },
+//         cause,
+//       ),
+//     );
+//   }
+// };

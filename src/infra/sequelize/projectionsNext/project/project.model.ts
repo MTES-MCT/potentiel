@@ -8,7 +8,7 @@ import {
 import { Technologie } from '@entities';
 import { ContratEDF } from '@modules/edf';
 import { ContratEnedis } from '@modules/enedis';
-import { GarantiesFinancières, Raccordements } from "..";
+import { GarantiesFinancières, Raccordements } from '..';
 import { sequelizeInstance } from 'src/sequelize.config';
 import { makeSequelizeProjector } from '@infra/sequelize/helpers';
 
@@ -251,6 +251,6 @@ Project.init(
   },
 );
 
-const ProjectProjection = makeSequelizeProjector(Project, nomProjection);
+const ProjectProjector = makeSequelizeProjector(Project, nomProjection);
 
-export { Project, ProjectProjection };
+export { Project, ProjectProjector };

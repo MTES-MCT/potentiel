@@ -1,11 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import { ProjectDCRDueDateCancelled } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled';
 import { v4 as uuid } from 'uuid';
-
-const { Project } = models;
+import { Project } from '../project.model';
 
 describe('project.onProjectDCRDueDateCancelled', () => {
   const projectId = uuid();
@@ -23,7 +21,7 @@ describe('project.onProjectDCRDueDateCancelled', () => {
   });
 
   it('should update project.dcrDueOn', async () => {
-    await onProjectDCRDueDateCancelled(models)(
+    await onProjectDCRDueDateCancelled(
       new ProjectDCRDueDateCancelled({
         payload: {
           projectId,

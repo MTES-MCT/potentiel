@@ -1,8 +1,8 @@
 import { logger } from '@core/utils';
-import { ProjectNotificationDateSet, ProjectNotified } from '@modules/project';
+import { ProjectNotificationDateSet } from '@modules/project';
 
 export const onProjectNotificationDateSet =
-  (models) => async (event: ProjectNotificationDateSet | ProjectNotified) => {
+  (models) => async (event: ProjectNotificationDateSet) => {
     const ProjectModel = models.Project;
     const projectInstance = await ProjectModel.findByPk(event.payload.projectId);
 

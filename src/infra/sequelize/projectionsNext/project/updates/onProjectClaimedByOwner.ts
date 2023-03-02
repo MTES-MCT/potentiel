@@ -1,8 +1,8 @@
 import { logger } from '@core/utils';
-import { ProjectClaimed } from '@modules/projectClaim/events';
+import { ProjectClaimedByOwner } from '@modules/projectClaim/events';
 import { EntityNotFoundError } from '@modules/shared';
 
-export const onProjectClaimed = (models) => async (event: ProjectClaimed) => {
+export const onProjectClaimedByOwner = (models) => async (event: ProjectClaimedByOwner) => {
   const { projectId, claimerEmail } = event.payload;
   const { Project } = models;
 
@@ -14,11 +14,6 @@ export const onProjectClaimed = (models) => async (event: ProjectClaimed) => {
     }
 
     project.email = claimerEmail;
-
-    if (!project.certificateFileId && event.type === ProjectClaimed.type) {
-      const { attestationDesignationFileId } = event.payload;
-      project.certificateFileId = attestationDesignationFileId;
-    }
 
     await project.save();
   } catch (e) {

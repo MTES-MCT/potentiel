@@ -1,9 +1,9 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectClasseGranted } from './onProjectClasseGranted';
 import { ProjectClasseGranted } from '@modules/project';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onProjectClasseGranted', () => {
   const projectId = uuid();
@@ -14,17 +14,15 @@ describe('project.onProjectClasseGranted', () => {
     },
   ].map(makeFakeProject);
 
-  const ProjectModel = models.Project;
-
   beforeAll(async () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    await ProjectModel.bulkCreate(fakeProjects);
+    await Project.bulkCreate(fakeProjects);
   });
 
   it('should update project.classe to Classé', async () => {
-    await onProjectClasseGranted(models)(
+    await onProjectClasseGranted(
       new ProjectClasseGranted({
         payload: {
           projectId,
@@ -33,7 +31,7 @@ describe('project.onProjectClasseGranted', () => {
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject?.classe).toEqual('Classé');
   });
 });

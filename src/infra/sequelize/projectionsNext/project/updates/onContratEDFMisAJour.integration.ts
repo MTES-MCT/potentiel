@@ -1,12 +1,11 @@
-import models from '../../../models';
 import { resetDatabase } from '../../../helpers';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onContratEDFMisAJour } from './onContratEDFMisAJour';
 import { ContratEDFMisAJour } from '@modules/edf';
 import { v4 as uuid } from 'uuid';
+import { Project } from '../project.model';
 
 describe('project.onContratEDFMisAJour', () => {
-  const ProjectModel = models.Project;
   const projectId = uuid();
   const project = makeFakeProject({
     id: projectId,
@@ -23,11 +22,11 @@ describe('project.onContratEDFMisAJour', () => {
   beforeAll(async () => {
     // Create the tables and remove all data
     await resetDatabase();
-    await ProjectModel.bulkCreate([project]);
+    await Project.bulkCreate([project]);
   });
 
   it('should set the project contratEDF', async () => {
-    await onContratEDFMisAJour(models)(
+    await onContratEDFMisAJour(
       new ContratEDFMisAJour({
         payload: {
           projectId,
@@ -41,7 +40,7 @@ describe('project.onContratEDFMisAJour', () => {
       }),
     );
 
-    const updatedProject = await ProjectModel.findByPk(projectId);
+    const updatedProject = await Project.findByPk(projectId);
     expect(updatedProject?.contratEDF).toMatchObject({
       numero: '123',
       type: 'type inchangé',

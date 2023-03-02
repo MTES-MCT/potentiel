@@ -2,8 +2,8 @@ import { ProjectCertificateObsolete } from '@modules/project';
 import { v4 as uuid } from 'uuid';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { onProjectCertificateObsolete } from './onProjectCertificateObsolete';
+import { Project } from '../project.model';
 
 describe('project.onProjectCertificateObsolete', () => {
   const projectId = uuid();
@@ -17,8 +17,6 @@ describe('project.onProjectCertificateObsolete', () => {
     },
   ].map(makeFakeProject);
 
-  const { Project } = models;
-
   beforeEach(async () => {
     await resetDatabase();
 
@@ -26,7 +24,7 @@ describe('project.onProjectCertificateObsolete', () => {
   });
 
   it('should remove project.certificateFileId', async () => {
-    await onProjectCertificateObsolete(models)(
+    await onProjectCertificateObsolete(
       new ProjectCertificateObsolete({
         payload: {
           projectId,
