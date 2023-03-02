@@ -52,6 +52,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                 type="email"
                 name="email"
                 id="email"
+                placeholder="email@test.test"
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
@@ -60,7 +61,12 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
               <Label htmlFor="region" required>
                 Sélectionnez une région
               </Label>
-              <Select name="region" id="region" required>
+              <Select
+                name="region"
+                id="region"
+                required
+                {...(validationErrors && { error: validationErrors['region']?.toString() })}
+              >
                 <option selected disabled hidden>
                   Sélectionnez une région
                 </option>
