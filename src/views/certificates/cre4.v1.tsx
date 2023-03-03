@@ -405,7 +405,7 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
           }}
         >
           <Text style={{ fontSize: 8, marginBottom: 60 }}>
-            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'D MMMM YYYY') : '[N/A]'}
+            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>

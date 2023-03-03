@@ -13,5 +13,7 @@ describe('méthode formatDate', () => {
     Alors la date retournée doit respecter ce format`, () => {
     expect(formatDate(date, 'dd-MM-yyyy')).toStrictEqual('01-01-2023');
     expect(formatDate(dateTime, 'dd-MM-yyyy')).toStrictEqual('01-01-2023');
+    expect(formatDate(date, 'd MMMM yyyy')).toStrictEqual('1 janvier 2023');
+    expect(formatDate(dateTime, 'dd/MM/yyyy HH:mm')).toStrictEqual('01/01/2023 01:00');
   });
 });

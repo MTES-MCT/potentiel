@@ -51,7 +51,7 @@ export const Header = ({ project }: HeaderProps) => {
           </Text>
 
           <Text style={{ fontSize: 10, marginBottom: 90 }}>
-            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'D MMMM YYYY') : '[N/A]'}
+            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
           </Text>
 
           <View style={{ fontSize: 10 }}>

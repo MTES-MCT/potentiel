@@ -181,7 +181,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                     .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
                     .subtract(1, 'day'),
                 ),
-                'DD/MM/YYYY',
               ),
               dateAchèvementDemandée: dateAchèvementDemandée
                 ? formatDate(dateAchèvementDemandée)

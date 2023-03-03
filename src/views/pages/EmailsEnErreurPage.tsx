@@ -83,7 +83,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                       <td>{notification.type}</td>
                       <td>
                         {notification.createdAt
-                          ? formatDate(notification.createdAt, 'DD/MM/YYYY HH:mm')
+                          ? formatDate(notification.createdAt, 'dd/MM/yyyy HH:mm')
                           : ''}
                       </td>
                       <td valign="top" className="relative">

@@ -77,7 +77,7 @@ export const InvitationsCandidatsEnAttente = ({
                       </td>
                       <td>
                         {invitation.invitedOn
-                          ? formatDate(invitation.invitedOn, 'DD/MM/YYYY HH:mm')
+                          ? formatDate(invitation.invitedOn, 'dd/MM/yyyy HH:mm')
                           : ''}
                       </td>
                       <td>

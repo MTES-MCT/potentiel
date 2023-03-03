@@ -69,7 +69,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       <p className="m-0">
         Désigné le{' '}
         <span {...dataId('modificationRequest-item-designationDate')}>
-          {formatDate(notifiedOn, 'DD/MM/YYYY')}
+          {formatDate(notifiedOn)}
         </span>{' '}
         pour la période{' '}
         <span {...dataId('modificationRequest-item-periode')}>

@@ -10,7 +10,7 @@ export const RecoursForm = () => (
         type="text"
         name="newNotificationDate"
         id="newNotificationDate"
-        defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+        defaultValue={formatDate(Date.now())}
         {...dataId('modificationRequest-newNotificationDateField')}
         style={{ width: 'auto' }}
       />

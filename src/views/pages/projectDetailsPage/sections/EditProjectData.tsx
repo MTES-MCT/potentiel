@@ -238,8 +238,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               id="notificationDate"
               {...dataId('date-field')}
               defaultValue={
-                query.notificationDate ||
-                (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
+                query.notificationDate || (project.notifiedOn && formatDate(project.notifiedOn))
               }
               style={{ width: 'auto' }}
             />

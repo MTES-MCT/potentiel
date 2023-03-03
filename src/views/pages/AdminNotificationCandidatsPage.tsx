@@ -168,7 +168,7 @@ export const AdminNotificationCandidats = ({
                 type="text"
                 name="notificationDate"
                 id="notificationDate"
-                defaultValue={formatDate(Date.now(), 'DD/MM/YYYY')}
+                defaultValue={formatDate(Date.now())}
                 {...dataId('modificationRequest-notificationDateField')}
                 className="w-auto"
               />

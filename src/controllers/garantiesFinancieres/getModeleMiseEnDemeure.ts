@@ -61,7 +61,7 @@ v1Router.get(
       injectImage: imageToInject,
       variables: {
         dreal,
-        dateMiseEnDemeure: formatDate(Date.now()),
+        dateMiseEnDemeure: formatDate(new Date()),
         contactDreal: request.user.email,
         referenceProjet: project.potentielIdentifier,
         titreAppelOffre: project.appelOffre?.periode

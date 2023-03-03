@@ -29,7 +29,7 @@ export const Header = ({ project }: HeaderProps) => {
       </View>
       <View style={{ paddingLeft: 15 }}>
         <Text style={{ fontSize: 8, textAlign: 'right' }}>
-          Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'D MMMM YYYY') : '[N/A]'}
+          Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
         </Text>
 
         <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>
