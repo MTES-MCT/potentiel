@@ -78,8 +78,6 @@
     "keycloak-connect": "^17.0.1",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
-    "moment": "^2.29.4",
-    "moment-timezone": "^0.5.40",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "neverthrow": "^6.0.0",

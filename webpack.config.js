@@ -1,21 +1,21 @@
-const glob = require('glob')
-const startCase = require('lodash/startCase')
-const path = require('path')
-const webpack = require('webpack')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-require('dotenv').config()
+const glob = require('glob');
+const startCase = require('lodash/startCase');
+const path = require('path');
+const webpack = require('webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+require('dotenv').config();
 
-const formatPageEntrieName = (name) => name.charAt(0).toLowerCase() + name.slice(1)
+const formatPageEntrieName = (name) => name.charAt(0).toLowerCase() + name.slice(1);
 const pageEntries = glob
   .sync('./src/views/pages/**/*@(Page|Page.tsx)')
   .map((name) => {
     if (name.endsWith('.tsx')) {
-      return { name: path.basename(name, 'Page.tsx'), path: name }
+      return { name: path.basename(name, 'Page.tsx'), path: name };
     } else {
       return {
         name: path.basename(name, 'Page'),
         path: path.join(name, startCase(path.basename(name, 'Page')).replace(/ /g, '') + '.tsx'),
-      }
+      };
     }
   })
   .reduce(
@@ -26,8 +26,8 @@ const pageEntries = glob
         dependOn: 'shared',
       },
     }),
-    {}
-  )
+    {},
+  );
 
 module.exports = {
   mode:
@@ -36,7 +36,7 @@ module.exports = {
       : 'development',
   entry: {
     ...pageEntries,
-    shared: ['react', 'react-dom', 'moment', 'moment-timezone'],
+    shared: ['react', 'react-dom'],
   },
   target: 'web',
   resolve: {
@@ -66,4 +66,4 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'src', 'public', 'js'),
   },
-}
+};
