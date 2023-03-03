@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import { v4 as uuid } from 'uuid';
 import { eventStore, ensureRole } from '@config';
 import { logger } from '@core/utils';
@@ -7,18 +6,17 @@ import { PeriodeNotified } from '@modules/project';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import asyncHandler from '../helpers/asyncHandler';
+import { isDateFormatValid } from '../../helpers/formValidators';
+import { parse } from 'date-fns';
 
-const FORMAT_DATE = 'DD/MM/YYYY';
+const FORMAT_DATE = 'dd/MM/yyyy';
 
 v1Router.post(
   routes.POST_NOTIFIER_CANDIDATS,
   ensureRole(['dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { appelOffreId, periodeId, notificationDate } = request.body;
-    if (
-      !notificationDate ||
-      moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
-    ) {
+    if (!notificationDate || isDateFormatValid(notificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(
           routes.GET_NOTIFIER_CANDIDATS({
@@ -39,7 +37,7 @@ v1Router.post(
           payload: {
             appelOffreId,
             periodeId,
-            notifiedOn: moment(notificationDate, FORMAT_DATE).tz('Europe/Paris').toDate().getTime(),
+            notifiedOn: parse(notificationDate, FORMAT_DATE, new Date()).getTime(),
             requestedBy: request.user.id,
           },
           requestId: uuid(),

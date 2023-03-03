@@ -1,13 +1,14 @@
 import asyncHandler from '../helpers/asyncHandler';
-import moment from 'moment-timezone';
 import { regenerateCertificatesForPeriode } from '@config/useCases.config';
 import { logger } from '@core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import routes from '@routes';
 import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
+import { isDateFormatValid } from '../../helpers/formValidators';
+import { parse } from 'date-fns';
 
-const FORMAT_DATE = 'DD/MM/YYYY';
+const FORMAT_DATE = 'dd/MM/yyyy';
 
 v1Router.post(
   routes.ADMIN_REGENERATE_CERTIFICATES_ACTION,
@@ -27,7 +28,7 @@ v1Router.post(
       );
     }
 
-    if (notificationDate && !isDateFormatValid(notificationDate)) {
+    if (notificationDate && !isDateFormatValid(notificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.ADMIN_REGENERATE_CERTIFICATES, {
           error: 'La date de notification est au mauvais format.',
@@ -44,10 +45,7 @@ v1Router.post(
         user,
         reason,
         ...(notificationDate && {
-          newNotifiedOn: moment(notificationDate, FORMAT_DATE)
-            .tz('Europe/London')
-            .toDate()
-            .getTime(),
+          newNotifiedOn: parse(notificationDate, FORMAT_DATE, new Date()).getTime(),
         }),
       })
     ).match(
@@ -77,7 +75,3 @@ v1Router.post(
     );
   }),
 );
-
-function isDateFormatValid(dateStr) {
-  return moment(dateStr, FORMAT_DATE).format(FORMAT_DATE) === dateStr;
-}

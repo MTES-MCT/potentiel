@@ -1,6 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler';
 import fs from 'fs';
-import moment from 'moment-timezone';
 import sanitize from 'sanitize-filename';
 import { correctProjectData, ensureRole } from '@config';
 import { logger } from '@core/utils';
@@ -12,8 +11,10 @@ import { errorResponse } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { ProjetDéjàClasséError } from '@modules/modificationRequest';
+import { isDateFormatValid } from '../../helpers/formValidators';
+import { parse } from 'date-fns';
 
-const FORMAT_DATE = 'DD/MM/YYYY';
+const FORMAT_DATE = 'dd/MM/yyyy';
 
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
@@ -70,10 +71,7 @@ v1Router.post(
         ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
         : { isFinancementParticipatif: false, isInvestissementParticipatif: false };
 
-    if (
-      notificationDate &&
-      moment(notificationDate, FORMAT_DATE).format(FORMAT_DATE) !== notificationDate
-    ) {
+    if (notificationDate && isDateFormatValid(notificationDate, FORMAT_DATE)) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(projectId), {
           error: 'La date de notification est au mauvais format.',
@@ -114,9 +112,7 @@ v1Router.post(
       projectVersionDate: new Date(Number(projectVersionDate)),
       correctedData,
       certificateFile,
-      newNotifiedOn:
-        notificationDate &&
-        moment(notificationDate, FORMAT_DATE).tz('Europe/London').toDate().getTime(),
+      newNotifiedOn: parse(notificationDate, FORMAT_DATE, new Date()).getTime(),
       user: request.user,
       shouldGrantClasse: Number(isClasse) === 1,
       reason,
