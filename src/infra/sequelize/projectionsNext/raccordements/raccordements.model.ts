@@ -6,10 +6,11 @@ import {
   NonAttribute,
 } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
+import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { makeSequelizeProjector } from '../../helpers';
 import { GestionnaireRéseauDétail } from '../gestionnairesRéseau';
 
-class Raccordements extends Model<
+export class Raccordements extends Model<
   InferAttributes<Raccordements>,
   InferCreationAttributes<Raccordements>
 > {
@@ -23,7 +24,7 @@ class Raccordements extends Model<
   gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseauDétail>;
 }
 
-const nomProjection = 'raccordements';
+export const nomProjection = 'raccordements';
 
 Raccordements.init(
   {
@@ -73,3 +74,4 @@ Raccordements.init(
 const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection);
 
 export { Raccordements, RaccordementsProjector };
+export const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection);

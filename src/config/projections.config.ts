@@ -1,5 +1,5 @@
 import {
-  GarantiesFinancièresProjector,
+  getGarantiesFinancièresProjector,
   RaccordementsProjector,
   initProjections,
   initProjectors,
@@ -10,10 +10,10 @@ import {
   UserProjectClaimsProjector,
   UserDrealProjector,
   ModificationRequestProjector,
+  GestionnairesRéseauListeProjector,
+  GestionnaireRéseauDétailProjector,
+  ProjectProjector,
 } from '@infra/sequelize';
-import { GestionnaireRéseauDétailProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
-import { GestionnairesRéseauListeProjector } from '@infra/sequelize/projectionsNext/gestionnairesRéseau/liste/gestionnairesRéseauListe.model';
-import { ProjectProjector } from '@infra/sequelize/projectionsNext/project';
 import { subscribeToRedis } from './eventBus.config';
 import { eventStore } from './eventStore.config';
 
@@ -27,7 +27,7 @@ console.log(`Initialized projectors: ${projectors.join(', ')}`);
 const projectorsNext = [
   ProjectEventProjector,
   TâchesProjector,
-  GarantiesFinancièresProjector,
+  getGarantiesFinancièresProjector(),
   GestionnaireRéseauDétailProjector,
   GestionnairesRéseauListeProjector,
   ModificationRequestProjector,

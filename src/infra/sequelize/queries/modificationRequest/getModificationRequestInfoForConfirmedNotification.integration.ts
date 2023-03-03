@@ -3,8 +3,7 @@ import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestInfoForConfirmedNotification } from './getModificationRequestInfoForConfirmedNotification';
-import { ModificationRequest } from '../../projectionsNext/modificationRequest';
-import { Project, User } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest , Project, User } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getModificationRequestInfoForConfirmedNotification', () => {
   const projectId = new UniqueEntityID().toString();

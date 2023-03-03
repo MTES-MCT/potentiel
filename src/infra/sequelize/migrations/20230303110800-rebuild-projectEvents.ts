@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { ProjectEventProjector } from '../projectionsNext/projectEvents';
+import { ProjectEventProjector } from '../projectionsNext/projectEvents/projectEvent.model';
 
 export default {
   up: async (queryInterface: QueryInterface) => {

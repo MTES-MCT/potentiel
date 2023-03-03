@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived } from '@modules/modificationRequest';
-import { ModificationRequest } from '..';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { onModificationReceived } from './onModificationReceived';
 
 describe('modificationRequest.onModificationReceived', () => {

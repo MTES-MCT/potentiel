@@ -1,4 +1,4 @@
-import { GarantiesFinancièresProjector } from '@infra/sequelize';
+import { getGarantiesFinancièresProjector } from '@infra/sequelize/projectionsNext';
 import { QueryInterface } from 'sequelize';
 
 export default {
@@ -6,7 +6,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await GarantiesFinancièresProjector.rebuild(transaction);
+      await getGarantiesFinancièresProjector().rebuild(transaction);
 
       await transaction.commit();
     } catch (error) {

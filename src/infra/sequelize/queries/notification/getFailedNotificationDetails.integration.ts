@@ -1,7 +1,7 @@
 import { getFailedNotificationDetails } from './getFailedNotificationDetails';
 import { resetDatabase } from '../../helpers';
 import { UniqueEntityID } from '@core/domain';
-import models from '../../models';
+import { Notification } from '@infra/sequelize/projectionsNext';
 
 const fakeNotificationArgs = {
   message: {
@@ -31,20 +31,19 @@ describe('Sequelize getFailedNotificationDetails', () => {
     const targetId = new UniqueEntityID().toString();
 
     beforeAll(async () => {
-      const NotificationModel = models.Notification;
-      await NotificationModel.create({
+      await Notification.create({
         ...fakeNotificationArgs,
         id: targetId,
         createdAt: new Date(456),
         status: 'error',
         error: 'errorMessage',
       });
-      await NotificationModel.create({
+      await Notification.create({
         ...fakeNotificationArgs,
         id: new UniqueEntityID().toString(),
         status: 'sent',
       });
-      await NotificationModel.create({
+      await Notification.create({
         ...fakeNotificationArgs,
         id: new UniqueEntityID().toString(),
         status: 'retried',

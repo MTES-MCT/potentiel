@@ -1,7 +1,8 @@
 import { EtapeGFSupprimée } from '@modules/project';
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { getGarantiesFinancièresProjector } from '../garantiesFinancières.projector';
 
-export default GarantiesFinancièresProjector.on(
+export default getGarantiesFinancièresProjector().on(
   EtapeGFSupprimée,
   async (évènement, transaction) => {
     const {

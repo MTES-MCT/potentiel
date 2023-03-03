@@ -1,22 +1,8 @@
-import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from 'sequelize';
+import { DataTypes } from 'sequelize';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { File, fileTableName } from './file.model';
 
-export class File extends Model<InferAttributes<File>, InferCreationAttributes<File>> {
-  id: string;
-  filename: string;
-  forProject?: string;
-  createdBy?: string;
-  designation: string;
-  storedAt?: string;
-  createdAt: CreationOptional<Date>;
-}
-
-export const MakeFileModel = (sequelize) => {
+export const initFileModel = () => {
   File.init(
     {
       id: {
@@ -48,9 +34,8 @@ export const MakeFileModel = (sequelize) => {
     },
     {
       timestamps: true,
-      tableName: 'files',
-      sequelize,
+      tableName: fileTableName,
+      sequelize: sequelizeInstance,
     },
   );
-  return File;
 };

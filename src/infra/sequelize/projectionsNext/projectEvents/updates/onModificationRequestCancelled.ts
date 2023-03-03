@@ -3,7 +3,7 @@ import { ModificationRequestCancelled } from '@modules/modificationRequest';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
-import { ModificationRequest } from '../../modificationRequest';
+import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestCancelled,

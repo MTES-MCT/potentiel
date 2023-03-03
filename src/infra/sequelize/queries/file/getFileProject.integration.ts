@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { FileNotFoundError } from '@modules/file';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { getFileProject } from './getFileProject';
+import { File } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getFileProject', () => {
   const fileWithoutProject = new UniqueEntityID();
@@ -13,8 +13,7 @@ describe('Sequelize getFileProject', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    const FileModel = models.File;
-    await FileModel.bulkCreate([
+    await File.bulkCreate([
       {
         id: fileWithProject.toString(),
         filename: '',

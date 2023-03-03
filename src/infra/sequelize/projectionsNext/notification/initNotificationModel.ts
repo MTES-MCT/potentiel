@@ -1,26 +1,8 @@
-import {
-  CreationOptional,
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-} from 'sequelize';
+import { DataTypes } from 'sequelize';
+import { sequelizeInstance } from '../../../../sequelize.config';
+import { Notification } from './notification.model';
 
-export class Notification extends Model<
-  InferAttributes<Notification>,
-  InferCreationAttributes<Notification>
-> {
-  id: string;
-  type: string;
-  message: Record<string, string>;
-  context: Record<string, string>;
-  variables: Record<string, string>;
-  status: string;
-  error?: string;
-  createdAt: CreationOptional<Date>;
-}
-
-export const MakeNotificationModel = (sequelize) => {
+export const initNotificationModel = () => {
   Notification.init(
     {
       id: {
@@ -54,11 +36,9 @@ export const MakeNotificationModel = (sequelize) => {
       createdAt: DataTypes.DATE,
     },
     {
-      sequelize,
+      sequelize: sequelizeInstance,
       tableName: 'notifications',
       timestamps: true,
     },
   );
-
-  return Notification;
 };

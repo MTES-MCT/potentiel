@@ -1,9 +1,10 @@
 import { logger } from '@core/utils';
 import { ProjectGFWithdrawn } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { getGarantiesFinancièresProjector } from '../garantiesFinancières.projector';
 
-export default GarantiesFinancièresProjector.on(
+export default getGarantiesFinancièresProjector().on(
   ProjectGFWithdrawn,
   async (évènement, transaction) => {
     const {

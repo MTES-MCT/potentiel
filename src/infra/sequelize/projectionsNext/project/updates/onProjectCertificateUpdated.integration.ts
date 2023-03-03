@@ -1,10 +1,10 @@
 import { resetDatabase } from '../../../helpers';
 import { ProjectCertificateUpdated } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import models from '../../../models';
 import { onProjectCertificateUpdated } from './onProjectCertificateUpdated';
 import { v4 as uuid } from 'uuid';
 import { Project } from '../project.model';
+import { File } from '../../file/file.model';
 
 describe('project.onProjectCertificate', () => {
   const projectId = uuid();
@@ -24,13 +24,11 @@ describe('project.onProjectCertificate', () => {
     },
   ].map(makeFakeProject);
 
-  const FileModel = models.File;
-
   beforeEach(async () => {
     await resetDatabase();
 
     await Project.bulkCreate(fakeProjects);
-    await FileModel.create({
+    await File.create({
       id: certificateFile1,
       filename: '',
       designation: '',

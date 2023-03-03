@@ -1,5 +1,5 @@
 import { logger } from '@core/utils';
-import { ModificationRequest } from '../../../modificationRequest';
+import { ModificationRequest } from '../../../modificationRequest/modificationRequest.model';
 import { RejetDélaiAnnulé } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
 import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';

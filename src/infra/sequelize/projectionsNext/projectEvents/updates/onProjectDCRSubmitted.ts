@@ -1,13 +1,14 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRSubmitted } from '@modules/project';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
-import models from '../../../models';
 import { logger } from '@core/utils';
+import { File } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(
   ProjectDCRSubmitted,
   async ({ payload: { projectId, fileId, dcrDate }, occurredAt }, transaction) => {
     const { File } = models;
+  async ({ payload: { projectId, fileId, dcrDate, numeroDossier }, occurredAt }, transaction) => {
     const rawFilename = await File.findOne({
       attributes: ['filename'],
       where: { id: fileId },

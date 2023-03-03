@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { GarantiesFinancièresInvalidées } from '@modules/project';
-import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 import onGarantiesFinancièresInvalidées from './onGarantiesFinancièresInvalidées';
 
 describe(`handler onGarantiesFinancièresInvalidées pour la projection garantiesFinancières`, () => {

@@ -1,8 +1,9 @@
 import { ProjectAbandoned } from '@modules/project';
-import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { getGarantiesFinancièresProjector } from '../garantiesFinancières.projector';
 import { Project } from '../../project/project.model';
 
-export default GarantiesFinancièresProjector.on(
+export default getGarantiesFinancièresProjector().on(
   ProjectAbandoned,
   async (évènement, transaction) => {
     const {

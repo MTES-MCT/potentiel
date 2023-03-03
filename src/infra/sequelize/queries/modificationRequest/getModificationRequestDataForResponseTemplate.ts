@@ -11,10 +11,7 @@ import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import { Région } from '@modules/dreal/région';
-import { Project, User, ModificationRequest } from '@infra/sequelize/projectionsNext';
-import models from '../../models';
-
-const { File } = models;
+import { Project, User, ModificationRequest, File } from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {

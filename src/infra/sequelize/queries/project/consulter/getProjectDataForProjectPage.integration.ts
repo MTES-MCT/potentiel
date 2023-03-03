@@ -4,11 +4,9 @@ import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
-import { Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, User, UserProjects, File } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 
-const { File } = models;
 const certificateFileId = new UniqueEntityID().toString();
 
 const projectId = new UniqueEntityID().toString();

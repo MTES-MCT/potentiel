@@ -1,8 +1,8 @@
-import { Raccordements } from '../../projectionsNext/raccordements';
 import { resetDatabase } from '../../helpers';
 import { getProjetsParIdentifiantGestionnaireRéseau } from './getProjetsParIdentifiantGestionnaireRéseau';
 import { UniqueEntityID } from '@core/domain';
 import * as uuid from 'uuid';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 
 describe('Trouver les identifiants des projets depuis leur identifiant de gestionnaire de réseau', () => {
   beforeEach(async () => {

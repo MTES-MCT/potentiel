@@ -1,7 +1,7 @@
 import { getFailedNotificationsForRetry } from './getFailedNotificationsForRetry';
-import models from '../../models';
 import { resetDatabase } from '../../helpers';
 import { UniqueEntityID } from '@core/domain';
+import { Notification } from '@infra/sequelize/projectionsNext';
 
 const fakeNotificationArgs = {
   message: {},
@@ -19,26 +19,25 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
       beforeAll(async () => {
         await resetDatabase();
 
-        const NotificationModel = models.Notification;
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: targetId.toString(),
           type: 'password-reset',
           status: 'error',
         });
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: new UniqueEntityID().toString(),
           type: 'password-reset',
           status: 'sent',
         });
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: new UniqueEntityID().toString(),
           type: 'password-reset',
           status: 'retried',
         });
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: new UniqueEntityID().toString(),
           type: 'password-reset',
@@ -60,9 +59,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
 
       beforeAll(async () => {
         await resetDatabase();
-
-        const NotificationModel = models.Notification;
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: obsoleteId.toString(),
           type: 'password-reset',
@@ -70,7 +67,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
           createdAt: new Date(1),
           status: 'error',
         });
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: stillCurrentId.toString(),
           type: 'password-reset',
@@ -78,7 +75,7 @@ describe('Sequelize getFailedNotificationsForRetry', () => {
           createdAt: new Date(2),
           status: 'error',
         });
-        await NotificationModel.create({
+        await Notification.create({
           ...fakeNotificationArgs,
           id: otherId.toString(),
           type: 'password-reset',

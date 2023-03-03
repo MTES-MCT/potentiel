@@ -1,11 +1,10 @@
-import models from '../../models';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestDetails } from './getModificationRequestDetails';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest, Project, Raccordements, User } from '@infra/sequelize';
+import { ModificationRequest, Project, Raccordements, User, File } from '@infra/sequelize';
 
 describe('Requête getModificationRequestDetails', () => {
   const projectId = new UniqueEntityID().toString();
@@ -40,8 +39,7 @@ describe('Requête getModificationRequestDetails', () => {
     it(`Etant donné une modification de type "recours",
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {
-      const FileModel = models.File;
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
       await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
       await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
@@ -94,8 +92,7 @@ describe('Requête getModificationRequestDetails', () => {
     it(`Etant donné une modification de type "puissance",
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {
-      const FileModel = models.File;
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
       await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
       await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
@@ -160,8 +157,7 @@ describe('Requête getModificationRequestDetails', () => {
         identifiantGestionnaire,
       });
 
-      const FileModel = models.File;
-      await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
+      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
       await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
       await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));

@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from '@infra/sequelize';
 import { LegacyModificationImported } from '@modules/modificationRequest';
-import { ModificationRequest } from '..';
 import { resetDatabase } from '../../../helpers';
 import { onLegacyModificationImported } from './onLegacyModificationImported';
 

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '../../../modificationRequest';
+import { ModificationRequest } from '../../../modificationRequest/modificationRequest.model';
 import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
 import { ProjectEvent } from '../../projectEvent.model';

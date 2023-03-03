@@ -1,11 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { FileDetachedFromProject } from '../../../../../modules/file';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { ProjectEvent } from '../projectEvent.model';
 import onFileDetachedFromProject from './onFileDetachedFromProject';
-
-const { File } = models;
 
 describe('onFileDetachedFromProject', () => {
   const projectId = new UniqueEntityID().toString();

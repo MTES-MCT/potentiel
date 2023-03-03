@@ -2,13 +2,13 @@ import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
-import models from '../../../models';
 import {
   Project,
   ModificationRequest,
   User as UserModel,
   Raccordements,
   UserProjects,
+  File,
 } from '@infra/sequelize/projectionsNext';
 import {
   CahierDesCharges,

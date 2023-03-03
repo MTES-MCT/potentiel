@@ -1,6 +1,4 @@
 import { sequelizeInstance } from '../../sequelize.config';
-import { MakeFileModel } from './projections/file/file.model';
-import { MakeNotificationModel } from './projections/notification/notification.model';
 import { MakeEventStoreModel } from './eventStore/eventStore.model';
 import { EventBus } from '@core/domain';
 
@@ -18,8 +16,6 @@ import { Project } from './projectionsNext/project';
 //
 
 const models = {
-  File: MakeFileModel(sequelizeInstance),
-  Notification: MakeNotificationModel(sequelizeInstance),
   EventStore: MakeEventStoreModel(sequelizeInstance),
 };
 
@@ -140,7 +136,7 @@ export const initProjectors = (eventBus: EventBus) => {
 
 // Create associations and link projectors to their model
 Object.values(models).forEach((model) => {
-  if (model.associate) model.associate({ ...models, ...projectionsNextModels });
+  if (model.associate) model.associate({ ...models });
   if (model.projector) model.projector.initModel(model);
 });
 

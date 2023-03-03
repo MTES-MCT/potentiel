@@ -1,4 +1,4 @@
-import { ProjectEvent } from '..';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import { UniqueEntityID } from '../../../../../core/domain';
 import {
   ProjectNotificationDateSet,

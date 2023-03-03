@@ -1,11 +1,10 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
-import models from '../../../../models';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Op } from 'sequelize';
-import { UserDreal, Project } from '@infra/sequelize/projectionsNext';
+import { UserDreal, Project, File } from '@infra/sequelize/projectionsNext';
 import { logger } from '@core/utils';
 
 const attributes = [
@@ -58,7 +57,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
       {
         model: GarantiesFinancières,
         as: 'garantiesFinancières',
-        include: [{ model: models.File, as: 'fichier' }],
+        include: [{ model: File, as: 'fichier' }],
       },
     ],
     ...paginate(pagination),

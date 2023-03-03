@@ -1,13 +1,16 @@
-import models from '../../models';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin';
 import { UniqueEntityID } from '@core/domain';
 import { User as userEntity } from '@entities';
-import { ModificationRequest, Project, User, UserDreal } from '@infra/sequelize/projectionsNext';
-
-const { File } = models;
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserDreal,
+  File,
+} from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();
@@ -186,8 +189,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
         makeFakeProject({ id: outsideRegionProjectId, regionProjet: 'Occitanie' }),
       );
 
-      const FileModel = models.File;
-      await FileModel.create(makeFakeFile({ id: fileId }));
+      await File.create(makeFakeFile({ id: fileId }));
 
       await User.create(fakeDreal);
       await User.create(fakePorteur);

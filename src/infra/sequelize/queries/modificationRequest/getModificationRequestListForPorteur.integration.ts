@@ -1,18 +1,20 @@
-import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur';
 import { UniqueEntityID } from '@core/domain';
 import { User as userEntity } from '@entities';
-import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserProjects,
+  File,
+} from '@infra/sequelize/projectionsNext';
 
 /* 
 Fonctionnalité : Retourner la liste des demandes de modifications 
 associées aux projets auxquels le porteur a accès
 */
-
-const { File } = models;
-
 describe('Obtenir la liste des demandes de modification pour un porteur de projet.', () => {
   // Scenario 1
   describe('Afficher les données des modifications non-legacy.', () => {

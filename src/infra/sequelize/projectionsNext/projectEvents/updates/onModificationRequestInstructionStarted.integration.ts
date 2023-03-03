@@ -1,12 +1,12 @@
 import { resetDatabase } from '../../../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
-import { ProjectEvent } from '..';
+import { ProjectEvent } from '../projectEvent.model';
 import { Project } from '@infra/sequelize/projectionsNext';
 import onModificationRequestInstructionStarted from './onModificationRequestInstructionStarted';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
-import { ModificationRequest } from '../../modificationRequest';
+import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 
 describe(`Handler onModificationRequestInstructionStarted`, () => {
   const projetId = new UniqueEntityID().toString();

@@ -5,15 +5,12 @@ import {
   ModificationRequestPageDTO,
 } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
 import {
   parseCahierDesChargesRéférence,
   CahierDesChargesRéférence,
   ProjectAppelOffre,
 } from '@entities';
-import { ModificationRequest, Project, Raccordements, User } from '@infra/sequelize';
-
-const { File } = models;
+import { ModificationRequest, Project, Raccordements, User, File } from '@infra/sequelize';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,

@@ -6,7 +6,7 @@ import { mapExceptError } from '../../helpers/results';
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
-import { UserDreal } from '@infra/sequelize/projectionsNext/userDreal';
+import { UserDreal } from '@infra/sequelize/projectionsNext';
 import { Région } from '@modules/dreal/région';
 
 // Override these to apply serialization/deserialization on inputs/outputs

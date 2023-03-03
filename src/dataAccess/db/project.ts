@@ -1,4 +1,3 @@
-import models from '../../infra/sequelize/models';
 import { Attributes, DataTypes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '@core/utils';
@@ -19,8 +18,6 @@ import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { GarantiesFinancières } from '@infra/sequelize';
 import { Région } from '@modules/dreal/région';
 import { User as UserModel, UserProjects } from '@infra/sequelize/projectionsNext';
-
-const { File } = models;
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {

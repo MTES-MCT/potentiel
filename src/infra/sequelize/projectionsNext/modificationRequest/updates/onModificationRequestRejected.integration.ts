@@ -2,7 +2,7 @@ import { resetDatabase } from '../../../helpers';
 import { onModificationRequestRejected } from './onModificationRequestRejected';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '..';
+import { ModificationRequest } from '../modificationRequest.model';
 
 describe('modificationRequest.onModificationRequestRejected', () => {
   const modificationRequestId = new UniqueEntityID().toString();

@@ -1,8 +1,7 @@
 import { makeSequelizeProjector } from '@infra/sequelize/helpers';
-import { InferAttributes, InferCreationAttributes, Model, DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../../sequelize.config';
+import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 
-class GestionnairesRéseauListe extends Model<
+export class GestionnairesRéseauListe extends Model<
   InferAttributes<GestionnairesRéseauListe>,
   InferCreationAttributes<GestionnairesRéseauListe>
 > {
@@ -10,32 +9,9 @@ class GestionnairesRéseauListe extends Model<
   raisonSociale: string;
 }
 
-const nomProjection = 'gestionnairesRéseauListe';
+export const gestionnairesRéseauListeTableName = 'gestionnairesRéseauListe';
 
-GestionnairesRéseauListe.init(
-  {
-    codeEIC: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.STRING,
-    },
-
-    raisonSociale: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-  },
-  {
-    sequelize: sequelizeInstance,
-    tableName: nomProjection,
-    timestamps: false,
-    freezeTableName: true,
-  },
-);
-
-const GestionnairesRéseauListeProjector = makeSequelizeProjector(
+export const GestionnairesRéseauListeProjector = makeSequelizeProjector(
   GestionnairesRéseauListe,
-  nomProjection,
+  gestionnairesRéseauListeTableName,
 );
-
-export { GestionnairesRéseauListe, GestionnairesRéseauListeProjector };

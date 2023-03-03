@@ -6,6 +6,7 @@ import { FileContents, FileObject, FileStorageService, makeFileObject } from '@m
 import { EntityNotFoundError } from '@modules/shared';
 import models from '../models';
 import { makeFileRepo } from './fileRepo';
+import { File } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize FileRepo', () => {
   const fakeFileStream = Readable.from('text123');
@@ -55,9 +56,7 @@ describe('Sequelize FileRepo', () => {
     });
 
     it('should save the File to database', async () => {
-      const FileModel = models.File;
-
-      const retrievedFile = await FileModel.findByPk(file.id.toString());
+      const retrievedFile = await File.findByPk(file.id.toString());
 
       expect(retrievedFile).toBeDefined();
       expect(retrievedFile?.filename).toEqual(file.filename);
@@ -78,10 +77,9 @@ describe('Sequelize FileRepo', () => {
       let retrievedFile: FileObject | undefined;
 
       beforeAll(async () => {
-        const FileModel = models.File;
-        await FileModel.destroy({ truncate: true });
+        await File.destroy({ truncate: true });
 
-        await FileModel.create({
+        await File.create({
           id: fileId.toString(),
           filename: 'db.filename',
           forProject: projectId.toString(),
@@ -123,8 +121,7 @@ describe('Sequelize FileRepo', () => {
     const fileId = new UniqueEntityID();
 
     beforeAll(async () => {
-      const FileModel = models.File;
-      await FileModel.destroy({ truncate: true });
+      await File.destroy({ truncate: true });
     });
 
     it('should return an EntityNotFoundError', async () => {
