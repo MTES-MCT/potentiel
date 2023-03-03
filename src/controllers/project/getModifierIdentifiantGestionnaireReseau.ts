@@ -4,10 +4,10 @@ import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { ModifierIdentifiantGestionnaireReseauPage } from '@views';
 import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { getProjectDataForModifierIdentifiantGestionnaireReseauPage } from '@config';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { EntityNotFoundError } from '@modules/shared';
 import { PermissionModifierIdentifiantGestionnaireReseau } from '@modules/project';
+import { récupérerRésuméProjetEtListeGestionnairesQueryHandler } from '@config';
 
 const schema = object({
   params: object({
@@ -27,12 +27,13 @@ v1Router.get(
     },
     async (request, response) => {
       const { projetId } = request.params;
-      await getProjectDataForModifierIdentifiantGestionnaireReseauPage(projetId).match(
-        (projet) =>
+      return récupérerRésuméProjetEtListeGestionnairesQueryHandler(projetId).match(
+        (readModel) =>
           response.send(
             ModifierIdentifiantGestionnaireReseauPage({
               request,
-              projet,
+              projet: readModel.projet,
+              listeGestionnairesRéseau: readModel.listeDétailGestionnaires,
             }),
           ),
         (e) => {

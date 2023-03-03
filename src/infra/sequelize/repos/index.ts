@@ -89,4 +89,8 @@ export const gestionnaireRéseauRepo = {
     eventStore,
     makeAggregate: makeGestionnaireRéseau,
   }),
+  ...makeEventStoreRepo({
+    eventStore,
+    makeAggregate: makeGestionnaireRéseau,
+  }),
 };

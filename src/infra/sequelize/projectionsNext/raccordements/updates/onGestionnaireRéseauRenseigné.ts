@@ -1,26 +1,25 @@
 import { Raccordements, RaccordementsProjector } from '../raccordements.model';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
-import { NumeroGestionnaireSubmitted } from '@modules/project';
+import { GestionnaireRéseauRenseigné } from '@modules/project';
 
 export default RaccordementsProjector.on(
-  NumeroGestionnaireSubmitted,
+  GestionnaireRéseauRenseigné,
   async (évènement, transaction) => {
     const {
-      payload: { projectId, numeroGestionnaire, codeEICGestionnaireRéseau },
+      payload: { projectId, codeEIC },
     } = évènement;
     try {
       await Raccordements.update(
         {
-          identifiantGestionnaire: numeroGestionnaire,
-          ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
+          codeEICGestionnaireRéseau: codeEIC,
         },
         { where: { projetId: projectId }, transaction },
       );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
-          `Erreur lors du traitement de l'évènement NumeroGestionnaireSubmitted`,
+          `Erreur lors du traitement de l'évènement GestionnaireRéseauRenseigné`,
           {
             évènement,
             nomProjection: 'Raccordements',

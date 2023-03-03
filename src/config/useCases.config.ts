@@ -55,7 +55,7 @@ import {
   makeChoisirCahierDesCharges,
   makeUploadGF,
   makeWithdrawGF,
-  makeRenseignerIdentifiantGestionnaireRéseau,
+  renseignerIdentifiantGestionnaireRéseauFactory,
   makeRenseignerDonnéesDeRaccordement,
   makeValiderGF,
   makeInvaliderGF,
@@ -296,12 +296,14 @@ export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
   findAppelOffreById: oldAppelOffreRepo.findById,
 });
 
-export const renseignerIdentifiantGestionnaireRéseau = makeRenseignerIdentifiantGestionnaireRéseau({
-  publishToEventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  trouverProjetsParIdentifiantGestionnaireRéseau,
-});
+export const renseignerIdentifiantGestionnaireRéseau =
+  renseignerIdentifiantGestionnaireRéseauFactory({
+    publish: publishToEventStore,
+    shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
+    projectRepo,
+    trouverProjetsParIdentifiantGestionnaireRéseau,
+    gestionnaireRéseauRepo,
+  });
 
 export const importProjects = makeImportProjects({
   eventBus: eventStore,

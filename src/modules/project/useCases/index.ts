@@ -7,7 +7,7 @@ export * from './regenerateCertificatesForPeriode';
 export * from './removeGF';
 export * from './removeStep';
 export * from './renseignerDonnéesDeRaccordement';
-export * from './renseignerIdentifiantGestionnaireRéseau';
+export * from './renseignerIdentifiantGestionnaireRéseau.factory';
 export * from './signalerDemandeAbandon';
 export * from './signalerDemandeDelai';
 export * from './signalerDemandeRecours';

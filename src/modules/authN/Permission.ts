@@ -17,6 +17,7 @@ import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidat
 import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
+  //PermissionAjouterGestionnaireRéseau,
 } from '@modules/gestionnaireRéseau';
 
 export type Permission = {

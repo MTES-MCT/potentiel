@@ -6,12 +6,13 @@ import onNumeroGestionnaireSubmitted from './onNumeroGestionnaireSubmitted';
 
 describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
   const projetId = new UniqueEntityID().toString();
-  const identifiantGestionnaire = 'identifiant';
 
   beforeEach(async () => await resetDatabase());
 
-  it(`Lorsque l'event NumeroGestionnaireSubmitted survient, 
-      Alors l'identifiant de gestionnaire devrait être mise à jour`, async () => {
+  it(`Lorsque l'événement NumeroGestionnaireSubmitted est émis avec un identifiant et un code EIC, 
+      Alors ces deux données devraient être enregistrée`, async () => {
+    const identifiantGestionnaire = 'identifiant';
+
     await Raccordements.create({
       id: new UniqueEntityID().toString(),
       projetId,
@@ -23,12 +24,40 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
           projectId: projetId,
           numeroGestionnaire: identifiantGestionnaire,
           submittedBy: 'id',
+          codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
         },
       }),
     );
 
     expect(await Raccordements.findOne({ where: { projetId } })).toMatchObject({
       identifiantGestionnaire,
+      codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
+    });
+  });
+
+  it(`Etant donné un projet avec un identifiant gestionnaire et un code EIC gestionnaire,
+      Lorsque l'événement NumeroGestionnaireSubmitted est émis avec un nouvel identifiant gestionnaire, 
+      Alors seul l'identifiant gestionaire devrait être mis à jour`, async () => {
+    await Raccordements.create({
+      id: new UniqueEntityID().toString(),
+      projetId,
+      identifiantGestionnaire: 'identifiant-gestionnaire',
+      codeEICGestionnaireRéseau: 'code-EIC-gestionnaire',
+    });
+
+    await onNumeroGestionnaireSubmitted(
+      new NumeroGestionnaireSubmitted({
+        payload: {
+          projectId: projetId,
+          numeroGestionnaire: 'nouvel-identifiant',
+          submittedBy: 'id',
+        },
+      }),
+    );
+
+    expect(await Raccordements.findOne({ where: { projetId } })).toMatchObject({
+      identifiantGestionnaire: 'nouvel-identifiant',
+      codeEICGestionnaireRéseau: 'code-EIC-gestionnaire',
     });
   });
 });

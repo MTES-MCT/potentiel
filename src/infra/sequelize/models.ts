@@ -12,6 +12,7 @@ import { Raccordements } from './projectionsNext/raccordements';
 import { User } from './projectionsNext/users';
 import { UserProjects } from './projectionsNext/userProjects';
 import { ModificationRequest } from './projectionsNext';
+import { GestionnaireRéseauDétail } from './projectionsNext/gestionnairesRéseau';
 
 //
 // Legacy projections
@@ -52,6 +53,12 @@ Raccordements.hasOne(User, {
   foreignKey: 'id',
   sourceKey: 'ptfEnvoyéePar',
   as: 'ptfEnvoyéeParRef',
+});
+
+Raccordements.hasOne(GestionnaireRéseauDétail, {
+  foreignKey: 'codeEIC',
+  sourceKey: 'codeEICGestionnaireRéseau',
+  as: 'gestionnaireRéseauDétail',
 });
 
 ModificationRequest.belongsTo(models.File, {
