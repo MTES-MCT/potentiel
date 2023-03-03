@@ -12,10 +12,14 @@ import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import { Région } from '@modules/dreal/région';
 import { Project, User, ModificationRequest } from '@infra/sequelize/projectionsNext';
+import models from '../../models';
+
+const { File } = models;
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User)
+      // TODO: check inutile aprés la migration projection next
       return errAsync(new InfraNotAvailableError());
     return _getModificationRequestById(modificationRequestId)
       .andThen(

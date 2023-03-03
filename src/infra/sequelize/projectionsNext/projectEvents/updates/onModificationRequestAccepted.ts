@@ -4,8 +4,8 @@ import { ModificationRequestAccepted } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import { Transaction } from 'sequelize';
 import models from '../../../models';
-import { ModificationRequest } from '../../modificationRequest';
 import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(
   ModificationRequestAccepted,

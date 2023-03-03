@@ -23,6 +23,7 @@ export const onContratEnedisMisAJour = ProjectProjector.on(
         numero,
       };
       projectInstance.changed('contratEnedis', true);
+      await projectInstance.save();
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
