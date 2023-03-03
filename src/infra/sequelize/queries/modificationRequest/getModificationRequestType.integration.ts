@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { getModificationRequestType } from './getModificationRequestType';
 
 describe('Sequelize getModificationRequestType', () => {
@@ -16,8 +16,7 @@ describe('Sequelize getModificationRequestType', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    const ModificationRequestModel = models.ModificationRequest;
-    await ModificationRequestModel.create({
+    await ModificationRequest.create({
       id: modificationRequestId,
       projectId,
       userId,

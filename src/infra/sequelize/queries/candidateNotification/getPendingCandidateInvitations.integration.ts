@@ -3,12 +3,10 @@ import makeFakeUser from '../../../../__tests__/fixtures/user';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import { getPendingCandidateInvitations } from './getPendingCandidateInvitations';
+import { User, Project } from '@infra/sequelize/projectionsNext';
 
-import models from '../../models';
 
 describe('getPendingCandidateInvitations()', () => {
-  const { User, Project } = models;
-
   const pendingCandidateId = new UniqueEntityID().toString();
   const pendingNonCandidateId = new UniqueEntityID().toString();
 

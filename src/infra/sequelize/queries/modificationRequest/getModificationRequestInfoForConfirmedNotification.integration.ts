@@ -2,11 +2,9 @@ import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import models from '../../models';
 import { getModificationRequestInfoForConfirmedNotification } from './getModificationRequestInfoForConfirmedNotification';
 import { ModificationRequest } from '../../projectionsNext/modificationRequest';
-
-const { Project, User } = models;
+import { Project, User } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getModificationRequestInfoForConfirmedNotification', () => {
   const projectId = new UniqueEntityID().toString();

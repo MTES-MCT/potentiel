@@ -11,9 +11,9 @@ import {
   CahierDesChargesRéférence,
   ProjectAppelOffre,
 } from '@entities';
-import { ModificationRequest, Raccordements } from '@infra/sequelize';
+import { ModificationRequest, Project, Raccordements, User } from '@infra/sequelize';
 
-const { Project, File, User } = models;
+const { File } = models;
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,

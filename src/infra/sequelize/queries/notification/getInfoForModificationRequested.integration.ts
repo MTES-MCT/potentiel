@@ -1,8 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
+import { Project, User } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { getInfoForModificationRequested } from './getInfoForModificationRequested';
 
 describe('Sequelize getInfoForModificationRequested', () => {
@@ -18,13 +18,8 @@ describe('Sequelize getInfoForModificationRequested', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    const ProjectModel = models.Project;
-    await ProjectModel.create(makeFakeProject(projectInfo));
-
-    const UserModel = models.User;
-    await UserModel.create(
-      makeFakeUser({ id: userId, fullName: 'John Doe', email: 'email@test.test' }),
-    );
+    await Project.create(makeFakeProject(projectInfo));
+    await User.create(makeFakeUser({ id: userId, fullName: 'John Doe', email: 'email@test.test' }));
   });
 
   it('should return project nomProjet and user fullName and email', async () => {

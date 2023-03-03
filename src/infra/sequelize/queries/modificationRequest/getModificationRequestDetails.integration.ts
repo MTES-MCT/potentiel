@@ -5,7 +5,7 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { getModificationRequestDetails } from './getModificationRequestDetails';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest, Raccordements } from '@infra/sequelize';
+import { ModificationRequest, Project, Raccordements, User } from '@infra/sequelize';
 
 describe('Requête getModificationRequestDetails', () => {
   const projectId = new UniqueEntityID().toString();
@@ -31,8 +31,7 @@ describe('Requête getModificationRequestDetails', () => {
 
   beforeEach(async () => {
     await resetDatabase();
-    const ProjectModel = models.Project;
-    await ProjectModel.create(makeFakeProject(projectInfo));
+    await Project.create(makeFakeProject(projectInfo));
   });
 
   const versionDate = new Date(456);
@@ -44,12 +43,10 @@ describe('Requête getModificationRequestDetails', () => {
       const FileModel = models.File;
       await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User;
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
-      const ModificationRequestModel = models.ModificationRequest;
-      await ModificationRequestModel.create({
+      await ModificationRequest.create({
         id: modificationRequestId,
         projectId,
         userId,
@@ -100,9 +97,8 @@ describe('Requête getModificationRequestDetails', () => {
       const FileModel = models.File;
       await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User;
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
       await ModificationRequest.create({
         id: modificationRequestId,
@@ -167,9 +163,8 @@ describe('Requête getModificationRequestDetails', () => {
       const FileModel = models.File;
       await FileModel.create(makeFakeFile({ id: fileId, filename: 'filename' }));
 
-      const UserModel = models.User;
-      await UserModel.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-      await UserModel.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
+      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
+      await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
 
       await ModificationRequest.create({
         id: modificationRequestId,

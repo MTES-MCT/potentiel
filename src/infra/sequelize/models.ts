@@ -144,6 +144,6 @@ Object.values(models).forEach((model) => {
   if (model.projector) model.projector.initModel(model);
 });
 
-const projections = { ...models, ...projectionsNextModels };
+const projections = { ...models };
 
 export default projections;

@@ -12,6 +12,12 @@ import { InfraNotAvailableError } from '@modules/shared';
 import { PaginatedList } from '../../../../types';
 import models from '../../models';
 import { userIs } from '@modules/users';
+import {
+  ModificationRequest,
+  Project,
+  User as UserModel,
+  UserDreal,
+} from '@infra/sequelize/projectionsNext';
 
 function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
   return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
@@ -22,7 +28,6 @@ function _getDrealRegionsForUser(user: User, models) {
     return okAsync<any, InfraNotAvailableError>([]);
   }
 
-  const { UserDreal } = models;
   if (!UserDreal) return errAsync(new InfraNotAvailableError());
 
   return ResultAsync.fromPromise(
@@ -39,7 +44,7 @@ function _getDrealRegionsForUser(user: User, models) {
   ).map((items: any) => items.map((item) => item.dreal));
 }
 
-const { ModificationRequest, Project, User, File } = models;
+const { File } = models;
 
 export const getModificationRequestListForAdmin: GetModificationRequestListForAdmin = ({
   user,
@@ -97,7 +102,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
               required: true,
             },
             {
-              model: User,
+              model: UserModel,
               as: 'requestedBy',
               attributes: ['fullName', 'email'],
               required: true,

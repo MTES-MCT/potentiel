@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
+import { User } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { getUserById } from './getUserById';
 
-const { User } = models;
 describe('Requête Sequelize getUserById', () => {
   const userId = new UniqueEntityID().toString();
 

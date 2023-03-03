@@ -1,8 +1,7 @@
 import { wrapInfra } from '@core/utils';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { GetModificationRequestRecipient } from '@modules/modificationRequest';
-import models from '../../models';
 
-const { ModificationRequest } = models;
 export const getModificationRequestRecipient: GetModificationRequestRecipient = (
   modificationRequestId: string,
 ) => {

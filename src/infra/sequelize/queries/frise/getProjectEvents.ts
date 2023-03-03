@@ -11,12 +11,12 @@ import {
   KnownProjectEvents,
   ProjectEvent,
   Raccordements,
-} from '../../projectionsNext';
+ User, Project } from '../../projectionsNext';
 import { ProjectAppelOffre } from '@entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 import { getPtfDTO } from './getPtfDTO';
 
-const { Project, File, User } = models;
+const { File } = models;
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(

@@ -2,10 +2,7 @@ import { ResultAsync } from '@core/utils';
 import { GetNonLegacyProjectsByContactEmail } from '@modules/project';
 import { InfraNotAvailableError } from '@modules/shared';
 import { isPeriodeLegacy } from '@dataAccess/inMemory';
-
-import models from '../../models';
-
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const getNonLegacyProjectsByContactEmail: GetNonLegacyProjectsByContactEmail = (email) => {
   return ResultAsync.fromPromise(

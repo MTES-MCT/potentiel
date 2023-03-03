@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
+import { User, UserDreal } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { getDreals } from './getDreals';
 
-const { User, UserDreal } = models;
 describe('Sequelize getDreals', () => {
   const userId = new UniqueEntityID().toString();
   const drealId1 = new UniqueEntityID().toString();

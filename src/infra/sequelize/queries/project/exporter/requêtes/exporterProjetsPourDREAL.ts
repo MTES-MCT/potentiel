@@ -1,4 +1,3 @@
-import models from '../../../../models';
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
 import {
   coordonnéesCandidat,
@@ -19,6 +18,7 @@ import {
 } from '../colonnesParCatégorie';
 import { récupérerExportProjets } from './récupérerExportProjets';
 import { wrapInfra } from '@core/utils';
+import { UserDreal } from '@infra/sequelize/projectionsNext';
 
 const colonnesÀExporter = [
   ...identificationProjet,
@@ -46,7 +46,7 @@ export const exporterProjetsPourDREAL = ({
   filtres?: FiltreListeProjets;
 }) =>
   wrapInfra(
-    models.UserDreal.findOne({
+    UserDreal.findOne({
       where: { userId },
       attributes: ['dreal'],
     }),

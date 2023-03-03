@@ -9,13 +9,13 @@ import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../helpers';
 import models from '../../models';
 import { getModificationRequestDataForResponseTemplate } from './getModificationRequestDataForResponseTemplate';
-
+import { Project, User, UserDreal } from '@infra/sequelize/projectionsNext';
 const dgecEmail = 'dgec@test.test';
 const appelOffreId = 'Fessenheim';
 const periodeId = '1';
 
 describe('Requête sequelize getModificationRequestDataForResponseTemplate', () => {
-  const { Project, User, File, UserDreal } = models;
+  const { File } = models;
 
   const projectId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();

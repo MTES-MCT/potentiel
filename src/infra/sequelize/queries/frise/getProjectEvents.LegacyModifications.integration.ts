@@ -2,13 +2,11 @@ import { User } from '@entities';
 import { UniqueEntityID } from '@core/domain';
 import { USER_ROLES } from '@modules/users';
 import { getProjectEvents } from '.';
-import { ProjectEvent } from '../../projectionsNext';
+import { ProjectEvent , Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pour les événements LegacyModificationImported', () => {
-  const { Project } = models;
   const projectId = new UniqueEntityID().toString();
   const fakeProject = makeFakeProject({ id: projectId, potentielIdentifier: 'pot-id' });
   const date = new Date();

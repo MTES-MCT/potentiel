@@ -5,9 +5,7 @@ import {
   ModificationRequestInfoForConfirmedNotificationDTO,
 } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project, User } = models;
+import { Project, User } from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification =
   (modificationRequestId: string) => {

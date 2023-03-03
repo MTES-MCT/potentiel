@@ -1,8 +1,6 @@
 import { wrapInfra } from '@core/utils';
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 import { HasGarantiesFinancières } from '@modules/modificationRequest';
-import models from '../../models';
-
-const { GarantiesFinancières } = models;
 
 export const hasGarantiesFinancières: HasGarantiesFinancières = (projetId) => {
   return wrapInfra(

@@ -10,17 +10,14 @@ import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
-import models from '../../models';
 import { Région } from '@modules/dreal/région';
-import { ModificationRequest } from '../../projectionsNext/modificationRequest';
-
-const { Project, File, User } = models;
+import { Project, User, ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User)
       return errAsync(new InfraNotAvailableError());
-    return _getModificationRequestById(modificationRequestId, models)
+    return _getModificationRequestById(modificationRequestId)
       .andThen(
         (
           modificationRequest: any,
@@ -31,7 +28,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           if (!modificationRequest) return errAsync(new EntityNotFoundError());
           const { type, projectId } = modificationRequest;
           if (type === 'delai') {
-            return _getPreviouslyAcceptedDelaiRequest(projectId, models).map((previousRequest) => ({
+            return _getPreviouslyAcceptedDelaiRequest(projectId).map((previousRequest) => ({
               modificationRequest,
               previousRequest,
             }));
@@ -275,9 +272,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
       });
   };
 
-function _getModificationRequestById(modificationRequestId, models) {
-  const { ModificationRequest, Project } = models;
-
+function _getModificationRequestById(modificationRequestId) {
   return wrapInfra(
     ModificationRequest.findByPk(modificationRequestId, {
       include: [
@@ -290,9 +285,7 @@ function _getModificationRequestById(modificationRequestId, models) {
   ).map((rawData: any) => rawData?.get());
 }
 
-function _getPreviouslyAcceptedDelaiRequest(projectId, models) {
-  const { ModificationRequest } = models;
-
+function _getPreviouslyAcceptedDelaiRequest(projectId) {
   return wrapInfra(
     ModificationRequest.findOne({
       where: {

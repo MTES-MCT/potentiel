@@ -18,8 +18,9 @@ import isDbReady from './helpers/isDbReady';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { GarantiesFinancières } from '@infra/sequelize';
 import { Région } from '@modules/dreal/région';
+import { User as UserModel, UserProjects } from '@infra/sequelize/projectionsNext';
 
-const { File, User, UserProjects } = models;
+const { File } = models;
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
@@ -325,8 +326,8 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
             as: 'garantiesFinancières',
             include: [
               { model: File, as: 'fichier' },
-              { model: User, as: 'envoyéesParRef' },
-              { model: User, as: 'validéesParRef' },
+              { model: UserModel, as: 'envoyéesParRef' },
+              { model: UserModel, as: 'validéesParRef' },
             ],
           },
           {
@@ -374,8 +375,8 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         as: 'garantiesFinancières',
         include: [
           { model: File, as: 'fichier' },
-          { model: User, as: 'envoyéesParRef' },
-          { model: User, as: 'validéesParRef' },
+          { model: UserModel, as: 'envoyéesParRef' },
+          { model: UserModel, as: 'validéesParRef' },
         ],
       },
       {

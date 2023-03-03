@@ -4,13 +4,14 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForPorteur } from './getModificationRequestListForPorteur';
 import { UniqueEntityID } from '@core/domain';
 import { User as userEntity } from '@entities';
+import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
 
 /* 
 Fonctionnalité : Retourner la liste des demandes de modifications 
 associées aux projets auxquels le porteur a accès
 */
 
-const { Project, User, File, ModificationRequest, UserProjects } = models;
+const { File } = models;
 
 describe('Obtenir la liste des demandes de modification pour un porteur de projet.', () => {
   // Scenario 1

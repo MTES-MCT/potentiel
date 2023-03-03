@@ -5,8 +5,9 @@ import makeFakeFile from '../../../../__tests__/fixtures/file';
 import { getModificationRequestListForAdmin } from './getModificationRequestListForAdmin';
 import { UniqueEntityID } from '@core/domain';
 import { User as userEntity } from '@entities';
+import { ModificationRequest, Project, User, UserDreal } from '@infra/sequelize/projectionsNext';
 
-const { Project, User, File, ModificationRequest } = models;
+const { File } = models;
 
 describe('Sequelize getModificationRequestListForAdmin', () => {
   const projectId = new UniqueEntityID().toString();
@@ -178,28 +179,23 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       // Create the tables and remove all data
       await resetDatabase();
 
-      const ProjectModel = models.Project;
-      await ProjectModel.create(makeFakeProject({ id: projectId, regionProjet: 'Bretagne' }));
+      await Project.create(makeFakeProject({ id: projectId, regionProjet: 'Bretagne' }));
 
       const outsideRegionProjectId = new UniqueEntityID().toString();
-      await ProjectModel.create(
+      await Project.create(
         makeFakeProject({ id: outsideRegionProjectId, regionProjet: 'Occitanie' }),
       );
 
       const FileModel = models.File;
       await FileModel.create(makeFakeFile({ id: fileId }));
 
-      const UserModel = models.User;
-      await UserModel.create(fakeDreal);
-      await UserModel.create(fakePorteur);
+      await User.create(fakeDreal);
+      await User.create(fakePorteur);
 
-      const UserDrealModel = models.UserDreal;
-      await UserDrealModel.create({
+      await UserDreal.create({
         userId: fakeDreal.id,
         dreal: 'Bretagne',
       });
-
-      const ModificationRequestModel = models.ModificationRequest;
 
       const baseRequest = {
         projectId,
@@ -209,7 +205,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
         status: 'envoyée',
       };
 
-      await ModificationRequestModel.bulkCreate([
+      await ModificationRequest.bulkCreate([
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),

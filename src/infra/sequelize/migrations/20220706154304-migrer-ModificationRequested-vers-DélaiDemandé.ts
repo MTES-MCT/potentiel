@@ -3,7 +3,7 @@ import { ModificationRequested } from '@modules/modificationRequest';
 import { Op, QueryInterface } from 'sequelize';
 import { toPersistance } from '../helpers';
 import models from '../models';
-import { ModificationRequest, ProjectEvent } from '../projectionsNext';
+import { ModificationRequest, Project, ProjectEvent } from '../projectionsNext';
 import onDélaiDemandé from '../projectionsNext/projectEvents/updates/délai/onDélaiDemandé';
 
 export default {
@@ -11,7 +11,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      const { Project, EventStore } = models;
+      const { EventStore } = models;
 
       const demandesDélaiAMigrer = await ModificationRequest.findAll({
         include: [
