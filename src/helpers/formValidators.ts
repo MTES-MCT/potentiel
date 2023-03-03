@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import { format, isValid, parse } from 'date-fns';
 import toNumber from './toNumber';
 
 export const isStrictlyPositiveNumber = (nbr): boolean => {
@@ -19,6 +19,16 @@ export const isNumber = (nbr): boolean => {
   return !isNaN(Number(cleanNbr)) && !isNaN(parseFloat(cleanNbr));
 };
 
-export function isDateFormatValid(dateStr: string, dateFormat: string): boolean {
-  return !!dateStr && moment(dateStr, dateFormat).format(dateFormat) === dateStr;
-}
+export const isDateFormatValid = (dateStr: string, dateFormat: string) => {
+  if (!dateStr && !dateFormat) {
+    return false;
+  }
+
+  const parsedDate = parse(dateStr, dateFormat, new Date());
+
+  if (!isValid(parsedDate)) {
+    return false;
+  }
+
+  return format(parsedDate, dateFormat) === dateStr;
+};

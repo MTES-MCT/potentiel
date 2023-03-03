@@ -26,7 +26,7 @@ import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helper
 import asyncHandler from '../helpers/asyncHandler';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
-import moment from 'moment';
+import { parse } from 'date-fns';
 
 const FORMAT_DATE = 'DD/MM/YYYY';
 
@@ -130,9 +130,7 @@ v1Router.post(
       case 'recours':
         acceptanceParams = {
           type,
-          newNotificationDate: moment(newNotificationDate, 'DD/MM/YYYY')
-            .tz('Europe/London')
-            .toDate(),
+          newNotificationDate: parse(newNotificationDate, 'dd/MM/yyyy', new Date()),
         };
         break;
       case 'puissance':
