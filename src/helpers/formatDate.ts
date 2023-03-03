@@ -1,10 +1,6 @@
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
 
-function formatDate(timestamp: number | Date, format?: string) {
-  return moment(timestamp)
-    .tz('Europe/Paris')
-    .locale('fr')
-    .format(format || 'DD/MM/YYYY');
-}
+const formatDate = (timestamp: number | Date, dateFormat?: string) =>
+  format(timestamp, dateFormat || 'dd/MM/yyyy');
 
 export { formatDate };
