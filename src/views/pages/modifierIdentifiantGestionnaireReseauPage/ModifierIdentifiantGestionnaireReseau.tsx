@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Request } from 'express';
 
 import {
@@ -6,18 +6,15 @@ import {
   ErrorBox,
   Heading1,
   Heading2,
-  InfoBox,
-  Input,
-  Label,
   PageTemplate,
   ProjectInfo,
   ProjectProps,
   SecondaryLinkButton,
-  Select,
   SuccessBox,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
+import { GestionnaireRéseauFormInputs } from './GestionnaireRéseauFormInputs';
 
 type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request;
@@ -36,27 +33,6 @@ export const ModifierIdentifiantGestionnaireReseau = ({
   listeGestionnairesRéseau,
 }: ModifierIdentifiantGestionnaireReseauProps) => {
   const { error, success } = (request.query as any) || {};
-
-  const gestionnaireActuel = listeGestionnairesRéseau?.find(
-    (gestionnaire) => gestionnaire.codeEIC === projet.gestionnaireRéseau?.codeEIC,
-  );
-
-  const [format, setFormat] = useState(gestionnaireActuel?.format || '');
-  const [légende, setLégende] = useState(gestionnaireActuel?.légende || '');
-
-  const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
-    const gestionnaireSélectionné = listeGestionnairesRéseau?.find(
-      (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
-    );
-
-    gestionnaireSélectionné && gestionnaireSélectionné.format
-      ? setFormat(gestionnaireSélectionné.format)
-      : setFormat('');
-
-    gestionnaireSélectionné && gestionnaireSélectionné.légende
-      ? setLégende(gestionnaireSélectionné.légende)
-      : setLégende('');
-  };
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -82,46 +58,12 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           </div>
 
           <input type="hidden" name="projetId" value={projet.id} />
-          {listeGestionnairesRéseau && listeGestionnairesRéseau.length > 0 && (
-            <div>
-              <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
-              <Select
-                id="codeEICGestionnaireRéseau"
-                name="codeEICGestionnaireRéseau"
-                onChange={(e) => handleGestionnaireSéléctionné(e)}
-                defaultValue={projet.gestionnaireRéseau?.codeEIC || 'default'}
-              >
-                <option value="default" disabled hidden>
-                  Choisir un gestionnaire de réseau
-                </option>
-                {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                  <option value={codeEIC} key={codeEIC}>
-                    {raisonSociale} (code EIC : {codeEIC})
-                  </option>
-                ))}
-              </Select>
-            </div>
-          )}
 
-          <div>
-            <Label htmlFor="identifiantGestionnaireRéseau">
-              Identifiant de gestionnaire réseau du projet (champ obligatoire)
-            </Label>
-            {(format || légende) && (
-              <InfoBox className="mt-2 mb-3">
-                {légende && <p className="m-0">Format attendu : {légende}</p>}
-                {format && <p className="m-0 italic">Exemple : {format}</p>}
-              </InfoBox>
-            )}
-            <Input
-              type="text"
-              id="identifiantGestionnaireRéseau"
-              name="identifiantGestionnaireRéseau"
-              placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
-              defaultValue={projet.identifiantGestionnaire || ''}
-              required
-            />
-          </div>
+          <GestionnaireRéseauFormInputs
+            identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaire}
+            gestionnaireRéseauActuel={projet.gestionnaireRéseau}
+            listeGestionnairesRéseau={listeGestionnairesRéseau}
+          />
 
           <div className="m-auto flex">
             <Button className="mr-1" type="submit">
