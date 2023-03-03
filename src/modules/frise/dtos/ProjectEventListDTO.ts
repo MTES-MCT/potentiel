@@ -157,7 +157,6 @@ export type ProjectDCRSubmittedDTO = {
   date: number;
   variant: 'porteur-projet' | 'admin' | 'dgec-validateur' | 'dreal';
   file?: File;
-  numeroDossier: string;
 };
 
 export type ProjectDCRRemovedDTO = {

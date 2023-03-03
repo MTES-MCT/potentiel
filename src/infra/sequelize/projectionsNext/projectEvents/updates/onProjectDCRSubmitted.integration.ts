@@ -51,7 +51,7 @@ describe('onProjectDCRSubmitted', () => {
         type: 'ProjectDCRSubmitted',
         valueDate: dcrDate.getTime(),
         eventPublishedAt: occurredAt.getTime(),
-        payload: { file: { id: fileId, name: filename }, numeroDossier },
+        payload: { file: { id: fileId, name: filename } },
       });
     });
 
@@ -81,7 +81,6 @@ describe('onProjectDCRSubmitted', () => {
           type: 'ProjectDCRSubmitted',
           valueDate: dcrDate.getTime(),
           eventPublishedAt: occurredAt.getTime(),
-          payload: { numeroDossier },
         });
       });
     });

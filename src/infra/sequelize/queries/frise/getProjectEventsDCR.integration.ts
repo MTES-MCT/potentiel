@@ -30,7 +30,6 @@ describe('getProjectEvents pour les événements DCR', () => {
     eventPublishedAt: new Date('2022-03-01').getTime(),
     payload: {
       file: { id: 'file-id', name: 'my-file-name' },
-      numeroDossier: 'DOSSIER-1',
     },
   } as ProjectDCREvents;
 
@@ -103,7 +102,6 @@ describe('getProjectEvents pour les événements DCR', () => {
               date: projectDCRSubmittedEvent.valueDate,
               variant: role,
               file: { id: 'file-id', name: 'my-file-name' },
-              numeroDossier: 'DOSSIER-1',
             },
             {
               type: 'ProjectDCRRemoved',

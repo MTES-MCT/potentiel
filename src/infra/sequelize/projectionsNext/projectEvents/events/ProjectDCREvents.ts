@@ -9,7 +9,6 @@ export type ProjectDCREvents = ProjectEvent &
             id: string;
             name: string;
           };
-          numeroDossier: string;
         };
       }
     | {

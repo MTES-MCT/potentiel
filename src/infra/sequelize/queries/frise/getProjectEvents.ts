@@ -208,7 +208,6 @@ export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
                         date: valueDate,
                         variant: user.role,
                         file: file && { id: file.id, name: file.name },
-                        numeroDossier: payload.numeroDossier,
                       });
                     }
                   }

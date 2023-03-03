@@ -332,7 +332,6 @@ export const PPDCRConstituée = () => (
           fileId: 'file-id',
           filename: 'file-name',
           submittedBy: 'someone',
-          numeroDossier: 'DOSSIER-1',
         } as ProjectDCRSubmittedDTO,
       ],
     }}

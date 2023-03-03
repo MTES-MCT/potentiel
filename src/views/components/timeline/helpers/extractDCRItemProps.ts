@@ -14,7 +14,6 @@ export type DCRItemProps = {
   | {
       status: 'submitted';
       url: string | undefined;
-      numeroDossier: string;
     }
 );
 
@@ -56,7 +55,6 @@ export const extractDCRItemProps = (
           projectDCREvent.file &&
           makeDocumentUrl(projectDCREvent.file.id, projectDCREvent.file.name),
         status: 'submitted',
-        numeroDossier: projectDCREvent.numeroDossier,
       }
     : project.status !== 'Abandonné'
     ? {
