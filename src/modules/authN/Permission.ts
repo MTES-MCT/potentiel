@@ -17,7 +17,7 @@ import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidat
 import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
-  //PermissionAjouterGestionnaireRéseau,
+  PermissionAjouterGestionnaireRéseau,
 } from '@modules/gestionnaireRéseau';
 
 export type Permission = {
@@ -74,7 +74,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
-        //PermissionAjouterGestionnaireRéseau,
+        PermissionAjouterGestionnaireRéseau,
       ];
     case 'dgec-validateur':
       return [
@@ -89,7 +89,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
-        //PermissionAjouterGestionnaireRéseau,
+        PermissionAjouterGestionnaireRéseau,
       ];
     case 'acheteur-obligé':
     case 'ademe':
