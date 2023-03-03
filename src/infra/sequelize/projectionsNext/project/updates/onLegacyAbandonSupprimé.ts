@@ -1,13 +1,26 @@
 import { logger } from '@core/utils';
 import { LegacyAbandonSupprimé } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onLegacyAbandonSupprimé = ProjectProjector.on(
   LegacyAbandonSupprimé,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { dcrDueOn, completionDueOn, projetId },
+      } = évènement;
+      await Project.update(
+        {
+          abandonedOn: 0,
+          dcrDueOn,
+          completionDueOn,
+        },
+        {
+          where: { id: projetId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,31 +35,3 @@ export const onLegacyAbandonSupprimé = ProjectProjector.on(
     }
   },
 );
-
-// export const onLegacyAbandonSupprimé = (models) => async (event: LegacyAbandonSupprimé) => {
-//   const { Project } = models;
-//   const {
-//     payload: { dcrDueOn, completionDueOn, projetId },
-//   } = event;
-//   const projectInstance = await Project.findByPk(projetId);
-
-//   if (!projectInstance) {
-//     logger.error(
-//       `Error: onLegacyAbandonSupprimé projection failed to retrieve project from db': ${event}`,
-//     );
-//     return;
-//   }
-
-//   Object.assign(projectInstance, {
-//     abandonedOn: 0,
-//     dcrDueOn,
-//     completionDueOn,
-//   });
-
-//   try {
-//     await projectInstance.save();
-//   } catch (e) {
-//     logger.error(e);
-//     logger.info('Error: onLegacyAbandonSupprimé projection failed to update project', event);
-//   }
-// };

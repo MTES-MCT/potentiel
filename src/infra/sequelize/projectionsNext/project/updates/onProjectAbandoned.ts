@@ -1,13 +1,27 @@
 import { logger } from '@core/utils';
 import { ProjectAbandoned } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectAbandoned = ProjectProjector.on(
   ProjectAbandoned,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId },
+        occurredAt,
+      } = évènement;
+      await Project.update(
+        {
+          abandonedOn: occurredAt.getTime(),
+          dcrDueOn: 0,
+          completionDueOn: 0,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,29 +36,3 @@ export const onProjectAbandoned = ProjectProjector.on(
     }
   },
 );
-
-// export const onProjectAbandoned = (models) => async (event: ProjectAbandoned) => {
-//   const { Project } = models;
-//   const projectInstance = await Project.findByPk(event.payload.projectId);
-
-//   if (!projectInstance) {
-//     logger.error(
-//       `Error: onProjectAbandoned projection failed to retrieve project from db': ${event}`,
-//     );
-//     return;
-//   }
-
-//   const { occurredAt } = event;
-//   Object.assign(projectInstance, {
-//     abandonedOn: occurredAt.getTime(),
-//     dcrDueOn: 0,
-//     completionDueOn: 0,
-//   });
-
-//   try {
-//     await projectInstance.save();
-//   } catch (e) {
-//     logger.error(e);
-//     logger.info('Error: onProjectAbandoned projection failed to update project', event);
-//   }
-// };

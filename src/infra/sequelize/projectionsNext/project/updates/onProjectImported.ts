@@ -1,13 +1,25 @@
 import { logger } from '@core/utils';
 import { ProjectImported } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
+// TODO: Projection migrée en l'état, Project étant typé à any dans l'implémentation initiale, il manque des champs obligatoire lors de la création.
 export const onProjectImported = ProjectProjector.on(
   ProjectImported,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId, data, potentielIdentifier },
+      } = évènement;
+      await Project.create(
+        {
+          id: projectId,
+          ...data,
+          evaluationCarboneDeRéférence: data.evaluationCarbone,
+          potentielIdentifier,
+        } as any,
+        { transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,21 +34,3 @@ export const onProjectImported = ProjectProjector.on(
     }
   },
 );
-
-// export const onProjectImported = (models) => async (event: ProjectImported) => {
-//   const { Project } = models;
-
-//   const { projectId, data, potentielIdentifier } = event.payload;
-
-//   try {
-//     await Project.create({
-//       id: projectId,
-//       ...data,
-//       evaluationCarboneDeRéférence: data.evaluationCarbone,
-//       potentielIdentifier,
-//     });
-//   } catch (e) {
-//     logger.error(e);
-//     logger.info('Error: onProjectImported projection failed to update project', event);
-//   }
-// };

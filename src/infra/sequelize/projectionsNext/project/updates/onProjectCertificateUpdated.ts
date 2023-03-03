@@ -1,13 +1,25 @@
 import { logger } from '@core/utils';
 import { ProjectCertificateUpdated } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectCertificateUpdated = ProjectProjector.on(
   ProjectCertificateUpdated,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId, certificateFileId },
+      } = évènement;
+
+      await Project.update(
+        {
+          certificateFileId,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

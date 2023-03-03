@@ -1,9 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import { ProjectNotified } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import { onProjectNotificationDateSet } from './onProjectNotificationDateSet';
 import { v4 as uuid } from 'uuid';
 import { Project } from '../project.model';
+import { onProjectNotified } from './onProjectNotified';
 
 describe('project.onProjectNotified', () => {
   const projectId = uuid();
@@ -26,7 +26,7 @@ describe('project.onProjectNotified', () => {
   });
 
   it('should update project.notifiedOn on ProjectNotified', async () => {
-    await onProjectNotificationDateSet(
+    await onProjectNotified(
       new ProjectNotified({
         payload: {
           projectId,

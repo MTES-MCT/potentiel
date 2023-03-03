@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { ProjectClasseGranted } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
@@ -13,8 +13,6 @@ describe(`handler onProjectClasseGranted pour la projection garantiesFinancière
   const projetId = new UniqueEntityID().toString();
   const occurredAt = new Date('2022-01-04');
   const grantedBy = new UniqueEntityID().toString();
-
-  const { Project } = models;
 
   describe(`Ne rien enregistrer si le projet n'est pas soumis à garanties financières`, () => {
     it(`Etant donné un événement ProjectClasseGranted émis pour un projet non soumis à GF,

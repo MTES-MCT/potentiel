@@ -1,14 +1,21 @@
 import { CahierDesChargesChoisi } from '@modules/project';
 
 import { logger } from '@core/utils';
-import { ProjectProjector } from '@infra/sequelize';
+import { Project, ProjectProjector } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
+import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 
 export const onCahierDesChargesChoisi = ProjectProjector.on(
   CahierDesChargesChoisi,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const { payload } = évènement;
+      await Project.update(
+        {
+          cahierDesChargesActuel: formatCahierDesChargesRéférence(payload),
+        },
+        { where: { id: payload.projetId }, transaction },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -23,32 +30,3 @@ export const onCahierDesChargesChoisi = ProjectProjector.on(
     }
   },
 );
-
-// type OnCahierDesChargesChoisi = (
-//   projections: Projections,
-// ) => (événement: CahierDesChargesChoisi) => Promise<void>;
-
-// export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
-//   ({ Project }) =>
-//   async (évènement) => {
-//     const { payload } = évènement;
-//     try {
-//       await Project.update(
-//         {
-//           cahierDesChargesActuel: formatCahierDesChargesRéférence(payload),
-//         },
-//         { where: { id: payload.projetId } },
-//       );
-//     } catch (cause) {
-//       logger.error(
-//         new ProjectionEnEchec(
-//           'Erreur lors de la projection du nouveau cahier des charges choisi',
-//           {
-//             nomProjection: 'onCahierDesChargesChoisi',
-//             évènement,
-//           },
-//           cause,
-//         ),
-//       );
-//     }
-//   };

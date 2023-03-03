@@ -4,7 +4,7 @@ import { logger } from '@core/utils';
 import { ProjectClasseGranted } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
-import models from '../../../models';
+import { Project } from '../../project/project.model';
 
 export default GarantiesFinancièresProjector.on(
   ProjectClasseGranted,
@@ -12,8 +12,6 @@ export default GarantiesFinancièresProjector.on(
     const {
       payload: { projectId: projetId },
     } = évènement;
-
-    const { Project } = models;
 
     const project = await Project.findOne({
       where: { id: projetId },

@@ -1,13 +1,25 @@
 import { logger } from '@core/utils';
 import { ProjectClasseGranted } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectClasseGranted = ProjectProjector.on(
   ProjectClasseGranted,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId },
+      } = évènement;
+
+      await Project.update(
+        {
+          classe: 'Classé',
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

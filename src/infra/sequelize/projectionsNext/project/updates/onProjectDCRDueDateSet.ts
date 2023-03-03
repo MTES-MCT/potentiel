@@ -1,13 +1,25 @@
 import { logger } from '@core/utils';
 import { ProjectDCRDueDateSet } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectDCRDueDateSet = ProjectProjector.on(
   ProjectDCRDueDateSet,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId, dcrDueOn },
+      } = évènement;
+
+      await Project.update(
+        {
+          dcrDueOn,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

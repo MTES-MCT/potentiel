@@ -1,13 +1,25 @@
 import { logger } from '@core/utils';
 import { ProjectCompletionDueDateCancelled } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectCompletionDueDateCancelled = ProjectProjector.on(
   ProjectCompletionDueDateCancelled,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId },
+      } = évènement;
+
+      await Project.update(
+        {
+          completionDueOn: 0,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

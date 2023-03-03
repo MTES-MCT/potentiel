@@ -1,27 +1,37 @@
 import { logger } from '@core/utils';
 import { ProjectClaimed } from '@modules/projectClaim/events';
-import { EntityNotFoundError } from '@modules/shared';
+import { ProjectProjector, Project } from '../project.model';
+import { ProjectionEnEchec } from '@modules/shared';
 
-export const onProjectClaimed = (models) => async (event: ProjectClaimed) => {
-  const { projectId, claimerEmail } = event.payload;
-  const { Project } = models;
+export const onProjectClaimed = ProjectProjector.on(
+  ProjectClaimed,
+  async (évènement, transaction) => {
+    try {
+      const {
+        payload: { projectId, claimerEmail, attestationDesignationFileId },
+      } = évènement;
 
-  try {
-    const project = await Project.findByPk(projectId);
-
-    if (project === null) {
-      throw new EntityNotFoundError();
+      await Project.update(
+        {
+          certificateFileId: attestationDesignationFileId,
+          email: claimerEmail,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ProjectClaimed`,
+          {
+            évènement,
+            nomProjection: 'Project.ProjectClaimed',
+          },
+          error,
+        ),
+      );
     }
-
-    project.email = claimerEmail;
-
-    if (!project.certificateFileId && event.type === ProjectClaimed.type) {
-      const { attestationDesignationFileId } = event.payload;
-      project.certificateFileId = attestationDesignationFileId;
-    }
-
-    await project.save();
-  } catch (e) {
-    logger.error(e);
-  }
-};
+  },
+);

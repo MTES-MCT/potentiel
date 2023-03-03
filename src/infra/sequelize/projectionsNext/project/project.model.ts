@@ -9,7 +9,7 @@ import { Technologie } from '@entities';
 import { ContratEDF } from '@modules/edf';
 import { ContratEnedis } from '@modules/enedis';
 import { GarantiesFinancières, Raccordements } from '..';
-import { sequelizeInstance } from 'src/sequelize.config';
+import { sequelizeInstance } from '../../../../sequelize.config';
 import { makeSequelizeProjector } from '@infra/sequelize/helpers';
 
 class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
@@ -46,7 +46,7 @@ class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Pr
   completionDueOn: number;
   abandonedOn: number;
   details?: { [key: string]: string };
-  certificateFileId?: string;
+  certificateFileId?: string | null;
   cahierDesChargesActuel: string;
   potentielIdentifier: string;
   technologie?: Technologie;

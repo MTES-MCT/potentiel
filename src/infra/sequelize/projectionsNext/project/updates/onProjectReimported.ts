@@ -1,13 +1,36 @@
 import { logger } from '@core/utils';
 import { ProjectReimported } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
+// TODO: Projection migrée en l'état, doit être revu (en supprimant l'utilisation de la colonne JSON)
 export const onProjectReimported = ProjectProjector.on(
   ProjectReimported,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId, data },
+      } = évènement;
+      const project = await Project.findByPk(projectId);
+
+      if (project === null) {
+        throw new Error(`onProjectReimported for project that is not found ${projectId}`);
+      }
+
+      const { details, ...other } = data;
+
+      if (details) {
+        Object.assign(project.details as any, details);
+        project.changed('details', true);
+      }
+
+      Object.assign(project, {
+        ...other,
+        evaluationCarboneDeRéférence:
+          other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
+      });
+
+      await project.save();
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,34 +45,3 @@ export const onProjectReimported = ProjectProjector.on(
     }
   },
 );
-
-// export const onProjectReimported = (models) => async (event: ProjectReimported) => {
-//   const { Project } = models;
-
-//   const { projectId, data } = event.payload;
-
-//   try {
-//     const project = await Project.findByPk(projectId);
-
-//     if (project === null) {
-//       throw new Error(`onProjectReimported for project that is not found ${projectId}`);
-//     }
-
-//     const { details, ...other } = data;
-
-//     if (details) {
-//       Object.assign(project.details, details);
-//       project.changed('details', true);
-//     }
-
-//     Object.assign(project, {
-//       ...other,
-//       evaluationCarboneDeRéférence: other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
-//     });
-
-//     await project.save();
-//   } catch (e) {
-//     logger.error(e);
-//     logger.info('Error: onProjectReimported projection failed to update project', event);
-//   }
-// };

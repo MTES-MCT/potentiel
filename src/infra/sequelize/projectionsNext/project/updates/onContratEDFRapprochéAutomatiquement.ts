@@ -1,13 +1,43 @@
 import { logger } from '@core/utils';
 import { ContratEDFRapprochéAutomatiquement } from '@modules/edf';
-import { ProjectProjector } from '@infra/sequelize';
+import { Project, ProjectProjector } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
+// TODO: Projection migrée en l'état, mais pose probléme car le design de la gestion des contrats doit être revu (en supprimant l'utilisation de la colonne JSON)
 export const onContratEDFRapprochéAutomatiquement = ProjectProjector.on(
   ContratEDFRapprochéAutomatiquement,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        projectId,
+        numero,
+        type,
+        dateEffet,
+        dateSignature,
+        dateMiseEnService,
+        statut,
+        duree,
+      } = évènement.payload;
+      const projectInstance = await Project.findByPk(projectId);
+
+      if (!projectInstance) {
+        logger.error(
+          `Error: onEDFContractAutomaticallyLinkedToProject projection failed to retrieve project from db: ${event}`,
+        );
+        return;
+      }
+
+      projectInstance.contratEDF = {
+        numero,
+        type,
+        dateEffet,
+        dateSignature,
+        dateMiseEnService,
+        statut,
+        duree: duree && Number(duree),
+      } as any;
+
+      await projectInstance.save();
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,38 +52,3 @@ export const onContratEDFRapprochéAutomatiquement = ProjectProjector.on(
     }
   },
 );
-
-// export const onContratEDFRapprochéAutomatiquement =
-//   (models) => async (event: ContratEDFRapprochéAutomatiquement) => {
-//     const { projectId, numero, type, dateEffet, dateSignature, dateMiseEnService, statut, duree } =
-//       event.payload;
-//     const { Project } = models;
-//     const projectInstance = await Project.findByPk(projectId);
-
-//     if (!projectInstance) {
-//       logger.error(
-//         `Error: onEDFContractAutomaticallyLinkedToProject projection failed to retrieve project from db: ${event}`,
-//       );
-//       return;
-//     }
-
-//     projectInstance.contratEDF = {
-//       numero,
-//       type,
-//       dateEffet,
-//       dateSignature,
-//       dateMiseEnService,
-//       statut,
-//       duree: duree && Number(duree),
-//     };
-
-//     try {
-//       await projectInstance.save();
-//     } catch (e) {
-//       logger.error(e);
-//       logger.info(
-//         'Error: onEDFContractAutomaticallyLinkedToProject projection failed to update project',
-//         event,
-//       );
-//     }
-//   };

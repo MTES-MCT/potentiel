@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { ProjectNotified } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
@@ -13,7 +13,6 @@ describe(`handler onProjectNotified pour la projection garantiesFinancières`, (
   const projetId = new UniqueEntityID().toString();
   const occurredAt = new Date('2022-01-04');
 
-  const { Project } = models;
   describe(`Ne rien enregistrer si le projet est éliminé`, () => {
     it(`Etant donné un événement ProjectNotified émis pour un projet soumis à GF, mais non-lauréat,
     alors aucune entrée ne doit être ajoutée à la table pour le projet`, async () => {

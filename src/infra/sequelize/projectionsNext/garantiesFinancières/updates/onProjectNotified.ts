@@ -4,7 +4,7 @@ import { logger } from '@core/utils';
 import { ProjectNotified } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export default GarantiesFinancièresProjector.on(ProjectNotified, async (évènement, transaction) => {
   const {
@@ -16,8 +16,6 @@ export default GarantiesFinancièresProjector.on(ProjectNotified, async (évène
   if (entréeExistance) {
     return;
   }
-
-  const { Project } = models;
 
   const projet = await Project.findOne({ where: { id: projetId }, transaction });
 

@@ -2,11 +2,10 @@ import { UniqueEntityID } from '@core/domain';
 import { FileAttachedToProject } from '../../../../../modules/file';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
 import { ProjectEvent } from '../projectEvent.model';
+import { User } from '../../users/users.model';
+import { UserDreal } from '../../userDreal/userDreal.model';
 import onFileAttachedToProject from './onFileAttachedToProject';
-
-const { User, UserDreal } = models;
 
 describe('onFileAttachedToProject', () => {
   const projectId = new UniqueEntityID().toString();

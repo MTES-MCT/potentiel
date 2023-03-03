@@ -1,13 +1,36 @@
 import { logger } from '@core/utils';
 import { ProjectDataCorrected } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectDataCorrected = ProjectProjector.on(
   ProjectDataCorrected,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const {
+        payload: { projectId, correctedData },
+      } = évènement;
+
+      const projet = await Project.findByPk(projectId);
+
+      if (!projet) {
+        logger.error(
+          `Error: onProjectDataCorrected projection failed to retrieve project from db ${event}`,
+        );
+        return;
+      }
+
+      await Project.update(
+        {
+          ...correctedData,
+          evaluationCarboneDeRéférence:
+            correctedData.evaluationCarbone ?? projet.evaluationCarboneDeRéférence,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

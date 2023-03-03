@@ -1,13 +1,32 @@
 import { logger } from '@core/utils';
-import { DonnéesDeRaccordementRenseignées } from '@modules/project';
+import {
+  DonnéesDeRaccordementRenseignées,
+  DonnéesDeRaccordementRenseignéesdPayload,
+} from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 
 export const onDonnéesDeRaccordementRenseignées = ProjectProjector.on(
   DonnéesDeRaccordementRenseignées,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const { payload } = évènement;
+      const { projetId } = payload;
+
+      const dateMiseEnService = hasDateMiseEnService(payload)
+        ? payload.dateMiseEnService
+        : undefined;
+      const dateFileAttente = hasDateFileAttente(payload) ? payload.dateFileAttente : undefined;
+      await Project.update(
+        {
+          dateMiseEnService,
+          dateFileAttente,
+        },
+        {
+          where: { id: projetId },
+          transaction,
+        },
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -23,53 +42,14 @@ export const onDonnéesDeRaccordementRenseignées = ProjectProjector.on(
   },
 );
 
-// type onDonnéesDeRaccordementRenseignées = (
-//   projections: Projections,
-// ) => (événement: DonnéesDeRaccordementRenseignées) => Promise<void>;
+const hasDateMiseEnService = (
+  payload: DonnéesDeRaccordementRenseignéesdPayload,
+): payload is DonnéesDeRaccordementRenseignéesdPayload & { dateMiseEnService: Date } => {
+  return (payload as any).dateMiseEnService;
+};
 
-// export const onDonnéesDeRaccordementRenseignées: onDonnéesDeRaccordementRenseignées =
-//   ({ Project }) =>
-//   async (évènement) => {
-//     const { payload } = évènement;
-
-//     const projectInstance = await Project.findByPk(payload.projetId);
-
-//     if (!projectInstance) {
-//       logger.error(
-//         new ProjectionEnEchec(
-//           'Erreur dans la projection onDonnéesDeRaccordementRenseignées : impossible de récupérer le projet de la db',
-//           {
-//             nomProjection: 'onDonnéesDeRaccordementRenseignées',
-//             évènement,
-//           },
-//         ),
-//       );
-//       return;
-//     }
-//     try {
-//       await Project.update(
-//         {
-//           ...('dateMiseEnService' in payload && {
-//             dateMiseEnService: payload.dateMiseEnService,
-//           }),
-//           ...('dateFileAttente' in payload && {
-//             dateFileAttente: payload.dateFileAttente,
-//           }),
-//         },
-//         {
-//           where: { id: payload.projetId },
-//         },
-//       );
-//     } catch (cause) {
-//       logger.error(
-//         new ProjectionEnEchec(
-//           'Erreur lors de la projection du renseignement de la date de mise en service',
-//           {
-//             nomProjection: 'onDonnéesDeRaccordementRenseignées',
-//             évènement,
-//           },
-//           cause,
-//         ),
-//       );
-//     }
-//   };
+const hasDateFileAttente = (
+  payload: DonnéesDeRaccordementRenseignéesdPayload,
+): payload is DonnéesDeRaccordementRenseignéesdPayload & { dateFileAttente: Date } => {
+  return (payload as any).dateFileAttente;
+};

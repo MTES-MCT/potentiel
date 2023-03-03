@@ -1,22 +1,36 @@
 import { logger } from '@core/utils';
 import { ProjectClaimedByOwner } from '@modules/projectClaim/events';
-import { EntityNotFoundError } from '@modules/shared';
+import { ProjectProjector, Project } from '../project.model';
+import { ProjectionEnEchec } from '@modules/shared';
 
-export const onProjectClaimedByOwner = (models) => async (event: ProjectClaimedByOwner) => {
-  const { projectId, claimerEmail } = event.payload;
-  const { Project } = models;
+export const onProjectClaimedByOwner = ProjectProjector.on(
+  ProjectClaimedByOwner,
+  async (évènement, transaction) => {
+    try {
+      const {
+        payload: { claimerEmail, projectId },
+      } = évènement;
 
-  try {
-    const project = await Project.findByPk(projectId);
-
-    if (project === null) {
-      throw new EntityNotFoundError();
+      await Project.update(
+        {
+          email: claimerEmail,
+        },
+        {
+          where: { id: projectId },
+          transaction,
+        },
+      );
+    } catch (error) {
+      logger.error(
+        new ProjectionEnEchec(
+          `Erreur lors du traitement de l'évènement ProjectClaimedByOwner`,
+          {
+            évènement,
+            nomProjection: 'Project.ProjectClaimedByOwner',
+          },
+          error,
+        ),
+      );
     }
-
-    project.email = claimerEmail;
-
-    await project.save();
-  } catch (e) {
-    logger.error(e);
-  }
-};
+  },
+);

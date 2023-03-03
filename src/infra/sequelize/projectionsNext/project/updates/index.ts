@@ -65,6 +65,8 @@ import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordement
 
 import { onLegacyAbandonSupprimé } from './onLegacyAbandonSupprimé';
 import { onAbandonProjetAnnulé } from './onAbandonProjetAnnulé';
+import { onProjectClaimedByOwner } from './onProjectClaimedByOwner';
+import { onProjectNotified } from './onProjectNotified';
 
 export const initProjectProjections = (eventBus: EventBus) => {
   eventBus.subscribe(ProjectImported.type, onProjectImported);
@@ -74,7 +76,7 @@ export const initProjectProjections = (eventBus: EventBus) => {
   eventBus.subscribe(ProjectDCRDueDateCancelled.type, onProjectDCRDueDateCancelled);
   eventBus.subscribe(ProjectCompletionDueDateSet.type, onProjectCompletionDueDateSet);
   eventBus.subscribe(ProjectCompletionDueDateCancelled.type, onProjectCompletionDueDateCancelled);
-  eventBus.subscribe(ProjectNotified.type, onProjectNotificationDateSet);
+  eventBus.subscribe(ProjectNotified.type, onProjectNotified);
   eventBus.subscribe(ProjectNotificationDateSet.type, onProjectNotificationDateSet);
   eventBus.subscribe(ProjectCertificateGenerated.type, onProjectCertificateGenerated);
   eventBus.subscribe(ProjectCertificateRegenerated.type, onProjectCertificateRegenerated);
@@ -89,7 +91,7 @@ export const initProjectProjections = (eventBus: EventBus) => {
   eventBus.subscribe(ProjectFournisseursUpdated.type, onProjectFournisseursUpdated);
   eventBus.subscribe(CahierDesChargesChoisi.type, onCahierDesChargesChoisi);
   eventBus.subscribe(ProjectClaimed.type, onProjectClaimed);
-  eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimed);
+  eventBus.subscribe(ProjectClaimedByOwner.type, onProjectClaimedByOwner);
 
   eventBus.subscribe(ProjectCertificateObsolete.type, onProjectCertificateObsolete);
 

@@ -3,7 +3,7 @@ import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFDueDateSet } from '@modules/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
 import onProjectGFDueDateSet from './onProjectGFDueDateSet';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières`, () => {
@@ -49,7 +49,6 @@ describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières
     it(`Etant donné un projet non présent dans la projection garantiesFinancières,
     Lorsqu'un évènement ProjectGFDueDateSet est émis pour ce projet,
     alors une nouvelle ligne devrait être insérée dans la projection avec la date limite d'envoi de l'évènement`, async () => {
-      const { Project } = models;
       const projet = makeFakeProject({
         id: projetId,
         appelOffreId: 'Fessenheim',

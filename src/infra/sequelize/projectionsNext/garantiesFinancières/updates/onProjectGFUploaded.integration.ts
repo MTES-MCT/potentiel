@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFUploaded } from '@modules/project';
 import { GarantiesFinancières } from '../garantiesFinancières.model';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import onProjectGFUploaded from './onProjectGFUploaded';
 
@@ -63,7 +63,6 @@ describe(`handler onProjectGFUploaded pour la projection garantiesFinancières`,
     it(`Etant donné un projet non présent dans la projection garantiesFinancières,
       lorsqu'un évènement ProjectGFUploaded est émis pour ce projet,
       alors une nouvelle ligne devrait être insérée dans la projection`, async () => {
-      const { Project } = models;
       const projet = makeFakeProject({
         id: projetId,
         appelOffreId: 'PPE2 - Bâtiment',

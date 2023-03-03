@@ -3,7 +3,7 @@ import { ProjectGFUploaded } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
 import { GarantiesFinancières, GarantiesFinancièresProjector } from '../garantiesFinancières.model';
 import { UniqueEntityID } from '@core/domain';
-import models from '../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 
 export default GarantiesFinancièresProjector.on(
@@ -48,7 +48,6 @@ export default GarantiesFinancièresProjector.on(
     }
 
     try {
-      const { Project } = models;
       const project = await Project.findOne({
         where: { id: projetId },
         transaction,

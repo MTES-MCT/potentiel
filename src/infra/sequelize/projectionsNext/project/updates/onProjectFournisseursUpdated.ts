@@ -1,13 +1,39 @@
 import { logger } from '@core/utils';
 import { ProjectFournisseursUpdated } from '@modules/project';
-import { ProjectProjector } from '@infra/sequelize';
+import { ProjectProjector, Project } from '../project.model';
 import { ProjectionEnEchec } from '@modules/shared';
 
+// TODO: Projection migrée en l'état, doit être revu (en supprimant l'utilisation de la colonne JSON)
 export const onProjectFournisseursUpdated = ProjectProjector.on(
   ProjectFournisseursUpdated,
   async (évènement, transaction) => {
     try {
-      const {} = évènement;
+      const { projectId, newFournisseurs, newEvaluationCarbone } = évènement.payload;
+      const projectInstance = await Project.findByPk(projectId);
+
+      if (!projectInstance) {
+        logger.error(
+          `Error: onProjectFournisseursUpdated projection failed to retrieve project from db: ${event}`,
+        );
+        return;
+      }
+
+      const newProjectDetails = newFournisseurs.reduce((prev, { kind, name }) => {
+        return {
+          ...prev,
+          [kind]: name,
+        };
+      }, {});
+
+      projectInstance.details = {
+        ...projectInstance.details,
+        ...newProjectDetails,
+      };
+
+      if (newEvaluationCarbone) projectInstance.evaluationCarbone = newEvaluationCarbone;
+      projectInstance.changed('details', true);
+
+      await projectInstance.save();
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
@@ -22,39 +48,3 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
     }
   },
 );
-
-// export const onProjectFournisseursUpdated =
-//   (models) => async (event: ProjectFournisseursUpdated) => {
-//     const { projectId, newFournisseurs, newEvaluationCarbone } = event.payload;
-//     const { Project } = models;
-//     const projectInstance = await Project.findByPk(projectId);
-
-//     if (!projectInstance) {
-//       logger.error(
-//         `Error: onProjectFournisseursUpdated projection failed to retrieve project from db: ${event}`,
-//       );
-//       return;
-//     }
-
-//     const newProjectDetails = newFournisseurs.reduce((prev, { kind, name }) => {
-//       return {
-//         ...prev,
-//         [kind]: name,
-//       };
-//     }, {});
-
-//     projectInstance.details = {
-//       ...projectInstance.details,
-//       ...newProjectDetails,
-//     };
-
-//     if (newEvaluationCarbone) projectInstance.evaluationCarbone = newEvaluationCarbone;
-//     projectInstance.changed('details', true);
-
-//     try {
-//       await projectInstance.save();
-//     } catch (e) {
-//       logger.error(e);
-//       logger.info('Error: onProjectFournisseursUpdated projection failed to update project', event);
-//     }
-//   };

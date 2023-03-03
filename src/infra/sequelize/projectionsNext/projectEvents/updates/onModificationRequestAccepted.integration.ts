@@ -11,8 +11,9 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import { ModificationRequest } from '../../modificationRequest';
+import { Project } from '@infra/sequelize/projectionsNext';
 
-const { Project, File } = models;
+const { File } = models;
 
 describe('Handler onModificationRequestAccepted', () => {
   const projectId = new UniqueEntityID().toString();
