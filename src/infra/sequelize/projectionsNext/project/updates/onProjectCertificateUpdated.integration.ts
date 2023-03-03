@@ -3,8 +3,7 @@ import { ProjectCertificateUpdated } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectCertificateUpdated } from './onProjectCertificateUpdated';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
-import { File } from '../../file/file.model';
+import { Project, File } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectCertificate', () => {
   const projectId = uuid();

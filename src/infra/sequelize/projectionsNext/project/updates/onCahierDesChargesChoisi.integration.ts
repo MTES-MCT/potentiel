@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
 import { CahierDesChargesChoisi } from '@modules/project';
 import { UniqueEntityID } from '@core/domain';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('Mise à jour du projet suite au choix du nouveau cahier des charges', () => {
   beforeAll(async () => {

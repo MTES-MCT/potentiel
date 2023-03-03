@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectClasseGranted } from './onProjectClasseGranted';
 import { ProjectClasseGranted } from '@modules/project';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectClasseGranted', () => {
   const projectId = uuid();

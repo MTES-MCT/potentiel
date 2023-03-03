@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { FileDetachedFromProject } from '../../../../../modules/file';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onFileDetachedFromProject from './onFileDetachedFromProject';
 
 describe('onFileDetachedFromProject', () => {

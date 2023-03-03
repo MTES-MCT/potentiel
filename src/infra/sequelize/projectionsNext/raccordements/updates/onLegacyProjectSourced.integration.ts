@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project , Raccordements } from '@infra/sequelize/projectionsNext';
 import { LegacyProjectSourced } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import { Raccordements } from '../raccordements.model';
 import onLegacyProjectSourced from './onLegacyProjectSourced';
 
 describe(`handler onLegacyProjectSourced pour la projection raccordements`, () => {

@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../../helpers';
 import { ProjectClaimed } from '@modules/projectClaim';
-import { UserProjects } from '../userProjects.model';
+import { UserProjects } from '@infra/sequelize/projectionsNext';
 import onProjectClaimed from './onProjectClaimed';
 
 describe('userProjects.onProjectClaimed', () => {

@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '../../../modificationRequest/modificationRequest.model';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { RejetDélaiAnnulé, RejetDélaiAnnuléPayload } from '@modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
 import { ProjectEvent } from '../../projectEvent.model';

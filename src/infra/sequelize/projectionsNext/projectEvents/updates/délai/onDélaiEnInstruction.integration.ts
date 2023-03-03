@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { DélaiEnInstructionPayload, DélaiEnInstruction } from '@modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import { ProjectEvent } from '../../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onDélaiEnInstruction from './onDélaiEnInstruction';
 
 describe('Projecteur de ProjectEvent onDélaiEnInstruction', () => {

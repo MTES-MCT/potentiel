@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFDueDateSet } from '@modules/project';
-import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { GarantiesFinancières , Project } from '@infra/sequelize/projectionsNext';
 import onProjectGFDueDateSet from './onProjectGFDueDateSet';
-import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFDueDateSet pour la projection garantiesFinancières`, () => {

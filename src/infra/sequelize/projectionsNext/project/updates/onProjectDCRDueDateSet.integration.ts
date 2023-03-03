@@ -3,7 +3,7 @@ import { ProjectDCRDueDateSet } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDCRDueDateSet } from './onProjectDCRDueDateSet';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectDCRDueDateSet', () => {
   const projectId = uuid();

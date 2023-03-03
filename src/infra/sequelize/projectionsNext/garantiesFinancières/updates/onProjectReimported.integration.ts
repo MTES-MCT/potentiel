@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectReimported } from '@modules/project';
-import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 import onProjectReimported from './onProjectReimported';
 
 describe(`handler onProjectReimported pour la projection garantiesFinancières`, () => {

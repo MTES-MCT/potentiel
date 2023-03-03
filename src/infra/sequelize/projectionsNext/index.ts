@@ -1,7 +1,8 @@
 import { initModels } from './initModels';
 
 // TODO : Il faut absolument arrêté de faire des export default et des imports avec des side effects, ASAP !
-// Une partie est déjà faite, mais ce module doit éxecuter des side effects au vu de l'organisation du projet
+// Une partie est déjà faite, mais ce module doit éxecuter des side effects au vu de l'organisation du projet.
+// On reverra ça plus tard quand le projet sera stable sur la partie projection
 initModels();
 
 // MERCI DE NE PAS UTILISER L'EXTENSION BARREL DANS CETTE PARTIE DU PROJET !!!

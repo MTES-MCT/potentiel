@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserRightsToProjectGranted } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserProjects } from '../userProjects.model';
+import { UserProjects } from '@infra/sequelize/projectionsNext';
 import onUserRightsToProjectGranted from './onUserRightsToProjectGranted';
 
 describe('userProjects.onUserRightsToProjectGranted', () => {

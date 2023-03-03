@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFRemoved } from '@modules/project';
-import { GarantiesFinancières } from '../garantiesFinancières.model';
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 import onProjectGFRemoved from './onProjectGFRemoved';
 
 describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, () => {

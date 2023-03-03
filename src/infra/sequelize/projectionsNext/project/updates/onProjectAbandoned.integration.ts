@@ -3,7 +3,7 @@ import { ProjectAbandoned } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectAbandoned } from './onProjectAbandoned';
 import { UniqueEntityID } from '@core/domain';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectAbandoned', () => {
   const projectId = new UniqueEntityID().toString();

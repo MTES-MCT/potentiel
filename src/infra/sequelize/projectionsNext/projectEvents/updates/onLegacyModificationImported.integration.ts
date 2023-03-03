@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../../helpers';
 import { LegacyModificationImported } from '@modules/modificationRequest';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onLegacyModificationImported from './onLegacyModificationImported';
 
 describe('onLegacyModificationImported', () => {

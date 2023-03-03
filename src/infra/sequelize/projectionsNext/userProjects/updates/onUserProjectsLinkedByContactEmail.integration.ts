@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserProjects } from '../userProjects.model';
+import { UserProjects } from '@infra/sequelize/projectionsNext';
 import onUserProjectsLinkedByContactEmail from './onUserProjectsLinkedByContactEmail';
 
 describe('userProjects.onUserProjectsLinkedByContactEmail', () => {

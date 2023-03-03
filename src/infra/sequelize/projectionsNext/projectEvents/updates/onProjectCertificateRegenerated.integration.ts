@@ -4,7 +4,7 @@ import {
   ProjectCertificateRegeneratedPayload,
 } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectCertificateRegenerated from './onProjectCertificateRegenerated';
 
 describe('onProjectCertificateRegenerated', () => {

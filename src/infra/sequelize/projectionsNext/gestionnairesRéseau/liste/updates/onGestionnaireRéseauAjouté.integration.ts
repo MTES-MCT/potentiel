@@ -1,7 +1,7 @@
 import onGestionnaireRéseauAjouté from './onGestionnaireRéseauAjouté';
 import { GestionnaireRéseauAjouté } from '@modules/gestionnaireRéseau';
 import { resetDatabase } from '../../../../helpers';
-import { GestionnairesRéseauListe } from '../gestionnairesRéseauListe.model';
+import { GestionnairesRéseauListe } from '@infra/sequelize/projectionsNext';
 
 describe('gestionnaireRéseau.onGestionnaireRéseauAjouté', () => {
   beforeEach(resetDatabase);

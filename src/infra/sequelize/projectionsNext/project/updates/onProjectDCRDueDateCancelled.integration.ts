@@ -3,7 +3,7 @@ import { ProjectDCRDueDateCancelled } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectDCRDueDateCancelled } from './onProjectDCRDueDateCancelled';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectDCRDueDateCancelled', () => {
   const projectId = uuid();

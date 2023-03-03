@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { onModificationRequestCancelled } from './onModificationRequestCancelled';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
 import { resetDatabase } from '@dataAccess';
-import { ModificationRequest } from '../modificationRequest.model';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 describe(`Projection de l'annulation d'une demande`, () => {
   const modificationRequestId = new UniqueEntityID().toString();

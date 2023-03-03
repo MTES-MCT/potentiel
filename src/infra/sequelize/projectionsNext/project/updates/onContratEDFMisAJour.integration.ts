@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onContratEDFMisAJour } from './onContratEDFMisAJour';
 import { ContratEDFMisAJour } from '@modules/edf';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onContratEDFMisAJour', () => {
   const projectId = uuid();

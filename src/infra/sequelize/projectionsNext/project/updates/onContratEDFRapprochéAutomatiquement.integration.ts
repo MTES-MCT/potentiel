@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onContratEDFRapprochéAutomatiquement } from './onContratEDFRapprochéAutomatiquement';
 import { ContratEDFRapprochéAutomatiquement } from '@modules/edf';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onContratEDFRapprochéAutomatiquement', () => {
   const projectId = uuid();

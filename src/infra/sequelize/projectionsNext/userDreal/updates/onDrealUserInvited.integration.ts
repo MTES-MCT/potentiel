@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import onDrealUserInvited from './onDrealUserInvited';
 import { DrealUserInvited } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserDreal } from '../userDreal.model';
+import { UserDreal } from '@infra/sequelize/projectionsNext';
 
 const userId = new UniqueEntityID().toString();
 describe('userDreal.onDrealUserInvited', () => {

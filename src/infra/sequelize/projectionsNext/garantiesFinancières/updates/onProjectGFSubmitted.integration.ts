@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProjectGFSubmitted } from '@modules/project';
-import { GarantiesFinancières } from '../garantiesFinancières.model';
 import onProjectGFSubmitted from './onProjectGFSubmitted';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { GarantiesFinancières, Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 
 describe(`handler onProjectGFSubmitted pour la projection garantiesFinancières`, () => {

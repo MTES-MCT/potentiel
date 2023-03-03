@@ -10,8 +10,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
-import { Project } from '../../project/project.model';
-import { File } from '../../file/file.model';
+import { Project, File } from '@infra/sequelize/projectionsNext';
 
 describe('Handler onModificationRequestAccepted', () => {
   const projectId = new UniqueEntityID().toString();

@@ -2,7 +2,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onDonnéesDeRaccordementRenseignées } from './onDonnéesDeRaccordementRenseignées';
 import { DonnéesDeRaccordementRenseignées } from '@modules/project';
 import { UniqueEntityID } from '@core/domain';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe(`Mise à jour du projet suite à l'ajout d'une date de mise en service`, () => {
   it(`Étant donné un projet

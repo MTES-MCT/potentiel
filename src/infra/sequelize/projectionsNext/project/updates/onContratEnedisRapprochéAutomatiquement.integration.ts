@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onContratEnedisRapprochéAutomatiquement } from './onContratEnedisRapprochéAutomatiquement';
 import { ContratEnedisRapprochéAutomatiquement } from '@modules/enedis';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onContratEnedisRapprochéAutomatiquement', () => {
   const projectId = uuid();

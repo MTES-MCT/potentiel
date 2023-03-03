@@ -3,7 +3,7 @@ import { ProjectCompletionDueDateSet } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { onProjectCompletionDueDateSet } from './onProjectCompletionDueDateSet';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectCompletionDueDateSet', () => {
   const projectId = uuid();

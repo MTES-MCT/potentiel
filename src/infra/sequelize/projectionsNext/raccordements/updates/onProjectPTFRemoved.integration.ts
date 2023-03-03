@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectPTFRemoved } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { Raccordements } from '../raccordements.model';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 import onProjectPTFRemoved from './onProjectPTFRemoved';
 
 describe('Raccordements.onProjectPTFRemoved', () => {

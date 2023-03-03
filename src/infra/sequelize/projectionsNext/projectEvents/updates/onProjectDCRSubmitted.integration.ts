@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRSubmitted, ProjectDCRSubmittedPayload } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectDCRSubmitted from './onProjectDCRSubmitted';
 import { File } from '../../file/file.model';
 

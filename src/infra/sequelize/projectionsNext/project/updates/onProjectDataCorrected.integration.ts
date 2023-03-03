@@ -3,7 +3,7 @@ import { onProjectDataCorrected } from './onProjectDataCorrected';
 import { ProjectDataCorrected } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
 import { v4 as uuid } from 'uuid';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 const newValues = {
   numeroCRE: 'numeroCRE1',

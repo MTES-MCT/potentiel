@@ -3,7 +3,7 @@ import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { UniqueEntityID } from '@core/domain';
 import { onProjectClaimedByOwner } from './onProjectClaimedByOwner';
 import { ProjectClaimedByOwner } from '@modules/projectClaim';
-import { Project } from '../project.model';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 describe('project.onProjectClaimedByOwner', () => {
   const projectId = new UniqueEntityID().toString();
