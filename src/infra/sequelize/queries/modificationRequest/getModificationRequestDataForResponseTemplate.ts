@@ -8,11 +8,11 @@ import {
 } from '@modules/modificationRequest';
 import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
-import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import models from '../../models';
 import { Région } from '@modules/dreal/région';
 import { ModificationRequest } from '../../projectionsNext/modificationRequest';
+import { add, sub } from 'date-fns';
 
 const { Project, File, User } = models;
 
@@ -176,15 +176,20 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
               contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
               dateLimiteAchevementInitiale: formatDate(
-                Number(
-                  moment(notifiedOn)
-                    .add(getDelaiDeRealisation(appelOffre, technologie), 'months')
-                    .subtract(1, 'day'),
+                sub(
+                  add(notifiedOn, {
+                    months: getDelaiDeRealisation(appelOffre, technologie) || 0,
+                  }),
+                  { days: 1 },
                 ),
               ),
               dateAchèvementDemandée: dateAchèvementDemandée
                 ? formatDate(dateAchèvementDemandée)
-                : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
+                : formatDate(
+                    add(completionDueOn, {
+                      months: delayInMonths,
+                    }),
+                  ),
               dateLimiteAchevementActuelle: formatDate(completionDueOn),
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO);

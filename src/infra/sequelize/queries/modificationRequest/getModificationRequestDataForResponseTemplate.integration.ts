@@ -1,7 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
 import { ModificationRequest } from '../../projectionsNext/modificationRequest';
-import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
@@ -301,8 +300,9 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
         if (modificationRequestResult.isErr()) return;
 
         const modificationRequestDTO = modificationRequestResult.value;
-        const dateLimiteAchevementActuelle = 8910;
-
+        const dateLimiteAchevementInitiale = '31/12/1971';
+        const dateLimiteAchevementActuelle = '01/01/1970';
+        const dateAchèvementDemandée = '01/03/1970';
         expect(modificationRequestDTO).toMatchObject({
           type: 'delai',
           // Les deux données ci-dessous sont stockées en mémoire dans l'AO Fessenheim
@@ -315,14 +315,10 @@ Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
 Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
 `,
-          dateLimiteAchevementInitiale: formatDate(
-            Number(moment(321).add(24, 'months').subtract(1, 'day')),
-          ),
-          dateLimiteAchevementActuelle: formatDate(dateLimiteAchevementActuelle),
-          dateAchèvementDemandée: formatDate(
-            Number(moment(dateLimiteAchevementActuelle).add(2, 'months')),
-          ),
-          dateNotification: formatDate(321),
+          dateLimiteAchevementInitiale,
+          dateLimiteAchevementActuelle,
+          dateAchèvementDemandée,
+          dateNotification: dateLimiteAchevementActuelle,
         });
       });
     });
@@ -437,7 +433,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         if (modificationRequestResult.isErr()) return;
 
         const modificationRequestDTO = modificationRequestResult.value;
-        const dateLimiteAchevementActuelle = 8910;
+        const dateLimiteAchevementActuelle = '01/01/1970';
+        const dateLimiteAchevementInitiale = '31/12/1971';
+        const dateAchèvementDemandée = '01/01/2022';
 
         expect(modificationRequestDTO).toMatchObject({
           type: 'delai',
@@ -450,12 +448,10 @@ Des dérogations au délai d’Achèvement sont toutefois possibles dans le cas 
 Ces retards sont réputés autorisés sous réserve de pouvoir les justifier auprès de l’acheteur obligé.
 Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent être accordés en cas d’événement imprévisible à la Date de désignation et extérieur au Producteur, dûment justifié.
 `,
-          dateLimiteAchevementInitiale: formatDate(
-            Number(moment(321).add(24, 'months').subtract(1, 'day')),
-          ),
-          dateLimiteAchevementActuelle: formatDate(dateLimiteAchevementActuelle),
-          dateAchèvementDemandée: formatDate(new Date('2022-01-01').getTime()),
-          dateNotification: formatDate(321),
+          dateLimiteAchevementInitiale,
+          dateLimiteAchevementActuelle,
+          dateAchèvementDemandée,
+          dateNotification: dateLimiteAchevementActuelle,
         });
       });
     });
