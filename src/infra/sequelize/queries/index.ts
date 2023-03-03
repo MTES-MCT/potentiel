@@ -3,6 +3,7 @@ export * from './edf';
 export * from './enedis';
 export * from './file';
 export * from './frise';
+export * from './gestionnaireRéseau';
 export * from './modificationRequest';
 export * from './notification';
 export * from './project';

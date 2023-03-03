@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Link, SecondaryLinkButton } from '@components';
+import { Button, SecondaryLinkButton } from '@components';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 import routes from '@routes';
 import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
@@ -7,6 +7,7 @@ import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
+import { GestionnaireRéseauFormInputs } from 'src/views/pages/modifierIdentifiantGestionnaireReseauPage/GestionnaireRéseauFormInputs';
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage;
@@ -94,23 +95,16 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                       </p>
                     ) : (
                       <div>
-                        <label className="mt-2 mb-1" htmlFor="identifiantGestionnaireRéseau">
+                        <p className="my-2">
                           Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier
                           des avantages de ce cahier des charges, vous devez renseigner
-                          l'identifiant gestionnaire de réseau pour votre projet : (champ
-                          obligatoire)
-                        </label>
-                        <Input
-                          id="identifiantGestionnaireRéseau"
-                          name="identifiantGestionnaireRéseau"
-                          type="text"
-                          placeholder="Identifiant gestionnaire de réseau"
-                          defaultValue={identifiantGestionnaireRéseau}
-                          required
+                          l'identifiant gestionnaire de votre projet :
+                        </p>
+                        <GestionnaireRéseauFormInputs
+                          identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaireRéseau}
+                          gestionnaireRéseauActuel={projet.gestionnaireRéseau}
+                          listeGestionnairesRéseau={projet.listeGestionnairesRéseau}
                         />
-                        <Link href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-                          Où trouver mon numéro ?
-                        </Link>
                       </div>
                     ))}
                 </div>

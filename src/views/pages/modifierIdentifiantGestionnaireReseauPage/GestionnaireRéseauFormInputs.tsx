@@ -40,7 +40,7 @@ export const GestionnaireRéseauFormInputs = ({
   };
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       {listeGestionnairesRéseau && listeGestionnairesRéseau.length > 0 && (
         <div>
           <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
@@ -50,7 +50,7 @@ export const GestionnaireRéseauFormInputs = ({
             onChange={(e) => handleGestionnaireSéléctionné(e)}
           >
             <option selected disabled hidden>
-              Choisir un gestionnaire de réseau
+              Sélectionnez votre gestionnaire de réseau
             </option>
             {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
               <option
@@ -84,6 +84,6 @@ export const GestionnaireRéseauFormInputs = ({
           required
         />
       </div>
-    </>
+    </div>
   );
 };
