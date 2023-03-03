@@ -1,5 +1,4 @@
 import asyncHandler from '../helpers/asyncHandler';
-import moment from 'moment';
 import os from 'os';
 import path from 'path';
 import sanitize from 'sanitize-filename';
@@ -12,6 +11,7 @@ import { ensureRole } from '@config';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { notFoundResponse, unauthorizedResponse } from '../helpers';
+import { getDateFinGarantieFinanciere } from './helpers';
 
 v1Router.get(
   routes.TELECHARGER_MODELE_MISE_EN_DEMEURE(),
@@ -83,22 +83,11 @@ v1Router.get(
             : project.appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
             ? project.appelOffre.garantieFinanciereEnMois.toString()
             : '!!!GARANTIE FINANCIERE EN MOIS NON DISPONIBLE!!!',
-        dateFinGarantieFinanciere:
-          project.famille?.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? formatDate(
-                moment(project.notifiedOn)
-                  .add(project.famille.garantieFinanciereEnMois, 'months')
-                  .toDate()
-                  .getTime(),
-              )
-            : project.appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? formatDate(
-                moment(project.notifiedOn)
-                  .add(project.appelOffre.garantieFinanciereEnMois, 'months')
-                  .toDate()
-                  .getTime(),
-              )
-            : '!!!FAMILLE NON DISPONIBLE!!!',
+        dateFinGarantieFinanciere: getDateFinGarantieFinanciere({
+          famille: project.famille,
+          appelOffre: project.appelOffre,
+          notifiedOn: project.notifiedOn,
+        }),
         dateLimiteDepotGF:
           (project.garantiesFinancières?.dateLimiteEnvoi &&
             formatDate(project.garantiesFinancières?.dateLimiteEnvoi)) ??
