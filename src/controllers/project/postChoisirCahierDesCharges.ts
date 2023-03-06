@@ -48,6 +48,7 @@ const schema = yup.object({
       .oneOf(cahiersDesChargesRéférences.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
+    codeEICGestionnaireRéseau: yup.string().optional(),
   }),
 });
 
@@ -83,7 +84,14 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        body: { projectId, redirectUrl, type, choixCDC, identifiantGestionnaireRéseau },
+        body: {
+          projectId,
+          redirectUrl,
+          type,
+          choixCDC,
+          identifiantGestionnaireRéseau,
+          codeEICGestionnaireRéseau,
+        },
         user,
       } = request;
 
@@ -96,6 +104,7 @@ v1Router.post(
           projetId: projectId,
           utilisateur: user,
           identifiantGestionnaireRéseau,
+          codeEICGestionnaireRéseau,
         });
       })()
         .andThen(() =>
