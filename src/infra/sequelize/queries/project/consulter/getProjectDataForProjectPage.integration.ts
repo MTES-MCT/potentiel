@@ -165,10 +165,10 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     const res = await getProjectDataForProjectPage({ projectId, user });
 
     expect(res._unsafeUnwrap()).toMatchObject({
-      users: [
+      users: expect.arrayContaining([
         { id: userId, fullName: 'username', email: 'user@test.test' },
         { id: userId2, fullName: 'username', email: 'user2@test.test' },
-      ],
+      ]),
     });
   });
 

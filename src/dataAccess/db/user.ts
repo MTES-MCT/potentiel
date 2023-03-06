@@ -58,7 +58,6 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
     addToDreal,
     insert,
     update,
-    addProject,
     remove,
     hasProject,
     addUserToProjectsWithEmail,
@@ -175,33 +174,6 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
         where: { id: user.id },
       });
       return Ok(user);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return Err(error);
-    }
-  }
-
-  async function addProject(userId: User['id'], projectId: Project['id']): ResultAsync<null> {
-    try {
-      // Check if user already has access to this project
-      const priorAccess = await hasProject(userId, projectId);
-      if (priorAccess) return Ok(null);
-
-      const userInstance = await UserModel.findByPk(userId);
-
-      if (!userInstance) {
-        throw new Error('Cannot find user to add project to');
-      }
-
-      const ProjectModel = sequelizeInstance.model('project');
-      const projectInstance = await ProjectModel.findByPk(projectId);
-
-      if (!projectInstance) {
-        throw new Error('Cannot find project to be added to user');
-      }
-
-      await userInstance.addProject(projectInstance);
-      return Ok(null);
     } catch (error) {
       if (CONFIG.logDbErrors) logger.error(error);
       return Err(error);

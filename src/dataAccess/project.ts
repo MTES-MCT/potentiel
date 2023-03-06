@@ -25,29 +25,46 @@ export type ContextSpecificProjectListFilter =
   | {
       regions: Région | Région[];
     };
-
+/**
+ * @deprecated
+ */
 export type ProjectRepo = {
-  findById: (id: Project['id']) => Promise<Project | undefined>;
+  /**
+   * @deprecated
+   */
+  findById: (id: Project['id']) => Promise<Project | undefined>
+  /**
+   * @deprecated
+   */;
   findOne(query: Record<string, any>): Promise<Project | undefined>;
-
+  /**
+   * @deprecated
+   */
   searchForRegions(
     regions: Région | Région[],
     terms: string,
     filters?: ProjectFilters,
     pagination?: Pagination,
   ): Promise<PaginatedList<Project>>;
+  /**
+   * @deprecated
+   */
   findAllForRegions(
     regions: Région | Région[],
     filters?: ProjectFilters,
     pagination?: Pagination,
   ): Promise<PaginatedList<Project>>;
-
+  /**
+   * @deprecated
+   */
   searchAll(
     terms: string,
     filters?: ProjectFilters,
     pagination?: Pagination,
   ): Promise<PaginatedList<Project>>;
-
+  /**
+   * @deprecated
+   */
   searchAllMissingOwner(
     email: string,
     id: string,
@@ -55,29 +72,40 @@ export type ProjectRepo = {
     filters?: ProjectFilters,
     pagination?: Pagination,
   ): Promise<PaginatedList<Project>>;
-
+  /**
+   * @deprecated
+   */
   findAll(query?: ProjectFilters, pagination?: Pagination): Promise<PaginatedList<Project>>;
-
+  /**
+   * @deprecated
+   */
   findExistingAppelsOffres(
     options?: ContextSpecificProjectListFilter,
   ): Promise<Array<AppelOffre['id']>>;
-
+  /**
+   * @deprecated
+   */
   findExistingPeriodesForAppelOffre(
     appelOffreId: AppelOffre['id'],
     options?: ContextSpecificProjectListFilter,
   ): Promise<Array<Periode['id']>>;
-
+  /**
+   * @deprecated
+   */
   findExistingFamillesForAppelOffre(
     appelOffreId: AppelOffre['id'],
     options?: ContextSpecificProjectListFilter,
   ): Promise<Array<Famille['id']>>;
-
-  countUnnotifiedProjects(
-    appelOffreId: AppelOffre['id'],
-    periodeId: Periode['id'],
-  ): Promise<number>;
-
+  /**
+   * @deprecated
+   */
   remove: (projectId: Project['id']) => ResultAsync<null>;
+  /**
+   * @deprecated
+   */
   save: (project: Project) => ResultAsync<null>;
+  /**
+   * @deprecated
+   */
   getUsers: (projectId: Project['id']) => Promise<Array<User>>;
 };

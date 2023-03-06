@@ -2,8 +2,13 @@ import { v4 as uuid } from 'uuid';
 import { Pagination } from '../../types';
 import makeFakeProject from '../../__tests__/fixtures/project';
 import makeFakeUser from '../../__tests__/fixtures/user';
-import { projectRepo, resetDatabase, userRepo } from '.';
-import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
+import { projectRepo, resetDatabase } from '.';
+import {
+  GarantiesFinancières,
+  Project,
+  User,
+  UserProjects,
+} from '@infra/sequelize/projectionsNext';
 
 const defaultPagination = { page: 0, pageSize: 2 } as Pagination;
 
@@ -23,7 +28,7 @@ describe('projectRepo sequelize', () => {
           familleId: '2',
         });
 
-        await projectRepo.save(project);
+        await Project.create(project);
 
         const foundProject = await projectRepo.findById(projectId);
         expect(foundProject).toBeDefined();
@@ -335,7 +340,7 @@ describe('projectRepo sequelize', () => {
           },
         ]
           .map(makeFakeProject)
-          .map(projectRepo.save),
+          .map((p) => Project.create(p)),
       );
 
       const { itemCount, items } = await projectRepo.searchAll('term');
@@ -734,7 +739,7 @@ describe('projectRepo sequelize', () => {
 
         const userId = uuid();
 
-        await userRepo.insert(
+        await User.create(
           makeFakeUser({
             id: userId,
           }),
@@ -762,11 +767,11 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save),
+            .map((p) => Project.create(p)),
         );
 
-        await userRepo.addProject(userId, userProjectId1);
-        await userRepo.addProject(userId, userProjectId2);
+        await UserProjects.create({ userId, projectId: userProjectId1 });
+        await UserProjects.create({ userId, projectId: userProjectId2 });
 
         const results = await projectRepo.findExistingAppelsOffres({
           userId,
@@ -919,7 +924,7 @@ describe('projectRepo sequelize', () => {
 
         const userId = uuid();
 
-        await userRepo.insert(
+        await User.create(
           makeFakeUser({
             id: userId,
           }),
@@ -950,11 +955,11 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save),
+            .map((p) => Project.create(p)),
         );
 
-        await userRepo.addProject(userId, userProjectId1);
-        await userRepo.addProject(userId, userProjectId2);
+        await UserProjects.create({ userId, projectId: userProjectId1 });
+        await UserProjects.create({ userId, projectId: userProjectId2 });
 
         const results = await projectRepo.findExistingPeriodesForAppelOffre(targetAppelOffre, {
           userId,
@@ -1118,7 +1123,7 @@ describe('projectRepo sequelize', () => {
 
         const userId = uuid();
 
-        await userRepo.insert(
+        await User.create(
           makeFakeUser({
             id: userId,
           }),
@@ -1149,11 +1154,11 @@ describe('projectRepo sequelize', () => {
             },
           ]
             .map(makeFakeProject)
-            .map(projectRepo.save),
+            .map((p) => Project.create(p)),
         );
 
-        await userRepo.addProject(userId, userProjectId1);
-        await userRepo.addProject(userId, userProjectId2);
+        await UserProjects.create({ userId, projectId: userProjectId1 });
+        await UserProjects.create({ userId, projectId: userProjectId2 });
 
         const results = await projectRepo.findExistingFamillesForAppelOffre(targetAppelOffre, {
           userId,
@@ -1211,51 +1216,6 @@ describe('projectRepo sequelize', () => {
         expect(results).toHaveLength(2);
         expect(results).toEqual(expect.arrayContaining([targetFamille1, targetFamille2]));
       });
-    });
-  });
-
-  describe('countUnnotifiedProjects(appelOffreId, periodeId)', () => {
-    it('should return the number of unnotified projects for the given appelOffreId and periode', async () => {
-      const targetAppelOffre = 'Fessenheim';
-      const targetPeriode = '1';
-
-      await Promise.all(
-        [
-          {
-            id: uuid(),
-            appelOffreId: targetAppelOffre,
-            periodeId: targetPeriode,
-            notifiedOn: 1,
-          },
-          {
-            id: uuid(),
-            appelOffreId: targetAppelOffre,
-            periodeId: 'other',
-            notifiedOn: 0,
-          },
-          {
-            id: uuid(),
-            appelOffreId: 'other',
-            periodeId: targetPeriode,
-            notifiedOn: 0,
-          },
-        ]
-          .map(makeFakeProject)
-          .map(projectRepo.save),
-      );
-
-      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(0);
-
-      await projectRepo.save(
-        makeFakeProject({
-          id: uuid(),
-          appelOffreId: targetAppelOffre,
-          periodeId: targetPeriode,
-          notifiedOn: 0,
-        }),
-      );
-
-      expect(await projectRepo.countUnnotifiedProjects(targetAppelOffre, targetPeriode)).toEqual(1);
     });
   });
 });

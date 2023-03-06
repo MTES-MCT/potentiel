@@ -1,7 +1,7 @@
 import { logger } from '@core/utils';
 import { ProjectClaimed } from '@modules/projectClaim/events';
 import { ProjectProjector, Project } from '../project.model';
-import { ProjectionEnEchec } from '@modules/shared';
+import { EntityNotFoundError, ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectClaimed = ProjectProjector.on(
   ProjectClaimed,
@@ -10,6 +10,12 @@ export const onProjectClaimed = ProjectProjector.on(
       const {
         payload: { projectId, claimerEmail, attestationDesignationFileId },
       } = évènement;
+
+      const project = await Project.findByPk(projectId);
+
+      if (project === null) {
+        throw new EntityNotFoundError();
+      }
 
       await Project.update(
         {

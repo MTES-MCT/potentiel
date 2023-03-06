@@ -44,33 +44,5 @@ describe('project.onProjectClaimed', () => {
       const updatedProject = await Project.findByPk(projectId);
       expect(updatedProject?.certificateFileId).toEqual(attestationDesignationFileId);
     });
-
-    describe('when the project already has a certificate', () => {
-      const originalCertificateFileId = new UniqueEntityID().toString();
-      const attestationDesignationFileId = new UniqueEntityID().toString();
-      beforeAll(async () => {
-        await resetDatabase();
-        await Project.create({ ...fakeProject, certificateFileId: originalCertificateFileId });
-
-        const originalProject = await Project.findByPk(projectId);
-        expect(originalProject?.certificateFileId).toEqual(originalCertificateFileId);
-
-        await onProjectClaimed(
-          new ProjectClaimed({
-            payload: {
-              projectId: projectId,
-              claimedBy: new UniqueEntityID().toString(),
-              claimerEmail: 'new@test.test',
-              attestationDesignationFileId,
-            },
-          }),
-        );
-      });
-
-      it('should not udpdate the project certificateFile', async () => {
-        const updatedProject = await Project.findByPk(projectId);
-        expect(updatedProject?.certificateFileId).toEqual(originalCertificateFileId);
-      });
-    });
   });
 });

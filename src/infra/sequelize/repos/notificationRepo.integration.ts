@@ -1,13 +1,12 @@
 import { NotificationRepo } from './notificationRepo';
 import { Notification } from '@modules/notification';
-import models from '../models';
 import { resetDatabase } from '../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
 import { Notification as NotificationModel } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize NotificationRepo', () => {
-  const notificationRepo = new NotificationRepo(models);
+  const notificationRepo = new NotificationRepo();
 
   beforeAll(async () => {
     await resetDatabase();
