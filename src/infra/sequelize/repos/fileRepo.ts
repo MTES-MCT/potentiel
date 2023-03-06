@@ -2,27 +2,25 @@ import { Repository, UniqueEntityID } from '@core/domain';
 import { errAsync, logger, wrapInfra } from '@core/utils';
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '@modules/file';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { File } from '@infra/sequelize/projectionsNext';
 
 interface FileRepoDeps {
-  models: any;
   fileStorageService: FileStorageService;
 }
 
 export const makeFileRepo = (deps: FileRepoDeps): Repository<FileObject> => {
-  const FileModel = deps.models.File;
-
   return {
     save(file: FileObject) {
-      if (!FileModel) return errAsync(new InfraNotAvailableError());
+      if (!File) return errAsync(new InfraNotAvailableError());
 
       const { contents, path } = file;
       return deps.fileStorageService.upload({ contents, path }).andThen((storedAt) => {
-        return wrapInfra(FileModel.create(_toPersistence(file, storedAt))).map(() => null);
+        return wrapInfra(File.create(_toPersistence(file, storedAt))).map(() => null);
       });
     },
 
     load(id: UniqueEntityID) {
-      return wrapInfra(FileModel.findByPk(id.toString())).andThen((fileRaw: any) => {
+      return wrapInfra(File.findByPk(id.toString())).andThen((fileRaw: any) => {
         if (!fileRaw) return errAsync(new EntityNotFoundError());
 
         const file = fileRaw.get();

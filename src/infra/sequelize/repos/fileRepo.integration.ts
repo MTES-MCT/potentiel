@@ -4,7 +4,6 @@ import { logger, okAsync, UnwrapForTest } from '@core/utils';
 import { resetDatabase } from '../helpers';
 import { FileContents, FileObject, FileStorageService, makeFileObject } from '@modules/file';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../models';
 import { makeFileRepo } from './fileRepo';
 import { File } from '@infra/sequelize/projectionsNext';
 
@@ -16,7 +15,7 @@ describe('Sequelize FileRepo', () => {
     remove: jest.fn(),
   };
 
-  const fileRepo = makeFileRepo({ models, fileStorageService });
+  const fileRepo = makeFileRepo({ fileStorageService });
 
   beforeAll(async () => {
     await resetDatabase();
