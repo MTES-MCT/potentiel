@@ -7,7 +7,7 @@ import {
   Astérisque,
   FormulaireChampsObligatoireLégende,
   ErrorBox,
-  InputCheckbox,
+  //InputCheckbox,
   Heading1,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
@@ -139,7 +139,7 @@ export const SignalerDemandeDelai = ({
 
           {doesNewDateImpactProject && (
             <div>
-              {ajoutDélaiCdc2022Possible && (
+              {/* {ajoutDélaiCdc2022Possible && (
                 <label htmlFor="délaiCdc2022" className="mt-4 mb-2">
                   <InputCheckbox
                     name="délaiCdc2022"
@@ -150,7 +150,7 @@ export const SignalerDemandeDelai = ({
                   Appliquer le délai de {project.délaiCDC2022Applicable} mois relatif au CDC du
                   30/08/2022.
                 </label>
-              )}
+              )} */}
               <label htmlFor="newCompletionDueOn">
                 Nouvelle date d'achèvement accordée <Astérisque />
               </label>
