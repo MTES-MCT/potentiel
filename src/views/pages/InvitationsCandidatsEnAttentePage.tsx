@@ -11,10 +11,9 @@ import { PendingCandidateInvitationDTO } from '@modules/notificationCandidats';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import React from 'react';
-import { formatDate } from '../../helpers/formatDate';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
-import { hydrateOnClient } from '../helpers';
+import { afficherDateAvecHeure, hydrateOnClient } from '../helpers';
 
 interface InvitationsCandidatsEnAttenteProps {
   request: Request;
@@ -76,9 +75,7 @@ export const InvitationsCandidatsEnAttente = ({
                         )}
                       </td>
                       <td>
-                        {invitation.invitedOn
-                          ? formatDate(invitation.invitedOn, 'DD/MM/YYYY HH:mm')
-                          : ''}
+                        {invitation.invitedOn ? afficherDateAvecHeure(invitation.invitedOn) : ''}
                       </td>
                       <td>
                         <form
