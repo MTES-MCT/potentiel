@@ -1,6 +1,9 @@
+import { Sequelize } from 'sequelize';
 import { initFileModel } from './file/initFileModel';
-import { initGarantiesFinancièresModel } from './garantiesFinancières/initGarantiesFinancièresModel';
-import { initGarantiesFinancièresModelAssociations } from './garantiesFinancières/initGarantiesFinancièresModelAssociations';
+import {
+  initGarantiesFinancièresModel,
+  initGarantiesFinancièresModelAssociations,
+} from './garantiesFinancières/garantiesFinancières.initializer';
 import { initGestionnaireRéseauDétailModel } from './gestionnairesRéseau/détail/initGestionnaireRéseauDétailModel';
 import { initGestionnaireRéseauListe } from './gestionnairesRéseau/liste/initGestionnaireRéseauListe';
 import { initModificationRequestModelAssociations } from './modificationRequest/initModificationRequestAssociations';
@@ -21,9 +24,9 @@ import { initUserProjectsModelAssociations } from './userProjects/initUserProjec
 import { initUserModel } from './users/initUserModel';
 import { initUserModelAssociations } from './users/initUserModelAssociations';
 
-export const initModels = () => {
+export const initModels = (sequelize: Sequelize) => {
   initFileModel();
-  initGarantiesFinancièresModel();
+  initGarantiesFinancièresModel(sequelize);
   initGestionnaireRéseauDétailModel();
   initGestionnaireRéseauListe();
   initModificationRequestModel();

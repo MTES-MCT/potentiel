@@ -1,12 +1,13 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
+import { User } from '../users/users.model';
+import { File } from '../file/file.model';
 import {
   GarantiesFinancières,
   garantiesFinancièresStatuts,
   garantiesFinancièresTableName,
 } from './garantiesFinancières.model';
 
-export const initGarantiesFinancièresModel = () => {
+export const initGarantiesFinancièresModel = (sequelize: Sequelize) => {
   GarantiesFinancières.init(
     {
       id: {
@@ -66,10 +67,30 @@ export const initGarantiesFinancièresModel = () => {
           fields: ['projetId'],
         },
       ],
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: garantiesFinancièresTableName,
       timestamps: true,
       freezeTableName: true,
     },
   );
+};
+
+export const initGarantiesFinancièresModelAssociations = () => {
+  GarantiesFinancières.hasOne(File, {
+    foreignKey: 'id',
+    sourceKey: 'fichierId',
+    as: 'fichier',
+  });
+
+  GarantiesFinancières.hasOne(User, {
+    foreignKey: 'id',
+    sourceKey: 'envoyéesPar',
+    as: 'envoyéesParRef',
+  });
+
+  GarantiesFinancières.hasOne(User, {
+    foreignKey: 'id',
+    sourceKey: 'validéesPar',
+    as: 'validéesParRef',
+  });
 };
