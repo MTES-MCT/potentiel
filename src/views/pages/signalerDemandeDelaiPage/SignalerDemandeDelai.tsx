@@ -32,10 +32,10 @@ export const SignalerDemandeDelai = ({
   const { error } = (request.query as any) || {};
   const [doesNewDateImpactProject, newDateImpactsProject] = useState(true);
 
-  const ajoutDélaiCdc2022Possible =
-    ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
-    ['admin', 'dgec-validateur'].includes(user.role) &&
-    !!project.délaiCDC2022Applicable;
+  // const ajoutDélaiCdc2022Possible =
+  //   ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
+  //   ['admin', 'dgec-validateur'].includes(user.role) &&
+  //   !!project.délaiCDC2022Applicable;
 
   const dateAvecDélaiCDC2022 = project.délaiCDC2022Applicable
     ? appliquerDélaiEnMois({
