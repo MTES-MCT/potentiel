@@ -17,7 +17,11 @@ import isDbReady from './helpers/isDbReady';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { GarantiesFinancières } from '@infra/sequelize';
 import { Région } from '@modules/dreal/région';
-import { User as UserModel, UserProjects } from '@infra/sequelize/projectionsNext';
+import {
+  User as UserModel,
+  UserProjects,
+  File as FileModel,
+} from '@infra/sequelize/projectionsNext';
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
@@ -236,40 +240,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       defaultValue: false,
     },
   });
-
-  const FileModel = sequelizeInstance.define(
-    'files',
-    {
-      id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        primaryKey: true,
-      },
-      filename: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      forProject: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      createdBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      designation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      storedAt: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-    },
-    {
-      timestamps: true,
-    },
-  );
 
   ProjectModel.belongsTo(FileModel, {
     foreignKey: 'certificateFileId',
