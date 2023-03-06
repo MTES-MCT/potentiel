@@ -1,7 +1,7 @@
 import { ProjectDataForCertificate } from '@modules/project/dtos';
 import { Image, Text, View } from '@react-pdf/renderer';
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 
 type HeaderProps = {
   project: ProjectDataForCertificate;
@@ -51,7 +51,8 @@ export const Header = ({ project }: HeaderProps) => {
           </Text>
 
           <Text style={{ fontSize: 10, marginBottom: 90 }}>
-            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
+            Paris, le{' '}
+            {project.notifiedOn ? formatDateToString(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
           </Text>
 
           <View style={{ fontSize: 10 }}>

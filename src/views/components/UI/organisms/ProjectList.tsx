@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { ProjectListItem } from '@modules/project';
 import { UserRole } from '@modules/users';
 import routes from '@routes';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import { PaginatedList } from '../../../../types';
 import {
   ProjectActions,
@@ -296,7 +296,7 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
               fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
             >
               Déposées le <br />
-              {formatDate(gf.dateEnvoi)}
+              {formatDateToString(gf.dateEnvoi)}
             </DownloadLink>
           )}
         </div>

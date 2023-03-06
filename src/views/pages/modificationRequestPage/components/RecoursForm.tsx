@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import { dataId } from '../../../../helpers/testId';
 
 export const RecoursForm = () => (
@@ -10,7 +10,7 @@ export const RecoursForm = () => (
         type="text"
         name="newNotificationDate"
         id="newNotificationDate"
-        defaultValue={formatDate(Date.now())}
+        defaultValue={formatDateToString(Date.now())}
         {...dataId('modificationRequest-newNotificationDateField')}
         style={{ width: 'auto' }}
       />

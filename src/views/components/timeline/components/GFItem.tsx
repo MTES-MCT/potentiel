@@ -5,7 +5,7 @@ import { InfoItem } from './InfoItem';
 import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';
 import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import { format } from 'date-fns';
 import { UserRole } from '@modules/users';
 
@@ -249,7 +249,9 @@ const DateEchéance = ({
   return (
     <>
       <div>
-        {dateEchéance && <p className="m-0">Date d'échéance : {formatDate(dateEchéance)}</p>}
+        {dateEchéance && (
+          <p className="m-0">Date d'échéance : {formatDateToString(dateEchéance)}</p>
+        )}
         {modificationAutorisée && (
           <DateEchéanceFormulaire
             projetId={projetId}

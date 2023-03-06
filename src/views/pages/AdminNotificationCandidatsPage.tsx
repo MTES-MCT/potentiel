@@ -16,7 +16,7 @@ import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
 import React from 'react';
-import { formatDate } from '../../helpers/formatDate';
+import { formatDateToString } from '../../helpers/formatDateToString';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { hydrateOnClient } from '../helpers';
@@ -168,7 +168,7 @@ export const AdminNotificationCandidats = ({
                 type="text"
                 name="notificationDate"
                 id="notificationDate"
-                defaultValue={formatDate(Date.now())}
+                defaultValue={formatDateToString(Date.now())}
                 {...dataId('modificationRequest-notificationDateField')}
                 className="w-auto"
               />

@@ -3,7 +3,7 @@ import ReactPDF, { Document, Font, Image, Page, Text, View } from '@react-pdf/re
 import dotenv from 'dotenv';
 import React from 'react';
 import { errAsync, Queue, ResultAsync } from '@core/utils';
-import { formatDate } from '../../helpers/formatDate';
+import { formatDateToString } from '../../helpers/formatDateToString';
 import { ProjectDataForCertificate } from '@modules/project/dtos';
 import { IllegalProjectStateError } from '@modules/project/errors';
 import { OtherError } from '@modules/shared';
@@ -399,7 +399,8 @@ const Certificate = ({ project, objet, body, footnotes, validateur }: Certificat
           }}
         >
           <Text style={{ fontSize: 8, marginBottom: 60 }}>
-            Paris, le {project.notifiedOn ? formatDate(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
+            Paris, le{' '}
+            {project.notifiedOn ? formatDateToString(project.notifiedOn, 'd MMMM yyyy') : '[N/A]'}
           </Text>
           <Text style={{ fontSize: 10 }}>{project.nomRepresentantLegal}</Text>
           <Text style={{ fontSize: 10 }}>{project.nomCandidat}</Text>

@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
 import { ModificationRequest } from '../../projectionsNext/modificationRequest';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
@@ -252,9 +252,9 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
 
         expect(modificationRequestDTO).toMatchObject({
           demandePrecedente: 'yes',
-          dateDepotDemandePrecedente: formatDate(789),
+          dateDepotDemandePrecedente: formatDateToString(789),
           dureeDelaiDemandePrecedenteEnMois: '3',
-          dateReponseDemandePrecedente: formatDate(897),
+          dateReponseDemandePrecedente: formatDateToString(897),
           autreDelaiDemandePrecedenteAccorde: '',
           delaiDemandePrecedenteAccordeEnMois: '3',
         });
@@ -384,9 +384,9 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         expect(modificationRequestDTO).toMatchObject({
           demandePrecedente: 'yes',
           demandeEnMois: 'yes',
-          dateDepotDemandePrecedente: formatDate(789),
+          dateDepotDemandePrecedente: formatDateToString(789),
           dureeDelaiDemandePrecedenteEnMois: '4',
-          dateReponseDemandePrecedente: formatDate(897),
+          dateReponseDemandePrecedente: formatDateToString(897),
           autreDelaiDemandePrecedenteAccorde: 'yes', // asked for 4, given 3
           delaiDemandePrecedenteAccordeEnMois: '3',
         });
@@ -516,11 +516,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         expect(modificationRequestDTO).toMatchObject({
           demandePrecedente: 'yes',
           demandeEnDate: 'yes',
-          dateDepotDemandePrecedente: formatDate(789),
-          dateDemandePrecedenteDemandée: formatDate(new Date('2021-10-01').getTime()),
-          dateReponseDemandePrecedente: formatDate(897),
+          dateDepotDemandePrecedente: formatDateToString(789),
+          dateDemandePrecedenteDemandée: formatDateToString(new Date('2021-10-01').getTime()),
+          dateReponseDemandePrecedente: formatDateToString(897),
           autreDelaiDemandePrecedenteAccorde: 'yes',
-          dateDemandePrecedenteAccordée: formatDate(new Date('2021-01-01').getTime()),
+          dateDemandePrecedenteAccordée: formatDateToString(new Date('2021-01-01').getTime()),
         });
       });
     });
@@ -695,7 +695,7 @@ Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de
 
         expect(modificationRequestDTO).toMatchObject({
           type: 'abandon',
-          dateNotification: formatDate(321),
+          dateNotification: formatDateToString(321),
           // les deux données ci-dessous sont issues de l'appel d'offre Fessenheim stocké en mémoire
           referenceParagrapheAbandon: '6.3',
           contenuParagrapheAbandon: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.4). 
@@ -747,8 +747,8 @@ Le Candidat peut également être délié de cette obligation selon appréciatio
         const modificationRequestDTO = modificationRequestResult.value;
 
         expect(modificationRequestDTO).toMatchObject({
-          dateDemandeConfirmation: formatDate(6780000000),
-          dateConfirmation: formatDate(7890000000),
+          dateDemandeConfirmation: formatDateToString(6780000000),
+          dateConfirmation: formatDateToString(7890000000),
         });
       });
     });

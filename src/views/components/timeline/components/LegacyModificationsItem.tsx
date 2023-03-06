@@ -1,7 +1,7 @@
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon } from '.';
 import { LegacyModificationsItemProps, makeDocumentUrl } from '../helpers';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import { CurrentIcon } from './CurrentIcon';
 import { DownloadLink } from '@components';
 
@@ -85,11 +85,11 @@ const Delai = (props: DelaiProps) => {
         <>
           <p className="p-0 m-0">
             Ancienne date limite d'attestation de conformité :{' '}
-            {formatDate(props.ancienneDateLimiteAchevement)}
+            {formatDateToString(props.ancienneDateLimiteAchevement)}
           </p>
           <p className="p-0 m-0">
             Nouvelle date limite d'attestation de conformité :{' '}
-            {formatDate(props.nouvelleDateLimiteAchevement)}
+            {formatDateToString(props.nouvelleDateLimiteAchevement)}
           </p>
         </>
       )}

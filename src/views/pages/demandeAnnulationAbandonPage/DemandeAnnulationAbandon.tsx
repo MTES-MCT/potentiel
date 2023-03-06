@@ -18,7 +18,7 @@ import {
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
 } from '../../helpers';
-import { formatDate } from '../../../helpers/formatDate';
+import { formatDateToString } from '../../../helpers/formatDateToString';
 import { userIs } from '@modules/users';
 
 type DemandeAnnulationAbandonProps = {
@@ -57,8 +57,12 @@ export const DemandeAnnulationAbandon = ({
             style={{ color: ModificationRequestTitleColorByStatus[status] }}
           >
             <span style={{ fontWeight: 'bold' }}>{ModificationRequestStatusTitle[status]}</span>{' '}
-            {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-            {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
+            {respondedOn &&
+              respondedBy &&
+              `par ${respondedBy} le ${formatDateToString(respondedOn)}`}
+            {cancelledOn &&
+              cancelledBy &&
+              `par ${cancelledBy} le ${formatDateToString(cancelledOn)}`}
             {responseFile && status !== 'demande confirmée' && (
               <div>
                 <DownloadLink

@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
@@ -238,7 +238,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               id="notificationDate"
               {...dataId('date-field')}
               defaultValue={
-                query.notificationDate || (project.notifiedOn && formatDate(project.notifiedOn))
+                query.notificationDate ||
+                (project.notifiedOn && formatDateToString(project.notifiedOn))
               }
               style={{ width: 'auto' }}
             />

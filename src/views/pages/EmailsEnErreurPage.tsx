@@ -11,7 +11,7 @@ import { FailedNotificationDTO } from '@modules/notification';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import React from 'react';
-import { formatDate } from '../../helpers/formatDate';
+import { formatDateToString } from '../../helpers/formatDateToString';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { hydrateOnClient } from '../helpers';
@@ -83,7 +83,7 @@ export const EmailsEnErreur = ({ request, notifications }: EmailsEnErreurProps) 
                       <td>{notification.type}</td>
                       <td>
                         {notification.createdAt
-                          ? formatDate(notification.createdAt, 'dd/MM/yyyy HH:mm')
+                          ? formatDateToString(notification.createdAt, 'dd/MM/yyyy HH:mm')
                           : ''}
                       </td>
                       <td valign="top" className="relative">

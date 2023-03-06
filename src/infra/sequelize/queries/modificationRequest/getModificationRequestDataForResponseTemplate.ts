@@ -8,7 +8,7 @@ import {
 } from '@modules/modificationRequest';
 import { getDelaiDeRealisation } from '@modules/projectAppelOffre';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import models from '../../models';
 import { Région } from '@modules/dreal/région';
 import { ModificationRequest } from '../../projectionsNext/modificationRequest';
@@ -156,9 +156,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           codePostalProjet,
           communeProjet,
           unitePuissance,
-          dateDemande: formatDate(requestedOn),
+          dateDemande: formatDateToString(requestedOn),
           justificationDemande: justification,
-          dateNotification: formatDate(notifiedOn),
+          dateNotification: formatDateToString(notifiedOn),
         };
 
         const {
@@ -175,7 +175,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
               ...commonData,
               referenceParagrapheAchevement: texteDélaisDAchèvement.référenceParagraphe,
               contenuParagrapheAchevement: texteDélaisDAchèvement.dispositions,
-              dateLimiteAchevementInitiale: formatDate(
+              dateLimiteAchevementInitiale: formatDateToString(
                 sub(
                   add(notifiedOn, {
                     months: getDelaiDeRealisation(appelOffre, technologie) || 0,
@@ -184,13 +184,13 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 ),
               ),
               dateAchèvementDemandée: dateAchèvementDemandée
-                ? formatDate(dateAchèvementDemandée)
-                : formatDate(
+                ? formatDateToString(dateAchèvementDemandée)
+                : formatDateToString(
                     add(completionDueOn, {
                       months: delayInMonths,
                     }),
                   ),
-              dateLimiteAchevementActuelle: formatDate(completionDueOn),
+              dateLimiteAchevementActuelle: formatDateToString(completionDueOn),
               ..._makePreviousDelaiFromPreviousRequest(previousRequest),
             } as ModificationRequestDataForResponseTemplateDTO);
           case 'abandon':
@@ -201,8 +201,8 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                 texteEngagementRéalisationEtModalitésAbandon.référenceParagraphe,
               contenuParagrapheAbandon: texteEngagementRéalisationEtModalitésAbandon.dispositions,
               dateDemandeConfirmation:
-                confirmationRequestedOn && formatDate(confirmationRequestedOn),
-              dateConfirmation: confirmedOn && formatDate(confirmedOn),
+                confirmationRequestedOn && formatDateToString(confirmationRequestedOn),
+              dateConfirmation: confirmedOn && formatDateToString(confirmedOn),
             } as ModificationRequestDataForResponseTemplateDTO);
           case 'actionnaire':
             return ok({
@@ -327,24 +327,24 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
     );
     return {
       demandePrecedente: 'yes',
-      dateDepotDemandePrecedente: formatDate(requestedOn),
+      dateDepotDemandePrecedente: formatDateToString(requestedOn),
       dureeDelaiDemandePrecedenteEnMois: legacyDelay.toString(),
-      dateReponseDemandePrecedente: formatDate(respondedOn),
+      dateReponseDemandePrecedente: formatDateToString(respondedOn),
       autreDelaiDemandePrecedenteAccorde: '',
       delaiDemandePrecedenteAccordeEnMois: legacyDelay.toString(),
     };
   }
   const common = {
     demandePrecedente: 'yes',
-    dateDepotDemandePrecedente: formatDate(requestedOn),
-    dateReponseDemandePrecedente: formatDate(respondedOn),
+    dateDepotDemandePrecedente: formatDateToString(requestedOn),
+    dateReponseDemandePrecedente: formatDateToString(respondedOn),
   };
 
   if (dateAchèvementDemandée) {
     return {
       ...common,
-      dateDemandePrecedenteDemandée: formatDate(dateAchèvementDemandée),
-      dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+      dateDemandePrecedenteDemandée: formatDateToString(dateAchèvementDemandée),
+      dateDemandePrecedenteAccordée: formatDateToString(acceptanceParams.dateAchèvementAccordée),
       demandeEnDate: 'yes',
       autreDelaiDemandePrecedenteAccorde:
         dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
@@ -363,7 +363,7 @@ function _makePreviousDelaiFromPreviousRequest(previousRequest) {
       }),
       ...(acceptanceParams.dateAchèvementAccordée && {
         demandeEnMoisAccordéeEnDate: 'yes',
-        dateDemandePrecedenteAccordée: formatDate(acceptanceParams.dateAchèvementAccordée),
+        dateDemandePrecedenteAccordée: formatDateToString(acceptanceParams.dateAchèvementAccordée),
         autreDelaiDemandePrecedenteAccorde:
           dateAchèvementDemandée !== acceptanceParams.dateAchèvementAccordée ? 'yes' : '',
       }),

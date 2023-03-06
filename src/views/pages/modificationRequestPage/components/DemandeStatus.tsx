@@ -3,7 +3,7 @@ import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 import {
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
@@ -65,7 +65,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
       >
         {ModificationRequestStatusTitle[status]}
       </span>{' '}
-      {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
+      {respondedOn && respondedBy && `par ${respondedBy} le ${formatDateToString(respondedOn)}`}
       {afficherBoutonAnnulerRejet && (
         <form
           method="post"
@@ -90,7 +90,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
           </SecondaryButton>
         </form>
       )}
-      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
+      {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDateToString(cancelledOn)}`}
       <StatusForDelai modificationRequest={modificationRequest} />
       {responseFile && (
         <div className="mt-4">
@@ -124,7 +124,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
         <div>
           L‘administration vous accorde un délai{' '}
           <b>{delayInMonths ? `de ${delayInMonths} mois.` : '.'}</b> Votre date d'achèvement
-          théorique est actuellement au <b>{formatDate(project.completionDueOn)}</b>.
+          théorique est actuellement au <b>{formatDateToString(project.completionDueOn)}</b>.
         </div>
       );
     }
@@ -133,7 +133,7 @@ const StatusForDelai = ({ modificationRequest }: StatusForDelaiProps) => {
       return (
         <div>
           L‘administration vous accorde un report de date limite d'achèvement au{' '}
-          <span className="font-bold">{formatDate(new Date(dateAchèvementAccordée))}</span>.
+          <span className="font-bold">{formatDateToString(new Date(dateAchèvementAccordée))}</span>.
         </div>
       );
     }

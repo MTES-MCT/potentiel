@@ -1,6 +1,6 @@
 import { Project } from '@entities';
 import { add } from 'date-fns';
-import { formatDate } from '../../../helpers/formatDate';
+import { formatDateToString } from '../../../helpers/formatDateToString';
 
 type getDateFinGarantieFinanciereProps = {
   famille: Project['famille'];
@@ -14,7 +14,7 @@ export const getDateFinGarantieFinanciere = ({
   notifiedOn,
 }: getDateFinGarantieFinanciereProps) => {
   if (famille?.soumisAuxGarantiesFinancieres === 'après candidature') {
-    return formatDate(
+    return formatDateToString(
       add(notifiedOn, {
         months: famille.garantieFinanciereEnMois,
       }),
@@ -22,7 +22,7 @@ export const getDateFinGarantieFinanciere = ({
   }
 
   if (appelOffre?.soumisAuxGarantiesFinancieres === 'après candidature') {
-    return formatDate(
+    return formatDateToString(
       add(notifiedOn, {
         months: appelOffre.garantieFinanciereEnMois,
       }),

@@ -1,6 +1,8 @@
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
+import { formatDateToString } from '../../../../helpers/formatDateToString';
 
 export const ItemDate = (props: { date: number }) => (
-  <span className="text-sm font-semibold tracking-wide uppercase">{formatDate(props.date)}</span>
+  <span className="text-sm font-semibold tracking-wide uppercase">
+    {formatDateToString(props.date)}
+  </span>
 );

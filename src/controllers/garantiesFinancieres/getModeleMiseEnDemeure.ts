@@ -4,7 +4,7 @@ import path from 'path';
 import sanitize from 'sanitize-filename';
 import { userRepo } from '@dataAccess';
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate';
-import { formatDate } from '../../helpers/formatDate';
+import { formatDateToString } from '../../helpers/formatDateToString';
 import routes from '@routes';
 import { getUserProject } from '@useCases';
 import { ensureRole } from '@config';
@@ -61,7 +61,7 @@ v1Router.get(
       injectImage: imageToInject,
       variables: {
         dreal,
-        dateMiseEnDemeure: formatDate(new Date()),
+        dateMiseEnDemeure: formatDateToString(new Date()),
         contactDreal: request.user.email,
         referenceProjet: project.potentielIdentifier,
         titreAppelOffre: project.appelOffre?.periode
@@ -73,7 +73,7 @@ v1Router.get(
         puissanceProjet: project.puissance.toString(),
         unitePuissance: project.appelOffre?.unitePuissance || '!!!AO NON DISPONIBLE!!!',
         titrePeriode: project.appelOffre?.periode?.title || '!!!AO NON DISPONIBLE!!!',
-        dateNotification: formatDate(project.notifiedOn),
+        dateNotification: formatDateToString(project.notifiedOn),
         paragrapheGF:
           project.appelOffre?.renvoiRetraitDesignationGarantieFinancieres ||
           '!!!AO NON DISPONIBLE!!!',
@@ -90,7 +90,7 @@ v1Router.get(
         }),
         dateLimiteDepotGF:
           (project.garantiesFinancières?.dateLimiteEnvoi &&
-            formatDate(project.garantiesFinancières?.dateLimiteEnvoi)) ??
+            formatDateToString(project.garantiesFinancières?.dateLimiteEnvoi)) ??
           '',
         nomRepresentantLegal: project.nomRepresentantLegal,
         adresseProjet: project.adresseProjet,
