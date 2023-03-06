@@ -5,7 +5,6 @@ import { InfoItem } from './InfoItem';
 import { WarningItem } from './WarningItem';
 import { WarningIcon } from './WarningIcon';
 import { GarantiesFinancièresDTO, ProjectStatus } from '@modules/frise';
-import { formatDate } from '../../../../helpers/formatDate';
 import { format } from 'date-fns';
 import { UserRole } from '@modules/users';
 
@@ -20,6 +19,7 @@ import {
   Dropdown,
   Link,
 } from '@components';
+import { afficherDate } from '@views/helpers';
 
 type ComponentProps = GarantiesFinancièresDTO & {
   project: {
@@ -249,7 +249,7 @@ const DateEchéance = ({
   return (
     <>
       <div>
-        {dateEchéance && <p className="m-0">Date d'échéance : {formatDate(dateEchéance)}</p>}
+        {dateEchéance && <p className="m-0">Date d'échéance : {afficherDate(dateEchéance)}</p>}
         {modificationAutorisée && (
           <DateEchéanceFormulaire
             projetId={projetId}

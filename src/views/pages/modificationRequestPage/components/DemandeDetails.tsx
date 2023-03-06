@@ -2,9 +2,9 @@ import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { format } from 'date-fns';
 import moment from 'moment';
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
 import ROUTES from '@routes';
 import { DownloadLink, ExternalLink, Heading2 } from '@components';
+import { afficherDate } from '@views/helpers';
 
 interface DemandeDetailsProps {
   modificationRequest: ModificationRequestPageDTO;
@@ -18,7 +18,7 @@ export const DemandeDetails = ({ modificationRequest }: DemandeDetailsProps) => 
     <div className="panel__header">
       <Heading2>Détail de la demande</Heading2>
       <div>
-        Déposée par {requestedBy} le {formatDate(requestedOn)}
+        Déposée par {requestedBy} le {afficherDate(requestedOn)}
       </div>
       {cahierDesCharges && (
         <div>

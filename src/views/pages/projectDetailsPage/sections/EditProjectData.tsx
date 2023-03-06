@@ -1,11 +1,11 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
-import { formatDate } from '../../../../helpers/formatDate';
 import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
 import { BuildingIcon, Button, Input, InputCheckbox, Label, Section, Select } from '@components';
+import { afficherDate } from '@views/helpers';
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage;
@@ -280,8 +280,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               id="notificationDate"
               {...dataId('date-field')}
               defaultValue={
-                query.notificationDate ||
-                (project.notifiedOn && formatDate(project.notifiedOn, 'DD/MM/YYYY'))
+                query.notificationDate || (project.notifiedOn && afficherDate(project.notifiedOn))
               }
               placeholder="Renseigner une date de désignation"
               style={{ width: 'auto' }}

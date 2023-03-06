@@ -3,10 +3,13 @@ import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
-import { formatDate } from '../../helpers/formatDate';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
-import { ModificationRequestColorByStatus, ModificationRequestStatusTitle } from '../helpers';
+import {
+  afficherDate,
+  ModificationRequestColorByStatus,
+  ModificationRequestStatusTitle,
+} from '../helpers';
 
 interface Props {
   modificationRequests?: PaginatedList<ModificationRequestListItemDTO>;
@@ -86,7 +89,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                     <div>
                       Déposé par{' '}
                       <Link href={`mailto:${requestedBy.email}`}>{requestedBy.fullName}</Link> le{' '}
-                      {formatDate(requestedOn)}
+                      {afficherDate(requestedOn)}
                     </div>
                   </div>
                 </td>

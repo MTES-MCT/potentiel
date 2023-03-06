@@ -17,12 +17,12 @@ import { Request } from 'express';
 import { DemandeAbandonPageDTO } from '@modules/modificationRequest';
 import { dataId } from '../../../helpers/testId';
 import {
+  afficherDate,
   hydrateOnClient,
   ModificationRequestColorByStatus,
   ModificationRequestStatusTitle,
   ModificationRequestTitleColorByStatus,
 } from '../../helpers';
-import { formatDate } from '../../../helpers/formatDate';
 import { userIs } from '@modules/users';
 
 type DemandeAbandonProps = {
@@ -59,8 +59,8 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             style={{ color: ModificationRequestTitleColorByStatus[status] }}
           >
             <span className="font-bold">{ModificationRequestStatusTitle[status]}</span>{' '}
-            {respondedOn && respondedBy && `par ${respondedBy} le ${formatDate(respondedOn)}`}
-            {cancelledOn && cancelledBy && `par ${cancelledBy} le ${formatDate(cancelledOn)}`}
+            {respondedOn && respondedBy && `par ${respondedBy} le ${afficherDate(respondedOn)}`}
+            {cancelledOn && cancelledBy && `par ${cancelledBy} le ${afficherDate(cancelledOn)}`}
             {responseFile && status !== 'demande confirmée' && (
               <div>
                 <DownloadLink

@@ -1,8 +1,8 @@
 import React from 'react';
-import { formatDate } from '../../helpers/formatDate';
 import { dataId } from '../../helpers/testId';
 import routes from '@routes';
 import { Link } from '@components';
+import { afficherDate } from '../helpers/afficherDate';
 
 export type ProjectProps = {
   id: string;
@@ -71,7 +71,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
       <p className="m-0">
         Désigné le{' '}
         <span {...dataId('modificationRequest-item-designationDate')}>
-          {formatDate(notifiedOn, 'DD/MM/YYYY')}
+          {afficherDate(notifiedOn)}
         </span>{' '}
         pour la période{' '}
         <span {...dataId('modificationRequest-item-periode')}>
