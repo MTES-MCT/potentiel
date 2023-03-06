@@ -7,12 +7,10 @@ import {
   Astérisque,
   FormulaireChampsObligatoireLégende,
   ErrorBox,
-  InputCheckbox,
   Heading1,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
 import routes from '@routes';
-import { appliquerDélaiEnMois } from '@views/helpers';
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { formatDate } from '../../../helpers/formatDate';
@@ -32,21 +30,6 @@ export const SignalerDemandeDelai = ({
   const { error } = (request.query as any) || {};
   const [doesNewDateImpactProject, newDateImpactsProject] = useState(true);
 
-  const ajoutDélaiCdc2022Possible =
-    ['30/08/2022', '30/08/2022-alternatif'].includes(project.cahierDesChargesActuel) &&
-    ['admin', 'dgec-validateur'].includes(user.role) &&
-    !!project.délaiCDC2022Applicable;
-
-  const dateAvecDélaiCDC2022 = project.délaiCDC2022Applicable
-    ? appliquerDélaiEnMois({
-        dateActuelle: new Date(project.completionDueOn!),
-        délaiEnMois: project.délaiCDC2022Applicable,
-      })
-        .toISOString()
-        .split('T')[0]
-    : undefined;
-
-  const [appliquerCDC2022Délai, setappliquerCDC2022Délai] = useState(false);
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <main role="main" className="panel">
@@ -105,7 +88,6 @@ export const SignalerDemandeDelai = ({
                   name="status"
                   onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                   required
-                  onClick={() => setappliquerCDC2022Délai(false)}
                 />
                 <label htmlFor="status-rejected">Demande rejetée</label>
               </div>
@@ -117,7 +99,6 @@ export const SignalerDemandeDelai = ({
                   name="status"
                   onChange={(e) => e.target.checked && newDateImpactsProject(false)}
                   required
-                  onClick={() => setappliquerCDC2022Délai(false)}
                 />
                 <label htmlFor="status-accord-principe">Accord de principe</label>
               </div>
@@ -139,18 +120,6 @@ export const SignalerDemandeDelai = ({
 
           {doesNewDateImpactProject && (
             <div>
-              {ajoutDélaiCdc2022Possible && (
-                <label htmlFor="délaiCdc2022" className="mt-4 mb-2">
-                  <InputCheckbox
-                    name="délaiCdc2022"
-                    value={appliquerCDC2022Délai ? 'true' : 'false'}
-                    id="délaiCdc2022"
-                    onChange={() => setappliquerCDC2022Délai(!appliquerCDC2022Délai)}
-                  />
-                  Appliquer le délai de {project.délaiCDC2022Applicable} mois relatif au CDC du
-                  30/08/2022.
-                </label>
-              )}
               <label htmlFor="newCompletionDueOn">
                 Nouvelle date d'achèvement accordée <Astérisque />
               </label>
@@ -162,7 +131,6 @@ export const SignalerDemandeDelai = ({
                 {...(validationErrors && {
                   error: validationErrors['newCompletionDueOn']?.toString(),
                 })}
-                defaultValue={appliquerCDC2022Délai ? dateAvecDélaiCDC2022 : undefined}
               />
               <p className="m-0 italic">
                 Cette date impactera le projet seulement si elle est postérieure à la date théorique
