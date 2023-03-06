@@ -7,7 +7,7 @@ import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 import { CahierDesChargesInitial } from './CahierDesChargesInitial';
 import { CahierDesChargesModifiéDisponible } from './CahierDesChargesModifiéDisponible';
 import { CahierDesChargesSelectionnable } from './CahierDesChargesSélectionnable';
-import { GestionnaireRéseauFormInputs } from 'src/views/pages/modifierIdentifiantGestionnaireReseauPage/GestionnaireRéseauFormInputs';
+import { GestionnaireRéseauFormInputs } from '@views/pages/modifierIdentifiantGestionnaireReseauPage';
 
 type ChoisirCahierDesChargesFormulaireProps = {
   projet: ProjectDataForChoisirCDCPage;
