@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { ProjectCompletionDueDateCancelled } from '@modules/project';
-import { ProjectProjector, Project } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectCompletionDueDateCancelled = ProjectProjector.on(

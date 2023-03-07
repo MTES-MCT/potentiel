@@ -2,7 +2,8 @@ import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
 
 export default ProjectEventProjector.on(

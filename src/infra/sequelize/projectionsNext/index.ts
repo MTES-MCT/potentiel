@@ -9,10 +9,11 @@ initializeProjections(sequelizeInstance);
 // Export module types
 export * from './projector';
 
-// Export initializer de projectors:
+// Export initializer de projectors, pour configurer le module depuis l'extérieur si besoin
 export * from './projectors.initializer';
+export * from './projections.initializer';
 
-// Export des models
+// Export des models pour utilisation dans les queries
 export * from './file/file.model';
 export * from './garantiesFinancières/garantiesFinancières.model';
 export * from './garantiesFinancières/garantiesFinancières.projector';
@@ -28,6 +29,20 @@ export * from './userDreal/userDreal.model';
 export * from './userProjectClaims/userProjectClaims.model';
 export * from './userProjects/userProjects.model';
 export * from './users/users.model';
+
+// Export des projectors pour rebuild dans les migrations si besoin
+export * from './garantiesFinancières/garantiesFinancières.projector';
+export * from './gestionnairesRéseau/détail/gestionnaireRéseauDétail.projector';
+export * from './gestionnairesRéseau/liste/gestionnairesRéseauListe.projector';
+export * from './modificationRequest/modificationRequest.projector';
+export * from './project/project.projector';
+export * from './projectEvents/projectEvent.projector';
+export * from './raccordements/raccordements.projector';
+export * from './tâches/tâches.projector';
+export * from './userDreal/userDreal.projector';
+export * from './userProjectClaims/userProjectClaims.projector';
+export * from './userProjects/userProjects.projector';
+export * from './users/user.projector';
 
 // Export des updates (side effects à l'intérieur..., à faire aprés l'init des models)
 export * from './garantiesFinancières/updates';

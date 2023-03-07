@@ -1,4 +1,5 @@
-import { Raccordements, RaccordementsProjector } from '../raccordements.model';
+import { Raccordements } from '../raccordements.model';
+import { RaccordementsProjector } from '../raccordements.projector';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';
 import { ProjectDCRSubmitted } from '@modules/project';

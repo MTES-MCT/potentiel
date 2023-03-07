@@ -4,7 +4,6 @@ import { ContratEDF } from '@modules/edf';
 import { ContratEnedis } from '@modules/enedis';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { Raccordements } from '../raccordements/raccordements.model';
-import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string;
@@ -53,5 +52,3 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   garantiesFinancières?: NonAttribute<GarantiesFinancières>;
   raccordements?: NonAttribute<Raccordements>;
 }
-
-export const ProjectProjector = makeSequelizeProjector(Project);

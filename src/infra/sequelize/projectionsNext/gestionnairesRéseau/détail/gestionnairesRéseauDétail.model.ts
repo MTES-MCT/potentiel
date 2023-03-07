@@ -1,5 +1,4 @@
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../../makeSequelizeProjector';
 
 export class GestionnaireRéseauDétail extends Model<
   InferAttributes<GestionnaireRéseauDétail>,
@@ -10,5 +9,3 @@ export class GestionnaireRéseauDétail extends Model<
   format?: string;
   légende?: string;
 }
-
-export const GestionnaireRéseauDétailProjector = makeSequelizeProjector(GestionnaireRéseauDétail);

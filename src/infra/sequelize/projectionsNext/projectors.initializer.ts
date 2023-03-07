@@ -1,17 +1,17 @@
 import { logger } from '@core/utils';
 import { Subscribe } from './projector';
 import { getGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
-import { ProjectEventProjector } from './projectEvents/projectEvent.model';
-import { TâchesProjector } from './tâches/tâches.model';
-import { GestionnaireRéseauDétailProjector } from './gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
-import { GestionnairesRéseauListeProjector } from './gestionnairesRéseau/liste/gestionnairesRéseauListe.model';
-import { ModificationRequestProjector } from './modificationRequest/modificationRequest.model';
-import { ProjectProjector } from './project/project.model';
-import { RaccordementsProjector } from './raccordements/raccordements.model';
-import { UserProjector } from './users/users.model';
-import { UserProjectsProjector } from './userProjects/userProjects.model';
-import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.model';
-import { UserDrealProjector } from './userDreal/userDreal.model';
+import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
+import { TâchesProjector } from './tâches/tâches.projector';
+import { GestionnaireRéseauDétailProjector } from './gestionnairesRéseau/détail/gestionnaireRéseauDétail.projector';
+import { GestionnairesRéseauListeProjector } from './gestionnairesRéseau/liste/gestionnairesRéseauListe.projector';
+import { ModificationRequestProjector } from './modificationRequest/modificationRequest.projector';
+import { ProjectProjector } from './project/project.projector';
+import { RaccordementsProjector } from './raccordements/raccordements.projector';
+import { UserProjector } from './users/user.projector';
+import { UserProjectsProjector } from './userProjects/userProjects.projector';
+import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.projector';
+import { UserDrealProjector } from './userDreal/userDreal.projector';
 
 export const initializeProjectors = (subscribe: Subscribe) => {
   const projectorsNext = [

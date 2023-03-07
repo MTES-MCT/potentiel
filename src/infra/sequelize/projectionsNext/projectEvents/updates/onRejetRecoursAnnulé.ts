@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { RejetRecoursAnnulé } from '@modules/demandeModification';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 
 export default ProjectEventProjector.on(RejetRecoursAnnulé, async ({ payload }, transaction) => {
   const { demandeRecoursId } = payload;

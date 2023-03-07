@@ -1,5 +1,4 @@
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { Payload } from './Payload';
 
 export class ProjectEvent extends Model<
@@ -13,5 +12,3 @@ export class ProjectEvent extends Model<
   valueDate: number;
   eventPublishedAt: number;
 }
-
-export const ProjectEventProjector = makeSequelizeProjector(ProjectEvent);

@@ -1,10 +1,8 @@
 import { logger } from '@core/utils';
 import { GestionnaireRéseauAjouté } from '@modules/gestionnaireRéseau';
 import { ProjectionEnEchec } from '@modules/shared';
-import {
-  GestionnaireRéseauDétail,
-  GestionnaireRéseauDétailProjector,
-} from '../gestionnairesRéseauDétail.model';
+import { GestionnaireRéseauDétail } from '../gestionnairesRéseauDétail.model';
+import { GestionnaireRéseauDétailProjector } from '../gestionnaireRéseauDétail.projector';
 
 export default GestionnaireRéseauDétailProjector.on(
   GestionnaireRéseauAjouté,

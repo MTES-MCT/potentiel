@@ -1,7 +1,8 @@
 import { logger } from '@core/utils';
 import { AbandonProjetAnnulé } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
-import { Project, ProjectProjector } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 
 export const onAbandonProjetAnnulé = ProjectProjector.on(
   AbandonProjetAnnulé,

@@ -3,7 +3,8 @@ import { logger } from '@core/utils';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { File } from '../../file/file.model';
 
 export default ProjectEventProjector.on(

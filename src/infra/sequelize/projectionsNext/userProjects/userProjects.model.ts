@@ -1,5 +1,4 @@
 import { InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
-import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { User } from '../users/users.model';
 
 export class UserProjects extends Model<
@@ -10,5 +9,3 @@ export class UserProjects extends Model<
   projectId: string;
   user: NonAttribute<User>;
 }
-
-export const UserProjectsProjector = makeSequelizeProjector(UserProjects);

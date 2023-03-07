@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { IdentifiantPotentielPPE2Batiment2Corrigé } from '@modules/project';
-import { ProjectProjector, Project } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onIdentifiantPotentielPPE2Batiment2Corrigé = ProjectProjector.on(

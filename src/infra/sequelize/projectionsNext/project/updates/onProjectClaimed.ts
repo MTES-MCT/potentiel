@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { ProjectClaimed } from '@modules/projectClaim/events';
-import { ProjectProjector, Project } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { EntityNotFoundError, ProjectionEnEchec } from '@modules/shared';
 
 export const onProjectClaimed = ProjectProjector.on(

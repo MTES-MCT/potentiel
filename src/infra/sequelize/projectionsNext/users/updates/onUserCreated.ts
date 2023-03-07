@@ -1,4 +1,5 @@
-import { User, UserProjector } from '../users.model';
+import { User } from '../users.model';
+import { UserProjector } from '../user.projector';
 import { UserCreated } from '@modules/users';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';

@@ -3,7 +3,8 @@ import { logger } from '@core/utils';
 import { ModificationRequestAccepted } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import { Transaction } from 'sequelize';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { ModificationRequest, File } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(

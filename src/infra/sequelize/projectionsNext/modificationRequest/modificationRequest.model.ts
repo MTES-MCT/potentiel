@@ -5,7 +5,6 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
-import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { Project } from '../project/project.model';
 
 export class ModificationRequest extends Model<
@@ -57,5 +56,3 @@ export class ModificationRequest extends Model<
   requestedBy: NonAttribute<{ email: string; fullName: string }>;
   attachmentFile: NonAttribute<{ id: string; filename: string }>;
 }
-
-export const ModificationRequestProjector = makeSequelizeProjector(ModificationRequest);

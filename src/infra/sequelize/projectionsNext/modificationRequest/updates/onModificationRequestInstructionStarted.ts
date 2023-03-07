@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
-import { ModificationRequest, ModificationRequestProjector } from '../modificationRequest.model';
+import { ModificationRequest } from '../modificationRequest.model';
+import { ModificationRequestProjector } from '../modificationRequest.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 
 export const onModificationRequestInstructionStarted = ModificationRequestProjector.on(

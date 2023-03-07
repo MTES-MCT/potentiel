@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { ContratEDFMisAJour } from '@modules/edf';
-import { Project, ProjectProjector } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 
 // TODO: Projection migrée en l'état, mais pose probléme car le design de la gestion des contrats doit être revu (en supprimant l'utilisation de la colonne JSON)

@@ -1,7 +1,8 @@
 import { CahierDesChargesChoisi } from '@modules/project';
 
 import { logger } from '@core/utils';
-import { Project, ProjectProjector } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 import { formatCahierDesChargesRéférence } from '@entities/cahierDesCharges';
 

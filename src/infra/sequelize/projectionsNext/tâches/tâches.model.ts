@@ -1,5 +1,4 @@
 import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export const typesTâche = ['maj-données-de-raccordement'] as const;
 export type TâchesType = typeof typesTâche[number];
@@ -38,5 +37,3 @@ export class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttrib
   dateDeFin?: Date;
   résultat?: Résultat;
 }
-
-export const TâchesProjector = makeSequelizeProjector(Tâches);

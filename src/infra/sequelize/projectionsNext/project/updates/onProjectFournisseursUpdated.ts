@@ -1,6 +1,7 @@
 import { logger } from '@core/utils';
 import { ProjectFournisseursUpdated } from '@modules/project';
-import { ProjectProjector, Project } from '../project.model';
+import { Project } from '../project.model';
+import { ProjectProjector } from '../project.projector';
 import { ProjectionEnEchec } from '@modules/shared';
 
 // TODO: Projection migrée en l'état, doit être revu (en supprimant l'utilisation de la colonne JSON)

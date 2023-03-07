@@ -1,4 +1,5 @@
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { ProjectEvent } from '../../projectEvent.model';
+import { ProjectEventProjector } from '../../projectEvent.projector';
 import { AnnulationAbandonRejetée } from '../../../../../../modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
 import { logger } from '@core/utils';

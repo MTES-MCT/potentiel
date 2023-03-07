@@ -2,7 +2,8 @@ import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
 import { CahierDesChargesChoisi } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 
 export default ProjectEventProjector.on(CahierDesChargesChoisi, async (évènement, transaction) => {
   const { payload } = évènement;

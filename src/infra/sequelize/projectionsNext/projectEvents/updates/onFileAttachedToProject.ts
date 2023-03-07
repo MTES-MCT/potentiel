@@ -1,5 +1,6 @@
 import { FileAttachedToProject } from '../../../../../modules/file';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { User, UserDreal } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(

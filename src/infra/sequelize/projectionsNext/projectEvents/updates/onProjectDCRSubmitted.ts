@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRSubmitted } from '@modules/project';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { logger } from '@core/utils';
 import { File } from '@infra/sequelize/projectionsNext';
 
