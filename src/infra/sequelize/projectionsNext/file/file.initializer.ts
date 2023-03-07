@@ -1,8 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { File, fileTableName } from './file.model';
 
-export const initializeFileModel = () => {
+export const initializeFileModel = (sequelize: Sequelize) => {
   File.init(
     {
       id: {
@@ -35,7 +34,7 @@ export const initializeFileModel = () => {
     {
       timestamps: true,
       tableName: fileTableName,
-      sequelize: sequelizeInstance,
+      sequelize,
     },
   );
 };

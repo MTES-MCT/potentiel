@@ -1,11 +1,10 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import {
   GestionnairesRéseauListe,
   gestionnairesRéseauListeTableName,
 } from './gestionnairesRéseauListe.model';
 
-export const initializeGestionnaireRéseauListeModel = () => {
+export const initializeGestionnaireRéseauListeModel = (sequelize: Sequelize) => {
   GestionnairesRéseauListe.init(
     {
       codeEIC: {
@@ -20,7 +19,7 @@ export const initializeGestionnaireRéseauListeModel = () => {
       },
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: gestionnairesRéseauListeTableName,
       timestamps: false,
       freezeTableName: true,

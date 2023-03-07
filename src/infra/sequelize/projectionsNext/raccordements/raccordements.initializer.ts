@@ -1,10 +1,9 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { Raccordements, nomProjection } from './raccordements.model';
 import { File } from '../file/file.model';
 import { User } from '../users/users.model';
 
-export const initializeRaccordementsModel = () => {
+export const initializeRaccordementsModel = (sequelize: Sequelize) => {
   Raccordements.init(
     {
       id: {
@@ -39,7 +38,7 @@ export const initializeRaccordementsModel = () => {
           fields: ['projetId'],
         },
       ],
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: nomProjection,
       timestamps: true,
       freezeTableName: true,

@@ -1,9 +1,8 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { UserDreal, userDrealTableName } from './userDreal.model';
 import { User } from '../users/users.model';
 
-export const initializeUserDrealModel = () => {
+export const initializeUserDrealModel = (sequelize: Sequelize) => {
   UserDreal.init(
     {
       id: {
@@ -22,7 +21,7 @@ export const initializeUserDrealModel = () => {
       },
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: userDrealTableName,
       timestamps: true,
       freezeTableName: true,

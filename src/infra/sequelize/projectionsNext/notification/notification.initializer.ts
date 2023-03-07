@@ -1,8 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { Notification } from './notification.model';
 
-export const initializeNotificationModel = () => {
+export const initializeNotificationModel = (sequelize: Sequelize) => {
   Notification.init(
     {
       id: {
@@ -36,7 +35,7 @@ export const initializeNotificationModel = () => {
       createdAt: DataTypes.DATE,
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: 'notifications',
       timestamps: true,
     },

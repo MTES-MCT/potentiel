@@ -1,9 +1,8 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { UserProjectClaims, userProjectClaimsTableName } from './userProjectClaims.model';
 import { User } from '../users/users.model';
 
-export const initializeUserProjectClaimsModel = () => {
+export const initializeUserProjectClaimsModel = (sequelize: Sequelize) => {
   UserProjectClaims.init(
     {
       userId: {
@@ -21,7 +20,7 @@ export const initializeUserProjectClaimsModel = () => {
       },
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: userProjectClaimsTableName,
       timestamps: true,
       freezeTableName: true,

@@ -1,8 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { ProjectEvent, projectEventTableName } from './projectEvent.model';
 
-export const initializeProjectEventModel = () => {
+export const initializeProjectEventModel = (sequelize: Sequelize) => {
   ProjectEvent.init(
     {
       id: {
@@ -30,7 +29,7 @@ export const initializeProjectEventModel = () => {
       },
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: projectEventTableName,
       timestamps: true,
       freezeTableName: true,

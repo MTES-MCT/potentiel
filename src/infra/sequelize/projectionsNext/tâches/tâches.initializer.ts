@@ -1,8 +1,7 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { Tâches, étatsTâche, typesTâche, tâcheTableName } from './tâches.model';
 
-export const initializeTâchesModel = () => {
+export const initializeTâchesModel = (sequelize: Sequelize) => {
   Tâches.init(
     {
       id: {
@@ -42,7 +41,7 @@ export const initializeTâchesModel = () => {
           fields: ['gestionnaire', 'type', 'dateDeDébut'],
         },
       ],
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: tâcheTableName,
       timestamps: false,
       freezeTableName: true,

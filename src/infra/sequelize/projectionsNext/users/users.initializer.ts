@@ -1,9 +1,8 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { User, étatsUser, userTableName } from './users.model';
 import { Project } from '../project/project.model';
 
-export const initializeUserModel = () => {
+export const initializeUserModel = (sequelize: Sequelize) => {
   User.init(
     {
       id: {
@@ -44,7 +43,7 @@ export const initializeUserModel = () => {
       createdAt: DataTypes.DATE,
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: userTableName,
       timestamps: true,
       freezeTableName: true,

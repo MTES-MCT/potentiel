@@ -1,12 +1,11 @@
-import { DataTypes } from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
+import { DataTypes, Sequelize } from 'sequelize';
 import { Project, projectTableName } from './project.model';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { File } from '../file/file.model';
 import { UserProjects } from '../userProjects/userProjects.model';
 import { Raccordements } from '../raccordements/raccordements.model';
 
-export const initializeProjectModel = () => {
+export const initializeProjectModel = (sequelize: Sequelize) => {
   Project.init(
     {
       id: {
@@ -190,7 +189,7 @@ export const initializeProjectModel = () => {
       },
     },
     {
-      sequelize: sequelizeInstance,
+      sequelize,
       tableName: projectTableName,
       timestamps: false,
     },
