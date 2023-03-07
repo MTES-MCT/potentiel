@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { ProjectEvent, projectEventTableName } from './projectEvent.model';
 
-export const initProjectEventModel = () => {
+export const initializeProjectEventModel = () => {
   ProjectEvent.init(
     {
       id: {

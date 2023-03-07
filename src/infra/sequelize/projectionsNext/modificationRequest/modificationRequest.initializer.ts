@@ -1,8 +1,11 @@
 import { DataTypes, NOW } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
+import { Project } from '../project/project.model';
+import { File } from '../file/file.model';
+import { User } from '../users/users.model';
 import { ModificationRequest, modificationRequestTableName } from './modificationRequest.model';
 
-export const initModificationRequestModel = () => {
+export const initializeModificationRequestModel = () => {
   ModificationRequest.init(
     {
       id: {
@@ -139,4 +142,45 @@ export const initModificationRequestModel = () => {
       timestamps: true,
     },
   );
+};
+
+export const initializeModificationRequestModelAssociations = () => {
+  ModificationRequest.belongsTo(File, {
+    foreignKey: 'fileId',
+    as: 'attachmentFile',
+    constraints: false,
+  });
+
+  ModificationRequest.belongsTo(File, {
+    foreignKey: 'responseFileId',
+    as: 'responseFile',
+    constraints: false,
+  });
+
+  ModificationRequest.belongsTo(Project, {
+    foreignKey: 'projectId',
+    as: 'project',
+    constraints: false,
+  });
+
+  ModificationRequest.belongsTo(User, {
+    foreignKey: 'userId',
+    as: 'requestedBy',
+    constraints: false,
+  });
+  ModificationRequest.belongsTo(User, {
+    foreignKey: 'respondedBy',
+    as: 'respondedByUser',
+    constraints: false,
+  });
+  ModificationRequest.belongsTo(User, {
+    foreignKey: 'confirmationRequestedBy',
+    as: 'confirmationRequestedByUser',
+    constraints: false,
+  });
+  ModificationRequest.belongsTo(User, {
+    foreignKey: 'cancelledBy',
+    as: 'cancelledByUser',
+    constraints: false,
+  });
 };

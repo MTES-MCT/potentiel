@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { UserDreal, userDrealTableName } from './userDreal.model';
+import { User } from '../users/users.model';
 
-export const initUserDrealModel = () => {
+export const initializeUserDrealModel = () => {
   UserDreal.init(
     {
       id: {
@@ -27,4 +28,8 @@ export const initUserDrealModel = () => {
       freezeTableName: true,
     },
   );
+};
+
+export const initializeUserDrealModelAssociations = () => {
+  UserDreal.belongsTo(User, { foreignKey: 'userId' });
 };

@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { UserProjects, userProjectsTableName } from './userProjects.model';
+import { User } from '../users/users.model';
 
-export const initUserProjects = () => {
+export const initializeUserProjects = () => {
   UserProjects.init(
     {
       userId: {
@@ -23,4 +24,8 @@ export const initUserProjects = () => {
       freezeTableName: true,
     },
   );
+};
+
+export const initializeUserProjectsModelAssociations = () => {
+  UserProjects.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 };

@@ -1,8 +1,12 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Project, projectTableName } from './project.model';
+import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
+import { File } from '../file/file.model';
+import { UserProjects } from '../userProjects/userProjects.model';
+import { Raccordements } from '../raccordements/raccordements.model';
 
-export const initProjectModel = () => {
+export const initializeProjectModel = () => {
   Project.init(
     {
       id: {
@@ -191,4 +195,31 @@ export const initProjectModel = () => {
       timestamps: false,
     },
   );
+};
+
+export const initializeProjectModelModelAssociation = () => {
+  Project.belongsTo(File, {
+    foreignKey: 'dcrFileId',
+    as: 'dcrFileRef',
+  });
+
+  Project.belongsTo(File, {
+    foreignKey: 'certificateFileId',
+    as: 'certificateFile',
+  });
+
+  Project.hasMany(UserProjects, {
+    as: 'users',
+    foreignKey: 'projectId',
+  });
+
+  Project.hasOne(GarantiesFinancières, {
+    as: 'garantiesFinancières',
+    foreignKey: 'projetId',
+  });
+
+  Project.hasOne(Raccordements, {
+    as: 'raccordements',
+    foreignKey: 'projetId',
+  });
 };

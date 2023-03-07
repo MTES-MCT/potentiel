@@ -1,8 +1,10 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Raccordements, nomProjection } from './raccordements.model';
+import { File } from '../file/file.model';
+import { User } from '../users/users.model';
 
-export const initRaccordementsModel = () => {
+export const initializeRaccordementsModel = () => {
   Raccordements.init(
     {
       id: {
@@ -43,4 +45,18 @@ export const initRaccordementsModel = () => {
       freezeTableName: true,
     },
   );
+};
+
+export const initializeRaccordementsModelAssociations = () => {
+  Raccordements.hasOne(File, {
+    foreignKey: 'id',
+    sourceKey: 'ptfFichierId',
+    as: 'ptfFichier',
+  });
+
+  Raccordements.hasOne(User, {
+    foreignKey: 'id',
+    sourceKey: 'ptfEnvoyéePar',
+    as: 'ptfEnvoyéeParRef',
+  });
 };

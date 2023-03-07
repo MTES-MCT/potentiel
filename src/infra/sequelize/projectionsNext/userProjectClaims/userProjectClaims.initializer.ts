@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { UserProjectClaims, userProjectClaimsTableName } from './userProjectClaims.model';
+import { User } from '../users/users.model';
 
-export const initUserProjectClaimsModel = () => {
+export const initializeUserProjectClaimsModel = () => {
   UserProjectClaims.init(
     {
       userId: {
@@ -26,4 +27,8 @@ export const initUserProjectClaimsModel = () => {
       freezeTableName: true,
     },
   );
+};
+
+export const initializeUserProjectClaimsModelAssociations = () => {
+  UserProjectClaims.belongsTo(User, { foreignKey: 'userId' });
 };

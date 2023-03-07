@@ -7,7 +7,7 @@ import {
   garantiesFinancièresTableName,
 } from './garantiesFinancières.model';
 
-export const initGarantiesFinancièresModel = (sequelize: Sequelize) => {
+export const initializeGarantiesFinancièresModel = (sequelize: Sequelize) => {
   GarantiesFinancières.init(
     {
       id: {
@@ -75,7 +75,7 @@ export const initGarantiesFinancièresModel = (sequelize: Sequelize) => {
   );
 };
 
-export const initGarantiesFinancièresModelAssociations = () => {
+export const initializeGarantiesFinancièresModelAssociations = () => {
   GarantiesFinancières.hasOne(File, {
     foreignKey: 'id',
     sourceKey: 'fichierId',

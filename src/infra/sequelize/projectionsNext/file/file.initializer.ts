@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { File, fileTableName } from './file.model';
 
-export const initFileModel = () => {
+export const initializeFileModel = () => {
   File.init(
     {
       id: {

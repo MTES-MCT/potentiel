@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Notification } from './notification.model';
 
-export const initNotificationModel = () => {
+export const initializeNotificationModel = () => {
   Notification.init(
     {
       id: {

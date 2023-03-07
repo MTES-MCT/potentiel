@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { Tâches, étatsTâche, typesTâche, tâcheTableName } from './tâches.model';
 
-export const initTâchesModel = () => {
+export const initializeTâchesModel = () => {
   Tâches.init(
     {
       id: {

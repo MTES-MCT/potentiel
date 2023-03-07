@@ -1,8 +1,9 @@
 import { DataTypes } from 'sequelize';
 import { sequelizeInstance } from '../../../../sequelize.config';
 import { User, étatsUser, userTableName } from './users.model';
+import { Project } from '../project/project.model';
 
-export const initUserModel = () => {
+export const initializeUserModel = () => {
   User.init(
     {
       id: {
@@ -49,4 +50,8 @@ export const initUserModel = () => {
       freezeTableName: true,
     },
   );
+};
+
+export const initializeUserModelAssociations = () => {
+  User.hasMany(Project, { as: 'candidateProjects', foreignKey: 'email', sourceKey: 'email' });
 };
