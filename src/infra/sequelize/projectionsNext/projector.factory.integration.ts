@@ -1,7 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { sequelizeInstance } from '../../../sequelize.config';
-import { createProjectoryFactory } from './projector.factory';
+import { createProjectorFactory } from './projector.factory';
 
 interface DummyEventPayload {}
 
@@ -27,7 +27,7 @@ class OtherDummyEvent extends BaseDomainEvent<OtherDummyEventPayload> implements
   }
 }
 
-describe('makeSequelizeProjector', () => {
+describe('createProjectorFactory', () => {
   class FakeModel extends Model<InferAttributes<FakeModel>, InferCreationAttributes<FakeModel>> {}
 
   FakeModel.init(
@@ -45,7 +45,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: DummyEvent) => Promise.resolve());
 
-      const projector = createProjectoryFactory(sequelizeInstance)(FakeModel);
+      const projector = createProjectorFactory(sequelizeInstance)(FakeModel);
       projector.on(DummyEvent, handler);
 
       it('should throw an error', () => {
@@ -57,7 +57,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve());
 
-      const projector = createProjectoryFactory(sequelizeInstance)(FakeModel);
+      const projector = createProjectorFactory(sequelizeInstance)(FakeModel);
       projector.on(DummyEvent, handler);
       projector.on(OtherDummyEvent, handler2);
 
@@ -84,7 +84,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve());
 
-      const projector = createProjectoryFactory(sequelizeInstance)(FakeModel);
+      const projector = createProjectorFactory(sequelizeInstance)(FakeModel);
       const subscribe = jest.fn((eventHandler, consumerName: string) => {});
 
       projector.initialize(subscribe);

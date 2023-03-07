@@ -12,11 +12,11 @@ import { UserProjector } from './users/user.projector';
 import { UserProjectsProjector } from './userProjects/userProjects.projector';
 import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.projector';
 import { UserDrealProjector } from './userDreal/userDreal.projector';
-import { createProjectoryFactory } from './projector.factory';
+import { createProjectorFactory } from './projector.factory';
 import { Sequelize } from 'sequelize';
 
 export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe) => {
-  const projectorFactory = createProjectoryFactory(sequelize);
+  const projectorFactory = createProjectorFactory(sequelize);
 
   const projectors = [
     ProjectEventProjector,

@@ -1,6 +1,6 @@
 import { QueryInterface } from 'sequelize';
 import {
-  createProjectoryFactory,
+  createProjectorFactory,
   initializeGarantiesFinancièresProjector,
 } from '@infra/sequelize/projectionsNext';
 
@@ -9,7 +9,7 @@ export default {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      const projectFactory = createProjectoryFactory(queryInterface.sequelize);
+      const projectFactory = createProjectorFactory(queryInterface.sequelize);
       await initializeGarantiesFinancièresProjector(projectFactory).rebuild(transaction);
 
       await transaction.commit();

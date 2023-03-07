@@ -3,7 +3,7 @@ import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
 import models from '../models';
 import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project';
-import { createProjectoryFactory } from './projector.factory';
+import { createProjectorFactory } from './projector.factory';
 import { resetDatabase, toPersistance } from '../helpers';
 
 class FakeProjection extends Model<
@@ -28,7 +28,7 @@ FakeProjection.init(
   },
 );
 
-const FakeProjectionProjector = createProjectoryFactory(sequelizeInstance)(FakeProjection);
+const FakeProjectionProjector = createProjectorFactory(sequelizeInstance)(FakeProjection);
 
 interface OtherEventPayload {
   param1: string;
@@ -44,7 +44,7 @@ class OtherEvent extends BaseDomainEvent<OtherEventPayload> implements DomainEve
   }
 }
 
-describe('rebuild', () => {
+describe('createProjectorFactory rebuild', () => {
   const fakeDummyEventHandler = jest.fn();
 
   let transaction: Transaction;

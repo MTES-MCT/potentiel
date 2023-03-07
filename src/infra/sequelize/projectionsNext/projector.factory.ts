@@ -5,20 +5,35 @@ import { EventHandler } from './eventHandler';
 import * as readline from 'readline';
 import { fromPersistance } from '../helpers';
 import { logger } from '@core/utils';
+import { ProjectionEnEchec } from '@modules/shared';
 
-export const createProjectoryFactory =
+export const createProjectorFactory =
   (sequelize: Sequelize): ProjectorFactory =>
   (model) => {
     const name = model.tableName;
-    const handlersByType: Record<string, EventHandler<any>> = {};
+    const handlers: Map<string, EventHandler<any>> = new Map();
 
     const handleEvent = async <Event extends DomainEvent>(
       event: Event,
       transaction?: Transaction,
     ) => {
       const { type } = event;
-      if (handlersByType[type]) {
-        await handlersByType[type](event, transaction);
+      if (handlers.has(type)) {
+        const handler = handlers.get(type);
+        try {
+          await handler!(event, transaction);
+        } catch (error) {
+          logger.error(
+            new ProjectionEnEchec(
+              `Erreur lors du traitement de l'événement ${type}`,
+              {
+                évènement: event,
+                nomProjection: `${name}.${handler?.name}`,
+              },
+              error,
+            ),
+          );
+        }
       }
     };
 
@@ -27,11 +42,11 @@ export const createProjectoryFactory =
       on: (eventClass, handler) => {
         const type = eventClass.name;
 
-        if (handlersByType[type]) {
+        if (handlers.has(type)) {
           throw new Error(`The event ${type} already has an handler for the projection ${name}`);
         }
 
-        handlersByType[type] = handler;
+        handlers.set(type, handler);
         return handler;
       },
       initialize: (subscribe) => {
@@ -41,24 +56,27 @@ export const createProjectoryFactory =
         logger.info(`Projector initialized: ${name}`);
       },
       rebuild: async (transaction) => {
-        await model.destroy({ truncate: true, transaction });
-        const events = await sequelize.query(
-          `SELECT * FROM "eventStores" 
-         WHERE type in (${Object.keys(handlersByType)
-           .map((event) => `'${event}'`)
-           .join(',')}) 
-         ORDER BY "occurredAt" ASC`,
-          {
-            type: QueryTypes.SELECT,
-            transaction,
-          },
-        );
+        try {
+          await model.destroy({ truncate: true, transaction });
+          const eventTypes = [...handlers.keys()];
 
-        const total = events.length;
-        for (const [index, event] of events.entries()) {
-          printProgress(`${index + 1}/${total}`);
-          const eventToHandle = fromPersistance(event);
-          eventToHandle && (await handleEvent(eventToHandle, transaction));
+          const events = await sequelize.query(
+            'SELECT * FROM "eventStores" WHERE type IN (:eventTypes) ORDER BY "occurredAt" ASC',
+            {
+              replacements: { eventTypes },
+              type: QueryTypes.SELECT,
+              transaction,
+            },
+          );
+
+          const total = events.length;
+          for (const [index, event] of events.entries()) {
+            printProgress(`${index + 1}/${total}`);
+            const eventToHandle = fromPersistance(event);
+            eventToHandle && (await handleEvent(eventToHandle, transaction));
+          }
+        } catch (e) {
+          console.log(e);
         }
       },
     };
