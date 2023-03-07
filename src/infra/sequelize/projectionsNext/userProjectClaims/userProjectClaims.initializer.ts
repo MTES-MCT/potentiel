@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { UserProjectClaims, userProjectClaimsTableName } from './userProjectClaims.model';
+import { UserProjectClaims } from './userProjectClaims.model';
 import { User } from '../users/users.model';
 
 export const initializeUserProjectClaimsModel = (sequelize: Sequelize) => {
@@ -21,7 +21,7 @@ export const initializeUserProjectClaimsModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: userProjectClaimsTableName,
+      tableName: 'userProjectClaims',
       timestamps: true,
       freezeTableName: true,
     },

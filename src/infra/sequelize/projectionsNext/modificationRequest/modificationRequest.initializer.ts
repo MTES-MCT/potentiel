@@ -2,7 +2,7 @@ import { DataTypes, NOW, Sequelize } from 'sequelize';
 import { Project } from '../project/project.model';
 import { File } from '../file/file.model';
 import { User } from '../users/users.model';
-import { ModificationRequest, modificationRequestTableName } from './modificationRequest.model';
+import { ModificationRequest } from './modificationRequest.model';
 
 export const initializeModificationRequestModel = (sequelize: Sequelize) => {
   ModificationRequest.init(
@@ -137,7 +137,7 @@ export const initializeModificationRequestModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: modificationRequestTableName,
+      tableName: 'modificationRequests',
       timestamps: true,
     },
   );

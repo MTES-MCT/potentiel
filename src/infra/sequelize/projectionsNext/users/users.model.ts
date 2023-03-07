@@ -17,6 +17,4 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   createdAt: CreationOptional<Date>;
 }
 
-export const userTableName = 'users';
-
-export const UserProjector = makeSequelizeProjector(User, userTableName);
+export const UserProjector = makeSequelizeProjector(User);

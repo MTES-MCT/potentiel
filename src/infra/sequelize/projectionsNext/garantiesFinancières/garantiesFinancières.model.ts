@@ -20,5 +20,3 @@ export class GarantiesFinancières extends Model<
   validéesPar: string | null;
   validéesLe: Date | null;
 }
-
-export const garantiesFinancièresTableName = 'garantiesFinancières';

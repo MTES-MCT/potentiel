@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { UserProjects, userProjectsTableName } from './userProjects.model';
+import { UserProjects } from './userProjects.model';
 import { User } from '../users/users.model';
 
 export const initializeUserProjectsModel = (sequelize: Sequelize) => {
@@ -19,7 +19,7 @@ export const initializeUserProjectsModel = (sequelize: Sequelize) => {
     {
       timestamps: true,
       sequelize,
-      tableName: userProjectsTableName,
+      tableName: 'UserProjects',
       freezeTableName: true,
     },
   );

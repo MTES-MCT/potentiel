@@ -11,6 +11,4 @@ export class UserProjects extends Model<
   user: NonAttribute<User>;
 }
 
-export const userProjectsTableName = 'UserProjects';
-
-export const UserProjectsProjector = makeSequelizeProjector(UserProjects, userProjectsTableName);
+export const UserProjectsProjector = makeSequelizeProjector(UserProjects);

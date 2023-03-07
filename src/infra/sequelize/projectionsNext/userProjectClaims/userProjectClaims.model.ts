@@ -10,9 +10,4 @@ export class UserProjectClaims extends Model<
   failedAttempts: number;
 }
 
-export const userProjectClaimsTableName = 'userProjectClaims';
-
-export const UserProjectClaimsProjector = makeSequelizeProjector(
-  UserProjectClaims,
-  userProjectClaimsTableName,
-);
+export const UserProjectClaimsProjector = makeSequelizeProjector(UserProjectClaims);

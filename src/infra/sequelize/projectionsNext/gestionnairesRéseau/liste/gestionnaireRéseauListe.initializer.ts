@@ -1,8 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import {
-  GestionnairesRéseauListe,
-  gestionnairesRéseauListeTableName,
-} from './gestionnairesRéseauListe.model';
+import { GestionnairesRéseauListe } from './gestionnairesRéseauListe.model';
 
 export const initializeGestionnaireRéseauListeModel = (sequelize: Sequelize) => {
   GestionnairesRéseauListe.init(
@@ -20,7 +17,7 @@ export const initializeGestionnaireRéseauListeModel = (sequelize: Sequelize) =>
     },
     {
       sequelize,
-      tableName: gestionnairesRéseauListeTableName,
+      tableName: 'gestionnairesRéseauListe',
       timestamps: false,
       freezeTableName: true,
     },

@@ -39,6 +39,4 @@ export class Tâches extends Model<InferAttributes<Tâches>, InferCreationAttrib
   résultat?: Résultat;
 }
 
-export const tâcheTableName = 'taches';
-
-export const TâchesProjector = makeSequelizeProjector(Tâches, tâcheTableName);
+export const TâchesProjector = makeSequelizeProjector(Tâches);

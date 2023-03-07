@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { Project, projectTableName } from './project.model';
+import { Project } from './project.model';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { File } from '../file/file.model';
 import { UserProjects } from '../userProjects/userProjects.model';
@@ -190,7 +190,7 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: projectTableName,
+      tableName: 'projects',
       timestamps: false,
     },
   );

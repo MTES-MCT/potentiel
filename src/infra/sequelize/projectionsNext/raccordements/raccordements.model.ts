@@ -16,6 +16,4 @@ export class Raccordements extends Model<
   gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseauDétail>;
 }
 
-export const nomProjection = 'raccordements';
-
-export const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection);
+export const RaccordementsProjector = makeSequelizeProjector(Raccordements);

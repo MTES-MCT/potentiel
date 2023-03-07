@@ -9,9 +9,4 @@ export class GestionnairesRéseauListe extends Model<
   raisonSociale: string;
 }
 
-export const gestionnairesRéseauListeTableName = 'gestionnairesRéseauListe';
-
-export const GestionnairesRéseauListeProjector = makeSequelizeProjector(
-  GestionnairesRéseauListe,
-  gestionnairesRéseauListeTableName,
-);
+export const GestionnairesRéseauListeProjector = makeSequelizeProjector(GestionnairesRéseauListe);

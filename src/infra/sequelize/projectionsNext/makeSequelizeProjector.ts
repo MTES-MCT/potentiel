@@ -7,8 +7,8 @@ import { fromPersistance } from '../helpers';
 
 export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   model: TModel,
-  modelName: string,
 ): Projector => {
+  const name = model.tableName;
   const handlersByType: Record<string, EventHandler<any>> = {};
 
   const handleEvent = async <Event extends DomainEvent>(
@@ -22,12 +22,12 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   };
 
   return {
-    name: modelName,
+    name,
     on: (eventClass, handler) => {
       const type = eventClass.type;
 
       if (handlersByType[type]) {
-        throw new Error(`The event ${type} already has an handler for the projection ${modelName}`);
+        throw new Error(`The event ${type} already has an handler for the projection ${name}`);
       }
 
       handlersByType[type] = handler;
@@ -36,7 +36,7 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
     initEventStream: (eventStream) => {
       eventStream.subscribe(async (event) => {
         await handleEvent(event);
-      }, modelName);
+      }, name);
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction });

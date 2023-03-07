@@ -54,6 +54,4 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   raccordements?: NonAttribute<Raccordements>;
 }
 
-export const projectTableName = 'projects';
-
-export const ProjectProjector = makeSequelizeProjector(Project, projectTableName);
+export const ProjectProjector = makeSequelizeProjector(Project);

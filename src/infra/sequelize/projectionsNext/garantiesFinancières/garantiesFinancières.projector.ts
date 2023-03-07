@@ -1,15 +1,12 @@
 import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { Projector } from '../projector';
-import { GarantiesFinancières, garantiesFinancièresTableName } from './garantiesFinancières.model';
+import { GarantiesFinancières } from './garantiesFinancières.model';
 
 let garantiesFinancièresProjector: Projector | null;
 
 export const getGarantiesFinancièresProjector = () => {
   if (!garantiesFinancièresProjector) {
-    garantiesFinancièresProjector = makeSequelizeProjector(
-      GarantiesFinancières,
-      garantiesFinancièresTableName,
-    );
+    garantiesFinancièresProjector = makeSequelizeProjector(GarantiesFinancières);
   }
 
   return garantiesFinancièresProjector;

@@ -1,11 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 import { User } from '../users/users.model';
 import { File } from '../file/file.model';
-import {
-  GarantiesFinancières,
-  garantiesFinancièresStatuts,
-  garantiesFinancièresTableName,
-} from './garantiesFinancières.model';
+import { GarantiesFinancières, garantiesFinancièresStatuts } from './garantiesFinancières.model';
 
 export const initializeGarantiesFinancièresModel = (sequelize: Sequelize) => {
   GarantiesFinancières.init(
@@ -68,7 +64,7 @@ export const initializeGarantiesFinancièresModel = (sequelize: Sequelize) => {
         },
       ],
       sequelize,
-      tableName: garantiesFinancièresTableName,
+      tableName: 'garantiesFinancières',
       timestamps: true,
       freezeTableName: true,
     },

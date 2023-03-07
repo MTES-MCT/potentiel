@@ -58,9 +58,4 @@ export class ModificationRequest extends Model<
   attachmentFile: NonAttribute<{ id: string; filename: string }>;
 }
 
-export const modificationRequestTableName = 'modificationRequests';
-
-export const ModificationRequestProjector = makeSequelizeProjector(
-  ModificationRequest,
-  modificationRequestTableName,
-);
+export const ModificationRequestProjector = makeSequelizeProjector(ModificationRequest);

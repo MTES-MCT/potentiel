@@ -1,5 +1,6 @@
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { sequelizeInstance } from '../../../sequelize.config';
 import { makeSequelizeProjector } from './makeSequelizeProjector';
 
 interface DummyEventPayload {}
@@ -29,12 +30,22 @@ class OtherDummyEvent extends BaseDomainEvent<OtherDummyEventPayload> implements
 describe('makeSequelizeProjector', () => {
   class FakeModel extends Model<InferAttributes<FakeModel>, InferCreationAttributes<FakeModel>> {}
 
+  FakeModel.init(
+    {},
+    {
+      sequelize: sequelizeInstance,
+      tableName: 'fakeModel',
+      timestamps: true,
+      freezeTableName: true,
+    },
+  );
+
   describe('on(Event, handler)', () => {
     describe('when called for the same event type', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: DummyEvent) => Promise.resolve());
 
-      const projector = makeSequelizeProjector(FakeModel, 'fakeModel');
+      const projector = makeSequelizeProjector(FakeModel);
       projector.on(DummyEvent, handler);
 
       it('should throw an error', () => {
@@ -46,7 +57,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve());
 
-      const projector = makeSequelizeProjector(FakeModel, 'fakeModel');
+      const projector = makeSequelizeProjector(FakeModel);
       projector.on(DummyEvent, handler);
       projector.on(OtherDummyEvent, handler2);
 
@@ -75,7 +86,7 @@ describe('makeSequelizeProjector', () => {
       const handler = jest.fn((event: DummyEvent) => Promise.resolve());
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve());
 
-      const projector = makeSequelizeProjector(FakeModel, 'fakeModel');
+      const projector = makeSequelizeProjector(FakeModel);
       const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {});
 
       projector.initEventStream({

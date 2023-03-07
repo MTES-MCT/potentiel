@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { UserDreal, userDrealTableName } from './userDreal.model';
+import { UserDreal } from './userDreal.model';
 import { User } from '../users/users.model';
 
 export const initializeUserDrealModel = (sequelize: Sequelize) => {
@@ -22,7 +22,7 @@ export const initializeUserDrealModel = (sequelize: Sequelize) => {
     },
     {
       sequelize,
-      tableName: userDrealTableName,
+      tableName: 'userDreals',
       timestamps: true,
       freezeTableName: true,
     },

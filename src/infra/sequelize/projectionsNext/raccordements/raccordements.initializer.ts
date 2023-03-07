@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { Raccordements, nomProjection } from './raccordements.model';
+import { Raccordements } from './raccordements.model';
 import { File } from '../file/file.model';
 import { User } from '../users/users.model';
 import { GestionnaireRéseauDétail } from '../gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
@@ -44,7 +44,7 @@ export const initializeRaccordementsModel = (sequelize: Sequelize) => {
         },
       ],
       sequelize,
-      tableName: nomProjection,
+      tableName: 'raccordements',
       timestamps: true,
       freezeTableName: true,
     },

@@ -28,7 +28,7 @@ FakeProjection.init(
   },
 );
 
-const FakeProjectionProjector = makeSequelizeProjector(FakeProjection, 'fakeProjection');
+const FakeProjectionProjector = makeSequelizeProjector(FakeProjection);
 
 interface OtherEventPayload {
   param1: string;

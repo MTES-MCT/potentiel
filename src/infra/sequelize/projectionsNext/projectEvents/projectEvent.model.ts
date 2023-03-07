@@ -14,6 +14,4 @@ export class ProjectEvent extends Model<
   eventPublishedAt: number;
 }
 
-export const projectEventTableName = 'project_events';
-
-export const ProjectEventProjector = makeSequelizeProjector(ProjectEvent, projectEventTableName);
+export const ProjectEventProjector = makeSequelizeProjector(ProjectEvent);

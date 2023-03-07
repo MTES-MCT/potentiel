@@ -11,6 +11,4 @@ export class UserDreal extends Model<
   userId: string;
 }
 
-export const userDrealTableName = 'userDreals';
-
-export const UserDrealProjector = makeSequelizeProjector(UserDreal, userDrealTableName);
+export const UserDrealProjector = makeSequelizeProjector(UserDreal);

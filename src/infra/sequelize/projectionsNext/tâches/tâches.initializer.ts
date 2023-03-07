@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { Tâches, étatsTâche, typesTâche, tâcheTableName } from './tâches.model';
+import { Tâches, étatsTâche, typesTâche } from './tâches.model';
 
 export const initializeTâchesModel = (sequelize: Sequelize) => {
   Tâches.init(
@@ -42,7 +42,7 @@ export const initializeTâchesModel = (sequelize: Sequelize) => {
         },
       ],
       sequelize,
-      tableName: tâcheTableName,
+      tableName: 'taches',
       timestamps: false,
       freezeTableName: true,
     },

@@ -11,9 +11,4 @@ export class GestionnaireRéseauDétail extends Model<
   légende?: string;
 }
 
-export const gestionnaireRéseauDétailTableName = 'gestionnaireRéseauDétail';
-
-export const GestionnaireRéseauDétailProjector = makeSequelizeProjector(
-  GestionnaireRéseauDétail,
-  gestionnaireRéseauDétailTableName,
-);
+export const GestionnaireRéseauDétailProjector = makeSequelizeProjector(GestionnaireRéseauDétail);
