@@ -3,7 +3,7 @@ import { sequelizeInstance } from '../../../../sequelize.config';
 import { UserProjects, userProjectsTableName } from './userProjects.model';
 import { User } from '../users/users.model';
 
-export const initializeUserProjects = () => {
+export const initializeUserProjectsModel = () => {
   UserProjects.init(
     {
       userId: {

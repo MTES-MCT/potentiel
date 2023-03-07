@@ -5,7 +5,7 @@ import {
   initializeGarantiesFinancièresModelAssociations,
 } from './garantiesFinancières/garantiesFinancières.initializer';
 import { initializeGestionnaireRéseauDétailModel } from './gestionnairesRéseau/détail/gestionnaireRéseauDétail.initializer';
-import { initializeGestionnaireRéseauListe } from './gestionnairesRéseau/liste/gestionnaireRéseauListe.initializer';
+import { initializeGestionnaireRéseauListeModel } from './gestionnairesRéseau/liste/gestionnaireRéseauListe.initializer';
 import {
   initializeModificationRequestModel,
   initializeModificationRequestModelAssociations,
@@ -13,7 +13,7 @@ import {
 import { initializeNotificationModel } from './notification/notification.initializer';
 import {
   initializeProjectModel,
-  initializeProjectModelModelAssociation,
+  initializeProjectModelModelAssociations,
 } from './project/project.initializer';
 import { initializeProjectEventModel } from './projectEvents/projectEvent.initializer';
 import {
@@ -30,7 +30,7 @@ import {
   initializeUserProjectClaimsModelAssociations,
 } from './userProjectClaims/userProjectClaims.initializer';
 import {
-  initializeUserProjects,
+  initializeUserProjectsModel,
   initializeUserProjectsModelAssociations,
 } from './userProjects/userProjects.initializer';
 import {
@@ -47,7 +47,7 @@ const initializeModels = (sequelize: Sequelize) => {
   initializeFileModel();
   initializeGarantiesFinancièresModel(sequelize);
   initializeGestionnaireRéseauDétailModel();
-  initializeGestionnaireRéseauListe();
+  initializeGestionnaireRéseauListeModel();
   initializeModificationRequestModel();
   initializeNotificationModel();
   initializeProjectModel();
@@ -56,14 +56,14 @@ const initializeModels = (sequelize: Sequelize) => {
   initializeTâchesModel();
   initializeUserDrealModel();
   initializeUserProjectClaimsModel();
-  initializeUserProjects();
+  initializeUserProjectsModel();
   initializeUserModel();
 };
 
 const initializeModelAssociations = () => {
   initializeGarantiesFinancièresModelAssociations();
   initializeModificationRequestModelAssociations();
-  initializeProjectModelModelAssociation();
+  initializeProjectModelModelAssociations();
   initializeRaccordementsModelAssociations();
   initializeUserDrealModelAssociations();
   initializeUserProjectClaimsModelAssociations();

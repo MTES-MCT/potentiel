@@ -197,7 +197,7 @@ export const initializeProjectModel = () => {
   );
 };
 
-export const initializeProjectModelModelAssociation = () => {
+export const initializeProjectModelModelAssociations = () => {
   Project.belongsTo(File, {
     foreignKey: 'dcrFileId',
     as: 'dcrFileRef',

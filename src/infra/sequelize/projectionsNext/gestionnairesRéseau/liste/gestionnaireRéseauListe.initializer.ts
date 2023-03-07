@@ -5,7 +5,7 @@ import {
   gestionnairesRéseauListeTableName,
 } from './gestionnairesRéseauListe.model';
 
-export const initializeGestionnaireRéseauListe = () => {
+export const initializeGestionnaireRéseauListeModel = () => {
   GestionnairesRéseauListe.init(
     {
       codeEIC: {
