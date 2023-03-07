@@ -1,8 +1,6 @@
 import {
   getGarantiesFinancièresProjector,
   RaccordementsProjector,
-  initProjections,
-  initProjectors,
   ProjectEventProjector,
   TâchesProjector,
   UserProjector,
@@ -15,14 +13,6 @@ import {
   ProjectProjector,
 } from '@infra/sequelize';
 import { subscribeToRedis } from './eventBus.config';
-import { eventStore } from './eventStore.config';
-
-// This is legacy
-initProjections();
-
-// This is initProjections replacement
-const projectors = initProjectors(eventStore);
-console.log(`Initialized projectors: ${projectors.join(', ')}`);
 
 const projectorsNext = [
   ProjectEventProjector,
