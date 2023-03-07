@@ -1,6 +1,6 @@
 import { Redis } from 'ioredis';
 import { logger } from '@core/utils';
-import { HasSubscribe } from '@infra/sequelize/projectionsNext';
+import { Subscribe } from '@infra/sequelize/projectionsNext';
 import { fromRedisMessage } from './helpers/fromRedisMessage';
 
 type MakeRedisSubscribeDeps = {
@@ -8,9 +8,7 @@ type MakeRedisSubscribeDeps = {
   streamName: string;
 };
 
-type RedisSubscribe = HasSubscribe['subscribe'];
-
-const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): RedisSubscribe => {
+const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Subscribe => {
   const subscribedConsumers: string[] = [];
 
   return async (callback, consumerName) => {

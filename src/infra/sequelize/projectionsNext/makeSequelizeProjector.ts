@@ -33,8 +33,8 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
       handlersByType[type] = handler;
       return handler;
     },
-    initEventStream: (eventStream) => {
-      eventStream.subscribe(async (event) => {
+    initialize: (subscribe) => {
+      subscribe(async (event) => {
         await handleEvent(event);
       }, name);
     },

@@ -61,19 +61,17 @@ describe('makeSequelizeProjector', () => {
       projector.on(DummyEvent, handler);
       projector.on(OtherDummyEvent, handler2);
 
-      const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {});
+      const subscribe = jest.fn((eventHandler, consumerName: string) => {});
 
-      projector.initEventStream({
-        subscribe: eventStreamSubscribe,
-      });
+      projector.initialize(subscribe);
 
       it('should register a single handler on the eventStream, with the model as consumerName', () => {
-        expect(eventStreamSubscribe).toHaveBeenCalledTimes(1);
-        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel');
+        expect(subscribe).toHaveBeenCalledTimes(1);
+        expect(subscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel');
       });
 
       it('should call the handlers for the specific type when the event arises', () => {
-        const innerDummyEventHandler = eventStreamSubscribe.mock.calls[0][0];
+        const innerDummyEventHandler = subscribe.mock.calls[0][0];
         const fakeDummyEvent = new DummyEvent({ payload: {} });
         innerDummyEventHandler(fakeDummyEvent);
 
@@ -87,22 +85,20 @@ describe('makeSequelizeProjector', () => {
       const handler2 = jest.fn((event: OtherDummyEvent) => Promise.resolve());
 
       const projector = makeSequelizeProjector(FakeModel);
-      const eventStreamSubscribe = jest.fn((eventHandler, consumerName: string) => {});
+      const subscribe = jest.fn((eventHandler, consumerName: string) => {});
 
-      projector.initEventStream({
-        subscribe: eventStreamSubscribe,
-      });
+      projector.initialize(subscribe);
 
       projector.on(DummyEvent, handler);
       projector.on(OtherDummyEvent, handler2);
 
       it('should register a single handler on the eventStream, with the model as consumerName', () => {
-        expect(eventStreamSubscribe).toHaveBeenCalledTimes(1);
-        expect(eventStreamSubscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel');
+        expect(subscribe).toHaveBeenCalledTimes(1);
+        expect(subscribe).toHaveBeenCalledWith(expect.anything(), 'fakeModel');
       });
 
       it('should call the handlers for the specific type when the event arises', () => {
-        const innerDummyEventHandler = eventStreamSubscribe.mock.calls[0][0];
+        const innerDummyEventHandler = subscribe.mock.calls[0][0];
         const fakeDummyEvent = new DummyEvent({ payload: {} });
         innerDummyEventHandler(fakeDummyEvent);
 

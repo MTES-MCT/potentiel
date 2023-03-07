@@ -1,5 +1,5 @@
 import { logger } from '@core/utils';
-import { HasSubscribe } from '..';
+import { Subscribe } from './projector';
 import { getGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.model';
 import { TâchesProjector } from './tâches/tâches.model';
@@ -13,7 +13,7 @@ import { UserProjectsProjector } from './userProjects/userProjects.model';
 import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.model';
 import { UserDrealProjector } from './userDreal/userDreal.model';
 
-export const initializeProjectors = (subscriber: HasSubscribe) => {
+export const initializeProjectors = (subscribe: Subscribe) => {
   const projectorsNext = [
     ProjectEventProjector,
     TâchesProjector,
@@ -28,7 +28,7 @@ export const initializeProjectors = (subscriber: HasSubscribe) => {
     UserProjectClaimsProjector,
     UserDrealProjector,
   ].map((projector) => {
-    projector.initEventStream(subscriber);
+    projector.initialize(subscribe);
     return projector.name;
   });
 
