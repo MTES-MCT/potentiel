@@ -1,15 +1,18 @@
 // MERCI DE NE PAS UTILISER L'EXTENSION BARREL DANS CETTE PARTIE DU PROJET !!!
 // TODO: executions des initializers. Malheureusement on est encore obligé de faire cela dans l'index du module, car l'init de l'app se fait avec des sides effetcs...
-// Il faudrait faire ça au bootstrap de l'app (ou des tests), ne pas importer la config Sequelize et appeler les fonctions d'initialize dans ce fichier
+// Il faudrait faire ça au bootstrap de l'app (ou des tests), ne pas importer la config Sequelize et appeler les fonctions d'initialize dans ce fichier.
+// On fera ce refacto plus tard quand on sortira la partie projection et la partie model de la DB dans des packages.
 import { sequelizeInstance } from '../../../sequelize.config';
 import { initializeProjections } from './projections.initializer';
 
 initializeProjections(sequelizeInstance);
 
 // Export module types
+export * from './eventHandler';
 export * from './projector';
+export * from './subscribe';
 
-// Export initializer de projectors, pour configurer le module depuis l'extérieur si besoin
+// Export initializer de projections et projectors (pour configurer le module depuis l'extérieur, pas encore utiliser à cause des imports side effects)
 export * from './projectors.initializer';
 export * from './projections.initializer';
 

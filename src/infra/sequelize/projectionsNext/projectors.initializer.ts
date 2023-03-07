@@ -1,5 +1,5 @@
 import { logger } from '@core/utils';
-import { Subscribe } from './projector';
+import { Subscribe } from './subscribe';
 import { initializeGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
 import { TâchesProjector } from './tâches/tâches.projector';

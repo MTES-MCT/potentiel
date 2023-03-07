@@ -1,8 +1,7 @@
 import type { Model, ModelStatic, Transaction } from 'sequelize/types';
 import { DomainEvent } from '@core/domain';
 import { EventHandler } from './eventHandler';
-
-export type Subscribe = (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void;
+import { Subscribe } from './subscribe';
 
 export interface Projector {
   name: string;
