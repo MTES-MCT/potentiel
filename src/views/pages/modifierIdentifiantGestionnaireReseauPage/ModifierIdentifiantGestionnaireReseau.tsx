@@ -89,16 +89,13 @@ export const ModifierIdentifiantGestionnaireReseau = ({
                 id="codeEICGestionnaireRéseau"
                 name="codeEICGestionnaireRéseau"
                 onChange={(e) => handleGestionnaireSéléctionné(e)}
+                defaultValue={projet.gestionnaireRéseau?.codeEIC || 'default'}
               >
-                <option selected disabled hidden>
+                <option value="default" disabled hidden>
                   Choisir un gestionnaire de réseau
                 </option>
                 {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-                  <option
-                    value={codeEIC}
-                    key={codeEIC}
-                    selected={codeEIC === projet.gestionnaireRéseau?.codeEIC}
-                  >
+                  <option value={codeEIC} key={codeEIC}>
                     {raisonSociale} (code EIC : {codeEIC})
                   </option>
                 ))}

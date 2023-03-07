@@ -52,7 +52,7 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                 type="email"
                 name="email"
                 id="email"
-                placeholder="email@test.test"
+                placeholder="email@exemple.com"
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
@@ -66,8 +66,9 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
                 id="region"
                 required
                 {...(validationErrors && { error: validationErrors['region']?.toString() })}
+                defaultValue="default"
               >
-                <option selected disabled hidden>
+                <option value="default" disabled hidden>
                   Sélectionnez une région
                 </option>
                 {[...REGIONS]
