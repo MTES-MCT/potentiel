@@ -1,12 +1,16 @@
+// MERCI DE NE PAS UTILISER L'EXTENSION BARREL DANS CETTE PARTIE DU PROJET !!!
+// TODO: executions des initializers. Malheureusement on est encore obligé de faire cela dans l'index du module, car l'init de l'app se fait avec des sides effetcs...
+// Il faudrait faire ça au bootstrap de l'app (ou des tests), ne pas importer la config Sequelize et appeler les fonctions d'initialize dans ce fichier
 import { sequelizeInstance } from '../../../sequelize.config';
 import { initializeProjections } from './projections.initializer';
 
-// TODO : Il faut absolument arrêté de faire des export default et des imports avec des side effects, ASAP !
-// Une partie est déjà faite, mais ce module doit éxecuter des side effects au vu de l'organisation du projet.
-// On reverra ça plus tard quand le projet sera stable sur la partie projection
 initializeProjections(sequelizeInstance);
 
-// MERCI DE NE PAS UTILISER L'EXTENSION BARREL DANS CETTE PARTIE DU PROJET !!!
+// Export module types
+export * from './projector';
+
+// Export initializer de projectors:
+export * from './projectors.initializer';
 
 // Export des models
 export * from './file/file.model';
@@ -38,9 +42,6 @@ export * from './userDreal/updates';
 export * from './userProjectClaims/updates';
 export * from './userProjects/updates';
 export * from './users/updates';
-
-// Export module types
-export * from './projector';
 
 // TODO : Ces guards ne devrait pas être dans une couche d'accés aux données...
 export * from './projectEvents/guards';

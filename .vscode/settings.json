@@ -2,7 +2,7 @@
   "workbench.startupEditor": "newUntitledFile",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
-    "[typescript]": {
+  "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
