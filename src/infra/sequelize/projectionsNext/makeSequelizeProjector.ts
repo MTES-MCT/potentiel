@@ -1,10 +1,15 @@
 import { Model, ModelStatic, QueryTypes, Transaction } from 'sequelize';
 import { DomainEvent } from '@core/domain';
 import { sequelizeInstance } from '../../../sequelize.config';
-import { EventHandler, Projector } from './projector';
+import { Projector } from './projector';
+import { EventHandler } from './eventHandler';
 import * as readline from 'readline';
 import { fromPersistance } from '../helpers';
+import { logger } from '@core/utils';
 
+/**
+ * @deprecated use createProjectorFactory instead (this one has a coupling with sequelizeInstance configuration)
+ */
 export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   model: TModel,
 ): Projector => {
@@ -24,7 +29,7 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   return {
     name,
     on: (eventClass, handler) => {
-      const type = eventClass.type;
+      const type = eventClass.name;
 
       if (handlersByType[type]) {
         throw new Error(`The event ${type} already has an handler for the projection ${name}`);
@@ -37,6 +42,7 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
       subscribe(async (event) => {
         await handleEvent(event);
       }, name);
+      logger.info(`Projector initialized: ${name}`);
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction });

@@ -1,7 +1,6 @@
-import type { Transaction } from 'sequelize/types';
-import { Constructor, DomainEvent, HasType } from '@core/domain';
-
-export type EventHandler<Event> = (event: Event, transaction?: Transaction) => Promise<void>;
+import type { Model, ModelStatic, Transaction } from 'sequelize/types';
+import { DomainEvent } from '@core/domain';
+import { EventHandler } from './eventHandler';
 
 export type Subscribe = (cb: (event: DomainEvent) => Promise<void>, consumerName: string) => void;
 
@@ -11,9 +10,11 @@ export interface Projector {
   initialize: (subscribe: Subscribe) => void;
 
   on: <Event extends DomainEvent>(
-    eventClass: Constructor<Event> & HasType,
+    eventClass: new (...args: any[]) => Event,
     eventHandler: EventHandler<Event>,
   ) => EventHandler<Event>;
 
   rebuild: (transaction: Transaction) => Promise<void>;
 }
+
+export type ProjectorFactory = <TModel extends ModelStatic<Model>>(model: TModel) => Projector;

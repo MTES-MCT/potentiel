@@ -1,12 +1,16 @@
-import { getGarantiesFinancièresProjector } from '@infra/sequelize/projectionsNext';
 import { QueryInterface } from 'sequelize';
+import {
+  createProjectoryFactory,
+  initializeGarantiesFinancièresProjector,
+} from '@infra/sequelize/projectionsNext';
 
 export default {
   up: async (queryInterface: QueryInterface) => {
     const transaction = await queryInterface.sequelize.transaction();
 
     try {
-      await getGarantiesFinancièresProjector().rebuild(transaction);
+      const projectFactory = createProjectoryFactory(queryInterface.sequelize);
+      await initializeGarantiesFinancièresProjector(projectFactory).rebuild(transaction);
 
       await transaction.commit();
     } catch (error) {

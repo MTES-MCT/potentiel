@@ -1,6 +1,6 @@
 import { logger } from '@core/utils';
 import { Subscribe } from './projector';
-import { getGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
+import { initializeGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
 import { TâchesProjector } from './tâches/tâches.projector';
 import { GestionnaireRéseauDétailProjector } from './gestionnairesRéseau/détail/gestionnaireRéseauDétail.projector';
@@ -12,12 +12,15 @@ import { UserProjector } from './users/user.projector';
 import { UserProjectsProjector } from './userProjects/userProjects.projector';
 import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.projector';
 import { UserDrealProjector } from './userDreal/userDreal.projector';
+import { createProjectoryFactory } from './projector.factory';
+import { Sequelize } from 'sequelize';
 
-export const initializeProjectors = (subscribe: Subscribe) => {
-  const projectorsNext = [
+export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe) => {
+  const projectorFactory = createProjectoryFactory(sequelize);
+
+  const projectors = [
     ProjectEventProjector,
     TâchesProjector,
-    getGarantiesFinancièresProjector(),
     GestionnaireRéseauDétailProjector,
     GestionnairesRéseauListeProjector,
     ModificationRequestProjector,
@@ -27,12 +30,12 @@ export const initializeProjectors = (subscribe: Subscribe) => {
     UserProjectsProjector,
     UserProjectClaimsProjector,
     UserDrealProjector,
-  ].map((projector) => {
+    initializeGarantiesFinancièresProjector(projectorFactory),
+  ];
+
+  for (const projector of projectors) {
     projector.initialize(subscribe);
-    return projector.name;
-  });
+  }
 
-  logger.info(`Initialized nextgen projectors: ${projectorsNext.join(', ')}`);
-
-  logger.info('Projections initialized');
+  logger.info('Projectors initialized');
 };

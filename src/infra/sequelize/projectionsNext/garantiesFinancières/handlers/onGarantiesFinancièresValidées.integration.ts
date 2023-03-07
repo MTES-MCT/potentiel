@@ -2,7 +2,7 @@ import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { GarantiesFinancièresValidées } from '@modules/project';
 import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import onGarantiesFinancièresValidées from './onGarantiesFinancièresValidées';
+import { onGarantiesFinancièresValidées } from './onGarantiesFinancièresValidées';
 
 describe(`handler onGarantiesFinancièresValidées pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {

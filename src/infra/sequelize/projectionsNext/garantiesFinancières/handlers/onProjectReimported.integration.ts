@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectReimported } from '@modules/project';
 import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import onProjectReimported from './onProjectReimported';
+import { onProjectReimported } from './onProjectReimported';
 
 describe(`handler onProjectReimported pour la projection garantiesFinancières`, () => {
   describe(`Cas d'un projet passant du statut 'Classé' au statut 'Eliminé`, () => {

@@ -3,7 +3,7 @@ import { resetDatabase } from '@infra/sequelize/helpers';
 import { Project, GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 import { ProjectNotified } from '@modules/project';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
-import onProjectNotified from './onProjectNotified';
+import { onProjectNotified } from './onProjectNotified';
 
 describe(`handler onProjectNotified pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {

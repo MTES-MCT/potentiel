@@ -1,10 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
-import { ProjectGFRemoved } from '@modules/project';
+import { ProjectGFDueDateCancelled } from '@modules/project';
 import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
-import onProjectGFRemoved from './onProjectGFRemoved';
+import { onProjectGFDueDateCancelled } from './onProjectGFDueDateCancelled';
 
-describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, () => {
+describe(`handler onProjectGFDueDateCancelled pour la projection garantiesFinancières`, () => {
   beforeEach(async () => {
     await resetDatabase();
   });
@@ -13,15 +13,13 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
   const occurredAt = new Date('2022-01-04');
   const gfDate = new Date('2020-01-01');
   const fichierId = new UniqueEntityID().toString();
-  const retiréPar = new UniqueEntityID().toString();
   const envoyéesPar = new UniqueEntityID().toString();
   const dateExpiration = new Date('2020-01-01');
   const dateLimiteEnvoi = new Date();
 
-  const évènement = new ProjectGFRemoved({
+  const évènement = new ProjectGFDueDateCancelled({
     payload: {
       projectId: projetId,
-      removedBy: retiréPar,
     },
     original: {
       version: 1,
@@ -30,14 +28,14 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
   });
 
   it(`Etant donné un projet existant dans la projection garantiesFinancières,
-    Lorsqu'un événement ProjectGFRemoved est émis pour ce projet,
-    alors la ligne devrait être mise à jour avec le statut 'en attente' 
-    et les données du fichier envoyé devraient être retirées`, async () => {
+    lorsqu'un événement ProjectGFDueDateCancelled est émis pour ce projet,
+    alors la date limite d'envoi devrait être supprimée dans la projection
+    et le reste de données devrait être conservé`, async () => {
     await GarantiesFinancières.create({
       id,
       projetId,
       statut: 'à traiter',
-      soumisesALaCandidature: false,
+      soumisesALaCandidature: true,
       envoyéesPar,
       dateEchéance: dateExpiration,
       dateEnvoi: occurredAt,
@@ -46,16 +44,22 @@ describe(`handler onProjectGFRemoved pour la projection garantiesFinancières`, 
       dateLimiteEnvoi,
     });
 
-    await onProjectGFRemoved(évènement);
+    await onProjectGFDueDateCancelled(évènement);
 
     const GF = await GarantiesFinancières.findOne({ where: { projetId } });
 
     expect(GF).toMatchObject({
       id,
       projetId,
-      soumisesALaCandidature: false,
-      statut: 'en attente',
-      dateLimiteEnvoi,
+      statut: 'à traiter',
+      soumisesALaCandidature: true,
+      envoyéesPar,
+      dateEchéance: dateExpiration,
+      dateEnvoi: occurredAt,
+      dateConstitution: gfDate,
+      fichierId,
     });
+
+    expect(GF?.dateLimiteEnvoi).toBeNull();
   });
 });
