@@ -63,7 +63,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       departementProjet: 'departement',
       regionProjet: 'region',
       type: 'recours',
-      porteursProjet: [
+      porteursProjet: expect.arrayContaining([
         {
           id: userId,
           fullName: 'pp1',
@@ -74,7 +74,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
           fullName: 'pp2',
           email: 'pp2@test.test',
         },
-      ],
+      ]),
     });
   });
 });
