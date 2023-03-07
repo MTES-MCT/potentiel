@@ -1,9 +1,9 @@
 import { Model, ModelStatic, QueryTypes, Transaction } from 'sequelize';
-import { fromPersistance } from '.';
 import { DomainEvent } from '@core/domain';
 import { sequelizeInstance } from '../../../sequelize.config';
-import { EventHandler, Projector } from './Projection';
+import { EventHandler, Projector } from './projector';
 import * as readline from 'readline';
+import { fromPersistance } from '../helpers';
 
 export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
   model: TModel,

@@ -1,4 +1,3 @@
-import { makeSequelizeProjector } from '@infra/sequelize/helpers';
 import {
   CreationOptional,
   InferAttributes,
@@ -6,6 +5,7 @@ import {
   Model,
   NonAttribute,
 } from 'sequelize';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { Project } from '../project/project.model';
 
 export class ModificationRequest extends Model<

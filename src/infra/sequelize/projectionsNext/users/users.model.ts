@@ -1,6 +1,6 @@
 import { UserRole } from '@modules/users';
 import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../../helpers';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export const étatsUser = ['invité', 'créé'] as const;
 type États = typeof étatsUser[number];

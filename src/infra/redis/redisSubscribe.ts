@@ -1,6 +1,6 @@
 import { Redis } from 'ioredis';
 import { logger } from '@core/utils';
-import { HasSubscribe } from '../sequelize/helpers/Projection';
+import { HasSubscribe } from '@infra/sequelize/projectionsNext';
 import { fromRedisMessage } from './helpers/fromRedisMessage';
 
 type MakeRedisSubscribeDeps = {

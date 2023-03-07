@@ -1,5 +1,5 @@
 import { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../../helpers';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export const typesTâche = ['maj-données-de-raccordement'] as const;
 export type TâchesType = typeof typesTâche[number];

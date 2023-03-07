@@ -1,6 +1,6 @@
 import { InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
-import { makeSequelizeProjector } from '../../helpers';
 import { GestionnaireRéseauDétail } from '../gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export class Raccordements extends Model<
   InferAttributes<Raccordements>,

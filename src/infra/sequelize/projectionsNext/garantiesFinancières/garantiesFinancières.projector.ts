@@ -1,5 +1,5 @@
-import { Projector } from '@infra/sequelize/helpers/Projection';
-import { makeSequelizeProjector } from '../../helpers';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
+import { Projector } from '../projector';
 import { GarantiesFinancières, garantiesFinancièresTableName } from './garantiesFinancières.model';
 
 let garantiesFinancièresProjector: Projector | null;

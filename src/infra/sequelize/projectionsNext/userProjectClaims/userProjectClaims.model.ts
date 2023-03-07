@@ -1,5 +1,5 @@
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import { makeSequelizeProjector } from '../../helpers';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export class UserProjectClaims extends Model<
   InferAttributes<UserProjectClaims>,

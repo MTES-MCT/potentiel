@@ -1,10 +1,10 @@
 import { sequelizeInstance } from '../../../sequelize.config';
-import { makeSequelizeProjector, resetDatabase } from '.';
 import { DataTypes, InferAttributes, InferCreationAttributes, Model, Transaction } from 'sequelize';
 import { BaseDomainEvent, DomainEvent } from '@core/domain';
 import models from '../models';
-import { toPersistance } from './toPersistance';
 import { ProjectNotified, ProjectNotifiedPayload } from '@modules/project';
+import { makeSequelizeProjector } from './makeSequelizeProjector';
+import { resetDatabase, toPersistance } from '../helpers';
 
 class FakeProjection extends Model<
   InferAttributes<FakeProjection>,

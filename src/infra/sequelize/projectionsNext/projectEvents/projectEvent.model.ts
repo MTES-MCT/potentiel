@@ -1,6 +1,6 @@
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 import { Payload } from './Payload';
-import { makeSequelizeProjector } from '../../helpers';
 
 export class ProjectEvent extends Model<
   InferAttributes<ProjectEvent>,

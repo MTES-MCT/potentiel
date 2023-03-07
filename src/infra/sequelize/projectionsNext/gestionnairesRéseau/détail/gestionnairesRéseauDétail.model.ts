@@ -1,5 +1,5 @@
-import { makeSequelizeProjector } from '@infra/sequelize/helpers';
 import { InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { makeSequelizeProjector } from '../../makeSequelizeProjector';
 
 export class GestionnaireRéseauDétail extends Model<
   InferAttributes<GestionnaireRéseauDétail>,

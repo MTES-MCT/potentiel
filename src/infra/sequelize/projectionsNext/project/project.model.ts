@@ -4,7 +4,7 @@ import { ContratEDF } from '@modules/edf';
 import { ContratEnedis } from '@modules/enedis';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { Raccordements } from '../raccordements/raccordements.model';
-import { makeSequelizeProjector } from '@infra/sequelize/helpers';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string;

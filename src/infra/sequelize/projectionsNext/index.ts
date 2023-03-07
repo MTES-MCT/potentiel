@@ -39,5 +39,8 @@ export * from './userProjectClaims/updates';
 export * from './userProjects/updates';
 export * from './users/updates';
 
+// Export module types
+export * from './projector';
+
 // TODO : Ces guards ne devrait pas être dans une couche d'accés aux données...
 export * from './projectEvents/guards';

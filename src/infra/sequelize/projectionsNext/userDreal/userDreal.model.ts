@@ -1,6 +1,6 @@
 import { InferAttributes, InferCreationAttributes, Model, CreationOptional } from 'sequelize';
-import { makeSequelizeProjector } from '../../helpers';
 import { Région } from '@modules/dreal/région';
+import { makeSequelizeProjector } from '../makeSequelizeProjector';
 
 export class UserDreal extends Model<
   InferAttributes<UserDreal>,
