@@ -1,11 +1,8 @@
 import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
 import { RésuméProjetQueryHandler, RésuméProjetReadModel } from '@modules/project';
-import { Raccordements, GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext';
+import { Raccordements, GestionnaireRéseauDétail, Project } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-
-const { Project } = models;
 
 export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId) =>
   wrapInfra(

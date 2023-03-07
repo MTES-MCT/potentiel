@@ -9,6 +9,7 @@ import {
   Raccordements,
   UserProjects,
   File,
+  GestionnaireRéseauDétail,
 } from '@infra/sequelize/projectionsNext';
 import {
   CahierDesCharges,
@@ -19,18 +20,6 @@ import {
 import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
-//import { Project } from '../../../projections/project/project.model';
-
-const {
-  Project: ProjectTable,
-  File,
-  ModificationRequest,
-  User,
-  Raccordements,
-  UserProjects,
-  GestionnaireRéseauDétail,
-} = models;
-const { File } = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(

@@ -7,8 +7,6 @@ import { File } from '@infra/sequelize/projectionsNext';
 export default ProjectEventProjector.on(
   ProjectDCRSubmitted,
   async ({ payload: { projectId, fileId, dcrDate }, occurredAt }, transaction) => {
-    const { File } = models;
-  async ({ payload: { projectId, fileId, dcrDate, numeroDossier }, occurredAt }, transaction) => {
     const rawFilename = await File.findOne({
       attributes: ['filename'],
       where: { id: fileId },

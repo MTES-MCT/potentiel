@@ -2,7 +2,7 @@ import { User } from '@entities';
 import { UniqueEntityID } from '@core/domain';
 import { USER_ROLES } from '@modules/users';
 import { getProjectEvents } from '.';
-import { ProjectEvent , Project } from '../../projectionsNext';
+import { Project, ProjectEvent } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { ModificationRequestEvents } from '@infra/sequelize/projectionsNext/projectEvents/events';
