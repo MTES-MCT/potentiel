@@ -69,6 +69,9 @@ type MakeProjectRepoDeps = {
 };
 type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo;
 
+/**
+ * @deprecated
+ */
 export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProjectAppelOffre }) => {
   const _isDbReady = isDbReady({ sequelizeInstance });
 

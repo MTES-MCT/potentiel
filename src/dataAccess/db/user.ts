@@ -6,7 +6,7 @@ import { mapExceptError } from '../../helpers/results';
 import { Err, None, Ok, OptionAsync, ResultAsync, Some } from '../../types';
 import CONFIG from '../config';
 import isDbReady from './helpers/isDbReady';
-import { UserDreal } from '@infra/sequelize/projectionsNext';
+import { UserDreal, UserProjects } from '@infra/sequelize/projectionsNext';
 import { Région } from '@modules/dreal/région';
 
 // Override these to apply serialization/deserialization on inputs/outputs
@@ -16,6 +16,9 @@ const deserialize = (item) => ({
 });
 const serialize = (item) => item;
 
+/**
+ * @deprecated
+ */
 export default function makeUserRepo({ sequelizeInstance }): UserRepo {
   const UserModel = sequelizeInstance.define('user', {
     id: {
@@ -191,7 +194,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
         throw new Error('Cannot find user to add project to');
       }
 
-      const ProjectModel = sequelizeInstance.model('project');
+      const ProjectModel = sequelizeInstance.model('Project');
       const projectsWithEmail = await ProjectModel.findAll({ where: { email } });
 
       await userInstance.addProjects(projectsWithEmail);
@@ -215,7 +218,7 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
         return Ok(null);
       }
 
-      const ProjectModel = sequelizeInstance.model('project');
+      const ProjectModel = sequelizeInstance.model('Project');
       const projectInstance = await ProjectModel.findByPk(projectId);
 
       if (!projectInstance) {
@@ -232,20 +235,14 @@ export default function makeUserRepo({ sequelizeInstance }): UserRepo {
 
   async function hasProject(userId: User['id'], projectId: Project['id']): Promise<boolean> {
     try {
-      const userInstance = await UserModel.findByPk(userId);
+      const userProject = await UserProjects.findOne({
+        where: {
+          userId,
+          projectId,
+        },
+      });
 
-      if (!userInstance) {
-        throw new Error('Cannot find user');
-      }
-
-      const ProjectModel = sequelizeInstance.model('project');
-      const projectInstance = await ProjectModel.findByPk(projectId);
-
-      if (!projectInstance) {
-        throw new Error('Cannot find project');
-      }
-
-      return await userInstance.hasProject(projectInstance);
+      return !!userProject;
     } catch (error) {
       if (CONFIG.logDbErrors) {
         logger.error(error);
