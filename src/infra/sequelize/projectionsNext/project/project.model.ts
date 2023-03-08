@@ -1,9 +1,17 @@
-import { InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
+import {
+  CreationOptional,
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  NonAttribute,
+} from 'sequelize';
 import { Technologie } from '@entities';
 import { ContratEDF } from '@modules/edf';
 import { ContratEnedis } from '@modules/enedis';
 import { GarantiesFinancières } from '../garantiesFinancières/garantiesFinancières.model';
 import { Raccordements } from '../raccordements/raccordements.model';
+import { User } from '../users/users.model';
+import { File } from '../file/file.model';
 
 export class Project extends Model<InferAttributes<Project>, InferCreationAttributes<Project>> {
   id: string;
@@ -51,4 +59,8 @@ export class Project extends Model<InferAttributes<Project>, InferCreationAttrib
   soumisAuxGF: boolean;
   garantiesFinancières?: NonAttribute<GarantiesFinancières>;
   raccordements?: NonAttribute<Raccordements>;
+  users?: NonAttribute<User[]>;
+  certificateFile?: NonAttribute<File>;
+  createdAt: CreationOptional<Date>;
+  updatedAt: CreationOptional<Date>;
 }

@@ -187,11 +187,13 @@ export const initializeProjectModel = (sequelize: Sequelize) => {
         allowNull: false,
         defaultValue: false,
       },
+      createdAt: DataTypes.DATE,
+      updatedAt: DataTypes.DATE,
     },
     {
       sequelize,
       tableName: 'projects',
-      timestamps: false,
+      timestamps: true,
     },
   );
 };

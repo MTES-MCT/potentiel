@@ -79,18 +79,19 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       return errAsync(new EntityNotFoundError());
     }
 
-    return okAsync({ project: project as any, appelOffre });
+    return okAsync({ project, appelOffre });
   };
 
   const récupérerCahierDesCharges = ({
     appelOffre,
     project,
   }: {
-    project: any;
+    project: Project;
     appelOffre: ProjectAppelOffre;
   }): ResultAsync<
     {
       appelOffre: ProjectAppelOffre;
+      // TODO: retirer le any ici et résoudre les problèmes de typage pour cahierDesChargesActuel
       project: any;
       cahierDesCharges:
         | CahierDesCharges
