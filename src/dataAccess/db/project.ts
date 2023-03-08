@@ -401,7 +401,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
       // Order by Projets pré-affectés then the rest ordered by nomProjet
       opts.order = [
-        [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
+        [literal(`CASE "Project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
         ['nomProjet'],
       ];
 
