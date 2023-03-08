@@ -1,15 +1,10 @@
 import { DomainError, Repository, UniqueEntityID } from '@core/domain';
-import { err, errAsync, Result, ResultAsync, wrapInfra } from '@core/utils';
+import { err, Result, ResultAsync, wrapInfra } from '@core/utils';
 import { Notification } from '@modules/notification';
-import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
+import { EntityNotFoundError } from '@modules/shared';
+import { Notification as NotificationModel } from '@infra/sequelize/projectionsNext';
 
 export class NotificationRepo implements Repository<Notification> {
-  private models: any;
-
-  constructor(models: any) {
-    this.models = models;
-  }
-
   private toDomain(db: any): Result<Notification, DomainError> {
     return Notification.create(
       {
@@ -39,16 +34,10 @@ export class NotificationRepo implements Repository<Notification> {
   }
 
   save(aggregate: Notification): ResultAsync<null, DomainError> {
-    const NotificationModel = this.models.Notification;
-    if (!NotificationModel) return errAsync(new InfraNotAvailableError());
-
-    return wrapInfra(NotificationModel.upsert(this.toPersistence(aggregate)));
+    return wrapInfra(NotificationModel.upsert(this.toPersistence(aggregate))).map(() => null);
   }
 
   load(id: UniqueEntityID): ResultAsync<Notification, DomainError> {
-    const NotificationModel = this.models.Notification;
-    if (!NotificationModel) return errAsync(new InfraNotAvailableError());
-
     return wrapInfra(NotificationModel.findByPk(id.toString())).andThen((dbResult) =>
       dbResult ? this.toDomain(dbResult) : err(new EntityNotFoundError()),
     );

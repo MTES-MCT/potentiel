@@ -1,10 +1,9 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
-import models from '../../../../models';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
-import { UserProjects } from '@infra/sequelize';
+import { UserProjects, Project } from '@infra/sequelize/projectionsNext';
 
 const attributes = [
   'id',
@@ -37,7 +36,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
 }) => {
   const findOptions = filtres && mapToFindOptions(filtres);
 
-  const résultat = await models.Project.findAndCountAll({
+  const résultat = await Project.findAndCountAll({
     subQuery: false,
     where: {
       ...findOptions?.where,

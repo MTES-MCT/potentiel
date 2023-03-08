@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { DélaiAnnulé, DélaiAnnuléPayload } from '@modules/demandeModification';
 import { resetDatabase } from '../../../../helpers';
-import { ProjectEvent } from '../../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onDélaiAnnulé from './onDélaiAnnulé';
 
 describe('Projecteur de ProjectEvent onDélaiAnnulé', () => {

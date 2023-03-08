@@ -1,13 +1,11 @@
 import { UniqueEntityID } from '@core/domain';
-import { GestionnaireRéseauDétail, Raccordements } from '@infra/sequelize';
+import { GestionnaireRéseauDétail, Project, Raccordements } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import * as uuid from 'uuid';
 import { résuméProjetQueryHandler } from './résuméProjetQueryHandler';
 import { RésuméProjetReadModel } from '@modules/project';
 
-const { Project } = models;
 const projetId = new UniqueEntityID().toString();
 const notifiedOn = new Date('2023-02-01').getTime();
 

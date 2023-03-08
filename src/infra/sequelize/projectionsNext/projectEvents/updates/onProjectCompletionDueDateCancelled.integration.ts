@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectCompletionDueDateCancelled, ProjectCompletionDueDateSet } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectCompletionDueDateCancelled from './onProjectCompletionDueDateCancelled';
 
 describe('onProjectCompletionDueDateCancelled', () => {

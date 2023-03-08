@@ -1,15 +1,11 @@
 import { resetDatabase } from '../../../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
-import { ProjectEvent } from '..';
-import models from '../../../models';
+import { ModificationRequest, Project, ProjectEvent, File } from '@infra/sequelize/projectionsNext';
 import onModificationRequestRejected from './onModificationRequestRejected';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
-import { ModificationRequest } from '../../modificationRequest';
-
-const { Project, File } = models;
 
 describe(`Handler onModificationRequestRejected`, () => {
   const projetId = new UniqueEntityID().toString();

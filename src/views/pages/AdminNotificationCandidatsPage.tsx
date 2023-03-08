@@ -97,8 +97,13 @@ export const AdminNotificationCandidats = ({
               <div className="filter-panel">
                 <div className="mt-4">
                   <Label htmlFor="classement">Classés/Eliminés</Label>
-                  <Select id="classement" name="classement" {...dataId('classementSelector')}>
-                    <option selected disabled hidden>
+                  <Select
+                    id="classement"
+                    name="classement"
+                    {...dataId('classementSelector')}
+                    defaultValue={'default'}
+                  >
+                    <option value="default" disabled hidden>
                       Choisir une option
                     </option>
                     <option value="">Tous</option>
@@ -119,8 +124,13 @@ export const AdminNotificationCandidats = ({
             <Label htmlFor="appelOffreId" className="mt-4">
               Appel d'offre concerné
             </Label>
-            <Select name="appelOffreId" id="appelOffreId" {...dataId('appelOffreIdSelector')}>
-              <option selected disabled hidden>
+            <Select
+              name="appelOffreId"
+              id="appelOffreId"
+              {...dataId('appelOffreIdSelector')}
+              defaultValue={'default'}
+            >
+              <option value="default" disabled hidden>
                 Choisir un appel d‘offre
               </option>
               {listeAOs.map((appelOffreId) => (
@@ -136,8 +146,13 @@ export const AdminNotificationCandidats = ({
             <Label htmlFor="periodeId" className="mt-4">
               Periode concernée
             </Label>
-            <Select name="periodeId" id="periodeId" {...dataId('periodeIdSelector')}>
-              <option selected disabled hidden>
+            <Select
+              name="periodeId"
+              id="periodeId"
+              {...dataId('periodeIdSelector')}
+              defaultValue={'default'}
+            >
+              <option value="default" disabled hidden>
                 Choisir une période
               </option>
               {listePériodes?.map((periodeId) => (

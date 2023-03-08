@@ -4,7 +4,7 @@ import { USER_ROLES } from '@modules/users';
 import { resetDatabase } from '../../helpers';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import {
   ProjectCertificateEvents,
@@ -12,7 +12,6 @@ import {
 } from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les attestations de désignation', () => {
-  const { Project } = models;
   const projetId = new UniqueEntityID().toString();
   const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
 

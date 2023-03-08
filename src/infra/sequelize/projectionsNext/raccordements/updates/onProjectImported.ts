@@ -2,7 +2,8 @@ import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
 import { ProjectImported } from '@modules/project';
 import { ProjectionEnEchec } from '@modules/shared';
-import { Raccordements, RaccordementsProjector } from '../raccordements.model';
+import { Raccordements } from '../raccordements.model';
+import { RaccordementsProjector } from '../raccordements.projector';
 
 export default RaccordementsProjector.on(ProjectImported, async (évènement, transaction) => {
   const {

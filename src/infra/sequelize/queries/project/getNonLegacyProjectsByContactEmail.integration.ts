@@ -1,11 +1,9 @@
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 import { getNonLegacyProjectsByContactEmail } from './getNonLegacyProjectsByContactEmail';
 import { UniqueEntityID } from '@core/domain';
-
-const { Project } = models;
 
 describe('Sequelize getNonLegacyProjectsByContactEmail', () => {
   const projectId = new UniqueEntityID().toString();

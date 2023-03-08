@@ -20,8 +20,6 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
   changeOpenState,
   ...props
 }) => {
-  // const [show = isOpen, changeShowState] = useState(false)
-
   const button =
     design === 'link' ? (
       <Link
@@ -49,7 +47,7 @@ export const Dropdown: React.FunctionComponent<DropdownProps> = ({
       </Button>
     );
   return (
-    <div className={`flex flex-col w-fit${className}`} {...props}>
+    <div className={`flex flex-col w-fit ${className}`} {...props}>
       {button}
       <div className={isOpen && !disabled ? 'block' : 'hidden'}>{children}</div>
     </div>

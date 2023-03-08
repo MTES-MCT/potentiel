@@ -51,6 +51,7 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 type="email"
                 name="email"
                 id="email"
+                placeholder="email@exemple.com"
                 required
                 {...(validationErrors && { error: validationErrors['email']?.toString() })}
               />
@@ -64,8 +65,9 @@ export const PartnersList = ({ request, users, validationErrors }: PartnersListP
                 id="role"
                 required
                 {...(validationErrors && { error: validationErrors['role']?.toString() })}
+                defaultValue="default"
               >
-                <option selected disabled hidden>
+                <option value="default" disabled hidden>
                   Sélectionnez un rôle
                 </option>
                 <option value="acheteur-obligé">Acheteur obligé</option>

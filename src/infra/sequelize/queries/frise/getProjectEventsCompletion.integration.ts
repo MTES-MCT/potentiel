@@ -1,15 +1,13 @@
 import { getProjectEvents } from '.';
 import { resetDatabase } from '../../helpers';
-import { ProjectEvent } from '../../projectionsNext';
+import { ProjectEvent, Project } from '../../projectionsNext';
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import models from '../../models';
 import { USER_ROLES } from '@modules/users';
 import { User } from '@entities';
 import { ProjectCompletionDueDateSetEvent } from '@infra/sequelize/projectionsNext/projectEvents/events';
 
 describe('getProjectEvents pour les événements ProjectCompletionDueDateSet', () => {
-  const { Project } = models;
   const projetId = new UniqueEntityID().toString();
   const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
   const valueDate = new Date('2024-01-01').getTime();

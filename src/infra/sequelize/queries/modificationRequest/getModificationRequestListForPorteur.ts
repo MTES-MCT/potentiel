@@ -10,9 +10,13 @@ import {
 } from '@modules/modificationRequest';
 import { InfraNotAvailableError } from '@modules/shared';
 import { PaginatedList } from '../../../../types';
-import models from '../../models';
-
-const { ModificationRequest, Project, User, File, UserProjects } = models;
+import {
+  ModificationRequest,
+  Project,
+  User as UserModel,
+  UserProjects,
+  File,
+} from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestListForPorteur: GetModificationRequestListForPorteur = ({
   user,
@@ -60,7 +64,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
               required: true,
             },
             {
-              model: User,
+              model: UserModel,
               as: 'requestedBy',
               attributes: ['fullName', 'email'],
               required: true,

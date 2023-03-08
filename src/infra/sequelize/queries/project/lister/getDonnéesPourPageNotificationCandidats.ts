@@ -1,12 +1,12 @@
 import { Project } from '@entities';
 import { GetDonnéesPourPageNotificationCandidats } from '@modules/notificationCandidats/queries';
-import models from '../../../models';
+import { Project as ProjectModel } from '@infra/sequelize/projectionsNext';
 import { listerProjetsNonNotifiés } from './requêtes/listerProjetsNonNotifiés';
 
 export const getDonnéesPourPageNotificationCandidats: GetDonnéesPourPageNotificationCandidats =
   async ({ pagination, appelOffreId, periodeId, recherche, classement }) => {
     const getProjetsNonNotifiés = () =>
-      models.Project.findAll({
+      ProjectModel.findAll({
         where: { notifiedOn: 0 },
         attributes: ['appelOffreId', 'periodeId'],
       });

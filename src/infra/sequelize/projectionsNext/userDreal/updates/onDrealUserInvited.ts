@@ -1,7 +1,8 @@
 import { logger } from '@core/utils';
 import { DrealUserInvited } from '@modules/authZ';
 import { ProjectionEnEchec } from '@modules/shared';
-import { UserDreal, UserDrealProjector } from '../userDreal.model';
+import { UserDreal } from '../userDreal.model';
+import { UserDrealProjector } from '../userDreal.projector';
 
 export default UserDrealProjector.on(DrealUserInvited, async (évènement, transaction) => {
   const {

@@ -1,4 +1,4 @@
-import { ProjectEvent } from '..';
+import { ProjectEvent } from '../projectEvent.model';
 
 export type DemandeAnnulationAbandonEventStatus = 'envoyée' | 'annulée' | 'rejetée' | 'accordée';
 

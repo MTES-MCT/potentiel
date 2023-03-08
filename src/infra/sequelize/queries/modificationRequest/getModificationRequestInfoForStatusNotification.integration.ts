@@ -2,9 +2,8 @@ import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
-import models from '../../models';
 import { getModificationRequestInfoForStatusNotification } from './getModificationRequestInfoForStatusNotification';
-import { ModificationRequest, UserProjects } from '@infra/sequelize/projectionsNext';
+import { ModificationRequest, Project, User, UserProjects } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
   const projectId = new UniqueEntityID().toString();
@@ -23,12 +22,10 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
     // Create the tables and remove all data
     await resetDatabase();
 
-    const ProjectModel = models.Project;
-    await ProjectModel.create(makeFakeProject(projectInfo));
+    await Project.create(makeFakeProject(projectInfo));
 
-    const UserModel = models.User;
-    await UserModel.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }));
-    await UserModel.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }));
+    await User.create(makeFakeUser({ id: userId, fullName: 'pp1', email: 'pp1@test.test' }));
+    await User.create(makeFakeUser({ id: userId2, fullName: 'pp2', email: 'pp2@test.test' }));
 
     await ModificationRequest.create({
       id: modificationRequestId,
@@ -66,7 +63,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
       departementProjet: 'departement',
       regionProjet: 'region',
       type: 'recours',
-      porteursProjet: [
+      porteursProjet: expect.arrayContaining([
         {
           id: userId,
           fullName: 'pp1',
@@ -77,7 +74,7 @@ describe('Sequelize getModificationRequestInfoForStatusNotification', () => {
           fullName: 'pp2',
           email: 'pp2@test.test',
         },
-      ],
+      ]),
     });
   });
 });

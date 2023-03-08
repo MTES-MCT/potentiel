@@ -1,4 +1,5 @@
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 import { UniqueEntityID } from '../../../../../core/domain';
 import { ProjectNotificationDateSet } from '../../../../../modules/project';
 

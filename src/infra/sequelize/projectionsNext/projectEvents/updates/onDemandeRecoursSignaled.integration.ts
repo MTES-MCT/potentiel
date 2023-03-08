@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { DemandeRecoursSignaled } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onDemandeRecoursSignaled from './onDemandeRecoursSignaled';
 
 describe('onDemandeRecoursSignaled', () => {

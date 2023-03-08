@@ -4,11 +4,9 @@ import makeFakeFile from '../../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
+import { Project, User, UserProjects, File } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
-import { User } from '@entities';
 
-const { Project, File, User, UserProjects } = models;
 const certificateFileId = new UniqueEntityID().toString();
 
 const projectId = new UniqueEntityID().toString();
@@ -167,10 +165,10 @@ describe('Sequelize getProjectDataForProjectPage', () => {
     const res = await getProjectDataForProjectPage({ projectId, user });
 
     expect(res._unsafeUnwrap()).toMatchObject({
-      users: [
+      users: expect.arrayContaining([
         { id: userId, fullName: 'username', email: 'user@test.test' },
         { id: userId2, fullName: 'username', email: 'user2@test.test' },
-      ],
+      ]),
     });
   });
 

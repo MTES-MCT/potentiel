@@ -1,8 +1,6 @@
 import { err, ok, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const getPuissanceProjet = (projectId) => {
   return wrapInfra(

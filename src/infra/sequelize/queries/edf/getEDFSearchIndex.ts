@@ -1,7 +1,6 @@
 import { AO_BY_CONTRACT, SearchIndex } from '@modules/edf/useCases';
 import MiniSearch from 'minisearch';
-import models from '../../models';
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const getEDFSearchIndex = async (): Promise<SearchIndex> => {
   const projectsWithoutSiret = await Project.findAll({

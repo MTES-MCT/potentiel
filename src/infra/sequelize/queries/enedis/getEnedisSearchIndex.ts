@@ -1,7 +1,6 @@
 import { SearchIndex } from '@modules/enedis/useCases';
 import MiniSearch from 'minisearch';
-import models from '../../models';
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const getEnedisSearchIndex = async (): Promise<SearchIndex> => {
   const projectsWithoutSiret = await Project.findAll({

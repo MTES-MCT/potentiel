@@ -1,4 +1,5 @@
-import { UserProjectClaims, UserProjectClaimsProjector } from '../userProjectClaims.model';
+import { UserProjectClaims } from '../userProjectClaims.model';
+import { UserProjectClaimsProjector } from '../userProjectClaims.projector';
 import { ProjectClaimFailed } from '@modules/projectClaim';
 import { logger } from '@core/utils';
 import { ProjectionEnEchec } from '@modules/shared';

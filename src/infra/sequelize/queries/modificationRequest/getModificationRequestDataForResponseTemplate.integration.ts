@@ -1,22 +1,24 @@
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
-import { ModificationRequest } from '../../projectionsNext/modificationRequest';
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserDreal,
+  File,
+} from '@infra/sequelize/projectionsNext';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import makeFakeFile from '../../../../__tests__/fixtures/file';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import makeFakeUser from '../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { getModificationRequestDataForResponseTemplate } from './getModificationRequestDataForResponseTemplate';
-
 const dgecEmail = 'dgec@test.test';
 const appelOffreId = 'Fessenheim';
 const periodeId = '1';
 
 describe('Requête sequelize getModificationRequestDataForResponseTemplate', () => {
-  const { Project, User, File, UserDreal } = models;
-
   const projectId = new UniqueEntityID().toString();
   const fileId = new UniqueEntityID().toString();
   const modificationRequestId = new UniqueEntityID().toString();

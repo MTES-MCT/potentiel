@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { RaccordementsProjector } from '../projectionsNext/raccordements';
+import { RaccordementsProjector } from '../projectionsNext/raccordements/raccordements.projector';
 
 export default {
   up: async (queryInterface: QueryInterface) => {

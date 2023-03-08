@@ -1,6 +1,6 @@
 import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events';
 import { resetDatabase } from '../../../helpers';
-import { Tâches } from '../tâches.model';
+import { Tâches } from '@infra/sequelize/projectionsNext';
 import onTâcheMiseAJourDonnéesDeRaccordementTerminée from './onTâcheMiseAJourDonnéesDeRaccordementTerminée';
 
 describe('Handler onTâcheMiseAJourDonnéesDeRaccordementTerminée', () => {

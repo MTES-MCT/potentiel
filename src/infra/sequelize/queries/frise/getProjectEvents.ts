@@ -4,19 +4,19 @@ import { GetProjectEvents, ProjectEventDTO, ProjectStatus } from '@modules/frise
 import { userIs } from '@modules/users';
 import { InfraNotAvailableError } from '@modules/shared';
 import routes from '../../../../routes';
-import models from '../../models';
 import {
   GarantiesFinancières,
   isKnownProjectEvent,
   KnownProjectEvents,
   ProjectEvent,
   Raccordements,
-} from '../../projectionsNext';
+  User,
+  Project,
+  File,
+} from '@infra/sequelize/projectionsNext';
 import { ProjectAppelOffre } from '@entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 import { getPtfDTO } from './getPtfDTO';
-
-const { Project, File, User } = models;
 
 export const getProjectEvents: GetProjectEvents = ({ projectId, user }) => {
   return wrapInfra(

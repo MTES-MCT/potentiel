@@ -111,9 +111,9 @@ export const ModificationRequestList = ({
                     id="appelOffreId"
                     name="appelOffreId"
                     {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
+                    defaultValue={appelOffreId || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir un appel d‘offre
                     </option>
                     <option value="">Tous appels d'offres</option>
@@ -130,9 +130,9 @@ export const ModificationRequestList = ({
                     id="periodeId"
                     name="periodeId"
                     {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
+                    defaultValue={periodeId || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir une période
                     </option>
                     <option value="">Toutes périodes</option>
@@ -153,9 +153,9 @@ export const ModificationRequestList = ({
                         id="familleId"
                         name="familleId"
                         {...dataId('familleIdSelector')}
-                        defaultValue={familleId}
+                        defaultValue={familleId || 'default'}
                       >
-                        <option selected disabled hidden>
+                        <option value="default" disabled hidden>
                           Choisir une famille
                         </option>
                         <option value="">Toutes familles</option>
@@ -174,9 +174,9 @@ export const ModificationRequestList = ({
                     id="modificationRequestType"
                     name="modificationRequestType"
                     {...dataId('modificationRequestTypeSelector')}
-                    defaultValue={modificationRequestType || ''}
+                    defaultValue={modificationRequestType || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir un type de demande
                     </option>
                     <option value="">Tous</option>
@@ -196,9 +196,9 @@ export const ModificationRequestList = ({
                     id="modificationRequestStatus"
                     name="modificationRequestStatus"
                     {...dataId('modificationRequestStatusSelector')}
-                    defaultValue={modificationRequestStatus || ''}
+                    defaultValue={modificationRequestStatus || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir le statut de la demande
                     </option>
                     <option value="">Tous</option>

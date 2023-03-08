@@ -1,9 +1,7 @@
 import { wrapInfra } from '@core/utils';
 import { HasDemandeDeMêmeTypeOuverte } from '@modules/project';
 import { Op } from 'sequelize';
-import models from '../../models';
-
-const { ModificationRequest } = models;
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 export const hasDemandeDeMêmeTypeOuverte: HasDemandeDeMêmeTypeOuverte = ({ projetId, type }) => {
   return wrapInfra(

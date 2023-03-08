@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { err, ok, wrapInfra } from '@core/utils';
 import { FileNotFoundError, GetFileProject } from '@modules/file';
-import models from '../../models';
+import { File } from '@infra/sequelize/projectionsNext';
 
-const { File } = models;
 export const getFileProject: GetFileProject = (fileId: UniqueEntityID) => {
   return wrapInfra(File.findByPk(fileId.toString())).andThen((file: any) => {
     if (!file) return err(new FileNotFoundError());

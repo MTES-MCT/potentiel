@@ -1,0 +1,25 @@
+import { DataTypes, Sequelize } from 'sequelize';
+import { GestionnairesRéseauListe } from './gestionnairesRéseauListe.model';
+
+export const initializeGestionnaireRéseauListeModel = (sequelize: Sequelize) => {
+  GestionnairesRéseauListe.init(
+    {
+      codeEIC: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.STRING,
+      },
+
+      raisonSociale: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      tableName: 'gestionnairesRéseauListe',
+      timestamps: false,
+      freezeTableName: true,
+    },
+  );
+};

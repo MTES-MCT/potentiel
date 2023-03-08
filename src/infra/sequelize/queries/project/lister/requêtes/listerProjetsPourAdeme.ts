@@ -1,6 +1,6 @@
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ListerProjets } from '@modules/project';
-import models from '../../../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { makePaginatedList, paginate } from '../../../../../../helpers/paginate';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
@@ -31,7 +31,7 @@ const attributes = [
 export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtres }) => {
   const findOptions = filtres && mapToFindOptions(filtres);
 
-  const résultat = await models.Project.findAndCountAll({
+  const résultat = await Project.findAndCountAll({
     where: {
       ...findOptions?.where,
       notifiedOn: { [Op.gt]: 0 },

@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { GestionnaireRéseauRenseigné } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { Raccordements } from '../raccordements.model';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 import onGestionnaireRéseauRenseigné from './onGestionnaireRéseauRenseigné';
 
 describe('Raccordements.onGestionnaireRéseauRenseigné', () => {

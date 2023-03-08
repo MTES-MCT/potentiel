@@ -1,6 +1,6 @@
 import { wrapInfra } from '@core/utils';
 import { TrouverProjetsParIdentifiantGestionnaireRéseau } from '@modules/project';
-import { Raccordements } from '../../projectionsNext';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 import { okAsync } from 'neverthrow';
 
 export const trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau =

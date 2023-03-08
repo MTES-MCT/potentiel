@@ -4,11 +4,10 @@ import { UniqueEntityID } from '@core/domain';
 import { ProjectEvent } from '../../projectionsNext/projectEvents/projectEvent.model';
 import { getProjectEvents } from './getProjectEvents';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 
 describe(`getProjectEvents`, () => {
-  const { Project } = models;
   const projetId = new UniqueEntityID().toString();
   const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });
   const demandeDélaiId = new UniqueEntityID().toString();

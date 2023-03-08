@@ -106,9 +106,9 @@ export const ProjetsÀRéclamer = ({
                     id="appelOffreId"
                     name="appelOffreId"
                     {...dataId('appelOffreIdSelector')}
-                    defaultValue={appelOffreId}
+                    defaultValue={appelOffreId || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir un appel d‘offre
                     </option>
                     <option value="">Tous appels d'offres</option>
@@ -127,9 +127,9 @@ export const ProjetsÀRéclamer = ({
                     id="periodeId"
                     name="periodeId"
                     {...dataId('periodeIdSelector')}
-                    defaultValue={periodeId}
+                    defaultValue={periodeId || 'default'}
                   >
-                    <option selected disabled hidden>
+                    <option value="default" disabled hidden>
                       Choisir une période
                     </option>
                     <option value="">Toutes périodes</option>
@@ -150,9 +150,9 @@ export const ProjetsÀRéclamer = ({
                         id="familleId"
                         name="familleId"
                         {...dataId('familleIdSelector')}
-                        defaultValue={familleId}
+                        defaultValue={familleId || 'default'}
                       >
-                        <option selected disabled hidden>
+                        <option value="default" disabled hidden>
                           Choisir une famille
                         </option>
                         <option value="">Toutes familles</option>

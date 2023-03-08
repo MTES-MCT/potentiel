@@ -1,9 +1,9 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRSubmitted, ProjectDCRSubmittedPayload } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectDCRSubmitted from './onProjectDCRSubmitted';
-import models from '../../../models';
+import { File } from '../../file/file.model';
 
 describe('onProjectDCRSubmitted', () => {
   const projectId = new UniqueEntityID().toString();
@@ -12,7 +12,6 @@ describe('onProjectDCRSubmitted', () => {
   const submittedBy = 'user-id';
   const dcrDate = new Date('2021-12-26');
   const filename = 'my-file';
-  const { File } = models;
   const numeroDossier = 'DOSSIER-1';
 
   beforeEach(async () => {

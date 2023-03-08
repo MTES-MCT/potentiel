@@ -2,7 +2,7 @@ import { resetDatabase } from '../../../helpers';
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted';
 import { ModificationRequestInstructionStarted } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '..';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 describe('modificationRequest.onModificationRequestInstructionStarted', () => {
   const modificationRequestId = new UniqueEntityID().toString();

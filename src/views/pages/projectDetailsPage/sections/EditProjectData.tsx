@@ -44,10 +44,15 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             id="appelOffreAndPeriode"
             name="appelOffreAndPeriode"
             defaultValue={
-              query.appelOffreAndPeriode || `${project.appelOffreId}|${project.periodeId}`
+              query.appelOffreAndPeriode ||
+              `${project.appelOffreId}|${project.periodeId}` ||
+              'default'
             }
             disabled
           >
+            <option value="default" disabled hidden>
+              Choisir une période
+            </option>
             {appelsOffreStatic.reduce((periodes: React.ReactNode[], appelOffre) => {
               return periodes?.concat(
                 appelOffre.periodes.map((periode) => (

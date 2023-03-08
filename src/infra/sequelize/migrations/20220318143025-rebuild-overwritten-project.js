@@ -1,12 +1,13 @@
-'use strict'
+'use strict';
 
-const { models } = require('../models')
-const { fromPersistance } = require('../helpers/fromPersistance')
+const projections = require('@infra/sequelize/projectionsNext');
+const { models } = require('../models');
+const { fromPersistance } = require('../helpers/fromPersistance');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const projectIdToRebuild = 'ed3ccfda-fb6f-4410-b040-ac325abadc94'
-    const transaction = await queryInterface.sequelize.transaction()
+    const projectIdToRebuild = 'ed3ccfda-fb6f-4410-b040-ac325abadc94';
+    const transaction = await queryInterface.sequelize.transaction();
 
     try {
       const events = await queryInterface.sequelize.query(
@@ -15,23 +16,23 @@ module.exports = {
           type: queryInterface.sequelize.QueryTypes.SELECT,
           replacements: [`{${projectIdToRebuild}}`],
           transaction,
-        }
-      )
+        },
+      );
 
       if (events && events.length) {
         const importedEvent = fromPersistance(
-          events.filter((e) => e.type === 'ProjectImported').pop()
-        )
-        const { projectId, data, potentielIdentifier } = importedEvent.payload
+          events.filter((e) => e.type === 'ProjectImported').pop(),
+        );
+        const { projectId, data, potentielIdentifier } = importedEvent.payload;
         const importedProject = {
           id: projectId,
           ...data,
           potentielIdentifier,
-        }
+        };
 
         const eventsWithoutImported = events
           .filter((e) => e.type !== 'ProjectImported')
-          .map(fromPersistance)
+          .map(fromPersistance);
 
         const projectToUpdate = eventsWithoutImported.reduce((project, event) => {
           switch (event.type) {
@@ -39,33 +40,36 @@ module.exports = {
               return {
                 ...project,
                 notifiedOn: event.payload.notifiedOn,
-              }
+              };
             case 'ProjectDCRDueDateSet':
               return {
                 ...project,
                 dcrDueOn: event.payload.dcrDueOn,
-              }
+              };
             case 'ProjectGFDueDateSet':
               return {
                 ...project,
                 garantiesFinancieresDueOn: event.payload.garantiesFinancieresDueOn,
-              }
+              };
             case 'ProjectCompletionDueDateSet':
               return {
                 ...project,
                 completionDueOn: event.payload.completionDueOn,
-              }
+              };
           }
-        }, importedProject)
+        }, importedProject);
 
-        const { Project } = models
-        await Project.update(projectToUpdate, { where: { id: projectId } }, { transaction })
+        await projections.Project.update(
+          projectToUpdate,
+          { where: { id: projectId } },
+          { transaction },
+        );
       }
 
-      await transaction.commit()
+      await transaction.commit();
     } catch (err) {
-      await transaction.rollback()
-      throw err
+      await transaction.rollback();
+      throw err;
     }
   },
 
@@ -77,4 +81,4 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
   },
-}
+};

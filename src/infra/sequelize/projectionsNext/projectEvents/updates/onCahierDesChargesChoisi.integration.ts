@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { CahierDesChargesChoisi, CahierDesChargesChoisiPayload } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onCahierDesChargesChoisi from './onCahierDesChargesChoisi';
 
 describe('Projecteur de ProjectEvent onCahierDesChargesChoisi', () => {

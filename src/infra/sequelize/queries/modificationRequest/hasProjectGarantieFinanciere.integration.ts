@@ -1,10 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { hasGarantiesFinancières } from './hasGarantiesFinancières';
 import { v4 as uuid } from 'uuid';
-
-const { GarantiesFinancières } = models;
+import { GarantiesFinancières } from '@infra/sequelize/projectionsNext';
 
 const projetId = new UniqueEntityID().toString();
 

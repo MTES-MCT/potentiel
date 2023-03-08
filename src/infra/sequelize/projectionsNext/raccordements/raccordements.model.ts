@@ -1,15 +1,7 @@
-import {
-  DataTypes,
-  InferAttributes,
-  InferCreationAttributes,
-  Model,
-  NonAttribute,
-} from 'sequelize';
-import { sequelizeInstance } from '../../../../sequelize.config';
-import { makeSequelizeProjector } from '../../helpers';
-import { GestionnaireRéseauDétail } from '../gestionnairesRéseau';
+import { InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
+import { GestionnaireRéseauDétail } from '../gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
 
-class Raccordements extends Model<
+export class Raccordements extends Model<
   InferAttributes<Raccordements>,
   InferCreationAttributes<Raccordements>
 > {
@@ -22,54 +14,3 @@ class Raccordements extends Model<
   codeEICGestionnaireRéseau?: string | null;
   gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseauDétail>;
 }
-
-const nomProjection = 'raccordements';
-
-Raccordements.init(
-  {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-    },
-    projetId: {
-      type: DataTypes.UUID,
-      allowNull: false,
-    },
-    ptfFichierId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    ptfDateDeSignature: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    ptfEnvoyéePar: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    identifiantGestionnaire: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    codeEICGestionnaireRéseau: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-  },
-  {
-    indexes: [
-      {
-        unique: true,
-        fields: ['projetId'],
-      },
-    ],
-    sequelize: sequelizeInstance,
-    tableName: nomProjection,
-    timestamps: true,
-    freezeTableName: true,
-  },
-);
-
-const RaccordementsProjector = makeSequelizeProjector(Raccordements, nomProjection);
-
-export { Raccordements, RaccordementsProjector };

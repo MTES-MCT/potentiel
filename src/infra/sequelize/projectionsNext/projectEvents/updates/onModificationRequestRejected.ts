@@ -2,9 +2,10 @@ import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
 import { ModificationRequestRejected } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
-import models from '../../../models';
-import { ModificationRequest } from '../../modificationRequest';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
+import { File } from '../../file/file.model';
 
 export default ProjectEventProjector.on(
   ModificationRequestRejected,
@@ -55,7 +56,6 @@ export default ProjectEventProjector.on(
 
       if (modificationRequest) {
         const { projectId } = modificationRequest;
-        const { File } = models;
         const rawFilename = await File.findByPk(responseFileId, {
           attributes: ['filename'],
           transaction,

@@ -2,11 +2,8 @@ import { UniqueEntityID } from '@core/domain';
 import { FileAttachedToProject } from '../../../../../modules/file';
 import makeFakeUser from '../../../../../__tests__/fixtures/user';
 import { resetDatabase } from '../../../helpers';
-import models from '../../../models';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent, User, UserDreal } from '@infra/sequelize/projectionsNext';
 import onFileAttachedToProject from './onFileAttachedToProject';
-
-const { User, UserDreal } = models;
 
 describe('onFileAttachedToProject', () => {
   const projectId = new UniqueEntityID().toString();

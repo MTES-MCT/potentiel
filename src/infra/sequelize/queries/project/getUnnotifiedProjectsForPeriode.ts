@@ -1,9 +1,8 @@
 import { wrapInfra } from '@core/utils';
 import { AppelOffre, Periode } from '@entities';
 import { GetUnnotifiedProjectsForPeriode } from '@modules/project';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 
-const { Project } = models;
 export const getUnnotifiedProjectsForPeriode: GetUnnotifiedProjectsForPeriode = (
   appelOffreId: AppelOffre['id'],
   periodeId: Periode['id'],

@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectPTFSubmitted } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { Raccordements } from '../raccordements.model';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 import onProjectPTFSubmitted from './onProjectPTFSubmitted';
 
 describe('Raccordements.onProjectPTFSubmitted', () => {
