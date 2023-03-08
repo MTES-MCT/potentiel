@@ -1,13 +1,12 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { Raccordements } from '@infra/sequelize';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
 
-const { Project } = models;
 const projetId = new UniqueEntityID().toString();
 const identifiantGestionnaire = 'identifiant';
 

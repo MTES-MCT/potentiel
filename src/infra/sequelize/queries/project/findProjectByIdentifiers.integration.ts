@@ -1,10 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjectByIdentifiers } from './findProjectByIdentifiers';
-
-const { Project } = models;
 
 describe('Sequelize findProjectByIdentifiers', () => {
   describe('when a project with these specific identifiers exists', () => {

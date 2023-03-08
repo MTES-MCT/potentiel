@@ -1,7 +1,8 @@
 import { logger } from '@core/utils';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ/events';
 import { ProjectionEnEchec } from '@modules/shared/errors';
-import { UserProjects, UserProjectsProjector } from '../userProjects.model';
+import { UserProjects } from '../userProjects.model';
+import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(
   UserProjectsLinkedByContactEmail,

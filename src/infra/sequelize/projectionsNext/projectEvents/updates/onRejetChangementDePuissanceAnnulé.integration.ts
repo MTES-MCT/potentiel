@@ -4,7 +4,7 @@ import {
   RejetChangementDePuissanceAnnuléPayload,
 } from '@modules/demandeModification';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onRejetChangementDePuissanceAnnulé from './onRejetChangementDePuissanceAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {

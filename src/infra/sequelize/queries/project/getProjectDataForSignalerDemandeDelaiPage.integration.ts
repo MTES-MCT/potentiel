@@ -2,9 +2,7 @@ import { getProjectDataForSignalerDemandeDelaiPage } from './getProjectDataForSi
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
-
-const { Project, ModificationRequest } = models;
+import { Project, ModificationRequest } from '@infra/sequelize/projectionsNext';
 const projectId = new UniqueEntityID().toString();
 const projectInfo = makeFakeProject({
   id: projectId,

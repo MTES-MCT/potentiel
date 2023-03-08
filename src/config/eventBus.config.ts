@@ -5,11 +5,11 @@ import Redis from 'ioredis';
 import { isTestEnv } from './env.config';
 import { EventEmitter } from 'stream';
 import { EventBus } from '@core/domain';
-import { HasSubscribe } from '@infra/sequelize';
+import { Subscribe } from '@infra/sequelize/projectionsNext';
 
 const eventEmitter = new EventEmitter();
 let publishToEventBus: EventBus['publish'];
-let subscribeToRedis: HasSubscribe['subscribe'];
+let subscribeToRedis: Subscribe;
 
 const subscribe = makeInMemorySubscribe({ eventEmitter });
 

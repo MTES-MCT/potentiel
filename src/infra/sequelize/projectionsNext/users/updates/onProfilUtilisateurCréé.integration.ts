@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { ProfilUtilisateurCréé } from '@modules/utilisateur';
-import { User } from '../users.model';
+import { User } from '@infra/sequelize/projectionsNext';
 import onProfilUtilisateurCréé from './onProfilUtilisateurCréé';
 
 describe(`Handler onProfilUtilisateurCréé`, () => {

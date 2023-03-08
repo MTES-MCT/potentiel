@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRSubmitted } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { Raccordements } from '../raccordements.model';
+import { Raccordements } from '@infra/sequelize/projectionsNext';
 import onProjectDCRSubmitted from './onProjectDCRSubmitted';
 
 describe('Raccordements.onProjectDCRSubmitted', () => {

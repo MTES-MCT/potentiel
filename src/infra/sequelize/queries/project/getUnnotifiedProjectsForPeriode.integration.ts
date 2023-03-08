@@ -1,4 +1,4 @@
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { getUnnotifiedProjectsForPeriode } from './getUnnotifiedProjectsForPeriode';
@@ -42,9 +42,7 @@ describe('Sequelize getUnnotifiedProjectsForPeriode', () => {
 
   beforeAll(async () => {
     await resetDatabase();
-
-    const ProjectModel = models.Project;
-    await ProjectModel.bulkCreate(fakeProjects);
+    await Project.bulkCreate(fakeProjects);
   });
 
   it('should return a list of UnnotifiedProjectDTOs for projects that have not been notified for the specific periode', async () => {

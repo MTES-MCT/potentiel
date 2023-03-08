@@ -1,7 +1,7 @@
 import { resetDatabase } from '../../../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived, ModificationReceivedPayload } from '@modules/modificationRequest';
-import { ProjectEvent } from '..';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onModificationReceived from './onModificationReceived';
 
 describe('onModificationReceived', () => {

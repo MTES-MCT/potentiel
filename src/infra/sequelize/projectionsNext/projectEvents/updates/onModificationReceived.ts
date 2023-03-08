@@ -1,6 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ModificationReceived } from '@modules/modificationRequest';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 
 export default ProjectEventProjector.on(
   ModificationReceived,

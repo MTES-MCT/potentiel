@@ -1,9 +1,7 @@
 import { err, ok, wrapInfra } from '@core/utils';
+import { Project, User } from '@infra/sequelize/projectionsNext';
 import { GetInfoForModificationRequested } from '@modules/notification';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project, User } = models;
 
 export const getInfoForModificationRequested: GetInfoForModificationRequested = ({
   projectId,

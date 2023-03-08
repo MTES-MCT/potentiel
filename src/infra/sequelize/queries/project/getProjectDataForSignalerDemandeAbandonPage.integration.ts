@@ -2,9 +2,8 @@ import { getProjectDataForSignalerDemandeAbandonPage } from './getProjectDataFor
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 
-const { Project } = models;
 const projectId = new UniqueEntityID().toString();
 const projectInfo = makeFakeProject({
   id: projectId,

@@ -1,9 +1,7 @@
 import { err, ok, wrapInfra } from '@core/utils';
 import { IsProjectParticipatif } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 export const isProjectParticipatif: IsProjectParticipatif = (projectId) => {
   return wrapInfra(

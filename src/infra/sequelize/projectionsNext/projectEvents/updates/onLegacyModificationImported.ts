@@ -1,6 +1,7 @@
 import { LegacyModificationImported } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 
 export default ProjectEventProjector.on(
   LegacyModificationImported,

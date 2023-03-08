@@ -1,5 +1,6 @@
 import { FileDetachedFromProject } from '../../../../../modules/file';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
 
 export default ProjectEventProjector.on(
   FileDetachedFromProject,

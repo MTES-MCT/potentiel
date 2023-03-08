@@ -1,10 +1,9 @@
 import { resetDatabase } from '../../../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { ModificationRequestCancelled } from '@modules/modificationRequest';
-import { ProjectEvent } from '..';
 import onModificationRequestCancelled from './onModificationRequestCancelled';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
-import { ModificationRequest } from '../../modificationRequest';
+import { ProjectEvent, ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 describe('handler onModificationRequestCancelled', () => {
   const projectId = new UniqueEntityID().toString();

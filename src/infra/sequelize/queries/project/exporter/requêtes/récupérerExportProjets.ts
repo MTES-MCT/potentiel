@@ -1,15 +1,11 @@
-import models from '../../../../models';
 import { wrapInfra } from '@core/utils';
 import { FiltreListeProjets } from '@modules/project/queries/listerProjets';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { GarantiesFinancières } from '../../../../projectionsNext/garantiesFinancières/garantiesFinancières.model';
 import { Colonne, isNotPropriétéDeLaColonneDétail, isPropriétéDeLaColonneDétail } from '../Colonne';
 import { Literal } from 'sequelize/types/utils';
-import { Project } from '../../../../projections/project/project.model';
+import { Project, Raccordements, UserProjects } from '@infra/sequelize/projectionsNext';
 import { Op } from 'sequelize';
-import { Raccordements } from '@infra/sequelize';
-
-const { Project: ProjectModel, UserProjects } = models;
 
 export const récupérerExportProjets = ({
   colonnesÀExporter,
@@ -27,7 +23,7 @@ export const récupérerExportProjets = ({
   const findOptions = filtres && mapToFindOptions(filtres);
 
   return wrapInfra(
-    ProjectModel.findAll({
+    Project.findAll({
       where: {
         ...findOptions?.where,
         notifiedOn: { [Op.gt]: 0 },

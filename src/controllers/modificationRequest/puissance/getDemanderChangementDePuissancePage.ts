@@ -5,7 +5,7 @@ import { notFoundResponse, unauthorizedResponse } from '../../helpers';
 import asyncHandler from '../../helpers/asyncHandler';
 import { v1Router } from '../../v1Router';
 import { DemanderChangementPuissancePage } from '@views';
-import { Project } from '@infra/sequelize/projections';
+import { Project } from '../../../infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DEMANDER_CHANGEMENT_PUISSANCE(),
@@ -20,6 +20,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
     }
 
+    // TODO: lecture faite directement sur la table Project sans passé par une query...
     const project = await Project.findByPk(projectId);
 
     if (!project) {

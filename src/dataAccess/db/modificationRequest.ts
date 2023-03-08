@@ -20,6 +20,9 @@ const deserialize = (item) => ({
 });
 const serialize = (item) => item;
 
+/**
+ * @deprecated
+ */
 export default function makeModificationRequestRepo({
   sequelizeInstance,
 }): ModificationRequestRepo {
@@ -175,8 +178,8 @@ export default function makeModificationRequestRepo({
     await _isDbReady;
 
     try {
-      const ProjectModel = sequelizeInstance.model('project');
-      const UserModel = sequelizeInstance.model('user');
+      const ProjectModel = sequelizeInstance.model('Project');
+      const UserModel = sequelizeInstance.model('User');
 
       const opts: any = {
         include: [

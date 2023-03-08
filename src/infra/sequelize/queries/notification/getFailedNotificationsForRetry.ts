@@ -1,9 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import { wrapInfra } from '@core/utils';
 import { GetFailedNotificationsForRetry } from '@modules/notification';
-import models from '../../models';
+import { Notification } from '@infra/sequelize/projectionsNext';
 
-const { Notification } = models;
 export const getFailedNotificationsForRetry: GetFailedNotificationsForRetry = () => {
   return wrapInfra(
     Notification.findAll({ where: { status: 'error' }, order: [['createdAt', 'DESC']] }),

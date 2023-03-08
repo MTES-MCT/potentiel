@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '@infra/sequelize/helpers';
 import { DonnéesDeRaccordementRenseignées } from '@modules/project';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onDonnéesDeRaccordementRenseignées from './onDonnéesDeRaccordementRenseignées';
 
 describe(`Handler onDonnéesDeRaccordementRenseignées`, () => {

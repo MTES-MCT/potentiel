@@ -1,13 +1,10 @@
 import { err, ok, wrapInfra } from '@core/utils';
-import { ModificationRequest } from '../../projectionsNext/modificationRequest';
 import {
   GetModificationRequestInfoForConfirmedNotification,
   ModificationRequestInfoForConfirmedNotificationDTO,
 } from '@modules/modificationRequest';
 import { EntityNotFoundError } from '@modules/shared';
-import models from '../../models';
-
-const { Project, User } = models;
+import { ModificationRequest, Project, User } from '@infra/sequelize/projectionsNext';
 
 export const getModificationRequestInfoForConfirmedNotification: GetModificationRequestInfoForConfirmedNotification =
   (modificationRequestId: string) => {

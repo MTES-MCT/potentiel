@@ -5,7 +5,7 @@ import {
   ModificationRequestAccepted,
 } from '@modules/modificationRequest';
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '..';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 describe('modificationRequest.onModificationRequestAccepted', () => {
   const modificationRequestId = new UniqueEntityID().toString();

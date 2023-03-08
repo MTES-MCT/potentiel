@@ -47,11 +47,17 @@ export type KnownProjectEvents =
 
 type NarrowType<T, N> = T extends { type: N } ? T : never;
 
+/**
+ * @deprecated cette fonction n'a rien à faire dans une couche d'accés au données
+ */
 export const is =
   <T extends KnownProjectEvents, K extends T['type']>(type: K) =>
   (event: ProjectEvent): event is NarrowType<T, K> =>
     event.type === type;
 
+/**
+ * @deprecated cette fonction n'a rien à faire dans une couche d'accés au données
+ */
 export const isKnownProjectEvent = or(
   is('ProjectImported'),
   is('ProjectClaimed'),

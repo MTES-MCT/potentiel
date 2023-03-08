@@ -1,4 +1,4 @@
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { getProjectDataForProjectClaim } from './getProjectDataForProjectClaim';
@@ -19,8 +19,6 @@ describe('Sequelize getProjectDataForProjectClaim', () => {
 
   beforeAll(async () => {
     await resetDatabase();
-
-    const { Project } = models;
     await Project.bulkCreate(fakeProject);
   });
 

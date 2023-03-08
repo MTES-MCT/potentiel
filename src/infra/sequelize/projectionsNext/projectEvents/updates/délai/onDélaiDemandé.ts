@@ -1,7 +1,8 @@
 import { logger } from '@core/utils';
 import { DélaiDemandé } from '@modules/demandeModification';
 import { ProjectionEnEchec } from '@modules/shared';
-import { ProjectEvent, ProjectEventProjector } from '../../projectEvent.model';
+import { ProjectEvent } from '../../projectEvent.model';
+import { ProjectEventProjector } from '../../projectEvent.projector';
 
 export default ProjectEventProjector.on(DélaiDemandé, async (évènement, transaction) => {
   const {

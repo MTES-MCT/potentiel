@@ -1,10 +1,8 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import { isProjectParticipatif } from './isProjectParticipatif';
-
-const { Project } = models;
+import { Project } from '@infra/sequelize/projectionsNext';
 
 const projectId = new UniqueEntityID().toString();
 

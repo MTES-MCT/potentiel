@@ -4,15 +4,13 @@ import {
   ModificationRequestAccepted,
   ModificationRequestAcceptedPayload,
 } from '@modules/modificationRequest';
-import { ProjectEvent } from '..';
-import models from '../../../models';
+import { ProjectEvent } from '../projectEvent.model';
 import onModificationRequestAccepted from './onModificationRequestAccepted';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import makeFakeModificationRequest from '../../../../../__tests__/fixtures/modificationRequest';
 import makeFakeFile from '../../../../../__tests__/fixtures/file';
-import { ModificationRequest } from '../../modificationRequest';
-
-const { Project, File } = models;
+import { ModificationRequest } from '../../modificationRequest/modificationRequest.model';
+import { Project, File } from '@infra/sequelize/projectionsNext';
 
 describe('Handler onModificationRequestAccepted', () => {
   const projectId = new UniqueEntityID().toString();

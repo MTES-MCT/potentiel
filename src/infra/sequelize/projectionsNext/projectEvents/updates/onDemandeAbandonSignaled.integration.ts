@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { DemandeAbandonSignaled } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onDemandeAbandonSignaled from './onDemandeAbandonSignaled';
 
 describe('onDemandeAbandonSignaled', () => {

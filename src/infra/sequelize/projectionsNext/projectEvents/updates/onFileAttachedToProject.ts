@@ -1,11 +1,11 @@
 import { FileAttachedToProject } from '../../../../../modules/file';
-import models from '../../../models';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
+import { User, UserDreal } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(
   FileAttachedToProject,
   async ({ payload: { projectId, date, attachedBy, ...payload }, occurredAt, id }, transaction) => {
-    const { User, UserDreal } = models;
     const user = await User.findOne({ where: { id: attachedBy }, transaction });
 
     const attachedByUser: {

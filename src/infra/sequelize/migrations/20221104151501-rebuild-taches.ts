@@ -1,4 +1,4 @@
-import { TâchesProjector } from '@infra/sequelize';
+import { TâchesProjector } from '@infra/sequelize/projectionsNext';
 import { QueryInterface } from 'sequelize';
 
 export default {

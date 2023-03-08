@@ -2,11 +2,10 @@ import { UniqueEntityID } from '@core/domain';
 import { User } from '@entities';
 import { resetDatabase } from '../../helpers';
 import { getProjectEvents } from './getProjectEvents';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents : statut du projet', () => {
-  const { Project } = models;
   const projectId = new UniqueEntityID().toString();
 
   beforeEach(async () => {

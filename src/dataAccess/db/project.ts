@@ -1,15 +1,7 @@
-import models from '../../infra/sequelize/models';
-import { Attributes, DataTypes, literal, Op } from 'sequelize';
+import { Attributes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '@core/utils';
-import {
-  AppelOffre,
-  Famille,
-  Periode,
-  Project,
-  User,
-  cahiersDesChargesRéférences,
-} from '@entities';
+import { AppelOffre, Famille, Periode, Project, User } from '@entities';
 import { makePaginatedList, paginate } from '../../helpers/paginate';
 import { mapExceptError } from '../../helpers/results';
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types';
@@ -18,8 +10,12 @@ import isDbReady from './helpers/isDbReady';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { GarantiesFinancières } from '@infra/sequelize';
 import { Région } from '@modules/dreal/région';
-
-const { File, User, UserProjects } = models;
+import {
+  User as UserModel,
+  UserProjects,
+  File as FileModel,
+  Project as ProjectModel,
+} from '@infra/sequelize/projectionsNext';
 
 const deserializeGarantiesFinancières = (
   gf: Attributes<GarantiesFinancières> & {
@@ -73,216 +69,10 @@ type MakeProjectRepoDeps = {
 };
 type MakeProjectRepo = (deps: MakeProjectRepoDeps) => ProjectRepo;
 
+/**
+ * @deprecated
+ */
 export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProjectAppelOffre }) => {
-  const ProjectModel = sequelizeInstance.define('project', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-    },
-    appelOffreId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    periodeId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    numeroCRE: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    familleId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    nomCandidat: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    nomProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    puissanceInitiale: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    puissance: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    prixReference: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    evaluationCarbone: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    evaluationCarboneDeRéférence: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    note: {
-      type: DataTypes.DOUBLE,
-      allowNull: false,
-    },
-    nomRepresentantLegal: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    adresseProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    codePostalProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    communeProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    departementProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    territoireProjet: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    regionProjet: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    classe: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    fournisseur: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    actionnaire: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    motifsElimination: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    isFinancementParticipatif: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    isInvestissementParticipatif: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    engagementFournitureDePuissanceAlaPointe: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    notifiedOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    dcrDueOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    completionDueOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    abandonedOn: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      defaultValue: 0,
-    },
-    details: {
-      type: DataTypes.JSON,
-      allowNull: true,
-    },
-    certificateFileId: {
-      type: DataTypes.UUID,
-      allowNull: true,
-    },
-    cahierDesChargesActuel: {
-      type: DataTypes.ENUM(...cahiersDesChargesRéférences),
-      allowNull: false,
-      defaultValue: 'initial',
-    },
-    potentielIdentifier: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    technologie: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    actionnariat: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    soumisAuxGF: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },
-  });
-
-  const FileModel = sequelizeInstance.define(
-    'files',
-    {
-      id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        primaryKey: true,
-      },
-      filename: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      forProject: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      createdBy: {
-        type: DataTypes.UUID,
-        allowNull: true,
-      },
-      designation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      storedAt: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-    },
-    {
-      timestamps: true,
-    },
-  );
-
-  ProjectModel.belongsTo(FileModel, {
-    foreignKey: 'certificateFileId',
-    as: 'certificateFile',
-  });
-
-  ProjectModel.hasOne(GarantiesFinancières, {
-    as: 'garantiesFinancières',
-    foreignKey: 'projetId',
-  });
-
   const _isDbReady = isDbReady({ sequelizeInstance });
 
   return Object.freeze({
@@ -299,7 +89,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     findAllForRegions,
     searchAll,
     searchAllMissingOwner,
-    countUnnotifiedProjects,
   });
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -324,9 +113,9 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
             model: GarantiesFinancières,
             as: 'garantiesFinancières',
             include: [
-              { model: File, as: 'fichier' },
-              { model: User, as: 'envoyéesParRef' },
-              { model: User, as: 'validéesParRef' },
+              { model: FileModel, as: 'fichier' },
+              { model: UserModel, as: 'envoyéesParRef' },
+              { model: UserModel, as: 'validéesParRef' },
             ],
           },
           {
@@ -353,7 +142,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
     try {
       const projectInDb = await ProjectModel.findOne({
-        where: query,
+        where: _makeSelectorsForQuery(query),
       });
 
       if (!projectInDb) return;
@@ -373,9 +162,9 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
         model: GarantiesFinancières,
         as: 'garantiesFinancières',
         include: [
-          { model: File, as: 'fichier' },
-          { model: User, as: 'envoyéesParRef' },
-          { model: User, as: 'validéesParRef' },
+          { model: FileModel, as: 'fichier' },
+          { model: UserModel, as: 'envoyéesParRef' },
+          { model: UserModel, as: 'validéesParRef' },
         ],
       },
       {
@@ -460,7 +249,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     const projectsRaw = rows
       .map((item) => item.get({ plain: true }))
       // Double check the list of projects if filterFn is given
-      .filter(filterFn || (() => true));
+      .filter((filterFn as any) || (() => true));
 
     if (projectsRaw.length !== rows.length) {
       logger.warning(
@@ -612,7 +401,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
 
       // Order by Projets pré-affectés then the rest ordered by nomProjet
       opts.order = [
-        [literal(`CASE "project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
+        [literal(`CASE "Project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
         ['nomProjet'],
       ];
 
@@ -649,25 +438,9 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     }
   }
 
-  async function countUnnotifiedProjects(
-    appelOffreId: AppelOffre['id'],
-    periodeId: Periode['id'],
-  ): Promise<number> {
-    await _isDbReady;
-    try {
-      const opts = _makeSelectorsForQuery({
-        appelOffreId,
-        periodeId,
-        isNotified: false,
-      });
-
-      return await ProjectModel.count(opts);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return 0;
-    }
-  }
-
+  /**
+   * @deprecated
+   */
   async function save(project: Project): ResultAsync<null> {
     await _isDbReady;
 
@@ -688,7 +461,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
           // If that property is falsy, remove it (UUIDs can't be falsy)
           if (!project[key]) delete project[key];
         });
-        await ProjectModel.create(project);
+        await ProjectModel.create(project as any);
       }
 
       return Ok(null);
@@ -719,7 +492,7 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       return [];
     }
 
-    return (await projectInstance.getUsers()).map((item) => item.get());
+    return (await (projectInstance as any).getUsers()).map((item) => item.get());
   }
 
   async function findExistingAppelsOffres(

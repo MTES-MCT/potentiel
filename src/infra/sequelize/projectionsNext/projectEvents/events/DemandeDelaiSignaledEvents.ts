@@ -1,4 +1,4 @@
-import { ProjectEvent } from '..';
+import { ProjectEvent } from '../projectEvent.model';
 
 export type DemandeDelaiSignaledEvent = ProjectEvent & {
   type: 'DemandeDelaiSignaled';

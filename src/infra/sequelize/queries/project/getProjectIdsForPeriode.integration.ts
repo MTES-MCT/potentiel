@@ -1,7 +1,6 @@
-import models from '../../models';
 import { resetDatabase } from '../../helpers';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
-
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectIdsForPeriode } from './getProjectIdsForPeriode';
 import { UniqueEntityID } from '@core/domain';
 
@@ -10,8 +9,6 @@ describe('Sequelize getProjectIdsForPeriode', () => {
   const appelOffreId = 'appelOffreId';
   const periodeId = 'periodeId';
   const familleId = 'familleId';
-
-  const { Project } = models;
 
   describe('given an appelOffreId, periodeId and familleId', () => {
     beforeAll(async () => {

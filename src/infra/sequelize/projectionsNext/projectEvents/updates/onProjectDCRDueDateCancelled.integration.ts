@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectDCRDueDateCancelled, ProjectDCRDueDateSet } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectDCRDueDateCancelled from './onProjectDCRDueDateCancelled';
 
 describe('onProjectDCRDueDateCancelled', () => {

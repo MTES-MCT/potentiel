@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { RejetRecoursAnnulé, RejetRecoursAnnuléPayload } from '@modules/demandeModification';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onRejetRecoursAnnulé from './onRejetRecoursAnnulé';
 
 describe('Projecteur de ProjectEvent onRejetRecoursAnnulé', () => {

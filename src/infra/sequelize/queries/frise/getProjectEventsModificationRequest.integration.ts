@@ -2,13 +2,11 @@ import { User } from '@entities';
 import { UniqueEntityID } from '@core/domain';
 import { USER_ROLES } from '@modules/users';
 import { getProjectEvents } from '.';
-import { ProjectEvent } from '../../projectionsNext';
+import { ProjectEvent, Project } from '../../projectionsNext';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 
 describe('getProjectEvents pour les événements ModificationRequest*', () => {
-  const { Project } = models;
   const projetId = new UniqueEntityID().toString();
   const modificationRequestId = new UniqueEntityID().toString();
   const projet = makeFakeProject({ id: projetId, potentielIdentifier: 'pot-id' });

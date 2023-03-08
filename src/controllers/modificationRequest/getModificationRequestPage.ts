@@ -5,12 +5,11 @@ import { DemandeAbandonPage, DemandeAnnulationAbandonPage, ModificationRequestPa
 import routes from '@routes';
 import { shouldUserAccessProject } from '@config/useCases.config';
 import { getModificationRequestAuthority } from '@infra/sequelize/queries';
-
-import models from '../../infra/sequelize/models';
 import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 
 v1Router.get(
   routes.DEMANDE_PAGE_DETAILS(),
@@ -23,7 +22,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const projectId = await _getProjectId(modificationRequestId, models);
+    const projectId = await _getProjectId(modificationRequestId);
     if (!projectId) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
@@ -72,9 +71,7 @@ v1Router.get(
   }),
 );
 
-async function _getProjectId(modificationRequestId, models) {
-  const { ModificationRequest } = models;
-
+async function _getProjectId(modificationRequestId) {
   const rawModificationRequest = await ModificationRequest.findOne({
     where: {
       id: modificationRequestId,
@@ -82,5 +79,5 @@ async function _getProjectId(modificationRequestId, models) {
     attributes: ['projectId'],
   });
 
-  return rawModificationRequest.projectId;
+  return rawModificationRequest?.projectId;
 }

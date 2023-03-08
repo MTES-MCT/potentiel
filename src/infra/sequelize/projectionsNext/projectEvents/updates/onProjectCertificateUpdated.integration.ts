@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { ProjectCertificateUpdated, ProjectCertificateUpdatedPayload } from '@modules/project';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import onProjectCertificateUpdated from './onProjectCertificateUpdated';
 
 describe('onProjectCertificateUpdated', () => {

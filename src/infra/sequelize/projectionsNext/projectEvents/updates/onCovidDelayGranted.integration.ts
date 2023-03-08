@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@core/domain';
 import { resetDatabase } from '../../../helpers';
-import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 import { CovidDelayGranted, CovidDelayGrantedPayload } from '@modules/project';
 import onCovidDelayGranted from './onCovidDelayGranted';
 

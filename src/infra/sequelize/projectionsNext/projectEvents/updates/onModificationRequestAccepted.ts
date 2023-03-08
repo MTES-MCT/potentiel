@@ -3,9 +3,9 @@ import { logger } from '@core/utils';
 import { ModificationRequestAccepted } from '@modules/modificationRequest';
 import { ProjectionEnEchec } from '@modules/shared';
 import { Transaction } from 'sequelize';
-import models from '../../../models';
-import { ModificationRequest } from '../../modificationRequest';
-import { ProjectEvent, ProjectEventProjector } from '../projectEvent.model';
+import { ProjectEvent } from '../projectEvent.model';
+import { ProjectEventProjector } from '../projectEvent.projector';
+import { ModificationRequest, File } from '@infra/sequelize/projectionsNext';
 
 export default ProjectEventProjector.on(
   ModificationRequestAccepted,
@@ -118,7 +118,6 @@ export default ProjectEventProjector.on(
 );
 
 const getFile = async (responseFileId: string, transaction: Transaction | undefined) => {
-  const { File } = models;
   const rawFilename = await File.findByPk(responseFileId, {
     attributes: ['filename'],
     transaction,

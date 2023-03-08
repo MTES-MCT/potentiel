@@ -2,7 +2,15 @@ import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForProjectPage, GetProjectDataForProjectPage } from '@modules/project';
 import { EntityNotFoundError, InfraNotAvailableError } from '@modules/shared';
-import models from '../../../models';
+import {
+  Project,
+  ModificationRequest,
+  User as UserModel,
+  Raccordements,
+  UserProjects,
+  File,
+  GestionnaireRéseauDétail,
+} from '@infra/sequelize/projectionsNext';
 import {
   CahierDesCharges,
   parseCahierDesChargesRéférence,
@@ -12,21 +20,10 @@ import {
 import routes from '@routes';
 import { format } from 'date-fns';
 import { userIs, userIsNot } from '@modules/users';
-import { Project } from '../../../projections/project/project.model';
-
-const {
-  Project: ProjectTable,
-  File,
-  ModificationRequest,
-  User,
-  Raccordements,
-  UserProjects,
-  GestionnaireRéseauDétail,
-} = models;
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
-    ProjectTable.findByPk(projectId, {
+    Project.findByPk(projectId, {
       include: [
         {
           model: File,
@@ -52,7 +49,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           required: false,
           include: [
             {
-              model: User,
+              model: UserModel,
               as: 'user',
               attributes: ['id', 'fullName', 'email', 'registeredOn'],
             },
@@ -82,18 +79,19 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
       return errAsync(new EntityNotFoundError());
     }
 
-    return okAsync({ project: project as any, appelOffre });
+    return okAsync({ project, appelOffre });
   };
 
   const récupérerCahierDesCharges = ({
     appelOffre,
     project,
   }: {
-    project: any;
+    project: Project;
     appelOffre: ProjectAppelOffre;
   }): ResultAsync<
     {
       appelOffre: ProjectAppelOffre;
+      // TODO: retirer le any ici et résoudre les problèmes de typage pour cahierDesChargesActuel
       project: any;
       cahierDesCharges:
         | CahierDesCharges

@@ -1,7 +1,8 @@
 import { logger } from '@core/utils';
 import { TâcheMiseAJourDonnéesDeRaccordementTerminée } from '@modules/imports/donnéesRaccordement/events';
 import { ProjectionEnEchec } from '@modules/shared';
-import { TâchesProjector, Tâches } from '../tâches.model';
+import { Tâches } from '../tâches.model';
+import { TâchesProjector } from '../tâches.projector';
 
 export default TâchesProjector.on(
   TâcheMiseAJourDonnéesDeRaccordementTerminée,

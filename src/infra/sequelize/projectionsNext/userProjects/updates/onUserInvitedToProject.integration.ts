@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserInvitedToProject } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserProjects } from '../userProjects.model';
+import { UserProjects } from '@infra/sequelize/projectionsNext';
 import onUserInvitedToProject from './onUserInvitedToProject';
 
 describe('userProjects.onUserInvitedToProject', () => {

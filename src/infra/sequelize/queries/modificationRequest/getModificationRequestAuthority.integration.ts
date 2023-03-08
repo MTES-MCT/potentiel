@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import { ModificationRequest } from '../../projectionsNext/modificationRequest';
+import { ModificationRequest } from '@infra/sequelize/projectionsNext';
 import { resetDatabase } from '../../helpers';
 import { getModificationRequestAuthority } from './getModificationRequestAuthority';
 

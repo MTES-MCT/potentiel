@@ -1,12 +1,12 @@
 import { NotificationRepo } from './notificationRepo';
 import { Notification } from '@modules/notification';
-import models from '../models';
 import { resetDatabase } from '../helpers';
 import { UniqueEntityID } from '@core/domain';
 import { logger } from '@core/utils';
+import { Notification as NotificationModel } from '@infra/sequelize/projectionsNext';
 
 describe('Sequelize NotificationRepo', () => {
-  const notificationRepo = new NotificationRepo(models);
+  const notificationRepo = new NotificationRepo();
 
   beforeAll(async () => {
     await resetDatabase();
@@ -44,8 +44,6 @@ describe('Sequelize NotificationRepo', () => {
       if (saveResult.isErr()) logger.error(saveResult.error);
       expect(saveResult.isOk()).toBe(true);
 
-      const NotificationModel = models.Notification;
-
       const retrievedNotification = await NotificationModel.findByPk(notification.id.toString());
 
       expect(retrievedNotification).toBeDefined();
@@ -58,7 +56,6 @@ describe('Sequelize NotificationRepo', () => {
       const notificationId = new UniqueEntityID();
 
       beforeAll(async () => {
-        const NotificationModel = models.Notification;
         await NotificationModel.create({
           id: notificationId.toString(),
           message: {

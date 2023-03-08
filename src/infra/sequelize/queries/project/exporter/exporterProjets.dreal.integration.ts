@@ -1,4 +1,4 @@
-import models from '../../../models';
+import { Project, UserDreal } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 
@@ -46,13 +46,13 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
 
   beforeEach(async () => {
     await resetDatabase();
-    await models.UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Auvergne-Rhône-Alpes' });
+    await UserDreal.create({ id: 1, userId: utilisateurId, dreal: 'Auvergne-Rhône-Alpes' });
   });
 
   it(`Étant donné des projets notifiés et non notifiés,
       lorsqu'un utilisateur DREAL exporte tous les projets,
       alors seuls les projets notifiés devraient être retournés.`, async () => {
-    await models.Project.bulkCreate([
+    await Project.bulkCreate([
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Eolien notifié',
@@ -98,7 +98,7 @@ describe(`Export des projets en tant qu'utilisateur "DREAL"`, () => {
   it(`Étant donné des projets notifiés issus de différentes régions,
       lorsqu'un utilisateur DREAL exporte tous les projets,
       alors seuls les projets de sa région devraient être retournés`, async () => {
-    await models.Project.bulkCreate([
+    await Project.bulkCreate([
       makeFakeProject({
         notifiedOn: new Date('2021-07-31').getTime(),
         nomProjet: 'Projet Eolien de la Dreal',

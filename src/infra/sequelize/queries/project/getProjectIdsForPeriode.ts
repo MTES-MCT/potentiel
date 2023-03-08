@@ -2,9 +2,8 @@ import { Op } from 'sequelize';
 import { ResultAsync } from '@core/utils';
 import { GetProjectIdsForPeriode } from '@modules/project';
 import { InfraNotAvailableError } from '@modules/shared';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 
-const { Project } = models;
 export const getProjectIdsForPeriode: GetProjectIdsForPeriode = ({
   appelOffreId,
   periodeId,

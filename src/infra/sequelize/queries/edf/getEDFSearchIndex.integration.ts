@@ -2,9 +2,8 @@ import { UniqueEntityID } from '../../../../core/domain';
 import { AO_BY_CONTRACT, AO_CODES } from '../../../../modules/edf/useCases';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import models from '../../models';
+import { Project } from '@infra/sequelize/projectionsNext';
 import { getEDFSearchIndex } from './getEDFSearchIndex';
-const { Project } = models;
 
 const projectId = new UniqueEntityID().toString();
 describe('getSearchIndex', () => {
