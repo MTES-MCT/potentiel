@@ -11,9 +11,9 @@ import {
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
 import routes from '@routes';
+import { afficherDate } from '@views/helpers';
 import { Request } from 'express';
 import React, { useState } from 'react';
-import { formatDate } from '../../../helpers/formatDate';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 
 type SignalerDemandeDelaiProps = {
@@ -52,7 +52,7 @@ export const SignalerDemandeDelai = ({
                 {project.completionDueOn ? (
                   <>
                     Date théorique actuelle de mise en service du projet au{' '}
-                    <span className="font-bold">{formatDate(project.completionDueOn)}</span>
+                    <span className="font-bold">{afficherDate(project.completionDueOn)}</span>
                   </>
                 ) : (
                   <>Ce projet n'a pas de date théorique de mise en service.</>

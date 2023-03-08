@@ -1,8 +1,8 @@
 import React from 'react';
-import { formatDate } from '../../../../helpers/formatDate';
 import { ItemDate, ItemTitle, ContentArea, PastIcon, UnvalidatedStepIcon, CurrentIcon } from '.';
 import { makeDocumentUrl } from '../helpers';
 import { DownloadLink } from '@components';
+import { afficherDate } from '@views/helpers';
 
 type DemandeDelaiSignaledItemProps = {
   date: number;
@@ -92,11 +92,11 @@ const Accepted = ({
         <ItemTitle title="Délai supplémentaire accepté" />
         {oldCompletionDueOn && (
           <p className="p-0 m-0">
-            Ancienne date limite d'attestation de conformité : {formatDate(oldCompletionDueOn)}
+            Ancienne date limite d'attestation de conformité : {afficherDate(oldCompletionDueOn)}
           </p>
         )}
         <p className="p-0 m-0">
-          Nouvelle date limite d'attestation de conformité : {formatDate(newCompletionDueOn)}
+          Nouvelle date limite d'attestation de conformité : {afficherDate(newCompletionDueOn)}
         </p>
         {notes && <p className="p-0 m-0 italic">Note : {notes}</p>}
       </>
