@@ -46,23 +46,27 @@ export const makeSequelizeProjector = <TModel extends ModelStatic<Model>>(
     },
     rebuild: async (transaction) => {
       await model.destroy({ truncate: true, transaction });
-      const events = await sequelizeInstance.query(
-        `SELECT * FROM "eventStores" 
+      try {
+        const events = await sequelizeInstance.query(
+          `SELECT * FROM "eventStores" 
          WHERE type in (${Object.keys(handlersByType)
            .map((event) => `'${event}'`)
            .join(',')}) 
          ORDER BY "occurredAt" ASC`,
-        {
-          type: QueryTypes.SELECT,
-          transaction,
-        },
-      );
+          {
+            type: QueryTypes.SELECT,
+            transaction,
+          },
+        );
 
-      const total = events.length;
-      for (const [index, event] of events.entries()) {
-        printProgress(`${index + 1}/${total}`);
-        const eventToHandle = fromPersistance(event);
-        eventToHandle && (await handleEvent(eventToHandle, transaction));
+        const total = events.length;
+        for (const [index, event] of events.entries()) {
+          printProgress(`${index + 1}/${total}`);
+          const eventToHandle = fromPersistance(event);
+          eventToHandle && (await handleEvent(eventToHandle, transaction));
+        }
+      } catch (error) {
+        console.error(error);
       }
     },
   };

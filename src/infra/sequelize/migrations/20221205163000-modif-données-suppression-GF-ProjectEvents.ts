@@ -1,4 +1,4 @@
-import { ProjectEvent } from '../projectionsNext/projectEvents/projectEvent.model';
+import { ProjectEvent } from '@infra/sequelize/projectionsNext';
 
 export default {
   up: async (queryInterface) => {

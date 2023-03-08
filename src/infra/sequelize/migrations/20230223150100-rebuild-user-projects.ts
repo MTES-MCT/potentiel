@@ -1,5 +1,5 @@
 import { QueryInterface } from 'sequelize';
-import { UserProjectsProjector } from '../projectionsNext/userProjects/userProjects.projector';
+import { UserProjectsProjector } from '@infra/sequelize/projectionsNext';
 
 export default {
   up: async (queryInterface: QueryInterface) => {

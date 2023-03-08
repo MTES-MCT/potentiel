@@ -76,7 +76,7 @@ export const createProjectorFactory =
             eventToHandle && (await handleEvent(eventToHandle, transaction));
           }
         } catch (e) {
-          logger.error(e);
+          console.error(e);
         }
       },
     };
