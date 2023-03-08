@@ -1,6 +1,6 @@
 import { getProjectEvents } from '.';
 import { resetDatabase } from '../../helpers';
-import { ProjectEvent , Project } from '../../projectionsNext';
+import { ProjectEvent, Project } from '../../projectionsNext';
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { USER_ROLES } from '@modules/users';

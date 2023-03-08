@@ -1,6 +1,12 @@
 import { UniqueEntityID } from '@core/domain';
 import { makeUser } from '@entities';
-import { ModificationRequest , Project, User, UserDreal, File } from '@infra/sequelize/projectionsNext';
+import {
+  ModificationRequest,
+  Project,
+  User,
+  UserDreal,
+  File,
+} from '@infra/sequelize/projectionsNext';
 import moment from 'moment';
 import { formatDate } from '../../../../helpers/formatDate';
 import makeFakeFile from '../../../../__tests__/fixtures/file';

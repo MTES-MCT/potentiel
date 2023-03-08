@@ -32,10 +32,10 @@ export type ProjectRepo = {
   /**
    * @deprecated
    */
-  findById: (id: Project['id']) => Promise<Project | undefined>
+  findById: (id: Project['id']) => Promise<Project | undefined>;
   /**
    * @deprecated
-   */;
+   */
   findOne(query: Record<string, any>): Promise<Project | undefined>;
   /**
    * @deprecated

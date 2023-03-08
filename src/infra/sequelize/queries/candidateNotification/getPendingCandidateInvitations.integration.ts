@@ -5,7 +5,6 @@ import { resetDatabase } from '../../helpers';
 import { getPendingCandidateInvitations } from './getPendingCandidateInvitations';
 import { User, Project } from '@infra/sequelize/projectionsNext';
 
-
 describe('getPendingCandidateInvitations()', () => {
   const pendingCandidateId = new UniqueEntityID().toString();
   const pendingNonCandidateId = new UniqueEntityID().toString();

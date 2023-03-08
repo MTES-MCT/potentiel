@@ -12,7 +12,8 @@ import {
   Raccordements,
   User,
   Project,
- File } from '@infra/sequelize/projectionsNext';
+  File,
+} from '@infra/sequelize/projectionsNext';
 import { ProjectAppelOffre } from '@entities';
 import { getGarantiesFinancièresDTO } from './getGarantiesFinancièresDTO';
 import { getPtfDTO } from './getPtfDTO';

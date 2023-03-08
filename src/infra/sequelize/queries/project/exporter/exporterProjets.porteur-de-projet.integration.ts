@@ -1,4 +1,4 @@
-import { Project , UserProjects } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { exporterProjets } from './exporterProjets';
 import { resetDatabase } from '@dataAccess';

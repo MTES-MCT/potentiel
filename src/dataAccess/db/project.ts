@@ -1,13 +1,7 @@
 import { Attributes, literal, Op } from 'sequelize';
 import { ContextSpecificProjectListFilter, ProjectFilters, ProjectRepo } from '..';
 import { logger } from '@core/utils';
-import {
-  AppelOffre,
-  Famille,
-  Periode,
-  Project,
-  User,
-} from '@entities';
+import { AppelOffre, Famille, Periode, Project, User } from '@entities';
 import { makePaginatedList, paginate } from '../../helpers/paginate';
 import { mapExceptError } from '../../helpers/results';
 import { Err, Ok, PaginatedList, Pagination, ResultAsync } from '../../types';
