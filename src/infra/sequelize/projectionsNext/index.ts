@@ -3,9 +3,9 @@
 // Il faudrait faire ça au bootstrap de l'app (ou des tests), ne pas importer la config Sequelize et appeler les fonctions d'initialize dans ce fichier.
 // On fera ce refacto plus tard quand on sortira la partie projection et la partie model de la DB dans des packages.
 import { sequelizeInstance } from '../../../sequelize.config';
-import { initializeProjections } from './projections.initializer';
+import { initializeModels } from './models.initializer';
 
-initializeProjections(sequelizeInstance);
+initializeModels(sequelizeInstance);
 
 // Export module types
 export * from './eventHandler';
@@ -14,7 +14,7 @@ export * from './subscribe';
 
 // Export initializer de projections et projectors (pour configurer le module depuis l'extérieur, pas encore utiliser à cause des imports side effects)
 export * from './projectors.initializer';
-export * from './projections.initializer';
+export * from './models.initializer';
 
 // Export des models pour utilisation dans les queries
 export * from './file/file.model';

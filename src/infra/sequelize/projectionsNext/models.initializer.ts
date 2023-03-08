@@ -35,12 +35,8 @@ import {
 } from './userProjects/userProjects.initializer';
 import { initializeUserModel, initializeUserModelAssociations } from './users/users.initializer';
 
-export const initializeProjections = (sequelize: Sequelize) => {
-  initializeModels(sequelize);
-  initializeModelAssociations();
-};
-
-const initializeModels = (sequelize: Sequelize) => {
+export const initializeModels = (sequelize: Sequelize) => {
+  // First initialize models
   initializeFileModel(sequelize);
   initializeGarantiesFinancièresModel(sequelize);
   initializeGestionnaireRéseauDétailModel(sequelize);
@@ -55,9 +51,8 @@ const initializeModels = (sequelize: Sequelize) => {
   initializeUserProjectClaimsModel(sequelize);
   initializeUserProjectsModel(sequelize);
   initializeUserModel(sequelize);
-};
 
-const initializeModelAssociations = () => {
+  // Then initialize model associations
   initializeGarantiesFinancièresModelAssociations();
   initializeModificationRequestModelAssociations();
   initializeProjectModelModelAssociations();
