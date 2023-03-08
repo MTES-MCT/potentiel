@@ -34,14 +34,14 @@ export const DrealList = ({ request, users, validationErrors }: DrealListProps) 
         </div>
         <div className="panel__header">
           <Heading2>Ajouter un utilisateur Région</Heading2>
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
 
           <form
             action={ROUTES.ADMIN_INVITE_DREAL_USER_ACTION}
             method="post"
             className="flex flex-col gap-4"
           >
+            {success && <SuccessBox title={success} />}
+            {error && <ErrorBox title={error} />}
             <FormulaireChampsObligatoireLégende className="text-right" />
             <input type="hidden" name="role" value="dreal" />
             <div>
