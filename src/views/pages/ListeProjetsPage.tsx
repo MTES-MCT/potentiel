@@ -118,9 +118,9 @@ export const ListeProjets = ({
                   id="appelOffreId"
                   name="appelOffreId"
                   {...dataId('appelOffreIdSelector')}
-                  defaultValue={appelOffreId}
+                  defaultValue={appelOffreId || 'default'}
                 >
-                  <option selected disabled hidden>
+                  <option value="default" disabled hidden>
                     Choisir un appel d‘offre
                   </option>
                   <option value="">Tous appels d'offres</option>
@@ -141,7 +141,7 @@ export const ListeProjets = ({
                   {...dataId('periodeIdSelector')}
                   defaultValue={periodeId}
                 >
-                  <option selected disabled hidden>
+                  <option value="default" disabled hidden>
                     Choisir une période
                   </option>
                   <option value="">Toutes périodes</option>
@@ -162,9 +162,9 @@ export const ListeProjets = ({
                       id="familleId"
                       name="familleId"
                       {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
+                      defaultValue={familleId || 'default'}
                     >
-                      <option selected disabled hidden>
+                      <option value="default" disabled hidden>
                         Choisir une famille
                       </option>
                       <option value="">Toutes familles</option>
@@ -191,9 +191,9 @@ export const ListeProjets = ({
                       id="garantiesFinancieres"
                       name="garantiesFinancieres"
                       {...dataId('garantiesFinancieresSelector')}
-                      defaultValue={garantiesFinancieres || ''}
+                      defaultValue={garantiesFinancieres || 'default'}
                     >
-                      <option selected disabled hidden>
+                      <option value="default" disabled hidden>
                         Choisir un état
                       </option>
                       <option value="">Toutes</option>
@@ -210,9 +210,9 @@ export const ListeProjets = ({
                   id="classement"
                   name="classement"
                   {...dataId('classementSelector')}
-                  defaultValue={classement || ''}
+                  defaultValue={classement || 'default'}
                 >
-                  <option selected disabled hidden>
+                  <option value="default" disabled hidden>
                     Choisir un état
                   </option>
                   <option value="">Tous</option>
@@ -230,9 +230,9 @@ export const ListeProjets = ({
                       id="reclames"
                       name="reclames"
                       {...dataId('reclamesSelector')}
-                      defaultValue={reclames || ''}
+                      defaultValue={reclames || 'default'}
                     >
-                      <option selected disabled hidden>
+                      <option value="default" disabled hidden>
                         Choisir un état
                       </option>
                       <option value="">Tous</option>

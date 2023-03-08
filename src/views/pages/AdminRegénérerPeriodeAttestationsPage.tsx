@@ -48,10 +48,10 @@ export const AdminRegénérerPeriodeAttestations = ({
             <Select
               name="appelOffreId"
               id="appelOffreId"
-              defaultValue={appelOffreId}
+              defaultValue={appelOffreId || 'default'}
               {...dataId('appelOffreIdSelector')}
             >
-              <option selected disabled hidden>
+              <option value="default" disabled hidden>
                 Choisir un appel d‘offre
               </option>
               {appelsOffreStatic
@@ -69,10 +69,10 @@ export const AdminRegénérerPeriodeAttestations = ({
                   id="periodeId"
                   name="periodeId"
                   {...dataId('periodeIdSelector')}
-                  defaultValue={periodeId || periodes[periodes.length - 1].id}
+                  defaultValue={periodeId || periodes[periodes.length - 1].id || 'default'}
                   className="mb-4"
                 >
-                  <option selected disabled hidden>
+                  <option value="default" disabled hidden>
                     Choisir une période
                   </option>
                   {periodes.map((periode) => (
@@ -86,8 +86,8 @@ export const AdminRegénérerPeriodeAttestations = ({
             {appelOffreId && familles && familles.length > 0 && (
               <>
                 <Label htmlFor="familleId">Famille concernée</Label>
-                <Select id="familleId" name="familleId" defaultValue={familleId}>
-                  <option selected disabled hidden>
+                <Select id="familleId" name="familleId" defaultValue={familleId || 'default'}>
+                  <option value="default" disabled hidden>
                     Choisir une famille
                   </option>
                   <option value="">Toutes familles</option>

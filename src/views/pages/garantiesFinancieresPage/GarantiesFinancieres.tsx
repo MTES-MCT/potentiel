@@ -79,9 +79,9 @@ export const GarantiesFinancieres = ({
                   id="appelOffreId"
                   name="appelOffreId"
                   {...dataId('appelOffreIdSelector')}
-                  defaultValue={appelOffreId}
+                  defaultValue={appelOffreId || 'default'}
                 >
-                  <option selected disabled hidden>
+                  <option value="default" disabled hidden>
                     Choisir un appel d‘offre
                   </option>
                   <option value="">Tous appels d'offres</option>
@@ -100,11 +100,11 @@ export const GarantiesFinancieres = ({
                   id="periodeId"
                   name="periodeId"
                   {...dataId('periodeIdSelector')}
-                  defaultValue={periodeId}
+                  defaultValue={periodeId || 'default'}
                 >
-                  <Label htmlFor="periodeId" className="mt-4">
-                    Période concernée
-                  </Label>
+                  <option value="default" disabled hidden>
+                    Choisir une période
+                  </option>
                   <option value="">Toutes périodes</option>
                   {periodes &&
                     periodes.length > 0 &&
@@ -123,9 +123,9 @@ export const GarantiesFinancieres = ({
                       id="familleId"
                       name="familleId"
                       {...dataId('familleIdSelector')}
-                      defaultValue={familleId}
+                      defaultValue={familleId || 'default'}
                     >
-                      <option selected disabled hidden>
+                      <option value="default" disabled hidden>
                         Choisir une famille
                       </option>
                       <option value="">Toutes familles</option>
