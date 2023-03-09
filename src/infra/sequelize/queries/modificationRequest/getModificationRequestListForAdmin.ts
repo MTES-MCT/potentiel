@@ -170,7 +170,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
             return {
               id,
               status,
-              requestedOn: new Date(requestedOn),
+              requestedOn,
               requestedBy: {
                 email,
                 fullName,

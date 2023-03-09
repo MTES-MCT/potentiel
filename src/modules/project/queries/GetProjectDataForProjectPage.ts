@@ -89,7 +89,7 @@ type IsNotNotified = {
 };
 
 type IsNotified = {
-  notifiedOn: Date;
+  notifiedOn: number;
   certificateFile?: {
     id: string;
     filename: string;

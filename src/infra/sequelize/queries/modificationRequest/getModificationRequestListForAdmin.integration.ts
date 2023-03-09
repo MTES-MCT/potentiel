@@ -82,7 +82,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       expect(res._unsafeUnwrap().items[0]).toMatchObject({
         id: modificationRequestId,
         status: 'envoyée',
-        requestedOn: new Date(123),
+        requestedOn: 123,
         requestedBy: {
           email: fakePorteur.email,
           fullName: fakePorteur.fullName,

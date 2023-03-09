@@ -52,7 +52,7 @@ describe('getPendingCandidateInvitations()', () => {
         expect(pendingInvitations.items[0]).toMatchObject({
           email: 'pending@test.test',
           fullName: 'pending user',
-          invitedOn: new Date(345),
+          invitedOn: 345,
         });
       } catch (error) {
         console.error(error);

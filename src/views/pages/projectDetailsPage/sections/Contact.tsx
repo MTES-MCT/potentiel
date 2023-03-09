@@ -35,7 +35,7 @@ export const Contact = ({ project, user }: ContactProps) => (
 
 type ListComptesAvecAccesProps = {
   user: Request['user'];
-  project: ProjectDataForProjectPage & { notifiedOn: Date };
+  project: ProjectDataForProjectPage & { notifiedOn: number };
 };
 const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
   <div>

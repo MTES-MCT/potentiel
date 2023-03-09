@@ -5,6 +5,6 @@ export interface FailedNotificationDTO {
     name: string;
   };
   type: string;
-  createdAt: Date;
+  createdAt: number;
   error: string;
 }

@@ -67,7 +67,7 @@ describe('Sequelize getFailedNotificationDetails', () => {
             name: 'testname',
           },
           type: 'password-reset',
-          createdAt: new Date(456),
+          createdAt: 456,
           error: 'errorMessage',
         },
       ]);

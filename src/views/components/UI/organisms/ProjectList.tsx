@@ -294,7 +294,7 @@ const GF = ({ project, GFPastDue }: { project: ProjectListItem; GFPastDue?: bool
               fileUrl={routes.DOWNLOAD_PROJECT_FILE(gf.fichier.id, gf.fichier.filename)}
             >
               Déposées le <br />
-              {afficherDate(gf.dateEnvoi)}
+              {afficherDate(new Date(gf.dateEnvoi))}
             </DownloadLink>
           )}
         </div>

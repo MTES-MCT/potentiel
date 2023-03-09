@@ -25,7 +25,7 @@ export type ModificationRequestListItemDTO = {
   status: string;
   description: string;
 
-  requestedOn: Date;
+  requestedOn: number;
   requestedBy: {
     email: string;
     fullName: string;

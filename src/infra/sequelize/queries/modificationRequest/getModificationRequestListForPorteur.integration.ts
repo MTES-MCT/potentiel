@@ -82,7 +82,7 @@ describe('Obtenir la liste des demandes de modification pour un porteur de proje
         expect(res._unsafeUnwrap().items[0]).toMatchObject({
           id: modificationId,
           status: 'envoyée',
-          requestedOn: new Date(123),
+          requestedOn: 123,
           requestedBy: {
             email: 'email@test.test',
             fullName: 'John Doe',
