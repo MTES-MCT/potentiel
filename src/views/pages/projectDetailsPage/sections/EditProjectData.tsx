@@ -285,7 +285,8 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               id="notificationDate"
               {...dataId('date-field')}
               defaultValue={
-                query.notificationDate || (project.notifiedOn && afficherDate(project.notifiedOn))
+                query.notificationDate ||
+                (project.notifiedOn && afficherDate(new Date(project.notifiedOn)))
               }
               placeholder="Renseigner une date de désignation"
               style={{ width: 'auto' }}
