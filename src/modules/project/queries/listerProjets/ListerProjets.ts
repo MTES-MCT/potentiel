@@ -33,7 +33,7 @@ export type ProjectListItem = {
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | '';
   garantiesFinancières?: {
     id: string;
-    dateEnvoi?: number;
+    dateEnvoi?: string;
     statut: 'en attente' | 'à traiter' | 'validé';
     fichier?: {
       id: string;
