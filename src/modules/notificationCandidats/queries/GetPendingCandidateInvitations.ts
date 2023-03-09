@@ -5,7 +5,7 @@ import { InfraNotAvailableError } from '../../shared';
 export type PendingCandidateInvitationDTO = {
   fullName: string;
   email: string;
-  invitedOn: Date;
+  invitedOn: number;
 };
 
 export type GetPendingCandidateInvitations = (

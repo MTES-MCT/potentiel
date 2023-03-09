@@ -23,7 +23,7 @@ export const getFailedNotificationDetails: GetFailedNotificationDetails = (pagin
                 name: message.name || '',
               },
               type,
-              createdAt,
+              createdAt: createdAt.getTime(),
               error,
             } as FailedNotificationDTO),
         ),

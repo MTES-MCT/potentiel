@@ -18,7 +18,7 @@ export const getPendingCandidateInvitations: GetPendingCandidateInvitations = (
       pendingUsers.map(({ email, fullName, createdAt }) => ({
         email,
         fullName,
-        invitedOn: createdAt,
+        invitedOn: createdAt.getTime(),
       })),
       count,
       pagination,
