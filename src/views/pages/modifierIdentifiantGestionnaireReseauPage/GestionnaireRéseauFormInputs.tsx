@@ -48,16 +48,13 @@ export const GestionnaireRéseauFormInputs = ({
             id="codeEICGestionnaireRéseau"
             name="codeEICGestionnaireRéseau"
             onChange={(e) => handleGestionnaireSéléctionné(e)}
+            defaultValue={gestionnaireRéseauActuel?.codeEIC || 'défaut'}
           >
-            <option selected disabled hidden>
+            <option value="défaut" disabled hidden>
               Sélectionnez votre gestionnaire de réseau
             </option>
             {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
-              <option
-                value={codeEIC}
-                key={codeEIC}
-                selected={codeEIC === gestionnaireRéseauActuel?.codeEIC}
-              >
+              <option value={codeEIC} key={codeEIC}>
                 {raisonSociale} (code EIC : {codeEIC})
               </option>
             ))}
