@@ -7,6 +7,13 @@ export type ProjectDataForChoisirCDCPage = {
   appelOffre: ProjectAppelOffre;
   cahierDesChargesActuel: CahierDesChargesRéférence;
   identifiantGestionnaireRéseau?: string;
+  gestionnaireRéseau?: { codeEIC: string; raisonSociale: string };
+  listeGestionnairesRéseau?: {
+    codeEIC: string;
+    raisonSociale: string;
+    format?: string;
+    légende?: string;
+  }[];
 };
 
 export type GetProjectDataForChoisirCDCPage = (

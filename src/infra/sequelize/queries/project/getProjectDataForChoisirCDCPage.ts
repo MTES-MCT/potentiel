@@ -1,44 +1,65 @@
-import { err, ok, wrapInfra } from '@core/utils';
-import { getProjectAppelOffre } from '@config/queryProjectAO.config';
+import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
-import { Project } from '@infra/sequelize/projectionsNext';
-import { GetProjectDataForChoisirCDCPage, ProjectDataForChoisirCDCPage } from '@modules/project';
+import { GetProjectDataForChoisirCDCPage } from '@modules/project';
+import { Raccordements, GestionnaireRéseauDétail, Project } from '@infra/sequelize/projectionsNext';
+import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { CahierDesChargesRéférence } from '@entities';
-import { Raccordements } from '../../projectionsNext/raccordements/raccordements.model';
 
-export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) => {
-  return wrapInfra(
-    Project.findOne({
-      where: {
-        id: projectId,
-      },
+export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = (projectId) =>
+  wrapInfra(
+    Project.findByPk(projectId, {
+      attributes: ['id', 'appelOffreId', 'familleId', 'periodeId', 'cahierDesChargesActuel'],
       include: [
         {
           model: Raccordements,
           as: 'raccordements',
-          attributes: ['identifiantGestionnaire'],
+          include: [
+            {
+              model: GestionnaireRéseauDétail,
+              as: 'gestionnaireRéseauDétail',
+              attributes: ['codeEIC', 'raisonSociale'],
+            },
+          ],
         },
       ],
     }),
-  ).andThen((project) => {
-    if (!project) return err(new EntityNotFoundError());
+  )
+    .andThen((projet) => {
+      if (!projet) {
+        return errAsync(new EntityNotFoundError());
+      }
 
-    const { id, appelOffreId, periodeId, familleId, cahierDesChargesActuel, raccordements } =
-      project;
+      const appelOffre = getProjectAppelOffre({
+        appelOffreId: projet.appelOffreId,
+        periodeId: projet.periodeId,
+        familleId: projet.familleId,
+      });
 
-    const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
-    if (!appelOffre) return err(new EntityNotFoundError());
+      if (!appelOffre) {
+        return errAsync(new EntityNotFoundError());
+      }
 
-    const pageProps: ProjectDataForChoisirCDCPage = {
-      id,
-      appelOffre,
-      cahierDesChargesActuel: cahierDesChargesActuel as CahierDesChargesRéférence,
-      ...(raccordements &&
-        raccordements.identifiantGestionnaire && {
-          identifiantGestionnaireRéseau: raccordements.identifiantGestionnaire,
+      const projetProps = {
+        id: projet.id,
+        cahierDesChargesActuel: projet.cahierDesChargesActuel as CahierDesChargesRéférence,
+        appelOffre,
+        ...(projet.raccordements?.identifiantGestionnaire && {
+          identifiantGestionnaireRéseau: projet.raccordements.identifiantGestionnaire,
         }),
-    };
+        ...(projet.raccordements?.gestionnaireRéseauDétail && {
+          gestionnaireRéseau: {
+            codeEIC: projet.raccordements.gestionnaireRéseauDétail.codeEIC,
+            raisonSociale: projet.raccordements.gestionnaireRéseauDétail.raisonSociale,
+          },
+        }),
+      };
 
-    return ok(pageProps);
-  });
-};
+      return okAsync(projetProps);
+    })
+    .andThen((projetProps) =>
+      wrapInfra(GestionnaireRéseauDétail.findAll({ raw: true })).andThen(
+        (listeGestionnairesRéseau) => {
+          return ok({ listeGestionnairesRéseau, ...projetProps });
+        },
+      ),
+    );

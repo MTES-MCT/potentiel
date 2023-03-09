@@ -4,17 +4,21 @@ import { resetDatabase } from '../../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
-import { Raccordements } from '@infra/sequelize';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
+import { Raccordements } from '../../projectionsNext/raccordements/raccordements.model';
+import { GestionnaireRéseauDétail } from '../../projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
 
 const projetId = new UniqueEntityID().toString();
-const identifiantGestionnaire = 'identifiant';
 
 describe('Récupérer les données pour la page du choix du cahier des charges', () => {
-  it(`Lorsqu'on récupère les données pour la page du choix des CDC
-      Alors l'identifiant du projet devrait être retourné
-      Et l'appel d'offre pour le projet devrait être retrourné
-      Et le cahier des charges actuel devrait être retourné`, async () => {
+  it(`Etant donné un projet ayant déjà un gestionnaire de réseau renseigné,
+      lorsqu'on récupère les données pour la page du choix des CDC
+      Alors devraient être retournés :
+      - l'identifiant du projet,
+      - le CDC actuel,
+      - l'identifiant gestionnaire réseau si déjà renseigné,
+      - le gestionnaire réseau actuel,
+      - la liste des gestionnaires réseau`, async () => {
     await resetDatabase();
 
     await Project.create(
@@ -22,7 +26,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
         id: projetId,
         appelOffreId: 'Fessenheim',
         periodeId: '1',
-        familleId: 'familleId',
+        familleId: '1',
         classe: 'Classé',
         cahierDesChargesActuel: '30/07/2021',
       }),
@@ -31,18 +35,56 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
     await Raccordements.create({
       projetId,
       id: new UniqueEntityID().toString(),
-      identifiantGestionnaire,
+      identifiantGestionnaire: 'identifiant-gestionnaire',
+      codeEICGestionnaireRéseau: 'code-eic-gestionnaire',
     });
 
-    const res = (await getProjectDataForChoisirCDCPage(projetId))._unsafeUnwrap();
+    await GestionnaireRéseauDétail.bulkCreate([
+      {
+        codeEIC: 'code-eic-gestionnaire',
+        raisonSociale: 'raison-sociale-gestionnaire',
+        format: 'format-identifiant',
+        légende: 'légende-identifiant',
+      },
+      {
+        codeEIC: 'code-eic-autre-gestionnaire',
+        raisonSociale: 'raison-sociale-autre-gestionnaire',
+      },
+    ]);
 
     const expected: Partial<ProjectDataForChoisirCDCPage> = {
       id: projetId,
-      appelOffre: getProjectAppelOffre({ appelOffreId: 'Fessenheim', periodeId: '1' }),
+      appelOffre: getProjectAppelOffre({
+        appelOffreId: 'Fessenheim',
+        periodeId: '1',
+        familleId: '1',
+      }),
       cahierDesChargesActuel: '30/07/2021',
-      identifiantGestionnaireRéseau: identifiantGestionnaire,
+      identifiantGestionnaireRéseau: 'identifiant-gestionnaire',
+      gestionnaireRéseau: {
+        codeEIC: 'code-eic-gestionnaire',
+        raisonSociale: 'raison-sociale-gestionnaire',
+      },
+      listeGestionnairesRéseau: expect.arrayContaining([
+        {
+          codeEIC: 'code-eic-gestionnaire',
+          raisonSociale: 'raison-sociale-gestionnaire',
+          format: 'format-identifiant',
+          légende: 'légende-identifiant',
+        },
+        {
+          codeEIC: 'code-eic-autre-gestionnaire',
+          raisonSociale: 'raison-sociale-autre-gestionnaire',
+          format: null,
+          légende: null,
+        },
+      ]),
     };
 
-    expect(res).toMatchObject(expected);
+    const readModel = await getProjectDataForChoisirCDCPage(projetId);
+
+    expect(readModel.isOk()).toBe(true);
+
+    expect(readModel._unsafeUnwrap()).toMatchObject(expected);
   });
 });
