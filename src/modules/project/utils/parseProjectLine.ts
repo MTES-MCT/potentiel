@@ -214,6 +214,7 @@ const projectSchema = yup.object().shape({
   communeProjet: yup.string().required(),
   classe: yup
     .mixed()
+    .required()
     .oneOf(['Eliminé', 'Classé'], `Le champ 'Classé ?' doit être soit 'Eliminé' soit 'Classé'`),
   motifsElimination: yup.string().ensure(),
   isInvestissementParticipatif: yup
