@@ -2,9 +2,9 @@ import { Client } from 'pg';
 import { Publish } from '../../core-domain/src/publish';
 
 export const publishFactory =
-  (connectionString: string): Publish =>
+  (): Publish =>
   async (aggregateId, ...events) => {
-    const client = new Client(connectionString);
+    const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
 
     try {
       await client.connect();
