@@ -75,7 +75,7 @@
     "isemail": "^3.2.0",
     "json2csv": "^5.0.7",
     "jsonwebtoken": "^9.0.0",
-    "keycloak-connect": "^17.0.1",
+    "keycloak-connect": "^21.0.1",
     "minisearch": "^5.1.0",
     "mkdirp": "^1.0.4",
     "moment": "^2.29.4",
