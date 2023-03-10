@@ -4,10 +4,10 @@ export default {
     queryInterface.sequelize.query(`
       CREATE TABLE "EVENT_STREAM" (
         "streamId" VARCHAR NOT NULL,
-        "eventId" VARCHAR NOT NULL,
+        "createdAt" VARCHAR NOT NULL,
         "type" VARCHAR NOT NULL,
         "payload" JSONB,
-        PRIMARY KEY ("streamId", "eventId")
+        PRIMARY KEY ("streamId", "createdAt")
       );
 
       CREATE INDEX ON "EVENT_STREAM" ("streamId");

@@ -9,12 +9,10 @@ export const publishFactory =
     try {
       await client.connect();
 
-      for (const [index, { type, payload, createdAt }] of events.entries()) {
-        const eventId = `${createdAt}#${index}`;
-
+      for (const { type, payload, createdAt } of events) {
         await client.query(
-          `INSERT INTO "EVENT_STREAM" ("streamId", "eventId", "type", "payload") VALUES ($1, $2, $3, $4)`,
-          [streamId, eventId, type, payload],
+          `INSERT INTO "EVENT_STREAM" ("streamId", "createdAt", "type", "payload") VALUES ($1, $2, $3, $4)`,
+          [streamId, createdAt, type, payload],
         );
       }
     } catch (error) {
