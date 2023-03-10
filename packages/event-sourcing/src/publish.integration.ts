@@ -1,4 +1,4 @@
-import { Client } from 'pg';
+import { executeQuery } from './helpers/executeQuery';
 import { loadFromStreamFactory } from './loadFromStreamFactory';
 import { publishFactory } from './publish';
 
@@ -7,20 +7,7 @@ describe(`publish`, () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(async () => {
-    const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
-
-    try {
-      await client.connect();
-
-      await client.query(`DELETE FROM "EVENT_STREAM"`);
-    } catch (error) {
-      throw error;
-      // TODO : faire un logger
-    } finally {
-      await client.end();
-    }
-  });
+  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
 
   it(`Lorsqu'on publie un événement,
     alors l'événement devrait être présent dans le stream`, async () => {
