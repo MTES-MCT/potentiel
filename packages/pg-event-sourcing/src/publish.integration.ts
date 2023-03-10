@@ -1,6 +1,6 @@
 import { executeQuery } from './helpers/executeQuery';
-import { loadFromStreamFactory } from './loadFromStream';
-import { publishFactory } from './publish';
+import { loadFromStream } from './loadFromStream';
+import { publish } from './publish';
 
 describe(`publish`, () => {
   beforeAll(() => {
@@ -11,18 +11,13 @@ describe(`publish`, () => {
 
   it(`Lorsqu'on publie un événement,
     alors l'événement devrait être présent dans le stream`, async () => {
-    const publish = publishFactory();
-
     const streamId = 'string#string';
 
     const event = {
-      createdAt: new Date().toISOString(),
       type: 'Un-événement-métier-est-survenu',
       payload: { test: 'propriété-test' },
     };
     await publish(streamId, event);
-
-    const loadFromStream = loadFromStreamFactory();
 
     const actuals = await loadFromStream(streamId);
 
