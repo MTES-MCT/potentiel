@@ -6,6 +6,7 @@ export default {
         "streamId" VARCHAR NOT NULL,
         "createdAt" VARCHAR NOT NULL,
         "type" VARCHAR NOT NULL,
+        "version" INTEGER NOT NULL,
         "payload" JSONB,
         PRIMARY KEY ("streamId", "createdAt")
       );
