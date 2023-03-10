@@ -8,7 +8,7 @@ export default {
         "type" VARCHAR NOT NULL,
         "version" INTEGER NOT NULL,
         "payload" JSONB,
-        PRIMARY KEY ("streamId", "createdAt")
+        PRIMARY KEY ("streamId", "createdAt", "version")
       );
 
       CREATE INDEX ON "EVENT_STREAM" ("streamId");
