@@ -1,5 +1,5 @@
 import { executeQuery } from './helpers/executeQuery';
-import { loadFromStreamFactory } from './loadFromStreamFactory';
+import { loadFromStreamFactory } from './loadFromStream';
 import { publishFactory } from './publish';
 
 describe(`publish`, () => {
