@@ -3,7 +3,7 @@ import { Publish } from '../../core-domain/src/publish';
 
 export const publishFactory =
   (): Publish =>
-  async (aggregateId, ...events) => {
+  async (streamId, ...events) => {
     const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
 
     try {
@@ -13,8 +13,8 @@ export const publishFactory =
         const eventId = `${createdAt}#${index}`;
 
         await client.query(
-          `INSERT INTO "EVENT_STREAM" ("aggregateId", "eventId", "type", "payload") VALUES ($1, $2, $3, $4)`,
-          [aggregateId, eventId, type, payload],
+          `INSERT INTO "EVENT_STREAM" ("streamId", "eventId", "type", "payload") VALUES ($1, $2, $3, $4)`,
+          [streamId, eventId, type, payload],
         );
       }
     } catch (error) {
