@@ -127,17 +127,13 @@ export const AdminNotificationCandidats = ({
               name="appelOffreId"
               id="appelOffreId"
               {...dataId('appelOffreIdSelector')}
-              defaultValue={'default'}
+              defaultValue={AOSélectionné || 'default'}
             >
               <option value="default" disabled hidden>
                 Choisir un appel d‘offre
               </option>
               {listeAOs.map((appelOffreId) => (
-                <option
-                  key={`appel_${appelOffreId}`}
-                  value={appelOffreId}
-                  selected={appelOffreId === AOSélectionné}
-                >
+                <option key={`appel_${appelOffreId}`} value={appelOffreId}>
                   Appel d'offres {appelOffreId}
                 </option>
               ))}
@@ -149,17 +145,13 @@ export const AdminNotificationCandidats = ({
               name="periodeId"
               id="periodeId"
               {...dataId('periodeIdSelector')}
-              defaultValue={'default'}
+              defaultValue={périodeSélectionnée || 'default'}
             >
               <option value="default" disabled hidden>
                 Choisir une période
               </option>
               {listePériodes?.map((periodeId) => (
-                <option
-                  key={`appel_${periodeId}`}
-                  value={periodeId}
-                  selected={periodeId === périodeSélectionnée}
-                >
+                <option key={`appel_${periodeId}`} value={periodeId}>
                   période {periodeId}
                 </option>
               ))}
