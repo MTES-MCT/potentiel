@@ -1,7 +1,8 @@
 import { Client } from 'pg';
+import { getConnectionString } from './getConnectionString';
 
 export const executeQuery = async (query: string, ...values: unknown[]) => {
-  const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
+  const client = new Client(getConnectionString());
 
   try {
     await client.connect();

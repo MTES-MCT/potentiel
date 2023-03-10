@@ -1,27 +1,15 @@
-import { Client } from 'pg';
+import { DomainEvent } from '../../core-domain/src/domainEvent';
 import { executeSelect } from './helpers/executeSelect';
 
-export const loadFromStreamFactory = () => async (streamId: string) => {
-  const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
+type Event = DomainEvent & { streamId: string };
 
-  try {
-    await client.connect();
-
-    const result = await executeSelect<{
-      streamId: string;
-      createdAt: string;
-      type: string;
-      payload: Record<string, unknown>;
-    }>(
+export const loadFromStreamFactory =
+  () =>
+  async (streamId: string): Promise<ReadonlyArray<DomainEvent>> => {
+    const result = await executeSelect<Event>(
       `SELECT "streamId", "createdAt", "type", "payload" FROM "EVENT_STREAM" where "streamId" = $1`,
       streamId,
     );
 
     return result.map(({ createdAt, type, payload }) => ({ createdAt, type, payload }));
-  } catch (error) {
-    throw error;
-    // TODO : faire un logger
-  } finally {
-    await client.end();
-  }
-};
+  };

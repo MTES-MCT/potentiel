@@ -1,10 +1,11 @@
 import { Client } from 'pg';
+import { getConnectionString } from './getConnectionString';
 
 export const executeSelect = async <TResult extends Record<string, unknown>>(
   query: string,
   ...values: unknown[]
 ): Promise<TResult[]> => {
-  const client = new Client(process.env.EVENT_STORE_CONNECTION_STRING);
+  const client = new Client(getConnectionString());
 
   try {
     await client.connect();
