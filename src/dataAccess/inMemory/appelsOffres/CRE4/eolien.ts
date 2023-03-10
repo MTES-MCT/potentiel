@@ -1,6 +1,7 @@
 import { AppelOffre } from '@entities';
 
 const eolien: AppelOffre = {
+  autoritéCompétenteDemandesDélai: 'DGEC',
   id: 'Eolien',
   type: 'eolien',
   title:
