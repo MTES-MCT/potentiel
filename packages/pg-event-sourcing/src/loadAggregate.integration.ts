@@ -16,7 +16,7 @@ describe(`loadAggregate`, () => {
     // Arrange
 
     // Act
-    const result = await loadAggregate(aggregateId);
+    const result = await loadAggregate(aggregateId, () => ({ aggregateId, version: 0 }));
 
     // Assert
     expect(result).toBe(none);
@@ -74,13 +74,24 @@ describe(`loadAggregate`, () => {
     );
 
     // Act
-    const aggregateFactory: AggregateFactory = (aggregateId, events) =>
-      events.reduce(
-        (aggregate, event, index) => {
-          return { ...aggregate, version: index + 1 };
-        },
-        { aggregateId, version: 0 },
-      );
+    type FakeAggregateData = {
+      propriété?: string;
+      secondePropriété?: string;
+    };
+
+    const aggregateFactory: AggregateFactory<FakeAggregateData> = (events) =>
+      events.reduce((aggregate, event) => {
+        switch (event.type) {
+          case 'event-1':
+            return { ...aggregate, proriété: (event.payload as any).propriété };
+
+          case 'event-2':
+            return { ...aggregate, secondePropriété: (event.payload as any).secondePropriété };
+
+          default:
+            return { ...aggregate };
+        }
+      }, {});
 
     const actual = await loadAggregate(aggregateId, aggregateFactory);
 
@@ -88,6 +99,8 @@ describe(`loadAggregate`, () => {
     expect(actual).toEqual({
       aggregateId,
       version: 2,
+      proriété: 'première-propriété',
+      secondePropriété: 'seconde-propriété',
     });
   });
 });
