@@ -1,3 +1,4 @@
+import { none } from '@potentiel/core-domain';
 import { executeQuery } from './helpers/executeQuery';
 import { loadAggregate } from './loadAggregate';
 
@@ -15,10 +16,10 @@ describe(`loadAggregate`, () => {
     // Arrange
 
     // Act
-    const actual = await loadAggregate(aggregateId);
+    const result = await loadAggregate(aggregateId);
 
     // Assert
-    expect(actual).toBeUndefined();
+    expect(result).toBe(none);
   });
 
   it(`Lorsqu'on charge un agrégat avec des évènements
