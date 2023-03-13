@@ -1,4 +1,4 @@
-import { Publish } from '../../core-domain/src/publish';
+import { Publish } from '@potentiel/core-domain';
 import { executeQuery } from './helpers/executeQuery';
 
 export const publish: Publish = async (streamId, ...events) => {

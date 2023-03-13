@@ -1,3 +1,4 @@
 {
-  "name": "@potentiel/tsconfig"
+  "name": "@potentiel/tsconfig",
+  "private": true
 }

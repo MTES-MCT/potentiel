@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../core-domain/src/domainEvent';
+import { DomainEvent } from '@potentiel/core-domain';
 import { executeSelect } from './helpers/executeSelect';
 
 export const loadFromStream = (streamId: string): Promise<ReadonlyArray<DomainEvent>> =>
