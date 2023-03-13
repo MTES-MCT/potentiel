@@ -4,6 +4,9 @@
   "sideEffects": false,
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
     "type:check": "tsc --noEmit",
     "build": "npm run build:front && npm run build:css && npm run build:back",
@@ -36,7 +39,8 @@
     "watch:front": "webpack --config=webpack.config.js --watch",
     "watch:css": "npm run build:css -- --watch",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build:package": "npm run build:package --workspaces --if-present"
   },
   "repository": {
     "type": "git",
