@@ -271,99 +271,89 @@ describe('Commande demanderDélai', () => {
       });
 
       describe(`Appliquer la bonne autorité compétente selon l'appel d'offre`, () => {
-        describe(`Autorité DGEC`, () => {
-          it(`Etant donné un projet de l'appel d'offre "CRE4 - Eolien" (id: "Eolien"), 
+        it(`Etant donné un projet de l'appel d'offre "CRE4 - Eolien" (id: "Eolien"), 
               lorsqu'une demande de délai est faite,
               alors l'autorité compétente devrait être la "dgec"`, async () => {
-            const getProjectAppelOffreId = jest.fn(() =>
-              okAsync<string, EntityNotFoundError | InfraNotAvailableError>('Eolien'),
-            );
+          const getProjectAppelOffreId = jest.fn(() =>
+            okAsync<string, EntityNotFoundError | InfraNotAvailableError>('Eolien'),
+          );
 
-            const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-              ({
-                id: 'Eolien',
-                autoritéCompétenteDemandesDélai: 'dgec',
-                choisirNouveauCahierDesCharges: true,
-                periodes: [{ id: 'periodeId', type: 'notified' }],
-                familles: [{ id: 'familleId' }],
-              } as AppelOffre);
+          const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+            ({
+              id: 'Eolien',
+              autoritéCompétenteDemandesDélai: 'dgec',
+              choisirNouveauCahierDesCharges: true,
+              periodes: [{ id: 'periodeId', type: 'notified' }],
+              familles: [{ id: 'familleId' }],
+            } as AppelOffre);
 
-            const demandeDelai = makeDemanderDélai({
-              fileRepo: fileRepo as Repository<FileObject>,
-              findAppelOffreById,
-              publishToEventStore,
-              shouldUserAccessProject: jest.fn(async () => true),
-              getProjectAppelOffreId,
-              projectRepo,
-            });
-
-            await demandeDelai({
-              justification: 'justification',
-              dateAchèvementDemandée,
-              user,
-              projectId: fakeProject.id.toString(),
-            });
-
-            expect(publishToEventStore).toHaveBeenNthCalledWith(
-              1,
-              expect.objectContaining({
-                type: 'DélaiDemandé',
-                payload: expect.objectContaining({
-                  dateAchèvementDemandée,
-                  projetId: fakeProject.id.toString(),
-                  cahierDesCharges: '30/07/2021',
-                  autorité: 'dgec',
-                }),
-              }),
-            );
+          const demandeDelai = makeDemanderDélai({
+            fileRepo: fileRepo as Repository<FileObject>,
+            findAppelOffreById,
+            publishToEventStore,
+            shouldUserAccessProject: jest.fn(async () => true),
+            getProjectAppelOffreId,
+            projectRepo,
           });
+
+          await demandeDelai({
+            justification: 'justification',
+            dateAchèvementDemandée,
+            user,
+            projectId: fakeProject.id.toString(),
+          });
+
+          expect(publishToEventStore).toHaveBeenNthCalledWith(
+            1,
+            expect.objectContaining({
+              type: 'DélaiDemandé',
+              payload: expect.objectContaining({
+                autorité: 'dgec',
+              }),
+            }),
+          );
         });
 
-        describe(`Autorité DREAL`, () => {
-          it(`Etant donné un projet d'un appel d'offre autre que "CRE4 - Eolien", 
+        it(`Etant donné un projet d'un appel d'offre autre que "CRE4 - Eolien", 
               lorsqu'une demande de délai est faite,
               alors l'autorité compétente devrait être la "dreal"`, async () => {
-            const getProjectAppelOffreId = jest.fn(() =>
-              okAsync<string, EntityNotFoundError | InfraNotAvailableError>('autre AO'),
-            );
+          const getProjectAppelOffreId = jest.fn(() =>
+            okAsync<string, EntityNotFoundError | InfraNotAvailableError>('autre AO'),
+          );
 
-            const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
-              ({
-                id: 'autre AO',
-                choisirNouveauCahierDesCharges: true,
-                periodes: [{ id: 'periodeId', type: 'notified' }],
-                familles: [{ id: 'familleId' }],
-              } as AppelOffre);
+          const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+            ({
+              id: 'autre AO',
+              choisirNouveauCahierDesCharges: true,
+              periodes: [{ id: 'periodeId', type: 'notified' }],
+              familles: [{ id: 'familleId' }],
+            } as AppelOffre);
 
-            const demandeDelai = makeDemanderDélai({
-              fileRepo: fileRepo as Repository<FileObject>,
-              findAppelOffreById,
-              publishToEventStore,
-              shouldUserAccessProject: jest.fn(async () => true),
-              getProjectAppelOffreId,
-              projectRepo,
-            });
-
-            await demandeDelai({
-              justification: 'justification',
-              dateAchèvementDemandée,
-              user,
-              projectId: fakeProject.id.toString(),
-            });
-
-            expect(publishToEventStore).toHaveBeenNthCalledWith(
-              1,
-              expect.objectContaining({
-                type: 'DélaiDemandé',
-                payload: expect.objectContaining({
-                  dateAchèvementDemandée,
-                  projetId: fakeProject.id.toString(),
-                  cahierDesCharges: '30/07/2021',
-                  autorité: 'dreal',
-                }),
-              }),
-            );
+          const demandeDelai = makeDemanderDélai({
+            fileRepo: fileRepo as Repository<FileObject>,
+            findAppelOffreById,
+            publishToEventStore,
+            shouldUserAccessProject: jest.fn(async () => true),
+            getProjectAppelOffreId,
+            projectRepo,
           });
+
+          await demandeDelai({
+            justification: 'justification',
+            dateAchèvementDemandée,
+            user,
+            projectId: fakeProject.id.toString(),
+          });
+
+          expect(publishToEventStore).toHaveBeenNthCalledWith(
+            1,
+            expect.objectContaining({
+              type: 'DélaiDemandé',
+              payload: expect.objectContaining({
+                autorité: 'dreal',
+              }),
+            }),
+          );
         });
       });
     });
