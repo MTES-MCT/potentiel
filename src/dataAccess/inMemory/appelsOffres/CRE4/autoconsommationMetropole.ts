@@ -8,6 +8,7 @@ const autoconsommationMetropole: AppelOffre = {
   shortTitle: 'CRE4 - Autoconsommation métropole',
   launchDate: 'mars 2017',
   unitePuissance: 'MWc',
+  autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 24,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   decoupageParTechnologie: false,

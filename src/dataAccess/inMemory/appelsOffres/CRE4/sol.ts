@@ -11,6 +11,7 @@ const sol: AppelOffre = {
   launchDate: 'août 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.2',

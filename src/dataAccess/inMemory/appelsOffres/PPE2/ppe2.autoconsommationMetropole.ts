@@ -8,6 +8,7 @@ const autoconsommationMetropolePPE2: AppelOffre = {
   shortTitle: 'PPE2 - Autoconsommation métropole',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
+  autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
   decoupageParTechnologie: true,
   delaiRealisationTexte:

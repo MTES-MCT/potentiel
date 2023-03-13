@@ -9,6 +9,7 @@ const neutrePPE2: AppelOffre = {
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
+  autoritéCompétenteDemandesDélai: 'dreal',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   paragraphePrixReference: '7',

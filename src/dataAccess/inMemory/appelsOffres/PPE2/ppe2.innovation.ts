@@ -8,6 +8,7 @@ const innovationPPE2: AppelOffre = {
   shortTitle: 'PPE2 - Innovation',
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
+  autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
   decoupageParTechnologie: false,

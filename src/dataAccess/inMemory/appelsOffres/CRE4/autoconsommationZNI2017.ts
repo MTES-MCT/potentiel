@@ -9,6 +9,7 @@ export const autoconsommationZNI2017: AppelOffre = {
   launchDate: 'décembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',

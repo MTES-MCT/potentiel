@@ -1,7 +1,6 @@
 import { AppelOffre } from '@entities';
 
 const garantieFinanciereEnMois = 36;
-//autorité : DGEC
 
 const pvEolien: AppelOffre = {
   id: 'PV - Eolien',
@@ -10,6 +9,7 @@ const pvEolien: AppelOffre = {
   shortTitle: 'PV - Eolien',
   launchDate: 'Décembre 2017',
   unitePuissance: 'MW',
+  autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   delaiRealisationEnMois: 24,
   decoupageParTechnologie: false,
