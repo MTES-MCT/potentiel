@@ -9,6 +9,7 @@ const batimentPPE2: AppelOffre = {
   launchDate: 'Août 2021',
   unitePuissance: 'MW',
   delaiRealisationEnMois: 30,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7',

@@ -11,6 +11,7 @@ const batiment: AppelOffre = {
   launchDate: 'septembre 2016',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'vingt (20) mois',
   paragraphePrixReference: '7',

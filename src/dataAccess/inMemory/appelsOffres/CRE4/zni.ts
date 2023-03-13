@@ -11,6 +11,7 @@ const zni: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'vingt-quatre (24) mois',
   paragraphePrixReference: '7.1',

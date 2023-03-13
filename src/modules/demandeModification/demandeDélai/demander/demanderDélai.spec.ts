@@ -202,6 +202,7 @@ describe('Commande demanderDélai', () => {
           });
         });
       });
+
       describe(`Enregistrer le numéro de gestionnaire`, () => {
         describe(`Lorsque le porteur saisit numéro de gestionnaire`, () => {
           it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
@@ -235,6 +236,7 @@ describe('Commande demanderDélai', () => {
           });
         });
       });
+
       describe(`Erreur si le porteur n'a pas souscri à un CDC modifié alors que l'AO le requiert`, () => {
         describe(`Étant donné un projet avec un AO requérant le choix d'un CDC modifié pour pouvoir effectuer des modifications sur Potentiel,
                   Lorsque le porteur fait une demande de délai,
@@ -265,6 +267,93 @@ describe('Commande demanderDélai', () => {
             if (res.isOk()) return;
             expect(res.error).toBeInstanceOf(NouveauCahierDesChargesNonChoisiError);
           });
+        });
+      });
+
+      describe(`Appliquer la bonne autorité compétente selon l'appel d'offre`, () => {
+        it(`Etant donné un projet de l'appel d'offre "CRE4 - Eolien" (id: "Eolien"), 
+              lorsqu'une demande de délai est faite,
+              alors l'autorité compétente devrait être la "dgec"`, async () => {
+          const getProjectAppelOffreId = jest.fn(() =>
+            okAsync<string, EntityNotFoundError | InfraNotAvailableError>('Eolien'),
+          );
+
+          const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+            ({
+              id: 'Eolien',
+              autoritéCompétenteDemandesDélai: 'dgec',
+              choisirNouveauCahierDesCharges: true,
+              periodes: [{ id: 'periodeId', type: 'notified' }],
+              familles: [{ id: 'familleId' }],
+            } as AppelOffre);
+
+          const demandeDelai = makeDemanderDélai({
+            fileRepo: fileRepo as Repository<FileObject>,
+            findAppelOffreById,
+            publishToEventStore,
+            shouldUserAccessProject: jest.fn(async () => true),
+            getProjectAppelOffreId,
+            projectRepo,
+          });
+
+          await demandeDelai({
+            justification: 'justification',
+            dateAchèvementDemandée,
+            user,
+            projectId: fakeProject.id.toString(),
+          });
+
+          expect(publishToEventStore).toHaveBeenNthCalledWith(
+            1,
+            expect.objectContaining({
+              type: 'DélaiDemandé',
+              payload: expect.objectContaining({
+                autorité: 'dgec',
+              }),
+            }),
+          );
+        });
+
+        it(`Etant donné un projet d'un appel d'offre autre que "CRE4 - Eolien", 
+              lorsqu'une demande de délai est faite,
+              alors l'autorité compétente devrait être la "dreal"`, async () => {
+          const getProjectAppelOffreId = jest.fn(() =>
+            okAsync<string, EntityNotFoundError | InfraNotAvailableError>('autre AO'),
+          );
+
+          const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
+            ({
+              id: 'autre AO',
+              choisirNouveauCahierDesCharges: true,
+              periodes: [{ id: 'periodeId', type: 'notified' }],
+              familles: [{ id: 'familleId' }],
+            } as AppelOffre);
+
+          const demandeDelai = makeDemanderDélai({
+            fileRepo: fileRepo as Repository<FileObject>,
+            findAppelOffreById,
+            publishToEventStore,
+            shouldUserAccessProject: jest.fn(async () => true),
+            getProjectAppelOffreId,
+            projectRepo,
+          });
+
+          await demandeDelai({
+            justification: 'justification',
+            dateAchèvementDemandée,
+            user,
+            projectId: fakeProject.id.toString(),
+          });
+
+          expect(publishToEventStore).toHaveBeenNthCalledWith(
+            1,
+            expect.objectContaining({
+              type: 'DélaiDemandé',
+              payload: expect.objectContaining({
+                autorité: 'dreal',
+              }),
+            }),
+          );
         });
       });
     });

@@ -79,6 +79,7 @@ export type AppelOffre = {
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
+  autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 

@@ -9,6 +9,7 @@ const autoconsommationZNI: AppelOffre = {
   launchDate: 'juin 2019',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
+  autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
   delaiRealisationTexte: 'trente (30) mois',
   paragraphePrixReference: '7.2',
