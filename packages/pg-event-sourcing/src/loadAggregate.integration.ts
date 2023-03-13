@@ -74,22 +74,22 @@ describe(`loadAggregate`, () => {
     );
 
     // Act
-    type FakeAggregateData = {
+    type FakeState = {
       propriété?: string;
       secondePropriété?: string;
     };
 
-    const aggregateFactory: AggregateFactory<FakeAggregateData> = (events) =>
-      events.reduce((aggregate, event) => {
+    const aggregateFactory: AggregateFactory<FakeState> = (events) =>
+      events.reduce((state, event) => {
         switch (event.type) {
           case 'event-1':
-            return { ...aggregate, proriété: (event.payload as any).propriété };
+            return { ...state, proriété: (event.payload as any).propriété };
 
           case 'event-2':
-            return { ...aggregate, secondePropriété: (event.payload as any).secondePropriété };
+            return { ...state, secondePropriété: (event.payload as any).secondePropriété };
 
           default:
-            return { ...aggregate };
+            return { ...state };
         }
       }, {});
 
