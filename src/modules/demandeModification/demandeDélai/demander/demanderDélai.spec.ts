@@ -282,7 +282,7 @@ describe('Commande demanderDélai', () => {
             const findAppelOffreById: AppelOffreRepo['findById'] = async () =>
               ({
                 id: 'Eolien',
-                autoritéCompétenteDemandesDélai: 'DGEC',
+                autoritéCompétenteDemandesDélai: 'dgec',
                 choisirNouveauCahierDesCharges: true,
                 periodes: [{ id: 'periodeId', type: 'notified' }],
                 familles: [{ id: 'familleId' }],
