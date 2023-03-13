@@ -1,3 +1,7 @@
+import { publish } from '@potentiel/pg-event-sourcing';
+import { AggregateId } from '@potentiel/core-domain';
+import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
+
 describe('Modifier un gestionnaire de réseau', () => {
   it(`
     Etant donné un gestionnaire de réseau
@@ -6,11 +10,10 @@ describe('Modifier un gestionnaire de réseau', () => {
   `, async () => {
     // Arrange
     const codeEIC = '17X100A100A0001A';
-    const aggregateId = `gestionnaire-réseau#${codeEIC}`;
+    const aggregateId = `gestionnaire-réseau#${codeEIC}` satisfies AggregateId;
 
     await publish(aggregateId, {
       type: 'GestionnaireRéseauAjouté',
-      occuredAt: '2023-03-09T15:45:14+0000',
       payload: {
         codeEIC,
         raisonSociale: 'RTE',
@@ -18,6 +21,8 @@ describe('Modifier un gestionnaire de réseau', () => {
     });
 
     // Act
+    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({ publish });
+
     await modifierGestionnaireRéseau({
       codeEIC,
       raisonSociale: 'ENEDIS',
