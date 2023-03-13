@@ -1,4 +1,4 @@
-import { none } from '@potentiel/core-domain';
+import { none, AggregateFactory } from '@potentiel/core-domain';
 import { executeQuery } from './helpers/executeQuery';
 import { loadAggregate } from './loadAggregate';
 
@@ -26,7 +26,6 @@ describe(`loadAggregate`, () => {
       Alors l'agrégat devrait être chargé`, async () => {
     // Arrange
     const createdAt = new Date().toISOString();
-    const aggregatVersion = 1;
 
     await executeQuery(
       `INSERT 
@@ -47,17 +46,48 @@ describe(`loadAggregate`, () => {
       aggregateId,
       createdAt,
       'event-1',
-      aggregatVersion,
-      {},
+      1,
+      { propriété: 'première-propriété' },
+    );
+
+    await executeQuery(
+      `INSERT 
+       INTO "EVENT_STREAM" (
+        "streamId", 
+        "createdAt", 
+        "type", 
+        "version", 
+        "payload"
+        ) 
+       VALUES (
+          $1, 
+          $2, 
+          $3, 
+          $4,
+          $5
+          )`,
+      aggregateId,
+      createdAt,
+      'event-2',
+      2,
+      { secondePropriété: 'seconde-propriété' },
     );
 
     // Act
-    const actual = await loadAggregate(aggregateId);
+    const aggregateFactory: AggregateFactory = (aggregateId, events) =>
+      events.reduce(
+        (aggregate, event, index) => {
+          return { ...aggregate, version: index + 1 };
+        },
+        { aggregateId, version: 0 },
+      );
+
+    const actual = await loadAggregate(aggregateId, aggregateFactory);
 
     // Assert
     expect(actual).toEqual({
       aggregateId,
-      version: aggregatVersion,
+      version: 2,
     });
   });
 });

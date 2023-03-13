@@ -1,7 +1,9 @@
 import { Aggregate } from './aggregate';
+import { AggregateFactory } from './aggregateFactory';
 import { AggregateId } from './aggregateId';
-import { None } from './helpers/none';
+import { Option } from './helpers/option';
 
 export type LoadAggregate = /*<TAggregate extends Aggregate>*/ (
   aggregateId: AggregateId,
-) => Promise<Aggregate | None>;
+  aggregateFactory: AggregateFactory,
+) => Promise<Option<Aggregate>>;
