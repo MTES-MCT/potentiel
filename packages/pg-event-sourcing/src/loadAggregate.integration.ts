@@ -16,7 +16,7 @@ describe(`loadAggregate`, () => {
     // Arrange
 
     // Act
-    const result = await loadAggregate(aggregateId, () => ({ aggregateId, version: 0 }));
+    const result = await loadAggregate(aggregateId, () => ({}));
 
     // Assert
     expect(result).toBe(none);
