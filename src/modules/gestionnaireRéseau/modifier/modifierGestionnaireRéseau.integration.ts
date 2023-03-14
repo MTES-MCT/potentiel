@@ -54,8 +54,10 @@ describe('Modifier un gestionnaire de réseau', () => {
     const expected: GestionnaireRéseauState = {
       codeEIC,
       raisonSociale: 'ENEDIS',
-      format: 'XXX-YYY',
-      légende: 'des lettres séparées par un tiret',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: 'XXX-YYY',
+        légende: 'des lettres séparées par un tiret',
+      },
     };
     expect(isNone(gestionnaireRéseau)).toBe(false);
     if (!isNone(gestionnaireRéseau)) {

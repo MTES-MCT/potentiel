@@ -46,16 +46,13 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
 export type GestionnaireRéseauState = {
   codeEIC: string;
   raisonSociale: string;
-  format: string;
-  légende: string;
+  aideSaisieRéférenceDossierRaccordement?: { format: string; légende: string };
 };
 type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
 
 const defaultAggregateState: GestionnaireRéseauState = {
   raisonSociale: '',
   codeEIC: '',
-  format: '',
-  légende: '',
 };
 
 const gestionnaireRéseauAggregateStateFactory: AggregateStateFactory<
