@@ -7,8 +7,7 @@ import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuErr
 type ModifierGestionnaireRéseauCommand = {
   codeEIC: string;
   raisonSociale: string;
-  format?: string;
-  légende?: string;
+  aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
 };
 
 type ModifierGestionnaireRéseauDependencies = { publish: Publish; loadAggregate: LoadAggregate };
@@ -27,7 +26,7 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
     loadAggregate,
   });
 
-  return async ({ codeEIC, raisonSociale, format = '', légende = '' }) => {
+  return async ({ codeEIC, raisonSociale, aideSaisieRéférenceDossierRaccordement }) => {
     const aggregate = await loadGestionnaireRéseauAggregate(codeEIC);
 
     if (isNone(aggregate)) {
@@ -38,8 +37,7 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
       type: 'GestionnaireRéseauModifié',
       payload: {
         raisonSociale,
-        format,
-        légende,
+        aideSaisieRéférenceDossierRaccordement,
       },
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);

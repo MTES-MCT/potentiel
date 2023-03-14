@@ -40,8 +40,10 @@ describe('Modifier un gestionnaire de réseau', () => {
     await modifierGestionnaireRéseau({
       codeEIC,
       raisonSociale: 'ENEDIS',
-      format: 'XXX-YYY',
-      légende: 'des lettres séparées par un tiret',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: 'XXX-YYY',
+        légende: 'des lettres séparées par un tiret',
+      },
     });
 
     const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
@@ -80,6 +82,7 @@ describe('Modifier un gestionnaire de réseau', () => {
     const promise = modifierGestionnaireRéseau({
       codeEIC,
       raisonSociale: 'ENEDIS',
+      aideSaisieRéférenceDossierRaccordement: { format: '', légende: '' },
     });
 
     // Assert
