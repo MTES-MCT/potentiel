@@ -1,12 +1,12 @@
 import { executeQuery, loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { isNone } from '@potentiel/core-domain';
-import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
+import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau.command';
 import {
   GestionnaireRéseauState,
   loadGestionnaireRéseauAggregateFactory,
-} from '../loadGestionnaireRéseauAggregate.factory';
+} from '../gestionnaireRéseau.aggregate';
 import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuError';
+import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 
 describe('Modifier un gestionnaire de réseau', () => {
   beforeAll(() => {

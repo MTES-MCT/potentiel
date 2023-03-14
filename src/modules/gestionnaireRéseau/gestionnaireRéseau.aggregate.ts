@@ -3,8 +3,7 @@ import { ok } from '@core/utils';
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauAjouté } from './ajouter';
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/gestionnaireRéseauAjoutéEvent';
-import { createGestionnaireRéseauAggregateId } from './gestionnaireRéseauAggregateId';
-import { GestionnaireRéseauModifiéEvent } from './modifier/gestionnaireRéseauModifiéEvent';
+import { GestionnaireRéseauModifiéEvent } from './modifier/gestionnaireRéseauModifié.event';
 
 type GestionnaireRéseauArgs = {
   id: UniqueEntityID;
@@ -43,6 +42,12 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
 };
 
 // nouveau monde
+type GestionnaireRéseauAggregateId = `gestionnaire-réseau#${string}`;
+
+export const createGestionnaireRéseauAggregateId = (
+  codeEIC: string,
+): GestionnaireRéseauAggregateId => `gestionnaire-réseau#${codeEIC}`;
+
 export type GestionnaireRéseauState = {
   codeEIC: string;
   raisonSociale: string;

@@ -1,8 +1,10 @@
 import { isNone, LoadAggregate, Publish } from '@potentiel/core-domain';
-import { loadGestionnaireRéseauAggregateFactory } from '../loadGestionnaireRéseauAggregate.factory';
-import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
-import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifiéEvent';
-import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuError';
+import {
+  createGestionnaireRéseauAggregateId,
+  loadGestionnaireRéseauAggregateFactory,
+} from '../gestionnaireRéseau.aggregate';
+import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifié.event';
+import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 
 type ModifierGestionnaireRéseauCommand = {
   codeEIC: string;

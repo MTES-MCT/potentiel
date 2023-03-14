@@ -10,7 +10,7 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
-import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/loadGestionnaireRéseauAggregate.factory';
+import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { Publish } from '../../../core/domain/publish';
 
 type Command = {
