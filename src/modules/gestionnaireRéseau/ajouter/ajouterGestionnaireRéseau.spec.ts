@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from 'neverthrow';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
-import { GestionnaireRéseau } from '../gestionnaireRéseau.aggregate';
+import { GestionnaireRéseau } from '../loadGestionnaireRéseauAggregate.factory';
 import { ajouterGestionnaireRéseauFactory } from './ajouterGestionnaireRéseau.factory';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
 

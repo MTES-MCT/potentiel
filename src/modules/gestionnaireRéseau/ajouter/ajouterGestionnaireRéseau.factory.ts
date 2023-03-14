@@ -2,7 +2,7 @@ import { TransactionalRepository, UniqueEntityID } from '@core/domain';
 import { errAsync, ResultAsync } from '@core/utils';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Publish } from '../../../core/domain/publish';
-import { GestionnaireRéseau } from '../gestionnaireRéseau.aggregate';
+import { GestionnaireRéseau } from '../loadGestionnaireRéseauAggregate.factory';
 import { GestionnaireRéseauAjouté } from './events/gestionnaireRéseauAjouté';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 

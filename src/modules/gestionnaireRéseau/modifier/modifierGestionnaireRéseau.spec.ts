@@ -1,6 +1,7 @@
-import { publish } from '@potentiel/pg-event-sourcing';
-import { AggregateId } from '@potentiel/core-domain';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { AggregateId, isNone } from '@potentiel/core-domain';
 import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
+import { loadGestionnaireRéseauAggregateFactory } from '../loadGestionnaireRéseauAggregate.factory';
 
 describe('Modifier un gestionnaire de réseau', () => {
   beforeAll(() => {
@@ -31,12 +32,17 @@ describe('Modifier un gestionnaire de réseau', () => {
       codeEIC,
       raisonSociale: 'ENEDIS',
     });
-    const loadGestionnaireRéseauAggregate = (codeEIC: string) =>
-      Promise.resolve({ raisonSociale: '' });
+
+    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
+      loadAggregate,
+    });
 
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
     // Assert
-    expect(gestionnaireRéseau.raisonSociale).toEqual('ENEDIS');
+    expect(isNone(gestionnaireRéseau)).toBe(false);
+    if (!isNone(gestionnaireRéseau)) {
+      expect(gestionnaireRéseau.raisonSociale).toEqual('ENEDIS');
+    }
   });
 });
