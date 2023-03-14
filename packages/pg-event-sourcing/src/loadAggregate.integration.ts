@@ -69,7 +69,7 @@ describe(`loadAggregate`, () => {
       aggregateId,
       createdAt,
       'event-2',
-      2,
+      15,
       { secondePropriété: 'seconde-propriété' },
     );
 
@@ -98,7 +98,7 @@ describe(`loadAggregate`, () => {
     // Assert
     expect(actual).toEqual({
       aggregateId,
-      version: 2,
+      version: 15,
       proriété: 'première-propriété',
       secondePropriété: 'seconde-propriété',
     });

@@ -8,5 +8,12 @@ export const loadAggregate: LoadAggregate = async (aggregateId, aggregateFactory
     return none;
   }
 
-  return { ...aggregateFactory(events), aggregateId, version: events.length };
+  const version = events[events.length - 1].version;
+  const domainEvents = events.map(({ type, payload }) => ({ type, payload }));
+
+  return {
+    ...aggregateFactory(domainEvents),
+    aggregateId,
+    version,
+  };
 };

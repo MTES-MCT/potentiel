@@ -65,10 +65,12 @@ describe(`loadFromStream`, () => {
     expect(actuals).toEqual([
       {
         type: 'event-1',
+        version: 1,
         payload: { test1: '1' },
       },
       {
         type: 'event-2',
+        version: 2,
         payload: { test2: '2' },
       },
     ]);
