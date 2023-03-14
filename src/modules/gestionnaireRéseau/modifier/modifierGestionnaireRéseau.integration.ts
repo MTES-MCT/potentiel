@@ -1,7 +1,10 @@
 import { executeQuery, loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { isNone } from '@potentiel/core-domain';
 import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
-import { loadGestionnaireRéseauAggregateFactory } from '../loadGestionnaireRéseauAggregate.factory';
+import {
+  GestionnaireRéseauState,
+  loadGestionnaireRéseauAggregateFactory,
+} from '../loadGestionnaireRéseauAggregate.factory';
 import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuError';
 
@@ -14,8 +17,8 @@ describe('Modifier un gestionnaire de réseau', () => {
 
   it(`
     Etant donné un gestionnaire de réseau
-    Lorsque un administrateur modifie la raison sociale du gestionnaire de réseau
-    Alors la raison sociale du gestionnaire de réseau devrait être mise à jour
+    Lorsque un administrateur modifie les données d'un gestionnaire de réseau
+    Alors le gestionnaire de réseau devrait être mis à jour
   `, async () => {
     // Arrange
     const codeEIC = '17X100A100A0001A';
@@ -37,6 +40,8 @@ describe('Modifier un gestionnaire de réseau', () => {
     await modifierGestionnaireRéseau({
       codeEIC,
       raisonSociale: 'ENEDIS',
+      format: 'XXX-YYY',
+      légende: 'des lettres séparées par un tiret',
     });
 
     const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
@@ -46,9 +51,15 @@ describe('Modifier un gestionnaire de réseau', () => {
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
     // Assert
+    const expected: GestionnaireRéseauState = {
+      codeEIC,
+      raisonSociale: 'ENEDIS',
+      format: 'XXX-YYY',
+      légende: 'des lettres séparées par un tiret',
+    };
     expect(isNone(gestionnaireRéseau)).toBe(false);
     if (!isNone(gestionnaireRéseau)) {
-      expect(gestionnaireRéseau.raisonSociale).toEqual('ENEDIS');
+      expect(gestionnaireRéseau).toMatchObject(expected);
     }
   });
 

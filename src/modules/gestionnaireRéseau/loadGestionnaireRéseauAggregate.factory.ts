@@ -43,10 +43,20 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
 };
 
 // nouveau monde
-type GestionnaireRéseauState = { codeEIC: string; raisonSociale: string };
+export type GestionnaireRéseauState = {
+  codeEIC: string;
+  raisonSociale: string;
+  format: string;
+  légende: string;
+};
 type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
 
-const defaultAggregateState = { raisonSociale: '', codeEIC: '' };
+const defaultAggregateState: GestionnaireRéseauState = {
+  raisonSociale: '',
+  codeEIC: '',
+  format: '',
+  légende: '',
+};
 
 const gestionnaireRéseauAggregateStateFactory: AggregateStateFactory<
   GestionnaireRéseauState,

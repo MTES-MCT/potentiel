@@ -4,7 +4,12 @@ import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggr
 import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifiéEvent';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuError';
 
-type ModifierGestionnaireRéseauCommand = { codeEIC: string; raisonSociale: string };
+type ModifierGestionnaireRéseauCommand = {
+  codeEIC: string;
+  raisonSociale: string;
+  format?: string;
+  légende?: string;
+};
 
 type ModifierGestionnaireRéseauDependencies = { publish: Publish; loadAggregate: LoadAggregate };
 
@@ -22,7 +27,7 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
     loadAggregate,
   });
 
-  return async ({ codeEIC, raisonSociale }) => {
+  return async ({ codeEIC, raisonSociale, format = '', légende = '' }) => {
     const aggregate = await loadGestionnaireRéseauAggregate(codeEIC);
 
     if (isNone(aggregate)) {
@@ -33,6 +38,8 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
       type: 'GestionnaireRéseauModifié',
       payload: {
         raisonSociale,
+        format,
+        légende,
       },
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
