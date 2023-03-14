@@ -3,6 +3,10 @@ import { AggregateId } from '@potentiel/core-domain';
 import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
 
 describe('Modifier un gestionnaire de réseau', () => {
+  beforeAll(() => {
+    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+  });
+
   it(`
     Etant donné un gestionnaire de réseau
     Lorsque un administrateur modifie la raison sociale du gestionnaire de réseau
@@ -27,8 +31,10 @@ describe('Modifier un gestionnaire de réseau', () => {
       codeEIC,
       raisonSociale: 'ENEDIS',
     });
+    const loadGestionnaireRéseauAggregate = (codeEIC: string) =>
+      Promise.resolve({ raisonSociale: '' });
 
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggreagate(codeEIC);
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
     // Assert
     expect(gestionnaireRéseau.raisonSociale).toEqual('ENEDIS');

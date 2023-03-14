@@ -13,5 +13,5 @@ type ModifierGestionnaireRéseauFactory = (
 export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory =
   ({ publish }) =>
   async ({ codeEIC, raisonSociale }) => {
-    return Promise.reject();
+    return Promise.reject(new Error('Not implemented'));
   };
