@@ -105,7 +105,26 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
     },
-    // Pour les prochaines periodes utiliser le certificateTemplate ppe2.v2
+    {
+      id: '3',
+      title: 'troisième',
+      certificateTemplate: 'ppe2.v2',
+      cahierDesCharges: {
+        référence: '2022 S 214-614411',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2022-pv-sol-telecharger-le-cahier-des-charges-en-vigueur',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 0,
+          puissanceMax: 0,
+        },
+        autres: {
+          noteThreshold: 0,
+        },
+      },
+    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
