@@ -1,6 +1,6 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
 import { ok } from '@core/utils';
-import { LoadAggregate } from '@potentiel/core-domain';
+import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauAjouté } from './ajouter';
 import { GestionnaireRéseauAjoutéEvent } from './ajouter/gestionnaireRéseauAjoutéEvent';
 import { createGestionnaireRéseauAggregateId } from './gestionnaireRéseauAggregateId';
@@ -45,26 +45,34 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
 // nouveau monde
 type GestionnaireRéseauState = { codeEIC: string; raisonSociale: string };
 type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
-type LoadGestionnaireRéseauAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-export const loadGestionnaireRéseauAggregateFactory =
-  ({ loadAggregate }: LoadGestionnaireRéseauAggregateFactoryDependencies) =>
-  (codeEIC: string) =>
-    loadAggregate<GestionnaireRéseauState, GestionnaireRéseauEvent>(
+const defaultAggregateState = { raisonSociale: '', codeEIC: '' };
+
+const gestionnaireRéseauAggregateStateFactory: AggregateStateFactory<
+  GestionnaireRéseauState,
+  GestionnaireRéseauEvent
+> = (events) => {
+  return events.reduce((aggregate, event) => {
+    switch (event.type) {
+      case 'GestionnaireRéseauAjouté':
+      case 'GestionnaireRéseauModifié':
+        return { ...aggregate, ...event.payload };
+      default:
+        // TODO: ajouter log event non connu
+        return { ...aggregate };
+    }
+  }, defaultAggregateState);
+};
+
+type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
+
+export const loadGestionnaireRéseauAggregateFactory = ({
+  loadAggregate,
+}: LoadAggregateFactoryDependencies) => {
+  return async (codeEIC: string) => {
+    return loadAggregate<GestionnaireRéseauState, GestionnaireRéseauEvent>(
       createGestionnaireRéseauAggregateId(codeEIC),
-      (events) => {
-        return events.reduce(
-          (aggregate, event) => {
-            switch (event.type) {
-              case 'GestionnaireRéseauAjouté':
-              case 'GestionnaireRéseauModifié':
-                return { ...aggregate, ...event.payload };
-              default:
-                // TODO: ajouter log event non connu
-                return { ...aggregate };
-            }
-          },
-          { raisonSociale: '', codeEIC },
-        );
-      },
+      gestionnaireRéseauAggregateStateFactory,
     );
+  };
+};
