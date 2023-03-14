@@ -1,4 +1,4 @@
-import { Publish, LoadAggregate, CommandHandler, isNone } from '@potentiel/core-domain';
+import { Publish, LoadAggregate, CommandHandler, isSome } from '@potentiel/core-domain';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
@@ -37,7 +37,7 @@ export const ajouterGestionnaireRéseauFactory: AjouterGestionnaireRéseauFactor
   return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
     const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
-    if (!isNone(gestionnaireRéseau)) {
+    if (isSome(gestionnaireRéseau)) {
       throw new GestionnaireRéseauDéjàExistantError();
     }
 
