@@ -64,12 +64,12 @@ describe('Modifier un gestionnaire de réseau', () => {
       loadAggregate,
     });
 
+    const promise = modifierGestionnaireRéseau({
+      codeEIC,
+      raisonSociale: 'ENEDIS',
+    });
+
     // Assert
-    expect(() =>
-      modifierGestionnaireRéseau({
-        codeEIC,
-        raisonSociale: 'ENEDIS',
-      }),
-    ).toThrowError(new GestionnaireRéseauInconnuError());
+    await expect(promise).rejects.toThrow(GestionnaireRéseauInconnuError);
   });
 });

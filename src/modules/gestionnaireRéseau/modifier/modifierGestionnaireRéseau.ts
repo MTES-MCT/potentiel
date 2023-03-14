@@ -1,7 +1,8 @@
-import { LoadAggregate, Publish } from '@potentiel/core-domain';
+import { isNone, LoadAggregate, Publish } from '@potentiel/core-domain';
 import { loadGestionnaireRéseauAggregateFactory } from '../loadGestionnaireRéseauAggregate.factory';
 import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
 import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifiéEvent';
+import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnuError';
 
 type ModifierGestionnaireRéseauCommand = { codeEIC: string; raisonSociale: string };
 
@@ -13,18 +14,20 @@ type ModifierGestionnaireRéseauFactory = (
   dependencies: ModifierGestionnaireRéseauDependencies,
 ) => CommandHandler;
 
-export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory =
-  ({ publish, loadAggregate }) =>
-  async ({ codeEIC, raisonSociale }) => {
-    const aggregateId = createGestionnaireRéseauAggregateId(codeEIC);
-    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-      loadAggregate,
-    });
-    const aggregate = await loadGestionnaireRéseauAggregate(aggregateId);
+export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory = ({
+  publish,
+  loadAggregate,
+}) => {
+  const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
+    loadAggregate,
+  });
 
-    // if (isNone(aggregate)) {
-    //   throw new GestionnaireRéseauInconnuError();
-    // }
+  return async ({ codeEIC, raisonSociale }) => {
+    const aggregate = await loadGestionnaireRéseauAggregate(codeEIC);
+
+    if (isNone(aggregate)) {
+      throw new GestionnaireRéseauInconnuError();
+    }
 
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié',
@@ -32,5 +35,6 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
         raisonSociale,
       },
     };
-    await publish(aggregateId, event);
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
+};
