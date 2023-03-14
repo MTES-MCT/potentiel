@@ -1,4 +1,4 @@
-import { none, AggregateFactory, DomainEvent } from '@potentiel/core-domain';
+import { none, DomainEvent, AggregateStateFactory } from '@potentiel/core-domain';
 import { executeQuery } from './helpers/executeQuery';
 import { loadAggregate } from './loadAggregate';
 
@@ -83,7 +83,9 @@ describe(`loadAggregate`, () => {
     type Event2 = DomainEvent<'event-2', { secondePropriété: string }>;
     type FakeAggregateEvent = Event1 | Event2;
 
-    const aggregateFactory: AggregateFactory<FakeAggregateState, FakeAggregateEvent> = (events) =>
+    const aggregateStateFactory: AggregateStateFactory<FakeAggregateState, FakeAggregateEvent> = (
+      events,
+    ) =>
       events.reduce((state, event) => {
         switch (event.type) {
           case 'event-1':
@@ -97,7 +99,7 @@ describe(`loadAggregate`, () => {
         }
       }, {});
 
-    const actual = await loadAggregate(aggregateId, aggregateFactory);
+    const actual = await loadAggregate(aggregateId, aggregateStateFactory);
 
     // Assert
     expect(actual).toEqual({
