@@ -1,3 +1,5 @@
 import { DomainEvent } from './domainEvent';
 
-export type AggregateFactory<TState> = (events: ReadonlyArray<DomainEvent>) => TState;
+export type AggregateFactory<TState, TDomainEvent extends DomainEvent> = (
+  events: ReadonlyArray<TDomainEvent>,
+) => TState;

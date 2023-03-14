@@ -1,4 +1,7 @@
-export type DomainEvent<TPayload extends Record<string, unknown> = {}> = {
-  type: string;
+export type DomainEvent<
+  TType extends string = string,
+  TPayload extends Record<string, unknown> = {},
+> = {
+  type: TType;
   payload: TPayload;
 };

@@ -1,4 +1,4 @@
-import { none, AggregateFactory } from '@potentiel/core-domain';
+import { none, AggregateFactory, DomainEvent } from '@potentiel/core-domain';
 import { executeQuery } from './helpers/executeQuery';
 import { loadAggregate } from './loadAggregate';
 
@@ -74,19 +74,23 @@ describe(`loadAggregate`, () => {
     );
 
     // Act
-    type FakeState = {
+    type FakeAggregateState = {
       propriété?: string;
       secondePropriété?: string;
     };
 
-    const aggregateFactory: AggregateFactory<FakeState> = (events) =>
+    type Event1 = DomainEvent<'event-1', { propriété: string }>;
+    type Event2 = DomainEvent<'event-2', { secondePropriété: string }>;
+    type FakeAggregateEvent = Event1 | Event2;
+
+    const aggregateFactory: AggregateFactory<FakeAggregateState, FakeAggregateEvent> = (events) =>
       events.reduce((state, event) => {
         switch (event.type) {
           case 'event-1':
-            return { ...state, proriété: (event.payload as any).propriété };
+            return { ...state, proriété: event.payload.propriété };
 
           case 'event-2':
-            return { ...state, secondePropriété: (event.payload as any).secondePropriété };
+            return { ...state, secondePropriété: event.payload.secondePropriété };
 
           default:
             return { ...state };
