@@ -2,10 +2,10 @@ import { executeQuery, loadAggregate, publish } from '@potentiel/pg-event-sourci
 import { isNone } from '@potentiel/core-domain';
 import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau.command';
 import {
+  createGestionnaireRéseauAggregateId,
   GestionnaireRéseauState,
   loadGestionnaireRéseauAggregateFactory,
 } from '../gestionnaireRéseau.aggregate';
-import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
 import { GestionnaireRéseauInconnuError } from './gestionnaireRéseauInconnu.error';
 
 describe('Modifier un gestionnaire de réseau', () => {

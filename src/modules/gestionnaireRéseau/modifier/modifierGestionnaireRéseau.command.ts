@@ -1,4 +1,4 @@
-import { isNone, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { isNone, CommandHandler, LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,
@@ -14,11 +14,9 @@ type ModifierGestionnaireRéseauCommand = {
 
 type ModifierGestionnaireRéseauDependencies = { publish: Publish; loadAggregate: LoadAggregate };
 
-type CommandHandler = (command: ModifierGestionnaireRéseauCommand) => Promise<void>;
-
 type ModifierGestionnaireRéseauFactory = (
   dependencies: ModifierGestionnaireRéseauDependencies,
-) => CommandHandler;
+) => CommandHandler<ModifierGestionnaireRéseauCommand>;
 
 export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory = ({
   publish,
@@ -29,9 +27,9 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
   });
 
   return async ({ codeEIC, raisonSociale, aideSaisieRéférenceDossierRaccordement }) => {
-    const aggregate = await loadGestionnaireRéseauAggregate(codeEIC);
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
-    if (isNone(aggregate)) {
+    if (isNone(gestionnaireRéseau)) {
       throw new GestionnaireRéseauInconnuError();
     }
 
