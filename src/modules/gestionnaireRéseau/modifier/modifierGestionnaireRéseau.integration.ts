@@ -1,7 +1,8 @@
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { AggregateId, isNone } from '@potentiel/core-domain';
+import { isNone } from '@potentiel/core-domain';
 import { modifierGestionnaireRéseauFactory } from './modifierGestionnaireRéseau';
 import { loadGestionnaireRéseauAggregateFactory } from '../loadGestionnaireRéseauAggregate.factory';
+import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
 
 describe('Modifier un gestionnaire de réseau', () => {
   beforeAll(() => {
@@ -15,9 +16,8 @@ describe('Modifier un gestionnaire de réseau', () => {
   `, async () => {
     // Arrange
     const codeEIC = '17X100A100A0001A';
-    const aggregateId = `gestionnaire-réseau#${codeEIC}` satisfies AggregateId;
 
-    await publish(aggregateId, {
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), {
       type: 'GestionnaireRéseauAjouté',
       payload: {
         codeEIC,

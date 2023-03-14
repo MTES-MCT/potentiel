@@ -1,6 +1,8 @@
 import { Publish } from '@potentiel/core-domain';
+import { createGestionnaireRéseauAggregateId } from '../gestionnaireRéseauAggregateId';
+import { GestionnaireRéseauModifiéEvent } from './gestionnaireRéseauModifiéEvent';
 
-type ModifierGestionnaireRéseauCommand = { codeEIC: string; raisonSociale?: string };
+type ModifierGestionnaireRéseauCommand = { codeEIC: string; raisonSociale: string };
 
 type ModifierGestionnaireRéseauDependencies = { publish: Publish };
 
@@ -13,5 +15,11 @@ type ModifierGestionnaireRéseauFactory = (
 export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory =
   ({ publish }) =>
   async ({ codeEIC, raisonSociale }) => {
-    return Promise.reject(new Error('Not implemented'));
+    const event: GestionnaireRéseauModifiéEvent = {
+      type: 'GestionnaireRéseauModifié',
+      payload: {
+        raisonSociale,
+      },
+    };
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };

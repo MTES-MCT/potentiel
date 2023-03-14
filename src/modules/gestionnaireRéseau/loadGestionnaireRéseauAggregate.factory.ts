@@ -1,7 +1,9 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '@core/domain';
 import { ok } from '@core/utils';
-import { AggregateId, LoadAggregate } from '@potentiel/core-domain';
+import { LoadAggregate } from '@potentiel/core-domain';
 import { GestionnaireRéseauAjouté } from './ajouter';
+import { GestionnaireRéseauAjoutéEvent } from './ajouter/gestionnaireRéseauAjoutéEvent';
+import { createGestionnaireRéseauAggregateId } from './gestionnaireRéseauAggregateId';
 import { GestionnaireRéseauModifiéEvent } from './modifier/gestionnaireRéseauModifiéEvent';
 
 type GestionnaireRéseauArgs = {
@@ -42,20 +44,19 @@ export const makeGestionnaireRéseau = (args: GestionnaireRéseauArgs) => {
 
 // nouveau monde
 type GestionnaireRéseauState = { codeEIC: string; raisonSociale: string };
-type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent;
+type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
 type LoadGestionnaireRéseauAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
 export const loadGestionnaireRéseauAggregateFactory =
   ({ loadAggregate }: LoadGestionnaireRéseauAggregateFactoryDependencies) =>
-  (codeEIC: string) => {
-    const aggregateId = `gestionnaire-réseau#${codeEIC}` satisfies AggregateId;
-
-    return loadAggregate<GestionnaireRéseauState, GestionnaireRéseauEvent>(
-      aggregateId,
+  (codeEIC: string) =>
+    loadAggregate<GestionnaireRéseauState, GestionnaireRéseauEvent>(
+      createGestionnaireRéseauAggregateId(codeEIC),
       (events) => {
         return events.reduce(
           (aggregate, event) => {
             switch (event.type) {
+              case 'GestionnaireRéseauAjouté':
               case 'GestionnaireRéseauModifié':
                 return { ...aggregate, ...event.payload };
               default:
@@ -67,4 +68,3 @@ export const loadGestionnaireRéseauAggregateFactory =
         );
       },
     );
-  };
