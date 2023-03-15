@@ -3,8 +3,8 @@ import {
   AggregateStateFactory,
   DomainEvent,
   LoadAggregate,
-  none,
 } from '@potentiel/core-domain';
+import { none } from '@potentiel/monads';
 import { loadFromStream } from './loadFromStream';
 
 export const loadAggregate: LoadAggregate = async <

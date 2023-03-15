@@ -7,9 +7,10 @@
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
-    "build:package": "tsc"
+    "build": "tsc"
   },
   "dependencies": {
+    "@potentiel/monads": "*",
     "@potentiel/core-domain": "*"
   },
   "devDependencies": {

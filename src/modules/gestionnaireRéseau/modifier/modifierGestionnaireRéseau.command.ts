@@ -1,4 +1,5 @@
-import { isNone, CommandHandler, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { CommandHandler, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { isNone } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
   loadGestionnaireRéseauAggregateFactory,

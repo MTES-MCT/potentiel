@@ -1,6 +1,4 @@
-export const none = {
-  type: Symbol('none'),
-} as const;
+export const none = Symbol('none');
 
 export type None = typeof none;
 

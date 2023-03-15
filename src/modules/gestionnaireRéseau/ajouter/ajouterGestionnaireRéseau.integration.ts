@@ -1,5 +1,5 @@
 import { executeQuery, loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { isNone } from '@potentiel/core-domain';
+import { isNone } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
   GestionnaireRéseauState,

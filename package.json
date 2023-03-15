@@ -5,7 +5,9 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "workspaces": [
-    "./packages/*"
+    "./packages/monads",
+    "./packages/core-domain",
+    "./packages/pg-event-sourcing"
   ],
   "scripts": {
     "type:check": "tsc --noEmit",
@@ -40,7 +42,7 @@
     "watch:css": "npm run build:css -- --watch",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
     "build-storybook": "build-storybook",
-    "build:packages": "npm run build:package --workspaces --if-present",
+    "build:packages": "npm run build --workspaces --if-present",
     "watch:packages": "watch 'npm run build:packages' ./packages/**/src/"
   },
   "repository": {

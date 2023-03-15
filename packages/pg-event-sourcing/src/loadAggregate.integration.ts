@@ -1,4 +1,5 @@
-import { none, DomainEvent, AggregateStateFactory } from '@potentiel/core-domain';
+import { DomainEvent, AggregateStateFactory } from '@potentiel/core-domain';
+import { none } from '@potentiel/monads';
 import { executeQuery } from './helpers/executeQuery';
 import { loadAggregate } from './loadAggregate';
 
