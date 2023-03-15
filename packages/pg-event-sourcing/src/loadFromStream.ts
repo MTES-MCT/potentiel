@@ -1,9 +1,5 @@
-import { DomainEvent } from '@potentiel/core-domain';
 import { executeSelect } from '@potentiel/pg-helpers';
-
-type Event = DomainEvent & {
-  version: number;
-};
+import { Event } from './event';
 
 export const loadFromStream = (streamId: string): Promise<ReadonlyArray<Event>> =>
   executeSelect<Event>(

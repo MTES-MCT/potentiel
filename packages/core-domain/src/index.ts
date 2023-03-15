@@ -1,7 +1,9 @@
 export { AggregateId } from './aggregateId';
-export { CommandHandler } from './commandHandler';
-export { DomainEvent } from './domainEvent';
-export { Publish } from './publish';
-export { LoadAggregate } from './loadAggregate';
 export { Aggregate } from './aggregate';
 export { AggregateStateFactory } from './aggregateStateFactory';
+export { LoadAggregate } from './loadAggregate';
+export { CommandHandler } from './commandHandler';
+export { DomainEvent } from './domainEvent';
+export { DomainEventHandler } from './domainEventHandler';
+export { Publish } from './publish';
+export { Subscribe } from './subscribe';
