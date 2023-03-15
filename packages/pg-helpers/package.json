@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/pg-event-sourcing",
+  "name": "@potentiel/pg-helpers",
   "version": "0.0.0",
-  "description": "PostgreSQL Event Sourcing implementation",
+  "description": "Fonction utilitaire pour PostgreSQL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -10,9 +10,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel/monads": "*",
-    "@potentiel/core-domain": "*",
-    "@potentiel/pg-helpers": "*"
+    "pg": "^8.8.0"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

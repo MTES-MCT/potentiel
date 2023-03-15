@@ -1,4 +1,5 @@
-import { executeQuery, loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { executeQuery } from '@potentiel/pg-helpers';
 import { isNone } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,

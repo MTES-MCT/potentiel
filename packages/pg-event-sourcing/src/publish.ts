@@ -1,5 +1,5 @@
 import { Publish } from '@potentiel/core-domain';
-import { executeQuery } from './helpers/executeQuery';
+import { executeQuery } from '@potentiel/pg-helpers';
 
 export const publish: Publish = async (streamId, ...events) => {
   for (const { type, payload } of events) {

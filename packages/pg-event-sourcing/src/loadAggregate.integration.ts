@@ -1,6 +1,6 @@
 import { DomainEvent, AggregateStateFactory } from '@potentiel/core-domain';
 import { none } from '@potentiel/monads';
-import { executeQuery } from './helpers/executeQuery';
+import { executeQuery } from '@potentiel/pg-helpers';
 import { loadAggregate } from './loadAggregate';
 
 describe(`loadAggregate`, () => {

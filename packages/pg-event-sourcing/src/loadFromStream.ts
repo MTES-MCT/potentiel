@@ -1,5 +1,5 @@
 import { DomainEvent } from '@potentiel/core-domain';
-import { executeSelect } from './helpers/executeSelect';
+import { executeSelect } from '@potentiel/pg-helpers';
 
 type Event = DomainEvent & {
   version: number;

@@ -1,5 +1,4 @@
-import { executeQuery } from './helpers/executeQuery';
-import { executeSelect } from './helpers/executeSelect';
+import { executeSelect, executeQuery } from '@potentiel/pg-helpers';
 import { publish } from './publish';
 
 describe(`publish`, () => {

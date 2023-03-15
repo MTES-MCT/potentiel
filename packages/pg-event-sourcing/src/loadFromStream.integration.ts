@@ -1,4 +1,4 @@
-import { executeQuery } from './helpers/executeQuery';
+import { executeQuery } from '@potentiel/pg-helpers';
 import { loadFromStream } from './loadFromStream';
 
 describe(`loadFromStream`, () => {

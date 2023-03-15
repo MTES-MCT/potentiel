@@ -7,6 +7,7 @@
   "workspaces": [
     "./packages/monads",
     "./packages/core-domain",
+    "./packages/pg-helpers",
     "./packages/pg-event-sourcing"
   ],
   "scripts": {
