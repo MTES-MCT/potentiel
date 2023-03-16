@@ -31,3 +31,10 @@ describe('fromRedisMessage', () => {
     });
   });
 });
+
+describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
+  it(`Lorsque le message retourné par Redis provient d'un event stream
+      Alors le message est converti en une instance de classe de type domain event
+      Et "occurredAt" est défini à la date du jour
+      `, () => {});
+});

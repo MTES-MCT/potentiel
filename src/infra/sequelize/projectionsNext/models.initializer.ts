@@ -4,7 +4,7 @@ import {
   initializeGarantiesFinancièresModel,
   initializeGarantiesFinancièresModelAssociations,
 } from './garantiesFinancières/garantiesFinancières.initializer';
-import { initializeGestionnaireRéseauDétailModel } from './gestionnairesRéseau/détail/gestionnaireRéseauDétail.initializer';
+import { initializeGestionnaireRéseauDétailModel } from './gestionnairesRéseau/gestionnaireRéseauDétail.initializer';
 import { initializeGestionnaireRéseauListeModel } from './gestionnairesRéseau/liste/gestionnaireRéseauListe.initializer';
 import {
   initializeModificationRequestModel,
