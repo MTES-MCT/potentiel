@@ -1,7 +1,6 @@
-import onGestionnaireRéseauAjouté from './onGestionnaireRéseauAjouté';
-import { GestionnaireRéseauAjouté } from '@modules/gestionnaireRéseau';
-import { resetDatabase } from '../../../../helpers';
-import { GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext';
+import onGestionnaireRéseauAjouté, { GestionnaireRéseauAjouté } from './onGestionnaireRéseauAjouté';
+import { resetDatabase } from '../../../helpers';
+import { GestionnaireRéseau } from '@infra/sequelize/projectionsNext';
 
 describe('gestionnaireRéseau.onGestionnaireRéseauAjouté', () => {
   beforeEach(resetDatabase);
@@ -20,13 +19,15 @@ describe('gestionnaireRéseau.onGestionnaireRéseauAjouté', () => {
         payload: {
           codeEIC,
           raisonSociale,
-          format,
-          légende,
+          aideSaisieRéférenceDossierRaccordement: {
+            format,
+            légende,
+          },
         },
       }),
     );
 
-    const actualDetails = await GestionnaireRéseauDétail.findOne({ where: { codeEIC }, raw: true });
+    const actualDetails = await GestionnaireRéseau.findOne({ where: { codeEIC }, raw: true });
     expect(actualDetails).toEqual({
       codeEIC,
       raisonSociale,

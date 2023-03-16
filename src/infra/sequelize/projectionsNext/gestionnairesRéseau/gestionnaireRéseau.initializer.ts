@@ -1,8 +1,8 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { GestionnaireRéseauDétail } from './gestionnairesRéseauDétail.model';
+import { GestionnaireRéseau } from './gestionnairesRéseau.model';
 
-export const initializeGestionnaireRéseauDétailModel = (sequelize: Sequelize) => {
-  GestionnaireRéseauDétail.init(
+export const initializeGestionnaireRéseauModel = (sequelize: Sequelize) => {
+  GestionnaireRéseau.init(
     {
       codeEIC: {
         allowNull: false,
@@ -24,7 +24,7 @@ export const initializeGestionnaireRéseauDétailModel = (sequelize: Sequelize) 
     },
     {
       sequelize,
-      tableName: 'gestionnaireRéseauDétail',
+      tableName: 'gestionnaireRéseau',
       timestamps: false,
       freezeTableName: true,
     },

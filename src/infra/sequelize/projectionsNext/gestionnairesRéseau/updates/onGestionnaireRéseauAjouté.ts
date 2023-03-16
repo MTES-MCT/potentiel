@@ -1,15 +1,39 @@
 import { logger } from '@core/utils';
-import { GestionnaireRéseauAjouté } from '@modules/gestionnaireRéseau';
 import { ProjectionEnEchec } from '@modules/shared';
-import { GestionnaireRéseauDétail } from '../gestionnairesRéseauDétail.model';
-import { GestionnaireRéseauDétailProjector } from '../gestionnaireRéseauDétail.projector';
+import { GestionnaireRéseau } from '../gestionnairesRéseau.model';
+import { GestionnaireRéseauProjector } from '../gestionnaireRéseau.projector';
+import { BaseDomainEvent, DomainEvent } from '@core/domain';
 
-export default GestionnaireRéseauDétailProjector.on(
+/**
+ * @deprecated do not use this event, we gonna delete it soon. It's here only for compatibility with the DomainEvent classes !!!
+ */
+export class GestionnaireRéseauAjouté
+  extends BaseDomainEvent<{
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
+  }>
+  implements DomainEvent
+{
+  public static type: 'GestionnaireRéseauAjouté' = 'GestionnaireRéseauAjouté';
+  public type = GestionnaireRéseauAjouté.type;
+  currentVersion = 1;
+
+  aggregateIdFromPayload(payload: {
+    codeEIC: string;
+    raisonSociale: string;
+    aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
+  }) {
+    return payload.codeEIC;
+  }
+}
+
+export default GestionnaireRéseauProjector.on(
   GestionnaireRéseauAjouté,
   async (évènement, transaction) => {
     const { payload } = évènement;
     try {
-      await GestionnaireRéseauDétail.create(payload, { transaction });
+      await GestionnaireRéseau.create(payload, { transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

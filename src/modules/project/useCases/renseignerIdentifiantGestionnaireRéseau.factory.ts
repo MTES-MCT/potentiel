@@ -10,7 +10,7 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
-import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
+//import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { Publish } from '../../../core/domain/publish';
 
 type Command = {
@@ -25,7 +25,7 @@ type Dependencies = {
   publish: Publish;
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
-  gestionnaireRéseauRepo: Repository<GestionnaireRéseau>;
+  //gestionnaireRéseauRepo: Repository<GestionnaireRéseau>;
 };
 
 type CommandHandler = (
@@ -44,19 +44,19 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   publish,
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
-  gestionnaireRéseauRepo,
-}: Dependencies): CommandHandler => {
+}: //gestionnaireRéseauRepo,
+Dependencies): CommandHandler => {
   const vérifierCodeEIC = (command: Command) => {
-    if (command.codeEICGestionnaireRéseau) {
-      return gestionnaireRéseauRepo
-        .load(new UniqueEntityID(command.codeEICGestionnaireRéseau))
-        .andThen((gestionnaire) => {
-          if (gestionnaire.codeEIC !== command.codeEICGestionnaireRéseau) {
-            return errAsync(new CodeEICNonTrouvéError());
-          }
-          return okAsync(command);
-        });
-    }
+    // if (command.codeEICGestionnaireRéseau) {
+    //   return gestionnaireRéseauRepo
+    //     .load(new UniqueEntityID(command.codeEICGestionnaireRéseau))
+    //     .andThen((gestionnaire) => {
+    //       if (gestionnaire.codeEIC !== command.codeEICGestionnaireRéseau) {
+    //         return errAsync(new CodeEICNonTrouvéError());
+    //       }
+    //       return okAsync(command);
+    //     });
+    // }
     return okAsync(command);
   };
 
