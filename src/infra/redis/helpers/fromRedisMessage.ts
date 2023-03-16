@@ -61,15 +61,21 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
   if (!EventClass) {
     throw new Error('Event class not recognized');
   }
+
   const occurredAt = new Date(Number(message.occurredAt));
+  const original = message.occurredAt
+    ? {
+        version: 1,
+        occurredAt,
+      }
+    : undefined;
+
   if (isNaN(occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp');
   }
+
   return new EventClass({
     payload: transformerISOStringEnDate(message.payload),
-    original: {
-      version: 1,
-      occurredAt,
-    },
+    original,
   });
 };

@@ -1,5 +1,5 @@
 export type RedisMessage = {
   type: string;
-  payload: { [key: string]: any };
-  occurredAt: number;
+  payload: Record<string, any>;
+  occurredAt?: number;
 };

@@ -1,6 +1,7 @@
 import { fromRedisMessage } from './fromRedisMessage';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { RedisMessage } from './RedisMessage';
+import { GestionnaireRéseauAjouté } from '@infra/sequelize/projectionsNext';
 
 describe('fromRedisMessage', () => {
   it('should deserialize a domain event from a redis message', () => {
@@ -36,5 +37,30 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
   it(`Lorsque le message retourné par Redis provient d'un event stream
       Alors le message est converti en une instance de classe de type domain event
       Et "occurredAt" est défini à la date du jour
-      `, () => {});
+      `, () => {
+    // Arrange
+    const type = GestionnaireRéseauAjouté.type;
+    const payload = {
+      codeEIC: 'codeEIC',
+      raisonSociale: 'raisonSociale',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
+      },
+    };
+    const message = {
+      type,
+      payload,
+      occurredAt: 1234,
+    };
+
+    // Act
+    const actual = fromRedisMessage(message);
+
+    // Assert
+    expect(actual).toMatchObject({
+      type,
+      payload,
+    });
+  });
 });
