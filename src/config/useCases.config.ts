@@ -98,7 +98,7 @@ import {
   importRepo,
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
-  gestionnaireRéseauRepo,
+  // gestionnaireRéseauRepo,
 } from './repos.config';
 import { sendNotification } from '@config/emails.config';
 import {
@@ -303,7 +303,7 @@ export const renseignerIdentifiantGestionnaireRéseau =
     shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
     projectRepo,
     trouverProjetsParIdentifiantGestionnaireRéseau,
-    gestionnaireRéseauRepo,
+    // gestionnaireRéseauRepo,
   });
 
 export const importProjects = makeImportProjects({

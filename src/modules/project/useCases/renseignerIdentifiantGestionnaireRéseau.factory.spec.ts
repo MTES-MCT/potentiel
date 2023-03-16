@@ -42,7 +42,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
-          gestionnaireRéseauRepo,
+          // gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -68,7 +68,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo,
+          // gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -102,7 +102,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo: fakeRepo(projet),
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
-          gestionnaireRéseauRepo,
+          // gestionnaireRéseauRepo,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -129,14 +129,14 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: '',
-            raisonSociale: '',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          // gestionnaireRéseauRepo: fakeRepo({
+          //   id: new UniqueEntityID('codeEICRenseigné'),
+          //   codeEIC: '',
+          //   raisonSociale: '',
+          //   légende: '',
+          //   format: '',
+          //   pendingEvents: [],
+          // }),
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -166,14 +166,14 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: 'codeEICRenseigné',
-            raisonSociale: 'ENEDIS',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          // gestionnaireRéseauRepo: fakeRepo({
+          //   id: new UniqueEntityID('codeEICRenseigné'),
+          //   codeEIC: 'codeEICRenseigné',
+          //   raisonSociale: 'ENEDIS',
+          //   légende: '',
+          //   format: '',
+          //   pendingEvents: [],
+          // }),
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -217,14 +217,14 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: 'codeEICRenseigné',
-            raisonSociale: 'ENEDIS',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          // gestionnaireRéseauRepo: fakeRepo({
+          //   id: new UniqueEntityID('codeEICRenseigné'),
+          //   codeEIC: 'codeEICRenseigné',
+          //   raisonSociale: 'ENEDIS',
+          //   légende: '',
+          //   format: '',
+          //   pendingEvents: [],
+          // }),
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({

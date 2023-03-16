@@ -35,6 +35,7 @@ export default GestionnaireRéseauProjector.on(
     try {
       await GestionnaireRéseau.create(payload, { transaction });
     } catch (error) {
+      console.error(error);
       logger.error(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement GestionnaireRéseauAjouté`,

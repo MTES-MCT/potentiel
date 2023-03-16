@@ -1,6 +1,6 @@
 import makeFakeProject from '../../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../../helpers';
-import { Project, Raccordements, GestionnaireRéseauDétail } from '@infra/sequelize/projectionsNext';
+import { Project, Raccordements, GestionnaireRéseau } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForProjectPage } from './getProjectDataForProjectPage';
 import { v4 as uuid } from 'uuid';
 import { User } from '@entities';
@@ -29,7 +29,7 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
       codeEICGestionnaireRéseau: 'codeEIC',
     });
 
-    await GestionnaireRéseauDétail.create({
+    await GestionnaireRéseau.create({
       codeEIC: 'codeEIC',
       raisonSociale: 'ENEDIS',
     });

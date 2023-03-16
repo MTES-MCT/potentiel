@@ -12,5 +12,5 @@ export class Raccordements extends Model<
   ptfEnvoyéePar: string | null;
   identifiantGestionnaire: string | null;
   codeEICGestionnaireRéseau?: string | null;
-  gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseau>;
+  gestionnaireRéseau?: NonAttribute<GestionnaireRéseau>;
 }

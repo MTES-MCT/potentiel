@@ -1,5 +1,5 @@
 import { UniqueEntityID } from '@core/domain';
-import { GestionnaireRéseauDétail, Project, Raccordements } from '@infra/sequelize/projectionsNext';
+import { GestionnaireRéseau, Project, Raccordements } from '@infra/sequelize/projectionsNext';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
 import * as uuid from 'uuid';
@@ -62,7 +62,7 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
       codeEICGestionnaireRéseau: 'le-code-EIC',
     });
 
-    await GestionnaireRéseauDétail.create({
+    await GestionnaireRéseau.create({
       codeEIC: 'le-code-EIC',
       raisonSociale: 'la-raison-sociale',
     });
