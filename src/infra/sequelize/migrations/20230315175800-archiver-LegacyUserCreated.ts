@@ -10,7 +10,7 @@ export default {
       await queryInterface.sequelize.query(
         `UPDATE "eventStores" SET "deletedAt" = ? WHERE type = ?`,
         {
-          type: QueryTypes.SELECT,
+          type: QueryTypes.UPDATE,
           replacements: [deletedAt, 'LegacyUserCreated'],
           transaction,
         },
