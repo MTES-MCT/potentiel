@@ -27,7 +27,7 @@ export const résuméProjetQueryHandler: RésuméProjetQueryHandler = (projectId
           include: [
             {
               model: GestionnaireRéseau,
-              as: 'gestionnaireRéseauDétail',
+              as: 'gestionnaireRéseau',
               attributes: ['codeEIC', 'raisonSociale'],
             },
           ],

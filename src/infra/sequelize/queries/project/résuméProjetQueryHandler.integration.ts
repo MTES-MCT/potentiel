@@ -16,7 +16,7 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
     await resetDatabase();
   });
 
-  it(`Lorsqu'un récupère les données pour le résumé d'un projet,
+  it(`Lorsqu'on récupère les données pour le résumé d'un projet,
       alors une liste définie de données devrait être retournée.`, async () => {
     await Project.create(fakeProjet);
     const identifiantGestionnaire = 'identifiant';

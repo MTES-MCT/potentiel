@@ -248,9 +248,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             raccordements.identifiantGestionnaire && {
               gestionnaireDeRéseau: {
                 identifiantGestionnaire: raccordements.identifiantGestionnaire,
-                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseauDétail?.codeEIC,
-                raisonSocialeGestionnaireRéseau:
-                  raccordements.gestionnaireRéseauDétail?.raisonSociale,
+                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseau?.codeEIC,
+                raisonSocialeGestionnaireRéseau: raccordements.gestionnaireRéseau?.raisonSociale,
               },
             }),
         }),
