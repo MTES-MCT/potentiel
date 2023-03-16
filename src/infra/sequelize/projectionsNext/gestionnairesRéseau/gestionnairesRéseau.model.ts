@@ -6,6 +6,6 @@ export class GestionnaireRéseau extends Model<
 > {
   codeEIC: string;
   raisonSociale: string;
-  format?: string;
-  légende?: string;
+  format: string;
+  légende: string;
 }

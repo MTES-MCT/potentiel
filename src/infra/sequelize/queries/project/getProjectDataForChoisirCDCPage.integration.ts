@@ -47,6 +47,8 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       {
         codeEIC: 'code-eic-autre-gestionnaire',
         raisonSociale: 'raison-sociale-autre-gestionnaire',
+        format: '',
+        légende: '',
       },
     ]);
 

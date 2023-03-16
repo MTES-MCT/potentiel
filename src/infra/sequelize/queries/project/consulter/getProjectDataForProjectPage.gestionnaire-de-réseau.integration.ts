@@ -32,6 +32,8 @@ describe(`Récupérer les données de consultation d'un projet`, () => {
     await GestionnaireRéseau.create({
       codeEIC: 'codeEIC',
       raisonSociale: 'ENEDIS',
+      format: '',
+      légende: '',
     });
   });
 

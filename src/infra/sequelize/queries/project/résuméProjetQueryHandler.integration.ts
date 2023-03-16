@@ -65,6 +65,8 @@ describe("Récupérer les données pour l'affichage du résumé d'un projet", ()
     await GestionnaireRéseau.create({
       codeEIC: 'le-code-EIC',
       raisonSociale: 'la-raison-sociale',
+      format: '',
+      légende: '',
     });
 
     const résultat = await résuméProjetQueryHandler(projetId);

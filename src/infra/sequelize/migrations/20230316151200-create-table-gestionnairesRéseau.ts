@@ -3,22 +3,22 @@ import { QueryInterface, DataTypes } from 'sequelize';
 module.exports = {
   async up(queryInterface: QueryInterface) {
     await queryInterface.createTable('gestionnaireRéseau', {
-      id: {
+      codeEIC: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.STRING,
       },
-      nom: {
+      raisonSociale: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       format: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       légende: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
     });
 
@@ -27,6 +27,6 @@ module.exports = {
   },
 
   async down(queryInterface: QueryInterface) {
-    await queryInterface.dropTable('gestionnaireRéseauDétail');
+    await queryInterface.dropTable('gestionnaireRéseau');
   },
 };

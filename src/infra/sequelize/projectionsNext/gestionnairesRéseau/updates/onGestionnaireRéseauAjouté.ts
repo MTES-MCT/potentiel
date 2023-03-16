@@ -31,11 +31,16 @@ export class GestionnaireRéseauAjouté
 export default GestionnaireRéseauProjector.on(
   GestionnaireRéseauAjouté,
   async (évènement, transaction) => {
-    const { payload } = évènement;
+    const {
+      payload: {
+        codeEIC,
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: { format, légende },
+      },
+    } = évènement;
     try {
-      await GestionnaireRéseau.create(payload, { transaction });
+      await GestionnaireRéseau.create({ codeEIC, format, légende, raisonSociale }, { transaction });
     } catch (error) {
-      console.error(error);
       logger.error(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement GestionnaireRéseauAjouté`,
