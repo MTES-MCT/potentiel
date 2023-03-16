@@ -117,11 +117,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       noteThresholdBy: 'category',
       noteThreshold: {
         volumeReserve: {
-          noteThreshold: 0,
-          puissanceMax: 0,
+          noteThreshold: 33.95,
+          puissanceMax: 5,
         },
         autres: {
-          noteThreshold: 0,
+          noteThreshold: 14.16,
         },
       },
     },
