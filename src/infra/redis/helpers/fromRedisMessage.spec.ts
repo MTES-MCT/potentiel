@@ -48,10 +48,10 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
         légende: '',
       },
     };
+
     const message = {
       type,
       payload,
-      occurredAt: 1234,
     };
 
     // Act
