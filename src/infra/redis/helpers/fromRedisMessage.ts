@@ -16,7 +16,7 @@ import * as DemandeAnnulationAbandonEvents from '@modules/demandeModification/de
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events';
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events';
 import * as UtilisateurEvents from '@modules/utilisateur/events';
-import { RedisMessage } from './RedisMessage';
+import { isLegacyEvent, RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
 import {
@@ -70,7 +70,7 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
     throw new Error('Event class not recognized');
   }
 
-  const original = message.occurredAt
+  const original = isLegacyEvent(message)
     ? {
         version: 1,
         occurredAt: new Date(Number(message.occurredAt)),
@@ -81,8 +81,17 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
     throw new Error('message occurredAt is not a valid timestamp');
   }
 
+  const payload = !isLegacyEvent(message)
+    ? {
+        ...transformerISOStringEnDate(message.payload),
+        streamId: message.streamId,
+      }
+    : {
+        ...transformerISOStringEnDate(message.payload),
+      };
+
   return new EventClass({
-    payload: transformerISOStringEnDate(message.payload),
+    payload,
     original,
   });
 };

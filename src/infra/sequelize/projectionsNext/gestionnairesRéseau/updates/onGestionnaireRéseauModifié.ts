@@ -7,7 +7,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain';
  */
 export class GestionnaireRéseauModifié
   extends BaseDomainEvent<{
-    codeEIC: string;
+    streamId: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
   }>
@@ -18,11 +18,11 @@ export class GestionnaireRéseauModifié
   currentVersion = 1;
 
   aggregateIdFromPayload(payload: {
-    codeEIC: string;
+    streamId: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
   }) {
-    return payload.codeEIC;
+    return payload.streamId;
   }
 }
 
@@ -31,11 +31,13 @@ export default GestionnaireRéseauProjector.on(
   async (évènement, transaction) => {
     const {
       payload: {
-        codeEIC,
+        streamId,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: { format, légende },
       },
     } = évènement;
+
+    const [, codeEIC] = streamId.split('#');
     await GestionnaireRéseau.update(
       { format, légende, raisonSociale },
       {

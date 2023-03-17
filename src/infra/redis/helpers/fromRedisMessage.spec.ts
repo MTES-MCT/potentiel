@@ -1,7 +1,7 @@
 import { fromRedisMessage } from './fromRedisMessage';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { RedisMessage } from './RedisMessage';
-import { GestionnaireRéseauAjouté } from '@infra/sequelize/projectionsNext';
+import { Event } from '@potentiel/pg-event-sourcing';
 
 describe('fromRedisMessage', () => {
   it('should deserialize a domain event from a redis message', () => {
@@ -39,7 +39,10 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
       Et "occurredAt" est défini à la date du jour
       `, () => {
     // Arrange
-    const type = GestionnaireRéseauAjouté.type;
+    const streamId = 'gestionnaireRéseau#codeEID';
+    const type = 'GestionnaireRéseauAjouté';
+    const createdAt = new Date().toISOString();
+    const version = 1;
     const payload = {
       codeEIC: 'codeEIC',
       raisonSociale: 'raisonSociale',
@@ -49,18 +52,24 @@ describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
       },
     };
 
-    const message = {
+    const event: Event = {
       type,
       payload,
+      streamId,
+      createdAt,
+      version,
     };
 
     // Act
-    const actual = fromRedisMessage(message);
+    const actual = fromRedisMessage(event);
 
     // Assert
     expect(actual).toMatchObject({
       type,
-      payload,
+      payload: {
+        ...payload,
+        streamId,
+      },
     });
   });
 });

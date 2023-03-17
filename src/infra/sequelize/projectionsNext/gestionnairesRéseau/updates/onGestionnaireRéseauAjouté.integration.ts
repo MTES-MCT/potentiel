@@ -17,6 +17,7 @@ describe('gestionnaireRéseau.onGestionnaireRéseauAjouté', () => {
     await onGestionnaireRéseauAjouté(
       new GestionnaireRéseauAjouté({
         payload: {
+          streamId: `gestionnaireRéseau#${codeEIC}`,
           codeEIC,
           raisonSociale,
           aideSaisieRéférenceDossierRaccordement: {

@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
 import { listenTo } from '@potentiel/pg-helpers';
-import { isEvent } from './event';
+import { Event, isEvent } from './event';
 
 class EventStreamEmitter extends EventEmitter {
   readonly #channel = 'new_event';
@@ -49,13 +49,13 @@ class EventStreamEmitter extends EventEmitter {
 
 let eventStreamEmitter: EventStreamEmitter;
 
-export const subscribe = async <TDomainEvent extends DomainEvent>(
+export async function subscribe<TDomainEvent extends DomainEvent = Event>(
   eventType: TDomainEvent['type'] | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
-): Promise<Unsubscribe> => {
+): Promise<Unsubscribe> {
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
   }
 
   return eventStreamEmitter.subscribe(eventType, eventHandler);
-};
+}

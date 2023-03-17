@@ -9,6 +9,7 @@ import { BaseDomainEvent, DomainEvent } from '@core/domain';
  */
 export class GestionnaireRéseauAjouté
   extends BaseDomainEvent<{
+    streamId: string;
     codeEIC: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
@@ -20,11 +21,12 @@ export class GestionnaireRéseauAjouté
   currentVersion = 1;
 
   aggregateIdFromPayload(payload: {
+    streamId: string;
     codeEIC: string;
     raisonSociale: string;
     aideSaisieRéférenceDossierRaccordement: { format: string; légende: string };
   }) {
-    return payload.codeEIC;
+    return payload.streamId;
   }
 }
 
