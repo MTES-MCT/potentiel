@@ -8,7 +8,8 @@
     "./packages/monads",
     "./packages/core-domain",
     "./packages/pg-helpers",
-    "./packages/pg-event-sourcing"
+    "./packages/pg-event-sourcing",
+    "./packages/applications/web"
   ],
   "scripts": {
     "type:check": "tsc --noEmit",
