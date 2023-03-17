@@ -338,7 +338,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               />
               <Label htmlFor="custom">Uploader une attestation</Label>
             </div>
-            <input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+            <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
           </div>
         )}
         <div className="form__group">

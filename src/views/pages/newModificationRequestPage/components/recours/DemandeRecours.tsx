@@ -1,7 +1,7 @@
 import React from 'react';
 import { dataId } from '../../../../../helpers/testId';
 
-import { Label } from '@components';
+import { Input, Label } from '@components';
 
 type DemandeRecoursProps = {
   justification: string;
@@ -21,7 +21,7 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
       defaultValue={justification || ''}
       {...dataId('modificationRequest-justificationField')}
     />
-    <label htmlFor="candidats">Pièce justificative (si nécessaire)</label>
-    <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
+    <Label htmlFor="candidats">Pièce justificative (si nécessaire)</Label>
+    <Input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
   </>
 );

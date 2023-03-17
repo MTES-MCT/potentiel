@@ -6,7 +6,7 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/demandeModification';
-import { Astérisque, ErrorBox, Label } from '@components';
+import { Astérisque, ErrorBox, Input, Label } from '@components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre, Technologie } from '@entities';
@@ -59,23 +59,35 @@ export const ChangementPuissance = ({
 
   return (
     <>
-      <label>Puissance à la notification (en {appelOffre.unitePuissance})</label>
-      <input
+      <Label htmlFor="puissance-a-la-notification">
+        Puissance à la notification (en {appelOffre.unitePuissance})
+      </Label>
+      <Input
         type="text"
         disabled
         value={puissanceInitiale}
         {...dataId('modificationRequest-presentPuissanceField')}
+        name="puissance-a-la-notification"
+        id="puissance-a-la-notification"
       />
       {puissance !== puissanceInitiale && (
         <>
-          <label>Puissance actuelle ({appelOffre?.unitePuissance})</label>
-          <input type="text" disabled value={puissance} />
+          <Label htmlFor="puissance-actuelle">
+            Puissance actuelle ({appelOffre?.unitePuissance})
+          </Label>
+          <Input
+            type="text"
+            disabled
+            value={puissance}
+            name="puissance-actuelle"
+            id="puissance-actuelle"
+          />
         </>
       )}
-      <label className="mt-4" htmlFor="puissance">
+      <Label className="mt-4" htmlFor="puissance">
         Nouvelle puissance (en {appelOffre?.unitePuissance}) <Astérisque />
-      </label>
-      <input
+      </Label>
+      <Input
         type="text"
         inputMode="numeric"
         pattern="[0-9]+([\.,][0-9]+)?"
@@ -114,11 +126,15 @@ export const ChangementPuissance = ({
           {...dataId('modificationRequest-justificationField')}
           required={!CDC2022choisi && fichierEtJustificationRequis}
         />
-        <label htmlFor="candidats" className="mt-4">
+        <Label
+          htmlFor="candidats"
+          className="mt-4"
+          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
+        >
           Courrier explicatif ou décision administrative.{' '}
           {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
-        </label>
-        <input
+        </Label>
+        <Input
           type="file"
           name="file"
           {...dataId('modificationRequest-fileField')}

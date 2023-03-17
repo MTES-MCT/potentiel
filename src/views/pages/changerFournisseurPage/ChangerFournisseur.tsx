@@ -19,6 +19,7 @@ import {
   Heading1,
   Heading2,
   ProjectProps,
+  Input,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project';
@@ -90,35 +91,49 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     <Heading2 style={{ marginTop: 15, marginBottom: 3 }}>
                       {CORRESPONDANCE_CHAMPS_FOURNISSEURS[champ]}
                     </Heading2>
-                    <label>Ancien fournisseur</label>
-                    <input type="text" disabled defaultValue={project.details?.[champ]} />
-                    <label htmlFor={champ} className="mt-2">
+                    <Label htmlFor="ancien-fournisseur">Ancien fournisseur</Label>
+                    <Input
+                      type="text"
+                      disabled
+                      defaultValue={project.details?.[champ]}
+                      name="ancien-fournisseur"
+                      id="ancien-fournisseur"
+                    />
+                    <Label htmlFor={champ} className="mt-2">
                       {champ}
-                    </label>
-                    <input type="text" name={champ.replace(/\n/g, '\\n')} id={champ} />
+                    </Label>
+                    <Input type="text" name={champ.replace(/\n/g, '\\n')} id={champ} />
                   </div>
                 );
               })}
               {project.evaluationCarbone > 0 && (
                 <div>
                   <Heading2 style={{ marginTop: 15, marginBottom: 3 }}>évaluation carbone</Heading2>
-                  <label>Évaluation carbone initiale (kg eq CO2/kWc)</label>
-                  <input
+                  <Label htmlFor='evaluation-carbone-initiale"'>
+                    Évaluation carbone initiale (kg eq CO2/kWc)
+                  </Label>
+                  <Input
                     type="number"
                     disabled
                     defaultValue={project.evaluationCarboneDeRéférence}
+                    name="evaluation-carbone-initiale"
+                    id="evaluation-carbone-initiale"
                   />
-                  <label>Évaluation carbone actuelle (kg eq CO2/kWc)</label>
-                  <input
+                  <Label htmlFor="evaluation-carbone-actuelle">
+                    Évaluation carbone actuelle (kg eq CO2/kWc)
+                  </Label>
+                  <Input
                     type="number"
                     disabled
                     defaultValue={project.evaluationCarbone}
                     {...dataId('modificationRequest-oldEvaluationCarboneField')}
+                    name="evaluation-carbone-actuelle"
+                    id="evaluation-carbone-actuelle"
                   />
-                  <label htmlFor="evaluationCarbone">
+                  <Label htmlFor="evaluationCarbone">
                     Nouvelle évaluation carbone (kg eq CO2/kWc)
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     onChange={(e) => setEvaluationCarbone(parseFloat(e.target.value))}
                     type="number"
                     name="evaluationCarbone"
@@ -136,10 +151,10 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                     )}
                 </div>
               )}
-              <label htmlFor="candidats" className="mt-6">
+              <Label htmlFor="candidats" className="mt-6">
                 Pièce-jointe
-              </label>
-              <input
+              </Label>
+              <Input
                 type="file"
                 name="file"
                 {...dataId('modificationRequest-fileField')}

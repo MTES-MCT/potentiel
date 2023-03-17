@@ -9,6 +9,7 @@ import {
   Astérisque,
   PaperClipIcon,
   Link,
+  Label,
 } from '@components';
 
 type AttachFileProps = {
@@ -57,12 +58,11 @@ export const AttachFile = ({ projectId }: AttachFileProps) => {
             <TextArea name="description" id="description" />
           </div>
           <div className="mt-2">
-            <label htmlFor="file">
+            <Label htmlFor="file" required>
               Fichier(s) à attacher
-              <Astérisque />
-            </label>
+            </Label>
             {Array.from({ length: fileCount }, (v, i) => i).map((i) => (
-              <input key={`file_${i}`} type="file" name="file" id="file" />
+              <Input key={`file_${i}`} type="file" name="file" id="file" />
             ))}
             <Link onClick={() => setFileCount(fileCount + 1)}>+ Ajouter un autre fichier</Link>
           </div>

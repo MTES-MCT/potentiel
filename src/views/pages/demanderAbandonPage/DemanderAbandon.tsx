@@ -18,6 +18,7 @@ import {
   Heading1,
   SecondaryLinkButton,
   ProjectProps,
+  Input,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -85,8 +86,8 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   defaultValue={justification || ''}
                   {...dataId('modificationRequest-justificationField')}
                 />
-                <label htmlFor="candidats">Pièce justificative</label>
-                <input
+                <Label htmlFor="file">Pièce justificative</Label>
+                <Input
                   type="file"
                   name="file"
                   {...dataId('modificationRequest-fileField')}

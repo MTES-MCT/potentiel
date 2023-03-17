@@ -4,6 +4,7 @@ import {
   ErrorBox,
   ExcelFileIcon,
   Heading1,
+  Input,
   Label,
   ListeVide,
   PageTemplate,
@@ -178,7 +179,7 @@ export const AdminNotificationCandidats = ({
           {projetsPériodeSélectionnée.itemCount > 0 && !success && (
             <div className="form__group">
               <Label htmlFor="notificationDate">Date désignation (format JJ/MM/AAAA)</Label>
-              <input
+              <Input
                 type="text"
                 name="notificationDate"
                 id="notificationDate"
