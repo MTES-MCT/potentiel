@@ -10,7 +10,8 @@
     "build": "tsc"
   }, 
   "dependencies": {
-    "@potentiel/pg-event-sourcing": "*"
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/redis-event-bus-client": "*"
   },
   "devDependencies": {
     "@potentiel/tsconfig": "*"

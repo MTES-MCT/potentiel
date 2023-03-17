@@ -19,31 +19,18 @@ if (isTestEnv) {
 } else {
   const {
     REDIS_URL,
-    REDIS_PORT,
-    REDIS_HOST,
-    REDIS_PASSWORD,
     REDIS_EVENT_BUS_STREAM_NAME,
     REDIS_EVENT_BUS_MAX_LENGTH = 10000,
   } = process.env;
 
   const isScalingoConfigOk = REDIS_URL && REDIS_EVENT_BUS_STREAM_NAME;
-  const isCleverCloudConfigOk =
-    REDIS_PORT && REDIS_HOST && REDIS_EVENT_BUS_STREAM_NAME && REDIS_PASSWORD;
 
-  if (!isScalingoConfigOk && !isCleverCloudConfigOk) {
+  if (!isScalingoConfigOk) {
     console.error('Missing REDIS env variables. Aborting.');
     process.exit(1);
   }
 
-  const redis = REDIS_URL
-    ? new Redis(REDIS_URL, { showFriendlyErrorStack: true, lazyConnect: true })
-    : new Redis({
-        port: Number(REDIS_PORT),
-        host: REDIS_HOST,
-        password: REDIS_PASSWORD,
-        showFriendlyErrorStack: true,
-        lazyConnect: true,
-      });
+  const redis = new Redis(REDIS_URL, { showFriendlyErrorStack: true, lazyConnect: true });
   redis.connect().catch((error) => {
     console.error(`Can not connect to Redis server.`);
     throw error;

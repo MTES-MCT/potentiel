@@ -9,6 +9,7 @@
     "./packages/core-domain",
     "./packages/pg-helpers",
     "./packages/pg-event-sourcing",
+    "./packages/redis-event-bus-client",
     "./packages/applications/web"
   ],
   "scripts": {
