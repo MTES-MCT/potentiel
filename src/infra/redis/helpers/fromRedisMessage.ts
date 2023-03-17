@@ -19,7 +19,10 @@ import * as UtilisateurEvents from '@modules/utilisateur/events';
 import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import { GestionnaireRéseauAjouté } from '@infra/sequelize/projectionsNext';
+import {
+  GestionnaireRéseauAjouté,
+  GestionnaireRéseauModifié,
+} from '@infra/sequelize/projectionsNext';
 
 interface EventProps {
   payload: any;
@@ -36,6 +39,7 @@ interface HasEventConstructor {
 
 const compatibilityEvents = {
   GestionnaireRéseauAjouté,
+  GestionnaireRéseauModifié,
 };
 
 const EventClassByType: Record<string, HasEventConstructor> = {
