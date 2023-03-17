@@ -90,6 +90,8 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
         ...transformerISOStringEnDate(message.payload),
       };
 
+  console.log(payload);
+
   return new EventClass({
     payload,
     original,

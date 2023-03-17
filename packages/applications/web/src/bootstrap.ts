@@ -6,10 +6,7 @@ export const bootstrap = async () => {
 
   // Second step: launch event stream subscriber
   await subscribe('all', async (event) => {
-    await publishToEventBus(event.type, {
-      type: event.type,
-      payload: event.payload,
-    });
+    await publishToEventBus(event.type, event);
   });
 
   // Third step: launch web

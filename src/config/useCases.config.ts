@@ -117,6 +117,7 @@ import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModificatio
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
 import { ajouterGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { modifierGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/modifier';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -515,6 +516,11 @@ export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
 });
 
 export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
+  publish,
+  loadAggregate,
+});
+
+export const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
   publish,
   loadAggregate,
 });
