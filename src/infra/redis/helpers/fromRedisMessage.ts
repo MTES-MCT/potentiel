@@ -34,6 +34,10 @@ interface HasEventConstructor {
   new (props: EventProps): DomainEvent;
 }
 
+const compatibilityEvents = {
+  GestionnaireRéseauAjouté,
+};
+
 const EventClassByType: Record<string, HasEventConstructor> = {
   ...ModificationRequestEvents,
   ...CandidateNotificationEvents,
@@ -52,7 +56,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
-  GestionnaireRéseauAjouté,
+  ...compatibilityEvents,
 };
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
@@ -62,15 +66,14 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
     throw new Error('Event class not recognized');
   }
 
-  const occurredAt = new Date(Number(message.occurredAt));
   const original = message.occurredAt
     ? {
         version: 1,
-        occurredAt,
+        occurredAt: new Date(Number(message.occurredAt)),
       }
     : undefined;
 
-  if (isNaN(occurredAt.getTime())) {
+  if (original && isNaN(original.occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp');
   }
 
