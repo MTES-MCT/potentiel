@@ -17,6 +17,7 @@ import { PermissionListerProjetsÀNotifier } from '@modules/notificationCandidat
 import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
+  PermissionAjouterGestionnaireRéseau,
   //PermissionAjouterGestionnaireRéseau,
 } from '@modules/gestionnaireRéseau';
 
@@ -74,7 +75,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
-        //PermissionAjouterGestionnaireRéseau,
+        PermissionAjouterGestionnaireRéseau,
       ];
     case 'dgec-validateur':
       return [
