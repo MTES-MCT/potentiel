@@ -1,15 +1,19 @@
-import { DomainEvent, DomainEventHandler } from '@potentiel/core-domain';
+import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { Event } from './event';
 import { subscribe } from './subscribe';
 import waitForExpect from 'wait-for-expect';
 
 describe(`subscribe`, () => {
+  let unsubscribe: Unsubscribe;
+
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
   beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
+
+  afterEach(() => unsubscribe());
 
   it(`Étant donnée un DomainEventHandler à l'écoute d'un type d'événement
       Lorsqu'on emet un évènement
@@ -25,7 +29,7 @@ describe(`subscribe`, () => {
 
     // Arrange
     const domainEventHandler: DomainEventHandler<Event> = jest.fn(() => Promise.resolve());
-    await subscribe(eventType, domainEventHandler);
+    unsubscribe = await subscribe(eventType, domainEventHandler);
 
     // Act
     await executeQuery(

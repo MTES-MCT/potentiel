@@ -12,4 +12,9 @@ export const listenTo = (channel: string, eventEmitter: EventEmitter) => {
       client.query(`LISTEN ${channel}`);
     }
   });
+
+  return async () => {
+    await client.query(`UNLISTEN ${channel}`);
+    await client.end();
+  };
 };

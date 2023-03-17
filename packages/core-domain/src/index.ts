@@ -6,4 +6,4 @@ export { CommandHandler } from './commandHandler';
 export { DomainEvent } from './domainEvent';
 export { DomainEventHandler } from './domainEventHandler';
 export { Publish } from './publish';
-export { Subscribe } from './subscribe';
+export { Subscribe, Unsubscribe } from './subscribe';
