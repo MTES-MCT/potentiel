@@ -1,18 +1,16 @@
-import Redis from 'ioredis';
 import { publishToEventBus } from './publishToEventBus';
+import { useRedis } from './useRedis';
 
 const streamName = 'potentiel_event_bus';
-const redis = new Redis(6380);
 
 describe('redisPublish', () => {
-  beforeEach(async () => {
-    await redis.del(streamName);
-    process.env.REDIS_URL = 'redis://localhost:6380';
-    process.env.REDIS_EVENT_BUS_STREAM_NAME = streamName;
-  });
+  process.env.REDIS_URL = 'redis://localhost:6380';
+  process.env.REDIS_EVENT_BUS_STREAM_NAME = streamName;
 
-  afterAll(async () => {
-    await redis.quit();
+  beforeEach(async () => {
+    await useRedis(async (redisClient) => {
+      await redisClient.del(streamName);
+    });
   });
 
   describe('when publishing an value', () => {
@@ -22,11 +20,14 @@ describe('redisPublish', () => {
         test: 'this a test value',
       };
 
-      await publishToEventBus(redis)(key, value);
+      await publishToEventBus(key, value);
 
-      const results = await redis.xread('STREAMS', streamName, '0');
+      let results: [string, [string, string[]][]][];
+      await useRedis(async (redisClient) => {
+        results = await redisClient.xread('STREAMS', streamName, '0');
+      });
 
-      const [actualStreamName, actualEntries] = results[0];
+      const [actualStreamName, actualEntries] = results![0];
       expect(actualStreamName).toEqual(streamName);
       expect(actualEntries).toHaveLength(1);
 
