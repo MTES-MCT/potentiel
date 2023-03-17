@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
+import { DomainEvent, DomainEventHandler, Subscribe, Unsubscribe } from '@potentiel/core-domain';
 import { listenTo } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
 
@@ -24,11 +24,10 @@ class EventStreamEmitter extends EventEmitter {
     }
 
     const listener = async (payload: string) => {
-      const event = JSON.parse(payload);
+      const event = JSON.parse(payload) as TDomainEvent;
       if (isEvent(event)) {
         if (eventType === 'all' || event.type === eventType) {
-          const { version, createdAt, streamId, ...domainEvent } = event;
-          await eventHandler(domainEvent as TDomainEvent);
+          await eventHandler(event);
         }
       } else {
         // TODO use logger here if event is unknwon (warn)
@@ -59,3 +58,5 @@ export async function subscribe<TDomainEvent extends DomainEvent = Event>(
 
   return eventStreamEmitter.subscribe(eventType, eventHandler);
 }
+
+const test: Subscribe = subscribe;
