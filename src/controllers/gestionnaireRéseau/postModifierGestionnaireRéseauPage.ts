@@ -23,22 +23,19 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response, error, errors }) => {
+      onError: ({ request, response, errors }) =>
         response.redirect(
           addQueryParams(routes.GET_DETAIL_GESTIONNAIRE_RESEAU(request.params.codeEIC), {
             ...request.body,
-            error,
             errors: JSON.stringify(errors),
           }),
-        );
-      },
+        ),
     },
     async (request, response) => {
       const {
         body: { format = '', légende = '', raisonSociale },
         params: { codeEIC },
       } = request;
-      console.log(codeEIC);
       try {
         await modifierGestionnaireRéseau({
           codeEIC,
@@ -46,7 +43,7 @@ v1Router.post(
           raisonSociale,
         });
         response.redirect(
-          addQueryParams(routes.GET_DETAIL_GESTIONNAIRE_RESEAU(codeEIC), {
+          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
             success: 'Le gestionnaire a bien été modifié.',
           }),
         );

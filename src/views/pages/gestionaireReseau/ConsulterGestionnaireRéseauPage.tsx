@@ -17,11 +17,13 @@ import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisie
 type ConsulterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
   gestionnaireRéseau: ConsulterGestionnaireRéseauReadModel;
+  erreurValidation?: Record<string, string>;
 };
 
 export const ConsulterGestionnaireRéseau = ({
   utilisateur,
   gestionnaireRéseau: { raisonSociale, format, légende, codeEIC },
+  erreurValidation,
 }: ConsulterGestionnaireRéseauProps) => (
   <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>
     <div className="panel">
@@ -41,11 +43,11 @@ export const ConsulterGestionnaireRéseau = ({
             </Label>
             <Input
               type="text"
-              // error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
               id="raisonSociale"
               name="raisonSociale"
               defaultValue={raisonSociale || ''}
               required
+              error={erreurValidation ? erreurValidation['error-body.raisonSociale'] : undefined}
             />
           </div>
           <ChampsAideALaSaisieIdentifiant format={format} légende={légende} />
