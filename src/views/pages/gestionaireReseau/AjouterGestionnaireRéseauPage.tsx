@@ -12,6 +12,7 @@ import {
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
 import routes from '@routes';
+import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
 
 type AjouterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
@@ -57,14 +58,7 @@ export const AjouterGestionnaireRéseau = ({
               required
             />
           </div>
-          <div>
-            <Label htmlFor="format">Format</Label>
-            <Input type="text" id="format" name="format" />
-          </div>
-          <div>
-            <Label htmlFor="légende">Légende</Label>
-            <Input type="text" id="légende" name="légende" />
-          </div>
+          <ChampsAideALaSaisieIdentifiant />
         </div>
         <Button type="submit" className="mt-4 mr-3">
           Ajouter
