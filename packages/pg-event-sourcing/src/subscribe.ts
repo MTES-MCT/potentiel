@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { DomainEvent, DomainEventHandler, Subscribe, Unsubscribe } from '@potentiel/core-domain';
+import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
 import { listenTo } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
 
@@ -58,5 +58,3 @@ export async function subscribe<TDomainEvent extends DomainEvent = Event>(
 
   return eventStreamEmitter.subscribe(eventType, eventHandler);
 }
-
-const test: Subscribe = subscribe;
