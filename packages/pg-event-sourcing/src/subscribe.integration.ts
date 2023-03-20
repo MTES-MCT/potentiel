@@ -58,8 +58,11 @@ describe(`subscribe`, () => {
     await waitForExpect(() => {
       // Assert
       const expected: DomainEvent = {
+        createdAt,
         type: eventType,
         payload,
+        streamId,
+        version,
       };
 
       expect(domainEventHandler).toHaveBeenCalledWith(expected);

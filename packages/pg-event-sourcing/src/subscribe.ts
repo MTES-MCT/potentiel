@@ -1,7 +1,8 @@
 import { EventEmitter } from 'events';
 import { DomainEvent, DomainEventHandler, Unsubscribe } from '@potentiel/core-domain';
-import { listenTo } from '@potentiel/pg-helpers';
+import { getConnectionString } from '@potentiel/pg-helpers';
 import { Event, isEvent } from './event';
+import { Client } from 'pg';
 
 class EventStreamEmitter extends EventEmitter {
   readonly #channel = 'new_event';
@@ -14,12 +15,12 @@ class EventStreamEmitter extends EventEmitter {
     this.#unlisten = () => Promise.reject(new Error('EventStream emmitter is not listenning.'));
   }
 
-  subscribe<TDomainEvent extends DomainEvent>(
+  async subscribe<TDomainEvent extends DomainEvent>(
     eventType: TDomainEvent['type'] | 'all',
     eventHandler: DomainEventHandler<TDomainEvent>,
   ) {
     if (!this.#isListening) {
-      this.#unlisten = listenTo(this.#channel, eventStreamEmitter);
+      this.#unlisten = listenToNewEvent(eventStreamEmitter);
       this.#isListening = true;
     }
 
@@ -48,13 +49,30 @@ class EventStreamEmitter extends EventEmitter {
 
 let eventStreamEmitter: EventStreamEmitter;
 
-export async function subscribe<TDomainEvent extends DomainEvent = Event>(
+export const subscribe = async <TDomainEvent extends DomainEvent = Event>(
   eventType: TDomainEvent['type'] | 'all',
   eventHandler: DomainEventHandler<TDomainEvent>,
-): Promise<Unsubscribe> {
+): Promise<Unsubscribe> => {
   if (!eventStreamEmitter) {
     eventStreamEmitter = new EventStreamEmitter();
   }
 
   return eventStreamEmitter.subscribe(eventType, eventHandler);
-}
+};
+
+export const listenToNewEvent = (eventEmitter: EventEmitter) => {
+  const client = new Client(getConnectionString());
+  client.connect((err) => {
+    if (!err) {
+      client.on('notification', (notification) => {
+        eventEmitter.emit(notification.channel, notification.payload);
+      });
+      client.query(`LISTEN new_event`);
+    }
+  });
+
+  return async () => {
+    await client.query(`UNLISTEN new_event`);
+    await client.end();
+  };
+};

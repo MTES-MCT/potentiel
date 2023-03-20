@@ -5,6 +5,7 @@
     "declaration": true
   },
   "include": [
-    "src"
+    "src",
+    "../pg-event-sourcing/src/listenTo.ts"
   ]
 }
