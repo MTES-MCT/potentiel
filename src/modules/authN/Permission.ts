@@ -18,7 +18,7 @@ import {
   PermissionListerGestionnairesRéseau,
   PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
-  //PermissionAjouterGestionnaireRéseau,
+  PermissionModifierGestionnaireRéseau,
 } from '@modules/gestionnaireRéseau';
 
 export type Permission = {
@@ -76,6 +76,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
+        PermissionModifierGestionnaireRéseau,
       ];
     case 'dgec-validateur':
       return [
@@ -90,7 +91,8 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
-        //PermissionAjouterGestionnaireRéseau,
+        PermissionAjouterGestionnaireRéseau,
+        PermissionModifierGestionnaireRéseau,
       ];
     case 'acheteur-obligé':
     case 'ademe':

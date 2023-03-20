@@ -7,7 +7,8 @@ import { addQueryParams } from '../../helpers/addQueryParams';
 import { modifierGestionnaireRéseau } from '@config';
 import { GestionnaireRéseauInconnuError } from '@modules/gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
 import { logger } from '@core/utils';
-import { errorResponse } from '../helpers';
+import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { PermissionModifierGestionnaireRéseau } from '@modules/gestionnaireRéseau/modifier/modifierGestionnaireRéseau.command';
 
 const schema = yup.object({
   body: yup.object({
@@ -19,7 +20,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_MODIFIER_GESTIONNAIRE_RESEAU(),
-  // vérifierPermissionUtilisateur(PermissionAjouterGestionnaireRéseau),
+  vérifierPermissionUtilisateur(PermissionModifierGestionnaireRéseau),
   safeAsyncHandler(
     {
       schema,
