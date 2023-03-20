@@ -5,6 +5,7 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "workspaces": [
+    "./packages/logger",
     "./packages/monads",
     "./packages/core-domain",
     "./packages/pg-helpers",
@@ -111,6 +112,7 @@
     "util": "^0.12.5",
     "utility-types": "^3.10.0",
     "uuid": "^9.0.0",
+    "winston": "^3.8.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
