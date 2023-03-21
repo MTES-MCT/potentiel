@@ -1,4 +1,12 @@
-import { Button, Input, InputCheckbox, Label, ListeVide, PaginationPanel } from '@components';
+import {
+  Button,
+  InfoBox,
+  Input,
+  InputCheckbox,
+  Label,
+  ListeVide,
+  PaginationPanel,
+} from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
@@ -197,28 +205,29 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <select name="projectIds" multiple {...dataId('claimed-project-list')} className="hidden" />
 
-        <div className="my-8">
-          <label className="notification align-middle inline-block" htmlFor="swornStatement">
+        <InfoBox className="my-8">
+          <Label htmlFor="swornStatement">
             <InputCheckbox
               name="swornStatement"
               id="swornStatement"
               {...dataId('sworn-statement')}
+              className="mr-1"
             />
             J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
             poursuites judiciaires.
-            <Button
-              className="button"
-              type="submit"
-              name="submit"
-              id="submit"
-              disabled
-              {...dataId('claim-projects-submit-button')}
-            >
-              Réclamer la propriété des projets sélectionnés
-            </Button>
-          </label>
-        </div>
+          </Label>
+        </InfoBox>
+        <Button
+          type="submit"
+          name="submit"
+          id="submit"
+          disabled
+          {...dataId('claim-projects-submit-button')}
+          className="my-1"
+        >
+          Réclamer la propriété des projets sélectionnés
+        </Button>
       </form>
 
       {!Array.isArray(projects) && (

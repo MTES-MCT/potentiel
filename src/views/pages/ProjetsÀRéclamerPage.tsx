@@ -8,6 +8,7 @@ import {
   BarreDeRecherche,
   ErrorBox,
   Heading1,
+  InfoBox,
   Label,
   Link,
   ListeVide,
@@ -60,16 +61,14 @@ export const ProjetsÀRéclamer = ({
       <div className="panel">
         <div className="panel__header">
           <Heading1>Projets à réclamer</Heading1>
-          <div className="notification">
-            <span>
-              Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
-              projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.
-              <br />
-              Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de
-              référence tel qu'il figure dans votre attestation de désignation, ainsi que le numéro
-              CRE puis téléversez l’attestation de désignation.
-            </span>
-          </div>
+          <InfoBox>
+            Pour ajouter un projet en attente d'affectation à votre suivi de projets (onglet "Mes
+            projets"), sélectionnez-le, qu’il vous soit pré-affecté ou non.
+            <br />
+            Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de référence
+            tel qu'il figure dans votre attestation de désignation, ainsi que le numéro CRE puis
+            téléversez l’attestation de désignation.
+          </InfoBox>
           <form
             action={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
             method="GET"
