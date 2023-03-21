@@ -1,4 +1,12 @@
-import { InputCheckbox, PaginationPanel } from '@components';
+import {
+  AlertBox,
+  Button,
+  Input,
+  InputCheckbox,
+  Label,
+  ListeVide,
+  PaginationPanel,
+} from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
@@ -20,102 +28,98 @@ type Columns =
 type ColumnRenderer = (props: { project: Project; email: User['email'] }) => React.ReactNode;
 
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
-  Projet: function ProjetColumn({ project }) {
-    return (
-      <td valign="top" className="missingOwnerProjectList-projet-column">
-        <div {...dataId('missingOwnerProjectList-item-nomProjet')}>{project.nomProjet}</div>
-        <div className="italic text-xs">
-          <div>{project.departementProjet}</div>
-          <div>{project.nomCandidat}</div>
-          <div>
-            {project.appelOffreId} - {project.periodeId}
-          </div>
+  Projet: ({ project }) => (
+    <td valign="top" className="missingOwnerProjectList-projet-column">
+      <div {...dataId('missingOwnerProjectList-item-nomProjet')}>{project.nomProjet}</div>
+      <div className="italic text-xs">
+        <div>{project.departementProjet}</div>
+        <div>{project.nomCandidat}</div>
+        <div>
+          {project.appelOffreId} - {project.periodeId}
         </div>
-      </td>
-    );
-  } as ColumnRenderer,
-  Candidat: function CandidatColumn({ project }) {
-    return (
-      <td valign="top" className="projectList-candidat-column">
-        <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
-        <div className="italic text-xs">
-          <span {...dataId('projectList-item-nomRepresentantLegal')}>
-            {project.nomRepresentantLegal}
-          </span>{' '}
-          <span {...dataId('projectList-item-email')}>{project.email}</span>
-        </div>
-      </td>
-    );
-  } as ColumnRenderer,
-  Puissance: function PuissanceColumn({ project }) {
-    return (
-      <td valign="top" className="projectList-puissance-column">
-        <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
-        <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
-      </td>
-    );
-  } as ColumnRenderer,
-  Region: function RegionColumn({ project }) {
-    return (
-      <td valign="top" className="projectList-puissance-column">
-        <span {...dataId('projectList-item-region')}>{project.regionProjet}</span>{' '}
-      </td>
-    );
-  } as ColumnRenderer,
-  'Projet pre-affecte': function ProjectPreAffecteColumn({ project, email }) {
-    return (
-      <td valign="top" className="projectList-projet-pre-affecte-column">
-        <span {...dataId('projectList-item-pre-affecte')}>
-          {project.email === email ? 'Oui' : 'Non'}
-        </span>
-      </td>
-    );
-  } as ColumnRenderer,
-  'N° CRE': function NumeroCREColumn({ project, email }) {
-    return email === project.email ? (
-      ''
-    ) : (
+      </div>
+    </td>
+  ),
+  Candidat: ({ project }) => (
+    <td valign="top" className="projectList-candidat-column">
+      <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
+      <div className="italic text-xs">
+        <span {...dataId('projectList-item-nomRepresentantLegal')}>
+          {project.nomRepresentantLegal}
+        </span>{' '}
+        <span {...dataId('projectList-item-email')}>{project.email}</span>
+      </div>
+    </td>
+  ),
+  Puissance: ({ project }) => (
+    <td valign="top" className="projectList-puissance-column">
+      <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+      <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
+    </td>
+  ),
+  Region: ({ project }) => (
+    <td valign="top" className="projectList-puissance-column">
+      <span {...dataId('projectList-item-region')}>{project.regionProjet}</span>{' '}
+    </td>
+  ),
+  'Projet pre-affecte': ({ project, email }) => (
+    <td valign="top" className="projectList-projet-pre-affecte-column">
+      <span {...dataId('projectList-item-pre-affecte')}>
+        {project.email === email ? 'Oui' : 'Non'}
+      </span>
+    </td>
+  ),
+  'N° CRE': ({ project, email }) =>
+    email !== project.email ? (
       <td valign="top" className="projectList-numero-cre-column">
-        <input
+        <Label htmlFor={`numeroCRE|${project.id}`} className="mb-1">
+          Renseigner le numéro CRE
+        </Label>
+        <Input
           type="text"
+          id={`numeroCRE|${project.id}`}
           name={`numeroCRE|${project.id}`}
           placeholder="N° CRE"
           className="min-w-[110px]"
         />
       </td>
-    );
-  } as ColumnRenderer,
-  Prix: function PrixColumn({ project, email }) {
-    return email === project.email ? (
-      ''
     ) : (
+      <td>--</td>
+    ),
+  Prix: ({ project, email }) =>
+    email !== project.email ? (
       <td valign="top" className="projectList-prix-column">
-        <input
+        <Label htmlFor={`prix|${project.id}`} className="mb-1">
+          Renseigner le prix (€/MWh)
+        </Label>
+        <Input
           type="number"
           step="any"
+          id={`prix|${project.id}`}
           name={`prix|${project.id}`}
           placeholder="0.00"
           className="min-w-[110px]"
-        />{' '}
-        €/MWh
+        />
       </td>
-    );
-  } as ColumnRenderer,
-  'Attestation de designation': function AttestationDesignationColumn({ project, email }) {
-    return email === project.email ? (
-      ''
     ) : (
+      <td>--</td>
+    ),
+  'Attestation de designation': ({ project, email }) =>
+    email !== project.email ? (
       <td valign="top" className="projectList-attestation-designation-column">
-        <span>
-          <input
-            type="file"
-            name={`attestation-designation|${project.id}`}
-            className="min-w-[110px]"
-          />
-        </span>
+        <Label htmlFor={`attestation-designation|${project.id}`} className="mb-1">
+          Ajouter l'attestation de désignation
+        </Label>
+        <Input
+          type="file"
+          id={`attestation-designation|${project.id}`}
+          name={`attestation-designation|${project.id}`}
+          className="min-w-[110px]"
+        />
       </td>
-    );
-  } as ColumnRenderer,
+    ) : (
+      <td>--</td>
+    ),
 };
 
 interface Props {
@@ -135,15 +139,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
   }
 
   if (!items.length) {
-    return (
-      <table className="table">
-        <tbody>
-          <tr>
-            <td>Aucun projet à lister</td>
-          </tr>
-        </tbody>
-      </table>
-    );
+    return <ListeVide titre="Aucun projet à lister" />;
   }
 
   return (
@@ -165,7 +161,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                   <th key={column}>
                     <a className="tooltip">
                       (?)
-                      <img src="/images/numeroCRE_tooltip.png" className="tooltiptext"></img>
+                      <img src="/images/numeroCRE_tooltip.jpg" className="tooltiptext w-[700px]" />
                     </a>
                     &nbsp;
                     {column}
@@ -209,28 +205,29 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <select name="projectIds" multiple {...dataId('claimed-project-list')} className="hidden" />
 
-        <div className="my-8">
-          <label className="notification align-middle inline-block" htmlFor="swornStatement">
+        <AlertBox className="my-8">
+          <Label htmlFor="swornStatement">
             <InputCheckbox
               name="swornStatement"
               id="swornStatement"
               {...dataId('sworn-statement')}
+              className="mr-1"
             />
             J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
             poursuites judiciaires.
-            <button
-              className="button"
-              type="submit"
-              name="submit"
-              id="submit"
-              disabled
-              {...dataId('claim-projects-submit-button')}
-            >
-              Réclamer la propriété des projets sélectionnés
-            </button>
-          </label>
-        </div>
+          </Label>
+        </AlertBox>
+        <Button
+          type="submit"
+          name="submit"
+          id="submit"
+          disabled
+          {...dataId('claim-projects-submit-button')}
+          className="my-1"
+        >
+          Réclamer la propriété des projets sélectionnés
+        </Button>
       </form>
 
       {!Array.isArray(projects) && (
