@@ -304,7 +304,7 @@ export const renseignerIdentifiantGestionnaireRéseau =
     shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
     projectRepo,
     trouverProjetsParIdentifiantGestionnaireRéseau,
-    // gestionnaireRéseauRepo,
+    loadAggregate,
   });
 
 export const importProjects = makeImportProjects({

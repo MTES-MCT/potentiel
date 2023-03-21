@@ -13,7 +13,9 @@ export type GestionnaireRéseauState = {
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement?: { format: string; légende: string };
 };
-type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
+export type GestionnaireRéseauEvent =
+  | GestionnaireRéseauModifiéEvent
+  | GestionnaireRéseauAjoutéEvent;
 
 const defaultAggregateState: GestionnaireRéseauState = {
   raisonSociale: '',
