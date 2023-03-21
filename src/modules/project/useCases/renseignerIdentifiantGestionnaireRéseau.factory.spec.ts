@@ -8,7 +8,7 @@ import {
   LoadAggregate,
 } from '@potentiel/core-domain';
 import { loadAggregate } from '@potentiel/pg-event-sourcing';
-import { Option } from '@potentiel/monads';
+import { none, Option } from '@potentiel/monads';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError } from '../../shared';
@@ -21,7 +21,11 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { renseignerIdentifiantGestionnaireRéseauFactory } from './renseignerIdentifiantGestionnaireRéseau.factory';
-import { GestionnaireRéseauEvent, GestionnaireRéseauState } from '@modules/gestionnaireRéseau';
+import {
+  createGestionnaireRéseauAggregateId,
+  GestionnaireRéseauEvent,
+  GestionnaireRéseauState,
+} from '@modules/gestionnaireRéseau';
 
 describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -32,10 +36,15 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
     id: projetId,
   } as Project);
 
+  const codeEICInconnu = 'codeEICInconnu';
+
   const fakeLoadGestionnaireRéseau = (
     aggregateId: AggregateId,
     aggregateStateFactory: AggregateStateFactory<GestionnaireRéseauState, GestionnaireRéseauEvent>,
   ): Promise<Option<Aggregate & GestionnaireRéseauState>> => {
+    if (aggregateId === createGestionnaireRéseauAggregateId(codeEICInconnu)) {
+      return Promise.resolve(none);
+    }
     const aggregate = aggregateStateFactory([
       {
         type: 'GestionnaireRéseauAjouté',
@@ -168,7 +177,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
         projetId: projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau: 'ID_GES_RES',
-        codeEICGestionnaireRéseau: 'codeEICRenseigné',
+        codeEICGestionnaireRéseau: codeEICInconnu,
       });
 
       expect(résulat.isErr()).toBe(true);
