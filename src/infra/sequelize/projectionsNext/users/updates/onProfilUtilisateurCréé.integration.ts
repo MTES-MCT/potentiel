@@ -18,7 +18,7 @@ describe(`Handler onProfilUtilisateurCréé`, () => {
       await User.create({ id, email, role, état: 'invité' });
 
       const événement = new ProfilUtilisateurCréé({
-        payload: { prénom, nom, email, role },
+        payload: { prénom, nom, email, role, fonction: undefined },
       });
 
       await onProfilUtilisateurCréé(événement);

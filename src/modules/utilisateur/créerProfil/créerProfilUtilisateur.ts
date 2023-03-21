@@ -19,23 +19,20 @@ type Commande = {
 export const makeCréerProfilUtilisateur =
   ({ utilisateurRepo, publishToEventStore }: Dépendances) =>
   ({ email, nom, prénom, fonction }: Commande) =>
-    utilisateurRepo.transaction(
-      new UniqueEntityID(email),
-      (utilisateur) => {
-        if (utilisateur.statut === 'créé') {
-          return errAsync(new ProfilDéjàExistantError({ email, role: utilisateur.role }));
-        }
-        return publishToEventStore(
-          new ProfilUtilisateurCréé({
-            payload: {
-              email,
-              role: utilisateur.role || 'porteur-projet',
-              nom,
-              prénom,
-              fonction,
-            },
-          }),
-        );
-      },
-      { acceptNew: true },
-    );
+    utilisateurRepo.transaction(new UniqueEntityID(email), (utilisateur) => {
+      if (utilisateur.statut === 'créé') {
+        return errAsync(new ProfilDéjàExistantError({ email, role: utilisateur.role }));
+      }
+
+      return publishToEventStore(
+        new ProfilUtilisateurCréé({
+          payload: {
+            email,
+            role: utilisateur.role || 'porteur-projet',
+            nom,
+            prénom,
+            fonction,
+          },
+        }),
+      );
+    });
