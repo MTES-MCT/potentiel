@@ -1,4 +1,5 @@
-import onGestionnaireRéseauAjouté, { GestionnaireRéseauAjouté } from './onGestionnaireRéseauAjouté';
+import onGestionnaireRéseauAjouté from './onGestionnaireRéseauAjouté';
+import { GestionnaireRéseauAjouté } from './gestionnaireRéseauAjouté.deprecated';
 import { resetDatabase } from '../../../helpers';
 import { GestionnaireRéseau } from '@infra/sequelize/projectionsNext';
 

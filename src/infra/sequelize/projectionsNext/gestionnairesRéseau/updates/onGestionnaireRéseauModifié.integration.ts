@@ -1,8 +1,7 @@
 import { resetDatabase } from '../../../helpers';
 import { GestionnaireRéseau } from '@infra/sequelize/projectionsNext';
-import onGestionnaireRéseauModifié, {
-  GestionnaireRéseauModifié,
-} from './onGestionnaireRéseauModifié';
+import onGestionnaireRéseauModifié from './onGestionnaireRéseauModifié';
+import { GestionnaireRéseauModifié } from './gestionnaireRéseauModifié.deprecated';
 
 describe('gestionnaireRéseau.onGestionnaireRéseauModifié', () => {
   beforeEach(resetDatabase);

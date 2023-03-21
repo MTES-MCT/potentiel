@@ -33,7 +33,7 @@ describe('redisPublish', () => {
       expect(actualStreamName).toEqual(streamName);
       expect(actualEntries).toHaveLength(1);
 
-      const [actualEntryId, [actualKey, actualValue]] = actualEntries[0];
+      const [, [actualKey, actualValue]] = actualEntries[0];
 
       expect(actualKey).not.toBeNull();
       expect(actualKey).toEqual(key);

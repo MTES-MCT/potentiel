@@ -19,10 +19,8 @@ import * as UtilisateurEvents from '@modules/utilisateur/events';
 import { isLegacyEvent, RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import {
-  GestionnaireRéseauAjouté,
-  GestionnaireRéseauModifié,
-} from '@infra/sequelize/projectionsNext';
+import { GestionnaireRéseauAjouté } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauAjouté.deprecated';
+import { GestionnaireRéseauModifié } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauModifié.deprecated';
 
 interface EventProps {
   payload: any;
