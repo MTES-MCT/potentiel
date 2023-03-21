@@ -1,6 +1,6 @@
 import {
+  AlertBox,
   Button,
-  InfoBox,
   Input,
   InputCheckbox,
   Label,
@@ -205,7 +205,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
 
         <select name="projectIds" multiple {...dataId('claimed-project-list')} className="hidden" />
 
-        <InfoBox className="my-8">
+        <AlertBox className="my-8">
           <Label htmlFor="swornStatement">
             <InputCheckbox
               name="swornStatement"
@@ -217,7 +217,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
             poursuites judiciaires.
           </Label>
-        </InfoBox>
+        </AlertBox>
         <Button
           type="submit"
           name="submit"
