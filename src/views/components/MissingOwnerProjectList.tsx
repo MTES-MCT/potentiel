@@ -1,4 +1,4 @@
-import { Input, InputCheckbox, Label, ListeVide, PaginationPanel } from '@components';
+import { Button, Input, InputCheckbox, Label, ListeVide, PaginationPanel } from '@components';
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
@@ -153,7 +153,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                   <th key={column}>
                     <a className="tooltip">
                       (?)
-                      <img src="/images/numeroCRE_tooltip.png" className="tooltiptext"></img>
+                      <img src="/images/numeroCRE_tooltip.jpg" className="tooltiptext w-[700px]" />
                     </a>
                     &nbsp;
                     {column}
@@ -207,7 +207,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
             J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
             projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
             poursuites judiciaires.
-            <button
+            <Button
               className="button"
               type="submit"
               name="submit"
@@ -216,7 +216,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               {...dataId('claim-projects-submit-button')}
             >
               Réclamer la propriété des projets sélectionnés
-            </button>
+            </Button>
           </label>
         </div>
       </form>
