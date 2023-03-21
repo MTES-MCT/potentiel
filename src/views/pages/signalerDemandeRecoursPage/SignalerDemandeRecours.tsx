@@ -10,6 +10,7 @@ import {
   SecondaryLinkButton,
   Label,
   FormulaireChampsObligatoireLégende,
+  TextArea,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
@@ -100,11 +101,11 @@ export const SignalerDemandeRecours = ({
 
           <div>
             <Label htmlFor="notes">Notes</Label>
-            <textarea
+            <TextArea
               className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
               name="notes"
               id="notes"
-            ></textarea>
+            />
           </div>
           <div className="m-auto flex gap-4">
             <Button type="submit">Enregistrer</Button>

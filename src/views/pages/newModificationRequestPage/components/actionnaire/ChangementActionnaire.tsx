@@ -1,4 +1,4 @@
-import { Input, Label } from '@components';
+import { Input, Label, TextArea } from '@components';
 import React from 'react';
 import { dataId } from '../../../../../helpers/testId';
 
@@ -47,7 +47,7 @@ export const ChangementActionnaire = ({
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
     </Label>
-    <textarea
+    <TextArea
       name="justification"
       id="justification"
       defaultValue={justification || ''}

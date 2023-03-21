@@ -6,7 +6,7 @@ import {
   exceedsRatiosChangementPuissance,
   exceedsPuissanceMaxDuVolumeReserve,
 } from '@modules/demandeModification';
-import { Astérisque, ErrorBox, Input, Label } from '@components';
+import { Astérisque, ErrorBox, Input, Label, TextArea } from '@components';
 import { AlertePuissanceMaxDepassee } from './AlertePuissanceMaxDepassee';
 import { AlertePuissanceHorsRatios } from './AlertePuissanceHorsRatios';
 import { ProjectAppelOffre, Technologie } from '@entities';
@@ -119,12 +119,12 @@ export const ChangementPuissance = ({
           conduit à ce besoin de modification (contexte, facteurs extérieurs, etc){' '}
           {!CDC2022choisi && fichierEtJustificationRequis && <Astérisque />}
         </Label>
-        <textarea
+        <TextArea
           name="justification"
           id="justification"
           defaultValue={justification || ''}
           {...dataId('modificationRequest-justificationField')}
-          required={!CDC2022choisi && fichierEtJustificationRequis}
+          required={!CDC2022choisi && fichierEtJustificationRequis ? true : undefined}
         />
         <Label
           htmlFor="candidats"

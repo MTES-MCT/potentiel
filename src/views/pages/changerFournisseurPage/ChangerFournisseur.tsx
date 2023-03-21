@@ -20,6 +20,7 @@ import {
   Heading2,
   ProjectProps,
   Input,
+  TextArea,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { CHAMPS_FOURNISSEURS, CORRESPONDANCE_CHAMPS_FOURNISSEURS } from '@modules/project';
@@ -166,7 +167,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
                 Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant
                 conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
               </Label>
-              <textarea
+              <TextArea
                 name="justification"
                 id="justification"
                 defaultValue={justification || ''}

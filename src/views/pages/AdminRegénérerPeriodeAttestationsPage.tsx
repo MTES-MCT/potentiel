@@ -12,6 +12,7 @@ import {
   PageTemplate,
   Select,
   SuccessBox,
+  TextArea,
 } from '@components';
 import { hydrateOnClient } from '../helpers';
 
@@ -131,11 +132,11 @@ export const AdminRegénérerPeriodeAttestations = ({
             </div>
           </div>
           <div className="form__group">
-            <label htmlFor="forceCertificateGeneration">
+            <Label htmlFor="forceCertificateGeneration">
               Message justificatif du changement (facultatif, sera inclus dans le mail aux porteurs
               de projet)
-            </label>
-            <textarea name="reason" defaultValue={reason} />
+            </Label>
+            <TextArea name="forceCertificateGeneration" defaultValue={reason} />
           </div>
 
           <Button

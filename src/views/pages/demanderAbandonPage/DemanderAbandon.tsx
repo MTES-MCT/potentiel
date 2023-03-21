@@ -19,6 +19,7 @@ import {
   SecondaryLinkButton,
   ProjectProps,
   Input,
+  TextArea,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 
@@ -80,7 +81,7 @@ export const DemanderAbandon = ({ request, project, appelOffre }: DemanderAbando
                   Pour faciliter le traitement de votre demande, veillez à détailler les raisons
                   ayant conduit à ce besoin de modification (contexte, facteurs extérieurs, etc)
                 </Label>
-                <textarea
+                <TextArea
                   name="justification"
                   id="justification"
                   defaultValue={justification || ''}

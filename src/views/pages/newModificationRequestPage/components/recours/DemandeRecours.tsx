@@ -1,7 +1,7 @@
 import React from 'react';
 import { dataId } from '../../../../../helpers/testId';
 
-import { Input, Label } from '@components';
+import { Input, Label, TextArea } from '@components';
 
 type DemandeRecoursProps = {
   justification: string;
@@ -15,7 +15,7 @@ export const DemandeRecours = ({ justification }: DemandeRecoursProps) => (
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
     </Label>
-    <textarea
+    <TextArea
       name="justification"
       id="justification"
       defaultValue={justification || ''}

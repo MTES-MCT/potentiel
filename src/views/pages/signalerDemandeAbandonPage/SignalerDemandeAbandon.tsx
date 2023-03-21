@@ -10,6 +10,7 @@ import {
   Heading1,
   Label,
   FormulaireChampsObligatoireLégende,
+  TextArea,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeAbandonPage } from '@modules/project';
@@ -98,7 +99,7 @@ export const SignalerDemandeAbandon = ({
 
           <div>
             <Label htmlFor="notes">Notes</Label>
-            <textarea
+            <TextArea
               className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
               name="notes"
               id="notes"
