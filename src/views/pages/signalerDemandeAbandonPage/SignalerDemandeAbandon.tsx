@@ -55,7 +55,9 @@ export const SignalerDemandeAbandon = ({
           <Input name="projectId" value={project.id} readOnly hidden />
 
           <div>
-            <p className="m-0">Décision* :</p>
+            <p className="m-0">
+              Décision <span className="text-error-425-base">*</span> :
+            </p>
             <div className="flex flex-col lg:flex-row gap-3 my-2">
               <div className="flex flex-row">
                 <input
@@ -66,15 +68,11 @@ export const SignalerDemandeAbandon = ({
                   defaultChecked
                   required
                 />
-                <Label htmlFor="status-accepted" required>
-                  Demande acceptée
-                </Label>
+                <Label htmlFor="status-accepted">Demande acceptée</Label>
               </div>
               <div className="flex flex-row">
                 <input type="radio" id="status-rejected" value="rejetée" name="status" required />
-                <Label htmlFor="status-rejected" required>
-                  Demande rejetée
-                </Label>
+                <Label htmlFor="status-rejected">Demande rejetée</Label>
               </div>
             </div>
           </div>
