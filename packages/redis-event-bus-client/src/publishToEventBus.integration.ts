@@ -1,5 +1,5 @@
 import { publishToEventBus } from './publishToEventBus';
-import { useRedis } from './useRedis';
+import { disconnectRedis, useRedis } from './useRedis';
 
 const streamName = 'potentiel_event_bus';
 
@@ -12,6 +12,8 @@ describe('redisPublish', () => {
       await redisClient.del(streamName);
     });
   });
+
+  afterEach(async () => disconnectRedis());
 
   describe('when publishing an value', () => {
     it('the published event should be in the stream', async () => {

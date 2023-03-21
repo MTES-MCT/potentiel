@@ -1,6 +1,6 @@
 import redis from 'ioredis';
 
-let redisClient: redis.Redis;
+let redisClient: redis.Redis | undefined;
 
 export const useRedis = async (callback: (redisClient: redis.Redis) => Promise<void>) => {
   if (!redisClient) {
@@ -17,4 +17,9 @@ export const useRedis = async (callback: (redisClient: redis.Redis) => Promise<v
   const duplicatedRedisClient = redisClient.duplicate();
   await callback(duplicatedRedisClient);
   await duplicatedRedisClient.quit();
+};
+
+export const disconnectRedis = async () => {
+  await redisClient?.disconnect();
+  redisClient = undefined;
 };
