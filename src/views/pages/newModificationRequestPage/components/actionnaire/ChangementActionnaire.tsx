@@ -1,4 +1,4 @@
-import { Astérisque, Label } from '@components';
+import { Input, Label, TextArea } from '@components';
 import React from 'react';
 import { dataId } from '../../../../../helpers/testId';
 
@@ -16,32 +16,38 @@ export const ChangementActionnaire = ({
   <>
     {project.actionnaire && (
       <>
-        <label>Ancien actionnaire</label>
-        <input type="text" disabled defaultValue={project.actionnaire} />
+        <Label htmlFor="ancien-actionnaire">Ancien actionnaire</Label>
+        <Input
+          type="text"
+          disabled
+          defaultValue={project.actionnaire}
+          name="ancien-actionnaire"
+          id="ancien-actionnaire"
+        />
       </>
     )}
-    <label htmlFor="actionnaire" className="mt-4">
-      Nouvel actionnaire <Astérisque />
-    </label>
-    <input
+    <Label htmlFor="actionnaire" className="mt-4" required>
+      Nouvel actionnaire
+    </Label>
+    <Input
       type="text"
       name="actionnaire"
       id="actionnaire"
-      required={true}
+      required
       defaultValue={actionnaire || ''}
       {...dataId('modificationRequest-actionnaireField')}
     />
-    <label htmlFor="candidats" className="mt-4">
+    <Label htmlFor="candidats" className="mt-4">
       Statuts mis à jour
-    </label>
-    <input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
+    </Label>
+    <Input type="file" name="file" {...dataId('modificationRequest-fileField')} id="file" />
     <Label htmlFor="justification" className="mt-4">
       <strong>Veuillez nous indiquer les raisons qui motivent votre demande</strong>
       <br />
       Pour faciliter le traitement de votre demande, veillez à détailler les raisons ayant conduit à
       ce besoin de modification (contexte, facteurs extérieurs, etc)
     </Label>
-    <textarea
+    <TextArea
       name="justification"
       id="justification"
       defaultValue={justification || ''}

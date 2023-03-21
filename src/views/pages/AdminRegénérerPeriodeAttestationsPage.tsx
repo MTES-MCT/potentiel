@@ -3,7 +3,17 @@ import React from 'react';
 import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
-import { Button, ErrorBox, Heading1, Label, PageTemplate, Select, SuccessBox } from '@components';
+import {
+  Button,
+  ErrorBox,
+  Heading1,
+  Input,
+  Label,
+  PageTemplate,
+  Select,
+  SuccessBox,
+  TextArea,
+} from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {
@@ -101,10 +111,10 @@ export const AdminRegénérerPeriodeAttestations = ({
             )}
           </div>
           <div className="form__group">
-            <label htmlFor="notificationDate">
+            <Label htmlFor="notificationDate">
               Nouvelle date de désignation (facultatif, format JJ/MM/AAAA)
-            </label>
-            <input
+            </Label>
+            <Input
               type="text"
               name="notificationDate"
               id="notificationDate"
@@ -122,11 +132,11 @@ export const AdminRegénérerPeriodeAttestations = ({
             </div>
           </div>
           <div className="form__group">
-            <label htmlFor="forceCertificateGeneration">
+            <Label htmlFor="forceCertificateGeneration">
               Message justificatif du changement (facultatif, sera inclus dans le mail aux porteurs
               de projet)
-            </label>
-            <textarea name="reason" defaultValue={reason} />
+            </Label>
+            <TextArea name="forceCertificateGeneration" defaultValue={reason} />
           </div>
 
           <Button

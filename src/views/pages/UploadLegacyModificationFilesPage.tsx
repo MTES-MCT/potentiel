@@ -2,7 +2,7 @@ import type { Request } from 'express';
 import React from 'react';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
-import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1 } from '@components';
+import { ErrorBox, Button, PageTemplate, SuccessBox, Heading1, Label, Input } from '@components';
 import { hydrateOnClient } from '../helpers/hydrateOnClient';
 
 export type UploadLegacyModificationFileResult =
@@ -63,12 +63,14 @@ export const UploadLegacyModificationFiles = ({
           method="post"
           encType="multipart/form-data"
         >
-          <div>Sélectionner les fichiers à attacher aux demandes historiques.</div>
+          <Label htmlFor="files">
+            Sélectionner les fichiers à attacher aux demandes historiques.
+          </Label>
           <div className="text-sm mt-1 mb-2">
             <b>Attention</b>: seuls les fichiers mentionnés dans un colonne 'Nom courrier [N]'
             pourront être associés.
           </div>
-          <input type="file" multiple name="files" />
+          <Input type="file" multiple name="files" />
           <div className="text-sm mt-2">
             Vous pouvez attacher jusqu'à 50Mo de fichiers à la fois
           </div>

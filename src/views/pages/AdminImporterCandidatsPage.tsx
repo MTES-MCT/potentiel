@@ -2,7 +2,7 @@ import React from 'react';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { Request } from 'express';
-import { Button, ErrorBox, Heading1, PageTemplate, SuccessBox } from '@components';
+import { Button, ErrorBox, Heading1, Input, Label, PageTemplate, SuccessBox } from '@components';
 import { hydrateOnClient } from '../helpers';
 
 type AdminImporterCandidatsProps = {
@@ -41,8 +41,8 @@ export const AdminImporterCandidats = ({
           {!!otherError && <ErrorBox title={otherError} className="mb-3" />}
 
           <div className="form__group">
-            <label htmlFor="candidats">Fichier csv des candidats</label>
-            <input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
+            <Label htmlFor="candidats">Fichier csv des candidats</Label>
+            <Input type="file" name="candidats" {...dataId('candidats-field')} id="candidats" />
             <Button
               type="submit"
               name="submit"

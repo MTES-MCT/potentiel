@@ -8,6 +8,9 @@ import {
   PageTemplate,
   ProjectInfo,
   SecondaryLinkButton,
+  Label,
+  FormulaireChampsObligatoireLégende,
+  TextArea,
 } from '@components';
 import routes from '@routes';
 import { ProjectDataForSignalerDemandeRecoursPage } from '@modules/project';
@@ -47,7 +50,9 @@ export const SignalerDemandeRecours = ({
             </ProjectInfo>
           </div>
 
-          <input name="projectId" value={project.id} readOnly hidden />
+          <FormulaireChampsObligatoireLégende className="ml-auto" />
+
+          <Input name="projectId" value={project.id} readOnly hidden />
 
           <div>
             <p className="m-0">Décision* :</p>
@@ -61,17 +66,23 @@ export const SignalerDemandeRecours = ({
                   defaultChecked
                   required
                 />
-                <label htmlFor="status-accepted">Demande acceptée</label>
+                <Label htmlFor="status-accepted" required>
+                  Demande acceptée
+                </Label>
               </div>
               <div className="flex flex-row">
                 <input type="radio" id="status-rejected" value="rejetée" name="status" required />
-                <label htmlFor="status-rejected">Demande rejetée</label>
+                <Label htmlFor="status-rejected" required>
+                  Demande rejetée
+                </Label>
               </div>
             </div>
           </div>
 
           <div>
-            <label htmlFor="decidedOn">Date de la décision (=date du courrier)*</label>
+            <Label htmlFor="decidedOn" required>
+              Date de la décision (=date du courrier)
+            </Label>
             <Input
               type="date"
               name="decidedOn"
@@ -82,21 +93,20 @@ export const SignalerDemandeRecours = ({
           </div>
 
           <div>
-            <label htmlFor="file">Courrier de la réponse (fichier joint)*</label>
-            <input name="file" type="file" className="rounded-none" id="file" required />
+            <Label htmlFor="file" required>
+              Courrier de la réponse (fichier joint)
+            </Label>
+            <Input name="file" type="file" className="rounded-none" id="file" required />
           </div>
 
           <div>
-            <label htmlFor="notes">Notes</label>
-            <textarea
+            <Label htmlFor="notes">Notes</Label>
+            <TextArea
               className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
               name="notes"
               id="notes"
-            ></textarea>
+            />
           </div>
-
-          <p className="italic text-sm">*Champs obligatoires</p>
-
           <div className="m-auto flex gap-4">
             <Button type="submit">Enregistrer</Button>
             <SecondaryLinkButton href={routes.PROJECT_DETAILS(project.id)}>

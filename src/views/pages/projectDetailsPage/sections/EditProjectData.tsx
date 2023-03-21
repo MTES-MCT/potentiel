@@ -4,7 +4,16 @@ import { appelsOffreStatic } from '@dataAccess/inMemory';
 import { dataId } from '../../../../helpers/testId';
 import { ProjectDataForProjectPage } from '@modules/project/queries';
 import ROUTES from '@routes';
-import { BuildingIcon, Button, Input, InputCheckbox, Label, Section, Select } from '@components';
+import {
+  BuildingIcon,
+  Button,
+  Input,
+  InputCheckbox,
+  Label,
+  Section,
+  Select,
+  TextArea,
+} from '@components';
 import { afficherDate } from '@views/helpers';
 
 type EditProjectDataProps = {
@@ -338,12 +347,12 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
               />
               <Label htmlFor="custom">Uploader une attestation</Label>
             </div>
-            <input type="file" name="file" id="file" disabled={uploadIsDisabled} />
+            <Input type="file" name="file" id="file" disabled={uploadIsDisabled} />
           </div>
         )}
         <div className="form__group">
           <Label htmlFor="reason">Message justificatif du changement (facultatif)</Label>
-          <textarea
+          <TextArea
             name="reason"
             id="reason"
             defaultValue={query.reason}

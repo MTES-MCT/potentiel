@@ -8,6 +8,7 @@ import {
   FormulaireChampsObligatoireLégende,
   ErrorBox,
   Heading1,
+  TextArea,
 } from '@components';
 import { ProjectDataForSignalerDemandeDelaiPage } from '@modules/project';
 import routes from '@routes';
@@ -146,11 +147,11 @@ export const SignalerDemandeDelai = ({
 
           <div>
             <label htmlFor="notes">Notes</label>
-            <textarea
+            <TextArea
               className="bg-gray-100 border-x-0 border-t-0 border-b-2 border-solid border-gray-600 rounded-none"
               name="notes"
               id="notes"
-            ></textarea>
+            />
           </div>
 
           <div className="m-auto flex gap-4">
