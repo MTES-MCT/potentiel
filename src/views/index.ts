@@ -379,7 +379,7 @@ export const ModifierIdentifiantGestionnaireReseauPage = (
   makeHtml({
     Component: ModifierIdentifiantGestionnaireReseau,
     props,
-    title: "Modifier l'identifiant du gestionnaire de réseau",
+    title: "Modifier l'identifiant du dossier de raccordement",
   });
 
 export const ListeGestionnairesRéseauPage = (

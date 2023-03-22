@@ -90,7 +90,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                     cahierDesChargesModifié.numéroGestionnaireRequis &&
                     (idCdc === cahierDesChargesActuel ? (
                       <p>
-                        Identifiant gestionnaire de réseau pour votre projet déjà renseigné :{' '}
+                        Identifiant du dossier de raccordement pour votre projet :{' '}
                         {identifiantGestionnaireRéseau}
                       </p>
                     ) : (
@@ -98,7 +98,7 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                         <p className="my-2">
                           Pour récupérer votre date de mise en service et ainsi pouvoir bénéficier
                           des avantages de ce cahier des charges, vous devez renseigner
-                          l'identifiant gestionnaire de votre projet :
+                          l'identifiant du dossier de raccordement de votre projet :
                         </p>
                         <GestionnaireRéseauFormInputs
                           identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaireRéseau}
