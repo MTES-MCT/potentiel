@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addStatusOnlyHandler();
   addInvitationHandlers();
   addDelayEstimator();
   addSelectorHandlers();
@@ -16,10 +15,6 @@ window.initHandlers = function () {
 };
 
 document.addEventListener('DOMContentLoaded', () => window.initHandlers());
-
-//
-// Project page
-//
 function addInvitationHandlers() {
   const invitationFormShowButton = document.querySelector(
     '[data-testid=invitation-form-show-button]',
@@ -345,45 +340,6 @@ function addSendCopyOfNotificationButtonHandler() {
 //
 
 //
-// Modification request details page
-//
-
-function addStatusOnlyHandler() {
-  const statusOnlyField = document.querySelector(
-    '[data-testid=modificationRequest-statusUpdateOnlyField]',
-  );
-
-  if (statusOnlyField) {
-    const otherFields = statusOnlyField.closest('form').querySelectorAll('input');
-    const askConfirmationButton = statusOnlyField
-      .closest('form')
-      .querySelector('[data-testid=ask-confirmation-button]');
-    statusOnlyField.addEventListener('change', (event) => {
-      if (event.currentTarget.checked) {
-        otherFields.forEach((field) => {
-          if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true;
-        });
-        if (askConfirmationButton) askConfirmationButton.disabled = true;
-      } else {
-        otherFields.forEach((field) => {
-          field.disabled = false;
-        });
-        if (askConfirmationButton) askConfirmationButton.disabled = false;
-      }
-    });
-  }
-}
-
-function getDateFromDateString(str) {
-  // For a date in the DD/MM/YYYY format
-  var day = Number(str.substring(0, 2));
-  var month = Number(str.substring(3, 5));
-  var year = Number(str.substring(6));
-
-  return new Date(year, month - 1, day);
-}
-
-//
 // Delay request Page
 //
 
@@ -414,68 +370,6 @@ function addDelayEstimator() {
     delayInMonthsField.addEventListener('keyup', updateProjection);
   }
 }
-
-//
-// Validated date fields
-//
-/*
-const dateRegex = new RegExp(/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/)
-
-function addDateValidationHandler() {
-  const dateFields = document.querySelectorAll('[data-testid=date-field]')
-
-  dateFields.forEach((dateField) => {
-    const lowerBound = dateField.getAttribute('data-min-date')
-    const upperBound = dateField.getAttribute('data-max-date')
-
-    if (lowerBound || upperBound) {
-      // This field needs validation
-
-      const submitButton = dateField.closest('form').querySelector('[data-testid=submit-button]')
-
-      const outOfBounds = dateField
-        .closest('form')
-        .querySelector('[data-testid=error-message-out-of-bounds]')
-
-      const wrongFormat = dateField
-        .closest('form')
-        .querySelector('[data-testid=error-message-wrong-format]')
-
-      dateField.addEventListener('keyup', function (event) {
-        const newDateStr = dateField.value
-
-        if (newDateStr.length < 6) {
-          // Ignore, user is still typing
-          return
-        }
-
-        if (!dateRegex.test(newDateStr)) {
-          disableButton(submitButton, true)
-          showElement(outOfBounds, false)
-          showElement(wrongFormat, true)
-        } else {
-          // Date is valid format
-          var newDate = getDateFromDateString(newDateStr)
-
-          if (
-            (lowerBound && newDate.getTime() <= lowerBound) ||
-            (upperBound && newDate.getTime() >= upperBound)
-          ) {
-            // Date is lower than lower bound or higher than upper bound
-            disableButton(submitButton, true)
-            showElement(outOfBounds, true)
-            showElement(wrongFormat, false)
-          } else {
-            // all good
-            showElement(outOfBounds, false)
-            showElement(wrongFormat, false)
-            disableButton(submitButton, false)
-          }
-        }
-      })
-    }
-  })
-}*/
 
 //
 // General utility

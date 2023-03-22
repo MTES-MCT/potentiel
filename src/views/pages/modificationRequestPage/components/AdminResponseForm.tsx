@@ -2,9 +2,8 @@ import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@com
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
-import React from 'react';
+import React, { useState } from 'react';
 import { UploadResponseFile } from '.';
-import { dataId } from '../../../../helpers/testId';
 import { ModificationRequestTitleByType } from '../../../helpers';
 
 interface AdminResponseFormProps {
@@ -33,6 +32,7 @@ export const AdminResponseForm = ({
 }: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest;
 
+  const [demandeTraitéeHorsPotentiel, setDemandeTraitéeHorsPotentiel] = useState(false);
   return (
     <form
       action={getAdminRouteBasedOnType(type)}
@@ -40,20 +40,22 @@ export const AdminResponseForm = ({
       encType="multipart/form-data"
       className="m-0"
     >
-      {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
+      {type !== 'puissance' && !demandeTraitéeHorsPotentiel && (
+        <FormulaireChampsObligatoireLégende className="text-left mb-3" />
+      )}
 
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />
 
       {role !== 'dreal' && (
-        <div className="form__group" style={{ marginBottom: 20 }}>
+        <div className="form__group mb-5">
           <label htmlFor="statusUpdateOnly">
             <InputCheckbox
               type="checkbox"
               name="statusUpdateOnly"
-              defaultChecked={false}
-              {...dataId('modificationRequest-statusUpdateOnlyField')}
+              checked={demandeTraitéeHorsPotentiel}
+              onChange={({ target: { checked } }) => setDemandeTraitéeHorsPotentiel(checked)}
             />
             Demande traitée hors Potentiel
           </label>
@@ -64,9 +66,13 @@ export const AdminResponseForm = ({
         </div>
       )}
 
-      <UploadResponseFile modificationRequest={modificationRequest} />
+      {!demandeTraitéeHorsPotentiel && (
+        <>
+          <UploadResponseFile modificationRequest={modificationRequest} />
+          {children}
+        </>
+      )}
 
-      {children}
       <Button
         type="submit"
         name="submitAccept"
