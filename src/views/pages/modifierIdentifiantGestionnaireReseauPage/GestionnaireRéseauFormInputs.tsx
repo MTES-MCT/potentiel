@@ -64,7 +64,7 @@ export const GestionnaireRéseauFormInputs = ({
 
       <div>
         <Label htmlFor="identifiantGestionnaireRéseau">
-          Identifiant de gestionnaire réseau du projet * (champ obligatoire)
+          Identifiant du dossier de raccordement du projet * (champ obligatoire)
         </Label>
         {(format || légende) && (
           <InfoBox className="mt-2 mb-3">
@@ -81,7 +81,7 @@ export const GestionnaireRéseauFormInputs = ({
           required
         />
         <p className="mt-4 mb-0 italic">
-          * Où trouver mon identifiant de gestionnaire réseau ?
+          * Où trouver mon identifiant du dossier de raccordement ?
           <br />
           Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
           complète de raccordement (

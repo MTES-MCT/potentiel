@@ -40,8 +40,8 @@ export const ModifierIdentifiantGestionnaireReseau = ({
         <div className="panel__header">
           <Heading1>
             {projet.identifiantGestionnaire
-              ? "Je modifie l'identifiant de gestionnaire réseau"
-              : "J'ajoute un identifiant de gestionnaire réseau"}
+              ? "Je modifie l'identifiant du dossier de raccordement"
+              : "J'ajoute un identifiant du dossier de raccordement"}
           </Heading1>
         </div>
 
