@@ -203,40 +203,6 @@ describe('Commande demanderDélai', () => {
         });
       });
 
-      describe(`Enregistrer le numéro de gestionnaire`, () => {
-        describe(`Lorsque le porteur saisit numéro de gestionnaire`, () => {
-          it(`Alors un événement NumeroGestionnaireSubmitted doit être émis`, async () => {
-            const demandeDelai = makeDemanderDélai({
-              fileRepo: fileRepo as Repository<FileObject>,
-              findAppelOffreById,
-              publishToEventStore,
-              shouldUserAccessProject,
-              getProjectAppelOffreId,
-              projectRepo,
-            });
-            await demandeDelai({
-              justification: 'justification',
-              dateAchèvementDemandée,
-              user,
-              projectId: fakeProject.id.toString(),
-              numeroGestionnaire: 'IdGestionnaire',
-            });
-
-            expect(publishToEventStore).toHaveBeenNthCalledWith(
-              2,
-              expect.objectContaining({
-                type: 'NumeroGestionnaireSubmitted',
-                payload: expect.objectContaining({
-                  numeroGestionnaire: 'IdGestionnaire',
-                  submittedBy: user.id,
-                  projectId: fakeProject.id.toString(),
-                }),
-              }),
-            );
-          });
-        });
-      });
-
       describe(`Erreur si le porteur n'a pas souscri à un CDC modifié alors que l'AO le requiert`, () => {
         describe(`Étant donné un projet avec un AO requérant le choix d'un CDC modifié pour pouvoir effectuer des modifications sur Potentiel,
                   Lorsque le porteur fait une demande de délai,

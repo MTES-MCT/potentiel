@@ -22,7 +22,7 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
     }
 
-    // TODO: lecture faite directement sur la table Project sans passé par une query...
+    // TODO: lecture faite directement sur la table Project sans passer par une query...
     const project = await Project.findByPk(projectId);
 
     if (!project) {
