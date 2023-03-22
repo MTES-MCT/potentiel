@@ -93,27 +93,29 @@ export const GarantiesFinancieres = ({
                       </option>
                     ))}
                 </Select>
-                <Label htmlFor="periodeId" className="mt-4">
-                  Période concernée
-                </Label>
-                <Select
-                  id="periodeId"
-                  name="periodeId"
-                  {...dataId('periodeIdSelector')}
-                  defaultValue={periodeId || 'default'}
-                >
-                  <option value="default" disabled hidden>
-                    Choisir une période
-                  </option>
-                  <option value="">Toutes périodes</option>
-                  {periodes &&
-                    periodes.length > 0 &&
-                    periodes.map((periode) => (
-                      <option key={`appel_${periode.id}`} value={periode.id}>
-                        {periode.title}
+                {appelOffreId && periodes && periodes.length > 0 && (
+                  <>
+                    <Label htmlFor="periodeId" className="mt-4">
+                      Période concernée
+                    </Label>
+                    <Select
+                      id="periodeId"
+                      name="periodeId"
+                      {...dataId('periodeIdSelector')}
+                      defaultValue={periodeId || 'default'}
+                    >
+                      <option value="default" disabled hidden>
+                        Choisir une période
                       </option>
-                    ))}
-                </Select>
+                      <option value="">Toutes périodes</option>
+                      {periodes.map((periode) => (
+                        <option key={`appel_${periode.id}`} value={periode.id}>
+                          {periode.title}
+                        </option>
+                      ))}
+                    </Select>
+                  </>
+                )}
                 {appelOffreId && familles && familles.length > 0 && (
                   <>
                     <Label htmlFor="familleId" className="mt-4">
