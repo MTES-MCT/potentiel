@@ -15,7 +15,6 @@ type SubmitDCRArgs = {
   type: 'dcr';
   projectId: string;
   stepDate: Date;
-  numeroDossier: string;
   file: {
     contents: FileContents;
     filename: string;
@@ -29,7 +28,6 @@ export const makeSubmitDCR =
     type,
     projectId,
     stepDate,
-    numeroDossier,
     file,
     submittedBy,
   }: SubmitDCRArgs): ResultAsync<null, InfraNotAvailableError | UnauthorizedError> => {
@@ -77,7 +75,6 @@ export const makeSubmitDCR =
                   projectId,
                   dcrDate: stepDate,
                   fileId,
-                  numeroDossier,
                   submittedBy: submittedBy.id.toString(),
                 })
                 .asyncMap(async () => null);

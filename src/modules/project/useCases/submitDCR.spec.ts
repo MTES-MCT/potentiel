@@ -31,8 +31,6 @@ const fileRepo = {
 
 const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet', id: userId })));
 
-const numeroDossier = 'dossier123';
-
 describe('submitDCR use-case', () => {
   describe(`Lorsque l'utilisateur n'a pas les droits sur le projet`, () => {
     it('Alors une erreur de type UnauthorizedError doit être retournée', async () => {
@@ -52,7 +50,6 @@ describe('submitDCR use-case', () => {
         stepDate: new Date(123),
         projectId,
         submittedBy: user,
-        numeroDossier,
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
@@ -77,7 +74,6 @@ describe('submitDCR use-case', () => {
         type: 'dcr',
         file: fakeFileContents,
         stepDate: dcrDate,
-        numeroDossier,
         projectId,
         submittedBy: user,
       });
@@ -101,7 +97,6 @@ describe('submitDCR use-case', () => {
           type: 'dcr',
           file: fakeFileContents,
           stepDate: dcrDate,
-          numeroDossier,
           projectId,
           submittedBy: user,
         });
@@ -114,7 +109,6 @@ describe('submitDCR use-case', () => {
           projectId,
           dcrDate,
           fileId: fakeFile.id.toString(),
-          numeroDossier,
           submittedBy: user.id.toString(),
         });
       });

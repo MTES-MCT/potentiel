@@ -48,7 +48,6 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
         projectId: projectId.toString(),
         dcrDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
-        numeroDossier: 'numero-dossier',
         submittedBy: 'user-id',
       });
       expect(res.isErr()).toBe(true);
@@ -121,7 +120,6 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
         projectId: projectId.toString(),
         dcrDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
-        numeroDossier: 'numero-dossier',
         submittedBy: 'user-id',
       });
       expect(res.isErr()).toBe(true);
@@ -179,7 +177,6 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
         projectId: projectId.toString(),
         dcrDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
-        numeroDossier: 'numero-dossier',
         submittedBy: 'user-id',
       });
 
@@ -192,7 +189,6 @@ describe('Project.submitDemandeComplèteRaccordement()', () => {
       expect(targetEvent.payload.projectId).toEqual(projectId.toString());
       expect(targetEvent.payload.fileId).toEqual('identifiant-fichier');
       expect(targetEvent.payload.submittedBy).toEqual('user-id');
-      expect(targetEvent.payload.numeroDossier).toEqual('numero-dossier');
     });
   });
 });

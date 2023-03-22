@@ -154,7 +154,6 @@ export interface Project extends EventStoreAggregate {
     dcrDate: Date;
     fileId: string;
     submittedBy: string;
-    numeroDossier: string;
   }) => Result<null, ProjectCannotBeUpdatedIfUnnotifiedError | DCRCertificatDéjàEnvoyéError>;
   submitPropositionTechniqueFinancière: (args: {
     projectId: string;
@@ -825,13 +824,7 @@ export const makeProject = (args: {
 
       return ok(null);
     },
-    submitDemandeComplèteRaccordement: function ({
-      projectId,
-      dcrDate,
-      fileId,
-      numeroDossier,
-      submittedBy,
-    }) {
+    submitDemandeComplèteRaccordement: function ({ projectId, dcrDate, fileId, submittedBy }) {
       if (!_isNotified()) {
         return err(new ProjectCannotBeUpdatedIfUnnotifiedError());
       }
@@ -842,7 +835,7 @@ export const makeProject = (args: {
 
       _publishEvent(
         new ProjectDCRSubmitted({
-          payload: { projectId, dcrDate, fileId, submittedBy, numeroDossier },
+          payload: { projectId, dcrDate, fileId, submittedBy },
         }),
       );
 

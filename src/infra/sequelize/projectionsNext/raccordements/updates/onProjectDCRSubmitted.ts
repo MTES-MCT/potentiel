@@ -9,6 +9,10 @@ export default RaccordementsProjector.on(ProjectDCRSubmitted, async (évènement
     payload: { projectId, numeroDossier },
   } = évènement;
 
+  if (!numeroDossier) {
+    return;
+  }
+
   try {
     await Raccordements.update(
       {

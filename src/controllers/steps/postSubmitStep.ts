@@ -36,14 +36,6 @@ const requestBodySchema = yup.object({
     .required('Vous devez renseigner une date.')
     .typeError(`La date n'est pas valide.`),
   type: yup.mixed().oneOf(['ptf', 'dcr']).required('Ce champ est obligatoire.'),
-  numeroDossier: yup.string().when('type', {
-    is: (type) => type === 'dcr',
-    then: yup
-      .string()
-      .required('Vous devez renseigner le numéro de dossier.')
-      .typeError("Le numéro de dossier saisi n'est pas valide"),
-    otherwise: yup.string().optional().typeError("Le numéro de dossier saisi n'est pas valide"),
-  }),
 });
 
 v1Router.post(
@@ -59,7 +51,7 @@ v1Router.post(
         return ok(body);
       })
       .asyncAndThen((body) => {
-        const { projectId, stepDate, numeroDossier, type } = body;
+        const { projectId, stepDate, type } = body;
         const { user: submittedBy } = request;
         const file = {
           contents: fs.createReadStream(request.file!.path),
@@ -73,7 +65,6 @@ v1Router.post(
             stepDate,
             file,
             submittedBy,
-            numeroDossier: numeroDossier as string,
           }).map(() => ({
             projectId,
           }));
