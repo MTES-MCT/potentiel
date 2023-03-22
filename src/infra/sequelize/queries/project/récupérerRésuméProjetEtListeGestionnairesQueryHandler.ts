@@ -1,7 +1,7 @@
 import { errAsync, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
 import { résuméProjetQueryHandler } from './résuméProjetQueryHandler';
-import { listerDétailGestionnairesRéseauQueryHandler } from '../gestionnaireRéseau/listerDétailGestionnairesRéseau';
+import { listerGestionnairesRéseau } from '../gestionnaireRéseau/listerGestionnaireRéseau';
 import { RécupérerRésuméProjetEtListeGestionnairesQueryHandler } from '@modules/project';
 
 export const récupérerRésuméProjetEtListeGestionnairesQueryHandler: RécupérerRésuméProjetEtListeGestionnairesQueryHandler =
@@ -14,7 +14,7 @@ export const récupérerRésuméProjetEtListeGestionnairesQueryHandler: Récupé
         return okAsync(projet);
       })
       .andThen((projet) => {
-        return wrapInfra(listerDétailGestionnairesRéseauQueryHandler()).andThen((liste) => {
+        return wrapInfra(listerGestionnairesRéseau()).andThen((liste) => {
           return okAsync({ projet, listeDétailGestionnaires: liste });
         });
       });

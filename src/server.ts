@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
+import { bootstrap } from '@potentiel/web';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -17,6 +18,7 @@ const FILE_SIZE_LIMIT_MB = 50;
 
 export async function makeServer(port: number, sessionSecret: string) {
   try {
+    await bootstrap();
     const app = express();
 
     if (!isDevEnv) {

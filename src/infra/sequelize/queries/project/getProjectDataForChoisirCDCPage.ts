@@ -1,7 +1,7 @@
 import { errAsync, ok, okAsync, wrapInfra } from '@core/utils';
 import { EntityNotFoundError } from '@modules/shared';
 import { GetProjectDataForChoisirCDCPage } from '@modules/project';
-import { Raccordements, GestionnaireRéseauDétail, Project } from '@infra/sequelize/projectionsNext';
+import { Raccordements, GestionnaireRéseau, Project } from '@infra/sequelize/projectionsNext';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { CahierDesChargesRéférence } from '@entities';
 
@@ -15,8 +15,8 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
           as: 'raccordements',
           include: [
             {
-              model: GestionnaireRéseauDétail,
-              as: 'gestionnaireRéseauDétail',
+              model: GestionnaireRéseau,
+              as: 'gestionnaireRéseau',
               attributes: ['codeEIC', 'raisonSociale'],
             },
           ],
@@ -46,10 +46,10 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
         ...(projet.raccordements?.identifiantGestionnaire && {
           identifiantGestionnaireRéseau: projet.raccordements.identifiantGestionnaire,
         }),
-        ...(projet.raccordements?.gestionnaireRéseauDétail && {
+        ...(projet.raccordements?.gestionnaireRéseau && {
           gestionnaireRéseau: {
-            codeEIC: projet.raccordements.gestionnaireRéseauDétail.codeEIC,
-            raisonSociale: projet.raccordements.gestionnaireRéseauDétail.raisonSociale,
+            codeEIC: projet.raccordements.gestionnaireRéseau.codeEIC,
+            raisonSociale: projet.raccordements.gestionnaireRéseau.raisonSociale,
           },
         }),
       };
@@ -57,9 +57,7 @@ export const getProjectDataForChoisirCDCPage: GetProjectDataForChoisirCDCPage = 
       return okAsync(projetProps);
     })
     .andThen((projetProps) =>
-      wrapInfra(GestionnaireRéseauDétail.findAll({ raw: true })).andThen(
-        (listeGestionnairesRéseau) => {
-          return ok({ listeGestionnairesRéseau, ...projetProps });
-        },
-      ),
+      wrapInfra(GestionnaireRéseau.findAll({ raw: true })).andThen((listeGestionnairesRéseau) => {
+        return ok({ listeGestionnairesRéseau, ...projetProps });
+      }),
     );

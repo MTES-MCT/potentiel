@@ -17,7 +17,6 @@ import {
 } from '@modules/demandeModification';
 import { makeImportDonnéesRaccordement } from '@modules/imports/donnéesRaccordement';
 import { makeUtilisateur } from '@modules/utilisateur';
-import { makeGestionnaireRéseau } from '@modules/gestionnaireRéseau';
 
 export const fileRepo = makeFileRepo({ fileStorageService });
 export const notificationRepo = new NotificationRepo();
@@ -80,16 +79,5 @@ export const utilisateurRepo = {
   ...makeEventStoreTransactionalRepo({
     eventStore,
     makeAggregate: makeUtilisateur,
-  }),
-};
-
-export const gestionnaireRéseauRepo = {
-  ...makeEventStoreTransactionalRepo({
-    eventStore,
-    makeAggregate: makeGestionnaireRéseau,
-  }),
-  ...makeEventStoreRepo({
-    eventStore,
-    makeAggregate: makeGestionnaireRéseau,
   }),
 };

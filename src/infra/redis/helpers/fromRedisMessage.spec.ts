@@ -1,6 +1,7 @@
 import { fromRedisMessage } from './fromRedisMessage';
 import { UserProjectsLinkedByContactEmail } from '@modules/authZ';
 import { RedisMessage } from './RedisMessage';
+import { Event } from '@potentiel/pg-event-sourcing';
 
 describe('fromRedisMessage', () => {
   it('should deserialize a domain event from a redis message', () => {
@@ -28,6 +29,47 @@ describe('fromRedisMessage', () => {
   describe('when the message does not have a type', () => {
     it('should throw an error', () => {
       expect(() => fromRedisMessage({} as RedisMessage)).toThrow();
+    });
+  });
+});
+
+describe(`fromRedisMessage - events du package @potentiel/core-domain`, () => {
+  it(`Lorsque le message retourné par Redis provient d'un event stream
+      Alors le message est converti en une instance de classe de type domain event
+      Et "occurredAt" est défini à la date du jour
+      `, () => {
+    // Arrange
+    const streamId = 'gestionnaireRéseau#codeEID';
+    const type = 'GestionnaireRéseauAjouté';
+    const createdAt = new Date().toISOString();
+    const version = 1;
+    const payload = {
+      codeEIC: 'codeEIC',
+      raisonSociale: 'raisonSociale',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
+      },
+    };
+
+    const event: Event = {
+      type,
+      payload,
+      streamId,
+      createdAt,
+      version,
+    };
+
+    // Act
+    const actual = fromRedisMessage(event);
+
+    // Assert
+    expect(actual).toMatchObject({
+      type,
+      payload: {
+        ...payload,
+        streamId,
+      },
     });
   });
 });

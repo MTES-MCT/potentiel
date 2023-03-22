@@ -1,5 +1,5 @@
 import { InferAttributes, InferCreationAttributes, Model, NonAttribute } from 'sequelize';
-import { GestionnaireRéseauDétail } from '../gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
+import { GestionnaireRéseau } from '../gestionnairesRéseau/gestionnairesRéseau.model';
 
 export class Raccordements extends Model<
   InferAttributes<Raccordements>,
@@ -12,5 +12,5 @@ export class Raccordements extends Model<
   ptfEnvoyéePar: string | null;
   identifiantGestionnaire: string | null;
   codeEICGestionnaireRéseau?: string | null;
-  gestionnaireRéseauDétail?: NonAttribute<GestionnaireRéseauDétail>;
+  gestionnaireRéseau?: NonAttribute<GestionnaireRéseau>;
 }

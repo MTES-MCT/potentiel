@@ -1,7 +1,5 @@
-import { DomainError } from '@core/domain';
-
-export class GestionnaireRéseauDéjàExistantError extends DomainError {
+export class GestionnaireRéseauDéjàExistantError extends Error {
   constructor() {
-    super(`Un gestionnaire de réseau est déjà enregistré avec ce code EIC.`);
+    super('Le gestionnaire réseau existe déjà');
   }
 }

@@ -48,9 +48,11 @@ class routes {
 
   static GET_LISTE_GESTIONNAIRES_RESEAU = `/admin/gestionnaires-reseau`;
   static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
-    !codeEIC ? `/admin/gestionnaires-reseau/:codeEIC` : `/admin/gestionnaires-reseau/${codeEIC}`;
+    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
 
   static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
+  static POST_MODIFIER_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
+    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
   static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';

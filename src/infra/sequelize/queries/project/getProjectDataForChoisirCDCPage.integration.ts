@@ -1,12 +1,10 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { GestionnaireRéseau, Project, Raccordements } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
-import { Raccordements } from '../../projectionsNext/raccordements/raccordements.model';
-import { GestionnaireRéseauDétail } from '../../projectionsNext/gestionnairesRéseau/détail/gestionnairesRéseauDétail.model';
 
 const projetId = new UniqueEntityID().toString();
 
@@ -39,7 +37,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       codeEICGestionnaireRéseau: 'code-eic-gestionnaire',
     });
 
-    await GestionnaireRéseauDétail.bulkCreate([
+    await GestionnaireRéseau.bulkCreate([
       {
         codeEIC: 'code-eic-gestionnaire',
         raisonSociale: 'raison-sociale-gestionnaire',
@@ -49,6 +47,8 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       {
         codeEIC: 'code-eic-autre-gestionnaire',
         raisonSociale: 'raison-sociale-autre-gestionnaire',
+        format: '',
+        légende: '',
       },
     ]);
 
@@ -75,8 +75,8 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
         {
           codeEIC: 'code-eic-autre-gestionnaire',
           raisonSociale: 'raison-sociale-autre-gestionnaire',
-          format: null,
-          légende: null,
+          format: '',
+          légende: '',
         },
       ]),
     };

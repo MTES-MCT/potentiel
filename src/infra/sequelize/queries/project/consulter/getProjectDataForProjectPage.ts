@@ -9,7 +9,7 @@ import {
   Raccordements,
   UserProjects,
   File,
-  GestionnaireRéseauDétail,
+  GestionnaireRéseau,
 } from '@infra/sequelize/projectionsNext';
 import {
   CahierDesCharges,
@@ -36,8 +36,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           attributes: ['identifiantGestionnaire'],
           include: [
             {
-              model: GestionnaireRéseauDétail,
-              as: 'gestionnaireRéseauDétail',
+              model: GestionnaireRéseau,
+              as: 'gestionnaireRéseau',
               attributes: ['raisonSociale', 'codeEIC'],
             },
           ],
@@ -248,9 +248,8 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             raccordements.identifiantGestionnaire && {
               gestionnaireDeRéseau: {
                 identifiantGestionnaire: raccordements.identifiantGestionnaire,
-                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseauDétail?.codeEIC,
-                raisonSocialeGestionnaireRéseau:
-                  raccordements.gestionnaireRéseauDétail?.raisonSociale,
+                codeEICGestionnaireRéseau: raccordements.gestionnaireRéseau?.codeEIC,
+                raisonSocialeGestionnaireRéseau: raccordements.gestionnaireRéseau?.raisonSociale,
               },
             }),
         }),

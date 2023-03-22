@@ -1,2 +1,1 @@
-export * from './events';
-export * from './ajouterGestionnaireRéseau.factory';
+export * from './ajouterGestionnaireRéseau.command';

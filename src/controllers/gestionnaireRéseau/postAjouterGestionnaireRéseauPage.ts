@@ -3,11 +3,12 @@ import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
-import { PermissionAjouterGestionnaireRéseau } from '@modules/gestionnaireRéseau';
+
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { ajouterGestionnaireRéseau } from '@config';
 import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistant.error';
 import { logger } from '@core/utils';
+import { PermissionAjouterGestionnaireRéseau } from '@modules/gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
 
 const schema = yup.object({
   body: yup.object({
@@ -35,32 +36,35 @@ v1Router.post(
       },
     },
     async (request, response) => {
-      const { codeEIC, format, légende, raisonSociale } = request.body;
+      const { codeEIC, format = '', légende = '', raisonSociale } = request.body;
 
-      return ajouterGestionnaireRéseau({ codeEIC, format, légende, raisonSociale }).match(
-        () =>
-          response.redirect(
-            addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
-              success: 'Le gestionnaire a bien été enregistré.',
+      try {
+        await ajouterGestionnaireRéseau({
+          codeEIC,
+          aideSaisieRéférenceDossierRaccordement: { format, légende },
+          raisonSociale,
+        });
+        response.redirect(
+          addQueryParams(routes.GET_LISTE_GESTIONNAIRES_RESEAU, {
+            success: 'Le gestionnaire a bien été enregistré.',
+          }),
+        );
+      } catch (error) {
+        if (error instanceof GestionnaireRéseauDéjàExistantError) {
+          return response.redirect(
+            addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
+              error: error.message,
             }),
-          ),
-        (e) => {
-          if (e instanceof GestionnaireRéseauDéjàExistantError) {
-            return response.redirect(
-              addQueryParams(routes.GET_AJOUTER_GESTIONNAIRE_RESEAU, {
-                error: e.message,
-              }),
-            );
-          }
+          );
+        }
 
-          logger.error(e);
-          return errorResponse({
-            request,
-            response,
-            customMessage: `Une erreur est survenue. Veuillez répéter l'opération ou contacter un administrateur.`,
-          });
-        },
-      );
+        logger.error(error);
+        return errorResponse({
+          request,
+          response,
+          customMessage: `Une erreur est survenue. Veuillez répéter l'opération ou contacter un administrateur.`,
+        });
+      }
     },
   ),
 );

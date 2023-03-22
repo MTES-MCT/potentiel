@@ -24,6 +24,7 @@ v1Router.get(
       const {
         user,
         params: { codeEIC },
+        query: { errors },
       } = request;
       const gestionnaireRéseau = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
 
@@ -35,6 +36,7 @@ v1Router.get(
         ConsulterGestionnairesRéseauPage({
           utilisateur: user,
           gestionnaireRéseau,
+          erreurValidation: errors ? JSON.parse(errors as string) : undefined,
         }),
       );
     },

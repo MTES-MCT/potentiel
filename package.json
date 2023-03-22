@@ -4,9 +4,17 @@
   "sideEffects": false,
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
+  "workspaces": [
+    "./packages/monads",
+    "./packages/core-domain",
+    "./packages/pg-helpers",
+    "./packages/pg-event-sourcing",
+    "./packages/redis-event-bus-client",
+    "./packages/applications/web"
+  ],
   "scripts": {
     "type:check": "tsc --noEmit",
-    "build": "npm run build:front && npm run build:css && npm run build:back",
+    "build": "npm run build:packages && npm run build:front && npm run build:css && npm run build:back",
     "build:back": "ttsc --build tsconfig.build.json && cp -R src/public dist/src && cp -R src/views/template dist/src/views",
     "build:front": "webpack --config=webpack.config.js",
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
@@ -36,7 +44,9 @@
     "watch:front": "webpack --config=webpack.config.js --watch",
     "watch:css": "npm run build:css -- --watch",
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "build:packages": "npm run build --workspaces --if-present",
+    "watch:packages": "watch 'npm run build:packages' ./packages/**/src/"
   },
   "repository": {
     "type": "git",
@@ -162,6 +172,7 @@
     "typescript": "^4.9.4",
     "typescript-transform-paths": "^3.4.4",
     "wait-for-expect": "^3.0.2",
+    "watch": "^1.0.2",
     "webpack": "^5.76.0",
     "webpack-cli": "^4.10.0"
   },

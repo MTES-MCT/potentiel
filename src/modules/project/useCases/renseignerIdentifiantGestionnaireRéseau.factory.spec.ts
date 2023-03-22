@@ -1,6 +1,14 @@
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
+import {
+  Aggregate,
+  AggregateId,
+  AggregateStateFactory,
+  LoadAggregate,
+} from '@potentiel/core-domain';
+import { loadAggregate } from '@potentiel/pg-event-sourcing';
+import { none, Option } from '@potentiel/monads';
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError } from '../../shared';
@@ -13,6 +21,11 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { renseignerIdentifiantGestionnaireRéseauFactory } from './renseignerIdentifiantGestionnaireRéseau.factory';
+import {
+  createGestionnaireRéseauAggregateId,
+  GestionnaireRéseauEvent,
+  GestionnaireRéseauState,
+} from '@modules/gestionnaireRéseau';
 
 describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -23,7 +36,35 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
     id: projetId,
   } as Project);
 
-  const gestionnaireRéseauRepo = fakeRepo();
+  const codeEICInconnu = 'codeEICInconnu';
+
+  const fakeLoadGestionnaireRéseau = (
+    aggregateId: AggregateId,
+    aggregateStateFactory: AggregateStateFactory<GestionnaireRéseauState, GestionnaireRéseauEvent>,
+  ): Promise<Option<Aggregate & GestionnaireRéseauState>> => {
+    if (aggregateId === createGestionnaireRéseauAggregateId(codeEICInconnu)) {
+      return Promise.resolve(none);
+    }
+    const aggregate = aggregateStateFactory([
+      {
+        type: 'GestionnaireRéseauAjouté',
+        payload: {
+          codeEIC: '',
+          raisonSociale: '',
+          aideSaisieRéférenceDossierRaccordement: {
+            format: '',
+            légende: '',
+          },
+        },
+      },
+    ]);
+
+    return Promise.resolve({
+      aggregateId,
+      version: 1,
+      ...aggregate,
+    });
+  };
 
   beforeEach(() => {
     return publishToEventStore.mockClear();
@@ -42,7 +83,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
-          gestionnaireRéseauRepo,
+          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -68,7 +109,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo,
+          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -102,7 +143,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo: fakeRepo(projet),
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
-          gestionnaireRéseauRepo,
+          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -129,21 +170,14 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: '',
-            raisonSociale: '',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau: 'ID_GES_RES',
-        codeEICGestionnaireRéseau: 'codeEICRenseigné',
+        codeEICGestionnaireRéseau: codeEICInconnu,
       });
 
       expect(résulat.isErr()).toBe(true);
@@ -166,14 +200,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: 'codeEICRenseigné',
-            raisonSociale: 'ENEDIS',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -217,14 +244,7 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          gestionnaireRéseauRepo: fakeRepo({
-            id: new UniqueEntityID('codeEICRenseigné'),
-            codeEIC: 'codeEICRenseigné',
-            raisonSociale: 'ENEDIS',
-            légende: '',
-            format: '',
-            pendingEvents: [],
-          }),
+          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({

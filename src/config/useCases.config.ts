@@ -98,7 +98,7 @@ import {
   importRepo,
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
-  gestionnaireRéseauRepo,
+  // gestionnaireRéseauRepo,
 } from './repos.config';
 import { sendNotification } from '@config/emails.config';
 import {
@@ -115,7 +115,9 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config';
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
-import { ajouterGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau';
+import { ajouterGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { modifierGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/modifier';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -302,7 +304,7 @@ export const renseignerIdentifiantGestionnaireRéseau =
     shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
     projectRepo,
     trouverProjetsParIdentifiantGestionnaireRéseau,
-    gestionnaireRéseauRepo,
+    loadAggregate,
   });
 
 export const importProjects = makeImportProjects({
@@ -514,6 +516,11 @@ export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
 });
 
 export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
-  publish: publishToEventStore,
-  repository: gestionnaireRéseauRepo,
+  publish,
+  loadAggregate,
+});
+
+export const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
+  publish,
+  loadAggregate,
 });

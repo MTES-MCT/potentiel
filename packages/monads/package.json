@@ -1,0 +1,15 @@
+{
+  "name": "@potentiel/monads",
+  "version": "0.0.0",
+  "description": "Basic monads for the Potentiel project",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

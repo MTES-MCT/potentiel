@@ -1,0 +1,11 @@
+{
+  "extends": "@potentiel/tsconfig/tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true
+  },
+  "include": [
+    "src",
+    "../pg-event-sourcing/src/listenTo.ts"
+  ]
+}

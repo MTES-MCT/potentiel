@@ -1,5 +1,7 @@
 import { Repository, UniqueEntityID } from '@core/domain';
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
+import { LoadAggregate } from '@potentiel/core-domain';
+import { isNone } from '@potentiel/monads';
 import { User } from '@entities';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Project } from '../Project';
@@ -10,8 +12,9 @@ import {
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
-import { GestionnaireRéseau } from '@modules/gestionnaireRéseau/gestionnaireRéseau.aggregate';
 import { Publish } from '../../../core/domain/publish';
+import { loadGestionnaireRéseauAggregateFactory } from '@modules/gestionnaireRéseau';
+import { fromPromise } from 'neverthrow';
 
 type Command = {
   projetId: string;
@@ -25,7 +28,7 @@ type Dependencies = {
   publish: Publish;
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
-  gestionnaireRéseauRepo: Repository<GestionnaireRéseau>;
+  loadAggregate: LoadAggregate;
 };
 
 type CommandHandler = (
@@ -44,18 +47,23 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   publish,
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
-  gestionnaireRéseauRepo,
+  loadAggregate,
 }: Dependencies): CommandHandler => {
+  const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
+    loadAggregate,
+  });
   const vérifierCodeEIC = (command: Command) => {
     if (command.codeEICGestionnaireRéseau) {
-      return gestionnaireRéseauRepo
-        .load(new UniqueEntityID(command.codeEICGestionnaireRéseau))
-        .andThen((gestionnaire) => {
-          if (gestionnaire.codeEIC !== command.codeEICGestionnaireRéseau) {
-            return errAsync(new CodeEICNonTrouvéError());
-          }
-          return okAsync(command);
-        });
+      return fromPromise(
+        loadGestionnaireRéseauAggregate(command.codeEICGestionnaireRéseau),
+        (err) => {
+          return new CodeEICNonTrouvéError();
+        },
+      ).andThen((gestionnaireRéseau) => {
+        return isNone(gestionnaireRéseau)
+          ? errAsync(new CodeEICNonTrouvéError())
+          : okAsync(command);
+      });
     }
     return okAsync(command);
   };

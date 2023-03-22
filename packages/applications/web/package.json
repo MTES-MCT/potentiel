@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel/web",
+  "version": "0.0.0",
+  "description": "Potentiel website packages for the new project organization",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  }, 
+  "dependencies": {
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/redis-event-bus-client": "*"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

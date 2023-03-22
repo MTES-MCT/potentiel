@@ -31,6 +31,7 @@ jobs:
           node-version: 18.x
           cache: 'npm'
       - run: npm ci
+      - run: npm run build:packages
       - run: npm run launch-test-db
       - run: npm run migrate
       - run: npm run test-int
