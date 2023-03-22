@@ -41,7 +41,7 @@ export const ModifierIdentifiantGestionnaireReseau = ({
           <Heading1>
             {projet.identifiantGestionnaire
               ? "Je modifie l'identifiant du dossier de raccordement"
-              : "J'ajoute un identifiant du dossier de raccordement"}
+              : "J'ajoute l'identifiant du dossier de raccordement"}
           </Heading1>
         </div>
 

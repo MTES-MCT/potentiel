@@ -81,7 +81,7 @@ export const GestionnaireRéseauFormInputs = ({
           required
         />
         <p className="mt-4 mb-0 italic">
-          * Où trouver mon identifiant du dossier de raccordement ?
+          * Où trouver l'identifiant du dossier de raccordement ?
           <br />
           Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre demande
           complète de raccordement (
