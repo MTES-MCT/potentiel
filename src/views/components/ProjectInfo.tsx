@@ -82,7 +82,7 @@ export const ProjectInfo = ({ project, children, className = '' }: ProjectInfoPr
         )}
       </p>
       {identifiantGestionnaire && (
-        <div>Identifiant gestionnaire de réseau : {identifiantGestionnaire}</div>
+        <div>Identifiant dossier de raccordement : {identifiantGestionnaire}</div>
       )}
       {gestionnaireRéseau && (
         <div>
