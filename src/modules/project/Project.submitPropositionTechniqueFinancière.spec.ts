@@ -48,7 +48,6 @@ describe('Project.submitPropositionTechniqueFinancière()', () => {
         projectId: projectId.toString(),
         dcrDate: new Date('2022-01-01'),
         fileId: 'identifiant-fichier',
-        numeroDossier: 'numero-dossier',
         submittedBy: 'user-id',
       });
       expect(res.isErr()).toBe(true);

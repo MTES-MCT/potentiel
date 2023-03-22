@@ -29,7 +29,6 @@ const schema = yup.object({
       .transform(iso8601DateToDateYupTransformation)
       .typeError(`La date d'achèvement souhaitée saisie n'est pas valide`),
     justification: yup.string().optional(),
-    numeroGestionnaire: yup.string().optional(),
   }),
 });
 
@@ -53,7 +52,6 @@ v1Router.post(
       const {
         projectId,
         justification,
-        numeroGestionnaire,
         dateAchevementDemandee: dateAchèvementDemandée,
       } = request.body;
       const { user } = request;
@@ -68,7 +66,6 @@ v1Router.post(
         projectId,
         file,
         justification,
-        numeroGestionnaire,
         dateAchèvementDemandée,
       }).match(
         () => {

@@ -4,7 +4,7 @@ export interface ProjectDCRSubmittedPayload {
   projectId: string;
   dcrDate: Date;
   fileId: string;
-  numeroDossier: string;
+  numeroDossier?: string;
   submittedBy: string;
 }
 export class ProjectDCRSubmitted

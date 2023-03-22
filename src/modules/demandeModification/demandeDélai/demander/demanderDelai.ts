@@ -7,7 +7,7 @@ import { DélaiDemandé } from '@modules/demandeModification';
 import { GetProjectAppelOffreId } from '@modules/modificationRequest';
 import { AppelOffreRepo } from '@dataAccess';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
-import { NumeroGestionnaireSubmitted, Project } from '@modules/project';
+import { Project } from '@modules/project';
 
 import { DemanderDateAchèvementAntérieureDateThéoriqueError } from '.';
 import { NouveauCahierDesChargesNonChoisiError } from './NouveauCahierDesChargesNonChoisiError';
@@ -21,7 +21,6 @@ type DemanderDélai = (commande: {
   projectId: string;
   justification?: string;
   dateAchèvementDemandée: Date;
-  numeroGestionnaire?: string;
 }) => ResultAsync<
   null,
   InfraNotAvailableError | UnauthorizedError | DemanderDateAchèvementAntérieureDateThéoriqueError
@@ -45,7 +44,7 @@ export const makeDemanderDélai: MakeDemanderDélai =
     getProjectAppelOffreId,
     projectRepo,
   }) =>
-  ({ user, projectId, file, justification, dateAchèvementDemandée, numeroGestionnaire }) => {
+  ({ user, projectId, file, justification, dateAchèvementDemandée }) => {
     return wrapInfra(
       shouldUserAccessProject({
         user,
@@ -119,15 +118,6 @@ export const makeDemanderDélai: MakeDemanderDélai =
               cahierDesCharges: formatCahierDesChargesRéférence(project.cahierDesCharges),
             },
           }),
-        ).andThen(() => {
-          if (numeroGestionnaire) {
-            return publishToEventStore(
-              new NumeroGestionnaireSubmitted({
-                payload: { projectId, submittedBy: user.id, numeroGestionnaire },
-              }),
-            );
-          }
-          return okAsync(null);
-        });
+        );
       });
   };

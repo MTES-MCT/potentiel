@@ -144,12 +144,6 @@ const UploadForm = ({ projectId }: UploadFormProps) => {
           />
         </div>
         <div className="mt-2">
-          <Label htmlFor="numero-dossier" required>
-            Identifiant gestionnaire de réseau (ex : GEFAR-P)
-          </Label>
-          <Input type="text" name="numeroDossier" id="numero-dossier" required />
-        </div>
-        <div className="mt-2">
           <Label htmlFor="file" required>
             Accusé de réception
           </Label>

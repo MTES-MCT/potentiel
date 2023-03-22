@@ -12,7 +12,6 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
-  ExternalLink,
   Heading1,
   ProjectProps,
   Label,
@@ -129,23 +128,6 @@ export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiPro
                       {...dataId('modificationRequest-justificationField')}
                     />
                   </div>
-                  {!project.identifiantGestionnaire ? (
-                    <div>
-                      <Label htmlFor="numeroGestionnaire">Identifiant gestionnaire de réseau</Label>
-                      <div className="italic">
-                        Cette indication permettra un traitement plus rapide de votre demande.{' '}
-                        <ExternalLink href="https://docs.potentiel.beta.gouv.fr/info/guide-dutilisation-potentiel/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
-                          Où trouver mon numéro ?
-                        </ExternalLink>
-                      </div>
-                      <Input
-                        type="text"
-                        name="numeroGestionnaire"
-                        {...dataId('modificationRequest-numeroGestionnaireField')}
-                        id="numeroGestionnaire"
-                      />
-                    </div>
-                  ) : null}
                   <div>
                     <Label htmlFor="file">Pièce justificative (si nécessaire)</Label>
                     <Input

@@ -12,7 +12,6 @@ describe('onProjectDCRSubmitted', () => {
   const submittedBy = 'user-id';
   const dcrDate = new Date('2021-12-26');
   const filename = 'my-file';
-  const numeroDossier = 'DOSSIER-1';
 
   beforeEach(async () => {
     await resetDatabase();
@@ -33,7 +32,6 @@ describe('onProjectDCRSubmitted', () => {
             fileId,
             submittedBy,
             dcrDate,
-            numeroDossier,
           } as ProjectDCRSubmittedPayload,
           original: {
             version: 1,
@@ -63,7 +61,6 @@ describe('onProjectDCRSubmitted', () => {
               fileId,
               submittedBy,
               dcrDate,
-              numeroDossier,
             } as ProjectDCRSubmittedPayload,
             original: {
               version: 1,
