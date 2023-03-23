@@ -9,6 +9,11 @@
     "prebuild": "rimraf dist",
     "build": "tsc"
   },
+  "dependencies": {
+    "@potentiel/pg-event-sourcing": "*", 
+    "@potentiel/core-domain": "*", 
+    "@potentiel/domain": "*"
+  },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
   }
