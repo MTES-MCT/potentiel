@@ -7,3 +7,5 @@ export { DomainEvent } from './domainEvent';
 export { DomainEventHandler } from './domainEventHandler';
 export { Publish } from './publish';
 export { Subscribe, Unsubscribe } from './subscribe';
+export { QueryHandler } from './queryHandler';
+export { FindReadModel } from './findReadModel';

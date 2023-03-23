@@ -2,6 +2,8 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
   ajouterGestionnaireRéseauFactory,
+  consulterGestionnaireRéseauFactory,
+  ConsulterGestionnaireRéseauReadModel,
   createGestionnaireRéseauAggregateId,
   GestionnaireRéseauDéjàExistantError,
 } from '@potentiel/domain';
@@ -33,41 +35,6 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
         légende,
       },
     });
-
-    type ConsulterGestionnaireRéseauQuery = {
-      codeEIC: string;
-    };
-
-    type ConsulterGestionnaireRéseauQueryHandler = (
-      query: ConsulterGestionnaireRéseauQuery,
-    ) => Promise<ConsulterGestionnaireRéseauReadModel | null>;
-
-    type FindByKey<TValue> = (key: string) => TValue;
-
-    type ConsulterGestionnaireRéseauDependencies = {
-      findGestionnaireRéseau: FindByKey<ConsulterGestionnaireRéseauReadModel>;
-    };
-
-    type QueryHandler<TQuery, TReadModel> = (query: TQuery) => Promise<TReadModel>;
-
-    type ConsulterGestionnaireRéseauReadModel = {
-      codeEIC: string;
-      raisonSociale: string;
-      aideSaisieRéférenceDossierRaccordement: {
-        format: string;
-        légende: string;
-      };
-    };
-
-    type ConsulterGestionnaireRéseauFactory = (
-      dependencies: ConsulterGestionnaireRéseauDependencies,
-    ) => QueryHandler<ConsulterGestionnaireRéseauQuery, ConsulterGestionnaireRéseauReadModel>;
-
-    const consulterGestionnaireRéseauFactory: ConsulterGestionnaireRéseauFactory = ({
-      findGestionnaireRéseau,
-    }) => {
-      return async ({ codeEIC }) => findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
-    };
 
     const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({});
 
