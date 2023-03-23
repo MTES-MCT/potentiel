@@ -14,7 +14,10 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
+  beforeEach(async () => {
+    await executeQuery(`DELETE FROM "EVENT_STREAM"`);
+    await executeQuery(`DELETE FROM "PROJECTION"`);
+  });
 
   const codeEIC = '17X100A100A0001A';
   const raisonSociale = 'Enedis';
