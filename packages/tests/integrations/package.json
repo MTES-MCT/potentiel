@@ -1,0 +1,17 @@
+{
+  "name": "@potentiel/integration-tests",
+  "version": "0.0.0",
+  "description": "Tests d'intégration de l'application Potentiel",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "dependencies": {
+    "@potentiel/core-domain": "*",
+    "@potentiel/domain": "*",
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/pg-helpers": "*"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

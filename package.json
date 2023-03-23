@@ -5,13 +5,16 @@
   "description": "Suivi des Projets d'Energies Renouvelables",
   "main": "index.js",
   "workspaces": [
-    "./packages/logger",
-    "./packages/monads",
-    "./packages/core-domain",
-    "./packages/pg-helpers",
-    "./packages/pg-event-sourcing",
-    "./packages/redis-event-bus-client",
-    "./packages/applications/web"
+    "./packages/libraries/tsconfig/",
+    "./packages/libraries/logger/",
+    "./packages/libraries/monads/",
+    "./packages/libraries/core-domain/",
+    "./packages/libraries/pg-helpers/",
+    "./packages/libraries/pg-event-sourcing/",
+    "./packages/libraries/redis-event-bus-client/",
+    "./packages/domain/",
+    "./packages/applications/*",
+    "./packages/tests/*"
   ],
   "scripts": {
     "type:check": "tsc --noEmit",
