@@ -1,5 +1,7 @@
 import { Option } from '@potentiel/monads';
 
-type ReadModelId = `${string}#${string}`;
-
-export type FindReadModel<TReadModel> = (id: ReadModelId) => Promise<Option<TReadModel>>;
+export type ReadModelId = `${string}#${string}`;
+export type ReadModel = Record<string, unknown>;
+export type FindReadModel<TReadModel extends ReadModel> = (
+  id: ReadModelId,
+) => Promise<Option<TReadModel>>;

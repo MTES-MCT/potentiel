@@ -1,0 +1,1 @@
+export { findReadModel } from './findReadModel';

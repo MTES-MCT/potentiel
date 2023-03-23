@@ -7,6 +7,7 @@ import {
   createGestionnaireRéseauAggregateId,
   GestionnaireRéseauDéjàExistantError,
 } from '@potentiel/domain';
+import { findReadModel } from '@potentiel/pg-projections';
 
 describe(`Ajouter un gestionnaire de réseau`, () => {
   beforeAll(() => {
@@ -36,7 +37,9 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
       },
     });
 
-    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({});
+    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({
+      findGestionnaireRéseau: findReadModel,
+    });
 
     const actual = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
 

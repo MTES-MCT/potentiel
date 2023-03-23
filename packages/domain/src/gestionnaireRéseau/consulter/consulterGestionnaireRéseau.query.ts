@@ -1,4 +1,5 @@
 import { FindReadModel, QueryHandler } from '@potentiel/core-domain';
+import { isNone } from '@potentiel/monads';
 import { ConsulterGestionnaireRéseauReadModel } from './consulterGestionnaireRéseau.readModel';
 
 type ConsulterGestionnaireRéseauQuery = {
@@ -16,5 +17,13 @@ type ConsulterGestionnaireRéseauFactory = (
 export const consulterGestionnaireRéseauFactory: ConsulterGestionnaireRéseauFactory = ({
   findGestionnaireRéseau,
 }) => {
-  return async ({ codeEIC }) => findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
+  return async ({ codeEIC }) => {
+    const result = await findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
+
+    if (isNone(result)) {
+      throw new Error();
+    }
+
+    return result;
+  };
 };
