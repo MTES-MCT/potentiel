@@ -1,11 +1,8 @@
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { isNone } from '@potentiel/monads';
 import {
   ajouterGestionnaireRéseauFactory,
   createGestionnaireRéseauAggregateId,
-  GestionnaireRéseauState,
-  loadGestionnaireRéseauAggregateFactory,
   GestionnaireRéseauDéjàExistantError,
 } from '@potentiel/domain';
 
@@ -37,15 +34,47 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
       },
     });
 
-    // Assert
-    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-      loadAggregate,
-    });
+    type ConsulterGestionnaireRéseauQuery = {
+      codeEIC: string;
+    };
 
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
+    type ConsulterGestionnaireRéseauQueryHandler = (
+      query: ConsulterGestionnaireRéseauQuery,
+    ) => Promise<ConsulterGestionnaireRéseauReadModel | null>;
+
+    type FindByKey<TValue> = (key: string) => TValue;
+
+    type ConsulterGestionnaireRéseauDependencies = {
+      findGestionnaireRéseau: FindByKey<ConsulterGestionnaireRéseauReadModel>;
+    };
+
+    type QueryHandler<TQuery, TReadModel> = (query: TQuery) => Promise<TReadModel>;
+
+    type ConsulterGestionnaireRéseauReadModel = {
+      codeEIC: string;
+      raisonSociale: string;
+      aideSaisieRéférenceDossierRaccordement: {
+        format: string;
+        légende: string;
+      };
+    };
+
+    type ConsulterGestionnaireRéseauFactory = (
+      dependencies: ConsulterGestionnaireRéseauDependencies,
+    ) => QueryHandler<ConsulterGestionnaireRéseauQuery, ConsulterGestionnaireRéseauReadModel>;
+
+    const consulterGestionnaireRéseauFactory: ConsulterGestionnaireRéseauFactory = ({
+      findGestionnaireRéseau,
+    }) => {
+      return async ({ codeEIC }) => findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
+    };
+
+    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({});
+
+    const actual = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
 
     // Assert
-    const expected: GestionnaireRéseauState = {
+    const expected: ConsulterGestionnaireRéseauReadModel = {
       codeEIC,
       raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
@@ -53,10 +82,8 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
         légende,
       },
     };
-    expect(isNone(gestionnaireRéseau)).toBe(false);
-    if (!isNone(gestionnaireRéseau)) {
-      expect(gestionnaireRéseau).toMatchObject(expected);
-    }
+
+    expect(actual).toEqual(expected);
   });
 
   it(`Etant donné un gestionnaire de réseau
