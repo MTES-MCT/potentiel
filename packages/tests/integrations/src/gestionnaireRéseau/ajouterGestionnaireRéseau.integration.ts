@@ -14,7 +14,7 @@ import { Unsubscribe } from '@potentiel/core-domain';
 import { createProjection } from '@potentiel/pg-projections/dist/createProjection';
 
 describe(`Ajouter un gestionnaire de réseau`, () => {
-  let unsubscribe: Unsubscribe;
+  let unsubscribe: Unsubscribe | undefined;
 
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -25,7 +25,12 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
     await executeQuery(`DELETE FROM "PROJECTION"`);
   });
 
-  afterEach(() => unsubscribe());
+  afterEach(async () => {
+    if (unsubscribe) {
+      await unsubscribe();
+      unsubscribe = undefined;
+    }
+  });
 
   const codeEIC = '17X100A100A0001A';
   const raisonSociale = 'Enedis';
