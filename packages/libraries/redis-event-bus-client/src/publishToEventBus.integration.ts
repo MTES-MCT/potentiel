@@ -1,5 +1,5 @@
 import { publishToEventBus } from './publishToEventBus';
-import { disconnectRedis, useRedis } from './useRedis';
+import { disconnectRedis, useDuplicate } from './useDuplicate';
 
 const streamName = 'potentiel_event_bus';
 
@@ -8,7 +8,7 @@ describe('redisPublish', () => {
   process.env.REDIS_EVENT_BUS_STREAM_NAME = streamName;
 
   beforeEach(async () => {
-    await useRedis(async (redisClient) => {
+    await useDuplicate(async (redisClient) => {
       await redisClient.del(streamName);
     });
   });
@@ -25,7 +25,7 @@ describe('redisPublish', () => {
       await publishToEventBus(key, value);
 
       let results: [string, [string, string[]][]][];
-      await useRedis(async (redisClient) => {
+      await useDuplicate(async (redisClient) => {
         results = await redisClient.xread('STREAMS', streamName, '0');
       });
 

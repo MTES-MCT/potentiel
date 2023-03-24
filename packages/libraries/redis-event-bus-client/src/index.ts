@@ -1,2 +1,2 @@
 export { publishToEventBus } from './publishToEventBus';
-export { useRedis } from './useRedis';
+export { useDuplicate as useRedis } from './useDuplicate';
