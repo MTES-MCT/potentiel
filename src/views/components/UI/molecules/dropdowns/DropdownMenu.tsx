@@ -1,19 +1,21 @@
 import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react';
-import { ArrowDownIcon } from '../atoms/icons';
+import { ArrowDownIcon } from '../../atoms/icons';
 
 type DropdownMenuProps = ComponentProps<'li'> & {
   buttonChildren: React.ReactNode;
-  children: (ReactElement | false)[];
+  children?: (ReactElement | false)[];
 };
 
-const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
+export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
   buttonChildren,
   children,
   className,
   ...props
 }: DropdownMenuProps) => {
   const [visible, setVisible] = useState(false);
-  const isCurrent = children.some((subMenu) => subMenu && subMenu.props.isCurrent);
+  const isCurrent = children
+    ? children.some((subMenu) => subMenu && subMenu.props.isCurrent)
+    : undefined;
   const ref = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -92,5 +94,3 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
 );
 
 DropdownMenu.DropdownItem = DropdownItem;
-
-export { DropdownMenu };

@@ -2,7 +2,7 @@ import React from 'react';
 import routes from '@routes';
 import { Footer } from './Footer';
 import { Header } from './Header';
-import { DropdownMenu } from './UI/molecules/DropdownMenu';
+import { DropdownMenu } from './UI/molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 
 type CurrentPage =
