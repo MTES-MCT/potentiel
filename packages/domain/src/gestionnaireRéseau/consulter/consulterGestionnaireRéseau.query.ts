@@ -14,7 +14,7 @@ type ConsulterGestionnaireRéseauFactory = (
   dependencies: ConsulterGestionnaireRéseauDependencies,
 ) => QueryHandler<ConsulterGestionnaireRéseauQuery, GestionnaireRéseauReadModel>;
 
-export const consulterGestionnaireRéseauFactory: ConsulterGestionnaireRéseauFactory = ({
+export const consulterGestionnaireRéseauQueryHandlerFactory: ConsulterGestionnaireRéseauFactory = ({
   findGestionnaireRéseau,
 }) => {
   return async ({ codeEIC }) => {

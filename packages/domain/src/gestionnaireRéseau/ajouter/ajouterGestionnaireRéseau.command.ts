@@ -7,11 +7,6 @@ import {
 import { GestionnaireRéseauAjoutéEvent } from './gestionnaireRéseauAjouté.event';
 import { GestionnaireRéseauDéjàExistantError } from './gestionnaireRéseauDéjàExistant.error';
 
-export const PermissionAjouterGestionnaireRéseau = {
-  nom: 'ajouter-gestionnaire-réseau',
-  description: 'Ajouter un gestionnaire de réseau',
-};
-
 type AjouterGestionnaireRéseauCommand = {
   codeEIC: string;
   raisonSociale: string;
@@ -23,33 +18,31 @@ type AjouterGestionnaireRéseauDependencies = {
   loadAggregate: LoadAggregate;
 };
 
-type AjouterGestionnaireRéseauFactory = (
+type AjouterGestionnaireRéseauCommandHandlerFactory = (
   dependencies: AjouterGestionnaireRéseauDependencies,
 ) => CommandHandler<AjouterGestionnaireRéseauCommand>;
 
-export const ajouterGestionnaireRéseauFactory: AjouterGestionnaireRéseauFactory = ({
-  publish,
-  loadAggregate,
-}) => {
-  const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-    loadAggregate,
-  });
+export const ajouterGestionnaireRéseauCommandHandlerFactory: AjouterGestionnaireRéseauCommandHandlerFactory =
+  ({ publish, loadAggregate }) => {
+    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
+      loadAggregate,
+    });
 
-  return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
+    return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
+      const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
-    if (isSome(gestionnaireRéseau)) {
-      throw new GestionnaireRéseauDéjàExistantError();
-    }
+      if (isSome(gestionnaireRéseau)) {
+        throw new GestionnaireRéseauDéjàExistantError();
+      }
 
-    const event: GestionnaireRéseauAjoutéEvent = {
-      type: 'GestionnaireRéseauAjouté',
-      payload: {
-        codeEIC,
-        raisonSociale,
-        aideSaisieRéférenceDossierRaccordement,
-      },
+      const event: GestionnaireRéseauAjoutéEvent = {
+        type: 'GestionnaireRéseauAjouté',
+        payload: {
+          codeEIC,
+          raisonSociale,
+          aideSaisieRéférenceDossierRaccordement,
+        },
+      };
+      await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
     };
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
-};

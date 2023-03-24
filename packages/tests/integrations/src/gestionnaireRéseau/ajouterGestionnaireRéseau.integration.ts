@@ -1,8 +1,8 @@
 import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
-  ajouterGestionnaireRéseauFactory,
-  consulterGestionnaireRéseauFactory,
+  ajouterGestionnaireRéseauCommandHandlerFactory,
+  consulterGestionnaireRéseauQueryHandlerFactory,
   createGestionnaireRéseauAggregateId,
   GestionnaireRéseauAjoutéEvent,
   gestionnaireRéseauAjoutéHandlerFactory,
@@ -35,12 +35,12 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
   it(`Lorsqu'un administrateur ajoute un gestionnaire de réseau
       Alors le gestionnaire devrait être ajouté`, async () => {
     // Arrange
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
+    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
       publish,
       loadAggregate,
     });
 
-    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({
+    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
       findGestionnaireRéseau: findProjection,
     });
 
@@ -63,7 +63,7 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
     });
 
     await waitForExpect(async () => {
-      const actual = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
+      const actual = await consulterGestionnaireRéseau({ codeEIC });
 
       // Assert
       const expected: typeof actual = {
@@ -91,7 +91,7 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
       },
     });
 
-    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
+    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
       publish,
       loadAggregate,
     });
