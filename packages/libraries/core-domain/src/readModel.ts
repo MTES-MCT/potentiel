@@ -11,7 +11,15 @@ export type ReadModel<
 
 export type Find<TReadModel extends ReadModel> = (
   id: `${TReadModel['type']}#${string}`,
-) => Promise<Option<Omit<TReadModel, 'type'>>>;
+) => Promise<Option<TReadModel>>;
+
+export type ListOptions<TReadModel extends ReadModel> = {
+  type: TReadModel['type'];
+};
+
+export type List<TReadModel extends ReadModel> = (
+  options: ListOptions<TReadModel>,
+) => Promise<ReadonlyArray<TReadModel>>;
 
 export type Create<TReadModel extends ReadModel> = (
   id: `${TReadModel['type']}#${string}`,

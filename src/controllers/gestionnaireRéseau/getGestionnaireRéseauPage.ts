@@ -4,8 +4,15 @@ import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
-import { PermissionConsulterGestionnaireRéseau } from '@modules/gestionnaireRéseau/consulter/consulterGestionnaireRéseau';
-import { consulterGestionnaireRéseauQueryHandler } from '@infra/sequelize/queries/gestionnaireRéseau/consulterGestionnaireRéseau';
+import {
+  PermissionConsulterGestionnaireRéseau,
+  consulterGestionnaireRéseauQueryHandlerFactory,
+} from '@potentiel/domain';
+import { findProjection } from '@potentiel/pg-projections';
+
+const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauQueryHandlerFactory({
+  findGestionnaireRéseau: findProjection,
+});
 
 const schema = yup.object({
   params: yup.object({ codeEIC: yup.string().required() }),

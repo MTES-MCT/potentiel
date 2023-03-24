@@ -1,10 +1,10 @@
-import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau';
 import routes from '@routes';
 import { Link, Tile } from '@views/components';
 import React, { FC } from 'react';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain';
 
 type ListeProps = {
-  gestionnairesRéseau: ListeGestionnairesRéseauReadModel;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 export const Liste: FC<ListeProps> = ({ gestionnairesRéseau }) => (
   <ul className="m-0 p-0 list-none">

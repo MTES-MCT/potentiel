@@ -10,19 +10,23 @@ import {
 } from '@components';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { hydrateOnClient } from '@views/helpers';
-import { ConsulterGestionnaireRéseauReadModel } from '@modules/gestionnaireRéseau';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain';
 import routes from '@routes';
 import { ChampsAideALaSaisieIdentifiant } from './components/ChampsAideALaSaisieIdentifiant';
 
 type ConsulterGestionnaireRéseauProps = {
   utilisateur: UtilisateurReadModel;
-  gestionnaireRéseau: ConsulterGestionnaireRéseauReadModel;
+  gestionnaireRéseau: GestionnaireRéseauReadModel;
   erreurValidation?: Record<string, string>;
 };
 
 export const ConsulterGestionnaireRéseau = ({
   utilisateur,
-  gestionnaireRéseau: { raisonSociale, format, légende, codeEIC },
+  gestionnaireRéseau: {
+    raisonSociale,
+    codeEIC,
+    aideSaisieRéférenceDossierRaccordement: { format, légende },
+  },
   erreurValidation,
 }: ConsulterGestionnaireRéseauProps) => (
   <PageTemplate user={utilisateur} currentPage={'liste-gestionnaires-réseau'}>

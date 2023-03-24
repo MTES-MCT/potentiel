@@ -19,7 +19,7 @@ import {
   PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
-} from '@modules/gestionnaireRéseau';
+} from '@potentiel/domain';
 
 export type Permission = {
   nom: string;

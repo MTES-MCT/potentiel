@@ -19,11 +19,6 @@ type ModifierGestionnaireRéseauFactory = (
   dependencies: ModifierGestionnaireRéseauDependencies,
 ) => CommandHandler<ModifierGestionnaireRéseauCommand>;
 
-export const PermissionModifierGestionnaireRéseau = {
-  nom: 'modifier-gestionnaire-réseau',
-  description: 'Modifier un gestionnaire de réseau',
-};
-
 export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory = ({
   publish,
   loadAggregate,

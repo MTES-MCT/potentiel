@@ -19,8 +19,6 @@ import * as UtilisateurEvents from '@modules/utilisateur/events';
 import { isLegacyEvent, RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import { GestionnaireRéseauAjouté } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauAjouté.deprecated';
-import { GestionnaireRéseauModifié } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauModifié.deprecated';
 
 interface EventProps {
   payload: any;
@@ -34,11 +32,6 @@ interface EventProps {
 interface HasEventConstructor {
   new (props: EventProps): DomainEvent;
 }
-
-const compatibilityEvents = {
-  GestionnaireRéseauAjouté,
-  GestionnaireRéseauModifié,
-};
 
 const EventClassByType: Record<string, HasEventConstructor> = {
   ...ModificationRequestEvents,
@@ -58,7 +51,6 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
-  ...compatibilityEvents,
 };
 
 export const fromRedisMessage = (message: RedisMessage): DomainEvent => {

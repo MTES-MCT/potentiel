@@ -115,9 +115,7 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config';
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
-import { ajouterGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
-import { modifierGestionnaireRéseauFactory } from '@modules/gestionnaireRéseau/modifier';
+import { loadAggregate } from '@potentiel/pg-event-sourcing';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -513,14 +511,4 @@ export const accorderAnnulationAbandon = makeAccorderAnnulationAbandon({
   getProjectAppelOffre,
   projectRepo,
   fileRepo,
-});
-
-export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
-  publish,
-  loadAggregate,
-});
-
-export const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-  publish,
-  loadAggregate,
 });

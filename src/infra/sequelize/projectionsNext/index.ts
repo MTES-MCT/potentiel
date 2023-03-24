@@ -35,7 +35,6 @@ export * from './users/users.model';
 // Export des projectors pour rebuild dans les migrations si besoin
 export * from './projector.factory';
 export * from './garantiesFinancières/garantiesFinancières.projector';
-export * from './gestionnairesRéseau/gestionnaireRéseau.projector';
 export * from './modificationRequest/modificationRequest.projector';
 export * from './project/project.projector';
 export * from './projectEvents/projectEvent.projector';
@@ -48,7 +47,6 @@ export * from './users/user.projector';
 
 // Export des updates (side effects à l'intérieur..., à faire aprés l'init des models)
 // TODO: la liste des exports qui suit doit à terme être supprimé.
-export * from './gestionnairesRéseau/updates';
 export * from './modificationRequest/updates';
 export * from './project/updates';
 export * from './projectEvents/updates';

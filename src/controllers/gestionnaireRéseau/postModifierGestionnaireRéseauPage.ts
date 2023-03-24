@@ -4,11 +4,19 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { modifierGestionnaireRéseau } from '@config';
-import { GestionnaireRéseauInconnuError } from '@modules/gestionnaireRéseau/modifier/gestionnaireRéseauInconnu.error';
 import { logger } from '@core/utils';
 import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { PermissionModifierGestionnaireRéseau } from '@modules/gestionnaireRéseau/modifier/modifierGestionnaireRéseau.command';
+import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
+import {
+  GestionnaireRéseauInconnuError,
+  modifierGestionnaireRéseauFactory,
+  PermissionModifierGestionnaireRéseau,
+} from '@potentiel/domain';
+
+export const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
+  publish,
+  loadAggregate,
+});
 
 const schema = yup.object({
   body: yup.object({
