@@ -65,9 +65,11 @@ type DropdownItemProps = {
   href: string;
   isCurrent?: true;
   children: React.ReactNode;
+  download?: true;
+  disabled?: true;
 };
 
-const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
+const DropdownItem = ({ children, href, isCurrent, download, disabled }: DropdownItemProps) => (
   <li
     style={{ borderBottomWidth: 1 }}
     className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
@@ -78,6 +80,8 @@ const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
     <a
       className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
+      {...(download && { download: true })}
+      {...(disabled && { disabled: true })}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
         : { style: { color: 'black' } })}
