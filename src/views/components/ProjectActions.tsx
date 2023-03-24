@@ -1,7 +1,7 @@
 import React from 'react';
 import { UserRole } from '@modules/users';
 import { ACTION_BY_ROLE } from './actions';
-import { DropdownMenu } from './UI';
+import { DropdownSecondary } from './UI';
 import { ProjectAppelOffre } from '@entities';
 
 type Props = {
@@ -36,20 +36,20 @@ export const ProjectActions = ({ project, role }: Props) => {
   return (
     <div className="relative">
       <ul>
-        <DropdownMenu buttonChildren="Actions">
+        <DropdownSecondary titre="Actions">
           {actions.map(({ title, link, isDownload, disabled }, index) => {
             return (
-              <DropdownMenu.DropdownItem
+              <DropdownSecondary.DropdownItem
                 href={link}
                 download={isDownload ? true : undefined}
                 disabled={disabled ? true : undefined}
                 key={`${title}#${index}`}
               >
                 {title}
-              </DropdownMenu.DropdownItem>
+              </DropdownSecondary.DropdownItem>
             );
           })}
-        </DropdownMenu>
+        </DropdownSecondary>
       </ul>
     </div>
   );

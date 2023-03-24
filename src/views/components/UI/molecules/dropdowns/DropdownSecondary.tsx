@@ -43,7 +43,7 @@ export const DropdownSecondary: React.FC<DropdownSecondaryProps> & {
         />
       </div>
       <ul
-        className={`list-none p-3 lg:p-0 lg:mt-4 z-10 lg:absolute lg:top-full lg:left-0 w-full lg:w-auto lg:shadow-[0_2px_6px_1px_rgba(0,0,0,0.2)] lg:min-w-[300px] ${
+        className={`bg-white list-none p-0 mt-4 z-10 absolute top-full left-0 shadow-[0_2px_6px_1px_rgba(0,0,0,0.2)] min-w-[300px] ${
           visible ? 'block' : 'hidden'
         }`}
       >
@@ -61,13 +61,13 @@ type DropdownItemProps = {
   disabled?: true;
 };
 
-const DropdownItem = ({ children, href, isCurrent, download, disabled }: DropdownItemProps) => (
+const DropdownItem = ({ children, href, download, disabled }: DropdownItemProps) => (
   <li
     style={{ borderBottomWidth: 1 }}
-    className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid`}
+    className={`bg-white flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid`}
   >
     <Link
-      className="flex-1 px-4 py-3 block bg-white no-underline whitespace-nowrap"
+      className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
       {...(download && { download: true })}
       {...(disabled && { disabled: true })}
