@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/redis-event-bus-subscriber",
+  "name": "@potentiel/redis-event-bus-consumer",
   "version": "0.0.0",
-  "description": "Potentiel Redis EventBus Subscriber",
+  "description": "Potentiel Redis EventBus Consumer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,

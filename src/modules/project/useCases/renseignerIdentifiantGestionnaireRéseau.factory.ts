@@ -13,7 +13,7 @@ import {
 } from '../errors';
 import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
 import { Publish } from '../../../core/domain/publish';
-import { loadGestionnaireRéseauAggregateFactory } from '@modules/gestionnaireRéseau';
+import { loadGestionnaireRéseauAggregateFactory } from '@potentiel/domain';
 import { fromPromise } from 'neverthrow';
 
 type Command = {

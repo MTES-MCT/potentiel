@@ -13,6 +13,7 @@
     "./packages/libraries/pg-event-sourcing/",
     "./packages/libraries/pg-projections",
     "./packages/libraries/redis-event-bus-client/",
+    "./packages/libraries/redis-event-bus-consumer/",
     "./packages/domain/",
     "./packages/applications/*",
     "./packages/tests/*"
