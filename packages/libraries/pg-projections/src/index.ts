@@ -1,2 +1,2 @@
-export { findReadModel } from './findReadModel';
-export { createReadModel } from './createReadModel';
+export { findProjection } from './findProjection';
+export { createProjection } from './createProjection';

@@ -1,15 +1,21 @@
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import {
   ajouterGestionnaireRéseauFactory,
   consulterGestionnaireRéseauFactory,
-  ConsulterGestionnaireRéseauReadModel,
   createGestionnaireRéseauAggregateId,
+  GestionnaireRéseauAjoutéEvent,
+  gestionnaireRéseauAjoutéHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
 } from '@potentiel/domain';
-import { findReadModel } from '@potentiel/pg-projections';
+import { findProjection } from '@potentiel/pg-projections';
+import waitForExpect from 'wait-for-expect';
+import { Unsubscribe } from '@potentiel/core-domain';
+import { createProjection } from '@potentiel/pg-projections/dist/createProjection';
 
 describe(`Ajouter un gestionnaire de réseau`, () => {
+  let unsubscribe: Unsubscribe;
+
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
@@ -19,6 +25,8 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
     await executeQuery(`DELETE FROM "PROJECTION"`);
   });
 
+  afterEach(() => unsubscribe());
+
   const codeEIC = '17X100A100A0001A';
   const raisonSociale = 'Enedis';
   const format = 'XX-YY-ZZ';
@@ -26,11 +34,25 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
 
   it(`Lorsqu'un administrateur ajoute un gestionnaire de réseau
       Alors le gestionnaire devrait être ajouté`, async () => {
+    // Arrange
     const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauFactory({
       publish,
       loadAggregate,
     });
 
+    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({
+      findGestionnaireRéseau: findProjection,
+    });
+
+    const gestionnaireRéseauAjoutéHandler =
+      gestionnaireRéseauAjoutéHandlerFactory(createProjection);
+
+    unsubscribe = await subscribe<GestionnaireRéseauAjoutéEvent>(
+      'GestionnaireRéseauAjouté',
+      gestionnaireRéseauAjoutéHandler,
+    );
+
+    // Act
     await ajouterGestionnaireRéseau({
       codeEIC,
       raisonSociale,
@@ -40,23 +62,21 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
       },
     });
 
-    const consulterGestionnaireRéseauQueryHandler = consulterGestionnaireRéseauFactory({
-      findGestionnaireRéseau: findReadModel,
+    await waitForExpect(async () => {
+      const actual = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
+
+      // Assert
+      const expected: typeof actual = {
+        codeEIC,
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format,
+          légende,
+        },
+      };
+
+      expect(actual).toEqual(expected);
     });
-
-    const actual = await consulterGestionnaireRéseauQueryHandler({ codeEIC });
-
-    // Assert
-    const expected: ConsulterGestionnaireRéseauReadModel = {
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format,
-        légende,
-      },
-    };
-
-    expect(actual).toEqual(expected);
   });
 
   it(`Etant donné un gestionnaire de réseau

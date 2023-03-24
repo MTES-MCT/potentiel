@@ -8,4 +8,4 @@ export { DomainEventHandler } from './domainEventHandler';
 export { Publish } from './publish';
 export { Subscribe, Unsubscribe } from './subscribe';
 export { QueryHandler } from './queryHandler';
-export { FindReadModel, ReadModelId, ReadModel } from './findReadModel';
+export { Find, Create, ReadModel } from './readModel';

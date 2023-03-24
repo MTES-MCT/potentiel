@@ -1,18 +1,18 @@
-import { FindReadModel, QueryHandler } from '@potentiel/core-domain';
+import { Find, QueryHandler } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
-import { ConsulterGestionnaireRéseauReadModel } from './consulterGestionnaireRéseau.readModel';
+import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 
 type ConsulterGestionnaireRéseauQuery = {
   codeEIC: string;
 };
 
 type ConsulterGestionnaireRéseauDependencies = {
-  findGestionnaireRéseau: FindReadModel<ConsulterGestionnaireRéseauReadModel>;
+  findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
 };
 
 type ConsulterGestionnaireRéseauFactory = (
   dependencies: ConsulterGestionnaireRéseauDependencies,
-) => QueryHandler<ConsulterGestionnaireRéseauQuery, ConsulterGestionnaireRéseauReadModel>;
+) => QueryHandler<ConsulterGestionnaireRéseauQuery, GestionnaireRéseauReadModel>;
 
 export const consulterGestionnaireRéseauFactory: ConsulterGestionnaireRéseauFactory = ({
   findGestionnaireRéseau,
