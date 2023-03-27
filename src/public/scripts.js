@@ -1,55 +1,54 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addStatusOnlyHandler()
-  addFriseToggleHandler()
-  addFriseHiddenContentToggleHandler()
-  addActionMenuHandlers()
-  addInvitationHandlers()
-  addDelayEstimator()
-  addSelectorHandlers()
-  addSendCopyOfNotificationButtonHandler()
-  addPaginationHandler()
-  addGoToProjectPageHandlers()
-  addMotifEliminationToggleHandlers()
-  addVisibilityToggleHandler()
-  addConfirmHandlers()
-  addGoToOnClickHandlers()
-  addMissingOwnerProjectListSelectionHandler()
-}
+  addStatusOnlyHandler();
+  addFriseHiddenContentToggleHandler();
+  addActionMenuHandlers();
+  addInvitationHandlers();
+  addDelayEstimator();
+  addSelectorHandlers();
+  addSendCopyOfNotificationButtonHandler();
+  addPaginationHandler();
+  addGoToProjectPageHandlers();
+  addMotifEliminationToggleHandlers();
+  addVisibilityToggleHandler();
+  addConfirmHandlers();
+  addGoToOnClickHandlers();
+  addMissingOwnerProjectListSelectionHandler();
+};
 
-document.addEventListener('DOMContentLoaded', () => window.initHandlers())
+document.addEventListener('DOMContentLoaded', () => window.initHandlers());
 
 //
 // Action menu
 //
 
 function addActionMenuHandlers() {
-  const actionMenuTriggers = document.querySelectorAll('[data-testid=action-menu-trigger]')
+  const actionMenuTriggers = document.querySelectorAll('[data-testid=action-menu-trigger]');
 
-  const actionMenus = document.querySelectorAll('[data-testid=action-menu]')
+  const actionMenus = document.querySelectorAll('[data-testid=action-menu]');
 
   function hideAllMenus() {
-    actionMenus.forEach((item) => item.classList.remove('open'))
+    actionMenus.forEach((item) => item.classList.remove('open'));
   }
 
   actionMenuTriggers.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
 
-      const menu = item.parentElement.querySelector('[data-testid=action-menu]')
-      const wasVisible = menu && menu.classList.contains('open')
+      const menu = item.parentElement.querySelector('[data-testid=action-menu]');
+      const wasVisible = menu && menu.classList.contains('open');
 
-      hideAllMenus()
+      hideAllMenus();
 
       if (menu && !wasVisible) {
-        menu.classList.add('open')
+        menu.classList.add('open');
       }
-    })
-  )
+    }),
+  );
 
-  document.addEventListener('click', hideAllMenus)
+  document.addEventListener('click', hideAllMenus);
 }
 
 //
@@ -58,124 +57,98 @@ function addActionMenuHandlers() {
 
 function addFriseHiddenContentToggleHandler() {
   const friseContentToggleShowItems = document.querySelectorAll(
-    '[data-testid=frise-action].frise-content-toggle'
-  )
+    '[data-testid=frise-action].frise-content-toggle',
+  );
 
-  const allHiddenContentItems = document.querySelectorAll('[data-testId=frise-hidden-content]')
+  const allHiddenContentItems = document.querySelectorAll('[data-testId=frise-hidden-content]');
 
   friseContentToggleShowItems.forEach((friseContentToggleShow) =>
     friseContentToggleShow.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      const hiddenContent = friseContentToggleShow.closest('[data-testId=frise-item]').nextSibling
+      const hiddenContent = friseContentToggleShow.closest('[data-testId=frise-item]').nextSibling;
 
       if (!hiddenContent || hiddenContent.getAttribute('data-testId') !== 'frise-hidden-content') {
         // Can't find it, ignore
-        return
+        return;
       }
 
-      const wasHidden = hiddenContent.classList.contains('hidden')
+      const wasHidden = hiddenContent.classList.contains('hidden');
 
-      allHiddenContentItems.forEach((item) => item.classList.add('hidden'))
+      allHiddenContentItems.forEach((item) => item.classList.add('hidden'));
 
-      hiddenContent.classList.toggle('hidden', !wasHidden)
-    })
-  )
+      hiddenContent.classList.toggle('hidden', !wasHidden);
+    }),
+  );
 
-  const friseContentToggleHideItems = document.querySelectorAll('[data-testid=frise-hide-content]')
+  const friseContentToggleHideItems = document.querySelectorAll('[data-testid=frise-hide-content]');
 
   friseContentToggleHideItems.forEach((friseContentToggleHide) =>
     friseContentToggleHide.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      const contentToBeHidden = friseContentToggleHide.closest('[data-testId=frise-hidden-content]')
+      const contentToBeHidden = friseContentToggleHide.closest(
+        '[data-testId=frise-hidden-content]',
+      );
 
       if (contentToBeHidden) {
-        contentToBeHidden.classList.add('hidden')
+        contentToBeHidden.classList.add('hidden');
       }
-    })
-  )
-}
-
-function addFriseToggleHandler() {
-  const friseToggleShow = document.querySelector('[data-testid=frise-show-timeline]')
-
-  if (friseToggleShow) {
-    friseToggleShow.addEventListener('click', function (event) {
-      event.preventDefault()
-
-      document.querySelectorAll('.frise--collapsed').forEach((el) => {
-        el.classList.remove('frise--collapsed')
-        el.classList.add('frise--uncollapsed')
-      })
-    })
-  }
-
-  const friseToggleHide = document.querySelector('[data-testid=frise-hide-timeline]')
-
-  if (friseToggleHide) {
-    friseToggleHide.addEventListener('click', function (event) {
-      event.preventDefault()
-
-      document.querySelectorAll('.frise--uncollapsed').forEach((el) => {
-        el.classList.add('frise--collapsed')
-        el.classList.remove('frise--uncollapsed')
-      })
-    })
-  }
+    }),
+  );
 }
 
 function addInvitationHandlers() {
   const invitationFormShowButton = document.querySelector(
-    '[data-testid=invitation-form-show-button]'
-  )
+    '[data-testid=invitation-form-show-button]',
+  );
 
   const invitationFormHideButton = document.querySelector(
-    '[data-testid=invitation-form-hide-button]'
-  )
+    '[data-testid=invitation-form-hide-button]',
+  );
 
-  const invitationForm = document.querySelector('[data-testid=invitation-form]')
+  const invitationForm = document.querySelector('[data-testid=invitation-form]');
 
   if (invitationFormShowButton) {
     invitationFormShowButton.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      toggleVisibility(invitationForm, true)
-    })
+      toggleVisibility(invitationForm, true);
+    });
   }
 
   if (invitationFormHideButton) {
     invitationFormHideButton.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      toggleVisibility(invitationForm, false)
-    })
+      toggleVisibility(invitationForm, false);
+    });
   }
 }
 
 function addGoToOnClickHandlers() {
-  const targets = document.querySelectorAll('[data-goto-onclick]')
+  const targets = document.querySelectorAll('[data-goto-onclick]');
   targets.forEach((item) =>
     item.addEventListener('click', function (event) {
       if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
-        event.preventDefault()
+        event.preventDefault();
 
-        const url = item.getAttribute('data-goto-onclick')
+        const url = item.getAttribute('data-goto-onclick');
 
         if (url) {
-          location.href = url
+          location.href = url;
         }
       }
-    })
-  )
+    }),
+  );
 
   // We want to ignore all clicks in the actions container (which might be inside the area which has the click handler above)
-  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]')
+  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]');
   actionsContainer.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.stopPropagation()
-    })
-  )
+      event.stopPropagation();
+    }),
+  );
 }
 
 //
@@ -183,140 +156,140 @@ function addGoToOnClickHandlers() {
 //
 
 function addGoToProjectPageHandlers() {
-  const projectButtons = document.querySelectorAll('[data-goto-projectid]')
+  const projectButtons = document.querySelectorAll('[data-goto-projectid]');
   projectButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
       if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
-        event.preventDefault()
+        event.preventDefault();
 
-        const projectId = item.getAttribute('data-goto-projectid')
+        const projectId = item.getAttribute('data-goto-projectid');
 
         if (projectId) {
-          location.href = '/projet/' + projectId + '/details.html'
+          location.href = '/projet/' + projectId + '/details.html';
         }
       }
-    })
-  )
+    }),
+  );
 
   // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
-  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]')
+  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]');
   actionsContainer.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.stopPropagation()
-    })
-  )
+      event.stopPropagation();
+    }),
+  );
 }
 
 function addMotifEliminationToggleHandlers() {
   const motifToggle = document.querySelectorAll(
-    '[data-testid=projectList-item-toggleMotifsElimination]'
-  )
+    '[data-testid=projectList-item-toggleMotifsElimination]',
+  );
 
   motifToggle.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
 
-      const icon = item.querySelector('svg')
-      const wasVisible = icon && icon.style.transform === 'rotate(180deg)'
+      const icon = item.querySelector('svg');
+      const wasVisible = icon && icon.style.transform === 'rotate(180deg)';
 
       // Hide all motifs
       document
         .querySelectorAll('[data-testid=projectList-item-toggleMotifsElimination]')
-        .forEach((item) => toggleMotifVisibilty(item, false))
+        .forEach((item) => toggleMotifVisibilty(item, false));
 
-      toggleMotifVisibilty(item, !wasVisible)
-    })
-  )
+      toggleMotifVisibilty(item, !wasVisible);
+    }),
+  );
 }
 
 function addMissingOwnerProjectListSelectionHandler() {
   const projectCheckboxes = document.querySelectorAll(
-    '[data-testid=missingOwnerProjectList-item-checkbox]'
-  )
+    '[data-testid=missingOwnerProjectList-item-checkbox]',
+  );
 
   const selectAllCheckbox = document.querySelector(
-    '[data-testid=missingOwnerProjectList-selectAll-checkbox]'
-  )
+    '[data-testid=missingOwnerProjectList-selectAll-checkbox]',
+  );
 
   const claimProjectsSubmitButton = document.querySelector(
-    '[data-testid=claim-projects-submit-button]'
-  )
+    '[data-testid=claim-projects-submit-button]',
+  );
 
-  const swornStatementCheckbox = document.querySelector('[data-testid=sworn-statement]')
+  const swornStatementCheckbox = document.querySelector('[data-testid=sworn-statement]');
 
-  const claimedProjectList = document.querySelector('[data-testid=claimed-project-list]')
+  const claimedProjectList = document.querySelector('[data-testid=claimed-project-list]');
 
   function updateAccessFormVisibility() {
     claimedProjectList?.options.length && swornStatementCheckbox?.checked
       ? (claimProjectsSubmitButton.disabled = false)
-      : (claimProjectsSubmitButton.disabled = true)
+      : (claimProjectsSubmitButton.disabled = true);
   }
 
   function findOption(options, value) {
     for (const option of options) {
-      if (option.value === value) return option
+      if (option.value === value) return option;
     }
   }
 
   function toggleProjectInList(projectId, isSelected) {
     if (claimedProjectList) {
-      const projectOption = findOption(claimedProjectList.options, projectId)
+      const projectOption = findOption(claimedProjectList.options, projectId);
       if (isSelected && !projectOption) {
-        claimedProjectList.options.add(new Option(projectId, projectId, true, true))
+        claimedProjectList.options.add(new Option(projectId, projectId, true, true));
       }
 
       if (!isSelected && projectOption) {
-        projectOption.remove()
+        projectOption.remove();
       }
     }
 
-    updateAccessFormVisibility()
+    updateAccessFormVisibility();
   }
 
   function toggleProjectBox(item, isSelected) {
-    const projectId = item.getAttribute('data-projectid')
+    const projectId = item.getAttribute('data-projectid');
 
-    item.checked = isSelected
+    item.checked = isSelected;
 
-    toggleProjectInList(projectId, isSelected)
+    toggleProjectInList(projectId, isSelected);
   }
 
   projectCheckboxes.forEach((item) =>
     item.addEventListener('change', function (event) {
       if (selectAllCheckbox) {
-        selectAllCheckbox.checked = false
+        selectAllCheckbox.checked = false;
       }
 
-      toggleProjectBox(item, event.target.checked)
-    })
-  )
+      toggleProjectBox(item, event.target.checked);
+    }),
+  );
 
   if (selectAllCheckbox) {
     selectAllCheckbox.addEventListener('change', function (event) {
-      projectCheckboxes.forEach((item) => toggleProjectBox(item, event.target.checked))
-    })
+      projectCheckboxes.forEach((item) => toggleProjectBox(item, event.target.checked));
+    });
 
     swornStatementCheckbox.addEventListener('change', function () {
-      updateAccessFormVisibility()
-    })
+      updateAccessFormVisibility();
+    });
   }
 }
 
 function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
-  const parent = toggleItem.closest('[data-testid=projectList-item]')
+  const parent = toggleItem.closest('[data-testid=projectList-item]');
 
   if (parent) {
-    const motifs = parent.querySelector('[data-testid=projectList-item-motifsElimination]')
+    const motifs = parent.querySelector('[data-testid=projectList-item-motifsElimination]');
 
     if (motifs) {
       // Display this motif
-      motifs.style.display = shouldBeVisible ? 'block' : 'none'
+      motifs.style.display = shouldBeVisible ? 'block' : 'none';
 
       // reverse the expand icon
-      const icon = toggleItem.querySelector('svg')
+      const icon = toggleItem.querySelector('svg');
       if (icon) {
-        icon.style.transform = shouldBeVisible ? 'rotate(180deg)' : 'rotate(0deg)'
+        icon.style.transform = shouldBeVisible ? 'rotate(180deg)' : 'rotate(0deg)';
       }
     }
   }
@@ -327,24 +300,24 @@ function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
 //
 
 function addPaginationHandler() {
-  const pageSizeSelectField = document.querySelector('[data-testid=pageSizeSelector]')
+  const pageSizeSelectField = document.querySelector('[data-testid=pageSizeSelector]');
 
   if (pageSizeSelectField) {
     pageSizeSelectField.addEventListener('change', function (event) {
-      updateFieldsInUrl({ pageSize: event.target.value, page: 0 })
-    })
+      updateFieldsInUrl({ pageSize: event.target.value, page: 0 });
+    });
   }
 
-  const goToPageButtons = document.querySelectorAll('[data-testid=goToPage]')
+  const goToPageButtons = document.querySelectorAll('[data-testid=goToPage]');
 
   goToPageButtons.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.preventDefault()
-      const pageValue = event.target.getAttribute('data-pagevalue')
+      event.preventDefault();
+      const pageValue = event.target.getAttribute('data-pagevalue');
 
-      updateFieldInUrl('page', pageValue)
-    })
-  )
+      updateFieldInUrl('page', pageValue);
+    }),
+  );
 }
 
 //
@@ -353,28 +326,28 @@ function addPaginationHandler() {
 
 function updateFieldsInUrl(fields) {
   // Update the URL with the new appel offre Id or periode Id
-  const queryString = new URLSearchParams(window.location.search)
+  const queryString = new URLSearchParams(window.location.search);
 
   Object.entries(fields).forEach(([key, value]) => {
-    if (value === null) queryString.delete(key)
-    else queryString.set(key, value)
-  })
+    if (value === null) queryString.delete(key);
+    else queryString.set(key, value);
+  });
 
   // We are going to change page so remove error and success messages
-  queryString.delete('error')
-  queryString.delete('success')
+  queryString.delete('error');
+  queryString.delete('success');
 
   window.location.replace(
-    window.location.origin + window.location.pathname + '?' + queryString.toString()
-  )
+    window.location.origin + window.location.pathname + '?' + queryString.toString(),
+  );
 }
 
 function updateFieldInUrl(field, value) {
-  updateFieldsInUrl({ [field]: value })
+  updateFieldsInUrl({ [field]: value });
 }
 
 function addSelectorHandlers() {
-  ;[
+  [
     'appelOffreId',
     'periodeId',
     'familleId',
@@ -385,7 +358,7 @@ function addSelectorHandlers() {
     'modificationRequestType',
     'reclames',
   ].forEach((key) => {
-    const selectField = document.querySelector('[data-testid=' + key + 'Selector]')
+    const selectField = document.querySelector('[data-testid=' + key + 'Selector]');
     if (selectField) {
       selectField.addEventListener('change', function (event) {
         if (key === 'appelOffreId') {
@@ -393,52 +366,54 @@ function addSelectorHandlers() {
             appelOffreId: event.target.value,
             periodeId: null,
             familleId: null,
-          })
+          });
         } else {
-          updateFieldInUrl(key, event.target.value)
+          updateFieldInUrl(key, event.target.value);
         }
-      })
+      });
     }
-  })
+  });
 
   document.querySelectorAll('[data-testid=resetSelectors]').forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      window.location.replace(window.location.origin + window.location.pathname)
+      window.location.replace(window.location.origin + window.location.pathname);
 
-      return false
-    })
-  )
+      return false;
+    }),
+  );
 }
 
 function addSendCopyOfNotificationButtonHandler() {
-  const sendCopyButtons = document.querySelectorAll('[data-actionid=send-copy-of-notification]')
+  const sendCopyButtons = document.querySelectorAll('[data-actionid=send-copy-of-notification]');
 
   if (sendCopyButtons) {
     sendCopyButtons.forEach((item) =>
       item.addEventListener('click', function (event) {
         // event.stopPropagation()
-        event.preventDefault()
-        const link = event.target.getAttribute('href')
+        event.preventDefault();
+        const link = event.target.getAttribute('href');
 
         if (!link) {
-          console.error('Cannot call send copy because missing  link', link)
-          return
+          console.error('Cannot call send copy because missing  link', link);
+          return;
         }
 
         fetch(link).then((response) => {
           if (response.ok) {
-            alert('Une copie de la notification de ce candidat a été envoyée à votre adresse email')
+            alert(
+              'Une copie de la notification de ce candidat a été envoyée à votre adresse email',
+            );
           } else {
-            console.error('GET to send copy of candidate notification failed', response.error)
-            alert("L'envoi de copie de notification a échoué.")
+            console.error('GET to send copy of candidate notification failed', response.error);
+            alert("L'envoi de copie de notification a échoué.");
           }
-        })
+        });
 
-        return false
-      })
-    )
+        return false;
+      }),
+    );
   } else {
   }
 }
@@ -453,37 +428,37 @@ function addSendCopyOfNotificationButtonHandler() {
 
 function addStatusOnlyHandler() {
   const statusOnlyField = document.querySelector(
-    '[data-testid=modificationRequest-statusUpdateOnlyField]'
-  )
+    '[data-testid=modificationRequest-statusUpdateOnlyField]',
+  );
 
   if (statusOnlyField) {
-    const otherFields = statusOnlyField.closest('form').querySelectorAll('input')
+    const otherFields = statusOnlyField.closest('form').querySelectorAll('input');
     const askConfirmationButton = statusOnlyField
       .closest('form')
-      .querySelector('[data-testid=ask-confirmation-button]')
+      .querySelector('[data-testid=ask-confirmation-button]');
     statusOnlyField.addEventListener('change', (event) => {
       if (event.currentTarget.checked) {
         otherFields.forEach((field) => {
-          if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true
-        })
-        if (askConfirmationButton) askConfirmationButton.disabled = true
+          if (field !== statusOnlyField && field.type !== 'hidden') field.disabled = true;
+        });
+        if (askConfirmationButton) askConfirmationButton.disabled = true;
       } else {
         otherFields.forEach((field) => {
-          field.disabled = false
-        })
-        if (askConfirmationButton) askConfirmationButton.disabled = false
+          field.disabled = false;
+        });
+        if (askConfirmationButton) askConfirmationButton.disabled = false;
       }
-    })
+    });
   }
 }
 
 function getDateFromDateString(str) {
   // For a date in the DD/MM/YYYY format
-  var day = Number(str.substring(0, 2))
-  var month = Number(str.substring(3, 5))
-  var year = Number(str.substring(6))
+  var day = Number(str.substring(0, 2));
+  var month = Number(str.substring(3, 5));
+  var year = Number(str.substring(6));
 
-  return new Date(year, month - 1, day)
+  return new Date(year, month - 1, day);
 }
 
 //
@@ -491,28 +466,30 @@ function getDateFromDateString(str) {
 //
 
 function addDelayEstimator() {
-  const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]')
+  const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]');
 
-  const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]')
+  const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]');
 
   if (delayInMonthsField) {
     function updateProjection(event) {
-      const delayInMonths = Number(event.target.value)
-      const initialDateNbr = Number(delayInMonthsField.getAttribute('data-initial-date'))
+      const delayInMonths = Number(event.target.value);
+      const initialDateNbr = Number(delayInMonthsField.getAttribute('data-initial-date'));
 
       if (delayInMonths && delayInMonths > 0 && initialDateNbr) {
-        const initialDate = new Date(initialDateNbr)
-        const projectedDate = new Date(initialDate.setMonth(initialDate.getMonth() + delayInMonths))
+        const initialDate = new Date(initialDateNbr);
+        const projectedDate = new Date(
+          initialDate.setMonth(initialDate.getMonth() + delayInMonths),
+        );
         delayEstimateBox.innerHTML = `Date de mise en service projetée: ${projectedDate.getDate()}/${
           projectedDate.getMonth() + 1
-        }/${projectedDate.getFullYear()}`
+        }/${projectedDate.getFullYear()}`;
       } else {
-        delayEstimateBox.innerHTML = ''
+        delayEstimateBox.innerHTML = '';
       }
     }
 
-    delayInMonthsField.addEventListener('change', updateProjection)
-    delayInMonthsField.addEventListener('keyup', updateProjection)
+    delayInMonthsField.addEventListener('change', updateProjection);
+    delayInMonthsField.addEventListener('keyup', updateProjection);
   }
 }
 
@@ -583,66 +560,66 @@ function addDateValidationHandler() {
 //
 
 function addConfirmHandlers() {
-  const confirmableLinks = document.querySelectorAll('[data-confirm]')
+  const confirmableLinks = document.querySelectorAll('[data-confirm]');
 
   confirmableLinks.forEach((item) =>
     item.addEventListener('click', function (event) {
-      if (!confirm(item.getAttribute('data-confirm'))) event.preventDefault()
-    })
-  )
+      if (!confirm(item.getAttribute('data-confirm'))) event.preventDefault();
+    }),
+  );
 }
 
 function addVisibilityToggleHandler() {
-  const sectionToggle = document.querySelectorAll('[data-testid=visibility-toggle]')
+  const sectionToggle = document.querySelectorAll('[data-testid=visibility-toggle]');
 
   sectionToggle.forEach((item) =>
     item.addEventListener('click', function (event) {
-      event.preventDefault()
+      event.preventDefault();
 
-      const wasVisible = item.classList.contains('open')
+      const wasVisible = item.classList.contains('open');
 
-      toggleVisibility(item, !wasVisible)
-    })
-  )
+      toggleVisibility(item, !wasVisible);
+    }),
+  );
 }
 
 function toggleVisibility(toggleItem, shouldBeVisible) {
   if (shouldBeVisible) {
-    toggleItem.classList.add('open')
+    toggleItem.classList.add('open');
   } else {
-    toggleItem.classList.remove('open')
+    toggleItem.classList.remove('open');
   }
 }
 
 function getFieldValue(selector) {
-  var elem = document.querySelector(selector)
+  var elem = document.querySelector(selector);
 
   if (elem) {
-    return elem.value
+    return elem.value;
   }
 }
 
 function showElement(element, isVisible) {
   if (element) {
-    element.style.display = isVisible ? 'inherit' : 'none'
+    element.style.display = isVisible ? 'inherit' : 'none';
   }
 }
 
 function show(selector, isVisible) {
-  var elem = document.querySelector(selector)
+  var elem = document.querySelector(selector);
 
-  showElement(elem, isVisible)
+  showElement(elem, isVisible);
 }
 
 function disableButton(button, isDisabled) {
   if (button) {
-    if (isDisabled) button.setAttribute('disabled', true)
-    else button.removeAttribute('disabled')
+    if (isDisabled) button.setAttribute('disabled', true);
+    else button.removeAttribute('disabled');
   }
 }
 
 function disable(selector, isDisabled) {
-  var elem = document.querySelector(selector)
+  var elem = document.querySelector(selector);
 
-  disableButton(elem, isDisabled)
+  disableButton(elem, isDisabled);
 }
