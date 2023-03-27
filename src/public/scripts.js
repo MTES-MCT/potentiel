@@ -2,7 +2,6 @@
 
 window.initHandlers = function () {
   addStatusOnlyHandler();
-  addFriseHiddenContentToggleHandler();
   addActionMenuHandlers();
   addInvitationHandlers();
   addDelayEstimator();
@@ -54,49 +53,6 @@ function addActionMenuHandlers() {
 //
 // Project page
 //
-
-function addFriseHiddenContentToggleHandler() {
-  const friseContentToggleShowItems = document.querySelectorAll(
-    '[data-testid=frise-action].frise-content-toggle',
-  );
-
-  const allHiddenContentItems = document.querySelectorAll('[data-testId=frise-hidden-content]');
-
-  friseContentToggleShowItems.forEach((friseContentToggleShow) =>
-    friseContentToggleShow.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      const hiddenContent = friseContentToggleShow.closest('[data-testId=frise-item]').nextSibling;
-
-      if (!hiddenContent || hiddenContent.getAttribute('data-testId') !== 'frise-hidden-content') {
-        // Can't find it, ignore
-        return;
-      }
-
-      const wasHidden = hiddenContent.classList.contains('hidden');
-
-      allHiddenContentItems.forEach((item) => item.classList.add('hidden'));
-
-      hiddenContent.classList.toggle('hidden', !wasHidden);
-    }),
-  );
-
-  const friseContentToggleHideItems = document.querySelectorAll('[data-testid=frise-hide-content]');
-
-  friseContentToggleHideItems.forEach((friseContentToggleHide) =>
-    friseContentToggleHide.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      const contentToBeHidden = friseContentToggleHide.closest(
-        '[data-testId=frise-hidden-content]',
-      );
-
-      if (contentToBeHidden) {
-        contentToBeHidden.classList.add('hidden');
-      }
-    }),
-  );
-}
 
 function addInvitationHandlers() {
   const invitationFormShowButton = document.querySelector(
