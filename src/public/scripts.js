@@ -2,7 +2,6 @@
 
 window.initHandlers = function () {
   addStatusOnlyHandler();
-  addActionMenuHandlers();
   addInvitationHandlers();
   addDelayEstimator();
   addSelectorHandlers();
@@ -19,41 +18,8 @@ window.initHandlers = function () {
 document.addEventListener('DOMContentLoaded', () => window.initHandlers());
 
 //
-// Action menu
-//
-
-function addActionMenuHandlers() {
-  const actionMenuTriggers = document.querySelectorAll('[data-testid=action-menu-trigger]');
-
-  const actionMenus = document.querySelectorAll('[data-testid=action-menu]');
-
-  function hideAllMenus() {
-    actionMenus.forEach((item) => item.classList.remove('open'));
-  }
-
-  actionMenuTriggers.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const menu = item.parentElement.querySelector('[data-testid=action-menu]');
-      const wasVisible = menu && menu.classList.contains('open');
-
-      hideAllMenus();
-
-      if (menu && !wasVisible) {
-        menu.classList.add('open');
-      }
-    }),
-  );
-
-  document.addEventListener('click', hideAllMenus);
-}
-
-//
 // Project page
 //
-
 function addInvitationHandlers() {
   const invitationFormShowButton = document.querySelector(
     '[data-testid=invitation-form-show-button]',

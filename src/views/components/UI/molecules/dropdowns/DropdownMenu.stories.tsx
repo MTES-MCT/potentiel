@@ -2,7 +2,7 @@ import React from 'react';
 import { DropdownMenu } from './DropdownMenu';
 
 export default {
-  title: 'Components/Molecules/DropdownMenu',
+  title: 'Components/Molecules/dropdowns/DropdownMenu',
   component: DropdownMenu,
   argTypes: {
     children: { control: 'text', defaultValue: 'Menu' },

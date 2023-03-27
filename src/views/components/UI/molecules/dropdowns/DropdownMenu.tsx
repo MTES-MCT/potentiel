@@ -1,19 +1,21 @@
 import React, { ComponentProps, ReactElement, useEffect, useRef, useState } from 'react';
-import { ArrowDownIcon } from '../atoms/icons';
+import { ArrowDownIcon } from '../../atoms/icons';
 
 type DropdownMenuProps = ComponentProps<'li'> & {
   buttonChildren: React.ReactNode;
-  children: (ReactElement | false)[];
+  children?: (ReactElement | false)[];
 };
 
-const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
+export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
   buttonChildren,
   children,
   className,
   ...props
 }: DropdownMenuProps) => {
   const [visible, setVisible] = useState(false);
-  const isCurrent = children.some((subMenu) => subMenu && subMenu.props.isCurrent);
+  const isCurrent = children
+    ? children.some((subMenu) => subMenu && subMenu.props.isCurrent)
+    : undefined;
   const ref = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -65,9 +67,11 @@ type DropdownItemProps = {
   href: string;
   isCurrent?: true;
   children: React.ReactNode;
+  download?: true;
+  disabled?: true;
 };
 
-const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
+const DropdownItem = ({ children, href, isCurrent, download, disabled }: DropdownItemProps) => (
   <li
     style={{ borderBottomWidth: 1 }}
     className={`flex items-center hover:bg-grey-1000-hover border-0 border-b-1 last:border-b-0 border-grey-925-base border-solid ${
@@ -78,6 +82,8 @@ const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
     <a
       className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
+      {...(download && { download: true })}
+      {...(disabled && { disabled: true })}
       {...(isCurrent
         ? { 'aria-current': 'page', style: { color: '#000091' } }
         : { style: { color: 'black' } })}
@@ -88,5 +94,3 @@ const DropdownItem = ({ children, href, isCurrent }: DropdownItemProps) => (
 );
 
 DropdownMenu.DropdownItem = DropdownItem;
-
-export { DropdownMenu };

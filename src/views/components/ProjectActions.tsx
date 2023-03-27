@@ -1,9 +1,7 @@
 import React from 'react';
-import { dataId } from '../../helpers/testId';
 import { UserRole } from '@modules/users';
 import { ACTION_BY_ROLE } from './actions';
-import { ChevronDownIcon, SecondaryButton } from './UI';
-import { Link } from '@components';
+import { DropdownSecondary } from './UI';
 import { ProjectAppelOffre } from '@entities';
 
 type Props = {
@@ -33,33 +31,25 @@ type Props = {
 };
 
 export const ProjectActions = ({ project, role }: Props) => {
-  if (!project || !role) return <></>;
-  const actions = ACTION_BY_ROLE[role]?.call(null, project);
-  if (!actions || !actions.length) return <></>;
-
+  const actions = ACTION_BY_ROLE[role].call(null, project);
+  if (!actions || !actions.length) return null;
   return (
-    <div style={{ position: 'relative' }} {...dataId('project-actions')}>
-      <SecondaryButton className="ml-4" {...dataId('action-menu-trigger')}>
-        Actions <ChevronDownIcon className="ml-2" title="(menu)" />
-      </SecondaryButton>
-      <ul className="list--action-menu" {...dataId('action-menu')}>
-        {actions.map(({ title, actionId, projectId, link, disabled, isDownload }, actionIndex) => (
-          <li key={'notif_' + projectId + '_' + actionIndex}>
-            {disabled ? (
-              <i>{title}</i>
-            ) : (
-              <Link
+    <div className="relative">
+      <ul>
+        <DropdownSecondary titre="Actions">
+          {actions.map(({ title, link, isDownload, disabled }, index) => {
+            return (
+              <DropdownSecondary.DropdownItem
                 href={link}
-                download={isDownload}
-                data-actionid={actionId}
-                data-projectid={projectId}
-                {...dataId('item-action')}
+                download={isDownload ? true : undefined}
+                disabled={disabled ? true : undefined}
+                key={`${title}#${index}`}
               >
                 {title}
-              </Link>
-            )}
-          </li>
-        ))}
+              </DropdownSecondary.DropdownItem>
+            );
+          })}
+        </DropdownSecondary>
       </ul>
     </div>
   );
