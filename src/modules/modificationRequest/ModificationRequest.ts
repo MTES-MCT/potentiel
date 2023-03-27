@@ -35,7 +35,6 @@ export interface ModificationRequest extends EventStoreAggregate {
   ): Result<null, StatusPreventsConfirmationRequestError | TypePreventsConfirmationError>;
   confirm(confirmedBy: User): Result<null, StatusPreventsConfirmationError>;
   cancel(cancelledBy: User): Result<null, StatusPreventsCancellingError>;
-  updateStatus(args: { updatedBy: User; newStatus: ModificationRequestStatus });
   readonly projectId: UniqueEntityID;
   readonly status: ModificationRequestStatus;
   readonly type: ModificationRequestType;
@@ -192,19 +191,6 @@ export const makeModificationRequest = (args: {
           payload: {
             modificationRequestId: modificationRequestId.toString(),
             confirmedBy: confirmedBy.id,
-          },
-        }),
-      );
-
-      return ok(null);
-    },
-    updateStatus: function ({ updatedBy, newStatus }) {
-      _publishEvent(
-        new ModificationRequestStatusUpdated({
-          payload: {
-            modificationRequestId: modificationRequestId.toString(),
-            updatedBy: updatedBy.id,
-            newStatus,
           },
         }),
       );

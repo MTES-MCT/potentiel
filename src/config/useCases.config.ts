@@ -36,7 +36,6 @@ import {
   makeRequestConfirmation,
   makeRequestFournisseursModification,
   makeChangerProducteur,
-  makeUpdateModificationRequestStatus,
 } from '@modules/modificationRequest';
 import {
   makeAddGFExpirationDate,
@@ -156,9 +155,6 @@ export const rejectModificationRequest = makeRejectModificationRequest({
 });
 export const requestConfirmation = makeRequestConfirmation({
   fileRepo,
-  modificationRequestRepo,
-});
-export const updateModificationRequestStatus = makeUpdateModificationRequestStatus({
   modificationRequestRepo,
 });
 

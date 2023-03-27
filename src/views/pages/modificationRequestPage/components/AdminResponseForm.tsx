@@ -1,8 +1,8 @@
-import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@components';
+import { FormulaireChampsObligatoireLégende, Button } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
-import React, { useState } from 'react';
+import React from 'react';
 import { UploadResponseFile } from '.';
 import { ModificationRequestTitleByType } from '../../../helpers';
 
@@ -25,14 +25,9 @@ function getAdminRouteBasedOnType(type) {
   }
 }
 
-export const AdminResponseForm = ({
-  modificationRequest,
-  role,
-  children,
-}: AdminResponseFormProps) => {
+export const AdminResponseForm = ({ modificationRequest, children }: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest;
 
-  const [demandeTraitéeHorsPotentiel, setDemandeTraitéeHorsPotentiel] = useState(false);
   return (
     <form
       action={getAdminRouteBasedOnType(type)}
@@ -40,38 +35,14 @@ export const AdminResponseForm = ({
       encType="multipart/form-data"
       className="m-0"
     >
-      {type !== 'puissance' && !demandeTraitéeHorsPotentiel && (
-        <FormulaireChampsObligatoireLégende className="text-left mb-3" />
-      )}
+      {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
 
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />
 
-      {role !== 'dreal' && (
-        <div className="form__group mb-5">
-          <label htmlFor="statusUpdateOnly">
-            <InputCheckbox
-              type="checkbox"
-              name="statusUpdateOnly"
-              checked={demandeTraitéeHorsPotentiel}
-              onChange={({ target: { checked } }) => setDemandeTraitéeHorsPotentiel(checked)}
-            />
-            Demande traitée hors Potentiel
-          </label>
-          <div className="text-xs leading-6 mt-1">
-            En cochant cette case, seul le statut de la demande sera mis à jour. La réponse n‘aura
-            pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
-          </div>
-        </div>
-      )}
-
-      {!demandeTraitéeHorsPotentiel && (
-        <>
-          <UploadResponseFile modificationRequest={modificationRequest} />
-          {children}
-        </>
-      )}
+      <UploadResponseFile modificationRequest={modificationRequest} />
+      {children}
 
       <Button
         type="submit"
