@@ -27,7 +27,9 @@ const makeRedisSubscribe = ({ redis, streamName }: MakeRedisSubscribeDeps): Subs
       const actualEventValue = JSON.parse(eventValue);
       const event = fromRedisMessage(actualEventValue);
 
-      await callback(event);
+      if (event) {
+        await callback(event);
+      }
     };
 
     const listenForMessage = async () => {

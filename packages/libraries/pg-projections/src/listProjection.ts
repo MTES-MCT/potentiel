@@ -6,7 +6,7 @@ export const listProjection = async <TReadModel extends ReadModel>({
   type,
 }: ListOptions<TReadModel>): Promise<ReadonlyArray<TReadModel>> => {
   const result = await executeSelect<KeyValuePair<TReadModel['type'], TReadModel>>(
-    `SELECT "value" FROM "PROJECTION" where "key" like $1`,
+    `SELECT "key", "value" FROM "PROJECTION" where "key" like $1`,
     `${type}#%`,
   );
 
