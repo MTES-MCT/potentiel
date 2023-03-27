@@ -1,4 +1,4 @@
-import { QueryHandler , List } from '@potentiel/core-domain';
+import { QueryHandler, List } from '@potentiel/core-domain';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 
 type ListerGestionnaireRéseauDependencies = {
@@ -12,8 +12,5 @@ type ListerGestionnaireRéseauFactory = (
 export const listerGestionnaireRéseauQueryHandlerFactory: ListerGestionnaireRéseauFactory = ({
   listGestionnaireRéseau,
 }) => {
-  return async () => {
-    const result = await listGestionnaireRéseau({ type: 'gestionnaire-réseau' });
-    return result;
-  };
+  return async () => listGestionnaireRéseau({ type: 'gestionnaire-réseau' });
 };

@@ -1,4 +1,3 @@
-export * from './onGestionnaireRéseauRenseigné';
 export * from './onLegacyProjectSourced';
 export * from './onNumeroGestionnaireSubmitted';
 export * from './onProjectDCRSubmitted';

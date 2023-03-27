@@ -1,7 +1,5 @@
 import { Repository, UniqueEntityID } from '@core/domain';
 import { errAsync, okAsync, ResultAsync, wrapInfra } from '@core/utils';
-import { LoadAggregate } from '@potentiel/core-domain';
-import { isNone } from '@potentiel/monads';
 import { User } from '@entities';
 import { InfraNotAvailableError, UnauthorizedError } from '@modules/shared';
 import { Project } from '../Project';
@@ -11,16 +9,13 @@ import {
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
-import { GestionnaireRéseauRenseigné, NumeroGestionnaireSubmitted } from '../events';
+import { NumeroGestionnaireSubmitted } from '../events';
 import { Publish } from '../../../core/domain/publish';
-import { loadGestionnaireRéseauAggregateFactory } from '@potentiel/domain';
-import { fromPromise } from 'neverthrow';
 
 type Command = {
   projetId: string;
   utilisateur: User;
   identifiantGestionnaireRéseau: string;
-  codeEICGestionnaireRéseau?: string;
 };
 
 type Dependencies = {
@@ -28,7 +23,6 @@ type Dependencies = {
   publish: Publish;
   projectRepo: Repository<Project>;
   trouverProjetsParIdentifiantGestionnaireRéseau: TrouverProjetsParIdentifiantGestionnaireRéseau;
-  loadAggregate: LoadAggregate;
 };
 
 type CommandHandler = (
@@ -47,27 +41,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
   publish,
   projectRepo,
   trouverProjetsParIdentifiantGestionnaireRéseau,
-  loadAggregate,
 }: Dependencies): CommandHandler => {
-  const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-    loadAggregate,
-  });
-  const vérifierCodeEIC = (command: Command) => {
-    if (command.codeEICGestionnaireRéseau) {
-      return fromPromise(
-        loadGestionnaireRéseauAggregate(command.codeEICGestionnaireRéseau),
-        (err) => {
-          return new CodeEICNonTrouvéError();
-        },
-      ).andThen((gestionnaireRéseau) => {
-        return isNone(gestionnaireRéseau)
-          ? errAsync(new CodeEICNonTrouvéError())
-          : okAsync(command);
-      });
-    }
-    return okAsync(command);
-  };
-
   const chargerProjet = (command: { projetId: string; utilisateur: User }) => {
     const { projetId, utilisateur } = command;
     return wrapInfra(shouldUserAccessProject({ projectId: projetId, user: utilisateur })).andThen(
@@ -105,7 +79,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
 
   const enregistrerLeChoix = ({
     projet,
-    command: { projetId, utilisateur, identifiantGestionnaireRéseau, codeEICGestionnaireRéseau },
+    command: { projetId, utilisateur, identifiantGestionnaireRéseau },
   }: {
     command: Command;
     projet: Project;
@@ -117,19 +91,6 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
             projectId: projetId,
             submittedBy: utilisateur.id,
             numeroGestionnaire: identifiantGestionnaireRéseau,
-            ...(codeEICGestionnaireRéseau && { codeEICGestionnaireRéseau }),
-          },
-        }),
-      );
-    }
-
-    if (codeEICGestionnaireRéseau) {
-      return publish(
-        new GestionnaireRéseauRenseigné({
-          payload: {
-            projectId: projetId,
-            submittedBy: utilisateur.id,
-            codeEIC: codeEICGestionnaireRéseau,
           },
         }),
       );
@@ -138,8 +99,7 @@ export const renseignerIdentifiantGestionnaireRéseauFactory = ({
     return okAsync(null);
   };
   return (command) =>
-    vérifierCodeEIC(command)
-      .andThen(chargerProjet)
+    chargerProjet(command)
       .andThen(vérifierIdentifiantGestionnaireRéseau)
       .andThen(enregistrerLeChoix);
 };

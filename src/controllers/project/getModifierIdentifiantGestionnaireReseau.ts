@@ -3,11 +3,16 @@ import { object, string } from 'yup';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import { ModifierIdentifiantGestionnaireReseauPage } from '@views';
-import { errorResponse, notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { errorResponse, notFoundResponse } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { EntityNotFoundError } from '@modules/shared';
-import { PermissionModifierIdentifiantGestionnaireReseau } from '@modules/project';
-import { récupérerRésuméProjetEtListeGestionnairesQueryHandler } from '@config';
+import { listerGestionnaireRéseauQueryHandlerFactory } from '@potentiel/domain';
+import { listProjection } from '@potentiel/pg-projections';
+import { résuméProjetQueryHandler } from '@config';
+
+const listerGestionnairesRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+  listGestionnaireRéseau: listProjection,
+});
 
 const schema = object({
   params: object({
@@ -17,7 +22,6 @@ const schema = object({
 
 v1Router.get(
   routes.GET_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU(),
-  vérifierPermissionUtilisateur(PermissionModifierIdentifiantGestionnaireReseau),
   safeAsyncHandler(
     {
       schema,
@@ -27,13 +31,15 @@ v1Router.get(
     },
     async (request, response) => {
       const { projetId } = request.params;
-      return récupérerRésuméProjetEtListeGestionnairesQueryHandler(projetId).match(
-        (readModel) =>
+      const gestionnairesRéseau = await listerGestionnairesRéseau({});
+
+      return résuméProjetQueryHandler(projetId).match(
+        (projet) =>
           response.send(
             ModifierIdentifiantGestionnaireReseauPage({
               request,
-              projet: readModel.projet,
-              listeGestionnairesRéseau: readModel.listeDétailGestionnaires,
+              projet,
+              gestionnairesRéseau: gestionnairesRéseau,
             }),
           ),
         (e) => {

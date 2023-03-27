@@ -8,14 +8,13 @@ export const createGestionnaireRéseauAggregateId = (
   codeEIC: string,
 ): GestionnaireRéseauAggregateId => `gestionnaire-réseau#${codeEIC}`;
 
-export type GestionnaireRéseauState = {
+type GestionnaireRéseauState = {
   codeEIC: string;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement?: { format: string; légende: string };
 };
-export type GestionnaireRéseauEvent =
-  | GestionnaireRéseauModifiéEvent
-  | GestionnaireRéseauAjoutéEvent;
+
+type GestionnaireRéseauEvent = GestionnaireRéseauModifiéEvent | GestionnaireRéseauAjoutéEvent;
 
 const defaultAggregateState: GestionnaireRéseauState = {
   raisonSociale: '',

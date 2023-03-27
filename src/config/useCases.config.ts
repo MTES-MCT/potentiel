@@ -98,7 +98,6 @@ import {
   importRepo,
   utilisateurRepo,
   demandeAnnulationAbandonRepo,
-  // gestionnaireRéseauRepo,
 } from './repos.config';
 import { sendNotification } from '@config/emails.config';
 import {
@@ -115,7 +114,6 @@ import { makeDemanderAnnulationAbandon } from '@modules/demandeModification/dema
 import { getProjectAppelOffre } from './queryProjectAO.config';
 import { makeRejeterDemandeAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/rejeter';
 import { makeAccorderAnnulationAbandon } from '@modules/demandeModification/demandeAnnulationAbandon/accorder/accorderAnnulationAbandon';
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -302,7 +300,6 @@ export const renseignerIdentifiantGestionnaireRéseau =
     shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
     projectRepo,
     trouverProjetsParIdentifiantGestionnaireRéseau,
-    loadAggregate,
   });
 
 export const importProjects = makeImportProjects({

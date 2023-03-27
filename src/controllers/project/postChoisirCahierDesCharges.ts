@@ -104,7 +104,6 @@ v1Router.post(
           projetId: projectId,
           utilisateur: user,
           identifiantGestionnaireRéseau,
-          codeEICGestionnaireRéseau,
         });
       })()
         .andThen(() =>

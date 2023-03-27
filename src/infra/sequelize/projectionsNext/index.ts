@@ -20,7 +20,6 @@ export * from './models.initializer';
 export * from './file/file.model';
 export * from './garantiesFinancières/garantiesFinancières.model';
 export * from './garantiesFinancières/garantiesFinancières.projector';
-export * from './gestionnairesRéseau/gestionnairesRéseau.model';
 export * from './modificationRequest/modificationRequest.model';
 export * from './notification/notification.model';
 export * from './project/project.model';

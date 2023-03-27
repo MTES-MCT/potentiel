@@ -4,7 +4,6 @@ export interface NumeroGestionnaireSubmittedPayload {
   projectId: string;
   numeroGestionnaire: string;
   submittedBy: string;
-  codeEICGestionnaireRéseau?: string;
 }
 export class NumeroGestionnaireSubmitted
   extends BaseDomainEvent<NumeroGestionnaireSubmittedPayload>

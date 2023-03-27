@@ -14,6 +14,5 @@ export * from './getProjectIdsForPeriode';
 export * from './getProjetsParIdentifiantGestionnaireRéseau';
 export * from './getUnnotifiedProjectsForPeriode';
 export * from './hasDemandeDeMêmeTypeOuverte';
-export * from './récupérerRésuméProjetEtListeGestionnairesQueryHandler';
 export * from './résuméProjetQueryHandler';
 export * from './trouverProjetsParIdentifiantGestionnaireRéseau';

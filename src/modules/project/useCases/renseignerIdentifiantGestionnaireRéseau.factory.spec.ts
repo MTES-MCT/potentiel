@@ -1,31 +1,19 @@
 import { UniqueEntityID } from '@core/domain';
 import { okAsync } from '@core/utils';
 import { makeUser } from '@entities';
-import {
-  Aggregate,
-  AggregateId,
-  AggregateStateFactory,
-  LoadAggregate,
-} from '@potentiel/core-domain';
-import { loadAggregate } from '@potentiel/pg-event-sourcing';
-import { none, Option } from '@potentiel/monads';
+
+
 import { UnwrapForTest } from '../../../types';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { InfraNotAvailableError } from '../../shared';
-import { Project, NumeroGestionnaireSubmitted, GestionnaireRéseauRenseigné } from '..';
+import { Project, NumeroGestionnaireSubmitted } from '..';
 import { fakeRepo } from '../../../__tests__/fixtures/aggregates';
 import makeFakeProject from '../../../__tests__/fixtures/project';
 import {
-  CodeEICNonTrouvéError,
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
 } from '../errors';
 import { renseignerIdentifiantGestionnaireRéseauFactory } from './renseignerIdentifiantGestionnaireRéseau.factory';
-import {
-  createGestionnaireRéseauAggregateId,
-  GestionnaireRéseauEvent,
-  GestionnaireRéseauState,
-} from '@modules/gestionnaireRéseau';
 
 describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
   const user = UnwrapForTest(makeUser(makeFakeUser({ role: 'porteur-projet' })));
@@ -35,36 +23,6 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
     ...makeFakeProject(),
     id: projetId,
   } as Project);
-
-  const codeEICInconnu = 'codeEICInconnu';
-
-  const fakeLoadGestionnaireRéseau = (
-    aggregateId: AggregateId,
-    aggregateStateFactory: AggregateStateFactory<GestionnaireRéseauState, GestionnaireRéseauEvent>,
-  ): Promise<Option<Aggregate & GestionnaireRéseauState>> => {
-    if (aggregateId === createGestionnaireRéseauAggregateId(codeEICInconnu)) {
-      return Promise.resolve(none);
-    }
-    const aggregate = aggregateStateFactory([
-      {
-        type: 'GestionnaireRéseauAjouté',
-        payload: {
-          codeEIC: '',
-          raisonSociale: '',
-          aideSaisieRéférenceDossierRaccordement: {
-            format: '',
-            légende: '',
-          },
-        },
-      },
-    ]);
-
-    return Promise.resolve({
-      aggregateId,
-      version: 1,
-      ...aggregate,
-    });
-  };
 
   beforeEach(() => {
     return publishToEventStore.mockClear();
@@ -83,7 +41,6 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync(['un-autre-projet']),
-          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -109,7 +66,6 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -143,7 +99,6 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo: fakeRepo(projet),
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([projetId]),
-          loadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
@@ -156,41 +111,8 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
     });
   });
 
-  describe(`Vérification du code EIC`, () => {
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-        Lorsqu'il renseigne l'identifiant gestionnaire réseau 'ID_GES_RES'
-        Avec un code EIC inconnu,
-        Alors il devrait être informé que le code EIC est incorrect
-        Et aucun événement ne devrait être émis`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true);
-
-      const renseignerIdentifiantGestionnaireRéseau =
-        renseignerIdentifiantGestionnaireRéseauFactory({
-          publish: publishToEventStore,
-          shouldUserAccessProject,
-          projectRepo,
-          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
-        });
-
-      const résulat = await renseignerIdentifiantGestionnaireRéseau({
-        projetId: projetId,
-        utilisateur: user,
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-        codeEICGestionnaireRéseau: codeEICInconnu,
-      });
-
-      expect(résulat.isErr()).toBe(true);
-
-      expect(résulat._unsafeUnwrapErr()).toBeInstanceOf(CodeEICNonTrouvéError);
-
-      expect(publishToEventStore).not.toHaveBeenCalledWith(NumeroGestionnaireSubmitted);
-    });
-  });
-
   describe(`Renseigner l'identifiant gestionnaire réseau`, () => {
     it(`Etant donné un utilisateur ayant les droits sur le projet
-        Lorsqu'il renseigne un identifiant gestionnaire et un code EIC gestionnaire
         Alors ces deux données devraient être enregistrées`, async () => {
       const shouldUserAccessProject = jest.fn(async () => true);
 
@@ -200,14 +122,12 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
           shouldUserAccessProject,
           projectRepo,
           trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
         });
 
       const résulat = await renseignerIdentifiantGestionnaireRéseau({
         projetId: projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau: 'ID_GES_RES',
-        codeEICGestionnaireRéseau: 'codeEICRenseigné',
       });
 
       expect(résulat.isOk()).toBe(true);
@@ -219,50 +139,6 @@ describe(`Renseigner l'identifiant gestionnaire de réseau`, () => {
             projectId: projetId,
             numeroGestionnaire: 'ID_GES_RES',
             submittedBy: user.id,
-            codeEICGestionnaireRéseau: 'codeEICRenseigné',
-          }),
-        }),
-      );
-    });
-  });
-
-  describe(`Seul le gestionnaire change`, () => {
-    it(`Etant donné un utilisateur ayant les droits sur le projet
-        Lorsqu'il renseigne son gestionnaire mais que l'identifiant est inchangé
-        Alors le gestionnaire devrait être enregistré`, async () => {
-      const shouldUserAccessProject = jest.fn(async () => true);
-
-      const projectRepo = fakeRepo({
-        ...makeFakeProject(),
-        id: projetId,
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-      } as Project);
-
-      const renseignerIdentifiantGestionnaireRéseau =
-        renseignerIdentifiantGestionnaireRéseauFactory({
-          publish: publishToEventStore,
-          shouldUserAccessProject,
-          projectRepo,
-          trouverProjetsParIdentifiantGestionnaireRéseau: () => okAsync([]),
-          loadAggregate: fakeLoadGestionnaireRéseau as LoadAggregate,
-        });
-
-      const résulat = await renseignerIdentifiantGestionnaireRéseau({
-        projetId: projetId,
-        utilisateur: user,
-        identifiantGestionnaireRéseau: 'ID_GES_RES',
-        codeEICGestionnaireRéseau: 'codeEICRenseigné',
-      });
-
-      expect(résulat.isOk()).toBe(true);
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: GestionnaireRéseauRenseigné.type,
-          payload: expect.objectContaining({
-            projectId: projetId,
-            submittedBy: user.id,
-            codeEIC: 'codeEICRenseigné',
           }),
         }),
       );

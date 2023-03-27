@@ -2,7 +2,6 @@ import { DataTypes, Sequelize } from 'sequelize';
 import { Raccordements } from './raccordements.model';
 import { File } from '../file/file.model';
 import { User } from '../users/users.model';
-import { GestionnaireRéseau } from '../gestionnairesRéseau/gestionnairesRéseau.model';
 
 export const initializeRaccordementsModel = (sequelize: Sequelize) => {
   Raccordements.init(
@@ -28,10 +27,6 @@ export const initializeRaccordementsModel = (sequelize: Sequelize) => {
         allowNull: true,
       },
       identifiantGestionnaire: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      codeEICGestionnaireRéseau: {
         type: DataTypes.STRING,
         allowNull: true,
       },
@@ -62,11 +57,5 @@ export const initializeRaccordementsModelAssociations = () => {
     foreignKey: 'id',
     sourceKey: 'ptfEnvoyéePar',
     as: 'ptfEnvoyéeParRef',
-  });
-
-  Raccordements.hasOne(GestionnaireRéseau, {
-    foreignKey: 'codeEIC',
-    sourceKey: 'codeEICGestionnaireRéseau',
-    as: 'gestionnaireRéseau',
   });
 };

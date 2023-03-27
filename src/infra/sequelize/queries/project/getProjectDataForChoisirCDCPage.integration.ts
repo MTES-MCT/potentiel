@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import makeFakeProject from '../../../../__tests__/fixtures/project';
 import { resetDatabase } from '../../helpers';
-import { GestionnaireRéseau, Project, Raccordements } from '@infra/sequelize/projectionsNext';
+import { Project, Raccordements } from '@infra/sequelize/projectionsNext';
 import { getProjectDataForChoisirCDCPage } from './getProjectDataForChoisirCDCPage';
 import { getProjectAppelOffre } from '@config/queryProjectAO.config';
 import { ProjectDataForChoisirCDCPage } from '@modules/project';
@@ -34,23 +34,7 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       projetId,
       id: new UniqueEntityID().toString(),
       identifiantGestionnaire: 'identifiant-gestionnaire',
-      codeEICGestionnaireRéseau: 'code-eic-gestionnaire',
     });
-
-    await GestionnaireRéseau.bulkCreate([
-      {
-        codeEIC: 'code-eic-gestionnaire',
-        raisonSociale: 'raison-sociale-gestionnaire',
-        format: 'format-identifiant',
-        légende: 'légende-identifiant',
-      },
-      {
-        codeEIC: 'code-eic-autre-gestionnaire',
-        raisonSociale: 'raison-sociale-autre-gestionnaire',
-        format: '',
-        légende: '',
-      },
-    ]);
 
     const expected: Partial<ProjectDataForChoisirCDCPage> = {
       id: projetId,
@@ -61,24 +45,6 @@ describe('Récupérer les données pour la page du choix du cahier des charges',
       }),
       cahierDesChargesActuel: '30/07/2021',
       identifiantGestionnaireRéseau: 'identifiant-gestionnaire',
-      gestionnaireRéseau: {
-        codeEIC: 'code-eic-gestionnaire',
-        raisonSociale: 'raison-sociale-gestionnaire',
-      },
-      listeGestionnairesRéseau: expect.arrayContaining([
-        {
-          codeEIC: 'code-eic-gestionnaire',
-          raisonSociale: 'raison-sociale-gestionnaire',
-          format: 'format-identifiant',
-          légende: 'légende-identifiant',
-        },
-        {
-          codeEIC: 'code-eic-autre-gestionnaire',
-          raisonSociale: 'raison-sociale-autre-gestionnaire',
-          format: '',
-          légende: '',
-        },
-      ]),
     };
 
     const readModel = await getProjectDataForChoisirCDCPage(projetId);
