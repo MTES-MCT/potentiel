@@ -6,7 +6,7 @@ export type Event<TType extends string = string, TPayload extends Record<string,
   payload: TPayload;
 };
 
-type EventHandler<TEvent extends Event> = (event: TEvent) => Promise<void>;
+type EventHandler<TEvent extends Event = Event> = (event: TEvent) => Promise<void>;
 
 export const consumerFactory = async (consumerName: string) => {
   const streamName = process.env.REDIS_EVENT_BUS_STREAM_NAME || '';
@@ -14,40 +14,45 @@ export const consumerFactory = async (consumerName: string) => {
   const redis = await getRedis();
   const groupName = await createConsumerGroup(redis, streamName, consumerName);
 
-  const consume = <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => {
-    const listenerClient = redis.duplicate();
-    const listenForMessage = async () => {
-      const message = await getNextMessageToHandle(
-        listenerClient,
-        streamName,
-        groupName,
-        consumerName,
-      );
+  const handlers: Map<Event['type'], EventHandler> = new Map();
+  const listenerClient = redis.duplicate();
 
-      if (message) {
-        const [, messageValue] = message;
-        const [eventType, eventPayload] = messageValue;
-        if (eventType === type) {
-          try {
-            await handler(JSON.parse(eventPayload));
-          } catch (error) {
-            // TODO log
+  const listenForMessage = async () => {
+    const message = await getNextMessageToHandle(
+      listenerClient,
+      streamName,
+      groupName,
+      consumerName,
+    );
 
-            await listenerClient.xadd(`${consumerName}-DLQ`, '*', messageValue);
-          }
+    if (message) {
+      const [, messageValue] = message;
+      const [eventType, eventPayload] = messageValue;
+      const handler = handlers.get(eventType);
+      if (handler) {
+        try {
+          await handler(JSON.parse(eventPayload));
+        } catch (error) {
+          // TODO log
+          console.error(error);
+
+          await listenerClient.xadd(`${consumerName}-DLQ`, '*', messageValue);
         }
-        const [messageId] = message;
-        await listenerClient.xack(streamName, groupName, messageId);
-
-        listenForMessage();
+      } else {
+        console.log(`Unknown event ${eventType}`);
+        console.log(eventPayload);
       }
-    };
+      const [messageId] = message;
+      await listenerClient.xack(streamName, groupName, messageId);
 
-    listenForMessage();
+      listenForMessage();
+    }
+  };
 
-    return async () => {
-      await listenerClient.quit();
-    };
+  listenForMessage();
+
+  const consume = <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => {
+    handlers.set(type, handler as EventHandler);
   };
 
   return consume;

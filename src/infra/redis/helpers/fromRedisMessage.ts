@@ -19,7 +19,6 @@ import * as UtilisateurEvents from '@modules/utilisateur/events';
 import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import { logger } from '@core/utils';
 
 interface EventProps {
   payload: any;
@@ -58,7 +57,7 @@ export const fromRedisMessage = (message: RedisMessage): DomainEvent | undefined
   const EventClass = EventClassByType[message.type];
 
   if (!EventClass) {
-    logger.error(new Error('Event class not recognized'));
+    //logger.error(new Error('Event class not recognized'));
     return;
   }
 

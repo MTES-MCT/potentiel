@@ -25,3 +25,8 @@ export type Create<TReadModel extends ReadModel> = (
   id: `${TReadModel['type']}#${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;
+
+export type Update<TReadModel extends ReadModel> = (
+  id: `${TReadModel['type']}#${string}`,
+  readModel: Omit<TReadModel, 'type'>,
+) => Promise<void>;

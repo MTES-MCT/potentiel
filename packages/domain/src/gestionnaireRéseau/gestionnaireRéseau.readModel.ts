@@ -1,5 +1,8 @@
 import { ReadModel } from '@potentiel/core-domain';
 
+export type GestionnaireRéseauReadModelKey =
+  `gestionnaire-réseau#${GestionnaireRéseauReadModel['codeEIC']}`;
+
 export type GestionnaireRéseauReadModel = ReadModel<
   'gestionnaire-réseau',
   {

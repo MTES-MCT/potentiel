@@ -37,6 +37,7 @@ export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFact
     const event: GestionnaireRéseauModifiéEvent = {
       type: 'GestionnaireRéseauModifié',
       payload: {
+        codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement,
       },
