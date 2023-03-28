@@ -59,6 +59,7 @@ export const récupérerExportProjets = ({
       ],
       attributes: [...convertirEnAttributsSequelize(colonnesÀExporter), 'details'],
       raw: true,
+      //group: ['appelOffreId', 'periodeId', 'numeroCRE', 'familleId', 'nomProjet'],
     }),
   ).map((projects) => ({
     colonnes: récupérerIntitulés(colonnesÀExporter),

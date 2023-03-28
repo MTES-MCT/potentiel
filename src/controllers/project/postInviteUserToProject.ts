@@ -23,13 +23,7 @@ const schema = yup.object({
   }),
 });
 
-const getRedirectTo = ({
-  projectId,
-  role,
-}: {
-  projectId: string | string[];
-  role: User['role'];
-}) => {
+const getRedirectTo = ({ projectId }: { projectId: string | string[]; role: User['role'] }) => {
   return Array.isArray(projectId) ? routes.LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
 };
 
