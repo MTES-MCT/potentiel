@@ -1,10 +1,9 @@
-import { FormulaireChampsObligatoireLégende, Button, InputCheckbox } from '@components';
+import { FormulaireChampsObligatoireLégende, Button } from '@components';
 import { ModificationRequestPageDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
 import { UploadResponseFile } from '.';
-import { dataId } from '../../../../helpers/testId';
 import { ModificationRequestTitleByType } from '../../../helpers';
 
 interface AdminResponseFormProps {
@@ -26,11 +25,7 @@ function getAdminRouteBasedOnType(type) {
   }
 }
 
-export const AdminResponseForm = ({
-  modificationRequest,
-  role,
-  children,
-}: AdminResponseFormProps) => {
+export const AdminResponseForm = ({ modificationRequest, children }: AdminResponseFormProps) => {
   const { type, versionDate } = modificationRequest;
 
   return (
@@ -46,27 +41,9 @@ export const AdminResponseForm = ({
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />
 
-      {role !== 'dreal' && (
-        <div className="form__group" style={{ marginBottom: 20 }}>
-          <label htmlFor="statusUpdateOnly">
-            <InputCheckbox
-              type="checkbox"
-              name="statusUpdateOnly"
-              defaultChecked={false}
-              {...dataId('modificationRequest-statusUpdateOnlyField')}
-            />
-            Demande traitée hors Potentiel
-          </label>
-          <div className="text-xs leading-6 mt-1">
-            En cochant cette case, seul le statut de la demande sera mis à jour. La réponse n‘aura
-            pas d‘impact sur le projet et le porteur de projet ne sera pas notifié.
-          </div>
-        </div>
-      )}
-
       <UploadResponseFile modificationRequest={modificationRequest} />
-
       {children}
+
       <Button
         type="submit"
         name="submitAccept"

@@ -4,7 +4,6 @@ import {
   ensureRole,
   rejectModificationRequest,
   requestConfirmation,
-  updateModificationRequestStatus,
 } from '@config';
 import { logger } from '@core/utils';
 import { getModificationRequestAuthority } from '@infra/sequelize/queries';
@@ -44,7 +43,6 @@ v1Router.post(
         versionDate,
         submitAccept,
         submitConfirm,
-        statusUpdateOnly,
         newNotificationDate,
         puissance,
         isDecisionJustice,
@@ -69,28 +67,6 @@ v1Router.post(
     // We know which one has been clicked when it has a string value
     const acceptedReply = typeof submitAccept === 'string';
     const confirmReply = typeof submitConfirm === 'string';
-
-    if (statusUpdateOnly) {
-      if (confirmReply) {
-        return response.redirect(
-          addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-            error: `Votre réponse n'a pas pu être prise en compte parce qu'il n'est pas possible de demander une confirmation si la demande a été traitée en dehors de Potentiel.`,
-          }),
-        );
-      }
-
-      const newStatus = acceptedReply ? 'acceptée' : 'rejetée';
-
-      return await updateModificationRequestStatus({
-        modificationRequestId,
-        versionDate: new Date(Number(versionDate)),
-        newStatus,
-        submittedBy: request.user,
-      }).match(
-        _handleSuccess(response, modificationRequestId),
-        _handleErrors(request, response, modificationRequestId),
-      );
-    }
 
     if (type === 'recours' && !isDateFormatValid(newNotificationDate, FORMAT_DATE)) {
       return response.redirect(

@@ -7,4 +7,3 @@ export * from './requestActionnaireModification';
 export * from './requestConfirmation';
 export * from './requestFournisseursModification';
 export * from './changerProducteur';
-export * from './updateModificationRequestStatus';
