@@ -8,6 +8,7 @@ import { logger } from '@core/utils';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
 import { User } from '@entities';
+import { rechercherDroitsDéjàExistantsQueryHandler } from '@infra/sequelize/queries/users/rechercherDroitsDéjàExistants';
 
 const schema = yup.object({
   body: yup.object({
@@ -36,6 +37,7 @@ v1Router.post(
       onError: ({ response, request, error }) => {
         const projectId = request.body.projectId;
         const redirectTo = getRedirectTo({ projectId, role: request.user.role });
+        console.log('erreur validation', error.errors);
         return response.redirect(
           addQueryParams(redirectTo, {
             ...request.body,
@@ -51,9 +53,28 @@ v1Router.post(
       const projectIds = Array.isArray(projectId) ? projectId : [projectId];
       const redirectTo = getRedirectTo({ projectId, role: request.user.role });
 
+      const projetsDéjàRattachés = await rechercherDroitsDéjàExistantsQueryHandler({
+        email,
+        projectIds,
+      });
+
+      const projetsARattacher = projectIds.filter(
+        (projetId) => !projetsDéjàRattachés.includes(projetId),
+      );
+
+      if (projetsARattacher.length === 0) {
+        response.redirect(
+          addQueryParams(redirectTo, {
+            success: `L'utilisateur a déjà les droits sur ${
+              projectIds.length === 1 ? 'ce projet' : 'ces projets'
+            }.`,
+          }),
+        );
+      }
+
       return await inviteUserToProject({
         email: email.toLowerCase(),
-        projectIds,
+        projectIds: projetsARattacher,
         invitedBy: user,
       }).match(
         () =>
