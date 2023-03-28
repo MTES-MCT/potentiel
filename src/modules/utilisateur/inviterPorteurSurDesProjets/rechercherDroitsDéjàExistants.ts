@@ -1,5 +1,5 @@
 export type RechercherDroitsDéjàExistantsQuery = { email: string; projectIds: string[] };
 
-export type RechercherDroitsDéjàExistantsQueryQueryHandler = (
+export type RechercherDroitsDéjàExistantsQueryHandler = (
   query: RechercherDroitsDéjàExistantsQuery,
-) => Promise<null | string[]>;
+) => Promise<string[]>;
