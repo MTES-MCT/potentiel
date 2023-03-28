@@ -49,14 +49,5 @@ describe('Inviter un utilisateur sur un projet', () => {
 
     expect(await UserProjects.count({ where: { userId, projectId: projectId1 } })).toEqual(1);
     expect(await UserProjects.count({ where: { userId, projectId: projectId2 } })).toEqual(1);
-
-    // const event = new UserInvitedToProject({
-    //   payload: {
-    //     projectIds: [projectId1, projectId2],
-    //     userId,
-    //     invitedBy: new UniqueEntityID().toString(),
-    //   },
-    // });
-    // await onUserInvitedToProject(event);
   });
 });
