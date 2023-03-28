@@ -9,10 +9,9 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
     payload: { userId, projectIds },
   } = évènement;
   try {
-    await UserProjects.bulkCreate(
-      projectIds.map((projectId) => ({ userId, projectId })),
-      { transaction },
-    );
+    for (const projectId of projectIds) {
+      await UserProjects.findOrCreate({ where: { userId, projectId }, transaction });
+    }
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
