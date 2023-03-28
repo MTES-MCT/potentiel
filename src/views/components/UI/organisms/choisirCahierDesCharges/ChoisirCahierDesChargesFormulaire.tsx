@@ -102,8 +102,6 @@ export const ChoisirCahierDesChargesFormulaire: React.FC<
                         </p>
                         <GestionnaireRéseauFormInputs
                           identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaireRéseau}
-                          gestionnaireRéseauActuel={projet.gestionnaireRéseau}
-                          listeGestionnairesRéseau={projet.listeGestionnairesRéseau}
                         />
                       </div>
                     ))}

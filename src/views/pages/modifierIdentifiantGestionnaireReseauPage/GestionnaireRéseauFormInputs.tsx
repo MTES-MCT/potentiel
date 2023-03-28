@@ -1,47 +1,48 @@
 import React, { useState } from 'react';
 
 import { ExternalLink, InfoBox, Input, Label, ProjectProps, Select } from '@components';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain';
 
 type GestionnaireRéseauFormInputsProps = {
-  gestionnaireRéseauActuel?: ProjectProps['gestionnaireRéseau'];
+  gestionnaireRéseauActuel?: GestionnaireRéseauReadModel;
   identifiantGestionnaireRéseauActuel?: ProjectProps['identifiantGestionnaire'];
-  listeGestionnairesRéseau?: {
-    codeEIC: string;
-    raisonSociale: string;
-    format?: string;
-    légende?: string;
-  }[];
+  gestionnairesRéseau?: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
 export const GestionnaireRéseauFormInputs = ({
   gestionnaireRéseauActuel,
   identifiantGestionnaireRéseauActuel,
-  listeGestionnairesRéseau,
+  gestionnairesRéseau,
 }: GestionnaireRéseauFormInputsProps) => {
-  const gestionnaireActuel = listeGestionnairesRéseau?.find(
+  const gestionnaireActuel = gestionnairesRéseau?.find(
     (gestionnaire) => gestionnaire.codeEIC === gestionnaireRéseauActuel?.codeEIC,
   );
 
-  const [format, setFormat] = useState(gestionnaireActuel?.format || '');
-  const [légende, setLégende] = useState(gestionnaireActuel?.légende || '');
+  const [format, setFormat] = useState(
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.format || '',
+  );
+  const [légende, setLégende] = useState(
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende || '',
+  );
 
   const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
-    const gestionnaireSélectionné = listeGestionnairesRéseau?.find(
+    const gestionnaireSélectionné = gestionnairesRéseau?.find(
       (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
     );
 
-    gestionnaireSélectionné && gestionnaireSélectionné.format
-      ? setFormat(gestionnaireSélectionné.format)
+    gestionnaireSélectionné && gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format
+      ? setFormat(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format)
       : setFormat('');
 
-    gestionnaireSélectionné && gestionnaireSélectionné.légende
-      ? setLégende(gestionnaireSélectionné.légende)
+    gestionnaireSélectionné &&
+    gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende
+      ? setLégende(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende)
       : setLégende('');
   };
 
   return (
     <div className="flex flex-col gap-4">
-      {listeGestionnairesRéseau && listeGestionnairesRéseau.length > 0 && (
+      {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
         <div>
           <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
           <Select
@@ -53,7 +54,7 @@ export const GestionnaireRéseauFormInputs = ({
             <option value="défaut" disabled hidden>
               Sélectionnez votre gestionnaire de réseau
             </option>
-            {listeGestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+            {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
               <option value={codeEIC} key={codeEIC}>
                 {raisonSociale} (code EIC : {codeEIC})
               </option>

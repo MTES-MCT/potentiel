@@ -9,7 +9,6 @@ import {
   PermissionRetirerGF,
   PermissionListerProjets,
   PermissionExporterProjets,
-  PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project';
 import { PermissionInviterDgecValidateur } from '@modules/utilisateur';
 import { PermissionListerDemandesAdmin } from '@modules/modificationRequest';
@@ -19,7 +18,7 @@ import {
   PermissionConsulterGestionnaireRéseau,
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
-} from '@modules/gestionnaireRéseau';
+} from '@potentiel/domain';
 
 export type Permission = {
   nom: string;
@@ -49,7 +48,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionUploaderGF,
         PermissionRetirerGF,
         PermissionExporterProjets,
-        PermissionModifierIdentifiantGestionnaireReseau,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -72,7 +70,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionInviterDgecValidateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
-        PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,
@@ -88,7 +85,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
-        PermissionModifierIdentifiantGestionnaireReseau,
         PermissionListerGestionnairesRéseau,
         PermissionConsulterGestionnaireRéseau,
         PermissionAjouterGestionnaireRéseau,

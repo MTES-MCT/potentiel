@@ -9,7 +9,6 @@ import {
   Raccordements,
   UserProjects,
   File,
-  GestionnaireRéseau,
 } from '@infra/sequelize/projectionsNext';
 import {
   CahierDesCharges,
@@ -34,13 +33,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           model: Raccordements,
           as: 'raccordements',
           attributes: ['identifiantGestionnaire'],
-          include: [
-            {
-              model: GestionnaireRéseau,
-              as: 'gestionnaireRéseau',
-              attributes: ['raisonSociale', 'codeEIC'],
-            },
-          ],
         },
         {
           model: UserProjects,

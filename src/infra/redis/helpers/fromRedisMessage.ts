@@ -16,11 +16,9 @@ import * as DemandeAnnulationAbandonEvents from '@modules/demandeModification/de
 import * as DemandeChangementDePuissanceEvents from '@modules/demandeModification/demandeChangementDePuissance/events';
 import * as ImportDonnéesRaccordementEvents from '@modules/imports/donnéesRaccordement/events';
 import * as UtilisateurEvents from '@modules/utilisateur/events';
-import { isLegacyEvent, RedisMessage } from './RedisMessage';
+import { RedisMessage } from './RedisMessage';
 
 import { transformerISOStringEnDate } from '../../helpers';
-import { GestionnaireRéseauAjouté } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauAjouté.deprecated';
-import { GestionnaireRéseauModifié } from '../../sequelize/projectionsNext/gestionnairesRéseau/updates/gestionnaireRéseauModifié.deprecated';
 
 interface EventProps {
   payload: any;
@@ -34,11 +32,6 @@ interface EventProps {
 interface HasEventConstructor {
   new (props: EventProps): DomainEvent;
 }
-
-const compatibilityEvents = {
-  GestionnaireRéseauAjouté,
-  GestionnaireRéseauModifié,
-};
 
 const EventClassByType: Record<string, HasEventConstructor> = {
   ...ModificationRequestEvents,
@@ -58,35 +51,28 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...DemandeChangementDePuissanceEvents,
   ...ImportDonnéesRaccordementEvents,
   ...UtilisateurEvents,
-  ...compatibilityEvents,
 };
 
-export const fromRedisMessage = (message: RedisMessage): DomainEvent => {
+export const fromRedisMessage = (message: RedisMessage): DomainEvent | undefined => {
   const EventClass = EventClassByType[message.type];
 
   if (!EventClass) {
-    throw new Error('Event class not recognized');
+    //logger.error(new Error('Event class not recognized'));
+    return;
   }
 
-  const original = isLegacyEvent(message)
-    ? {
-        version: 1,
-        occurredAt: new Date(Number(message.occurredAt)),
-      }
-    : undefined;
+  const original = {
+    version: 1,
+    occurredAt: new Date(Number(message.occurredAt)),
+  };
 
   if (original && isNaN(original.occurredAt.getTime())) {
     throw new Error('message occurredAt is not a valid timestamp');
   }
 
-  const payload = !isLegacyEvent(message)
-    ? {
-        ...transformerISOStringEnDate(message.payload),
-        streamId: message.streamId,
-      }
-    : {
-        ...transformerISOStringEnDate(message.payload),
-      };
+  const payload = {
+    ...transformerISOStringEnDate(message.payload),
+  };
 
   return new EventClass({
     payload,

@@ -1,7 +1,7 @@
 import routes from '@routes';
 import { vérifierPermissionUtilisateur } from '../helpers';
 import { v1Router } from '../v1Router';
-import { PermissionConsulterGestionnaireRéseau } from '@modules/gestionnaireRéseau/consulter/consulterGestionnaireRéseau';
+import { PermissionConsulterGestionnaireRéseau } from '@potentiel/domain';
 import asyncHandler from '../helpers/asyncHandler';
 import { AjouterGestionnaireRéseauPage } from '@views';
 

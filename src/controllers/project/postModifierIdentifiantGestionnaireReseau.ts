@@ -3,12 +3,11 @@ import { logger } from '@core/utils';
 import {
   IdentifiantGestionnaireRéseauExistantError,
   IdentifiantGestionnaireRéseauObligatoireError,
-  PermissionModifierIdentifiantGestionnaireReseau,
 } from '@modules/project';
 import routes from '@routes';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { object, string } from 'yup';
-import { errorResponse, vérifierPermissionUtilisateur } from '../helpers';
+import { errorResponse } from '../helpers';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 
@@ -22,7 +21,6 @@ const schema = object({
 
 v1Router.post(
   routes.POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU,
-  vérifierPermissionUtilisateur(PermissionModifierIdentifiantGestionnaireReseau),
   safeAsyncHandler(
     {
       schema,
@@ -46,7 +44,6 @@ v1Router.post(
         projetId,
         utilisateur: user,
         identifiantGestionnaireRéseau,
-        codeEICGestionnaireRéseau,
       }).match(
         () =>
           response.redirect(

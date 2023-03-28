@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel/redis-event-bus-consumer",
+  "version": "0.0.0",
+  "description": "Potentiel Redis EventBus Consumer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "ioredis": "^4.28.5"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*",
+    "@types/ioredis": "^4.28.10"
+  }
+}

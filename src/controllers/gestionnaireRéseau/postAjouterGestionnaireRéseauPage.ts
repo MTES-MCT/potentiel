@@ -5,10 +5,18 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { ajouterGestionnaireRéseau } from '@config';
-import { GestionnaireRéseauDéjàExistantError } from '@modules/gestionnaireRéseau/ajouter/gestionnaireRéseauDéjàExistant.error';
 import { logger } from '@core/utils';
-import { PermissionAjouterGestionnaireRéseau } from '@modules/gestionnaireRéseau/ajouter/ajouterGestionnaireRéseau.command';
+import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
+import {
+  ajouterGestionnaireRéseauCommandHandlerFactory,
+  GestionnaireRéseauDéjàExistantError,
+  PermissionAjouterGestionnaireRéseau,
+} from '@potentiel/domain';
+
+export const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
+  publish,
+  loadAggregate,
+});
 
 const schema = yup.object({
   body: yup.object({

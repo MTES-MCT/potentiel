@@ -24,14 +24,12 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
           projectId: projetId,
           numeroGestionnaire: identifiantGestionnaire,
           submittedBy: 'id',
-          codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
         },
       }),
     );
 
     expect(await Raccordements.findOne({ where: { projetId } })).toMatchObject({
       identifiantGestionnaire,
-      codeEICGestionnaireRéseau: 'codeEICDuGestionnaire',
     });
   });
 
@@ -42,7 +40,6 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
       id: new UniqueEntityID().toString(),
       projetId,
       identifiantGestionnaire: 'identifiant-gestionnaire',
-      codeEICGestionnaireRéseau: 'code-EIC-gestionnaire',
     });
 
     await onNumeroGestionnaireSubmitted(
@@ -57,7 +54,6 @@ describe('Raccordements.onNumeroGestionnaireSubmitted', () => {
 
     expect(await Raccordements.findOne({ where: { projetId } })).toMatchObject({
       identifiantGestionnaire: 'nouvel-identifiant',
-      codeEICGestionnaireRéseau: 'code-EIC-gestionnaire',
     });
   });
 });

@@ -11,7 +11,6 @@ export * from './DonnéesDeRaccordementRenseignées';
 export * from './EtapeGFSupprimée';
 export * from './GarantiesFinancièresInvalidées';
 export * from './GarantiesFinancièresValidées';
-export * from './GestionnaireRéseauRenseigné';
 export * from './IdentifiantPotentielPPE2Batiment2Corrigé';
 export * from './ImportExecuted';
 export * from './LegacyAbandonSupprimé';

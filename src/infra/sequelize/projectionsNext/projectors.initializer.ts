@@ -3,7 +3,6 @@ import { Subscribe } from './subscribe';
 import { initializeGarantiesFinancièresProjector } from './garantiesFinancières/garantiesFinancières.projector';
 import { ProjectEventProjector } from './projectEvents/projectEvent.projector';
 import { TâchesProjector } from './tâches/tâches.projector';
-import { GestionnaireRéseauProjector } from './gestionnairesRéseau/gestionnaireRéseau.projector';
 import { ModificationRequestProjector } from './modificationRequest/modificationRequest.projector';
 import { ProjectProjector } from './project/project.projector';
 import { RaccordementsProjector } from './raccordements/raccordements.projector';
@@ -20,7 +19,6 @@ export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe)
   const projectors = [
     ProjectEventProjector,
     TâchesProjector,
-    GestionnaireRéseauProjector,
     ModificationRequestProjector,
     ProjectProjector,
     RaccordementsProjector,

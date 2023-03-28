@@ -1,14 +1,14 @@
-import { ListeGestionnairesRéseauReadModel } from '@modules/gestionnaireRéseau';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Heading1, LinkButton, ListeVide, PageTemplate, SuccessBox } from '@components';
 import { hydrateOnClient } from '@views/helpers';
 import React from 'react';
 import { Liste } from './components/Liste';
 import routes from '@routes';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain';
 
 type ListeGestionnairesRéseauProps = {
   user: UtilisateurReadModel;
-  gestionnairesRéseau: ListeGestionnairesRéseauReadModel;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
   success?: string;
 };
 

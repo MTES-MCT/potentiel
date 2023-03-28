@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel/pg-projections",
+  "version": "0.0.0",
+  "description": "PostgreSQL projections engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel/core-domain": "*",
+    "@potentiel/pg-helpers": "*"
+  },
+  "devDependencies": {
+    "@potentiel/tsconfig": "*"
+  }
+}

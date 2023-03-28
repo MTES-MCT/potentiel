@@ -15,22 +15,18 @@ import {
 import { hydrateOnClient } from '../../helpers';
 import routes from '@routes';
 import { GestionnaireRéseauFormInputs } from './GestionnaireRéseauFormInputs';
+import { GestionnaireRéseauReadModel } from '@potentiel/domain';
 
 type ModifierIdentifiantGestionnaireReseauProps = {
   request: Request;
   projet: ProjectProps;
-  listeGestionnairesRéseau?: {
-    codeEIC: string;
-    raisonSociale: string;
-    format?: string;
-    légende?: string;
-  }[];
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
 export const ModifierIdentifiantGestionnaireReseau = ({
   request,
   projet,
-  listeGestionnairesRéseau,
+  gestionnairesRéseau: listeGestionnairesRéseau,
 }: ModifierIdentifiantGestionnaireReseauProps) => {
   const { error, success } = (request.query as any) || {};
 
@@ -61,8 +57,6 @@ export const ModifierIdentifiantGestionnaireReseau = ({
 
           <GestionnaireRéseauFormInputs
             identifiantGestionnaireRéseauActuel={projet.identifiantGestionnaire}
-            gestionnaireRéseauActuel={projet.gestionnaireRéseau}
-            listeGestionnairesRéseau={listeGestionnairesRéseau}
           />
 
           <div className="m-auto flex">

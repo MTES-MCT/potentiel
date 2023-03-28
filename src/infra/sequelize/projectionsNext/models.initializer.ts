@@ -4,7 +4,6 @@ import {
   initializeGarantiesFinancièresModel,
   initializeGarantiesFinancièresModelAssociations,
 } from './garantiesFinancières/garantiesFinancières.initializer';
-import { initializeGestionnaireRéseauModel } from './gestionnairesRéseau/gestionnaireRéseau.initializer';
 import {
   initializeModificationRequestModel,
   initializeModificationRequestModelAssociations,
@@ -38,7 +37,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   // First initialize models
   initializeFileModel(sequelize);
   initializeGarantiesFinancièresModel(sequelize);
-  initializeGestionnaireRéseauModel(sequelize);
   initializeModificationRequestModel(sequelize);
   initializeNotificationModel(sequelize);
   initializeProjectModel(sequelize);
