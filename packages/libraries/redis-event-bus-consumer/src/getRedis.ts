@@ -15,7 +15,7 @@ export const getRedis = async () => {
   return redisClient;
 };
 
-export const disconnectRedis = () => {
-  redisClient?.disconnect();
+export const disconnectRedis = async () => {
+  await redisClient?.disconnect();
   redisClient = undefined;
 };

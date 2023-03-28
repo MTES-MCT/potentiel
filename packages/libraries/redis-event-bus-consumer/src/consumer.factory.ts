@@ -8,22 +8,23 @@ export type Event<TType extends string = string, TPayload extends Record<string,
 
 type EventHandler<TEvent extends Event = Event> = (event: TEvent) => Promise<void>;
 
-export const consumerFactory = async (consumerName: string) => {
+export type Consumer = {
+  name: string;
+  consume: <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => void;
+  disconnect: () => Promise<void>;
+};
+
+export const consumerFactory = async (name: string): Promise<Consumer> => {
   const streamName = process.env.REDIS_EVENT_BUS_STREAM_NAME || '';
 
   const redis = await getRedis();
-  const groupName = await createConsumerGroup(redis, streamName, consumerName);
+  const groupName = await createConsumerGroup(redis, streamName, name);
 
   const handlers: Map<Event['type'], EventHandler> = new Map();
-  const listenerClient = redis.duplicate();
+  const consumerRedisClient = redis.duplicate();
 
   const listenForMessage = async () => {
-    const message = await getNextMessageToHandle(
-      listenerClient,
-      streamName,
-      groupName,
-      consumerName,
-    );
+    const message = await getNextMessageToHandle(consumerRedisClient, streamName, groupName, name);
 
     if (message) {
       const [, messageValue] = message;
@@ -36,14 +37,14 @@ export const consumerFactory = async (consumerName: string) => {
           // TODO log
           console.error(error);
 
-          await listenerClient.xadd(`${consumerName}-DLQ`, '*', messageValue);
+          await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
         }
       } else {
         console.log(`Unknown event ${eventType}`);
         console.log(eventPayload);
       }
       const [messageId] = message;
-      await listenerClient.xack(streamName, groupName, messageId);
+      await consumerRedisClient.xack(streamName, groupName, messageId);
 
       listenForMessage();
     }
@@ -55,7 +56,13 @@ export const consumerFactory = async (consumerName: string) => {
     handlers.set(type, handler as EventHandler);
   };
 
-  return consume;
+  const disconnect = async () => {
+    console.log(`Trying to quit...`);
+    await consumerRedisClient.quit();
+    console.log(`Quit !`);
+  };
+
+  return { name: name, consume, disconnect };
 };
 
 const createConsumerGroup = async (redis: Redis, streamName: string, consumerName: string) => {
