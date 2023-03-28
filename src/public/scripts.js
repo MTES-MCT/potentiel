@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addInvitationHandlers();
   addDelayEstimator();
   addSelectorHandlers();
   addSendCopyOfNotificationButtonHandler();
@@ -15,33 +14,6 @@ window.initHandlers = function () {
 };
 
 document.addEventListener('DOMContentLoaded', () => window.initHandlers());
-function addInvitationHandlers() {
-  const invitationFormShowButton = document.querySelector(
-    '[data-testid=invitation-form-show-button]',
-  );
-
-  const invitationFormHideButton = document.querySelector(
-    '[data-testid=invitation-form-hide-button]',
-  );
-
-  const invitationForm = document.querySelector('[data-testid=invitation-form]');
-
-  if (invitationFormShowButton) {
-    invitationFormShowButton.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      toggleVisibility(invitationForm, true);
-    });
-  }
-
-  if (invitationFormHideButton) {
-    invitationFormHideButton.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      toggleVisibility(invitationForm, false);
-    });
-  }
-}
 
 function addGoToOnClickHandlers() {
   const targets = document.querySelectorAll('[data-goto-onclick]');

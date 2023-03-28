@@ -276,19 +276,6 @@ ul.frise:before {
   margin-left: 5px;
 }
 
-form.invitationForm {
-  margin-left: 0px;
-  display: none;
-}
-
-.open > form.invitationForm {
-  display: block;
-}
-
-.open > .invitationFormToggle {
-  display: none;
-}
-
 /* fix template */
 a.button-outline {
   vertical-align: bottom;
