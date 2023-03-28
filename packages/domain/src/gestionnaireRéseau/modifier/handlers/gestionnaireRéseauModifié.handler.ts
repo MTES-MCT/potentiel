@@ -1,7 +1,5 @@
 import { DomainEventHandler, Update } from '@potentiel/core-domain';
-import {
-  GestionnaireRéseauReadModel,
-} from '../../gestionnaireRéseau.readModel';
+import { GestionnaireRéseauReadModel } from '../../gestionnaireRéseau.readModel';
 import { GestionnaireRéseauModifiéEvent } from '../gestionnaireRéseauModifié.event';
 
 export const gestionnaireRéseauModifiéHandlerFactory =
