@@ -72,6 +72,7 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
 
       // Assert
       const expected: typeof actual = {
+        type: 'gestionnaire-réseau',
         codeEIC,
         raisonSociale,
         aideSaisieRéférenceDossierRaccordement: {
