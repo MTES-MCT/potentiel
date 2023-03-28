@@ -9,10 +9,16 @@ import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
   GestionnaireRéseauModifiéEvent,
+  listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
 import { Unsubscribe } from '@potentiel/core-domain';
 import waitForExpect from 'wait-for-expect';
-import { createProjection, findProjection, updateProjection } from '@potentiel/pg-projections';
+import {
+  createProjection,
+  findProjection,
+  listProjection,
+  updateProjection,
+} from '@potentiel/pg-projections';
 
 describe('Modifier un gestionnaire de réseau', () => {
   let unsubscribeAjouté: Unsubscribe | undefined;
@@ -99,7 +105,6 @@ describe('Modifier un gestionnaire de réseau', () => {
     const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
       findGestionnaireRéseau: findProjection,
     });
-
     await waitForExpect(async () => {
       const actual = await consulterGestionnaireRéseau({ codeEIC });
 
@@ -115,6 +120,26 @@ describe('Modifier un gestionnaire de réseau', () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+
+    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+      listGestionnaireRéseau: listProjection,
+    });
+    await waitForExpect(async () => {
+      const actuals = await listerGestionnaireRéseau({});
+
+      // Assert
+      const expected: typeof actuals[number] = {
+        type: 'gestionnaire-réseau',
+        codeEIC,
+        raisonSociale: 'RTE',
+        aideSaisieRéférenceDossierRaccordement: {
+          format: 'AAA-BBB',
+          légende: 'des lettres séparées par un tiret',
+        },
+      };
+
+      expect(actuals).toContainEqual(expected);
     });
   });
 
