@@ -11,7 +11,6 @@ type EventHandler<TEvent extends Event = Event> = (event: TEvent) => Promise<voi
 export type Consumer = {
   name: string;
   consume: <TEvent extends Event>(type: TEvent['type'], handler: EventHandler<TEvent>) => void;
-  disconnect: () => Promise<void>;
 };
 
 export const consumerFactory = async (name: string): Promise<Consumer> => {
@@ -35,7 +34,6 @@ export const consumerFactory = async (name: string): Promise<Consumer> => {
           await handler(JSON.parse(eventPayload));
         } catch (error) {
           // TODO log
-          console.error(error);
 
           await consumerRedisClient.xadd(`${name}-DLQ`, '*', messageValue);
         }
@@ -56,13 +54,7 @@ export const consumerFactory = async (name: string): Promise<Consumer> => {
     handlers.set(type, handler as EventHandler);
   };
 
-  const disconnect = async () => {
-    console.log(`Trying to quit...`);
-    await consumerRedisClient.quit();
-    console.log(`Quit !`);
-  };
-
-  return { name: name, consume, disconnect };
+  return { name, consume };
 };
 
 const createConsumerGroup = async (redis: Redis, streamName: string, consumerName: string) => {
