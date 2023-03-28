@@ -9,7 +9,7 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
     payload: { userId, projectIds },
   } = évènement;
   try {
-    const userProjectIds = (await UserProjects.findAll({ where: { userId } })).map(
+    const userProjectIds = (await UserProjects.findAll({ where: { userId }, transaction })).map(
       (project) => project.projectId,
     );
     const filteredProjectIds = projectIds
