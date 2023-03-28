@@ -7,7 +7,6 @@ import { UnauthorizedError } from '@modules/shared';
 import { logger } from '@core/utils';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import * as yup from 'yup';
-import { User } from '@entities';
 
 const schema = yup.object({
   body: yup.object({
@@ -23,15 +22,8 @@ const schema = yup.object({
   }),
 });
 
-const getRedirectTo = ({
-  projectId,
-  role,
-}: {
-  projectId: string | string[];
-  role: User['role'];
-}) => {
-  return Array.isArray(projectId) ? routes.LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
-};
+const getRedirectTo = (projectId: string | string[]) =>
+  Array.isArray(projectId) ? routes.LISTE_PROJETS : routes.PROJECT_DETAILS(projectId);
 
 v1Router.post(
   routes.INVITE_USER_TO_PROJECT_ACTION,
@@ -41,7 +33,7 @@ v1Router.post(
       schema,
       onError: ({ response, request, error }) => {
         const projectId = request.body.projectId;
-        const redirectTo = getRedirectTo({ projectId, role: request.user.role });
+        const redirectTo = getRedirectTo(projectId);
         return response.redirect(
           addQueryParams(redirectTo, {
             ...request.body,
@@ -55,7 +47,7 @@ v1Router.post(
       const { user } = request;
 
       const projectIds = Array.isArray(projectId) ? projectId : [projectId];
-      const redirectTo = getRedirectTo({ projectId, role: request.user.role });
+      const redirectTo = getRedirectTo(projectId);
 
       return await inviteUserToProject({
         email: email.toLowerCase(),

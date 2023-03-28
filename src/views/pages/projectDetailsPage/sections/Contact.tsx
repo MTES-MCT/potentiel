@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Request } from 'express';
 
 import ROUTES from '@routes';
-import { Button, Heading3, Input, Label, Link, UserIcon, Section } from '@components';
+import { Button, Heading3, Input, Label, Link, UserIcon, Section, Dropdown } from '@components';
 
 import { ProjectDataForProjectPage } from '@modules/project';
 import { userIs } from '@modules/users';
@@ -67,35 +67,46 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
 type InvitationFormProps = {
   project: ProjectDataForProjectPage;
 };
-const InvitationForm = ({ project }: InvitationFormProps) => (
-  <div {...dataId('invitation-form')}>
-    <Link href="#" {...dataId('invitation-form-show-button')} className="invitationFormToggle">
-      Donner accès à un autre utilisateur
-    </Link>
-    <form
-      action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-      method="post"
-      name="form"
-      className="invitationForm"
+const InvitationForm = ({ project }: InvitationFormProps) => {
+  const [displayForm, showForm] = useState(false);
+  return (
+    <Dropdown
+      design="link"
+      text={`Donner accès à un autre utilisateur`}
+      isOpen={displayForm}
+      changeOpenState={(isOpen) => showForm(isOpen)}
+      className="mt-4"
     >
-      <Heading3 style={{ marginBottom: 5 }}>Gestion des accès à ce projet</Heading3>
-      <input type="hidden" name="projectId" id="projectId" value={project.id} />
-      <Label htmlFor="email" required>
-        Courrier électronique de la personne habilitée à suivre ce projet
-      </Label>
-      <Input type="email" name="email" id="email" required />
-      <Button
-        className="mt-2 mr-3"
-        type="submit"
-        name="submit"
-        id="submit"
-        {...dataId('submit-button')}
+      <form
+        action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+        method="post"
+        name="form"
+        className="invitationForm"
       >
-        Accorder les droits sur ce projet
-      </Button>
-      <Link href="#" {...dataId('invitation-form-hide-button')}>
-        Annuler
-      </Link>
-    </form>
-  </div>
-);
+        <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
+        <input type="hidden" name="projectId" id="projectId" value={project.id} />
+        <Label htmlFor="email" required>
+          Courrier électronique de la personne habilitée à suivre ce projet
+        </Label>
+        <Input type="email" name="email" id="email" required />
+        <Button
+          className="mt-2 mr-3"
+          type="submit"
+          name="submit"
+          id="submit"
+          {...dataId('submit-button')}
+        >
+          Accorder les droits sur ce projet
+        </Button>
+        <Link
+          onClick={(e) => {
+            e.preventDefault();
+            showForm(false);
+          }}
+        >
+          Annuler
+        </Link>
+      </form>
+    </Dropdown>
+  );
+};
