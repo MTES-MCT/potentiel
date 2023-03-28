@@ -3,24 +3,22 @@ import { RechercherDroitsDéjàExistantsQueryHandler } from '@modules/utilisateu
 
 export const rechercherDroitsDéjàExistantsQueryHandler: RechercherDroitsDéjàExistantsQueryHandler =
   async ({ email, projectIds }) => {
-    const utilisateurExistant = await User.findOne({ where: { email }, attributes: ['id'] });
     const projetsDéjàRattachésUser: string[] = [];
+
+    const utilisateurExistant = await User.findOne({ where: { email }, attributes: ['id'] });
 
     if (!utilisateurExistant) {
       return projetsDéjàRattachésUser;
     }
 
     for (const projectId of projectIds) {
-      try {
-        const userProject = await UserProjects.findOne({
-          where: { userId: utilisateurExistant.id, projectId },
-        });
+      const userProject = await UserProjects.findOne({
+        where: { userId: utilisateurExistant.id, projectId },
+        attributes: ['projectId'],
+      });
 
-        if (userProject) {
-          projetsDéjàRattachésUser.push(userProject.projectId);
-        }
-      } catch (e) {
-        console.error(e);
+      if (userProject) {
+        projetsDéjàRattachésUser.push(userProject.projectId);
       }
     }
 
