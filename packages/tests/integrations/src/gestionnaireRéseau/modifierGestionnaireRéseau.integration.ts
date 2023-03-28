@@ -1,20 +1,48 @@
-import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { isNone } from '@potentiel/monads';
 import {
   modifierGestionnaireRéseauFactory,
   createGestionnaireRéseauAggregateId,
-  GestionnaireRéseauState,
-  loadGestionnaireRéseauAggregateFactory,
   GestionnaireRéseauInconnuError,
+  GestionnaireRéseauAjoutéEvent,
+  consulterGestionnaireRéseauQueryHandlerFactory,
+  gestionnaireRéseauAjoutéHandlerFactory,
+  gestionnaireRéseauModifiéHandlerFactory,
+  GestionnaireRéseauModifiéEvent,
 } from '@potentiel/domain';
+import { Unsubscribe } from '@potentiel/core-domain';
+import waitForExpect from 'wait-for-expect';
+import { createProjection, findProjection, updateProjection } from '@potentiel/pg-projections';
 
 describe('Modifier un gestionnaire de réseau', () => {
+  let unsubscribeAjouté: Unsubscribe | undefined;
+  let unsubscribeModifié: Unsubscribe | undefined;
+
   beforeAll(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
-  beforeEach(() => executeQuery(`DELETE FROM "EVENT_STREAM"`));
+  beforeEach(async () => {
+    await executeQuery(`DELETE FROM "EVENT_STREAM"`);
+    await executeQuery(`DELETE FROM "PROJECTION"`);
+  });
+
+  afterEach(async () => {
+    if (unsubscribeAjouté) {
+      await unsubscribeAjouté();
+      unsubscribeAjouté = undefined;
+    }
+
+    if (unsubscribeModifié) {
+      await unsubscribeModifié();
+      unsubscribeModifié = undefined;
+    }
+  });
+
+  const codeEIC = '17X100A100A0001A';
+  const raisonSociale = 'Enedis';
+  const format = 'XX-YY-ZZ';
+  const légende = 'la légende';
 
   it(`
     Etant donné un gestionnaire de réseau
@@ -22,15 +50,35 @@ describe('Modifier un gestionnaire de réseau', () => {
     Alors le gestionnaire de réseau devrait être mis à jour
   `, async () => {
     // Arrange
-    const codeEIC = '17X100A100A0001A';
-
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), {
+    const gestionnaireRéseauAjouté: GestionnaireRéseauAjoutéEvent = {
       type: 'GestionnaireRéseauAjouté',
       payload: {
         codeEIC,
-        raisonSociale: 'RTE',
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format,
+          légende,
+        },
       },
-    });
+    };
+
+    const gestionnaireRéseauAjoutéHandler =
+      gestionnaireRéseauAjoutéHandlerFactory(createProjection);
+
+    unsubscribeAjouté = await subscribe<GestionnaireRéseauAjoutéEvent>(
+      'GestionnaireRéseauAjouté',
+      gestionnaireRéseauAjoutéHandler,
+    );
+
+    const gestionnaireRéseauModifiéHandler =
+      gestionnaireRéseauModifiéHandlerFactory(updateProjection);
+
+    unsubscribeModifié = await subscribe<GestionnaireRéseauModifiéEvent>(
+      'GestionnaireRéseauModifié',
+      gestionnaireRéseauModifiéHandler,
+    );
+
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), gestionnaireRéseauAjouté);
 
     // Act
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
@@ -40,32 +88,34 @@ describe('Modifier un gestionnaire de réseau', () => {
 
     await modifierGestionnaireRéseau({
       codeEIC,
-      raisonSociale: 'ENEDIS',
+      raisonSociale: 'RTE',
       aideSaisieRéférenceDossierRaccordement: {
-        format: 'XXX-YYY',
+        format: 'AAA-BBB',
         légende: 'des lettres séparées par un tiret',
       },
     });
-
-    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-      loadAggregate,
-    });
-
-    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
     // Assert
-    const expected: GestionnaireRéseauState = {
-      codeEIC,
-      raisonSociale: 'ENEDIS',
-      aideSaisieRéférenceDossierRaccordement: {
-        format: 'XXX-YYY',
-        légende: 'des lettres séparées par un tiret',
-      },
-    };
-    expect(isNone(gestionnaireRéseau)).toBe(false);
-    if (!isNone(gestionnaireRéseau)) {
-      expect(gestionnaireRéseau).toMatchObject(expected);
-    }
+    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+      findGestionnaireRéseau: findProjection,
+    });
+
+    await waitForExpect(async () => {
+      const actual = await consulterGestionnaireRéseau({ codeEIC });
+
+      // Assert
+      const expected: typeof actual = {
+        type: 'gestionnaire-réseau',
+        codeEIC,
+        raisonSociale: 'RTE',
+        aideSaisieRéférenceDossierRaccordement: {
+          format: 'AAA-BBB',
+          légende: 'des lettres séparées par un tiret',
+        },
+      };
+
+      expect(actual).toEqual(expected);
+    });
   });
 
   it(`Lorsque un administrateur modifie la raison sociale du gestionnaire de réseau inconnu
