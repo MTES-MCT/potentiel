@@ -1,7 +1,7 @@
 {
-  "name": "@potentiel/logger",
+  "name": "@potentiel/monitoring",
   "version": "0.0.0",
-  "description": "Potentiel Logger",
+  "description": "Potentiel Monitoring",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
@@ -10,6 +10,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@sentry/node": "^7.45.0",
     "winston": "^3.8.2"
   },
   "devDependencies": {

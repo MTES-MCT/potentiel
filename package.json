@@ -6,7 +6,7 @@
   "main": "index.js",
   "workspaces": [
     "./packages/libraries/tsconfig/",
-    "./packages/libraries/logger/",
+    "./packages/libraries/monitoring/",
     "./packages/libraries/monads/",
     "./packages/libraries/core-domain/",
     "./packages/libraries/pg-helpers/",
