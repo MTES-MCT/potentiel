@@ -23,7 +23,6 @@ export interface ProjectClaim extends EventStoreAggregate {
   }) => Result<
     any,
     | EntityNotFoundError
-    | ProjectHasAlreadyBeenClaimedError
     | ProjectCannotBeClaimedByUserAnymoreError
     | ClaimerIdentityCheckHasFailedError
   >;
@@ -40,7 +39,6 @@ export const makeProjectClaim = (args: {
 }): Result<
   ProjectClaim,
   | EntityNotFoundError
-  | ProjectHasAlreadyBeenClaimedError
   | ProjectCannotBeClaimedByUserAnymoreError
   | ClaimerIdentityCheckHasFailedError
 > => {
@@ -76,10 +74,10 @@ export const makeProjectClaim = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
-      case ProjectClaimedByOwner.type:
-      case ProjectClaimed.type:
-        props.hasBeenClaimed = true;
-        break;
+      // case ProjectClaimedByOwner.type:
+      // case ProjectClaimed.type:
+      //   props.hasBeenClaimed = true;
+      //   break;
       case ProjectClaimFailed.type:
         props.failedClaimsCounter++;
         break;
