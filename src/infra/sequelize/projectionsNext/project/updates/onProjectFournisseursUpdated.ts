@@ -34,7 +34,7 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
       if (newEvaluationCarbone) projectInstance.evaluationCarbone = newEvaluationCarbone;
       projectInstance.changed('details', true);
 
-      await projectInstance.save();
+      await projectInstance.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

@@ -31,7 +31,7 @@ export const onProjectReimported = ProjectProjector.on(
           other.evaluationCarbone ?? project.evaluationCarboneDeRéférence,
       });
 
-      await project.save();
+      await project.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
