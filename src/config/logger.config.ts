@@ -1,54 +1,19 @@
 import { logger } from '@core/utils';
-import { isProdEnv } from './env.config';
-import * as Sentry from '@sentry/node';
+import { getLogger } from '@potentiel/monitoring';
 
-if (isProdEnv) {
-  const sentryDsn = process.env.SENTRY_DSN;
+logger.on('debugLog', (message: string) => {
+  getLogger().debug(message);
+});
 
-  if (!sentryDsn) {
-    console.error('SENTRY_DSN is empty. It should be provided as an environment variable.');
-    process.exit(1);
-  }
+logger.on('infoLog', (message: string) => {
+  getLogger().info(message);
+});
 
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
+logger.on('warningLog', (message: string) => {
+  getLogger().warn(message);
+});
 
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-  });
-
-  logger.on('infoLog', (...args) => {
-    console.info(...args);
-  });
-
-  logger.on('warningLog', (message: string, context?: Record<string, unknown>) => {
-    console.warn(message);
-    Sentry.captureMessage(message);
-    if (context) {
-      Sentry.setExtra('context', context);
-    }
-  });
-
-  logger.on('errorLog', (exception: Error | string) => {
-    console.error(exception);
-    Sentry.setExtra('exception', exception);
-    Sentry.captureException(exception);
-  });
-} else {
-  logger.on('debugLog', (...args) => {
-    console.debug(...args);
-  });
-
-  logger.on('infoLog', (...args) => {
-    console.info(...args);
-  });
-
-  logger.on('warningLog', (message: string) => {
-    console.warn(message);
-  });
-
-  logger.on('errorLog', (exception: Error | string) => {
-    console.error(exception);
-  });
-}
+logger.on('errorLog', (exception: Error | string) => {
+  const error = typeof exception === 'string' ? new Error(exception) : exception;
+  getLogger().error(error);
+});

@@ -1,4 +1,5 @@
 import winston from 'winston';
+import { getCapture } from './capture';
 
 // RFC5424 from higher to lower level
 export const levels: ReadonlyArray<string> = ['error', 'warn', 'info', 'debug'] as const;
@@ -6,10 +7,10 @@ export const levels: ReadonlyArray<string> = ['error', 'warn', 'info', 'debug'] 
 export type Level = typeof levels[number];
 
 export type Logger = {
-  debug(message: string, meta: Record<string, unknown>): void;
-  info(message: string, meta: Record<string, unknown>): void;
-  warn(message: string, meta: Record<string, unknown>): void;
-  error(error: Error, meta: Record<string, unknown>): void;
+  debug(message: string, meta?: Record<string, unknown>): void;
+  info(message: string, meta?: Record<string, unknown>): void;
+  warn(message: string, meta?: Record<string, unknown>): void;
+  error(error: Error, meta?: Record<string, unknown>): void;
 };
 
 type GetLogger = () => Logger;
@@ -56,10 +57,22 @@ export const getLogger: GetLogger = (): Logger => {
     });
 
     logger = {
-      debug: (message, meta) => winstonLogger.debug(message, { meta }),
-      info: (message, meta) => winstonLogger.info(message, { meta }),
-      warn: (message, meta) => winstonLogger.warn(message, { meta }),
-      error: (error, meta) => winstonLogger.error(error.message, { meta, error }),
+      debug: (message, meta = {}) => {
+        winstonLogger.debug(message, { meta });
+        getCapture()?.debug(message, meta);
+      },
+      info: (message, meta = {}) => {
+        winstonLogger.info(message, { meta });
+        getCapture()?.info(message, meta);
+      },
+      warn: (message, meta = {}) => {
+        winstonLogger.warn(message, { meta });
+        getCapture()?.warn(message, meta);
+      },
+      error: (error, meta = {}) => {
+        winstonLogger.error(error.message, { meta, error });
+        getCapture()?.error(error, meta);
+      },
     };
   }
 

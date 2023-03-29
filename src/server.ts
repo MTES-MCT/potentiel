@@ -6,6 +6,7 @@ import express, { Request } from 'express';
 import helmet from 'helmet';
 import path from 'path';
 import morgan from 'morgan';
+import * as Sentry from '@sentry/node';
 import { isDevEnv, registerAuth } from './config';
 import { v1Router } from './controllers';
 import { logger } from './core/utils';
@@ -20,6 +21,9 @@ export async function makeServer(port: number, sessionSecret: string) {
   try {
     await bootstrap();
     const app = express();
+
+    // Always first middleware
+    app.use(Sentry.Handlers.requestHandler());
 
     if (!isDevEnv) {
       app.use(
@@ -87,6 +91,8 @@ export async function makeServer(port: number, sessionSecret: string) {
 
     app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));
+
+    app.use(Sentry.Handlers.errorHandler());
 
     app.use((error, req, res, next) => {
       logger.error(error);
