@@ -5,7 +5,6 @@ import { EntityNotFoundError } from '../shared';
 import {
   ClaimerIdentityCheckHasFailedError,
   MissingAttestationDesignationError,
-  ProjectHasAlreadyBeenClaimedError,
   ProjectCannotBeClaimedByUserAnymoreError,
 } from './errors';
 import { ProjectClaimedByOwner, ProjectClaimFailed, ProjectClaimed } from './events';
@@ -23,14 +22,12 @@ export interface ProjectClaim extends EventStoreAggregate {
   }) => Result<
     any,
     | EntityNotFoundError
-    | ProjectHasAlreadyBeenClaimedError
     | ProjectCannotBeClaimedByUserAnymoreError
     | ClaimerIdentityCheckHasFailedError
   >;
 }
 
 interface ProjectClaimProps {
-  hasBeenClaimed: boolean;
   failedClaimsCounter: number;
 }
 
@@ -40,7 +37,6 @@ export const makeProjectClaim = (args: {
 }): Result<
   ProjectClaim,
   | EntityNotFoundError
-  | ProjectHasAlreadyBeenClaimedError
   | ProjectCannotBeClaimedByUserAnymoreError
   | ClaimerIdentityCheckHasFailedError
 > => {
@@ -49,7 +45,6 @@ export const makeProjectClaim = (args: {
   let lastUpdatedOn = new Date(0);
 
   const props: ProjectClaimProps = {
-    hasBeenClaimed: false,
     failedClaimsCounter: 0,
   };
 
@@ -76,10 +71,6 @@ export const makeProjectClaim = (args: {
 
   function _processEvent(event: DomainEvent) {
     switch (event.type) {
-      case ProjectClaimedByOwner.type:
-      case ProjectClaimed.type:
-        props.hasBeenClaimed = true;
-        break;
       case ProjectClaimFailed.type:
         props.failedClaimsCounter++;
         break;
@@ -123,8 +114,6 @@ export const makeProjectClaim = (args: {
 
     if (props.failedClaimsCounter >= MAX_ALLOWED_ATTEMPTS)
       return err(new ProjectCannotBeClaimedByUserAnymoreError(projectName));
-
-    if (props.hasBeenClaimed) return err(new ProjectHasAlreadyBeenClaimedError(projectName));
 
     const claimerIsTheOwner = projectEmail === claimerEmail;
 
