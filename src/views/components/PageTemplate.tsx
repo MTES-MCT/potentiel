@@ -163,7 +163,6 @@ const MenuAdmin = (currentPage: CurrentPage) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
 
-    {/*TODO // réactiver la feature quand on sera prêt
     <DropdownMenu buttonChildren={'Outils'}>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_STATISTIQUES}
@@ -176,15 +175,8 @@ const MenuAdmin = (currentPage: CurrentPage) => (
         {...(currentPage === 'liste-gestionnaires-réseau' && { isCurrent: true })}
       >
         Gérer les gestionnaires de réseau
-      </DropdownMenu.DropdownItem> 
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    */}
-    <DropdownMenu.DropdownItem
-      href={routes.ADMIN_STATISTIQUES}
-      {...(currentPage === 'admin-statistiques' && { isCurrent: true })}
-    >
-      Tableau de bord
-    </DropdownMenu.DropdownItem>
   </>
 );
 
