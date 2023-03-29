@@ -63,7 +63,7 @@ v1Router.post(
         : undefined;
 
       if (errors.length) {
-        const errorMessages = `Les projets suivants n'ont pas pu être ajoutés car le prix ou le numéro CRE est erroné. Pensez également à vérifier que vous avez bien joint votre attestation de désignation.\n${errors.join(
+        const errorMessages = `Les projets suivants n'ont pas pu être ajoutés.\n${errors.join(
           '\n',
         )}`;
 
