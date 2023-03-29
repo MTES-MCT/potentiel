@@ -156,20 +156,9 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
               <th {...dataId('missingOwnerProjectList-checkbox')}>
                 <InputCheckbox {...dataId('missingOwnerProjectList-selectAll-checkbox')} />
               </th>
-              {displayColumns?.map((column) =>
-                column === 'N° CRE' ? (
-                  <th key={column}>
-                    <a className="tooltip">
-                      (?)
-                      <img src="/images/numeroCRE_tooltip.jpg" className="tooltiptext w-[700px]" />
-                    </a>
-                    &nbsp;
-                    {column}
-                  </th>
-                ) : (
-                  <th key={column}>{column}</th>
-                ),
-              )}
+              {displayColumns?.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
               {ACTION_BY_ROLE[role] ? <th></th> : ''}
             </tr>
           </thead>
