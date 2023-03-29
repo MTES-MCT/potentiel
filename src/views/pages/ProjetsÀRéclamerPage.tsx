@@ -1,11 +1,12 @@
 import { Request } from 'express';
-import React from 'react';
+import React, { useState } from 'react';
 import { AppelOffre, Famille, Periode, Project } from '@entities';
 import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { PaginatedList } from '../../types';
 import {
   BarreDeRecherche,
+  Dropdown,
   ErrorBox,
   Heading1,
   InfoBox,
@@ -56,6 +57,8 @@ export const ProjetsÀRéclamer = ({
     ?.familles.sort((a, b) => a.title.localeCompare(b.title))
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
+  const [displayHelp, showHelp] = useState(false);
+
   return (
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
       <div className="panel">
@@ -68,6 +71,15 @@ export const ProjetsÀRéclamer = ({
             Pour les projets qui ne vous sont pas pré-affectés, veuillez saisir le prix de référence
             tel qu'il figure dans votre attestation de désignation, ainsi que le numéro CRE puis
             téléversez l’attestation de désignation.
+            <Dropdown
+              text="Où trouver mon numéro CRE sur mon attestation de désignation ?"
+              design="link"
+              changeOpenState={(state) => showHelp(state)}
+              isOpen={displayHelp}
+              className="mt-2"
+            >
+              <img src="/images/numeroCRE_tooltip.jpg" className="mt-4 w-[700px]" />
+            </Dropdown>
           </InfoBox>
           <form
             action={ROUTES.USER_LIST_MISSING_OWNER_PROJECTS}
