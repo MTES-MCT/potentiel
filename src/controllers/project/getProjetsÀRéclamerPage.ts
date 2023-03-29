@@ -17,6 +17,8 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
     classement,
     garantiesFinancieres,
     pageSize,
+    error,
+    success,
   } = request.query as any;
   const { user } = request;
 
@@ -72,6 +74,8 @@ const getMissingOwnerProjectListPage = asyncHandler(async (request, response) =>
       existingPeriodes,
       existingFamilles,
       appelsOffre,
+      success,
+      error,
     }),
   );
 });

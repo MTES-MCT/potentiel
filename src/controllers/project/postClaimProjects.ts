@@ -6,6 +6,7 @@ import { createReadStream } from 'fs';
 import { upload } from '../upload';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { errorResponse } from '../helpers';
+import { addQueryParams } from '../../helpers/addQueryParams';
 
 v1Router.post(
   routes.USER_CLAIM_PROJECTS,
@@ -68,27 +69,20 @@ v1Router.post(
         )}`;
 
         return response.redirect(
-          routes.SUCCESS_OR_ERROR_PAGE({
-            redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
-            redirectTitle: 'Retour vers la liste des projets à réclamer',
-            success: successMessages,
+          addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
             error: errorMessages,
           }),
         );
       }
 
       return response.redirect(
-        routes.SUCCESS_OR_ERROR_PAGE({
-          redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
-          redirectTitle: 'Retour vers la liste des projets à réclamer',
+        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
           success: successMessages,
         }),
       );
     } catch (error) {
       return response.redirect(
-        routes.SUCCESS_OR_ERROR_PAGE({
-          redirectUrl: routes.USER_LIST_MISSING_OWNER_PROJECTS,
-          redirectTitle: 'Retour vers la liste des projets à réclamer',
+        addQueryParams(routes.USER_LIST_MISSING_OWNER_PROJECTS, {
           error: error.message,
         }),
       );

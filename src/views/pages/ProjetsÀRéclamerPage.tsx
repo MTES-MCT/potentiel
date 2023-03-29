@@ -26,6 +26,8 @@ interface ProjetsÀRéclamerProps {
   existingAppelsOffres: Array<AppelOffre['id']>;
   existingPeriodes?: Array<Periode['id']>;
   existingFamilles?: Array<Famille['id']>;
+  success?: string;
+  error?: string;
 }
 
 export const ProjetsÀRéclamer = ({
