@@ -1,4 +1,4 @@
-import { CommandHandler, LoadAggregate, Publish } from '@potentiel/core-domain';
+import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
@@ -15,14 +15,10 @@ type ModifierGestionnaireRéseauCommand = {
 
 type ModifierGestionnaireRéseauDependencies = { publish: Publish; loadAggregate: LoadAggregate };
 
-type ModifierGestionnaireRéseauFactory = (
-  dependencies: ModifierGestionnaireRéseauDependencies,
-) => CommandHandler<ModifierGestionnaireRéseauCommand>;
-
-export const modifierGestionnaireRéseauFactory: ModifierGestionnaireRéseauFactory = ({
-  publish,
-  loadAggregate,
-}) => {
+export const modifierGestionnaireRéseauFactory: CommandHandlerFactory<
+  ModifierGestionnaireRéseauCommand,
+  ModifierGestionnaireRéseauDependencies
+> = ({ publish, loadAggregate }) => {
   const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
     loadAggregate,
   });
