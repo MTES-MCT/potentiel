@@ -68,16 +68,18 @@ describe('Modifier un gestionnaire de réseau', () => {
       },
     };
 
-    const gestionnaireRéseauAjoutéHandler =
-      gestionnaireRéseauAjoutéHandlerFactory(createProjection);
+    const gestionnaireRéseauAjoutéHandler = gestionnaireRéseauAjoutéHandlerFactory({
+      create: createProjection,
+    });
 
     unsubscribeAjouté = await subscribe<GestionnaireRéseauAjoutéEvent>(
       'GestionnaireRéseauAjouté',
       gestionnaireRéseauAjoutéHandler,
     );
 
-    const gestionnaireRéseauModifiéHandler =
-      gestionnaireRéseauModifiéHandlerFactory(updateProjection);
+    const gestionnaireRéseauModifiéHandler = gestionnaireRéseauModifiéHandlerFactory({
+      update: updateProjection,
+    });
 
     unsubscribeModifié = await subscribe<GestionnaireRéseauModifiéEvent>(
       'GestionnaireRéseauModifié',

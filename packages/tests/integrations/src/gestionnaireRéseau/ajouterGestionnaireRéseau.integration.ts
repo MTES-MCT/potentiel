@@ -49,8 +49,9 @@ describe(`Ajouter un gestionnaire de réseau`, () => {
       findGestionnaireRéseau: findProjection,
     });
 
-    const gestionnaireRéseauAjoutéHandler =
-      gestionnaireRéseauAjoutéHandlerFactory(createProjection);
+    const gestionnaireRéseauAjoutéHandler = gestionnaireRéseauAjoutéHandlerFactory({
+      create: createProjection,
+    });
 
     unsubscribe = await subscribe<GestionnaireRéseauAjoutéEvent>(
       'GestionnaireRéseauAjouté',
