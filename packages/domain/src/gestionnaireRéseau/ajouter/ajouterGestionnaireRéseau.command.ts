@@ -1,4 +1,8 @@
-import { Publish, LoadAggregate, CommandHandler } from '@potentiel/core-domain';
+import {
+  Publish,
+  LoadAggregate,
+  CommandHandlerFactory,
+} from '@potentiel/core-domain';
 import { isSome } from '@potentiel/monads';
 import {
   createGestionnaireRéseauAggregateId,
@@ -18,31 +22,29 @@ type AjouterGestionnaireRéseauDependencies = {
   loadAggregate: LoadAggregate;
 };
 
-type AjouterGestionnaireRéseauCommandHandlerFactory = (
-  dependencies: AjouterGestionnaireRéseauDependencies,
-) => CommandHandler<AjouterGestionnaireRéseauCommand>;
+export const ajouterGestionnaireRéseauCommandHandlerFactory: CommandHandlerFactory<
+  AjouterGestionnaireRéseauCommand,
+  AjouterGestionnaireRéseauDependencies
+> = ({ publish, loadAggregate }) => {
+  const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
+    loadAggregate,
+  });
 
-export const ajouterGestionnaireRéseauCommandHandlerFactory: AjouterGestionnaireRéseauCommandHandlerFactory =
-  ({ publish, loadAggregate }) => {
-    const loadGestionnaireRéseauAggregate = loadGestionnaireRéseauAggregateFactory({
-      loadAggregate,
-    });
+  return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
+    const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
 
-    return async ({ aideSaisieRéférenceDossierRaccordement, codeEIC, raisonSociale }) => {
-      const gestionnaireRéseau = await loadGestionnaireRéseauAggregate(codeEIC);
+    if (isSome(gestionnaireRéseau)) {
+      throw new GestionnaireRéseauDéjàExistantError();
+    }
 
-      if (isSome(gestionnaireRéseau)) {
-        throw new GestionnaireRéseauDéjàExistantError();
-      }
-
-      const event: GestionnaireRéseauAjoutéEvent = {
-        type: 'GestionnaireRéseauAjouté',
-        payload: {
-          codeEIC,
-          raisonSociale,
-          aideSaisieRéférenceDossierRaccordement,
-        },
-      };
-      await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
+    const event: GestionnaireRéseauAjoutéEvent = {
+      type: 'GestionnaireRéseauAjouté',
+      payload: {
+        codeEIC,
+        raisonSociale,
+        aideSaisieRéférenceDossierRaccordement,
+      },
     };
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
   };
+};

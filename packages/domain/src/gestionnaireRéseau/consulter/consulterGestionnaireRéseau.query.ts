@@ -1,4 +1,4 @@
-import { Find, QueryHandler } from '@potentiel/core-domain';
+import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 
@@ -10,13 +10,11 @@ type ConsulterGestionnaireRéseauDependencies = {
   findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
 };
 
-type ConsulterGestionnaireRéseauFactory = (
-  dependencies: ConsulterGestionnaireRéseauDependencies,
-) => QueryHandler<ConsulterGestionnaireRéseauQuery, GestionnaireRéseauReadModel>;
-
-export const consulterGestionnaireRéseauQueryHandlerFactory: ConsulterGestionnaireRéseauFactory = ({
-  findGestionnaireRéseau,
-}) => {
+export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactory<
+  ConsulterGestionnaireRéseauQuery,
+  GestionnaireRéseauReadModel,
+  ConsulterGestionnaireRéseauDependencies
+> = ({ findGestionnaireRéseau }) => {
   return async ({ codeEIC }) => {
     const result = await findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
 

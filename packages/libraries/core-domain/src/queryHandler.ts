@@ -12,3 +12,9 @@ export type QueryHandler<
   TQuery,
   TReadModel extends ReadModel | Array<ReadModel> | ReadonlyArray<ReadModel>,
 > = (query: TQuery) => Promise<QueryResult<TReadModel>>;
+
+export type QueryHandlerFactory<
+  TQuery,
+  TReadModel extends ReadModel | Array<ReadModel> | ReadonlyArray<ReadModel>,
+  TDependencies extends Record<string, unknown>,
+> = (dependencies: TDependencies) => QueryHandler<TQuery, TReadModel>;

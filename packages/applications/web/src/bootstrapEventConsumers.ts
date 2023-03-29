@@ -9,10 +9,10 @@ export async function bootstrapEventConsumers() {
   const consumer = await consumerFactory('gestionnaireRéseauProjector');
   consumer.consume(
     'GestionnaireRéseauAjouté',
-    gestionnaireRéseauAjoutéHandlerFactory(createProjection),
+    gestionnaireRéseauAjoutéHandlerFactory({ create: createProjection }),
   );
   consumer.consume(
     'GestionnaireRéseauModifié',
-    gestionnaireRéseauModifiéHandlerFactory(updateProjection),
+    gestionnaireRéseauModifiéHandlerFactory({ update: updateProjection }),
   );
 }
