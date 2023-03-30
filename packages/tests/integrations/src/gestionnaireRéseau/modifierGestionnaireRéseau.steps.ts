@@ -3,87 +3,28 @@ import {
   Given as EtantDonné,
   When as Quand,
   Then as Alors,
-  BeforeAll,
-  Before,
-  After,
   setWorldConstructor,
 } from '@cucumber/cucumber';
-import { Unsubscribe } from '@potentiel/core-domain';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
-  GestionnaireRéseauAjoutéEvent,
-  gestionnaireRéseauAjoutéHandlerFactory,
   GestionnaireRéseauInconnuError,
-  GestionnaireRéseauModifiéEvent,
-  gestionnaireRéseauModifiéHandlerFactory,
   listerGestionnaireRéseauQueryHandlerFactory,
   modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
-import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
-import {
-  createProjection,
-  findProjection,
-  listProjection,
-  updateProjection,
-} from '@potentiel/pg-projections';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
-import { executeQuery } from '@potentiel/pg-helpers';
 import { ModifierGestionnaireRéseauWorld } from './modifierGestionnaireRéseau.world';
 
 // Global
 should();
-
-let unsubscribeAjouté: Unsubscribe | undefined;
-let unsubscribeModifié: Unsubscribe | undefined;
 
 // Example
 const codeEIC = '17X100A100A0001A';
 
 setWorldConstructor(ModifierGestionnaireRéseauWorld);
 
-// Global
-BeforeAll(() => {
-  process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
-});
-
-// Global
-Before(async () => {
-  await executeQuery(`DELETE FROM "EVENT_STREAM"`);
-  await executeQuery(`DELETE FROM "PROJECTION"`);
-});
-
-// Global
-After(async () => {
-  if (unsubscribeAjouté) {
-    await unsubscribeAjouté();
-    unsubscribeAjouté = undefined;
-  }
-
-  if (unsubscribeModifié) {
-    await unsubscribeModifié();
-    unsubscribeModifié = undefined;
-  }
-});
-
 EtantDonné('un gestionnaire de réseau', async function (this: ModifierGestionnaireRéseauWorld) {
-  const gestionnaireRéseauAjoutéHandler = gestionnaireRéseauAjoutéHandlerFactory({
-    create: createProjection,
-  });
-
-  unsubscribeAjouté = await subscribe<GestionnaireRéseauAjoutéEvent>(
-    'GestionnaireRéseauAjouté',
-    gestionnaireRéseauAjoutéHandler,
-  );
-
-  const gestionnaireRéseauModifiéHandler = gestionnaireRéseauModifiéHandlerFactory({
-    update: updateProjection,
-  });
-
-  unsubscribeModifié = await subscribe<GestionnaireRéseauModifiéEvent>(
-    'GestionnaireRéseauModifié',
-    gestionnaireRéseauModifiéHandler,
-  );
-
   await this.createGestionnaireRéseau(codeEIC, 'ENEDIS');
 });
 
