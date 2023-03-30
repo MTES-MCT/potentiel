@@ -4,7 +4,6 @@ window.initHandlers = function () {
   addSelectorHandlers();
   addSendCopyOfNotificationButtonHandler();
   addPaginationHandler();
-  addGoToProjectPageHandlers();
   addMotifEliminationToggleHandlers();
   addVisibilityToggleHandler();
   addConfirmHandlers();
@@ -42,32 +41,6 @@ function addGoToOnClickHandlers() {
 //
 // Project List
 //
-
-function addGoToProjectPageHandlers() {
-  const projectButtons = document.querySelectorAll('[data-goto-projectid]');
-  projectButtons.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
-        event.preventDefault();
-
-        const projectId = item.getAttribute('data-goto-projectid');
-
-        if (projectId) {
-          location.href = '/projet/' + projectId + '/details.html';
-        }
-      }
-    }),
-  );
-
-  // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
-  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]');
-  actionsContainer.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.stopPropagation();
-    }),
-  );
-}
-
 function addMotifEliminationToggleHandlers() {
   const motifToggle = document.querySelectorAll(
     '[data-testid=projectList-item-toggleMotifsElimination]',
@@ -305,11 +278,6 @@ function addSendCopyOfNotificationButtonHandler() {
   } else {
   }
 }
-
-//
-// Puissance modification Page
-//
-
 //
 // General utility
 //
