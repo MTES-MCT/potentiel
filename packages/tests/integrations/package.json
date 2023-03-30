@@ -5,6 +5,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "cucumber-js"
+  },
   "dependencies": {
     "@potentiel/core-domain": "*",
     "@potentiel/domain": "*",

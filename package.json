@@ -52,7 +52,8 @@
     "storybook": "concurrently \"npm run watch:css\" \"BASE_URL=http://localhost:6006 start-storybook -p 6006\"",
     "build-storybook": "build-storybook",
     "build:packages": "npm run build --workspaces --if-present",
-    "watch:packages": "watch 'npm run build:packages' ./packages/**/src/"
+    "watch:packages": "watch 'npm run build:packages' ./packages/**/src/",
+    "test:packages": "npm run test --workspaces --if-present"
   },
   "repository": {
     "type": "git",
