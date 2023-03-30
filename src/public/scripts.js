@@ -112,25 +112,6 @@ function addMissingOwnerProjectListSelectionHandler() {
   }
 }
 
-function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
-  const parent = toggleItem.closest('[data-testid=projectList-item]');
-
-  if (parent) {
-    const motifs = parent.querySelector('[data-testid=projectList-item-motifsElimination]');
-
-    if (motifs) {
-      // Display this motif
-      motifs.style.display = shouldBeVisible ? 'block' : 'none';
-
-      // reverse the expand icon
-      const icon = toggleItem.querySelector('svg');
-      if (icon) {
-        icon.style.transform = shouldBeVisible ? 'rotate(180deg)' : 'rotate(0deg)';
-      }
-    }
-  }
-}
-
 //
 // Pagination handlers
 //
@@ -255,37 +236,4 @@ function toggleVisibility(toggleItem, shouldBeVisible) {
   } else {
     toggleItem.classList.remove('open');
   }
-}
-
-function getFieldValue(selector) {
-  var elem = document.querySelector(selector);
-
-  if (elem) {
-    return elem.value;
-  }
-}
-
-function showElement(element, isVisible) {
-  if (element) {
-    element.style.display = isVisible ? 'inherit' : 'none';
-  }
-}
-
-function show(selector, isVisible) {
-  var elem = document.querySelector(selector);
-
-  showElement(elem, isVisible);
-}
-
-function disableButton(button, isDisabled) {
-  if (button) {
-    if (isDisabled) button.setAttribute('disabled', true);
-    else button.removeAttribute('disabled');
-  }
-}
-
-function disable(selector, isDisabled) {
-  var elem = document.querySelector(selector);
-
-  disableButton(elem, isDisabled);
 }
