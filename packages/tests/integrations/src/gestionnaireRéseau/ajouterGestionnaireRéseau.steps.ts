@@ -19,7 +19,7 @@ import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
 setWorldConstructor(GestionnaireRéseauWorld);
 
 EtantDonné(
-  `un gestionnaire de réseau ayant pour code EIC {string}`,
+  'un gestionnaire de réseau ayant pour code EIC {string}',
   async function (this: GestionnaireRéseauWorld, codeEIC: string) {
     await this.createGestionnaireRéseau(codeEIC, 'Une raison sociale');
   },
