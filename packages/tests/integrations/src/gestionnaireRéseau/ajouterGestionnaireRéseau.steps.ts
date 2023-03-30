@@ -6,12 +6,12 @@ import {
   BeforeAll,
   Before,
   After,
+  setWorldConstructor,
 } from '@cucumber/cucumber';
 import { Unsubscribe } from '@potentiel/core-domain';
 import {
   ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
-  createGestionnaireRéseauAggregateId,
   GestionnaireRéseauAjoutéEvent,
   gestionnaireRéseauAjoutéHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
@@ -20,6 +20,7 @@ import { publish, loadAggregate, subscribe } from '@potentiel/pg-event-sourcing'
 import { createProjection, findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { executeQuery } from '@potentiel/pg-helpers';
+import { AjouterGestionnaireRéseauWorld } from './ajouterGestionnaireRéseau.world';
 
 should();
 
@@ -30,7 +31,7 @@ const raisonSociale = 'Enedis';
 const format = 'XX-YY-ZZ';
 const légende = 'la légende';
 
-let error: Error | undefined;
+setWorldConstructor(AjouterGestionnaireRéseauWorld);
 
 BeforeAll(() => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -46,25 +47,16 @@ After(async () => {
     await unsubscribe();
     unsubscribe = undefined;
   }
-  error = undefined;
 });
 
-EtantDonné('un gestionnaire de réseau avec un code EIC', async function () {
-  await publish(createGestionnaireRéseauAggregateId(codeEIC), {
-    type: 'GestionnaireRéseauAjouté',
-    payload: {
-      codeEIC,
-      raisonSociale: 'RTE',
-    },
-  });
-});
+EtantDonné(
+  'un gestionnaire de réseau avec un code EIC',
+  async function (this: AjouterGestionnaireRéseauWorld) {
+    await this.createGestionnaireRéseau(codeEIC, raisonSociale);
+  },
+);
 
 Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
-  const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-    publish,
-    loadAggregate,
-  });
-
   const gestionnaireRéseauAjoutéHandler = gestionnaireRéseauAjoutéHandlerFactory({
     create: createProjection,
   });
@@ -73,6 +65,11 @@ Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
     'GestionnaireRéseauAjouté',
     gestionnaireRéseauAjoutéHandler,
   );
+
+  const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
+    publish,
+    loadAggregate,
+  });
 
   await ajouterGestionnaireRéseau({
     codeEIC,
@@ -86,7 +83,7 @@ Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
-  async function () {
+  async function (this: AjouterGestionnaireRéseauWorld) {
     const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
       publish,
       loadAggregate,
@@ -103,7 +100,7 @@ Quand(
       });
     } catch (err) {
       if (err instanceof GestionnaireRéseauDéjàExistantError) {
-        error = err;
+        this.error = err;
       }
     }
   },
@@ -130,10 +127,9 @@ Alors('le gestionnaire devrait être ajouté', async () => {
   });
 });
 
-Alors('le gestionnaire de réseau ne devrait pas être ajouté', function () {
-  error?.should.be.instanceOf(GestionnaireRéseauDéjàExistantError);
-});
-
-Alors(/l'administrateur devrait être informé que "(.*)"/, function (message: string) {
-  error?.message.should.be.equal(message);
-});
+Alors(
+  /l'administrateur devrait être informé que "(.*)"/,
+  function (this: AjouterGestionnaireRéseauWorld, message: string) {
+    this.error?.message.should.be.equal(message);
+  },
+);

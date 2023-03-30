@@ -6,11 +6,11 @@ import {
   BeforeAll,
   Before,
   After,
+  setWorldConstructor,
 } from '@cucumber/cucumber';
 import { Unsubscribe } from '@potentiel/core-domain';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
-  createGestionnaireRéseauAggregateId,
   GestionnaireRéseauAjoutéEvent,
   gestionnaireRéseauAjoutéHandlerFactory,
   GestionnaireRéseauInconnuError,
@@ -19,7 +19,7 @@ import {
   listerGestionnaireRéseauQueryHandlerFactory,
   modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
-import { publish, loadAggregate, subscribe } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   createProjection,
   findProjection,
@@ -28,28 +28,31 @@ import {
 } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { executeQuery } from '@potentiel/pg-helpers';
+import { ModifierGestionnaireRéseauWorld } from './modifierGestionnaireRéseau.world';
 
+// Global
 should();
 
 let unsubscribeAjouté: Unsubscribe | undefined;
 let unsubscribeModifié: Unsubscribe | undefined;
 
+// Example
 const codeEIC = '17X100A100A0001A';
-const raisonSociale = 'Enedis';
-const format = 'XX-YY-ZZ';
-const légende = 'la légende';
 
-let error: Error | undefined;
+setWorldConstructor(ModifierGestionnaireRéseauWorld);
 
+// Global
 BeforeAll(() => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
 });
 
+// Global
 Before(async () => {
   await executeQuery(`DELETE FROM "EVENT_STREAM"`);
   await executeQuery(`DELETE FROM "PROJECTION"`);
 });
 
+// Global
 After(async () => {
   if (unsubscribeAjouté) {
     await unsubscribeAjouté();
@@ -62,7 +65,7 @@ After(async () => {
   }
 });
 
-EtantDonné('un gestionnaire de réseau', async function () {
+EtantDonné('un gestionnaire de réseau', async function (this: ModifierGestionnaireRéseauWorld) {
   const gestionnaireRéseauAjoutéHandler = gestionnaireRéseauAjoutéHandlerFactory({
     create: createProjection,
   });
@@ -81,13 +84,7 @@ EtantDonné('un gestionnaire de réseau', async function () {
     gestionnaireRéseauModifiéHandler,
   );
 
-  await publish(createGestionnaireRéseauAggregateId(codeEIC), {
-    type: 'GestionnaireRéseauAjouté',
-    payload: {
-      codeEIC,
-      raisonSociale,
-    },
-  });
+  await this.createGestionnaireRéseau(codeEIC, 'ENEDIS');
 });
 
 Quand('un administrateur modifie les données du gestionnaire de réseau', async function () {
@@ -108,7 +105,7 @@ Quand('un administrateur modifie les données du gestionnaire de réseau', async
 
 Quand(
   "un administrateur modifie la raison sociale d'un gestionnaire de réseau inconnu",
-  async function () {
+  async function (this: ModifierGestionnaireRéseauWorld) {
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
       loadAggregate,
@@ -125,7 +122,7 @@ Quand(
       });
     } catch (error) {
       if (error instanceof GestionnaireRéseauInconnuError) {
-        error = error;
+        this.error = error;
       }
     }
   },
@@ -135,6 +132,7 @@ Alors('le gestionnaire de réseau devrait être mis à jour', async function () 
   const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
     findGestionnaireRéseau: findProjection,
   });
+
   await waitForExpect(async () => {
     const actual = await consulterGestionnaireRéseau({ codeEIC });
 
