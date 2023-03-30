@@ -2,7 +2,6 @@
 
 window.initHandlers = function () {
   addSelectorHandlers();
-  addSendCopyOfNotificationButtonHandler();
   addPaginationHandler();
   addVisibilityToggleHandler();
   addConfirmHandlers();
@@ -222,38 +221,6 @@ function addSelectorHandlers() {
   );
 }
 
-function addSendCopyOfNotificationButtonHandler() {
-  const sendCopyButtons = document.querySelectorAll('[data-actionid=send-copy-of-notification]');
-
-  if (sendCopyButtons) {
-    sendCopyButtons.forEach((item) =>
-      item.addEventListener('click', function (event) {
-        // event.stopPropagation()
-        event.preventDefault();
-        const link = event.target.getAttribute('href');
-
-        if (!link) {
-          console.error('Cannot call send copy because missing  link', link);
-          return;
-        }
-
-        fetch(link).then((response) => {
-          if (response.ok) {
-            alert(
-              'Une copie de la notification de ce candidat a été envoyée à votre adresse email',
-            );
-          } else {
-            console.error('GET to send copy of candidate notification failed', response.error);
-            alert("L'envoi de copie de notification a échoué.");
-          }
-        });
-
-        return false;
-      }),
-    );
-  } else {
-  }
-}
 //
 // General utility
 //
