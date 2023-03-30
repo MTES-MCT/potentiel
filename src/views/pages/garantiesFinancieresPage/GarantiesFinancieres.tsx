@@ -18,7 +18,12 @@ import {
   Label,
   Select,
 } from '@components';
-import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
+import {
+  hydrateOnClient,
+  refreshPageWithNewSearchParamValue,
+  resetUrlParams,
+  updateUrlParams,
+} from '../../helpers';
 import { GarantiesFinancieresFilter } from './components';
 import { ProjectListItem } from '@modules/project/queries';
 
@@ -78,8 +83,14 @@ export const GarantiesFinancieres = ({
                 <Select
                   id="appelOffreId"
                   name="appelOffreId"
-                  {...dataId('appelOffreIdSelector')}
                   defaultValue={appelOffreId || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      appelOffreId: event.target.value,
+                      periodeId: null,
+                      familleId: null,
+                    })
+                  }
                 >
                   <option value="default" disabled hidden>
                     Choisir un appel d‘offre
@@ -101,8 +112,12 @@ export const GarantiesFinancieres = ({
                     <Select
                       id="periodeId"
                       name="periodeId"
-                      {...dataId('periodeIdSelector')}
                       defaultValue={periodeId || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          periodeId: event.target.value,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir une période
@@ -124,8 +139,12 @@ export const GarantiesFinancieres = ({
                     <Select
                       id="familleId"
                       name="familleId"
-                      {...dataId('familleIdSelector')}
                       defaultValue={familleId || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          familleId: event.target.value,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir une famille
@@ -142,7 +161,7 @@ export const GarantiesFinancieres = ({
               </div>
             </div>
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" {...dataId('resetSelectors')}>
+              <Link className="mt-[10px]" href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
               </Link>
             )}

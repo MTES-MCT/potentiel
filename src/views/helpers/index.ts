@@ -8,3 +8,4 @@ export * from './hydrateOnClient';
 export * from './refreshPageWithNewSearchParamValue';
 export * from './demanderConfirmation';
 export * from './updateUrlParams';
+export * from './resetUrlParams';

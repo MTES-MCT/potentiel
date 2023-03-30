@@ -1,8 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addSelectorHandlers();
-  addPaginationHandler();
   addVisibilityToggleHandler();
   addGoToOnClickHandlers();
   addMissingOwnerProjectListSelectionHandler();
@@ -109,96 +107,6 @@ function addMissingOwnerProjectListSelectionHandler() {
       updateAccessFormVisibility();
     });
   }
-}
-
-//
-// Pagination handlers
-//
-
-function addPaginationHandler() {
-  const pageSizeSelectField = document.querySelector('[data-testid=pageSizeSelector]');
-
-  if (pageSizeSelectField) {
-    pageSizeSelectField.addEventListener('change', function (event) {
-      updateFieldsInUrl({ pageSize: event.target.value, page: 0 });
-    });
-  }
-
-  const goToPageButtons = document.querySelectorAll('[data-testid=goToPage]');
-
-  goToPageButtons.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-      const pageValue = event.target.getAttribute('data-pagevalue');
-
-      updateFieldInUrl('page', pageValue);
-    }),
-  );
-}
-
-//
-// AO/Periode selector handler
-//
-
-function updateFieldsInUrl(fields) {
-  // Update the URL with the new appel offre Id or periode Id
-  const queryString = new URLSearchParams(window.location.search);
-
-  Object.entries(fields).forEach(([key, value]) => {
-    if (value === null) queryString.delete(key);
-    else queryString.set(key, value);
-  });
-
-  // We are going to change page so remove error and success messages
-  queryString.delete('error');
-  queryString.delete('success');
-
-  window.location.replace(
-    window.location.origin + window.location.pathname + '?' + queryString.toString(),
-  );
-}
-
-function updateFieldInUrl(field, value) {
-  updateFieldsInUrl({ [field]: value });
-}
-
-function addSelectorHandlers() {
-  [
-    'appelOffreId',
-    'periodeId',
-    'familleId',
-    'beforeDate',
-    'garantiesFinancieres',
-    'classement',
-    'modificationRequestStatus',
-    'modificationRequestType',
-    'reclames',
-  ].forEach((key) => {
-    const selectField = document.querySelector('[data-testid=' + key + 'Selector]');
-    if (selectField) {
-      selectField.addEventListener('change', function (event) {
-        if (key === 'appelOffreId') {
-          updateFieldsInUrl({
-            appelOffreId: event.target.value,
-            periodeId: null,
-            familleId: null,
-          });
-        } else {
-          updateFieldInUrl(key, event.target.value);
-        }
-      });
-    }
-  });
-
-  document.querySelectorAll('[data-testid=resetSelectors]').forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      window.location.replace(window.location.origin + window.location.pathname);
-
-      return false;
-    }),
-  );
 }
 
 //

@@ -14,7 +14,7 @@ import {
   SuccessBox,
   TextArea,
 } from '@components';
-import { hydrateOnClient } from '../helpers';
+import { hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {
   request: Request;
@@ -59,7 +59,13 @@ export const AdminRegénérerPeriodeAttestations = ({
               name="appelOffreId"
               id="appelOffreId"
               defaultValue={appelOffreId || 'default'}
-              {...dataId('appelOffreIdSelector')}
+              onChange={(event) =>
+                updateUrlParams({
+                  appelOffreId: event.target.value,
+                  periodeId: null,
+                  familleId: null,
+                })
+              }
             >
               <option value="default" disabled hidden>
                 Choisir un appel d‘offre
@@ -78,9 +84,13 @@ export const AdminRegénérerPeriodeAttestations = ({
                 <Select
                   id="periodeId"
                   name="periodeId"
-                  {...dataId('periodeIdSelector')}
-                  defaultValue={periodeId || periodes[periodes.length - 1].id || 'default'}
                   className="mb-4"
+                  defaultValue={periodeId || periodes[periodes.length - 1].id || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      periodeId: event.target.value,
+                    })
+                  }
                 >
                   <option value="default" disabled hidden>
                     Choisir une période
