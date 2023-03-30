@@ -144,7 +144,11 @@ export const AdminRegénérerPeriodeAttestations = ({
             type="submit"
             name="submit"
             {...dataId('submit-button')}
-            data-confirm={`Etes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?`}
+            onClick={(event) =>
+              confirm(
+                `Etes-vous sur de vouloir regénérer les attestations pour tous les projets de cette période ?`,
+              ) || event.preventDefault()
+            }
           >
             Regénérer les attestations des projets de cette période
           </Button>

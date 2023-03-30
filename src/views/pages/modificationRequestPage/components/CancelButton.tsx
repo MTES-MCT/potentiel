@@ -15,7 +15,9 @@ export const CancelButton = ({ status, id }: CancelButtonProps) =>
         className="button-outline warning"
         type="submit"
         name="submit"
-        data-confirm={`Etes-vous sur de vouloir annuler cette demande ?`}
+        onClick={(event) =>
+          confirm(`Etes-vous sur de vouloir annuler cette demande ?`) || event.preventDefault()
+        }
       >
         Annuler la demande
       </button>

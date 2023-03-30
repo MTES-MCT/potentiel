@@ -52,7 +52,11 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
                 userId: id,
               })}
               style={{ marginLeft: 5 }}
-              data-confirm={`Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`}
+              onClick={(event) =>
+                confirm(
+                  `Etes-vous sur de vouloir retirer les droits à ce projet à ${fullName} ?`,
+                ) || event.preventDefault()
+              }
             >
               retirer
             </Link>

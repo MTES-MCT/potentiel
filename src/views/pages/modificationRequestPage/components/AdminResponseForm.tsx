@@ -47,7 +47,11 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       <Button
         type="submit"
         name="submitAccept"
-        data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
+        onClick={(event) =>
+          confirm(
+            `Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`,
+          ) || event.preventDefault()
+        }
         className="mt-4"
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
@@ -55,7 +59,11 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       <button
         className="button warning flex-1"
         type="submit"
-        data-confirm={`Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
+        onClick={(event) =>
+          confirm(
+            `Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`,
+          ) || event.preventDefault()
+        }
         name="submitRefuse"
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
