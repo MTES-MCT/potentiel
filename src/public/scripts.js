@@ -1,12 +1,8 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addDelayEstimator();
   addSelectorHandlers();
-  addSendCopyOfNotificationButtonHandler();
   addPaginationHandler();
-  addGoToProjectPageHandlers();
-  addMotifEliminationToggleHandlers();
   addVisibilityToggleHandler();
   addConfirmHandlers();
   addGoToOnClickHandlers();
@@ -43,55 +39,6 @@ function addGoToOnClickHandlers() {
 //
 // Project List
 //
-
-function addGoToProjectPageHandlers() {
-  const projectButtons = document.querySelectorAll('[data-goto-projectid]');
-  projectButtons.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      if (event.target.nodeName !== 'A' && event.target.nodeName !== 'INPUT') {
-        event.preventDefault();
-
-        const projectId = item.getAttribute('data-goto-projectid');
-
-        if (projectId) {
-          location.href = '/projet/' + projectId + '/details.html';
-        }
-      }
-    }),
-  );
-
-  // We want to ignore all clicks in the actions container (which might be inside the projectList-item area which has the click handler above)
-  const actionsContainer = document.querySelectorAll('[data-testid=item-actions-container]');
-  actionsContainer.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.stopPropagation();
-    }),
-  );
-}
-
-function addMotifEliminationToggleHandlers() {
-  const motifToggle = document.querySelectorAll(
-    '[data-testid=projectList-item-toggleMotifsElimination]',
-  );
-
-  motifToggle.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const icon = item.querySelector('svg');
-      const wasVisible = icon && icon.style.transform === 'rotate(180deg)';
-
-      // Hide all motifs
-      document
-        .querySelectorAll('[data-testid=projectList-item-toggleMotifsElimination]')
-        .forEach((item) => toggleMotifVisibilty(item, false));
-
-      toggleMotifVisibilty(item, !wasVisible);
-    }),
-  );
-}
-
 function addMissingOwnerProjectListSelectionHandler() {
   const projectCheckboxes = document.querySelectorAll(
     '[data-testid=missingOwnerProjectList-item-checkbox]',
@@ -162,25 +109,6 @@ function addMissingOwnerProjectListSelectionHandler() {
     swornStatementCheckbox.addEventListener('change', function () {
       updateAccessFormVisibility();
     });
-  }
-}
-
-function toggleMotifVisibilty(toggleItem, shouldBeVisible) {
-  const parent = toggleItem.closest('[data-testid=projectList-item]');
-
-  if (parent) {
-    const motifs = parent.querySelector('[data-testid=projectList-item-motifsElimination]');
-
-    if (motifs) {
-      // Display this motif
-      motifs.style.display = shouldBeVisible ? 'block' : 'none';
-
-      // reverse the expand icon
-      const icon = toggleItem.querySelector('svg');
-      if (icon) {
-        icon.style.transform = shouldBeVisible ? 'rotate(180deg)' : 'rotate(0deg)';
-      }
-    }
   }
 }
 
@@ -274,75 +202,6 @@ function addSelectorHandlers() {
   );
 }
 
-function addSendCopyOfNotificationButtonHandler() {
-  const sendCopyButtons = document.querySelectorAll('[data-actionid=send-copy-of-notification]');
-
-  if (sendCopyButtons) {
-    sendCopyButtons.forEach((item) =>
-      item.addEventListener('click', function (event) {
-        // event.stopPropagation()
-        event.preventDefault();
-        const link = event.target.getAttribute('href');
-
-        if (!link) {
-          console.error('Cannot call send copy because missing  link', link);
-          return;
-        }
-
-        fetch(link).then((response) => {
-          if (response.ok) {
-            alert(
-              'Une copie de la notification de ce candidat a été envoyée à votre adresse email',
-            );
-          } else {
-            console.error('GET to send copy of candidate notification failed', response.error);
-            alert("L'envoi de copie de notification a échoué.");
-          }
-        });
-
-        return false;
-      }),
-    );
-  } else {
-  }
-}
-
-//
-// Puissance modification Page
-//
-
-//
-// Delay request Page
-//
-
-function addDelayEstimator() {
-  const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]');
-
-  const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]');
-
-  if (delayInMonthsField) {
-    function updateProjection(event) {
-      const delayInMonths = Number(event.target.value);
-      const initialDateNbr = Number(delayInMonthsField.getAttribute('data-initial-date'));
-
-      if (delayInMonths && delayInMonths > 0 && initialDateNbr) {
-        const initialDate = new Date(initialDateNbr);
-        const projectedDate = new Date(
-          initialDate.setMonth(initialDate.getMonth() + delayInMonths),
-        );
-        delayEstimateBox.innerHTML = `Date de mise en service projetée: ${projectedDate.getDate()}/${
-          projectedDate.getMonth() + 1
-        }/${projectedDate.getFullYear()}`;
-      } else {
-        delayEstimateBox.innerHTML = '';
-      }
-    }
-
-    delayInMonthsField.addEventListener('change', updateProjection);
-    delayInMonthsField.addEventListener('keyup', updateProjection);
-  }
-}
-
 //
 // General utility
 //
@@ -377,37 +236,4 @@ function toggleVisibility(toggleItem, shouldBeVisible) {
   } else {
     toggleItem.classList.remove('open');
   }
-}
-
-function getFieldValue(selector) {
-  var elem = document.querySelector(selector);
-
-  if (elem) {
-    return elem.value;
-  }
-}
-
-function showElement(element, isVisible) {
-  if (element) {
-    element.style.display = isVisible ? 'inherit' : 'none';
-  }
-}
-
-function show(selector, isVisible) {
-  var elem = document.querySelector(selector);
-
-  showElement(elem, isVisible);
-}
-
-function disableButton(button, isDisabled) {
-  if (button) {
-    if (isDisabled) button.setAttribute('disabled', true);
-    else button.removeAttribute('disabled');
-  }
-}
-
-function disable(selector, isDisabled) {
-  var elem = document.querySelector(selector);
-
-  disableButton(elem, isDisabled);
 }
