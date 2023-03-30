@@ -4,7 +4,6 @@ window.initHandlers = function () {
   addSelectorHandlers();
   addSendCopyOfNotificationButtonHandler();
   addPaginationHandler();
-  addMotifEliminationToggleHandlers();
   addVisibilityToggleHandler();
   addConfirmHandlers();
   addGoToOnClickHandlers();
@@ -41,29 +40,6 @@ function addGoToOnClickHandlers() {
 //
 // Project List
 //
-function addMotifEliminationToggleHandlers() {
-  const motifToggle = document.querySelectorAll(
-    '[data-testid=projectList-item-toggleMotifsElimination]',
-  );
-
-  motifToggle.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const icon = item.querySelector('svg');
-      const wasVisible = icon && icon.style.transform === 'rotate(180deg)';
-
-      // Hide all motifs
-      document
-        .querySelectorAll('[data-testid=projectList-item-toggleMotifsElimination]')
-        .forEach((item) => toggleMotifVisibilty(item, false));
-
-      toggleMotifVisibilty(item, !wasVisible);
-    }),
-  );
-}
-
 function addMissingOwnerProjectListSelectionHandler() {
   const projectCheckboxes = document.querySelectorAll(
     '[data-testid=missingOwnerProjectList-item-checkbox]',
