@@ -1,6 +1,7 @@
 import React, { ComponentProps, FC } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@components';
 import { dataId } from '../../../../helpers/testId';
+import { updateUrlParams } from '@views/helpers';
 
 type Props = ComponentProps<'ul'> & {
   nombreDePage: number;
@@ -45,11 +46,14 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
             {...dataId('goToPage')}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black  hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page précédente"
+            onClick={() =>
+              updateUrlParams({
+                page: (page - 1).toString(),
+              })
+            }
           >
             <ChevronLeftIcon className="mr-2" />
-            <span className="hidden md:block" data-pagevalue={page - 1}>
-              Précédent
-            </span>
+            <span className="hidden md:block">Précédent</span>
           </a>
         )}
       </li>
@@ -71,8 +75,11 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
                   : 'cursor-pointer text-black hover:bg-grey-975-base focus:bg-hrey-975-base hover:text-black focus:text-black'
               }`}
               {...(pageNumber === page && { 'aria-current': 'page' })}
-              {...dataId('goToPage')}
-              data-pagevalue={pageNumber}
+              onClick={() =>
+                updateUrlParams({
+                  page: pageNumber.toString(),
+                })
+              }
             >
               {pageNumber + 1}
             </a>
@@ -91,13 +98,15 @@ export const Pagination: FC<Props> = ({ nombreDePage, page, className = '', ...p
           </p>
         ) : (
           <a
-            {...dataId('goToPage')}
             className={`flex items-center px-2 py-1 no-underline hover:no-underline focus:no-underline text-black hover:text-black hover:bg-grey-975-base focus:bg-grey-975-base`}
             title="Page suivante"
+            onClick={() =>
+              updateUrlParams({
+                page: (page + 1).toString(),
+              })
+            }
           >
-            <span className="hidden md:block" data-pagevalue={page + 1}>
-              Suivant
-            </span>
+            <span className="hidden md:block">Suivant</span>
             <ChevronRightIcon className="ml-2" />
           </a>
         )}
