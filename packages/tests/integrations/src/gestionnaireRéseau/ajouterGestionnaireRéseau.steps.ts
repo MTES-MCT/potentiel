@@ -46,6 +46,7 @@ After(async () => {
     await unsubscribe();
     unsubscribe = undefined;
   }
+  error = undefined;
 });
 
 EtantDonné('un gestionnaire de réseau avec un code EIC', async function () {
@@ -133,6 +134,6 @@ Alors('le gestionnaire de réseau ne devrait pas être ajouté', function () {
   error?.should.be.instanceOf(GestionnaireRéseauDéjàExistantError);
 });
 
-Alors(/l'admin devrait être informé que "(.*)"/, function (message: string) {
+Alors(/l'administrateur devrait être informé que "(.*)"/, function (message: string) {
   error?.message.should.be.equal(message);
 });

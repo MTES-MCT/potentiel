@@ -9,4 +9,4 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
         Etant donné un gestionnaire de réseau avec un code EIC
         Quand un administrateur ajoute un gestionnaire de réseau ayant le même code EIC
         Alors le gestionnaire de réseau ne devrait pas être ajouté
-        Et l'admin devrait être informé que "Le gestionnaire réseau existe déjà"
+        Et l'administrateur devrait être informé que "Le gestionnaire réseau existe déjà"

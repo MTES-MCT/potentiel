@@ -8,4 +8,4 @@ Fonctionnalité: Modifier un gestionnaire de réseau
 
     Scénario: Un administrateur modifie un gestionnaire de réseau inconnu
         Quand un administrateur modifie la raison sociale d'un gestionnaire de réseau inconnu
-        Alors l'administrateur devrait être informé que le gestionnaire de réseau n'existe pas
+        Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'existe pas"
