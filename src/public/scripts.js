@@ -205,7 +205,6 @@ function addSelectorHandlers() {
 //
 // General utility
 //
-
 function addConfirmHandlers() {
   const confirmableLinks = document.querySelectorAll('[data-confirm]');
 
