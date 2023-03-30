@@ -9,6 +9,9 @@ import {
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { createProjection, updateProjection } from '@potentiel/pg-projections';
+import { should } from 'chai';
+
+should();
 
 let unsubscribeAjouté: Unsubscribe | undefined;
 let unsubscribeModifié: Unsubscribe | undefined;

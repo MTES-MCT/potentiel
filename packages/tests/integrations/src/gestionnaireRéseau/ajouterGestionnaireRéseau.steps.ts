@@ -1,4 +1,3 @@
-import { should } from 'chai';
 import {
   Given as EtantDonné,
   When as Quand,
@@ -9,13 +8,13 @@ import {
   ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
+  GestionnaireRéseauReadModel,
+  listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
 import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
-import { findProjection } from '@potentiel/pg-projections';
+import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { AjouterGestionnaireRéseauWorld } from './ajouterGestionnaireRéseau.world';
-
-should();
 
 const codeEIC = '17X100A100A0001A';
 const raisonSociale = 'Enedis';
@@ -45,6 +44,19 @@ Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
       légende,
     },
   });
+
+  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+    findGestionnaireRéseau: findProjection,
+  });
+
+  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+    listGestionnaireRéseau: listProjection,
+  });
+
+  waitForExpect(async () => {
+    this.actual = await consulterGestionnaireRéseau({ codeEIC });
+    this.actualList = await listerGestionnaireRéseau({});
+  });
 });
 
 Quand(
@@ -72,25 +84,19 @@ Quand(
   },
 );
 
-Alors('le gestionnaire devrait être ajouté', async () => {
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
+Alors('le gestionnaire devrait être ajouté', async function (this: AjouterGestionnaireRéseauWorld) {
+  const expected: GestionnaireRéseauReadModel = {
+    type: 'gestionnaire-réseau',
+    codeEIC,
+    raisonSociale,
+    aideSaisieRéférenceDossierRaccordement: {
+      format,
+      légende,
+    },
+  };
+  this.actual?.should.be.deep.equal(expected);
 
-  await waitForExpect(async () => {
-    const actual = await consulterGestionnaireRéseau({ codeEIC });
-
-    const expected: typeof actual = {
-      type: 'gestionnaire-réseau',
-      codeEIC,
-      raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format,
-        légende,
-      },
-    };
-    actual.should.be.deep.equal(expected);
-  });
+  this.actualList?.should.deep.contain(expected);
 });
 
 Alors(

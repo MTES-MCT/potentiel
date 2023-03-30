@@ -1,4 +1,3 @@
-import { should } from 'chai';
 import {
   Given as EtantDonné,
   When as Quand,
@@ -8,6 +7,7 @@ import {
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauInconnuError,
+  GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
   modifierGestionnaireRéseauFactory,
 } from '@potentiel/domain';
@@ -15,9 +15,6 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { ModifierGestionnaireRéseauWorld } from './modifierGestionnaireRéseau.world';
-
-// Global
-should();
 
 // Example
 const codeEIC = '17X100A100A0001A';
@@ -41,6 +38,19 @@ Quand('un administrateur modifie les données du gestionnaire de réseau', async
       format: 'AAA-BBB',
       légende: 'des lettres séparées par un tiret',
     },
+  });
+
+  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+    findGestionnaireRéseau: findProjection,
+  });
+
+  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+    listGestionnaireRéseau: listProjection,
+  });
+
+  waitForExpect(async () => {
+    this.actual = await consulterGestionnaireRéseau({ codeEIC });
+    this.actualList = await listerGestionnaireRéseau({});
   });
 });
 
@@ -69,15 +79,10 @@ Quand(
   },
 );
 
-Alors('le gestionnaire de réseau devrait être mis à jour', async function () {
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
-
-  await waitForExpect(async () => {
-    const actual = await consulterGestionnaireRéseau({ codeEIC });
-
-    const expected: typeof actual = {
+Alors(
+  'le gestionnaire de réseau devrait être mis à jour',
+  async function (this: ModifierGestionnaireRéseauWorld) {
+    const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC,
       raisonSociale: 'RTE',
@@ -87,26 +92,8 @@ Alors('le gestionnaire de réseau devrait être mis à jour', async function () 
       },
     };
 
-    actual.should.be.deep.equal(expected);
-  });
+    this.actual?.should.be.deep.equal(expected);
 
-  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-    listGestionnaireRéseau: listProjection,
-  });
-
-  await waitForExpect(async () => {
-    const actuals = await listerGestionnaireRéseau({});
-
-    const expected: typeof actuals[number] = {
-      type: 'gestionnaire-réseau',
-      codeEIC,
-      raisonSociale: 'RTE',
-      aideSaisieRéférenceDossierRaccordement: {
-        format: 'AAA-BBB',
-        légende: 'des lettres séparées par un tiret',
-      },
-    };
-
-    actuals.should.deep.contain(expected);
-  });
-});
+    this.actualList?.should.deep.contain(expected);
+  },
+);
