@@ -16,6 +16,7 @@ export class GestionnaireRéseauWorld extends World {
   accessor error: GestionnaireRéseauDéjàExistantError | GestionnaireRéseauInconnuError | undefined;
   accessor actual: GestionnaireRéseauReadModel | undefined;
   accessor actualList: ReadonlyArray<GestionnaireRéseauReadModel> | undefined;
+  accessor expected: GestionnaireRéseauReadModel | undefined;
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
     await publish(createGestionnaireRéseauAggregateId(codeEIC), {

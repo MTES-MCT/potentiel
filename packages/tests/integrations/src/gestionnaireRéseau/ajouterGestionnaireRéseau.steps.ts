@@ -3,12 +3,12 @@ import {
   When as Quand,
   Then as Alors,
   setWorldConstructor,
+  DataTable,
 } from '@cucumber/cucumber';
 import {
   ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   GestionnaireRéseauDéjàExistantError,
-  GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
 import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
@@ -16,35 +16,38 @@ import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
 
-const codeEIC = '17X100A100A0001A';
-const raisonSociale = 'Enedis';
-const format = 'XX-YY-ZZ';
-const légende = 'la légende';
-
 setWorldConstructor(GestionnaireRéseauWorld);
 
 EtantDonné(
-  'un gestionnaire de réseau avec un code EIC',
-  async function (this: GestionnaireRéseauWorld) {
-    await this.createGestionnaireRéseau(codeEIC, raisonSociale);
+  `un gestionnaire de réseau ayant pour code EIC {string}`,
+  async function (this: GestionnaireRéseauWorld, codeEIC: string) {
+    await this.createGestionnaireRéseau(codeEIC, 'Une raison sociale');
   },
 );
 
-Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
-  const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
-    publish,
-    loadAggregate,
-  });
+Quand(
+  'un administrateur ajoute un gestionnaire de réseau',
+  async function (this: GestionnaireRéseauWorld, table: DataTable) {
+    const example = table.rowsHash();
+    const ajouterGestionnaireRéseau = ajouterGestionnaireRéseauCommandHandlerFactory({
+      publish,
+      loadAggregate,
+    });
 
-  await ajouterGestionnaireRéseau({
-    codeEIC,
-    raisonSociale,
-    aideSaisieRéférenceDossierRaccordement: {
-      format,
-      légende,
-    },
-  });
-});
+    const command = {
+      codeEIC: example['Code EIC'],
+      raisonSociale: example['Raison sociale'],
+      aideSaisieRéférenceDossierRaccordement: {
+        format: example['Format'],
+        légende: example['Légende'],
+      },
+    };
+
+    await ajouterGestionnaireRéseau(command);
+
+    this.expected = { ...command, type: 'gestionnaire-réseau' };
+  },
+);
 
 Quand(
   'un administrateur ajoute un gestionnaire de réseau ayant le même code EIC',
@@ -56,11 +59,11 @@ Quand(
 
     try {
       await ajouterGestionnaireRéseau({
-        codeEIC,
-        raisonSociale,
+        codeEIC: this.codeEIC,
+        raisonSociale: 'autre raison sociale',
         aideSaisieRéférenceDossierRaccordement: {
-          format,
-          légende,
+          format: 'autre format',
+          légende: 'autre légende',
         },
       });
     } catch (err) {
@@ -71,17 +74,7 @@ Quand(
   },
 );
 
-Alors('le gestionnaire devrait être ajouté', async function () {
-  const expected: GestionnaireRéseauReadModel = {
-    type: 'gestionnaire-réseau',
-    codeEIC,
-    raisonSociale,
-    aideSaisieRéférenceDossierRaccordement: {
-      format,
-      légende,
-    },
-  };
-
+Alors('le gestionnaire devrait être ajouté', async function (this: GestionnaireRéseauWorld) {
   const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
     findGestionnaireRéseau: findProjection,
   });
@@ -91,11 +84,11 @@ Alors('le gestionnaire devrait être ajouté', async function () {
   });
 
   await waitForExpect(async () => {
-    const actual = await consulterGestionnaireRéseau({ codeEIC });
+    const actual = await consulterGestionnaireRéseau({ codeEIC: this.expected?.codeEIC || '' });
     const actualList = await listerGestionnaireRéseau({});
 
-    actual.should.be.deep.equal(expected);
+    actual.should.be.deep.equal(this.expected);
 
-    actualList.should.deep.contain(expected);
+    actualList.should.deep.contain(this.expected);
   });
 });
