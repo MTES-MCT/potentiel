@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addDelayEstimator();
   addSelectorHandlers();
   addSendCopyOfNotificationButtonHandler();
   addPaginationHandler();
@@ -310,38 +309,6 @@ function addSendCopyOfNotificationButtonHandler() {
 //
 // Puissance modification Page
 //
-
-//
-// Delay request Page
-//
-
-function addDelayEstimator() {
-  const delayInMonthsField = document.querySelector('[data-testid=delayInMonthsField]');
-
-  const delayEstimateBox = document.querySelector('[data-testid=delayEstimateBox]');
-
-  if (delayInMonthsField) {
-    function updateProjection(event) {
-      const delayInMonths = Number(event.target.value);
-      const initialDateNbr = Number(delayInMonthsField.getAttribute('data-initial-date'));
-
-      if (delayInMonths && delayInMonths > 0 && initialDateNbr) {
-        const initialDate = new Date(initialDateNbr);
-        const projectedDate = new Date(
-          initialDate.setMonth(initialDate.getMonth() + delayInMonths),
-        );
-        delayEstimateBox.innerHTML = `Date de mise en service projetée: ${projectedDate.getDate()}/${
-          projectedDate.getMonth() + 1
-        }/${projectedDate.getFullYear()}`;
-      } else {
-        delayEstimateBox.innerHTML = '';
-      }
-    }
-
-    delayInMonthsField.addEventListener('change', updateProjection);
-    delayInMonthsField.addEventListener('keyup', updateProjection);
-  }
-}
 
 //
 // General utility
