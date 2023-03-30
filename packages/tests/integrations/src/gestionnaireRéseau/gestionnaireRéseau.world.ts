@@ -8,6 +8,11 @@ import {
 import { publish } from '@potentiel/pg-event-sourcing';
 
 export class GestionnaireRéseauWorld extends World {
+  #codeEIC: string | undefined;
+
+  get codeEIC() {
+    return this.#codeEIC || '';
+  }
   accessor error: GestionnaireRéseauDéjàExistantError | GestionnaireRéseauInconnuError | undefined;
   accessor actual: GestionnaireRéseauReadModel | undefined;
   accessor actualList: ReadonlyArray<GestionnaireRéseauReadModel> | undefined;
@@ -20,5 +25,6 @@ export class GestionnaireRéseauWorld extends World {
         raisonSociale,
       },
     });
+    this.#codeEIC = codeEIC;
   }
 }

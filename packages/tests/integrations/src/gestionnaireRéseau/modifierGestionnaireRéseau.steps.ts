@@ -3,6 +3,7 @@ import {
   When as Quand,
   Then as Alors,
   setWorldConstructor,
+  DataTable,
 } from '@cucumber/cucumber';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
@@ -16,46 +17,42 @@ import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
 
-// Example
-const codeEIC = '17X100A100A0001A';
-
 setWorldConstructor(GestionnaireRéseauWorld);
 
-EtantDonné('un gestionnaire de réseau', async function (this: GestionnaireRéseauWorld) {
-  await this.createGestionnaireRéseau(codeEIC, 'ENEDIS');
-});
+EtantDonné(
+  'un gestionnaire de réseau',
+  async function (this: GestionnaireRéseauWorld, table: DataTable) {
+    const gestionnaireRéseau = table.rowsHash();
 
-Quand('un administrateur modifie les données du gestionnaire de réseau', async function () {
-  const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
-    publish,
-    loadAggregate,
-  });
-
-  await modifierGestionnaireRéseau({
-    codeEIC,
-    raisonSociale: 'RTE',
-    aideSaisieRéférenceDossierRaccordement: {
-      format: 'AAA-BBB',
-      légende: 'des lettres séparées par un tiret',
-    },
-  });
-
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
-
-  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-    listGestionnaireRéseau: listProjection,
-  });
-
-  waitForExpect(async () => {
-    this.actual = await consulterGestionnaireRéseau({ codeEIC });
-    this.actualList = await listerGestionnaireRéseau({});
-  });
-});
+    await this.createGestionnaireRéseau(
+      gestionnaireRéseau['Code EIC'],
+      gestionnaireRéseau['Raison sociale'],
+    );
+  },
+);
 
 Quand(
-  "un administrateur modifie la raison sociale d'un gestionnaire de réseau inconnu",
+  'un administrateur modifie les données du gestionnaire de réseau',
+  async function (this: GestionnaireRéseauWorld, table: DataTable) {
+    const gestionnaireRéseau = table.rowsHash();
+    const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
+      publish,
+      loadAggregate,
+    });
+
+    await modifierGestionnaireRéseau({
+      codeEIC: this.codeEIC,
+      raisonSociale: gestionnaireRéseau['Raison sociale'],
+      aideSaisieRéférenceDossierRaccordement: {
+        format: gestionnaireRéseau['Format'],
+        légende: gestionnaireRéseau['Légende'],
+      },
+    });
+  },
+);
+
+Quand(
+  'un administrateur modifie un gestionnaire de réseau inconnu',
   async function (this: GestionnaireRéseauWorld) {
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
@@ -64,7 +61,7 @@ Quand(
 
     try {
       await modifierGestionnaireRéseau({
-        codeEIC,
+        codeEIC: 'Code EIC inconnu',
         raisonSociale: 'RTE',
         aideSaisieRéférenceDossierRaccordement: {
           format: 'AAA-BBB',
@@ -79,21 +76,30 @@ Quand(
   },
 );
 
-Alors(
-  'le gestionnaire de réseau devrait être mis à jour',
-  async function (this: GestionnaireRéseauWorld) {
+Alors('le gestionnaire de réseau devrait être mis à jour', async function () {
+  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+    findGestionnaireRéseau: findProjection,
+  });
+
+  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+    listGestionnaireRéseau: listProjection,
+  });
+
+  await waitForExpect(async () => {
+    const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
+    const actualList = await listerGestionnaireRéseau({});
+
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
-      codeEIC,
+      codeEIC: this.codeEIC,
       raisonSociale: 'RTE',
       aideSaisieRéférenceDossierRaccordement: {
-        format: 'AAA-BBB',
-        légende: 'des lettres séparées par un tiret',
+        format: 'XXX',
+        légende: 'Trois lettres',
       },
     };
 
-    this.actual?.should.be.deep.equal(expected);
-
-    this.actualList?.should.deep.contain(expected);
-  },
-);
+    actual.should.be.deep.equal(expected);
+    actualList.should.deep.contain(expected);
+  });
+});

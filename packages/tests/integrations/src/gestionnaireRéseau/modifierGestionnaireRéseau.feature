@@ -3,9 +3,14 @@ Fonctionnalité: Modifier un gestionnaire de réseau
 
 Scénario: Un administrateur modifie un gestionnaire de réseau
     Etant donné un gestionnaire de réseau
+    | Code EIC          | 17X100A100A0001A  |
+    | Raison sociale    | Enedis            |
     Quand un administrateur modifie les données du gestionnaire de réseau
+    | Raison sociale | RTE              |
+    | Légende        | Trois lettres    |
+    | Format         | XXX              | 
     Alors le gestionnaire de réseau devrait être mis à jour
 
-    Scénario: Un administrateur modifie un gestionnaire de réseau inconnu
-    Quand un administrateur modifie la raison sociale d'un gestionnaire de réseau inconnu
+Scénario: Un administrateur modifie un gestionnaire de réseau inconnu
+    Quand un administrateur modifie un gestionnaire de réseau inconnu
     Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'existe pas"

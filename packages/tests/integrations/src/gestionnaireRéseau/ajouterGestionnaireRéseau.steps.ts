@@ -44,19 +44,6 @@ Quand('un administrateur ajoute un gestionnaire de réseau', async function () {
       légende,
     },
   });
-
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
-
-  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-    listGestionnaireRéseau: listProjection,
-  });
-
-  waitForExpect(async () => {
-    this.actual = await consulterGestionnaireRéseau({ codeEIC });
-    this.actualList = await listerGestionnaireRéseau({});
-  });
 });
 
 Quand(
@@ -84,7 +71,7 @@ Quand(
   },
 );
 
-Alors('le gestionnaire devrait être ajouté', async function (this: GestionnaireRéseauWorld) {
+Alors('le gestionnaire devrait être ajouté', async function () {
   const expected: GestionnaireRéseauReadModel = {
     type: 'gestionnaire-réseau',
     codeEIC,
@@ -94,7 +81,21 @@ Alors('le gestionnaire devrait être ajouté', async function (this: Gestionnair
       légende,
     },
   };
-  this.actual?.should.be.deep.equal(expected);
 
-  this.actualList?.should.deep.contain(expected);
+  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+    findGestionnaireRéseau: findProjection,
+  });
+
+  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+    listGestionnaireRéseau: listProjection,
+  });
+
+  await waitForExpect(async () => {
+    const actual = await consulterGestionnaireRéseau({ codeEIC });
+    const actualList = await listerGestionnaireRéseau({});
+
+    actual.should.be.deep.equal(expected);
+
+    actualList.should.deep.contain(expected);
+  });
 });
