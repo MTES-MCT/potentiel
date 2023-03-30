@@ -12,6 +12,7 @@
     "@potentiel/pg-helpers": "*"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^9.1.0",
     "@potentiel/tsconfig": "*"
   }
 }
