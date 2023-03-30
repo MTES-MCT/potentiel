@@ -312,10 +312,7 @@ const AnnulerDépôt = ({ projetId }: AnnulerDépôtProps) => (
     href={ROUTES.REMOVE_GARANTIES_FINANCIERES({
       projectId: projetId,
     })}
-    onClick={(event) =>
-      confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
-      event.preventDefault()
-    }
+    confirmation="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
   >
     Annuler le dépôt
   </Link>
@@ -391,9 +388,7 @@ const RetirerDocument = ({ projetId, envoyéesPar }: RetirerDocumentProps) => (
       href={ROUTES.WITHDRAW_GARANTIES_FINANCIERES({
         projectId: projetId,
       })}
-      onClick={(event) =>
-        confirm(`Êtes-vous sur de vouloir retirer l'attestion jointe ?`) || event.preventDefault()
-      }
+      confirmation="Êtes-vous sur de vouloir retirer l'attestion jointe ?"
     >
       Retirer le document de Potentiel
     </Link>

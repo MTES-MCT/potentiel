@@ -88,13 +88,7 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
               type="submit"
               value={id}
               name="demandeAbandonId"
-              onClick={(e) => {
-                if (
-                  !confirm('Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?')
-                ) {
-                  e.preventDefault();
-                }
-              }}
+              confirmation='Êtes-vous sûr de vouloir repasser la demande en statut "envoyée" ?'
             >
               Annuler le rejet de la demande
             </SecondaryButton>
@@ -124,17 +118,14 @@ export const DemandeAbandon = ({ request, modificationRequest }: DemandeAbandonP
             <form action={ROUTES.ANNULER_DEMANDE_ABANDON_ACTION} method="post" className="m-0">
               <input type="hidden" name="modificationRequestId" value={id} />
 
-              <button
-                className="button-outline warning"
+              <SecondaryButton
+                className="border-red-marianne-425-base text-red-marianne-425-base hover:bg-red-marianne-975-base focus:bg-red-marianne-975-base"
                 type="submit"
                 name="submit"
-                onClick={(event) =>
-                  confirm(`Êtes-vous sur de vouloir annuler cette demande ?`) ||
-                  event.preventDefault()
-                }
+                confirmation="Êtes-vous sur de vouloir annuler cette demande ?"
               >
                 Annuler la demande
-              </button>
+              </SecondaryButton>
             </form>
           )}
       </div>

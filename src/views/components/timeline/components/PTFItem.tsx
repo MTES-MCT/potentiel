@@ -76,10 +76,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
     <Link
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'ptf' })}
-      onClick={(event) =>
-        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?`) ||
-        event.preventDefault()
-      }
+      confirmation="Êtes-vous sur de vouloir annuler le dépôt et supprimer l'attestion jointe ?"
     >
       Annuler le dépôt
     </Link>
