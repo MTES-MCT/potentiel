@@ -14,14 +14,14 @@ import {
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
-import { ModifierGestionnaireRéseauWorld } from './modifierGestionnaireRéseau.world';
+import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
 
 // Example
 const codeEIC = '17X100A100A0001A';
 
-setWorldConstructor(ModifierGestionnaireRéseauWorld);
+setWorldConstructor(GestionnaireRéseauWorld);
 
-EtantDonné('un gestionnaire de réseau', async function (this: ModifierGestionnaireRéseauWorld) {
+EtantDonné('un gestionnaire de réseau', async function (this: GestionnaireRéseauWorld) {
   await this.createGestionnaireRéseau(codeEIC, 'ENEDIS');
 });
 
@@ -56,7 +56,7 @@ Quand('un administrateur modifie les données du gestionnaire de réseau', async
 
 Quand(
   "un administrateur modifie la raison sociale d'un gestionnaire de réseau inconnu",
-  async function (this: ModifierGestionnaireRéseauWorld) {
+  async function (this: GestionnaireRéseauWorld) {
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
       loadAggregate,
@@ -81,7 +81,7 @@ Quand(
 
 Alors(
   'le gestionnaire de réseau devrait être mis à jour',
-  async function (this: ModifierGestionnaireRéseauWorld) {
+  async function (this: GestionnaireRéseauWorld) {
     const expected: GestionnaireRéseauReadModel = {
       type: 'gestionnaire-réseau',
       codeEIC,

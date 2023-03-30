@@ -1,13 +1,14 @@
 import { World } from '@cucumber/cucumber';
 import {
   createGestionnaireRéseauAggregateId,
+  GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
 
-export class ModifierGestionnaireRéseauWorld extends World {
-  accessor error: GestionnaireRéseauInconnuError | undefined;
+export class GestionnaireRéseauWorld extends World {
+  accessor error: GestionnaireRéseauDéjàExistantError | GestionnaireRéseauInconnuError | undefined;
   accessor actual: GestionnaireRéseauReadModel | undefined;
   accessor actualList: ReadonlyArray<GestionnaireRéseauReadModel> | undefined;
 
