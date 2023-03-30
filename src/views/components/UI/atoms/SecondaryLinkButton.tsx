@@ -1,10 +1,12 @@
+import { ConfirmationProp, demanderConfirmation } from '@views/helpers';
 import React, { ComponentProps, FC } from 'react';
 
-type LinkButtonProps = ComponentProps<'a'>;
+type LinkButtonProps = ComponentProps<'a'> & ConfirmationProp;
 
 export const SecondaryLinkButton: FC<LinkButtonProps> = ({
   children,
   className = '',
+  confirmation = undefined,
   ...props
 }) => (
   <a
@@ -13,6 +15,7 @@ export const SecondaryLinkButton: FC<LinkButtonProps> = ({
      hover:text-blue-france-sun-base hover:bg-blue-france-975-base outline-offset-4 outline-2 outline-solid outline-outline-base focus:text-blue-france-sun-base focus:bg-blue-france-975-base active:text-blue-france-sun-base
     ${className}`}
     style={{ color: '#000091' }}
+    onClick={confirmation ? (event) => demanderConfirmation(event, confirmation) : undefined}
     {...props}
   >
     {children}
