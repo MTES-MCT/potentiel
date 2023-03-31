@@ -9,7 +9,8 @@
     "prebuild": "rimraf dist",
     "build": "tsc",
     "pretest": "npm run build",
-    "test": "cucumber-js"
+    "test": "cucumber-js",
+    "test:ci": "mkdir test-results && cucumber-js --profile ci > test-results/cucumber-report.json"
   },
   "dependencies": {
     "@potentiel/core-domain": "*",
