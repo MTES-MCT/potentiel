@@ -2,7 +2,6 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import {
   ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
-  GestionnaireRéseauDéjàExistantError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
@@ -63,9 +62,7 @@ Quand(
         },
       });
     } catch (err) {
-      if (err instanceof GestionnaireRéseauDéjàExistantError) {
-        this.error = err;
-      }
+      this.error = err as Error;
     }
   },
 );

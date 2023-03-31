@@ -1,7 +1,6 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   consulterGestionnaireRéseauQueryHandlerFactory,
-  GestionnaireRéseauInconnuError,
   GestionnaireRéseauReadModel,
   listerGestionnaireRéseauQueryHandlerFactory,
   modifierGestionnaireRéseauFactory,
@@ -63,16 +62,14 @@ Quand(
           légende: 'des lettres séparées par un tiret',
         },
       });
-    } catch (error) {
-      if (error instanceof GestionnaireRéseauInconnuError) {
-        this.error = error;
-      }
+    } catch (err) {
+      this.error = err as Error;
     }
   },
 );
 
 Alors(
-  `le gestionnaire de réseau devrait être mis à jour dans le référenciel des gestionnaires de réseau`,
+  `le gestionnaire de réseau devrait être à jour dans le référenciel des gestionnaires de réseau`,
   async function (this: GestionnaireRéseauWorld) {
     const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
       listGestionnaireRéseau: listProjection,

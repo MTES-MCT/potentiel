@@ -9,7 +9,7 @@ Scénario: Un administrateur modifie un gestionnaire de réseau
     | Raison sociale | RTE              |
     | Légende        | Trois lettres    |
     | Format         | XXX              | 
-    Alors le gestionnaire de réseau devrait être mis à jour dans le référenciel des gestionnaires de réseau
+    Alors le gestionnaire de réseau devrait être à jour dans le référenciel des gestionnaires de réseau
     Et l'administrateur devrait pouvoir consulter les détails à jour du gestionnaire de réseau
 
 Scénario: Un administrateur modifie un gestionnaire de réseau inconnu
