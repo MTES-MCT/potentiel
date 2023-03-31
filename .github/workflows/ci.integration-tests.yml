@@ -34,4 +34,5 @@ jobs:
       - run: npm run build:packages
       - run: npm run launch-test-db
       - run: npm run migrate
+      - run: npm run test:ci:packages
       - run: npm run test-int

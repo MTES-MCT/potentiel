@@ -1,0 +1,28 @@
+{
+  "name": "@potentiel/specifications",
+  "version": "0.0.0",
+  "description": "Tests d'intégration de l'application Potentiel",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "pretest": "npm run build",
+    "test": "cucumber-js",
+    "test:ci": "mkdir test-results && cucumber-js --profile ci"
+  },
+  "dependencies": {
+    "@potentiel/core-domain": "*",
+    "@potentiel/domain": "*",
+    "@potentiel/pg-event-sourcing": "*",
+    "@potentiel/pg-helpers": "*"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^9.1.0",
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "@potentiel/tsconfig": "*",
+    "@types/chai": "^4.3.4",
+    "chai": "^4.3.7"
+  }
+}
