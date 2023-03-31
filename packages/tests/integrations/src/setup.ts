@@ -1,12 +1,15 @@
-import { BeforeAll, Before, After } from '@cucumber/cucumber';
+import { BeforeAll, Before, After, setWorldConstructor } from '@cucumber/cucumber';
 import { Unsubscribe } from '@potentiel/core-domain';
 import { setupEventHandlers } from '@potentiel/domain';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { createProjection, updateProjection } from '@potentiel/pg-projections';
 import { should } from 'chai';
+import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
 
 should();
+
+setWorldConstructor(GestionnaireRéseauWorld);
 
 let unsubscribes: Unsubscribe[] | undefined;
 

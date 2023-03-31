@@ -2,7 +2,6 @@ import {
   Given as EtantDonné,
   When as Quand,
   Then as Alors,
-  setWorldConstructor,
   DataTable,
 } from '@cucumber/cucumber';
 import {
@@ -16,8 +15,6 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
-
-setWorldConstructor(GestionnaireRéseauWorld);
 
 EtantDonné(
   'un gestionnaire de réseau',
