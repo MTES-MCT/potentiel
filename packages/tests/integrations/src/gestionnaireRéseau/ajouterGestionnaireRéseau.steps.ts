@@ -1,9 +1,4 @@
-import {
-  Given as EtantDonné,
-  When as Quand,
-  Then as Alors,
-  DataTable,
-} from '@cucumber/cucumber';
+import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import {
   ajouterGestionnaireRéseauCommandHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
