@@ -32,9 +32,3 @@ jobs:
       - run: npm ci
       - run: npm run build:packages
       - run: npm test
-      - run: npm test:ci:packages
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
-        with:
-          files: test-results/**/*.json

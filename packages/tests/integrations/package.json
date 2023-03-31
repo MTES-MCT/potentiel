@@ -10,7 +10,7 @@
     "build": "tsc",
     "pretest": "npm run build",
     "test": "cucumber-js",
-    "test:ci": "mkdir test-results && cucumber-js --profile ci > test-results/cucumber-report.json"
+    "test:ci": "mkdir test-results && cucumber-js --profile ci"
   },
   "dependencies": {
     "@potentiel/core-domain": "*",
