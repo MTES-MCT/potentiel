@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel/integration-tests",
+  "name": "@potentiel/specifications",
   "version": "0.0.0",
   "description": "Tests d'intégration de l'application Potentiel",
   "main": "dist/index.js",

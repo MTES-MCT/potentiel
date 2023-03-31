@@ -15,8 +15,8 @@
     "./packages/libraries/redis-event-bus-client/",
     "./packages/libraries/redis-event-bus-consumer/",
     "./packages/domain/",
-    "./packages/applications/*",
-    "./packages/tests/*"
+    "./packages/specifications",
+    "./packages/applications/*"
   ],
   "scripts": {
     "type:check": "tsc --noEmit",
