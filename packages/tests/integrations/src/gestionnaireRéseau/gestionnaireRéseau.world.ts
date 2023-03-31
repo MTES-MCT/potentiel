@@ -1,8 +1,6 @@
 import { World } from '@cucumber/cucumber';
 import {
   createGestionnaireRéseauAggregateId,
-  GestionnaireRéseauDéjàExistantError,
-  GestionnaireRéseauInconnuError,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
 
@@ -47,7 +45,15 @@ export class GestionnaireRéseauWorld extends World {
     this.#format = value;
   }
 
-  accessor error: GestionnaireRéseauDéjàExistantError | GestionnaireRéseauInconnuError | undefined;
+  #error!: Error;
+
+  get error() {
+    return this.#error || new Error('Error was not setted in the test context');
+  }
+
+  set error(value: Error) {
+    this.#error = value;
+  }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
     await publish(createGestionnaireRéseauAggregateId(codeEIC), {

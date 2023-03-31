@@ -33,11 +33,11 @@ Quand(
     });
 
     const command = {
-      codeEIC: example['Code EIC'],
-      raisonSociale: example['Raison sociale'],
+      codeEIC: this.codeEIC,
+      raisonSociale: this.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format: example['Format'],
-        légende: example['Légende'],
+        format: this.format,
+        légende: this.légende,
       },
     };
 

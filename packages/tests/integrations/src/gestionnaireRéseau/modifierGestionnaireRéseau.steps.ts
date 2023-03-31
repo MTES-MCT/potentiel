@@ -14,19 +14,22 @@ import { GestionnaireRéseauWorld } from './gestionnaireRéseau.world';
 EtantDonné(
   'un gestionnaire de réseau',
   async function (this: GestionnaireRéseauWorld, table: DataTable) {
-    const gestionnaireRéseau = table.rowsHash();
+    const exemple = table.rowsHash();
+    this.codeEIC = exemple['Code EIC'];
+    this.raisonSociale = exemple['Raison sociale'];
 
-    await this.createGestionnaireRéseau(
-      gestionnaireRéseau['Code EIC'],
-      gestionnaireRéseau['Raison sociale'],
-    );
+    await this.createGestionnaireRéseau(this.codeEIC, this.raisonSociale);
   },
 );
 
 Quand(
   'un administrateur modifie les données du gestionnaire de réseau',
   async function (this: GestionnaireRéseauWorld, table: DataTable) {
-    const gestionnaireRéseau = table.rowsHash();
+    const example = table.rowsHash();
+    this.raisonSociale = example['Raison sociale'];
+    this.légende = example['Légende'];
+    this.format = example['Format'];
+
     const modifierGestionnaireRéseau = modifierGestionnaireRéseauFactory({
       publish,
       loadAggregate,
@@ -34,10 +37,10 @@ Quand(
 
     await modifierGestionnaireRéseau({
       codeEIC: this.codeEIC,
-      raisonSociale: gestionnaireRéseau['Raison sociale'],
+      raisonSociale: this.raisonSociale,
       aideSaisieRéférenceDossierRaccordement: {
-        format: gestionnaireRéseau['Format'],
-        légende: gestionnaireRéseau['Légende'],
+        format: this.format,
+        légende: this.légende,
       },
     });
   },
@@ -68,30 +71,33 @@ Quand(
   },
 );
 
-Alors('le gestionnaire de réseau devrait être mis à jour', async function () {
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
+Alors(
+  'le gestionnaire de réseau devrait être mis à jour',
+  async function (this: GestionnaireRéseauWorld) {
+    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+      findGestionnaireRéseau: findProjection,
+    });
 
-  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-    listGestionnaireRéseau: listProjection,
-  });
+    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+      listGestionnaireRéseau: listProjection,
+    });
 
-  await waitForExpect(async () => {
-    const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
-    const actualList = await listerGestionnaireRéseau({});
+    await waitForExpect(async () => {
+      const expected: GestionnaireRéseauReadModel = {
+        type: 'gestionnaire-réseau',
+        codeEIC: this.codeEIC,
+        raisonSociale: this.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: this.format,
+          légende: this.légende,
+        },
+      };
 
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      codeEIC: this.codeEIC,
-      raisonSociale: 'RTE',
-      aideSaisieRéférenceDossierRaccordement: {
-        format: 'XXX',
-        légende: 'Trois lettres',
-      },
-    };
+      const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
+      const actualList = await listerGestionnaireRéseau({});
 
-    actual.should.be.deep.equal(expected);
-    actualList.should.deep.contain(expected);
-  });
-});
+      actual.should.be.deep.equal(expected);
+      actualList.should.deep.contain(expected);
+    });
+  },
+);
