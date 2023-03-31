@@ -144,3 +144,5 @@ storybook-static/
 
 # LibreOffice
 .~lock.*
+
+test-results/
