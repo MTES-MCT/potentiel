@@ -7,7 +7,8 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
         | Raison sociale | Enedis           |
         | Format         | XXX              | 
         | Légende        | Trois lettres    |
-        Alors le gestionnaire devrait être ajouté
+        Alors le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau
+        Et l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau
 
     Scénario: Un administrateur ajoute un gestionnaire de réseau déjà existant
         Etant donné un gestionnaire de réseau ayant pour code EIC "17X100A100A0001B"

@@ -70,30 +70,52 @@ Quand(
   },
 );
 
-Alors('le gestionnaire devrait être ajouté', async function (this: GestionnaireRéseauWorld) {
-  const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-    findGestionnaireRéseau: findProjection,
-  });
+Alors(
+  'le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau',
+  async function (this: GestionnaireRéseauWorld) {
+    const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+      listGestionnaireRéseau: listProjection,
+    });
 
-  const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-    listGestionnaireRéseau: listProjection,
-  });
+    await waitForExpect(async () => {
+      const expected: GestionnaireRéseauReadModel = {
+        type: 'gestionnaire-réseau',
+        codeEIC: this.codeEIC,
+        raisonSociale: this.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          légende: this.légende,
+          format: this.format,
+        },
+      };
 
-  await waitForExpect(async () => {
-    const expected: GestionnaireRéseauReadModel = {
-      type: 'gestionnaire-réseau',
-      codeEIC: this.codeEIC,
-      raisonSociale: this.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        légende: this.légende,
-        format: this.format,
-      },
-    };
+      const actual = await listerGestionnaireRéseau({ codeEIC: this.codeEIC });
 
-    const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
-    const actualList = await listerGestionnaireRéseau({});
+      actual.should.deep.contain(expected);
+    });
+  },
+);
 
-    actual.should.be.deep.equal(expected);
-    actualList.should.deep.contain(expected);
-  });
-});
+Alors(
+  `l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau`,
+  async function (this: GestionnaireRéseauWorld) {
+    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+      findGestionnaireRéseau: findProjection,
+    });
+
+    await waitForExpect(async () => {
+      const expected: GestionnaireRéseauReadModel = {
+        type: 'gestionnaire-réseau',
+        codeEIC: this.codeEIC,
+        raisonSociale: this.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          légende: this.légende,
+          format: this.format,
+        },
+      };
+
+      const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

@@ -72,12 +72,8 @@ Quand(
 );
 
 Alors(
-  'le gestionnaire de réseau devrait être mis à jour',
+  `le gestionnaire de réseau devrait être mis à jour dans le référenciel des gestionnaires de réseau`,
   async function (this: GestionnaireRéseauWorld) {
-    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      findGestionnaireRéseau: findProjection,
-    });
-
     const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
       listGestionnaireRéseau: listProjection,
     });
@@ -93,11 +89,33 @@ Alors(
         },
       };
 
+      const actual = await listerGestionnaireRéseau({});
+      actual.should.deep.contain(expected);
+    });
+  },
+);
+
+Alors(
+  `l'administrateur devrait pouvoir consulter les détails à jour du gestionnaire de réseau`,
+  async function (this: GestionnaireRéseauWorld) {
+    const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
+      findGestionnaireRéseau: findProjection,
+    });
+
+    await waitForExpect(async () => {
+      const expected: GestionnaireRéseauReadModel = {
+        type: 'gestionnaire-réseau',
+        codeEIC: this.codeEIC,
+        raisonSociale: this.raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: this.format,
+          légende: this.légende,
+        },
+      };
+
       const actual = await consulterGestionnaireRéseau({ codeEIC: this.codeEIC });
-      const actualList = await listerGestionnaireRéseau({});
 
       actual.should.be.deep.equal(expected);
-      actualList.should.deep.contain(expected);
     });
   },
 );
