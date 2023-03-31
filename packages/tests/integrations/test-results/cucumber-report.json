@@ -1,0 +1,331 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "ajouter-un-gestionnaire-de-réseau;un-administrateur-ajoute-un-gestionnaire-de-réseau",
+        "keyword": "Scénario",
+        "line": 4,
+        "name": "Un administrateur ajoute un gestionnaire de réseau",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 13518902
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Code EIC",
+                      "17X100A100A0001A"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Raison sociale",
+                      "Enedis"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Format",
+                      "XXX"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Légende",
+                      "Trois lettres"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Quand ",
+            "line": 5,
+            "name": "un administrateur ajoute un gestionnaire de réseau",
+            "match": {
+              "location": "dist/gestionnaireRéseau/ajouterGestionnaireRéseau.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 45706937
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 10,
+            "name": "le gestionnaire devrait être ajouté",
+            "match": {
+              "location": "dist/gestionnaireRéseau/ajouterGestionnaireRéseau.steps.js:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 80821853
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2186220
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "ajouter-un-gestionnaire-de-réseau;un-administrateur-ajoute-un-gestionnaire-de-réseau-déjà-existant",
+        "keyword": "Scénario",
+        "line": 12,
+        "name": "Un administrateur ajoute un gestionnaire de réseau déjà existant",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 15620653
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Etant donné ",
+            "line": 13,
+            "name": "un gestionnaire de réseau ayant pour code EIC \"17X100A100A0001B\"",
+            "match": {
+              "location": "dist/gestionnaireRéseau/ajouterGestionnaireRéseau.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9926355
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Quand ",
+            "line": 14,
+            "name": "un administrateur ajoute un gestionnaire de réseau ayant le même code EIC",
+            "match": {
+              "location": "dist/gestionnaireRéseau/ajouterGestionnaireRéseau.steps.js:34"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5694349
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 15,
+            "name": "l'administrateur devrait être informé que \"Le gestionnaire réseau existe déjà\"",
+            "match": {
+              "location": "dist/gestionnaireRéseau/error.steps.js:4"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 114128
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1466403
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "ajouter-un-gestionnaire-de-réseau",
+    "line": 2,
+    "keyword": "Fonctionnalité",
+    "name": "Ajouter un gestionnaire de réseau",
+    "tags": [],
+    "uri": "src/gestionnaireRéseau/ajouterGestionnaireRéseau.feature"
+  },
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "modifier-un-gestionnaire-de-réseau;un-administrateur-modifie-un-gestionnaire-de-réseau",
+        "keyword": "Scénario",
+        "line": 4,
+        "name": "Un administrateur modifie un gestionnaire de réseau",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 12487254
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Code EIC",
+                      "17X100A100A0001A"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Raison sociale",
+                      "Enedis"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Etant donné ",
+            "line": 5,
+            "name": "un gestionnaire de réseau",
+            "match": {
+              "location": "dist/gestionnaireRéseau/modifierGestionnaireRéseau.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8557194
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Raison sociale",
+                      "RTE"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Légende",
+                      "Trois lettres"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Format",
+                      "XXX"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "Quand ",
+            "line": 8,
+            "name": "un administrateur modifie les données du gestionnaire de réseau",
+            "match": {
+              "location": "dist/gestionnaireRéseau/modifierGestionnaireRéseau.steps.js:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12628674
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 12,
+            "name": "le gestionnaire de réseau devrait être mis à jour",
+            "match": {
+              "location": "dist/gestionnaireRéseau/modifierGestionnaireRéseau.steps.js:51"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 67280335
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1435970
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "modifier-un-gestionnaire-de-réseau;un-administrateur-modifie-un-gestionnaire-de-réseau-inconnu",
+        "keyword": "Scénario",
+        "line": 14,
+        "name": "Un administrateur modifie un gestionnaire de réseau inconnu",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 11088092
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Quand ",
+            "line": 15,
+            "name": "un administrateur modifie un gestionnaire de réseau inconnu",
+            "match": {
+              "location": "dist/gestionnaireRéseau/modifierGestionnaireRéseau.steps.js:30"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3732156
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Alors ",
+            "line": 16,
+            "name": "l'administrateur devrait être informé que \"Le gestionnaire de réseau n'existe pas\"",
+            "match": {
+              "location": "dist/gestionnaireRéseau/error.steps.js:4"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 163001
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1556087
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "modifier-un-gestionnaire-de-réseau",
+    "line": 2,
+    "keyword": "Fonctionnalité",
+    "name": "Modifier un gestionnaire de réseau",
+    "tags": [],
+    "uri": "src/gestionnaireRéseau/modifierGestionnaireRéseau.feature"
+  }
+]
