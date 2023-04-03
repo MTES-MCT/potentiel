@@ -5,6 +5,7 @@ import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
+import { EmailAlreadyUsedError } from '@modules/shared';
 
 const schema = yup.object({
   body: yup.object({
@@ -62,7 +63,9 @@ v1Router.post(
         });
 
         if (res.isErr()) {
-          logger.error(res.error);
+          if (!(res.error instanceof EmailAlreadyUsedError)) {
+            logger.error(res.error);
+          }
 
           return response.redirect(
             addQueryParams(routes.SIGNUP, {

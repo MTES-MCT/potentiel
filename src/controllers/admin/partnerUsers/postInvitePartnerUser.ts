@@ -6,7 +6,10 @@ import { v1Router } from '../../v1Router';
 import * as yup from 'yup';
 import { errorResponse, RequestValidationError, validateRequestBody } from '../../helpers';
 import { logger } from '@core/utils';
-import { InvitationUniqueParUtilisateurError } from '@modules/utilisateur';
+import {
+  InvitationUniqueParUtilisateurError,
+  InvitationUtilisateurExistantError,
+} from '@modules/utilisateur';
 
 const requestBodySchema = yup.object({
   role: yup
@@ -46,7 +49,10 @@ v1Router.post(
               }),
             );
           }
-          if (error instanceof InvitationUniqueParUtilisateurError) {
+          if (
+            error instanceof InvitationUniqueParUtilisateurError ||
+            error instanceof InvitationUtilisateurExistantError
+          ) {
             return response.redirect(
               addQueryParams(routes.ADMIN_PARTNER_USERS, {
                 ...request.body,

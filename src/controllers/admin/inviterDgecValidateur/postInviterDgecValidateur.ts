@@ -9,6 +9,7 @@ import {
 import { inviterUtilisateur } from '@config';
 import {
   InvitationUniqueParUtilisateurError,
+  InvitationUtilisateurExistantError,
   PermissionInviterDgecValidateur,
 } from '@modules/utilisateur';
 import { logger } from '@core/utils';
@@ -60,7 +61,10 @@ v1Router.post(
             });
             return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
           }
-          if (error instanceof InvitationUniqueParUtilisateurError) {
+          if (
+            error instanceof InvitationUniqueParUtilisateurError ||
+            error instanceof InvitationUtilisateurExistantError
+          ) {
             sauvegarderRésultatFormulaire(request, routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION, {
               type: 'échec',
               raison: error.message,
