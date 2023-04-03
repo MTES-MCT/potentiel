@@ -5,6 +5,7 @@ import {
   Heading2,
   PageTemplate,
   ProjectInfo,
+  SecondaryButton,
   SuccessBox,
 } from '@components';
 import { AdminResponseForm, DemandeDetails } from '../modificationRequestPage/components';
@@ -85,14 +86,14 @@ export const DemandeAnnulationAbandon = ({
             >
               <input type="hidden" name="demandeId" value={id} />
 
-              <button
-                className="button-outline warning"
+              <SecondaryButton
+                className="border-red-marianne-425-base text-red-marianne-425-base hover:bg-red-marianne-975-base focus:bg-red-marianne-975-base"
                 type="submit"
                 name="submit"
-                data-confirm={`Etes-vous sur de vouloir annuler cette demande ?`}
+                confirmation="Etes-vous sur de vouloir annuler cette demande ?"
               >
                 Annuler la demande
-              </button>
+              </SecondaryButton>
             </form>
           )}
       </div>

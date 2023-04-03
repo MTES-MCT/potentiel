@@ -76,15 +76,7 @@ export const DemandeStatus = ({ modificationRequest, role }: DemandeStatusProps)
             type="submit"
             value={modificationRequest.id}
             name={type === 'puissance' ? 'demandeChangementDePuissanceId' : 'modificationRequestId'}
-            onClick={(e) => {
-              if (
-                !confirm(
-                  'Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?',
-                )
-              ) {
-                e.preventDefault();
-              }
-            }}
+            confirmation='Êtes-vous sûr de vouloir passer le statut de la demande en statut "envoyée" ?'
           >
             Annuler le rejet de la demande
           </SecondaryButton>

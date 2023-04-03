@@ -82,15 +82,7 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
                 type="submit"
                 name="modificationRequestId"
                 value={modificationRequest.id}
-                onClick={(e) => {
-                  if (
-                    !confirm(
-                      'Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?',
-                    )
-                  ) {
-                    e.preventDefault();
-                  }
-                }}
+                confirmation='Êtes-vous sûr de vouloir passer le statut de la demande "en instruction" ?'
               >
                 Passer en instruction
               </SecondaryButton>

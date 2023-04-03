@@ -6,3 +6,4 @@ export * from './afficherDateAvecHeure';
 export * from './appliquerDélaiEnMois';
 export * from './hydrateOnClient';
 export * from './refreshPageWithNewSearchParamValue';
+export * from './demanderConfirmation';

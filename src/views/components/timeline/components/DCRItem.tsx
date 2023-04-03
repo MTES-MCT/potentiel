@@ -99,10 +99,7 @@ const CancelDeposit = ({ projectId }: CancelDepositProps) => {
   return (
     <Link
       href={ROUTES.SUPPRIMER_ETAPE_ACTION({ projectId, type: 'dcr' })}
-      onClick={(event) =>
-        confirm(`Êtes-vous sur de vouloir annuler le dépôt et supprimer le document joint ?`) ||
-        event.preventDefault()
-      }
+      confirmation="Êtes-vous sur de vouloir annuler le dépôt et supprimer le document joint ?"
     >
       Annuler le dépôt
     </Link>

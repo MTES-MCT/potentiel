@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ModificationRequestStatusDTO } from '@modules/modificationRequest';
 import ROUTES from '@routes';
+import { SecondaryButton } from '@views/components';
 
 interface CancelButtonProps {
   status: ModificationRequestStatusDTO;
@@ -11,14 +12,14 @@ export const CancelButton = ({ status, id }: CancelButtonProps) =>
     <form action={ROUTES.ANNULER_DEMANDE_ACTION} method="post" style={{ margin: 0 }}>
       <input type="hidden" name="modificationRequestId" value={id} />
 
-      <button
-        className="button-outline warning"
+      <SecondaryButton
+        className="border-red-marianne-425-base text-red-marianne-425-base hover:bg-red-marianne-975-base focus:bg-red-marianne-975-base flex-1"
         type="submit"
         name="submit"
-        data-confirm={`Etes-vous sur de vouloir annuler cette demande ?`}
+        confirmation={`Êtes-vous sûr de vouloir annuler cette demande ?`}
       >
         Annuler la demande
-      </button>
+      </SecondaryButton>
     </form>
   )) ||
   null;

@@ -36,30 +36,27 @@ export const AdminResponseForm = ({ modificationRequest, children }: AdminRespon
       className="m-0"
     >
       {type !== 'puissance' && <FormulaireChampsObligatoireLégende className="text-left mb-3" />}
-
       <input type="hidden" name="modificationRequestId" value={modificationRequest.id} />
       <input type="hidden" name="type" value={modificationRequest.type} />
       <input type="hidden" name="versionDate" value={versionDate} />
-
       <UploadResponseFile modificationRequest={modificationRequest} />
       {children}
-
       <Button
         type="submit"
         name="submitAccept"
-        data-confirm={`Etes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
-        className="mt-4"
+        confirmation={`Êtes-vous sur de vouloir accepter la demande ${ModificationRequestTitleByType[type]} ?`}
+        className="mt-4 mr-4"
       >
         Accepter la demande {ModificationRequestTitleByType[type]}
       </Button>
-      <button
-        className="button warning flex-1"
+      <Button
+        className="bg-red-marianne-425-base hover:bg-red-marianne-425-hover focus:bg-red-marianne-425-active block mt-4"
         type="submit"
-        data-confirm={`Etes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
+        confirmation={`Êtes-vous sur de vouloir rejeter la demande ${ModificationRequestTitleByType[type]} ?`}
         name="submitRefuse"
       >
         Rejeter la demande {ModificationRequestTitleByType[type]}
-      </button>
+      </Button>
     </form>
   );
 };

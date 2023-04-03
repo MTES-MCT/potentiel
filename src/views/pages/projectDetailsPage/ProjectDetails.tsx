@@ -154,11 +154,7 @@ const AlerteAnnulationAbandonPossible = ({
               <input type="hidden" name="projetId" value={projetId} />
               <Button
                 type="submit"
-                onClick={(event) =>
-                  confirm(
-                    `Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?`,
-                  ) || event.preventDefault()
-                }
+                confirmation="Confirmez-vous la création d'une demande d'annulation d'abandon du projet ?"
                 className="mt-4"
               >
                 Demander l'annulation de l'abandon
