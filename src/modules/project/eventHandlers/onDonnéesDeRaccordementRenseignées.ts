@@ -3,6 +3,7 @@ import { logger, okAsync } from '@core/utils';
 import { GetProjectAppelOffre } from '@modules/projectAppelOffre';
 import { DonnéesDeRaccordementRenseignées, ProjectCompletionDueDateSet } from '../events';
 import { Project } from '../Project';
+import { add } from 'date-fns';
 
 type Dépendances = {
   projectRepo: TransactionalRepository<Project>;
@@ -67,11 +68,10 @@ export const makeOnDonnéesDeRaccordementRenseignées =
         ) {
           return okAsync(null);
         }
-        const nouvelleDate = new Date(
-          new Date(completionDueOn).setMonth(
-            new Date(completionDueOn).getMonth() + donnéesCDC.délaiApplicable.délaiEnMois,
-          ),
-        );
+
+        const nouvelleDate = add(new Date(completionDueOn), {
+          months: donnéesCDC.délaiApplicable.délaiEnMois,
+        });
 
         return publishToEventStore(
           new ProjectCompletionDueDateSet({
