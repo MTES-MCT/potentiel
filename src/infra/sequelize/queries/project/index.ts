@@ -1,5 +1,6 @@
 export * from './consulter';
 export * from './exporter';
+export * from './helpers';
 export * from './lister';
 export * from './findProjectByIdentifiers';
 export * from './getDélaiCdc2022Applicable';
@@ -14,5 +15,6 @@ export * from './getProjectIdsForPeriode';
 export * from './getProjetsParIdentifiantGestionnaireRéseau';
 export * from './getUnnotifiedProjectsForPeriode';
 export * from './hasDemandeDeMêmeTypeOuverte';
+export * from './récupérerDonnéesPorteursParProjet.queryHandler';
 export * from './résuméProjetQueryHandler';
 export * from './trouverProjetsParIdentifiantGestionnaireRéseau';
