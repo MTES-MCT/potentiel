@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@core/domain';
 import { UserInvitedToProject } from '@modules/authZ';
 import { resetDatabase } from '../../../helpers';
-import { UserProjects } from '@infra/sequelize/projectionsNext';
+import { User, UserProjects } from '@infra/sequelize/projectionsNext';
 import onUserInvitedToProject from './onUserInvitedToProject';
 
 describe('Inviter un utilisateur sur un projet', () => {
@@ -11,6 +11,7 @@ describe('Inviter un utilisateur sur un projet', () => {
 
   beforeEach(async () => {
     await resetDatabase();
+    await User.create({ id: userId, email: 'utilisateur@email.com', role: 'porteur-projet' });
   });
 
   it(`Étant donné un utilisateur invité sur un projet dont il a déjà accès
@@ -49,5 +50,54 @@ describe('Inviter un utilisateur sur un projet', () => {
 
     expect(await UserProjects.count({ where: { userId, projectId: projectId1 } })).toEqual(1);
     expect(await UserProjects.count({ where: { userId, projectId: projectId2 } })).toEqual(1);
+  });
+
+  describe(`Gestion des utilisateurs en doublons`, () => {
+    it(`Étant donné un utilisateur en doublon
+        Lorsqu'on invite l'utilisateur sur des projets
+        Alors chaque occurence de l'utilisateur devrait être invitée pour chaque projet`, async () => {
+      const duplicatedUserId = new UniqueEntityID().toString();
+      await User.create({
+        id: duplicatedUserId,
+        email: 'utilisateur@email.com',
+        role: 'porteur-projet',
+      });
+
+      await onUserInvitedToProject(
+        new UserInvitedToProject({
+          payload: {
+            projectIds: [projectId1, projectId2],
+            userId,
+            invitedBy: 'DEV',
+          },
+        }),
+      );
+
+      expect(
+        await UserProjects.findAll({
+          where: { userId },
+          attributes: ['userId', 'projectId'],
+          raw: true,
+        }),
+      ).toEqual(
+        expect.arrayContaining([
+          { userId, projectId: projectId1 },
+          { userId, projectId: projectId2 },
+        ]),
+      );
+
+      expect(
+        await UserProjects.findAll({
+          where: { userId: duplicatedUserId },
+          attributes: ['userId', 'projectId'],
+          raw: true,
+        }),
+      ).toEqual(
+        expect.arrayContaining([
+          { userId: duplicatedUserId, projectId: projectId1 },
+          { userId: duplicatedUserId, projectId: projectId2 },
+        ]),
+      );
+    });
   });
 });
