@@ -322,3 +322,11 @@ dotenv -- bash -c 'pg_restore --clean --no-owner --no-privileges -h $POSTGRESQL_
 ```
 
 _NB: Si le dump contient un schéma de données qui est en retard avec l'application dans son état actuel, il faut redéployer l'application afin que le script de migration soit rejouée sur la machine distante._
+
+## Code of Conduct
+
+[CoC](CODE_OF_CONDUCT.md)
+
+## Licence
+
+[GNU AFFERO GENERAL PUBLIC LICENSE](LICENSE)
