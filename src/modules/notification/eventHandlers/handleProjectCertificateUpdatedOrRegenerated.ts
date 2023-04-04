@@ -1,24 +1,22 @@
 import { NotificationService } from '..';
 import { Repository, UniqueEntityID } from '@core/domain';
 import { wrapInfra } from '@core/utils';
-import { ProjectRepo } from '@dataAccess';
 import { User } from '@entities';
 import { ProjectCertificateRegenerated, ProjectCertificateUpdated } from '../../project/events';
 import { Project } from '../../project/Project';
 import routes from '@routes';
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '@modules/project/queries';
 
 export const handleProjectCertificateUpdatedOrRegenerated =
   (deps: {
     sendNotification: NotificationService['sendNotification'];
-    getUsersForProject: ProjectRepo['getUsers'];
+    getUsersForProject: RécupérerDonnéesPorteursParProjetQueryHandler;
     projectRepo: Repository<Project>;
   }) =>
   async (event: ProjectCertificateUpdated | ProjectCertificateRegenerated) => {
     const { projectId } = event.payload;
 
-    const porteursProjet = (await deps.getUsersForProject(projectId)).filter(
-      (user) => user.role === 'porteur-projet',
-    );
+    const porteursProjet = await deps.getUsersForProject({ projetId: projectId });
 
     if (!porteursProjet || !porteursProjet.length) {
       // no registered user for this projet, no one to warn
