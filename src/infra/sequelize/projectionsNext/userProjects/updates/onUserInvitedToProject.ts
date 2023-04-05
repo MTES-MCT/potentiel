@@ -12,16 +12,18 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
     const foundUser = await User.findOne({ where: { id: userId } });
     const allUsers = await User.findAll({ where: { email: foundUser?.email } });
 
-    for (const user of allUsers) {
-      const userProjectIds = (
-        await UserProjects.findAll({ where: { userId: user.id }, transaction })
-      ).map((project) => project.projectId);
-      const filteredProjectIds = projectIds
-        .filter((projectId) => !userProjectIds.includes(projectId))
-        .map((projectId) => ({ userId: user.id, projectId }));
+    await Promise.all(
+      allUsers.map(async (user) => {
+        const userProjectIds = (
+          await UserProjects.findAll({ where: { userId: user.id }, transaction })
+        ).map((project) => project.projectId);
+        const filteredProjectIds = projectIds
+          .filter((projectId) => !userProjectIds.includes(projectId))
+          .map((projectId) => ({ userId: user.id, projectId }));
 
-      await UserProjects.bulkCreate(filteredProjectIds, { transaction });
-    }
+        await UserProjects.bulkCreate(filteredProjectIds, { transaction });
+      }),
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(

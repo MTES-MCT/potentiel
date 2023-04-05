@@ -14,9 +14,11 @@ export default UserProjectsProjector.on(
       const foundUser = await User.findOne({ where: { id: userId } });
       const allUsers = await User.findAll({ where: { email: foundUser?.email } });
 
-      for (const user of allUsers) {
-        await UserProjects.findOrCreate({ where: { userId: user.id, projectId }, transaction });
-      }
+      await Promise.all(
+        allUsers.map((user) =>
+          UserProjects.findOrCreate({ where: { userId: user.id, projectId }, transaction }),
+        ),
+      );
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
