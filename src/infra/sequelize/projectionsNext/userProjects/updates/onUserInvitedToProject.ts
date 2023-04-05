@@ -10,8 +10,8 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
     payload: { userId, projectIds },
   } = évènement;
   try {
-    const foundUsers = await User.findOne({ where: { id: userId } });
-    const allUsers = await User.findAll({ where: { email: foundUsers?.email } });
+    const foundUser = await User.findOne({ where: { id: userId } });
+    const allUsers = await User.findAll({ where: { email: foundUser?.email } });
 
     for (const user of allUsers) {
       const userProjectIds = (
