@@ -6,12 +6,13 @@ import {
 import { notifierPorteurRévocationAccèsProjet } from '@config/useCases.config';
 import { ToutAccèsAuProjetRevoqué, UserRightsToProjectRevoked } from '@modules/authZ';
 import { projectRepo, userRepo } from '@dataAccess';
+import { récupérerDonnéesPorteursParProjetQueryHandler } from '@config/queries.config';
 
 notificationEventSubscriber(
   ToutAccèsAuProjetRevoqué,
   makeOnToutAccèsAuProjetRévoqué({
     notifierPorteurRévocationAccèsProjet,
-    getProjectUsers: projectRepo.getUsers,
+    getProjectUsers: récupérerDonnéesPorteursParProjetQueryHandler,
     getProject: projectRepo.findById,
   }),
 );

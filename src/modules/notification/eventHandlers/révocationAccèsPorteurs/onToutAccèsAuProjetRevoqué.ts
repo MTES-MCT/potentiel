@@ -2,12 +2,13 @@ import { logger } from '@core/utils';
 import { ProjectRepo } from '@dataAccess';
 import { ToutAccèsAuProjetRevoqué } from '@modules/authZ';
 import { NotifierPorteurRévocationAccèsProjet } from '@modules/notification/useCases';
+import { RécupérerDonnéesPorteursParProjetQueryHandler } from '@modules/project';
 
 type OnToutAccèsAuProjetRévoqué = (événement: ToutAccèsAuProjetRevoqué) => Promise<void>;
 
 type MakeOnToutAccèsAuProjetRévoqué = (dépendances: {
   notifierPorteurRévocationAccèsProjet: NotifierPorteurRévocationAccèsProjet;
-  getProjectUsers: ProjectRepo['getUsers'];
+  getProjectUsers: RécupérerDonnéesPorteursParProjetQueryHandler;
   getProject: ProjectRepo['findById'];
 }) => OnToutAccèsAuProjetRévoqué;
 
@@ -15,7 +16,11 @@ export const makeOnToutAccèsAuProjetRévoqué: MakeOnToutAccèsAuProjetRévoqu�
   ({ notifierPorteurRévocationAccèsProjet, getProjectUsers, getProject }) =>
   async ({ payload }: ToutAccèsAuProjetRevoqué) => {
     const { projetId, cause } = payload;
-    const utilisateursANotifier = await getProjectUsers(projetId);
+    const utilisateursANotifier = await getProjectUsers({ projetId });
+
+    if (utilisateursANotifier.length === 0) {
+      return;
+    }
 
     const projet = await getProject(projetId);
 
