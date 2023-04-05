@@ -9,6 +9,7 @@ export * from './onCovidDelayGranted';
 export * from './onDonnéesDeRaccordementRenseignées';
 export * from './onIdentifiantPotentielPPE2Batiment2Corrigé';
 export * from './onLegacyAbandonSupprimé';
+export * from './onLegacyProjectSourced';
 export * from './onProjectAbandoned';
 export * from './onProjectActionnaireUpdated';
 export * from './onProjectCertificateGenerated';
