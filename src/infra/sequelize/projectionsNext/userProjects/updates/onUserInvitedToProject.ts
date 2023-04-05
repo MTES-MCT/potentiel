@@ -1,7 +1,7 @@
 import { logger } from '@core/utils';
 import { UserInvitedToProject } from '@modules/authZ/events';
 import { ProjectionEnEchec } from '@modules/shared';
-import { UserProjects } from '../userProjects.model';
+import { User, UserProjects } from '@infra/sequelize/projectionsNext';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(UserInvitedToProject, async (évènement, transaction) => {
@@ -9,14 +9,21 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
     payload: { userId, projectIds },
   } = évènement;
   try {
-    const userProjectIds = (await UserProjects.findAll({ where: { userId }, transaction })).map(
-      (project) => project.projectId,
-    );
-    const filteredProjectIds = projectIds
-      .filter((projectId) => !userProjectIds.includes(projectId))
-      .map((projectId) => ({ userId, projectId }));
+    const foundUser = await User.findOne({ where: { id: userId } });
+    const allUsers = await User.findAll({ where: { email: foundUser?.email } });
 
-    await UserProjects.bulkCreate(filteredProjectIds, { transaction });
+    await Promise.all(
+      allUsers.map(async (user) => {
+        const userProjectIds = (
+          await UserProjects.findAll({ where: { userId: user.id }, transaction })
+        ).map((project) => project.projectId);
+        const filteredProjectIds = projectIds
+          .filter((projectId) => !userProjectIds.includes(projectId))
+          .map((projectId) => ({ userId: user.id, projectId }));
+
+        await UserProjects.bulkCreate(filteredProjectIds, { transaction });
+      }),
+    );
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
