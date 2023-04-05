@@ -64,6 +64,7 @@ export const AdminRegénérerPeriodeAttestations = ({
                   appelOffreId: event.target.value,
                   periodeId: null,
                   familleId: null,
+                  page: null,
                 })
               }
             >
@@ -78,7 +79,7 @@ export const AdminRegénérerPeriodeAttestations = ({
                   </option>
                 ))}
             </Select>
-            {periodes && periodes.length > 0 && (
+            {appelOffreId && periodes && periodes.length > 0 && (
               <>
                 <Label htmlFor="periodeId">Période concernée</Label>
                 <Select
@@ -89,6 +90,7 @@ export const AdminRegénérerPeriodeAttestations = ({
                   onChange={(event) =>
                     updateUrlParams({
                       periodeId: event.target.value,
+                      page: null,
                     })
                   }
                 >
@@ -106,7 +108,17 @@ export const AdminRegénérerPeriodeAttestations = ({
             {appelOffreId && familles && familles.length > 0 && (
               <>
                 <Label htmlFor="familleId">Famille concernée</Label>
-                <Select id="familleId" name="familleId" defaultValue={familleId || 'default'}>
+                <Select
+                  id="familleId"
+                  name="familleId"
+                  defaultValue={familleId || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      familleId: event.target.value,
+                      page: null,
+                    })
+                  }
+                >
                   <option value="default" disabled hidden>
                     Choisir une famille
                   </option>

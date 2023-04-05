@@ -89,6 +89,7 @@ export const GarantiesFinancieres = ({
                       appelOffreId: event.target.value,
                       periodeId: null,
                       familleId: null,
+                      page: null,
                     })
                   }
                 >
@@ -116,6 +117,7 @@ export const GarantiesFinancieres = ({
                       onChange={(event) =>
                         updateUrlParams({
                           periodeId: event.target.value,
+                          page: null,
                         })
                       }
                     >
@@ -143,6 +145,7 @@ export const GarantiesFinancieres = ({
                       onChange={(event) =>
                         updateUrlParams({
                           familleId: event.target.value,
+                          page: null,
                         })
                       }
                     >

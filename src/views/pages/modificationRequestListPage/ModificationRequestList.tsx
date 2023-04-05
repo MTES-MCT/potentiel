@@ -121,6 +121,7 @@ export const ModificationRequestList = ({
                         appelOffreId: event.target.value,
                         periodeId: null,
                         familleId: null,
+                        page: null,
                       })
                     }
                   >
@@ -146,6 +147,7 @@ export const ModificationRequestList = ({
                         onChange={(event) =>
                           updateUrlParams({
                             periodeId: event.target.value,
+                            page: null,
                           })
                         }
                       >
@@ -173,6 +175,7 @@ export const ModificationRequestList = ({
                         onChange={(event) =>
                           updateUrlParams({
                             familleId: event.target.value,
+                            page: null,
                           })
                         }
                       >
@@ -198,6 +201,7 @@ export const ModificationRequestList = ({
                     onChange={(event) =>
                       updateUrlParams({
                         modificationRequestType: event.target.value,
+                        page: null,
                       })
                     }
                   >
@@ -224,6 +228,7 @@ export const ModificationRequestList = ({
                     onChange={(event) =>
                       updateUrlParams({
                         modificationRequestStatus: event.target.value,
+                        page: null,
                       })
                     }
                   >
