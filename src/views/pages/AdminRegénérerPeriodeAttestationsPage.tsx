@@ -132,11 +132,11 @@ export const AdminRegénérerPeriodeAttestations = ({
             </div>
           </div>
           <div className="form__group">
-            <Label htmlFor="forceCertificateGeneration">
+            <Label htmlFor="reason">
               Message justificatif du changement (facultatif, sera inclus dans le mail aux porteurs
               de projet)
             </Label>
-            <TextArea name="forceCertificateGeneration" defaultValue={reason} />
+            <TextArea name="reason" id="reason" defaultValue={reason} />
           </div>
 
           <Button
