@@ -1,9 +1,8 @@
 import { logger } from '@core/utils';
 import { UserInvitedToProject } from '@modules/authZ/events';
 import { ProjectionEnEchec } from '@modules/shared';
-import { UserProjects } from '../userProjects.model';
+import { User, UserProjects } from '@infra/sequelize/projectionsNext';
 import { UserProjectsProjector } from '../userProjects.projector';
-import { User } from '../../users/users.model';
 
 export default UserProjectsProjector.on(UserInvitedToProject, async (évènement, transaction) => {
   const {

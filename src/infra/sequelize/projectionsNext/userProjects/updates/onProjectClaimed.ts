@@ -1,20 +1,20 @@
 import { logger } from '@core/utils';
 import { ProjectClaimed } from '@modules/projectClaim/events';
 import { ProjectionEnEchec } from '@modules/shared';
-import { UserProjects } from '../userProjects.model';
+import { User, UserProjects } from '@infra/sequelize/projectionsNext';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(ProjectClaimed, async (évènement, transaction) => {
   const {
-    payload: { projectId, claimedBy },
+    payload: { projectId, claimedBy: userId },
   } = évènement;
   try {
-    await UserProjects.create(
-      { userId: claimedBy, projectId },
-      {
-        transaction,
-      },
-    );
+    const foundUser = await User.findOne({ where: { id: userId } });
+    const allUsers = await User.findAll({ where: { email: foundUser?.email } });
+
+    for (const user of allUsers) {
+      await UserProjects.findOrCreate({ where: { userId: user.id, projectId }, transaction });
+    }
   } catch (error) {
     logger.error(
       new ProjectionEnEchec(
