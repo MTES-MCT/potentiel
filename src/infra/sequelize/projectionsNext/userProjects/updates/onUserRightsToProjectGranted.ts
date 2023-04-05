@@ -1,7 +1,7 @@
 import { logger } from '@core/utils';
 import { UserRightsToProjectGranted } from '@modules/authZ';
 import { ProjectionEnEchec } from '@modules/shared';
-import { UserProjects } from '../userProjects.model';
+import { User, UserProjects } from '@infra/sequelize/projectionsNext';
 import { UserProjectsProjector } from '../userProjects.projector';
 
 export default UserProjectsProjector.on(
@@ -11,13 +11,12 @@ export default UserProjectsProjector.on(
       payload: { userId, projectId },
     } = évènement;
     try {
-      await UserProjects.create(
-        {
-          userId,
-          projectId,
-        },
-        { transaction },
-      );
+      const foundUser = await User.findOne({ where: { id: userId } });
+      const allUsers = await User.findAll({ where: { email: foundUser?.email } });
+
+      for (const user of allUsers) {
+        await UserProjects.findOrCreate({ where: { userId: user.id, projectId }, transaction });
+      }
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(
