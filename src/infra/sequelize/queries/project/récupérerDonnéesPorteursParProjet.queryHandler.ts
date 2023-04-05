@@ -11,6 +11,7 @@ export const récupérerDonnéesPorteursParProjetQueryHandler: RécupérerDonné
           model: User,
           as: 'user',
           attributes: ['fullName', 'email', 'id', 'role'],
+          where: { role: 'porteur-projet' },
         },
       ],
     });
