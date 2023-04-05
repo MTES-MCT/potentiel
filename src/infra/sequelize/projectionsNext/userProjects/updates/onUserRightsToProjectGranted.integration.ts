@@ -32,7 +32,7 @@ describe('userProjects.onUserRightsToProjectGranted', () => {
   describe(`Gestion des doublons`, () => {
     it(`Étant donné un utilisateur en doublon
         Lorsqu'un utilisateur est autorisé à accéder à un projet
-        Alors chaque occurence de l'utilisateur devrait être avoir les droits d'accès pour le projet`, async () => {
+        Alors chaque occurence de l'utilisateur devrait avoir les droits d'accès pour le projet`, async () => {
       const duplicatedUserId = new UniqueEntityID().toString();
       await User.create({
         id: duplicatedUserId,
