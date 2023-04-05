@@ -2,7 +2,7 @@ import { logger } from '@core/utils';
 import { ProjectFournisseursUpdated } from '@modules/project';
 import { Project } from '../project.model';
 import { ProjectProjector } from '../project.projector';
-import { ProjectionEnEchec } from '@modules/shared';
+import { EntityNotFoundError, ProjectionEnEchec } from '@modules/shared';
 
 // TODO: Projection migrée en l'état, doit être revu (en supprimant l'utilisation de la colonne JSON)
 export const onProjectFournisseursUpdated = ProjectProjector.on(
@@ -12,11 +12,8 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
       const { projectId, newFournisseurs, newEvaluationCarbone } = évènement.payload;
       const projectInstance = await Project.findByPk(projectId, { transaction });
 
-      if (!projectInstance) {
-        logger.error(
-          `Error: onProjectFournisseursUpdated projection failed to retrieve project from db: ${event}`,
-        );
-        return;
+      if (projectInstance === null) {
+        throw new EntityNotFoundError();
       }
 
       const newProjectDetails = newFournisseurs.reduce((prev, { kind, name }) => {
@@ -36,6 +33,7 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
 
       await projectInstance.save({ transaction });
     } catch (error) {
+      console.log('erreur : ', error);
       logger.error(
         new ProjectionEnEchec(
           `Erreur lors du traitement de l'évènement ProjectFournisseursUpdated`,
