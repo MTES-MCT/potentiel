@@ -186,33 +186,6 @@ a.button-outline {
 
 /* Filter toggle */
 
-.filter-toggle {
-  cursor: pointer;
-  position: relative;
-}
-
-.filter-toggle a {
-  text-decoration: none;
-  margin-left: 15px;
-}
-
-.filter-icon {
-  transform: rotate(-90deg);
-  transition: transform 300ms;
-  margin-left: 15px;
-  vertical-align: middle;
-  top: -2px;
-}
-
-.open > .filter-icon {
-  transform: rotate(0deg);
-}
-
-.filter-panel {
-  /* display: none; */
-  padding-bottom: 20px;
-}
-
 .periode-panel select.appelOffre {
   width: 40%;
 }
@@ -227,16 +200,7 @@ a.button-outline {
   }
 }
 
-.open ~ .filter-panel {
-  display: block;
-}
-
 /* project list filters */
-
-.filter-panel select.active {
-  background-color: var(--theme-primary);
-  color: var(--theme-light-text);
-}
 
 pre {
   font-family: inherit;

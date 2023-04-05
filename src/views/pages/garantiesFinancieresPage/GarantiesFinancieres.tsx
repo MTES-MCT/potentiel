@@ -9,7 +9,7 @@ import {
   PageTemplate,
   SuccessBox,
   ErrorBox,
-  Link,
+  LinkButton,
   Heading1,
   DownloadLink,
   BarreDeRecherche,
@@ -172,9 +172,9 @@ export const GarantiesFinancieres = ({
             </Dropdown>
 
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" onClick={resetUrlParams}>
+              <LinkButton className="mt-[10px]" href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
 
             <GarantiesFinancieresFilter

@@ -10,7 +10,7 @@ import {
   Heading1,
   InfoBox,
   Label,
-  Link,
+  LinkButton,
   ListeVide,
   MissingOwnerProjectList,
   PageTemplate,
@@ -187,9 +187,9 @@ export const ProjetsÀRéclamer = ({
             </Dropdown>
 
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" onClick={resetUrlParams}>
+              <LinkButton className="mt-[10px]" href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
           </form>
         </div>

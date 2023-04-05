@@ -16,12 +16,12 @@ import {
   Button,
   Input,
   Label,
-  Link,
   Heading1,
   BarreDeRecherche,
   ListeVide,
   Select,
   Dropdown,
+  LinkButton,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -273,70 +273,48 @@ export const ListeProjets = ({
               </fieldset>
             </Dropdown>
             {hasFilters && (
-              <Link href="#" onClick={resetUrlParams}>
+              <LinkButton href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
           </form>
           {['admin', 'dgec-validateur', 'porteur-projet'].includes(request.user?.role) && (
-            <div>
-              <div onClick={() => setDisplaySelection(!displaySelection)} className="filter-toggle">
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
+            <Dropdown
+              design="link"
+              text="Donner accès à un utilisateur"
+              isOpen={displaySelection}
+              changeOpenState={(state) => setDisplaySelection(state)}
+            >
+              <form
+                action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
+                method="POST"
+                name="form"
+                className="m-0 mt-4"
+              >
+                <select name="projectId" multiple hidden>
+                  {selectedProjectIds.map((projectId) => (
+                    <option selected key={projectId} value={projectId}>
+                      {projectId}
+                    </option>
+                  ))}
+                </select>
+                <Label htmlFor="email" required>
+                  Courrier électronique de la personne habilitée à suivre les projets selectionnés
+                  ci-dessous:
+                </Label>
+                <Input required type="email" name="email" id="email" {...dataId('email-field')} />
+                <Button
+                  className="mt-4"
+                  type="submit"
+                  name="submit"
+                  id="submit"
+                  disabled={!selectedProjectIds.length}
                 >
-                  Donner accès à un utilisateur
-                </span>
-                <svg
-                  className="icon filter-icon"
-                  style={{ transform: displaySelection ? 'rotate(0deg)' : '' }}
-                >
-                  <use xlinkHref="#expand"></use>
-                  <title>{displaySelection ? `Fermer` : `Ouvrir`} le formulaire</title>
-                </svg>
-              </div>
-              {displaySelection && (
-                <div>
-                  <form
-                    action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-                    method="POST"
-                    name="form"
-                    className="m-0 mt-4"
-                  >
-                    <select name="projectId" multiple hidden>
-                      {selectedProjectIds.map((projectId) => (
-                        <option selected key={projectId} value={projectId}>
-                          {projectId}
-                        </option>
-                      ))}
-                    </select>
-                    <Label htmlFor="email" required>
-                      Courrier électronique de la personne habilitée à suivre les projets
-                      selectionnés ci-dessous:
-                    </Label>
-                    <Input
-                      required
-                      type="email"
-                      name="email"
-                      id="email"
-                      {...dataId('email-field')}
-                    />
-                    <Button
-                      className="mt-4"
-                      type="submit"
-                      name="submit"
-                      id="submit"
-                      disabled={!selectedProjectIds.length}
-                    >
-                      Accorder les droits sur {selectedProjectIds.length}{' '}
-                      {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-                    </Button>
-                  </form>
-                </div>
-              )}
-            </div>
+                  Accorder les droits sur {selectedProjectIds.length}{' '}
+                  {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
+                </Button>
+              </form>
+            </Dropdown>
           )}
         </div>
 

@@ -10,7 +10,7 @@ import {
   SuccessBox,
   ErrorBox,
   InputCheckbox,
-  Link,
+  LinkButton,
   Heading1,
   BarreDeRecherche,
   Label,
@@ -243,9 +243,9 @@ export const ModificationRequestList = ({
             </Dropdown>
 
             {hasFilters && (
-              <Link href="#" onClick={resetUrlParams}>
+              <LinkButton href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
 
             {userIs(['admin', 'dgec-validateur'])(request.user) && (
