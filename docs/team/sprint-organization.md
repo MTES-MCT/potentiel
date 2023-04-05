@@ -6,7 +6,7 @@
   - de 10h à 11h : Démo, sprint planning
   - de 11h15 à 12h : préparation des tâches de développement
 - Le dernier mercredi du sprint :
-  - de 10h à 11h : Préparation du prochain sprint
+  - de 10h à 11h : Rétrospective et préparation du prochain sprint
 - Le dernier vendredi du sprint :
   - de 10h à 11h : Retrospective dev
   - de 14h à 17h : Préparation de la démo et du sprint planning du lundi
@@ -32,7 +32,7 @@
 - Inconvénient : épuisant si pas bien organisé/timeboxé
 - Déroulement :
   - De 10h à 12h et de 14h à 17h en semaine
-  - La personne au clavier est guidé par les autres membres de l'équipe pendant 10 min
+  - La personne au clavier est guidée par les autres membres de l'équipe pendant 10 min
   - Une pause de 10 min par heure
 - Si un membre doit faire une tâche annexe (correction d'un bug, aide support, passer un coup de fil ...) il peut sortir de la session avec l'accord de l'équipe et y revenir plus tard
 - En dehors des horaires de Mob chacun peut avancer sur des sujets annexes (remboursement de la dette, rédaction de documentation, veille, ...)
@@ -41,6 +41,7 @@
 
 - Rôle tournant par semaine :
   - Responsabilité :
+    - Présenter la démonstration au début du sprint
     - Répondre aux questions de SAV
     - Investiguer les erreurs en production (sentry, remontées SAV)
     - Stopper l'équipe de dev si besoin de régler un problème COMPLEXE, URGENT et BLOQUANT pour les utilisateurs
