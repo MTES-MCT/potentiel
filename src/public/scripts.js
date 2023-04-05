@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addVisibilityToggleHandler();
   addGoToOnClickHandlers();
   addMissingOwnerProjectListSelectionHandler();
 };
