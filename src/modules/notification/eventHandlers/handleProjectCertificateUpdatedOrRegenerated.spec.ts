@@ -19,7 +19,7 @@ describe('candidateNotificatio.handleProjectCertificateUpdatedOrRegenerated', ()
 
   const projectRepo = fakeRepo(fakeProject as Project);
 
-  const getUsersForProject = jest.fn(async (projectId: string) => projectUsers);
+  const getUsersForProject = jest.fn(async ({ projetId: string }) => projectUsers);
 
   const sendNotification = jest.fn(async (args: NotificationArgs) => null);
 
@@ -35,7 +35,7 @@ describe('candidateNotificatio.handleProjectCertificateUpdatedOrRegenerated', ()
       }),
     );
 
-    expect(getUsersForProject).toHaveBeenCalledWith(projectId);
+    expect(getUsersForProject).toHaveBeenCalledWith({ projetId: projectId });
 
     expect(sendNotification).toHaveBeenCalledTimes(projectUsers.length);
     const notifications = sendNotification.mock.calls.map((call) => call[0]);

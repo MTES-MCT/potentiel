@@ -15,3 +15,4 @@ export * from './GetUnnotifiedProjectsForPeriode';
 export * from './HasDemandeDeMêmeTypeOuverte';
 export * from './RésuméProjet';
 export * from './TrouverProjetsParIdentifiantGestionnaireRéseau';
+export * from './récupérerDonnéesPorteursParProjet';

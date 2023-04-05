@@ -34,13 +34,14 @@ import {
   getInfoForModificationRequested,
   getModificationRequestInfoForStatusNotification,
   getModificationRequestRecipient,
+  récupérerDonnéesPorteursParProjetQueryHandler,
 } from '../queries.config';
 import { oldProjectRepo, oldUserRepo, projectRepo } from '../repos.config';
 
 const projectCertificateChangeHandler = handleProjectCertificateUpdatedOrRegenerated({
   sendNotification,
   projectRepo,
-  getUsersForProject: oldProjectRepo.getUsers,
+  getUsersForProject: récupérerDonnéesPorteursParProjetQueryHandler,
 });
 
 eventStore.subscribe(ProjectCertificateUpdated.type, projectCertificateChangeHandler);
