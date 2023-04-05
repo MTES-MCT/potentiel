@@ -21,6 +21,7 @@ import {
   BarreDeRecherche,
   ListeVide,
   Select,
+  Dropdown,
 } from '@components';
 import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
@@ -61,8 +62,13 @@ export const ListeProjets = ({
       ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
       classement !== 'classés');
 
-  const hasFilters =
-    appelOffreId || periodeId || familleId || garantiesFinancieres || hasNonDefaultClassement;
+  const hasFilters = !!(
+    appelOffreId ||
+    periodeId ||
+    familleId ||
+    garantiesFinancieres ||
+    hasNonDefaultClassement
+  );
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -75,7 +81,7 @@ export const ListeProjets = ({
 
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [displaySelection, setDisplaySelection] = useState(false);
-  const [afficherFiltres, setAfficherFiltres] = useState(false);
+  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <PageTemplate user={request.user} currentPage="list-projects">
@@ -93,26 +99,16 @@ export const ListeProjets = ({
               className="mt-8"
             />
 
-            <div className="mt-8 mb-6">
-              <div
-                onClick={() => setAfficherFiltres(!afficherFiltres)}
-                {...dataId('visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
-              >
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
-                >
-                  Filtrer
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                  <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
-                </svg>
-              </div>
-              <fieldset className="filter-panel mt-8">
+            <Dropdown
+              design="link"
+              text="Filtrer"
+              isOpen={afficherFiltres}
+              className="mt-8 mb-6 !w-full"
+              changeOpenState={(state) => {
+                return setAfficherFiltres(state);
+              }}
+            >
+              <fieldset className="mt-4">
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                 <Select
                   id="appelOffreId"
@@ -275,7 +271,7 @@ export const ListeProjets = ({
                   </>
                 )}
               </fieldset>
-            </div>
+            </Dropdown>
             {hasFilters && (
               <Link href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres

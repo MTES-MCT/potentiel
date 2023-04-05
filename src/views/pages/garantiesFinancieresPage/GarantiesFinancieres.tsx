@@ -1,8 +1,7 @@
 import { Request } from 'express';
 import querystring from 'querystring';
-import React from 'react';
+import React, { useState } from 'react';
 import { AppelOffre, Famille, Periode } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import ROUTES from '@routes';
 import { PaginatedList } from '../../../types';
 import {
@@ -17,6 +16,7 @@ import {
   ListeVide,
   Label,
   Select,
+  Dropdown,
 } from '@components';
 import {
   hydrateOnClient,
@@ -47,7 +47,7 @@ export const GarantiesFinancieres = ({
   const { error, success, recherche, appelOffreId, periodeId, familleId, garantiesFinancieres } =
     (request.query as any) || {};
 
-  const hasFilters = appelOffreId || periodeId || familleId;
+  const hasFilters = !!(appelOffreId || periodeId || familleId);
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -61,6 +61,8 @@ export const GarantiesFinancieres = ({
   const handleGarantiesFinancieresFilterOnChange = (newValue: string) => {
     refreshPageWithNewSearchParamValue('garantiesFinancieres', newValue);
   };
+
+  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <PageTemplate user={request.user} currentPage="list-garanties-financieres">
@@ -76,9 +78,14 @@ export const GarantiesFinancieres = ({
               className="mt-8"
             />
 
-            <div className="mt-8">
-              <div {...dataId('visibility-toggle')} className={'filter-toggle open'} />
-              <div className="filter-panel">
+            <Dropdown
+              design="link"
+              text="Filtrer"
+              isOpen={afficherFiltres}
+              changeOpenState={(state) => setAfficherFiltres(state)}
+              className="mt-8 mb-4 !w-full"
+            >
+              <div className="mt-4">
                 <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                 <Select
                   id="appelOffreId"
@@ -162,7 +169,8 @@ export const GarantiesFinancieres = ({
                   </>
                 )}
               </div>
-            </div>
+            </Dropdown>
+
             {hasFilters && (
               <Link className="mt-[10px]" href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres

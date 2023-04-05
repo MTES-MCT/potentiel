@@ -1,6 +1,7 @@
 import {
   BarreDeRecherche,
   Button,
+  Dropdown,
   ErrorBox,
   ExcelFileIcon,
   Heading1,
@@ -18,7 +19,7 @@ import { ProjectListItem } from '@modules/project/queries';
 import ROUTES from '@routes';
 import { Request } from 'express';
 import querystring from 'querystring';
-import React from 'react';
+import React, { useState } from 'react';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
@@ -64,7 +65,9 @@ export const AdminNotificationCandidats = ({
     listePériodes,
   } = données;
 
-  const hasFilters = classement && classement !== '';
+  const hasFilters = !!(classement && classement !== '');
+
+  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <PageTemplate user={request.user} currentPage="notify-candidates">
@@ -85,22 +88,19 @@ export const AdminNotificationCandidats = ({
             </div>
 
             <div className="form__group">
-              <legend
-                {...dataId('visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
+              <Dropdown
+                design="link"
+                text="Filtrer"
+                isOpen={afficherFiltres}
+                changeOpenState={(state) => setAfficherFiltres(state)}
+                className="!w-full"
               >
-                Filtrer
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                </svg>
-              </legend>
-              <div className="filter-panel">
                 <div className="mt-4">
                   <Label htmlFor="classement">Classés/Eliminés</Label>
                   <Select
                     id="classement"
                     name="classement"
-                    defaultValue={'default'}
+                    defaultValue={classement || 'default'}
                     onChange={(event) =>
                       updateUrlParams({
                         classement: event.target.value,
@@ -120,7 +120,7 @@ export const AdminNotificationCandidats = ({
                     </option>
                   </Select>
                 </div>
-              </div>
+              </Dropdown>
             </div>
           </form>
         </div>

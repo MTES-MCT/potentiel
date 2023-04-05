@@ -209,7 +209,7 @@ a.button-outline {
 }
 
 .filter-panel {
-  display: none;
+  /* display: none; */
   padding-bottom: 20px;
 }
 
