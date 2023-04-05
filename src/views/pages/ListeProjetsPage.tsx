@@ -22,7 +22,7 @@ import {
   ListeVide,
   Select,
 } from '@components';
-import { hydrateOnClient } from '../helpers';
+import { hydrateOnClient, resetUrlParams, updateUrlParams } from '../helpers';
 import { ProjectListItem } from '@modules/project';
 import { userIsNot } from '@modules/users';
 
@@ -117,8 +117,15 @@ export const ListeProjets = ({
                 <Select
                   id="appelOffreId"
                   name="appelOffreId"
-                  {...dataId('appelOffreIdSelector')}
                   defaultValue={appelOffreId || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      appelOffreId: event.target.value,
+                      periodeId: null,
+                      familleId: null,
+                      page: null,
+                    })
+                  }
                 >
                   <option value="default" disabled hidden>
                     Choisir un appel d‘offre
@@ -140,8 +147,13 @@ export const ListeProjets = ({
                     <Select
                       id="periodeId"
                       name="periodeId"
-                      {...dataId('periodeIdSelector')}
                       defaultValue={periodeId}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          periodeId: event.target.value,
+                          page: null,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir une période
@@ -163,8 +175,13 @@ export const ListeProjets = ({
                     <Select
                       id="familleId"
                       name="familleId"
-                      {...dataId('familleIdSelector')}
                       defaultValue={familleId || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          familleId: event.target.value,
+                          page: null,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir une famille
@@ -192,8 +209,13 @@ export const ListeProjets = ({
                     <Select
                       id="garantiesFinancieres"
                       name="garantiesFinancieres"
-                      {...dataId('garantiesFinancieresSelector')}
                       defaultValue={garantiesFinancieres || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          garantiesFinancieres: event.target.value,
+                          page: null,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir un état
@@ -211,8 +233,13 @@ export const ListeProjets = ({
                 <Select
                   id="classement"
                   name="classement"
-                  {...dataId('classementSelector')}
                   defaultValue={classement || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      classement: event.target.value,
+                      page: null,
+                    })
+                  }
                 >
                   <option value="default" disabled hidden>
                     Choisir un état
@@ -231,8 +258,12 @@ export const ListeProjets = ({
                     <Select
                       id="reclames"
                       name="reclames"
-                      {...dataId('reclamesSelector')}
                       defaultValue={reclames || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          reclames: event.target.value,
+                        })
+                      }
                     >
                       <option value="default" disabled hidden>
                         Choisir un état
@@ -246,7 +277,7 @@ export const ListeProjets = ({
               </fieldset>
             </div>
             {hasFilters && (
-              <Link href="#" {...dataId('resetSelectors')}>
+              <Link href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
               </Link>
             )}

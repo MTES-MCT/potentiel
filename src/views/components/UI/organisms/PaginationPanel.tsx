@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pagination } from '../molecules/Pagination';
-import { dataId } from '../../../../helpers/testId';
+import { updateUrlParams } from '@views/helpers';
 
 interface Props {
   nombreDePage: number;
@@ -28,7 +28,9 @@ export function PaginationPanel({
           className="ml-2 py-1"
           id="pagination__display"
           defaultValue={limiteParPage}
-          {...dataId('pageSizeSelector')}
+          onChange={(event) => {
+            updateUrlParams({ pageSize: event.target.value, page: '0' });
+          }}
         >
           {limitePageOptions.map((count) => (
             <option key={'select_limiteParPage_' + count} value={count}>

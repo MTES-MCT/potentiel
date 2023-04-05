@@ -21,7 +21,7 @@ import querystring from 'querystring';
 import React from 'react';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
-import { afficherDate, hydrateOnClient } from '../helpers';
+import { afficherDate, hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminNotificationCandidatsProps = {
   request: Request;
@@ -100,8 +100,13 @@ export const AdminNotificationCandidats = ({
                   <Select
                     id="classement"
                     name="classement"
-                    {...dataId('classementSelector')}
                     defaultValue={'default'}
+                    onChange={(event) =>
+                      updateUrlParams({
+                        classement: event.target.value,
+                        page: null,
+                      })
+                    }
                   >
                     <option value="default" disabled hidden>
                       Choisir une option
@@ -127,8 +132,15 @@ export const AdminNotificationCandidats = ({
             <Select
               name="appelOffreId"
               id="appelOffreId"
-              {...dataId('appelOffreIdSelector')}
               defaultValue={AOSélectionné || 'default'}
+              onChange={(event) =>
+                updateUrlParams({
+                  appelOffreId: event.target.value,
+                  periodeId: null,
+                  familleId: null,
+                  page: null,
+                })
+              }
             >
               <option value="default" disabled hidden>
                 Choisir un appel d‘offre
@@ -145,8 +157,13 @@ export const AdminNotificationCandidats = ({
             <Select
               name="periodeId"
               id="periodeId"
-              {...dataId('periodeIdSelector')}
               defaultValue={périodeSélectionnée || 'default'}
+              onChange={(event) =>
+                updateUrlParams({
+                  periodeId: event.target.value,
+                  page: null,
+                })
+              }
             >
               <option value="default" disabled hidden>
                 Choisir une période

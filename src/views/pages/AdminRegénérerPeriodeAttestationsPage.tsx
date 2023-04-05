@@ -14,7 +14,7 @@ import {
   SuccessBox,
   TextArea,
 } from '@components';
-import { hydrateOnClient } from '../helpers';
+import { hydrateOnClient, updateUrlParams } from '../helpers';
 
 type AdminRegénérerPeriodeAttestationsProps = {
   request: Request;
@@ -59,7 +59,14 @@ export const AdminRegénérerPeriodeAttestations = ({
               name="appelOffreId"
               id="appelOffreId"
               defaultValue={appelOffreId || 'default'}
-              {...dataId('appelOffreIdSelector')}
+              onChange={(event) =>
+                updateUrlParams({
+                  appelOffreId: event.target.value,
+                  periodeId: null,
+                  familleId: null,
+                  page: null,
+                })
+              }
             >
               <option value="default" disabled hidden>
                 Choisir un appel d‘offre
@@ -72,15 +79,20 @@ export const AdminRegénérerPeriodeAttestations = ({
                   </option>
                 ))}
             </Select>
-            {periodes && periodes.length > 0 && (
+            {appelOffreId && periodes && periodes.length > 0 && (
               <>
                 <Label htmlFor="periodeId">Période concernée</Label>
                 <Select
                   id="periodeId"
                   name="periodeId"
-                  {...dataId('periodeIdSelector')}
-                  defaultValue={periodeId || periodes[periodes.length - 1].id || 'default'}
                   className="mb-4"
+                  defaultValue={periodeId || periodes[periodes.length - 1].id || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      periodeId: event.target.value,
+                      page: null,
+                    })
+                  }
                 >
                   <option value="default" disabled hidden>
                     Choisir une période
@@ -96,7 +108,17 @@ export const AdminRegénérerPeriodeAttestations = ({
             {appelOffreId && familles && familles.length > 0 && (
               <>
                 <Label htmlFor="familleId">Famille concernée</Label>
-                <Select id="familleId" name="familleId" defaultValue={familleId || 'default'}>
+                <Select
+                  id="familleId"
+                  name="familleId"
+                  defaultValue={familleId || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      familleId: event.target.value,
+                      page: null,
+                    })
+                  }
+                >
                   <option value="default" disabled hidden>
                     Choisir une famille
                   </option>

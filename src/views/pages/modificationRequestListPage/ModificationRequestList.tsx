@@ -17,7 +17,12 @@ import {
   Label,
   Select,
 } from '@components';
-import { hydrateOnClient, refreshPageWithNewSearchParamValue } from '../../helpers';
+import {
+  hydrateOnClient,
+  refreshPageWithNewSearchParamValue,
+  resetUrlParams,
+  updateUrlParams,
+} from '../../helpers';
 import { userIs } from '@modules/users';
 
 type ModificationRequestListProps = {
@@ -110,8 +115,15 @@ export const ModificationRequestList = ({
                   <Select
                     id="appelOffreId"
                     name="appelOffreId"
-                    {...dataId('appelOffreIdSelector')}
                     defaultValue={appelOffreId || 'default'}
+                    onChange={(event) =>
+                      updateUrlParams({
+                        appelOffreId: event.target.value,
+                        periodeId: null,
+                        familleId: null,
+                        page: null,
+                      })
+                    }
                   >
                     <option value="default" disabled hidden>
                       Choisir un appel d‘offre
@@ -131,8 +143,13 @@ export const ModificationRequestList = ({
                       <Select
                         id="periodeId"
                         name="periodeId"
-                        {...dataId('periodeIdSelector')}
                         defaultValue={periodeId || 'default'}
+                        onChange={(event) =>
+                          updateUrlParams({
+                            periodeId: event.target.value,
+                            page: null,
+                          })
+                        }
                       >
                         <option value="default" disabled hidden>
                           Choisir une période
@@ -154,8 +171,13 @@ export const ModificationRequestList = ({
                       <Select
                         id="familleId"
                         name="familleId"
-                        {...dataId('familleIdSelector')}
                         defaultValue={familleId || 'default'}
+                        onChange={(event) =>
+                          updateUrlParams({
+                            familleId: event.target.value,
+                            page: null,
+                          })
+                        }
                       >
                         <option value="default" disabled hidden>
                           Choisir une famille
@@ -175,8 +197,13 @@ export const ModificationRequestList = ({
                   <Select
                     id="modificationRequestType"
                     name="modificationRequestType"
-                    {...dataId('modificationRequestTypeSelector')}
                     defaultValue={modificationRequestType || 'default'}
+                    onChange={(event) =>
+                      updateUrlParams({
+                        modificationRequestType: event.target.value,
+                        page: null,
+                      })
+                    }
                   >
                     <option value="default" disabled hidden>
                       Choisir un type de demande
@@ -197,8 +224,13 @@ export const ModificationRequestList = ({
                   <Select
                     id="modificationRequestStatus"
                     name="modificationRequestStatus"
-                    {...dataId('modificationRequestStatusSelector')}
                     defaultValue={modificationRequestStatus || 'default'}
+                    onChange={(event) =>
+                      updateUrlParams({
+                        modificationRequestStatus: event.target.value,
+                        page: null,
+                      })
+                    }
                   >
                     <option value="default" disabled hidden>
                       Choisir le statut de la demande
@@ -218,7 +250,7 @@ export const ModificationRequestList = ({
             </div>
 
             {hasFilters && (
-              <Link href="#" {...dataId('resetSelectors')}>
+              <Link href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
               </Link>
             )}
