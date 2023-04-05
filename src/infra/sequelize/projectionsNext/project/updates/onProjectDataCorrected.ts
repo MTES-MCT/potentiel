@@ -12,7 +12,7 @@ export const onProjectDataCorrected = ProjectProjector.on(
         payload: { projectId, correctedData },
       } = évènement;
 
-      const projet = await Project.findByPk(projectId);
+      const projet = await Project.findByPk(projectId, { transaction });
 
       if (!projet) {
         logger.error(

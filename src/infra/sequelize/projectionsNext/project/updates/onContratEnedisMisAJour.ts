@@ -10,7 +10,7 @@ export const onContratEnedisMisAJour = ProjectProjector.on(
   async (évènement, transaction) => {
     try {
       const { projectId, numero } = évènement.payload;
-      const projectInstance = await Project.findByPk(projectId);
+      const projectInstance = await Project.findByPk(projectId, { transaction });
 
       if (!projectInstance) {
         logger.error(
@@ -24,7 +24,7 @@ export const onContratEnedisMisAJour = ProjectProjector.on(
         numero,
       };
       projectInstance.changed('contratEnedis', true);
-      await projectInstance.save();
+      await projectInstance.save({ transaction });
     } catch (error) {
       logger.error(
         new ProjectionEnEchec(

@@ -10,7 +10,7 @@ export const onProjectFournisseursUpdated = ProjectProjector.on(
   async (évènement, transaction) => {
     try {
       const { projectId, newFournisseurs, newEvaluationCarbone } = évènement.payload;
-      const projectInstance = await Project.findByPk(projectId);
+      const projectInstance = await Project.findByPk(projectId, { transaction });
 
       if (!projectInstance) {
         logger.error(

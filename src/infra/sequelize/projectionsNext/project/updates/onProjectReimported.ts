@@ -12,7 +12,7 @@ export const onProjectReimported = ProjectProjector.on(
       const {
         payload: { projectId, data },
       } = évènement;
-      const project = await Project.findByPk(projectId);
+      const project = await Project.findByPk(projectId, { transaction });
 
       if (project === null) {
         throw new Error(`onProjectReimported for project that is not found ${projectId}`);
