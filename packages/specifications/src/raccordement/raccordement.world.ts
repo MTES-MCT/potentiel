@@ -20,5 +20,15 @@ export class RaccordementWorld {
     return this.#enedis;
   }
 
-  constructor() {}
+  constructor() {
+    this.#enedis = {
+      codeEIC: '17X100A100A0001A',
+      raisonSociale: 'Enedis',
+      type: 'gestionnaire-réseau',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
+      },
+    };
+  }
 }
