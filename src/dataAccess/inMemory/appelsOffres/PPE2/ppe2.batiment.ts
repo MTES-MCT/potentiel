@@ -126,6 +126,26 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
     },
+    {
+      id: '4',
+      title: 'quatrième',
+      certificateTemplate: 'ppe2.v2',
+      cahierDesCharges: {
+        référence: '2022 S 216-620968',
+        url: 'https://www.cre.fr/media/Fichiers/publications/appelsoffres/2021-pv-batiment-telecharger-le-cahier-des-charges-en-vigueur',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 7.14,
+          puissanceMax: 1,
+        },
+        autres: {
+          noteThreshold: 7.14,
+        },
+      },
+    },
   ],
   familles: [],
   cahiersDesChargesModifiésDisponibles: [
