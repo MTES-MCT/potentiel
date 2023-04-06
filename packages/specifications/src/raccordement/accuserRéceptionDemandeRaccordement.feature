@@ -1,5 +1,5 @@
 #language: fr-FR
-Fonctionnalité: Réceptionner une demande de raccordement
+Fonctionnalité: Accuser réception d'une demande de raccordement
     @ÀRaffiner
     Scénario: Un gestionnaire de réseau accuse réception d'une demande complète de raccordement 
         Etant donné une demande de raccordement déposée par un porteur
