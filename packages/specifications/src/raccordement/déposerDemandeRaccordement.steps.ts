@@ -1,26 +1,30 @@
 import { Given as EtantDonné, When as Quand, Then as Alors } from '@cucumber/cucumber';
+import { identifiantProjet } from '@potentiel/domain';
+import { publish } from '@potentiel/pg-event-sourcing';
 import { RaccordementWorld } from './raccordement.world';
 
 EtantDonné('un projet', function (this: RaccordementWorld) {
-  type IdentifiantProjet = {
-    appelOffre: string;
-    période: string;
-    famille?: string;
-    numéroCRE: string;
-  };
-
-  const identifiantProjet: IdentifiantProjet = {
+  this.identifiantProjet = identifiantProjet.format({
     appelOffre: 'PPE2 - Eolien',
     période: '1',
     numéroCRE: '23',
-  };
-
-  this.identifiantProjet = identifiantProjet.format(identifiantProjet);
+  });
 });
 
 Quand(
   'le porteur du projet dépose une demande de raccordement auprès du gestionnaire de réseau {string}',
-  function (nomDuGestionnaire: string) {},
+  async function (this: RaccordementWorld, nomDuGestionnaire: string) {
+    const command = {
+      identifiantProjet: this.identifiantProjet,
+      identifiantGestionnaireRéseau: 'codeEIC',
+    };
+
+    const déposerDemandeRaccordement = déposerDemandeRaccordementCommandHandlerFactory({
+      publish,
+    });
+
+    await déposerDemandeRaccordement(command);
+  },
 );
 
 Alors(
