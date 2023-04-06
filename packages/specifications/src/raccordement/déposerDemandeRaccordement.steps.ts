@@ -1,4 +1,4 @@
-import { Given as EtantDonné, When as Quand, Then as Alors } from '@cucumber/cucumber';
+import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { RaccordementWorld } from './raccordement.world';
 import { CommandHandlerFactory, DomainEvent, Publish } from '@potentiel/core-domain';
@@ -13,8 +13,9 @@ EtantDonné('un projet', function (this: RaccordementWorld) {
 });
 
 Quand(
-  `le porteur du projet dépose une demande de raccordement auprès d'un gestionnaire de réseau`,
-  async function (this: RaccordementWorld) {
+  `le porteur du projet dépose une demande de raccordement auprès d'un gestionnaire de réseau avec :`,
+  async function (this: RaccordementWorld, table: DataTable) {
+    const exemple = table.rowsHash();
     type IdentifiantGestionnaireRéseau = {
       codeEIC: string;
     };

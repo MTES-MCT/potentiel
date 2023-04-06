@@ -3,7 +3,9 @@ Fonctionnalité: Déposer une demande de raccordement
 
     Scénario: Un porteur de projet dépose une demande de raccordement pour son projet
         Etant donné un projet
-        Quand le porteur du projet dépose une demande de raccordement auprès d'un gestionnaire de réseau
+        Quand le porteur du projet dépose une demande de raccordement auprès d'un gestionnaire de réseau avec :
+        | La date de dépôt                           | 28/10/2022         |
+        | La référence de la demande de raccordement | OUE-RP-2022-000033 |
         Alors le projet devrait avoir une demande de raccordement pour ce gestionnaire de réseau
         Et la demande est consultable dans la liste des demandes de raccordement du projet
 
