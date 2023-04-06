@@ -1,1 +1,3 @@
-export class RaccordementWorld {}
+export class RaccordementWorld {
+  #identifianceProject: string;
+}

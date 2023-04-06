@@ -2,12 +2,20 @@ import { Given as EtantDonné, When as Quand, Then as Alors } from '@cucumber/cu
 import { RaccordementWorld } from './raccordement.world';
 
 EtantDonné('un projet', function (this: RaccordementWorld) {
+  type IdentifiantProjet = {
+    appelOffre: string;
+    période: string;
+    famille?: string;
+    numéroCRE: string;
+  };
+
   const identifiantProjet: IdentifiantProjet = {
     appelOffre: 'PPE2 - Eolien',
     période: '1',
-    famille: '',
     numéroCRE: '23',
   };
+
+  this.identifiantProjet = identifiantProjet.format(identifiantProjet);
 });
 
 Quand(
