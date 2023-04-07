@@ -1,4 +1,10 @@
-import { Link, ListeVide, ModificationRequestActionTitles, PaginationPanel } from '@components';
+import {
+  Link,
+  LinkButton,
+  ListeVide,
+  ModificationRequestActionTitles,
+  PaginationPanel,
+} from '@components';
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
@@ -33,6 +39,7 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
             <th>Projet</th>
             <th>Type</th>
             <th>Statut</th>
+            <th>Lien</th>
             {requestActions ? <th></th> : null}
           </tr>
         </thead>
@@ -41,51 +48,20 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
             const { project, requestedBy, requestedOn, status, ...modificationRequest } =
               modificationRequestItem;
             return (
-              <tr
-                key={'modificationRequest_' + modificationRequest.id}
-                style={{ cursor: 'pointer' }}
-                data-goto-onclick={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
-              >
+              <tr key={`modificationRequest_${modificationRequest.id}`}>
                 <td valign="top">
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                    {...dataId('requestList-item-periode')}
-                  >
+                  <div className="italic leading-normal text-xs">
                     {project.appelOffreId} Période {project.periodeId}
                   </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                    {...dataId('requestList-item-famille')}
-                  >
+                  <div className="italic leading-normal text-xs">
                     {project.familleId?.length ? `famille ${project.familleId}` : null}
                   </div>
                 </td>
                 <td valign="top">
-                  <div {...dataId('requestList-item-nomProjet')}>{project.nomProjet}</div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
-                    <span {...dataId('requestList-item-communeProjet')}>
-                      {project.communeProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('requestList-item-departementProjet')}>
-                      {project.departementProjet}
-                    </span>
-                    ,{' '}
-                    <span {...dataId('requestList-item-regionProjet')}>{project.regionProjet}</span>
+                  <div>{project.nomProjet}</div>
+                  <div className="italic leading-normal text-xs">
+                    <span>{project.communeProjet}</span>, <span>{project.departementProjet}</span>,{' '}
+                    <span>{project.regionProjet}</span>
                     <div>
                       Déposé par{' '}
                       <Link href={`mailto:${requestedBy.email}`}>{requestedBy.fullName}</Link> le{' '}
@@ -94,16 +70,8 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                   </div>
                 </td>
                 <td valign="top">
-                  <div {...dataId('requestList-item-type')}>
-                    <ModificationRequestActionTitles action={modificationRequest.type} />
-                  </div>
-                  <div
-                    style={{
-                      fontStyle: 'italic',
-                      lineHeight: 'normal',
-                      fontSize: 12,
-                    }}
-                  >
+                  <ModificationRequestActionTitles action={modificationRequest.type} />
+                  <div className="italic leading-none text-xs">
                     {modificationRequest.description}
                   </div>
                   <div className="italic leading-normal text-xs">
@@ -122,15 +90,19 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                 </td>
                 <td
                   valign="top"
-                  className={
-                    'notification ' + (status ? ModificationRequestColorByStatus[status] : '')
-                  }
-                  {...dataId('requestList-item-type')}
+                  className={`notification ${
+                    status ? ModificationRequestColorByStatus[status] : ''
+                  }`}
                 >
                   {status ? ModificationRequestStatusTitle[status] : ''}
                 </td>
-                {requestActions && requestActions(modificationRequestItem) ? (
-                  <td style={{ position: 'relative' }}>
+                <td>
+                  <LinkButton href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}>
+                    Voir
+                  </LinkButton>
+                </td>
+                {requestActions && requestActions(modificationRequestItem) && (
+                  <td className="relative">
                     <img
                       src="/images/icons/external/more.svg"
                       height="12"
@@ -142,22 +114,14 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                     <ul className="list--action-menu">
                       {requestActions(modificationRequestItem)?.map(
                         ({ title, link, disabled }, actionIndex) => (
-                          <li
-                            key={'request_action_' + modificationRequestItem.id + '_' + actionIndex}
-                          >
-                            {disabled ? (
-                              <i>{title}</i>
-                            ) : (
-                              <Link href={link} {...dataId('requestList-item-action')}>
-                                {title}
-                              </Link>
-                            )}
+                          <li key={`request_action_${modificationRequestItem.id}_${actionIndex}`}>
+                            {disabled ? <i>{title}</i> : <Link href={link}>{title}</Link>}
                           </li>
                         ),
                       )}
                     </ul>
                   </td>
-                ) : null}
+                )}
               </tr>
             );
           })}
