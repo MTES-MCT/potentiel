@@ -1,8 +1,7 @@
-import { World } from '@cucumber/cucumber';
 import { createGestionnaireRéseauAggregateId } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
 
-export class GestionnaireRéseauWorld extends World {
+export class GestionnaireRéseauWorld {
   #codeEIC!: string;
 
   get codeEIC() {

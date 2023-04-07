@@ -165,7 +165,7 @@ Alors(
       'liste-demande-complète-raccordement',
       {
         gestionnaireRéseau: GestionnaireRéseauReadModel;
-        référenceDemandeRaccordement: string[];
+        référencesDemandeRaccordement: string[];
       }
     >;
 
@@ -194,13 +194,11 @@ Alors(
     });
 
     await waitForExpect(async () => {
-      // const actual = await listerDemandeComplèteRaccordement({
-      //   référenceDemandeRaccordement: this.référenceDemandeRaccordement,
-      // });
-      // actual.should.be.deep.equal({
-      //   référenceDemandeRaccordement: this.référenceDemandeRaccordement,
-      //   gestionnaireRéseau: this.enedis,
-      //   dateQualification: this.dateQualification,
+      const actual = await listerDemandeComplèteRaccordement({
+        identifiantProjet: this.identifiantProjet,
+      });
+      actual.gestionnaireRéseau.should.be.deep.equal(this.enedis);
+      actual.référencesDemandeRaccordement.should.contain(this.référenceDemandeRaccordement);
     });
   },
 );
