@@ -6,5 +6,5 @@
   },
   "include": [
     "src"
-  ]
+, "../domain/src/raccordement/demandeComplèteRaccordement/consulter/demandeComplèteRaccordement.readModel.ts"  ]
 }

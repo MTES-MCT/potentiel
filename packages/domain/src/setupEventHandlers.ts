@@ -4,6 +4,7 @@ import {
   gestionnaireRéseauModifiéHandlerFactory,
   GestionnaireRéseauReadModel,
 } from './gestionnaireRéseau';
+import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/demandeComplèteRaccordement/transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -19,5 +20,9 @@ export const setupEventHandlers = async ({
   return Promise.all([
     subscribe('GestionnaireRéseauAjouté', gestionnaireRéseauAjoutéHandlerFactory({ create })),
     subscribe('GestionnaireRéseauModifié', gestionnaireRéseauModifiéHandlerFactory({ update })),
+    subscribe(
+      'DemandeComplèteDeRaccordementTransmise',
+      demandeComplèteRaccordementTransmiseHandlerFactory({ create }),
+    ),
   ]);
 };
