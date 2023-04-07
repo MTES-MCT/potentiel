@@ -16,6 +16,7 @@ import {
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
+import { isNone } from '@potentiel/monads';
 
 EtantDonné('un projet', function (this: RaccordementWorld) {
   this.identifiantProjet = {
@@ -107,17 +108,34 @@ Quand(
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
   function async(this: RaccordementWorld) {
+    type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
+
     type DemandeComplèteRaccordementReadModel = ReadModel<
       'demande-complète-raccordement',
       {
-        identificantProject: IdentifiantProjet;
+        référenceDemandeRaccordement: string;
         gestionnaireRéseau: GestionnaireRéseauReadModel;
+        dateQualification: string;
       }
     >;
+
     type ConsulterDemandeComplèteRaccordementDependencies = {
       findDemandeComplèteRaccordement: Find<DemandeComplèteRaccordementReadModel>;
     };
-    const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<>;
+
+    const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
+      ConsulterDemandeComplèteRaccordementQuery,
+      DemandeComplèteRaccordementReadModel,
+      ConsulterDemandeComplèteRaccordementDependencies
+    > =
+      ({ findDemandeComplèteRaccordement }) =>
+      async ({ référenceDemandeRaccordement }) => {
+        const result = await findDemandeComplèteRaccordement(référenceDemandeRaccordement);
+        if (isNone(result)) {
+          throw new Error('Not implemented');
+        }
+        return result;
+      };
 
     const consulterDemandeComplèteRaccordement =
       consulterDemandeComplèteRaccordementQueryHandlerFactory({
