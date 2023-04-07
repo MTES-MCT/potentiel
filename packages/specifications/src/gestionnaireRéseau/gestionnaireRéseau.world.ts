@@ -1,4 +1,7 @@
-import { createGestionnaireRéseauAggregateId } from '@potentiel/domain';
+import {
+  GestionnaireRéseauAjoutéEvent,
+  createGestionnaireRéseauAggregateId,
+} from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
 
 export class GestionnaireRéseauWorld {
@@ -43,13 +46,18 @@ export class GestionnaireRéseauWorld {
   }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
-    await publish(createGestionnaireRéseauAggregateId(codeEIC), {
+    const event: GestionnaireRéseauAjoutéEvent = {
       type: 'GestionnaireRéseauAjouté',
       payload: {
         codeEIC,
         raisonSociale,
+        aideSaisieRéférenceDossierRaccordement: {
+          format: '',
+          légende: '',
+        },
       },
-    });
+    };
+    await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
     this.codeEIC = codeEIC;
   }
 }
