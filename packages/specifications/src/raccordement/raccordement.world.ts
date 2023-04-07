@@ -37,7 +37,7 @@ export class RaccordementWorld {
   }
 
   set identifiantProjet(value: IdentifiantProjet) {
-    this.identifiantProjet = value;
+    this.#identifiantProjet = value;
   }
 
   #enedis!: GestionnaireRéseauReadModel;
