@@ -2,7 +2,9 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import { publish } from '@potentiel/pg-event-sourcing';
 import {
   CommandHandlerFactory,
+  Create,
   DomainEvent,
+  DomainEventHandlerFactory,
   Find,
   Publish,
   QueryHandlerFactory,
@@ -17,6 +19,15 @@ import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { isNone } from '@potentiel/monads';
 import { PotentielWorld } from '../potentiel.world';
+
+type DemandeComplèteRaccordementReadModel = ReadModel<
+  'demande-complète-raccordement',
+  {
+    référenceDemandeRaccordement: string;
+    gestionnaireRéseau: GestionnaireRéseauReadModel;
+    dateQualification: string;
+  }
+>;
 
 EtantDonné('un projet', function (this: PotentielWorld) {
   this.raccordementWorld.identifiantProjet = {
@@ -61,6 +72,16 @@ Quand(
       publish: Publish;
     };
 
+    type DemandeComplèteDeRaccordementTransmiseEvent = DomainEvent<
+      'DemandeComplèteDeRaccordementTransmise',
+      {
+        identifiantProjet: string;
+        identifiantGestionnaireRéseau: string;
+        dateQualification: string;
+        référenceDemandeRaccordement: string;
+      }
+    >;
+
     const transmettreDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
       TransmettreDemandeComplèteRaccordementCommand,
       TransmettreDemandeComplèteRaccordementDependencies
@@ -72,16 +93,6 @@ Quand(
         identifiantGestionnaireRéseau,
         référenceDemandeRaccordement,
       }) => {
-        type DemandeComplèteDeRaccordementTransmiseEvent = DomainEvent<
-          'DemandeComplèteDeRaccordementTransmise',
-          {
-            identifiantProjet: string;
-            identifiantGestionnaireRéseau: string;
-            dateQualification: string;
-            référenceDemandeRaccordement: string;
-          }
-        >;
-
         const event: DemandeComplèteDeRaccordementTransmiseEvent = {
           type: 'DemandeComplèteDeRaccordementTransmise',
           payload: {
@@ -97,6 +108,17 @@ Quand(
         await publish(`demande-complète-raccordement#${référenceDemandeRaccordement}`, event);
       };
 
+    const demandeComplèteDeRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
+      DemandeComplèteDeRaccordementTransmiseEvent,
+      {
+        create: Create<DemandeComplèteRaccordementReadModel>;
+      }
+    > =
+      ({ create }) =>
+      async (event) => {
+        await create(`demande-complète-raccordement#${event.référenceDemandeRaccordement}`);
+      };
+
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
         publish,
@@ -110,15 +132,6 @@ Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
-
-    type DemandeComplèteRaccordementReadModel = ReadModel<
-      'demande-complète-raccordement',
-      {
-        référenceDemandeRaccordement: string;
-        gestionnaireRéseau: GestionnaireRéseauReadModel;
-        dateQualification: string;
-      }
-    >;
 
     type ConsulterDemandeComplèteRaccordementDependencies = {
       find: Find<DemandeComplèteRaccordementReadModel>;
