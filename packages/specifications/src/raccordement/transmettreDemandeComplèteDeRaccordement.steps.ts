@@ -1,5 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import { publish } from '@potentiel/pg-event-sourcing';
+import { publish, subscribe } from '@potentiel/pg-event-sourcing';
 import {
   CommandHandlerFactory,
   Create,
@@ -9,16 +9,19 @@ import {
   Publish,
   QueryHandlerFactory,
   ReadModel,
+  Unsubscribe,
 } from '@potentiel/core-domain';
 import {
   GestionnaireRéseauReadModel,
   IdentifiantProjet,
   formatIdentifiantProjet,
 } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
+import { createProjection, findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
-import { isNone } from '@potentiel/monads';
+import { isNone, isSome } from '@potentiel/monads';
 import { PotentielWorld } from '../potentiel.world';
+
+let unsubscribe: Unsubscribe;
 
 type DemandeComplèteRaccordementReadModel = ReadModel<
   'demande-complète-raccordement',
@@ -112,12 +115,39 @@ Quand(
       DemandeComplèteDeRaccordementTransmiseEvent,
       {
         create: Create<DemandeComplèteRaccordementReadModel>;
+        find: Find<GestionnaireRéseauReadModel>;
       }
     > =
-      ({ create }) =>
+      ({ create, find }) =>
       async (event) => {
-        await create(`demande-complète-raccordement#${event.référenceDemandeRaccordement}`);
+        const gestionnaireRéseau = await find(
+          `gestionnaire-réseau#${event.payload.identifiantGestionnaireRéseau}`,
+        );
+
+        if (isSome(gestionnaireRéseau)) {
+          await create(
+            `demande-complète-raccordement#${event.payload.référenceDemandeRaccordement}`,
+            {
+              dateQualification: event.payload.dateQualification,
+              référenceDemandeRaccordement: event.payload.référenceDemandeRaccordement,
+              gestionnaireRéseau,
+            },
+          );
+        } else {
+          // TODO: logguer au cas où
+        }
       };
+
+    const demandeComplèteDeRaccordementTransmiseHandler =
+      demandeComplèteDeRaccordementTransmiseHandlerFactory({
+        create: createProjection,
+        find: findProjection,
+      });
+
+    unsubscribe = await subscribe(
+      'DemandeComplèteDeRaccordementTransmise',
+      demandeComplèteDeRaccordementTransmiseHandler,
+    );
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -167,6 +197,8 @@ Alors(
         dateQualification: this.raccordementWorld.dateQualification,
       });
     });
+
+    unsubscribe && (await unsubscribe());
   },
 );
 
@@ -216,5 +248,7 @@ Alors(
         this.raccordementWorld.référenceDemandeRaccordement,
       );
     });
+
+    unsubscribe && (await unsubscribe());
   },
 );
