@@ -5,10 +5,8 @@ import {
   Find,
   Publish,
   QueryHandlerFactory,
-  ReadModel,
 } from '@potentiel/core-domain';
 import {
-  GestionnaireRéseauReadModel,
   IdentifiantProjet,
   formatIdentifiantProjet,
   DemandeComplèteRaccordementReadModel,
@@ -148,14 +146,6 @@ Alors(
   'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
   async function async(this: PotentielWorld) {
     type ListerDemandeComplèteRaccordementQuery = { identifiantProjet: IdentifiantProjet };
-
-    type ListeDemandeComplèteRaccordementReadModel = ReadModel<
-      'liste-demande-complète-raccordement',
-      {
-        gestionnaireRéseau: GestionnaireRéseauReadModel;
-        référencesDemandeRaccordement: string[];
-      }
-    >;
 
     type ListerDemandeComplèteRaccordementDependencies = {
       find: Find<ListeDemandeComplèteRaccordementReadModel>;
