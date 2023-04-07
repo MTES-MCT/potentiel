@@ -24,7 +24,9 @@ Before(async () => {
   unsubscribes = await setupEventHandlers({
     createDemandeComplèteRaccordement: createProjection,
     createGestionnaireRéseau: createProjection,
-    find: findProjection,
+    createListeDemandeComplèteRaccordement: createProjection,
+    findGestionnaireRéseau: findProjection,
+    findListeDemandeComplèteRaccordement: findProjection,
     subscribe,
     update: updateProjection,
   });

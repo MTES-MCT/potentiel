@@ -1,16 +1,12 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
-import {
-  CommandHandlerFactory,
-  Find,
-  Publish,
-  QueryHandlerFactory,
-} from '@potentiel/core-domain';
+import { CommandHandlerFactory, Find, Publish, QueryHandlerFactory } from '@potentiel/core-domain';
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,
   DemandeComplèteRaccordementReadModel,
   DemandeComplèteRaccordementTransmiseEvent,
+  ListeDemandeComplèteRaccordementReadModel,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';

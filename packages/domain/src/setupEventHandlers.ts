@@ -6,13 +6,15 @@ import {
 } from './gestionnaireRéseau';
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/demandeComplèteRaccordement/transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { DemandeComplèteRaccordementReadModel } from './raccordement/demandeComplèteRaccordement/consulter/demandeComplèteRaccordement.readModel';
+import { ListeDemandeComplèteRaccordementReadModel } from './raccordement/demandeComplèteRaccordement/lister/listeDemandeComplèteRaccordement.readModel';
 
 type Ports = {
   subscribe: Subscribe;
   createGestionnaireRéseau: Create<GestionnaireRéseauReadModel>;
   update: Update<GestionnaireRéseauReadModel>;
-  find: Find<GestionnaireRéseauReadModel>;
-
+  findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
+  findListeDemandeComplèteRaccordement: Find<ListeDemandeComplèteRaccordementReadModel>;
+  createListeDemandeComplèteRaccordement: Create<ListeDemandeComplèteRaccordementReadModel>;
   createDemandeComplèteRaccordement: Create<DemandeComplèteRaccordementReadModel>;
 };
 
@@ -21,7 +23,9 @@ export const setupEventHandlers = async ({
   createGestionnaireRéseau,
   update,
   createDemandeComplèteRaccordement,
-  find,
+  createListeDemandeComplèteRaccordement,
+  findGestionnaireRéseau,
+  findListeDemandeComplèteRaccordement,
 }: Ports): Promise<Unsubscribe[]> => {
   return Promise.all([
     subscribe(
@@ -32,8 +36,10 @@ export const setupEventHandlers = async ({
     subscribe(
       'DemandeComplèteDeRaccordementTransmise',
       demandeComplèteRaccordementTransmiseHandlerFactory({
-        create: createDemandeComplèteRaccordement,
-        find,
+        createDemandeComplèteRaccordement: createDemandeComplèteRaccordement,
+        createListeDemandeComplèteRaccordement,
+        findGestionnaireRéseau,
+        findListeDemandeComplèteRaccordement,
       }),
     ),
   ]);
