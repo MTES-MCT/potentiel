@@ -1,16 +1,12 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import {
-  IdentifiantProjet,
-  formatIdentifiantProjet,
-  DemandeComplèteRaccordementReadModel,
-  ListeDemandeComplèteRaccordementReadModel,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
+  consulterDemandeComplèteRaccordementQueryHandlerFactory,
+  listerDemandeComplèteRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
-import { isNone } from '@potentiel/monads';
 import { PotentielWorld } from '../potentiel.world';
 
 EtantDonné('un projet', function (this: PotentielWorld) {
@@ -52,26 +48,6 @@ Quand(
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
-    type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
-
-    type ConsulterDemandeComplèteRaccordementDependencies = {
-      find: Find<DemandeComplèteRaccordementReadModel>;
-    };
-
-    const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
-      ConsulterDemandeComplèteRaccordementQuery,
-      DemandeComplèteRaccordementReadModel,
-      ConsulterDemandeComplèteRaccordementDependencies
-    > =
-      ({ find }) =>
-      async ({ référenceDemandeRaccordement }) => {
-        const result = await find(`demande-complète-raccordement#${référenceDemandeRaccordement}`);
-        if (isNone(result)) {
-          throw new Error('Not implemented');
-        }
-        return result;
-      };
-
     const consulterDemandeComplèteRaccordement =
       consulterDemandeComplèteRaccordementQueryHandlerFactory({
         find: findProjection,
@@ -95,28 +71,6 @@ Alors(
 Alors(
   'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
   async function async(this: PotentielWorld) {
-    type ListerDemandeComplèteRaccordementQuery = { identifiantProjet: IdentifiantProjet };
-
-    type ListerDemandeComplèteRaccordementDependencies = {
-      find: Find<ListeDemandeComplèteRaccordementReadModel>;
-    };
-
-    const listerDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
-      ListerDemandeComplèteRaccordementQuery,
-      ListeDemandeComplèteRaccordementReadModel,
-      ListerDemandeComplèteRaccordementDependencies
-    > =
-      ({ find }) =>
-      async ({ identifiantProjet }) => {
-        const result = await find(
-          `liste-demande-complète-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
-        );
-        if (isNone(result)) {
-          throw new Error('Not implemented');
-        }
-        return result;
-      };
-
     const listerDemandeComplèteRaccordement = listerDemandeComplèteRaccordementQueryHandlerFactory({
       find: findProjection,
     });
