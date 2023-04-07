@@ -3,7 +3,7 @@ import { Unsubscribe } from '@potentiel/core-domain';
 import { setupEventHandlers } from '@potentiel/domain';
 import { subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
-import { createProjection, updateProjection } from '@potentiel/pg-projections';
+import { createProjection, findProjection, updateProjection } from '@potentiel/pg-projections';
 import { should } from 'chai';
 import { PotentielWorld } from './potentiel.world';
 
@@ -22,7 +22,9 @@ Before(async () => {
   await executeQuery(`DELETE FROM "PROJECTION"`);
 
   unsubscribes = await setupEventHandlers({
-    create: createProjection,
+    createDemandeComplèteRaccordement: createProjection,
+    createGestionnaireRéseau: createProjection,
+    find: findProjection,
     subscribe,
     update: updateProjection,
   });

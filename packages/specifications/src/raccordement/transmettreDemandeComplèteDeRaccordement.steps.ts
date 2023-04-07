@@ -1,25 +1,24 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import { publish, subscribe } from '@potentiel/pg-event-sourcing';
+import { publish } from '@potentiel/pg-event-sourcing';
 import {
   CommandHandlerFactory,
   Find,
   Publish,
   QueryHandlerFactory,
   ReadModel,
-  Unsubscribe,
 } from '@potentiel/core-domain';
 import {
   GestionnaireRéseauReadModel,
   IdentifiantProjet,
   formatIdentifiantProjet,
+  DemandeComplèteRaccordementReadModel,
+  DemandeComplèteRaccordementTransmiseEvent,
+  demandeComplèteRaccordementTransmiseHandlerFactory,
 } from '@potentiel/domain';
 import { createProjection, findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { isNone } from '@potentiel/monads';
 import { PotentielWorld } from '../potentiel.world';
-import { DemandeComplèteRaccordementReadModel } from '@potentiel/domain/src/raccordement/demandeComplèteRaccordement/consulter/DemandeComplèteRaccordementReadModel';
-
-let unsubscribe: Unsubscribe;
 
 EtantDonné('un projet', function (this: PotentielWorld) {
   this.raccordementWorld.identifiantProjet = {
@@ -75,7 +74,7 @@ Quand(
         identifiantGestionnaireRéseau,
         référenceDemandeRaccordement,
       }) => {
-        const event: DemandeComplèteDeRaccordementTransmiseEvent = {
+        const event: DemandeComplèteRaccordementTransmiseEvent = {
           type: 'DemandeComplèteDeRaccordementTransmise',
           payload: {
             identifiantProjet: formatIdentifiantProjet(identifiantProjet),
@@ -91,15 +90,10 @@ Quand(
       };
 
     const demandeComplèteDeRaccordementTransmiseHandler =
-      demandeComplèteDeRaccordementTransmiseHandlerFactory({
+      demandeComplèteRaccordementTransmiseHandlerFactory({
         create: createProjection,
         find: findProjection,
       });
-
-    unsubscribe = await subscribe(
-      'DemandeComplèteDeRaccordementTransmise',
-      demandeComplèteDeRaccordementTransmiseHandler,
-    );
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -149,8 +143,6 @@ Alors(
         dateQualification: this.raccordementWorld.dateQualification,
       });
     });
-
-    unsubscribe && (await unsubscribe());
   },
 );
 
@@ -200,7 +192,5 @@ Alors(
         this.raccordementWorld.référenceDemandeRaccordement,
       );
     });
-
-    unsubscribe && (await unsubscribe());
   },
 );
