@@ -107,7 +107,7 @@ Quand(
 
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
-  function async(this: RaccordementWorld) {
+  async function async(this: RaccordementWorld) {
     type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
 
     type DemandeComplèteRaccordementReadModel = ReadModel<
@@ -120,7 +120,7 @@ Alors(
     >;
 
     type ConsulterDemandeComplèteRaccordementDependencies = {
-      findDemandeComplèteRaccordement: Find<DemandeComplèteRaccordementReadModel>;
+      find: Find<DemandeComplèteRaccordementReadModel>;
     };
 
     const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
@@ -128,9 +128,9 @@ Alors(
       DemandeComplèteRaccordementReadModel,
       ConsulterDemandeComplèteRaccordementDependencies
     > =
-      ({ findDemandeComplèteRaccordement }) =>
+      ({ find }) =>
       async ({ référenceDemandeRaccordement }) => {
-        const result = await findDemandeComplèteRaccordement(référenceDemandeRaccordement);
+        const result = await find(`demande-complète-raccordement#${référenceDemandeRaccordement}`);
         if (isNone(result)) {
           throw new Error('Not implemented');
         }
@@ -139,12 +139,18 @@ Alors(
 
     const consulterDemandeComplèteRaccordement =
       consulterDemandeComplèteRaccordementQueryHandlerFactory({
-        findDemandeComplèteRaccordement: findProjection,
+        find: findProjection,
       });
 
     await waitForExpect(async () => {
-      const actual = consulterDemandeComplèteRaccordement({
+      const actual = await consulterDemandeComplèteRaccordement({
         référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+      });
+
+      actual.should.be.deep.equal({
+        référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+        gestionnaireRéseau: this.enedis,
+        dateQualification: this.dateQualification,
       });
     });
   },
@@ -152,5 +158,49 @@ Alors(
 
 Alors(
   'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
-  function () {},
+  async function async(this: RaccordementWorld) {
+    type ListerDemandeComplèteRaccordementQuery = { identifiantProjet: IdentifiantProjet };
+
+    type ListeDemandeComplèteRaccordementReadModel = ReadModel<
+      'liste-demande-complète-raccordement',
+      {
+        gestionnaireRéseau: GestionnaireRéseauReadModel;
+        référenceDemandeRaccordement: string[];
+      }
+    >;
+
+    type ListerDemandeComplèteRaccordementDependencies = {
+      find: Find<ListeDemandeComplèteRaccordementReadModel>;
+    };
+
+    const listerDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
+      ListerDemandeComplèteRaccordementQuery,
+      ListeDemandeComplèteRaccordementReadModel,
+      ListerDemandeComplèteRaccordementDependencies
+    > =
+      ({ find }) =>
+      async ({ identifiantProjet }) => {
+        const result = await find(
+          `liste-demande-complète-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
+        );
+        if (isNone(result)) {
+          throw new Error('Not implemented');
+        }
+        return result;
+      };
+
+    const listerDemandeComplèteRaccordement = listerDemandeComplèteRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
+
+    await waitForExpect(async () => {
+      // const actual = await listerDemandeComplèteRaccordement({
+      //   référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+      // });
+      // actual.should.be.deep.equal({
+      //   référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+      //   gestionnaireRéseau: this.enedis,
+      //   dateQualification: this.dateQualification,
+    });
+  },
 );
