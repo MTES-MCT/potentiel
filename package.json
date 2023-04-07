@@ -169,7 +169,6 @@
     "prettier": "^2.8.1",
     "pretty-format": "^29.3.1",
     "prompts": "^2.4.2",
-    "rimraf": "^4.1.2",
     "start-server-and-test": "^1.15.2",
     "storybook-addon-turbo-build": "^1.1.0",
     "ts-jest": "^29.0.3",

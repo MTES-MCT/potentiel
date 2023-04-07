@@ -1,9 +1,7 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist"
-  },
-  "include": [
-    "src"
-  ]
+    "outDir": "dist",
+    "rootDir": "src"
+  }
 }

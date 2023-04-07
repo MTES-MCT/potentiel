@@ -1,10 +1,24 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "sourceMap": true
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": [
-    "src"
-, "../domain/src/raccordement/demandeComplèteRaccordement/consulter/demandeComplèteRaccordement.readModel.ts"  ]
+  "references": [
+    {
+      "path": "../domain"
+    },
+    {
+      "path": "../libraries/core-domain"
+    },
+    {
+      "path": "../libraries/pg-event-sourcing"
+    },
+    {
+      "path": "../libraries/pg-helpers"
+    },
+    {
+      "path": "../libraries/pg-projections"
+    }
+  ]
 }

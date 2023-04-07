@@ -1,9 +1,27 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": [
-    "src"
+  "references": [
+    {
+      "path": "../../domain"
+    },
+    {
+      "path": "../../libraries/core-domain"
+    },
+    {
+      "path": "../../libraries/pg-event-sourcing"
+    },
+    {
+      "path": "../../libraries/pg-projections"
+    },
+    {
+      "path": "../../libraries/redis-event-bus-client"
+    },
+    {
+      "path": "../../libraries/redis-event-bus-consumer"
+    }
   ]
 }

@@ -1,9 +1,15 @@
 {
   "extends": "@potentiel/tsconfig/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "dist",
+    "rootDir": "src"
   },
   "include": [
     "src"
+  ],
+  "references": [
+    {
+      "path": "../libraries/core-domain"
+    }
   ]
 }
