@@ -1,8 +1,21 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
 import { RaccordementWorld } from './raccordement.world';
-import { CommandHandlerFactory, DomainEvent, Publish } from '@potentiel/core-domain';
-import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
+import {
+  CommandHandlerFactory,
+  DomainEvent,
+  Find,
+  Publish,
+  QueryHandlerFactory,
+  ReadModel,
+} from '@potentiel/core-domain';
+import {
+  GestionnaireRéseauReadModel,
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '@potentiel/domain';
+import { findProjection } from '@potentiel/pg-projections';
+import waitForExpect from 'wait-for-expect';
 
 EtantDonné('un projet', function (this: RaccordementWorld) {
   this.identifiantProjet = {
@@ -16,8 +29,8 @@ Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :`,
   async function (this: RaccordementWorld, table: DataTable) {
     const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']);
-    const référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
+    this.dateQualification = new Date(exemple['La date de qualification']);
+    this.référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
 
     const formatIdentifiantGestionnaireRéseau = ({ codeEIC }: IdentifiantGestionnaireRéseau) =>
       codeEIC;
@@ -38,8 +51,8 @@ Quand(
       identifiantGestionnaireRéseau: {
         codeEIC: this.enedis.codeEIC,
       },
-      dateQualification,
-      référenceDemandeRaccordement,
+      dateQualification: this.dateQualification,
+      référenceDemandeRaccordement: this.référenceDemandeRaccordement,
     };
 
     type TransmettreDemandeComplèteRaccordementDependencies = {
@@ -93,7 +106,30 @@ Quand(
 
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
-  function () {},
+  function async(this: RaccordementWorld) {
+    type DemandeComplèteRaccordementReadModel = ReadModel<
+      'demande-complète-raccordement',
+      {
+        identificantProject: IdentifiantProjet;
+        gestionnaireRéseau: GestionnaireRéseauReadModel;
+      }
+    >;
+    type ConsulterDemandeComplèteRaccordementDependencies = {
+      findDemandeComplèteRaccordement: Find<DemandeComplèteRaccordementReadModel>;
+    };
+    const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<>;
+
+    const consulterDemandeComplèteRaccordement =
+      consulterDemandeComplèteRaccordementQueryHandlerFactory({
+        findDemandeComplèteRaccordement: findProjection,
+      });
+
+    await waitForExpect(async () => {
+      const actual = consulterDemandeComplèteRaccordement({
+        référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+      });
+    });
+  },
 );
 
 Alors(
