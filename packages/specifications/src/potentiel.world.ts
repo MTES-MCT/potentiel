@@ -15,9 +15,19 @@ export class PotentielWorld extends World {
     return this.#raccordementWorld;
   }
 
-  /**
-   *
-   */
+  #error!: Error;
+
+  get error() {
+    if (!this.#error) {
+      throw new Error('error not initialized');
+    }
+    return this.#error;
+  }
+
+  set error(value: Error) {
+    this.#error = value;
+  }
+
   constructor(options: IWorldOptions) {
     super(options);
 

@@ -42,16 +42,6 @@ export class GestionnaireRéseauWorld {
     this.#format = value;
   }
 
-  #error!: Error;
-
-  get error() {
-    return this.#error || new Error('Error was not setted in the test context');
-  }
-
-  set error(value: Error) {
-    this.#error = value;
-  }
-
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {
     await publish(createGestionnaireRéseauAggregateId(codeEIC), {
       type: 'GestionnaireRéseauAjouté',

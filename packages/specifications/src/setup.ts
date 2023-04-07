@@ -5,11 +5,11 @@ import { subscribe } from '@potentiel/pg-event-sourcing';
 import { executeQuery } from '@potentiel/pg-helpers';
 import { createProjection, updateProjection } from '@potentiel/pg-projections';
 import { should } from 'chai';
-import { GestionnaireRéseauWorld } from './gestionnaireRéseau/gestionnaireRéseau.world';
+import { PotentielWorld } from './potentiel.world';
 
 should();
 
-setWorldConstructor(GestionnaireRéseauWorld);
+setWorldConstructor(PotentielWorld);
 
 let unsubscribes: Unsubscribe[] | undefined;
 

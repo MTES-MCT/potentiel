@@ -1,6 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { RaccordementWorld } from './raccordement.world';
 import {
   CommandHandlerFactory,
   DomainEvent,
@@ -17,9 +16,10 @@ import {
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { isNone } from '@potentiel/monads';
+import { PotentielWorld } from '../potentiel.world';
 
-EtantDonné('un projet', function (this: RaccordementWorld) {
-  this.identifiantProjet = {
+EtantDonné('un projet', function (this: PotentielWorld) {
+  this.raccordementWorld.identifiantProjet = {
     appelOffre: 'PPE2 - Eolien',
     période: '1',
     numéroCRE: '23',
@@ -28,10 +28,11 @@ EtantDonné('un projet', function (this: RaccordementWorld) {
 
 Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :`,
-  async function (this: RaccordementWorld, table: DataTable) {
+  async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
-    this.dateQualification = new Date(exemple['La date de qualification']);
-    this.référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
+    this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
+    this.raccordementWorld.référenceDemandeRaccordement =
+      exemple['La référence de la demande de raccordement'];
 
     const formatIdentifiantGestionnaireRéseau = ({ codeEIC }: IdentifiantGestionnaireRéseau) =>
       codeEIC;
@@ -48,12 +49,12 @@ Quand(
     };
 
     const command: TransmettreDemandeComplèteRaccordementCommand = {
-      identifiantProjet: this.identifiantProjet,
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
-        codeEIC: this.enedis.codeEIC,
+        codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
-      dateQualification: this.dateQualification,
-      référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+      dateQualification: this.raccordementWorld.dateQualification,
+      référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
     };
 
     type TransmettreDemandeComplèteRaccordementDependencies = {
@@ -107,7 +108,7 @@ Quand(
 
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
-  async function async(this: RaccordementWorld) {
+  async function async(this: PotentielWorld) {
     type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
 
     type DemandeComplèteRaccordementReadModel = ReadModel<
@@ -144,13 +145,13 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await consulterDemandeComplèteRaccordement({
-        référenceDemandeRaccordement: this.référenceDemandeRaccordement,
+        référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
       });
 
       actual.should.be.deep.equal({
-        référenceDemandeRaccordement: this.référenceDemandeRaccordement,
-        gestionnaireRéseau: this.enedis,
-        dateQualification: this.dateQualification,
+        référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+        gestionnaireRéseau: this.raccordementWorld.enedis,
+        dateQualification: this.raccordementWorld.dateQualification,
       });
     });
   },
@@ -158,7 +159,7 @@ Alors(
 
 Alors(
   'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
-  async function async(this: RaccordementWorld) {
+  async function async(this: PotentielWorld) {
     type ListerDemandeComplèteRaccordementQuery = { identifiantProjet: IdentifiantProjet };
 
     type ListeDemandeComplèteRaccordementReadModel = ReadModel<
@@ -195,10 +196,12 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await listerDemandeComplèteRaccordement({
-        identifiantProjet: this.identifiantProjet,
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
-      actual.gestionnaireRéseau.should.be.deep.equal(this.enedis);
-      actual.référencesDemandeRaccordement.should.contain(this.référenceDemandeRaccordement);
+      actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
+      actual.référencesDemandeRaccordement.should.contain(
+        this.raccordementWorld.référenceDemandeRaccordement,
+      );
     });
   },
 );
