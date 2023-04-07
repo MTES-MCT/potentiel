@@ -1,12 +1,12 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { publish } from '@potentiel/pg-event-sourcing';
-import { CommandHandlerFactory, Find, Publish, QueryHandlerFactory } from '@potentiel/core-domain';
+import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import {
   IdentifiantProjet,
   formatIdentifiantProjet,
   DemandeComplèteRaccordementReadModel,
-  DemandeComplèteRaccordementTransmiseEvent,
   ListeDemandeComplèteRaccordementReadModel,
+  transmettreDemandeComplèteRaccordementCommandHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
@@ -33,65 +33,19 @@ Quand(
     this.raccordementWorld.référenceDemandeRaccordement =
       exemple['La référence de la demande de raccordement'];
 
-    const formatIdentifiantGestionnaireRéseau = ({ codeEIC }: IdentifiantGestionnaireRéseau) =>
-      codeEIC;
+    const transmettreDemandeComplèteRaccordement =
+      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        publish,
+      });
 
-    type IdentifiantGestionnaireRéseau = {
-      codeEIC: string;
-    };
-
-    type TransmettreDemandeComplèteRaccordementCommand = {
-      identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
-      identifiantProjet: IdentifiantProjet;
-      dateQualification: Date;
-      référenceDemandeRaccordement: string;
-    };
-
-    const command: TransmettreDemandeComplèteRaccordementCommand = {
+    await transmettreDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
-    };
-
-    type TransmettreDemandeComplèteRaccordementDependencies = {
-      publish: Publish;
-    };
-
-    const transmettreDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
-      TransmettreDemandeComplèteRaccordementCommand,
-      TransmettreDemandeComplèteRaccordementDependencies
-    > =
-      ({ publish }) =>
-      async ({
-        identifiantProjet,
-        dateQualification,
-        identifiantGestionnaireRéseau,
-        référenceDemandeRaccordement,
-      }) => {
-        const event: DemandeComplèteRaccordementTransmiseEvent = {
-          type: 'DemandeComplèteDeRaccordementTransmise',
-          payload: {
-            identifiantProjet: formatIdentifiantProjet(identifiantProjet),
-            dateQualification: dateQualification.toISOString(),
-            identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
-              identifiantGestionnaireRéseau,
-            ),
-            référenceDemandeRaccordement,
-          },
-        };
-
-        await publish(`demande-complète-raccordement#${référenceDemandeRaccordement}`, event);
-      };
-
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
-        publish,
-      });
-
-    await transmettreDemandeComplèteRaccordement(command);
+    });
   },
 );
 
