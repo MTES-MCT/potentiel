@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React, { useState } from 'react';
 import { AppelOffre, Famille, Periode, Project } from '@entities';
-import { dataId } from '../../helpers/testId';
 import ROUTES from '@routes';
 import { PaginatedList } from '../../types';
 import {
@@ -11,7 +10,7 @@ import {
   Heading1,
   InfoBox,
   Label,
-  Link,
+  LinkButton,
   ListeVide,
   MissingOwnerProjectList,
   PageTemplate,
@@ -46,7 +45,7 @@ export const ProjetsÀRéclamer = ({
       ['admin', 'dreal', 'dgec-validateur'].includes(request.user?.role) &&
       classement !== 'classés');
 
-  const hasFilters = appelOffreId || periodeId || familleId || hasNonDefaultClassement;
+  const hasFilters = !!(appelOffreId || periodeId || familleId || hasNonDefaultClassement);
 
   const periodes = appelsOffre
     .find((ao) => ao.id === appelOffreId)
@@ -58,6 +57,7 @@ export const ProjetsÀRéclamer = ({
     .filter((famille) => !existingFamilles || existingFamilles.includes(famille.id));
 
   const [displayHelp, showHelp] = useState(false);
+  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <PageTemplate user={request.user} currentPage="list-missing-owner-projects">
@@ -93,114 +93,103 @@ export const ProjetsÀRéclamer = ({
               className="mt-8"
             />
 
-            <div className="mt-8 mb-6">
-              <div
-                {...dataId('visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
-              >
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
+            <Dropdown
+              design="link"
+              text="Filtrer"
+              isOpen={afficherFiltres}
+              changeOpenState={(state) => setAfficherFiltres(state)}
+              className="mt-8 mb-6 !w-full"
+            >
+              <fieldset className="mt-4">
+                <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
+                <Select
+                  id="appelOffreId"
+                  name="appelOffreId"
+                  defaultValue={appelOffreId || 'default'}
+                  onChange={(event) =>
+                    updateUrlParams({
+                      appelOffreId: event.target.value,
+                      periodeId: null,
+                      familleId: null,
+                      page: null,
+                    })
+                  }
                 >
-                  Filtrer
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                </svg>
-              </div>
-              <div className="filter-panel mt-8">
-                <fieldset>
-                  <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
-                  <Select
-                    id="appelOffreId"
-                    name="appelOffreId"
-                    defaultValue={appelOffreId || 'default'}
-                    onChange={(event) =>
-                      updateUrlParams({
-                        appelOffreId: event.target.value,
-                        periodeId: null,
-                        familleId: null,
-                        page: null,
-                      })
-                    }
-                  >
-                    <option value="default" disabled hidden>
-                      Choisir un appel d‘offre
-                    </option>
-                    <option value="">Tous appels d'offres</option>
-                    {appelsOffre
-                      .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
-                      .map((appelOffre) => (
-                        <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
-                          {appelOffre.shortTitle}
+                  <option value="default" disabled hidden>
+                    Choisir un appel d‘offre
+                  </option>
+                  <option value="">Tous appels d'offres</option>
+                  {appelsOffre
+                    .filter((appelOffre) => existingAppelsOffres.includes(appelOffre.id))
+                    .map((appelOffre) => (
+                      <option key={`appel_${appelOffre.id}`} value={appelOffre.id}>
+                        {appelOffre.shortTitle}
+                      </option>
+                    ))}
+                </Select>
+                {appelOffreId && periodes && periodes.length > 0 && (
+                  <>
+                    <Label htmlFor="periodeId" className="mt-4">
+                      Période concernée
+                    </Label>
+                    <Select
+                      id="periodeId"
+                      name="periodeId"
+                      defaultValue={periodeId || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          periodeId: event.target.value,
+                          page: null,
+                        })
+                      }
+                    >
+                      <option value="default" disabled hidden>
+                        Choisir une période
+                      </option>
+                      <option value="">Toutes périodes</option>
+                      {periodes.map((periode) => (
+                        <option key={`appel_${periode.id}`} value={periode.id}>
+                          {periode.title}
                         </option>
                       ))}
-                  </Select>
-                  {appelOffreId && periodes && periodes.length > 0 && (
-                    <>
-                      <Label htmlFor="periodeId" className="mt-4">
-                        Période concernée
-                      </Label>
-                      <Select
-                        id="periodeId"
-                        name="periodeId"
-                        defaultValue={periodeId || 'default'}
-                        onChange={(event) =>
-                          updateUrlParams({
-                            periodeId: event.target.value,
-                            page: null,
-                          })
-                        }
-                      >
-                        <option value="default" disabled hidden>
-                          Choisir une période
+                    </Select>
+                  </>
+                )}
+                {appelOffreId && familles && familles.length > 0 && (
+                  <>
+                    <Label htmlFor="familleId" className="mt-4">
+                      Famille concernée
+                    </Label>
+                    <Select
+                      id="familleId"
+                      name="familleId"
+                      defaultValue={familleId || 'default'}
+                      onChange={(event) =>
+                        updateUrlParams({
+                          familleId: event.target.value,
+                          page: null,
+                        })
+                      }
+                    >
+                      <option value="default" disabled hidden>
+                        Choisir une famille
+                      </option>
+                      <option value="">Toutes familles</option>
+                      {familles.map((famille) => (
+                        <option key={`appel_${famille.id}`} value={famille.id}>
+                          {famille.title}
                         </option>
-                        <option value="">Toutes périodes</option>
-                        {periodes.map((periode) => (
-                          <option key={`appel_${periode.id}`} value={periode.id}>
-                            {periode.title}
-                          </option>
-                        ))}
-                      </Select>
-                    </>
-                  )}
-                  {appelOffreId && familles && familles.length > 0 && (
-                    <>
-                      <Label htmlFor="familleId" className="mt-4">
-                        Famille concernée
-                      </Label>
-                      <Select
-                        id="familleId"
-                        name="familleId"
-                        defaultValue={familleId || 'default'}
-                        onChange={(event) =>
-                          updateUrlParams({
-                            familleId: event.target.value,
-                            page: null,
-                          })
-                        }
-                      >
-                        <option value="default" disabled hidden>
-                          Choisir une famille
-                        </option>
-                        <option value="">Toutes familles</option>
-                        {familles.map((famille) => (
-                          <option key={`appel_${famille.id}`} value={famille.id}>
-                            {famille.title}
-                          </option>
-                        ))}
-                      </Select>
-                    </>
-                  )}
-                </fieldset>
-              </div>
-            </div>
+                      ))}
+                    </Select>
+                  </>
+                )}
+              </fieldset>
+            </Dropdown>
+
             {hasFilters && (
-              <Link className="mt-[10px]" href="#" onClick={resetUrlParams}>
+              <LinkButton className="mt-[10px]" href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
           </form>
         </div>

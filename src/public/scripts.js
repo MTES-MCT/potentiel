@@ -1,7 +1,6 @@
 // All this to avoid a SPA...
 
 window.initHandlers = function () {
-  addVisibilityToggleHandler();
   addGoToOnClickHandlers();
   addMissingOwnerProjectListSelectionHandler();
 };
@@ -106,30 +105,5 @@ function addMissingOwnerProjectListSelectionHandler() {
     swornStatementCheckbox.addEventListener('change', function () {
       updateAccessFormVisibility();
     });
-  }
-}
-
-//
-// General utility
-//
-function addVisibilityToggleHandler() {
-  const sectionToggle = document.querySelectorAll('[data-testid=visibility-toggle]');
-
-  sectionToggle.forEach((item) =>
-    item.addEventListener('click', function (event) {
-      event.preventDefault();
-
-      const wasVisible = item.classList.contains('open');
-
-      toggleVisibility(item, !wasVisible);
-    }),
-  );
-}
-
-function toggleVisibility(toggleItem, shouldBeVisible) {
-  if (shouldBeVisible) {
-    toggleItem.classList.add('open');
-  } else {
-    toggleItem.classList.remove('open');
   }
 }

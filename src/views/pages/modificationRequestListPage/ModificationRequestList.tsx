@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import React, { ChangeEvent, useState } from 'react';
 import { AppelOffre } from '@entities';
-import { dataId } from '../../../helpers/testId';
 import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
 import ROUTES from '@routes';
 import { PaginatedList } from '../../../types';
@@ -11,11 +10,12 @@ import {
   SuccessBox,
   ErrorBox,
   InputCheckbox,
-  Link,
+  LinkButton,
   Heading1,
   BarreDeRecherche,
   Label,
   Select,
+  Dropdown,
 } from '@components';
 import {
   hydrateOnClient,
@@ -56,8 +56,13 @@ export const ModificationRequestList = ({
 
   const [isShowOnlyDGECChecked, setIsShowOnlyDGECChecked] = useState(showOnlyDGEC === 'on');
 
-  const hasFilters =
-    appelOffreId || periodeId || familleId || modificationRequestStatus || modificationRequestType;
+  const hasFilters = !!(
+    appelOffreId ||
+    periodeId ||
+    familleId ||
+    modificationRequestStatus ||
+    modificationRequestType
+  );
 
   const periodes = appelsOffre.find((ao) => ao.id === appelOffreId)?.periodes;
 
@@ -65,7 +70,7 @@ export const ModificationRequestList = ({
     .find((ao) => ao.id === appelOffreId)
     ?.familles.sort((a, b) => a.title.localeCompare(b.title));
 
-  const [afficherFiltres, setAfficherFiltres] = useState(false);
+  const [afficherFiltres, setAfficherFiltres] = useState(hasFilters);
 
   return (
     <PageTemplate user={request.user} currentPage="list-requests">
@@ -90,26 +95,14 @@ export const ModificationRequestList = ({
               className="mt-8"
             />
 
-            <div className="mt-8 mb-6">
-              <div
-                {...dataId('visibility-toggle')}
-                className={'filter-toggle' + (hasFilters ? ' open' : '')}
-                onClick={() => setAfficherFiltres(!afficherFiltres)}
-              >
-                <span
-                  style={{
-                    borderBottom: '1px solid var(--light-grey)',
-                    paddingBottom: 5,
-                  }}
-                >
-                  Filtrer
-                </span>
-                <svg className="icon filter-icon">
-                  <use xlinkHref="#expand"></use>
-                  <title>{afficherFiltres ? `Fermer` : `Ouvrir`}</title>
-                </svg>
-              </div>
-              <div className="filter-panel mt-8">
+            <Dropdown
+              design="link"
+              text="Filtrer"
+              isOpen={afficherFiltres}
+              changeOpenState={(state) => setAfficherFiltres(state)}
+              className="mt-8 mb-6 !w-full"
+            >
+              <div className="mt-8">
                 <fieldset>
                   <Label htmlFor="appelOffreId">Appel d'offre concerné</Label>
                   <Select
@@ -247,12 +240,12 @@ export const ModificationRequestList = ({
                   </Select>
                 </fieldset>
               </div>
-            </div>
+            </Dropdown>
 
             {hasFilters && (
-              <Link href="#" onClick={resetUrlParams}>
+              <LinkButton href="#" onClick={resetUrlParams}>
                 Retirer tous les filtres
-              </Link>
+              </LinkButton>
             )}
 
             {userIs(['admin', 'dgec-validateur'])(request.user) && (
