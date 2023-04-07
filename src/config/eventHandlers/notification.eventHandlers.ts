@@ -135,7 +135,7 @@ eventStore.subscribe(
   ProjectCompletionDueDateSet.type,
   makeOnProjectCompletionDueDateSet({
     sendNotification,
-    getProjectUsers: oldProjectRepo.getUsers,
+    getProjectUsers: récupérerDonnéesPorteursParProjetQueryHandler,
     getProjectById: oldProjectRepo.findById,
     findUsersForDreal: oldUserRepo.findUsersForDreal,
   }),
