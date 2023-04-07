@@ -13,9 +13,8 @@ import {
   formatIdentifiantProjet,
   DemandeComplèteRaccordementReadModel,
   DemandeComplèteRaccordementTransmiseEvent,
-  demandeComplèteRaccordementTransmiseHandlerFactory,
 } from '@potentiel/domain';
-import { createProjection, findProjection } from '@potentiel/pg-projections';
+import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { isNone } from '@potentiel/monads';
 import { PotentielWorld } from '../potentiel.world';
@@ -31,6 +30,10 @@ EtantDonné('un projet', function (this: PotentielWorld) {
 Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :`,
   async function (this: PotentielWorld, table: DataTable) {
+    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
+      this.raccordementWorld.enedis.codeEIC,
+      this.raccordementWorld.enedis.raisonSociale,
+    );
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDemandeRaccordement =
@@ -88,12 +91,6 @@ Quand(
 
         await publish(`demande-complète-raccordement#${référenceDemandeRaccordement}`, event);
       };
-
-    const demandeComplèteDeRaccordementTransmiseHandler =
-      demandeComplèteRaccordementTransmiseHandlerFactory({
-        create: createProjection,
-        find: findProjection,
-      });
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
