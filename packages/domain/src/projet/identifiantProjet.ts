@@ -5,15 +5,11 @@ export type IdentifiantProjet = {
   numéroCRE: string;
 };
 
-const format = ({
+export const formatIdentifiantProjet = ({
   appelOffre,
   numéroCRE,
   période,
   famille = '',
 }: IdentifiantProjet): `${string}#${string}#${string}#${string}` => {
   return `${appelOffre}#${période}#${famille}#${numéroCRE}`;
-};
-
-export const identifiantProjet = {
-  format,
 };

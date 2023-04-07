@@ -2,7 +2,7 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import { publish } from '@potentiel/pg-event-sourcing';
 import { RaccordementWorld } from './raccordement.world';
 import { CommandHandlerFactory, DomainEvent, Publish } from '@potentiel/core-domain';
-import { IdentifiantProjet } from '@potentiel/domain';
+import { IdentifiantProjet, formatIdentifiantProjet } from '@potentiel/domain';
 
 EtantDonné('un projet', function (this: RaccordementWorld) {
   this.identifiantProjet = {
@@ -18,6 +18,9 @@ Quand(
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
+
+    const formatIdentifiantGestionnaireRéseau = ({ codeEIC }: IdentifiantGestionnaireRéseau) =>
+      codeEIC;
 
     type IdentifiantGestionnaireRéseau = {
       codeEIC: string;
@@ -46,21 +49,38 @@ Quand(
     const transmettreDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
       TransmettreDemandeComplèteRaccordementCommand,
       TransmettreDemandeComplèteRaccordementDependencies
-    > = ({ publish }) => {
-      type DemandeComplèteDeRaccordementTransmiseEvent = DomainEvent<
-        'DemandeComplèteDeRaccordementTransmise',
-        {
-          identifiantProjet: string;
-          identifiantGestionnaireRéseau: string;
-          dateQualification: string;
-          référenceDemandeRaccordement: string;
-        }
-      >;
+    > =
+      ({ publish }) =>
+      async ({
+        identifiantProjet,
+        dateQualification,
+        identifiantGestionnaireRéseau,
+        référenceDemandeRaccordement,
+      }) => {
+        type DemandeComplèteDeRaccordementTransmiseEvent = DomainEvent<
+          'DemandeComplèteDeRaccordementTransmise',
+          {
+            identifiantProjet: string;
+            identifiantGestionnaireRéseau: string;
+            dateQualification: string;
+            référenceDemandeRaccordement: string;
+          }
+        >;
 
-      const event: DemandeComplèteDeRaccordementTransmiseEvent = {
-        type: 'DemandeComplèteDeRaccordementTransmise',
+        const event: DemandeComplèteDeRaccordementTransmiseEvent = {
+          type: 'DemandeComplèteDeRaccordementTransmise',
+          payload: {
+            identifiantProjet: formatIdentifiantProjet(identifiantProjet),
+            dateQualification: dateQualification.toISOString(),
+            identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
+              identifiantGestionnaireRéseau,
+            ),
+            référenceDemandeRaccordement,
+          },
+        };
+
+        await publish(`demande-complète-raccordement#${référenceDemandeRaccordement}`, event);
       };
-    };
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
