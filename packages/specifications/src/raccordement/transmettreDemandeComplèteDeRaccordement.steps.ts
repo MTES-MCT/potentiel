@@ -135,9 +135,10 @@ Alors(
       });
 
       actual.should.be.deep.equal({
+        type: 'demande-complète-raccordement',
         référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
         gestionnaireRéseau: this.raccordementWorld.enedis,
-        dateQualification: this.raccordementWorld.dateQualification,
+        dateQualification: this.raccordementWorld.dateQualification.toISOString(),
       });
     });
   },
