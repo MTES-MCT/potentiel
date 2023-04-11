@@ -27,26 +27,25 @@ export class RaccordementWorld {
     this.#référenceDemandeRaccordement = value;
   }
 
-  #identifiantProjet!: IdentifiantProjet;
+  #identifiantProjet: IdentifiantProjet;
 
   get identifiantProjet() {
-    if (!this.#identifiantProjet) {
-      throw new Error('identifiantProjet not initialized');
-    }
     return this.#identifiantProjet;
   }
 
-  set identifiantProjet(value: IdentifiantProjet) {
-    this.#identifiantProjet = value;
-  }
-
-  #enedis!: GestionnaireRéseauReadModel;
+  #enedis: GestionnaireRéseauReadModel;
 
   get enedis() {
     return this.#enedis;
   }
 
   constructor() {
+    this.#identifiantProjet = {
+      appelOffre: 'PPE2 - Eolien',
+      période: '1',
+      numéroCRE: '23',
+    };
+
     this.#enedis = {
       codeEIC: '17X100A100A0001A',
       raisonSociale: 'Enedis',
