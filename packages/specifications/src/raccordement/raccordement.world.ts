@@ -3,8 +3,8 @@ import {
   GestionnaireRéseauReadModel,
   IdentifiantProjet,
   formatIdentifiantProjet,
+  createRaccordementAggregateId,
 } from '@potentiel/domain';
-import { createRaccordementAggregateId } from '@potentiel/domain/src/raccordement/raccordement.aggregate';
 import { publish } from '@potentiel/pg-event-sourcing';
 
 export class RaccordementWorld {

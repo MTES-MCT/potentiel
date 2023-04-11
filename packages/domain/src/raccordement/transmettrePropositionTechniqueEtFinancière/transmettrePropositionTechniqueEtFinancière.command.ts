@@ -1,6 +1,7 @@
 import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from './propositionTechniqueEtFinancièreTransmise.event';
+import { createRaccordementAggregateId } from '../raccordement.aggregate';
 
 type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
@@ -14,8 +15,8 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
   TransmettrePropositionTechniqueEtFinancièreCommand,
   Dependencies
 > =
-  ({ loadAggregate, publish }) =>
-  ({ dateSignature, référenceDemandeComplèteRaccordement, identifiantProjet }) => {
+  ({ publish }) =>
+  async ({ dateSignature, référenceDemandeComplèteRaccordement, identifiantProjet }) => {
     const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
       type: 'PropositionTechniqueEtFinancièreTransmise',
       payload: {
@@ -24,4 +25,6 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       },
     };
+
+    await publish(createRaccordementAggregateId(identifiantProjet), event);
   };
