@@ -7,5 +7,8 @@ export type DemandeComplèteRaccordementReadModel = ReadModel<
     référenceDemandeRaccordement: string;
     gestionnaireRéseau: GestionnaireRéseauReadModel;
     dateQualification: string;
+    propositionTechniqueEtFinancière?: {
+      dateSignature: string;
+    };
   }
 >;
