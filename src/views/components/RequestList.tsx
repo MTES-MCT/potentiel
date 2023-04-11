@@ -5,7 +5,10 @@ import {
   ModificationRequestActionTitles,
   PaginationPanel,
 } from '@components';
-import { ModificationRequestListItemDTO } from '@modules/modificationRequest';
+import {
+  ModificationRequestListItemDTO,
+  ModificationRequestTypes,
+} from '@modules/modificationRequest';
 import { UserRole } from '@modules/users';
 import ROUTES from '@routes';
 import React from 'react';
@@ -29,6 +32,32 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
   if (!modificationRequests?.itemCount) {
     return <ListeVide titre="Aucune demande n’a été trouvée" />;
   }
+
+  const buttonTitleByType = (type: ModificationRequestTypes) => {
+    switch (type) {
+      case 'abandon':
+        return `Voir la demande d'abandon`;
+
+      case 'annulation abandon':
+        return `Voir la demande d'annulation d'abandon`;
+      case 'delai':
+        return `Voir la demande de délai supplémentaire`;
+      case 'fournisseur':
+        return `Voir la demande de changement de fournisseur`;
+      case 'actionnaire':
+        return `Voir la demande de changement d'actionnaire`;
+      case 'producteur':
+        return `Voir la demande de changement de producteur`;
+      case 'puissance':
+        return `Voir la demande de changement de puissance`;
+      case 'recours':
+        return `Voir la demande de recours`;
+      case 'autre':
+        return `Voir la demande`;
+      default:
+        return '';
+    }
+  };
 
   return (
     <>
@@ -97,7 +126,12 @@ export const RequestList = ({ modificationRequests, requestActions }: Props) => 
                   {status ? ModificationRequestStatusTitle[status] : ''}
                 </td>
                 <td>
-                  <LinkButton href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}>
+                  <LinkButton
+                    href={ROUTES.DEMANDE_PAGE_DETAILS(modificationRequest.id)}
+                    title={`${buttonTitleByType(modificationRequest.type)} pour le projet ${
+                      project.nomProjet
+                    }`}
+                  >
                     Voir
                   </LinkButton>
                 </td>
