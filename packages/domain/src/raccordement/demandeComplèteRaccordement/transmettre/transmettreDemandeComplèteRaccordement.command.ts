@@ -5,6 +5,8 @@ import {
 } from '../../../gestionnaireRéseau';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
 import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
+import { loadRaccordementAggregateFactory } from '../../raccordement.aggregate';
+import { isSome } from '@potentiel/monads';
 
 export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
@@ -37,7 +39,10 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
       `raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
     );
 
-    if (raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC) {
+    if (
+      isSome(raccordement) &&
+      raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC
+    ) {
       throw new Error(
         'Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau',
       );
