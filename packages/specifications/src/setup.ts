@@ -25,6 +25,7 @@ Before(async () => {
     createDemandeComplèteRaccordement: createProjection,
     createGestionnaireRéseau: createProjection,
     createListeDemandeComplèteRaccordement: createProjection,
+    updateListeDemandeComplèteRaccordement: updateProjection,
     findGestionnaireRéseau: findProjection,
     findListeDemandeComplèteRaccordement: findProjection,
     subscribe,

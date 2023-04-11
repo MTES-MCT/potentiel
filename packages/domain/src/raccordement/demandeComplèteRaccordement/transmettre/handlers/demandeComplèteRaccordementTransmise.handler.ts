@@ -53,7 +53,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         await updateListeDemandeComplèteRaccordement(
           `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
           {
-            gestionnaireRéseau,
+            ...listeDemandeComplèteRaccordement,
             référencesDemandeRaccordement: [
               ...listeDemandeComplèteRaccordement.référencesDemandeRaccordement,
               event.payload.référenceDemandeRaccordement,

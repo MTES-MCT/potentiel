@@ -113,6 +113,7 @@ Alors(
       const actual = await listerDemandeComplèteRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
+
       actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
       actual.référencesDemandeRaccordement.should.length(nombreDeDemandes);
     });
