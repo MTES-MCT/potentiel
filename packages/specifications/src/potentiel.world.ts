@@ -19,7 +19,7 @@ export class PotentielWorld extends World {
 
   get error() {
     if (!this.#error) {
-      throw new Error('error not initialized');
+      throw new Error('No error was thrown');
     }
     return this.#error;
   }

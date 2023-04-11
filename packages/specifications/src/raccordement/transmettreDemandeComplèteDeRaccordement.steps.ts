@@ -166,18 +166,37 @@ EtantDonné(
       identifiantGestionnaireRéseau: {
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
-      dateQualification,
-      référenceDemandeRaccordement,
+      dateQualification: new Date('2022-12-31'),
+      référenceDemandeRaccordement: 'UNE-REFERENCE-DCR',
     });
   },
 );
 
 Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau`,
-  async function (this: PotentielWorld) {},
-);
+  async function (this: PotentielWorld) {
+    const codeEICAutreGDR = 'UN-AUTRE-GDR';
+    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
+      codeEICAutreGDR,
+      'Un autre gestionnaire',
+    );
 
-Alors(
-  `le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"`,
-  async function (this: PotentielWorld) {},
+    const transmettreDemandeComplèteRaccordement =
+      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        publish,
+      });
+
+    try {
+      await transmettreDemandeComplèteRaccordement({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: codeEICAutreGDR,
+        },
+        dateQualification: new Date('2022-11-24'),
+        référenceDemandeRaccordement: 'Enieme-DCR',
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
 );
