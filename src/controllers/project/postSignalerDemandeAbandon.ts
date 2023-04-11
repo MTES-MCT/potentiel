@@ -36,7 +36,7 @@ const schema = yup.object({
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_ABANDON_POST,
   upload.single('file'),
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur']),
   safeAsyncHandler(
     {
       schema,

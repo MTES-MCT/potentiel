@@ -36,7 +36,7 @@ const requestBodySchema = yup.object({
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_RECOURS_POST,
   upload.single('file'),
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {

@@ -11,7 +11,7 @@ import { SignalerDemandeAbandonPage } from '@views';
 
 v1Router.get(
   routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(),
-  ensureRole(['admin', 'dgec-validateur', 'dreal']),
+  ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params;
     const { user, query } = request;
