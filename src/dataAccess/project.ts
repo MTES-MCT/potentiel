@@ -104,8 +104,4 @@ export type ProjectRepo = {
    * @deprecated
    */
   save: (project: Project) => ResultAsync<null>;
-  /**
-   * @deprecated
-   */
-  getUsers: (projectId: Project['id']) => Promise<Array<User>>;
 };

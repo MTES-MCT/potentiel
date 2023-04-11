@@ -1,6 +1,9 @@
 import { logger } from '@core/utils';
 import { ProjectRepo, UserRepo } from '@dataAccess';
-import { ProjectCompletionDueDateSet } from '@modules/project';
+import {
+  ProjectCompletionDueDateSet,
+  RécupérerDonnéesPorteursParProjetQueryHandler,
+} from '@modules/project';
 import routes from '@routes';
 import { NotificationService } from '../NotificationService';
 
@@ -8,7 +11,7 @@ type OnProjectCompletionDueDateSet = (évènement: ProjectCompletionDueDateSet) 
 
 type MakeOnProjectCompletionDueDateSet = (dépendances: {
   sendNotification: NotificationService['sendNotification'];
-  getProjectUsers: ProjectRepo['getUsers'];
+  getProjectUsers: RécupérerDonnéesPorteursParProjetQueryHandler;
   getProjectById: ProjectRepo['findById'];
   findUsersForDreal: UserRepo['findUsersForDreal'];
 }) => OnProjectCompletionDueDateSet;
@@ -27,7 +30,7 @@ export const makeOnProjectCompletionDueDateSet: MakeOnProjectCompletionDueDateSe
       );
       return;
     }
-    const porteursEmails = await getProjectUsers(projectId);
+    const porteursEmails = await getProjectUsers({ projetId: projectId });
 
     await Promise.all(
       porteursEmails.map(({ email, fullName, id }) =>

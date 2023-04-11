@@ -81,7 +81,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     findAll,
     save,
     remove,
-    getUsers,
     findExistingAppelsOffres,
     findExistingFamillesForAppelOffre,
     findExistingPeriodesForAppelOffre,
@@ -481,18 +480,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       if (CONFIG.logDbErrors) logger.error(error);
       return Err(error);
     }
-  }
-
-  async function getUsers(projectId: Project['id']): Promise<Array<User>> {
-    await _isDbReady;
-
-    const projectInstance = await ProjectModel.findByPk(projectId);
-
-    if (!projectInstance) {
-      return [];
-    }
-
-    return (await (projectInstance as any).getUsers()).map((item) => item.get());
   }
 
   async function findExistingAppelsOffres(
