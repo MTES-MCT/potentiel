@@ -10,7 +10,7 @@ import { v1Router } from '../v1Router';
 import { SignalerDemandeAbandonPage } from '@views';
 
 v1Router.get(
-  routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(),
+  routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params;

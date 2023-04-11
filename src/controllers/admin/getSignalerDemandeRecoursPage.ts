@@ -10,7 +10,7 @@ import { v1Router } from '../v1Router';
 import { SignalerDemandeRecoursPage } from '@views';
 
 v1Router.get(
-  routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(),
+  routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const { projectId } = request.params;

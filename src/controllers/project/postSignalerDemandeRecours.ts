@@ -70,7 +70,7 @@ v1Router.post(
         (error) => {
           if (error instanceof RequestValidationError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(request.body.projectId), {
                 ...request.body,
                 ...error.errors,
               }),
@@ -79,7 +79,7 @@ v1Router.post(
 
           if (error instanceof DemandeDeMêmeTypeDéjàOuverteError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(request.body.projectId), {
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(request.body.projectId), {
                 error: error.message,
                 ...request.body,
               }),

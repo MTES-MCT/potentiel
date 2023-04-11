@@ -46,7 +46,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         </Menu.Item>
         <Menu.Item key={`signaler_demande_abandon`}>
           <Link
-            href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
+            href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(project.id)}
             className="no-underline bg-none hover:bg-none"
           >
             <div
@@ -61,7 +61,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         {getProjectStatus(project) === 'éliminé' && (
           <Menu.Item key={`signaler_demande_recours`}>
             <Link
-              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
+              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
               className="no-underline bg-none hover:bg-none"
             >
               <div

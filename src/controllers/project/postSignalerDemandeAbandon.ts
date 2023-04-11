@@ -42,7 +42,7 @@ v1Router.post(
       schema,
       onError: ({ request, response, errors }) => {
         response.redirect(
-          addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(request.body.projectId), {
+          addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(request.body.projectId), {
             ...request.body,
             ...errors,
           }),
@@ -82,7 +82,7 @@ v1Router.post(
 
           if (error instanceof DemandeDeMêmeTypeDéjàOuverteError) {
             return response.redirect(
-              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(request.body.projectId), {
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(request.body.projectId), {
                 error: error.message,
                 ...request.body,
               }),
