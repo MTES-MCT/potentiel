@@ -36,7 +36,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
     });
 
     const raccordement = await loadRaccordementAggregate(
-      `raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
+      formatIdentifiantProjet(identifiantProjet),
     );
 
     if (

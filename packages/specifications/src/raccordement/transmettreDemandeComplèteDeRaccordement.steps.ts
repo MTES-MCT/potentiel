@@ -1,5 +1,5 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
-import { publish } from '@potentiel/pg-event-sourcing';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   consulterDemandeComplèteRaccordementQueryHandlerFactory,
@@ -22,6 +22,7 @@ EtantDonné(
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
         publish,
       });
 
@@ -46,6 +47,7 @@ Quand(
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
         publish,
       });
 
@@ -74,6 +76,7 @@ Quand(
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
         publish,
       });
 
@@ -158,6 +161,7 @@ EtantDonné(
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
         publish,
       });
 
@@ -183,6 +187,7 @@ Quand(
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
         publish,
       });
 
