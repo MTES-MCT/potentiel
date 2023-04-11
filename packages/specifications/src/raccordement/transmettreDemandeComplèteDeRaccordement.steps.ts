@@ -20,6 +20,11 @@ EtantDonné('un projet', function (this: PotentielWorld) {
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
   async function (this: PotentielWorld, table: DataTable) {
+    this.raccordementWorld.identifiantProjet = {
+      appelOffre: 'PPE2 - Eolien',
+      période: '1',
+      numéroCRE: '23',
+    };
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
       this.raccordementWorld.enedis.codeEIC,
       this.raccordementWorld.enedis.raisonSociale,

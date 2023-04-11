@@ -1,4 +1,4 @@
-import { Create, DomainEventHandlerFactory, Find } from '@potentiel/core-domain';
+import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
 import { GestionnaireRéseauReadModel } from '../../../../gestionnaireRéseau';
@@ -10,6 +10,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
   {
     createDemandeComplèteRaccordement: Create<DemandeComplèteRaccordementReadModel>;
     createListeDemandeComplèteRaccordement: Create<ListeDemandeComplèteRaccordementReadModel>;
+    updateListeDemandeComplèteRaccordement: Update<ListeDemandeComplèteRaccordementReadModel>;
     findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
     findListeDemandeComplèteRaccordement: Find<ListeDemandeComplèteRaccordementReadModel>;
   }
@@ -17,6 +18,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
   ({
     createDemandeComplèteRaccordement,
     createListeDemandeComplèteRaccordement,
+    updateListeDemandeComplèteRaccordement,
     findGestionnaireRéseau,
     findListeDemandeComplèteRaccordement,
   }) =>
@@ -45,6 +47,17 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
           {
             gestionnaireRéseau,
             référencesDemandeRaccordement: [event.payload.référenceDemandeRaccordement],
+          },
+        );
+      } else {
+        await updateListeDemandeComplèteRaccordement(
+          `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
+          {
+            gestionnaireRéseau,
+            référencesDemandeRaccordement: [
+              ...listeDemandeComplèteRaccordement.référencesDemandeRaccordement,
+              event.payload.référenceDemandeRaccordement,
+            ],
           },
         );
       }

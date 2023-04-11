@@ -16,6 +16,7 @@ type Ports = {
   findListeDemandeComplèteRaccordement: Find<ListeDemandeComplèteRaccordementReadModel>;
   createListeDemandeComplèteRaccordement: Create<ListeDemandeComplèteRaccordementReadModel>;
   createDemandeComplèteRaccordement: Create<DemandeComplèteRaccordementReadModel>;
+  updateListeDemandeComplèteRaccordement: Update<ListeDemandeComplèteRaccordementReadModel>;
 };
 
 export const setupEventHandlers = async ({
@@ -26,6 +27,7 @@ export const setupEventHandlers = async ({
   createListeDemandeComplèteRaccordement,
   findGestionnaireRéseau,
   findListeDemandeComplèteRaccordement,
+  updateListeDemandeComplèteRaccordement,
 }: Ports): Promise<Unsubscribe[]> => {
   return Promise.all([
     subscribe(
@@ -40,6 +42,7 @@ export const setupEventHandlers = async ({
         createListeDemandeComplèteRaccordement,
         findGestionnaireRéseau,
         findListeDemandeComplèteRaccordement,
+        updateListeDemandeComplèteRaccordement,
       }),
     ),
   ]);
