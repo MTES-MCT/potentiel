@@ -17,10 +17,10 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | La référence de la demande de raccordement | NOP-RP-2022-000034 |
         Alors le projet devrait avoir 2 demandes complètes de raccordement pour ce gestionnaire de réseau
 
-    # Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un autre gestionnaire de réseau
-    #     Etant donné un projet avec un demande de raccordement transmise auprès d'un gestionnaire de réseau
-    #     Quand le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau
-    #     Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"
+     Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un autre gestionnaire de réseau
+         Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau
+         Quand le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau
+         Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"
 
     # Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu
     #     Etant donné un projet

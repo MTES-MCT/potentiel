@@ -17,9 +17,8 @@ EtantDonné(
       this.raccordementWorld.enedis.raisonSociale,
     );
     const exemple = table.rowsHash();
-    this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
-    this.raccordementWorld.référenceDemandeRaccordement =
-      exemple['La référence de la demande de raccordement'];
+    const dateQualification = new Date(exemple['La date de qualification']);
+    const référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -31,8 +30,8 @@ EtantDonné(
       identifiantGestionnaireRéseau: {
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
-      dateQualification: this.raccordementWorld.dateQualification,
-      référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      dateQualification,
+      référenceDemandeRaccordement,
     });
   },
 );
@@ -147,4 +146,38 @@ Alors(
       );
     });
   },
+);
+
+EtantDonné(
+  `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
+  async function (this: PotentielWorld) {
+    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
+      this.raccordementWorld.enedis.codeEIC,
+      this.raccordementWorld.enedis.raisonSociale,
+    );
+
+    const transmettreDemandeComplèteRaccordement =
+      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        publish,
+      });
+
+    await transmettreDemandeComplèteRaccordement({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      identifiantGestionnaireRéseau: {
+        codeEIC: this.raccordementWorld.enedis.codeEIC,
+      },
+      dateQualification,
+      référenceDemandeRaccordement,
+    });
+  },
+);
+
+Quand(
+  `le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau`,
+  async function (this: PotentielWorld) {},
+);
+
+Alors(
+  `le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"`,
+  async function (this: PotentielWorld) {},
 );
