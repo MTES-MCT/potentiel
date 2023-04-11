@@ -30,6 +30,8 @@ Before(async () => {
     findListeDemandeComplèteRaccordement: findProjection,
     subscribe,
     update: updateProjection,
+    findDemandeComplèteRaccordement: findProjection,
+    updateDemandeComplèteRaccordement: updateProjection,
   });
 });
 

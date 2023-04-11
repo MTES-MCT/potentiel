@@ -7,6 +7,7 @@ import {
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/demandeComplèteRaccordement/transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { DemandeComplèteRaccordementReadModel } from './raccordement/demandeComplèteRaccordement/consulter/demandeComplèteRaccordement.readModel';
 import { ListeDemandeComplèteRaccordementReadModel } from './raccordement/demandeComplèteRaccordement/lister/listeDemandeComplèteRaccordement.readModel';
+import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/propositionTechniqueEtFinancièreTransmise.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -17,17 +18,21 @@ type Ports = {
   createListeDemandeComplèteRaccordement: Create<ListeDemandeComplèteRaccordementReadModel>;
   createDemandeComplèteRaccordement: Create<DemandeComplèteRaccordementReadModel>;
   updateListeDemandeComplèteRaccordement: Update<ListeDemandeComplèteRaccordementReadModel>;
+  findDemandeComplèteRaccordement: Find<DemandeComplèteRaccordementReadModel>;
+  updateDemandeComplèteRaccordement: Update<DemandeComplèteRaccordementReadModel>;
 };
 
 export const setupEventHandlers = async ({
-  subscribe,
   createGestionnaireRéseau,
-  update,
   createDemandeComplèteRaccordement,
   createListeDemandeComplèteRaccordement,
   findGestionnaireRéseau,
   findListeDemandeComplèteRaccordement,
+  findDemandeComplèteRaccordement,
   updateListeDemandeComplèteRaccordement,
+  updateDemandeComplèteRaccordement,
+  update,
+  subscribe,
 }: Ports): Promise<Unsubscribe[]> => {
   return Promise.all([
     subscribe(
@@ -43,6 +48,13 @@ export const setupEventHandlers = async ({
         findGestionnaireRéseau,
         findListeDemandeComplèteRaccordement,
         updateListeDemandeComplèteRaccordement,
+      }),
+    ),
+    subscribe(
+      'PropositionTechniqueEtFinancièreTransmise',
+      propositionTechniqueEtFinancièreTransmiseHandlerFactory({
+        findDemandeComplèteRaccordement,
+        updateDemandeComplèteRaccordement,
       }),
     ),
   ]);
