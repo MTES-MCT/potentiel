@@ -10,7 +10,7 @@ import {
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
-import React from 'react';
+import React, { useState } from 'react';
 import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { ACTION_BY_ROLE } from './actions';
@@ -142,6 +142,11 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
     return <ListeVide titre="Aucun projet à lister" />;
   }
 
+  type SelectProjectList = string[];
+
+  const [selectAllProjects, setSelectAllProjects] = useState(false);
+  const [selectedProjectList, setSelectedProjectList] = useState<SelectProjectList>([]);
+
   return (
     <>
       <form
@@ -153,8 +158,18 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         <table className="table missingOwnerProjectList">
           <thead>
             <tr>
-              <th {...dataId('missingOwnerProjectList-checkbox')}>
-                <InputCheckbox {...dataId('missingOwnerProjectList-selectAll-checkbox')} />
+              <th>
+                <InputCheckbox
+                  // {...dataId('missingOwnerProjectList-selectAll-checkbox')}
+                  // checked={selectAllProjects}
+                  onChange={(event) => {
+                    setSelectAllProjects(!selectAllProjects);
+
+                    if (!event.target.checked) {
+                      setSelectedProjectList([]);
+                    }
+                  }}
+                />
               </th>
               {displayColumns?.map((column) => (
                 <th key={column}>{column}</th>
@@ -165,11 +180,27 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           <tbody>
             {items.map((project) => {
               return (
-                <tr key={'project_' + project.id} {...dataId('missingOwnerProjectList-item')}>
-                  <td {...dataId('missingOwnerProjectList-checkbox')}>
+                <tr key={`project_${project.id}`} {...dataId('missingOwnerProjectList-item')}>
+                  <td>
                     <InputCheckbox
-                      {...dataId('missingOwnerProjectList-item-checkbox')}
+                      // {...dataId('missingOwnerProjectList-item-checkbox')}
                       data-projectid={project.id}
+                      value={project.id}
+                      checked={selectAllProjects || selectedProjectList.includes(project.id)}
+                      onChange={(event) => {
+                        if (selectAllProjects) {
+                          setSelectAllProjects(false);
+                        }
+
+                        if (event.target.checked) {
+                          setSelectedProjectList([...selectedProjectList, project.id]);
+                        } else {
+                          const selectedProjectListWithoutCurrent = [...selectedProjectList].filter(
+                            (selected) => selected !== project.id,
+                          );
+                          setSelectedProjectList(selectedProjectListWithoutCurrent);
+                        }
+                      }}
                     />
                   </td>
                   {displayColumns?.map((column) => {
@@ -198,6 +229,9 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           <Label htmlFor="swornStatement">
             <InputCheckbox
               name="swornStatement"
+              // onChange={(event) => {
+
+              // }}
               id="swornStatement"
               {...dataId('sworn-statement')}
               className="mr-1"
@@ -211,7 +245,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           type="submit"
           name="submit"
           id="submit"
-          disabled
           {...dataId('claim-projects-submit-button')}
           className="my-1"
         >
