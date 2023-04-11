@@ -1,4 +1,4 @@
-import { CommandHandlerFactory, Publish } from '@potentiel/core-domain';
+import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-domain';
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
@@ -15,19 +15,34 @@ export type TransmettreDemandeComplèteRaccordementCommand = {
 
 export type TransmettreDemandeComplèteRaccordementDependencies = {
   publish: Publish;
+  loadAggregate: LoadAggregate;
 };
 
 export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: CommandHandlerFactory<
   TransmettreDemandeComplèteRaccordementCommand,
   TransmettreDemandeComplèteRaccordementDependencies
 > =
-  ({ publish }) =>
+  ({ publish, loadAggregate }) =>
   async ({
     identifiantProjet,
     dateQualification,
     identifiantGestionnaireRéseau,
     référenceDemandeRaccordement,
   }) => {
+    const loadRaccordementAggregate = loadRaccordementAggregateFactory({
+      loadAggregate,
+    });
+
+    const raccordement = await loadRaccordementAggregate(
+      `raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
+    );
+
+    if (raccordement.gestionnaireRéseau.codeEIC !== identifiantGestionnaireRéseau.codeEIC) {
+      throw new Error(
+        'Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau',
+      );
+    }
+
     const event: DemandeComplèteRaccordementTransmiseEvent = {
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
@@ -40,5 +55,5 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
       },
     };
 
-    await publish(`demande-complète-raccordement#${référenceDemandeRaccordement}`, event);
+    await publish(`raccordement#${formatIdentifiantProjet(identifiantProjet)}`, event);
   };
