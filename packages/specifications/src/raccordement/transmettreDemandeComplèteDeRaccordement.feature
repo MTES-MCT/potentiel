@@ -2,8 +2,8 @@
 Fonctionnalité: Transmettre une demande complète de raccordement
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
-        Etant donné un projet
-        Quand le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :
+        # Etant donné un projet
+        Quand le porteur d'un projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :
             | La date de qualification                   | 2022-10-28         |
             | La référence de la demande de raccordement | OUE-RP-2022-000033 |
         Alors le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau

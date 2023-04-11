@@ -9,22 +9,21 @@ import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../potentiel.world';
 
+const identifiantProjet = {
+  appelOffre: 'PPE2 - Eolien',
+  période: '1',
+  numéroCRE: '23',
+};
+
 EtantDonné('un projet', function (this: PotentielWorld) {
-  this.raccordementWorld.identifiantProjet = {
-    appelOffre: 'PPE2 - Eolien',
-    période: '1',
-    numéroCRE: '23',
-  };
+  this.raccordementWorld.identifiantProjet = identifiantProjet;
 });
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
   async function (this: PotentielWorld, table: DataTable) {
-    this.raccordementWorld.identifiantProjet = {
-      appelOffre: 'PPE2 - Eolien',
-      période: '1',
-      numéroCRE: '23',
-    };
+    this.raccordementWorld.identifiantProjet = identifiantProjet;
+
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
       this.raccordementWorld.enedis.codeEIC,
       this.raccordementWorld.enedis.raisonSociale,
