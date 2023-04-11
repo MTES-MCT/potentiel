@@ -1,5 +1,14 @@
 import { AggregateStateFactory, LoadAggregate } from '@potentiel/core-domain';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordement';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../projet';
+
+type RaccordementAggregateId = `raccordement#${string}`;
+
+export const createRaccordementAggregateId = (
+  identifiantProjet: IdentifiantProjet,
+): RaccordementAggregateId => {
+  return `raccordement#${formatIdentifiantProjet(identifiantProjet)}`;
+};
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
@@ -29,9 +38,9 @@ const raccordementAggregateStateFactory: AggregateStateFactory<
 export const loadRaccordementAggregateFactory = ({
   loadAggregate,
 }: LoadAggregateFactoryDependencies) => {
-  return async (identifiantProjet: string) => {
+  return async (identifiantProjet: IdentifiantProjet) => {
     return loadAggregate<RaccordementState, RaccordementEvent>(
-      `raccordement#${identifiantProjet}`,
+      createRaccordementAggregateId(identifiantProjet),
       raccordementAggregateStateFactory,
     );
   };
