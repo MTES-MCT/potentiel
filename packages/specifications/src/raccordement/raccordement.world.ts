@@ -1,4 +1,11 @@
-import { GestionnaireRéseauReadModel, IdentifiantProjet } from '@potentiel/domain';
+import {
+  DemandeComplèteRaccordementTransmiseEvent,
+  GestionnaireRéseauReadModel,
+  IdentifiantProjet,
+  formatIdentifiantProjet,
+} from '@potentiel/domain';
+import { createRaccordementAggregateId } from '@potentiel/domain/src/raccordement/raccordement.aggregate';
+import { publish } from '@potentiel/pg-event-sourcing';
 
 export class RaccordementWorld {
   #dateQualification!: Date;
@@ -55,5 +62,19 @@ export class RaccordementWorld {
         légende: '',
       },
     };
+  }
+
+  async createDemandeComplèteRaccordement() {
+    const event: DemandeComplèteRaccordementTransmiseEvent = {
+      type: 'DemandeComplèteDeRaccordementTransmise',
+      payload: {
+        identifiantProjet: formatIdentifiantProjet(this.identifiantProjet),
+        identifiantGestionnaireRéseau: this.enedis.codeEIC,
+        dateQualification: new Date().toISOString(),
+        référenceDemandeRaccordement: 'UNE-REFERENCE-DCR',
+      },
+    };
+    await publish(createRaccordementAggregateId(this.identifiantProjet), event);
+    this.#référenceDemandeRaccordement = 'UNE-REFERENCE-DCR';
   }
 }
