@@ -41,7 +41,7 @@ Alors(
       });
 
       actual.propositionTechniqueEtFinancière?.should.be.deep.equal({
-        dateSignature,
+        dateSignature: new Date(dateSignature).toISOString(),
       });
     });
   },
