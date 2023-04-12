@@ -19,7 +19,7 @@ EtantDonné(
     );
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
-    const référenceDemandeRaccordement = exemple['La référence de la demande de raccordement'];
+    const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -44,7 +44,7 @@ Quand(
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
-      exemple['La référence de la demande de raccordement'];
+      exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -73,7 +73,7 @@ Quand(
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
-      exemple['La référence de la demande de raccordement'];
+      exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -93,7 +93,7 @@ Quand(
 );
 
 Alors(
-  'le projet devrait avoir {int} demandes complètes de raccordement pour ce gestionnaire de réseau',
+  'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
     const listerDemandeComplèteRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -111,7 +111,7 @@ Alors(
 );
 
 Alors(
-  'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
+  'le projet devrait avoir un dossier de raccordement  pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
@@ -135,7 +135,7 @@ Alors(
 );
 
 Alors(
-  'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
+  'le dossier est consultable dans la liste des dossiers de raccordement du projet',
   async function async(this: PotentielWorld) {
     const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
