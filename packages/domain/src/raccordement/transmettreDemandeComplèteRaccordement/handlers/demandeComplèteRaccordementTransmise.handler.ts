@@ -2,7 +2,7 @@ import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core
 import { isNone, isSome } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
 import { GestionnaireRéseauReadModel } from '../../../../gestionnaireRéseau';
-import { DemandeComplèteRaccordementReadModel } from '../../consulter/demandeComplèteRaccordement.readModel';
+import { DossierRaccordementReadModel } from '../../consulter/dossierRaccordement.readModel';
 import { ListeDemandeComplèteRaccordementReadModel } from '../../lister/listeDemandeComplèteRaccordement.readModel';
 
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
@@ -20,7 +20,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
     );
 
     if (isSome(gestionnaireRéseau)) {
-      await create<DemandeComplèteRaccordementReadModel>(
+      await create<DossierRaccordementReadModel>(
         `demande-complète-raccordement#${event.payload.référenceDemandeRaccordement}`,
         {
           dateQualification: event.payload.dateQualification,
