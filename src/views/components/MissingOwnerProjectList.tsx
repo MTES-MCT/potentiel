@@ -139,6 +139,16 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
   const [selectedProjectList, setSelectedProjectList] = useState<string[]>([]);
   const [swornStatement, setSwornStatement] = useState(false);
 
+  const séléctionnerUnProjet =
+    (projetId: string): React.ChangeEventHandler<HTMLInputElement> =>
+    (event) => {
+      if (event.target.checked) {
+        setSelectedProjectList([...selectedProjectList, projetId]);
+        return;
+      }
+      setSelectedProjectList([...selectedProjectList].filter((selected) => selected !== projetId));
+    };
+
   return (
     <>
       <form
@@ -165,16 +175,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
                     <InputCheckbox
                       value={project.id}
                       checked={selectedProjectList.includes(project.id)}
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          setSelectedProjectList([...selectedProjectList, project.id]);
-                        } else {
-                          const selectedProjectListWithoutCurrent = [...selectedProjectList].filter(
-                            (selected) => selected !== project.id,
-                          );
-                          setSelectedProjectList(selectedProjectListWithoutCurrent);
-                        }
-                      }}
+                      onChange={séléctionnerUnProjet(project.id)}
                     />
                   </td>
                   {displayColumns?.map((column) => {
@@ -200,26 +201,28 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         <input type="hidden" name="projectIds" value={selectedProjectList} />
 
         <AlertBox className="my-8">
-          <Label htmlFor="swornStatement">
-            <InputCheckbox
-              name="swornStatement"
-              id="swornStatement"
-              onChange={() => setSwornStatement(!swornStatement)}
-              className="mr-1"
-            />
-            J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
-            projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
-            poursuites judiciaires.
-          </Label>
+          <>
+            <Label htmlFor="swornStatement">
+              <InputCheckbox
+                name="swornStatement"
+                id="swornStatement"
+                onChange={() => setSwornStatement(!swornStatement)}
+                className="mr-1"
+              />
+              J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
+              projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
+              poursuites judiciaires.
+            </Label>
+            {selectedProjectList.length > 0 && swornStatement && (
+              <Button type="submit" name="submit" id="submit" className="my-4">
+                Réclamer la propriété{' '}
+                {selectedProjectList.length === 1
+                  ? 'du project séléctionné'
+                  : `des ${selectedProjectList.length} projets séléctionnés`}
+              </Button>
+            )}
+          </>
         </AlertBox>
-        {selectedProjectList.length > 0 && swornStatement && (
-          <Button type="submit" name="submit" id="submit" className="my-1">
-            Réclamer la propriété{' '}
-            {selectedProjectList.length === 1
-              ? 'du project séléctionné'
-              : `des ${selectedProjectList.length} projets séléctionnés`}
-          </Button>
-        )}
       </form>
 
       {!Array.isArray(projects) && (
