@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
       >
         <div className="p-2 lg:p-0 text-lg">
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
-            <MenuAccèsRapides />
+            <MenuAccèsRapides menuDisponible={!!children} />
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
               <div className={`flex flex-row ml-auto ${children && 'mr-4'}`}>
@@ -217,15 +217,18 @@ const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
 
 Header.MenuItem = MenuItem;
 
-const MenuAccèsRapides = () => (
+type MenuAccèsRapidesProps = { menuDisponible: boolean };
+const MenuAccèsRapides = ({ menuDisponible }: MenuAccèsRapidesProps) => (
   <nav role="navigation" aria-label="Accès rapide">
     <ul className="flex row list-none justify-start px-0 gap-2">
       <li>
         <Link href="#contenu">Contenu</Link>
       </li>
-      <li>
-        <Link href="#menu-principal">Menu</Link>
-      </li>
+      {menuDisponible && (
+        <li>
+          <Link href="#menu-principal">Menu</Link>
+        </li>
+      )}
       <li>
         <Link href="#pied-de-page">Pied de page</Link>
       </li>
