@@ -13,9 +13,15 @@ type ProjectActionsProps = {
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
+  signalementAbandonAutorisé?: true;
+  signalementRecoursAutorisé?: true;
 };
 
-const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
+const EnregistrerUneModification = ({
+  project,
+  signalementAbandonAutorisé,
+  signalementRecoursAutorisé,
+}: EnregistrerUneModificationProps) => (
   <Menu as="div" className="self-stretch relative grow md:grow-0 text-left mx-auto">
     <Menu.Button className="inline-flex w-full items-center px-6 py-2 border border-solid text-base font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 border-blue-france-sun-base text-blue-france-sun-base bg-white hover:bg-blue-france-975-base focus:bg-blue-france-975-base">
       Enregistrer une modification
@@ -44,24 +50,26 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
             </div>
           </Link>
         </Menu.Item>
-        <Menu.Item key={`signaler_demande_abandon`}>
-          <Link
-            href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_PAGE(project.id)}
-            className="no-underline bg-none hover:bg-none"
-          >
-            <div
-              className={
-                'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
-              }
+        {signalementAbandonAutorisé && (
+          <Menu.Item key={`signaler_demande_abandon`}>
+            <Link
+              href={routes.ADMIN_SIGNALER_DEMANDE_ABANDON_GET(project.id)}
+              className="no-underline bg-none hover:bg-none"
             >
-              Demande d'abandon
-            </div>
-          </Link>
-        </Menu.Item>
-        {getProjectStatus(project) === 'éliminé' && (
+              <div
+                className={
+                  'text-center rounded-md w-full py-2 hover:bg-blue-france-975-base focus:bg-blue-france-975-base text-blue-france-sun-base'
+                }
+              >
+                Demande d'abandon
+              </div>
+            </Link>
+          </Menu.Item>
+        )}
+        {signalementRecoursAutorisé && getProjectStatus(project) === 'éliminé' && (
           <Menu.Item key={`signaler_demande_recours`}>
             <Link
-              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_PAGE(project.id)}
+              href={routes.ADMIN_SIGNALER_DEMANDE_RECOURS_GET(project.id)}
               className="no-underline bg-none hover:bg-none"
             >
               <div
@@ -227,10 +235,18 @@ const PorteurProjetActions = ({ project }: PorteurProjetActionsProps) => (
 
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
+  signalementAbandonAutorisé: true;
+  signalementRecoursAutorisé: true;
 };
-const AdminActions = ({ project }: AdminActionsProps) => (
+const AdminActions = ({
+  project,
+  signalementAbandonAutorisé,
+  signalementRecoursAutorisé,
+}: AdminActionsProps) => (
   <div className="flex flex-col md:flex-row gap-2">
-    <EnregistrerUneModification {...{ project }} />
+    <EnregistrerUneModification
+      {...{ project, signalementAbandonAutorisé, signalementRecoursAutorisé }}
+    />
 
     {project.notifiedOn && project.certificateFile ? (
       <DownloadLinkButton
@@ -259,7 +275,11 @@ const AdminActions = ({ project }: AdminActionsProps) => (
 
 export const ProjectActions = ({ project, user }: ProjectActionsProps) => (
   <div className="whitespace-nowrap">
-    {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
+    {userIs(['admin', 'dgec-validateur'])(user) && (
+      <AdminActions
+        {...{ project, signalementAbandonAutorisé: true, signalementRecoursAutorisé: true }}
+      />
+    )}
     {userIs(['porteur-projet'])(user) && <PorteurProjetActions {...{ project }} />}
     {userIs(['dreal'])(user) && <EnregistrerUneModification {...{ project }} />}
   </div>
