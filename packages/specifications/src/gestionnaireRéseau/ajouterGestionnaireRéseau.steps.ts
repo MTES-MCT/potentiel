@@ -71,7 +71,7 @@ Alors(
   'le gestionnaire de réseau devrait être disponible dans le référenciel des gestionnaires de réseau',
   async function (this: PotentielWorld) {
     const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-      listGestionnaireRéseau: listProjection,
+      list: listProjection,
     });
 
     await waitForExpect(async () => {
@@ -98,7 +98,7 @@ Alors(
   `l'administrateur devrait pouvoir consulter les détails du gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     const consulterGestionnaireRéseau = consulterGestionnaireRéseauQueryHandlerFactory({
-      findGestionnaireRéseau: findProjection,
+      find: findProjection,
     });
 
     await waitForExpect(async () => {

@@ -6,18 +6,18 @@ import { isSome } from '@potentiel/monads';
 export const propositionTechniqueEtFinancièreTransmiseHandlerFactory: DomainEventHandlerFactory<
   PropositionTechniqueEtFinancièreTransmiseEvent,
   {
-    findDemandeComplèteRaccordement: Find<DemandeComplèteRaccordementReadModel>;
-    updateDemandeComplèteRaccordement: Update<DemandeComplèteRaccordementReadModel>;
+    find: Find;
+    update: Update;
   }
 > =
-  ({ findDemandeComplèteRaccordement, updateDemandeComplèteRaccordement }) =>
+  ({ find, update }) =>
   async (event) => {
-    const demandeComplèteRaccordement = await findDemandeComplèteRaccordement(
+    const demandeComplèteRaccordement = await find<DemandeComplèteRaccordementReadModel>(
       `demande-complète-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
     );
 
     if (isSome(demandeComplèteRaccordement)) {
-      await updateDemandeComplèteRaccordement(
+      await update<DemandeComplèteRaccordementReadModel>(
         `demande-complète-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
         {
           ...demandeComplèteRaccordement,

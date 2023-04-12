@@ -8,27 +8,19 @@ import { ListeDemandeComplèteRaccordementReadModel } from '../../lister/listeDe
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementTransmiseEvent,
   {
-    createDemandeComplèteRaccordement: Create<DemandeComplèteRaccordementReadModel>;
-    createListeDemandeComplèteRaccordement: Create<ListeDemandeComplèteRaccordementReadModel>;
-    updateListeDemandeComplèteRaccordement: Update<ListeDemandeComplèteRaccordementReadModel>;
-    findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
-    findListeDemandeComplèteRaccordement: Find<ListeDemandeComplèteRaccordementReadModel>;
+    create: Create;
+    update: Update;
+    find: Find;
   }
 > =
-  ({
-    createDemandeComplèteRaccordement,
-    createListeDemandeComplèteRaccordement,
-    updateListeDemandeComplèteRaccordement,
-    findGestionnaireRéseau,
-    findListeDemandeComplèteRaccordement,
-  }) =>
+  ({ create, update, find }) =>
   async (event) => {
-    const gestionnaireRéseau = await findGestionnaireRéseau(
+    const gestionnaireRéseau = await find<GestionnaireRéseauReadModel>(
       `gestionnaire-réseau#${event.payload.identifiantGestionnaireRéseau}`,
     );
 
     if (isSome(gestionnaireRéseau)) {
-      await createDemandeComplèteRaccordement(
+      await create<DemandeComplèteRaccordementReadModel>(
         `demande-complète-raccordement#${event.payload.référenceDemandeRaccordement}`,
         {
           dateQualification: event.payload.dateQualification,
@@ -37,12 +29,13 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         },
       );
 
-      const listeDemandeComplèteRaccordement = await findListeDemandeComplèteRaccordement(
-        `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
-      );
+      const listeDemandeComplèteRaccordement =
+        await find<ListeDemandeComplèteRaccordementReadModel>(
+          `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
+        );
 
       if (isNone(listeDemandeComplèteRaccordement)) {
-        await createListeDemandeComplèteRaccordement(
+        await create<ListeDemandeComplèteRaccordementReadModel>(
           `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
           {
             gestionnaireRéseau,
@@ -50,7 +43,7 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
           },
         );
       } else {
-        await updateListeDemandeComplèteRaccordement(
+        await update<ListeDemandeComplèteRaccordementReadModel>(
           `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
           {
             ...listeDemandeComplèteRaccordement,

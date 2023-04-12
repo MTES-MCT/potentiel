@@ -3,7 +3,7 @@ import { GestionnaireRéseauReadModel } from '../../gestionnaireRéseau.readMode
 import { GestionnaireRéseauAjoutéEvent } from '../gestionnaireRéseauAjouté.event';
 
 type GestionnaireRéseauAjoutéHandlerDependencies = {
-  create: Create<GestionnaireRéseauReadModel>;
+  create: Create;
 };
 
 export const gestionnaireRéseauAjoutéHandlerFactory: DomainEventHandlerFactory<
@@ -12,5 +12,7 @@ export const gestionnaireRéseauAjoutéHandlerFactory: DomainEventHandlerFactory
 > =
   ({ create }) =>
   async (event) => {
-    await create(`gestionnaire-réseau#${event.payload.codeEIC}`, { ...event.payload });
+    await create<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${event.payload.codeEIC}`, {
+      ...event.payload,
+    });
   };

@@ -9,7 +9,7 @@ export type ReadModel<
   }
 >;
 
-export type Find<TReadModel extends ReadModel> = (
+export type Find = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}#${string}`,
 ) => Promise<Option<TReadModel>>;
 
@@ -17,16 +17,16 @@ export type ListOptions<TReadModel extends ReadModel> = {
   type: TReadModel['type'];
 };
 
-export type List<TReadModel extends ReadModel> = (
+export type List = <TReadModel extends ReadModel>(
   options: ListOptions<TReadModel>,
 ) => Promise<ReadonlyArray<TReadModel>>;
 
-export type Create<TReadModel extends ReadModel> = (
+export type Create = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}#${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;
 
-export type Update<TReadModel extends ReadModel> = (
+export type Update = <TReadModel extends ReadModel>(
   id: `${TReadModel['type']}#${string}`,
   readModel: Omit<TReadModel, 'type'>,
 ) => Promise<void>;

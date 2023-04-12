@@ -7,16 +7,16 @@ type ConsulterGestionnaireRéseauQuery = {
 };
 
 type ConsulterGestionnaireRéseauDependencies = {
-  findGestionnaireRéseau: Find<GestionnaireRéseauReadModel>;
+  find: Find;
 };
 
 export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactory<
   ConsulterGestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
   ConsulterGestionnaireRéseauDependencies
-> = ({ findGestionnaireRéseau }) => {
+> = ({ find }) => {
   return async ({ codeEIC }) => {
-    const result = await findGestionnaireRéseau(`gestionnaire-réseau#${codeEIC}`);
+    const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
 
     if (isNone(result)) {
       throw new Error();

@@ -22,16 +22,10 @@ Before(async () => {
   await executeQuery(`DELETE FROM "PROJECTION"`);
 
   unsubscribes = await setupEventHandlers({
-    createDemandeComplèteRaccordement: createProjection,
-    createGestionnaireRéseau: createProjection,
-    createListeDemandeComplèteRaccordement: createProjection,
-    updateListeDemandeComplèteRaccordement: updateProjection,
-    findGestionnaireRéseau: findProjection,
-    findListeDemandeComplèteRaccordement: findProjection,
+    create: createProjection,
+    find: findProjection,
     subscribe,
     update: updateProjection,
-    findDemandeComplèteRaccordement: findProjection,
-    updateDemandeComplèteRaccordement: updateProjection,
   });
 });
 

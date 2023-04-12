@@ -6,7 +6,7 @@ import { ListeDemandeComplèteRaccordementReadModel } from './listeDemandeCompl�
 type ListerDemandeComplèteRaccordementQuery = { identifiantProjet: IdentifiantProjet };
 
 type Dependencies = {
-  find: Find<ListeDemandeComplèteRaccordementReadModel>;
+  find: Find;
 };
 
 export const listerDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
@@ -16,7 +16,7 @@ export const listerDemandeComplèteRaccordementQueryHandlerFactory: QueryHandler
 > =
   ({ find }) =>
   async ({ identifiantProjet }) => {
-    const result = await find(
+    const result = await find<ListeDemandeComplèteRaccordementReadModel>(
       `liste-demande-complète-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
     );
     if (isNone(result)) {

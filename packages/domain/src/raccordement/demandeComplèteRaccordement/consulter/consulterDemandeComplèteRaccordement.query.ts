@@ -5,7 +5,7 @@ import { DemandeComplèteRaccordementReadModel } from './demandeComplèteRaccord
 type ConsulterDemandeComplèteRaccordementQuery = { référenceDemandeRaccordement: string };
 
 type Dependencies = {
-  find: Find<DemandeComplèteRaccordementReadModel>;
+  find: Find;
 };
 
 export const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHandlerFactory<
@@ -15,7 +15,9 @@ export const consulterDemandeComplèteRaccordementQueryHandlerFactory: QueryHand
 > =
   ({ find }) =>
   async ({ référenceDemandeRaccordement }) => {
-    const result = await find(`demande-complète-raccordement#${référenceDemandeRaccordement}`);
+    const result = await find<DemandeComplèteRaccordementReadModel>(
+      `demande-complète-raccordement#${référenceDemandeRaccordement}`,
+    );
     if (isNone(result)) {
       throw new Error('Not implemented');
     }

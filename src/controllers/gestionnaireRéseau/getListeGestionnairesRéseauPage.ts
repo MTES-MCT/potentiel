@@ -10,7 +10,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 
 const listerGestionnairesRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  listGestionnaireRéseau: listProjection,
+  list: listProjection,
 });
 
 v1Router.get(
