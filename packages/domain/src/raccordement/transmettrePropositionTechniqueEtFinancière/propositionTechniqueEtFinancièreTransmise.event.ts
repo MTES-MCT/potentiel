@@ -4,7 +4,7 @@ export type PropositionTechniqueEtFinancièreTransmiseEvent = DomainEvent<
   'PropositionTechniqueEtFinancièreTransmise',
   {
     dateSignature: string;
-    référenceDemandeComplèteRaccordement: string;
+    référenceDossierRaccordement: string;
     identifiantProjet: string;
   }
 >;

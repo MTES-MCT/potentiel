@@ -33,7 +33,7 @@ EtantDonné(
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
       dateQualification,
-      référenceDemandeRaccordement,
+      référenceDossierRaccordement: référenceDemandeRaccordement,
     });
   },
 );
@@ -43,7 +43,7 @@ Quand(
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
-    this.raccordementWorld.référenceDemandeRaccordement =
+    this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence de la demande de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
@@ -58,7 +58,7 @@ Quand(
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
       dateQualification: this.raccordementWorld.dateQualification,
-      référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
     });
   },
 );
@@ -72,7 +72,7 @@ Quand(
     );
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
-    this.raccordementWorld.référenceDemandeRaccordement =
+    this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence de la demande de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
@@ -87,7 +87,7 @@ Quand(
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
       dateQualification: this.raccordementWorld.dateQualification,
-      référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
     });
   },
 );
@@ -119,12 +119,12 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await consulterDossierRaccordement({
-        référence: this.raccordementWorld.référenceDemandeRaccordement,
+        référence: this.raccordementWorld.référenceDossierRaccordement,
       });
 
       const expected: DossierRaccordementReadModel = {
         type: 'dossier-raccordement',
-        référence: this.raccordementWorld.référenceDemandeRaccordement,
+        référence: this.raccordementWorld.référenceDossierRaccordement,
         gestionnaireRéseau: this.raccordementWorld.enedis,
         dateQualification: this.raccordementWorld.dateQualification.toISOString(),
       };
@@ -146,7 +146,7 @@ Alors(
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
       actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
-      actual.références.should.contain(this.raccordementWorld.référenceDemandeRaccordement);
+      actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
     });
   },
 );
@@ -171,7 +171,7 @@ EtantDonné(
         codeEIC: this.raccordementWorld.enedis.codeEIC,
       },
       dateQualification: new Date('2022-12-31'),
-      référenceDemandeRaccordement: 'UNE-REFERENCE-DCR',
+      référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
     });
   },
 );
@@ -198,7 +198,7 @@ Quand(
           codeEIC: codeEICAutreGDR,
         },
         dateQualification: new Date('2022-11-24'),
-        référenceDemandeRaccordement: 'Enieme-DCR',
+        référenceDossierRaccordement: 'Enieme-DCR',
       });
     } catch (error) {
       this.error = error as Error;

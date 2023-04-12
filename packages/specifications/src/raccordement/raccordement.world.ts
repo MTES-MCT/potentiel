@@ -21,17 +21,17 @@ export class RaccordementWorld {
     this.#dateQualification = value;
   }
 
-  #référenceDemandeRaccordement!: string;
+  #référenceDossierRaccordement!: string;
 
-  get référenceDemandeRaccordement(): string {
-    if (!this.#référenceDemandeRaccordement) {
-      throw new Error('référenceDemandeRaccordement not initialized');
+  get référenceDossierRaccordement(): string {
+    if (!this.#référenceDossierRaccordement) {
+      throw new Error('référenceDossierRaccordement not initialized');
     }
-    return this.#référenceDemandeRaccordement;
+    return this.#référenceDossierRaccordement;
   }
 
-  set référenceDemandeRaccordement(value: string) {
-    this.#référenceDemandeRaccordement = value;
+  set référenceDossierRaccordement(value: string) {
+    this.#référenceDossierRaccordement = value;
   }
 
   #identifiantProjet: IdentifiantProjet;
@@ -75,6 +75,6 @@ export class RaccordementWorld {
       },
     };
     await publish(createRaccordementAggregateId(this.identifiantProjet), event);
-    this.#référenceDemandeRaccordement = 'UNE-REFERENCE-DCR';
+    this.#référenceDossierRaccordement = 'UNE-REFERENCE-DCR';
   }
 }

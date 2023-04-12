@@ -25,7 +25,7 @@ Quand(
 
     await transmettrePropositionTechniqueEtFinancière({
       dateSignature: new Date(dateSignature),
-      référenceDemandeComplèteRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
   },
@@ -40,7 +40,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await consulterDossierRaccordement({
-        référence: this.raccordementWorld.référenceDemandeRaccordement,
+        référence: this.raccordementWorld.référenceDossierRaccordement,
       });
 
       actual.propositionTechniqueEtFinancière?.should.be.deep.equal({

@@ -7,7 +7,7 @@ type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
 type TransmettrePropositionTechniqueEtFinancièreCommand = {
   dateSignature: Date;
-  référenceDemandeComplèteRaccordement: string;
+  référenceDossierRaccordement: string;
   identifiantProjet: IdentifiantProjet;
 };
 
@@ -16,12 +16,12 @@ export const transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory: 
   Dependencies
 > =
   ({ publish }) =>
-  async ({ dateSignature, référenceDemandeComplèteRaccordement, identifiantProjet }) => {
+  async ({ dateSignature, référenceDossierRaccordement, identifiantProjet }) => {
     const event: PropositionTechniqueEtFinancièreTransmiseEvent = {
       type: 'PropositionTechniqueEtFinancièreTransmise',
       payload: {
         dateSignature: dateSignature.toISOString(),
-        référenceDemandeComplèteRaccordement,
+        référenceDossierRaccordement,
         identifiantProjet: formatIdentifiantProjet(identifiantProjet),
       },
     };
