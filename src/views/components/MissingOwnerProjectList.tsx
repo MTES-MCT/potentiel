@@ -132,10 +132,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
     items = projects.items;
   }
 
-  if (!items.length) {
-    return <ListeVide titre="Aucun projet à lister" />;
-  }
-
   const [selectedProjectList, setSelectedProjectList] = useState<string[]>([]);
   const [swornStatement, setSwornStatement] = useState(false);
 
@@ -148,6 +144,10 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
       }
       setSelectedProjectList([...selectedProjectList].filter((selected) => selected !== projetId));
     };
+
+  if (!items.length) {
+    return <ListeVide titre="Aucun projet à lister" />;
+  }
 
   return (
     <>
