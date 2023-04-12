@@ -38,3 +38,23 @@ Alors(
     expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
   },
 );
+
+Quand(
+  `un administrateur transmet une date de mise en service pour un dossier de raccordement inconnu`,
+  async function (this: PotentielWorld) {
+    const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+    try {
+      await transmettreDateMiseEnService({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        référenceDossierRaccordement: 'dossier-inconnu',
+        dateMiseEnService: new Date('2023-03-15'),
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
