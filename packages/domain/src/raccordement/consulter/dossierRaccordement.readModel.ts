@@ -10,5 +10,6 @@ export type DossierRaccordementReadModel = ReadModel<
     propositionTechniqueEtFinancière?: {
       dateSignature: string;
     };
+    dateMiseEnService?: string;
   }
 >;

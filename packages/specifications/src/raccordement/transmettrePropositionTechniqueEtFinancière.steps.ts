@@ -42,7 +42,7 @@ Alors(
         référence: this.raccordementWorld.référenceDossierRaccordement,
       });
 
-      actual.propositionTechniqueEtFinancière?.should.be.deep.equal({
+      expect(actual.propositionTechniqueEtFinancière).toEqual({
         dateSignature: new Date(dateSignature).toISOString(),
       });
     });
