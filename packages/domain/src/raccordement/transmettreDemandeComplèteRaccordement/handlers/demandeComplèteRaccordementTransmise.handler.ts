@@ -1,9 +1,9 @@
 import { Create, DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { isNone, isSome } from '@potentiel/monads';
 import { DemandeComplèteRaccordementTransmiseEvent } from '../demandeComplèteRaccordementTransmise.event';
-import { GestionnaireRéseauReadModel } from '../../../../gestionnaireRéseau';
+import { GestionnaireRéseauReadModel } from '../../../gestionnaireRéseau';
 import { DossierRaccordementReadModel } from '../../consulter/dossierRaccordement.readModel';
-import { ListeDemandeComplèteRaccordementReadModel } from '../../lister/listeDemandeComplèteRaccordement.readModel';
+import { ListeDossiersRaccordementReadModel } from '../../lister/listeDossierRaccordement.readModel';
 
 export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHandlerFactory<
   DemandeComplèteRaccordementTransmiseEvent,
@@ -21,35 +21,34 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
 
     if (isSome(gestionnaireRéseau)) {
       await create<DossierRaccordementReadModel>(
-        `demande-complète-raccordement#${event.payload.référenceDemandeRaccordement}`,
+        `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
         {
           dateQualification: event.payload.dateQualification,
-          référenceDemandeRaccordement: event.payload.référenceDemandeRaccordement,
+          référence: event.payload.référenceDossierRaccordement,
           gestionnaireRéseau,
         },
       );
 
-      const listeDemandeComplèteRaccordement =
-        await find<ListeDemandeComplèteRaccordementReadModel>(
-          `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
-        );
+      const listeDemandeComplèteRaccordement = await find<ListeDossiersRaccordementReadModel>(
+        `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
+      );
 
       if (isNone(listeDemandeComplèteRaccordement)) {
-        await create<ListeDemandeComplèteRaccordementReadModel>(
-          `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
+        await create<ListeDossiersRaccordementReadModel>(
+          `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
           {
             gestionnaireRéseau,
-            référencesDemandeRaccordement: [event.payload.référenceDemandeRaccordement],
+            références: [event.payload.référenceDossierRaccordement],
           },
         );
       } else {
-        await update<ListeDemandeComplèteRaccordementReadModel>(
-          `liste-demande-complète-raccordement#${event.payload.identifiantProjet}`,
+        await update<ListeDossiersRaccordementReadModel>(
+          `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
           {
             ...listeDemandeComplèteRaccordement,
-            référencesDemandeRaccordement: [
-              ...listeDemandeComplèteRaccordement.référencesDemandeRaccordement,
-              event.payload.référenceDemandeRaccordement,
+            références: [
+              ...listeDemandeComplèteRaccordement.références,
+              event.payload.référenceDossierRaccordement,
             ],
           },
         );

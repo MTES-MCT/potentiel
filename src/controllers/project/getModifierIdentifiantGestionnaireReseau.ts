@@ -11,7 +11,7 @@ import { listProjection } from '@potentiel/pg-projections';
 import { résuméProjetQueryHandler } from '@config';
 
 const listerGestionnairesRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  listGestionnaireRéseau: listProjection,
+  list: listProjection,
 });
 
 const schema = object({

@@ -56,7 +56,7 @@ export const transmettreDemandeComplèteRaccordementCommandHandlerFactory: Comma
         identifiantGestionnaireRéseau: formatIdentifiantGestionnaireRéseau(
           identifiantGestionnaireRéseau,
         ),
-        référenceDemandeRaccordement,
+        référenceDossierRaccordement: référenceDemandeRaccordement,
       },
     };
 
