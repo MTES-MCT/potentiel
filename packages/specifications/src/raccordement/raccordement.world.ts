@@ -1,6 +1,5 @@
 import {
   DemandeComplèteRaccordementTransmiseEvent,
-  GestionnaireRéseauReadModel,
   IdentifiantProjet,
   formatIdentifiantProjet,
   createRaccordementAggregateId,
@@ -40,36 +39,20 @@ export class RaccordementWorld {
     return this.#identifiantProjet;
   }
 
-  #enedis: GestionnaireRéseauReadModel;
-
-  get enedis() {
-    return this.#enedis;
-  }
-
   constructor() {
     this.#identifiantProjet = {
       appelOffre: 'PPE2 - Eolien',
       période: '1',
       numéroCRE: '23',
     };
-
-    this.#enedis = {
-      codeEIC: '17X100A100A0001A',
-      raisonSociale: 'Enedis',
-      type: 'gestionnaire-réseau',
-      aideSaisieRéférenceDossierRaccordement: {
-        format: '',
-        légende: '',
-      },
-    };
   }
 
-  async createDemandeComplèteRaccordement() {
+  async createDemandeComplèteRaccordement(codeEIC: string) {
     const event: DemandeComplèteRaccordementTransmiseEvent = {
       type: 'DemandeComplèteDeRaccordementTransmise',
       payload: {
         identifiantProjet: formatIdentifiantProjet(this.identifiantProjet),
-        identifiantGestionnaireRéseau: this.enedis.codeEIC,
+        identifiantGestionnaireRéseau: codeEIC,
         dateQualification: new Date().toISOString(),
         référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
       },

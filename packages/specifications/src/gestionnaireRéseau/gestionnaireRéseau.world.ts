@@ -1,5 +1,6 @@
 import {
   GestionnaireRéseauAjoutéEvent,
+  GestionnaireRéseauReadModel,
   createGestionnaireRéseauAggregateId,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
@@ -43,6 +44,31 @@ export class GestionnaireRéseauWorld {
 
   set format(value: string) {
     this.#format = value;
+  }
+
+  #enedis!: GestionnaireRéseauReadModel;
+
+  get enedis() {
+    if (!this.#enedis) {
+      throw new Error('Enedis not initialized');
+    }
+    return this.#enedis;
+  }
+
+  constructor() {}
+
+  async createEnedis() {
+    this.#enedis = {
+      codeEIC: '17X100A100A0001A',
+      raisonSociale: 'Enedis',
+      type: 'gestionnaire-réseau',
+      aideSaisieRéférenceDossierRaccordement: {
+        format: '',
+        légende: '',
+      },
+    };
+
+    await this.createGestionnaireRéseau(this.#enedis.codeEIC, this.#enedis.raisonSociale);
   }
 
   async createGestionnaireRéseau(codeEIC: string, raisonSociale: string) {

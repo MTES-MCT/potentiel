@@ -13,10 +13,8 @@ import { DossierRaccordementReadModel } from '@potentiel/domain/src/raccordement
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
   async function (this: PotentielWorld, table: DataTable) {
-    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-      this.raccordementWorld.enedis.codeEIC,
-      this.raccordementWorld.enedis.raisonSociale,
-    );
+    await this.gestionnaireRéseauWorld.createEnedis();
+
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
@@ -30,7 +28,7 @@ EtantDonné(
     await transmettreDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
-        codeEIC: this.raccordementWorld.enedis.codeEIC,
+        codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification,
       référenceDossierRaccordement: référenceDemandeRaccordement,
@@ -55,7 +53,7 @@ Quand(
     await transmettreDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
-        codeEIC: this.raccordementWorld.enedis.codeEIC,
+        codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
@@ -67,8 +65,8 @@ Quand(
   `le porteur d'un projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :`,
   async function (this: PotentielWorld, table: DataTable) {
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-      this.raccordementWorld.enedis.codeEIC,
-      this.raccordementWorld.enedis.raisonSociale,
+      this.gestionnaireRéseauWorld.enedis.codeEIC,
+      this.gestionnaireRéseauWorld.enedis.raisonSociale,
     );
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
@@ -84,7 +82,7 @@ Quand(
     await transmettreDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
-        codeEIC: this.raccordementWorld.enedis.codeEIC,
+        codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification: this.raccordementWorld.dateQualification,
       référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
@@ -104,7 +102,7 @@ Alors(
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
 
-      actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
+      actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
       actual.références.should.length(nombreDeDemandes);
     });
   },
@@ -125,7 +123,7 @@ Alors(
       const expected: DossierRaccordementReadModel = {
         type: 'dossier-raccordement',
         référence: this.raccordementWorld.référenceDossierRaccordement,
-        gestionnaireRéseau: this.raccordementWorld.enedis,
+        gestionnaireRéseau: this.gestionnaireRéseauWorld.enedis,
         dateQualification: this.raccordementWorld.dateQualification.toISOString(),
       };
 
@@ -145,7 +143,7 @@ Alors(
       const actual = await listerDossiersRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
-      actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
+      actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
       actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
     });
   },
@@ -155,8 +153,8 @@ EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-      this.raccordementWorld.enedis.codeEIC,
-      this.raccordementWorld.enedis.raisonSociale,
+      this.gestionnaireRéseauWorld.enedis.codeEIC,
+      this.gestionnaireRéseauWorld.enedis.raisonSociale,
     );
 
     const transmettreDemandeComplèteRaccordement =
@@ -168,7 +166,7 @@ EtantDonné(
     await transmettreDemandeComplèteRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
-        codeEIC: this.raccordementWorld.enedis.codeEIC,
+        codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
       },
       dateQualification: new Date('2022-12-31'),
       référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
