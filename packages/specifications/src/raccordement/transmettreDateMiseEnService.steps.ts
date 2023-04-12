@@ -40,7 +40,7 @@ Alors(
         référence: this.raccordementWorld.référenceDossierRaccordement,
       });
 
-      expect(actual.dateMiseEnService).toEqual(dateMiseEnService);
+      expect(actual.dateMiseEnService).toEqual(new Date(dateMiseEnService).toISOString());
     });
   },
 );
