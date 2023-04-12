@@ -2,12 +2,13 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
-  consulterDemandeComplèteRaccordementQueryHandlerFactory,
-  listerDemandeComplèteRaccordementQueryHandlerFactory,
+  consulterDossierRaccordementQueryHandlerFactory,
+  listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../potentiel.world';
+import { DossierRaccordementReadModel } from '@potentiel/domain/src/raccordement/consulter/dossierRaccordement.readModel';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -94,7 +95,7 @@ Quand(
 Alors(
   'le projet devrait avoir {int} demandes complètes de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {
-    const listerDemandeComplèteRaccordement = listerDemandeComplèteRaccordementQueryHandlerFactory({
+    const listerDemandeComplèteRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
     });
 
@@ -104,7 +105,7 @@ Alors(
       });
 
       actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
-      actual.référencesDemandeRaccordement.should.length(nombreDeDemandes);
+      actual.références.should.length(nombreDeDemandes);
     });
   },
 );
@@ -112,22 +113,23 @@ Alors(
 Alors(
   'le projet devrait avoir une demande complète de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
-    const consulterDemandeComplèteRaccordement =
-      consulterDemandeComplèteRaccordementQueryHandlerFactory({
-        find: findProjection,
-      });
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
 
     await waitForExpect(async () => {
-      const actual = await consulterDemandeComplèteRaccordement({
-        référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      const actual = await consulterDossierRaccordement({
+        référence: this.raccordementWorld.référenceDemandeRaccordement,
       });
 
-      actual.should.be.deep.equal({
-        type: 'demande-complète-raccordement',
-        référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      const expected: DossierRaccordementReadModel = {
+        type: 'dossier-raccordement',
+        référence: this.raccordementWorld.référenceDemandeRaccordement,
         gestionnaireRéseau: this.raccordementWorld.enedis,
         dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      });
+      };
+
+      actual.should.be.deep.equal(expected);
     });
   },
 );
@@ -135,18 +137,16 @@ Alors(
 Alors(
   'la demande est consultable dans la liste des demandes complètes de raccordement du projet',
   async function async(this: PotentielWorld) {
-    const listerDemandeComplèteRaccordement = listerDemandeComplèteRaccordementQueryHandlerFactory({
+    const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
       find: findProjection,
     });
 
     await waitForExpect(async () => {
-      const actual = await listerDemandeComplèteRaccordement({
+      const actual = await listerDossiersRaccordement({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
       actual.gestionnaireRéseau.should.be.deep.equal(this.raccordementWorld.enedis);
-      actual.référencesDemandeRaccordement.should.contain(
-        this.raccordementWorld.référenceDemandeRaccordement,
-      );
+      actual.références.should.contain(this.raccordementWorld.référenceDemandeRaccordement);
     });
   },
 );

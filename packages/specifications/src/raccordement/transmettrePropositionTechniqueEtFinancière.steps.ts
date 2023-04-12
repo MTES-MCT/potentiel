@@ -2,7 +2,7 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
-  consulterDemandeComplèteRaccordementQueryHandlerFactory,
+  consulterDossierRaccordementQueryHandlerFactory,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
@@ -34,14 +34,13 @@ Quand(
 Alors(
   `une proposition technique et financière devrait être consultable dans la demande complète de raccordement avec une date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
-    const consulterDemandeComplèteRaccordement =
-      consulterDemandeComplèteRaccordementQueryHandlerFactory({
-        find: findProjection,
-      });
+    const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
+      find: findProjection,
+    });
 
     await waitForExpect(async () => {
-      const actual = await consulterDemandeComplèteRaccordement({
-        référenceDemandeRaccordement: this.raccordementWorld.référenceDemandeRaccordement,
+      const actual = await consulterDossierRaccordement({
+        référence: this.raccordementWorld.référenceDemandeRaccordement,
       });
 
       actual.propositionTechniqueEtFinancière?.should.be.deep.equal({

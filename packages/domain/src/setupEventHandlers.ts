@@ -3,8 +3,8 @@ import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
 } from './gestionnaireRéseau';
-import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/demandeComplèteRaccordement/transmettre/handlers/demandeComplèteRaccordementTransmise.handler';
 import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/propositionTechniqueEtFinancièreTransmise.handler';
+import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/transmettreDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementTransmise.handler';
 
 type Ports = {
   subscribe: Subscribe;

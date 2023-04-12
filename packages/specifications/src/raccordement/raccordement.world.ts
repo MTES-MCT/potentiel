@@ -71,7 +71,7 @@ export class RaccordementWorld {
         identifiantProjet: formatIdentifiantProjet(this.identifiantProjet),
         identifiantGestionnaireRéseau: this.enedis.codeEIC,
         dateQualification: new Date().toISOString(),
-        référenceDemandeRaccordement: 'UNE-REFERENCE-DCR',
+        référenceDossierRaccordement: 'UNE-REFERENCE-DCR',
       },
     };
     await publish(createRaccordementAggregateId(this.identifiantProjet), event);

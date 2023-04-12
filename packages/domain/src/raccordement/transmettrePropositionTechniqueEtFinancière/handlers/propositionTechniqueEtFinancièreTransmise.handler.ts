@@ -1,7 +1,8 @@
 import { DomainEventHandlerFactory, Find, Update } from '@potentiel/core-domain';
 import { PropositionTechniqueEtFinancièreTransmiseEvent } from '../propositionTechniqueEtFinancièreTransmise.event';
-import { DemandeComplèteRaccordementReadModel } from '../../demandeComplèteRaccordement';
+
 import { isSome } from '@potentiel/monads';
+import { DossierRaccordementReadModel } from '../../consulter/dossierRaccordement.readModel';
 
 export const propositionTechniqueEtFinancièreTransmiseHandlerFactory: DomainEventHandlerFactory<
   PropositionTechniqueEtFinancièreTransmiseEvent,
@@ -12,13 +13,13 @@ export const propositionTechniqueEtFinancièreTransmiseHandlerFactory: DomainEve
 > =
   ({ find, update }) =>
   async (event) => {
-    const demandeComplèteRaccordement = await find<DemandeComplèteRaccordementReadModel>(
-      `demande-complète-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
+    const demandeComplèteRaccordement = await find<DossierRaccordementReadModel>(
+      `dossier-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
     );
 
     if (isSome(demandeComplèteRaccordement)) {
-      await update<DemandeComplèteRaccordementReadModel>(
-        `demande-complète-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
+      await update<DossierRaccordementReadModel>(
+        `dossier-raccordement#${event.payload.référenceDemandeComplèteRaccordement}`,
         {
           ...demandeComplèteRaccordement,
           propositionTechniqueEtFinancière: {

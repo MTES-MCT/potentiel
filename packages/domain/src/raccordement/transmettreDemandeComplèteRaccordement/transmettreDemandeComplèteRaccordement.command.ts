@@ -2,13 +2,13 @@ import { CommandHandlerFactory, LoadAggregate, Publish } from '@potentiel/core-d
 import {
   IdentifiantGestionnaireRéseau,
   formatIdentifiantGestionnaireRéseau,
-} from '../../../gestionnaireRéseau';
+} from '../../gestionnaireRéseau';
 import { DemandeComplèteRaccordementTransmiseEvent } from './demandeComplèteRaccordementTransmise.event';
-import { IdentifiantProjet, formatIdentifiantProjet } from '../../../projet';
+import { IdentifiantProjet, formatIdentifiantProjet } from '../../projet';
 import {
   createRaccordementAggregateId,
   loadRaccordementAggregateFactory,
-} from '../../raccordement.aggregate';
+} from '../raccordement.aggregate';
 import { isSome } from '@potentiel/monads';
 import { PlusieursGestionnairesRéseauPourUnProjetError } from './plusieursGestionnairesRéseauPourUnProjet.error';
 
