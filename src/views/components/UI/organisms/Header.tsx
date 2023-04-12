@@ -61,6 +61,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
       >
         <div className="p-2 lg:p-0 text-lg">
           <div className="flex flex-col xl:mx-auto xl:max-w-7xl">
+            <MenuAccèsRapides />
             <section className="flex flex-row px-2 pb-1 lg:p-4 items-center">
               <LogoAndTitle />
               <div className={`flex flex-row ml-auto ${children && 'mr-4'}`}>
@@ -179,7 +180,10 @@ const MainMenu = ({ children }: MainMenuProps) => (
       <MenuIcon className="menu-open" />
       <CloseIcon className="menu-close hidden" />
     </Label>
-    <nav className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0">
+    <nav
+      id="menu-principal"
+      className="menu hidden lg:block absolute lg:relative top-8 lg:top-0 left-0 w-full h-full lg:h-auto bg-white lg:bg-transparent z-50 pt-6 lg:pt-0"
+    >
       <ul className="flex flex-col list-none px-2 lg:px-0 py-2 lg:py-0 m-0 lg:flex-row lg:text-sm lg:font-normal">
         {children}
       </ul>
@@ -212,4 +216,21 @@ const MenuItem = ({ children, href, isCurrent }: MenuItemProps) => (
 );
 
 Header.MenuItem = MenuItem;
+
+const MenuAccèsRapides = () => (
+  <nav role="navigation" aria-label="Accès rapide">
+    <ul className="flex row list-none justify-start px-0 gap-2">
+      <li>
+        <Link href="#contenu">Contenu</Link>
+      </li>
+      <li>
+        <Link href="#menu-principal">Menu</Link>
+      </li>
+      <li>
+        <Link href="#pied-de-page">Pied de page</Link>
+      </li>
+    </ul>
+  </nav>
+);
+
 export { Header };

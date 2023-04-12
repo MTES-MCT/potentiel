@@ -7,7 +7,7 @@ const Footer = () => {
       <footer
         className="pt-10 border-0 border-t-2 border-solid border-blue-france-sun-base"
         role="contentinfo"
-        id="footer"
+        id="pied-de-page"
         style={{
           fontFamily: 'Marianne, arial, sans-serif',
         }}
