@@ -62,7 +62,6 @@ export const makeHtml = <T extends {}>(args: PageProps<T>) => {
           href="/dsfr/favicon/manifest.webmanifest"
           crossorigin="use-credentials"
         />
-        <script src="/scripts.js"></script>
 
         ${html`
           <script src="/js/shared.js"></script>
