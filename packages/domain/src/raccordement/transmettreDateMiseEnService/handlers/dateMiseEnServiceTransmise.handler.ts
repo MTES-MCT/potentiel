@@ -16,6 +16,8 @@ export const dateMiseEnServiceTransmiseHandlerFactory: DomainEventHandlerFactory
       `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
     );
 
+    console.log('dossierRaccordement', dossierRaccordement);
+
     if (isSome(dossierRaccordement)) {
       await update<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,

@@ -11,7 +11,6 @@ import waitForExpect from 'wait-for-expect';
 Quand(
   `le porteur de projet transmet une proposition technique et financière pour un dossier de raccordement avec la date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
-    await this.gestionnaireRéseauWorld.createEnedis();
     await this.raccordementWorld.createDemandeComplèteRaccordement(
       this.gestionnaireRéseauWorld.enedis.codeEIC,
     );

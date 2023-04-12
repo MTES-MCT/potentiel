@@ -11,7 +11,6 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 Quand(
   `un administrateur transmet la date de mise en service {string} pour un dossier de raccordement`,
   async function (this: PotentielWorld, dateMiseEnService: string) {
-    await this.gestionnaireRéseauWorld.createEnedis();
     await this.raccordementWorld.createDemandeComplèteRaccordement(
       this.gestionnaireRéseauWorld.enedis.codeEIC,
     );

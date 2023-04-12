@@ -17,7 +17,7 @@ BeforeAll(() => {
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
 });
 
-Before(async () => {
+Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`DELETE FROM "EVENT_STREAM"`);
   await executeQuery(`DELETE FROM "PROJECTION"`);
 
@@ -27,6 +27,8 @@ Before(async () => {
     subscribe,
     update: updateProjection,
   });
+
+  await this.gestionnaireRéseauWorld.createEnedis();
 });
 
 After(async () => {

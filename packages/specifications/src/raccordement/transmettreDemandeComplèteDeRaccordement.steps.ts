@@ -13,8 +13,6 @@ import { DossierRaccordementReadModel } from '@potentiel/domain/src/raccordement
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
   async function (this: PotentielWorld, table: DataTable) {
-    await this.gestionnaireRéseauWorld.createEnedis();
-
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
@@ -64,10 +62,6 @@ Quand(
 Quand(
   `le porteur d'un projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau avec :`,
   async function (this: PotentielWorld, table: DataTable) {
-    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-      this.gestionnaireRéseauWorld.enedis.codeEIC,
-      this.gestionnaireRéseauWorld.enedis.raisonSociale,
-    );
     const exemple = table.rowsHash();
     this.raccordementWorld.dateQualification = new Date(exemple['La date de qualification']);
     this.raccordementWorld.référenceDossierRaccordement =
@@ -152,11 +146,6 @@ Alors(
 EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
-      this.gestionnaireRéseauWorld.enedis.codeEIC,
-      this.gestionnaireRéseauWorld.enedis.raisonSociale,
-    );
-
     const transmettreDemandeComplèteRaccordement =
       transmettreDemandeComplèteRaccordementCommandHandlerFactory({
         loadAggregate,
