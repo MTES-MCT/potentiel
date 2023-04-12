@@ -5,6 +5,7 @@ import {
 } from './gestionnaireRéseau';
 import { propositionTechniqueEtFinancièreTransmiseHandlerFactory } from './raccordement/transmettrePropositionTechniqueEtFinancière/handlers/propositionTechniqueEtFinancièreTransmise.handler';
 import { demandeComplèteRaccordementTransmiseHandlerFactory } from './raccordement/transmettreDemandeComplèteRaccordement/handlers/demandeComplèteRaccordementTransmise.handler';
+import { dateMiseEnServiceTransmiseHandlerFactory } from './raccordement/transmettreDateMiseEnService/handlers/dateMiseEnServiceTransmise.handler';
 
 type Ports = {
   subscribe: Subscribe;
@@ -33,6 +34,13 @@ export const setupEventHandlers = async ({
     subscribe(
       'PropositionTechniqueEtFinancièreTransmise',
       propositionTechniqueEtFinancièreTransmiseHandlerFactory({
+        find,
+        update,
+      }),
+    ),
+    subscribe(
+      'DateMiseEnServiceTransmise',
+      dateMiseEnServiceTransmiseHandlerFactory({
         find,
         update,
       }),

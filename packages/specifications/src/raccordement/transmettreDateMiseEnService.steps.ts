@@ -1,8 +1,12 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
-import { consulterDossierRaccordementQueryHandlerFactory } from '@potentiel/domain';
+import {
+  consulterDossierRaccordementQueryHandlerFactory,
+  transmettreDateMiseEnServiceCommandHandlerFactory,
+} from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
+import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 
 Quand(
   `un administrateur transmet la date de mise en service {string} pour un dossier de raccordement`,
