@@ -7,7 +7,6 @@ import {
 } from '@potentiel/domain';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
@@ -75,20 +74,18 @@ Alors(
       list: listProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: this.gestionnaireRéseauWorld.format,
-          légende: this.gestionnaireRéseauWorld.légende,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: this.gestionnaireRéseauWorld.format,
+        légende: this.gestionnaireRéseauWorld.légende,
+      },
+    };
 
-      const actual = await listerGestionnaireRéseau({});
-      actual.should.deep.contain(expected);
-    });
+    const actual = await listerGestionnaireRéseau({});
+    actual.should.deep.contain(expected);
   },
 );
 
@@ -99,22 +96,20 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          format: this.gestionnaireRéseauWorld.format,
-          légende: this.gestionnaireRéseauWorld.légende,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        format: this.gestionnaireRéseauWorld.format,
+        légende: this.gestionnaireRéseauWorld.légende,
+      },
+    };
 
-      const actual = await consulterGestionnaireRéseau({
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      });
-
-      actual.should.be.deep.equal(expected);
+    const actual = await consulterGestionnaireRéseau({
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
+
+    actual.should.be.deep.equal(expected);
   },
 );

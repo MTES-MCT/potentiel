@@ -13,19 +13,21 @@ export const propositionTechniqueEtFinancièreTransmiseHandlerFactory: DomainEve
 > =
   ({ find, update }) =>
   async (event) => {
-    const demandeComplèteRaccordement = await find<DossierRaccordementReadModel>(
+    const dossierRaccordement = await find<DossierRaccordementReadModel>(
       `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
     );
 
-    if (isSome(demandeComplèteRaccordement)) {
+    if (isSome(dossierRaccordement)) {
       await update<DossierRaccordementReadModel>(
         `dossier-raccordement#${event.payload.référenceDossierRaccordement}`,
         {
-          ...demandeComplèteRaccordement,
+          ...dossierRaccordement,
           propositionTechniqueEtFinancière: {
             dateSignature: event.payload.dateSignature,
           },
         },
       );
+    } else {
+      // TODO add a log here
     }
   };

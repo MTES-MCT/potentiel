@@ -5,16 +5,12 @@ import {
   transmettreDateMiseEnServiceCommandHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { expect } from 'chai';
 
 Quand(
-  `un administrateur transmet la date de mise en service {string} pour un dossier de raccordement`,
+  `un administrateur transmet la date de mise en service {string} pour ce dossier de raccordement`,
   async function (this: PotentielWorld, dateMiseEnService: string) {
-    await this.raccordementWorld.createDemandeComplèteRaccordement(
-      this.gestionnaireRéseauWorld.enedis.codeEIC,
-    );
-
     const transmettreDateMiseEnService = transmettreDateMiseEnServiceCommandHandlerFactory({
       loadAggregate,
       publish,
@@ -35,12 +31,10 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const actual = await consulterDossierRaccordement({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-      });
-
-      expect(actual.dateMiseEnService).toEqual(new Date(dateMiseEnService).toISOString());
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
     });
+
+    expect(actual.dateMiseEnService).to.equal(new Date(dateMiseEnService).toISOString());
   },
 );

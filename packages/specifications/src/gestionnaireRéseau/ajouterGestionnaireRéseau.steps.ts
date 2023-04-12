@@ -7,7 +7,6 @@ import {
 } from '@potentiel/domain';
 import { publish, loadAggregate } from '@potentiel/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../potentiel.world';
 
 EtantDonné(
@@ -74,23 +73,21 @@ Alors(
       list: listProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          légende: this.gestionnaireRéseauWorld.légende,
-          format: this.gestionnaireRéseauWorld.format,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        légende: this.gestionnaireRéseauWorld.légende,
+        format: this.gestionnaireRéseauWorld.format,
+      },
+    };
 
-      const actual = await listerGestionnaireRéseau({
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      });
-
-      actual.should.deep.contain(expected);
+    const actual = await listerGestionnaireRéseau({
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
+
+    actual.should.deep.contain(expected);
   },
 );
 
@@ -101,22 +98,20 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const expected: GestionnaireRéseauReadModel = {
-        type: 'gestionnaire-réseau',
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-        raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
-        aideSaisieRéférenceDossierRaccordement: {
-          légende: this.gestionnaireRéseauWorld.légende,
-          format: this.gestionnaireRéseauWorld.format,
-        },
-      };
+    const expected: GestionnaireRéseauReadModel = {
+      type: 'gestionnaire-réseau',
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
+      raisonSociale: this.gestionnaireRéseauWorld.raisonSociale,
+      aideSaisieRéférenceDossierRaccordement: {
+        légende: this.gestionnaireRéseauWorld.légende,
+        format: this.gestionnaireRéseauWorld.format,
+      },
+    };
 
-      const actual = await consulterGestionnaireRéseau({
-        codeEIC: this.gestionnaireRéseauWorld.codeEIC,
-      });
-
-      actual.should.be.deep.equal(expected);
+    const actual = await consulterGestionnaireRéseau({
+      codeEIC: this.gestionnaireRéseauWorld.codeEIC,
     });
+
+    actual.should.be.deep.equal(expected);
   },
 );

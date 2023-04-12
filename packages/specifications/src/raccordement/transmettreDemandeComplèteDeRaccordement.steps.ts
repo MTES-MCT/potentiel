@@ -6,7 +6,6 @@ import {
   listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
 import { PotentielWorld } from '../potentiel.world';
 import { DossierRaccordementReadModel } from '@potentiel/domain/src/raccordement/consulter/dossierRaccordement.readModel';
 
@@ -91,14 +90,12 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const actual = await listerDemandeComplèteRaccordement({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-      });
-
-      actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
-      actual.références.should.length(nombreDeDemandes);
+    const actual = await listerDemandeComplèteRaccordement({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
+
+    actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
+    actual.références.should.length(nombreDeDemandes);
   },
 );
 
@@ -109,20 +106,18 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const actual = await consulterDossierRaccordement({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-      });
-
-      const expected: DossierRaccordementReadModel = {
-        type: 'dossier-raccordement',
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-        gestionnaireRéseau: this.gestionnaireRéseauWorld.enedis,
-        dateQualification: this.raccordementWorld.dateQualification.toISOString(),
-      };
-
-      actual.should.be.deep.equal(expected);
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
     });
+
+    const expected: DossierRaccordementReadModel = {
+      type: 'dossier-raccordement',
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+      gestionnaireRéseau: this.gestionnaireRéseauWorld.enedis,
+      dateQualification: this.raccordementWorld.dateQualification.toISOString(),
+    };
+
+    actual.should.be.deep.equal(expected);
   },
 );
 
@@ -133,13 +128,11 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const actual = await listerDossiersRaccordement({
-        identifiantProjet: this.raccordementWorld.identifiantProjet,
-      });
-      actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
-      actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
+    const actual = await listerDossiersRaccordement({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
+    actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
+    actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
   },
 );
 

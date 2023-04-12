@@ -4,6 +4,7 @@ import {
   createGestionnaireRéseauAggregateId,
 } from '@potentiel/domain';
 import { publish } from '@potentiel/pg-event-sourcing';
+import { sleep } from '../helpers/sleep';
 
 export class GestionnaireRéseauWorld {
   #codeEIC!: string;
@@ -85,5 +86,6 @@ export class GestionnaireRéseauWorld {
     };
     await publish(createGestionnaireRéseauAggregateId(codeEIC), event);
     this.codeEIC = codeEIC;
+    await sleep(100);
   }
 }

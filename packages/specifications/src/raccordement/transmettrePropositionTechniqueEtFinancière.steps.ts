@@ -6,15 +6,11 @@ import {
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
-import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
 
 Quand(
-  `le porteur de projet transmet une proposition technique et financière pour un dossier de raccordement avec la date de signature au {string}`,
+  `le porteur de projet transmet une proposition technique et financière pour ce dossier de raccordement avec la date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
-    await this.raccordementWorld.createDemandeComplèteRaccordement(
-      this.gestionnaireRéseauWorld.enedis.codeEIC,
-    );
-
     const transmettrePropositionTechniqueEtFinancière =
       transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
         loadAggregate,
@@ -36,14 +32,12 @@ Alors(
       find: findProjection,
     });
 
-    await waitForExpect(async () => {
-      const actual = await consulterDossierRaccordement({
-        référence: this.raccordementWorld.référenceDossierRaccordement,
-      });
+    const actual = await consulterDossierRaccordement({
+      référence: this.raccordementWorld.référenceDossierRaccordement,
+    });
 
-      expect(actual.propositionTechniqueEtFinancière).toEqual({
-        dateSignature: new Date(dateSignature).toISOString(),
-      });
+    expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
+      dateSignature: new Date(dateSignature).toISOString(),
     });
   },
 );

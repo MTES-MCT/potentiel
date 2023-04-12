@@ -17,7 +17,7 @@ export const consulterDossierRaccordementQueryHandlerFactory: QueryHandlerFactor
   async ({ référence }) => {
     const result = await find<DossierRaccordementReadModel>(`dossier-raccordement#${référence}`);
     if (isNone(result)) {
-      throw new Error('Not implemented');
+      throw new Error('Dossier de raccordement inconnu');
     }
     return result;
   };

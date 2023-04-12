@@ -29,11 +29,11 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         },
       );
 
-      const listeDemandeComplèteRaccordement = await find<ListeDossiersRaccordementReadModel>(
+      const listeDossierRaccordement = await find<ListeDossiersRaccordementReadModel>(
         `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
       );
 
-      if (isNone(listeDemandeComplèteRaccordement)) {
+      if (isNone(listeDossierRaccordement)) {
         await create<ListeDossiersRaccordementReadModel>(
           `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
           {
@@ -45,15 +45,15 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         await update<ListeDossiersRaccordementReadModel>(
           `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
           {
-            ...listeDemandeComplèteRaccordement,
+            ...listeDossierRaccordement,
             références: [
-              ...listeDemandeComplèteRaccordement.références,
+              ...listeDossierRaccordement.références,
               event.payload.référenceDossierRaccordement,
             ],
           },
         );
       }
     } else {
-      // TODO: logguer au cas où
+      // TODO add a log here
     }
   };
