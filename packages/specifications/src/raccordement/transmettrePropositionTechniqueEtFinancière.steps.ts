@@ -9,7 +9,7 @@ import { findProjection } from '@potentiel/pg-projections';
 import waitForExpect from 'wait-for-expect';
 
 Quand(
-  `le porteur de projet transmet une proposition technique et financière pour une demande complète de raccordement avec la date de signature au {string}`,
+  `le porteur de projet transmet une proposition technique et financière pour un dossier de raccordement avec la date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
     await this.gestionnaireRéseauWorld.createGestionnaireRéseau(
       this.raccordementWorld.enedis.codeEIC,
@@ -32,7 +32,7 @@ Quand(
 );
 
 Alors(
-  `une proposition technique et financière devrait être consultable dans la demande complète de raccordement avec une date de signature au {string}`,
+  `une proposition technique et financière devrait être consultable dans le dossier de raccordement avec une date de signature au {string}`,
   async function (this: PotentielWorld, dateSignature: string) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
