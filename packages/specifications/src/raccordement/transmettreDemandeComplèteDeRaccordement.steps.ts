@@ -83,6 +83,26 @@ Quand(
   },
 );
 
+Quand(
+  `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu`,
+  async function (this: PotentielWorld) {
+    const transmettreDemandeComplèteRaccordement =
+      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+        loadAggregate,
+        publish,
+      });
+
+    await transmettreDemandeComplèteRaccordement({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+      identifiantGestionnaireRéseau: {
+        codeEIC: 'gestionnaire-de-réseau-inconnu',
+      },
+      dateQualification: this.raccordementWorld.dateQualification,
+      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
+    });
+  },
+);
+
 Alors(
   'le projet devrait avoir {int} dossiers de raccordement pour ce gestionnaire de réseau',
   async function (this: PotentielWorld, nombreDeDemandes: number) {

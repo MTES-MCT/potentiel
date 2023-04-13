@@ -18,14 +18,13 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Alors le projet devrait avoir 2 dossiers de raccordement pour ce gestionnaire de réseau
 
      Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un autre gestionnaire de réseau
-         Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau
-         Quand le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau
-         Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"
+        Etant donné un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau
+        Quand le porteur du projet transmet une demande complète de raccordement auprès d'un autre gestionnaire de réseau
+        Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement auprès de plusieurs gestionnaires de réseau"
 
-    # Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu
-    #     Etant donné un projet
-    #     Quand le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu
-    #     Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
+    Scénario: Impossible de transmettre une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu
+        Quand le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu
+        Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
 
     # Scénario: Impossible de transmettre une demande complète de raccordement pour un projet inconnu
     #     Quand le porteur du projet transmet une demande complète de raccordement pour un projet inconnu
