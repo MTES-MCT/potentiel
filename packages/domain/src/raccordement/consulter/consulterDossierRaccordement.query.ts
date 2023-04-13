@@ -1,6 +1,7 @@
 import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { DossierRaccordementReadModel } from './dossierRaccordement.readModel';
+import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 
 type ConsulterDossierRaccordementQuery = { référence: string };
 
@@ -17,7 +18,7 @@ export const consulterDossierRaccordementQueryHandlerFactory: QueryHandlerFactor
   async ({ référence }) => {
     const result = await find<DossierRaccordementReadModel>(`dossier-raccordement#${référence}`);
     if (isNone(result)) {
-      throw new Error('Dossier de raccordement inconnu');
+      throw new DossierRaccordementNonRéférencéError();
     }
     return result;
   };

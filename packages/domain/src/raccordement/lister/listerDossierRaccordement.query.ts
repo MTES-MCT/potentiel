@@ -19,8 +19,13 @@ export const listerDossiersRaccordementQueryHandlerFactory: QueryHandlerFactory<
     const result = await find<ListeDossiersRaccordementReadModel>(
       `liste-dossiers-raccordement#${formatIdentifiantProjet(identifiantProjet)}`,
     );
+
     if (isNone(result)) {
-      throw new Error('Not implemented');
+      return {
+        type: 'liste-dossiers-raccordement',
+        références: [],
+      };
     }
+
     return result;
   };

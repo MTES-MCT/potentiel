@@ -145,7 +145,6 @@ Alors(
     const actual = await listerDossiersRaccordement({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
-    actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
     actual.références.should.contain(this.raccordementWorld.référenceDossierRaccordement);
   },
 );

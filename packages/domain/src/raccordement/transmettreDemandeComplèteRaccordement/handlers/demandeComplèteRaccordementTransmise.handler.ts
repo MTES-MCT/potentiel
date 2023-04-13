@@ -37,7 +37,6 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         await create<ListeDossiersRaccordementReadModel>(
           `liste-dossiers-raccordement#${event.payload.identifiantProjet}`,
           {
-            gestionnaireRéseau,
             références: [event.payload.référenceDossierRaccordement],
           },
         );
