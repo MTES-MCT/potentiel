@@ -2,6 +2,8 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
+  AucunDossierRaccordementError,
+  DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
 } from '@potentiel/domain';
@@ -39,5 +41,51 @@ Alors(
     expect(actual.propositionTechniqueEtFinancière).to.deep.equal({
       dateSignature: new Date(dateSignature).toISOString(),
     });
+  },
+);
+
+Quand(
+  `un administrateur transmet une proposition technique et financière pour un projet n'ayant aucun dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const transmettrePropositionTechniqueEtFinancière =
+      transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
+        loadAggregate,
+        publish,
+      });
+
+    try {
+      await transmettrePropositionTechniqueEtFinancière({
+        dateSignature: new Date(),
+        référenceDossierRaccordement: 'dossier-inconnu',
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      });
+    } catch (error) {
+      if (error instanceof AucunDossierRaccordementError) {
+        this.error = error;
+      }
+    }
+  },
+);
+
+Quand(
+  `un administrateur transmet une proposition technique et financière pour un dossier de raccordement non référencé`,
+  async function (this: PotentielWorld) {
+    const transmettrePropositionTechniqueEtFinancière =
+      transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory({
+        loadAggregate,
+        publish,
+      });
+
+    try {
+      await transmettrePropositionTechniqueEtFinancière({
+        dateSignature: new Date(),
+        référenceDossierRaccordement: 'dossier-inconnu',
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+      });
+    } catch (error) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
+        this.error = error;
+      }
+    }
   },
 );
