@@ -27,8 +27,12 @@ export const transmettreDateMiseEnServiceCommandHandlerFactory: CommandHandlerFa
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
-      throw new Error("Le dossier de raccordement n'existe pas");
+    if (isNone(raccordement)) {
+      throw new Error("Le projet n'a aucun dossier de raccordement");
+    }
+
+    if (!raccordement.références.includes(référenceDossierRaccordement)) {
+      throw new Error("Le dossier de raccordement n'est pas référencé");
     }
 
     const event: DateMiseEnServiceTransmiseEvent = {
