@@ -407,7 +407,14 @@ class routes {
   };
   static POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = '/modifier-identifant-gestionnaire-reseau';
 
-  static GET_LISTE_DOSSIERS_RACCORDEMENT = `/projet/:projetId/raccordements`;
+  static GET_LISTE_DOSSIERS_RACCORDEMENT = (projetId?: string) => {
+    const route = '/projet/:projetId/raccordements';
+    if (projetId) {
+      return route.replace(':projetId', projetId);
+    } else {
+      return route;
+    }
+  };
 }
 
 export default routes;

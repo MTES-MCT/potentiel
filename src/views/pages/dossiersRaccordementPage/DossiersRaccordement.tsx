@@ -1,25 +1,18 @@
 import React from 'react';
-import { Request } from 'express';
 
-import { Heading1, PageTemplate, ProjectProps, Tile } from '@components';
+import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
+import { Heading1, PageTemplate, Tile } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import { GestionnaireRéseauReadModel } from '@potentiel/domain';
+import { ListeDossiersRaccordementReadModel } from '@potentiel/domain/src/raccordement/lister/listeDossierRaccordement.readModel';
 
 type DossiersRaccordementProps = {
-  request: Request;
-  projet: ProjectProps;
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
+  user: UtilisateurReadModel;
+  dossiersRaccordement: ListeDossiersRaccordementReadModel;
 };
 
-export const DossiersRaccordement = ({
-  request,
-  projet,
-  gestionnairesRéseau: listeGestionnairesRéseau,
-}: DossiersRaccordementProps) => {
-  const { error, success } = (request.query as any) || {};
-
+export const DossiersRaccordement = ({ user }: DossiersRaccordementProps) => {
   return (
-    <PageTemplate user={request.user} currentPage="list-projects">
+    <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Raccordement</Heading1>

@@ -1,11 +1,7 @@
-import {
-  PermissionListerGestionnairesRéseau,
-  listerDossiersRaccordementQueryHandlerFactory,
-} from '@potentiel/domain';
+import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
-import { ListeGestionnairesRéseauPage } from '@views';
-import asyncHandler from '../helpers/asyncHandler';
+import { DossiersRaccordementPage } from '@views';
 import { v1Router } from '../v1Router';
 import { Project } from '@infra/sequelize/projectionsNext';
 import * as yup from 'yup';
@@ -17,33 +13,42 @@ const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory
 });
 
 const schema = yup.object({
-  params: yup.object({ projectId: yup.string().uuid().required() }),
+  params: yup.object({ projetId: yup.string().uuid().required() }),
 });
 
 v1Router.get(
-  routes.GET_LISTE_DOSSIERS_RACCORDEMENT,
-  safeAsyncHandler({
-    schema,
-    onError: ({ request, response }) =>
+  routes.GET_LISTE_DOSSIERS_RACCORDEMENT(),
+  safeAsyncHandler(
+    {
+      schema,
+      onError: ({ request, response }) =>
         notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
-  }, async (request, response) => {
-    
-    const {
-      user,
-      query: { projectId },
-    } = request;
-
-    const projet = Project.findByPk(projectId)
-
-    const gestionnairesRéseau = await listerDossiersRaccordement({
-      identifiantProjet: 
-    });
-    return response.send(
-      ListeGestionnairesRéseauPage({
+    },
+    async (request, response) => {
+      const {
         user,
-        gestionnairesRéseau,
-        success: success as string,
-      }),
-    );
-  }),
+        params: { projetId },
+      } = request;
+
+      const projet = await Project.findByPk(projetId);
+
+      if (projet) {
+        const dossiersRaccordement = await listerDossiersRaccordement({
+          identifiantProjet: {
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+          },
+        });
+
+        return response.send(
+          DossiersRaccordementPage({
+            user,
+            dossiersRaccordement,
+          }),
+        );
+      }
+    },
+  ),
 );
