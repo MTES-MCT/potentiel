@@ -1,6 +1,7 @@
 import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
+import { GestionnaireNonRéférencéError } from './gestionnaireNonRéférencé.error';
 
 export type ConsulterGestionnaireRéseauQuery = {
   codeEIC: string;
@@ -19,7 +20,7 @@ export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactor
     const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
 
     if (isNone(result)) {
-      throw new Error(`Le gestionnaire de réseau n'est pas référencé`);
+      throw new GestionnaireNonRéférencéError();
     }
 
     return result;

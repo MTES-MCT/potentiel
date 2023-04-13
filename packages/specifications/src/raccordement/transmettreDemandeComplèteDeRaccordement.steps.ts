@@ -1,6 +1,8 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
+  DossierRaccordementReadModel,
+  GestionnaireNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
@@ -9,7 +11,6 @@ import {
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
-import { DossierRaccordementReadModel } from '@potentiel/domain/src/raccordement/consulter/dossierRaccordement.readModel';
 
 EtantDonné(
   "un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau avec :",
@@ -74,7 +75,7 @@ Quand(
 );
 
 Quand(
-  `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu`,
+  `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau non référencé`,
   async function (this: PotentielWorld) {
     const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
@@ -88,7 +89,7 @@ Quand(
         référenceDossierRaccordement: 'une référence',
       });
     } catch (e) {
-      if (e instanceof Error) {
+      if (e instanceof GestionnaireNonRéférencéError) {
         this.error = e;
       }
     }

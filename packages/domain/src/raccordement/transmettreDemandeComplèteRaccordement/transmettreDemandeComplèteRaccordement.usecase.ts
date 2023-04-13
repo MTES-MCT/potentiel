@@ -30,7 +30,7 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
-      identifiantGestionnaireRéseau,
+      identifiantGestionnaireRéseau: { codeEIC: gestionnaireRéseau.codeEIC },
       dateQualification,
       référenceDossierRaccordement,
     });
