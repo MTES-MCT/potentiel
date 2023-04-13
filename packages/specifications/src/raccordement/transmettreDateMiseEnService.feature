@@ -8,7 +8,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
 
     Scénario: Impossible de transmettre une date de mise en service pour un projet sans dossier de raccordement
         Quand un administrateur transmet une date de mise en service pour un projet n'ayant aucun dossier de raccordement
-        Alors un administrateur devrait être informé que "Le projet n'a aucun dossier de raccordement"
+        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
      Scénario: Impossible de transmettre une date de mise en service pour un dossier de raccordement non référencé
         Etant donné un dossier de raccordement

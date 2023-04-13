@@ -10,7 +10,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { isSome } from '@potentiel/monads';
-import { PlusieursGestionnairesRéseauPourUnProjetError } from './plusieursGestionnairesRéseauPourUnProjet.error';
+import { PlusieursGestionnairesRéseauPourUnProjetError } from '../raccordement.errors';
 
 export type TransmettreDemandeComplèteRaccordementCommand = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau;
