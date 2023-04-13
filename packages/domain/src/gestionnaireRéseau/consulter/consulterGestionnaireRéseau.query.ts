@@ -19,7 +19,7 @@ export const consulterGestionnaireRéseauQueryHandlerFactory: QueryHandlerFactor
     const result = await find<GestionnaireRéseauReadModel>(`gestionnaire-réseau#${codeEIC}`);
 
     if (isNone(result)) {
-      throw new Error();
+      throw new Error(`Le gestionnaire de réseau n'est pas référencé`);
     }
 
     return result;

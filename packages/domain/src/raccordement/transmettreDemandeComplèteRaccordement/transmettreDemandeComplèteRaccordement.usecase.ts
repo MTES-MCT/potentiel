@@ -4,7 +4,6 @@ import {
   ConsulterGestionnaireRéseauQuery,
   GestionnaireRéseauReadModel,
 } from '../../gestionnaireRéseau';
-import { isNone } from '@potentiel/monads';
 
 type Dependencies = {
   transmettreDemandeComplèteRaccordementCommand: CommandHandler<TransmettreDemandeComplèteRaccordementCommand>;
@@ -28,10 +27,6 @@ export const transmettreDemandeComplèteRaccordementUseCaseFactory =
     const gestionnaireRéseau = await consulterGestionnaireRéseauQuery({
       codeEIC: identifiantGestionnaireRéseau.codeEIC,
     });
-
-    if (isNone(gestionnaireRéseau)) {
-      throw new Error(`Le gestionnaire de réseau n'est pas référencé`);
-    }
 
     await transmettreDemandeComplèteRaccordementCommand({
       identifiantProjet,
