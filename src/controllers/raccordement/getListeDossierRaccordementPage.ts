@@ -1,5 +1,8 @@
-import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
-import { findProjection } from '@potentiel/pg-projections';
+import {
+  listerDossiersRaccordementQueryHandlerFactory,
+  listerGestionnaireRéseauQueryHandlerFactory,
+} from '@potentiel/domain';
+import { findProjection, listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { DossiersRaccordementPage } from '@views';
 import { v1Router } from '../v1Router';
@@ -10,6 +13,10 @@ import { notFoundResponse } from '../helpers';
 
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
   find: findProjection,
+});
+
+const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
+  list: listProjection,
 });
 
 const schema = yup.object({
@@ -42,10 +49,13 @@ v1Router.get(
           },
         });
 
+        const gestionnairesRéseau = await listerGestionnaireRéseau({});
+
         return response.send(
           DossiersRaccordementPage({
             user,
             dossiersRaccordement,
+            gestionnairesRéseau,
           }),
         );
       }

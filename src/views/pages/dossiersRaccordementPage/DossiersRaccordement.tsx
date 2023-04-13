@@ -1,17 +1,22 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Button, Heading1, Input, Label, PageTemplate, Tile } from '@components';
+import { Button, Heading1, Input, Label, PageTemplate, Select, Tile } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import { ListeDossiersRaccordementReadModel } from '@potentiel/domain';
+import { GestionnaireRéseauReadModel, ListeDossiersRaccordementReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 type DossiersRaccordementProps = {
   user: UtilisateurReadModel;
   dossiersRaccordement: ListeDossiersRaccordementReadModel;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
-export const DossiersRaccordement = ({ user, dossiersRaccordement }: DossiersRaccordementProps) => {
+export const DossiersRaccordement = ({
+  user,
+  dossiersRaccordement,
+  gestionnairesRéseau,
+}: DossiersRaccordementProps) => {
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
@@ -32,6 +37,18 @@ export const DossiersRaccordement = ({ user, dossiersRaccordement }: DossiersRac
               action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT}
             >
               {/* Ajouter : date qualification, identifiant gestionnaire réseau (+ aide à la saisie) */}
+              <div>
+                <Label htmlFor="codeEIC">Gestionnaire réseau</Label>
+                <Select name="codeEIC" id="codeEIC">
+                  {gestionnairesRéseau.map((gestionnaireRéseau) => {
+                    return (
+                      <option value={gestionnaireRéseau.codeEIC}>
+                        {gestionnaireRéseau.raisonSociale}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </div>
               <div>
                 <Label htmlFor="référence">Référence du dossier de raccordement</Label>
                 <Input type="text" id="référence" name="référence" />

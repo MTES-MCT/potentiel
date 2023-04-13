@@ -415,6 +415,9 @@ class routes {
       return route;
     }
   };
+
+  static POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT =
+    '/transmettre-demande-complete-raccordement';
 }
 
 export default routes;
