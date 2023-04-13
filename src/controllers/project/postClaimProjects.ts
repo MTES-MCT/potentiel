@@ -16,7 +16,7 @@ v1Router.post(
     const { projectIds } = request.body;
     const { user, files } = request;
 
-    const projectsIdsArr = Array.isArray(projectIds) ? projectIds : [projectIds];
+    const projectsIdsArr = projectIds.split(',');
 
     if (!projectsIdsArr.every((projectId) => validateUniqueId(projectId))) {
       return errorResponse({

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   AlertBox,
   Button,
@@ -10,8 +11,6 @@ import {
 import { logger } from '@core/utils';
 import { Project, User } from '@entities';
 import routes from '@routes';
-import React from 'react';
-import { dataId } from '../../helpers/testId';
 import { PaginatedList } from '../../types';
 import { ACTION_BY_ROLE } from './actions';
 
@@ -30,7 +29,7 @@ type ColumnRenderer = (props: { project: Project; email: User['email'] }) => Rea
 const ColumnComponent: Record<Columns, ColumnRenderer> = {
   Projet: ({ project }) => (
     <td valign="top" className="missingOwnerProjectList-projet-column">
-      <div {...dataId('missingOwnerProjectList-item-nomProjet')}>{project.nomProjet}</div>
+      <div>{project.nomProjet}</div>
       <div className="italic text-xs">
         <div>{project.departementProjet}</div>
         <div>{project.nomCandidat}</div>
@@ -42,31 +41,26 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
   ),
   Candidat: ({ project }) => (
     <td valign="top" className="projectList-candidat-column">
-      <div {...dataId('projectList-item-nomCandidat')}>{project.nomCandidat}</div>
+      <div>{project.nomCandidat}</div>
       <div className="italic text-xs">
-        <span {...dataId('projectList-item-nomRepresentantLegal')}>
-          {project.nomRepresentantLegal}
-        </span>{' '}
-        <span {...dataId('projectList-item-email')}>{project.email}</span>
+        <span>{project.nomRepresentantLegal}</span> <span>{project.email}</span>
       </div>
     </td>
   ),
   Puissance: ({ project }) => (
     <td valign="top" className="projectList-puissance-column">
-      <span {...dataId('projectList-item-puissance')}>{project.puissance}</span>{' '}
+      <span>{project.puissance}</span>{' '}
       <span className="italic text-xs">{project.appelOffre?.unitePuissance}</span>
     </td>
   ),
   Region: ({ project }) => (
     <td valign="top" className="projectList-puissance-column">
-      <span {...dataId('projectList-item-region')}>{project.regionProjet}</span>{' '}
+      <span>{project.regionProjet}</span>{' '}
     </td>
   ),
   'Projet pre-affecte': ({ project, email }) => (
     <td valign="top" className="projectList-projet-pre-affecte-column">
-      <span {...dataId('projectList-item-pre-affecte')}>
-        {project.email === email ? 'Oui' : 'Non'}
-      </span>
+      <span>{project.email === email ? 'Oui' : 'Non'}</span>
     </td>
   ),
   'N° CRE': ({ project, email }) =>
@@ -122,11 +116,11 @@ const ColumnComponent: Record<Columns, ColumnRenderer> = {
     ),
 };
 
-interface Props {
+type Props = {
   projects: PaginatedList<Project> | Array<Project>;
   displayColumns: Array<string>;
   user: User;
-}
+};
 
 export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Props) => {
   const { role, email } = user;
@@ -137,6 +131,19 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
   } else {
     items = projects.items;
   }
+
+  const [selectedProjectList, setSelectedProjectList] = useState<string[]>([]);
+  const [swornStatement, setSwornStatement] = useState(false);
+
+  const séléctionnerUnProjet =
+    (projetId: string): React.ChangeEventHandler<HTMLInputElement> =>
+    (event) => {
+      if (event.target.checked) {
+        setSelectedProjectList([...selectedProjectList, projetId]);
+        return;
+      }
+      setSelectedProjectList([...selectedProjectList].filter((selected) => selected !== projetId));
+    };
 
   if (!items.length) {
     return <ListeVide titre="Aucun projet à lister" />;
@@ -153,9 +160,7 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
         <table className="table missingOwnerProjectList">
           <thead>
             <tr>
-              <th {...dataId('missingOwnerProjectList-checkbox')}>
-                <InputCheckbox {...dataId('missingOwnerProjectList-selectAll-checkbox')} />
-              </th>
+              <th></th>
               {displayColumns?.map((column) => (
                 <th key={column}>{column}</th>
               ))}
@@ -165,11 +170,12 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           <tbody>
             {items.map((project) => {
               return (
-                <tr key={'project_' + project.id} {...dataId('missingOwnerProjectList-item')}>
-                  <td {...dataId('missingOwnerProjectList-checkbox')}>
+                <tr key={`project_${project.id}`}>
+                  <td>
                     <InputCheckbox
-                      {...dataId('missingOwnerProjectList-item-checkbox')}
-                      data-projectid={project.id}
+                      value={project.id}
+                      checked={selectedProjectList.includes(project.id)}
+                      onChange={séléctionnerUnProjet(project.id)}
                     />
                   </td>
                   {displayColumns?.map((column) => {
@@ -192,31 +198,31 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user }: Prop
           </tbody>
         </table>
 
-        <select name="projectIds" multiple {...dataId('claimed-project-list')} className="hidden" />
+        <input type="hidden" name="projectIds" value={selectedProjectList} />
 
         <AlertBox className="my-8">
-          <Label htmlFor="swornStatement">
-            <InputCheckbox
-              name="swornStatement"
-              id="swornStatement"
-              {...dataId('sworn-statement')}
-              className="mr-1"
-            />
-            J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
-            projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
-            poursuites judiciaires.
-          </Label>
+          <>
+            <Label htmlFor="swornStatement">
+              <InputCheckbox
+                name="swornStatement"
+                id="swornStatement"
+                onChange={() => setSwornStatement(!swornStatement)}
+                className="mr-1"
+              />
+              J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
+              projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
+              poursuites judiciaires.
+            </Label>
+            {selectedProjectList.length > 0 && swornStatement && (
+              <Button type="submit" name="submit" id="submit" className="my-4">
+                Réclamer la propriété{' '}
+                {selectedProjectList.length === 1
+                  ? 'du project séléctionné'
+                  : `des ${selectedProjectList.length} projets séléctionnés`}
+              </Button>
+            )}
+          </>
         </AlertBox>
-        <Button
-          type="submit"
-          name="submit"
-          id="submit"
-          disabled
-          {...dataId('claim-projects-submit-button')}
-          className="my-1"
-        >
-          Réclamer la propriété des projets sélectionnés
-        </Button>
       </form>
 
       {!Array.isArray(projects) && (
