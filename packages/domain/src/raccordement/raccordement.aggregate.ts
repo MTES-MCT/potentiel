@@ -12,9 +12,12 @@ export const createRaccordementAggregateId = (
 
 type LoadAggregateFactoryDependencies = { loadAggregate: LoadAggregate };
 
-type RaccordementState = { gestionnaireRéseau: { codeEIC: string } };
+type RaccordementState = { gestionnaireRéseau: { codeEIC: string }; références: string[] };
 
-const defaultAggregateState: RaccordementState = { gestionnaireRéseau: { codeEIC: '' } };
+const defaultAggregateState: RaccordementState = {
+  gestionnaireRéseau: { codeEIC: '' },
+  références: [],
+};
 
 type RaccordementEvent = DemandeComplèteRaccordementTransmiseEvent;
 
@@ -28,6 +31,7 @@ const raccordementAggregateStateFactory: AggregateStateFactory<
         return {
           ...aggregate,
           gestionnaireRéseau: { codeEIC: event.payload.identifiantGestionnaireRéseau },
+          références: [...aggregate.références, event.payload.référenceDossierRaccordement],
         };
       default:
         return { ...aggregate };
