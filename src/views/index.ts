@@ -48,6 +48,7 @@ import {
   ListeGestionnairesRéseau,
   ConsulterGestionnaireRéseau,
   AjouterGestionnaireRéseau,
+  DossiersRaccordement,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -408,3 +409,14 @@ export const AjouterGestionnaireRéseauPage = (
     props,
     title: 'Ajouter un gestionnaire de réseau',
   });
+
+export const DossiersRaccordementPage = (
+  props: Parameters<typeof DossiersRaccordement>[0],
+) =>
+  makeHtml({
+    Component: DossiersRaccordement,
+    props,
+    title: 'Liste des dossiers de raccordement',
+  });
+
+  

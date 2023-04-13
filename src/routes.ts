@@ -406,6 +406,8 @@ class routes {
     } else return route;
   };
   static POST_MODIFIER_IDENTIFIANT_GESTIONNAIRE_RESEAU = '/modifier-identifant-gestionnaire-reseau';
+
+  static GET_LISTE_DOSSIERS_RACCORDEMENT = `/projet/:projetId/raccordements`;
 }
 
 export default routes;
