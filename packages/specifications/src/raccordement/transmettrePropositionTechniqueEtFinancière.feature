@@ -8,7 +8,7 @@ Fonctionnalité: Transmettre une proposition technique et financière
 
     Scénario: Impossible de transmettre une proposition technique et financière pour un projet sans dossier de raccordement
         Quand un administrateur transmet une proposition technique et financière pour un projet n'ayant aucun dossier de raccordement
-        Alors un administrateur devrait être informé que "Le projet n'a aucun dossier de raccordement"
+        Alors un administrateur devrait être informé que "Le dossier de raccordement n'est pas référencé"
 
      Scénario: Impossible de transmettre une proposition technique et financière pour un dossier de raccordement non référencé
         Etant donné un dossier de raccordement

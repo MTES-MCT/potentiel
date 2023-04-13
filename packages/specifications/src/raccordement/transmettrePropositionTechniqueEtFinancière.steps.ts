@@ -2,7 +2,6 @@ import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
-  AucunDossierRaccordementError,
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   transmettrePropositionTechniqueEtFinancièreCommandHandlerFactory,
@@ -60,7 +59,7 @@ Quand(
         identifiantProjet: this.raccordementWorld.identifiantProjet,
       });
     } catch (error) {
-      if (error instanceof AucunDossierRaccordementError) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;
       }
     }

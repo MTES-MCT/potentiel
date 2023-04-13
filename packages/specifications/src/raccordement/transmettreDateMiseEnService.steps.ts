@@ -1,7 +1,6 @@
 import { When as Quand, Then as Alors } from '@cucumber/cucumber';
 import { PotentielWorld } from '../potentiel.world';
 import {
-  AucunDossierRaccordementError,
   DossierRaccordementNonRéférencéError,
   consulterDossierRaccordementQueryHandlerFactory,
   transmettreDateMiseEnServiceCommandHandlerFactory,
@@ -56,7 +55,7 @@ Quand(
         dateMiseEnService: new Date('2023-03-15'),
       });
     } catch (error) {
-      if (error instanceof AucunDossierRaccordementError) {
+      if (error instanceof DossierRaccordementNonRéférencéError) {
         this.error = error;
       }
     }

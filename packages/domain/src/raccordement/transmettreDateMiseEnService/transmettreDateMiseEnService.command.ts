@@ -6,8 +6,7 @@ import {
   loadRaccordementAggregateFactory,
 } from '../raccordement.aggregate';
 import { isNone } from '@potentiel/monads';
-import { AucunDossierRaccordementError } from './aucunDossierRaccordement.error';
-import { DossierRaccordementNonRéférencéError } from './dossierRaccordementNonRéférencé.error';
+import { DossierRaccordementNonRéférencéError } from '../raccordement.errors';
 
 type Dependencies = { loadAggregate: LoadAggregate; publish: Publish };
 
@@ -29,11 +28,7 @@ export const transmettreDateMiseEnServiceCommandHandlerFactory: CommandHandlerFa
 
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
 
-    if (isNone(raccordement)) {
-      throw new AucunDossierRaccordementError();
-    }
-
-    if (!raccordement.références.includes(référenceDossierRaccordement)) {
+    if (isNone(raccordement) || !raccordement.références.includes(référenceDossierRaccordement)) {
       throw new DossierRaccordementNonRéférencéError();
     }
 
