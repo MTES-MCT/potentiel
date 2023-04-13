@@ -1,5 +1,5 @@
 export * from './transmettrePropositionTechniqueEtFinancière/transmettrePropositionTechniqueEtFinancière.command';
-export * from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.command';
+export * from './transmettreDemandeComplèteRaccordement/transmettreDemandeComplèteRaccordement.usecase';
 export * from './transmettreDateMiseEnService/transmettreDateMiseEnService.command';
 export * from './consulter/consulterDossierRaccordement.query';
 export * from './lister/listerDossierRaccordement.query';

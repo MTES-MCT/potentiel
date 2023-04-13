@@ -1,9 +1,9 @@
 import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@cucumber/cucumber';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
-  transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   consulterDossierRaccordementQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
+  transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
 import { PotentielWorld } from '../potentiel.world';
@@ -17,7 +17,7 @@ EtantDonné(
     const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
@@ -42,7 +42,7 @@ Quand(
       exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
@@ -67,7 +67,7 @@ Quand(
       exemple['La référence du dossier de raccordement'];
 
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
@@ -87,7 +87,7 @@ Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu`,
   async function (this: PotentielWorld) {
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
@@ -160,7 +160,7 @@ EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
@@ -186,7 +186,7 @@ Quand(
     );
 
     const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      transmettreDemandeComplèteRaccordementUseCaseFactory({
         loadAggregate,
         publish,
       });
