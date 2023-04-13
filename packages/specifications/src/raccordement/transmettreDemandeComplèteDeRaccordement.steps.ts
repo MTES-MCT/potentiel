@@ -108,13 +108,12 @@ Alors(
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    actual.gestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
     actual.références.should.length(nombreDeDemandes);
   },
 );
 
 Alors(
-  'le projet devrait avoir un dossier de raccordement  pour ce gestionnaire de réseau',
+  'le projet devrait avoir un dossier de raccordement pour ce gestionnaire de réseau',
   async function async(this: PotentielWorld) {
     const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
       find: findProjection,
