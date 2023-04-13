@@ -8,3 +8,5 @@ export * from './transmettreDemandeComplèteRaccordement/demandeComplèteRaccord
 export * from './transmettrePropositionTechniqueEtFinancière/propositionTechniqueEtFinancièreTransmise.event';
 export * from './raccordement.aggregate';
 export * from './consulter/dossierRaccordement.readModel';
+export * from './transmettreDateMiseEnService/aucunDossierRaccordement.error';
+export * from './transmettreDateMiseEnService/dossierRaccordementNonRéférencé.error';
