@@ -10,3 +10,4 @@ export * from './raccordement.aggregate';
 export * from './consulter/dossierRaccordement.readModel';
 export * from './transmettreDateMiseEnService/aucunDossierRaccordement.error';
 export * from './transmettreDateMiseEnService/dossierRaccordementNonRéférencé.error';
+export * from './transmettreDemandeComplèteRaccordement/plusieursGestionnairesRéseauPourUnProjet.error';

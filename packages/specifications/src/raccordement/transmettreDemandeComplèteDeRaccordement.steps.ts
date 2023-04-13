@@ -3,6 +3,7 @@ import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   DossierRaccordementReadModel,
   GestionnaireNonRéférencéError,
+  PlusieursGestionnairesRéseauPourUnProjetError,
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
@@ -186,7 +187,9 @@ Quand(
         référenceDossierRaccordement: 'Enieme-DCR',
       });
     } catch (error) {
-      this.error = error as Error;
+      if (error instanceof PlusieursGestionnairesRéseauPourUnProjetError) {
+        this.error = error;
+      }
     }
   },
 );
