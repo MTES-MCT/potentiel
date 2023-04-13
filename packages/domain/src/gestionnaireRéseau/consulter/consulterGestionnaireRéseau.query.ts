@@ -2,7 +2,7 @@ import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { isNone } from '@potentiel/monads';
 import { GestionnaireRéseauReadModel } from '../gestionnaireRéseau.readModel';
 
-type ConsulterGestionnaireRéseauQuery = {
+export type ConsulterGestionnaireRéseauQuery = {
   codeEIC: string;
 };
 

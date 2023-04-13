@@ -2,7 +2,9 @@ import { Given as EtantDonné, When as Quand, Then as Alors, DataTable } from '@
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import {
   consulterDossierRaccordementQueryHandlerFactory,
+  consulterGestionnaireRéseauQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
+  transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
@@ -16,13 +18,9 @@ EtantDonné(
     const dateQualification = new Date(exemple['La date de qualification']);
     const référenceDemandeRaccordement = exemple['La référence du dossier de raccordement'];
 
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
-    await transmettreDemandeComplèteRaccordement({
+    await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -41,13 +39,9 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
 
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
-    await transmettreDemandeComplèteRaccordement({
+    await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -66,13 +60,9 @@ Quand(
     this.raccordementWorld.référenceDossierRaccordement =
       exemple['La référence du dossier de raccordement'];
 
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
-    await transmettreDemandeComplèteRaccordement({
+    await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -86,20 +76,22 @@ Quand(
 Quand(
   `le porteur du projet transmet une demande complète de raccordement auprès d'un gestionnaire de réseau inconnu`,
   async function (this: PotentielWorld) {
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
-    await transmettreDemandeComplèteRaccordement({
-      identifiantProjet: this.raccordementWorld.identifiantProjet,
-      identifiantGestionnaireRéseau: {
-        codeEIC: 'gestionnaire-de-réseau-inconnu',
-      },
-      dateQualification: this.raccordementWorld.dateQualification,
-      référenceDossierRaccordement: this.raccordementWorld.référenceDossierRaccordement,
-    });
+    try {
+      await transmettreDemandeComplèteRaccordementUseCase({
+        identifiantProjet: this.raccordementWorld.identifiantProjet,
+        identifiantGestionnaireRéseau: {
+          codeEIC: 'gestionnaire-de-réseau-inconnu',
+        },
+        dateQualification: new Date(),
+        référenceDossierRaccordement: 'une référence',
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        this.error = e;
+      }
+    }
   },
 );
 
@@ -159,13 +151,9 @@ Alors(
 EtantDonné(
   `un projet avec une demande complète de raccordement transmise auprès d'un gestionnaire de réseau`,
   async function (this: PotentielWorld) {
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
-    await transmettreDemandeComplèteRaccordement({
+    await transmettreDemandeComplèteRaccordementUseCase({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
       identifiantGestionnaireRéseau: {
         codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
@@ -185,14 +173,10 @@ Quand(
       'Un autre gestionnaire',
     );
 
-    const transmettreDemandeComplèteRaccordement =
-      transmettreDemandeComplèteRaccordementUseCaseFactory({
-        loadAggregate,
-        publish,
-      });
+    const transmettreDemandeComplèteRaccordementUseCase = getUseCase();
 
     try {
-      await transmettreDemandeComplèteRaccordement({
+      await transmettreDemandeComplèteRaccordementUseCase({
         identifiantProjet: this.raccordementWorld.identifiantProjet,
         identifiantGestionnaireRéseau: {
           codeEIC: codeEICAutreGDR,
@@ -205,3 +189,22 @@ Quand(
     }
   },
 );
+
+function getUseCase() {
+  const consulterGestionnaireRéseauQuery = consulterGestionnaireRéseauQueryHandlerFactory({
+    find: findProjection,
+  });
+
+  const transmettreDemandeComplèteRaccordementCommand =
+    transmettreDemandeComplèteRaccordementCommandHandlerFactory({
+      loadAggregate,
+      publish,
+    });
+
+  const transmettreDemandeComplèteRaccordementUseCase =
+    transmettreDemandeComplèteRaccordementUseCaseFactory({
+      consulterGestionnaireRéseauQuery,
+      transmettreDemandeComplèteRaccordementCommand,
+    });
+  return transmettreDemandeComplèteRaccordementUseCase;
+}
