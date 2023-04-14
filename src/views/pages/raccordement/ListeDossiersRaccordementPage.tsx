@@ -17,7 +17,9 @@ export const ListeDossiersRaccordement = ({ user, références }: ListeDossiersR
           <Heading1>Dossiers de raccordement</Heading1>
         </div>
         {références.map((référence) => (
-          <Tile>Référence dossier de raccordement : {référence}</Tile>
+          <Tile key={référence} className="mb-3">
+            {référence}
+          </Tile>
         ))}
       </div>
     </PageTemplate>
