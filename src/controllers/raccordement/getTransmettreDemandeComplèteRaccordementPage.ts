@@ -1,6 +1,4 @@
-import {
-  listerGestionnaireRéseauQueryHandlerFactory,
-} from '@potentiel/domain';
+import { listerGestionnaireRéseauQueryHandlerFactory } from '@potentiel/domain';
 import { listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
@@ -29,7 +27,7 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId },
+        params: { projetId, error },
       } = request;
 
       const projet = await Project.findByPk(projetId, { attributes: ['id'] });
@@ -42,6 +40,7 @@ v1Router.get(
             user,
             gestionnairesRéseau,
             projetId,
+            error,
           }),
         );
       }

@@ -1,5 +1,7 @@
 import {
+  GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
+  PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
@@ -10,6 +12,7 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import {
+  errorResponse,
   iso8601DateToDateYupTransformation,
   notFoundResponse,
   unauthorizedResponse,
@@ -17,6 +20,8 @@ import {
 } from '../helpers';
 import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
+import { addQueryParams } from '../../helpers/addQueryParams';
+import { logger } from '@core/utils';
 
 const transmettreDemandeComplèteRaccordementCommand =
   transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -107,11 +112,20 @@ v1Router.post(
 
         return response.redirect(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId));
       } catch (error) {
-        console.log(error);
-        return response.redirect(
-          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
-          //TO DO : voir comment passer l'erreur
-        );
+        if (
+          error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
+          error instanceof GestionnaireNonRéférencéError
+        ) {
+          return response.redirect(
+            addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
+              error: error.message,
+            }),
+          );
+        }
+
+        logger.error(error);
+
+        return errorResponse({ request, response });
       }
     },
   ),

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import {
   Button,
+  ErrorBox,
   ExternalLink,
   Heading1,
   InfoBox,
@@ -19,12 +20,14 @@ type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
   projetId: string;
+  error?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
   projetId,
+  error,
 }: TransmettreDemandeComplèteRaccordementProps) => {
   const [format, setFormat] = useState('');
   const [légende, setLégende] = useState('');
@@ -43,7 +46,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
         <div className="panel__header">
           <Heading1>Transmettre une demande comlète de raccordement</Heading1>
         </div>
-
+        {error && <ErrorBox>{error}</ErrorBox>}
         <form
           className="flex gap-3 flex-col"
           method="POST"
