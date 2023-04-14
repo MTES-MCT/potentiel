@@ -12,9 +12,10 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import {
   iso8601DateToDateYupTransformation,
   notFoundResponse,
+  unauthorizedResponse,
   vérifierPermissionUtilisateur,
 } from '../helpers';
-import { Project } from '@infra/sequelize/projectionsNext';
+import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 
 const transmettreDemandeComplèteRaccordementCommand =
@@ -68,9 +69,17 @@ v1Router.post(
       });
 
       if (projet) {
-        // Check user rights
-        // TODO : Créer une nouvelle fonction qui fait une query sur userProjects pour vérifier que l'utilisateur a bien les droits d'accès au projet
-        // shouldPorteurProjetAccessProject()
+        const porteurAAccèsAuProjet = await UserProjects.findOne({
+          where: { projectId: projetId, userId: user.id },
+        });
+
+        if (!porteurAAccèsAuProjet) {
+          return unauthorizedResponse({
+            request,
+            response,
+            customMessage: `Vous n'avez pas accès à ce projet.`,
+          });
+        }
 
         const identifiantProjet = {
           appelOffre: projet.appelOffreId,
