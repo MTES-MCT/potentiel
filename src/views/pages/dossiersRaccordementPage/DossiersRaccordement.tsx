@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Button, Heading1, Input, Label, PageTemplate, Select, Tile } from '@components';
@@ -8,7 +8,7 @@ import routes from '@routes';
 
 type DossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  dossiersRaccordement: ListeDossiersRaccordementReadModel;
+  dossiersRaccordement: ListeDossiersRaccordementReadModel; // Ajouter le gestionnaire
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
@@ -17,6 +17,32 @@ export const DossiersRaccordement = ({
   dossiersRaccordement,
   gestionnairesRéseau,
 }: DossiersRaccordementProps) => {
+  const gestionnaireActuel = gestionnairesRéseau?.find(
+    (gestionnaire) => gestionnaire.codeEIC === gestionnaireRéseauActuel?.codeEIC,
+  );
+
+  const [format, setFormat] = useState(
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.format || '',
+  );
+  const [légende, setLégende] = useState(
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende || '',
+  );
+
+  const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
+    const gestionnaireSélectionné = gestionnairesRéseau?.find(
+      (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
+    );
+
+    gestionnaireSélectionné && gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format
+      ? setFormat(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format)
+      : setFormat('');
+
+    gestionnaireSélectionné &&
+    gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende
+      ? setLégende(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende)
+      : setLégende('');
+  };
+
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
@@ -37,7 +63,6 @@ export const DossiersRaccordement = ({
             method="POST"
             action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT}
           >
-            {/* Ajouter : date qualification, identifiant gestionnaire réseau (+ aide à la saisie) */}
             <div>
               <Label htmlFor="codeEIC" required>
                 Gestionnaire réseau
