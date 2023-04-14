@@ -27,20 +27,20 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId, error },
+        params: { projetId },
+        query: { error },
       } = request;
 
       const projet = await Project.findByPk(projetId, { attributes: ['id'] });
 
       if (projet) {
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
-
         return response.send(
           TransmettreDemandeComplèteRaccordementPage({
             user,
             gestionnairesRéseau,
             projetId,
-            error,
+            error: error as string,
           }),
         );
       }

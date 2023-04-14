@@ -46,12 +46,12 @@ export const TransmettreDemandeComplèteRaccordement = ({
         <div className="panel__header">
           <Heading1>Transmettre une demande comlète de raccordement</Heading1>
         </div>
-        {error && <ErrorBox>{error}</ErrorBox>}
         <form
           className="flex gap-3 flex-col"
           method="POST"
           action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projetId)}
         >
+          {error && <ErrorBox>{error}</ErrorBox>}
           <p className="text-sm italic">Tous les champs sont obligatoires</p>
           <div className="flex flex-col gap-4">
             {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
