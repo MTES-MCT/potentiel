@@ -1,23 +1,12 @@
-import {
-  listerDossiersRaccordementQueryHandlerFactory,
-  listerGestionnaireRéseauQueryHandlerFactory,
-} from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
-import { Project } from '@infra/sequelize/projectionsNext';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse } from '../helpers';
-import { TransmettreDemandeComplèteRaccordementPage } from '@views';
 
-const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-  find: findProjection,
-});
-
-const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
+// const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
+//   find: findProjection,
+// });
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -49,15 +38,7 @@ v1Router.get(
       //     },
       //   });
 
-      //   const gestionnairesRéseau = await listerGestionnaireRéseau({});
-
-        return response.send(
-          TransmettreDemandeComplèteRaccordementPage({
-            user,
-            gestionnairesRéseau,
-          }),
-        );
-      }
+      return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));
     },
   ),
 );

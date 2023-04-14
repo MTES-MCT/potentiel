@@ -17,4 +17,4 @@ export * from './importerListingEDF';
 export * from './importerListingEnedis';
 export * from './upload';
 export * from './v1Router';
-export * from './raccordement/getListeDossierRaccordementPage';
+export * from './raccordement';

@@ -20,7 +20,7 @@ const schema = yup.object({
 });
 
 v1Router.get(
-  routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(),
+  routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(),
   safeAsyncHandler(
     {
       schema,
