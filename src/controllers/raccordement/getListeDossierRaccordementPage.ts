@@ -3,10 +3,13 @@ import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse } from '../helpers';
+import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
+import { Project } from '@infra/sequelize/projectionsNext';
+import { findProjection } from '@potentiel/pg-projections';
 
-// const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
-//   find: findProjection,
-// });
+const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
@@ -26,19 +29,36 @@ v1Router.get(
         params: { projetId },
       } = request;
 
-      // const projet = await Project.findByPk(projetId);
+      const projet = await Project.findByPk(projetId);
 
-      // if (projet) {
-      //   const dossiersRaccordement = await listerDossiersRaccordement({
-      //     identifiantProjet: {
-      //       appelOffre: projet.appelOffreId,
-      //       période: projet.periodeId,
-      //       famille: projet.familleId,
-      //       numéroCRE: projet.numeroCRE,
-      //     },
-      //   });
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
 
-      return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));
+      // const dossiersRaccordement = listerDossiersRaccordement({
+
+      // })
+
+      const { références } = await listerDossiersRaccordement({
+        identifiantProjet: {
+          appelOffre: projet.appelOffreId,
+          période: projet.periodeId,
+          famille: projet.familleId,
+          numéroCRE: projet.numeroCRE,
+        },
+      });
+
+      if (références.length > 0) {
+        return response.send(); //TODO
+      } else {
+        return response.redirect(
+          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
+        );
+      }
     },
   ),
 );

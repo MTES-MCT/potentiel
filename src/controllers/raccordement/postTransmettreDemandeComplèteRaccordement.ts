@@ -68,10 +68,18 @@ v1Router.post(
         attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
       });
 
-      if (projet) {
-        const porteurAAccèsAuProjet = await UserProjects.findOne({
-          where: { projectId: projetId, userId: user.id },
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
         });
+      }
+
+      if (user.role === 'porteur-projet') {
+        const porteurAAccèsAuProjet = !!(await UserProjects.findOne({
+          where: { projectId: projetId, userId: user.id },
+        }));
 
         if (!porteurAAccèsAuProjet) {
           return unauthorizedResponse({
@@ -80,14 +88,16 @@ v1Router.post(
             customMessage: `Vous n'avez pas accès à ce projet.`,
           });
         }
+      }
 
-        const identifiantProjet = {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        };
+      const identifiantProjet = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
 
+      try {
         await transmettreDemandeComplèteRaccordement({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
@@ -96,7 +106,7 @@ v1Router.post(
         });
 
         return response.redirect(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId));
-      }
+      } catch (error) {}
     },
   ),
 );
