@@ -44,4 +44,4 @@ export * from './Signup';
 export * from './StatistiquesPage';
 export * from './SuccèsOuErreurPage';
 export * from './UploadLegacyModificationFilesPage';
-export * from './dossiersRaccordementPage';
+export * from './raccordement';
