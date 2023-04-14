@@ -9,12 +9,14 @@ type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
   références: Array<string>;
   projetId: string;
+  nomProjet: string;
 };
 
 export const ListeDossiersRaccordement = ({
   user,
   références,
   projetId,
+  nomProjet,
 }: ListeDossiersRaccordementProps) => {
   return (
     <PageTemplate user={user} currentPage="list-projects">
@@ -22,6 +24,7 @@ export const ListeDossiersRaccordement = ({
         <div className="panel__header">
           <Heading1>Dossiers de raccordement</Heading1>
         </div>
+        <p>Pour le projet : {nomProjet}</p>
         {références.map((référence) => (
           <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
             <div>{référence}</div>

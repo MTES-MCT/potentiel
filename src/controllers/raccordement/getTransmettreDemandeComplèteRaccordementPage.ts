@@ -35,7 +35,20 @@ v1Router.get(
         query: { error },
       } = request;
 
-      const projet = await Project.findByPk(projetId, { attributes: ['id'] });
+      const projet = await Project.findByPk(projetId, {
+        attributes: [
+          'id',
+          'nomProjet',
+          'nomCandidat',
+          'communeProjet',
+          'regionProjet',
+          'departementProjet',
+          'periodeId',
+          'familleId',
+          'notifiedOn',
+          'appelOffreId',
+        ],
+      });
 
       if (projet) {
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
@@ -43,7 +56,7 @@ v1Router.get(
           TransmettreDemandeComplèteRaccordementPage({
             user,
             gestionnairesRéseau,
-            projetId,
+            projet,
             error: error as string,
           }),
         );

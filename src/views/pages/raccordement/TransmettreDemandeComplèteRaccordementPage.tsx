@@ -6,10 +6,13 @@ import {
   ErrorBox,
   ExternalLink,
   Heading1,
+  Heading2,
   InfoBox,
   Input,
   Label,
   PageTemplate,
+  ProjectInfo,
+  ProjectProps,
   Select,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
@@ -19,14 +22,14 @@ import routes from '@routes';
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  projetId: string;
+  projet: ProjectProps;
   error?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
-  projetId,
+  projet,
   error,
 }: TransmettreDemandeComplèteRaccordementProps) => {
   const [format, setFormat] = useState('');
@@ -44,15 +47,18 @@ export const TransmettreDemandeComplèteRaccordement = ({
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
-          <Heading1>Transmettre une demande comlète de raccordement</Heading1>
+          <Heading1>Transmettre une demande complète de raccordement</Heading1>
         </div>
         <form
           className="flex gap-3 flex-col"
           method="POST"
-          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projetId)}
+          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projet.id)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
-          <p className="text-sm italic">Tous les champs sont obligatoires</p>
+          <Heading2>Concernant le projet</Heading2>
+          <ProjectInfo project={projet} className="mb-3" />
+          <Heading2>Enregistrer un dossier dans Potentiel</Heading2>
+          <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
           <div className="flex flex-col gap-4">
             {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
               <div>

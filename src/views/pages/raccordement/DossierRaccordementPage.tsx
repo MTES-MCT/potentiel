@@ -10,9 +10,15 @@ type DossierRaccordementProps = {
   user: UtilisateurReadModel;
   dossier: DossierRaccordementReadModel;
   projetId: string;
+  nomProjet: string;
 };
 
-export const DossierRaccordement = ({ user, projetId, dossier }: DossierRaccordementProps) => {
+export const DossierRaccordement = ({
+  user,
+  projetId,
+  dossier,
+  nomProjet,
+}: DossierRaccordementProps) => {
   const { référence, dateQualification, gestionnaireRéseau } = dossier;
   return (
     <PageTemplate user={user} currentPage="list-projects">
@@ -21,6 +27,7 @@ export const DossierRaccordement = ({ user, projetId, dossier }: DossierRaccorde
           <Heading1>Dossier de raccordement {référence}</Heading1>
         </div>
         <div>
+          <p>Pour le projet : {nomProjet}</p>
           <ul className="list-none p-0">
             <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
             <li>Référence : {référence}</li>

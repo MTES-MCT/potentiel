@@ -34,7 +34,9 @@ v1Router.get(
         params: { projetId },
       } = request;
 
-      const projet = await Project.findByPk(projetId);
+      const projet = await Project.findByPk(projetId, {
+        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE', 'nomProjet'],
+      });
 
       if (!projet) {
         return notFoundResponse({
@@ -54,7 +56,14 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        return response.send(ListeDossiersRaccordementPage({ références, user, projetId }));
+        return response.send(
+          ListeDossiersRaccordementPage({
+            références,
+            user,
+            projetId,
+            nomProjet: projet.nomProjet,
+          }),
+        );
       }
 
       return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));

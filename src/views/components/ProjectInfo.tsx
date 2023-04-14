@@ -17,8 +17,8 @@ export type ProjectProps = {
   appelOffreId: string;
   identifiantGestionnaire?: string;
   gestionnaireRéseau?: { codeEIC: string; raisonSociale: string };
-  puissance: number;
-  unitePuissance: string;
+  puissance?: number;
+  unitePuissance?: string;
 };
 
 type ProjectInfoProps = {

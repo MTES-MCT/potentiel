@@ -12,6 +12,7 @@ import { findProjection } from '@potentiel/pg-projections';
 import { DossierRaccordementPage } from '@views';
 import { logger } from '@core/utils';
 import { addQueryParams } from 'src/helpers/addQueryParams';
+import { Project } from '@infra/sequelize/projectionsNext';
 
 const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -39,9 +40,23 @@ v1Router.get(
         params: { projetId, reference: référence },
       } = request;
 
+      const projet = await Project.findByPk(projetId, {
+        attributes: ['nomProjet'],
+      });
+
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
+      }
+
       try {
         const dossier = await consulterDossierRaccordement({ référence });
-        return response.send(DossierRaccordementPage({ dossier, projetId, user }));
+        return response.send(
+          DossierRaccordementPage({ dossier, projetId, user, nomProjet: projet.nomProjet }),
+        );
       } catch (error) {
         if (error instanceof DossierRaccordementNonRéférencéError) {
           return response.redirect(
