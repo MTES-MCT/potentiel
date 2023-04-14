@@ -6,6 +6,7 @@ import { notFoundResponse } from '../helpers';
 import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
+import { ListeDossiersRaccordementPage } from '@views';
 
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
   find: findProjection,
@@ -39,10 +40,6 @@ v1Router.get(
         });
       }
 
-      // const dossiersRaccordement = listerDossiersRaccordement({
-
-      // })
-
       const { références } = await listerDossiersRaccordement({
         identifiantProjet: {
           appelOffre: projet.appelOffreId,
@@ -53,12 +50,10 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        return response.send(); //TODO
-      } else {
-        return response.redirect(
-          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
-        );
+        return response.send(ListeDossiersRaccordementPage({ références, user }));
       }
+
+      return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));
     },
   ),
 );

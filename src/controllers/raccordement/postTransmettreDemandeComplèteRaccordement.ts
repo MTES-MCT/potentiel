@@ -106,7 +106,13 @@ v1Router.post(
         });
 
         return response.redirect(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId));
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+        return response.redirect(
+          routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId),
+          //TO DO : voir comment passer l'erreur
+        );
+      }
     },
   ),
 );
