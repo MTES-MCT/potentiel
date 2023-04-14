@@ -1,14 +1,25 @@
 import React, { useState } from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Button, Heading1, Input, Label, PageTemplate, Select, Tile } from '@components';
+import {
+  Button,
+  ExternalLink,
+  Heading1,
+  InfoBox,
+  Input,
+  Label,
+  PageTemplate,
+  Select,
+  Tile,
+} from '@components';
 import { hydrateOnClient } from '../../helpers';
 import { GestionnaireRéseauReadModel, ListeDossiersRaccordementReadModel } from '@potentiel/domain';
 import routes from '@routes';
 
 type DossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  dossiersRaccordement: ListeDossiersRaccordementReadModel; // Ajouter le gestionnaire
+  dossiersRaccordement: ListeDossiersRaccordementReadModel['références']; // Ajouter le gestionnaire
+  codeEIC: ListeDossiersRaccordementReadModel['codeEIC'];
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
@@ -16,9 +27,10 @@ export const DossiersRaccordement = ({
   user,
   dossiersRaccordement,
   gestionnairesRéseau,
+  codeEIC,
 }: DossiersRaccordementProps) => {
   const gestionnaireActuel = gestionnairesRéseau?.find(
-    (gestionnaire) => gestionnaire.codeEIC === gestionnaireRéseauActuel?.codeEIC,
+    (gestionnaire) => gestionnaire.codeEIC === codeEIC,
   );
 
   const [format, setFormat] = useState(
@@ -63,7 +75,7 @@ export const DossiersRaccordement = ({
             method="POST"
             action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT}
           >
-            <div>
+            {/* <div>
               <Label htmlFor="codeEIC" required>
                 Gestionnaire réseau
               </Label>
@@ -79,7 +91,59 @@ export const DossiersRaccordement = ({
                   );
                 })}
               </Select>
+            </div> */}
+            <div className="flex flex-col gap-4">
+              {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
+                <div>
+                  <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
+                  <Select
+                    id="codeEICGestionnaireRéseau"
+                    name="codeEICGestionnaireRéseau"
+                    onChange={(e) => handleGestionnaireSéléctionné(e)}
+                    defaultValue={gestionnaireActuel?.codeEIC || 'défaut'}
+                  >
+                    <option value="défaut" disabled hidden>
+                      Sélectionnez votre gestionnaire de réseau
+                    </option>
+                    {gestionnairesRéseau.map(({ codeEIC, raisonSociale }) => (
+                      <option value={codeEIC} key={codeEIC}>
+                        {raisonSociale} (code EIC : {codeEIC})
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              )}
+
+              <div>
+                <Label htmlFor="identifiantGestionnaireRéseau">
+                  Identifiant du dossier de raccordement du projet * (champ obligatoire)
+                </Label>
+                {(format || légende) && (
+                  <InfoBox className="mt-2 mb-3">
+                    {légende && <p className="m-0">Format attendu : {légende}</p>}
+                    {format && <p className="m-0 italic">Exemple : {format}</p>}
+                  </InfoBox>
+                )}
+                <Input
+                  type="text"
+                  id="identifiantGestionnaireRéseau"
+                  name="identifiantGestionnaireRéseau"
+                  placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
+                  required
+                />
+                <p className="mt-4 mb-0 italic">
+                  * Où trouver l'identifiant du dossier de raccordement ?
+                  <br />
+                  Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre
+                  demande complète de raccordement (
+                  <ExternalLink href="https://docs.potentiel.beta.gouv.fr/gerer-mes-projets-et-documents/comment-transmettre-ma-demande-complete-de-raccordement-dcr">
+                    Voir un exemple
+                  </ExternalLink>
+                  )
+                </p>
+              </div>
             </div>
+
             <div>
               <Label htmlFor="référence" required>
                 Référence du dossier de raccordement

@@ -3,6 +3,9 @@ import { ReadModel } from '@potentiel/core-domain';
 export type ListeDossiersRaccordementReadModel = ReadModel<
   'liste-dossiers-raccordement',
   {
-    références: string[];
+    dossiers: Array<{
+      codeEIC: string;
+      référence: string;
+    }>;
   }
 >;
