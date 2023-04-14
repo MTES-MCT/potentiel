@@ -18,8 +18,7 @@ import routes from '@routes';
 
 type DossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  dossiersRaccordement: ListeDossiersRaccordementReadModel['références']; // Ajouter le gestionnaire
-  codeEIC: ListeDossiersRaccordementReadModel['codeEIC'];
+  dossiersRaccordement: ListeDossiersRaccordementReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 };
 
@@ -27,34 +26,7 @@ export const DossiersRaccordement = ({
   user,
   dossiersRaccordement,
   gestionnairesRéseau,
-  codeEIC,
 }: DossiersRaccordementProps) => {
-  const gestionnaireActuel = gestionnairesRéseau?.find(
-    (gestionnaire) => gestionnaire.codeEIC === codeEIC,
-  );
-
-  const [format, setFormat] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.format || '',
-  );
-  const [légende, setLégende] = useState(
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende || '',
-  );
-
-  const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
-    const gestionnaireSélectionné = gestionnairesRéseau?.find(
-      (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
-    );
-
-    gestionnaireSélectionné && gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format
-      ? setFormat(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.format)
-      : setFormat('');
-
-    gestionnaireSélectionné &&
-    gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende
-      ? setLégende(gestionnaireSélectionné.aideSaisieRéférenceDossierRaccordement.légende)
-      : setLégende('');
-  };
-
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
@@ -65,7 +37,7 @@ export const DossiersRaccordement = ({
         {dossiersRaccordement.références.length > 0 ? (
           <ListeDossiersRaccordements dossiersRaccordement={dossiersRaccordement} />
         ) : (
-          <DemandeComplèteRaccordementForm />
+          <DemandeComplèteRaccordementForm gestionnairesRéseau={gestionnairesRéseau} />
         )}
       </div>
     </PageTemplate>
@@ -90,19 +62,13 @@ const ListeDossiersRaccordements: FC<{
 const DemandeComplèteRaccordementForm: FC<{
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
 }> = ({ gestionnairesRéseau }) => {
-  const [gestionnaireSélectionné, setGestionnaireSélectionné] = useState<
-    GestionnaireRéseauReadModel | undefined
-  >(undefined);
-
   const [format, setFormat] = useState('');
   const [légende, setLégende] = useState('');
 
-  const handleGestionnaireSéléctionné = (sélection: React.FormEvent<HTMLSelectElement>) => {
+  const handleGestionnaireSéléctionné = (codeEIC: string) => {
     const gestionnaireSélectionné = gestionnairesRéseau?.find(
-      (gestionnaire) => gestionnaire.codeEIC === sélection.currentTarget.value,
+      (gestionnaire) => gestionnaire.codeEIC === codeEIC,
     );
-
-    setGestionnaireSélectionné(gestionnaireSélectionné);
     setFormat(gestionnaireSélectionné?.aideSaisieRéférenceDossierRaccordement.format || '');
     setLégende(gestionnaireSélectionné?.aideSaisieRéférenceDossierRaccordement.légende || '');
   };
@@ -113,6 +79,7 @@ const DemandeComplèteRaccordementForm: FC<{
       method="POST"
       action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT}
     >
+      <p className="text-sm italic">Tous les champs sont obligatoires</p>
       <div className="flex flex-col gap-4">
         {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
           <div>
@@ -120,7 +87,7 @@ const DemandeComplèteRaccordementForm: FC<{
             <Select
               id="codeEICGestionnaireRéseau"
               name="codeEICGestionnaireRéseau"
-              onChange={(e) => handleGestionnaireSéléctionné(e)}
+              onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
               defaultValue="none"
             >
               <option value="none" disabled hidden>
@@ -136,8 +103,8 @@ const DemandeComplèteRaccordementForm: FC<{
         )}
 
         <div>
-          <Label htmlFor="identifiantGestionnaireRéseau">
-            Identifiant du dossier de raccordement du projet * (champ obligatoire)
+          <Label htmlFor="référenceDossierRaccordement">
+            Référence du dossier de raccordement du projet *
           </Label>
           {(format || légende) && (
             <InfoBox className="mt-2 mb-3">
@@ -147,13 +114,13 @@ const DemandeComplèteRaccordementForm: FC<{
           )}
           <Input
             type="text"
-            id="identifiantGestionnaireRéseau"
-            name="identifiantGestionnaireRéseau"
+            id="référenceDossierRaccordement"
+            name="référenceDossierRaccordement"
             placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
             required
           />
           <p className="mt-4 mb-0 italic">
-            * Où trouver l'identifiant du dossier de raccordement ?
+            * Où trouver la référence du dossier de raccordement ?
             <br />
             Vous pouvez retrouver cette donnée sur le courriel d'accusé de réception de votre
             demande complète de raccordement (
@@ -164,29 +131,15 @@ const DemandeComplèteRaccordementForm: FC<{
           </p>
         </div>
       </div>
-
       <div>
-        <Label htmlFor="référence" required>
-          Référence du dossier de raccordement
+        <Label htmlFor="accuséRéception">
+          Accusé de réception de la demande complète de raccordement
         </Label>
-        <Input type="text" id="référence" name="référence" required />
+        <Input type="file" id="accuséRéception" name="accuséRéception" required />
       </div>
       <div>
-        <Label htmlFor="demandeComplèteRaccordement" required>
-          Demande complète de raccordement
-        </Label>
-        <Input
-          type="file"
-          id="demandeComplèteRaccordement"
-          name="demandeComplèteRaccordement"
-          required
-        />
-      </div>
-      <div>
-        <Label htmlFor="dateQualification" required>
-          Date de qualification
-        </Label>
-        <Input type="text" id="dateQualification" name="dateQualification" required />
+        <Label htmlFor="dateQualification">Date de qualification</Label>
+        <Input type="date" id="dateQualification" name="dateQualification" required />
       </div>
       <Button type="submit" className="m-auto">
         Envoyer
