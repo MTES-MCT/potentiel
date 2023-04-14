@@ -10,3 +10,4 @@ export * from './transmettrePropositionTechniqueEtFinancière/propositionTechniq
 export * from './raccordement.aggregate';
 export * from './raccordement.errors';
 export * from './consulter/dossierRaccordement.readModel';
+export * from './raccordement.permissions';

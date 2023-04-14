@@ -1,17 +1,19 @@
 import {
+  PermissionTransmettreDemandeComplèteRaccordement,
   consulterGestionnaireRéseauQueryHandlerFactory,
-  formatIdentifiantProjet,
-  listerGestionnaireRéseauQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
-import { findProjection, listProjection } from '@potentiel/pg-projections';
+import { findProjection } from '@potentiel/pg-projections';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { iso8601DateToDateYupTransformation, notFoundResponse } from '../helpers';
-import { TransmettreDemandeComplèteRaccordementPage } from '@views';
+import {
+  iso8601DateToDateYupTransformation,
+  notFoundResponse,
+  vérifierPermissionUtilisateur,
+} from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 
@@ -47,6 +49,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(),
+  vérifierPermissionUtilisateur(PermissionTransmettreDemandeComplèteRaccordement),
   safeAsyncHandler(
     {
       schema,
@@ -64,6 +67,8 @@ v1Router.post(
 
       if (projet) {
         // Check user rights
+        // TODO : Créer une nouvelle fonction qui fait une query sur userProjects pour vérifier que l'utilisateur a bien les droits d'accès au projet
+        // shouldPorteurProjetAccessProject()
 
         const identifiantProjet = {
           appelOffre: projet.appelOffreId,
