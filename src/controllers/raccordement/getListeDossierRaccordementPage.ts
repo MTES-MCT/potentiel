@@ -50,7 +50,7 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        return response.send(ListeDossiersRaccordementPage({ références, user }));
+        return response.send(ListeDossiersRaccordementPage({ références, user, projetId }));
       }
 
       return response.redirect(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId));

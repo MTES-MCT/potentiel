@@ -433,6 +433,13 @@ class routes {
       return route;
     }
   };
+
+  static GET_DOSSIER_RACCORDEMENT_PAGE = (projetId?: string, référence?: string) => {
+    const route = '/projet/:projetId/raccordements/:reference.html';
+    if (projetId && référence) {
+      return route.replace(':projetId', projetId).replace(':reference', référence);
+    } else return route;
+  };
 }
 
 export default routes;
