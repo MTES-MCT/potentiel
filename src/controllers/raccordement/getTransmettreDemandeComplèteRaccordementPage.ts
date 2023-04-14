@@ -1,5 +1,4 @@
 import {
-  formatIdentifiantProjet,
   listerGestionnaireRéseauQueryHandlerFactory,
 } from '@potentiel/domain';
 import { listProjection } from '@potentiel/pg-projections';
@@ -33,23 +32,16 @@ v1Router.get(
         params: { projetId },
       } = request;
 
-      const projet = await Project.findByPk(projetId);
+      const projet = await Project.findByPk(projetId, { attributes: ['id'] });
 
       if (projet) {
-        const identifiantProjet = formatIdentifiantProjet({
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        });
-
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
 
         return response.send(
           TransmettreDemandeComplèteRaccordementPage({
             user,
-            identifiantProjet,
             gestionnairesRéseau,
+            projetId,
           }),
         );
       }

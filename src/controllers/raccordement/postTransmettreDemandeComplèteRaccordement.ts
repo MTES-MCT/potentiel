@@ -63,7 +63,9 @@ v1Router.post(
         body: { codeEIC, dateQualification, référenceDossierRaccordement },
       } = request;
 
-      const projet = await Project.findByPk(projetId);
+      const projet = await Project.findByPk(projetId, {
+        attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
+      });
 
       if (projet) {
         // Check user rights

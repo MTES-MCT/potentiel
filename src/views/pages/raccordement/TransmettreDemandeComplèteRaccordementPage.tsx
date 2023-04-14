@@ -18,13 +18,13 @@ import routes from '@routes';
 type TransmettreDemandeComplèteRaccordementProps = {
   user: UtilisateurReadModel;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseauReadModel>;
-  identifiantProjet: string;
+  projetId: string;
 };
 
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
-  identifiantProjet,
+  projetId,
 }: TransmettreDemandeComplèteRaccordementProps) => {
   const [format, setFormat] = useState('');
   const [légende, setLégende] = useState('');
@@ -47,10 +47,9 @@ export const TransmettreDemandeComplèteRaccordement = ({
         <form
           className="flex gap-3 flex-col"
           method="POST"
-          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT}
+          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projetId)}
         >
           <p className="text-sm italic">Tous les champs sont obligatoires</p>
-          <input type="hidden" value={identifiantProjet} name="identifiantProjet" />
           <div className="flex flex-col gap-4">
             {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
               <div>
