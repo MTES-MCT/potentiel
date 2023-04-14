@@ -416,11 +416,17 @@ class routes {
     }
   };
 
-  static POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT =
-    '/transmettre-demande-complete-raccordement';
+  static POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT = (projetId?: string) => {
+    const route = '/projet/:projetId/transmettre-demande-complete-raccordement';
+    if (projetId) {
+      return route.replace(':projetId', projetId);
+    } else {
+      return route;
+    }
+  };
 
   static GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE = (projetId?: string) => {
-    const route = '/projet/:projetId/transmettre-demande-complete-raccordement';
+    const route = '/projet/:projetId/transmettre-demande-complete-raccordement.html';
     if (projetId) {
       return route.replace(':projetId', projetId);
     } else {

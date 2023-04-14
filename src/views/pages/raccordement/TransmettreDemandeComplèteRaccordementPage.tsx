@@ -54,10 +54,10 @@ export const TransmettreDemandeComplèteRaccordement = ({
           <div className="flex flex-col gap-4">
             {gestionnairesRéseau && gestionnairesRéseau.length > 0 && (
               <div>
-                <Label htmlFor="codeEICGestionnaireRéseau">Gestionnaire de réseau</Label>
+                <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
                 <Select
-                  id="codeEICGestionnaireRéseau"
-                  name="codeEICGestionnaireRéseau"
+                  id="codeEIC"
+                  name="codeEIC"
                   onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
                   defaultValue="none"
                 >
