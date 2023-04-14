@@ -2,9 +2,10 @@ import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { notFoundResponse } from '../helpers';
+import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   DossierRaccordementNonRéférencéError,
+  PermissionConsulterDossierRaccordement,
   consulterDossierRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { findProjection } from '@potentiel/pg-projections';
@@ -25,6 +26,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.GET_DOSSIER_RACCORDEMENT_PAGE(),
+  vérifierPermissionUtilisateur(PermissionConsulterDossierRaccordement),
   safeAsyncHandler(
     {
       schema,

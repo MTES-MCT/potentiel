@@ -2,8 +2,11 @@ import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
-import { notFoundResponse } from '../helpers';
-import { listerDossiersRaccordementQueryHandlerFactory } from '@potentiel/domain';
+import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
+import {
+  PermissionConsulterDossierRaccordement,
+  listerDossiersRaccordementQueryHandlerFactory,
+} from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
@@ -18,6 +21,7 @@ const schema = yup.object({
 
 v1Router.get(
   routes.GET_LISTE_DOSSIERS_RACCORDEMENT(),
+  vérifierPermissionUtilisateur(PermissionConsulterDossierRaccordement),
   safeAsyncHandler(
     {
       schema,

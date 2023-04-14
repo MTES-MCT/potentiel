@@ -19,6 +19,7 @@ import {
   PermissionAjouterGestionnaireRéseau,
   PermissionModifierGestionnaireRéseau,
   PermissionTransmettreDemandeComplèteRaccordement,
+  PermissionConsulterDossierRaccordement,
 } from '@potentiel/domain';
 
 export type Permission = {
@@ -39,6 +40,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionListerDemandesAdmin,
         PermissionExporterProjets,
+        PermissionConsulterDossierRaccordement,
       ];
     case 'porteur-projet':
       return [
@@ -50,6 +52,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionRetirerGF,
         PermissionExporterProjets,
         PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
       ];
     case 'caisse-des-dépôts':
       return [
@@ -77,6 +80,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
       ];
     case 'dgec-validateur':
       return [
@@ -93,10 +97,17 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionAjouterGestionnaireRéseau,
         PermissionModifierGestionnaireRéseau,
         PermissionTransmettreDemandeComplèteRaccordement,
+        PermissionConsulterDossierRaccordement,
       ];
     case 'acheteur-obligé':
-    case 'ademe':
     case 'cre':
+      return [
+        PermissionListerProjets,
+        PermissionConsulterProjet,
+        PermissionExporterProjets,
+        PermissionConsulterDossierRaccordement,
+      ];
+    case 'ademe':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
     default:
       return [];
