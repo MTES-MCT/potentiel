@@ -435,12 +435,26 @@ class routes {
   };
 
   static GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE = (projetId?: string, référence?: string) => {
-    const route = '/projet/:projetId/transmettre-date-mise-en-service.html';
+    const route =
+      '/projet/:projetId/raccordements/:reference/transmettre-date-mise-en-service.html';
     if (projetId) {
-      return route.replace(':projetId', projetId);
-    } else {
-      return route;
+      route.replace(':projetId', projetId);
     }
+    if (référence) {
+      route.replace(':reference', référence);
+    }
+    return route;
+  };
+
+  static POST_TRANSMETTRE_DATE_MISE_EN_SERVICE = (projetId?: string, référence?: string) => {
+    const route = '/projet/:projetId/raccordements/:reference/transmettre-date-mise-en-service';
+    if (projetId) {
+      route.replace(':projetId', projetId);
+    }
+    if (référence) {
+      route.replace(':reference', référence);
+    }
+    return route;
   };
 }
 export default routes;

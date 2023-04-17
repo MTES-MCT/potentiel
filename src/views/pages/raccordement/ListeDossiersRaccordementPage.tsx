@@ -33,7 +33,7 @@ export const ListeDossiersRaccordement = ({
               <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
               <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
               <li>
-                <Link href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId)}>
+                <Link href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}>
                   Transmettre la date de mise en service
                 </Link>
               </li>

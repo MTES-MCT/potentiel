@@ -23,7 +23,7 @@ v1Router.get(
     async (request, response) => {
       const {
         user,
-        params: { projetId },
+        params: { projetId, reference },
         query: { error },
       } = request;
 
@@ -47,6 +47,7 @@ v1Router.get(
           TransmettreDateMiseEnServicePage({
             user,
             projet,
+            reference,
             error: error as string,
           }),
         );

@@ -18,12 +18,14 @@ import routes from '@routes';
 type TransmettreDateMiseEnServiceProps = {
   user: UtilisateurReadModel;
   projet: ProjectProps;
+  reference: string;
   error?: string;
 };
 
 export const TransmettreDateMiseEnService = ({
   user,
   projet,
+  reference,
   error,
 }: TransmettreDateMiseEnServiceProps) => {
   return (
@@ -35,7 +37,7 @@ export const TransmettreDateMiseEnService = ({
         <form
           className="flex gap-3 flex-col"
           method="POST"
-          action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projet.id)}
+          action={routes.POST_TRANSMETTRE_DATE_MISE_EN_SERVICE(projet.id, reference)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
           <Heading2>Concernant le projet</Heading2>
