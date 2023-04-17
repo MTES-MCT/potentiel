@@ -14,6 +14,9 @@ import {
   Button,
   InfoBox,
   Heading2,
+  Section,
+  PlugIcon,
+  LinkButton,
 } from '@components';
 import { hydrateOnClient } from '../../helpers';
 import {
@@ -25,7 +28,6 @@ import {
   ResultatsAppelOffreInnovation,
   ContratEDF,
   ContratEnedis,
-  GestionnaireDeRéseau,
 } from './sections';
 import { ProjectHeader } from './components';
 import routes from '@routes';
@@ -57,7 +59,6 @@ export const ProjectDetails = ({
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
           />
         )}
-        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>Raccordement</Link>
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
@@ -68,11 +69,11 @@ export const ProjectDetails = ({
             <Contact {...{ user, project }} />
             <MaterielsEtTechnologies {...{ project }} />
 
-            <GestionnaireDeRéseau
-              gestionnaireRéseau={project.gestionnaireDeRéseau}
-              projetId={project.id}
-              role={user.role}
-            />
+            <Section title="Raccordement" icon={PlugIcon}>
+              <LinkButton href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>
+                Voir
+              </LinkButton>
+            </Section>
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation

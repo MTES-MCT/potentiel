@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, Link, PageTemplate, SuccessBox, Tile } from '@components';
+import { Heading1, Link, LinkButton, PageTemplate, SuccessBox, Tile } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { DossierRaccordementReadModel } from '@potentiel/domain';
 import routes from '@routes';
@@ -28,7 +28,12 @@ export const ListeDossiersRaccordement = ({
           <Heading1>Dossiers de raccordement</Heading1>
         </div>
         {success && <SuccessBox>{success}</SuccessBox>}
-        <p>Pour le projet : {nomProjet}</p>
+        <div className="flex justify-between mb-3">
+          <p>Pour le projet : {nomProjet}</p>
+          <LinkButton href={routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId)}>
+            Ajouter
+          </LinkButton>
+        </div>
         {dossiers.map(
           ({
             référence,
