@@ -445,5 +445,23 @@ class routes {
       reference || ':reference'
     }/transmettre-date-mise-en-service`;
   };
+
+  static GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-proposition-technique-et-financiere.html`;
+  };
+
+  static POST_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE = (
+    projetId?: string,
+    reference?: string,
+  ) => {
+    return `/projet/${projetId || ':projetId'}/raccordements/${
+      reference || ':reference'
+    }/transmettre-proposition-technique-et-financiere`;
+  };
 }
 export default routes;

@@ -48,7 +48,14 @@ export const ListeDossiersRaccordement = ({
                 </li>
               )}
               <li>
-                <Link>Transmettre la proposition technique et financière</Link>
+                <Link
+                  href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
+                    projetId,
+                    référence,
+                  )}
+                >
+                  Transmettre la proposition technique et financière
+                </Link>
               </li>
             </ul>
           </Tile>

@@ -1,3 +1,4 @@
 export * from './TransmettreDemandeComplèteRaccordementPage';
 export * from './ListeDossiersRaccordementPage';
-export * from './TransmettreDateMiseEnService';
+export * from './TransmettreDateMiseEnServicePage';
+export * from './TransmettrePropositionTechniqueEtFinancièrePage';
