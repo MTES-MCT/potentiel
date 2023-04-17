@@ -49,7 +49,6 @@ v1Router.post(
     },
     async (request, response) => {
       const {
-        user,
         params: { projetId, reference },
         body: { dateMiseEnService },
       } = request;

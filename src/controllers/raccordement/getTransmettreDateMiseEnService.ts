@@ -8,7 +8,10 @@ import { TransmettreDateMiseEnServicePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
 
 const schema = yup.object({
-  params: yup.object({ projetId: yup.string().uuid().required() }),
+  params: yup.object({
+    projetId: yup.string().uuid().required(),
+    reference: yup.string().required(),
+  }),
 });
 
 v1Router.get(
@@ -41,6 +44,8 @@ v1Router.get(
           'appelOffreId',
         ],
       });
+
+      console.log('???????????');
 
       if (projet) {
         return response.send(
