@@ -61,8 +61,8 @@ v1Router.get(
       });
 
       if (références.length > 0) {
-        const dossiers = await références.map((référence) =>
-          consulterDossierRaccordement({ référence }),
+        const dossiers = await Promise.all(
+          références.map((référence) => consulterDossierRaccordement({ référence })),
         );
         return response.send(
           ListeDossiersRaccordementPage({
