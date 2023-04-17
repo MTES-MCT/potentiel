@@ -57,6 +57,7 @@ export const ProjectDetails = ({
             {...{ ...project, alerteAnnulationAbandon: project.alerteAnnulationAbandon }}
           />
         )}
+        <Link href={routes.GET_LISTE_DOSSIERS_RACCORDEMENT(project.id)}>Raccordement</Link>
         <Callout>
           <CDCInfo {...{ project, user }} />
         </Callout>
