@@ -29,37 +29,51 @@ export const ListeDossiersRaccordement = ({
         </div>
         {success && <SuccessBox>{success}</SuccessBox>}
         <p>Pour le projet : {nomProjet}</p>
-        {dossiers.map(({ référence, gestionnaireRéseau, dateQualification, dateMiseEnService }) => (
-          <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
-            <ul className="list-none p-0">
-              <li>Référence : {référence}</li>
-              <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
-              <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
-              {dateMiseEnService && (
-                <li>Date de mise en service : {afficherDate(new Date(dateMiseEnService))}</li>
-              )}
-              {['admin', 'dgec-validateur'].includes(user.role) && (
+        {dossiers.map(
+          ({
+            référence,
+            gestionnaireRéseau,
+            dateQualification,
+            dateMiseEnService,
+            propositionTechniqueEtFinancière,
+          }) => (
+            <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
+              <ul className="list-none p-0">
+                <li>Référence : {référence}</li>
+                <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
+                <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
+                {dateMiseEnService && (
+                  <li>Date de mise en service : {afficherDate(new Date(dateMiseEnService))}</li>
+                )}
+                {['admin', 'dgec-validateur'].includes(user.role) && (
+                  <li>
+                    <Link
+                      href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}
+                    >
+                      Transmettre la date de mise en service
+                    </Link>
+                  </li>
+                )}
+                {propositionTechniqueEtFinancière && (
+                  <li>
+                    Date de signature de la proposition technique et financière :{' '}
+                    {propositionTechniqueEtFinancière.dateSignature}
+                  </li>
+                )}
                 <li>
                   <Link
-                    href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}
+                    href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
+                      projetId,
+                      référence,
+                    )}
                   >
-                    Transmettre la date de mise en service
+                    Transmettre la proposition technique et financière
                   </Link>
                 </li>
-              )}
-              <li>
-                <Link
-                  href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
-                    projetId,
-                    référence,
-                  )}
-                >
-                  Transmettre la proposition technique et financière
-                </Link>
-              </li>
-            </ul>
-          </Tile>
-        ))}
+              </ul>
+            </Tile>
+          ),
+        )}
       </div>
     </PageTemplate>
   );

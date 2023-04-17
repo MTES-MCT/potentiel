@@ -51,6 +51,7 @@ import {
   TransmettreDemandeComplèteRaccordement,
   ListeDossiersRaccordement,
   TransmettreDateMiseEnService,
+  TransmettrePropositionTechniqueEtFinancière,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -437,4 +438,13 @@ export const TransmettreDateMiseEnServicePage = (
     Component: TransmettreDateMiseEnService,
     props,
     title: 'Transmettre une date de mise en service',
+  });
+
+export const TransmettrePropositionTechniqueEtFinancièrePage = (
+  props: Parameters<typeof TransmettrePropositionTechniqueEtFinancière>[0],
+) =>
+  makeHtml({
+    Component: TransmettrePropositionTechniqueEtFinancière,
+    props,
+    title: 'Transmettre une proposition technique et financière',
   });

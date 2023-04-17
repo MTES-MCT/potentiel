@@ -12,3 +12,8 @@ export const PermissionConsulterDossierRaccordement = {
   nom: 'consulter-dossiers-raccordement',
   description: 'Consulter les dossiers de raccordement',
 };
+
+export const PermissionTransmettrePropositionTechniqueEtFinancière = {
+  nom: 'transmettre-proposition-technique-et-financière',
+  description: 'Transmettre une proposition technique et financière',
+};
