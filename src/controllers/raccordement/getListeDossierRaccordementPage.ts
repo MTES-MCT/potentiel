@@ -5,6 +5,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import {
   PermissionConsulterDossierRaccordement,
+  consulterDossierRaccordementQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
 } from '@potentiel/domain';
 import { Project } from '@infra/sequelize/projectionsNext';
@@ -12,6 +13,10 @@ import { findProjection } from '@potentiel/pg-projections';
 import { ListeDossiersRaccordementPage } from '@views';
 
 const listerDossiersRaccordement = listerDossiersRaccordementQueryHandlerFactory({
+  find: findProjection,
+});
+
+const consulterDossierRaccordement = consulterDossierRaccordementQueryHandlerFactory({
   find: findProjection,
 });
 
@@ -56,9 +61,12 @@ v1Router.get(
       });
 
       if (références.length > 0) {
+        const dossiers = await références.map((référence) =>
+          consulterDossierRaccordement({ référence }),
+        );
         return response.send(
           ListeDossiersRaccordementPage({
-            références,
+            dossiers,
             user,
             projetId,
             nomProjet: projet.nomProjet,

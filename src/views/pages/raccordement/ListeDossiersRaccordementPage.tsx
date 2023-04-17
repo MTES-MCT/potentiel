@@ -3,19 +3,18 @@ import React from 'react';
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Heading1, Link, PageTemplate, Tile } from '@components';
 import { hydrateOnClient } from '../../helpers';
-import routes from '@routes';
+import { DossierRaccordementReadModel } from '@potentiel/domain';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
-  références: Array<string>;
+  dossiers: ReadonlyArray<DossierRaccordementReadModel>;
   projetId: string;
   nomProjet: string;
 };
 
 export const ListeDossiersRaccordement = ({
   user,
-  références,
-  projetId,
+  dossiers,
   nomProjet,
 }: ListeDossiersRaccordementProps) => {
   return (
@@ -25,15 +24,19 @@ export const ListeDossiersRaccordement = ({
           <Heading1>Dossiers de raccordement</Heading1>
         </div>
         <p>Pour le projet : {nomProjet}</p>
-        {références.map((référence) => (
+        {dossiers.map(({ référence, gestionnaireRéseau, dateQualification }) => (
           <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
-            <div>{référence}</div>
-            <Link
-              title={`Consulter le dossier de raccordement ${référence}`}
-              href={routes.GET_DOSSIER_RACCORDEMENT_PAGE(projetId, référence)}
-            >
-              Consulter
-            </Link>
+            <ul>
+              <li>Référence : {référence}</li>
+              <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
+              <li>Date de qualification : {dateQualification}</li>
+              <li>
+                <Link>Renseigner la date de mise en service</Link>
+              </li>
+              <li>
+                <Link>Transmettre la proposition technique et financière</Link>
+              </li>
+            </ul>
           </Tile>
         ))}
       </div>
