@@ -37,6 +37,7 @@ v1Router.get(
       const {
         user,
         params: { projetId },
+        query: { success },
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -70,6 +71,7 @@ v1Router.get(
             user,
             projetId,
             nomProjet: projet.nomProjet,
+            success: success as string,
           }),
         );
       }

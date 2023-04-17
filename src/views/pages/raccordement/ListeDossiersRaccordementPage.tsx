@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
-import { Heading1, Link, PageTemplate, Tile } from '@components';
+import { Heading1, Link, PageTemplate, SuccessBox, Tile } from '@components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import { DossierRaccordementReadModel } from '@potentiel/domain';
 import routes from '@routes';
@@ -11,6 +11,7 @@ type ListeDossiersRaccordementProps = {
   dossiers: ReadonlyArray<DossierRaccordementReadModel>;
   projetId: string;
   nomProjet: string;
+  success?: string;
 };
 
 export const ListeDossiersRaccordement = ({
@@ -18,14 +19,15 @@ export const ListeDossiersRaccordement = ({
   dossiers,
   nomProjet,
   projetId,
+  success,
 }: ListeDossiersRaccordementProps) => {
-  console.log('TEST', projetId);
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
         <div className="panel__header">
           <Heading1>Dossiers de raccordement</Heading1>
         </div>
+        {success && <SuccessBox>{success}</SuccessBox>}
         <p>Pour le projet : {nomProjet}</p>
         {dossiers.map(({ référence, gestionnaireRéseau, dateQualification }) => (
           <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">

@@ -45,8 +45,6 @@ v1Router.get(
         ],
       });
 
-      console.log('???????????');
-
       if (projet) {
         return response.send(
           TransmettreDateMiseEnServicePage({
