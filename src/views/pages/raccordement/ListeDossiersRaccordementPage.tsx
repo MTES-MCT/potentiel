@@ -57,7 +57,7 @@ export const ListeDossiersRaccordement = ({
                 {propositionTechniqueEtFinancière && (
                   <li>
                     Date de signature de la proposition technique et financière :{' '}
-                    {propositionTechniqueEtFinancière.dateSignature}
+                    {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
                   </li>
                 )}
                 <li>
