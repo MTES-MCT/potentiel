@@ -19,6 +19,7 @@ export const ListeDossiersRaccordement = ({
   nomProjet,
   projetId,
 }: ListeDossiersRaccordementProps) => {
+  console.log('TEST', projetId);
   return (
     <PageTemplate user={user} currentPage="list-projects">
       <div className="panel">
@@ -32,11 +33,15 @@ export const ListeDossiersRaccordement = ({
               <li>Référence : {référence}</li>
               <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
               <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
-              <li>
-                <Link href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}>
-                  Transmettre la date de mise en service
-                </Link>
-              </li>
+              {['admin', 'dgec-validateur'].includes(user.role) && (
+                <li>
+                  <Link
+                    href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}
+                  >
+                    Transmettre la date de mise en service
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link>Transmettre la proposition technique et financière</Link>
               </li>

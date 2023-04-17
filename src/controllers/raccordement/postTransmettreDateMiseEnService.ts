@@ -1,7 +1,6 @@
 import {
-  GestionnaireNonRéférencéError,
+  DossierRaccordementNonRéférencéError,
   PermissionTransmettreDateMiseEnService,
-  PlusieursGestionnairesRéseauPourUnProjetError,
   transmettreDateMiseEnServiceCommandHandlerFactory,
 } from '@potentiel/domain';
 import routes from '@routes';
@@ -81,14 +80,15 @@ v1Router.post(
           dateMiseEnService,
         });
 
-        return response.redirect(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId));
+        return response.redirect(
+          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
+            success: 'La date de mise en service a bien été enregistrée',
+          }),
+        );
       } catch (error) {
-        if (
-          error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
-          error instanceof GestionnaireNonRéférencéError
-        ) {
+        if (error instanceof DossierRaccordementNonRéférencéError) {
           return response.redirect(
-            addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
+            addQueryParams(routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, reference), {
               error: error.message,
             }),
           );

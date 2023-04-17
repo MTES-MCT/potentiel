@@ -110,7 +110,11 @@ v1Router.post(
           référenceDossierRaccordement,
         });
 
-        return response.redirect(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId));
+        return response.redirect(
+          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
+            success: 'La demande complète de raccordement a bien été enregistrée',
+          }),
+        );
       } catch (error) {
         if (
           error instanceof PlusieursGestionnairesRéseauPourUnProjetError ||
