@@ -26,7 +26,7 @@ export const ListeDossiersRaccordement = ({
         <p>Pour le projet : {nomProjet}</p>
         {dossiers.map(({ référence, gestionnaireRéseau, dateQualification }) => (
           <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
-            <ul>
+            <ul className="list-none p-0">
               <li>Référence : {référence}</li>
               <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
               <li>Date de qualification : {dateQualification}</li>
