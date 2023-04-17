@@ -428,3 +428,12 @@ export const ListeDossiersRaccordementPage = (
     props,
     title: 'Liste des dossiers de raccordement',
   });
+
+export const TransmettreDateMiseEnServicePage = (
+  props: Parameters<typeof TransmettreDateMiseEnService>[0],
+) =>
+  makeHtml({
+    Component: TransmettreDateMiseEnService,
+    props,
+    title: 'Transmettre une date de mise en service',
+  });

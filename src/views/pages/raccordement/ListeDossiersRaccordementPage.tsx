@@ -2,8 +2,9 @@ import React from 'react';
 
 import { UtilisateurReadModel } from '@modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Heading1, Link, PageTemplate, Tile } from '@components';
-import { hydrateOnClient } from '../../helpers';
+import { afficherDate, hydrateOnClient } from '../../helpers';
 import { DossierRaccordementReadModel } from '@potentiel/domain';
+import routes from '@routes';
 
 type ListeDossiersRaccordementProps = {
   user: UtilisateurReadModel;
@@ -16,6 +17,7 @@ export const ListeDossiersRaccordement = ({
   user,
   dossiers,
   nomProjet,
+  projetId,
 }: ListeDossiersRaccordementProps) => {
   return (
     <PageTemplate user={user} currentPage="list-projects">
@@ -29,9 +31,11 @@ export const ListeDossiersRaccordement = ({
             <ul className="list-none p-0">
               <li>Référence : {référence}</li>
               <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
-              <li>Date de qualification : {dateQualification}</li>
+              <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
               <li>
-                <Link>Renseigner la date de mise en service</Link>
+                <Link href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId)}>
+                  Transmettre la date de mise en service
+                </Link>
               </li>
               <li>
                 <Link>Transmettre la proposition technique et financière</Link>
