@@ -9,3 +9,4 @@ export * from './raccordement.errors';
 export * from './consulter/dossierRaccordement.readModel';
 export * from './raccordement.permissions';
 export * from './transmettreDemandeComplèteRaccordement';
+export * from './transmettreDateMiseEnService';

@@ -29,12 +29,15 @@ export const ListeDossiersRaccordement = ({
         </div>
         {success && <SuccessBox>{success}</SuccessBox>}
         <p>Pour le projet : {nomProjet}</p>
-        {dossiers.map(({ référence, gestionnaireRéseau, dateQualification }) => (
+        {dossiers.map(({ référence, gestionnaireRéseau, dateQualification, dateMiseEnService }) => (
           <Tile key={référence} className="mb-3 flex flex-row items-center justify-between">
             <ul className="list-none p-0">
               <li>Référence : {référence}</li>
               <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
               <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
+              {dateMiseEnService && (
+                <li>Date de mise en service : {afficherDate(new Date(dateMiseEnService))}</li>
+              )}
               {['admin', 'dgec-validateur'].includes(user.role) && (
                 <li>
                   <Link

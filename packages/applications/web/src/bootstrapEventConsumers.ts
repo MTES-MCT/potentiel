@@ -2,6 +2,7 @@ import {
   gestionnaireRéseauAjoutéHandlerFactory,
   gestionnaireRéseauModifiéHandlerFactory,
   demandeComplèteRaccordementTransmiseHandlerFactory,
+  dateMiseEnServiceTransmiseHandlerFactory,
 } from '@potentiel/domain';
 import { createProjection, updateProjection, findProjection } from '@potentiel/pg-projections';
 import { consumerFactory } from '@potentiel/redis-event-bus-consumer';
@@ -24,5 +25,9 @@ export async function bootstrapEventConsumers() {
       find: findProjection,
       update: updateProjection,
     }),
+  );
+  consumerRaccordement.consume(
+    'DateMiseEnServiceTransmise',
+    dateMiseEnServiceTransmiseHandlerFactory({ find: findProjection, update: updateProjection }),
   );
 }
