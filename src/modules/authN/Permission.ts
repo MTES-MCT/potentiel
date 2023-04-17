@@ -20,6 +20,7 @@ import {
   PermissionModifierGestionnaireRéseau,
   PermissionTransmettreDemandeComplèteRaccordement,
   PermissionConsulterDossierRaccordement,
+  PermissionTransmettreDateMiseEnService,
 } from '@potentiel/domain';
 
 export type Permission = {
@@ -81,6 +82,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseau,
         PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
+        PermissionTransmettreDateMiseEnService,
       ];
     case 'dgec-validateur':
       return [
@@ -98,6 +100,7 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionModifierGestionnaireRéseau,
         PermissionTransmettreDemandeComplèteRaccordement,
         PermissionConsulterDossierRaccordement,
+        PermissionTransmettreDateMiseEnService,
       ];
     case 'acheteur-obligé':
     case 'cre':

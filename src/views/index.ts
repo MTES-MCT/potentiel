@@ -50,6 +50,7 @@ import {
   AjouterGestionnaireRéseau,
   TransmettreDemandeComplèteRaccordement,
   ListeDossiersRaccordement,
+  TransmettreDateMiseEnService,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>

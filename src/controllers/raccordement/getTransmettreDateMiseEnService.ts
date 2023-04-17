@@ -1,27 +1,19 @@
-import {
-  PermissionTransmettreDemandeComplèteRaccordement,
-  listerGestionnaireRéseauQueryHandlerFactory,
-} from '@potentiel/domain';
-import { listProjection } from '@potentiel/pg-projections';
+import { PermissionTransmettreDateMiseEnService } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
-import { TransmettreDemandeComplèteRaccordementPage } from '@views';
+import { TransmettreDateMiseEnServicePage } from '@views';
 import { Project } from '@infra/sequelize/projectionsNext';
-
-const listerGestionnaireRéseau = listerGestionnaireRéseauQueryHandlerFactory({
-  list: listProjection,
-});
 
 const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
 });
 
 v1Router.get(
-  routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(),
-  vérifierPermissionUtilisateur(PermissionTransmettreDemandeComplèteRaccordement),
+  routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(),
+  vérifierPermissionUtilisateur(PermissionTransmettreDateMiseEnService),
   safeAsyncHandler(
     {
       schema,
@@ -51,11 +43,9 @@ v1Router.get(
       });
 
       if (projet) {
-        const gestionnairesRéseau = await listerGestionnaireRéseau({});
         return response.send(
-          TransmettreDemandeComplèteRaccordementPage({
+          TransmettreDateMiseEnServicePage({
             user,
-            gestionnairesRéseau,
             projet,
             error: error as string,
           }),
