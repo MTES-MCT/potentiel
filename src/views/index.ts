@@ -50,7 +50,6 @@ import {
   AjouterGestionnaireRéseau,
   TransmettreDemandeComplèteRaccordement,
   ListeDossiersRaccordement,
-  DossierRaccordement,
 } from './pages';
 
 export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
@@ -428,11 +427,4 @@ export const ListeDossiersRaccordementPage = (
     Component: ListeDossiersRaccordement,
     props,
     title: 'Liste des dossiers de raccordement',
-  });
-
-export const DossierRaccordementPage = (props: Parameters<typeof DossierRaccordement>[0]) =>
-  makeHtml({
-    Component: DossierRaccordement,
-    props,
-    title: 'Dossier de raccordement',
   });
