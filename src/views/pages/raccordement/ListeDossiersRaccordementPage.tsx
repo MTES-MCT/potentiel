@@ -42,33 +42,42 @@ export const ListeDossiersRaccordement = ({
                 <li>Référence : {référence}</li>
                 <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
                 <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
-                {dateMiseEnService && (
-                  <li>Date de mise en service : {afficherDate(new Date(dateMiseEnService))}</li>
-                )}
-                {['admin', 'dgec-validateur'].includes(user.role) && (
-                  <li>
+                <li>
+                  Date de mise en service :{' '}
+                  {dateMiseEnService ? (
+                    <span>{afficherDate(new Date(dateMiseEnService))}</span>
+                  ) : (
+                    <span className="italic">Non renseignée</span>
+                  )}
+                  {['admin', 'dgec-validateur'].includes(user.role) && (
                     <Link
                       href={routes.GET_TRANSMETTRE_DATE_MISE_EN_SERVICE_PAGE(projetId, référence)}
+                      className="ml-3"
                     >
                       Transmettre la date de mise en service
                     </Link>
-                  </li>
-                )}
-                {propositionTechniqueEtFinancière && (
-                  <li>
-                    Date de signature de la proposition technique et financière :{' '}
-                    {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
-                  </li>
-                )}
+                  )}
+                </li>
                 <li>
-                  <Link
-                    href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
-                      projetId,
-                      référence,
-                    )}
-                  >
-                    Transmettre la proposition technique et financière
-                  </Link>
+                  Date de signature de la proposition technique et financière :{' '}
+                  {propositionTechniqueEtFinancière ? (
+                    <span>
+                      {afficherDate(new Date(propositionTechniqueEtFinancière.dateSignature))}
+                    </span>
+                  ) : (
+                    <span className="italic">Non renseignée</span>
+                  )}
+                  {['admin', 'dgec-validateur', 'porteur-projet'].includes(user.role) && (
+                    <Link
+                      href={routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(
+                        projetId,
+                        référence,
+                      )}
+                      className="ml-3"
+                    >
+                      Transmettre la proposition technique et financière
+                    </Link>
+                  )}
                 </li>
               </ul>
             </Tile>
