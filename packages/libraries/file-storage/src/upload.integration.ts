@@ -10,28 +10,18 @@ describe(`upload file`, () => {
     process.env.AWS_SECRET_ACCESS_KEY = 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY';
   });
 
-  beforeEach((done) => {
-    getClient().deleteBucket(
-      {
+  beforeEach(async () => {
+    await getClient()
+      .deleteBucket({
         Bucket: bucketName,
-      },
-      (error, data) => {
-        console.log(error);
-        console.log(data);
-        done();
-      },
-    );
+      })
+      .promise();
 
-    getClient().createBucket(
-      {
+    await getClient()
+      .createBucket({
         Bucket: bucketName,
-      },
-      (error, data) => {
-        console.log(error);
-        console.log(data);
-        done();
-      },
-    );
+      })
+      .promise();
   });
 
   it(`
@@ -43,24 +33,13 @@ describe(`upload file`, () => {
 
     await upload(filePath, content);
 
-    const getFileContent = new Promise<Buffer>((resolve, reject) => {
-      getClient().getObject(
-        {
-          Bucket: bucketName,
-          Key: filePath,
-        },
-        (error, data) => {
-          if (error) {
-            reject(error);
-          }
+    const actual = await getClient()
+      .getObject({
+        Bucket: bucketName,
+        Key: filePath,
+      })
+      .promise();
 
-          resolve(data.Body as Buffer);
-        },
-      );
-    });
-
-    const actual = await getFileContent;
-
-    expect(actual).toStrictEqual(content);
+    expect(actual.Body).toStrictEqual(content);
   });
 });
