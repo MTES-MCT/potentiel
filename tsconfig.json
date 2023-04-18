@@ -113,6 +113,9 @@
     },
     {
       "path": "packages/libraries/redis-event-bus-consumer"
+    },
+    {
+      "path": "packages/libraries/file-storage"
     }
   ],
 }

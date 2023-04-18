@@ -1,3 +1,4 @@
+import { createReadStream } from 'fs';
 import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -22,6 +23,8 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
+import { upload as uploadMiddleware } from 'src/controllers/upload';
+// import { upload } from '@potentiel/file-storage';
 
 const transmettreDemandeComplèteRaccordementCommand =
   transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -55,6 +58,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(),
+  uploadMiddleware.single('file'),
   vérifierPermissionUtilisateur(PermissionTransmettreDemandeComplèteRaccordement),
   safeAsyncHandler(
     {
@@ -67,6 +71,7 @@ v1Router.post(
         user,
         params: { projetId },
         body: { codeEIC, dateQualification, référenceDossierRaccordement },
+        file,
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -103,6 +108,11 @@ v1Router.post(
       };
 
       try {
+        const filePath = '';
+        const content = createReadStream(request.file!.path);
+
+        await upload(filePath, content);
+
         await transmettreDemandeComplèteRaccordement({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
