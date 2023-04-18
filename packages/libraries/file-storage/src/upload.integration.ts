@@ -12,11 +12,26 @@ describe(`upload file`, () => {
   });
 
   beforeEach(async () => {
-    await getClient()
-      .deleteBucket({
-        Bucket: bucketName,
-      })
-      .promise();
+    const isBucketExists = async () => {
+      try {
+        await getClient()
+          .headBucket({
+            Bucket: bucketName,
+          })
+          .promise();
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
+
+    if (await isBucketExists()) {
+      await getClient()
+        .deleteBucket({
+          Bucket: bucketName,
+        })
+        .promise();
+    }
 
     await getClient()
       .createBucket({
