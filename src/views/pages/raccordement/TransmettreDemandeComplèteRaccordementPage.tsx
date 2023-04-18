@@ -52,6 +52,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
         <form
           className="flex gap-3 flex-col"
           method="POST"
+          encType="multipart/form-data"
           action={routes.POST_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT(projet.id)}
         >
           {error && <ErrorBox>{error}</ErrorBox>}
@@ -111,10 +112,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
             </div>
           </div>
           <div>
-            <Label htmlFor="accuséRéception">
-              Accusé de réception de la demande complète de raccordement
-            </Label>
-            <Input type="file" id="accuséRéception" name="accuséRéception" required />
+            <Label htmlFor="file">Accusé de réception de la demande complète de raccordement</Label>
+            <Input type="file" id="file" name="file" required />
           </div>
           <div>
             <Label htmlFor="dateQualification">Date de qualification</Label>
