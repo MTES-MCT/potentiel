@@ -28,6 +28,7 @@ type DemanderChangementPuissanceProps = {
     technologie: Technologie;
     puissanceInitiale: number;
     puissance: number;
+    unitePuissance: string;
   };
   appelOffre: ProjectAppelOffre;
 };
