@@ -8,6 +8,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "dependencies": {
+    "aws-sdk": "^2.1287.0"
+  },
   "devDependencies": {
     "@potentiel/tsconfig": "*"
   }
