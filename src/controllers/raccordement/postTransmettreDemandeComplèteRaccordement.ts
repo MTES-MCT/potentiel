@@ -1,9 +1,9 @@
-import { createReadStream } from 'fs';
 import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterGestionnaireRéseauQueryHandlerFactory,
+  formatIdentifiantProjet,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
 } from '@potentiel/domain';
@@ -23,8 +23,9 @@ import { Project, UserProjects } from '@infra/sequelize/projectionsNext';
 import { loadAggregate, publish } from '@potentiel/pg-event-sourcing';
 import { addQueryParams } from '../../helpers/addQueryParams';
 import { logger } from '@core/utils';
-import { upload as uploadMiddleware } from 'src/controllers/upload';
-// import { upload } from '@potentiel/file-storage';
+import { upload as uploadMiddleware } from '../upload';
+import { upload } from '@potentiel/file-storage';
+import { extname, join } from 'path';
 
 const transmettreDemandeComplèteRaccordementCommand =
   transmettreDemandeComplèteRaccordementCommandHandlerFactory({
@@ -71,7 +72,6 @@ v1Router.post(
         user,
         params: { projetId },
         body: { codeEIC, dateQualification, référenceDossierRaccordement },
-        file,
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -108,17 +108,19 @@ v1Router.post(
       };
 
       try {
-        const filePath = '';
-        const content = createReadStream(request.file!.path);
-
-        await upload(filePath, content);
-
         await transmettreDemandeComplèteRaccordement({
           identifiantProjet,
           identifiantGestionnaireRéseau: { codeEIC },
           dateQualification,
           référenceDossierRaccordement,
         });
+
+        const filePath = join(
+          formatIdentifiantProjet(identifiantProjet),
+          référenceDossierRaccordement,
+          `demande-complete-raccordement.${extname(request.file!.path)}`,
+        );
+        await upload(filePath, request.file!.buffer);
 
         return response.redirect(
           addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
