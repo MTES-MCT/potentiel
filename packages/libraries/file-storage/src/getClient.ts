@@ -8,6 +8,7 @@ export const getClient = () => {
 
     client = new S3({
       endpoint,
+      s3ForcePathStyle: true,
     });
   }
 
