@@ -1,3 +1,4 @@
+import { Readable } from 'stream';
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 
@@ -9,5 +10,5 @@ export const download = async (filePath: string) => {
     })
     .promise();
 
-  return result.Body;
+  return result.Body as Readable;
 };
