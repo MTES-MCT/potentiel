@@ -1,12 +1,13 @@
 import { getBucketName } from './getBucketName';
 import { getClient } from './getClient';
 
-export const upload = async (filePath: string, content: Buffer) => {
-  await getClient()
-    .upload({
+export const download = async (filePath: string) => {
+  const result = await getClient()
+    .getObject({
       Bucket: getBucketName(),
       Key: filePath,
-      Body: content,
     })
     .promise();
+
+  return result.Body;
 };

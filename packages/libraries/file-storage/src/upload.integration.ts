@@ -1,3 +1,4 @@
+import { download } from './download';
 import { getClient } from './getClient';
 import { upload } from './upload';
 
@@ -33,13 +34,15 @@ describe(`upload file`, () => {
 
     await upload(filePath, content);
 
-    const actual = await getClient()
+    const actual = await download(filePath);
+
+    await getClient()
       .getObject({
         Bucket: bucketName,
         Key: filePath,
       })
       .promise();
 
-    expect(actual.Body).toStrictEqual(content);
+    expect(actual).toStrictEqual(content);
   });
 });
