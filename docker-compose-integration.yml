@@ -17,3 +17,9 @@ services:
     container_name: potentiel_eventBus_tests_integration
     ports:
       - 6380:6379
+  s3_test:
+    image: scireum/s3-ninja
+    restart: always
+    container_name: potentiel_s3_tests_integration
+    ports:
+      - 9443:9000
