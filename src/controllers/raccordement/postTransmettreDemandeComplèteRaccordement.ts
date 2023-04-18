@@ -1,3 +1,4 @@
+import { createReadStream } from 'fs';
 import {
   GestionnaireNonRéférencéError,
   PermissionTransmettreDemandeComplèteRaccordement,
@@ -47,7 +48,7 @@ const schema = yup.object({
   params: yup.object({ projetId: yup.string().uuid().required() }),
   body: yup.object({
     codeEIC: yup.string().required(),
-    référenceDossierRaccordement: yup.string().required(),
+    referenceDossierRaccordement: yup.string().required(),
     dateQualification: yup
       .date()
       .required(`La date de qualification est obligatoire`)
@@ -64,14 +65,19 @@ v1Router.post(
   safeAsyncHandler(
     {
       schema,
-      onError: ({ request, response }) =>
-        notFoundResponse({ request, response, ressourceTitle: 'Projet' }),
+      onError: ({ request, response }) => {
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      },
     },
     async (request, response) => {
       const {
         user,
         params: { projetId },
-        body: { codeEIC, dateQualification, référenceDossierRaccordement },
+        body: {
+          codeEIC,
+          dateQualification,
+          referenceDossierRaccordement: référenceDossierRaccordement,
+        },
       } = request;
 
       const projet = await Project.findByPk(projetId, {
@@ -115,12 +121,17 @@ v1Router.post(
           référenceDossierRaccordement,
         });
 
-        const filePath = join(
-          formatIdentifiantProjet(identifiantProjet),
-          référenceDossierRaccordement,
-          `demande-complete-raccordement.${extname(request.file!.path)}`,
-        );
-        await upload(filePath, request.file!.buffer);
+        try {
+          const filePath = join(
+            formatIdentifiantProjet(identifiantProjet),
+            référenceDossierRaccordement,
+            `demande-complete-raccordement${extname(request.file!.originalname)}`,
+          );
+          const content = createReadStream(request.file!.path);
+          await upload(filePath, content);
+        } catch (error) {
+          console.error(error);
+        }
 
         return response.redirect(
           addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {

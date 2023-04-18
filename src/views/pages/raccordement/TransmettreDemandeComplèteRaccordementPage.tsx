@@ -83,7 +83,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
             )}
 
             <div>
-              <Label htmlFor="référenceDossierRaccordement">
+              <Label htmlFor="referenceDossierRaccordement">
                 Référence du dossier de raccordement du projet *
               </Label>
               {(format || légende) && (
@@ -94,8 +94,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
               )}
               <Input
                 type="text"
-                id="référenceDossierRaccordement"
-                name="référenceDossierRaccordement"
+                id="referenceDossierRaccordement"
+                name="referenceDossierRaccordement"
                 placeholder={format ? `Exemple: ${format}` : `Renseigner l'identifiant`}
                 required
               />
