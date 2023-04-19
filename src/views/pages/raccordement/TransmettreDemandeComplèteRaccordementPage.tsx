@@ -70,6 +70,7 @@ export const TransmettreDemandeComplèteRaccordement = ({
                   id="codeEIC"
                   name="codeEIC"
                   onChange={(e) => handleGestionnaireSéléctionné(e.currentTarget.value)}
+                  disabled={!!identifiantGestionnaire}
                   defaultValue={identifiantGestionnaire || 'none'}
                 >
                   <option value="none" disabled hidden>
