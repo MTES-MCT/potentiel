@@ -134,13 +134,17 @@ Alors(
 
     const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
 
-    const { identifiantGestionnaire } = await consulterProjet({
+    const {
+      identifiantGestionnaire = {
+        codeEIC: '',
+      },
+    } = await consulterProjet({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    identifiantGestionnaire.codeEIC.should.be.deep.equal(
-      this.gestionnaireRéseauWorld.enedis.codeEIC,
-    );
+    identifiantGestionnaire.should.be.deep.equal({
+      codeEIC: this.gestionnaireRéseauWorld.enedis.codeEIC,
+    });
   },
 );
 
