@@ -5,8 +5,8 @@ import * as yup from 'yup';
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
-import { extname, join } from 'path';
-import { download } from '@potentiel/file-storage';
+import { join } from 'path';
+import { download, getFileExtension } from '@potentiel/file-storage';
 
 const schema = yup.object({
   params: yup.object({
@@ -54,10 +54,15 @@ v1Router.get(
         const filePath = join(
           formatIdentifiantProjet(identifiantProjet),
           reference,
-          `demande-complete-raccordement${extname(request.file!.originalname)}`,
+          `demande-complete-raccordement`,
         );
 
-        const fileContent = await download(filePath);
+        const extension = await getFileExtension(filePath);
+        const fileContent = await download(`${filePath}${extension}`);
+
+        response.type(extension);
+        fileContent.pipe(response);
+        response.status(200);
       } catch (error) {}
     },
   ),
