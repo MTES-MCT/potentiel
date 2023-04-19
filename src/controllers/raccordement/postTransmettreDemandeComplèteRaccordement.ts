@@ -130,8 +130,10 @@ v1Router.post(
         await upload(filePath, content);
 
         return response.redirect(
-          addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
+          routes.SUCCESS_OR_ERROR_PAGE({
             success: 'La demande complète de raccordement a bien été enregistrée',
+            redirectUrl: routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId),
+            redirectTitle: 'Retourner sur la page raccordement',
           }),
         );
       } catch (error) {
