@@ -56,56 +56,62 @@ v1Router.get(
         ],
       });
 
-      if (projet) {
-        const identifiantProjet = {
-          appelOffre: projet.appelOffreId,
-          période: projet.periodeId,
-          famille: projet.familleId,
-          numéroCRE: projet.numeroCRE,
-        };
-
-        const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
-
-        const gestionnairesRéseau = await listerGestionnaireRéseau({});
-
-        type StatutProjetReadModel = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
-        const getStatutProjet = (): StatutProjetReadModel => {
-          if (!projet.notifiedOn) {
-            return 'non-notifié';
-          }
-          if (projet.abandonedOn !== 0) {
-            return 'abandonné';
-          }
-          if (projet.classe === 'Classé') {
-            return 'classé';
-          }
-
-          return 'éliminé';
-        };
-
-        return response.send(
-          TransmettreDemandeComplèteRaccordementPage({
-            identifiantGestionnaire: identifiantGestionnaire?.codeEIC,
-            user,
-            gestionnairesRéseau,
-            identifiantProjet: projet.id,
-            résuméProjet: {
-              appelOffre: projet.appelOffreId,
-              période: projet.periodeId,
-              famille: projet.familleId,
-              numéroCRE: projet.numeroCRE,
-              statut: getStatutProjet(),
-              nom: projet.nomProjet,
-              localité: {
-                commune: projet.communeProjet,
-                département: projet.departementProjet,
-                région: projet.regionProjet,
-              },
-            },
-            error: error as string,
-          }),
-        );
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
       }
+
+      const identifiantProjet = {
+        appelOffre: projet.appelOffreId,
+        période: projet.periodeId,
+        famille: projet.familleId,
+        numéroCRE: projet.numeroCRE,
+      };
+
+      const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
+
+      const gestionnairesRéseau = await listerGestionnaireRéseau({});
+
+      type StatutProjetReadModel = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
+      const getStatutProjet = (): StatutProjetReadModel => {
+        if (!projet.notifiedOn) {
+          return 'non-notifié';
+        }
+        if (projet.abandonedOn !== 0) {
+          return 'abandonné';
+        }
+        if (projet.classe === 'Classé') {
+          return 'classé';
+        }
+
+        return 'éliminé';
+      };
+
+      return response.send(
+        TransmettreDemandeComplèteRaccordementPage({
+          identifiantGestionnaire: identifiantGestionnaire?.codeEIC,
+          user,
+          gestionnairesRéseau,
+          identifiantProjet: projet.id,
+          résuméProjet: {
+            appelOffre: projet.appelOffreId,
+            période: projet.periodeId,
+            famille: projet.familleId,
+            numéroCRE: projet.numeroCRE,
+            statut: getStatutProjet(),
+            nom: projet.nomProjet,
+            localité: {
+              commune: projet.communeProjet,
+              département: projet.departementProjet,
+              région: projet.regionProjet,
+            },
+          },
+          error: error as string,
+        }),
+      );
     },
   ),
 );

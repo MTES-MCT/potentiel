@@ -45,16 +45,22 @@ v1Router.get(
         ],
       });
 
-      if (projet) {
-        return response.send(
-          TransmettreDateMiseEnServicePage({
-            user,
-            projet,
-            reference,
-            error: error as string,
-          }),
-        );
+      if (!projet) {
+        return notFoundResponse({
+          request,
+          response,
+          ressourceTitle: 'Projet',
+        });
       }
+
+      return response.send(
+        TransmettreDateMiseEnServicePage({
+          user,
+          projet,
+          reference,
+          error: error as string,
+        }),
+      );
     },
   ),
 );
