@@ -54,6 +54,7 @@ v1Router.get(
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
         return response.send(
           TransmettreDemandeComplèteRaccordementPage({
+            gestionnaireActuel,
             user,
             gestionnairesRéseau,
             projet,

@@ -126,11 +126,19 @@ Alors(
     const expected: DossierRaccordementReadModel = {
       type: 'dossier-raccordement',
       référence: this.raccordementWorld.référenceDossierRaccordement,
-      gestionnaireRéseau: this.gestionnaireRéseauWorld.enedis,
       dateQualification: this.raccordementWorld.dateQualification.toISOString(),
     };
 
     actual.should.be.deep.equal(expected);
+
+    const consulterGestionnaireRéseauDuProjet =
+      consulterGestionnaireRéseauDuProjetQueryHandlerFactory({ find: findProjection });
+
+    const actualGestionnaireRéseau = await consulterGestionnaireRéseauDuProjet({
+      identifiantProjet: this.raccordementWorld.identifiantProjet,
+    });
+
+    actualGestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
   },
 );
 

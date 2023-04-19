@@ -25,7 +25,6 @@ export const demandeComplèteRaccordementTransmiseHandlerFactory: DomainEventHan
         {
           dateQualification: event.payload.dateQualification,
           référence: event.payload.référenceDossierRaccordement,
-          gestionnaireRéseau,
         },
       );
 
