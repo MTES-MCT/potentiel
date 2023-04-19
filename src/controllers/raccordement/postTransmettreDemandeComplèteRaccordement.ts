@@ -121,17 +121,13 @@ v1Router.post(
           référenceDossierRaccordement,
         });
 
-        try {
-          const filePath = join(
-            formatIdentifiantProjet(identifiantProjet),
-            référenceDossierRaccordement,
-            `demande-complete-raccordement${extname(request.file!.originalname)}`,
-          );
-          const content = createReadStream(request.file!.path);
-          await upload(filePath, content);
-        } catch (error) {
-          console.error(error);
-        }
+        const filePath = join(
+          formatIdentifiantProjet(identifiantProjet),
+          référenceDossierRaccordement,
+          `demande-complete-raccordement${extname(request.file!.originalname)}`,
+        );
+        const content = createReadStream(request.file!.path);
+        await upload(filePath, content);
 
         return response.redirect(
           addQueryParams(routes.GET_LISTE_DOSSIERS_RACCORDEMENT(projetId), {
