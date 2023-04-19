@@ -58,7 +58,19 @@ v1Router.post(
       const {
         params: { projetId, reference },
         body: { dateSignature },
+        file,
       } = request;
+
+      if (!file) {
+        return response.redirect(
+          addQueryParams(
+            routes.GET_TRANSMETTRE_PROPOSITION_TECHNIQUE_ET_FINANCIERE_PAGE(projetId),
+            {
+              error: `Vous devez joindre la proposition technique et financière`,
+            },
+          ),
+        );
+      }
 
       const projet = await Project.findByPk(projetId, {
         attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
@@ -89,9 +101,9 @@ v1Router.post(
         const filePath = join(
           formatIdentifiantProjet(identifiantProjet),
           reference,
-          `proposition-technique-et-financiere${extname(request.file!.originalname)}`,
+          `proposition-technique-et-financiere${extname(file.originalname)}`,
         );
-        const content = createReadStream(request.file!.path);
+        const content = createReadStream(file.path);
         await upload(filePath, content);
 
         return response.redirect(

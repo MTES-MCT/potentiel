@@ -78,7 +78,16 @@ v1Router.post(
           dateQualification,
           referenceDossierRaccordement: référenceDossierRaccordement,
         },
+        file,
       } = request;
+
+      if (!file) {
+        return response.redirect(
+          addQueryParams(routes.GET_TRANSMETTRE_DEMANDE_COMPLETE_RACCORDEMENT_PAGE(projetId), {
+            error: `Vous devez joindre l'accusé de réception de la demande complète de raccordement`,
+          }),
+        );
+      }
 
       const projet = await Project.findByPk(projetId, {
         attributes: ['appelOffreId', 'periodeId', 'familleId', 'numeroCRE'],
@@ -124,9 +133,9 @@ v1Router.post(
         const filePath = join(
           formatIdentifiantProjet(identifiantProjet),
           référenceDossierRaccordement,
-          `demande-complete-raccordement${extname(request.file!.originalname)}`,
+          `demande-complete-raccordement${extname(file.originalname)}`,
         );
-        const content = createReadStream(request.file!.path);
+        const content = createReadStream(file.path);
         await upload(filePath, content);
 
         return response.redirect(
