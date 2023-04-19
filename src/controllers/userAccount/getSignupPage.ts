@@ -9,7 +9,7 @@ v1Router.get(
     const { user, query } = request;
 
     if (user) {
-      response.redirect(routes.REDIRECT_BASED_ON_ROLE);
+      return response.redirect(routes.REDIRECT_BASED_ON_ROLE);
     }
 
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(
