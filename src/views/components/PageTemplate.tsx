@@ -264,17 +264,19 @@ export const PageTemplate = ({
   user,
   children,
   currentPage,
+  fullWidth,
 }: {
   user: UtilisateurReadModel;
   children: React.ReactNode;
   currentPage?: CurrentPage;
+  fullWidth?: true;
 }) => {
   return (
     <>
       <Header user={user}>{user && getUserNavigation({ user, currentPage })}</Header>
       <main
         role="main"
-        className="flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl"
+        className={fullWidth ? '' : 'flex flex-col px-2 py-6 xl:pt-12 xl:mx-auto xl:max-w-7xl'}
         style={{ fontFamily: 'Marianne, arial, sans-serif' }}
       >
         {children}

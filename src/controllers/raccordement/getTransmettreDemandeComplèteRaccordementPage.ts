@@ -48,9 +48,11 @@ v1Router.get(
           'departementProjet',
           'periodeId',
           'familleId',
-          'notifiedOn',
           'appelOffreId',
           'numeroCRE',
+          'notifiedOn',
+          'abandonedOn',
+          'classe',
         ],
       });
 
@@ -65,12 +67,41 @@ v1Router.get(
         const { identifiantGestionnaire } = await consulterProjet({ identifiantProjet });
 
         const gestionnairesRéseau = await listerGestionnaireRéseau({});
+
+        type StatutProjetReadModel = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
+        const getStatutProjet = (): StatutProjetReadModel => {
+          if (!projet.notifiedOn) {
+            return 'non-notifié';
+          }
+          if (projet.abandonedOn !== 0) {
+            return 'abandonné';
+          }
+          if (projet.classe === 'Classé') {
+            return 'classé';
+          }
+
+          return 'éliminé';
+        };
+
         return response.send(
           TransmettreDemandeComplèteRaccordementPage({
             identifiantGestionnaire: identifiantGestionnaire?.codeEIC,
             user,
             gestionnairesRéseau,
-            projet,
+            identifiantProjet: projet.id,
+            résuméProjet: {
+              appelOffre: projet.appelOffreId,
+              période: projet.periodeId,
+              famille: projet.familleId,
+              numéroCRE: projet.numeroCRE,
+              statut: getStatutProjet(),
+              nom: projet.nomProjet,
+              localité: {
+                commune: projet.communeProjet,
+                département: projet.departementProjet,
+                région: projet.regionProjet,
+              },
+            },
             error: error as string,
           }),
         );
