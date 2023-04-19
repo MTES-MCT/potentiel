@@ -45,6 +45,14 @@ type TransmettreDemandeComplèteRaccordementProps = {
   identifiantGestionnaire?: string;
 };
 
+const EntêteProjet: FC<RésuméProjetReadModel> = (résuméProjet) => (
+  <section className="bg-blue-france-sun-base text-white px-2 md:px-0 py-6 mb-3">
+    <Container>
+      <RésuméProjet {...résuméProjet} />
+    </Container>
+  </section>
+);
+
 export const TransmettreDemandeComplèteRaccordement = ({
   user,
   gestionnairesRéseau,
@@ -65,12 +73,8 @@ export const TransmettreDemandeComplèteRaccordement = ({
   };
 
   return (
-    <PageTemplate user={user} currentPage="list-projects">
-      <section className="bg-blue-france-sun-base text-white px-2 md:px-0 py-6 mb-3">
-        <Container>
-          <RésuméProjet {...résuméProjet} />
-        </Container>
-      </section>
+    <PageTemplate user={user}>
+      <EntêteProjet {...résuméProjet} />
 
       <section className="px-2 py-3 md:px-0">
         <Container>
@@ -89,7 +93,9 @@ export const TransmettreDemandeComplèteRaccordement = ({
               {error && <ErrorBox>{error}</ErrorBox>}
 
               <Heading2>Transmettre une demande de raccordement</Heading2>
+
               <p className="text-sm italic m-0">Tous les champs sont obligatoires</p>
+
               <div className="flex flex-col gap-4">
                 <div>
                   <Label htmlFor="codeEIC">Gestionnaire de réseau</Label>
@@ -128,21 +134,23 @@ export const TransmettreDemandeComplèteRaccordement = ({
                     required
                   />
                 </div>
-              </div>
-              <div>
-                <Label htmlFor="file">
-                  Accusé de réception de la demande complète de raccordement
-                </Label>
-                <Input type="file" id="file" name="file" required />
-              </div>
-              <div>
-                <Label htmlFor="dateQualification">Date de qualification</Label>
-                <Input type="date" id="dateQualification" name="dateQualification" required />
-              </div>
 
-              <Button type="submit" className="m-auto">
-                Transmettre
-              </Button>
+                <div>
+                  <Label htmlFor="file">
+                    Accusé de réception de la demande complète de raccordement
+                  </Label>
+                  <Input type="file" id="file" name="file" required />
+                </div>
+
+                <div>
+                  <Label htmlFor="dateQualification">Date de qualification</Label>
+                  <Input type="date" id="dateQualification" name="dateQualification" required />
+                </div>
+
+                <Button type="submit" className="m-auto">
+                  Transmettre
+                </Button>
+              </div>
             </form>
 
             <InfoBox
