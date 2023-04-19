@@ -1,6 +1,6 @@
 import { Find, QueryHandlerFactory } from '@potentiel/core-domain';
 import { IdentifiantProjet, formatIdentifiantProjet } from '..';
-import { GestionnaireRéseauReadModel, ProjetReadModel } from '../projet.readModel';
+import { ProjetReadModel } from '../projet.readModel';
 import { isNone } from '@potentiel/monads';
 import { ProjetInconnuError } from './projetInconnu.error';
 
@@ -14,7 +14,7 @@ type ConsulterProjetDependencies = {
 
 export const consulterProjetQueryHandlerFactory: QueryHandlerFactory<
   ConsulterProjetQuery,
-  GestionnaireRéseauReadModel,
+  ProjetReadModel,
   ConsulterProjetDependencies
 > = ({ find }) => {
   return async ({ identifiantProjet }) => {

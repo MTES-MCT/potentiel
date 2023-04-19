@@ -6,6 +6,7 @@ import {
   PlusieursGestionnairesRéseauPourUnProjetError,
   consulterDossierRaccordementQueryHandlerFactory,
   consulterGestionnaireRéseauQueryHandlerFactory,
+  consulterProjetQueryHandlerFactory,
   listerDossiersRaccordementQueryHandlerFactory,
   transmettreDemandeComplèteRaccordementCommandHandlerFactory,
   transmettreDemandeComplèteRaccordementUseCaseFactory,
@@ -131,14 +132,15 @@ Alors(
 
     actual.should.be.deep.equal(expected);
 
-    const consulterGestionnaireRéseauDuProjet =
-      consulterGestionnaireRéseauDuProjetQueryHandlerFactory({ find: findProjection });
+    const consulterProjet = consulterProjetQueryHandlerFactory({ find: findProjection });
 
-    const actualGestionnaireRéseau = await consulterGestionnaireRéseauDuProjet({
+    const { identifiantGestionnaire } = await consulterProjet({
       identifiantProjet: this.raccordementWorld.identifiantProjet,
     });
 
-    actualGestionnaireRéseau.should.be.deep.equal(this.gestionnaireRéseauWorld.enedis);
+    identifiantGestionnaire.codeEIC.should.be.deep.equal(
+      this.gestionnaireRéseauWorld.enedis.codeEIC,
+    );
   },
 );
 
