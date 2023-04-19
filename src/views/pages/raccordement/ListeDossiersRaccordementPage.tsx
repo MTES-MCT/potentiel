@@ -56,7 +56,9 @@ export const ListeDossiersRaccordement = ({
                 <li>Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}</li>
                 <li>Date de qualification : {afficherDate(new Date(dateQualification))}</li>
                 <li>
-                  <DownloadLink href="">Accusé de réception</DownloadLink>
+                  <DownloadLink fileUrl={routes.GET_ACCUSE_RECEPTION_FILE(projetId, référence)}>
+                    Accusé de réception
+                  </DownloadLink>
                 </li>
                 <li>
                   Date de mise en service :{' '}

@@ -1,7 +1,4 @@
-import {
-  PermissionConsulterDossierRaccordement,
-  formatIdentifiantProjet,
-} from '@potentiel/domain';
+import { PermissionConsulterDossierRaccordement, formatIdentifiantProjet } from '@potentiel/domain';
 import routes from '@routes';
 import { v1Router } from '../v1Router';
 import * as yup from 'yup';
@@ -9,6 +6,7 @@ import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { notFoundResponse, vérifierPermissionUtilisateur } from '../helpers';
 import { Project } from '@infra/sequelize/projectionsNext';
 import { extname, join } from 'path';
+import { download } from '@potentiel/file-storage';
 
 const schema = yup.object({
   params: yup.object({
