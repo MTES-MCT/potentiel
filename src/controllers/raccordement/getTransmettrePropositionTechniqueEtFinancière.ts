@@ -42,6 +42,7 @@ v1Router.get(
           'familleId',
           'notifiedOn',
           'appelOffreId',
+          'numeroCRE',
         ],
       });
 
